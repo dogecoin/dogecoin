@@ -79,6 +79,7 @@ bool fPrintToDebugger = false;
 bool fDaemon = false;
 bool fServer = false;
 string strMiscWarning;
+bool fBloomFilters = true;
 bool fNoListen = false;
 bool fLogTimestamps = false;
 CMedianFilter<int64> vTimeOffsets(200,0);
