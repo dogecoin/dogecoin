@@ -1,0 +1,4 @@
+obj/protocol.o: protocol.cpp protocol.h serialize.h allocators.h \
+ version.h netbase.h compat.h uint256.h util.h
+protocol.cpp protocol.h serialize.h allocators.h :
+ version.h netbase.h compat.h uint256.h util.h :

@@ -1,0 +1,4 @@
+obj/addrman.o: addrman.cpp addrman.h netbase.h serialize.h allocators.h \
+ version.h compat.h protocol.h uint256.h util.h sync.h
+addrman.cpp addrman.h netbase.h serialize.h allocators.h :
+ version.h compat.h protocol.h uint256.h util.h sync.h :

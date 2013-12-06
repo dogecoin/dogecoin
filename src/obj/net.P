@@ -1,0 +1,8 @@
+obj/net.o: net.cpp irc.h db.h main.h bignum.h util.h uint256.h netbase.h \
+ serialize.h allocators.h version.h compat.h net.h mruset.h protocol.h \
+ addrman.h sync.h key.h script.h keystore.h crypter.h scrypt.h init.h \
+ wallet.h ui_interface.h strlcpy.h
+net.cpp irc.h db.h main.h bignum.h util.h uint256.h netbase.h :
+ serialize.h allocators.h version.h compat.h net.h mruset.h protocol.h :
+ addrman.h sync.h key.h script.h keystore.h crypter.h scrypt.h init.h :
+ wallet.h ui_interface.h strlcpy.h :

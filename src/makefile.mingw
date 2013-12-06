@@ -1,0 +1,94 @@
+# Copyright (c) 2009-2010 Satoshi Nakamoto
+# Distributed under the MIT/X11 software license, see the accompanying
+# file license.txt or http://www.opensource.org/licenses/mit-license.php.
+
+USE_UPNP:=0
+
+INCLUDEPATHS= \
+ -I"C:\boost_1_53_0" \
+ -I"C:\db-4.8.30.NC\build_unix" \
+ -I"C:\openssl-1.0.1e\include" 
+
+
+LIBPATHS= \
+ -L"C:\boost_1_53_0\stage\lib" \
+ -L"C:\db-4.8.30.NC\build_unix" \
+ -L"C:\openssl-1.0.1e" 
+
+LIBS= \
+ -l boost_system-mgw45-mt-d-1_53 \
+ -l boost_filesystem-mgw45-mt-d-1_53 \
+ -l boost_program_options-mgw45-mt-d-1_53 \
+ -l boost_thread-mgw45-mt-d-1_53 \
+ -l db_cxx \
+ -l ssl \
+ -l crypto
+
+DEFS=-DWIN32 -D_WINDOWS -DBOOST_THREAD_USE_LIB -DBOOST_SPIRIT_THREADSAFE -DUSE_IPV6 -D__NO_SYSTEM_INCLUDES
+DEBUGFLAGS=-g
+CFLAGS=-mthreads -O2 -w -Wall -Wextra -Wformat -Wformat-security -Wno-unused-parameter $(DEBUGFLAGS) $(DEFS) $(INCLUDEPATHS)
+
+TESTDEFS = -DTEST_DATA_DIR=$(abspath test/data)
+
+ifdef USE_UPNP
+ LIBPATHS += -L"C:\upnpc-exe-win32"
+ LIBS += -l miniupnpc -l iphlpapi
+ DEFS += -DSTATICLIB -DUSE_UPNP=$(USE_UPNP)
+endif
+
+LIBS += -l kernel32 -l user32 -l gdi32 -l comdlg32 -l winspool -l winmm -l shell32 -l comctl32 -l ole32 -l oleaut32 -l uuid -l rpcrt4 -l advapi32 -l ws2_32 -l mswsock -l shlwapi
+
+# TODO: make the mingw builds smarter about dependencies, like the linux/osx builds are
+HEADERS = $(wildcard *.h)
+
+OBJS= \
+    obj/version.o \
+    obj/checkpoints.o \
+    obj/netbase.o \
+    obj/addrman.o \
+    obj/crypter.o \
+    obj/key.o \
+    obj/db.o \
+    obj/init.o \
+    obj/irc.o \
+    obj/keystore.o \
+    obj/main.o \
+    obj/net.o \
+    obj/protocol.o \
+    obj/bitcoinrpc.o \
+    obj/rpcdump.o \
+    obj/rpcnet.o \
+    obj/rpcrawtransaction.o \
+    obj/script.o \
+    obj/scrypt.o \
+    obj/sync.o \
+    obj/util.o \
+    obj/wallet.o \
+    obj/walletdb.o \
+    obj/noui.o
+
+
+all: dogecoind.exe
+
+obj/scrypt.o: scrypt.c
+	gcc -c $(CFLAGS) -o $@ $^
+
+obj/%.o: %.cpp $(HEADERS)
+	g++ -c $(CFLAGS) -o $@ $<
+
+dogecoind.exe: $(OBJS:obj/%=obj/%)
+	g++ $(CFLAGS) -o $@ $(LIBPATHS) $^ $(LIBS)
+
+TESTOBJS := $(patsubst test/%.cpp,obj-test/%.o,$(wildcard test/*.cpp))
+
+obj-test/%.o: test/%.cpp $(HEADERS)
+	g++ -c $(TESTDEFS) $(CFLAGS) -o $@ $<
+
+test_dogecoin.exe: $(TESTOBJS) $(filter-out obj/init.o,$(OBJS:obj/%=obj/%))
+	g++ $(CFLAGS) -o $@ $(LIBPATHS) $^ -lboost_unit_test_framework-mgw45-mt-d-1_53 $(LIBS)
+
+clean:
+	rm -f dogecoind.exe test_dogecoin.exe
+	rm -f obj/*.o
+	rm -f obj-test/*.o
+	rm -f build.h

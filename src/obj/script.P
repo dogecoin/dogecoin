@@ -1,0 +1,6 @@
+obj/script.o: script.cpp script.h keystore.h crypter.h allocators.h key.h \
+ serialize.h version.h uint256.h util.h netbase.h compat.h sync.h \
+ bignum.h main.h net.h mruset.h protocol.h addrman.h db.h scrypt.h
+script.cpp script.h keystore.h crypter.h allocators.h key.h :
+ serialize.h version.h uint256.h util.h netbase.h compat.h sync.h :
+ bignum.h main.h net.h mruset.h protocol.h addrman.h db.h scrypt.h :
