@@ -278,8 +278,8 @@ class CBitcoinAddress : public CBase58Data
 public:
     enum
     {
-        PUBKEY_ADDRESS = 12, // DogeCoin addresses start with D
-        SCRIPT_ADDRESS = 30,
+        PUBKEY_ADDRESS = 30, // DogeCoin addresses start with D
+        SCRIPT_ADDRESS = 22,
         PUBKEY_ADDRESS_TEST = 113,
         SCRIPT_ADDRESS_TEST = 196,
     };
