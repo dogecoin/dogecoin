@@ -25,3 +25,5 @@ Special reward system: Random block rewards
 500,001 - 600,000: 0-31,250 DogeCoin Reward
 
 600,000+ — 10,000 Reward (flat)
+
+![](http://dogesay.com/wow//////such/coin)
