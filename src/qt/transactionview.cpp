@@ -179,7 +179,11 @@ void TransactionView::setModel(WalletModel *model)
                 TransactionTableModel::Date, 120);
         transactionView->horizontalHeader()->resizeSection(
                 TransactionTableModel::Type, 120);
+        #if QT_VERSION < QT_VERSION_CHECK(5,0,0)
         transactionView->horizontalHeader()->setResizeMode(
+        #else
+        transactionView->horizontalHeader()->setSectionResizeMode(
+        #endif
                 TransactionTableModel::ToAddress, QHeaderView::Stretch);
         transactionView->horizontalHeader()->resizeSection(
                 TransactionTableModel::Amount, 100);

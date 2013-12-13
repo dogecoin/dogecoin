@@ -12,6 +12,10 @@
 #include <QAbstractItemDelegate>
 #include <QPainter>
 
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
+#include <QVariant>
+#endif
+
 #define DECORATION_SIZE 64
 #define NUM_ITEMS 3
 
@@ -45,7 +49,11 @@ public:
         bool confirmed = index.data(TransactionTableModel::ConfirmedRole).toBool();
         QVariant value = index.data(Qt::ForegroundRole);
         QColor foreground = option.palette.color(QPalette::Text);
+        #if QT_VERSION < QT_VERSION_CHECK(5,0,0)
         if(qVariantCanConvert<QColor>(value))
+        #else
+        if(value.canConvert<QColor>())
+        #endif
         {
             foreground = qvariant_cast<QColor>(value);
         }

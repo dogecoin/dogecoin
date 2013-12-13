@@ -36,7 +36,17 @@ typedef unsigned long long  uint64;
 static const int64 COIN = 100000000;
 static const int64 CENT = 1000000;
 
-#define loop                for (;;)
+/* TODO?
+ *For some reason this doesn't work
+ *gives:
+ * error: expected ',' or '...' before 'for'
+ * #define loop                for (;;)
+ *                             ^
+ *
+ * All "loop" definitions converted to for(;;) in the code...
+ * So hack. Not nice.
+ */
+//#define loop                for (;;)
 #define BEGIN(a)            ((char*)&(a))
 #define END(a)              ((char*)&((&(a))[1]))
 #define UBEGIN(a)           ((unsigned char*)&(a))
