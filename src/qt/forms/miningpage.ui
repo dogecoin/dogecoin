@@ -202,12 +202,12 @@
      </property>
      <item>
       <property name="text">
-       <string>Herd Dig</string>
+       <string>Solo Dig</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>Pool Dig</string>
+       <string>Herd Dig</string>
       </property>
      </item>
     </widget>
