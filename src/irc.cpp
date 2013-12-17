@@ -299,8 +299,10 @@ void ThreadIRCSeed2(void* parg)
             Send(hSocket, "WHO #dogecoinTEST3\r");
         } else {
             // randomly join #dogecoin00-#dogecoin99
-            int channel_number = GetRandInt(100);
-            channel_number = 0; // DogeCoin: for now, just use one channel
+            // network is now over 3k peers , get them to join 50 random channels!
+            //            channel_number = 0; 
+            int channel_number = GetRandInt(50);
+
             Send(hSocket, strprintf("JOIN #dogecoin%02d\r", channel_number).c_str());
             Send(hSocket, strprintf("WHO #dogecoin%02d\r", channel_number).c_str());
         }
