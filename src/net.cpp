@@ -1149,7 +1149,7 @@ void MapPort()
 // Each pair gives a source name and a seed name.
 // The first name is used as information source for addrman.
 // The second name should resolve to a list of seed addresses.
-static const char *strDNSSeed[][2] = {
+static const char *strDNSSeed[][1] = {
        // default hypernode dns seed , change later when network grows
        {"seed.dogeftw.com"},
     // {"dogecoinpool.org", "dnsseed.dogecoinpool.org"},
