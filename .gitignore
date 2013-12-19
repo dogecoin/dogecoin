@@ -4,3 +4,4 @@ dogecoin-qt
 qrc_bitcoin.cpp
 src/obj
 src/dogecoind
+dogecoin_setup
