@@ -1,7 +1,7 @@
 Makefile
 build
-dogecoin-qt
+release/dogecoin-qt.exe
 qrc_bitcoin.cpp
 src/obj
 src/dogecoind
-dogecoin_setup
+release/dogecoin_setup.exe
