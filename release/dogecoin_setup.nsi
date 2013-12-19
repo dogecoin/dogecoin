@@ -7,7 +7,7 @@
 !include "MUI2.nsh"
 
 ; The name of the installer
-Name "Dogecoin Setup"
+Name "Dogecoin"
 
 ; The file to write
 OutFile "dogecoin_setup.exe"
