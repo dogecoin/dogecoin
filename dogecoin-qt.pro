@@ -5,10 +5,11 @@ INCLUDEPATH += src src/json src/qt
 DEFINES += QT_GUI BOOST_THREAD_USE_LIB BOOST_SPIRIT_THREADSAFE BOOST_THREAD_PROVIDES_GENERIC_SHARED_MUTEX_ON_WIN __NO_SYSTEM_INCLUDES
 CONFIG += no_include_pwd
 
-windows:LIBS += -lshlwapi
+win32 {
+LIBS += -lshlwapi
 LIBS += $$join(BOOST_LIB_PATH,,-L,) $$join(BDB_LIB_PATH,,-L,) $$join(OPENSSL_LIB_PATH,,-L,) $$join(QRENCODE_LIB_PATH,,-L,)
 LIBS += -lssl -lcrypto -ldb_cxx$$BDB_LIB_SUFFIX
-windows:LIBS += -lws2_32 -lole32 -loleaut32 -luuid -lgdi32
+LIBS += -lws2_32 -lole32 -loleaut32 -luuid -lgdi32
 #LIBS += -lboost_system-mgw46-mt-sd-1_53 -lboost_filesystem-mgw46-mt-sd-1_53 -lboost_program_options-mgw46-mt-sd-1_53 -lboost_thread-mgw46-mt-sd-1_53
 #BOOST_LIB_SUFFIX=-mgw46-mt-sd-1_53
 LIBS += -lboost_system -lboost_filesystem -lboost_program_options -lboost_thread
@@ -21,6 +22,8 @@ OPENSSL_INCLUDE_PATH=c:/deps/ssl/include
 OPENSSL_LIB_PATH=c:/deps/ssl
 MINIUPNPC_LIB_PATH=c:/deps/miniupnpc
 MINIUPNPC_INCLUDE_PATH=c:/deps
+}
+
 
 OBJECTS_DIR = build
 MOC_DIR = build
@@ -307,7 +310,8 @@ isEmpty(BOOST_THREAD_LIB_SUFFIX) {
 }
 
 isEmpty(BDB_LIB_PATH) {
-    macx:BDB_LIB_PATH = /opt/local/lib/db48
+    #macx:BDB_LIB_PATH = /opt/local/lib/db48
+    macx:BDB_LIB_PATH = /usr/local/Cellar/berkeley-db4/4.8.30/lib/
 }
 
 isEmpty(BDB_LIB_SUFFIX) {
@@ -315,15 +319,26 @@ isEmpty(BDB_LIB_SUFFIX) {
 }
 
 isEmpty(BDB_INCLUDE_PATH) {
-    macx:BDB_INCLUDE_PATH = /opt/local/include/db48
+    #macx:BDB_INCLUDE_PATH = /opt/local/include/db48
+    macx:BDB_INCLUDE_PATH = /usr/local/Cellar/berkeley-db4/4.8.30/include/
 }
 
 isEmpty(BOOST_LIB_PATH) {
-    macx:BOOST_LIB_PATH = /opt/local/lib
+    #macx:BOOST_LIB_PATH = /opt/local/lib
+    macx:BOOST_LIB_PATH = /usr/local/Cellar/boost/1.55.0/lib/
 }
 
 isEmpty(BOOST_INCLUDE_PATH) {
-    macx:BOOST_INCLUDE_PATH = /opt/local/include
+    #macx:BOOST_INCLUDE_PATH = /opt/local/include
+    macx:BOOST_LIB_PATH = /usr/local/Cellar/boost/1.55.0/include/
+}
+
+isEmpty(OPENSSL_INCLUDE_PATH) {
+    macx:OPENSSL_INCLUDE_PATH = /usr/local/Cellar/openssl/1.0.1e/include/
+}
+
+isEmpty(OPENSSL_LIB_PATH) {
+    macx:OPENSSL_LIB_PATH = /usr/local/Cellar/openssl/1.0.1e/lib/
 }
 
 windows:LIBS += -lws2_32 -lshlwapi -lmswsock
