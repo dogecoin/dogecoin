@@ -177,7 +177,7 @@ void AskPassphraseDialog::accept()
 
 void AskPassphraseDialog::textChanged()
 {
-    // Validate input, set Ok button to enabled when accepable
+    // Validate input, set Ok button to enabled when acceptable
     bool acceptable = false;
     switch(mode)
     {
@@ -204,7 +204,7 @@ bool AskPassphraseDialog::event(QEvent *event)
             fCapsLock = !fCapsLock;
         }
         if (fCapsLock) {
-            ui->capsLabel->setText(tr("Warning: The Caps Lock key is on."));
+            ui->capsLabel->setText(tr("Warning: The Caps Lock key is on!"));
         } else {
             ui->capsLabel->clear();
         }
@@ -228,7 +228,7 @@ bool AskPassphraseDialog::eventFilter(QObject *, QEvent *event)
             bool fShift = (ke->modifiers() & Qt::ShiftModifier) != 0;
             if ((fShift && psz->isLower()) || (!fShift && psz->isUpper())) {
                 fCapsLock = true;
-                ui->capsLabel->setText(tr("Warning: The Caps Lock key is on."));
+                ui->capsLabel->setText(tr("Warning: The Caps Lock key is on!"));
             } else if (psz->isLetter()) {
                 fCapsLock = false;
                 ui->capsLabel->clear();
