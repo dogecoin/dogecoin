@@ -81,7 +81,7 @@ void MiningPage::startPoolMining()
 {
     QStringList args;
     QString url = ui->serverLine->text();
-    if (!url.contains("http://"))
+    if (!url.contains("://")) // Any protocol is accepted
         url.prepend("http://");
     QString urlLine = QString("%1:%2").arg(url, ui->portLine->text());
     QString userpassLine = QString("%1:%2").arg(ui->usernameLine->text(), ui->passwordLine->text());
