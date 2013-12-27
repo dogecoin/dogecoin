@@ -12,13 +12,18 @@
 #include "ui_interface.h"
 #include <boost/algorithm/string/join.hpp>
 
+
 // Work around clang compilation problem in Boost 1.46:
 // /usr/include/boost/program_options/detail/config_file.hpp:163:17: error: call to function 'to_internal' that is neither visible in the template definition nor found by argument-dependent lookup
 // See also: http://stackoverflow.com/questions/10020179/compilation-fail-in-boost-librairies-program-options
 //           http://clang.debian.net/status.php?version=3.0&key=CANNOT_FIND_FUNCTION
 namespace boost {
     namespace program_options {
+#if !MAC_OSX // Boost fixed the above in the latest version, but now there are linker errors as to_internal does not appear to be implemented for std::string - Alan W
+        std::string to_internal(const std::string& s) { return s; }
+#else
         std::string to_internal(const std::string&);
+#endif
     }
 }
 
@@ -56,6 +61,9 @@ namespace boost {
 #elif defined(__linux__)
 # include <sys/prctl.h>
 #endif
+
+// This is a terrible macro - Alan W
+#define loop                for (;;)
 
 using namespace std;
 
@@ -989,9 +997,9 @@ boost::filesystem::path GetDefaultDataDir()
         pathRet = fs::path(pszHome);
 #ifdef MAC_OSX
     // Mac
-    pathRet /= "Library/Application Support";
+    pathRet += "/Library/Application Support";
     fs::create_directory(pathRet);
-    return pathRet / "DogeCoin";
+    return pathRet += "/DogeCoin";
 #else
     // Unix
     return pathRet / ".dogecoin";

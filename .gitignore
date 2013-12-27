@@ -4,3 +4,9 @@ dogecoin-qt
 qrc_bitcoin.cpp
 src/obj
 src/dogecoind
+
+*.DS_Store
+
+*.user
+
+build*

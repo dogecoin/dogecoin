@@ -146,10 +146,12 @@ int main(int argc, char *argv[])
     }
 #endif
 
+/*
+ * QT 5 is UTF8 by default now.
     // Internal string conversion is all UTF-8
     QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
     QTextCodec::setCodecForCStrings(QTextCodec::codecForTr());
-
+*/
     Q_INIT_RESOURCE(bitcoin);
     QApplication app(argc, argv);
 
