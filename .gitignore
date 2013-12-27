@@ -5,8 +5,14 @@ qrc_bitcoin.cpp
 src/obj
 src/dogecoind
 
-*.DS_Store
+.DS_Store
 
 *.user
 
 build*
+
+src/.DS_Store
+
+src/qt/.DS_Store
+
+src/qt/.DS_Store
