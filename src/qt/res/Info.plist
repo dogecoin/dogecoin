@@ -5,7 +5,7 @@
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>CFBundleIconFile</key>
-	<string>bitcoin.icns</string>
+        <string>Dogecoin.icns</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
         <key>NSHumanReadableCopyright</key>
