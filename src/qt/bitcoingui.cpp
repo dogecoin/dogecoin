@@ -448,8 +448,6 @@ void BitcoinGUI::createTrayIcon()
     trayIcon->setContextMenu(trayIconMenu);
     trayIcon->setToolTip(tr("DogeCoin client"));
     trayIcon->setIcon(QIcon(":/icons/toolbar"));
-    connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
-            this, SLOT(trayIconActivated(QSystemTrayIcon::ActivationReason)));
     trayIcon->show();
 #else
     // Note: On Mac, the dock icon is used to provide the tray's functionality.
