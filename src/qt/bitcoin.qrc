@@ -43,11 +43,13 @@
         <file alias="filesave">res/icons/filesave.png</file>
         <file alias="qrcode">res/icons/qrcode.png</file>
         <file alias="debugwindow">res/icons/debugwindow.png</file>
+        <file alias="toolbar_mac">res/icons/toolbar@2x.png</file>
+        <file alias="toolbar_mac_selected">res/icons/toolbar_selected@2x.png</file>
     </qresource>
     <qresource prefix="/images">
         <file alias="about">res/images/about.png</file>
         <file alias="splash">res/images/splash2.png</file>
-		<file alias="wallet_bgcoin">res/images/wallet_bgcoin.png</file>
+        <file alias="wallet_bgcoin">res/images/wallet_bgcoin.png</file>
     </qresource>
     <qresource prefix="/movies">
         <file alias="update_spinner">res/movies/update_spinner.mng</file>

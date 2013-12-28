@@ -95,6 +95,7 @@ private:
     QAction *changePassphraseAction;
     QAction *aboutQtAction;
     QAction *openRPCConsoleAction;
+    QAction *toggleTrayIconAction;
 
     QSystemTrayIcon *trayIcon;
     Notificator *notificator;
@@ -111,6 +112,7 @@ private:
     void createToolBars();
     /** Create system tray (notification) icon */
     void createTrayIcon();
+    void destroyTrayIcon();
 
 public slots:
     /** Set number of connections shown in the UI */
@@ -137,6 +139,7 @@ public slots:
     */
     void askFee(qint64 nFeeRequired, bool *payFee);
     void handleURI(QString strURI);
+    void toggleTrayIcon();
 
 private slots:
     /** Switch to overview (home) page */
@@ -161,10 +164,10 @@ private slots:
     void optionsClicked();
     /** Show about dialog */
     void aboutClicked();
-#ifndef Q_WS_MAC
+
     /** Handle tray icon clicked */
     void trayIconActivated(QSystemTrayIcon::ActivationReason reason);
-#endif
+
     /** Show incoming transaction notification for new transactions.
 
         The new items are those between start and end inclusive, under the given parent item.
@@ -183,6 +186,13 @@ private slots:
     void showNormalIfMinimized(bool fToggleHidden = false);
     /** simply calls showNormalIfMinimized(true) for use in SLOT() macro */
     void toggleHidden();
+
+    /** update the show/hide text for the toggle action*/
+    void updateSettingsMenu();
+    /** update the show/hide text for the toggle action and invert the icon colors*/
+    void updateTrayMenu();
+    /** reset the icon colors*/
+    void resetTrayIcon();
 };
 
 #endif

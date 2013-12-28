@@ -83,6 +83,10 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     QApplication::setAttribute(Qt::AA_DontShowIconsInMenus);
 #endif
 
+#if MAC_OSX
+    qApp->setAttribute(Qt::AA_UseHighDpiPixmaps);
+#endif
+
 	//specify a new font.
 	QFont newFont("Comic Sans MS", 10);
 	
@@ -102,7 +106,9 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     createToolBars();
 
     // Create the tray icon (or setup the dock icon)
+#if !MAC_OSX // On mac, this is off by default because it looks awful at the moment.
     createTrayIcon();
+#endif
 
     // Create tabs
     overviewPage = new OverviewPage();
@@ -301,6 +307,7 @@ void BitcoinGUI::createActions()
     changePassphraseAction->setToolTip(tr("Change the passphrase used for wallet encryption"));
     openRPCConsoleAction = new QAction(QIcon(":/icons/debugwindow"), tr("&Debug window"), this);
     openRPCConsoleAction->setToolTip(tr("Open debugging and diagnostic console"));
+    toggleTrayIconAction = new QAction(tr("Show/Hide tray icon"), this);
 
     connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
     connect(optionsAction, SIGNAL(triggered()), this, SLOT(optionsClicked()));
@@ -310,6 +317,7 @@ void BitcoinGUI::createActions()
     connect(encryptWalletAction, SIGNAL(triggered(bool)), this, SLOT(encryptWallet(bool)));
     connect(backupWalletAction, SIGNAL(triggered()), this, SLOT(backupWallet()));
     connect(changePassphraseAction, SIGNAL(triggered()), this, SLOT(changePassphrase()));
+    connect(toggleTrayIconAction, SIGNAL(triggered()), this, SLOT(toggleTrayIcon()));
 }
 
 void BitcoinGUI::createMenuBar()
@@ -334,16 +342,25 @@ void BitcoinGUI::createMenuBar()
     file->addAction(quitAction);
 
     QMenu *settings = appMenuBar->addMenu(tr("&Settings"));
+    connect(settings, SIGNAL(aboutToShow()), this, SLOT(updateSettingsMenu()));
     settings->addAction(encryptWalletAction);
     settings->addAction(changePassphraseAction);
     settings->addSeparator();
     settings->addAction(optionsAction);
+    settings->addAction(toggleTrayIconAction);
 
     QMenu *help = appMenuBar->addMenu(tr("&Help"));
     help->addAction(openRPCConsoleAction);
     help->addSeparator();
     help->addAction(aboutAction);
     help->addAction(aboutQtAction);
+}
+
+void BitcoinGUI::updateSettingsMenu()
+{
+    QString current = "Show tray icon";
+    if (trayIcon) current = "Hide tray icon";
+    toggleTrayIconAction->setText(current);
 }
 
 void BitcoinGUI::createToolBars()
@@ -442,14 +459,26 @@ void BitcoinGUI::setWalletModel(WalletModel *walletModel)
 void BitcoinGUI::createTrayIcon()
 {
     QMenu *trayIconMenu;
-#ifndef Q_WS_MAC
     trayIcon = new QSystemTrayIcon(this);
     trayIconMenu = new QMenu(this);
     trayIcon->setContextMenu(trayIconMenu);
     trayIcon->setToolTip(tr("DogeCoin client"));
-    trayIcon->setIcon(QIcon(":/icons/toolbar"));
-    trayIcon->show();
+#if MAC_OSX
+    // TODO: Create native code brige to work around this: https://bugreports.qt-project.org/browse/QTBUG-33441
+    QIcon icon(":/icons/toolbar_mac");
+    icon.addPixmap(QPixmap(":/icons/toolbar_mac_selected"), QIcon::Selected, QIcon::On);
+    trayIcon->setIcon(icon);
+    connect(trayIconMenu, SIGNAL(aboutToShow()), this, SLOT(updateTrayMenu()));
+    connect(trayIconMenu, SIGNAL(aboutToHide()), this, SLOT(resetTrayIcon()));
+    toggleHideAction->setText(tr("Hide Dogecoin"));
 #else
+    connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
+                this, SLOT(trayIconActivated(QSystemTrayIcon::ActivationReason)));
+    trayIcon->setIcon(QIcon(":/icons/toolbar"));
+#endif
+    trayIcon->show();
+
+#if 0
     // Note: On Mac, the dock icon is used to provide the tray's functionality.
     MacDockIconHandler *dockIconHandler = MacDockIconHandler::instance();
     trayIconMenu = dockIconHandler->dockMenu();
@@ -476,7 +505,12 @@ void BitcoinGUI::createTrayIcon()
     notificator = new Notificator(qApp->applicationName(), trayIcon);
 }
 
-#ifndef Q_WS_MAC
+void BitcoinGUI::destroyTrayIcon()
+{
+    delete trayIcon;
+    trayIcon = NULL;
+}
+
 void BitcoinGUI::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
 {
     if(reason == QSystemTrayIcon::Trigger)
@@ -485,7 +519,25 @@ void BitcoinGUI::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
         toggleHideAction->trigger();
     }
 }
-#endif
+
+void BitcoinGUI::updateTrayMenu()
+{
+    trayIcon->setIcon(QIcon(":/icons/toolbar_mac_selected"));
+
+    if ( isHidden() || isMinimized() || GUIUtil::isObscured(this) )
+    {
+        toggleHideAction->setText(tr("Show Dogecoin"));
+    }
+    else
+    {
+        toggleHideAction->setText(tr("Hide Dogecoin"));
+    }
+}
+
+void BitcoinGUI::resetTrayIcon()
+{
+    trayIcon->setIcon(QIcon(":/icons/toolbar_mac"));
+}
 
 void BitcoinGUI::optionsClicked()
 {
@@ -867,6 +919,18 @@ void BitcoinGUI::handleURI(QString strURI)
     }
     else
         notificator->notify(Notificator::Warning, tr("URI handling"), tr("URI can not be parsed! This can be caused by an invalid DogeCoin address or malformed URI parameters."));
+}
+
+void BitcoinGUI::toggleTrayIcon()
+{
+    if (trayIcon)
+    {
+        destroyTrayIcon();
+    }
+    else
+    {
+        createTrayIcon();
+    }
 }
 
 void BitcoinGUI::setEncryptionStatus(int status)
