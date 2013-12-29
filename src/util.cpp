@@ -1,7 +1,7 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2012 The Bitcoin developers
 // Copyright (c) 2011-2012 Litecoin Developers
-// Copyright (c) 2013 DogeCoin Developers
+// Copyright (c) 2013 Dogecoin Developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -981,13 +981,13 @@ void PrintExceptionContinue(std::exception* pex, const char* pszThread)
 boost::filesystem::path GetDefaultDataDir()
 {
     namespace fs = boost::filesystem;
-    // Windows < Vista: C:\Documents and Settings\Username\Application Data\DogeCoin
-    // Windows >= Vista: C:\Users\Username\AppData\Roaming\DogeCoin
-    // Mac: ~/Library/Application Support/DogeCoin
+    // Windows < Vista: C:\Documents and Settings\Username\Application Data\Dogecoin
+    // Windows >= Vista: C:\Users\Username\AppData\Roaming\Dogecoin
+    // Mac: ~/Library/Application Support/Dogecoin
     // Unix: ~/.dogecoin
 #ifdef WIN32
     // Windows
-    return GetSpecialFolderPath(CSIDL_APPDATA) / "DogeCoin";
+    return GetSpecialFolderPath(CSIDL_APPDATA) / "Dogecoin";
 #else
     fs::path pathRet;
     char* pszHome = getenv("HOME");
@@ -999,7 +999,7 @@ boost::filesystem::path GetDefaultDataDir()
     // Mac
     pathRet += "/Library/Application Support";
     fs::create_directory(pathRet);
-    return pathRet += "/DogeCoin";
+    return pathRet += "/Dogecoin";
 #else
     // Unix
     return pathRet / ".dogecoin";
@@ -1054,7 +1054,7 @@ void ReadConfigFile(map<string, string>& mapSettingsRet,
 {
     boost::filesystem::ifstream streamConfig(GetConfigFile());
     if (!streamConfig.good())
-        return; // No DogeCoin.conf file is OK
+        return; // No Dogecoin.conf file is OK
 
     set<string> setOptions;
     setOptions.insert("*");
@@ -1195,7 +1195,7 @@ void AddTimeData(const CNetAddr& ip, int64 nTime)
         int64 nMedian = vTimeOffsets.median();
         std::vector<int64> vSorted = vTimeOffsets.sorted();
         // Only let other nodes change our time by so much
-        if (abs64(nMedian) < 35 * 60) // DogeCoin: changed maximum adjust to 35 mins to avoid letting peers change our time too much in case of an attack.
+        if (abs64(nMedian) < 35 * 60) // Dogecoin: changed maximum adjust to 35 mins to avoid letting peers change our time too much in case of an attack.
         {
             nTimeOffset = nMedian;
         }
@@ -1215,10 +1215,10 @@ void AddTimeData(const CNetAddr& ip, int64 nTime)
                 if (!fMatch)
                 {
                     fDone = true;
-                    string strMessage = _("Warning: Please check that your computer's date and time are correct.  If your clock is wrong DogeCoin will not work properly.");
+                    string strMessage = _("Warning: Please check that your computer's date and time are correct.  If your clock is wrong Dogecoin will not work properly.");
                     strMiscWarning = strMessage;
                     printf("*** %s\n", strMessage.c_str());
-                    uiInterface.ThreadSafeMessageBox(strMessage+" ", string("DogeCoin"), CClientUIInterface::OK | CClientUIInterface::ICON_EXCLAMATION);
+                    uiInterface.ThreadSafeMessageBox(strMessage+" ", string("Dogecoin"), CClientUIInterface::OK | CClientUIInterface::ICON_EXCLAMATION);
                 }
             }
         }
