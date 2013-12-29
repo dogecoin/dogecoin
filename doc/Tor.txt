@@ -1,7 +1,7 @@
 TOR SUPPORT IN DOGECOIN
 ======================
 
-It is possible to run DogeCoin as a Tor hidden service, and connect to such services.
+It is possible to run Dogecoin as a Tor hidden service, and connect to such services.
 
 The following assumes you have a Tor proxy running on port 9050. Many distributions
 default to having a SOCKS proxy listening on port 9050, but others may not.
@@ -13,7 +13,7 @@ configure Tor.
 1. Run dogecoin behind a Tor proxy
 ---------------------------------
 
-The first step is running DogeCoin behind a Tor proxy. This will already make all
+The first step is running Dogecoin behind a Tor proxy. This will already make all
 outgoing connections be anonymized, but more is possible.
 
 -socks=5        SOCKS5 supports connecting-to-hostname, which can be used instead
