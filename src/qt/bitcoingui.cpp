@@ -106,9 +106,9 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     createToolBars();
 
     // Create the tray icon (or setup the dock icon)
-#if !MAC_OSX // On mac, this is off by default because it looks awful at the moment.
     createTrayIcon();
-#endif
+
+    notificator = new Notificator(qApp->applicationName(), trayIcon);
 
     // Create tabs
     overviewPage = new OverviewPage();
@@ -365,7 +365,7 @@ void BitcoinGUI::updateSettingsMenu()
     where = tr(" menubar");
 #endif
 
-    if (trayIcon) current = tr("Remove Dogecoin from");
+    if (trayIcon->isVisible()) current = tr("Remove Dogecoin from");
 
     toggleTrayIconAction->setText(current + where);
 }
@@ -483,7 +483,10 @@ void BitcoinGUI::createTrayIcon()
                 this, SLOT(trayIconActivated(QSystemTrayIcon::ActivationReason)));
     trayIcon->setIcon(QIcon(":/icons/toolbar"));
 #endif
+
+#if ! MAC_OSX
     trayIcon->show();
+#endif
 
 #if 0
     // Note: On Mac, the dock icon is used to provide the tray's functionality.
@@ -512,10 +515,14 @@ void BitcoinGUI::createTrayIcon()
     notificator = new Notificator(qApp->applicationName(), trayIcon);
 }
 
-void BitcoinGUI::destroyTrayIcon()
+void BitcoinGUI::hideTrayIcon()
 {
-    delete trayIcon;
-    trayIcon = NULL;
+    trayIcon->hide();
+}
+
+void BitcoinGUI::showTrayIcon()
+{
+    trayIcon->show();
 }
 
 void BitcoinGUI::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
@@ -930,13 +937,13 @@ void BitcoinGUI::handleURI(QString strURI)
 
 void BitcoinGUI::toggleTrayIcon()
 {
-    if (trayIcon)
+    if (trayIcon->isVisible())
     {
-        destroyTrayIcon();
+        hideTrayIcon();
     }
     else
     {
-        createTrayIcon();
+        showTrayIcon();
     }
 }
 

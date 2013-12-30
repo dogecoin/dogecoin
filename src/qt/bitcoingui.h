@@ -112,7 +112,8 @@ private:
     void createToolBars();
     /** Create system tray (notification) icon */
     void createTrayIcon();
-    void destroyTrayIcon();
+    void hideTrayIcon();
+    void showTrayIcon();
 
 public slots:
     /** Set number of connections shown in the UI */
