@@ -34,17 +34,29 @@ public:
     }
 };
 
+
 Value importprivkey(const Array& params, bool fHelp)
 {
-    if (fHelp || params.size() < 1 || params.size() > 2)
+    if (fHelp || params.size() < 1 || params.size() > 3)
         throw runtime_error(
-            "importprivkey <dogecoinprivkey> [label]\n"
-            "Adds a private key (as returned by dumpprivkey) to your wallet.");
+            "importprivkey \"dogecoinprivkey\" ( \"label\" rescan )\n"
+            "\nAdds a private key (as returned by dumpprivkey) to your wallet.\n"
+            "\nArguments:\n"
+            "1. \"dogecoinprivkey\"   (string, required) The private key (see dumpprivkey)\n"
+            "2. \"label\"            (string, optional) an optional label\n"
+            "3. rescan               (boolean, optional, default=true) Rescan the wallet for transactions\n"
+        );
 
     string strSecret = params[0].get_str();
     string strLabel = "";
     if (params.size() > 1)
         strLabel = params[1].get_str();
+
+    // Whether to perform rescan after import
+    bool fRescan = true;
+    if (params.size() > 2)
+        fRescan = params[2].get_bool();
+
     CBitcoinSecret vchSecret;
     bool fGood = vchSecret.SetString(strSecret);
 
@@ -61,11 +73,17 @@ Value importprivkey(const Array& params, bool fHelp)
         pwalletMain->MarkDirty();
         pwalletMain->SetAddressBookName(vchAddress, strLabel);
 
+        // Don't throw error in case a key is already there
+        if (pwalletMain->HaveKey(vchAddress))
+            return Value::null;
+
         if (!pwalletMain->AddKey(key))
             throw JSONRPCError(-4,"Error adding key to wallet");
 
-        pwalletMain->ScanForWalletTransactions(pindexGenesisBlock, true);
-        pwalletMain->ReacceptWalletTransactions();
+        if (fRescan) {
+            pwalletMain->ScanForWalletTransactions(chainActive.Genesis(), true);
+            pwalletMain->ReacceptWalletTransactions();
+        }
     }
 
     return Value::null;
