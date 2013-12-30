@@ -9,7 +9,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
         <key>NSHumanReadableCopyright</key>
-        <string>(c) 2013 Dogecoin Intergalactic</string>
+        <string>© Dogecoin</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleExecutable</key>
