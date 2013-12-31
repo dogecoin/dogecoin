@@ -1,14 +1,14 @@
 # Dogecoin [DOGE, Ð]
 http://dogecoin.com/
 
-![DogeCoin](http://static.tumblr.com/ppdj5y9/Ae9mxmxtp/300coin.png)
+![Dogecoin](http://static.tumblr.com/ppdj5y9/Ae9mxmxtp/300coin.png)
 
-## What is DogeCoin? - Such coin
+## What is Dogecoin? - Such coin
 Dogecoin is like Bitcoin, but based on Litecoin, and also much more wow.
 http://dogecoin.com/
 
 ## License - Much license
-DogeCoin is released under the terms of the MIT license. See [COPYING](COPYING)
+Dogecoin is released under the terms of the MIT license. See [COPYING](COPYING)
 for more information or see http://opensource.org/licenses/MIT.
 
 ## Development and contributions - omg developers
