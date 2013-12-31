@@ -59,6 +59,7 @@
 #include <QUrl>
 #include <QMimeData>
 #include <QStandardPaths>
+#include <QDebug>
 
 #include <iostream>
 
@@ -96,7 +97,7 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
 	// Accept D&D of URIs
     setAcceptDrops(true);
 
-    // Create actions for the toolbar, menu bar and tray/dock icon
+    // Create actions for the toolbar and tray / menubar icon
     createActions();
 
     // Create application menu bar
@@ -105,7 +106,7 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     // Create the toolbars
     createToolBars();
 
-    // Create the tray icon (or setup the dock icon)
+    // Create the tray / menubar icon
     createTrayIcon();
 
     notificator = new Notificator(qApp->applicationName(), trayIcon);
@@ -193,6 +194,10 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     connect(addressBookPage, SIGNAL(verifyMessage(QString)), this, SLOT(gotoVerifyMessageTab(QString)));
     // Clicking on "Sign Message" in the Much receive page sends you to the sign message tab
     connect(receiveCoinsPage, SIGNAL(signMessage(QString)), this, SLOT(gotoSignMessageTab(QString)));
+
+    MacDockIconHandler *mdih = MacDockIconHandler::instance();
+    connect(mdih, SIGNAL(dockIconClicked()),
+            this, SLOT(dockIconClicked()));
 
     gotoOverviewPage();
 }
@@ -402,7 +407,8 @@ void BitcoinGUI::setClientModel(ClientModel *clientModel)
             qApp->setWindowIcon(QIcon(":icons/bitcoin_testnet"));
             setWindowIcon(QIcon(":icons/bitcoin_testnet"));
 #else
-            MacDockIconHandler::instance()->setIcon(QIcon(":icons/bitcoin_testnet"));
+            MacDockIconHandler *mdih = MacDockIconHandler::instance();
+            mdih->setIcon(QIcon(":icons/bitcoin_testnet"));
 #endif
             if(trayIcon)
             {
@@ -473,7 +479,6 @@ void BitcoinGUI::createTrayIcon()
 #if MAC_OSX
     // TODO: Create native code brige to work around this: https://bugreports.qt-project.org/browse/QTBUG-33441
     QIcon icon(":/icons/toolbar_mac");
-    icon.addPixmap(QPixmap(":/icons/toolbar_mac_selected"), QIcon::Selected, QIcon::On);
     trayIcon->setIcon(icon);
     connect(trayIconMenu, SIGNAL(aboutToShow()), this, SLOT(updateTrayMenu()));
     connect(trayIconMenu, SIGNAL(aboutToHide()), this, SLOT(resetTrayIcon()));
@@ -488,12 +493,7 @@ void BitcoinGUI::createTrayIcon()
     trayIcon->show();
 #endif
 
-    // Note: On Mac, the dock icon is used to provide the tray's functionality.
-    MacDockIconHandler *dockIconHandler = MacDockIconHandler::instance();
-    trayIconMenu = dockIconHandler->dockMenu();
-#endif
-
-    // Configuration of the tray icon (or dock icon) icon menu
+    // Configuration of the tray / menubar icon menu
     trayIconMenu->addAction(toggleHideAction);
     trayIconMenu->addSeparator();
     trayIconMenu->addAction(sendCoinsAction);
@@ -506,10 +506,8 @@ void BitcoinGUI::createTrayIcon()
     trayIconMenu->addSeparator();
     trayIconMenu->addAction(optionsAction);
     trayIconMenu->addAction(openRPCConsoleAction);
-#ifndef MAC_OSX // This is built-in on Mac
     trayIconMenu->addSeparator();
     trayIconMenu->addAction(quitAction);
-#endif
 
     notificator = new Notificator(qApp->applicationName(), trayIcon);
 }
@@ -1043,4 +1041,9 @@ void BitcoinGUI::showNormalIfMinimized(bool fToggleHidden)
 void BitcoinGUI::toggleHidden()
 {
     showNormalIfMinimized(true);
+}
+
+void BitcoinGUI::dockIconClicked()
+{
+    showNormalIfMinimized(false);
 }
