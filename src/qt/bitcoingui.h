@@ -194,6 +194,11 @@ private slots:
     void updateTrayMenu();
     /** reset the icon colors*/
     void resetTrayIcon();
+
+#if MAC_OSX
+    /** Show the window if it's hidden */
+    void dockIconClicked();
+#endif
 };
 
 #endif

@@ -488,7 +488,6 @@ void BitcoinGUI::createTrayIcon()
     trayIcon->show();
 #endif
 
-#if 0
     // Note: On Mac, the dock icon is used to provide the tray's functionality.
     MacDockIconHandler *dockIconHandler = MacDockIconHandler::instance();
     trayIconMenu = dockIconHandler->dockMenu();
