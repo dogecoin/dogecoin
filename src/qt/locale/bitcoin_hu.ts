@@ -21,7 +21,13 @@ This is experimental software.
 Distributed under the MIT/X11 software license, see the accompanying file license.txt or http://www.opensource.org/licenses/mit-license.php.
 
 This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit (http://www.openssl.org/) and cryptographic software written by Eric Young (eay@cryptsoft.com) and UPnP software written by Thomas Bernard.</source>
-        <translation type="unfinished"/>
+        <translation>Copyright © 2009-2012 Bitcoin Fejlesztők
+
+Ez egy kísérleti szoftver.
+
+Terjesztve a MIT/X11 szoftverlicenc alatt, lásd a kísérő license.txt fájlt, vagy a http://www.opensource.org/licenses/mit-license.php weboldalt.
+
+Ez a termék tartalmaz az OpenSSL Project által fejlesztett szoftvert az OpenSSL Toolkit (http://www.openssl.org/) használatához. Továbbá megtalálható benne Eric Young (eay@cryptsoft.com) által fejlesztett kriptográfiai, és Thomas Bernard által írt UPnP szoftver.</translation>
     </message>
 </context>
 <context>
@@ -34,12 +40,12 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location filename="../forms/addressbookpage.ui" line="20"/>
         <source>These are your Bitcoin addresses for receiving payments.  You may want to give a different one to each sender so you can keep track of who is paying you.</source>
-        <translation>Ezekkel a Bitcoin-címekkel fogadhatod kifizetéseket.   Érdemes lehet minden egyes kifizető számára külön címet létrehozni, hogy könnyebben nyomon követhesd, kitől kaptál már pénzt.</translation>
+        <translation>Ezekkel a Bitcoin-címekkel fogadhatod a kifizetéseket.   Érdemes lehet minden egyes fizető számára külön címet létrehozni, hogy könnyebben nyomon követhesd, kitől kaptál már pénzt.</translation>
     </message>
     <message>
         <location filename="../forms/addressbookpage.ui" line="36"/>
         <source>Double-click to edit address or label</source>
-        <translation>Dupla-katt a cím vagy a címke szerkesztéséhez</translation>
+        <translation>Kattints duplán a cím vagy címke szerkesztéséhez</translation>
     </message>
     <message>
         <location filename="../forms/addressbookpage.ui" line="63"/>
@@ -54,27 +60,27 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location filename="../forms/addressbookpage.ui" line="66"/>
         <source>&amp;New Address</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Új Cím</translation>
     </message>
     <message>
         <location filename="../forms/addressbookpage.ui" line="80"/>
         <source>&amp;Copy Address</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Cím Másolása</translation>
     </message>
     <message>
         <location filename="../forms/addressbookpage.ui" line="91"/>
         <source>Show &amp;QR Code</source>
-        <translation type="unfinished"/>
+        <translation>&amp;QR Kód Mutatása</translation>
     </message>
     <message>
         <location filename="../forms/addressbookpage.ui" line="102"/>
         <source>Sign a message to prove you own this address</source>
-        <translation type="unfinished"/>
+        <translation>Írj alá egy üzenetet, amellyel bizonyíthatod, hogy ez a cím a tied</translation>
     </message>
     <message>
         <location filename="../forms/addressbookpage.ui" line="105"/>
         <source>&amp;Sign Message</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Üzenet Aláírása</translation>
     </message>
     <message>
         <location filename="../forms/addressbookpage.ui" line="116"/>
@@ -89,22 +95,22 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location filename="../addressbookpage.cpp" line="63"/>
         <source>Copy &amp;Label</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Címke Másolása</translation>
     </message>
     <message>
         <location filename="../addressbookpage.cpp" line="65"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Szerkesztés</translation>
     </message>
     <message>
         <location filename="../addressbookpage.cpp" line="292"/>
         <source>Export Address Book Data</source>
-        <translation>Címjegyzék adatainak exportálása</translation>
+        <translation>Címjegyzék Adatainak Exportálása</translation>
     </message>
     <message>
         <location filename="../addressbookpage.cpp" line="293"/>
         <source>Comma separated file (*.csv)</source>
-        <translation>Vesszővel elválasztott fájl (*. csv)</translation>
+        <translation>Vesszővel elválasztott fájl (*.csv)</translation>
     </message>
     <message>
         <location filename="../addressbookpage.cpp" line="306"/>
@@ -140,7 +146,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location filename="../forms/askpassphrasedialog.ui" line="26"/>
         <source>Passphrase Dialog</source>
-        <translation type="unfinished"/>
+        <source>Jelszó Párbeszédpanel</source>
     </message>
     <message>
         <location filename="../forms/askpassphrasedialog.ui" line="47"/>
@@ -155,7 +161,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location filename="../forms/askpassphrasedialog.ui" line="75"/>
         <source>Repeat new passphrase</source>
-        <translation>Új jelszó újra</translation>
+        <translation>Új jelszó (ismét)</translation>
     </message>
     <message>
         <location filename="../askpassphrasedialog.cpp" line="33"/>
@@ -170,7 +176,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location filename="../askpassphrasedialog.cpp" line="37"/>
         <source>This operation needs your wallet passphrase to unlock the wallet.</source>
-        <translation>A tárcád megnyitásához a műveletnek szüksége van a tárcád jelszavára.</translation>
+        <translation>A tárcád megnyitásához szükség van annak jelszavára.</translation>
     </message>
     <message>
         <location filename="../askpassphrasedialog.cpp" line="42"/>
@@ -180,7 +186,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location filename="../askpassphrasedialog.cpp" line="45"/>
         <source>This operation needs your wallet passphrase to decrypt the wallet.</source>
-        <translation>A tárcád dekódolásához a műveletnek szüksége van a tárcád jelszavára.</translation>
+        <translation>A tárcád dekódolásához szükség van annak jelszavára.</translation>
     </message>
     <message>
         <location filename="../askpassphrasedialog.cpp" line="50"/>
@@ -218,13 +224,13 @@ Biztosan kódolni akarod a tárcát?</translation>
     <message>
         <location filename="../askpassphrasedialog.cpp" line="111"/>
         <source>Bitcoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your bitcoins from being stolen by malware infecting your computer.</source>
-        <translation type="unfinished"/>
+        <translation>A Bitcoin kliens most bezárul, hogy véglegesítse a kódolási folyamatot. Tartsd szem előtt, hogy tárcád titkosítása nem tudja megvédeni Bitcoinjaidat a vírusok általi lopásoktól.</translation>
     </message>
     <message>
         <location filename="../askpassphrasedialog.cpp" line="207"/>
         <location filename="../askpassphrasedialog.cpp" line="231"/>
         <source>Warning: The Caps Lock key is on.</source>
-        <translation type="unfinished"/>
+        <translation>Figyelem: A Caps Lock be van kapcsolva.</translation>
     </message>
     <message>
         <location filename="../askpassphrasedialog.cpp" line="116"/>
@@ -232,7 +238,7 @@ Biztosan kódolni akarod a tárcát?</translation>
         <location filename="../askpassphrasedialog.cpp" line="165"/>
         <location filename="../askpassphrasedialog.cpp" line="171"/>
         <source>Wallet encryption failed</source>
-        <translation>Tárca kódolása sikertelen.</translation>
+        <translation>Tárca kódolása sikertelen</translation>
     </message>
     <message>
         <location filename="../askpassphrasedialog.cpp" line="117"/>
@@ -260,12 +266,12 @@ Biztosan kódolni akarod a tárcát?</translation>
     <message>
         <location filename="../askpassphrasedialog.cpp" line="146"/>
         <source>Wallet decryption failed</source>
-        <translation>Dekódolás sikertelen.</translation>
+        <translation>Tárca dekódolása sikertelen</translation>
     </message>
     <message>
         <location filename="../askpassphrasedialog.cpp" line="160"/>
         <source>Wallet passphrase was succesfully changed.</source>
-        <translation>Jelszó megváltoztatva.</translation>
+        <translation>A tárca jelszava sikeresen meg lett változtatva.</translation>
     </message>
 </context>
 <context>
@@ -273,17 +279,17 @@ Biztosan kódolni akarod a tárcát?</translation>
     <message>
         <location filename="../bitcoingui.cpp" line="73"/>
         <source>Bitcoin Wallet</source>
-        <translation>Bitcoin-tárca</translation>
+        <translation>Bitcoin Tárca</translation>
     </message>
     <message>
         <location filename="../bitcoingui.cpp" line="215"/>
         <source>Sign &amp;message...</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Üzenet aláírása...</translation>
     </message>
     <message>
         <location filename="../bitcoingui.cpp" line="248"/>
         <source>Show/Hide &amp;Bitcoin</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Bitcoin Mutatása/Elrejtése</translation>
     </message>
     <message>
         <location filename="../bitcoingui.cpp" line="515"/>
@@ -328,7 +334,7 @@ Biztosan kódolni akarod a tárcát?</translation>
     <message>
         <location filename="../bitcoingui.cpp" line="204"/>
         <source>Show the list of addresses for receiving payments</source>
-        <translation>Kiizetést fogadó címek listája</translation>
+        <translation>Kifizetést fogadó címek listája</translation>
     </message>
     <message>
         <location filename="../bitcoingui.cpp" line="209"/>
@@ -338,7 +344,7 @@ Biztosan kódolni akarod a tárcát?</translation>
     <message>
         <location filename="../bitcoingui.cpp" line="216"/>
         <source>Prove you control an address</source>
-        <translation type="unfinished"/>
+        <translation>Bizonyítsd, hogy a te irányításod alatt áll egy cím</translation>
     </message>
     <message>
         <location filename="../bitcoingui.cpp" line="235"/>
@@ -348,7 +354,7 @@ Biztosan kódolni akarod a tárcát?</translation>
     <message>
         <location filename="../bitcoingui.cpp" line="236"/>
         <source>Quit application</source>
-        <translation>Kilépés</translation>
+        <translation>Kilépés az alkalmazásból</translation>
     </message>
     <message>
         <location filename="../bitcoingui.cpp" line="239"/>
@@ -363,12 +369,12 @@ Biztosan kódolni akarod a tárcát?</translation>
     <message>
         <location filename="../bitcoingui.cpp" line="242"/>
         <source>About &amp;Qt</source>
-        <translation type="unfinished"/>
+        <translation>A &amp;Qt-ről</translation>
     </message>
     <message>
         <location filename="../bitcoingui.cpp" line="243"/>
         <source>Show information about Qt</source>
-        <translation type="unfinished"/>
+        <translation>Információk a &amp;Qt-ről</translation>
     </message>
     <message>
         <location filename="../bitcoingui.cpp" line="245"/>
@@ -378,27 +384,29 @@ Biztosan kódolni akarod a tárcát?</translation>
     <message>
         <location filename="../bitcoingui.cpp" line="252"/>
         <source>&amp;Encrypt Wallet...</source>
-        <translation type="unfinished"/>
+        <translation>Tárca &amp;Kódolása...</translation>
     </message>
     <message>
         <location filename="../bitcoingui.cpp" line="255"/>
         <source>&amp;Backup Wallet...</source>
-        <translation type="unfinished"/>
+        <translation>Tárca &amp;Mentése...</translation>
     </message>
     <message>
         <location filename="../bitcoingui.cpp" line="257"/>
         <source>&amp;Change Passphrase...</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Jelszó Megváltoztatása...</translation>
     </message>
     <message numerus="yes">
-        <location filename="../bitcoingui.cpp" line="517"/>
         <source>~%n block(s) remaining</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation>
+            <numerusform>~%n blokk van hátra</numerusform>
+            <numerusform>~%n blokk van hátra</numerusform>
+        </translation>
     </message>
     <message>
         <location filename="../bitcoingui.cpp" line="528"/>
         <source>Downloaded %1 of %2 blocks of transaction history (%3% done).</source>
-        <translation type="unfinished"/>
+        <translation>Letöltve %1 blokk a tranzakciótörténet %2 blokkjából (%3% kész).</translation>
     </message>
     <message>
         <location filename="../bitcoingui.cpp" line="250"/>
@@ -408,22 +416,22 @@ Biztosan kódolni akarod a tárcát?</translation>
     <message>
         <location filename="../bitcoingui.cpp" line="210"/>
         <source>Send coins to a Bitcoin address</source>
-        <translation type="unfinished"/>
+        <translation>Érmék küldése egy Bitcoin címre</translation>
     </message>
     <message>
         <location filename="../bitcoingui.cpp" line="246"/>
         <source>Modify configuration options for Bitcoin</source>
-        <translation type="unfinished"/>
+        <translation>A Bitcoin konfigurációs opcióinak módosítása</translation>
     </message>
     <message>
         <location filename="../bitcoingui.cpp" line="249"/>
         <source>Show or hide the Bitcoin window</source>
-        <translation type="unfinished"/>
+        <translation>A Bitcoin ablakának mutatása vagy elrejtése</translation>
     </message>
     <message>
         <location filename="../bitcoingui.cpp" line="251"/>
         <source>Export the data in the current tab to a file</source>
-        <translation type="unfinished"/>
+        <translation>A jelenlegi fülön lévő adatok exportálása fájlba</translation>
     </message>
     <message>
         <location filename="../bitcoingui.cpp" line="253"/>
@@ -433,7 +441,7 @@ Biztosan kódolni akarod a tárcát?</translation>
     <message>
         <location filename="../bitcoingui.cpp" line="256"/>
         <source>Backup wallet to another location</source>
-        <translation type="unfinished"/>
+        <translation>Tárca mentése egy másik helyre</translation>
     </message>
     <message>
         <location filename="../bitcoingui.cpp" line="258"/>
@@ -443,22 +451,22 @@ Biztosan kódolni akarod a tárcát?</translation>
     <message>
         <location filename="../bitcoingui.cpp" line="259"/>
         <source>&amp;Debug window</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Hibakereső ablak</translation>
     </message>
     <message>
         <location filename="../bitcoingui.cpp" line="260"/>
         <source>Open debugging and diagnostic console</source>
-        <translation type="unfinished"/>
+        <translation>Hibakereső és diagnosztikai konzol megnyitása</translation>
     </message>
     <message>
         <location filename="../bitcoingui.cpp" line="261"/>
         <source>&amp;Verify message...</source>
-        <translation type="unfinished"/>
+        <translation>Üzenet &amp;hitelesítése...</translation>
     </message>
     <message>
         <location filename="../bitcoingui.cpp" line="262"/>
         <source>Verify a message signature</source>
-        <translation type="unfinished"/>
+        <translation>Egy üzenet aláírásának hitelesítése</translation>
     </message>
     <message>
         <location filename="../bitcoingui.cpp" line="286"/>
@@ -495,12 +503,14 @@ Biztosan kódolni akarod a tárcát?</translation>
         <location filename="../bitcoingui.cpp" line="343"/>
         <location filename="../bitcoingui.cpp" line="399"/>
         <source>Bitcoin client</source>
-        <translation type="unfinished"/>
+        <translation>Bitcoin kliens</translation>
     </message>
     <message numerus="yes">
-        <location filename="../bitcoingui.cpp" line="492"/>
         <source>%n active connection(s) to Bitcoin network</source>
-        <translation><numerusform>%n aktív kapcsolat a Bitcoin-hálózattal</numerusform><numerusform>%n aktív kapcsolat a Bitcoin-hálózattal</numerusform></translation>
+        <translation>
+            <numerusform>%n aktív kapcsolat a Bitcoin hálózattal</numerusform>
+            <numerusform>%n aktív kapcsolat a Bitcoin hálózattal</numerusform>
+        </translation>
     </message>
     <message>
         <location filename="../bitcoingui.cpp" line="540"/>
@@ -510,22 +520,34 @@ Biztosan kódolni akarod a tárcát?</translation>
     <message numerus="yes">
         <location filename="../bitcoingui.cpp" line="555"/>
         <source>%n second(s) ago</source>
-        <translation><numerusform>%n másodperccel ezelőtt</numerusform><numerusform>%n másodperccel ezelőtt</numerusform></translation>
+        <translation>
+            <numerusform>%n másodperccel ezelőtt</numerusform>
+            <numerusform>%n másodperccel ezelőtt</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <location filename="../bitcoingui.cpp" line="559"/>
         <source>%n minute(s) ago</source>
-        <translation><numerusform>%n perccel ezelőtt</numerusform><numerusform>%n perccel ezelőtt</numerusform></translation>
+        <translation>
+            <numerusform>%n perccel ezelőtt</numerusform>
+            <numerusform>%n perccel ezelőtt</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <location filename="../bitcoingui.cpp" line="563"/>
         <source>%n hour(s) ago</source>
-        <translation><numerusform>%n órával ezelőtt</numerusform><numerusform>%n órával ezelőtt</numerusform></translation>
+        <translation>
+            <numerusform>%n órával ezelőtt</numerusform>
+            <numerusform>%n órával ezelőtt</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <location filename="../bitcoingui.cpp" line="567"/>
         <source>%n day(s) ago</source>
-        <translation><numerusform>%n nappal ezelőtt</numerusform><numerusform>%n nappal ezelőtt</numerusform></translation>
+        <translation>
+            <numerusform>%n nappal ezelőtt</numerusform>
+            <numerusform>%n nappal ezelőtt</numerusform>
+        </translation>
     </message>
     <message>
         <location filename="../bitcoingui.cpp" line="573"/>
@@ -545,17 +567,17 @@ Biztosan kódolni akarod a tárcát?</translation>
     <message>
         <location filename="../bitcoingui.cpp" line="649"/>
         <source>This transaction is over the size limit.  You can still send it for a fee of %1, which goes to the nodes that process your transaction and helps to support the network.  Do you want to pay the fee?</source>
-        <translation>Ez a tranzakció túllépi a mérethatárt,  de %1 tranzakciós díj ellenében így is elküldheted. Ezt a plusz összeget a tranzakcióidat feldolgozó csomópontok kapják,  így magát a hálózatot támogatod vele. Hajlandó vagy megfizetni a díjat?</translation>
+        <translation>Ez a tranzakció túllépi a mérethatárt,  de %1 tranzakciós díj ellenében így is elküldheted. Ezt a plusz összeget a tranzakcióidat feldolgozó csomópontok kapják, így magát a hálózatot támogatod vele.  Hajlandó vagy megfizetni a díjat?</translation>
     </message>
     <message>
         <location filename="../bitcoingui.cpp" line="654"/>
         <source>Confirm transaction fee</source>
-        <translation type="unfinished"/>
+        <translation>Tranzakciós díj megerősítése</translation>
     </message>
     <message>
         <location filename="../bitcoingui.cpp" line="681"/>
         <source>Sent transaction</source>
-        <translation>Tranzakció elküldve.</translation>
+        <translation>Tranzakció elküldve</translation>
     </message>
     <message>
         <location filename="../bitcoingui.cpp" line="682"/>
@@ -578,37 +600,37 @@ Cím: %4
     <message>
         <location filename="../bitcoingui.cpp" line="804"/>
         <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt;</source>
-        <translation>Tárca &lt;b&gt;kódolva&lt;/b&gt; és jelenleg &lt;b&gt;nyitva&lt;/b&gt;.</translation>
+        <translation>Tárca &lt;b&gt;kódolva&lt;/b&gt; és jelenleg &lt;b&gt;nyitva&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../bitcoingui.cpp" line="812"/>
         <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;locked&lt;/b&gt;</source>
-        <translation>Tárca &lt;b&gt;kódolva&lt;/b&gt; és jelenleg &lt;b&gt;zárva&lt;/b&gt;.</translation>
+        <translation>Tárca &lt;b&gt;kódolva&lt;/b&gt; és jelenleg &lt;b&gt;zárva&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../bitcoingui.cpp" line="835"/>
         <source>Backup Wallet</source>
-        <translation type="unfinished"/>
+        <translation>Tárca Mentése</translation>
     </message>
     <message>
         <location filename="../bitcoingui.cpp" line="835"/>
         <source>Wallet Data (*.dat)</source>
-        <translation type="unfinished"/>
+        <translation>Tárcainformáció (*.dat)</translation>
     </message>
     <message>
         <location filename="../bitcoingui.cpp" line="838"/>
         <source>Backup Failed</source>
-        <translation type="unfinished"/>
+        <translation>Mentés Sikertelen</translation>
     </message>
     <message>
         <location filename="../bitcoingui.cpp" line="838"/>
         <source>There was an error trying to save the wallet data to the new location.</source>
-        <translation type="unfinished"/>
+        <translation>Hiba lépett fel a táracinformáció új helyre való mentése közben.</translation>
     </message>
     <message>
         <location filename="../bitcoin.cpp" line="112"/>
         <source>A fatal error occured. Bitcoin can no longer continue safely and will quit.</source>
-        <translation type="unfinished"/>
+        <translation>Végzetes hiba történt. A Bitcoin kliens nem tud biztonságosan tovább futni, ezért bezárul.</translation>
     </message>
 </context>
 <context>
@@ -616,7 +638,7 @@ Cím: %4
     <message>
         <location filename="../clientmodel.cpp" line="84"/>
         <source>Network Alert</source>
-        <translation type="unfinished"/>
+        <translation>Hálózati Riasztás</translation>
     </message>
 </context>
 <context>
@@ -629,47 +651,47 @@ Cím: %4
     <message>
         <location filename="../optionsdialog.cpp" line="257"/>
         <source>default</source>
-        <translation type="unfinished"/>
+        <translation>alapértelmezett</translation>
     </message>
     <message>
         <location filename="../optionsdialog.cpp" line="263"/>
         <source>The user interface language can be set here. This setting will only take effect after restarting Bitcoin.</source>
-        <translation type="unfinished"/>
+        <translation>A felhasználói felület nyelve itt állítható be. Ennek a módosítása csak a Bitcoin kliens újraindításakor lép életbe.</translation>
     </message>
     <message>
         <location filename="../optionsdialog.cpp" line="252"/>
         <source>User Interface &amp;Language:</source>
-        <translation type="unfinished"/>
+        <translation>Felhasználói Felület &amp;Nyelve:</translation>
     </message>
     <message>
         <location filename="../optionsdialog.cpp" line="273"/>
         <source>&amp;Unit to show amounts in:</source>
-        <translation type="unfinished"/>
+        <translation>Használatos &amp;mértékegység:</translation>
     </message>
     <message>
         <location filename="../optionsdialog.cpp" line="277"/>
         <source>Choose the default subdivision unit to show in the interface, and when sending coins</source>
-        <translation>Válaszd ki az interfészen és érmék küldésekor megjelenítendő alapértelmezett alegységet.</translation>
+        <translation>Válaszd ki az interfészen és érmék küldésekor megjelenítendő alapértelmezett alegységet</translation>
     </message>
     <message>
         <location filename="../optionsdialog.cpp" line="284"/>
         <source>&amp;Display addresses in transaction list</source>
-        <translation type="unfinished"/>
+        <translation>A tranzakciótörténetben szereplő címek &amp;megjelenítése</translation>
     </message>
     <message>
         <location filename="../optionsdialog.cpp" line="285"/>
         <source>Whether to show Bitcoin addresses in the transaction list</source>
-        <translation type="unfinished"/>
+        <translation>Megjelenítse-e a Bitcoin címeket a tranzakciótörténetben</translation>
     </message>
     <message>
         <location filename="../optionsdialog.cpp" line="303"/>
         <source>Warning</source>
-        <translation type="unfinished"/>
+        <translation>Figyelmeztetés</translation>
     </message>
     <message>
         <location filename="../optionsdialog.cpp" line="303"/>
         <source>This setting will take effect after restarting Bitcoin.</source>
-        <translation type="unfinished"/>
+        <translation>Ez a módosítás csak a Bitcoin kliens újraindításakor fog érvénybe lépni.</translation>
     </message>
 </context>
 <context>
@@ -677,7 +699,7 @@ Cím: %4
     <message>
         <location filename="../forms/editaddressdialog.ui" line="14"/>
         <source>Edit Address</source>
-        <translation>Cím szerkesztése</translation>
+        <translation>Cím Szerkesztése</translation>
     </message>
     <message>
         <location filename="../forms/editaddressdialog.ui" line="25"/>
@@ -697,7 +719,7 @@ Cím: %4
     <message>
         <location filename="../forms/editaddressdialog.ui" line="52"/>
         <source>The address associated with this address book entry. This can only be modified for sending addresses.</source>
-        <translation>Az ehhez a címjegyzék-bejegyzéshez tartozó cím. Ez csak a küldő címeknél módosítható.</translation>
+        <translation>Ezen címjegyzék-bejegyzéshez tartozó cím. Ez csak a küldő címeknél módosítható.</translation>
     </message>
     <message>
         <location filename="../editaddressdialog.cpp" line="20"/>
@@ -727,17 +749,17 @@ Cím: %4
     <message>
         <location filename="../editaddressdialog.cpp" line="96"/>
         <source>The entered address &quot;%1&quot; is not a valid Bitcoin address.</source>
-        <translation type="unfinished"/>
+        <translation>A beírt cím &quot;%1&quot; nem érvényes Bitcoin cím.</translation>
     </message>
     <message>
         <location filename="../editaddressdialog.cpp" line="101"/>
         <source>Could not unlock wallet.</source>
-        <translation>Tárca feloldása sikertelen</translation>
+        <translation>Tárca feloldása sikertelen.</translation>
     </message>
     <message>
         <location filename="../editaddressdialog.cpp" line="106"/>
         <source>New key generation failed.</source>
-        <translation>Új kulcs generálása sikertelen</translation>
+        <translation>Új kulcs generálása sikertelen.</translation>
     </message>
 </context>
 <context>
@@ -751,7 +773,7 @@ Cím: %4
     <message>
         <location filename="../bitcoin.cpp" line="133"/>
         <source>version</source>
-        <translation type="unfinished"/>
+        <translation>verzió</translation>
     </message>
     <message>
         <location filename="../bitcoin.cpp" line="135"/>
@@ -761,28 +783,27 @@ Cím: %4
     <message>
         <location filename="../bitcoin.cpp" line="136"/>
         <source>options</source>
-        <translation type="unfinished"/>
+        <translation>opciók</translation>
     </message>
     <message>
         <location filename="../bitcoin.cpp" line="138"/>
         <source>UI options</source>
-        <translation type="unfinished"/>
+        <translation>UI beállításai</translation>
     </message>
     <message>
         <location filename="../bitcoin.cpp" line="139"/>
         <source>Set language, for example &quot;de_DE&quot; (default: system locale)</source>
-        <translation type="unfinished"/>
+        <translation>Nyelv beállítása, például &quot;de_DE&quot; (alapértelmezett: a rendszer nyelve)</translation>
     </message>
     <message>
         <location filename="../bitcoin.cpp" line="140"/>
         <source>Start minimized</source>
-        <translation>Indítás lekicsinyítve
-</translation>
+        <translation>Indítás lekicsinyítve</translation>
     </message>
     <message>
         <location filename="../bitcoin.cpp" line="141"/>
         <source>Show splash screen on startup (default: 1)</source>
-        <translation type="unfinished"/>
+        <translation>Nyitóképernyő mutatása indításkor (alapértelmezett: 1)</translation>
     </message>
 </context>
 <context>
@@ -790,7 +811,7 @@ Cím: %4
     <message>
         <location filename="../optionsdialog.cpp" line="227"/>
         <source>Detach block and address databases at shutdown. This means they can be moved to another data directory, but it slows down shutdown. The wallet is always detached.</source>
-        <translation type="unfinished"/>
+        <translation>Blokk- és címadatbázisok leválasztása kilépéskor. Ez lehetővé teszi ezek áthelyezését másik könyvtárba, de lelassítja a kilépést. A tárca mindig le lesz választva.</translation>
     </message>
     <message>
         <location filename="../optionsdialog.cpp" line="212"/>
@@ -805,22 +826,22 @@ Cím: %4
     <message>
         <location filename="../optionsdialog.cpp" line="206"/>
         <source>Optional transaction fee per kB that helps make sure your transactions are processed quickly. Most transactions are 1 kB. Fee 0.01 recommended.</source>
-        <translation type="unfinished"/>
+        <translation>Opcionális tranzakciós díj kB-onként, amely biztosítja, hogy a tranzakcióid gyorsan továbbítva lesznek. A legtöbb tranzakció 1 kB. 0.01 díj ajánlott.</translation>
     </message>
     <message>
         <location filename="../optionsdialog.cpp" line="222"/>
         <source>&amp;Start Bitcoin on system login</source>
-        <translation type="unfinished"/>
+        <translation>A Bitcoin &amp;indítása bejelentkezéskor</translation>
     </message>
     <message>
         <location filename="../optionsdialog.cpp" line="223"/>
         <source>Automatically start Bitcoin after logging in to the system</source>
-        <translation type="unfinished"/>
+        <translation>Automatikusan elindítja a Bitcoin klienst, miután a felhasználó bejelentkezett</translation>
     </message>
     <message>
         <location filename="../optionsdialog.cpp" line="226"/>
         <source>&amp;Detach databases at shutdown</source>
-        <translation type="unfinished"/>
+        <translation>Adatbázisok &amp;leválasztása kilépéskor</translation>
     </message>
 </context>
 <context>
@@ -828,17 +849,17 @@ Cím: %4
     <message>
         <location filename="../forms/messagepage.ui" line="14"/>
         <source>Sign Message</source>
-        <translation type="unfinished"/>
+        <translation>Üzenet Aláírása</translation>
     </message>
     <message>
         <location filename="../forms/messagepage.ui" line="20"/>
         <source>You can sign messages with your addresses to prove you own them. Be careful not to sign anything vague, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</source>
-        <translation type="unfinished"/>
+        <translation>Aláírhatsz üzeneteket a címeiddel, hogy bizonyíthasd eredetüket. Légy óvatos, ne írj alá bármit, ami bizonytalan, mert adathalászati támadások ezt felhasználhatják ellened személyiséged ellopására. Csak teljesen egyértelmű állításokat írj alá, amelyekkel egyetértesz.</translation>
     </message>
     <message>
         <location filename="../forms/messagepage.ui" line="38"/>
         <source>The address to sign the message with  (e.g. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</source>
-        <translation type="unfinished"/>
+        <translation>A cím, amellyel alá szeretnéd írni az üzenetet  (pl.: 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
     </message>
     <message>
         <location filename="../forms/messagepage.ui" line="48"/>
@@ -848,7 +869,7 @@ Cím: %4
     <message>
         <location filename="../forms/messagepage.ui" line="58"/>
         <source>Alt+A</source>
-        <translation>Alt+A</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../forms/messagepage.ui" line="71"/>
@@ -858,52 +879,52 @@ Cím: %4
     <message>
         <location filename="../forms/messagepage.ui" line="81"/>
         <source>Alt+P</source>
-        <translation>Alt+P</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../forms/messagepage.ui" line="93"/>
         <source>Enter the message you want to sign here</source>
-        <translation type="unfinished"/>
+        <translation>Írd ide az üzenetet, amelyet alá szeretnél írni</translation>
     </message>
     <message>
         <location filename="../forms/messagepage.ui" line="128"/>
         <source>Copy the current signature to the system clipboard</source>
-        <translation type="unfinished"/>
+        <translation>A jelenlegi aláírás másolása a vágólapra</translation>
     </message>
     <message>
         <location filename="../forms/messagepage.ui" line="131"/>
         <source>&amp;Copy Signature</source>
-        <translation type="unfinished"/>
+        <translation>Aláírás &amp;Másolása</translation>
     </message>
     <message>
         <location filename="../forms/messagepage.ui" line="142"/>
         <source>Reset all sign message fields</source>
-        <translation type="unfinished"/>
+        <translation>Az összes üzenet-aláírási mező alaphelyzetbe állítása</translation>
     </message>
     <message>
         <location filename="../forms/messagepage.ui" line="145"/>
         <source>Clear &amp;All</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Összes Törlése</translation>
     </message>
     <message>
         <location filename="../messagepage.cpp" line="31"/>
         <source>Click &quot;Sign Message&quot; to get signature</source>
-        <translation type="unfinished"/>
+        <translation>Kattints az &quot;Üzenet Aláírása&quot;-ra, hogy kapj egy aláírást</translation>
     </message>
     <message>
         <location filename="../forms/messagepage.ui" line="114"/>
         <source>Sign a message to prove you own this address</source>
-        <translation type="unfinished"/>
+        <translation>Írj alá egy üzenetet, amellyel bizonyíthatod, hogy ez a cím a tied</translation>
     </message>
     <message>
         <location filename="../forms/messagepage.ui" line="117"/>
         <source>&amp;Sign Message</source>
-        <translation type="unfinished"/>
+        <translation>Üzenet &amp;Aláírása</translation>
     </message>
     <message>
         <location filename="../messagepage.cpp" line="30"/>
         <source>Enter a Bitcoin address (e.g. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</source>
-        <translation>Adj meg egy Bitcoin-címet (pl.: 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L )</translation>
+        <translation>Adj meg egy Bitcoin címet (pl.: 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
     </message>
     <message>
         <location filename="../messagepage.cpp" line="83"/>
@@ -911,27 +932,27 @@ Cím: %4
         <location filename="../messagepage.cpp" line="105"/>
         <location filename="../messagepage.cpp" line="117"/>
         <source>Error signing</source>
-        <translation type="unfinished"/>
+        <translation>Hiba az aláíráskor</translation>
     </message>
     <message>
         <location filename="../messagepage.cpp" line="83"/>
         <source>%1 is not a valid address.</source>
-        <translation type="unfinished"/>
+        <translation>A(z) %1 nem egy érvényes cím.</translation>
     </message>
     <message>
         <location filename="../messagepage.cpp" line="90"/>
         <source>%1 does not refer to a key.</source>
-        <translation type="unfinished"/>
+        <translation>%1 nem mutat egy kulcsra.</translation>
     </message>
     <message>
         <location filename="../messagepage.cpp" line="105"/>
         <source>Private key for %1 is not available.</source>
-        <translation type="unfinished"/>
+        <translation>A(z) %1 privát kulcsa nem érhető el.</translation>
     </message>
     <message>
         <location filename="../messagepage.cpp" line="117"/>
         <source>Sign failed</source>
-        <translation type="unfinished"/>
+        <translation>Aláírás sikertelen</translation>
     </message>
 </context>
 <context>
@@ -939,7 +960,7 @@ Cím: %4
     <message>
         <location filename="../optionsdialog.cpp" line="345"/>
         <source>Network</source>
-        <translation type="unfinished"/>
+        <translation>Hálózat</translation>
     </message>
     <message>
         <location filename="../optionsdialog.cpp" line="347"/>
@@ -949,7 +970,7 @@ Cím: %4
     <message>
         <location filename="../optionsdialog.cpp" line="348"/>
         <source>Automatically open the Bitcoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>A Bitcoin-kliens portjának automatikus megnyitása a routeren. Ez csak akkor működik, ha a routered támogatja az UPnP-t és az engedélyezve is van rajta.</translation>
+        <translation>A Bitcoin-kliens portjának automatikus megnyitása a routeren. Ez csak akkor működik, ha a routered támogatja az UPnP-t, és az engedélyezve is van rajta.</translation>
     </message>
     <message>
         <location filename="../optionsdialog.cpp" line="351"/>
@@ -1001,7 +1022,7 @@ Cím: %4
         <location filename="../forms/overviewpage.ui" line="47"/>
         <location filename="../forms/overviewpage.ui" line="204"/>
         <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Bitcoin network after a connection is established, but this process has not completed yet.</source>
-        <translation type="unfinished"/>
+        <translation>Lehetséges, hogy a megjelenített információ nem naprakész. A tárcád automatikusan szinkronizál a Bitcoin hálózattal miután létrejött egy kapcsolat, de ez a folyamat még nem ment végbe.</translation>
     </message>
     <message>
         <location filename="../forms/overviewpage.ui" line="89"/>
@@ -1021,7 +1042,7 @@ Cím: %4
     <message>
         <location filename="../forms/overviewpage.ui" line="40"/>
         <source>Wallet</source>
-        <translation type="unfinished"/>
+        <translation>Tárca</translation>
     </message>
     <message>
         <location filename="../forms/overviewpage.ui" line="197"/>
@@ -1036,7 +1057,7 @@ Cím: %4
     <message>
         <location filename="../forms/overviewpage.ui" line="134"/>
         <source>Total of transactions that have yet to be confirmed, and do not yet count toward the current balance</source>
-        <translation>Még megerősítésre váró, a jelenlegi egyenlegbe be nem számított tranzakciók</translation>
+        <translation>Még megerősítésre váró, a jelenlegi egyenlegbe be nem számított tranzakciók összege</translation>
     </message>
     <message>
         <location filename="../forms/overviewpage.ui" line="154"/>
@@ -1047,7 +1068,7 @@ Cím: %4
         <location filename="../overviewpage.cpp" line="110"/>
         <location filename="../overviewpage.cpp" line="111"/>
         <source>out of sync</source>
-        <translation type="unfinished"/>
+        <translation>nem naprakész</translation>
     </message>
 </context>
 <context>
@@ -1055,22 +1076,22 @@ Cím: %4
     <message>
         <location filename="../forms/qrcodedialog.ui" line="14"/>
         <source>QR Code Dialog</source>
-        <translation type="unfinished"/>
+        <translation>QR Kód Párbeszédpanel</translation>
     </message>
     <message>
         <location filename="../forms/qrcodedialog.ui" line="32"/>
         <source>QR Code</source>
-        <translation type="unfinished"/>
+        <translation>QR Kód</translation>
     </message>
     <message>
         <location filename="../forms/qrcodedialog.ui" line="55"/>
         <source>Request Payment</source>
-        <translation type="unfinished"/>
+        <translation>Fizetés Igénylése</translation>
     </message>
     <message>
         <location filename="../forms/qrcodedialog.ui" line="70"/>
         <source>Amount:</source>
-        <translation type="unfinished"/>
+        <translation>Összeg:</translation>
     </message>
     <message>
         <location filename="../forms/qrcodedialog.ui" line="105"/>
@@ -1080,7 +1101,7 @@ Cím: %4
     <message>
         <location filename="../forms/qrcodedialog.ui" line="121"/>
         <source>Label:</source>
-        <translation type="unfinished"/>
+        <translation>Címke:</translation>
     </message>
     <message>
         <location filename="../forms/qrcodedialog.ui" line="144"/>
@@ -1090,27 +1111,27 @@ Cím: %4
     <message>
         <location filename="../forms/qrcodedialog.ui" line="186"/>
         <source>&amp;Save As...</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Mentés Másként...</translation>
     </message>
     <message>
         <location filename="../qrcodedialog.cpp" line="45"/>
         <source>Error encoding URI into QR Code.</source>
-        <translation type="unfinished"/>
+        <translation>Hiba lépett fel az URI QR Kóddá való átalakítása során.</translation>
     </message>
     <message>
         <location filename="../qrcodedialog.cpp" line="63"/>
         <source>Resulting URI too long, try to reduce the text for label / message.</source>
-        <translation type="unfinished"/>
+        <translation>A létrejött URI túl hosszú, próbáld tömöríteni a címke / üzenet szövegét.</translation>
     </message>
     <message>
         <location filename="../qrcodedialog.cpp" line="120"/>
         <source>Save QR Code</source>
-        <translation type="unfinished"/>
+        <translation>QR Kód Mentése</translation>
     </message>
     <message>
         <location filename="../qrcodedialog.cpp" line="120"/>
         <source>PNG Images (*.png)</source>
-        <translation type="unfinished"/>
+        <translation>PNG képfájlok (*.png)</translation>
     </message>
 </context>
 <context>
@@ -1118,12 +1139,12 @@ Cím: %4
     <message>
         <location filename="../forms/rpcconsole.ui" line="14"/>
         <source>Bitcoin debug window</source>
-        <translation type="unfinished"/>
+        <translation>Bitcoin hibakeresési ablak</translation>
     </message>
     <message>
         <location filename="../forms/rpcconsole.ui" line="46"/>
         <source>Client name</source>
-        <translation type="unfinished"/>
+        <translation>Kliens neve</translation>
     </message>
     <message>
         <location filename="../forms/rpcconsole.ui" line="56"/>
@@ -1136,107 +1157,107 @@ Cím: %4
         <location filename="../forms/rpcconsole.ui" line="260"/>
         <location filename="../rpcconsole.cpp" line="245"/>
         <source>N/A</source>
-        <translation type="unfinished"/>
+        <translation>-</translation>
     </message>
     <message>
         <location filename="../forms/rpcconsole.ui" line="69"/>
         <source>Client version</source>
-        <translation type="unfinished"/>
+        <translation>Kliens verzió</translation>
     </message>
     <message>
         <location filename="../forms/rpcconsole.ui" line="24"/>
         <source>&amp;Information</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Információ</translation>
     </message>
     <message>
         <location filename="../forms/rpcconsole.ui" line="39"/>
         <source>Client</source>
-        <translation type="unfinished"/>
+        <translation>Kliens</translation>
     </message>
     <message>
         <location filename="../forms/rpcconsole.ui" line="115"/>
         <source>Startup time</source>
-        <translation type="unfinished"/>
+        <translation>Indítási idő</translation>
     </message>
     <message>
         <location filename="../forms/rpcconsole.ui" line="144"/>
         <source>Network</source>
-        <translation type="unfinished"/>
+        <translation>Hálózat</translation>
     </message>
     <message>
         <location filename="../forms/rpcconsole.ui" line="151"/>
         <source>Number of connections</source>
-        <translation type="unfinished"/>
+        <translation>Kapcsolatok száma</translation>
     </message>
     <message>
         <location filename="../forms/rpcconsole.ui" line="174"/>
         <source>On testnet</source>
-        <translation type="unfinished"/>
+        <translation>Teszthálózaton</translation>
     </message>
     <message>
         <location filename="../forms/rpcconsole.ui" line="197"/>
         <source>Block chain</source>
-        <translation type="unfinished"/>
+        <translation>Blokklánc</translation>
     </message>
     <message>
         <location filename="../forms/rpcconsole.ui" line="204"/>
         <source>Current number of blocks</source>
-        <translation type="unfinished"/>
+        <translation>Jelenlegi kapcsolatok száma</translation>
     </message>
     <message>
         <location filename="../forms/rpcconsole.ui" line="227"/>
         <source>Estimated total blocks</source>
-        <translation type="unfinished"/>
+        <translation>Becsült összes blokk száma</translation>
     </message>
     <message>
         <location filename="../forms/rpcconsole.ui" line="250"/>
         <source>Last block time</source>
-        <translation type="unfinished"/>
+        <translation>Utolsó blokk ideje</translation>
     </message>
     <message>
         <location filename="../forms/rpcconsole.ui" line="292"/>
         <source>Debug logfile</source>
-        <translation type="unfinished"/>
+        <translation>Hibakeresési naplófájl</translation>
     </message>
     <message>
         <location filename="../forms/rpcconsole.ui" line="299"/>
         <source>Open the Bitcoin debug logfile from the current data directory. This can take a few seconds for large logfiles.</source>
-        <translation type="unfinished"/>
+        <translation>A Bitcoin hibakeresési naplófájljának megnyitása a jelenlegi adatkönyvtárból. Ez eltarthat pár másodpercig nagy naplófájlok esetében.</translation>
     </message>
     <message>
         <location filename="../forms/rpcconsole.ui" line="302"/>
         <source>&amp;Open</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Megnyitás</translation>
     </message>
     <message>
         <location filename="../forms/rpcconsole.ui" line="323"/>
         <source>&amp;Console</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Konzol</translation>
     </message>
     <message>
         <location filename="../forms/rpcconsole.ui" line="92"/>
         <source>Build date</source>
-        <translation type="unfinished"/>
+        <translation>Készítés dátuma</translation>
     </message>
     <message>
         <location filename="../forms/rpcconsole.ui" line="372"/>
         <source>Clear console</source>
-        <translation type="unfinished"/>
+        <translation>Konzol törlése</translation>
     </message>
     <message>
         <location filename="../rpcconsole.cpp" line="212"/>
         <source>Welcome to the Bitcoin RPC console.</source>
-        <translation type="unfinished"/>
+        <translation>Üdvözlünk a Bitcoin RPC konzoljában.</translation>
     </message>
     <message>
         <location filename="../rpcconsole.cpp" line="213"/>
         <source>Use up and down arrows to navigate history, and &lt;b&gt;Ctrl-L&lt;/b&gt; to clear screen.</source>
-        <translation type="unfinished"/>
+        <translation>Használd a fel és le nyilakat a történelemben való navigáláshoz, és a &lt;b&gt;Ctrl-L&lt;/b&gt; billentyűkombinációt a képernyő törléséhez.</translation>
     </message>
     <message>
         <location filename="../rpcconsole.cpp" line="214"/>
         <source>Type &lt;b&gt;help&lt;/b&gt; for an overview of available commands.</source>
-        <translation type="unfinished"/>
+        <translation>Írd be a &lt;b&gt;help&lt;/b&gt; kulcsszót az elérhető parancsok áttekintéséhez.</translation>
     </message>
 </context>
 <context>
@@ -1251,7 +1272,7 @@ Cím: %4
         <location filename="../sendcoinsdialog.cpp" line="148"/>
         <location filename="../sendcoinsdialog.cpp" line="153"/>
         <source>Send Coins</source>
-        <translation>Érmék küldése</translation>
+        <translation>Érmék Küldése</translation>
     </message>
     <message>
         <location filename="../forms/sendcoinsdialog.ui" line="64"/>
@@ -1261,17 +1282,17 @@ Cím: %4
     <message>
         <location filename="../forms/sendcoinsdialog.ui" line="67"/>
         <source>&amp;Add Recipient</source>
-        <translation type="unfinished"/>
+        <translation>Címzett &amp;Hozzáadása</translation>
     </message>
     <message>
         <location filename="../forms/sendcoinsdialog.ui" line="84"/>
         <source>Remove all transaction fields</source>
-        <translation type="unfinished"/>
+        <translation>Összes tranzakciós mező eltávolítása</translation>
     </message>
     <message>
         <location filename="../forms/sendcoinsdialog.ui" line="87"/>
         <source>Clear &amp;All</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Összes Törlése</translation>
     </message>
     <message>
         <location filename="../forms/sendcoinsdialog.ui" line="106"/>
@@ -1281,7 +1302,7 @@ Cím: %4
     <message>
         <location filename="../forms/sendcoinsdialog.ui" line="113"/>
         <source>123.456 BTC</source>
-        <translation>123.456 BTC</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../forms/sendcoinsdialog.ui" line="144"/>
@@ -1311,7 +1332,7 @@ Cím: %4
     <message>
         <location filename="../sendcoinsdialog.cpp" line="100"/>
         <source> and </source>
-        <translation> és</translation>
+        <translation> és </translation>
     </message>
     <message>
         <location filename="../sendcoinsdialog.cpp" line="123"/>
@@ -1326,27 +1347,27 @@ Cím: %4
     <message>
         <location filename="../sendcoinsdialog.cpp" line="133"/>
         <source>The amount exceeds your balance.</source>
-        <translation type="unfinished"/>
+        <translation>A fizetendő összeg túllépi az egyenlegedet.</translation>
     </message>
     <message>
         <location filename="../sendcoinsdialog.cpp" line="138"/>
         <source>The total exceeds your balance when the %1 transaction fee is included.</source>
-        <translation type="unfinished"/>
+        <translation>A fizetendő összeg túllépi az egyenlegedet, ha a %1 tranzakciós díjjal is számolunk.</translation>
     </message>
     <message>
         <location filename="../sendcoinsdialog.cpp" line="144"/>
         <source>Duplicate address found, can only send to each address once per send operation.</source>
-        <translation type="unfinished"/>
+        <translation>Két vagy több cím megegyezik. Egy művelet során egy címre csak egyszer küldhetsz érméket.</translation>
     </message>
     <message>
         <location filename="../sendcoinsdialog.cpp" line="149"/>
         <source>Error: Transaction creation failed.</source>
-        <translation type="unfinished"/>
+        <translation>Hiba: A tranzakció létrehozása meghiúsult.</translation>
     </message>
     <message>
         <location filename="../sendcoinsdialog.cpp" line="154"/>
         <source>Error: The transaction was rejected. This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
-        <translation type="unfinished"/>
+        <translation>Hiba: A tranzakció elutasításra került. Ez akkor fordulhat elő, ha néhány érme a a tárcádban már el lett költve (pl.: a tárcád wallet.dat fájljának egyik másolatán el lettek költve az érmék, de a jelenleg használt tárcán ez nem látszik).</translation>
     </message>
 </context>
 <context>
@@ -1359,29 +1380,28 @@ Cím: %4
     <message>
         <location filename="../forms/sendcoinsentry.ui" line="29"/>
         <source>A&amp;mount:</source>
-        <translation>Összeg:</translation>
+        <translation>&amp;Összeg:</translation>
     </message>
     <message>
         <location filename="../forms/sendcoinsentry.ui" line="42"/>
         <source>Pay &amp;To:</source>
-        <translation>Címzett:</translation>
+        <translation>&amp;Címzett:</translation>
     </message>
     <message>
         <location filename="../forms/sendcoinsentry.ui" line="66"/>
         <location filename="../sendcoinsentry.cpp" line="25"/>
         <source>Enter a label for this address to add it to your address book</source>
-        <translation>Milyen címkével kerüljön be ez a cím a címtáradba?
-</translation>
+        <translation>Milyen címkével kerüljön be ez a cím a címtáradba?</translation>
     </message>
     <message>
         <location filename="../forms/sendcoinsentry.ui" line="75"/>
         <source>&amp;Label:</source>
-        <translation>Címke:</translation>
+        <translation>Cím&amp;ke:</translation>
     </message>
     <message>
         <location filename="../forms/sendcoinsentry.ui" line="93"/>
         <source>The address to send the payment to  (e.g. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</source>
-        <translation>Címzett címe  (pl.: 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L )</translation>
+        <translation>Címzett címe  (pl.: 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
     </message>
     <message>
         <location filename="../forms/sendcoinsentry.ui" line="103"/>
@@ -1391,7 +1411,7 @@ Cím: %4
     <message>
         <location filename="../forms/sendcoinsentry.ui" line="113"/>
         <source>Alt+A</source>
-        <translation>Alt+A</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../forms/sendcoinsentry.ui" line="120"/>
@@ -1401,7 +1421,7 @@ Cím: %4
     <message>
         <location filename="../forms/sendcoinsentry.ui" line="130"/>
         <source>Alt+P</source>
-        <translation>Alt+P</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../forms/sendcoinsentry.ui" line="137"/>
@@ -1411,7 +1431,7 @@ Cím: %4
     <message>
         <location filename="../sendcoinsentry.cpp" line="26"/>
         <source>Enter a Bitcoin address (e.g. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</source>
-        <translation>Adj meg egy Bitcoin-címet (pl.: 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L )</translation>
+        <translation>Adj meg egy Bitcoin címet (pl.: 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
     </message>
 </context>
 <context>
@@ -1449,17 +1469,17 @@ Cím: %4
     <message>
         <location filename="../transactiondesc.cpp" line="56"/>
         <source>, has not been successfully broadcast yet</source>
-        <translation>, még nem sikerült elküldeni.</translation>
+        <translation>, még nem sikerült elküldeni</translation>
     </message>
     <message>
         <location filename="../transactiondesc.cpp" line="58"/>
         <source>, broadcast through %1 node</source>
-        <translation>, %1 csomóponton keresztül elküldve.</translation>
+        <translation>, %1 csomóponton keresztül elküldve</translation>
     </message>
     <message>
         <location filename="../transactiondesc.cpp" line="60"/>
         <source>, broadcast through %1 nodes</source>
-        <translation>, elküldve %1 csomóponton keresztül.</translation>
+        <translation>, elküldve %1 csomóponton keresztül</translation>
     </message>
     <message>
         <location filename="../transactiondesc.cpp" line="64"/>
@@ -1469,7 +1489,7 @@ Cím: %4
     <message>
         <location filename="../transactiondesc.cpp" line="71"/>
         <source>&lt;b&gt;Source:&lt;/b&gt; Generated&lt;br&gt;</source>
-        <translation>&lt;b&gt;Forrás:&lt;/b&gt; Generálva &lt;br&gt;</translation>
+        <translation>&lt;b&gt;Forrás:&lt;/b&gt; Generálva&lt;br&gt;</translation>
     </message>
     <message>
         <location filename="../transactiondesc.cpp" line="77"/>
@@ -1522,7 +1542,7 @@ Cím: %4
         <location filename="../transactiondesc.cpp" line="194"/>
         <location filename="../transactiondesc.cpp" line="209"/>
         <source>&lt;b&gt;Debit:&lt;/b&gt; </source>
-        <translation>&lt;b&gt;Terhelés&lt;/b&gt; </translation>
+        <translation>&lt;b&gt;Terhelés:&lt;/b&gt; </translation>
     </message>
     <message>
         <location filename="../transactiondesc.cpp" line="200"/>
@@ -1547,12 +1567,12 @@ Cím: %4
     <message>
         <location filename="../transactiondesc.cpp" line="226"/>
         <source>Transaction ID:</source>
-        <translation type="unfinished"/>
+        <translation>Tranzakció azonosítója:</translation>
     </message>
     <message>
         <location filename="../transactiondesc.cpp" line="229"/>
         <source>Generated coins must wait 120 blocks before they can be spent.  When you generated this block, it was broadcast to the network to be added to the block chain.  If it fails to get into the chain, it will change to &quot;not accepted&quot; and not be spendable.  This may occasionally happen if another node generates a block within a few seconds of yours.</source>
-        <translation>A frissen generált érméket csak 120 blokkal később tudod elkölteni.  Ez a blokk nyomban szétküldésre került a hálózatba, amint legeneráltad, hogy hozzáadhassák a blokklánchoz.  Ha nem kerül be a láncba, úgy az állapota &quot;elutasítva&quot;-ra módosul,  és nem költheted el az érméket. Ez akkor következhet be időnként, ha egy másik csomópont mindössze néhány másodperc különbséggel generált le egy blokkot a tiédhez képest.</translation>
+        <translation>A frissen generált érméket csak 120 blokkal később tudod elkölteni.  Ez a blokk nyomban szétküldésre került a hálózatba, amint legeneráltad, hogy hozzáadhassák a blokklánchoz.  Ha nem kerül be a láncba, úgy az állapota &quot;elutasítva&quot;-ra módosul, és nem költheted el az érméket.  Ez akkor következhet be időnként, ha egy másik csomópont mindössze néhány másodperc különbséggel generált le egy blokkot a tiédhez képest.</translation>
     </message>
 </context>
 <context>
@@ -1565,7 +1585,7 @@ Cím: %4
     <message>
         <location filename="../forms/transactiondescdialog.ui" line="20"/>
         <source>This pane shows a detailed description of the transaction</source>
-        <translation>Ez a mező a tranzakció részleteit mutatja</translation>
+        <translation>Ez a mező megmutatja a tranzakció részleteit</translation>
     </message>
 </context>
 <context>
@@ -1593,7 +1613,10 @@ Cím: %4
     <message numerus="yes">
         <location filename="../transactiontablemodel.cpp" line="281"/>
         <source>Open for %n block(s)</source>
-        <translation><numerusform>%n blokkra megnyitva</numerusform><numerusform>%n blokkra megnyitva</numerusform></translation>
+        <translation>
+            <numerusform>%n blokkra megnyitva</numerusform>
+            <numerusform>%n blokkra megnyitva</numerusform>
+        </translation>
     </message>
     <message>
         <location filename="../transactiontablemodel.cpp" line="284"/>
@@ -1608,7 +1631,7 @@ Cím: %4
     <message>
         <location filename="../transactiontablemodel.cpp" line="290"/>
         <source>Unconfirmed (%1 of %2 confirmations)</source>
-        <translation>Megerősítetlen (%1 %2 megerősítésből)</translation>
+        <translation>Megerősítetlen (%1 a %2 megerősítésből)</translation>
     </message>
     <message>
         <location filename="../transactiontablemodel.cpp" line="293"/>
@@ -1618,7 +1641,10 @@ Cím: %4
     <message numerus="yes">
         <location filename="../transactiontablemodel.cpp" line="301"/>
         <source>Mined balance will be available in %n more blocks</source>
-        <translation><numerusform>%n blokk múlva lesz elérhető a bányászott egyenleg.</numerusform><numerusform>%n blokk múlva lesz elérhető a bányászott egyenleg.</numerusform></translation>
+        <translation>
+            <numerusform>A bányászott egyenleg %n blokk múlva lesz elérhető</numerusform>
+            <numerusform>A bányászott egyenleg %n blokk múlva lesz elérhető</numerusform>
+        </translation>
     </message>
     <message>
         <location filename="../transactiontablemodel.cpp" line="307"/>
@@ -1628,7 +1654,7 @@ Cím: %4
     <message>
         <location filename="../transactiontablemodel.cpp" line="310"/>
         <source>Generated but not accepted</source>
-        <translation>Legenerálva, de még el nem fogadva.</translation>
+        <translation>Legenerálva, de még nincs elfogadva</translation>
     </message>
     <message>
         <location filename="../transactiontablemodel.cpp" line="353"/>
@@ -1638,7 +1664,7 @@ Cím: %4
     <message>
         <location filename="../transactiontablemodel.cpp" line="355"/>
         <source>Received from</source>
-        <translation type="unfinished"/>
+        <translation>Fogadva tőle:</translation>
     </message>
     <message>
         <location filename="../transactiontablemodel.cpp" line="358"/>
@@ -1722,7 +1748,7 @@ Cím: %4
     <message>
         <location filename="../transactionview.cpp" line="61"/>
         <source>Range...</source>
-        <translation>Tartomány ...</translation>
+        <translation>Tartomány...</translation>
     </message>
     <message>
         <location filename="../transactionview.cpp" line="72"/>
@@ -1772,7 +1798,7 @@ Cím: %4
     <message>
         <location filename="../transactionview.cpp" line="128"/>
         <source>Copy amount</source>
-        <translation type="unfinished"/>
+        <translation>Összeg másolása</translation>
     </message>
     <message>
         <location filename="../transactionview.cpp" line="129"/>
@@ -1782,12 +1808,12 @@ Cím: %4
     <message>
         <location filename="../transactionview.cpp" line="130"/>
         <source>Show transaction details</source>
-        <translation type="unfinished"/>
+        <translation>Tranzakció részleteinek megtekintése</translation>
     </message>
     <message>
         <location filename="../transactionview.cpp" line="270"/>
         <source>Export Transaction Data</source>
-        <translation>Tranzakció adatainak exportálása</translation>
+        <translation>Tranzakció Adatainak Exportálása</translation>
     </message>
     <message>
         <location filename="../transactionview.cpp" line="271"/>
@@ -1855,22 +1881,22 @@ Cím: %4
     <message>
         <location filename="../forms/verifymessagedialog.ui" line="14"/>
         <source>Verify Signed Message</source>
-        <translation type="unfinished"/>
+        <translation>Aláírt Üzenet Hitelesítése</translation>
     </message>
     <message>
         <location filename="../forms/verifymessagedialog.ui" line="20"/>
         <source>Enter the message and signature below (be careful to correctly copy newlines, spaces, tabs and other invisible characters) to obtain the Bitcoin address used to sign the message.</source>
-        <translation type="unfinished"/>
+        <translation>Írd be az üzenetet és az aláírást alább (légy óvatos, hogy helyesen másold a speciális karaktereket, ide értve a sortöréseket, szóközöket, tabulátorokat), hogy megkaphasd azt a Bitcoin címet, amellyel aláírták az üzenetet.</translation>
     </message>
     <message>
         <location filename="../forms/verifymessagedialog.ui" line="62"/>
         <source>Verify a message and obtain the Bitcoin address used to sign the message</source>
-        <translation type="unfinished"/>
+        <translation>Hitelesíts egy üzenetet, hogy megkaphasd azt a Bitcoin címet, amellyel aláírták azt</translation>
     </message>
     <message>
         <location filename="../forms/verifymessagedialog.ui" line="65"/>
         <source>&amp;Verify Message</source>
-        <translation type="unfinished"/>
+        <translation>Üzenet &amp;Hitelesítése</translation>
     </message>
     <message>
         <location filename="../forms/verifymessagedialog.ui" line="79"/>
@@ -1880,53 +1906,53 @@ Cím: %4
     <message>
         <location filename="../forms/verifymessagedialog.ui" line="82"/>
         <source>&amp;Copy Address</source>
-        <translation type="unfinished"/>
+        <translation>Cím &amp;Másolása</translation>
     </message>
     <message>
         <location filename="../forms/verifymessagedialog.ui" line="93"/>
         <source>Reset all verify message fields</source>
-        <translation type="unfinished"/>
+        <translation>Üzenet-hitelesítési mezők alaphelyzetbe állítása</translation>
     </message>
     <message>
         <location filename="../forms/verifymessagedialog.ui" line="96"/>
         <source>Clear &amp;All</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Összes Törlése</translation>
     </message>
     <message>
         <location filename="../verifymessagedialog.cpp" line="28"/>
         <source>Enter Bitcoin signature</source>
-        <translation type="unfinished"/>
+        <translation>Írd be a Bitcoin aláírást</translation>
     </message>
     <message>
         <location filename="../verifymessagedialog.cpp" line="29"/>
         <source>Click &quot;Verify Message&quot; to obtain address</source>
-        <translation type="unfinished"/>
+        <translation>Kattints az &quot;Üzenet Hitelesítése&quot;-re, hogy megkaphasd a címet</translation>
     </message>
     <message>
         <location filename="../verifymessagedialog.cpp" line="55"/>
         <location filename="../verifymessagedialog.cpp" line="62"/>
         <source>Invalid Signature</source>
-        <translation type="unfinished"/>
+        <translation>Érvénytelen Aláírás</translation>
     </message>
     <message>
         <location filename="../verifymessagedialog.cpp" line="55"/>
         <source>The signature could not be decoded. Please check the signature and try again.</source>
-        <translation type="unfinished"/>
+        <translation>Az aláírást nem sikerült dekódolni. Kérlek, ellenőrizd, majd próbáld újra.</translation>
     </message>
     <message>
         <location filename="../verifymessagedialog.cpp" line="62"/>
         <source>The signature did not match the message digest. Please check the signature and try again.</source>
-        <translation type="unfinished"/>
+        <translation>Az aláírás nem egyezett az üzenet kivonatával. Kérlek, ellenőrizd, majd próbáld újra.</translation>
     </message>
     <message>
         <location filename="../verifymessagedialog.cpp" line="72"/>
         <source>Address not found in address book.</source>
-        <translation type="unfinished"/>
+        <translation>A cím nem található a címjegyzékben.</translation>
     </message>
     <message>
         <location filename="../verifymessagedialog.cpp" line="72"/>
         <source>Address found in address book: %1</source>
-        <translation type="unfinished"/>
+        <translation>A cím megtalálható a címjegyzékben: %1</translation>
     </message>
 </context>
 <context>
@@ -1934,7 +1960,7 @@ Cím: %4
     <message>
         <location filename="../walletmodel.cpp" line="158"/>
         <source>Sending...</source>
-        <translation>Küldés ...</translation>
+        <translation>Küldés...</translation>
     </message>
 </context>
 <context>
@@ -1942,27 +1968,27 @@ Cím: %4
     <message>
         <location filename="../optionsdialog.cpp" line="313"/>
         <source>Window</source>
-        <translation type="unfinished"/>
+        <translation>Ablak</translation>
     </message>
     <message>
         <location filename="../optionsdialog.cpp" line="316"/>
         <source>&amp;Minimize to the tray instead of the taskbar</source>
-        <translation>&amp;Kicsinyítés a tálcára az eszköztár helyett</translation>
+        <translation>&amp;Kicsinyítés az értesítési területre a tálca helyett</translation>
     </message>
     <message>
         <location filename="../optionsdialog.cpp" line="317"/>
         <source>Show only a tray icon after minimizing the window</source>
-        <translation>Kicsinyítés után csak eszköztár-ikont mutass</translation>
+        <translation>Kicsinyítés után csak az értesítési terület ikonját mutassa</translation>
     </message>
     <message>
         <location filename="../optionsdialog.cpp" line="320"/>
         <source>M&amp;inimize on close</source>
-        <translation type="unfinished"/>
+        <translation>K&amp;icsinyítés bezáráskor</translation>
     </message>
     <message>
         <location filename="../optionsdialog.cpp" line="321"/>
         <source>Minimize instead of exit the application when the window is closed. When this option is enabled, the application will be closed only after selecting Quit in the menu.</source>
-        <translation>Az alkalmazásból való kilépés helyett az eszköztárba kicsinyíti az alkalmazást az ablak bezárásakor. Ez esetben az alkalmazás csak a Kilépés menüponttal zárható be.</translation>
+        <translation>Az alkalmazásból való kilépés helyett az értesítési területre kicsinyíti az alkalmazást az ablak bezárásakor. Ez esetben az alkalmazás csak a Kilépés menüponttal zárható be.</translation>
     </message>
 </context>
 <context>
@@ -1980,326 +2006,299 @@ Cím: %4
     <message>
         <location filename="../bitcoinstrings.cpp" line="45"/>
         <source>Send command to -server or bitcoind</source>
-        <translation>Parancs küldése a -serverhez vagy a bitcoindhez
-</translation>
+        <translation>Parancs küldése a -serverhez vagy a bitcoind-hez</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="46"/>
         <source>List commands</source>
-        <translation>Parancsok kilistázása
-</translation>
+        <translation>Parancsok kilistázása</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="47"/>
         <source>Get help for a command</source>
-        <translation>Segítség egy parancsról
-</translation>
+        <translation>Segítség kérése egy parancsról</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="49"/>
         <source>Options:</source>
-        <translation>Opciók
-</translation>
+        <translation>Opciók:</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="50"/>
         <source>Specify configuration file (default: bitcoin.conf)</source>
-        <translation>Konfigurációs fájl (alapértelmezett: bitcoin.conf)
-</translation>
+        <translation>Konfigurációs fájl útvonalának megadása (alapértelmezett: bitcoin.conf)</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="51"/>
         <source>Specify pid file (default: bitcoind.pid)</source>
-        <translation>pid-fájl (alapértelmezett: bitcoind.pid)
-</translation>
+        <translation>Pid fájl útvonalának megadása (alapértelmezett: bitcoind.pid)</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="52"/>
         <source>Generate coins</source>
-        <translation>Érmék generálása
-</translation>
+        <translation>Érmék generálása</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="53"/>
         <source>Don&apos;t generate coins</source>
-        <translation>Bitcoin-generálás leállítása
-</translation>
+        <translation>Bitcoin-generálás leállítása</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="54"/>
         <source>Specify data directory</source>
-        <translation>Adatkönyvtár
-</translation>
+        <translation>Adatkönyvtár helye</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="55"/>
         <source>Set database cache size in megabytes (default: 25)</source>
-        <translation type="unfinished"/>
+        <translation>Az adatbázis gyorsítótárának méretét megabyte-okban (alapértelmezett: 25)</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="56"/>
         <source>Set database disk log size in megabytes (default: 100)</source>
-        <translation type="unfinished"/>
+        <translation>Az adatbázis naplófájljának méretét megabyte-okban (alapértelmezett: 100)</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="57"/>
         <source>Specify connection timeout (in milliseconds)</source>
-        <translation>Csatlakozás időkerete (milliszekundumban)
-</translation>
+        <translation>Csatlakozás időkerete (milliszekundumban)</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="63"/>
         <source>Listen for connections on &lt;port&gt; (default: 8333 or testnet: 18333)</source>
-        <translation type="unfinished"/>
+        <translation>Kapcsolódás a hálózathoz a &lt;port&gt;-on keresztül (alapértelmezett: 8333 vagy teszthálózat: 18333)</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="64"/>
         <source>Maintain at most &lt;n&gt; connections to peers (default: 125)</source>
-        <translation type="unfinished"/>
+        <translation>Legfeljebb &lt;n&gt; kapcsolatot hozhat létre (alapértelmezett: 125)</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="66"/>
         <source>Connect only to the specified node</source>
-        <translation>Csatlakozás csak a megadott csomóponthoz
-</translation>
+        <translation>Csatlakozás csak a megadott csomóponthoz</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="67"/>
         <source>Connect to a node to retrieve peer addresses, and disconnect</source>
-        <translation type="unfinished"/>
+        <translation>Csatlakozás egy csomóponthoz a felhasználók címeinek megszerzéséhez, majd a kapcsolat bontása</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="68"/>
         <source>Specify your own public address</source>
-        <translation type="unfinished"/>
+        <translation>Saját publikus cím megadása</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="69"/>
         <source>Only connect to nodes in network &lt;net&gt; (IPv4 or IPv6)</source>
-        <translation type="unfinished"/>
+        <translation>Csak a &lt;net&gt; (IPv4 vagy IPv6 cím) hálózaton található csomóponthoz csatlakozzon</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="70"/>
         <source>Try to discover public IP address (default: 1)</source>
-        <translation type="unfinished"/>
+        <translation>Publikus IP cím felderítésének megkísérlése (alapértelmezett: 1)</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="73"/>
         <source>Bind to given address. Use [host]:port notation for IPv6</source>
-        <translation type="unfinished"/>
+        <translation>Összekötés a megadott címmel. IPv6 címnél használj [host]:port jelölést.</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="75"/>
         <source>Threshold for disconnecting misbehaving peers (default: 100)</source>
-        <translation type="unfinished"/>
+        <translation>Küszöbérték a rosszindulatú kapcsolatok bontásához (alapértelmezett: 100)</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="76"/>
         <source>Number of seconds to keep misbehaving peers from reconnecting (default: 86400)</source>
-        <translation type="unfinished"/>
+        <translation>A szétkapcsolt rosszindulatú felhasználók újrapróbálkozásának időkorlátja másodpercekben (alapértelmezett: 86400)</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="79"/>
         <source>Maximum per-connection receive buffer, &lt;n&gt;*1000 bytes (default: 10000)</source>
-        <translation type="unfinished"/>
+        <translation>Maximum kapcsolatonkénti fogadási puffer, &lt;n&gt;*1000 bájt (alapértelmezett: 10000)</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="80"/>
         <source>Maximum per-connection send buffer, &lt;n&gt;*1000 bytes (default: 10000)</source>
-        <translation type="unfinished"/>
+        <translation>Maximum kapcsolatonkénti küldési puffer, &lt;n&gt;*1000 bájt (alapértelmezett: 10000)</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="83"/>
         <source>Detach block and address databases. Increases shutdown time (default: 0)</source>
-        <translation type="unfinished"/>
+        <translation>Blokk- és címadatbázisok leválasztása. Megnöveli a kilépési időt (alapértelmezett: 0)</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="86"/>
         <source>Accept command line and JSON-RPC commands</source>
-        <translation>Parancssoros és JSON-RPC parancsok elfogadása
-</translation>
+        <translation>Parancssoros és JSON-RPC parancsok elfogadása</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="87"/>
         <source>Run in the background as a daemon and accept commands</source>
-        <translation>Háttérben futtatás daemonként és parancsok elfogadása
-</translation>
+        <translation>Háttérben futtatás daemonként és parancsok elfogadása</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="88"/>
         <source>Use the test network</source>
-        <translation>Teszthálózat használata
-</translation>
+        <translation>Teszthálózat használata</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="89"/>
         <source>Output extra debugging information</source>
-        <translation type="unfinished"/>
+        <translation>Extra hibakeresési információk megjelenítése</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="90"/>
         <source>Prepend debug output with timestamp</source>
-        <translation type="unfinished"/>
+        <translation>Hibakeresési információk ellátása időbélyeggel</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="91"/>
         <source>Send trace/debug info to console instead of debug.log file</source>
-        <translation type="unfinished"/>
+        <translation>Továbbítsa a nyomokat / hibakeresési információkat a konzolnak a debug.log fájl helyett</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="92"/>
         <source>Send trace/debug info to debugger</source>
-        <translation type="unfinished"/>
+        <translation>Továbbítsa a nyomokat / hibakeresési információkat hibakeresőnek</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="93"/>
         <source>Username for JSON-RPC connections</source>
-        <translation>Felhasználói név JSON-RPC csatlakozásokhoz
-</translation>
+        <translation>Felhasználónév JSON-RPC csatlakozásokhoz</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="94"/>
         <source>Password for JSON-RPC connections</source>
-        <translation>Jelszó JSON-RPC csatlakozásokhoz
-</translation>
+        <translation>Jelszó JSON-RPC csatlakozásokhoz</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="95"/>
         <source>Listen for JSON-RPC connections on &lt;port&gt; (default: 8332)</source>
-        <translation>JSON-RPC csatlakozásokhoz figyelendő &lt;port&gt; (alapértelmezett: 8332)
-</translation>
+        <translation>JSON-RPC csatlakozásokhoz figyelendő &lt;port&gt; (alapértelmezett: 8332)</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="96"/>
         <source>Allow JSON-RPC connections from specified IP address</source>
-        <translation>JSON-RPC csatlakozások engedélyezése meghatározott IP-címről
-</translation>
+        <translation>JSON-RPC kapcsolatok engedélyezése meghatározott IP-címről</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="97"/>
         <source>Send commands to node running on &lt;ip&gt; (default: 127.0.0.1)</source>
-        <translation>Parancsok küldése &lt;ip&gt; címen működő csomóponthoz (alapértelmezett: 127.0.0.1)
-</translation>
+        <translation>Parancsok küldése &lt;ip&gt; címen működő csomóponthoz (alapértelmezett: 127.0.0.1)</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="98"/>
         <source>Execute command when the best block changes (%s in cmd is replaced by block hash)</source>
-        <translation type="unfinished"/>
+        <translation>Hajtsa végre a parancsot, amikor a legjobb blokk megváltozik (cmd-ben a %s helyettesítve lesz a blokk hash-sel)</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="101"/>
         <source>Upgrade wallet to latest format</source>
-        <translation type="unfinished"/>
+        <translation>Tárca frissítése a legújabb formátumra</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="102"/>
         <source>Set key pool size to &lt;n&gt; (default: 100)</source>
-        <translation>Kulcskarika mérete &lt;n&gt; (alapértelmezett: 100)
-</translation>
+        <translation>Kulcskarika méretének &lt;n&gt; hosszúságúra való állítása (alapértelmezett: 100)</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="103"/>
         <source>Rescan the block chain for missing wallet transactions</source>
-        <translation>Blokklánc újraszkennelése hiányzó tárca-tranzakciók után
-</translation>
+        <translation>Blokklánc újraszkennelése hiányzó tárca-tranzakciók után</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="104"/>
         <source>How many blocks to check at startup (default: 2500, 0 = all)</source>
-        <translation type="unfinished"/>
+        <translation>Indításkor ellenőrizendő blokkok száma (alapértelmezett: 2500, 0 = összes)</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="105"/>
         <source>How thorough the block verification is (0-6, default: 1)</source>
-        <translation type="unfinished"/>
+        <translation>Blokkok hitelesítésének alapossága (0-6, alapértelmezett: 1)</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="106"/>
         <source>Imports blocks from external blk000?.dat file</source>
-        <translation type="unfinished"/>
+        <translation>Importálja a blokkokat a külső blk000?.dat fájlból</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="108"/>
         <source>
 SSL options: (see the Bitcoin Wiki for SSL setup instructions)</source>
         <translation>
-SSL-opciók: (lásd a Bitcoin Wiki SSL-beállítási instrukcióit)
-</translation>
+SSL-opciók: (lásd a Bitcoin Wiki SSL-beállítási instrukcióit)</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="111"/>
         <source>Use OpenSSL (https) for JSON-RPC connections</source>
-        <translation>OpenSSL (https) használata JSON-RPC csatalkozásokhoz
-</translation>
+        <translation>OpenSSL (https) használata JSON-RPC csatalkozásokhoz</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="112"/>
         <source>Server certificate file (default: server.cert)</source>
-        <translation>Szervertanúsítvány-fájl (alapértelmezett: server.cert)
-</translation>
+        <translation>Szervertanúsítvány-fájl (alapértelmezett: server.cert)</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="113"/>
         <source>Server private key (default: server.pem)</source>
-        <translation>Szerver titkos kulcsa (alapértelmezett: server.pem)
-</translation>
+        <translation>Szerver titkos kulcsa (alapértelmezett: server.pem)</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="114"/>
         <source>Acceptable ciphers (default: TLSv1+HIGH:!SSLv2:!aNULL:!eNULL:!AH:!3DES:@STRENGTH)</source>
-        <translation>Elfogadható rejtjelkulcsok (alapértelmezett: TLSv1+HIGH:!SSLv2:!aNULL:!eNULL:!AH:!3DES:@STRENGTH )
-</translation>
+        <translation>Elfogadható rejtjelkulcsok (alapértelmezett: TLSv1+HIGH:!SSLv2:!aNULL:!eNULL:!AH:!3DES:@STRENGTH)</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="145"/>
         <source>Warning: Disk space is low</source>
-        <translation type="unfinished"/>
+        <translation>Figyelmeztetés: Kevés a rendelkezésre álló tárolókapacitás</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="107"/>
         <source>This help message</source>
-        <translation>Ez a súgó-üzenet
-</translation>
+        <translation>Ez a súgó-üzenet</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="121"/>
         <source>Cannot obtain a lock on data directory %s.  Bitcoin is probably already running.</source>
-        <translation>Az %s adatkönyvtár nem zárható.  A Bitcoin valószínűleg fut már.</translation>
+        <translation>Az %s adatkönyvtár nem zárolható.  A Bitcoin kliens valószínűleg már fut.</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="48"/>
         <source>Bitcoin</source>
-        <translation>Bitcoin</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="30"/>
         <source>Unable to bind to %s on this computer (bind returned error %d, %s)</source>
-        <translation type="unfinished"/>
+        <translation>Nem lehet összeköttetést létrehozni %s felé ezen a számítógépen (az összeköttetés a következő hibát térítette vissza: %d, %s)</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="58"/>
         <source>Connect through socks proxy</source>
-        <translation type="unfinished"/>
+        <translation>Socks proxyn keresztüli csatlakozás</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="59"/>
         <source>Select the version of socks proxy to use (4 or 5, 5 is default)</source>
-        <translation type="unfinished"/>
+        <translation>Válaszd ki a használni kívánt socks proxy verzióját (4 vagy 5, 5 az alapértelmezett)</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="60"/>
         <source>Do not use proxy for connections to network &lt;net&gt; (IPv4 or IPv6)</source>
-        <translation type="unfinished"/>
+        <translation>Ne használjon proxyt a &lt;net&gt; hálózattal létesített kapcsolatokhoz (IPv4 vagy IPv6 cím)</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="61"/>
         <source>Allow DNS lookups for -addnode, -seednode and -connect</source>
-        <translation type="unfinished"/>
+        <translation>Engedélyezze a DNS felkutatását az -addnode, -seednode, és -connect parancsoknak</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="62"/>
         <source>Pass DNS requests to (SOCKS5) proxy</source>
-        <translation type="unfinished"/>
+        <translation>Továbbítsa a DNS kéréseket (SOCKS5) proxy felé</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="142"/>
@@ -2309,87 +2308,87 @@ SSL-opciók: (lásd a Bitcoin Wiki SSL-beállítási instrukcióit)
     <message>
         <location filename="../bitcoinstrings.cpp" line="132"/>
         <source>Error loading blkindex.dat</source>
-        <translation type="unfinished"/>
+        <translation>Hiba történt a blkindex.dat fájl betöltése során</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="134"/>
         <source>Error loading wallet.dat: Wallet corrupted</source>
-        <translation type="unfinished"/>
+        <translation>Hiba történt a wallet.dat fájl betöltése során: A tárca sérült</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="135"/>
         <source>Error loading wallet.dat: Wallet requires newer version of Bitcoin</source>
-        <translation type="unfinished"/>
+        <translation>Hiba történt a wallet.dat fájl betöltése során: A tárca olvasásához a Bitcoin egy újabb verziójának használata szükséges</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="136"/>
         <source>Wallet needed to be rewritten: restart Bitcoin to complete</source>
-        <translation type="unfinished"/>
+        <translation>A tárcát újra kellett írni: indítsd újra a Bitcoin klienst a folyamat befejezéséhez</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="137"/>
         <source>Error loading wallet.dat</source>
-        <translation type="unfinished"/>
+        <translation>Hiba történt a wallet.dat fájl betöltése során</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="124"/>
         <source>Invalid -proxy address: &apos;%s&apos;</source>
-        <translation type="unfinished"/>
+        <translation>Érvénytelen -proxy cím: &apos;%s&apos;</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="125"/>
         <source>Unknown network specified in -noproxy: &apos;%s&apos;</source>
-        <translation type="unfinished"/>
+        <translation>Ismeretlen hálózat lett megadva a -noproxy paranccsal: &apos;%s&apos;</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="127"/>
         <source>Unknown network specified in -onlynet: &apos;%s&apos;</source>
-        <translation type="unfinished"/>
+        <translation>Ismeretlen hálózat lett megadva az -onlynet paranccsal: &apos;%s&apos;</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="126"/>
         <source>Unknown -socks proxy version requested: %i</source>
-        <translation type="unfinished"/>
+        <translation>Ismeretlen -socks proxy verzió lett megadva: %i</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="128"/>
         <source>Cannot resolve -bind address: &apos;%s&apos;</source>
-        <translation type="unfinished"/>
+        <translation>Nem lehet feloldani a -bind címet: &apos;%s&apos;</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="129"/>
         <source>Not listening on any port</source>
-        <translation type="unfinished"/>
+        <translation>Egyetlen port sincs figyelve</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="130"/>
         <source>Cannot resolve -externalip address: &apos;%s&apos;</source>
-        <translation type="unfinished"/>
+        <translation>Nem lehet feloldani az -externalip címet: &apos;%s&apos;</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="117"/>
         <source>Invalid amount for -paytxfee=&lt;amount&gt;: &apos;%s&apos;</source>
-        <translation type="unfinished"/>
+        <translation>Érvénytelen összeg lett megadva a -paytxfee=&lt;összeg&gt; parancsnak: &apos;%s&apos;</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="143"/>
         <source>Error: could not start node</source>
-        <translation type="unfinished"/>
+        <translation>Hiba: nem sikerült elindítani a csomópontot</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="31"/>
         <source>Error: Wallet locked, unable to create transaction  </source>
-        <translation type="unfinished"/>
+        <translation>Hiba: Tárca zárolva, nem lehet létrehozni tranzakciót  </translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="32"/>
         <source>Error: This transaction requires a transaction fee of at least %s because of its amount, complexity, or use of recently received funds  </source>
-        <translation type="unfinished"/>
+        <translation>Hiba: Ez a tranzakció megkövetel legalább %s tranzakciós díjat az összege, bonyolultsága, vagy a nemrégiben kapott érmék használata miatt  </translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="35"/>
         <source>Error: Transaction creation failed  </source>
-        <translation>Hiba: nem sikerült létrehozni a tranzakciót  </translation>
+        <translation>Hiba: Nem sikerült létrehozni a tranzakciót  </translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="36"/>
@@ -2399,17 +2398,17 @@ SSL-opciók: (lásd a Bitcoin Wiki SSL-beállítási instrukcióit)
     <message>
         <location filename="../bitcoinstrings.cpp" line="37"/>
         <source>Error: The transaction was rejected.  This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
-        <translation>Hiba: a tranzakciót elutasították.  Ezt az okozhatja, ha már elköltöttél valamennyi érmét a tárcádból - például ha a wallet.dat-od egy másolatát használtad, és így az elköltés csak abban lett jelölve, de itt nem.</translation>
+        <translation>Hiba: A tranzakció elutasításra került. Ez akkor fordulhat elő, ha néhány érme a a tárcádban már el lett költve (pl.: a tárcád wallet.dat fájljának egyik másolatán el lettek költve az érmék, de a jelenleg használt tárcán ez nem látszik).</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="41"/>
         <source>Invalid amount</source>
-        <translation type="unfinished"/>
+        <translation>Érvénytelen összeg</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="42"/>
         <source>Insufficient funds</source>
-        <translation>Nincs elég bitcoinod.</translation>
+        <translation>Nincs elég érméd</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="131"/>
@@ -2419,47 +2418,47 @@ SSL-opciók: (lásd a Bitcoin Wiki SSL-beállítási instrukcióit)
     <message>
         <location filename="../bitcoinstrings.cpp" line="65"/>
         <source>Add a node to connect to and attempt to keep the connection open</source>
-        <translation type="unfinished"/>
+        <translation>Adjon hozzá egy csomópontot a csatlakozáshoz, és próbálja meg nyitva tartani a kapcsolatot</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="28"/>
         <source>Unable to bind to %s on this computer. Bitcoin is probably already running.</source>
-        <translation type="unfinished"/>
+        <translation>Nem lehet összeköttetést létrehozni %s felé ezen a számítógépen. A Bitcoin kliens valószínűleg már fut.</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="71"/>
         <source>Find peers using internet relay chat (default: 0)</source>
-        <translation type="unfinished"/>
+        <translation>Felhasználók keresése IRC (internet relay chat) használatával (alapértelmezett: 0)</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="72"/>
         <source>Accept connections from outside (default: 1)</source>
-        <translation type="unfinished"/>
+        <translation>Külső kapcsolatok fogadása (alapértelmezett: 1)</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="74"/>
         <source>Find peers using DNS lookup (default: 1)</source>
-        <translation type="unfinished"/>
+        <translation>Felhasználók keresése DNS felkutatás használatával (alapértelmezett: 1)</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="81"/>
         <source>Use Universal Plug and Play to map the listening port (default: 1)</source>
-        <translation type="unfinished"/>
+        <translation>UPnP (Universal Plug and Play) használata a figyelendő port feltérképezéséhez (alapértelmezett: 1)</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="82"/>
         <source>Use Universal Plug and Play to map the listening port (default: 0)</source>
-        <translation type="unfinished"/>
+        <translation>UPnP (Universal Plug and Play) használata a figyelendő port feltérképezéséhez (alapértelmezett: 0)</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="85"/>
         <source>Fee per KB to add to transactions you send</source>
-        <translation type="unfinished"/>
+        <translation>KB-onkénti díj tranzakciók küldése esetén</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="118"/>
         <source>Warning: -paytxfee is set very high. This is the transaction fee you will pay if you send a transaction.</source>
-        <translation type="unfinished"/>
+        <translation>Figyelmeztetés: A -paytxfee nagyon magasra lett állítva. Ezt a díjat minden tranzakció küldése után ki kell fizetni.</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="133"/>
@@ -2469,17 +2468,17 @@ SSL-opciók: (lásd a Bitcoin Wiki SSL-beállítási instrukcióit)
     <message>
         <location filename="../bitcoinstrings.cpp" line="138"/>
         <source>Cannot downgrade wallet</source>
-        <translation type="unfinished"/>
+        <translation>Nem lehet visszaminősíteni a tárcát</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="139"/>
         <source>Cannot initialize keypool</source>
-        <translation type="unfinished"/>
+        <translation>Nem lehet inicializálni a kulcskarikát.</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="140"/>
         <source>Cannot write default address</source>
-        <translation type="unfinished"/>
+        <translation>Az alapértelmezett cím nem írható</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="141"/>
@@ -2489,12 +2488,12 @@ SSL-opciók: (lásd a Bitcoin Wiki SSL-beállítási instrukcióit)
     <message>
         <location filename="../bitcoinstrings.cpp" line="144"/>
         <source>Done loading</source>
-        <translation>Betöltés befejezve.</translation>
+        <translation>Betöltés befejezve</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="8"/>
         <source>To use the %s option</source>
-        <translation type="unfinished"/>
+        <translation>Hogy használhasd a %s opciót</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="9"/>
@@ -2506,29 +2505,38 @@ rpcpassword=%s
 (you do not need to remember this password)
 If the file does not exist, create it with owner-readable-only file permissions.
 </source>
-        <translation type="unfinished"/>
+        <translation>%s, be kell állítanod egy rpcpassword-öt a konfigurációs fájlban:
+ %s
+Ajánlott a következő véletlenszerű jelszó használata:
+rpcuser=bitcoinrpc
+rpcpassword=%s
+(nem kell megjegyezned ezt a jelszót)
+Ha a fájl nem létezik, hozd létre "csak a tulajdonos által olvasható" hozzáférési engedéllyel.
+</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="18"/>
         <source>Error</source>
-        <translation type="unfinished"/>
+        <translation>Hiba</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="19"/>
         <source>An error occured while setting up the RPC port %i for listening: %s</source>
-        <translation type="unfinished"/>
+        <translation>Hiba történt a(z) %i RPC port figyelésre történő létrehozása közben: %s</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="20"/>
         <source>You must set rpcpassword=&lt;password&gt; in the configuration file:
 %s
 If the file does not exist, create it with owner-readable-only file permissions.</source>
-        <translation type="unfinished"/>
+        <translation>Be kell állítanod az rpcpassword=&lt;jelszó&gt; opciót a konfigurációs fájlban:
+%s
+Ha a fájl nem létezik, hozd létre "csak a tulajdonos által olvasható" hozzáférési engedéllyel.</translation>
     </message>
     <message>
         <location filename="../bitcoinstrings.cpp" line="25"/>
         <source>Warning: Please check that your computer&apos;s date and time are correct.  If your clock is wrong Bitcoin will not work properly.</source>
-        <translation>Figyelem: Ellenőrizd, hogy helyesen van-e beállítva a gépeden a dátum és az idő.  A Bitcoin nem fog megfelelően működni, ha rosszul van beállítvaaz órád.</translation>
+        <translation>Figyelem: Ellenőrizd, hogy helyesen van-e beállítva számítógépeden a dátum és az idő.  A Bitcoin nem fog megfelelően működni, ha rosszul van beállítva az órád.</translation>
     </message>
 </context>
 </TS>
