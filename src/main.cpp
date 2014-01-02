@@ -3384,6 +3384,7 @@ void SHA256Transform(void* pstate, void* pinput, const void* pinit)
         ((uint32_t*)pstate)[i] = ctx.h[i];
 }
 
+#if ! MAC_OSX // compiler says unused, so appease the warning gods at least on Mac
 //
 // ScanHash scans nonces looking for a hash with at least some zero bits.
 // It operates on big endian data.  Caller does the byte reversing.
@@ -3416,6 +3417,7 @@ unsigned int static ScanHash_CryptoPP(char* pmidstate, char* pdata, char* phash1
         }
     }
 }
+#endif
 
 // Some explaining would be appreciated
 class COrphan
