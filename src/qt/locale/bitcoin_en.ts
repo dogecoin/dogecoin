@@ -66,7 +66,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Verify a message to ensure it was signed with a specified Bitcoin address</source>
+        <source>Verify a message to ensure it was signed with a specified Dogecoin address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -339,7 +339,7 @@ Are you sure you wish to encrypt your wallet?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Verify a message to ensure it was signed with a specified Bitcoin address</source>
+        <source>Verify a message to ensure it was signed with a specified Dogecoin address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1164,7 +1164,7 @@ Address: %4
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Sign the message to prove you own this Bitcoin address</source>
+        <source>Sign the message to prove you own this Dogecoin address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1188,7 +1188,7 @@ Address: %4
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Verify the message to ensure it was signed with the specified Bitcoin address</source>
+        <source>Verify the message to ensure it was signed with the specified Dogecoin address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
