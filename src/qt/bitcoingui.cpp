@@ -76,16 +76,13 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
 {
     resize(850, 550);
     setWindowTitle(tr("Dogecoin") + " - " + tr("Wallet"));
-#ifndef MAC_OSX
+#if !MAC_OSX
     qApp->setWindowIcon(QIcon(":icons/bitcoin"));
     setWindowIcon(QIcon(":icons/bitcoin"));
 #else
     setUnifiedTitleAndToolBarOnMac(true);
     QApplication::setAttribute(Qt::AA_DontShowIconsInMenus);
-#endif
-
-#if MAC_OSX
-    qApp->setAttribute(Qt::AA_UseHighDpiPixmaps);
+    QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 #endif
 
 	//specify a new font.

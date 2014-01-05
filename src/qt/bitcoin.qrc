@@ -49,7 +49,8 @@
     <qresource prefix="/images">
         <file alias="about">res/images/about.png</file>
         <file alias="splash">res/images/splash2.png</file>
-        <file alias="wallet_bgcoin">res/images/wallet_bgcoin.png</file>
+        <file>res/images/wallet_bgcoin.png</file>
+        <file>res/images/wallet_bgcoin@2x.png</file>
     </qresource>
     <qresource prefix="/movies">
         <file alias="update_spinner">res/movies/update_spinner.mng</file>
