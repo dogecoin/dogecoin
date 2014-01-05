@@ -2,21 +2,25 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CFBundleShortVersionString</key>
+	<string>1.4.0.4</string>
+	<key>CFBundleVersion</key>
+	<string>1.4 beta 4</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>CFBundleIconFile</key>
-        <string>Dogecoin.icns</string>
+	<string>Dogecoin.icns</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
-        <key>NSHumanReadableCopyright</key>
-        <string>© Dogecoin</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>© Dogecoin</string>
 	<key>CFBundleSignature</key>
-	<string>????</string>
+	<string>DOGE</string>
 	<key>CFBundleExecutable</key>
-	<string>Dogecoin</string>
+	<string>Dogecoin-Qt</string>
 	<key>CFBundleIdentifier</key>
-        <string>com.dogecoin.wallet</string>
-        <key>CFBundleName</key>
-        <string>Dogecoin</string>
+	<string>com.dogecoin.wallet-qt</string>
+	<key>CFBundleName</key>
+	<string>Dogecoin-Qt</string>
 </dict>
 </plist>

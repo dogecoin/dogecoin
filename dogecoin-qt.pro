@@ -360,7 +360,7 @@ macx:OBJECTIVE_SOURCES += src/qt/macdockiconhandler.mm
 macx:LIBS += -framework Foundation -framework ApplicationServices -framework AppKit
 macx:DEFINES += MAC_OSX MSG_NOSIGNAL=0
 macx:ICON = src/mac/artwork/Dogecoin.icns
-macx:TARGET = "Dogecoin"
+macx:TARGET = "Dogecoin-Qt"
 macx:QMAKE_INFO_PLIST=src/mac/Info.plist
 
 # Set libraries and includes at end, to use platform-defined defaults if not overridden
