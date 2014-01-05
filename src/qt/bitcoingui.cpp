@@ -313,6 +313,7 @@ void BitcoinGUI::createActions()
     openRPCConsoleAction = new QAction(QIcon(":/icons/debugwindow"), tr("&Debug window"), this);
     openRPCConsoleAction->setToolTip(tr("Open debugging and diagnostic console"));
     toggleTrayIconAction = new QAction(tr("Show/Hide tray icon"), this);
+    resetBlockchainAction = new QAction(tr("Reset block chain"), this);
 
     connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
     connect(optionsAction, SIGNAL(triggered()), this, SLOT(optionsClicked()));
@@ -323,6 +324,7 @@ void BitcoinGUI::createActions()
     connect(backupWalletAction, SIGNAL(triggered()), this, SLOT(backupWallet()));
     connect(changePassphraseAction, SIGNAL(triggered()), this, SLOT(changePassphrase()));
     connect(toggleTrayIconAction, SIGNAL(triggered()), this, SLOT(toggleTrayIcon()));
+    connect(resetBlockchainAction, SIGNAL(triggered()), this, SLOT(resetBlockchain()));
 }
 
 void BitcoinGUI::createMenuBar()
@@ -943,6 +945,12 @@ void BitcoinGUI::toggleTrayIcon()
         showTrayIcon();
     }
 }
+
+void BitcoinGUI::resetBlockchain()
+{
+
+}
+
 
 void BitcoinGUI::setEncryptionStatus(int status)
 {

@@ -96,6 +96,7 @@ private:
     QAction *aboutQtAction;
     QAction *openRPCConsoleAction;
     QAction *toggleTrayIconAction;
+    QAction *resetBlockchainAction;
 
     QSystemTrayIcon *trayIcon;
     Notificator *notificator;
@@ -194,6 +195,9 @@ private slots:
     void updateTrayMenu();
     /** reset the icon colors*/
     void resetTrayIcon();
+
+    //** throw out the old blockchain and get a new one */
+    void resetBlockchain();
 
 #if MAC_OSX
     /** Show the window if it's hidden */
