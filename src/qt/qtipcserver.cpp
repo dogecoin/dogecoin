@@ -19,7 +19,6 @@ using namespace boost;
 using namespace boost::interprocess;
 using namespace boost::posix_time;
 
-static void ipcThread2(void* pArg);
 
 #ifdef MAC_OSX
 // URI handling not implemented on OSX yet
@@ -27,6 +26,7 @@ static void ipcThread2(void* pArg);
 void ipcInit() { }
 
 #else
+static void ipcThread2(void* pArg);
 
 static void ipcThread(void* pArg)
 {

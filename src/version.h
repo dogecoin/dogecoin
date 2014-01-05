@@ -15,7 +15,7 @@
 #define CLIENT_VERSION_MAJOR       1
 #define CLIENT_VERSION_MINOR       4
 #define CLIENT_VERSION_REVISION    0
-#define CLIENT_VERSION_BUILD       3
+#define CLIENT_VERSION_BUILD       4
 
 static const int CLIENT_VERSION =
                            1000000 * CLIENT_VERSION_MAJOR
@@ -23,7 +23,7 @@ static const int CLIENT_VERSION =
                          +     100 * CLIENT_VERSION_REVISION
                          +       1 * CLIENT_VERSION_BUILD;
 // Client version number
-#define CLIENT_VERSION_SUFFIX   "-alpha"
+#define CLIENT_VERSION_SUFFIX   "-beta"
 
 extern const std::string CLIENT_NAME;
 extern const std::string CLIENT_BUILD;
