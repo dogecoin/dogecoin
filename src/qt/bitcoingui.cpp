@@ -4,7 +4,7 @@
  * W.J. van der Laan 2011-2012
  * The Bitcoin Developers 2011-2012
  * The Litecoin Developers 2011-2013
- * The DogeCoin Developers 2013
+ * The Dogecoin Developers 2013
  */
 #include "bitcoingui.h"
 #include "transactiontablemodel.h"
@@ -29,7 +29,7 @@
 #include "guiutil.h"
 #include "rpcconsole.h"
 
-#ifdef Q_WS_MAC
+#if MAC_OSX
 #include "macdockiconhandler.h"
 #endif
 
@@ -57,6 +57,9 @@
 #include <QTimer>
 #include <QDragEnterEvent>
 #include <QUrl>
+#include <QMimeData>
+#include <QStandardPaths>
+#include <QDebug>
 
 #include <iostream>
 
@@ -72,13 +75,17 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     rpcConsole(0)
 {
     resize(850, 550);
-    setWindowTitle(tr("DogeCoin") + " - " + tr("Wallet"));
-#ifndef Q_WS_MAC
+    setWindowTitle(tr("Dogecoin") + " - " + tr("Wallet"));
+#ifndef MAC_OSX
     qApp->setWindowIcon(QIcon(":icons/bitcoin"));
     setWindowIcon(QIcon(":icons/bitcoin"));
 #else
     setUnifiedTitleAndToolBarOnMac(true);
     QApplication::setAttribute(Qt::AA_DontShowIconsInMenus);
+#endif
+
+#if MAC_OSX
+    qApp->setAttribute(Qt::AA_UseHighDpiPixmaps);
 #endif
 
 	//specify a new font.
@@ -90,7 +97,7 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
 	// Accept D&D of URIs
     setAcceptDrops(true);
 
-    // Create actions for the toolbar, menu bar and tray/dock icon
+    // Create actions for the toolbar and tray / menubar icon
     createActions();
 
     // Create application menu bar
@@ -99,8 +106,10 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     // Create the toolbars
     createToolBars();
 
-    // Create the tray icon (or setup the dock icon)
+    // Create the tray / menubar icon
     createTrayIcon();
+
+    notificator = new Notificator(qApp->applicationName(), trayIcon);
 
     // Create tabs
     overviewPage = new OverviewPage();
@@ -186,6 +195,10 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     // Clicking on "Sign Message" in the Much receive page sends you to the sign message tab
     connect(receiveCoinsPage, SIGNAL(signMessage(QString)), this, SLOT(gotoSignMessageTab(QString)));
 
+    MacDockIconHandler *mdih = MacDockIconHandler::instance();
+    connect(mdih, SIGNAL(dockIconClicked()),
+            this, SLOT(dockIconClicked()));
+
     gotoOverviewPage();
 }
 
@@ -193,7 +206,7 @@ BitcoinGUI::~BitcoinGUI()
 {
     if(trayIcon) // Hide tray icon, as deleting will let it linger until quit (on Ubuntu)
         trayIcon->hide();
-#ifdef Q_WS_MAC
+#ifdef MAC_OSX
     delete appMenuBar;
 #endif
 }
@@ -232,7 +245,7 @@ void BitcoinGUI::createActions()
     tabGroup->addAction(receiveCoinsAction);
 
     sendCoinsAction = new QAction(QIcon(":/icons/send"), tr("&Pls Send"), this);
-    sendCoinsAction->setToolTip(tr("Send coins to a DogeCoin address"));
+    sendCoinsAction->setToolTip(tr("Send coins to a Dogecoin address"));
     sendCoinsAction->setCheckable(true);
     sendCoinsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_2));
     tabGroup->addAction(sendCoinsAction);
@@ -277,17 +290,17 @@ void BitcoinGUI::createActions()
     quitAction->setToolTip(tr("Quit application"));
     quitAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q));
     quitAction->setMenuRole(QAction::QuitRole);
-    aboutAction = new QAction(QIcon(":/icons/bitcoin"), tr("&About DogeCoin"), this);
-    aboutAction->setToolTip(tr("Show information about DogeCoin"));
+    aboutAction = new QAction(QIcon(":/icons/bitcoin"), tr("&About Dogecoin"), this);
+    aboutAction->setToolTip(tr("Show information about Dogecoin"));
     aboutAction->setMenuRole(QAction::AboutRole);
     aboutQtAction = new QAction(tr("About &Qt"), this);
     aboutQtAction->setToolTip(tr("Show information about Qt"));
     aboutQtAction->setMenuRole(QAction::AboutQtRole);
     optionsAction = new QAction(QIcon(":/icons/options"), tr("&Options..."), this);
-    optionsAction->setToolTip(tr("Modify configuration options for DogeCoin"));
+    optionsAction->setToolTip(tr("Modify configuration options for Dogecoin"));
     optionsAction->setMenuRole(QAction::PreferencesRole);
-    toggleHideAction = new QAction(QIcon(":/icons/bitcoin"), tr("Show/Hide &DogeCoin"), this);
-    toggleHideAction->setToolTip(tr("Show or hide the DogeCoin window"));
+    toggleHideAction = new QAction(QIcon(":/icons/bitcoin"), tr("Show/Hide &Dogecoin"), this);
+    toggleHideAction->setToolTip(tr("Show or hide the Dogecoin window"));
     exportAction = new QAction(QIcon(":/icons/export"), tr("&So Export..."), this);
     exportAction->setToolTip(tr("Export the data in the current tab to a file"));
     encryptWalletAction = new QAction(QIcon(":/icons/lock_closed"), tr("&Encrypt Wallet..."), this);
@@ -299,6 +312,8 @@ void BitcoinGUI::createActions()
     changePassphraseAction->setToolTip(tr("Change the passphrase used for wallet encryption"));
     openRPCConsoleAction = new QAction(QIcon(":/icons/debugwindow"), tr("&Debug window"), this);
     openRPCConsoleAction->setToolTip(tr("Open debugging and diagnostic console"));
+    toggleTrayIconAction = new QAction(tr("Show/Hide tray icon"), this);
+    resetBlockchainAction = new QAction(tr("Reset block chain"), this);
 
     connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
     connect(optionsAction, SIGNAL(triggered()), this, SLOT(optionsClicked()));
@@ -308,11 +323,13 @@ void BitcoinGUI::createActions()
     connect(encryptWalletAction, SIGNAL(triggered(bool)), this, SLOT(encryptWallet(bool)));
     connect(backupWalletAction, SIGNAL(triggered()), this, SLOT(backupWallet()));
     connect(changePassphraseAction, SIGNAL(triggered()), this, SLOT(changePassphrase()));
+    connect(toggleTrayIconAction, SIGNAL(triggered()), this, SLOT(toggleTrayIcon()));
+    connect(resetBlockchainAction, SIGNAL(triggered()), this, SLOT(resetBlockchain()));
 }
 
 void BitcoinGUI::createMenuBar()
 {
-#ifdef Q_WS_MAC
+#ifdef MAC_OSX
     // Create a decoupled menu bar on Mac which stays even if the window is closed
     appMenuBar = new QMenuBar();
 #else
@@ -332,16 +349,32 @@ void BitcoinGUI::createMenuBar()
     file->addAction(quitAction);
 
     QMenu *settings = appMenuBar->addMenu(tr("&Settings"));
+    connect(settings, SIGNAL(aboutToShow()), this, SLOT(updateSettingsMenu()));
     settings->addAction(encryptWalletAction);
     settings->addAction(changePassphraseAction);
     settings->addSeparator();
     settings->addAction(optionsAction);
+    settings->addAction(toggleTrayIconAction);
 
     QMenu *help = appMenuBar->addMenu(tr("&Help"));
     help->addAction(openRPCConsoleAction);
     help->addSeparator();
     help->addAction(aboutAction);
     help->addAction(aboutQtAction);
+}
+
+void BitcoinGUI::updateSettingsMenu()
+{
+    // NOTE: translation not done right here. I am lazy! - Alan
+    QString current = tr("Show Dogecoin in");
+    QString where = tr(" system tray");
+#if MAC_OSX
+    where = tr(" menubar");
+#endif
+
+    if (trayIcon->isVisible()) current = tr("Remove Dogecoin from");
+
+    toggleTrayIconAction->setText(current + where);
 }
 
 void BitcoinGUI::createToolBars()
@@ -372,15 +405,16 @@ void BitcoinGUI::setClientModel(ClientModel *clientModel)
         if(clientModel->isTestNet())
         {
             setWindowTitle(windowTitle() + QString(" ") + tr("[testnet]"));
-#ifndef Q_WS_MAC
+#ifndef MAC_OSX
             qApp->setWindowIcon(QIcon(":icons/bitcoin_testnet"));
             setWindowIcon(QIcon(":icons/bitcoin_testnet"));
 #else
-            MacDockIconHandler::instance()->setIcon(QIcon(":icons/bitcoin_testnet"));
+            MacDockIconHandler *mdih = MacDockIconHandler::instance();
+            mdih->setIcon(QIcon(":icons/bitcoin_testnet"));
 #endif
             if(trayIcon)
             {
-                trayIcon->setToolTip(tr("DogeCoin client") + QString(" ") + tr("[testnet]"));
+                trayIcon->setToolTip(tr("Dogecoin client") + QString(" ") + tr("[testnet]"));
                 trayIcon->setIcon(QIcon(":/icons/toolbar_testnet"));
                 toggleHideAction->setIcon(QIcon(":/icons/toolbar_testnet"));
             }
@@ -440,22 +474,28 @@ void BitcoinGUI::setWalletModel(WalletModel *walletModel)
 void BitcoinGUI::createTrayIcon()
 {
     QMenu *trayIconMenu;
-#ifndef Q_WS_MAC
     trayIcon = new QSystemTrayIcon(this);
     trayIconMenu = new QMenu(this);
     trayIcon->setContextMenu(trayIconMenu);
-    trayIcon->setToolTip(tr("DogeCoin client"));
-    trayIcon->setIcon(QIcon(":/icons/toolbar"));
-    connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
-            this, SLOT(trayIconActivated(QSystemTrayIcon::ActivationReason)));
-    trayIcon->show();
+    trayIcon->setToolTip(tr("Dogecoin client"));
+#if MAC_OSX
+    // TODO: Create native code brige to work around this: https://bugreports.qt-project.org/browse/QTBUG-33441
+    QIcon icon(":/icons/toolbar_mac");
+    trayIcon->setIcon(icon);
+    connect(trayIconMenu, SIGNAL(aboutToShow()), this, SLOT(updateTrayMenu()));
+    connect(trayIconMenu, SIGNAL(aboutToHide()), this, SLOT(resetTrayIcon()));
+    toggleHideAction->setText(tr("Hide Dogecoin"));
 #else
-    // Note: On Mac, the dock icon is used to provide the tray's functionality.
-    MacDockIconHandler *dockIconHandler = MacDockIconHandler::instance();
-    trayIconMenu = dockIconHandler->dockMenu();
+    connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
+                this, SLOT(trayIconActivated(QSystemTrayIcon::ActivationReason)));
+    trayIcon->setIcon(QIcon(":/icons/toolbar"));
 #endif
 
-    // Configuration of the tray icon (or dock icon) icon menu
+#if ! MAC_OSX
+    trayIcon->show();
+#endif
+
+    // Configuration of the tray / menubar icon menu
     trayIconMenu->addAction(toggleHideAction);
     trayIconMenu->addSeparator();
     trayIconMenu->addAction(sendCoinsAction);
@@ -468,24 +508,49 @@ void BitcoinGUI::createTrayIcon()
     trayIconMenu->addSeparator();
     trayIconMenu->addAction(optionsAction);
     trayIconMenu->addAction(openRPCConsoleAction);
-#ifndef Q_WS_MAC // This is built-in on Mac
     trayIconMenu->addSeparator();
     trayIconMenu->addAction(quitAction);
-#endif
 
     notificator = new Notificator(qApp->applicationName(), trayIcon);
 }
 
-#ifndef Q_WS_MAC
+void BitcoinGUI::hideTrayIcon()
+{
+    trayIcon->hide();
+}
+
+void BitcoinGUI::showTrayIcon()
+{
+    trayIcon->show();
+}
+
 void BitcoinGUI::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
 {
     if(reason == QSystemTrayIcon::Trigger)
     {
-        // Click on system tray icon triggers "show/hide DogeCoin"
+        // Click on system tray icon triggers "show/hide Dogecoin"
         toggleHideAction->trigger();
     }
 }
-#endif
+
+void BitcoinGUI::updateTrayMenu()
+{
+    trayIcon->setIcon(QIcon(":/icons/toolbar_mac_selected"));
+
+    if ( isHidden() || isMinimized() || GUIUtil::isObscured(this) )
+    {
+        toggleHideAction->setText(tr("Show Dogecoin"));
+    }
+    else
+    {
+        toggleHideAction->setText(tr("Hide Dogecoin"));
+    }
+}
+
+void BitcoinGUI::resetTrayIcon()
+{
+    trayIcon->setIcon(QIcon(":/icons/toolbar_mac"));
+}
 
 void BitcoinGUI::optionsClicked()
 {
@@ -515,7 +580,7 @@ void BitcoinGUI::setNumConnections(int count)
     default: icon = ":/icons/connect_4"; break;
     }
     labelConnectionsIcon->setPixmap(QIcon(icon).pixmap(STATUSBAR_ICONSIZE,STATUSBAR_ICONSIZE));
-    labelConnectionsIcon->setToolTip(tr("%n active connection(s) to DogeCoin network", "", count));
+    labelConnectionsIcon->setToolTip(tr("%n active connection(s) to Dogecoin network", "", count));
 }
 
 void BitcoinGUI::setNumBlocks(int count, int nTotalBlocks)
@@ -654,7 +719,7 @@ void BitcoinGUI::error(const QString &title, const QString &message, bool modal)
 void BitcoinGUI::changeEvent(QEvent *e)
 {
     QMainWindow::changeEvent(e);
-#ifndef Q_WS_MAC // Ignored on Mac
+#ifndef MAC_OSX // Ignored on Mac
     if(e->type() == QEvent::WindowStateChange)
     {
         if(clientModel && clientModel->getOptionsModel()->getMinimizeToTray())
@@ -674,7 +739,7 @@ void BitcoinGUI::closeEvent(QCloseEvent *event)
 {
     if(clientModel)
     {
-#ifndef Q_WS_MAC // Ignored on Mac
+#ifndef MAC_OSX // Ignored on Mac
         if(!clientModel->getOptionsModel()->getMinimizeToTray() &&
            !clientModel->getOptionsModel()->getMinimizeOnClose())
         {
@@ -851,7 +916,7 @@ void BitcoinGUI::dropEvent(QDropEvent *event)
         if (nValidUrisFound)
             gotoSendCoinsPage();
         else
-            notificator->notify(Notificator::Warning, tr("URI handling"), tr("URI can not be parsed! This can be caused by an invalid DogeCoin address or malformed URI parameters."));
+            notificator->notify(Notificator::Warning, tr("URI handling"), tr("URI can not be parsed! This can be caused by an invalid Dogecoin address or malformed URI parameters."));
     }
 
     event->acceptProposedAction();
@@ -866,8 +931,26 @@ void BitcoinGUI::handleURI(QString strURI)
         gotoSendCoinsPage();
     }
     else
-        notificator->notify(Notificator::Warning, tr("URI handling"), tr("URI can not be parsed! This can be caused by an invalid DogeCoin address or malformed URI parameters."));
+        notificator->notify(Notificator::Warning, tr("URI handling"), tr("URI can not be parsed! This can be caused by an invalid Dogecoin address or malformed URI parameters."));
 }
+
+void BitcoinGUI::toggleTrayIcon()
+{
+    if (trayIcon->isVisible())
+    {
+        hideTrayIcon();
+    }
+    else
+    {
+        showTrayIcon();
+    }
+}
+
+void BitcoinGUI::resetBlockchain()
+{
+
+}
+
 
 void BitcoinGUI::setEncryptionStatus(int status)
 {
@@ -912,7 +995,7 @@ void BitcoinGUI::encryptWallet(bool status)
 
 void BitcoinGUI::backupWallet()
 {
-    QString saveDir = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation);
+    QString saveDir = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
     QString filename = QFileDialog::getSaveFileName(this, tr("Backup Wallet"), saveDir, tr("Wallet Data (*.dat)"));
     if(!filename.isEmpty()) {
         if(!walletModel->backupWallet(filename)) {
@@ -966,4 +1049,9 @@ void BitcoinGUI::showNormalIfMinimized(bool fToggleHidden)
 void BitcoinGUI::toggleHidden()
 {
     showNormalIfMinimized(true);
+}
+
+void BitcoinGUI::dockIconClicked()
+{
+    showNormalIfMinimized(false);
 }

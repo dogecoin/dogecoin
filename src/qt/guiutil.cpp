@@ -12,6 +12,7 @@
 #include <QFont>
 #include <QLineEdit>
 #include <QUrl>
+#include <QUrlQuery>
 #include <QTextDocument> // For Qt::escape
 #include <QAbstractItemView>
 #include <QApplication>
@@ -89,7 +90,8 @@ bool parseBitcoinURI(const QUrl &uri, SendCoinsRecipient *out)
     SendCoinsRecipient rv;
     rv.address = uri.path();
     rv.amount = 0;
-    QList<QPair<QString, QString> > items = uri.queryItems();
+    QUrlQuery query = QUrlQuery(uri.query());
+    QList<QPair<QString, QString> > items = query.queryItems();
     for (QList<QPair<QString, QString> >::iterator i = items.begin(); i != items.end(); i++)
     {
         bool fShouldReturnFalse = false;
@@ -142,7 +144,7 @@ bool parseBitcoinURI(QString uri, SendCoinsRecipient *out)
 
 QString HtmlEscape(const QString& str, bool fMultiLine)
 {
-    QString escaped = Qt::escape(str);
+    QString escaped = str.toHtmlEscaped();
     if(fMultiLine)
     {
         escaped = escaped.replace("\n", "<br>\n");
@@ -177,7 +179,7 @@ QString getSaveFileName(QWidget *parent, const QString &caption,
     QString myDir;
     if(dir.isEmpty()) // Default to user documents location
     {
-        myDir = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation);
+        myDir = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
     }
     else
     {
@@ -278,12 +280,12 @@ bool ToolTipToRichTextFilter::eventFilter(QObject *obj, QEvent *evt)
 #ifdef WIN32
 boost::filesystem::path static StartupShortcutPath()
 {
-    return GetSpecialFolderPath(CSIDL_STARTUP) / "DogeCoin.lnk";
+    return GetSpecialFolderPath(CSIDL_STARTUP) / "Dogecoin.lnk";
 }
 
 bool GetStartOnSystemStartup()
 {
-    // check for DogeCoin.lnk
+    // check for Dogecoin.lnk
     return boost::filesystem::exists(StartupShortcutPath());
 }
 
@@ -401,7 +403,7 @@ bool SetStartOnSystemStartup(bool fAutoStart)
         // Write a dogecoin.desktop file to the autostart directory:
         optionFile << "[Desktop Entry]\n";
         optionFile << "Type=Application\n";
-        optionFile << "Name=DogeCoin\n";
+        optionFile << "Name=Dogecoin\n";
         optionFile << "Exec=" << pszExePath << " -min\n";
         optionFile << "Terminal=false\n";
         optionFile << "Hidden=false\n";
@@ -422,7 +424,7 @@ bool SetStartOnSystemStartup(bool fAutoStart) { return false; }
 HelpMessageBox::HelpMessageBox(QWidget *parent) :
     QMessageBox(parent)
 {
-    header = tr("DogeCoin-Qt") + " " + tr("version") + " " +
+    header = tr("Dogecoin-Qt") + " " + tr("version") + " " +
         QString::fromStdString(FormatFullVersion()) + "\n\n" +
         tr("Usage:") + "\n" +
         "  dogecoin-qt [" + tr("command-line options") + "]                     " + "\n";
@@ -434,7 +436,7 @@ HelpMessageBox::HelpMessageBox(QWidget *parent) :
         "  -min                   " + tr("Start minimized") + "\n" +
         "  -splash                " + tr("Show splash screen on startup (default: 1)") + "\n";
 
-    setWindowTitle(tr("DogeCoin-Qt"));
+    setWindowTitle(tr("Dogecoin-Qt"));
     setTextFormat(Qt::PlainText);
     // setMinimumWidth is ignored for QMessageBox so put in nonbreaking spaces to make it wider.
     setText(header + QString(QChar(0x2003)).repeated(50));

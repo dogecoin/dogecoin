@@ -15,7 +15,7 @@ class QAbstractItemView;
 QT_END_NAMESPACE
 class SendCoinsRecipient;
 
-/** Utility functions used by the DogeCoin Qt UI.
+/** Utility functions used by the Dogecoin Qt UI.
  */
 namespace GUIUtil
 {
@@ -23,7 +23,7 @@ namespace GUIUtil
     QString dateTimeStr(const QDateTime &datetime);
     QString dateTimeStr(qint64 nTime);
 
-    // Render DogeCoin addresses in monospace font
+    // Render Dogecoin addresses in monospace font
     QFont bitcoinAddressFont();
 
     // Set up widgets for address and amounts
@@ -95,7 +95,7 @@ namespace GUIUtil
     bool GetStartOnSystemStartup();
     bool SetStartOnSystemStartup(bool fAutoStart);
 
-    /** Help message for DogeCoin-Qt, shown with --help. */
+    /** Help message for Dogecoin-Qt, shown with --help. */
     class HelpMessageBox : public QMessageBox
     {
         Q_OBJECT

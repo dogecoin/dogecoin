@@ -4,23 +4,28 @@ VERSION = 0.6.3
 INCLUDEPATH += src src/json src/qt
 DEFINES += QT_GUI BOOST_THREAD_USE_LIB BOOST_SPIRIT_THREADSAFE BOOST_THREAD_PROVIDES_GENERIC_SHARED_MUTEX_ON_WIN __NO_SYSTEM_INCLUDES
 CONFIG += no_include_pwd
+QT += widgets macextras
 
-windows:LIBS += -lshlwapi
 LIBS += $$join(BOOST_LIB_PATH,,-L,) $$join(BDB_LIB_PATH,,-L,) $$join(OPENSSL_LIB_PATH,,-L,) $$join(QRENCODE_LIB_PATH,,-L,)
 LIBS += -lssl -lcrypto -ldb_cxx$$BDB_LIB_SUFFIX
+windows:LIBS += -lshlwapi
 windows:LIBS += -lws2_32 -lole32 -loleaut32 -luuid -lgdi32
-#LIBS += -lboost_system-mgw46-mt-sd-1_53 -lboost_filesystem-mgw46-mt-sd-1_53 -lboost_program_options-mgw46-mt-sd-1_53 -lboost_thread-mgw46-mt-sd-1_53
-#BOOST_LIB_SUFFIX=-mgw46-mt-sd-1_53
-LIBS += -lboost_system -lboost_filesystem -lboost_program_options -lboost_thread
-BOOST_LIB_SUFFIX=
-BOOST_INCLUDE_PATH=C:/deps/boost
-BOOST_LIB_PATH=C:/deps/boost/stage/lib
-BDB_INCLUDE_PATH=c:/deps/db/build_unix
-BDB_LIB_PATH=c:/deps/db/build_unix
-OPENSSL_INCLUDE_PATH=c:/deps/ssl/include
-OPENSSL_LIB_PATH=c:/deps/ssl
-MINIUPNPC_LIB_PATH=c:/deps/miniupnpc
-MINIUPNPC_INCLUDE_PATH=c:/deps
+windows:BOOST_INCLUDE_PATH=C:/deps/boost
+windows:BOOST_LIB_PATH=C:/deps/boost/stage/lib
+windows:BDB_INCLUDE_PATH=c:/deps/db/build_unix
+windows:BDB_LIB_PATH=c:/deps/db/build_unix
+windows:OPENSSL_INCLUDE_PATH=c:/deps/ssl/include
+windows:OPENSSL_LIB_PATH=c:/deps/ssl
+windows:MINIUPNPC_LIB_PATH=c:/deps/miniupnpc
+windows:MINIUPNPC_INCLUDE_PATH=c:/deps
+
+macx: {
+    MINIUPNPC_INCLUDE_PATH=/usr/local/Cellar/miniupnpc/1.8.20131007/include/
+    MINIUPNPC_LIB_PATH=/usr/local/Cellar/miniupnpc/1.8.20131007/lib/
+    QMAKE_CFLAGS += -stdlib=libstdc++
+    QMAKE_CXXFLAGS += -stdlib=libstdc++
+    QMAKE_LFLAGS += -stdlib=libstdc++
+}
 
 OBJECTS_DIR = build
 MOC_DIR = build
@@ -32,10 +37,6 @@ UI_DIR = build
 
 # use: qmake "RELEASE=1"
 contains(RELEASE, 1) {
-    # Mac: compile for maximum compatibility (10.5, 32-bit)
-    macx:QMAKE_CXXFLAGS += -mmacosx-version-min=10.5 -arch i386 -isysroot /Developer/SDKs/MacOSX10.5.sdk
-    macx:QMAKE_CFLAGS += -mmacosx-version-min=10.5 -arch i386 -isysroot /Developer/SDKs/MacOSX10.5.sdk
-    macx:QMAKE_LFLAGS += -mmacosx-version-min=10.5 -arch i386 -isysroot /Developer/SDKs/MacOSX10.5.sdk
 
     !windows:!macx {
         # Linux: static link
@@ -176,7 +177,8 @@ HEADERS += src/qt/bitcoingui.h \
     src/scrypt.h \
     src/qt/miningpage.h \
     src/version.h \
-    src/qt/rpcconsole.h
+    src/qt/rpcconsole.h \
+    src/clangboostmachax/system/src/local_free_on_destruction.hpp
 
 SOURCES += src/qt/bitcoin.cpp src/qt/bitcoingui.cpp \
     src/qt/transactiontablemodel.cpp \
@@ -237,7 +239,17 @@ SOURCES += src/qt/bitcoin.cpp src/qt/bitcoingui.cpp \
     src/qt/rpcconsole.cpp \
     src/scrypt.c \
     src/qt/miningpage.cpp \
-    src/noui.cpp
+    src/noui.cpp \
+    src/clangboostmachax/program_options/src/cmdline.cpp \
+    src/clangboostmachax/program_options/src/config_file.cpp \
+    src/clangboostmachax/program_options/src/convert.cpp \
+    src/clangboostmachax/program_options/src/options_description.cpp \
+    src/clangboostmachax/program_options/src/parsers.cpp \
+    src/clangboostmachax/program_options/src/positional_options.cpp \
+    src/clangboostmachax/program_options/src/split.cpp \
+    src/clangboostmachax/program_options/src/utf8_codecvt_facet.cpp \
+    src/clangboostmachax/program_options/src/value_semantic.cpp \
+    src/clangboostmachax/program_options/src/variables_map.cpp
 
 RESOURCES += \
     src/qt/bitcoin.qrc
@@ -294,7 +306,8 @@ QMAKE_EXTRA_COMPILERS += TSQM
 # "Other files" to show in Qt Creator
 OTHER_FILES += \
     contrib/gitian-descriptors/* doc/*.rst doc/*.txt doc/README README.md res/bitcoin-qt.rc \
-    share/setup.nsi
+    share/setup.nsi \
+    src/qt/res/Info.plist
 
 # platform specific defaults, if not overridden on command line
 isEmpty(BOOST_LIB_SUFFIX) {
@@ -307,23 +320,19 @@ isEmpty(BOOST_THREAD_LIB_SUFFIX) {
 }
 
 isEmpty(BDB_LIB_PATH) {
-    macx:BDB_LIB_PATH = /opt/local/lib/db48
-}
-
-isEmpty(BDB_LIB_SUFFIX) {
-    macx:BDB_LIB_SUFFIX = -4.8
+    macx:BDB_LIB_PATH = /usr/local/Cellar/berkeley-db/5.3.28/lib/
 }
 
 isEmpty(BDB_INCLUDE_PATH) {
-    macx:BDB_INCLUDE_PATH = /opt/local/include/db48
+    macx:BDB_INCLUDE_PATH = /usr/local/Cellar/berkeley-db/5.3.28/include/
 }
 
 isEmpty(BOOST_LIB_PATH) {
-    macx:BOOST_LIB_PATH = /opt/local/lib
+    macx:BOOST_LIB_PATH = /usr/local/Cellar/boost/1.55.0/lib/
 }
 
 isEmpty(BOOST_INCLUDE_PATH) {
-    macx:BOOST_INCLUDE_PATH = /opt/local/include
+    macx:BOOST_INCLUDE_PATH = /usr/local/Cellar/boost/1.55.0/include/
 }
 
 windows:LIBS += -lws2_32 -lshlwapi -lmswsock
@@ -350,17 +359,18 @@ macx:HEADERS += src/qt/macdockiconhandler.h
 macx:OBJECTIVE_SOURCES += src/qt/macdockiconhandler.mm
 macx:LIBS += -framework Foundation -framework ApplicationServices -framework AppKit
 macx:DEFINES += MAC_OSX MSG_NOSIGNAL=0
-macx:ICON = src/qt/res/icons/bitcoin.icns
-macx:TARGET = "dogecoin-qt"
+macx:ICON = src/mac/artwork/Dogecoin.icns
+macx:TARGET = "Dogecoin"
+macx:QMAKE_INFO_PLIST=src/mac/Info.plist
 
 # Set libraries and includes at end, to use platform-defined defaults if not overridden
 INCLUDEPATH += $$BOOST_INCLUDE_PATH $$BDB_INCLUDE_PATH $$OPENSSL_INCLUDE_PATH $$QRENCODE_INCLUDE_PATH
 LIBS += $$join(BOOST_LIB_PATH,,-L,) $$join(BDB_LIB_PATH,,-L,) $$join(OPENSSL_LIB_PATH,,-L,) $$join(QRENCODE_LIB_PATH,,-L,)
 LIBS += -lssl -lcrypto -ldb_cxx$$BDB_LIB_SUFFIX
 # -lgdi32 has to happen after -lcrypto (see  #681)
-windows:LIBS += -lole32 -luuid -lgdi32
-LIBS += -lboost_system$$BOOST_LIB_SUFFIX -lboost_filesystem$$BOOST_LIB_SUFFIX -lboost_program_options$$BOOST_LIB_SUFFIX -lboost_thread$$BOOST_THREAD_LIB_SUFFIX
-
+windows:LIBS += -lole32 -luuid -lgdi32 -lboost_program_options$$BOOST_LIB_SUFFIX
+LIBS +=  -lboost_system$$BOOST_LIB_SUFFIX  -lboost_thread$$BOOST_THREAD_LIB_SUFFIX -lboost_filesystem$$BOOST_LIB_SUFFIX
+macx:LIBS += -lstdc++
 contains(RELEASE, 1) {
     !windows:!macx {
         # Linux: turn dynamic linking back on for c/c++ runtime libraries

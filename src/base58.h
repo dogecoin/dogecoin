@@ -1,7 +1,7 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2012 The Bitcoin Developers
 // Copyright (c) 2011-2012 Litecoin Developers
-// Copyright (c) 2013 DogeCoin Developers
+// Copyright (c) 2013 Dogecoin Developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -278,7 +278,7 @@ class CBitcoinAddress : public CBase58Data
 public:
     enum
     {
-        PUBKEY_ADDRESS = 30, // DogeCoin addresses start with D
+        PUBKEY_ADDRESS = 30, // Dogecoin addresses start with D
         SCRIPT_ADDRESS = 22,
         PUBKEY_ADDRESS_TEST = 113,
         SCRIPT_ADDRESS_TEST = 196,

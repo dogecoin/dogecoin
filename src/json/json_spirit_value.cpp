@@ -6,3 +6,5 @@
 // json spirit version 2.00
 
 #include "json_spirit_value.h"
+
+const char* json_spirit::Value_type_name[null_type + 1] = {"obj", "array", "str", "bool", "int", "real", "null"};

@@ -6,7 +6,7 @@
 class QMenu;
 class QIcon;
 class QWidget;
-class objc_object;
+Q_FORWARD_DECLARE_OBJC_CLASS(DockIconClickEventHandler);
 
 /** Macintosh-specific dock icon handler.
  */
@@ -31,7 +31,7 @@ public slots:
 private:
     MacDockIconHandler();
 
-    objc_object *m_dockIconClickEventHandler;
+    DockIconClickEventHandler *m_dockIconClickEventHandler;
     QWidget *m_dummyWidget;
     QMenu *m_dockMenu;
 };

@@ -1,7 +1,7 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2012 The Bitcoin developers
 // Copyright (c) 2011-2012 Litecoin Developers
-// Copyright (c) 2013 DogeCoin Developers
+// Copyright (c) 2013 Dogecoin Developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -79,7 +79,7 @@ static bool Send(SOCKET hSocket, const char* pszSend)
 
 bool RecvLineIRC(SOCKET hSocket, string& strLine)
 {
-    loop
+    while(true)
     {
         bool fRet = RecvLine(hSocket, strLine);
         if (fRet)
@@ -102,7 +102,7 @@ bool RecvLineIRC(SOCKET hSocket, string& strLine)
 
 int RecvUntil(SOCKET hSocket, const char* psz1, const char* psz2=NULL, const char* psz3=NULL, const char* psz4=NULL)
 {
-    loop
+    while(true)
     {
         string strLine;
         strLine.reserve(10000);
@@ -137,7 +137,7 @@ bool Wait(int nSeconds)
 bool RecvCodeLine(SOCKET hSocket, const char* psz1, string& strRet)
 {
     strRet.clear();
-    loop
+    while(true)
     {
         string strLine;
         if (!RecvLineIRC(hSocket, strLine))

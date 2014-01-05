@@ -10,15 +10,16 @@
 #include <QMessageBox>
 #include <QTemporaryFile>
 #include <QImageWriter>
+#include <QProcess>
 
 #ifdef USE_DBUS
 #include <QtDBus/QtDBus>
 #include <stdint.h>
 #endif
 
-#ifdef Q_WS_MAC
+#ifdef MAC_OSX
 #include <ApplicationServices/ApplicationServices.h>
-extern bool qt_mac_execute_apple_script(const QString &script, AEDesc *ret);
+#include <QtMac>
 #endif
 
 // https://wiki.ubuntu.com/NotificationDevelopmentGuidelines recommends at least 128
@@ -46,7 +47,7 @@ Notificator::Notificator(const QString &programName, QSystemTrayIcon *trayicon, 
         mode = Freedesktop;
     }
 #endif
-#ifdef Q_WS_MAC
+#ifdef MAC_OSX
     // Check if Growl is installed (based on Qt's tray icon implementation)
     CFURLRef cfurl;
     OSStatus status = LSGetApplicationForInfo(kLSUnknownType, kLSUnknownCreator, CFSTR("growlTicket"), kLSRolesAll, 0, &cfurl);
@@ -225,7 +226,7 @@ void Notificator::notifySystray(Class cls, const QString &title, const QString &
 }
 
 // Based on Qt's tray icon implementation
-#ifdef Q_WS_MAC
+#ifdef MAC_OSX
 void Notificator::notifyGrowl(Class cls, const QString &title, const QString &text, const QIcon &icon)
 {
     const QString script(
@@ -269,7 +270,17 @@ void Notificator::notifyGrowl(Class cls, const QString &title, const QString &te
     quotedTitle.replace("\\", "\\\\").replace("\"", "\\");
     quotedText.replace("\\", "\\\\").replace("\"", "\\");
     QString growlApp(this->mode == Notificator::Growl13 ? "Growl" : "GrowlHelperApp");
-    qt_mac_execute_apple_script(script.arg(notificationApp, quotedTitle, quotedText, notificationIcon, growlApp), 0);
+//    qt_mac_execute_apple_script(script.arg(notificationApp, quotedTitle, quotedText, notificationIcon, growlApp), 0);
+
+    QString osascript = "/usr/bin/osascript";
+    QStringList processArguments;
+    processArguments << "-l" << "AppleScript";
+
+    QProcess p;
+    p.start(osascript, processArguments);
+    p.write(script.toUtf8());
+    p.closeWriteChannel();
+//    p.waitForFinished();
 }
 #endif
 
@@ -285,7 +296,7 @@ void Notificator::notify(Class cls, const QString &title, const QString &text, c
     case QSystemTray:
         notifySystray(cls, title, text, icon, millisTimeout);
         break;
-#ifdef Q_WS_MAC
+#ifdef MAC_OSX
     case Growl12:
     case Growl13:
         notifyGrowl(cls, title, text, icon);

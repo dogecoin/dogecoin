@@ -1,7 +1,7 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2012 The Bitcoin developers
 // Copyright (c) 2011-2012 Litecoin Developers
-// Copyright (c) 2013 DogeCoin Developers
+// Copyright (c) 2013 Dogecoin Developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -12,13 +12,18 @@
 #include "ui_interface.h"
 #include <boost/algorithm/string/join.hpp>
 
+
 // Work around clang compilation problem in Boost 1.46:
 // /usr/include/boost/program_options/detail/config_file.hpp:163:17: error: call to function 'to_internal' that is neither visible in the template definition nor found by argument-dependent lookup
 // See also: http://stackoverflow.com/questions/10020179/compilation-fail-in-boost-librairies-program-options
 //           http://clang.debian.net/status.php?version=3.0&key=CANNOT_FIND_FUNCTION
 namespace boost {
     namespace program_options {
+#if !MAC_OSX // Boost fixed the above in the latest version, but now there are linker errors as to_internal does not appear to be implemented for std::string - Alan W
+        std::string to_internal(const std::string& s) { return s; }
+#else
         std::string to_internal(const std::string&);
+#endif
     }
 }
 
@@ -56,6 +61,9 @@ namespace boost {
 #elif defined(__linux__)
 # include <sys/prctl.h>
 #endif
+
+// This is a terrible macro - Alan W
+#define loop                for (;;)
 
 using namespace std;
 
@@ -973,13 +981,13 @@ void PrintExceptionContinue(std::exception* pex, const char* pszThread)
 boost::filesystem::path GetDefaultDataDir()
 {
     namespace fs = boost::filesystem;
-    // Windows < Vista: C:\Documents and Settings\Username\Application Data\DogeCoin
-    // Windows >= Vista: C:\Users\Username\AppData\Roaming\DogeCoin
-    // Mac: ~/Library/Application Support/DogeCoin
+    // Windows < Vista: C:\Documents and Settings\Username\Application Data\Dogecoin
+    // Windows >= Vista: C:\Users\Username\AppData\Roaming\Dogecoin
+    // Mac: ~/Library/Application Support/Dogecoin
     // Unix: ~/.dogecoin
 #ifdef WIN32
     // Windows
-    return GetSpecialFolderPath(CSIDL_APPDATA) / "DogeCoin";
+    return GetSpecialFolderPath(CSIDL_APPDATA) / "Dogecoin";
 #else
     fs::path pathRet;
     char* pszHome = getenv("HOME");
@@ -989,9 +997,9 @@ boost::filesystem::path GetDefaultDataDir()
         pathRet = fs::path(pszHome);
 #ifdef MAC_OSX
     // Mac
-    pathRet /= "Library/Application Support";
+    pathRet += "/Library/Application Support";
     fs::create_directory(pathRet);
-    return pathRet / "DogeCoin";
+    return pathRet += "/Dogecoin";
 #else
     // Unix
     return pathRet / ".dogecoin";
@@ -1046,7 +1054,7 @@ void ReadConfigFile(map<string, string>& mapSettingsRet,
 {
     boost::filesystem::ifstream streamConfig(GetConfigFile());
     if (!streamConfig.good())
-        return; // No DogeCoin.conf file is OK
+        return; // No Dogecoin.conf file is OK
 
     set<string> setOptions;
     setOptions.insert("*");
@@ -1187,7 +1195,7 @@ void AddTimeData(const CNetAddr& ip, int64 nTime)
         int64 nMedian = vTimeOffsets.median();
         std::vector<int64> vSorted = vTimeOffsets.sorted();
         // Only let other nodes change our time by so much
-        if (abs64(nMedian) < 35 * 60) // DogeCoin: changed maximum adjust to 35 mins to avoid letting peers change our time too much in case of an attack.
+        if (abs64(nMedian) < 35 * 60) // Dogecoin: changed maximum adjust to 35 mins to avoid letting peers change our time too much in case of an attack.
         {
             nTimeOffset = nMedian;
         }
@@ -1207,10 +1215,10 @@ void AddTimeData(const CNetAddr& ip, int64 nTime)
                 if (!fMatch)
                 {
                     fDone = true;
-                    string strMessage = _("Warning: Please check that your computer's date and time are correct.  If your clock is wrong DogeCoin will not work properly.");
+                    string strMessage = _("Warning: Please check that your computer's date and time are correct.  If your clock is wrong Dogecoin will not work properly.");
                     strMiscWarning = strMessage;
                     printf("*** %s\n", strMessage.c_str());
-                    uiInterface.ThreadSafeMessageBox(strMessage+" ", string("DogeCoin"), CClientUIInterface::OK | CClientUIInterface::ICON_EXCLAMATION);
+                    uiInterface.ThreadSafeMessageBox(strMessage+" ", string("Dogecoin"), CClientUIInterface::OK | CClientUIInterface::ICON_EXCLAMATION);
                 }
             }
         }
@@ -1261,7 +1269,9 @@ long hex2long(const char* hexString)
 
 	while (*hexString && ret >= 0) 
 	{
-		ret = (ret << 4) | hextable[*hexString++];
+        uint32_t index = *hexString;
+        ret = (ret << 4) | hextable[index];
+        ++hexString;
 	}
 
 	return ret; 
