@@ -24,10 +24,10 @@ namespace Checkpoints
     // + Contains no strange transactions
     //
 
-	// no checkpoint now, can be added in later releases
     static MapCheckpoints mapCheckpoints =
             boost::assign::map_list_of
-            (  0, hashGenesisBlockOfficial )
+            (  0, hashGenesisBlockOfficial ),
+            (  42400, uint256("0x557bb7c17ed9e6d4a6f9361cfddf7c1fc0bdc394af7019167442b41f507252b4"))
 			;
 
 
