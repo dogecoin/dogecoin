@@ -41,7 +41,10 @@ static const int64 CENT = 1000000;
 #define UBEGIN(a)           ((unsigned char*)&(a))
 #define UEND(a)             ((unsigned char*)&((&(a))[1]))
 #define ARRAYLEN(array)     (sizeof(array)/sizeof((array)[0]))
+
+#if _DEBUG
 #define printf              OutputDebugStringF
+#endif
 
 #ifndef PRI64d
 #if defined(_MSC_VER) || defined(__MSVCRT__)
@@ -121,7 +124,14 @@ extern bool fReopenDebugLog;
 
 void RandAddSeed();
 void RandAddSeedPerfmon();
+
+#if _DEBUG
+#define printf OutputDebugStringF
 int OutputDebugStringF(const char* pszFormat, ...);
+#else
+#define OutputDebugStringF(...)
+#endif
+
 int my_snprintf(char* buffer, size_t limit, const char* format, ...);
 
 /* It is not allowed to use va_start with a pass-by-reference argument.

@@ -8,6 +8,10 @@
 #include <QFont>
 #include <QColor>
 
+#if ! _DEBUG
+#define OutputDebugStringf(...)
+#endif
+
 const QString AddressTableModel::Send = "S";
 const QString AddressTableModel::Receive = "R";
 

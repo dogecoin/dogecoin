@@ -11,6 +11,10 @@
 #include <QDateTime>
 #include <QTimer>
 
+#if ! _DEBUG
+#define OutputDebugStringF(...)
+#endif
+
 static const int64 nClientStartupTime = GetTime();
 
 ClientModel::ClientModel(OptionsModel *optionsModel, QObject *parent) :

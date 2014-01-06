@@ -30,7 +30,11 @@
 #include <boost/shared_ptr.hpp>
 #include <list>
 
+#if _DEBUG
 #define printf OutputDebugStringF
+#else
+#define printf(...)
+#endif
 
 using namespace std;
 using namespace boost;
