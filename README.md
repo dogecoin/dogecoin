@@ -18,12 +18,12 @@ their feature or bug fix is ready.
 ## Very Much Frequently Asked Questions
 
 ### How much doge can exist?
-Total of 100,000,000,000 much coins
+Total of 100,000,000,000 much coins.
 
 ### How get doge?
 Scrypt Proof of Work
 
-1 Minute Block Targets, 4 Hour Diff Readjustments
+There are 1 Minute Block Targets and 4 Hour Diff Readjustments.
 
 Special reward system: Random block rewards
 
