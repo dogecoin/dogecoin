@@ -57,8 +57,10 @@
 #include <QTimer>
 #include <QDragEnterEvent>
 #include <QUrl>
-
 #include <iostream>
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
+#include <QtWidgets>
+#endif
 
 BitcoinGUI::BitcoinGUI(QWidget *parent):
     QMainWindow(parent),
@@ -831,7 +833,7 @@ void BitcoinGUI::gotoVerifyMessageTab(QString addr)
 void BitcoinGUI::dragEnterEvent(QDragEnterEvent *event)
 {
     // Accept only URIs
-    if(event->mimeData()->hasUrls())
+    if(event->mimeData())
         event->acceptProposedAction();
 }
 
@@ -912,7 +914,7 @@ void BitcoinGUI::encryptWallet(bool status)
 
 void BitcoinGUI::backupWallet()
 {
-    QString saveDir = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation);
+    QString saveDir = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
     QString filename = QFileDialog::getSaveFileName(this, tr("Backup Wallet"), saveDir, tr("Wallet Data (*.dat)"));
     if(!filename.isEmpty()) {
         if(!walletModel->backupWallet(filename)) {
