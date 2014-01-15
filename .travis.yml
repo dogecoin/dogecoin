@@ -12,5 +12,6 @@ install:
 
 before_script:
     - cd /home/travis/build/sinemetu1/dogecoin
+    - ls
 
-script: ./src/test/test_bitcoin
+script: ls && ./src/test/test_bitcoin
