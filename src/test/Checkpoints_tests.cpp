@@ -14,21 +14,21 @@ BOOST_AUTO_TEST_SUITE(Checkpoints_tests)
 
 BOOST_AUTO_TEST_CASE(sanity)
 {
-    uint256 p1500 = uint256("0x841a2965955dd288cfa707a755d05a54e45f8bd476835ec9af4402a2b59a2967");
-    uint256 p120000 = uint256("0xbd9d26924f05f6daa7f0155f32828ec89e8e29cee9e7121b026a7a3552ac6131");
+    uint256 p1500 = uint256("0xbfc8e3e9a051b6ecea012701ac7dbd5d9eff62469ad39a92767a6853a49983d4");
+    uint256 p56000 = uint256("0xb6b54c1dd6ebf853ea6fdc82e5a696ec4ba5b886b1a0aeecc7517cb47e550849");
     BOOST_CHECK(Checkpoints::CheckBlock(1500, p1500));
-    BOOST_CHECK(Checkpoints::CheckBlock(120000, p120000));
+    BOOST_CHECK(Checkpoints::CheckBlock(56000, p56000));
 
     
     // Wrong hashes at checkpoints should fail:
-    BOOST_CHECK(!Checkpoints::CheckBlock(1500, p120000));
-    BOOST_CHECK(!Checkpoints::CheckBlock(120000, p1500));
+    BOOST_CHECK(!Checkpoints::CheckBlock(1500, p56000));
+    BOOST_CHECK(!Checkpoints::CheckBlock(56000, p1500));
 
     // ... but any hash not at a checkpoint should succeed:
-    BOOST_CHECK(Checkpoints::CheckBlock(1500+1, p120000));
-    BOOST_CHECK(Checkpoints::CheckBlock(120000+1, p1500));
+    BOOST_CHECK(Checkpoints::CheckBlock(1500+1, p56000));
+    BOOST_CHECK(Checkpoints::CheckBlock(56000+1, p1500));
 
-    BOOST_CHECK(Checkpoints::GetTotalBlocksEstimate() >= 120000);
+    BOOST_CHECK(Checkpoints::GetTotalBlocksEstimate() >= 56000);
 }    
 
 BOOST_AUTO_TEST_SUITE_END()
