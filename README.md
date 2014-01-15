@@ -69,8 +69,4 @@ Special reward system: Random block rewards
 RPC 22555
 P2P 22556
 
-## Test
-
-[![Build Status](https://travis-ci.org/sinemetu1/dogecoin.png)](https://travis-ci.org/sinemetu1/dogecoin)
-
 ![](http://dogesay.com/wow//////such/coin)
