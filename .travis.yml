@@ -7,10 +7,11 @@ before_install:
 
 install:
     - cd src/
-    - make -f makefile.unix USE_UPNP=1 USE_IPV6=1 USE_QRCODE=1
+    - make -f makefile.unix test_dogecoin
+    - ls
 
 before_script:
     - cd /home/travis/build/sinemetu1/dogecoin
     - ls src/test/
 
-script: ls && ./src/test/test_bitcoin
+script: ./src/test_dogecoin
