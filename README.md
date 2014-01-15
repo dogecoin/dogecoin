@@ -60,8 +60,6 @@ Special reward system: Random block rewards
     brew install boost miniupnpc openssl berkeley-db
     openssl version # should be OpenSSL 1.0.1e
                     # if not, then do `brew link openssl --force`
-
-    git apply /contrib/homebrew/makefile.osx.patch
     cd src/
     make -f makefile.osx USE_UPNP=1 USE_IPV6=1 USE_QRCODE=1
 
