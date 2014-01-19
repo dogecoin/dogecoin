@@ -1,3 +1,5 @@
+// Copyright (c) 2013-2014 Dogecoin Developers
+
 #ifndef CLIENTVERSION_H
 #define CLIENTVERSION_H
 

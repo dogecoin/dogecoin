@@ -1,3 +1,5 @@
+// Copyright (c) 2013-2014 Dogecoin Developers
+
 #include "hash.h"
 
 inline uint32_t ROTL32 ( uint32_t x, int8_t r )
