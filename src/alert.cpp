@@ -2,6 +2,8 @@
 // Alert system
 //
 
+// Copyright (c) 2013-2014 Dogecoin Developers
+
 #include <algorithm>
 #include <boost/algorithm/string/classification.hpp>
 #include <boost/algorithm/string/replace.hpp>
