@@ -1,3 +1,5 @@
+**THIS IS AN ALPHA DEVELOPMENT BRANCH. USE AT YOUR OWN RISK***
+
 # Dogecoin [DOGE, Ð]
 http://dogecoin.com/
 
