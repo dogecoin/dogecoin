@@ -1,0 +1,34 @@
+src/*.exe
+src/litecoin
+src/litecoind
+src/test_litecoin
+.*.swp
+*.*~*
+*.bak
+*.rej
+*.orig
+*.o
+*.patch
+.litecoin
+
+# Compilation and Qt preprocessor part
+*.qm
+Makefile
+litecoin-qt
+Litecoin-Qt.app
+
+# Unit-tests
+Makefile.test
+litecoin-qt_test
+
+# Resources cpp
+qrc_*.cpp
+
+# Qt creator
+*.pro.user
+
+# Mac specific
+.DS_Store
+build
+
+!src/leveldb-*/Makefile

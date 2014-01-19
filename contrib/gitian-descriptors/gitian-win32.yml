@@ -1,0 +1,65 @@
+---
+name: "litecoin"
+suites:
+- "precise"
+architectures:
+- "amd64"
+packages:
+- "mingw-w64"
+- "g++-mingw-w64"
+- "git-core"
+- "unzip"
+- "nsis"
+- "faketime"
+reference_datetime: "2011-01-30 00:00:00"
+remotes:
+- "url": "https://github.com/litecoin-project/litecoin.git"
+  "dir": "litecoin"
+files:
+- "qt-win32-4.8.3-gitian-r4.zip"
+- "boost-win32-1.54.0-gitian-r6.zip"
+- "bitcoin-deps-win32-gitian-r9.zip"
+script: |
+  #
+  STAGING=$HOME/staging
+  HOST=i686-w64-mingw32
+  #
+  mkdir -p $STAGING
+  cd $STAGING
+  unzip ../build/qt-win32-4.8.3-gitian-r4.zip
+  unzip ../build/boost-win32-1.54.0-gitian-r6.zip
+  unzip ../build/bitcoin-deps-win32-gitian-r9.zip
+  cd $HOME/build/
+  #
+  cd litecoin
+  export PATH=$STAGING/host/bin:$PATH
+  mkdir -p $OUTDIR/src
+  git archive HEAD | tar -x -C $OUTDIR/src
+  cp $OUTDIR/src/doc/README_windows.txt $OUTDIR/readme.txt
+  cp $OUTDIR/src/COPYING $OUTDIR/COPYING.txt
+  export LD_PRELOAD=/usr/lib/faketime/libfaketime.so.1
+  export FAKETIME=$REFERENCE_DATETIME
+  export TZ=UTC
+  ln -s $STAGING $HOME/qt
+  $HOME/staging/host/bin/qmake -spec unsupported/win32-g++-cross MINIUPNPC_LIB_PATH=$STAGING MINIUPNPC_INCLUDE_PATH=$STAGING BDB_LIB_PATH=$STAGING BDB_INCLUDE_PATH=$STAGING BOOST_LIB_PATH=$STAGING BOOST_INCLUDE_PATH=$STAGING BOOST_LIB_SUFFIX=-mt-s BOOST_THREAD_LIB_SUFFIX=_win32-mt-s OPENSSL_LIB_PATH=$STAGING OPENSSL_INCLUDE_PATH=$STAGING QRENCODE_LIB_PATH=$STAGING QRENCODE_INCLUDE_PATH=$STAGING USE_QRCODE=1 INCLUDEPATH=$STAGING DEFINES=BOOST_THREAD_USE_LIB BITCOIN_NEED_QT_PLUGINS=1 QMAKE_LRELEASE=lrelease QMAKE_CXXFLAGS=-frandom-seed=litecoin USE_BUILD_INFO=1 USE_SSE2=1
+  make $MAKEOPTS
+  $HOST-strip release/litecoin-qt.exe
+  cp release/litecoin-qt.exe $OUTDIR/
+  #
+  cd src
+  export LD_PRELOAD=/usr/lib/faketime/libfaketime.so.1
+  export FAKETIME=$REFERENCE_DATETIME
+  export TZ=UTC
+  make -f makefile.linux-mingw $MAKEOPTS DEPSDIR=$STAGING litecoind.exe USE_UPNP=0 DEBUGFLAGS="-frandom-seed=litecoin" USE_SSE2=1
+  $HOST-strip litecoind.exe
+  mkdir $OUTDIR/daemon
+  cp litecoind.exe $OUTDIR/daemon
+  cd ..
+  mkdir nsis
+  git archive HEAD | tar -x -C nsis
+  cd nsis/src
+  mkdir ../release
+  cp ../../release/* ../release/
+  cp ../../src/*.exe .
+  makensis ../share/setup.nsi
+  cp ../share/litecoin-*-win32-setup.exe $OUTDIR/
