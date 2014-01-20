@@ -103,9 +103,7 @@ BOOST_AUTO_TEST_CASE(DoS_checknbits)
     // These are the block-chain checkpoint blocks
     typedef std::map<int64, unsigned int> BlockData;
     BlockData chainData =
-        map_list_of(1386976507,10000)(1387534464,20000)
-        (1388880557,42279)(1388890893,42400)
-        (1389234256,48000)(1389349309,50000);
+        map_list_of(1386976507,10000)(1387534464,20000);
 
     // Make sure CheckNBits considers every combination of block-chain-lock-in-points
     // "sane":
@@ -124,7 +122,7 @@ BOOST_AUTO_TEST_CASE(DoS_checknbits)
     // First checkpoint difficulty at or a while after the last checkpoint time should fail when
     // compared to last checkpoint
     BOOST_CHECK(!CheckNBits(firstcheck.second, lastcheck.first+60*10, lastcheck.second, lastcheck.first));
-    BOOST_CHECK(!CheckNBits(firstcheck.second, lastcheck.first+60*60*24*14, lastcheck.second, lastcheck.first));
+    BOOST_CHECK(!CheckNBits(firstcheck.second, lastcheck.first+60*60*4, lastcheck.second, lastcheck.first));
 
     // ... but OK if enough time passed for difficulty to adjust downward:
     BOOST_CHECK(CheckNBits(firstcheck.second, lastcheck.first+60*60*24*365*4, lastcheck.second, lastcheck.first));
