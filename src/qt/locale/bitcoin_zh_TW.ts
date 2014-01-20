@@ -2637,8 +2637,8 @@ alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <location line="+5"/>
-        <source>SSL options: (see the Litecoin Wiki for SSL setup instructions)</source>
-        <translation>SSL 選項: (SSL 設定程序請見 Litecoin Wiki)</translation>
+        <source>SSL options: (see the DogeCoin Wiki for SSL setup instructions)</source>
+        <translation>SSL 選項: (SSL 設定程序請見 DogeCoin Wiki)</translation>
     </message>
     <message>
         <location line="+1"/>

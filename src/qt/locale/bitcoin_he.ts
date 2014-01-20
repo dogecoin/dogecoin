@@ -2626,7 +2626,7 @@ rpcpassword=%s
     </message>
     <message>
         <location line="+5"/>
-        <source>SSL options: (see the Litecoin Wiki for SSL setup instructions)</source>
+        <source>SSL options: (see the DogeCoin Wiki for SSL setup instructions)</source>
         <translation>אפשרויות SSL: (ראה את הויקי של לייטקוין עבור הוראות הגדרת SSL)</translation>
     </message>
     <message>
