@@ -2628,8 +2628,8 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <location line="+5"/>
-        <source>SSL options: (see the Litecoin Wiki for SSL setup instructions)</source>
-        <translation>SSL-opciók: (lásd a Litecoin Wiki SSL-beállítási instrukcióit)</translation>
+        <source>SSL options: (see the DogeCoin Wiki for SSL setup instructions)</source>
+        <translation>SSL-opciók: (lásd a DogeCoin Wiki SSL-beállítási instrukcióit)</translation>
     </message>
     <message>
         <location line="+1"/>

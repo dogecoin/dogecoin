@@ -27,6 +27,8 @@
  * online backup system.
  */
 
+// Copyright (c) 2013-2014 Dogecoin Developers
+
 #include "scrypt.h"
 #include <stdlib.h>
 #include <stdint.h>

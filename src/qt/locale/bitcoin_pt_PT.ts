@@ -2627,8 +2627,8 @@ por exemplo: alertnotify=echo %%s | mail -s &quot;Alerta Dogecoin&quot; admin@fo
     </message>
     <message>
         <location line="+5"/>
-        <source>SSL options: (see the Litecoin Wiki for SSL setup instructions)</source>
-        <translation>Opções SSL: (ver a Wiki Dogecoin para instruções de configuração SSL)</translation>
+        <source>SSL options: (see the DogeCoin Wiki for SSL setup instructions)</source>
+        <translation>Opções SSL: (ver a Wiki DogeCoin para instruções de configuração SSL)</translation>
     </message>
     <message>
         <location line="+1"/>

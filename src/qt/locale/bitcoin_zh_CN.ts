@@ -2639,8 +2639,8 @@ rpcpassword=%s
     </message>
     <message>
         <location line="+5"/>
-        <source>SSL options: (see the Litecoin Wiki for SSL setup instructions)</source>
-        <translation>SSL选项：(参见Litecoin Wiki关于SSL设置栏目)</translation>
+        <source>SSL options: (see the DogeCoin Wiki for SSL setup instructions)</source>
+        <translation>SSL选项：(参见DogeCoin Wiki关于SSL设置栏目)</translation>
     </message>
     <message>
         <location line="+1"/>

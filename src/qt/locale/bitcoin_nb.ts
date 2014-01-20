@@ -2627,8 +2627,8 @@ For eksempel: varselmelding=echo %%s | mail -s &quot;Dogecoin varsel&quot; admin
     </message>
     <message>
         <location line="+5"/>
-        <source>SSL options: (see the Litecoin Wiki for SSL setup instructions)</source>
-        <translation>SSL valg: (se Litecoin Wiki for instruksjoner for oppsett av SSL)</translation>
+        <source>SSL options: (see the DogeCoin Wiki for SSL setup instructions)</source>
+        <translation>SSL valg: (se DogeCoin Wiki for instruksjoner for oppsett av SSL)</translation>
     </message>
     <message>
         <location line="+1"/>
