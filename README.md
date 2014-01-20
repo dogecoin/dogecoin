@@ -15,6 +15,8 @@ for more information or see http://opensource.org/licenses/MIT.
 Developers work in their own trees, then submit pull requests when they think
 their feature or bug fix is ready.
 
+[![Build Status](https://travis-ci.org/sinemetu1/dogecoin.png?branch=master)](https://travis-ci.org/sinemetu1/dogecoin)
+
 ## Very Much Frequently Asked Questions
 
 ### How much doge can exist?
@@ -43,6 +45,8 @@ Special reward system: Random block rewards
 
 ### Wow plz make dogecoind
 
+#### Linux:
+
     sudo apt-get install build-essential \
                          libssl-dev \
                          libdb5.1++-dev \
@@ -52,6 +56,16 @@ Special reward system: Random block rewards
 
     cd src/
     make -f makefile.unix USE_UPNP=1 USE_IPV6=1 USE_QRCODE=1
+
+#### Mac OSX:
+
+    brew install boost miniupnpc openssl berkeley-db
+    openssl version # should be OpenSSL 1.0.1e
+                    # if not, then do `brew link openssl --force`
+
+    git apply contrib/homebrew/makefile.osx.patch
+    cd src/
+    make -f makefile.osx USE_UPNP=1 USE_IPV6=1 USE_QRCODE=1
 
 ### Such ports
 RPC 22555
