@@ -1,0 +1,43 @@
+diff --git a/src/makefile.osx b/src/makefile.osx
+index 1c56866..69a967d 100644
+--- a/src/makefile.osx
++++ b/src/makefile.osx
+@@ -7,17 +7,15 @@
+ # Originally by Laszlo Hanyecz (solar@heliacal.net)
+ 
+ CXX=llvm-g++
+-DEPSDIR=/opt/local
++DEPSDIR=/usr/local
+ 
+ INCLUDEPATHS= \
+  -I"$(CURDIR)" \
+  -I"$(CURDIR)"/obj \
+- -I"$(DEPSDIR)/include" \
+- -I"$(DEPSDIR)/include/db48"
++ -I"$(DEPSDIR)/include"
+ 
+ LIBPATHS= \
+- -L"$(DEPSDIR)/lib" \
+- -L"$(DEPSDIR)/lib/db48"
++ -L"$(DEPSDIR)/lib"
+ 
+ USE_UPNP:=1
+ 
+@@ -30,7 +28,7 @@ ifdef STATIC
+ TESTLIBS += \
+  $(DEPSDIR)/lib/libboost_unit_test_framework-mt.a
+ LIBS += \
+- $(DEPSDIR)/lib/db48/libdb_cxx-4.8.a \
++ $(DEPSDIR)/lib/libdb_cxx.a \
+  $(DEPSDIR)/lib/libboost_system-mt.a \
+  $(DEPSDIR)/lib/libboost_filesystem-mt.a \
+  $(DEPSDIR)/lib/libboost_program_options-mt.a \
+@@ -42,7 +40,7 @@ else
+ TESTLIBS += \
+  -lboost_unit_test_framework-mt
+ LIBS += \
+- -ldb_cxx-4.8 \
++ -ldb_cxx \
+  -lboost_system-mt \
+  -lboost_filesystem-mt \
+  -lboost_program_options-mt \
