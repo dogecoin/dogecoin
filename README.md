@@ -15,6 +15,8 @@ for more information or see http://opensource.org/licenses/MIT.
 Developers work in their own trees, then submit pull requests when they think
 their feature or bug fix is ready.
 
+[![Build Status](https://travis-ci.org/dogecoin/dogecoin.png?branch=master)](https://travis-ci.org/dogecoin/dogecoin)
+
 ## Very Much Frequently Asked Questions
 
 ### How much doge can exist?

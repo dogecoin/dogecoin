@@ -1,0 +1,17 @@
+language: cpp
+
+before_install: 
+    - sudo add-apt-repository -y "deb http://cz.archive.ubuntu.com/ubuntu raring main universe"
+    - sudo apt-get update
+    - sudo apt-get install build-essential libssl-dev libdb5.1++-dev libboost1.53-all-dev libqrencode-dev libminiupnpc-dev
+
+install:
+    - cd src/
+    - make -f makefile.unix test_dogecoin
+    - ls
+
+before_script:
+    - cd /home/travis/build/sinemetu1/dogecoin
+    - ls src/test/
+
+script: ./src/test_dogecoin
