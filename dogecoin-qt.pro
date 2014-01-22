@@ -1,11 +1,12 @@
 TEMPLATE = app
 TARGET = dogecoin-qt
 macx:TARGET = "Dogecoin-Qt"
-VERSION = 0.8.6.1
+VERSION = 1.5alpha
 INCLUDEPATH += src src/json src/qt
 QT += core gui network
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-DEFINES += _MT WIN32 _WINDOWS QT_GUI BOOST_THREAD_USE_LIB BOOST_SPIRIT_THREADSAFE
+DEFINES += QT_GUI BOOST_THREAD_USE_LIB BOOST_SPIRIT_THREADSAFE
+win32:DEFINES += _MT WIN32 _WINDOWS
 CONFIG += no_include_pwd
 CONFIG += thread
 CONFIG += exceptions
