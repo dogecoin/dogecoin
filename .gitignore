@@ -1,7 +1,7 @@
 src/*.exe
-src/litecoin
-src/litecoind
-src/test_litecoin
+src/dogecoin
+src/dogecoind
+src/test_dogecoin
 .*.swp
 *.*~*
 *.bak
@@ -9,17 +9,17 @@ src/test_litecoin
 *.orig
 *.o
 *.patch
-.litecoin
+.dogecoin
 
 # Compilation and Qt preprocessor part
 *.qm
 Makefile
-litecoin-qt
-Litecoin-Qt.app
+dogecoin-qt
+Dogecoin-Qt.app
 
 # Unit-tests
 Makefile.test
-litecoin-qt_test
+dogecoin-qt_test
 
 # Resources cpp
 qrc_*.cpp
@@ -30,5 +30,8 @@ qrc_*.cpp
 # Mac specific
 .DS_Store
 build
+
+# Windows specific
+Thumbs.db
 
 !src/leveldb-*/Makefile
