@@ -13,6 +13,7 @@
 #include "script.h"
 #include "db.h"
 #include "scrypt.h"
+#include "lru_cache_using_std.h"
 
 #include <list>
 
@@ -119,6 +120,18 @@ bool GetTransaction(const uint256 &hash, CTransaction &tx, uint256 &hashBlock);
 
 
 bool GetWalletFile(CWallet* pwallet, std::string &strWalletFileOut);
+
+class CBlockPos
+{
+public:
+    unsigned int nFile;
+    unsigned int nBlockPos;
+    
+    bool operator<(const CBlockPos b) const { // Totally ordered man
+      if (nFile == b.nFile) return nBlockPos < b.nBlockPos;
+      return nFile < b.nFile;
+    }
+};
 
 /** Position on disk for a particular transaction. */
 class CDiskTxPos
@@ -803,9 +816,6 @@ public:
 };
 
 
-
-
-
 /** Nodes collect new transactions into a block, hash them into a hash tree,
  * and scan through nonce values to make the block's hash satisfy proof-of-work
  * requirements.  When they solve the proof-of-work, they broadcast the block
@@ -833,11 +843,13 @@ public:
 
     // memory only
     mutable std::vector<uint256> vMerkleTree;
+    static lru_cache_using_std<CBlockPos, CBlock, std::map> cache;
+    
 
     // Denial-of-service detection:
     mutable int nDoS;
     bool DoS(int nDoSIn, bool fIn) const { nDoS += nDoSIn; return fIn; }
-
+    
     CBlock()
     {
         SetNull();
@@ -954,6 +966,7 @@ public:
         // Check the header
         if ((!CheckProofOfWork(GetPoWHash(), nBits)))
             return error("CBlock::WriteToDisk() : errors in block header");
+        
 
         // Open history file to append
         CAutoFile fileout = CAutoFile(AppendBlockFile(nFileRet), SER_DISK, CLIENT_VERSION);
@@ -975,37 +988,69 @@ public:
         fflush(fileout);
         if (!IsInitialBlockDownload() || (nBestHeight+1) % 500 == 0)
             FileCommit(fileout);
+        
+        // Invalidate cache
+        CBlockPos cBlockPos;
+        
+        cBlockPos.nFile = nFileRet;
+        cBlockPos.nBlockPos = nBlockPosRet;
+        
+        this->cache.invalidate(cBlockPos);
+        
 
         return true;
     }
 
     bool ReadFromDisk(unsigned int nFile, unsigned int nBlockPos, bool fReadTransactions=true)
     {
-        SetNull();
 
-        // Open history file to read
-        CAutoFile filein = CAutoFile(OpenBlockFile(nFile, nBlockPos, "rb"), SER_DISK, CLIENT_VERSION);
-        if (!filein)
-            return error("CBlock::ReadFromDisk() : OpenBlockFile failed");
-        if (!fReadTransactions)
-            filein.nType |= SER_BLOCKHEADERONLY;
-
-        // Read block
-        try {
-            filein >> *this;
+        CBlockPos cBlockPos;
+        
+        cBlockPos.nFile = nFile;
+        cBlockPos.nBlockPos = nBlockPos;
+        
+        *this = this->cache(cBlockPos);
+        
+        if ((cache.hits + cache.misses) % 10 == 0) {
+            printf("Chaincache performance: %lf\n", ((double)cache.hits)/((double)cache.hits + cache.misses));
         }
-        catch (std::exception &e) {
-            return error("%s() : deserialize or I/O error", __PRETTY_FUNCTION__);
-        }
-
-        // Check the header
-        if (GetBoolArg("-checkdisk", false) && (!CheckProofOfWork(GetPoWHash(), nBits)))
-            return error("CBlock::ReadFromDisk() : errors in block header");
-
+        
+        if (IsNull()) return false;
+        
         return true;
     }
 
-
+    static CBlock ReadFromDiskUncached(const CBlockPos &cBlockPos)
+    {
+      CBlock r;
+      
+      // Open history file to read
+      CAutoFile filein = CAutoFile(OpenBlockFile(cBlockPos.nFile, cBlockPos.nBlockPos, "rb"), SER_DISK, CLIENT_VERSION);
+      if (!filein) {
+        error("CBlock::ReadFromDisk() : OpenBlockFile failed");
+        r.SetNull();
+      }
+      //       if (!fReadTransactions)
+      //         filein.nType |= SER_BLOCKHEADERONLY;
+      
+      // Read block
+      try {
+        filein >> r;
+      }
+      catch (std::exception &e) {
+        error("%s() : deserialize or I/O error", __PRETTY_FUNCTION__);
+        r.SetNull();
+      }
+      
+      // Check the header
+      if (GetBoolArg("-checkdisk", false) && (!CheckProofOfWork(r.GetPoWHash(), r.nBits))) {
+        error("CBlock::ReadFromDisk() : errors in block header");
+        r.SetNull();
+      }
+      
+      return r;
+    }
+    
 
     void print() const
     {

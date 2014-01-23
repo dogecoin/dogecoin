@@ -470,6 +470,9 @@ bool AppInit2()
         fprintf(stdout, "DogeCoin server starting\n");
 
     int64 nStart;
+    
+    lru_cache_using_std<CBlockPos, CBlock, std::map> cache(CBlock::ReadFromDiskUncached, (1024*1024 * GetArg("-chaincache", 25))/sizeof(CBlock));
+    CBlock::cache = cache;
 
     // ********************************************************* Step 5: network initialization
 
