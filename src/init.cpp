@@ -471,7 +471,8 @@ bool AppInit2()
 
     int64 nStart;
     
-    lru_cache_using_std<CBlockPos, CBlock, std::map> cache(CBlock::ReadFromDiskUncached, (1024*1024 * GetArg("-chaincache", 25))/sizeof(CBlock));
+    // Blocks are currently about 25K so storing 1024 of them should be about 25MiB
+    lru_cache_using_std<CBlockPos, CBlock, std::map> cache(CBlock::ReadFromDiskUncached, GetArg("-chaincache", 1024));
     CBlock::cache = cache;
 
     // ********************************************************* Step 5: network initialization

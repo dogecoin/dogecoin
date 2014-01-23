@@ -1011,7 +1011,7 @@ public:
         
         *this = this->cache(cBlockPos);
         
-        if ((cache.hits + cache.misses) % 10 == 0) {
+        if ((cache.hits + cache.misses) % 100 == 0) {
             printf("Chaincache performance: %lf\n", ((double)cache.hits)/((double)cache.hits + cache.misses));
         }
         
