@@ -63,6 +63,8 @@ int64 nHPSTimerStart;
 int64 nTransactionFee = 0;
 int64 nMinimumInputValue = CENT;
 
+lru_cache_using_std<CBlockPos, CBlock, std::map> CBlock::cache(CBlock::ReadFromDiskUncached, 1024);
+
 
 
 //////////////////////////////////////////////////////////////////////////////
