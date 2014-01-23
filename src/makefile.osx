@@ -4,21 +4,20 @@
 # Distributed under the MIT/X11 software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-# Mac OS X makefile for bitcoin
+# Mac OS X makefile for Dogecoin
 # Originally by Laszlo Hanyecz (solar@heliacal.net)
 
-CXX=llvm-g++
-DEPSDIR=/opt/local
+STATIC=yes
+CXX=c++
+DEPSDIR=/usr/local
 
 INCLUDEPATHS= \
  -I"$(CURDIR)" \
  -I"$(CURDIR)"/obj \
- -I"$(DEPSDIR)/include" \
- -I"$(DEPSDIR)/include/db48"
+ -I"$(DEPSDIR)/include" 
 
 LIBPATHS= \
- -L"$(DEPSDIR)/lib" \
- -L"$(DEPSDIR)/lib/db48"
+ -L"$(DEPSDIR)/lib" 
 
 USE_UPNP:=1
 USE_IPV6:=1
@@ -32,20 +31,20 @@ ifdef STATIC
 TESTLIBS += \
  $(DEPSDIR)/lib/libboost_unit_test_framework-mt.a
 LIBS += \
- $(DEPSDIR)/lib/db48/libdb_cxx-4.8.a \
+ $(DEPSDIR)/lib/libdb_cxx.a \
  $(DEPSDIR)/lib/libboost_system-mt.a \
  $(DEPSDIR)/lib/libboost_filesystem-mt.a \
  $(DEPSDIR)/lib/libboost_program_options-mt.a \
  $(DEPSDIR)/lib/libboost_thread-mt.a \
  $(DEPSDIR)/lib/libboost_chrono-mt.a \
- $(DEPSDIR)/lib/libssl.a \
- $(DEPSDIR)/lib/libcrypto.a \
+ -lssl \
+ -lcrypto \
  -lz
 else
 TESTLIBS += \
  -lboost_unit_test_framework-mt
 LIBS += \
- -ldb_cxx-4.8 \
+ -ldb_cxx \
  -lboost_system-mt \
  -lboost_filesystem-mt \
  -lboost_program_options-mt \
@@ -63,7 +62,7 @@ ifdef RELEASE
 # Compile for maximum compatibility and smallest size.
 # This requires that dependencies are compiled
 # the same way.
-CFLAGS = -mmacosx-version-min=10.5 -arch i386 -O3
+CFLAGS = -mmacosx-version-min=10.6 -O3
 else
 DEBUGFLAGS = -g
 endif
@@ -144,7 +143,7 @@ LIBS += $(CURDIR)/leveldb/libleveldb.a $(CURDIR)/leveldb/libmemenv.a
 DEFS += $(addprefix -I,$(CURDIR)/leveldb/include)
 DEFS += $(addprefix -I,$(CURDIR)/leveldb/helpers)
 leveldb/libleveldb.a:
-	@echo "Building LevelDB ..." && cd leveldb && $(MAKE) CC=$(CC) CXX=$(CXX) OPT="$(CFLAGS)" libleveldb.a libmemenv.a && cd ..
+	@echo "Building LevelDB ..." && cd leveldb && chmod +x build_detect_platform && $(MAKE) CC=$(CC) CXX=$(CXX) OPT="$(CFLAGS)" libleveldb.a libmemenv.a && cd ..
 
 # auto-generated dependencies:
 -include obj/*.P

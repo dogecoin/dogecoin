@@ -27,10 +27,10 @@ UI_DIR = build
 
 # use: qmake "RELEASE=1"
 contains(RELEASE, 1) {
-    # Mac: compile for maximum compatibility (10.5, 32-bit)
-    macx:QMAKE_CXXFLAGS += -mmacosx-version-min=10.5 -arch i386 -isysroot /Developer/SDKs/MacOSX10.5.sdk
-    macx:QMAKE_CFLAGS += -mmacosx-version-min=10.5 -arch i386 -isysroot /Developer/SDKs/MacOSX10.5.sdk
-    macx:QMAKE_OBJECTIVE_CFLAGS += -mmacosx-version-min=10.5 -arch i386 -isysroot /Developer/SDKs/MacOSX10.5.sdk
+    # Mac: compile for maximum compatibility (10.6, 64-bit)
+    macx:QMAKE_CXXFLAGS += -mmacosx-version-min=10.6
+    macx:QMAKE_CFLAGS += -mmacosx-version-min=10.6
+    macx:QMAKE_OBJECTIVE_CFLAGS += -mmacosx-version-min=10.6
 
     !win32:!macx {
         # Linux: static link and extra security (see: https://wiki.debian.org/Hardening)
@@ -69,7 +69,6 @@ contains(USE_QRCODE, 1) {
 contains(USE_UPNP, -) {
     message(Building without UPNP support)
 } else {
-    message(Building with UPNP support)
     count(USE_UPNP, 0) {
         USE_UPNP=1
     }
@@ -378,24 +377,12 @@ isEmpty(BOOST_THREAD_LIB_SUFFIX) {
     BOOST_THREAD_LIB_SUFFIX = $$BOOST_LIB_SUFFIX
 }
 
-isEmpty(BDB_LIB_PATH) {
-    macx:BDB_LIB_PATH = /opt/local/lib/db48
-}
-
-isEmpty(BDB_LIB_SUFFIX) {
-    macx:BDB_LIB_SUFFIX = -4.8
-}
-
-isEmpty(BDB_INCLUDE_PATH) {
-    macx:BDB_INCLUDE_PATH = /opt/local/include/db48
-}
-
 isEmpty(BOOST_LIB_PATH) {
-    macx:BOOST_LIB_PATH = /opt/local/lib
+    macx:BOOST_LIB_PATH = /usr/local/lib
 }
 
 isEmpty(BOOST_INCLUDE_PATH) {
-    macx:BOOST_INCLUDE_PATH = /opt/local/include
+    macx:BOOST_INCLUDE_PATH = /usr/local/include
 }
 
 win32:DEFINES += WIN32 WIN32_LEAN_AND_MEAN
@@ -424,9 +411,9 @@ macx:OBJECTIVE_SOURCES += src/qt/macdockiconhandler.mm src/qt/macnotificationhan
 macx:LIBS += -framework Foundation -framework ApplicationServices -framework AppKit -framework CoreServices
 macx:DEFINES += MAC_OSX MSG_NOSIGNAL=0
 macx:ICON = src/qt/res/icons/litecoin.icns
-macx:QMAKE_CFLAGS_THREAD += -pthread
-macx:QMAKE_LFLAGS_THREAD += -pthread
-macx:QMAKE_CXXFLAGS_THREAD += -pthread
+#macx:QMAKE_CFLAGS_THREAD += -pthread
+#macx:QMAKE_LFLAGS_THREAD += -pthread
+#macx:QMAKE_CXXFLAGS_THREAD += -pthread
 macx:QMAKE_INFO_PLIST = share/qt/Info.plist
 
 # Set libraries and includes at end, to use platform-defined defaults if not overridden
