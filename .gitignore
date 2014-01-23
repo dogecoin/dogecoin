@@ -34,4 +34,4 @@ build
 # Windows specific
 Thumbs.db
 
-!src/leveldb-*/Makefile
+!src/leveldb*/Makefile
