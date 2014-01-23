@@ -951,6 +951,10 @@ public:
 
     bool WriteToDisk(unsigned int& nFileRet, unsigned int& nBlockPosRet)
     {
+        // Check the header
+        if ((!CheckProofOfWork(GetPoWHash(), nBits)))
+            return error("CBlock::WriteToDisk() : errors in block header");
+
         // Open history file to append
         CAutoFile fileout = CAutoFile(AppendBlockFile(nFileRet), SER_DISK, CLIENT_VERSION);
         if (!fileout)
@@ -995,7 +999,7 @@ public:
         }
 
         // Check the header
-        if (!CheckProofOfWork(GetPoWHash(), nBits))
+        if (GetBoolArg("-checkdisk", false) && (!CheckProofOfWork(GetPoWHash(), nBits)))
             return error("CBlock::ReadFromDisk() : errors in block header");
 
         return true;
