@@ -28,10 +28,7 @@ UI_DIR = build
 # use: qmake "RELEASE=1"
 contains(RELEASE, 1) {
     # Mac: compile for maximum compatibility (10.6, 64-bit)
-    macx:QMAKE_CXXFLAGS += -mmacosx-version-min=10.6
-    macx:QMAKE_CFLAGS += -mmacosx-version-min=10.6
-    macx:QMAKE_OBJECTIVE_CFLAGS += -mmacosx-version-min=10.6
-
+    macx:QMAKE_MACOSX_DEPLOYMENT_TARGET=10.6
     !win32:!macx {
         # Linux: static link and extra security (see: https://wiki.debian.org/Hardening)
         LIBS += -Wl,-Bstatic -Wl,-z,relro -Wl,-z,now
@@ -102,11 +99,34 @@ contains(BITCOIN_NEED_QT_PLUGINS, 1) {
     QTPLUGIN += qcncodecs qjpcodecs qtwcodecs qkrcodecs qtaccessiblewidgets
 }
 
+macx: {
+    DEPSDIR=/usr/local/
+    HEADERS += src/qt/macdockiconhandler.h src/qt/macnotificationhandler.h
+    OBJECTIVE_SOURCES += src/qt/macdockiconhandler.mm src/qt/macnotificationhandler.mm
+    LIBS += -framework Foundation -framework ApplicationServices -framework AppKit -framework CoreServices \
+        $$DEPSDIR/lib/libdb_cxx.a \
+        $$DEPSDIR/lib/libboost_system-mt.a \
+        $$DEPSDIR/lib/libboost_filesystem-mt.a \
+        $$DEPSDIR/lib/libboost_program_options-mt.a \
+        $$DEPSDIR/lib/libboost_thread-mt.a \
+        $$DEPSDIR/lib/libboost_chrono-mt.a
+    DEFINES += MAC_OSX
+    ICON = src/qt/res/icons/Dogecoin.icns
+    QMAKE_INFO_PLIST=src/mac/Info.plist
+    # osx 10.9 has changed the stdlib default to libc++. To prevent some link error, you may need to use libstdc++
+    QMAKE_CXXFLAGS += -stdlib=libstdc++
+
+    #one of these is unnecessary, perhaps all
+    QMAKE_CFLAGS_THREAD += -pthread
+    QMAKE_LFLAGS_THREAD += -pthread
+    QMAKE_CXXFLAGS_THREAD += -pthread
+}
+
 INCLUDEPATH += src/leveldb/include src/leveldb/helpers
 LIBS += $$PWD/src/leveldb/libleveldb.a $$PWD/src/leveldb/libmemenv.a
 !win32 {
     # we use QMAKE_CXXFLAGS_RELEASE even without RELEASE=1 because we use RELEASE to indicate linking preferences not -O preferences
-    genleveldb.commands = cd $$PWD/src/leveldb && CC=$$QMAKE_CC CXX=$$QMAKE_CXX $(MAKE) OPT=\"$$QMAKE_CXXFLAGS $$QMAKE_CXXFLAGS_RELEASE\" libleveldb.a libmemenv.a
+    genleveldb.commands = cd $$PWD/src/leveldb && chmod +x build_detect_platform && CC=$$QMAKE_CC CXX=$$QMAKE_CXX $(MAKE) OPT=\"$$QMAKE_CXXFLAGS $$QMAKE_CXXFLAGS_RELEASE\" libleveldb.a libmemenv.a
 } else {
     # make an educated guess about what the ranlib command is called
     isEmpty(QMAKE_RANLIB) {
@@ -365,11 +385,12 @@ OTHER_FILES += README.md \
     src/test/*.cpp \
     src/test/*.h \
     src/qt/test/*.cpp \
-    src/qt/test/*.h
+    src/qt/test/*.h \
+    src/mac/Info.plist
 
 # platform specific defaults, if not overridden on command line
 isEmpty(BOOST_LIB_SUFFIX) {
-    macx:BOOST_LIB_SUFFIX = -mt
+    macx:BOOST_LIB_SUFFIX = -mt.a
     win32:BOOST_LIB_SUFFIX = -mgw44-mt-s-1_50
 }
 
@@ -406,25 +427,18 @@ win32:!contains(MINGW_THREAD_BUGFIX, 0) {
     DEFINES += _FILE_OFFSET_BITS=64
 }
 
-macx:HEADERS += src/qt/macdockiconhandler.h src/qt/macnotificationhandler.h
-macx:OBJECTIVE_SOURCES += src/qt/macdockiconhandler.mm src/qt/macnotificationhandler.mm
-macx:LIBS += -framework Foundation -framework ApplicationServices -framework AppKit -framework CoreServices
-macx:DEFINES += MAC_OSX MSG_NOSIGNAL=0
-macx:ICON = src/qt/res/icons/litecoin.icns
-#macx:QMAKE_CFLAGS_THREAD += -pthread
-#macx:QMAKE_LFLAGS_THREAD += -pthread
-#macx:QMAKE_CXXFLAGS_THREAD += -pthread
-macx:QMAKE_INFO_PLIST = share/qt/Info.plist
 
 # Set libraries and includes at end, to use platform-defined defaults if not overridden
 INCLUDEPATH += $$BOOST_INCLUDE_PATH $$BDB_INCLUDE_PATH $$OPENSSL_INCLUDE_PATH $$QRENCODE_INCLUDE_PATH
 LIBS += $$join(BOOST_LIB_PATH,,-L,) $$join(BDB_LIB_PATH,,-L,) $$join(OPENSSL_LIB_PATH,,-L,) $$join(QRENCODE_LIB_PATH,,-L,)
 LIBS += -lssl -lcrypto -ldb_cxx$$BDB_LIB_SUFFIX
 # -lgdi32 has to happen after -lcrypto (see  #681)
-win32:LIBS += -lws2_32 -lshlwapi -lmswsock -lole32 -loleaut32 -luuid -lgdi32
-LIBS += -lboost_system$$BOOST_LIB_SUFFIX -lboost_filesystem$$BOOST_LIB_SUFFIX -lboost_program_options$$BOOST_LIB_SUFFIX -lboost_thread$$BOOST_THREAD_LIB_SUFFIX
-win32:LIBS += -lboost_chrono$$BOOST_LIB_SUFFIX
-macx:LIBS += -lboost_chrono$$BOOST_LIB_SUFFIX
+
+win32: {
+    LIBS += -lws2_32 -lshlwapi -lmswsock -lole32 -loleaut32 -luuid -lgdi32
+    LIBS += -lboost_system$$BOOST_LIB_SUFFIX -lboost_filesystem$$BOOST_LIB_SUFFIX -lboost_program_options$$BOOST_LIB_SUFFIX -lboost_thread$$BOOST_THREAD_LIB_SUFFIX
+    LIBS += -lboost_chrono$$BOOST_LIB_SUFFIX
+}
 
 contains(RELEASE, 1) {
     !win32:!macx {

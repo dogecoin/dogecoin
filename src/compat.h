@@ -28,6 +28,10 @@
 #endif
 
 typedef u_int SOCKET;
+#ifdef MAC_OSX
+#define MSG_NOSIGNAL        SO_NOSIGPIPE
+#endif
+
 #ifdef WIN32
 #define MSG_NOSIGNAL        0
 #define MSG_DONTWAIT        0
