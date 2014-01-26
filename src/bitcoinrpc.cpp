@@ -731,7 +731,6 @@ static void RPCAcceptHandler(boost::shared_ptr< basic_socket_acceptor<Protocol, 
 
 // Rough check of password strength based on 0-order entropy.
 // Should work for both passwords and phrases without any complicated rules.
-//        -- orezpraw, Jan 5, 2014
 static int weakPassword(std::string passwd)
 {
     char i;
@@ -763,7 +762,7 @@ void StartRPCThreads()
         else if (mapArgs.count("-daemon"))
             strWhatAmI = strprintf(_("To use the %s option"), "\"-daemon\"");
         uiInterface.ThreadSafeMessageBox(strprintf(
-            _("%s, you must set a long rpcpassword in the configuration file:\n"
+            _("%s, you must set a secure rpcpassword in the configuration file:\n"
               "%s\n"
               "It is recommended you use the following random password:\n"
               "rpcuser=dogecoinrpc\n"
