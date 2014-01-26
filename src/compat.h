@@ -27,6 +27,10 @@
 #include <ifaddrs.h>
 #endif
 
+#if MAC_OSX
+#define MSG_NOSIGNAL        SO_NOSIGPIPE
+#endif
+
 typedef u_int SOCKET;
 #ifdef WIN32
 #define MSG_NOSIGNAL        0
