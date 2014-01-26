@@ -100,16 +100,36 @@ contains(BITCOIN_NEED_QT_PLUGINS, 1) {
 }
 
 macx: {
-    DEPSDIR=/usr/local/
+
+    isEmpty(DEPS_DIR) {
+        DEPSDIR=/usr/local
+    }
+
+    isEmpty(BOOST_LIB_PATH) {
+        BOOST_LIB_PATH=$$DEPSDIR/lib
+    }
+
+    isEmpty(BOOST_HEADER_PATH) {
+        BOOST_HEADER_PATH=$$DEPSDIR/include
+    }
+
+    isEmpty(BDB_LIB_PATH) {
+        BDB_LIB_PATH=$$DEPSDIR/lib
+    }
+
+    isEmpty(BDB_HEADER_PATH) {
+        BDB_HEADER_PATH=$$DEPSDIR/include
+    }
+
     HEADERS += src/qt/macdockiconhandler.h src/qt/macnotificationhandler.h
     OBJECTIVE_SOURCES += src/qt/macdockiconhandler.mm src/qt/macnotificationhandler.mm
     LIBS += -framework Foundation -framework ApplicationServices -framework AppKit -framework CoreServices \
-        $$DEPSDIR/lib/libdb_cxx.a \
-        $$DEPSDIR/lib/libboost_system-mt.a \
-        $$DEPSDIR/lib/libboost_filesystem-mt.a \
-        $$DEPSDIR/lib/libboost_program_options-mt.a \
-        $$DEPSDIR/lib/libboost_thread-mt.a \
-        $$DEPSDIR/lib/libboost_chrono-mt.a
+        $$BDB_LIB_PATH/libdb_cxx.a \
+        $$BOOST_LIB_PATH/libboost_system-mt.a \
+        $$BOOST_LIB_PATH/libboost_filesystem-mt.a \
+        $$BOOST_LIB_PATH/libboost_program_options-mt.a \
+        $$BOOST_LIB_PATH/libboost_thread-mt.a \
+        $$BOOST_LIB_PATH/libboost_chrono-mt.a
     DEFINES += MAC_OSX
     ICON = src/qt/res/icons/Dogecoin.icns
     QMAKE_INFO_PLIST=src/mac/Info.plist
@@ -398,14 +418,6 @@ isEmpty(BOOST_THREAD_LIB_SUFFIX) {
     BOOST_THREAD_LIB_SUFFIX = $$BOOST_LIB_SUFFIX
 }
 
-isEmpty(BOOST_LIB_PATH) {
-    macx:BOOST_LIB_PATH = /usr/local/lib
-}
-
-isEmpty(BOOST_INCLUDE_PATH) {
-    macx:BOOST_INCLUDE_PATH = /usr/local/include
-}
-
 win32:DEFINES += WIN32 WIN32_LEAN_AND_MEAN
 win32:RC_FILE = src/qt/res/bitcoin-qt.rc
 
@@ -431,11 +443,11 @@ win32:!contains(MINGW_THREAD_BUGFIX, 0) {
 # Set libraries and includes at end, to use platform-defined defaults if not overridden
 INCLUDEPATH += $$BOOST_INCLUDE_PATH $$BDB_INCLUDE_PATH $$OPENSSL_INCLUDE_PATH $$QRENCODE_INCLUDE_PATH
 LIBS += $$join(BOOST_LIB_PATH,,-L,) $$join(BDB_LIB_PATH,,-L,) $$join(OPENSSL_LIB_PATH,,-L,) $$join(QRENCODE_LIB_PATH,,-L,)
-LIBS += -lssl -lcrypto -ldb_cxx$$BDB_LIB_SUFFIX
+LIBS += -lssl -lcrypto
 # -lgdi32 has to happen after -lcrypto (see  #681)
 !macx {
-    LIBS += -lboost_system$$BOOST_LIB_SUFFIX -lboost_filesystem$$BOOST_LIB_SUFFIX -lboost_program_options$$BOOST_LIB_SUFFIX -lboost_thread$$BOOST_THREAD_LIB_SUFFIX
-    LIBS += -lboost_chrono$$BOOST_LIB_SUFFIX
+    LIBS += -lboost_system$$BOOST_LIB_SUFFIX -lboost_filesystem$$BOOST_LIB_SUFFIX -lboost_program_options$$BOOST_LIB_SUFFIX
+    LIBS += -lboost_thread$$BOOST_THREAD_LIB_SUFFIX -lboost_chrono$$BOOST_LIB_SUFFIX -ldb_cxx$$BDB_LIB_SUFFIX
 }
 
 win32: {
