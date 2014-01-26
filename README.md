@@ -1,4 +1,4 @@
-**THIS IS AN ALPHA DEVELOPMENT BRANCH. USE AT YOUR OWN RISK***
+*** Pull requests accepted and encouraged, thanks! This will replace the existing Dogecoin 1.4.1 repository once tested ***
 
 # Dogecoin [DOGE, Ð]
 http://dogecoin.com/
