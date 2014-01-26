@@ -10,15 +10,15 @@ cryptographic software written by Eric Young (eay@cryptsoft.com) and UPnP
 software written by Thomas Bernard.
 
 
-Mac OS X litecoind build instructions
+Original Mac OS X litecoind build instructions
 Laszlo Hanyecz <solar@heliacal.net>
 Douglas Huff <dhuff@jrbobdobbs.org>
 
 
-See readme-qt.rst for instructions on building Litecoin-QT, the
+See readme-qt.rst for instructions on building Dogecoin-QT, the
 graphical user interface.
 
-Tested on 10.5, 10.6 and 10.7 intel.  PPC is not supported because it's big-endian.
+Tested on 10.5, 10.6 and 10.7, 10.9 intel.  PPC is not supported because it's big-endian.
 
 All of the commands should be executed in Terminal.app.. it's in
 /Applications/Utilities
@@ -26,32 +26,45 @@ All of the commands should be executed in Terminal.app.. it's in
 You need to install XCode with all the options checked so that the compiler and
 everything is available in /usr not just /Developer. XCode should be available on your OS X
 install DVD, but if not, you can get the current version from https://developer.apple.com/xcode/
+or by running `xcode-select --install` if you are using Mac OSX 10.9+
 
 
-1.  Clone the github tree to get the source code:
+* Getting the source code (you probably already have it if you are reading this):
 
-git clone git@github.com:litecoin-project/litecoin.git litecoin
+  git clone https://github.com/dogecoin/dogecoin
 
-2.  Download and install MacPorts from http://www.macports.org/
-
-2a. (for 10.7 Lion)
+* Installing dependencies, MacPorts users (http://www.macports.org/):
+  For 10.7 Lion:
     Edit /opt/local/etc/macports/macports.conf and uncomment "build_arch i386"
+  
+  sudo port install boost db48 openssl miniupnpc
+  
+  Optionally install qrencode (and set USE_QRCODE=1):
+  sudo port install qrencode
 
-3.  Install dependencies from MacPorts
 
-sudo port install boost db48 openssl miniupnpc
+* Installing dependencies, Homebrew users (http://brew.sh/)
+  brew install boost berkeley-db4 openssl miniupnpc
 
-Optionally install qrencode (and set USE_QRCODE=1):
-sudo port install qrencode
+  (Untested) Optionally install qrencode (and set USE_QRCODE=1):
+  brew install qrencode
 
-4.  Now you should be able to build litecoind:
 
-cd litecoin/src
-make -f makefile.osx USE_IPV6=1
+* Building dogecoind
 
+cd dogecoin/src
+
+If you are using MacPorts (or manually installed dependencies):
+  make -f makefile.osx
+
+If you are using Homebrew (as per above):
+  make -f makefile.osx HOMEBREW=1
+
+
+* Running dogecoind
 Run:
-  ./litecoind --help  # for a list of command-line options.
+  ./dogecoind --help  # for a list of command-line options.
 Run
-  ./litecoind -daemon # to start the litecoin daemon.
+  ./dogecoind -daemon # to start the dogecoin daemon.
 Run
-  ./litecoind help # When the daemon is running, to get a list of RPC commands
+  ./dogecoind help # When the daemon is running, to get a list of RPC commands
