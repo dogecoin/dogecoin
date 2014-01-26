@@ -142,12 +142,12 @@ Ez a termék az OpenSSL Project által lett kifejlesztve az OpenSSL Toolkit (htt
     <message>
         <location line="+260"/>
         <source>Export Address Book Data</source>
-        <translation>Címjegyzék adatainak exportálása</translation>
+        <translation>Címjegyzék Adatainak Exportálása</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Comma separated file (*.csv)</source>
-        <translation>Vesszővel elválasztott fájl (*. csv)</translation>
+        <translation>Vesszővel elválasztott fájl (*.csv)</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -198,7 +198,7 @@ Ez a termék az OpenSSL Project által lett kifejlesztve az OpenSSL Toolkit (htt
     <message>
         <location line="+14"/>
         <source>Repeat new passphrase</source>
-        <translation>Új jelszó újra</translation>
+        <translation>Új jelszó (ismét)</translation>
     </message>
     <message>
         <location filename="../askpassphrasedialog.cpp" line="+33"/>
@@ -213,7 +213,7 @@ Ez a termék az OpenSSL Project által lett kifejlesztve az OpenSSL Toolkit (htt
     <message>
         <location line="+3"/>
         <source>This operation needs your wallet passphrase to unlock the wallet.</source>
-        <translation>A tárcád megnyitásához a műveletnek szüksége van a tárcád jelszavára.</translation>
+        <translation>A tárcád megnyitásához szükség van annak jelszavára.</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -223,7 +223,7 @@ Ez a termék az OpenSSL Project által lett kifejlesztve az OpenSSL Toolkit (htt
     <message>
         <location line="+3"/>
         <source>This operation needs your wallet passphrase to decrypt the wallet.</source>
-        <translation>A tárcád dekódolásához a műveletnek szüksége van a tárcád jelszavára.</translation>
+        <translation>A tárcád dekódolásához szükség van annak jelszavára.</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -283,7 +283,7 @@ Ez a termék az OpenSSL Project által lett kifejlesztve az OpenSSL Toolkit (htt
         <location line="+42"/>
         <location line="+6"/>
         <source>Wallet encryption failed</source>
-        <translation>Tárca kódolása sikertelen.</translation>
+        <translation>Tárca kódolása sikertelen</translation>
     </message>
     <message>
         <location line="-54"/>
@@ -311,7 +311,7 @@ Ez a termék az OpenSSL Project által lett kifejlesztve az OpenSSL Toolkit (htt
     <message>
         <location line="-20"/>
         <source>Wallet decryption failed</source>
-        <translation>Dekódolás sikertelen.</translation>
+        <translation>Tárca dekódolása sikertelen</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -359,7 +359,7 @@ Ez a termék az OpenSSL Project által lett kifejlesztve az OpenSSL Toolkit (htt
     <message>
         <location line="-14"/>
         <source>Show the list of addresses for receiving payments</source>
-        <translation>Kiizetést fogadó címek listája</translation>
+        <translation>Kifizetést fogadó címek listája</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -369,7 +369,7 @@ Ez a termék az OpenSSL Project által lett kifejlesztve az OpenSSL Toolkit (htt
     <message>
         <location line="+1"/>
         <source>Quit application</source>
-        <translation>Kilépés</translation>
+        <translation>Kilépés az alkalmazásból</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -626,7 +626,7 @@ Ez a termék az OpenSSL Project által lett kifejlesztve az OpenSSL Toolkit (htt
     <message>
         <location line="+8"/>
         <source>Sent transaction</source>
-        <translation>Tranzakció elküldve.</translation>
+        <translation>Tranzakció elküldve</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -679,7 +679,7 @@ Cím: %4
     <message>
         <location filename="../clientmodel.cpp" line="+104"/>
         <source>Network Alert</source>
-        <translation type="unfinished"/>
+        <translation>Hálózati Riasztás</translation>
     </message>
 </context>
 <context>
@@ -687,7 +687,7 @@ Cím: %4
     <message>
         <location filename="../forms/editaddressdialog.ui" line="+14"/>
         <source>Edit Address</source>
-        <translation>Cím szerkesztése</translation>
+        <translation>Cím Szerkesztése</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -707,7 +707,7 @@ Cím: %4
     <message>
         <location line="+10"/>
         <source>The address associated with this address book entry. This can only be modified for sending addresses.</source>
-        <translation>Az ehhez a címjegyzék-bejegyzéshez tartozó cím. Ez csak a küldő címeknél módosítható.</translation>
+        <translation>Ezen címjegyzék-bejegyzéshez tartozó cím. Ez csak a küldő címeknél módosítható.</translation>
     </message>
     <message>
         <location filename="../editaddressdialog.cpp" line="+21"/>
@@ -742,12 +742,12 @@ Cím: %4
     <message>
         <location line="+10"/>
         <source>Could not unlock wallet.</source>
-        <translation>Tárca feloldása sikertelen</translation>
+        <translation>Tárca feloldása sikertelen.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>New key generation failed.</source>
-        <translation>Új kulcs generálása sikertelen</translation>
+        <translation>Új kulcs generálása sikertelen.</translation>
     </message>
 </context>
 <context>
@@ -781,18 +781,17 @@ Cím: %4
     <message>
         <location line="+1"/>
         <source>Set language, for example &quot;de_DE&quot; (default: system locale)</source>
-        <translation type="unfinished"/>
+        <translation>Nyelv beállítása, például &quot;de_DE&quot; (alapértelmezett: a rendszer nyelve)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Start minimized</source>
-        <translation>Indítás lekicsinyítve
-</translation>
+        <translation>Indítás lekicsinyítve</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Show splash screen on startup (default: 1)</source>
-        <translation type="unfinished"/>
+        <translation>Nyitóképernyő mutatása indításkor (alapértelmezett: 1)</translation>
     </message>
 </context>
 <context>
@@ -1056,7 +1055,7 @@ Cím: %4
     <message>
         <location line="+29"/>
         <source>Total of transactions that have yet to be confirmed, and do not yet count toward the current balance</source>
-        <translation>Még megerősítésre váró, a jelenlegi egyenlegbe be nem számított tranzakciók</translation>
+        <translation>Még megerősítésre váró, a jelenlegi egyenlegbe be nem számított tranzakciók összege</translation>
     </message>
     <message>
         <location filename="../overviewpage.cpp" line="+116"/>
@@ -1275,7 +1274,7 @@ Cím: %4
     <message>
         <location line="+1"/>
         <source>Type &lt;b&gt;help&lt;/b&gt; for an overview of available commands.</source>
-        <translation type="unfinished"/>
+        <translation>Írd be a &lt;b&gt;help&lt;/b&gt; kulcsszót az elérhető parancsok áttekintéséhez.</translation>
     </message>
 </context>
 <context>
@@ -1290,7 +1289,7 @@ Cím: %4
         <location line="+5"/>
         <location line="+5"/>
         <source>Send Coins</source>
-        <translation>Érmék küldése</translation>
+        <translation>Érmék Küldése</translation>
     </message>
     <message>
         <location line="+50"/>
@@ -1320,7 +1319,7 @@ Cím: %4
     <message>
         <location line="+10"/>
         <source>123.456 BTC</source>
-        <translation>123.456 BTC</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+31"/>
@@ -1350,7 +1349,7 @@ Cím: %4
     <message>
         <location line="+0"/>
         <source> and </source>
-        <translation> és</translation>
+        <translation> és </translation>
     </message>
     <message>
         <location line="+23"/>
@@ -1398,29 +1397,28 @@ Cím: %4
     <message>
         <location line="+15"/>
         <source>A&amp;mount:</source>
-        <translation>Összeg:</translation>
+        <translation>&amp;Összeg:</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Pay &amp;To:</source>
-        <translation>Címzett:</translation>
+        <translation>&amp;Címzett:</translation>
     </message>
     <message>
         <location line="+34"/>
-        <source>The address to send the payment to (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
+        <source>The address to send the payment to (e.g. Ler4HNAEfwYhBmGXcFP2Po1NpRUEiK8km2)</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location line="+60"/>
         <location filename="../sendcoinsentry.cpp" line="+26"/>
         <source>Enter a label for this address to add it to your address book</source>
-        <translation>Milyen címkével kerüljön be ez a cím a címtáradba?
-</translation>
+        <translation>Milyen címkével kerüljön be ez a cím a címtáradba?</translation>
     </message>
     <message>
         <location line="-78"/>
         <source>&amp;Label:</source>
-        <translation>Címke:</translation>
+        <translation>Cím&amp;ke:</translation>
     </message>
     <message>
         <location line="+28"/>
@@ -1430,7 +1428,7 @@ Cím: %4
     <message>
         <location line="+10"/>
         <source>Alt+A</source>
-        <translation>Alt+A</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+7"/>
@@ -1440,7 +1438,7 @@ Cím: %4
     <message>
         <location line="+10"/>
         <source>Alt+P</source>
-        <translation>Alt+P</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+7"/>
@@ -1449,8 +1447,8 @@ Cím: %4
     </message>
     <message>
         <location filename="../sendcoinsentry.cpp" line="+1"/>
-        <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>Adj meg egy Dogecoin-címet (pl.: DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM )</translation>
+        <source>Enter a Dogecoin address (e.g. Ler4HNAEfwYhBmGXcFP2Po1NpRUEiK8km2)</source>
+        <translation>Adj meg egy Dogecoin-címet (pl.: Ler4HNAEfwYhBmGXcFP2Po1NpRUEiK8km2 )</translation>
     </message>
 </context>
 <context>
@@ -1472,8 +1470,8 @@ Cím: %4
     </message>
     <message>
         <location line="+18"/>
-        <source>The address to sign the message with (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>Adj meg egy Dogecoin-címet (pl.: DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM )</translation>
+        <source>The address to sign the message with (e.g. Ler4HNAEfwYhBmGXcFP2Po1NpRUEiK8km2)</source>
+        <translation>Adj meg egy Dogecoin-címet (pl.: Ler4HNAEfwYhBmGXcFP2Po1NpRUEiK8km2 )</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1545,8 +1543,8 @@ Cím: %4
     </message>
     <message>
         <location line="+21"/>
-        <source>The address the message was signed with (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>Adj meg egy Dogecoin-címet (pl.: DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM )</translation>
+        <source>The address the message was signed with (e.g. Ler4HNAEfwYhBmGXcFP2Po1NpRUEiK8km2)</source>
+        <translation>Adj meg egy Dogecoin-címet (pl.: Ler4HNAEfwYhBmGXcFP2Po1NpRUEiK8km2 )</translation>
     </message>
     <message>
         <location line="+40"/>
@@ -1566,8 +1564,8 @@ Cím: %4
     <message>
         <location filename="../signverifymessagedialog.cpp" line="+27"/>
         <location line="+3"/>
-        <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>Adj meg egy Dogecoin-címet (pl.: DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM )</translation>
+        <source>Enter a Dogecoin address (e.g. Ler4HNAEfwYhBmGXcFP2Po1NpRUEiK8km2)</source>
+        <translation>Adj meg egy Dogecoin-címet (pl.: Ler4HNAEfwYhBmGXcFP2Po1NpRUEiK8km2 )</translation>
     </message>
     <message>
         <location line="-2"/>
@@ -2735,20 +2733,17 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <location line="-50"/>
         <source>Password for JSON-RPC connections</source>
-        <translation>Jelszó JSON-RPC csatlakozásokhoz
-</translation>
+        <translation>Jelszó JSON-RPC csatlakozásokhoz</translation>
     </message>
     <message>
         <location line="-67"/>
         <source>Allow JSON-RPC connections from specified IP address</source>
-        <translation>JSON-RPC csatlakozások engedélyezése meghatározott IP-címről
-</translation>
+        <translation>JSON-RPC kapcsolatok engedélyezése meghatározott IP-címről</translation>
     </message>
     <message>
         <location line="+76"/>
         <source>Send commands to node running on &lt;ip&gt; (default: 127.0.0.1)</source>
-        <translation>Parancsok küldése &lt;ip&gt; címen működő csomóponthoz (alapértelmezett: 127.0.0.1)
-</translation>
+        <translation>Parancsok küldése &lt;ip&gt; címen működő csomóponthoz (alapértelmezett: 127.0.0.1)</translation>
     </message>
     <message>
         <location line="-120"/>
@@ -2763,44 +2758,37 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <location line="-21"/>
         <source>Set key pool size to &lt;n&gt; (default: 100)</source>
-        <translation>Kulcskarika mérete &lt;n&gt; (alapértelmezett: 100)
-</translation>
+        <translation>Kulcskarika méretének &lt;n&gt; hosszúságúra való állítása (alapértelmezett: 100)</translation>
     </message>
     <message>
         <location line="-12"/>
         <source>Rescan the block chain for missing wallet transactions</source>
-        <translation>Blokklánc újraszkennelése hiányzó tárca-tranzakciók után
-</translation>
+        <translation>Blokklánc újraszkennelése hiányzó tárca-tranzakciók után</translation>
     </message>
     <message>
         <location line="+35"/>
         <source>Use OpenSSL (https) for JSON-RPC connections</source>
-        <translation>OpenSSL (https) használata JSON-RPC csatalkozásokhoz
-</translation>
+        <translation>OpenSSL (https) használata JSON-RPC csatalkozásokhoz</translation>
     </message>
     <message>
         <location line="-26"/>
         <source>Server certificate file (default: server.cert)</source>
-        <translation>Szervertanúsítvány-fájl (alapértelmezett: server.cert)
-</translation>
+        <translation>Szervertanúsítvány-fájl (alapértelmezett: server.cert)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Server private key (default: server.pem)</source>
-        <translation>Szerver titkos kulcsa (alapértelmezett: server.pem)
-</translation>
+        <translation>Szerver titkos kulcsa (alapértelmezett: server.pem)</translation>
     </message>
     <message>
         <location line="-151"/>
         <source>Acceptable ciphers (default: TLSv1+HIGH:!SSLv2:!aNULL:!eNULL:!AH:!3DES:@STRENGTH)</source>
-        <translation>Elfogadható rejtjelkulcsok (alapértelmezett: TLSv1+HIGH:!SSLv2:!aNULL:!eNULL:!AH:!3DES:@STRENGTH )
-</translation>
+        <translation>Elfogadható rejtjelkulcsok (alapértelmezett: TLSv1+HIGH:!SSLv2:!aNULL:!eNULL:!AH:!3DES:@STRENGTH)</translation>
     </message>
     <message>
         <location line="+165"/>
         <source>This help message</source>
-        <translation>Ez a súgó-üzenet
-</translation>
+        <translation>Ez a súgó-üzenet</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -2860,12 +2848,12 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <location line="-96"/>
         <source>Cannot resolve -bind address: &apos;%s&apos;</source>
-        <translation type="unfinished"/>
+        <translation>Nem lehet feloldani a -bind címet: &apos;%s&apos;</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Cannot resolve -externalip address: &apos;%s&apos;</source>
-        <translation type="unfinished"/>
+        <translation>Nem lehet feloldani az -externalip címet: &apos;%s&apos;</translation>
     </message>
     <message>
         <location line="+44"/>
@@ -2925,7 +2913,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <location line="-57"/>
         <source>Done loading</source>
-        <translation>Betöltés befejezve.</translation>
+        <translation>Betöltés befejezve</translation>
     </message>
     <message>
         <location line="+82"/>
