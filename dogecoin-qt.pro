@@ -109,16 +109,16 @@ macx: {
         BOOST_LIB_PATH=$$DEPSDIR/lib
     }
 
-    isEmpty(BOOST_HEADER_PATH) {
-        BOOST_HEADER_PATH=$$DEPSDIR/include
+    isEmpty(BOOST_INCLUDE_PATH) {
+        BOOST_INCLUDE_PATH=$$DEPSDIR/include
     }
 
     isEmpty(BDB_LIB_PATH) {
         BDB_LIB_PATH=$$DEPSDIR/lib
     }
 
-    isEmpty(BDB_HEADER_PATH) {
-        BDB_HEADER_PATH=$$DEPSDIR/include
+    isEmpty(BDB_INCLUDE_PATH) {
+        BDB_INCLUDE_PATH=$$DEPSDIR/include
     }
 
     HEADERS += src/qt/macdockiconhandler.h src/qt/macnotificationhandler.h
