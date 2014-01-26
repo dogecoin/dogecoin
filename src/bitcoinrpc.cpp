@@ -729,11 +729,30 @@ static void RPCAcceptHandler(boost::shared_ptr< basic_socket_acceptor<Protocol, 
     }
 }
 
+// Rough check of password strength based on 0-order entropy.
+// Should work for both passwords and phrases without any complicated rules.
+static int weakPassword(std::string passwd)
+{
+    char i;
+    double uniqueChars = 0;
+    for (i = CHAR_MIN; i < CHAR_MAX; i++) {
+      if (passwd.find(i) != std::string::npos)
+        uniqueChars += 1;
+    }
+    double bits = (log(uniqueChars)/log(2)) * ((double)passwd.size());
+    if (bits < 64)
+      return 1;
+    else
+      return 0;
+    
+}
+
 void StartRPCThreads()
 {
     strRPCUserColonPass = mapArgs["-rpcuser"] + ":" + mapArgs["-rpcpassword"];
     if ((mapArgs["-rpcpassword"] == "") ||
-        (mapArgs["-rpcuser"] == mapArgs["-rpcpassword"]))
+        (mapArgs["-rpcuser"] == mapArgs["-rpcpassword"]) 
+        || weakPassword(mapArgs["-rpcpassword"]))
     {
         unsigned char rand_pwd[32];
         RAND_bytes(rand_pwd, 32);
@@ -743,7 +762,7 @@ void StartRPCThreads()
         else if (mapArgs.count("-daemon"))
             strWhatAmI = strprintf(_("To use the %s option"), "\"-daemon\"");
         uiInterface.ThreadSafeMessageBox(strprintf(
-            _("%s, you must set a rpcpassword in the configuration file:\n"
+            _("%s, you must set a secure rpcpassword in the configuration file:\n"
               "%s\n"
               "It is recommended you use the following random password:\n"
               "rpcuser=dogecoinrpc\n"
