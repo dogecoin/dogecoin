@@ -139,7 +139,7 @@ macx: {
         $$BOOST_LIB_PATH/libboost_thread-mt.a \
         $$BOOST_LIB_PATH/libboost_chrono-mt.a
     DEFINES += MAC_OSX
-    ICON = src/qt/res/icons/Dogecoin.icns
+    ICON = src/mac/artwork/Dogecoin.icns
     QMAKE_INFO_PLIST=src/mac/Info.plist
     # osx 10.9 has changed the stdlib default to libc++. To prevent some link error, you may need to use libstdc++
     QMAKE_CXXFLAGS += -stdlib=libstdc++
