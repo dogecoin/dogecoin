@@ -1,4 +1,4 @@
-*** Pull requests accepted and encouraged, thanks! This will replace the existing Dogecoin 1.4.1 repository once tested ***
+***Pull requests accepted and encouraged, thanks! This will replace the existing Dogecoin 1.4.1 repository once tested***
 
 # Dogecoin [DOGE, Ð]
 http://dogecoin.com/
