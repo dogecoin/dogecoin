@@ -11,7 +11,7 @@ STATIC=yes
 CXX=c++
 
 MACPORTSDIR=$(wildcard /opt/local)
-HOMEBREWDIR=$(wildcard /usr/local)
+HOMEBREWDIR=$(wildcard /usr/local/Cellar)
 
 ifneq ($(HOMEBREWDIR),)
     DEPSDIR=$(HOMEBREWDIR)
