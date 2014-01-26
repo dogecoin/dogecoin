@@ -43,6 +43,12 @@ contains(RELEASE, 1) {
     }
 }
 
+macx: {
+    QMAKE_CFLAGS += -stdlib=libstdc++
+    QMAKE_CXXFLAGS += -stdlib=libstdc++
+    QMAKE_LFLAGS += -stdlib=libstdc++
+}
+
 # use: qmake "USE_UPNP=1" ( enabled by default; default)
 #  or: qmake "USE_UPNP=0" (disabled by default)
 #  or: qmake "USE_UPNP=-" (not supported)
