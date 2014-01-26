@@ -105,11 +105,17 @@ QString BitcoinUnits::format(int unit, qint64 n, bool fPlus)
         ++nTrim;
     remainder_str.chop(nTrim);
 
-    if (n < 0)
+    QString quotientString;
+
+    if (n < 0) {
         quotient = -quotient;
+    }
+    else if ( n > 0 && fPlus ) {
+        quotientString += "+";
+    }
 
     QLocale local;
-    return local.toString(quotient) + local.decimalPoint() + remainder_str;
+    return quotientString + local.toString(quotient) + local.decimalPoint() + remainder_str;
 }
 
 QString BitcoinUnits::formatWithUnit(int unit, qint64 amount, bool plussign)
