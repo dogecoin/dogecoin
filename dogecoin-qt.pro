@@ -101,24 +101,32 @@ contains(BITCOIN_NEED_QT_PLUGINS, 1) {
 
 macx: {
 
-    isEmpty(DEPS_DIR) {
-        DEPSDIR=/usr/local
+    isEmpty(DEPSDIR) {
+
+        check_dir = /usr/local/Cellar
+        exists($$check_dir) {
+            DEPSDIR = /usr/local
+        }
+
+        !exists($$check_dir) {
+            DEPSDIR = /opt/local
+        }
     }
 
     isEmpty(BOOST_LIB_PATH) {
-        BOOST_LIB_PATH=$$DEPSDIR/lib
+        BOOST_LIB_PATH = $$DEPSDIR/lib
     }
 
     isEmpty(BOOST_INCLUDE_PATH) {
-        BOOST_INCLUDE_PATH=$$DEPSDIR/include
+        BOOST_INCLUDE_PATH = $$DEPSDIR/include
     }
 
     isEmpty(BDB_LIB_PATH) {
-        BDB_LIB_PATH=$$DEPSDIR/lib
+        BDB_LIB_PATH = $$DEPSDIR/lib
     }
 
     isEmpty(BDB_INCLUDE_PATH) {
-        BDB_INCLUDE_PATH=$$DEPSDIR/include
+        BDB_INCLUDE_PATH = $$DEPSDIR/include
     }
 
     HEADERS += src/qt/macdockiconhandler.h src/qt/macnotificationhandler.h

@@ -7,16 +7,14 @@
 # Mac OS X makefile for Dogecoin
 # Originally by Laszlo Hanyecz (solar@heliacal.net)
 
-STATIC=yes
 CXX=c++
 
-MACPORTSDIR=$(wildcard /opt/local)
-HOMEBREWDIR=$(wildcard /usr/local/Cellar)
+CHECKDIR=$(wildcard /usr/local/Cellar)
 
-ifneq ($(HOMEBREWDIR),)
-    DEPSDIR=$(HOMEBREWDIR)
+ifneq ($(CHECK_DIR),)
+    DEPSDIR=/usr/local
 else
-    DEPSDIR=$(MACPORTSDIR)
+    DEPSDIR=/opt/local
 endif
 
 
