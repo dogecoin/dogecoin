@@ -24,7 +24,7 @@
 namespace json_spirit
 {
     enum Value_type{ obj_type, array_type, str_type, bool_type, int_type, real_type, null_type };
-    static const char* Value_type_name[]={"obj", "array", "str", "bool", "int", "real", "null"};
+    extern const char* Value_type_name[];
 
     template< class Config >    // Config determines whether the value uses std::string or std::wstring and
                                 // whether JSON Objects are represented as vectors or maps

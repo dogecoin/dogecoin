@@ -341,7 +341,8 @@ SOURCES += src/qt/bitcoin.cpp \
     src/noui.cpp \
     src/leveldb.cpp \
     src/txdb.cpp \
-    src/qt/splashscreen.cpp
+    src/qt/splashscreen.cpp \
+    src/json/json_spirit_value.cpp
 
 RESOURCES += src/qt/bitcoin.qrc
 

@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleShortVersionString</key>
-        <string>1.5.0.1</string>
+        <string>1.5.0.3</string>
 	<key>CFBundleVersion</key>
-        <string>1.5 Alpha 1</string>
+        <string>1.5 Alpha 3</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>CFBundleIconFile</key>
