@@ -59,6 +59,7 @@ HEADERS = $(wildcard *.h)
 
 OBJS= \
     leveldb/libleveldb.a \
+    json/json_spirit_value.o \
     obj/alert.o \
     obj/version.o \
     obj/checkpoints.o \

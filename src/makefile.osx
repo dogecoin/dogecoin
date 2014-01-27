@@ -9,11 +9,9 @@
 
 CXX=c++
 
-CHECKDIR=$(wildcard /usr/local/Cellar)
+DEPSDIR = $(shell if [ -e /usr/local/Cellar ]; then echo "/usr/local"; fi)
 
-ifneq ($(CHECK_DIR),)
-    DEPSDIR=/usr/local
-else
+ifeq ($(DEPSDIR),)
     DEPSDIR=/opt/local
 endif
 
@@ -83,6 +81,7 @@ CFLAGS += -Wall -Wextra -Wformat -Wformat-security -Wno-unused-parameter \
 
 OBJS= \
     leveldb/libleveldb.a \
+    json/json_spirit_value.o \
     obj/alert.o \
     obj/version.o \
     obj/checkpoints.o \
