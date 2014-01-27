@@ -1,3 +1,3 @@
-debian/manpages/bitcoind.1
-debian/manpages/bitcoin.conf.5
-debian/manpages/bitcoin-cli.1
+debian/manpages/dogecoind.1
+debian/manpages/dogercoin.conf.5
+debian/manpages/dogecoin-cli.1
