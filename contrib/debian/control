@@ -1,4 +1,4 @@
-Source: bitcoin
+Source: dogecoin
 Section: utils
 Priority: optional
 Maintainer: Jonas Smedegaard <dr@jones.dk>
@@ -19,15 +19,15 @@ Build-Depends: debhelper,
  libqt4-dev,
  libqrencode-dev
 Standards-Version: 3.9.2
-Homepage: http://www.bitcoin.org/
-Vcs-Git: git://github.com/bitcoin/bitcoin.git
-Vcs-Browser: http://github.com/bitcoin/bitcoin
+Homepage: http://www.dogecoin.com/
+Vcs-Git: git://github.com/dogecoin/dogecoin.git
+Vcs-Browser: http://github.com/dogecoin/dogecoin
 
-Package: bitcoind
+Package: dogecoind
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: peer-to-peer network based digital currency - daemon
- Bitcoin is a free open source peer-to-peer electronic cash system that
+ Dogecoin is a free open source peer-to-peer electronic cash system that
  is completely decentralized, without the need for a central server or
  trusted parties.  Users hold the crypto keys to their own money and
  transact directly with each other, with the help of a P2P network to
@@ -36,14 +36,14 @@ Description: peer-to-peer network based digital currency - daemon
  Full transaction history is stored locally at each client.  This
  requires 2+ GB of space, slowly growing.
  .
- This package provides bitcoind, a combined daemon and CLI tool to
+ This package provides dogecoind, a combined daemon and CLI tool to
  interact with the daemon.
 
-Package: bitcoin-qt
+Package: dogecoin-qt
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: peer-to-peer network based digital currency - Qt GUI
- Bitcoin is a free open source peer-to-peer electronic cash system that
+ Dogecoin is a free open source peer-to-peer electronic cash system that
  is completely decentralized, without the need for a central server or
  trusted parties.  Users hold the crypto keys to their own money and
  transact directly with each other, with the help of a P2P network to
@@ -52,4 +52,4 @@ Description: peer-to-peer network based digital currency - Qt GUI
  Full transaction history is stored locally at each client.  This
  requires 2+ GB of space, slowly growing.
  .
- This package provides Bitcoin-Qt, a GUI for Bitcoin based on Qt.
+ This package provides Dogecoin-Qt, a GUI for Dogecoin based on Qt.

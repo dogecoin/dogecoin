@@ -1,6 +1,6 @@
-bitcoin-qt usr/bin
+dogecoin-qt usr/bin
 share/pixmaps/bitcoin32.xpm usr/share/pixmaps
 share/pixmaps/bitcoin16.xpm usr/share/pixmaps
 share/pixmaps/bitcoin128.png usr/share/pixmaps
-debian/bitcoin-qt.desktop usr/share/applications
-debian/bitcoin-qt.protocol usr/share/kde4/services/
+debian/dogecoin-qt.desktop usr/share/applications
+debian/dogecoin-qt.protocol usr/share/kde4/services/
