@@ -148,6 +148,13 @@ macx: {
     QMAKE_CXXFLAGS_THREAD += -pthread
 }
 
+# Let the user override CFLAGS if they wish!
+# This only takes effect if the user specifies.
+
+QMAKE_CXXFLAGS_RELEASE += $$(CXXFLAGS) $$(CFLAGS)
+QMAKE_CFLAGS_RELEASE += $$(CFLAGS)
+QMAKE_LFLAGS_RELEASE += $$(LDFLAGS)
+
 INCLUDEPATH += src/leveldb/include src/leveldb/helpers
 LIBS += $$PWD/src/leveldb/libleveldb.a $$PWD/src/leveldb/libmemenv.a
 !win32 {
@@ -468,3 +475,4 @@ contains(RELEASE, 1) {
 }
 
 system($$QMAKE_LRELEASE -silent $$TRANSLATIONS)
+
