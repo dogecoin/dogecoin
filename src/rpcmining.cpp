@@ -12,6 +12,8 @@
 using namespace json_spirit;
 using namespace std;
 
+static const int kLookupSpanMod = 240;
+
 // Return average network hashes per second based on the last 'lookup' blocks,
 // or from the last difficulty change if 'lookup' is nonpositive.
 // If 'height' is nonnegative, compute the estimate at the time when a given block was found.
@@ -26,7 +28,7 @@ Value GetNetworkHashPS(int lookup, int height) {
 
     // If lookup is -1, then use blocks since last difficulty change.
     if (lookup <= 0)
-        lookup = pb->nHeight % 2016 + 1;
+        lookup = pb->nHeight % kLookupSpanMod + 1;
 
     // If lookup is larger than chain, then set it to chain length.
     if (lookup > pb->nHeight)
