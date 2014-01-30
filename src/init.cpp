@@ -341,6 +341,7 @@ std::string HelpMessage()
         "  -daemon                " + _("Run in the background as a daemon and accept commands") + "\n" +
 #endif
         "  -testnet               " + _("Use the test network") + "\n" +
+        "  -debuglog              " + +("Write out the debug.log file") + "\n" +
         "  -debug                 " + _("Output extra debugging information. Implies all other -debug* options") + "\n" +
         "  -debugnet              " + _("Output extra network debugging information") + "\n" +
         "  -logtimestamps         " + _("Prepend debug output with timestamp (default: 1)") + "\n" +
@@ -554,6 +555,8 @@ bool AppInit2(boost::thread_group& threadGroup)
     // ********************************************************* Step 3: parameter-to-internal-flags
 
     fDebug = GetBoolArg("-debug");
+    bool defaultWriteToLog = GetBoolArg("-server") || GetBoolArg("-daemon");
+    fWriteDebugLog = fDebug ? fDebug : GetBoolArg("-debuglog", defaultWriteToLog);
     fBenchmark = GetBoolArg("-benchmark");
 
     // -par=0 means autodetect, but nScriptCheckThreads==0 means no concurrency

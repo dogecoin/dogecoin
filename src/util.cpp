@@ -69,10 +69,12 @@ namespace boost {
 
 using namespace std;
 
+// Seriously? Global hell.
 map<string, string> mapArgs;
 map<string, vector<string> > mapMultiArgs;
 bool fDebug = false;
 bool fDebugNet = false;
+bool fWriteDebugLog = false;
 bool fPrintToConsole = false;
 bool fPrintToDebugger = false;
 bool fDaemon = false;
@@ -237,6 +239,8 @@ static void DebugPrintInit()
 
 int OutputDebugStringF(const char* pszFormat, ...)
 {
+    if ( ! fWriteDebugLog ) return 0;
+
     int ret = 0; // Returns total number of characters written
     if (fPrintToConsole)
     {
@@ -246,7 +250,7 @@ int OutputDebugStringF(const char* pszFormat, ...)
         ret += vprintf(pszFormat, arg_ptr);
         va_end(arg_ptr);
     }
-    else if (!fPrintToDebugger)
+    else if (!fPrintToDebugger && fWriteDebugLog )
     {
         static bool fStartedNewLine = true;
         boost::call_once(&DebugPrintInit, debugPrintInitFlag);

@@ -267,6 +267,13 @@ bool isObscured(QWidget *w)
 
 void openDebugLogfile()
 {
+    // If we are opening it, might as well fire up debugging for this session.
+    if ( ! fWriteDebugLog )
+    {
+        fWriteDebugLog = true;
+        OutputDebugStringF("Starting debug session");
+    }
+
     boost::filesystem::path pathDebug = GetDataDir() / "debug.log";
 
     /* Open debug.log with the associated application */
