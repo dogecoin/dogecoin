@@ -41,9 +41,9 @@ then execute the following:
     qmake
     make
 
-Alternatively, install `Qt Creator`_ and open the `litecoin-qt.pro` file.
+Alternatively, install `Qt Creator`_ and open the `dogecoin-qt.pro` file.
 
-An executable named `litecoin-qt` will be built.
+An executable named `dogecoin-qt` will be built.
 
 .. _`Qt Creator`: http://qt-project.org/downloads/
 
@@ -58,21 +58,21 @@ Mac OS X
 
 ::
 
-	sudo port selfupdate
-	sudo port install boost db48 miniupnpc
+  sudo port selfupdate
+  sudo port install boost db48 miniupnpc
 
 - Execute the following commands in a terminal to get the dependencies using HomeBrew:
 
 ::
 
-	brew update
-	brew install boost miniupnpc openssl berkeley-db4
+  brew update
+  brew install boost miniupnpc openssl berkeley-db4
 
-- If using HomeBrew,  edit `litecoin-qt.pro` to account for library location differences. There's a diff in `contrib/homebrew/bitcoin-qt-pro.patch` that shows what you need to change, or you can just patch by doing
+- If using HomeBrew,  edit `dogecoin-qt.pro` to account for library location differences. There's a diff in `contrib/homebrew/bitcoin-qt-pro.patch` that shows what you need to change, or you can just patch by doing
 
         patch -p1 < contrib/homebrew/bitcoin.qt.pro.patch
 
-- Open the litecoin-qt.pro file in Qt Creator and build as normal (cmd-B)
+- Open the dogecoin-qt.pro file in Qt Creator and build as normal (cmd-B)
 
 .. _`Qt Mac OS X SDK`: http://qt-project.org/downloads/
 .. _`MacPorts`: http://www.macports.org/install.php
@@ -85,7 +85,7 @@ Build configuration options
 UPnP port forwarding
 ---------------------
 
-To use UPnP for port forwarding behind a NAT router (recommended, as more connections overall allow for a faster and more stable litecoin experience), pass the following argument to qmake:
+To use UPnP for port forwarding behind a NAT router (recommended, as more connections overall allow for a faster and more stable dogecoin experience), pass the following argument to qmake:
 
 ::
 
