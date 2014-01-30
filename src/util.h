@@ -186,7 +186,6 @@ std::string EncodeBase32(const unsigned char* pch, size_t len);
 std::string EncodeBase32(const std::string& str);
 void ParseParameters(int argc, const char*const argv[]);
 void FileCommit(FILE *fileout);
-int GetFilesize(FILE* file);
 bool TruncateFile(FILE *file, unsigned int length);
 int RaiseFileDescriptorLimit(int nMinFD);
 void AllocateFileRange(FILE *file, unsigned int offset, unsigned int length);
