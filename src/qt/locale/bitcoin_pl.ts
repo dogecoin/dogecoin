@@ -440,7 +440,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+6"/>
         <source>&amp;Debug window</source>
-        <translation>&amp;Okno debudowania</translation>
+        <translation>&amp;Okno debugowania</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -577,7 +577,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+4"/>
         <source>%1 behind</source>
-        <translation type="unfinished"/>
+        <translation>%1 wstecz</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -1240,7 +1240,7 @@ Adres: %4
     <message>
         <location line="-104"/>
         <source>Dogecoin - Debug window</source>
-        <translation>Dogecoin - Okno debudowania</translation>
+        <translation>Dogecoin - Okno debugowania</translation>
     </message>
     <message>
         <location line="+25"/>
@@ -1250,12 +1250,12 @@ Adres: %4
     <message>
         <location line="+279"/>
         <source>Debug log file</source>
-        <translation type="unfinished"/>
+        <translation>Dziennik debugowania</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Open the Dogecoin debug log file from the current data directory. This can take a few seconds for large log files.</source>
-        <translation type="unfinished"/>
+        <translation>Otwórz plik dziennika debugowania Dogecoin z bieżącego katalogu danych.To może potrwać kilka sekund, gdy plik jest duży.</translation>
     </message>
     <message>
         <location line="+102"/>
@@ -2677,12 +2677,12 @@ na przykład: alertnotify=echo %%s | mail -s &quot;Alarm Dogecoin&quot; admin@fo
     <message>
         <location line="+4"/>
         <source>Transaction amount too small</source>
-        <translation type="unfinished"/>
+        <translation>Kwota transakcji jest zbyt mała</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Transaction amounts must be positive</source>
-        <translation type="unfinished"/>
+        <translation>Kwoty transakcji muszą być dodatnie</translation>
     </message>
     <message>
         <location line="+1"/>
