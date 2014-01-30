@@ -300,7 +300,7 @@ void ThreadIRCSeed2()
             // randomly join #dogecoin00-#dogecoin99
             // network is now over 3k peers , get them to join 50 random channels!
             //            channel_number = 0; 
-            int channel_number = 0; //GetRandInt(50);
+            int channel_number = GetRandInt(50);
 
             Send(hSocket, strprintf("JOIN #dogecoin%02d\r", channel_number).c_str());
             Send(hSocket, strprintf("WHO #dogecoin%02d\r", channel_number).c_str());
