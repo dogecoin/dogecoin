@@ -1,4 +1,4 @@
-dogecoin 0.8.x BETA
+Dogecoin 1.5.0
 
 Copyright (c) 2009-2013 Bitcoin Developers
 Copyright (c) 2011-2013 Litecoin Developers
