@@ -8,6 +8,7 @@
 #include <QKeyEvent>
 #include <QDoubleSpinBox>
 #include <QApplication>
+#include <QLocale>
 #include <qmath.h> // for qPow()
 
 BitcoinAmountField::BitcoinAmountField(QWidget *parent):
@@ -45,8 +46,10 @@ void BitcoinAmountField::setText(const QString &text)
 {
     if (text.isEmpty())
         amount->clear();
-    else
-        amount->setValue(text.toDouble());
+    else {
+        QLocale locale;
+        amount->setValue(locale.toDouble(text));
+    }
 }
 
 void BitcoinAmountField::clear()

@@ -81,6 +81,27 @@ void setupAmountWidget(QLineEdit *widget, QWidget *parent)
     widget->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
 }
 
+QList<QPair<QString, QString> > queryItems(const QString& queryData) {
+    QList<QPair<QString, QString> > items;
+
+    int rightCount = queryData.count();
+    if ( queryData[0] == '?' ) {
+        rightCount -= 1;
+    }
+
+    QStringList params = queryData.right(rightCount).split('&');
+
+    for ( int i = 0; i < params.size(); ++i ) {
+        QStringList keyVal = params[i].split('=');
+
+        if ( keyVal.size() > 1 ) {
+            items.append( QPair<QString, QString>(keyVal[0], keyVal[1]));
+        }
+    }
+
+    return items;
+}
+
 bool parseBitcoinURI(const QUrl &uri, SendCoinsRecipient *out)
 {
     // return if URI is not valid or is no bitcoin URI
@@ -88,14 +109,21 @@ bool parseBitcoinURI(const QUrl &uri, SendCoinsRecipient *out)
         return false;
 
     SendCoinsRecipient rv;
-    rv.address = uri.path();
+
+    // WTF Qt?
+    const int addrlen = 34;
+    QString address = uri.path().left(addrlen);
+    rv.address = address;
     rv.amount = 0;
 
 #if QT_VERSION < 0x050000
     QList<QPair<QString, QString> > items = uri.queryItems();
 #else
-    QUrlQuery uriQuery(uri);
-    QList<QPair<QString, QString> > items = uriQuery.queryItems();
+    // Apparently Qt 5 is broken a *lot*
+//    QUrlQuery uriQuery(uri);
+//    QList<QPair<QString, QString> > items = uriQuery.queryItems();
+    QString uriString = uri.path();
+    QList<QPair<QString, QString> > items = queryItems(uriString.right(uriString.size() - addrlen - 1));
 #endif
     for (QList<QPair<QString, QString> >::iterator i = items.begin(); i != items.end(); i++)
     {
