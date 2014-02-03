@@ -216,6 +216,10 @@ int main(int argc, char *argv[])
     SplashScreen splash(QPixmap(), 0);
     if (GetBoolArg("-splash", true) && !GetBoolArg("-min"))
     {
+#if MAC_OSX
+        // QSplashScreen on Mac seems to always stay on top. Ugh.
+        splash.setWindowFlags(Qt::FramelessWindowHint);
+#endif
         splash.show();
         splash.setAutoFillBackground(true);
         splashref = &splash;
