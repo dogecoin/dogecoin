@@ -155,6 +155,24 @@ If you need to build Boost yourself:
 	./bjam install
 
 
+Dependency Build Instructions: Fedora
+-------------------------------------
+
+Tested on Fedora 20:
+
+	sudo yum install openssl-devel
+	sudo yum install miniupnpc-devel
+	sudo yum install boost-devel
+	sudo yum install libdb4-cxx-devel
+	sudo yum install libss-devel
+	sudo yum install qrencode
+
+Optional:
+
+	sudo yum install miniupnpc-devel (see USE_UPNP compile flag)
+
+
+
 Security
 --------
 To help make your bitcoin installation more secure by making certain attacks impossible to
