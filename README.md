@@ -18,7 +18,9 @@ their feature or bug fix is ready.
 ## Very Much Frequently Asked Questions
 
 ### How much doge can exist?
-Total of 100,000,000,000 much coins
+Early 2015 (approximately a year and a half after release) there will be approximately 100,000,000,000 coins.
+Each subsequent block will grant 10,000 coins to encourage miners to continue to secure the network and make up for lost wallets on hard drives/phones/lost encryption passwords/etc.
+For the block schedule, see http://en.wikipedia.org/wiki/Dogecoin#Block_schedule
 
 ### How get doge?
 Scrypt Proof of Work
