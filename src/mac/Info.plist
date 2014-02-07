@@ -14,9 +14,9 @@
 		</dict>
 	</array>
 	<key>CFBundleShortVersionString</key>
-	<string>1.5.0</string>
+        <string>1.5.1.1</string>
 	<key>CFBundleVersion</key>
-	<string>1.5</string>
+        <string>1.5.1.1-Develop</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>CFBundleIconFile</key>
