@@ -33,6 +33,7 @@
 
 class QApplication;
 class QLocalServer;
+class QUrl;
 
 class PaymentServer : public QObject
 {
