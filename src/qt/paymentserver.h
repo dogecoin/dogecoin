@@ -59,6 +59,7 @@ public slots:
     // Signal this when the main window's UI is ready
     // to display payment requests to the user
     void uiReady();
+    void handleDogeURI(const QUrl& url);
 
 private slots:
     void handleURIConnection();

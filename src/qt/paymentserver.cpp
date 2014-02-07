@@ -18,6 +18,7 @@
 #include <QLocalServer>
 #include <QLocalSocket>
 #include <QStringList>
+#include <QDesktopServices>
 #if QT_VERSION < 0x050000
 #include <QUrl>
 #endif
@@ -109,6 +110,13 @@ PaymentServer::PaymentServer(QApplication* parent) : QObject(parent), saveURIs(t
         qDebug() << tr("Cannot start dogecoin: click-to-pay handler");
     else
         connect(uriServer, SIGNAL(newConnection()), this, SLOT(handleURIConnection()));
+
+    QDesktopServices::setUrlHandler("dogecoin", this, SLOT(handleDogeURI));
+}
+
+void PaymentServer::handleDogeURI(const QUrl &url)
+{
+    emit receivedURI(url.toString());
 }
 
 bool PaymentServer::eventFilter(QObject *object, QEvent *event)
@@ -121,9 +129,8 @@ bool PaymentServer::eventFilter(QObject *object, QEvent *event)
         {
             // WTF Qt?
             QString url = fileEvent->url().toString();
-            if ( url.startsWith( "file:dogecoin:/D" ) ) {
-                url.replace( "file:dogecoin:/D", "dogecoin://D" );
-            }
+            url.replace("file:dogecoin", "dogecoin");
+            url.replace(":/D", ":D");
 
             if (saveURIs) // Before main window is ready:
                 savedPaymentRequests.append(url);
