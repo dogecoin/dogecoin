@@ -1849,7 +1849,7 @@ bool ConnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex, C
         return state.DoS(100,
                          error("ConnectBlock() : coinbase pays too much (actual=%d vs limit=%d)",
                                block.vtx[0].GetValueOut(), GetBlockValue(pindex->nHeight, nFees, prevHash)),
-                         REJECT_INVALID, "bad-cb-amount");
+                               REJECT_INVALID, "bad-cb-amount");
 
     if (!control.Wait())
         return state.DoS(100, false);
@@ -3277,14 +3277,14 @@ void static ProcessGetData(CNode* pfrom)
                     int nHeight = mi->second->nHeight;
                     CBlockIndex* pcheckpoint = Checkpoints::GetLastCheckpoint(mapBlockIndex);
                     if (pcheckpoint && nHeight < pcheckpoint->nHeight) {
-                       if (!chainActive.Contains(mi->second))
-                       {
-                         LogPrintf("ProcessGetData(): ignoring request for old block that isn't in the main chain\n");
-                       } else {
-                         send = true;
-                       }
+                        if (!chainActive.Contains(mi->second))
+                        {
+                            LogPrintf("ProcessGetData(): ignoring request for old block that isn't in the main chain\n");
+                        } else {
+                            send = true;
+                        }
                     } else {
-                      send = true;
+                        send = true;
                     }
                 }
                 if (send)
@@ -3804,7 +3804,7 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
         }
         int nDoS = 0;
         if (state.IsInvalid(nDoS))
-        { 
+        {
             LogPrint("mempool", "%s from %s %s was not accepted into the memory pool: %s\n", tx.GetHash().ToString(),
                 pfrom->addr.ToString(), pfrom->cleanSubVer,
                 state.GetRejectReason());
