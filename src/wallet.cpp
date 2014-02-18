@@ -473,6 +473,7 @@ bool CWallet::AddToWallet(const CWalletTx& wtxIn, bool fFromLoadWallet)
     if (fFromLoadWallet)
     {
         mapWallet[hash] = wtxIn;
+        mapWallet[hash].BindWallet(this);
         AddToSpends(hash);
     }
     else
