@@ -5,12 +5,12 @@
     <message>
         <location filename="../forms/aboutdialog.ui" line="+14"/>
         <source>About Dogecoin</source>
-        <translation>关于莱特币</translation>
+        <translation>关于狗狗币</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>&lt;b&gt;Dogecoin&lt;/b&gt; version</source>
-        <translation>&lt;b&gt;莱特币&lt;/b&gt;版本</translation>
+        <translation>&lt;b&gt;狗狗币&lt;/b&gt;版本</translation>
     </message>
     <message>
         <location line="+57"/>
