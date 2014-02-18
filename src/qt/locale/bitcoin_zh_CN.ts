@@ -456,7 +456,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <location line="-165"/>
         <location line="+530"/>
         <source>Dogecoin</source>
-        <translation>莱特币</translation>
+        <translation>狗狗币</translation>
     </message>
     <message>
         <location line="-530"/>
