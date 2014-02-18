@@ -4,12 +4,12 @@
     <message>
         <location filename="../forms/aboutdialog.ui" line="+14"/>
         <source>About Dogecoin Core</source>
-        <translation>关于比特币核心</translation>
+        <translation>关于狗狗币</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>&lt;b&gt;Dogecoin Core&lt;/b&gt; version</source>
-        <translation>&lt;b&gt;比特币核心&lt;/b&gt; 版本</translation>
+        <translation>&lt;b&gt;狗狗币&lt;/b&gt;版本</translation>
     </message>
     <message>
         <location line="+57"/>
@@ -57,7 +57,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+11"/>
         <source>Copy the currently selected address to the system clipboard</source>
-        <translation>复制当前选中的地址到系统剪贴板</translation>
+        <translation>复制当前选中地址到系统剪贴板</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -122,7 +122,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+7"/>
         <source>These are your Dogecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>这是您用来付款的比特币地址。在付款前，请总是核实付款金额和收款地址。</translation>
+        <translation>这是您用来付款的狗狗币地址。在付款前，请总是核实付款金额和收款地址。</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -248,7 +248,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+1"/>
         <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DOGECOINS&lt;/b&gt;!</source>
-        <translation>警告：如果您加密了您的钱包，但是忘记了密码，你将会&lt;b&gt;丢失所有的比特币&lt;/b&gt;！</translation>
+        <translation>警告：如果您加密了您的钱包，但是忘记了密码，你将会&lt;b&gt;丢失所有的狗狗币&lt;/b&gt;！</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -275,7 +275,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="-56"/>
         <source>Dogecoin Core will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your Dogecoins from being stolen by malware infecting your computer.</source>
-        <translation>比特币客户端将关闭软件以完成加密过程。请您谨记：钱包加密并不是万能的，电脑中毒等原因仍可能导致您的比特币意外丢失。</translation>
+        <translation>将关闭软件以完成加密过程。 请您谨记：钱包加密并不是万能的，电脑中毒，您的狗狗币还是有可能丢失。</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -369,7 +369,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+7"/>
         <source>Show information about Dogecoin Core</source>
-        <translation>显示比特币的相关信息</translation>
+        <translation>显示狗狗币的相关信息</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -430,7 +430,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="-405"/>
         <source>Send coins to a Dogecoin address</source>
-        <translation>向一个比特币地址发送比特币</translation>
+        <translation>向一个狗狗币地址发送狗狗币</translation>
     </message>
     <message>
         <location line="+49"/>
@@ -465,7 +465,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+430"/>
         <source>Dogecoin</source>
-        <translation>比特币</translation>
+        <translation>狗狗币</translation>
     </message>
     <message>
         <location line="-643"/>
@@ -501,12 +501,12 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+7"/>
         <source>Sign messages with your Dogecoin addresses to prove you own them</source>
-        <translation>用比特币地址关联的私钥为消息签名，以证明您拥有这个比特币地址</translation>
+        <translation>用狗狗币地址关联的私钥为消息签名，以证明您拥有这个狗狗币地址</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Verify messages to ensure they were signed with specified Dogecoin addresses</source>
-        <translation>校验消息，确保该消息是由指定的比特币地址所有者签名的</translation>
+        <translation>校验消息，确保该消息是由指定的狗狗币地址所有者签名的</translation>
     </message>
     <message>
         <location line="+48"/>
@@ -579,12 +579,12 @@ This product includes software developed by the OpenSSL Project for use in the O
         <location line="+159"/>
         <location line="+5"/>
         <source>Dogecoin client</source>
-        <translation>比特币客户端</translation>
+        <translation>狗狗币客户端</translation>
     </message>
     <message numerus="yes">
         <location line="+142"/>
         <source>%n active connection(s) to Dogecoin network</source>
-        <translation><numerusform>%n条到比特币网络的活动连接</numerusform></translation>
+        <translation><numerusform>到狗狗币网络的连接共有%n条</numerusform></translation>
     </message>
     <message>
         <location line="+22"/>
@@ -1256,7 +1256,7 @@ Address: %4
     <message>
         <location line="+31"/>
         <source>Automatically start Dogecoin after logging in to the system.</source>
-        <translation>登录系统后自动开启比特币客户端</translation>
+        <translation>登录系统后自动开启狗狗币客户端</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1326,7 +1326,7 @@ Address: %4
     <message>
         <location line="+6"/>
         <source>Automatically open the Dogecoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>自动在路由器中打开比特币端口。只有当您的路由器开启了 UPnP 选项时此功能才有效。</translation>
+        <translation>自动在路由器中打开狗狗币端口。只有当您的路由器开启 UPnP 选项时此功能才有效。</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1411,7 +1411,7 @@ Address: %4
     <message>
         <location line="+9"/>
         <source>Whether to show Dogecoin addresses in the transaction list or not.</source>
-        <translation>是否需要在交易清单中显示比特币地址。</translation>
+        <translation>是否需要在交易清单中显示狗狗币地址。</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1486,7 +1486,7 @@ Address: %4
         <location line="+50"/>
         <location line="+231"/>
         <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Dogecoin network after a connection is established, but this process has not completed yet.</source>
-        <translation>现在显示的消息可能是过期的. 在连接上比特币网络节点后，您的钱包将自动与网络同步，但是这个过程还没有完成。</translation>
+        <translation>现在显示的消息可能是过期的. 在连接上狗狗币网络节点后，您的钱包将自动与网络同步，但是这个过程还没有完成.</translation>
     </message>
     <message>
         <location line="-155"/>
@@ -1576,7 +1576,7 @@ Address: %4
     <message>
         <location line="-353"/>
         <source>Cannot start dogecoin: click-to-pay handler</source>
-        <translation>暂时无法启动比特币：点击支付功能</translation>
+        <translation>暂时无法启动狗狗币：点击支付功能</translation>
     </message>
     <message>
         <location line="+58"/>
@@ -2417,7 +2417,7 @@ Address: %4
     <message>
         <location filename="../sendcoinsentry.cpp" line="+1"/>
         <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>请输入比特币地址（例如: DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM）</translation>
+        <translation>请输入狗狗币地址 (例如: DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
     </message>
 </context>
 <context>
@@ -2531,7 +2531,7 @@ Address: %4
     <message>
         <location line="+40"/>
         <source>Verify the message to ensure it was signed with the specified Dogecoin address</source>
-        <translation>验证消息，确保消息是由指定的比特币地址签名过的。</translation>
+        <translation>验证消息，确保消息是由指定的狗狗币地址签名过的。</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -2547,7 +2547,7 @@ Address: %4
         <location filename="../signverifymessagedialog.cpp" line="+29"/>
         <location line="+3"/>
         <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>请输入比特币地址 (例如: DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
+        <translation>请输入狗狗币地址 (例如: DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
     </message>
     <message>
         <location line="-2"/>
@@ -2557,7 +2557,7 @@ Address: %4
     <message>
         <location line="+3"/>
         <source>Enter Dogecoin signature</source>
-        <translation>输入比特币签名</translation>
+        <translation>输入狗狗币签名</translation>
     </message>
     <message>
         <location line="+84"/>
@@ -2784,7 +2784,7 @@ Address: %4
     <message>
         <location line="+7"/>
         <source>Generated coins must mature %1 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
-        <translation>生成的比特币在可以使用前必须有 %1 个成熟的区块。当您生成了此区块后，它将被广播到网络中以加入区块链。如果它未成功进入区块链，其状态将变更为“不接受”并且不可使用。这可能偶尔会发生，如果另一个节点比你早几秒钟成功生成一个区块。</translation>
+        <translation>新挖出的狗狗币必须等确120个确认才能使用。您生产出的数据块，将被广播到全网并添加到数据块链。如果入链失败，状态将变为“未被接受”，意味着您的数据块竞争失败，挖出的狗狗币将不能使用。当某个节点先于你几秒生产出新的数据块，这种情况会偶尔发生。</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -2946,7 +2946,7 @@ Address: %4
     <message>
         <location line="+2"/>
         <source>Date and time that the transaction was received.</source>
-        <translation>接收到交易的时间</translation>
+        <translation>接收狗狗币的时间</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3156,7 +3156,7 @@ Address: %4
     <message>
         <location filename="../walletmodel.cpp" line="+245"/>
         <source>Send Coins</source>
-        <translation>发送比特币</translation>
+        <translation>发送狗狗币</translation>
     </message>
 </context>
 <context>
@@ -3402,7 +3402,7 @@ rpcpassword=%s
     <message>
         <location line="+3"/>
         <source>Warning: Please check that your computer&apos;s date and time are correct! If your clock is wrong Dogecoin Core will not work properly.</source>
-        <translation>警告：请检查电脑的日期时间设置是否正确！时间错误可能会导致比特币客户端运行异常。</translation>
+        <translation>警告：请检查电脑的日期时间设置是否正确！时间错误可能会导致狗狗币客户端运行异常。</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -4007,7 +4007,7 @@ rpcpassword=%s
     <message>
         <location line="-32"/>
         <source>Unable to bind to %s on this computer. Dogecoin Core is probably already running.</source>
-        <translation>无法在本机绑定 %s 端口。比特币客户端软件可能已经在运行。</translation>
+        <translation>无法在本机绑定 %s 端口 . 狗狗币客户端软件可能已经在运行.</translation>
     </message>
     <message>
         <location line="+95"/>
