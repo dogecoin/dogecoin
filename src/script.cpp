@@ -31,6 +31,7 @@ static const CBigNum bnFalse(0);
 static const CBigNum bnTrue(1);
 static const size_t nMaxNumSize = 4;
 
+#undef printf
 
 CBigNum CastToBigNum(const valtype& vch)
 {
@@ -1119,27 +1120,40 @@ bool CheckSig(vector<unsigned char> vchSig, const vector<unsigned char> &vchPubK
 
 
 
+typedef struct {
+	txnouttype		txType;
+	CScript			*tScript;
+} SScriptPairRec;
 
-
-
-//
-// Return public keys or hashes from scriptPubKey, for 'standard' transaction types.
-//
 bool Solver(const CScript& scriptPubKey, txnouttype& typeRet, vector<vector<unsigned char> >& vSolutionsRet)
 {
-    // Templates
-    static map<txnouttype, CScript> mTemplates;
-    if (mTemplates.empty())
-    {
-        // Standard tx, sender provides pubkey, receiver adds signature
-        mTemplates.insert(make_pair(TX_PUBKEY, CScript() << OP_PUBKEY << OP_CHECKSIG));
-
-        // Bitcoin address tx, sender provides hash of pubkey, receiver provides signature and pubkey
-        mTemplates.insert(make_pair(TX_PUBKEYHASH, CScript() << OP_DUP << OP_HASH160 << OP_PUBKEYHASH << OP_EQUALVERIFY << OP_CHECKSIG));
-
-        // Sender provides N pubkeys, receivers provides M signatures
-        mTemplates.insert(make_pair(TX_MULTISIG, CScript() << OP_SMALLINTEGER << OP_PUBKEYS << OP_SMALLINTEGER << OP_CHECKMULTISIG));
-    }
+	static SScriptPairRec		*sTemplates = NULL;
+	SScriptPairRec				*curTemplate;
+	
+	if (sTemplates == NULL) {
+		CScript		*tScript;
+		
+		sTemplates = (SScriptPairRec *)malloc(sizeof(SScriptPairRec) * 4);
+		
+		// order templates such that most common transaction types are checked first
+		tScript = new CScript();
+		*tScript << OP_DUP << OP_HASH160 << OP_PUBKEYHASH << OP_EQUALVERIFY << OP_CHECKSIG;
+		sTemplates[0].txType = TX_PUBKEYHASH;
+		sTemplates[0].tScript = tScript;
+		
+		tScript = new CScript();
+		*tScript << OP_PUBKEY << OP_CHECKSIG;
+		sTemplates[1].txType = TX_PUBKEY;
+		sTemplates[1].tScript = tScript;
+		
+		tScript = new CScript();
+		*tScript << OP_SMALLINTEGER << OP_PUBKEYS << OP_SMALLINTEGER << OP_CHECKMULTISIG;
+		sTemplates[2].txType = TX_MULTISIG;
+		sTemplates[2].tScript = tScript;
+		
+		sTemplates[3].txType = (txnouttype)-1;
+		sTemplates[3].tScript = NULL;
+	}
 
     // Shortcut for pay-to-script-hash, which are more constrained than the other types:
     // it is always OP_HASH160 20 [20 byte hash] OP_EQUAL
@@ -1150,26 +1164,29 @@ bool Solver(const CScript& scriptPubKey, txnouttype& typeRet, vector<vector<unsi
         vSolutionsRet.push_back(hashBytes);
         return true;
     }
-
+	
     // Scan templates
     const CScript& script1 = scriptPubKey;
-    BOOST_FOREACH(const PAIRTYPE(txnouttype, CScript)& tplate, mTemplates)
-    {
-        const CScript& script2 = tplate.second;
-        vSolutionsRet.clear();
+	curTemplate = &sTemplates[0];
+	while (curTemplate->tScript != NULL) {
+        const CScript			*testScript = curTemplate->tScript;
+        opcodetype				opcode1, opcode2;
+        vector<unsigned char>	vch1;
 
-        opcodetype opcode1, opcode2;
-        vector<unsigned char> vch1, vch2;
+        vSolutionsRet.clear();
 
         // Compare
         CScript::const_iterator pc1 = script1.begin();
-        CScript::const_iterator pc2 = script2.begin();
+        CScript::const_iterator pc2 = testScript->begin();
+        CScript::const_iterator end1 = script1.end();
+        CScript::const_iterator end2 = testScript->end();
+
         loop
         {
-            if (pc1 == script1.end() && pc2 == script2.end())
+            if (pc1 == end1 && pc2 == end2)
             {
                 // Found a match
-                typeRet = tplate.first;
+                typeRet = curTemplate->txType;
                 if (typeRet == TX_MULTISIG)
                 {
                     // Additional checks for TX_MULTISIG:
@@ -1182,7 +1199,7 @@ bool Solver(const CScript& scriptPubKey, txnouttype& typeRet, vector<vector<unsi
             }
             if (!script1.GetOp(pc1, opcode1, vch1))
                 break;
-            if (!script2.GetOp(pc2, opcode2, vch2))
+            if (!testScript->GetOp(pc2, opcode2))	// templates push no data, no need to get vch
                 break;
 
             // Template matching opcodes:
@@ -1194,7 +1211,7 @@ bool Solver(const CScript& scriptPubKey, txnouttype& typeRet, vector<vector<unsi
                     if (!script1.GetOp(pc1, opcode1, vch1))
                         break;
                 }
-                if (!script2.GetOp(pc2, opcode2, vch2))
+                if (!testScript->GetOp(pc2, opcode2))
                     break;
                 // Normal situation is to fall through
                 // to other if/else statements
@@ -1223,16 +1240,18 @@ bool Solver(const CScript& scriptPubKey, txnouttype& typeRet, vector<vector<unsi
                 else
                     break;
             }
-            else if (opcode1 != opcode2 || vch1 != vch2)
+            else if (opcode1 != opcode2)
             {
                 // Others must match exactly
                 break;
             }
         }
-    }
-
+		curTemplate++;
+	}
+	
     vSolutionsRet.clear();
     typeRet = TX_NONSTANDARD;
+
     return false;
 }
 
@@ -1444,6 +1463,67 @@ bool ExtractDestination(const CScript& scriptPubKey, CTxDestination& addressRet)
     }
     // Multisig txns have more than one address...
     return false;
+}
+
+// ExtractDestinationAndMine is an amalgam of ExtractDestination and IsMine. Since they do very
+// similar work and are both called from CWalletTx::GetAmounts we can reduce kill two birds with
+// one stone by combining them and speed CWalletTx::GetAmounts considerably.
+
+bool ExtractDestinationAndMine(const CKeyStore &keystore, const CScript& scriptPubKey, CTxDestination& addressRet, bool *outIsMine)
+{
+    vector<valtype>	vSolutions;
+    txnouttype		whichType;
+	bool			hasDestination = false;
+	
+	*outIsMine = false;
+	
+	if (Solver(scriptPubKey, whichType, vSolutions)) {
+		CKeyID		keyID;
+		
+		switch (whichType) {
+			case TX_NONSTANDARD:
+				break;
+
+			case TX_PUBKEY:
+				keyID = CPubKey(vSolutions[0]).GetID();
+				addressRet = keyID;
+				*outIsMine = keystore.HaveKey(keyID);
+				hasDestination = true;
+				break;
+				
+			case TX_PUBKEYHASH:
+				keyID = CKeyID(uint160(vSolutions[0]));
+				addressRet = keyID;
+				*outIsMine = keystore.HaveKey(keyID);
+				hasDestination = true;
+				break;
+
+			case TX_SCRIPTHASH: {
+					CScript		subscript;
+					CScriptID	scriptID = CScriptID(uint160(vSolutions[0]));
+					
+					addressRet = scriptID;
+					hasDestination = true;
+					
+					if (keystore.GetCScript(scriptID, subscript))
+						*outIsMine = IsMine(keystore, subscript);
+				}
+				break;
+				
+			case TX_MULTISIG:
+			{
+				// Only consider transactions "mine" if we own ALL the
+				// keys involved. multi-signature transactions that are
+				// partially owned (somebody else has a key that can spend
+				// them) enable spend-out-from-under-you attacks, especially
+				// in shared-wallet situations.
+				vector<valtype> keys(vSolutions.begin()+1, vSolutions.begin()+vSolutions.size()-1);
+				*outIsMine = HaveKeys(keys, keystore) == keys.size();
+			}
+		}
+	}
+
+    return hasDestination;
 }
 
 bool ExtractDestinations(const CScript& scriptPubKey, txnouttype& typeRet, vector<CTxDestination>& addressRet, int& nRequiredRet)
@@ -1732,7 +1812,7 @@ unsigned int CScript::GetSigOpCount(const CScript& scriptSig) const
     return subscript.GetSigOpCount(true);
 }
 
-bool CScript::IsPayToScriptHash() const
+inline bool CScript::IsPayToScriptHash() const
 {
     // Extra-fast test for pay-to-script-hash CScripts:
     return (this->size() == 23 &&

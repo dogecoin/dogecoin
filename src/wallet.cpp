@@ -570,6 +570,17 @@ int64 CWallet::GetDebit(const CTxIn &txin) const
     return 0;
 }
 
+bool CWallet::HasAddress(const CTxDestination &txDest) const
+{
+	bool	hasAddress = false;
+	
+	LOCK(cs_wallet);
+	if (mapAddressBook.count(txDest))
+		hasAddress = true;
+	
+	return hasAddress;
+}
+
 bool CWallet::IsChange(const CTxOut& txout) const
 {
     CTxDestination address;
@@ -656,20 +667,22 @@ void CWalletTx::GetAmounts(list<pair<CTxDestination, int64> >& listReceived,
     {
         CTxDestination address;
         vector<unsigned char> vchPubKey;
-        if (!ExtractDestination(txout.scriptPubKey, address))
+		bool isMine;
+		
+		if (!ExtractDestinationAndMine(*pwallet, txout.scriptPubKey, address, &isMine))
         {
             printf("CWalletTx::GetAmounts: Unknown transaction type found, txid %s\n",
                    this->GetHash().ToString().c_str());
         }
 
         // Don't report 'change' txouts
-        if (nDebit > 0 && pwallet->IsChange(txout))
+        if (nDebit > 0 && isMine && !pwallet->HasAddress(address))	// equivalent to CWallet::IsChange, but avoids an additional call to Solver
             continue;
 
         if (nDebit > 0)
             listSent.push_back(make_pair(address, txout.nValue));
 
-        if (pwallet->IsMine(txout))
+        if (isMine)
             listReceived.push_back(make_pair(address, txout.nValue));
     }
 
