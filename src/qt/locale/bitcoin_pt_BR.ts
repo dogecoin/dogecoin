@@ -547,7 +547,7 @@ Este produto inclui software desenvolvido pelo Projeto OpenSSL para uso no OpenS
     <message>
         <location line="+22"/>
         <source>No block source available...</source>
-        <translation type="unfinished"/>
+        <translation>Sem informação de bloco disponível. </translation>
     </message>
     <message>
         <location line="+12"/>
@@ -809,7 +809,7 @@ Endereço: %4</translation>
     <message>
         <location line="+6"/>
         <source>Optional transaction fee per kB that helps make sure your transactions are processed quickly. Most transactions are 1 kB.</source>
-        <translation type="unfinished"/>
+        <translation> Taxa de transação por Kb que ajuda as suas transações a serem processadas rapidamente. Na maioria das transações é de 1 kB.</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -2517,7 +2517,7 @@ por exemplo: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <location line="+1"/>
         <source>Generate coins (default: 0)</source>
-        <translation type="unfinished"/>
+        <translation>Gerar moedas (padrão: 0) </translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2532,7 +2532,7 @@ por exemplo: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <location line="+19"/>
         <source>Not enough file descriptors available.</source>
-        <translation type="unfinished"/>
+        <translation> Não existem descritores de arquivos suficientes </translation>
     </message>
     <message>
         <location line="+8"/>
@@ -2562,7 +2562,7 @@ por exemplo: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <location line="-76"/>
         <source>Set the number of script verification threads (up to 16, 0 = auto, &lt;0 = leave that many cores free, default: 0)</source>
-        <translation type="unfinished"/>
+        <translation> Define o número de threads de script de verificação. (até 16, 0 = auto,&lt;0 = mantém o número de cores livres, padrão: 0 )   </translation>
     </message>
     <message>
         <location line="+77"/>
@@ -2577,12 +2577,12 @@ por exemplo: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <location line="+1"/>
         <source>Invalid amount for -minrelaytxfee=&lt;amount&gt;: &apos;%s&apos;</source>
-        <translation type="unfinished"/>
+        <translation>Valor inválido para -minrelaytxfee=&lt;valor&gt;: &apos;%s&apos;  </translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Invalid amount for -mintxfee=&lt;amount&gt;: &apos;%s&apos;</source>
-        <translation type="unfinished"/>
+        <translation>Valor inválido para -mintxfee=&lt;valor&gt;: &apos;%s&apos; </translation>
     </message>
     <message>
         <location line="+8"/>
@@ -2662,7 +2662,7 @@ por exemplo: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <location line="+1"/>
         <source>Signing transaction failed</source>
-        <translation type="unfinished"/>
+        <translation> Assinatura da transação falhou. </translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2677,17 +2677,17 @@ por exemplo: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <location line="+4"/>
         <source>Transaction amount too small</source>
-        <translation type="unfinished"/>
+        <translation>Quantidade para transação muito pequena. </translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Transaction amounts must be positive</source>
-        <translation type="unfinished"/>
+        <translation>Quantidade para transação deve ser positiva.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Transaction too large</source>
-        <translation type="unfinished"/>
+        <translation>Transação muito grande. </translation>
     </message>
     <message>
         <location line="+7"/>
