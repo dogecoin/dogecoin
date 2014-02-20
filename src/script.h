@@ -426,14 +426,14 @@ public:
 
     bool GetOp2(const_iterator& pc, opcodetype& opcodeRet, std::vector<unsigned char>* pvchRet) const
     {
+		const_iterator	scriptEnd = end();
+		
         opcodeRet = OP_INVALIDOPCODE;
         if (pvchRet)
             pvchRet->clear();
-        if (pc >= end())
-            return false;
 
         // Read instruction
-        if (end() - pc < 1)
+        if (scriptEnd - pc < 1)
             return false;
         unsigned int opcode = *pc++;
 
@@ -447,13 +447,13 @@ public:
             }
             else if (opcode == OP_PUSHDATA1)
             {
-                if (end() - pc < 1)
+                if (scriptEnd - pc < 1)
                     return false;
                 nSize = *pc++;
             }
             else if (opcode == OP_PUSHDATA2)
             {
-                if (end() - pc < 2)
+                if (scriptEnd - pc < 2)
                     return false;
                 nSize = 0;
                 memcpy(&nSize, &pc[0], 2);
@@ -461,12 +461,12 @@ public:
             }
             else if (opcode == OP_PUSHDATA4)
             {
-                if (end() - pc < 4)
+                if (scriptEnd - pc < 4)
                     return false;
                 memcpy(&nSize, &pc[0], 4);
                 pc += 4;
             }
-            if (end() - pc < 0 || (unsigned int)(end() - pc) < nSize)
+            if (scriptEnd - pc < 0 || (unsigned int)(scriptEnd - pc) < nSize)
                 return false;
             if (pvchRet)
                 pvchRet->assign(pc, pc + nSize);

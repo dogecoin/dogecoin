@@ -31,8 +31,6 @@ static const CBigNum bnFalse(0);
 static const CBigNum bnTrue(1);
 static const size_t nMaxNumSize = 4;
 
-#undef printf
-
 CBigNum CastToBigNum(const valtype& vch)
 {
     if (vch.size() > nMaxNumSize)
@@ -1197,9 +1195,9 @@ bool Solver(const CScript& scriptPubKey, txnouttype& typeRet, vector<vector<unsi
                 }
                 return true;
             }
-            if (!script1.GetOp(pc1, opcode1, vch1))
+            if (!script1.GetOp2(pc1, opcode1, &vch1))
                 break;
-            if (!testScript->GetOp(pc2, opcode2))	// templates push no data, no need to get vch
+            if (!testScript->GetOp2(pc2, opcode2, NULL))	// templates push no data, no need to get vch
                 break;
 
             // Template matching opcodes:
@@ -1208,10 +1206,10 @@ bool Solver(const CScript& scriptPubKey, txnouttype& typeRet, vector<vector<unsi
                 while (vch1.size() >= 33 && vch1.size() <= 120)
                 {
                     vSolutionsRet.push_back(vch1);
-                    if (!script1.GetOp(pc1, opcode1, vch1))
+                    if (!script1.GetOp2(pc1, opcode1, &vch1))
                         break;
                 }
-                if (!testScript->GetOp(pc2, opcode2))
+                if (!testScript->GetOp2(pc2, opcode2, NULL))
                     break;
                 // Normal situation is to fall through
                 // to other if/else statements
@@ -1812,7 +1810,7 @@ unsigned int CScript::GetSigOpCount(const CScript& scriptSig) const
     return subscript.GetSigOpCount(true);
 }
 
-inline bool CScript::IsPayToScriptHash() const
+bool CScript::IsPayToScriptHash() const
 {
     // Extra-fast test for pay-to-script-hash CScripts:
     return (this->size() == 23 &&
