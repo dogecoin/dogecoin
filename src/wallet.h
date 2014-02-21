@@ -384,6 +384,8 @@ public:
     int64 nOrderPos;  // position in ordered transaction list
 
     // memory only
+    mutable std::vector<char> vfMine;	// which outputs are mine
+    mutable bool fMineCached;
     mutable bool fDebitCached;
     mutable bool fCreditCached;
     mutable bool fImmatureCreditCached;
@@ -427,6 +429,8 @@ public:
         fFromMe = false;
         strFromAccount.clear();
         vfSpent.clear();
+        vfMine.clear();
+        fMineCached = false;
         fDebitCached = false;
         fCreditCached = false;
         fImmatureCreditCached = false;
@@ -520,6 +524,8 @@ public:
     // make sure balances are recalculated
     void MarkDirty()
     {
+        vfMine.clear();
+		fMineCached = false;
         fCreditCached = false;
         fAvailableCreditCached = false;
         fDebitCached = false;
@@ -628,6 +634,8 @@ public:
         return nChangeCached;
     }
 
+	void GetCredits(std::list<std::pair<CTxDestination, int64> >& listCredits) const;
+	
     void GetAmounts(std::list<std::pair<CTxDestination, int64> >& listReceived,
                     std::list<std::pair<CTxDestination, int64> >& listSent, int64& nFee, std::string& strSentAccount) const;
 

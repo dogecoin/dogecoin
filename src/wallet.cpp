@@ -646,6 +646,49 @@ int CWalletTx::GetRequestCount() const
     return nRequests;
 }
 
+void CWalletTx::GetCredits(
+	std::list<std::pair<CTxDestination, int64> >& listCredits) const
+{
+    listCredits.clear();
+
+	if (!IsCoinBase() || GetBlocksToMaturity() <= 0) {
+		if (!fMineCached)
+			vfMine.resize(vout.size());
+			
+        for (unsigned int i = 0; i < vout.size(); i++) {
+            if (!IsSpent(i)) {
+                const CTxOut	&txout = vout[i];
+				int64			credit = txout.nValue;
+
+				if (credit) {
+					CTxDestination		address;
+					bool				isMine = false;
+					
+					if (!MoneyRange(credit)) {
+						throw std::runtime_error("CWalletTx::GetCredits() : value out of range");
+					}
+					
+					if (!fMineCached) {
+						ExtractDestinationAndMine(*pwallet, txout.scriptPubKey, address, &isMine);
+						vfMine[i] = isMine;
+					}
+					else {
+						if (vfMine[i]) {
+							ExtractDestinationAndMine(*pwallet, txout.scriptPubKey, address, &isMine);
+						}
+					}
+					
+					if (isMine) {
+						listCredits.push_back(make_pair(address, credit));
+					}
+				}
+            }
+        }
+		
+		fMineCached = true;
+	}
+}
+
 void CWalletTx::GetAmounts(list<pair<CTxDestination, int64> >& listReceived,
                            list<pair<CTxDestination, int64> >& listSent, int64& nFee, string& strSentAccount) const
 {
