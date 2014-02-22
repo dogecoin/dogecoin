@@ -1,7 +1,7 @@
 TEMPLATE = app
 TARGET = dogecoin-qt
 macx:TARGET = "Dogecoin-Qt"
-VERSION = 1.5.1
+VERSION = 1.5.3
 INCLUDEPATH += src src/json src/qt
 QT += core gui network
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
