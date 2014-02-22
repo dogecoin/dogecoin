@@ -1124,9 +1124,7 @@ Value listaccounts(const Array& params, bool fHelp)
     if (params.size() > 0)
         nMinDepth = params[0].get_int();
 
-    std::map<std::string, int64> mapAccountBalances;
-	std::list<std::pair<CTxDestination, int64> > listCredits;
-	
+    map<string, int64> mapAccountBalances;
     BOOST_FOREACH(const PAIRTYPE(CTxDestination, string)& entry, pwalletMain->mapAddressBook) {
         if (IsMine(*pwalletMain, entry.first)) // This address belongs to me
             mapAccountBalances[entry.second] = 0;
@@ -1134,18 +1132,23 @@ Value listaccounts(const Array& params, bool fHelp)
 
     for (map<uint256, CWalletTx>::iterator it = pwalletMain->mapWallet.begin(); it != pwalletMain->mapWallet.end(); ++it)
     {
-		const CWalletTx		&wtx = (*it).second;
-		
-		if (wtx.GetDepthInMainChain() >= nMinDepth) {
-			wtx.GetCredits(listCredits);
-			
-			BOOST_FOREACH(const PAIRTYPE(CTxDestination, int64)& r, listCredits) {
-				if (pwalletMain->mapAddressBook.count(r.first))
-					mapAccountBalances[pwalletMain->mapAddressBook[r.first]] += r.second;
-				else
-					mapAccountBalances[""] += r.second;
-			}
-		}
+        const CWalletTx& wtx = (*it).second;
+        int64 nFee;
+        string strSentAccount;
+        list<pair<CTxDestination, int64> > listReceived;
+        list<pair<CTxDestination, int64> > listSent;
+        wtx.GetAmounts(listReceived, listSent, nFee, strSentAccount);
+        mapAccountBalances[strSentAccount] -= nFee;
+        BOOST_FOREACH(const PAIRTYPE(CTxDestination, int64)& s, listSent)
+            mapAccountBalances[strSentAccount] -= s.second;
+        if (wtx.GetDepthInMainChain() >= nMinDepth)
+        {
+            BOOST_FOREACH(const PAIRTYPE(CTxDestination, int64)& r, listReceived)
+                if (pwalletMain->mapAddressBook.count(r.first))
+                    mapAccountBalances[pwalletMain->mapAddressBook[r.first]] += r.second;
+                else
+                    mapAccountBalances[""] += r.second;
+        }
     }
 
     list<CAccountingEntry> acentries;

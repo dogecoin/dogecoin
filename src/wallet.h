@@ -634,8 +634,6 @@ public:
         return nChangeCached;
     }
 
-	void GetCredits(std::list<std::pair<CTxDestination, int64> >& listCredits) const;
-	
     void GetAmounts(std::list<std::pair<CTxDestination, int64> >& listReceived,
                     std::list<std::pair<CTxDestination, int64> >& listSent, int64& nFee, std::string& strSentAccount) const;
 

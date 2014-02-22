@@ -646,52 +646,11 @@ int CWalletTx::GetRequestCount() const
     return nRequests;
 }
 
-void CWalletTx::GetCredits(
-	std::list<std::pair<CTxDestination, int64> >& listCredits) const
-{
-    listCredits.clear();
-
-	if (!IsCoinBase() || GetBlocksToMaturity() <= 0) {
-		if (!fMineCached)
-			vfMine.resize(vout.size());
-			
-        for (unsigned int i = 0; i < vout.size(); i++) {
-            if (!IsSpent(i)) {
-                const CTxOut	&txout = vout[i];
-				int64			credit = txout.nValue;
-
-				if (credit) {
-					CTxDestination		address;
-					bool				isMine = false;
-					
-					if (!MoneyRange(credit)) {
-						throw std::runtime_error("CWalletTx::GetCredits() : value out of range");
-					}
-					
-					if (!fMineCached) {
-						ExtractDestinationAndMine(*pwallet, txout.scriptPubKey, address, &isMine);
-						vfMine[i] = isMine;
-					}
-					else {
-						if (vfMine[i]) {
-							ExtractDestinationAndMine(*pwallet, txout.scriptPubKey, address, &isMine);
-						}
-					}
-					
-					if (isMine) {
-						listCredits.push_back(make_pair(address, credit));
-					}
-				}
-            }
-        }
-		
-		fMineCached = true;
-	}
-}
-
 void CWalletTx::GetAmounts(list<pair<CTxDestination, int64> >& listReceived,
                            list<pair<CTxDestination, int64> >& listSent, int64& nFee, string& strSentAccount) const
 {
+	CTxDestination	address;
+	
     nFee = 0;
     listReceived.clear();
     listSent.clear();
@@ -705,30 +664,43 @@ void CWalletTx::GetAmounts(list<pair<CTxDestination, int64> >& listReceived,
         nFee = nDebit - nValueOut;
     }
 
-    // Sent/received.
-    BOOST_FOREACH(const CTxOut& txout, vout)
-    {
-        CTxDestination address;
-        vector<unsigned char> vchPubKey;
-		bool isMine;
+	if (!fMineCached)
+		vfMine.resize(vout.size());
 		
-		if (!ExtractDestinationAndMine(*pwallet, txout.scriptPubKey, address, &isMine))
-        {
-            printf("CWalletTx::GetAmounts: Unknown transaction type found, txid %s\n",
-                   this->GetHash().ToString().c_str());
+    // Sent/received.
+	for (unsigned int i = 0; i < vout.size(); i++) {
+		const CTxOut	&txout = vout[i];
+		bool			isMine = false;
+		bool			warnUnkownTX = false;
+		
+		if (!fMineCached) {
+			address = CNoDestination();
+			warnUnkownTX = !ExtractDestinationAndMine(*pwallet, txout.scriptPubKey, address, &isMine);
+			vfMine[i] = isMine;
+		}
+		else {
+			if (vfMine[i]) {
+				isMine = true;	// already know this is ours, just fetch address
+				address = CNoDestination();
+				warnUnkownTX = !ExtractDestination(txout.scriptPubKey, address);
+			}
+		}
+		if (warnUnkownTX) {
+            printf("CWalletTx::GetAmounts: Unknown transaction type found, txid %s\n", this->GetHash().ToString().c_str());
         }
 
-        // Don't report 'change' txouts
-        if (nDebit > 0 && isMine && !pwallet->HasAddress(address))	// equivalent to CWallet::IsChange, but avoids an additional call to Solver
-            continue;
+		if (nDebit > 0) {
+			if (isMine && !pwallet->HasAddress(address))			// Don't report 'change' txouts
+				continue;
 
-        if (nDebit > 0)
             listSent.push_back(make_pair(address, txout.nValue));
+		}
 
         if (isMine)
             listReceived.push_back(make_pair(address, txout.nValue));
     }
 
+	fMineCached = true;
 }
 
 void CWalletTx::GetAccountAmounts(const string& strAccount, int64& nReceived,
