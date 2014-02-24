@@ -28,6 +28,7 @@
 #endif
 
 #if MAC_OSX
+#undef MSG_NOSIGNAL			// undef prior to redefinition eliminates warnings
 #define MSG_NOSIGNAL        SO_NOSIGPIPE
 #endif
 
