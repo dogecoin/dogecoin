@@ -112,10 +112,14 @@ Rerunning "openssl version" should now return the correct version.
 
 For boost in dogecoin, there are some ‘fun’ things you have to do:
 
- * download boost from source
+ * download the latest boost from source
 
-    ./bootstrap.sh
-    ./b2 --toolset=clang cxxflags="-stdlib=libstdc++" linkflags="-stdlib=libstdc++"   variant=release link=static threading=multi runtime-link=static --build-dir=build   --build-type=minimal stage --with-program_options --with-system --with-filesystem   --with-chrono --with-thread
+        http://www.boost.org/users/download/
+
+ * Build the boost libs with special flags because ... REASONS!
+
+        ./bootstrap.sh
+        ./b2 --toolset=clang cxxflags="-stdlib=libstdc++" linkflags="-stdlib=libstdc++"   variant=release link=static threading=multi runtime-link=static --build-dir=build   --build-type=minimal stage --with-program_options --with-system --with-filesystem   --with-chrono --with-thread
 
  * link the statics to /usr/local/lib/
  * make sure the headers for boost are in /usr/local/include/boost or linked from there.

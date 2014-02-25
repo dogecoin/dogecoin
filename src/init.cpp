@@ -96,7 +96,7 @@ void Shutdown()
     TRY_LOCK(cs_Shutdown, lockShutdown);
     if (!lockShutdown) return;
 
-    RenameThread("bitcoin-shutoff");
+    RenameThread("dogecoin-shutoff");
     nTransactionsUpdated++;
     StopRPCThreads();
     ShutdownRPCMining();
@@ -304,7 +304,7 @@ std::string HelpMessage()
         "  -gen                   " + _("Generate coins (default: 0)") + "\n" +
         "  -datadir=<dir>         " + _("Specify data directory") + "\n" +
         "  -wallet=<file>         " + _("Specify wallet file (within data directory)") + "\n";
-        "  -dbcache=<n>           " + _("Set database cache size in megabytes (default: 25)") + "\n" +
+        "  -dbcache=<n>           " + _("Set database cache size in megabytes (default: 100)") + "\n" +
         "  -timeout=<n>           " + _("Specify connection timeout in milliseconds (default: 5000)") + "\n" +
         "  -proxy=<ip:port>       " + _("Connect through socks proxy") + "\n" +
         "  -socks=<n>             " + _("Select the version of socks proxy to use (4-5, default: 5)") + "\n" +
@@ -314,6 +314,7 @@ std::string HelpMessage()
         "  -maxconnections=<n>    " + _("Maintain at most <n> connections to peers (default: 125)") + "\n" +
         "  -addnode=<ip>          " + _("Add a node to connect to and attempt to keep the connection open") + "\n" +
         "  -connect=<ip>          " + _("Connect only to the specified node(s)") + "\n" +
+        "  -change=<address>      " + _("Send change only to the specified address(es)") + "\n" +
         "  -seednode=<ip>         " + _("Connect to a node to retrieve peer addresses, and disconnect") + "\n" +
         "  -externalip=<ip>       " + _("Specify your own public address") + "\n" +
         "  -onlynet=<net>         " + _("Only connect to nodes in network <net> (IPv4, IPv6 or Tor)") + "\n" +
@@ -863,7 +864,7 @@ bool AppInit2(boost::thread_group& threadGroup)
     }
 
     // cache size calculations
-    size_t nTotalCache = GetArg("-dbcache", 25) << 20;
+    size_t nTotalCache = GetArg("-dbcache", 100) << 20;
     if (nTotalCache < (1 << 22))
         nTotalCache = (1 << 22); // total cache cannot be less than 4 MiB
     size_t nBlockTreeDBCache = nTotalCache / 8;
