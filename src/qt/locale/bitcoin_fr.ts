@@ -34,8 +34,18 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="+0"/>
-        <source>The Dogecoin developers</source>
-        <translation>Les développeurs Dogecoin</translation>
+        <source>The Bitcoin developers</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>2011-2013 The Litecoin developers</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>2013-%1 The Dogecoin developers</source>
+        <translation>2013-%1 Les développeurs Dogecoin</translation>
     </message>
 </context>
 <context>
@@ -1319,8 +1329,8 @@ Adresse : %4
     </message>
     <message>
         <location line="+10"/>
-        <source>123.456 BTC</source>
-        <translation>123.456 BTC</translation>
+        <source>123.456 DOGE</source>
+        <translation>123.456 DOGE</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -2627,7 +2637,7 @@ par exemple : alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@fo
     </message>
     <message>
         <location line="+5"/>
-        <source>SSL options: (see the DogeCoin Wiki for SSL setup instructions)</source>
+        <source>SSL options: (see the Dogecoin Wiki for SSL setup instructions)</source>
         <translation>Options SSL : (cf. le wiki de Dogecoin pour les instructions de configuration du SSL)</translation>
     </message>
     <message>
@@ -2722,7 +2732,7 @@ par exemple : alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@fo
     </message>
     <message>
         <location line="+1"/>
-        <source>You need to rebuild the databases using -reindex to change -txindex</source>
+        <source>You need to rebuild the database using -reindex to change -txindex</source>
         <translation>Vous devez reconstruire les bases de données avec -reindex pour modifier -txindex</translation>
     </message>
     <message>

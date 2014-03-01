@@ -35,8 +35,18 @@ Denna produkten innehåller mjukvara utvecklad av OpenSSL Project för användni
     </message>
     <message>
         <location line="+0"/>
-        <source>The Dogecoin developers</source>
-        <translation>Dogecoin-utvecklarna</translation>
+        <source>The Bitcoin developers</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>2011-2013 The Litecoin developers</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>2013-%1 The Dogecoin developers</source>
+        <translation>2013-%1 Dogecoin-utvecklarna</translation>
     </message>
 </context>
 <context>
@@ -1320,8 +1330,8 @@ Adress: %4
     </message>
     <message>
         <location line="+10"/>
-        <source>123.456 BTC</source>
-        <translation>123,456 BTC</translation>
+        <source>123.456 DOGE</source>
+        <translation>123,456 DOGE</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -2628,8 +2638,8 @@ till exempel: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@fo
     </message>
     <message>
         <location line="+5"/>
-        <source>SSL options: (see the DogeCoin Wiki for SSL setup instructions)</source>
-        <translation>SSL-inställningar: (se DogeCoin-wikin för SSL-setup instruktioner)</translation>
+        <source>SSL options: (see the Dogecoin Wiki for SSL setup instructions)</source>
+        <translation>SSL-inställningar: (se Dogecoin-wikin för SSL-setup instruktioner)</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2723,7 +2733,7 @@ till exempel: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@fo
     </message>
     <message>
         <location line="+1"/>
-        <source>You need to rebuild the databases using -reindex to change -txindex</source>
+        <source>You need to rebuild the database using -reindex to change -txindex</source>
         <translation>Du måste återskapa databaserna med -reindex för att ändra -txindex</translation>
     </message>
     <message>

@@ -34,8 +34,18 @@ Dieses Produkt enthält Software, die vom OpenSSL-Projekt zur Verwendung im Open
     </message>
     <message>
         <location line="+0"/>
-        <source>The Dogecoin developers</source>
-        <translation>Die Dogecoinentwickler</translation>
+        <source>The Bitcoin developers</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>2011-2013 The Litecoin developers</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>2013-%1 The Dogecoin developers</source>
+        <translation>2013-%1 Die Dogecoinentwickler</translation>
     </message>
 </context>
 <context>
@@ -1318,8 +1328,8 @@ Adresse: %4</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>123.456 BTC</source>
-        <translation>123.456 BTC</translation>
+        <source>123.456 DOGE</source>
+        <translation>123,456 DOGE</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -2626,7 +2636,7 @@ zum Beispiel: alertnotify=echo %%s | mail -s \&quot;Dogecoin Alert\&quot; admin@
     </message>
     <message>
         <location line="+5"/>
-        <source>SSL options: (see the DogeCoin Wiki for SSL setup instructions)</source>
+        <source>SSL options: (see the Dogecoin Wiki for SSL setup instructions)</source>
         <translation>SSL-Optionen: (siehe Dogecoin-Wiki für SSL-Installationsanweisungen)</translation>
     </message>
     <message>
@@ -2721,7 +2731,7 @@ zum Beispiel: alertnotify=echo %%s | mail -s \&quot;Dogecoin Alert\&quot; admin@
     </message>
     <message>
         <location line="+1"/>
-        <source>You need to rebuild the databases using -reindex to change -txindex</source>
+        <source>You need to rebuild the database using -reindex to change -txindex</source>
         <translation>Sie müssen die Datenbank mit Hilfe von -reindex neu aufbauen, um -txindex zu verändern.</translation>
     </message>
     <message>
