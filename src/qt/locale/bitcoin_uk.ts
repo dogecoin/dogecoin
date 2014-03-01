@@ -1783,8 +1783,8 @@ Address: %4
     </message>
     <message>
         <location line="+3"/>
-        <source>Generated coins must mature 120 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
-        <translation>Після генерації монет, потрібно зачекати 120 блоків, перш ніж їх можна буде використати. Коли ви згенерували цей блок, його було відправлено в мережу для того, щоб він був доданий до ланцюжка блоків. Якщо ця процедура не вдасться, статус буде змінено на «не підтверджено» і ви не зможете потратити згенеровані монету. Таке може статись, якщо хтось інший згенерував блок на декілька секунд раніше.</translation>
+        <source>Generated coins must mature 50 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
+        <translation>Після генерації монет, потрібно зачекати 50 блоків, перш ніж їх можна буде використати. Коли ви згенерували цей блок, його було відправлено в мережу для того, щоб він був доданий до ланцюжка блоків. Якщо ця процедура не вдасться, статус буде змінено на «не підтверджено» і ви не зможете потратити згенеровані монету. Таке може статись, якщо хтось інший згенерував блок на декілька секунд раніше.</translation>
     </message>
     <message>
         <location line="+7"/>

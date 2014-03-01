@@ -1380,7 +1380,7 @@ Adresa:%4
     <message>
         <location line="+5"/>
         <source>Error: The transaction was rejected. This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
-        <translation>Generirani novčići moraju pričekati nastanak 120 blokova prije nego što ih je moguće potrošiti. Kad ste generirali taj blok, on je bio emitiran u mrežu kako bi bio dodan postojećim lancima blokova. Ako ne uspije biti dodan, njegov status bit će promijenjen u &quot;nije prihvatljiv&quot; i on neće biti potrošiv. S vremena na vrijeme tako nešto se može desiti ako neki drugi nod približno istovremeno generira blok.</translation>
+        <translation>Generirani novčići moraju pričekati nastanak 50 blokova prije nego što ih je moguće potrošiti. Kad ste generirali taj blok, on je bio emitiran u mrežu kako bi bio dodan postojećim lancima blokova. Ako ne uspije biti dodan, njegov status bit će promijenjen u &quot;nije prihvatljiv&quot; i on neće biti potrošiv. S vremena na vrijeme tako nešto se može desiti ako neki drugi nod približno istovremeno generira blok.</translation>
     </message>
 </context>
 <context>
@@ -1778,8 +1778,8 @@ Adresa:%4
     </message>
     <message>
         <location line="+3"/>
-        <source>Generated coins must mature 120 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
-        <translation>Generirani novčići moraju pričekati nastanak 120 blokova prije nego što ih je moguće potrošiti. Kad ste generirali taj blok, on je bio emitiran u mrežu kako bi bio dodan postojećim lancima blokova. Ako ne uspije biti dodan, njegov status bit će promijenjen u &quot;nije prihvaćen&quot; i on neće biti potrošiv. S vremena na vrijeme tako nešto se može desiti ako neki drugi nod generira blok u približno isto vrijeme.</translation>
+        <source>Generated coins must mature 50 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
+        <translation>Generirani novčići moraju pričekati nastanak 50 blokova prije nego što ih je moguće potrošiti. Kad ste generirali taj blok, on je bio emitiran u mrežu kako bi bio dodan postojećim lancima blokova. Ako ne uspije biti dodan, njegov status bit će promijenjen u &quot;nije prihvaćen&quot; i on neće biti potrošiv. S vremena na vrijeme tako nešto se može desiti ako neki drugi nod generira blok u približno isto vrijeme.</translation>
     </message>
     <message>
         <location line="+7"/>
