@@ -34,7 +34,17 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="+0"/>
-        <source>The Dogecoin developers</source>
+        <source>The Bitcoin developers</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>2011-2013 The Litecoin developers</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>2013-%1 The Dogecoin developers</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -1318,8 +1328,8 @@ Address: %4
     </message>
     <message>
         <location line="+10"/>
-        <source>123.456 BTC</source>
-        <translation>123.456 לייטקוין</translation>
+        <source>123.456 DOGE</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+31"/>
@@ -1782,8 +1792,8 @@ Address: %4
     </message>
     <message>
         <location line="+3"/>
-        <source>Generated coins must mature 120 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
-        <translation>מטבעות שנוצרים חייבים להבשיל למשך 120 בלוקים לפני שניתן לנצל אותם. כשיצרת את הבלוק הזה, הוא הופץ לרשת כדי להתווסף לשרשרת הבלוקים. אם הוא אינו מצליח לביע לשרשרת, המצב שלו ישתנה ל&quot;לא התקבל&quot; ולא ניתן יהיה לנצל אותו. זה עשוי לקרות מעת לעת אם צומת אחר יוצר בלוק בטווח של מספר שניות מהבלוק שלך.</translation>
+        <source>Generated coins must mature 50 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
+        <translation>מטבעות שנוצרים חייבים להבשיל למשך 50 בלוקים לפני שניתן לנצל אותם. כשיצרת את הבלוק הזה, הוא הופץ לרשת כדי להתווסף לשרשרת הבלוקים. אם הוא אינו מצליח לביע לשרשרת, המצב שלו ישתנה ל&quot;לא התקבל&quot; ולא ניתן יהיה לנצל אותו. זה עשוי לקרות מעת לעת אם צומת אחר יוצר בלוק בטווח של מספר שניות מהבלוק שלך.</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -2626,7 +2636,7 @@ rpcpassword=%s
     </message>
     <message>
         <location line="+5"/>
-        <source>SSL options: (see the DogeCoin Wiki for SSL setup instructions)</source>
+        <source>SSL options: (see the Dogecoin Wiki for SSL setup instructions)</source>
         <translation>אפשרויות SSL: (ראה את הויקי של לייטקוין עבור הוראות הגדרת SSL)</translation>
     </message>
     <message>
@@ -2721,7 +2731,7 @@ rpcpassword=%s
     </message>
     <message>
         <location line="+1"/>
-        <source>You need to rebuild the databases using -reindex to change -txindex</source>
+        <source>You need to rebuild the database using -reindex to change -txindex</source>
         <translation>עליך לבנות מחדש את מסדי הנתונים תוך שימוש ב- -reindex על מנת לשנות את -txindex</translation>
     </message>
     <message>

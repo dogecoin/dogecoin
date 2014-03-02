@@ -33,8 +33,18 @@ Hoc productum continet programmata composita ab OpenSSL Project pro utendo in Op
     </message>
     <message>
         <location line="+0"/>
-        <source>The Dogecoin developers</source>
-        <translation>Dogecoin curatores</translation>
+        <source>The Bitcoin developers</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>2011-2013 The Litecoin developers</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>2013-%1 The Dogecoin developers</source>
+        <translation>2013-%1 Dogecoin curatores</translation>
     </message>
 </context>
 <context>
@@ -1318,8 +1328,8 @@ Inscriptio: %4
     </message>
     <message>
         <location line="+10"/>
-        <source>123.456 BTC</source>
-        <translation>123.456 BTC</translation>
+        <source>123.456 DOGE</source>
+        <translation>123.456 DOGE</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -1782,8 +1792,8 @@ Inscriptio: %4
     </message>
     <message>
         <location line="+3"/>
-        <source>Generated coins must mature 120 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
-        <translation>Nummis generatis necesse est maturitas 120 frustorum antequam illi transmitti possunt.  Cum hoc frustum generavisti, disseminatum est ad rete ut addatur ad catenam frustorum.  Si aboritur inire catenam, status eius mutabit in &quot;non acceptum&quot; et non transmittabile erit.  Hoc interdum accidat si alter nodus frustum generat paucis secundis ante vel post tuum.</translation>
+        <source>Generated coins must mature 50 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
+        <translation>Nummis generatis necesse est maturitas 50 frustorum antequam illi transmitti possunt.  Cum hoc frustum generavisti, disseminatum est ad rete ut addatur ad catenam frustorum.  Si aboritur inire catenam, status eius mutabit in &quot;non acceptum&quot; et non transmittabile erit.  Hoc interdum accidat si alter nodus frustum generat paucis secundis ante vel post tuum.</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -2626,7 +2636,7 @@ exempli gratia: alertnotify=echo %%s | mail -s &quot;Dogecoin Notificatio&quot; 
     </message>
     <message>
         <location line="+5"/>
-        <source>SSL options: (see the DogeCoin Wiki for SSL setup instructions)</source>
+        <source>SSL options: (see the Dogecoin Wiki for SSL setup instructions)</source>
         <translation>Optiones SSL: (vide vici de Dogecoin pro instructionibus SSL configurationis)</translation>
     </message>
     <message>
@@ -2721,7 +2731,7 @@ exempli gratia: alertnotify=echo %%s | mail -s &quot;Dogecoin Notificatio&quot; 
     </message>
     <message>
         <location line="+1"/>
-        <source>You need to rebuild the databases using -reindex to change -txindex</source>
+        <source>You need to rebuild the database using -reindex to change -txindex</source>
         <translation>Oportet recreare databases utendo -reindex ut mutes -txindex</translation>
     </message>
     <message>

@@ -33,7 +33,17 @@ Platinama pagal MIT/X11 licenciją, kurią rasite faile COPYING arba http://www.
     </message>
     <message>
         <location line="+0"/>
-        <source>The Dogecoin developers</source>
+        <source>The Bitcoin developers</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>2011-2013 The Litecoin developers</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>2013-%1 The Dogecoin developers</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -1317,8 +1327,8 @@ Adresas: %4</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>123.456 BTC</source>
-        <translation>123.456 BTC</translation>
+        <source>123.456 DOGE</source>
+        <translation>123.456 DOGE</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -1781,8 +1791,8 @@ Adresas: %4</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>Generated coins must mature 120 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
-        <translation>Išgautos monetos turi sulaukti 120 blokų, kol jos gali būti naudojamos. Kai sukūrėte šį bloką, jis buvo transliuojamas tinkle ir turėjo būti įtrauktas į blokų grandinę. Jei nepavyksta patekti į grandinę, bus pakeista į &quot;nepriėmė&quot;, o ne &quot;vartojamas&quot;. Tai kartais gali atsitikti, jei kitas mazgas per keletą sekundžių sukuria bloką po jūsų bloko.</translation>
+        <source>Generated coins must mature 50 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
+        <translation>Išgautos monetos turi sulaukti 50 blokų, kol jos gali būti naudojamos. Kai sukūrėte šį bloką, jis buvo transliuojamas tinkle ir turėjo būti įtrauktas į blokų grandinę. Jei nepavyksta patekti į grandinę, bus pakeista į &quot;nepriėmė&quot;, o ne &quot;vartojamas&quot;. Tai kartais gali atsitikti, jei kitas mazgas per keletą sekundžių sukuria bloką po jūsų bloko.</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -2615,8 +2625,8 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <location line="+5"/>
-        <source>SSL options: (see the DogeCoin Wiki for SSL setup instructions)</source>
-        <translation>SSL opcijos (žr.e DogeCoin Wiki for SSL setup instructions)</translation>
+        <source>SSL options: (see the Dogecoin Wiki for SSL setup instructions)</source>
+        <translation>SSL opcijos (žr.e Dogecoin Wiki for SSL setup instructions)</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2710,7 +2720,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <location line="+1"/>
-        <source>You need to rebuild the databases using -reindex to change -txindex</source>
+        <source>You need to rebuild the database using -reindex to change -txindex</source>
         <translation type="unfinished"/>
     </message>
     <message>

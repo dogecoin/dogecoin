@@ -34,8 +34,18 @@ Dieses Produkt enthält Software, die vom OpenSSL-Projekt zur Verwendung im Open
     </message>
     <message>
         <location line="+0"/>
-        <source>The Dogecoin developers</source>
-        <translation>Die Dogecoinentwickler</translation>
+        <source>The Bitcoin developers</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>2011-2013 The Litecoin developers</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>2013-%1 The Dogecoin developers</source>
+        <translation>2013-%1 Die Dogecoinentwickler</translation>
     </message>
 </context>
 <context>
@@ -1318,8 +1328,8 @@ Adresse: %4</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>123.456 BTC</source>
-        <translation>123.456 BTC</translation>
+        <source>123.456 DOGE</source>
+        <translation>123,456 DOGE</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -1782,8 +1792,8 @@ Adresse: %4</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>Generated coins must mature 120 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
-        <translation>Generierte Dogecoins müssen 120 Blöcke lang reifen, bevor sie ausgegeben werden können. Als Sie diesen Block generierten, wurde er an das Netzwerk übertragen, um ihn der Blockkette hinzuzufügen. Falls dies fehlschlägt wird der Status in &quot;nicht angenommen&quot; geändert und der Betrag wird nicht verfügbar werden. Das kann gelegentlich passieren, wenn ein anderer Knoten einen Block fast zeitgleich generiert.</translation>
+        <source>Generated coins must mature 50 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
+        <translation>Generierte Dogecoins müssen 50 Blöcke lang reifen, bevor sie ausgegeben werden können. Als Sie diesen Block generierten, wurde er an das Netzwerk übertragen, um ihn der Blockkette hinzuzufügen. Falls dies fehlschlägt wird der Status in &quot;nicht angenommen&quot; geändert und der Betrag wird nicht verfügbar werden. Das kann gelegentlich passieren, wenn ein anderer Knoten einen Block fast zeitgleich generiert.</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -2626,7 +2636,7 @@ zum Beispiel: alertnotify=echo %%s | mail -s \&quot;Dogecoin Alert\&quot; admin@
     </message>
     <message>
         <location line="+5"/>
-        <source>SSL options: (see the DogeCoin Wiki for SSL setup instructions)</source>
+        <source>SSL options: (see the Dogecoin Wiki for SSL setup instructions)</source>
         <translation>SSL-Optionen: (siehe Dogecoin-Wiki für SSL-Installationsanweisungen)</translation>
     </message>
     <message>
@@ -2721,7 +2731,7 @@ zum Beispiel: alertnotify=echo %%s | mail -s \&quot;Dogecoin Alert\&quot; admin@
     </message>
     <message>
         <location line="+1"/>
-        <source>You need to rebuild the databases using -reindex to change -txindex</source>
+        <source>You need to rebuild the database using -reindex to change -txindex</source>
         <translation>Sie müssen die Datenbank mit Hilfe von -reindex neu aufbauen, um -txindex zu verändern.</translation>
     </message>
     <message>

@@ -37,7 +37,17 @@ Eric Young (eay@cryptsoft.com) y UPnP software escrito por Thomas Bernard.</tran
     </message>
     <message>
         <location line="+0"/>
-        <source>The Dogecoin developers</source>
+        <source>The Bitcoin developers</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>2011-2013 The Litecoin developers</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>2013-%1 The Dogecoin developers</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -1322,8 +1332,8 @@ Dirección: %4</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>123.456 BTC</source>
-        <translation>123.456 BTC</translation>
+        <source>123.456 DOGE</source>
+        <translation>123.456 DOGE</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -1786,8 +1796,8 @@ Dirección: %4</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>Generated coins must mature 120 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
-        <translation>Las monedas generadas deben esperar 120 bloques antes de ser gastadas. Cuando has generado este bloque se emitió a la red para ser agregado en la cadena de bloques. Si falla al incluirse en la cadena, cambiará a &quot;no aceptado&quot; y las monedas no se podrán gastar. Esto puede ocurrir ocasionalmente si otro nodo genera un bloque casi al mismo tiempo que el tuyo.</translation>
+        <source>Generated coins must mature 50 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
+        <translation>Las monedas generadas deben esperar 50 bloques antes de ser gastadas. Cuando has generado este bloque se emitió a la red para ser agregado en la cadena de bloques. Si falla al incluirse en la cadena, cambiará a &quot;no aceptado&quot; y las monedas no se podrán gastar. Esto puede ocurrir ocasionalmente si otro nodo genera un bloque casi al mismo tiempo que el tuyo.</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -2631,8 +2641,8 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <location line="+5"/>
-        <source>SSL options: (see the DogeCoin Wiki for SSL setup instructions)</source>
-        <translation>Opciones SSL: (ver la DogeCoin Wiki para instrucciones de configuración SSL)</translation>
+        <source>SSL options: (see the Dogecoin Wiki for SSL setup instructions)</source>
+        <translation>Opciones SSL: (ver la Dogecoin Wiki para instrucciones de configuración SSL)</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2727,7 +2737,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <location line="+1"/>
-        <source>You need to rebuild the databases using -reindex to change -txindex</source>
+        <source>You need to rebuild the database using -reindex to change -txindex</source>
         <translation type="unfinished"/>
     </message>
     <message>
