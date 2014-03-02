@@ -635,12 +635,6 @@ bool AppInit2(boost::thread_group& threadGroup)
             InitWarning(_("Warning: -paytxfee is set very high! This is the transaction fee you will pay if you send a transaction."));
     }
 
-    if (mapArgs.count("-mininput"))
-    {
-        if (!ParseMoney(mapArgs["-mininput"], nMinimumInputValue))
-            return InitError(strprintf(_("Invalid amount for -mininput=<amount>: '%s'"), mapArgs["-mininput"].c_str()));
-    }
-
     strWalletFile = GetArg("-wallet", "wallet.dat");
 
     // ********************************************************* Step 4: application initialization: dir lock, daemonize, pidfile, debug log

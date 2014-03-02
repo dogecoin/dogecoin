@@ -1014,8 +1014,7 @@ void CWallet::AvailableCoins(vector<COutput>& vCoins, bool fOnlyConfirmed, const
                 continue;
 
             for (unsigned int i = 0; i < pcoin->vout.size(); i++) {
-                if (!(pcoin->IsSpent(i)) && IsMine(pcoin->vout[i]) &&
-                    !IsLockedCoin((*it).first, i) && pcoin->vout[i].nValue >= nMinimumInputValue &&
+                if (!(pcoin->IsSpent(i)) && IsMine(pcoin->vout[i]) && !IsLockedCoin((*it).first, i) &&
                     (!coinControl || !coinControl->HasSelected() || coinControl->IsSelected((*it).first, i))) 
                         vCoins.push_back(COutput(pcoin, i, pcoin->GetDepthInMainChain()));
             }

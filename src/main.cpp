@@ -74,7 +74,6 @@ int64 nHPSTimerStart = 0;
 
 // Settings
 int64 nTransactionFee = 0;
-int64 nMinimumInputValue = DUST_HARD_LIMIT;
 
 
 //////////////////////////////////////////////////////////////////////////////
