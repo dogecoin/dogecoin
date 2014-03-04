@@ -136,8 +136,7 @@ macx: {
         $$BOOST_LIB_PATH/libboost_system-mt.a \
         $$BOOST_LIB_PATH/libboost_filesystem-mt.a \
         $$BOOST_LIB_PATH/libboost_program_options-mt.a \
-        $$BOOST_LIB_PATH/libboost_thread-mt.a \
-        $$BOOST_LIB_PATH/libboost_chrono-mt.a
+        $$BOOST_LIB_PATH/libboost_thread-mt.a 
     DEFINES += MAC_OSX
     ICON = src/mac/artwork/Dogecoin.icns
     QMAKE_INFO_PLIST=src/mac/Info.plist
@@ -451,7 +450,7 @@ LIBS += -lssl -lcrypto
 # -lgdi32 has to happen after -lcrypto (see  #681)
 !macx {
     LIBS += -lboost_system$$BOOST_LIB_SUFFIX -lboost_filesystem$$BOOST_LIB_SUFFIX -lboost_program_options$$BOOST_LIB_SUFFIX
-    LIBS += -lboost_thread$$BOOST_THREAD_LIB_SUFFIX -lboost_chrono$$BOOST_LIB_SUFFIX -ldb_cxx$$BDB_LIB_SUFFIX
+    LIBS += -lboost_thread$$BOOST_THREAD_LIB_SUFFIX -ldb_cxx$$BDB_LIB_SUFFIX
 }
 
 win32: {
