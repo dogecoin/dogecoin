@@ -82,9 +82,9 @@ bool AppInit(int argc, char* argv[])
             // First part of help message is specific to dogecoind / RPC client
             std::string strUsage = _("Dogecoin Core Daemon") + " " + _("version") + " " + FormatFullVersion() + "\n\n" +
                 _("Usage:") + "\n" +
-                  "  dogecoind [options]                     " + _("Start Dogecoin server") + "\n" +
+                  "  dogecoind [options]                     " + _("Start Dogecoin Core Daemon") + "\n" +
                 _("Usage (deprecated, use dogecoin-cli):") + "\n" +
-                  "  dogecoind [options] <command> [params]  " + _("Send command to Dogecoin server") + "\n" +
+                  "  dogecoind [options] <command> [params]  " + _("Send command to Dogecoin Core") + "\n" +
                   "  dogecoind [options] help                " + _("List commands") + "\n" +
                   "  dogecoind [options] help <command>      " + _("Get help for a command") + "\n";
 
