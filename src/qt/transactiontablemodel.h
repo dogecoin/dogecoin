@@ -1,3 +1,4 @@
+// Copyright (c) 2013-2014 Dogecoin Developers
 #ifndef TRANSACTIONTABLEMODEL_H
 #define TRANSACTIONTABLEMODEL_H
 

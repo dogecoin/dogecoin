@@ -1,3 +1,4 @@
+// Copyright (c) 2013-2014 Dogecoin Developers
 #ifndef SIGNVERIFYMESSAGEDIALOG_H
 #define SIGNVERIFYMESSAGEDIALOG_H
 

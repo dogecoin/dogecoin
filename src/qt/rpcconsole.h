@@ -1,3 +1,4 @@
+// Copyright (c) 2013-2014 Dogecoin Developers
 #ifndef RPCCONSOLE_H
 #define RPCCONSOLE_H
 

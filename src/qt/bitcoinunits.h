@@ -1,3 +1,4 @@
+// Copyright (c) 2013-2014 Dogecoin Developers
 #ifndef BITCOINUNITS_H
 #define BITCOINUNITS_H
 

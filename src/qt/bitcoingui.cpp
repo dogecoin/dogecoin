@@ -3,6 +3,7 @@
  *
  * W.J. van der Laan 2011-2012
  * The Bitcoin Developers 2011-2012
+ * Copyright (c) 2013-2014 Dogecoin Developers
  */
 
 #include <QApplication>

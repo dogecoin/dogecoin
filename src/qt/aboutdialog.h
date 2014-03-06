@@ -1,3 +1,4 @@
+// Copyright (c) 2013-2014 Dogecoin Developers
 #ifndef ABOUTDIALOG_H
 #define ABOUTDIALOG_H
 
