@@ -1,3 +1,4 @@
+// Copyright (c) 2013-2014 Dogecoin Developers
 #include "askpassphrasedialog.h"
 #include "ui_askpassphrasedialog.h"
 

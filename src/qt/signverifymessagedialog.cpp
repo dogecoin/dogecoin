@@ -1,3 +1,4 @@
+// Copyright (c) 2013-2014 Dogecoin Developers
 #include "signverifymessagedialog.h"
 #include "ui_signverifymessagedialog.h"
 

@@ -1,3 +1,4 @@
+// Copyright (c) 2013-2014 Dogecoin Developers
 #ifndef BITCOINAMOUNTFIELD_H
 #define BITCOINAMOUNTFIELD_H
 

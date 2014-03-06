@@ -1,3 +1,4 @@
+// Copyright (c) 2013-2014 Dogecoin Developers
 #include "qrcodedialog.h"
 #include "ui_qrcodedialog.h"
 

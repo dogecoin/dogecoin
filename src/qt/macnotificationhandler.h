@@ -1,3 +1,4 @@
+// Copyright (c) 2013-2014 Dogecoin Developers
 #ifndef MACNOTIFICATIONHANDLER_H
 #define MACNOTIFICATIONHANDLER_H
 #include <QObject>

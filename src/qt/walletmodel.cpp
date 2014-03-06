@@ -1,3 +1,4 @@
+// Copyright (c) 2013-2014 Dogecoin Developers
 #include "walletmodel.h"
 #include "guiconstants.h"
 #include "optionsmodel.h"

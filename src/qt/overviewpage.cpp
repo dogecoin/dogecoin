@@ -1,3 +1,4 @@
+// Copyright (c) 2013-2014 Dogecoin Developers
 #include "overviewpage.h"
 #include "ui_overviewpage.h"
 
