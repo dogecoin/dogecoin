@@ -1,3 +1,4 @@
+#include <stdint.h>
 #include "rpcconsole.h"
 #include "ui_rpcconsole.h"
 
