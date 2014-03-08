@@ -42,7 +42,7 @@ Dieses Produkt enthält Software, die vom OpenSSL-Projekt zur Verwendung im Open
     <message>
         <location line="+0"/>
         <source>2011-2013 The Litecoin developers</source>
-        <translation>Die Litecoinentwickler</translation>
+        <translation>2011-2013 Die Litecoinentwickler</translation>
     </message>
     <message>
         <location line="+0"/>
