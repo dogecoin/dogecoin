@@ -1109,9 +1109,15 @@ int64 static GetBlockValue(int nHeight, int64 nFees, uint256 prevHash)
         rand1 = generateMTRandom(seed, 499999);
         nSubsidy = (1 + rand1) * COIN;
     }
-    else if(nHeight > 175000)
+    // All Blocks above 175K and below 600K are halved statically every 100K blocks
+    else if(nHeight < 600000)
     {
         nSubsidy >>= (nHeight / 100000);
+    }
+    // Static 10K Block Reward after block 600K
+    else if(nHeight >= 600000)
+    {
+        nSubsidy = 10000 * COIN;
     }
 
     return nSubsidy + nFees;
