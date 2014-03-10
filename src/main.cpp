@@ -1124,7 +1124,15 @@ int64 static GetBlockValue(int nHeight, int64 nFees, uint256 prevHash)
     return nSubsidy + nFees;
 }
 
-static const int64 nTargetTimespan = 2 * 60; // DogeCoin: every 2 minutes
+// New target time
+static const int64 nTargetTimespan = 2 * 60; // Retarget every 2 minutes
+
+// Old targetting time for blocks below height 175K
+if(nHeight < 175000)
+{
+    static const int64 nTargetTimespan = 4 * 60 * 60 ; // Retarget every 4 hours
+}
+
 static const int64 nTargetSpacing = 60; // DogeCoin: 1 minutes
 static const int64 nInterval = nTargetTimespan / nTargetSpacing;
 
