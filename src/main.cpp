@@ -1110,13 +1110,13 @@ int64 static GetBlockValue(int nHeight, int64 nFees, uint256 prevHash)
         rand1 = generateMTRandom(seed, 499999);
         nSubsidy = (1 + rand1) * COIN;
     }
-    // Blocks at height 175K-600K contain a statically halved reward
+    // Blocks at height 175K-600K contain a bitshifted halved reward
     else if(nHeight < 600000)
     {
         nSubsidy >>= (nHeight / 100000);
     }
     // Blocks at or above height 600K will contain a static 10000 coins
-    else if(nHeight >= 600000)
+    else
     {
         nSubsidy = 10000 * COIN;
     }
@@ -1124,7 +1124,7 @@ int64 static GetBlockValue(int nHeight, int64 nFees, uint256 prevHash)
     return nSubsidy + nFees;
 }
 
-static const int64 nTargetTimespan = 4 * 60 * 60; // DogeCoin: every 4 hours
+static const int64 nTargetTimespan = 2 * 60; // DogeCoin: every 2 minutes
 static const int64 nTargetSpacing = 60; // DogeCoin: 1 minutes
 static const int64 nInterval = nTargetTimespan / nTargetSpacing;
 
