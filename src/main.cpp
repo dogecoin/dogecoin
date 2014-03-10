@@ -1091,20 +1091,12 @@ int64 static GetBlockValue(int nHeight, int64 nFees, uint256 prevHash)
     int64 nSubsidy = 10000 * COIN;
 
     std::string cseed_str = prevHash.ToString().substr(7,7);
-    const char* cseed = cseed_str.c_str();
-    long seed = hex2long(cseed);
-    int rand = generateMTRandom(seed, 999999);
-    int rand1 = 0;
-    int rand2 = 0;
-    int rand3 = 0;
-    int rand4 = 0;
-    int rand5 = 0;
 
     if(nHeight < 100000)
     {
         nSubsidy = (1 + rand) * COIN;
     }
-    else if(nHeight < 200000)
+    else if(nHeight < 160000)
     {
         cseed_str = prevHash.ToString().substr(7,7);
         cseed = cseed_str.c_str();
@@ -1112,37 +1104,25 @@ int64 static GetBlockValue(int nHeight, int64 nFees, uint256 prevHash)
         rand1 = generateMTRandom(seed, 499999);
         nSubsidy = (1 + rand1) * COIN;
     }
+    else if (nHeight < 200000)
+    {
+    	nSubsidy = 250000 * COIN;
+    }
     else if(nHeight < 300000)
     {
-        cseed_str = prevHash.ToString().substr(6,7);
-        cseed = cseed_str.c_str();
-        seed = hex2long(cseed);
-        rand2 = generateMTRandom(seed, 249999);
-        nSubsidy = (1 + rand2) * COIN;
+        nSubsidy = 125000 * COIN;
     }
     else if(nHeight < 400000)
     {
-        cseed_str = prevHash.ToString().substr(7,7);
-        cseed = cseed_str.c_str();
-        seed = hex2long(cseed);
-        rand3 = generateMTRandom(seed, 124999);
-        nSubsidy = (1 + rand3) * COIN;
+        nSubsidy = 62500 * COIN;
     }
     else if(nHeight < 500000)
     {
-        cseed_str = prevHash.ToString().substr(7,7);
-        cseed = cseed_str.c_str();
-        seed = hex2long(cseed);
-        rand4 = generateMTRandom(seed, 62499);
-        nSubsidy = (1 + rand4) * COIN;
+        nSubsidy = 31250 * COIN;
     }
     else if(nHeight < 600000)
     {
-        cseed_str = prevHash.ToString().substr(6,7);
-        cseed = cseed_str.c_str();
-        seed = hex2long(cseed);
-        rand5 = generateMTRandom(seed, 31249);
-        nSubsidy = (1 + rand5) * COIN;
+        nSubsidy = 15625 * COIN;
     }
 
     return nSubsidy + nFees;
