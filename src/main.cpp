@@ -1096,11 +1096,12 @@ int64 static GetBlockValue(int nHeight, int64 nFees, uint256 prevHash)
     int rand = generateMTRandom(seed, 999999);
     int rand1 = 0;
 
-
+    // Blocks at height 0-100K cointain 0-999999 coins
     if(nHeight < 100000)
     {
         nSubsidy = (1 + rand) * COIN;
     }
+    // Blocks at height 100K-175K contain 0-499999 coins
     else if(nHeight < 175000)
     {
         cseed_str = prevHash.ToString().substr(7,7);
@@ -1109,12 +1110,12 @@ int64 static GetBlockValue(int nHeight, int64 nFees, uint256 prevHash)
         rand1 = generateMTRandom(seed, 499999);
         nSubsidy = (1 + rand1) * COIN;
     }
-    // All Blocks above 175K and below 600K are halved statically every 100K blocks
+    // Blocks at height 175K-600K contain a statically halved reward
     else if(nHeight < 600000)
     {
         nSubsidy >>= (nHeight / 100000);
     }
-    // Static 10K Block Reward after block 600K
+    // Blocks at or above height 600K will contain a static 10000 coins
     else if(nHeight >= 600000)
     {
         nSubsidy = 10000 * COIN;
