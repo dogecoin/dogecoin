@@ -14,6 +14,7 @@
 #include "net.h"
 #include "crypto/scrypt.h"
 #include "auxpow.h"
+#include "pow.h"
 #ifdef ENABLE_WALLET
 #include "wallet.h"
 #endif

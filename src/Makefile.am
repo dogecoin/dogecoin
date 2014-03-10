@@ -74,6 +74,7 @@ BITCOIN_CORE_H = \
   netbase.h \
   net.h \
   noui.h \
+  pow.h \
   protocol.h \
   rpcclient.h \
   rpcprotocol.h \
@@ -126,6 +127,7 @@ libbitcoin_server_a_SOURCES = \
   miner.cpp \
   net.cpp \
   noui.cpp \
+  pow.cpp \
   rpcblockchain.cpp \
   rpcmining.cpp \
   rpcmisc.cpp \
