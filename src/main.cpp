@@ -1088,23 +1088,21 @@ int static generateMTRandom(unsigned int s, int range)
 
 int64 static GetBlockValue(int nHeight, int64 nFees, uint256 prevHash)
 {
-    int64 nSubsidy = 10000 * COIN;
+    int64 nSubsidy = 500000 * COIN;
 
     std::string cseed_str = prevHash.ToString().substr(7,7);
     const char* cseed = cseed_str.c_str();
     long seed = hex2long(cseed);
     int rand = generateMTRandom(seed, 999999);
     int rand1 = 0;
-    int rand2 = 0;
-    int rand3 = 0;
-    int rand4 = 0;
-    int rand5 = 0;
 
+    // Blocks at height 0-100K cointain 0-999999 coins
     if(nHeight < 100000)
     {
         nSubsidy = (1 + rand) * COIN;
     }
-    else if(nHeight < 200000)
+    // Blocks at height 100K-175K contain 0-499999 coins
+    else if(nHeight < 175000)
     {
         cseed_str = prevHash.ToString().substr(7,7);
         cseed = cseed_str.c_str();
@@ -1112,43 +1110,29 @@ int64 static GetBlockValue(int nHeight, int64 nFees, uint256 prevHash)
         rand1 = generateMTRandom(seed, 499999);
         nSubsidy = (1 + rand1) * COIN;
     }
-    else if(nHeight < 300000)
-    {
-        cseed_str = prevHash.ToString().substr(6,7);
-        cseed = cseed_str.c_str();
-        seed = hex2long(cseed);
-        rand2 = generateMTRandom(seed, 249999);
-        nSubsidy = (1 + rand2) * COIN;
-    }
-    else if(nHeight < 400000)
-    {
-        cseed_str = prevHash.ToString().substr(7,7);
-        cseed = cseed_str.c_str();
-        seed = hex2long(cseed);
-        rand3 = generateMTRandom(seed, 124999);
-        nSubsidy = (1 + rand3) * COIN;
-    }
-    else if(nHeight < 500000)
-    {
-        cseed_str = prevHash.ToString().substr(7,7);
-        cseed = cseed_str.c_str();
-        seed = hex2long(cseed);
-        rand4 = generateMTRandom(seed, 62499);
-        nSubsidy = (1 + rand4) * COIN;
-    }
+    // Blocks at height 175K-600K contain a bitshifted halved reward
     else if(nHeight < 600000)
     {
-        cseed_str = prevHash.ToString().substr(6,7);
-        cseed = cseed_str.c_str();
-        seed = hex2long(cseed);
-        rand5 = generateMTRandom(seed, 31249);
-        nSubsidy = (1 + rand5) * COIN;
+        nSubsidy >>= (nHeight / 100000);
+    }
+    // Blocks at or above height 600K will contain a static 10000 coins
+    else
+    {
+        nSubsidy = 10000 * COIN;
     }
 
     return nSubsidy + nFees;
 }
 
-static const int64 nTargetTimespan = 4 * 60 * 60; // DogeCoin: every 4 hours
+// New target time
+static const int64 nTargetTimespan = 2 * 60; // Retarget every 2 minutes
+
+// Old targetting time for blocks below height 175K
+if(nHeight < 175000)
+{
+    static const int64 nTargetTimespan = 4 * 60 * 60 ; // Retarget every 4 hours
+}
+
 static const int64 nTargetSpacing = 60; // DogeCoin: 1 minutes
 static const int64 nInterval = nTargetTimespan / nTargetSpacing;
 
