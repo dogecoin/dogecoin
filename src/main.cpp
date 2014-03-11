@@ -1096,19 +1096,7 @@ int64 static GetBlockValue(int nHeight, int64 nFees, uint256 prevHash)
     int rand = generateMTRandom(seed, 999999);
     int rand1 = 0;
 
-    if(nHeight < 100000)
-    {
-        nSubsidy = (1 + rand) * COIN;
-    }
-    else if(nHeight < 175000)
-    {
-        cseed_str = prevHash.ToString().substr(7,7);
-        cseed = cseed_str.c_str();
-        seed = hex2long(cseed);
-        rand1 = generateMTRandom(seed, 499999);
-        nSubsidy = (1 + rand1) * COIN;
-    }
-    else if(nHeight < 600000)
+    if(nHeight < 600000)
     {
         nSubsidy >>= (nHeight / 100000);
     }
@@ -1122,7 +1110,7 @@ int64 static GetBlockValue(int nHeight, int64 nFees, uint256 prevHash)
 
 static const int64 nTargetTimespan = 14400; // old retarget (4hrs)
 static const int64 nTargetTimespanNEW = 600 ; // DogeCoin: every 10 minutes
-static const int64 nTargetSpacing = 60; // DogeCoin: 1 minutes
+static const int64 nTargetSpacing = 5; // DogeCoin: 5 seconds
 static const int64 nInterval = nTargetTimespan / nTargetSpacing;
 
 //
@@ -1196,33 +1184,14 @@ unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBl
     // Limit adjustment step
     int64 nActualTimespan = pindexLast->GetBlockTime() - pindexFirst->GetBlockTime();
     printf("  nActualTimespan = %"PRI64d"  before bounds\n", nActualTimespan);
-    if(pindexLast->nHeight+1 > 174999)
-    {
-        if (nActualTimespan < nTargetTimespanNEW/4)
-            nActualTimespan = nTargetTimespanNEW/4;
-        if (nActualTimespan > nTargetTimespanNEW*4)
-            nActualTimespan = nTargetTimespanNEW*4;
-    }
-	else if (pindexLast->nHeight+1 > 10000) {
-		if (nActualTimespan < nTargetTimespan/4)
-            nActualTimespan = nTargetTimespan/4;
-        if (nActualTimespan > nTargetTimespan*4)
-            nActualTimespan = nTargetTimespan*4;
+	
+    if (nActualTimespan < nTargetTimespanNEW/4) {
+        nActualTimespan = nTargetTimespanNEW/4;
 	}
-    else if(pindexLast->nHeight+1 > 5000)
-    {
-        if (nActualTimespan < nTargetTimespan/8)
-            nActualTimespan = nTargetTimespan/8;
-        if (nActualTimespan > nTargetTimespan*4)
-            nActualTimespan = nTargetTimespan*4;
-    }
-    else
-    {
-        if (nActualTimespan < nTargetTimespan/16)
-            nActualTimespan = nTargetTimespan/16;
-        if (nActualTimespan > nTargetTimespan*4)
-            nActualTimespan = nTargetTimespan*4;
-    }
+    if (nActualTimespan > nTargetTimespanNEW*4) {
+        nActualTimespan = nTargetTimespanNEW*4;
+	}
+    
 
     // Retarget
     CBigNum bnNew;
