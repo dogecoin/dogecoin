@@ -1176,7 +1176,6 @@ unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBl
 	
 	if (fNewDifficultyProtocol) {
 		retargetInterval = nTargetTimespanNEW / nTargetSpacing;
-		retargetSpacing = nTargetSpacingRe;
         retargetTimespan = nTargetTimespanNEW;
 	}
 	
