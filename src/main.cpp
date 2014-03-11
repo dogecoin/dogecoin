@@ -1120,7 +1120,8 @@ int64 static GetBlockValue(int nHeight, int64 nFees, uint256 prevHash)
     return nSubsidy + nFees;
 }
 
-static const int64 nTargetTimespan = 600 ; // DogeCoin: every 10 minutes
+static const int64 nTargetTimespan = 14400; // old retarget (4hrs)
+static const int64 nTargetTimespanNEW = 600 ; // DogeCoin: every 10 minutes
 static const int64 nTargetSpacing = 60; // DogeCoin: 1 minutes
 static const int64 nInterval = nTargetTimespan / nTargetSpacing;
 
@@ -1195,13 +1196,19 @@ unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBl
     // Limit adjustment step
     int64 nActualTimespan = pindexLast->GetBlockTime() - pindexFirst->GetBlockTime();
     printf("  nActualTimespan = %"PRI64d"  before bounds\n", nActualTimespan);
-    if(pindexLast->nHeight+1 > 10000)
+    if(pindexLast->nHeight+1 > 174999)
     {
-        if (nActualTimespan < nTargetTimespan/4)
+        if (nActualTimespan < nTargetTimespanNEW/4)
+            nActualTimespan = nTargetTimespanNEW/4;
+        if (nActualTimespan > nTargetTimespanNEW*4)
+            nActualTimespan = nTargetTimespanNEW*4;
+    }
+	else if (pindexLast->nHeight+1 > 10000) {
+		if (nActualTimespan < nTargetTimespan/4)
             nActualTimespan = nTargetTimespan/4;
         if (nActualTimespan > nTargetTimespan*4)
             nActualTimespan = nTargetTimespan*4;
-    }
+	}
     else if(pindexLast->nHeight+1 > 5000)
     {
         if (nActualTimespan < nTargetTimespan/8)
