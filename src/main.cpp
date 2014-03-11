@@ -1184,12 +1184,13 @@ unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBl
     // Limit adjustment step
     int64 nActualTimespan = pindexLast->GetBlockTime() - pindexFirst->GetBlockTime();
     printf("  nActualTimespan = %"PRI64d"  before bounds\n", nActualTimespan);
-	
-    if (nActualTimespan < nTargetTimespanNEW/4) {
-        nActualTimespan = nTargetTimespanNEW/4;
-	}
-    if (nActualTimespan > nTargetTimespanNEW*4) {
-        nActualTimespan = nTargetTimespanNEW*4;
+	if(pindexLast->nHeight+1 > 10) {
+		if (nActualTimespan < nTargetTimespanNEW/4) {
+			nActualTimespan = nTargetTimespanNEW/4;
+		}
+		if (nActualTimespan > nTargetTimespanNEW*4) {
+			nActualTimespan = nTargetTimespanNEW*4;
+		}
 	}
     
 
