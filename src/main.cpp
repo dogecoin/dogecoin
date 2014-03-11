@@ -1225,7 +1225,7 @@ unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBl
 	CBigNum bnNew;
     bnNew.SetCompact(pindexLast->nBits);
 	
-    if(fNewDifficultyProtocol) //DigiShield implementation
+    if(fNewDifficultyProtocol) //DigiShield implementation - thanks to RealSolid & WDC for this code
     {
 		printf("DIGISHIELD RETARGET\n");
         if (nActualTimespan < (retargetTimespan - (retargetTimespan/4)) ) nActualTimespan = (retargetTimespan - (retargetTimespan/4));
@@ -1255,7 +1255,7 @@ unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBl
     // Retarget
     
     bnNew *= nActualTimespan;
-    bnNew /= nTargetTimespan;
+    bnNew /= retargetTimespan;
 
     if (bnNew > bnProofOfWorkLimit)
         bnNew = bnProofOfWorkLimit;
