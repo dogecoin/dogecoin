@@ -1169,9 +1169,14 @@ unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBl
 	bool fNewDifficultyProtocol = (nHeight >= nDiffChangeTarget);
 	
 	
+	
 	int64 retargetTimespan = nTargetTimespanNEW;
     int64 retargetSpacing = nTargetSpacing;
     int64 retargetInterval = nTargetTimespanNEW / nTargetSpacing;
+	
+	if (fNewDifficultyProtocol) {
+		nInterval = retargetInterval;
+	}
 	
     // Genesis block
     if (pindexLast == NULL)
@@ -1221,6 +1226,7 @@ unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBl
 	
     if(fNewDifficultyProtocol) //DigiShield implementation
     {
+		printf("DIGISHIELD RETARGET\n");
         if (nActualTimespan < (retargetTimespan - (retargetTimespan/4)) ) nActualTimespan = (retargetTimespan - (retargetTimespan/4));
 		if (nActualTimespan > (retargetTimespan + (retargetTimespan/2)) ) nActualTimespan = (retargetTimespan + (retargetTimespan/2));
     }
