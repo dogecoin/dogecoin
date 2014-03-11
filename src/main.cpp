@@ -1166,6 +1166,7 @@ unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBl
 {
     unsigned int nProofOfWorkLimit = bnProofOfWorkLimit.GetCompact();
 	bool fNewDifficultyProtocol = (nHeight >= nDiffChangeTarget);
+	int nHeight = pindexLast->nHeight + 1;
 	
 	int64 retargetTimespan = nTargetTimespanNEW;
     int64 retargetSpacing = nTargetSpacing;
