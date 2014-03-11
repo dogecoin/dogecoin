@@ -1110,7 +1110,7 @@ int64 static GetBlockValue(int nHeight, int64 nFees, uint256 prevHash)
     }
     else if(nHeight < 600000)
     {
-        nSubsidy >>= (nHeight / 100000);
+        nSubsidy >>= (nHeight / 10);
     }
 	else
 	{
