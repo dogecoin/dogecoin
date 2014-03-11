@@ -1170,12 +1170,14 @@ unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBl
 	
 	
 	
-	int64 retargetTimespan = nTargetTimespanNEW;
+	int64 retargetTimespan = nTargetTimespan;
     int64 retargetSpacing = nTargetSpacing;
     int64 retargetInterval = nInterval;
 	
 	if (fNewDifficultyProtocol) {
 		retargetInterval = nTargetTimespanNEW / nTargetSpacing;
+		retargetSpacing = nTargetSpacingRe;
+        retargetTimespan = nTargetTimespanNEW;
 	}
 	
     // Genesis block
@@ -1190,7 +1192,7 @@ unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBl
         {
             // If the new block's timestamp is more than 2* nTargetSpacing minutes
             // then allow mining of a min-difficulty block.
-            if (pblock->nTime > pindexLast->nTime + nTargetSpacing*2)
+            if (pblock->nTime > pindexLast->nTime + retargetSpacing*2)
                 return nProofOfWorkLimit;
             else
             {
