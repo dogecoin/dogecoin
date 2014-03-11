@@ -1,6 +1,8 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2012 The Bitcoin developers
+// Copyright (c) 2011-2014 Litecoin Developers
 // Copyright (c) 2013-2014 Dogecoin Developers
+// Contributions by /u/lleti, rog1121, and DigiShield (Digibyte Developers).
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -1086,6 +1088,8 @@ int static generateMTRandom(unsigned int s, int range)
     return dist(gen);
 }
 
+static const int64 nDiffChangeTarget = 150000; // Patch effective @ block 150000
+
 int64 static GetBlockValue(int nHeight, int64 nFees, uint256 prevHash)
 {
     int64 nSubsidy = 500000 * COIN;
@@ -1100,7 +1104,7 @@ int64 static GetBlockValue(int nHeight, int64 nFees, uint256 prevHash)
     {
         nSubsidy = (1 + rand) * COIN;
     }
-    else if(nHeight < 175000)
+    else if(nHeight < 150000)
     {
         cseed_str = prevHash.ToString().substr(7,7);
         cseed = cseed_str.c_str();
@@ -1121,7 +1125,7 @@ int64 static GetBlockValue(int nHeight, int64 nFees, uint256 prevHash)
 }
 
 static const int64 nTargetTimespan = 14400; // old retarget (4hrs)
-static const int64 nTargetTimespanNEW = 600 ; // DogeCoin: every 10 minutes
+static const int64 nTargetTimespanNEW = 60 ; // DogeCoin: every 1 minute
 static const int64 nTargetSpacing = 60; // DogeCoin: 1 minutes
 static const int64 nInterval = nTargetTimespan / nTargetSpacing;
 
@@ -1138,12 +1142,20 @@ unsigned int ComputeMinWork(unsigned int nBase, int64 nTime)
 
     CBigNum bnResult;
     bnResult.SetCompact(nBase);
+	
     while (nTime > 0 && bnResult < bnProofOfWorkLimit)
     {
-        // Maximum 400% adjustment...
-        bnResult *= 4;
-        // ... in best-case exactly 4-times-normal target time
-        nTime -= nTargetTimespan*4;
+        if(nBestHeight+1<nDiffChangeTarget){
+            // Maximum 400% adjustment...
+            bnResult *= 4;
+            // ... in best-case exactly 4-times-normal target time
+            nTime -= nTargetTimespan*4;
+        } else {
+            // Maximum 10% adjustment...
+            bnResult = (bnResult * 110) / 100;
+            // ... in best-case exactly 4-times-normal target time
+            nTime -= nTargetTimespanRe*4;
+        }
     }
     if (bnResult > bnProofOfWorkLimit)
         bnResult = bnProofOfWorkLimit;
@@ -1153,7 +1165,12 @@ unsigned int ComputeMinWork(unsigned int nBase, int64 nTime)
 unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock)
 {
     unsigned int nProofOfWorkLimit = bnProofOfWorkLimit.GetCompact();
-
+	bool fNewDifficultyProtocol = (nHeight >= nDiffChangeTarget);
+	
+	int64 retargetTimespan = nTargetTimespanNEW;
+    int64 retargetSpacing = nTargetSpacing;
+    int64 retargetInterval = nTargetTimespanNEW / nTargetSpacing;
+	
     // Genesis block
     if (pindexLast == NULL)
         return nProofOfWorkLimit;
@@ -1191,17 +1208,19 @@ unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBl
     const CBlockIndex* pindexFirst = pindexLast;
     for (int i = 0; pindexFirst && i < blockstogoback; i++)
         pindexFirst = pindexFirst->pprev;
-    assert(pindexFirst);
+    assert(pindexFirst); // why do you guys hate opening/closing braces? - lleti
 
     // Limit adjustment step
     int64 nActualTimespan = pindexLast->GetBlockTime() - pindexFirst->GetBlockTime();
     printf("  nActualTimespan = %"PRI64d"  before bounds\n", nActualTimespan);
-    if(pindexLast->nHeight+1 > 174999)
+	
+	CBigNum bnNew;
+    bnNew.SetCompact(pindexLast->nBits);
+	
+    if(fNewDifficultyProtocol) //DigiShield implementation
     {
-        if (nActualTimespan < nTargetTimespanNEW/4)
-            nActualTimespan = nTargetTimespanNEW/4;
-        if (nActualTimespan > nTargetTimespanNEW*4)
-            nActualTimespan = nTargetTimespanNEW*4;
+        if (nActualTimespan < (retargetTimespan - (retargetTimespan/4)) ) nActualTimespan = (retargetTimespan - (retargetTimespan/4));
+		if (nActualTimespan > (retargetTimespan + (retargetTimespan/2)) ) nActualTimespan = (retargetTimespan + (retargetTimespan/2));
     }
 	else if (pindexLast->nHeight+1 > 10000) {
 		if (nActualTimespan < nTargetTimespan/4)
@@ -1225,8 +1244,7 @@ unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBl
     }
 
     // Retarget
-    CBigNum bnNew;
-    bnNew.SetCompact(pindexLast->nBits);
+    
     bnNew *= nActualTimespan;
     bnNew /= nTargetTimespan;
 
