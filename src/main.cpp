@@ -933,12 +933,21 @@ int CMerkleTx::GetDepthInMainChain(CBlockIndex* &pindexRet) const
     return pindexBest->nHeight - pindex->nHeight + 1;
 }
 
+int CMerkleTx::GetHeightInMainChain(CBlockIndex* &pindexRet) const
+{
+    return GetDepthInMainChain(pindexRet) + pindexBest->nHeight - 1;
+}
+
 
 int CMerkleTx::GetBlocksToMaturity() const
 {
     if (!IsCoinBase())
         return 0;
-    return max(0, (COINBASE_MATURITY+20) - GetDepthInMainChain());
+    	
+    if(GetHeightInMainChain() >= COINBASE_MATURITY_SWITCH)
+        return max(0, (COINBASE_MATURITY_NEW+20) - GetDepthInMainChain());
+    else
+        return max(0, (COINBASE_MATURITY+20) - GetDepthInMainChain());
 }
 
 
@@ -1507,7 +1516,10 @@ bool CTransaction::CheckInputs(CValidationState &state, CCoinsViewCache &inputs,
 
             // If prev is coinbase, check that it's matured
             if (coins.IsCoinBase()) {
-                if (nSpendHeight - coins.nHeight < COINBASE_MATURITY)
+                int minDepth = COINBASE_MATURITY;
+                if(nSpendHeight >= COINBASE_MATURITY_SWITCH)
+                    minDepth = COINBASE_MATURITY_NEW;
+                if (nSpendHeight - coins.nHeight < minDepth)
                     return state.Invalid(error("CheckInputs() : tried to spend coinbase at depth %d", nSpendHeight - coins.nHeight));
             }
 
