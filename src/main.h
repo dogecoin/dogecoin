@@ -60,7 +60,7 @@ inline bool MoneyRange(int64 nValue) { return (nValue >= 0 && nValue <= MAX_MONE
 /** Coinbase transaction outputs can only be spent after this number of new blocks (network rule) */
 static const int COINBASE_MATURITY = 30;
 /** Coinbase maturity after block 150000 **/
-static const int COINBASE_MATURITY_NEW = 60*24*2;
+static const int COINBASE_MATURITY_NEW = 60*4;
 /** Block at which COINBASE_MATURITY_NEW comes into effect **/
 static const int COINBASE_MATURITY_SWITCH = 160000;
 /** Threshold for nLockTime: below this value it is interpreted as block number, otherwise as UNIX timestamp. */
