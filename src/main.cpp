@@ -3,7 +3,6 @@
 // Copyright (c) 2011-2014 Litecoin Developers
 // Copyright (c) 2013-2014 Dogecoin Developers
 // Contributions by /u/lleti, rog1121, and DigiByte (DigiShield Developers).
-// DogeCoin V1.6 Logo by /u/need4doge.
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -1117,15 +1116,15 @@ int64 static GetBlockValue(int nHeight, int64 nFees, uint256 prevHash)
     {
         nSubsidy >>= (nHeight / 100000);
     }
-	else
-	{
-		nSubsidy = 10000 * COIN;
-	}
+    else
+    {
+        nSubsidy = 10000 * COIN;
+    }
 
     return nSubsidy + nFees;
 }
 
-static const int64 nTargetTimespan = 14400; // old retarget (4hrs)
+static const int64 nTargetTimespan = 4 * 60 * 60; // old retarget (4hrs)
 static const int64 nTargetTimespanNEW = 60 ; // DogeCoin: every 1 minute
 static const int64 nTargetSpacing = 60; // DogeCoin: 1 minutes
 static const int64 nInterval = nTargetTimespan / nTargetSpacing;
@@ -1143,7 +1142,7 @@ unsigned int ComputeMinWork(unsigned int nBase, int64 nTime)
 
     CBigNum bnResult;
     bnResult.SetCompact(nBase);
-	
+    
     while (nTime > 0 && bnResult < bnProofOfWorkLimit)
     {
         if(nBestHeight+1<nDiffChangeTarget){
@@ -1166,20 +1165,20 @@ unsigned int ComputeMinWork(unsigned int nBase, int64 nTime)
 unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock)
 {
     unsigned int nProofOfWorkLimit = bnProofOfWorkLimit.GetCompact();
-	int nHeight = pindexLast->nHeight + 1;
-	bool fNewDifficultyProtocol = (nHeight >= nDiffChangeTarget);
-	
-	
-	
-	int64 retargetTimespan = nTargetTimespan;
+    int nHeight = pindexLast->nHeight + 1;
+    bool fNewDifficultyProtocol = (nHeight >= nDiffChangeTarget);
+    
+    
+    
+    int64 retargetTimespan = nTargetTimespan;
     int64 retargetSpacing = nTargetSpacing;
     int64 retargetInterval = nInterval;
-	
-	if (fNewDifficultyProtocol) {
-		retargetInterval = nTargetTimespanNEW / nTargetSpacing;
+    
+    if (fNewDifficultyProtocol) {
+        retargetInterval = nTargetTimespanNEW / nTargetSpacing;
         retargetTimespan = nTargetTimespanNEW;
-	}
-	
+    }
+    
     // Genesis block
     if (pindexLast == NULL)
         return nProofOfWorkLimit;
@@ -1217,27 +1216,29 @@ unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBl
     const CBlockIndex* pindexFirst = pindexLast;
     for (int i = 0; pindexFirst && i < blockstogoback; i++)
         pindexFirst = pindexFirst->pprev;
-    assert(pindexFirst); // why do you guys hate opening/closing braces? - lleti
+    assert(pindexFirst);
 
     // Limit adjustment step
     int64 nActualTimespan = pindexLast->GetBlockTime() - pindexFirst->GetBlockTime();
     printf("  nActualTimespan = %"PRI64d"  before bounds\n", nActualTimespan);
-	
-	CBigNum bnNew;
+    
+    CBigNum bnNew;
     bnNew.SetCompact(pindexLast->nBits);
-	
+    
     if(fNewDifficultyProtocol) //DigiShield implementation - thanks to RealSolid & WDC for this code
     {
-		printf("DIGISHIELD RETARGET\n");
+		// amplitude filter - thanks to daft27 for this code
+        nActualTimespan = retargetTimespan + (nActualTimespan - retargetTimespan)/8;
+        printf("DIGISHIELD RETARGET\n");
         if (nActualTimespan < (retargetTimespan - (retargetTimespan/4)) ) nActualTimespan = (retargetTimespan - (retargetTimespan/4));
-		if (nActualTimespan > (retargetTimespan + (retargetTimespan/2)) ) nActualTimespan = (retargetTimespan + (retargetTimespan/2));
+        if (nActualTimespan > (retargetTimespan + (retargetTimespan/2)) ) nActualTimespan = (retargetTimespan + (retargetTimespan/2));
     }
-	else if (pindexLast->nHeight+1 > 10000) {
-		if (nActualTimespan < nTargetTimespan/4)
+    else if (pindexLast->nHeight+1 > 10000) {
+        if (nActualTimespan < nTargetTimespan/4)
             nActualTimespan = nTargetTimespan/4;
         if (nActualTimespan > nTargetTimespan*4)
             nActualTimespan = nTargetTimespan*4;
-	}
+    }
     else if(pindexLast->nHeight+1 > 5000)
     {
         if (nActualTimespan < nTargetTimespan/8)
