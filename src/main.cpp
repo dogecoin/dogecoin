@@ -2,7 +2,8 @@
 // Copyright (c) 2009-2012 The Bitcoin developers
 // Copyright (c) 2011-2014 Litecoin Developers
 // Copyright (c) 2013-2014 Dogecoin Developers
-// Contributions by /u/lleti, rog1121, and DigiShield (Digibyte Developers).
+// Contributions by /u/lleti, rog1121, and DigiByte (DigiShield Developers).
+// DogeCoin V1.6 Logo by /u/need4doge.
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -1088,7 +1089,7 @@ int static generateMTRandom(unsigned int s, int range)
     return dist(gen);
 }
 
-static const int64 nDiffChangeTarget = 150000; // Patch effective @ block 150000
+static const int64 nDiffChangeTarget = 145000; // Patch effective @ block 145000
 
 int64 static GetBlockValue(int nHeight, int64 nFees, uint256 prevHash)
 {
@@ -1104,7 +1105,7 @@ int64 static GetBlockValue(int nHeight, int64 nFees, uint256 prevHash)
     {
         nSubsidy = (1 + rand) * COIN;
     }
-    else if(nHeight < 150000)
+    else if(nHeight < 145000)
     {
         cseed_str = prevHash.ToString().substr(7,7);
         cseed = cseed_str.c_str();
@@ -1262,7 +1263,7 @@ unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBl
 
     /// debug print
     printf("GetNextWorkRequired RETARGET\n");
-    printf("nTargetTimespan = %"PRI64d"    nActualTimespan = %"PRI64d"\n", nTargetTimespan, nActualTimespan);
+    printf("nTargetTimespan = %"PRI64d"    nActualTimespan = %"PRI64d"\n", retargetTimespan, nActualTimespan);
     printf("Before: %08x  %s\n", pindexLast->nBits, CBigNum().SetCompact(pindexLast->nBits).getuint256().ToString().c_str());
     printf("After:  %08x  %s\n", bnNew.GetCompact(), bnNew.getuint256().ToString().c_str());
 
