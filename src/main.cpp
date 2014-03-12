@@ -1088,7 +1088,7 @@ int static generateMTRandom(unsigned int s, int range)
     return dist(gen);
 }
 
-static const int64 nDiffChangeTarget = 15; // Patch effective @ block 150000
+static const int64 nDiffChangeTarget = 50; // Patch effective @ block 150000
 
 int64 static GetBlockValue(int nHeight, int64 nFees, uint256 prevHash)
 {
@@ -1100,7 +1100,7 @@ int64 static GetBlockValue(int nHeight, int64 nFees, uint256 prevHash)
     int rand = generateMTRandom(seed, 999999);
     int rand1 = 0;
 
-    if(nHeight < 15)
+    if(nHeight < 50)
     {
         cseed_str = prevHash.ToString().substr(7,7);
         cseed = cseed_str.c_str();
@@ -1241,7 +1241,7 @@ unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBl
 
     /// debug print
     printf("GetNextWorkRequired RETARGET\n");
-    printf("nTargetTimespan = %"PRI64d"    nActualTimespan = %"PRI64d"\n", nTargetTimespan, nActualTimespan);
+    printf("nTargetTimespan = %"PRI64d"    nActualTimespan = %"PRI64d"\n", retargetTimespan, nActualTimespan);
     printf("Before: %08x  %s\n", pindexLast->nBits, CBigNum().SetCompact(pindexLast->nBits).getuint256().ToString().c_str());
     printf("After:  %08x  %s\n", bnNew.GetCompact(), bnNew.getuint256().ToString().c_str());
 
