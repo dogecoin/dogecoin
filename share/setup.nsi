@@ -5,7 +5,7 @@ SetCompressor /SOLID lzma
 
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\$(^Name)"
-!define VERSION 1.5.3
+!define VERSION 1.6.0
 !define COMPANY "Dogecoin project"
 !define URL http://www.dogecoin.com/
 

@@ -34,8 +34,18 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="+0"/>
-        <source>The Dogecoin developers</source>
-        <translation>莱特幣開發人員</translation>
+        <source>The Bitcoin developers</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>2011-2013 The Litecoin developers</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>2013-%1 The Dogecoin developers</source>
+        <translation>2013-%1 莱特幣開發人員</translation>
     </message>
 </context>
 <context>
@@ -1319,8 +1329,8 @@ Address: %4
     </message>
     <message>
         <location line="+10"/>
-        <source>123.456 BTC</source>
-        <translation>123.456 BTC</translation>
+        <source>123.456 DOGE</source>
+        <translation>123.456 DOGE</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -1783,8 +1793,8 @@ Address: %4
     </message>
     <message>
         <location line="+3"/>
-        <source>Generated coins must mature 120 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
-        <translation>生產出來的錢要再等 120 個區塊熟成之後, 才能夠花用. 當你產出區塊時, 它會被公布到網路上, 以被串連至區塊鎖鏈. 如果串連失敗了, 它的狀態就會變成&quot;不被接受&quot;, 且不能被花用. 當你產出區塊的幾秒鐘內, 也有其他節點產出區塊的話, 有時候就會發生這種情形.</translation>
+        <source>Generated coins must mature 50 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
+        <translation>生產出來的錢要再等 50 個區塊熟成之後, 才能夠花用. 當你產出區塊時, 它會被公布到網路上, 以被串連至區塊鎖鏈. 如果串連失敗了, 它的狀態就會變成&quot;不被接受&quot;, 且不能被花用. 當你產出區塊的幾秒鐘內, 也有其他節點產出區塊的話, 有時候就會發生這種情形.</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -2637,8 +2647,8 @@ alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <location line="+5"/>
-        <source>SSL options: (see the DogeCoin Wiki for SSL setup instructions)</source>
-        <translation>SSL 選項: (SSL 設定程序請見 DogeCoin Wiki)</translation>
+        <source>SSL options: (see the Dogecoin Wiki for SSL setup instructions)</source>
+        <translation>SSL 選項: (SSL 設定程序請見 Dogecoin Wiki)</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2732,7 +2742,7 @@ alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <location line="+1"/>
-        <source>You need to rebuild the databases using -reindex to change -txindex</source>
+        <source>You need to rebuild the database using -reindex to change -txindex</source>
         <translation>改變 -txindex 參數後, 必須要用 -reindex 參數來重建資料庫</translation>
     </message>
     <message>

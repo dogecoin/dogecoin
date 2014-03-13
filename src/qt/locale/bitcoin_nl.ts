@@ -34,8 +34,18 @@ Dit product bevat software ontwikkeld door het OpenSSL Project voor gebruik in d
     </message>
     <message>
         <location line="+0"/>
-        <source>The Dogecoin developers</source>
-        <translation>De Dogecoin-ontwikkelaars</translation>
+        <source>The Bitcoin developers</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>2011-2013 The Litecoin developers</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>2013-%1 The Dogecoin developers</source>
+        <translation>2013-%1 De Dogecoin-ontwikkelaars</translation>
     </message>
 </context>
 <context>
@@ -1319,8 +1329,8 @@ Adres: %4
     </message>
     <message>
         <location line="+10"/>
-        <source>123.456 BTC</source>
-        <translation>123.456 BTC</translation>
+        <source>123.456 DOGE</source>
+        <translation>123.456 DOGE</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -1783,8 +1793,8 @@ Adres: %4
     </message>
     <message>
         <location line="+3"/>
-        <source>Generated coins must mature 120 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
-        <translation>Gegeneerde munten moeten 120 blokken wachten voordat ze tot wasdom komen en kunnen worden uitgegeven. Uw net gegenereerde blok is uitgezonden aan het netwerk om te worden toegevoegd aan de blokketen. Als het niet wordt geaccepteerd in de keten, zal het blok als &quot;niet geaccepteerd&quot; worden aangemerkt en kan het niet worden uitgegeven. Dit kan soms gebeuren als een andere node net iets sneller een blok heeft gegenereerd; een paar seconden voor het uwe.</translation>
+        <source>Generated coins must mature 50 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
+        <translation>Gegeneerde munten moeten 50 blokken wachten voordat ze tot wasdom komen en kunnen worden uitgegeven. Uw net gegenereerde blok is uitgezonden aan het netwerk om te worden toegevoegd aan de blokketen. Als het niet wordt geaccepteerd in de keten, zal het blok als &quot;niet geaccepteerd&quot; worden aangemerkt en kan het niet worden uitgegeven. Dit kan soms gebeuren als een andere node net iets sneller een blok heeft gegenereerd; een paar seconden voor het uwe.</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -2627,8 +2637,8 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <location line="+5"/>
-        <source>SSL options: (see the DogeCoin Wiki for SSL setup instructions)</source>
-        <translation>SSL-opties: (zie de DogeCoin wiki voor SSL-instructies)</translation>
+        <source>SSL options: (see the Dogecoin Wiki for SSL setup instructions)</source>
+        <translation>SSL-opties: (zie de Dogecoin wiki voor SSL-instructies)</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2722,7 +2732,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <location line="+1"/>
-        <source>You need to rebuild the databases using -reindex to change -txindex</source>
+        <source>You need to rebuild the database using -reindex to change -txindex</source>
         <translation>U moet de databases herbouwen met behulp van -reindex om -txindex te kunnen veranderen</translation>
     </message>
     <message>

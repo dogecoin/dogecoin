@@ -35,7 +35,17 @@ Tämä ohjelma sisältää OpenSSL projektin OpenSSL työkalupakin (http://www.o
     </message>
     <message>
         <location line="+0"/>
-        <source>The Dogecoin developers</source>
+        <source>The Bitcoin developers</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>2011-2013 The Litecoin developers</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>2013-%1 The Dogecoin developers</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -1319,8 +1329,8 @@ Osoite: %4</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>123.456 BTC</source>
-        <translation>123,456 BTC</translation>
+        <source>123.456 DOGE</source>
+        <translation>123,456 DOGE</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -1783,8 +1793,8 @@ Osoite: %4</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>Generated coins must mature 120 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
-        <translation>Generoitujen kolikoiden täytyy kypsyä 120 lohkon ajan ennen kuin ne voidaan lähettää. Kun loit tämän lohkon, se lähetettiin verkkoon lisättäväksi lohkoketjuun. Jos se ei päädy osaksi lohkoketjua, sen tila vaihtuu &quot;ei hyväksytty&quot; ja sitä ei voida lähettää. Näin voi joskus käydä, jos toinen noodi löytää lohkon muutamaa sekuntia ennen tai jälkeen sinun lohkosi löytymisen.</translation>
+        <source>Generated coins must mature 50 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
+        <translation>Generoitujen kolikoiden täytyy kypsyä 50 lohkon ajan ennen kuin ne voidaan lähettää. Kun loit tämän lohkon, se lähetettiin verkkoon lisättäväksi lohkoketjuun. Jos se ei päädy osaksi lohkoketjua, sen tila vaihtuu &quot;ei hyväksytty&quot; ja sitä ei voida lähettää. Näin voi joskus käydä, jos toinen noodi löytää lohkon muutamaa sekuntia ennen tai jälkeen sinun lohkosi löytymisen.</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -2617,8 +2627,8 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <location line="+5"/>
-        <source>SSL options: (see the DogeCoin Wiki for SSL setup instructions)</source>
-        <translation>SSL asetukset (katso DogeCoin Wikistä tarkemmat SSL ohjeet)</translation>
+        <source>SSL options: (see the Dogecoin Wiki for SSL setup instructions)</source>
+        <translation>SSL asetukset (katso Dogecoin Wikistä tarkemmat SSL ohjeet)</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2712,7 +2722,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <location line="+1"/>
-        <source>You need to rebuild the databases using -reindex to change -txindex</source>
+        <source>You need to rebuild the database using -reindex to change -txindex</source>
         <translation type="unfinished"/>
     </message>
     <message>

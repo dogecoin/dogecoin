@@ -29,7 +29,17 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="+0"/>
-        <source>The Dogecoin developers</source>
+        <source>The Bitcoin developers</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>2011-2013 The Litecoin developers</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>2013-%1 The Dogecoin developers</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -1310,8 +1320,8 @@ Address: %4
     </message>
     <message>
         <location line="+10"/>
-        <source>123.456 BTC</source>
-        <translation>123.456 BTC</translation>
+        <source>123.456 DOGE</source>
+        <translation>123.456 DOGE</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -1774,8 +1784,8 @@ Address: %4
     </message>
     <message>
         <location line="+3"/>
-        <source>Generated coins must mature 120 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
-        <translation>Les monedes generades han de madurar 120 blocs abans de poder ser gastades. Quan has generat aquest bloc, aquest ha estat transmés a la xarxa per a ser afegit a la cadena de blocs. Si no arriba a ser acceptat a la cadena, el seu estat passará a &quot;no acceptat&quot; i no podrá ser gastat. Això pot ocòrrer ocasionalment si un altre node genera un bloc a pocs segons del teu.</translation>
+        <source>Generated coins must mature 50 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
+        <translation>Les monedes generades han de madurar 50 blocs abans de poder ser gastades. Quan has generat aquest bloc, aquest ha estat transmés a la xarxa per a ser afegit a la cadena de blocs. Si no arriba a ser acceptat a la cadena, el seu estat passará a &quot;no acceptat&quot; i no podrá ser gastat. Això pot ocòrrer ocasionalment si un altre node genera un bloc a pocs segons del teu.</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -2608,7 +2618,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <location line="+5"/>
-        <source>SSL options: (see the DogeCoin Wiki for SSL setup instructions)</source>
+        <source>SSL options: (see the Dogecoin Wiki for SSL setup instructions)</source>
         <translation>Opcions SSL: (veure la Wiki de Dogecoin per a instruccions de configuració SSL)</translation>
     </message>
     <message>
@@ -2703,7 +2713,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <location line="+1"/>
-        <source>You need to rebuild the databases using -reindex to change -txindex</source>
+        <source>You need to rebuild the database using -reindex to change -txindex</source>
         <translation>Necessiteu reconstruir les bases de dades usant -reindex per canviar -txindex</translation>
     </message>
     <message>
