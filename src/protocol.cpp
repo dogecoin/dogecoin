@@ -143,7 +143,10 @@ const char* CInv::GetCommand() const
 
 std::string CInv::ToString() const
 {
-    return strprintf("%s %s", GetCommand(), hash.ToString().c_str());
+    if(IsKnownType())
+        return strprintf("%s %s", GetCommand(), hash.ToString().c_str());
+    else
+        return strprintf("type=%d %s", type, hash.ToString().c_str());
 }
 
 void CInv::print() const
