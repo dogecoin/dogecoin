@@ -331,7 +331,7 @@ Value sendtoaddress(const Array& params, bool fHelp)
 
     // Amount
     int64_t nAmount = AmountFromValue(params[1]);
-
+    
     // Wallet comments
     CWalletTx wtx;
     if (params.size() > 2 && params[2].type() != null_type && !params[2].get_str().empty())
