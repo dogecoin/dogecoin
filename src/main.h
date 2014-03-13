@@ -59,6 +59,10 @@ static const int64 MAX_MONEY = 10000000000 * COIN; // DogeCoin: maximum of 100B 
 inline bool MoneyRange(int64 nValue) { return (nValue >= 0 && nValue <= MAX_MONEY); }
 /** Coinbase transaction outputs can only be spent after this number of new blocks (network rule) */
 static const int COINBASE_MATURITY = 30;
+/** Coinbase maturity after block 145000 **/
+static const int COINBASE_MATURITY_NEW = 60*4;
+/** Block at which COINBASE_MATURITY_NEW comes into effect **/
+static const int COINBASE_MATURITY_SWITCH = 145000;
 /** Threshold for nLockTime: below this value it is interpreted as block number, otherwise as UNIX timestamp. */
 static const unsigned int LOCKTIME_THRESHOLD = 500000000; // Tue Nov  5 00:53:20 1985 UTC
 /** Maximum number of script-checking threads allowed */
@@ -1161,6 +1165,8 @@ public:
     int SetMerkleBranch(const CBlock* pblock=NULL);
     int GetDepthInMainChain(CBlockIndex* &pindexRet) const;
     int GetDepthInMainChain() const { CBlockIndex *pindexRet; return GetDepthInMainChain(pindexRet); }
+    int GetHeightInMainChain(CBlockIndex* &pindexRet) const;
+    int GetHeightInMainChain() const { CBlockIndex *pindexRet; return GetHeightInMainChain(pindexRet); }
     bool IsInMainChain() const { return GetDepthInMainChain() > 0; }
     int GetBlocksToMaturity() const;
     bool AcceptToMemoryPool(bool fCheckInputs=true, bool fLimitFree=true);
