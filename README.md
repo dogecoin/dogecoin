@@ -87,4 +87,4 @@ wow. That was easy. Need to update so that you can still go to the moon?
 RPC 22555
 P2P 22556
 
-![](http://dogesay.com/wow//to the moon////such/coin)
+![](http://dogesay.com/wow//////such/coin)
