@@ -21,7 +21,8 @@
 using namespace json_spirit;
 using namespace std;
 
-static const int kLookupSpanMod = 240;
+// Number of blocks between difficulty changes
+static const int kDifficultyChangeInterval = 240;
 
 #ifdef ENABLE_WALLET
 // Key used by getwork miners.
@@ -67,7 +68,7 @@ Value GetNetworkHashPS(int lookup, int height) {
 
     // If lookup is -1, then use blocks since last difficulty change.
     if (lookup <= 0)
-        lookup = pb->nHeight % kLookupSpanMod + 1;
+        lookup = pb->nHeight % kDifficultyChangeInterval + 1;
 
     // If lookup is larger than chain, then set it to chain length.
     if (lookup > pb->nHeight)
