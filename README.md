@@ -55,6 +55,24 @@ Special reward system: Random block rewards
     cd src/
     make -f makefile.unix USE_UPNP=1 USE_IPV6=1 USE_QRCODE=1
 
+### Very QT
+
+    sudo apt-get install libssl-dev \
+                         libdb-dev \
+                         libdb++-dev \
+                         libqrencode-dev \
+                         qt4-qmake \
+                         libqtgui4 \
+                         libqt4-dev \
+                         build-essential \
+                         libssl-dev \
+                         libdb5.1++-dev \
+                         libboost-all-dev \
+                         libqrencode-dev \
+                         libminiupnpc-dev
+    qmake
+    make
+
 ### Such ports
 RPC 22555
 P2P 22556
