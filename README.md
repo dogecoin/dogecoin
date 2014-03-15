@@ -52,10 +52,11 @@ Special reward system: Random block rewards
                          libqrencode-dev \
                          libminiupnpc-dev
 
-    cd src/
+    git clone https://github.com/dogecoin/dogecoin
+    cd dogecoin/src/
     make -f makefile.unix USE_UPNP=1 USE_IPV6=1 USE_QRCODE=1
 
-### Very QT
+### Much cute plz build Qt client
 
     sudo apt-get install libssl-dev \
                          libdb-dev \
@@ -70,6 +71,15 @@ Special reward system: Random block rewards
                          libboost-all-dev \
                          libqrencode-dev \
                          libminiupnpc-dev
+
+    git clone https://github.com/dogecoin/dogecoin
+    cd dogecoin
+    qmake
+    make
+
+wow. That was easy. Need to update so that you can still go to the moon?
+
+    git pull
     qmake
     make
 
@@ -77,4 +87,4 @@ Special reward system: Random block rewards
 RPC 22555
 P2P 22556
 
-![](http://dogesay.com/wow//////such/coin)
+![](http://dogesay.com/wow//to the moon////such/coin)
