@@ -664,27 +664,13 @@ void CWalletTx::GetAmounts(list<pair<CTxDestination, int64> >& listReceived,
         nFee = nDebit - nValueOut;
     }
 
-	if (!fMineCached)
-		vfMine.resize(vout.size());
-		
     // Sent/received.
 	for (unsigned int i = 0; i < vout.size(); i++) {
 		const CTxOut	&txout = vout[i];
 		bool			isMine = false;
 		bool			warnUnkownTX = false;
 		
-		if (!fMineCached) {
-			address = CNoDestination();
-			warnUnkownTX = !ExtractDestinationAndMine(*pwallet, txout.scriptPubKey, address, &isMine);
-			vfMine[i] = isMine;
-		}
-		else {
-			if (vfMine[i]) {
-				isMine = true;	// already know this is ours, just fetch address
-				address = CNoDestination();
-				warnUnkownTX = !ExtractDestination(txout.scriptPubKey, address);
-			}
-		}
+		warnUnkownTX = !ExtractDestinationAndMine(*pwallet, txout.scriptPubKey, address, &isMine);
 		if (warnUnkownTX) {
             printf("CWalletTx::GetAmounts: Unknown transaction type found, txid %s\n", this->GetHash().ToString().c_str());
         }
@@ -699,8 +685,6 @@ void CWalletTx::GetAmounts(list<pair<CTxDestination, int64> >& listReceived,
         if (isMine)
             listReceived.push_back(make_pair(address, txout.nValue));
     }
-
-	fMineCached = true;
 }
 
 void CWalletTx::GetAccountAmounts(const string& strAccount, int64& nReceived,
