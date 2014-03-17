@@ -143,6 +143,7 @@ class CFeeRate
 private:
     int64_t nKoinuPerK; // unit is satoshis-per-1,000-bytes
 public:
+    CFeeRate() : nKoinuPerK(0) { }
     explicit CFeeRate(int64_t _nKoinuPerK): nKoinuPerK(_nKoinuPerK) { }
     CFeeRate(int64_t nFeePaid, size_t nSize);
     CFeeRate(const CFeeRate& other) { nKoinuPerK = other.nKoinuPerK; }
@@ -155,6 +156,8 @@ public:
     friend bool operator==(const CFeeRate& a, const CFeeRate& b) { return a.nKoinuPerK == b.nKoinuPerK; }
 
     std::string ToString() const;
+
+    IMPLEMENT_SERIALIZE( READWRITE(nKoinuPerK); )
 };
 
 
