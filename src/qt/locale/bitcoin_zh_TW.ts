@@ -4,12 +4,12 @@
     <message>
         <location filename="../forms/aboutdialog.ui" line="+14"/>
         <source>About Dogecoin Core</source>
-        <translation>關於位元幣核心</translation>
+        <translation>關於狗狗幣核心</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>&lt;b&gt;Dogecoin Core&lt;/b&gt; version</source>
-        <translation>&lt;b&gt;位元幣核心&lt;/b&gt;版本</translation>
+        <translation>&lt;b&gt;狗狗幣&lt;/b&gt;版本</translation>
     </message>
     <message>
         <location line="+57"/>
@@ -36,7 +36,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+0"/>
         <source>The Dogecoin Core developers</source>
-        <translation>位元幣核心開發人員</translation>
+        <translation>狗狗幣開發人員</translation>
     </message>
 </context>
 <context>
@@ -44,12 +44,12 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location filename="../forms/addressbookpage.ui" line="+30"/>
         <source>Double-click to edit address or label</source>
-        <translation>按兩下來編輯位址或標記</translation>
+        <translation>點兩下來修改地址或標籤</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Create a new address</source>
-        <translation>製造新的位址</translation>
+        <translation>產生新地址</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -59,7 +59,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+11"/>
         <source>Copy the currently selected address to the system clipboard</source>
-        <translation>複製目前選擇的位址到系統剪貼簿</translation>
+        <translation>複製目前選取的地址到系統剪貼簿</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -74,7 +74,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location filename="../addressbookpage.cpp" line="+74"/>
         <source>&amp;Copy Address</source>
-        <translation>複製位址</translation>
+        <translation>複製地址</translation>
     </message>
     <message>
         <location filename="../forms/addressbookpage.ui" line="-41"/>
@@ -124,7 +124,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+7"/>
         <source>These are your Dogecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>這些是你要付款過去的位元幣位址。在付錢之前，務必要檢查金額和收款位址是否正確。</translation>
+        <translation>這是你用來付款的狗狗幣地址. 在付錢之前, 務必要檢查金額和收款地址是否正確.</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -134,7 +134,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+7"/>
         <source>Copy &amp;Label</source>
-        <translation>複製標記</translation>
+        <translation>複製標籤</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -167,17 +167,17 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location filename="../addresstablemodel.cpp" line="+168"/>
         <source>Label</source>
-        <translation>標記</translation>
+        <translation>標籤</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Address</source>
-        <translation>位址</translation>
+        <translation>地址</translation>
     </message>
     <message>
         <location line="+36"/>
         <source>(no label)</source>
-        <translation>(無標記)</translation>
+        <translation>(沒有標籤)</translation>
     </message>
 </context>
 <context>
@@ -250,7 +250,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+1"/>
         <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DOGECOINS&lt;/b&gt;!</source>
-        <translation>警告: 如果把錢包加密後又忘記密碼，你就會從此&lt;b&gt;失去其中所有的位元幣了&lt;/b&gt;！</translation>
+        <translation>警告: 如果將錢包加密後忘記密碼, 你會&lt;b&gt;失去其中所有的狗狗幣&lt;/b&gt;!</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -277,7 +277,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="-56"/>
         <source>Dogecoin Core will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your Dogecoins from being stolen by malware infecting your computer.</source>
-        <translation>位元幣軟體現在要關閉，好完成加密程序。請注意，加密錢包不能完全防止入侵你的電腦的惡意程式偷取位元幣。</translation>
+        <translation>狗狗幣現在要關閉以完成加密程序. 請記住, 加密錢包無法完全防止入侵電腦的惡意程式偷取你的狗狗幣.</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -371,7 +371,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+7"/>
         <source>Show information about Dogecoin</source>
-        <translation>顯示位元幣軟體相關資訊</translation>
+        <translation>顯示狗狗幣相關資訊</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -432,12 +432,12 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="-405"/>
         <source>Send coins to a Dogecoin address</source>
-        <translation>付錢給一個位元幣位址</translation>
+        <translation>付錢到狗狗幣地址</translation>
     </message>
     <message>
         <location line="+49"/>
         <source>Modify configuration options for Dogecoin</source>
-        <translation>修改位元幣軟體的設定選項</translation>
+        <translation>修改狗狗幣的設定選項</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -467,7 +467,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+430"/>
         <source>Dogecoin</source>
-        <translation>位元幣</translation>
+        <translation>狗狗幣</translation>
     </message>
     <message>
         <location line="-643"/>
@@ -482,7 +482,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+7"/>
         <source>&amp;Receive</source>
-        <translation>收款</translation>
+        <translation>收受</translation>
     </message>
     <message>
         <location line="+46"/>
@@ -503,12 +503,12 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+7"/>
         <source>Sign messages with your Dogecoin addresses to prove you own them</source>
-        <translation>用位元幣位址簽署訊息來證明位址是你的</translation>
+        <translation>用狗狗幣地址簽署訊息來證明那是你的</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Verify messages to ensure they were signed with specified Dogecoin addresses</source>
-        <translation>驗證訊息是用來確定訊息是用指定的位元幣位址簽署的</translation>
+        <translation>驗證訊息來確認是用指定的狗狗幣地址簽署的</translation>
     </message>
     <message>
         <location line="+48"/>
@@ -581,12 +581,12 @@ This product includes software developed by the OpenSSL Project for use in the O
         <location line="+159"/>
         <location line="+5"/>
         <source>Dogecoin client</source>
-        <translation>位元幣客戶端軟體</translation>
+        <translation>狗狗幣客戶端軟體</translation>
     </message>
     <message numerus="yes">
         <location line="+142"/>
         <source>%n active connection(s) to Dogecoin network</source>
-        <translation><numerusform>%n 個運作中的位元幣網路連線</numerusform></translation>
+        <translation><numerusform>與狗狗幣網路有 %n 個連線在使用中</numerusform></translation>
     </message>
     <message>
         <location line="+22"/>
@@ -694,7 +694,7 @@ Address: %4
     <message>
         <location filename="../bitcoin.cpp" line="+438"/>
         <source>A fatal error occurred. Dogecoin can no longer continue safely and will quit.</source>
-        <translation>發生了致命的錯誤。位元幣軟體沒辦法再繼續安全執行，只好結束。</translation>
+        <translation>發生了致命的錯誤. 狗狗幣程式無法再繼續安全執行, 只好結束.</translation>
     </message>
 </context>
 <context>
@@ -1292,7 +1292,7 @@ Address: %4
     <message>
         <location line="+58"/>
         <source>Connect to the Dogecoin network through a SOCKS proxy.</source>
-        <translation>透過 SOCKS 代理伺服器來連線到位元幣網路。</translation>
+        <translation>透過 SOCKS 代理伺服器連線至狗狗幣網路.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1487,7 +1487,7 @@ Address: %4
         <location line="+50"/>
         <location line="+231"/>
         <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Dogecoin network after a connection is established, but this process has not completed yet.</source>
-        <translation>顯示的資訊可能是過期的。跟位元幣網路的連線建立後，你的錢包會自動和網路同步，但是這個步驟還沒完成。</translation>
+        <translation>顯示的資訊可能是過期的. 與狗狗幣網路的連線建立後, 你的錢包會自動和網路同步, 但這個步驟還沒完成.</translation>
     </message>
     <message>
         <location line="-155"/>
@@ -1661,7 +1661,7 @@ Address: %4
     <message>
         <location filename="../guiutil.cpp" line="+82"/>
         <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>請輸入位元幣位址(像是 DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
+        <translation>輸入狗狗幣地址 (比如說 DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
     </message>
 </context>
 <context>
@@ -1822,7 +1822,7 @@ Address: %4
     <message>
         <location line="+7"/>
         <source>Open the Dogecoin debug log file from the current data directory. This can take a few seconds for large log files.</source>
-        <translation>從目前的資料目錄下開啓位元幣軟體的除錯紀錄檔。當紀錄檔很大時，可能會花好幾秒的時間。</translation>
+        <translation>從目前的資料目錄下開啓狗狗幣的除錯紀錄檔. 當紀錄檔很大時可能要花好幾秒的時間.</translation>
     </message>
     <message>
         <location line="+76"/>
@@ -1832,7 +1832,7 @@ Address: %4
     <message>
         <location filename="../rpcconsole.cpp" line="-30"/>
         <source>Welcome to the Dogecoin RPC console.</source>
-        <translation>歡迎使用位元幣 RPC 主控台。</translation>
+        <translation>歡迎使用狗狗幣 RPC 主控台.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2272,7 +2272,7 @@ Address: %4
     <message>
         <location line="+203"/>
         <source>The recipient address is not valid, please recheck.</source>
-        <translation>收款位址無效，請再檢查看看。</translation>
+        <translation>無效的收款地址, 請再檢查看看.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -2357,17 +2357,17 @@ Address: %4
     <message>
         <location line="+18"/>
         <source>The address to send the payment to (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>付款的目標位址(像是 DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
+        <translation>付款的目標地址 (比如說 DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
     </message>
     <message>
         <location filename="../sendcoinsentry.cpp" line="+30"/>
         <source>Enter a label for this address to add it to your address book</source>
-        <translation>請輸入這個位址的標記來把它加進位址簿中</translation>
+        <translation>輸入一個標籤給這個地址, 並加到地址簿中</translation>
     </message>
     <message>
         <location filename="../forms/sendcoinsentry.ui" line="+57"/>
         <source>&amp;Label:</source>
-        <translation>標記:</translation>
+        <translation>標籤:</translation>
     </message>
     <message>
         <location line="-50"/>
@@ -2387,7 +2387,7 @@ Address: %4
     <message>
         <location line="+7"/>
         <source>Paste address from clipboard</source>
-        <translation>貼上剪貼簿裡的位址</translation>
+        <translation>從剪貼簿貼上地址</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -2467,12 +2467,12 @@ Address: %4
     <message>
         <location line="+6"/>
         <source>You can sign messages with your addresses to prove you own them. Be careful not to sign anything vague, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</source>
-        <translation>你可以用自己的位址簽署訊息，來證明你對位址的所有權。但是請小心，不要簽署語意含糊不清的內容，因為釣魚式詐騙可能會用騙你簽署的手法來冒充是你。只有在語句中的細節你都同意時才簽署。</translation>
+        <translation>你可以用自己的地址來簽署訊息, 以證明你對它的所有權. 但是請小心, 不要簽署語意含糊不清的內容, 因為釣魚式詐騙可能會用騙你簽署的手法來冒充是你. 只有在語句中的細節你都同意時才簽署.</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>The address to sign the message with (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>用來簽署訊息的位址(像是 DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
+        <translation>用來簽署訊息的地址 (比如說 DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -2489,7 +2489,7 @@ Address: %4
     <message>
         <location line="-200"/>
         <source>Paste address from clipboard</source>
-        <translation>貼上剪貼簿裡的位址</translation>
+        <translation>從剪貼簿貼上地址</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -2514,7 +2514,7 @@ Address: %4
     <message>
         <location line="+21"/>
         <source>Sign the message to prove you own this Dogecoin address</source>
-        <translation>簽署這個訊息來證明這個位元幣位址是你的</translation>
+        <translation>簽署訊息是用來證明這個狗狗幣地址是你的</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -2540,17 +2540,17 @@ Address: %4
     <message>
         <location line="+6"/>
         <source>Enter the signing address, message (ensure you copy line breaks, spaces, tabs, etc. exactly) and signature below to verify the message. Be careful not to read more into the signature than what is in the signed message itself, to avoid being tricked by a man-in-the-middle attack.</source>
-        <translation>請在下面輸入簽署的位址，訊息(請確定完整複製了所包含的換行，空格，跳位符號等等)，以及簽章，來驗證這個訊息。請小心，除了訊息內容以外，不要對簽章本身過度解讀，以避免被用「中間人攻擊法」詐騙。</translation>
+        <translation>請在下面輸入簽署的地址, 訊息(請確認完整複製了所包含的換行, 空格, 跳位符號等等), 與簽章, 以驗證該訊息. 請小心, 除了訊息內容外, 不要對簽章本身過度解讀, 以避免被用&quot;中間人攻擊法&quot;詐騙.</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>The address the message was signed with (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>簽署這個訊息的位址(像是 DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
+        <translation>簽署該訊息的地址 (比如說 DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
     </message>
     <message>
         <location line="+37"/>
         <source>Verify the message to ensure it was signed with the specified Dogecoin address</source>
-        <translation>驗證這個訊息來確定是用指定的位元幣位址簽署的</translation>
+        <translation>驗證訊息是用來確認訊息是用指定的狗狗幣地址簽署的</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -2565,7 +2565,7 @@ Address: %4
     <message>
         <location filename="../signverifymessagedialog.cpp" line="+30"/>
         <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>請輸入位元幣位址(像是 DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
+        <translation>輸入狗狗幣地址 (比如說 DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
     </message>
     <message>
         <location line="-1"/>
@@ -2584,13 +2584,13 @@ Address: %4
         <location line="+72"/>
         <location line="+8"/>
         <source>Please check the address and try again.</source>
-        <translation>請檢查位址是否正確後再試一次。</translation>
+        <translation>請檢查地址是否正確後再試一次.</translation>
     </message>
     <message>
         <location line="-80"/>
         <location line="+80"/>
         <source>The entered address does not refer to a key.</source>
-        <translation>輸入的位址沒有對應到你的任何密鑰。</translation>
+        <translation>輸入的地址沒有指到任何密鑰.</translation>
     </message>
     <message>
         <location line="-72"/>
@@ -2600,7 +2600,7 @@ Address: %4
     <message>
         <location line="+8"/>
         <source>Private key for the entered address is not available.</source>
-        <translation>沒有對應輸入位址的密鑰。</translation>
+        <translation>沒有所輸入地址的密鑰.</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -2649,7 +2649,7 @@ Address: %4
     <message>
         <location line="+2"/>
         <source>The Dogecoin Core developers</source>
-        <translation>位元幣核心開發人員</translation>
+        <translation>狗狗幣開發人員</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2729,7 +2729,7 @@ Address: %4
         <location line="-77"/>
         <location line="+2"/>
         <source>own address</source>
-        <translation>自己的位址</translation>
+        <translation>自己的地址</translation>
     </message>
     <message>
         <location line="-2"/>
@@ -2873,7 +2873,7 @@ Address: %4
     <message>
         <location line="+0"/>
         <source>Address</source>
-        <translation>位址</translation>
+        <translation>地址</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -2969,7 +2969,7 @@ Address: %4
     <message>
         <location line="+2"/>
         <source>Destination address of transaction.</source>
-        <translation>交易的目的地位址。</translation>
+        <translation>交易的目標地址.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3043,7 +3043,7 @@ Address: %4
     <message>
         <location line="+6"/>
         <source>Enter address or label to search</source>
-        <translation>請輸入要搜尋的位址或標記</translation>
+        <translation>輸入地址或標籤來搜尋</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -3053,12 +3053,12 @@ Address: %4
     <message>
         <location line="+34"/>
         <source>Copy address</source>
-        <translation>複製位址</translation>
+        <translation>複製地址</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Copy label</source>
-        <translation>複製標記</translation>
+        <translation>複製標籤</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3073,7 +3073,7 @@ Address: %4
     <message>
         <location line="+1"/>
         <source>Edit label</source>
-        <translation>編輯標記</translation>
+        <translation>編輯標籤</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3128,12 +3128,12 @@ Address: %4
     <message>
         <location line="+1"/>
         <source>Label</source>
-        <translation>標記</translation>
+        <translation>標籤</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Address</source>
-        <translation>位址</translation>
+        <translation>地址</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3270,12 +3270,12 @@ Address: %4
     <message>
         <location line="-51"/>
         <source>Connect to a node to retrieve peer addresses, and disconnect</source>
-        <translation>連線到某個節點來取得其它節點的位址，然後斷線</translation>
+        <translation>連線到某個節點以取得其它節點的地址, 然後斷線</translation>
     </message>
     <message>
         <location line="+84"/>
         <source>Specify your own public address</source>
-        <translation>指定自己的公開位址</translation>
+        <translation>指定自己公開的地址</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -3356,12 +3356,12 @@ alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com</transla
     <message>
         <location line="+3"/>
         <source>Bind to given address and always listen on it. Use [host]:port notation for IPv6</source>
-        <translation>和指定的位址繫結，並總是在指定位址聽候連線。IPv6 請用 [主機]:通訊埠 這種格式</translation>
+        <translation>和指定的地址繫結, 並總是在該地址聽候連線. IPv6 請用 &quot;[主機]:通訊埠&quot; 這種格式</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Cannot obtain a lock on data directory %s. Dogecoin Core is probably already running.</source>
-        <translation>沒辦法鎖定 %s 這個資料目錄。也許位元幣軟體已經在執行了。</translation>
+        <translation>無法鎖定資料目錄 %s. 也許狗狗幣已經在執行了.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3406,7 +3406,7 @@ alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com</transla
     <message>
         <location line="+3"/>
         <source>Warning: Please check that your computer&apos;s date and time are correct! If your clock is wrong Dogecoin will not work properly.</source>
-        <translation>警告: 請檢查電腦日期和時間是否正確！位元幣軟體沒辦法在時鐘不準的情況下正常運作。</translation>
+        <translation>警告: 請檢查電腦時間與日期是否正確! 狗狗幣無法在時鐘不準的情況下正常運作.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3421,7 +3421,7 @@ alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com</transla
     <message>
         <location line="+3"/>
         <source>Warning: error reading wallet.dat! All keys read correctly, but transaction data or address book entries might be missing or incorrect.</source>
-        <translation>警告: 讀取錢包檔 wallet.dat 時發生錯誤！所有的密鑰都正確讀取了，但是交易資料或位址簿資料可能會缺少或不正確。</translation>
+        <translation>警告: 讀取錢包檔 wallet.dat 失敗了! 所有的密鑰都正確讀取了, 但是交易資料或地址簿資料可能會缺少或不正確.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3476,7 +3476,7 @@ alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com</transla
     <message>
         <location line="+1"/>
         <source>Discover own IP address (default: 1 when listening and no -externalip)</source>
-        <translation>找出自己的網際網路位址(預設值: 當有聽候連線且沒有 -externalip 時為 1)</translation>
+        <translation>找出自己的網際網路地址 (預設: 當有聽候連線且沒有 -externalip 時為 1)</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3566,7 +3566,7 @@ alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com</transla
     <message>
         <location line="+1"/>
         <source>Failed to write to coin database</source>
-        <translation>寫進錢幣資料庫失敗了</translation>
+        <translation>寫入狗狗幣資料庫失敗</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3591,7 +3591,7 @@ alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com</transla
     <message>
         <location line="+1"/>
         <source>Generate coins (default: 0)</source>
-        <translation>生產位元幣(預設值: 0)</translation>
+        <translation>生產狗狗幣 (預設值: 0)</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3871,7 +3871,7 @@ alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com</transla
     <message>
         <location line="-70"/>
         <source>Allow JSON-RPC connections from specified IP address</source>
-        <translation>允許指定的來源 IP 位址進行 JSON-RPC 連線</translation>
+        <translation>只允許從指定網路地址來的 JSON-RPC 連線</translation>
     </message>
     <message>
         <location line="+80"/>
@@ -3931,7 +3931,7 @@ alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com</transla
     <message>
         <location line="+60"/>
         <source>Loading addresses...</source>
-        <translation>正在載入位址資料...</translation>
+        <translation>載入地址中...</translation>
     </message>
     <message>
         <location line="-37"/>
@@ -3946,7 +3946,7 @@ alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com</transla
     <message>
         <location line="+98"/>
         <source>Wallet needed to be rewritten: restart Dogecoin to complete</source>
-        <translation>錢包需要重寫: 請重新啓動位元幣軟體來完成</translation>
+        <translation>錢包需要重寫: 請重啟狗狗幣來完成</translation>
     </message>
     <message>
         <location line="-100"/>
@@ -3956,7 +3956,7 @@ alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com</transla
     <message>
         <location line="+31"/>
         <source>Invalid -proxy address: &apos;%s&apos;</source>
-        <translation>無效的 -proxy 位址: &apos;%s&apos;</translation>
+        <translation>無效的 -proxy 地址: &apos;%s&apos;</translation>
     </message>
     <message>
         <location line="+56"/>
@@ -3971,12 +3971,12 @@ alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com</transla
     <message>
         <location line="-101"/>
         <source>Cannot resolve -bind address: &apos;%s&apos;</source>
-        <translation>沒辦法解析 -bind 位址: &apos;%s&apos;</translation>
+        <translation>無法解析 -bind 地址: &apos;%s&apos;</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Cannot resolve -externalip address: &apos;%s&apos;</source>
-        <translation>沒辦法解析 -externalip 位址: &apos;%s&apos;</translation>
+        <translation>無法解析 -externalip 地址: &apos;%s&apos;</translation>
     </message>
     <message>
         <location line="+48"/>
@@ -4001,12 +4001,12 @@ alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com</transla
     <message>
         <location line="-62"/>
         <source>Add a node to connect to and attempt to keep the connection open</source>
-        <translation>增加一個要連線的節線，並試著保持對它的連線暢通</translation>
+        <translation>加入一個要連線的節線, 並試著保持對它的連線暢通</translation>
     </message>
     <message>
         <location line="-32"/>
         <source>Unable to bind to %s on this computer. Dogecoin Core is probably already running.</source>
-        <translation>沒辦法和這台電腦上的 %s 繫結。也許位元幣軟體已經在執行了。</translation>
+        <translation>無法和這台電腦上的 %s 繫結. 也許狗狗幣已經在執行了.</translation>
     </message>
     <message>
         <location line="+95"/>
@@ -4021,7 +4021,7 @@ alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com</transla
     <message>
         <location line="+3"/>
         <source>Cannot write default address</source>
-        <translation>沒辦法把預設位址寫進去</translation>
+        <translation>無法寫入預設地址</translation>
     </message>
     <message>
         <location line="+67"/>
