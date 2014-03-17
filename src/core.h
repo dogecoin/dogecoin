@@ -153,6 +153,7 @@ public:
     {
         // Dogecoin: IsDust() detection disabled, allows any valid dust to be relayed.
         // The fees imposed on each dust txo is considered sufficient spam deterrant.
+		return false;
     }
 
     friend bool operator==(const CTxOut& a, const CTxOut& b)
