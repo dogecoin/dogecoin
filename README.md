@@ -27,7 +27,7 @@ Scrypt Proof of Work
 
 1 Minute Block Targets, 4 Hour Diff Readjustments
 
-Special reward system: Random block rewards
+Special reward system: Random block rewards before block 145,000. Static block reward of 250,00 afterwards.
 
 1-100,000: 0-1,000,000 Dogecoin Reward
 
