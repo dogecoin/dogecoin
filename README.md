@@ -52,8 +52,36 @@ Special reward system: Random block rewards before block 145,000. Static block r
                          libqrencode-dev \
                          libminiupnpc-dev
 
-    cd src/
+    git clone https://github.com/dogecoin/dogecoin
+    cd dogecoin/src/
     make -f makefile.unix USE_UPNP=1 USE_IPV6=1 USE_QRCODE=1
+
+### Much cute plz build Qt client
+
+    sudo apt-get install libssl-dev \
+                         libdb-dev \
+                         libdb++-dev \
+                         libqrencode-dev \
+                         qt4-qmake \
+                         libqtgui4 \
+                         libqt4-dev \
+                         build-essential \
+                         libssl-dev \
+                         libdb5.1++-dev \
+                         libboost-all-dev \
+                         libqrencode-dev \
+                         libminiupnpc-dev
+
+    git clone https://github.com/dogecoin/dogecoin
+    cd dogecoin
+    qmake
+    make
+
+wow. That was easy. Need to update so that you can still go to the moon?
+
+    git pull
+    qmake
+    make
 
 ### Such ports
 RPC 22555
