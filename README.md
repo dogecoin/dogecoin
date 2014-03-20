@@ -3,7 +3,7 @@ dogecoin is an open source peer-to-peer cryptocurrency, favored by Shiba Inus wo
 
 ![DogeCoin](http://static.tumblr.com/ppdj5y9/Ae9mxmxtp/300coin.png)
 
-## Such coin (What is DogeCoin)
+## Such coin (What is DogeCoin?)
 Dogecoin is like Bitcoin, but based on Litecoin, and also much more wow.
 http://dogecoin.com/
 
