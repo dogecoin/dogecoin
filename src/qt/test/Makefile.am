@@ -8,13 +8,16 @@ AM_CPPFLAGS += -I$(top_srcdir)/src \
 bin_PROGRAMS = test_dogecoin-qt
 TESTS = test_dogecoin-qt
 
-TEST_QT_MOC_CPP = moc_uritests.cpp
+TEST_QT_MOC_CPP = \
+  moc_bitcoinunitstests.cpp \
+  moc_uritests.cpp
 
 if ENABLE_WALLET
 TEST_QT_MOC_CPP += moc_paymentservertests.cpp
 endif
 
 TEST_QT_H = \
+  bitcoinunitstests.h \
   uritests.h \
   paymentrequestdata.h \
   paymentservertests.h
@@ -24,6 +27,7 @@ BUILT_SOURCES = $(TEST_QT_MOC_CPP)
 test_dogecoin_qt_CPPFLAGS = $(AM_CPPFLAGS) $(QT_INCLUDES) $(QT_TEST_INCLUDES)
 
 test_dogecoin_qt_SOURCES = \
+  bitcoinunitstests.cpp \
   test_main.cpp \
   uritests.cpp \
   $(TEST_QT_H)
