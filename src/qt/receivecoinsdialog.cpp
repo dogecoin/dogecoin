@@ -55,8 +55,6 @@ ReceiveCoinsDialog::ReceiveCoinsDialog(QWidget *parent) :
     connect(ui->clearButton, SIGNAL(clicked()), this, SLOT(clear()));
 }
 
-
-
 void ReceiveCoinsDialog::setModel(WalletModel *model)
 {
     this->model = model;
@@ -65,10 +63,6 @@ void ReceiveCoinsDialog::setModel(WalletModel *model)
     {
         model->getRecentRequestsTableModel()->sort(RecentRequestsTableModel::Date, Qt::DescendingOrder);
         connect(model->getOptionsModel(), SIGNAL(displayUnitChanged(int)), this, SLOT(updateDisplayUnit()));
-        connect(ui->recentRequestsView->selectionModel(),
-            SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
-            this,
-            SLOT(on_recentRequestsView_selectionChanged(QItemSelection, QItemSelection)));
         updateDisplayUnit();
 
         QTableView* tableView = ui->recentRequestsView;
@@ -82,7 +76,10 @@ void ReceiveCoinsDialog::setModel(WalletModel *model)
         tableView->setColumnWidth(RecentRequestsTableModel::Date, DATE_COLUMN_WIDTH);
         tableView->setColumnWidth(RecentRequestsTableModel::Label, LABEL_COLUMN_WIDTH);
 
-        //(last 2 columns are set when the table geometry is ready) by the columnResizingFixer.
+        connect(tableView->selectionModel(),
+            SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this,
+            SLOT(on_recentRequestsView_selectionChanged(QItemSelection, QItemSelection)));
+        // Last 2 columns are set by the columnResizingFixer, when the table geometry is ready.
         columnResizingFixer = new GUIUtil::TableViewLastColumnResizingFixer(tableView, AMOUNT_MINIMUM_COLUMN_WIDTH, DATE_COLUMN_WIDTH);
     }
 }
@@ -201,10 +198,12 @@ void ReceiveCoinsDialog::on_removeRequestButton_clicked()
     model->getRecentRequestsTableModel()->removeRows(firstIndex.row(), selection.length(), firstIndex.parent());
 }
 
-//We override the virtual resizeEvent of the QWidget to adjust tablet's column sizes as the table's width is proportional to the dialog's.
-void ReceiveCoinsDialog::resizeEvent(QResizeEvent* event) {
-  QWidget::resizeEvent(event);
-  columnResizingFixer->stretchColumnWidth(RecentRequestsTableModel::Message);
+// We override the virtual resizeEvent of the QWidget to adjust tables column
+// sizes as the tables width is proportional to the dialogs width.
+void ReceiveCoinsDialog::resizeEvent(QResizeEvent* event)
+{
+    QWidget::resizeEvent(event);
+    columnResizingFixer->stretchColumnWidth(RecentRequestsTableModel::Message);
 }
 
 void ReceiveCoinsDialog::keyPressEvent(QKeyEvent *event)
