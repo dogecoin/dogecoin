@@ -76,7 +76,7 @@ int64 nHPSTimerStart = 0;
 
 // Settings
 int64 nTransactionFee = 0;
-int64 nMinimumInputValue = DUST_HARD_LIMIT;
+int64 nMinimumInputValue = 1; // 0.00000001 Dogecoin
 
 
 //////////////////////////////////////////////////////////////////////////////
