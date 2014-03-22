@@ -1,5 +1,8 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2014 The Bitcoin developers
+// Copyright (c) 2011-2013 The Litecoin developers
+// Copyright (c) 2013-2014 The Dogecoin developers
+// Copyright (c)      2014 The Inutoshi developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -1183,6 +1186,7 @@ int64_t GetBlockValue(int nHeight, int64_t nFees, uint256 prevHash)
     return nSubsidy + nFees;
 }
 
+// New Difficulty adjustement and reward scheme by /u/lleti, rog1121, and DigiByte (DigiShield Developers).
 static const int64_t nTargetTimespan = 4 * 60 * 60; // DogeCoin: every 4 hours
 static const int64_t nTargetTimespanNEW = 60 ; // DogeCoin: every 1 minute
 static const int64_t nTargetSpacing = 60; // DogeCoin: 1 minute
