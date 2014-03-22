@@ -147,9 +147,6 @@ public:
 };
 static CTestNetParams testNetParams;
 
-
-//TODO: add regtest parameters or disable regtest
-
 //
 // Regression test
 //
@@ -168,7 +165,7 @@ public:
         hashGenesisBlock = genesis.GetHash();
         nDefaultPort = 18444;
         strDataDir = "regtest";
-        //assert(hashGenesisBlock == uint256("0x0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206"));
+        assert(hashGenesisBlock == uint256("0x3d2160a3b5dc4a9d62e7e66a295f70313ac808440ef7400d6c0772171ce973a5"));
 
         vSeeds.clear();  // Regtest mode doesn't have any DNS seeds.
     }
