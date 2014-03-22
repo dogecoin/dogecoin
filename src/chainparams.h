@@ -77,6 +77,11 @@ public:
     bool RPCisTestNet() const { return fRPCisTestNet; }
 
     const std::string& DataDir() const { return strDataDir; }
+
+    int64_t TargetTimespan() const { return nTargetTimespan; }
+    int64_t TargetSpacing() const { return nTargetSpacing; }
+    int64_t Interval() const { return nTargetTimespan / nTargetSpacing; }
+
     /* Make miner stop after a block is found. In RPC, don't return
      * until nGenProcLimit blocks are generated */
     bool MineBlocksOnDemand() const { return fMineBlocksOnDemand; }
@@ -117,6 +122,8 @@ protected:
     int nRejectBlockOutdatedMajority;
     int nToCheckBlockUpgradeMajority;
     std::string strDataDir;
+    int64_t nTargetTimespan;
+    int64_t nTargetSpacing;
     int nMinerThreads;
     std::vector<CDNSSeedData> vSeeds;
     std::vector<unsigned char> base58Prefixes[MAX_BASE58_TYPES];
