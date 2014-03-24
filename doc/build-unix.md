@@ -1,6 +1,6 @@
 UNIX BUILD NOTES
 ====================
-Some notes on how to build Bitcoin in Unix. 
+Some notes on how to build Dogecoin in Unix. 
 
 To Build
 ---------------------
@@ -101,7 +101,7 @@ Optional:
 Dependencies for the GUI: Ubuntu & Debian
 -----------------------------------------
 
-If you want to build Bitcoin-Qt, make sure that the required packages for Qt development
+If you want to build Dogecoin-Qt, make sure that the required packages for Qt development
 are installed. Either Qt 4 or Qt 5 are necessary to build the GUI.
 If both Qt 4 and Qt 5 are installed, Qt 4 will be used. Pass `--with-gui=qt5` to configure to choose Qt5.
 To build without GUI pass `--without-gui`.
