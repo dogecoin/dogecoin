@@ -1,5 +1,5 @@
-TOR SUPPORT IN BITCOIN
-======================
+TOR SUPPORT IN DOGECOIN
+=======================
 
 It is possible to run Dogecoin as a Tor hidden service, and connect to such services.
 
@@ -36,7 +36,7 @@ outgoing connections be anonymized, but more is possible.
 
 In a typical situation, this suffices to run behind a Tor proxy:
 
-	./bitcoin -proxy=127.0.0.1:9050
+	./dogecoin -proxy=127.0.0.1:9050
 
 
 2. Run a bitcoin hidden server
@@ -46,17 +46,17 @@ If you configure your Tor system accordingly, it is possible to make your node a
 reachable from the Tor network. Add these lines to your /etc/tor/torrc (or equivalent
 config file):
 
-	HiddenServiceDir /var/lib/tor/bitcoin-service/
+	HiddenServiceDir /var/lib/tor/dogecoin-service/
 	HiddenServicePort 22556 127.0.0.1:8333
 	HiddenServicePort 122556 127.0.0.1:18333
 
 The directory can be different of course, but (both) port numbers should be equal to
-your bitcoind's P2P listen port (22556 by default).
+your dogecoind's P2P listen port (22556 by default).
 
 	-externalip=X   You can tell bitcoin about its publicly reachable address using
 	                this option, and this can be a .onion address. Given the above
 	                configuration, you can find your onion address in
-	                /var/lib/tor/bitcoin-service/hostname. Onion addresses are given
+	                /var/lib/tor/dogecoin-service/hostname. Onion addresses are given
 	                preference for your node to advertize itself with, for connections
 	                coming from unroutable addresses (such as 127.0.0.1, where the
 	                Tor proxy typically runs).
@@ -73,18 +73,18 @@ your bitcoind's P2P listen port (22556 by default).
 
 In a typical situation, where you're only reachable via Tor, this should suffice:
 
-	./bitcoind -proxy=127.0.0.1:9050 -externalip=57qr3yd1nyntf5k.onion -listen
+	./dogecoind -proxy=127.0.0.1:9050 -externalip=57qr3yd1nyntf5k.onion -listen
 
 (obviously, replace the Onion address with your own). If you don't care too much
 about hiding your node, and want to be reachable on IPv4 as well, additionally
 specify:
 
-	./bitcoind ... -discover
+	./dogecoind ... -discover
 
 and open port 22556 on your firewall (or use -upnp).
 
 If you only want to use Tor to reach onion addresses, but not use it as a proxy
 for normal IPv4/IPv6 communication, use:
 
-	./bitcoin -onion=127.0.0.1:9050 -externalip=57qr3yd1nyntf5k.onion -discover
+	./dogecoin -onion=127.0.0.1:9050 -externalip=57qr3yd1nyntf5k.onion -discover
 

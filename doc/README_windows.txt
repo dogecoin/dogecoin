@@ -19,7 +19,7 @@ with each other, with the help of a P2P network to check for double-spending.
 
 Setup
 -----
-Unpack the files into a directory and run bitcoin-qt.exe.
+Unpack the files into a directory and run dogecoin-qt.exe.
 
 Dogecoin Core is the original Dogecoin client and it builds the backbone of the network.
 However, it downloads and stores the entire history of Dogecoin transactions;
@@ -27,5 +27,5 @@ depending on the speed of your computer and network connection, the synchronizat
 process can take anywhere from a few hours to a day or more.
 
 See the Dogecoin wiki at:
-  https://en.bitcoin.it/wiki/Main_Page
+  http://dogeco.in/
 for more help and information.
