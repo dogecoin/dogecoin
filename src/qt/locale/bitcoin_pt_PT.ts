@@ -3246,8 +3246,8 @@ A sua &quot;carteira&quot; também irá ser guardada neste directório.</transla
     </message>
     <message>
         <location line="-26"/>
-        <source>Listen for connections on &lt;port&gt; (default: 8333 or testnet: 18333)</source>
-        <translation>Escute por ligações em &lt;port&gt; (por defeito: 8333 ou testnet: 18333)</translation>
+        <source>Listen for connections on &lt;port&gt; (default: 22556 or testnet: 44556)</source>
+        <translation>Escute por ligações em &lt;port&gt; (por defeito: 22556 ou testnet: 44556)</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -3281,8 +3281,8 @@ A sua &quot;carteira&quot; também irá ser guardada neste directório.</transla
     </message>
     <message>
         <location line="+34"/>
-        <source>Listen for JSON-RPC connections on &lt;port&gt; (default: 8332 or testnet: 18332)</source>
-        <translation>Escutar por ligações JSON-RPC em &lt;port&gt; (por defeito: 8332 ou rede de testes: 18332)</translation>
+        <source>Listen for JSON-RPC connections on &lt;port&gt; (default: 22555 or testnet: 44555)</source>
+        <translation>Escutar por ligações JSON-RPC em &lt;port&gt; (por defeito: 22555 ou rede de testes: 44555)</translation>
     </message>
     <message>
         <location line="+45"/>
@@ -3451,8 +3451,8 @@ por exemplo: alertnotify=echo %%s | mail -s &quot;Alerta Bitcoin&quot; admin@foo
     </message>
     <message>
         <location line="+1"/>
-        <source>Connect to JSON-RPC on &lt;port&gt; (default: 8332 or testnet: 18332)</source>
-        <translation>Ligar ao JSON-RPC em &lt;port&gt; (por defeito: 8332 ou rede de testes: 18332)</translation>
+        <source>Connect to JSON-RPC on &lt;port&gt; (default: 22555 or testnet: 44555)</source>
+        <translation>Ligar ao JSON-RPC em &lt;port&gt; (por defeito: 22555 ou rede de testes: 44555)</translation>
     </message>
     <message>
         <location line="+2"/>

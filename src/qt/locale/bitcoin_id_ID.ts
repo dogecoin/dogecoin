@@ -3240,8 +3240,8 @@ Alamat: %4
     </message>
     <message>
         <location line="-26"/>
-        <source>Listen for connections on &lt;port&gt; (default: 8333 or testnet: 18333)</source>
-        <translation>Menerima hubungan pada &lt;port&gt; (standar: 8333 atau testnet: 18333)</translation>
+        <source>Listen for connections on &lt;port&gt; (default: 22556 or testnet: 44556)</source>
+        <translation>Menerima hubungan pada &lt;port&gt; (standar: 22556 atau testnet: 44556)</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -3275,7 +3275,7 @@ Alamat: %4
     </message>
     <message>
         <location line="+34"/>
-        <source>Listen for JSON-RPC connections on &lt;port&gt; (default: 8332 or testnet: 18332)</source>
+        <source>Listen for JSON-RPC connections on &lt;port&gt; (default: 22555 or testnet: 44555)</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -3435,7 +3435,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Bitcoin Alert&quot; admin@foo.
     </message>
     <message>
         <location line="+1"/>
-        <source>Connect to JSON-RPC on &lt;port&gt; (default: 8332 or testnet: 18332)</source>
+        <source>Connect to JSON-RPC on &lt;port&gt; (default: 22555 or testnet: 44555)</source>
         <translation type="unfinished"/>
     </message>
     <message>

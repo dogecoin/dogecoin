@@ -48,7 +48,7 @@ config file):
 
 	HiddenServiceDir /var/lib/tor/dogecoin-service/
 	HiddenServicePort 22556 127.0.0.1:8333
-	HiddenServicePort 122556 127.0.0.1:18333
+	HiddenServicePort 44556 127.0.0.1:44556
 
 The directory can be different of course, but (both) port numbers should be equal to
 your dogecoind's P2P listen port (22556 by default).

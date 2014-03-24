@@ -3287,8 +3287,8 @@ Adres: %4
     </message>
     <message>
         <location line="-26"/>
-        <source>Listen for connections on &lt;port&gt; (default: 8333 or testnet: 18333)</source>
-        <translation>Nasłuchuj połączeń na &lt;port&gt; (domyślnie: 8333 lub testnet: 18333)</translation>
+        <source>Listen for connections on &lt;port&gt; (default: 22556 or testnet: 44556)</source>
+        <translation>Nasłuchuj połączeń na &lt;port&gt; (domyślnie: 22556 lub testnet: 44556)</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -3322,8 +3322,8 @@ Adres: %4
     </message>
     <message>
         <location line="+34"/>
-        <source>Listen for JSON-RPC connections on &lt;port&gt; (default: 8332 or testnet: 18332)</source>
-        <translation>Nasłuchuj połączeń JSON-RPC na &lt;port&gt; (domyślnie: 8332 or testnet: 18332)</translation>
+        <source>Listen for JSON-RPC connections on &lt;port&gt; (default: 22555 or testnet: 44555)</source>
+        <translation>Nasłuchuj połączeń JSON-RPC na &lt;port&gt; (domyślnie: 22555 or testnet: 44555)</translation>
     </message>
     <message>
         <location line="+45"/>
@@ -3496,8 +3496,8 @@ na przykład: alertnotify=echo %%s | mail -s &quot;Alarm Bitcoin&quot; admin@foo
     </message>
     <message>
         <location line="+1"/>
-        <source>Connect to JSON-RPC on &lt;port&gt; (default: 8332 or testnet: 18332)</source>
-        <translation>podłącz do JSON-RPC na &lt;port&gt; (domyślnie: 8332 lub sieć testowa: 18332)</translation>
+        <source>Connect to JSON-RPC on &lt;port&gt; (default: 22555 or testnet: 44555)</source>
+        <translation>podłącz do JSON-RPC na &lt;port&gt; (domyślnie: 22555 lub sieć testowa: 44555)</translation>
     </message>
     <message>
         <location line="+2"/>
