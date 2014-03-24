@@ -46,7 +46,7 @@ Value getinfo(const Array& params, bool fHelp)
             "  \"testnet\": true|false,      (boolean) if the server is using testnet or not\n"
             "  \"keypoololdest\": xxxxxx,    (numeric) the timestamp (seconds since GMT epoch) of the oldest pre-generated key in the key pool\n"
             "  \"keypoolsize\": xxxx,        (numeric) how many new keys are pre-generated\n"
-            "  \"paytxfee\": x.xxxx,         (numeric) the transaction fee set in btc\n"
+            "  \"paytxfee\": x.xxxx,         (numeric) the transaction fee set in doge\n"
             "  \"unlocked_until\": ttt,      (numeric) the timestamp in seconds since epoch (midnight Jan 1 1970 GMT) that the wallet is unlocked for transfers, or 0 if the wallet is locked\n"
             "  \"errors\": \"...\"           (string) any error messages\n"
             "}\n"
