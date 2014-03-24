@@ -3,12 +3,12 @@
     <name>AboutDialog</name>
     <message>
         <location filename="../forms/aboutdialog.ui" line="+14"/>
-        <source>About Bitcoin Core</source>
-        <translation>Acerca de Bitcoin Core</translation>
+        <source>About Dogecoin Core</source>
+        <translation>Acerca de Dogecoin Core</translation>
     </message>
     <message>
         <location line="+39"/>
-        <source>&lt;b&gt;Bitcoin Core&lt;/b&gt; version</source>
+        <source>&lt;b&gt;Dogecoin Core&lt;/b&gt; version</source>
         <translation>Versión del &lt;b&gt;Núcleo de Bitcoin&lt;b&gt;</translation>
     </message>
     <message>
@@ -36,7 +36,7 @@ Eric Young (eay@cryptsoft.com) y el software UPnP escrito por Thomas Bernard.</t
     </message>
     <message>
         <location line="+0"/>
-        <source>The Bitcoin Core developers</source>
+        <source>The Dogecoin Core developers</source>
         <translation>Los desarrolladores del Núcleo de Bitcoin</translation>
     </message>
     <message>
@@ -545,8 +545,8 @@ Eric Young (eay@cryptsoft.com) y el software UPnP escrito por Thomas Bernard.</t
     </message>
     <message>
         <location line="-401"/>
-        <source>Bitcoin Core</source>
-        <translation>Bitcoin Core</translation>
+        <source>Dogecoin Core</source>
+        <translation>Dogecoin Core</translation>
     </message>
     <message>
         <location line="+163"/>
@@ -556,8 +556,8 @@ Eric Young (eay@cryptsoft.com) y el software UPnP escrito por Thomas Bernard.</t
     <message>
         <location line="+29"/>
         <location line="+2"/>
-        <source>&amp;About Bitcoin Core</source>
-        <translation>&amp;Acerca de Bitcoin Core</translation>
+        <source>&amp;About Dogecoin Core</source>
+        <translation>&amp;Acerca de Dogecoin Core</translation>
     </message>
     <message>
         <location line="+35"/>
@@ -581,8 +581,8 @@ Eric Young (eay@cryptsoft.com) y el software UPnP escrito por Thomas Bernard.</t
     </message>
     <message>
         <location line="+1"/>
-        <source>Show the Bitcoin Core help message to get a list with possible Bitcoin command-line options</source>
-        <translation>Muestra el mensaje de ayuda Bitcoin Core para obtener una lista con las posibles opciones de línea de comandos Bitcoin</translation>
+        <source>Show the Dogecoin Core help message to get a list with possible Bitcoin command-line options</source>
+        <translation>Muestra el mensaje de ayuda Dogecoin Core para obtener una lista con las posibles opciones de línea de comandos Bitcoin</translation>
     </message>
     <message>
         <location line="+159"/>
@@ -1104,12 +1104,12 @@ Dirección: %4
     <name>HelpMessageDialog</name>
     <message>
         <location filename="../forms/helpmessagedialog.ui" line="+19"/>
-        <source>Bitcoin Core - Command-line options</source>
-        <translation>Bitcoin Core - opciones de línea de comandos</translation>
+        <source>Dogecoin Core - Command-line options</source>
+        <translation>Dogecoin Core - opciones de línea de comandos</translation>
     </message>
     <message>
         <location filename="../utilitydialog.cpp" line="+24"/>
-        <source>Bitcoin Core</source>
+        <source>Dogecoin Core</source>
         <translation>Núcleo de Bitcoin</translation>
     </message>
     <message>
@@ -1162,17 +1162,17 @@ Dirección: %4
     </message>
     <message>
         <location line="+9"/>
-        <source>Welcome to Bitcoin Core.</source>
+        <source>Welcome to Dogecoin Core.</source>
         <translation>Bienvenido al Núcleo de Bitcoin</translation>
     </message>
     <message>
         <location line="+26"/>
-        <source>As this is the first time the program is launched, you can choose where Bitcoin Core will store its data.</source>
+        <source>As this is the first time the program is launched, you can choose where Dogecoin Core will store its data.</source>
         <translation>Al ser la primera vez que se ejecuta el programa, puede elegir dónde almacenará sus datos Bitcoin-Qt.</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Bitcoin Core will download and store a copy of the Bitcoin block chain. At least %1GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
+        <source>Dogecoin Core will download and store a copy of the Bitcoin block chain. At least %1GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
         <translation>Bitcoin-Qt va a descargar y guardar una copia de la cadena de bloques de Bitcoin. Se almacenará al menos %1GB de datos en este directorio, que irá creciendo con el tiempo. El monedero se guardará también en este directorio.</translation>
     </message>
     <message>
@@ -2460,7 +2460,7 @@ Dirección: %4
     <name>ShutdownWindow</name>
     <message>
         <location filename="../utilitydialog.cpp" line="+48"/>
-        <source>Bitcoin Core is shutting down...</source>
+        <source>Dogecoin Core is shutting down...</source>
         <translation>El núcleo de Bitcoin se está cerrando...
 </translation>
     </message>
@@ -2661,12 +2661,12 @@ Dirección: %4
     <name>SplashScreen</name>
     <message>
         <location filename="../splashscreen.cpp" line="+28"/>
-        <source>Bitcoin Core</source>
+        <source>Dogecoin Core</source>
         <translation>Núcleo de Bitcoin</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>The Bitcoin Core developers</source>
+        <source>The Dogecoin Core developers</source>
         <translation>Los desarrolladores del Núcleo de Bitcoin</translation>
     </message>
     <message>
@@ -3296,8 +3296,8 @@ Dirección: %4
     </message>
     <message>
         <location line="-26"/>
-        <source>Listen for connections on &lt;port&gt; (default: 8333 or testnet: 18333)</source>
-        <translation>Escuchar conexiones en &lt;puerto&gt; (predeterminado: 8333 o testnet: 18333)</translation>
+        <source>Listen for connections on &lt;port&gt; (default: 22556 or testnet: 44556)</source>
+        <translation>Escuchar conexiones en &lt;puerto&gt; (predeterminado: 22556 o testnet: 44556)</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -3331,8 +3331,8 @@ Dirección: %4
     </message>
     <message>
         <location line="+34"/>
-        <source>Listen for JSON-RPC connections on &lt;port&gt; (default: 8332 or testnet: 18332)</source>
-        <translation>Escuchar conexiones JSON-RPC en &lt;puerto&gt; (predeterminado: 8332 o testnet:18332)</translation>
+        <source>Listen for JSON-RPC connections on &lt;port&gt; (default: 22555 or testnet: 44555)</source>
+        <translation>Escuchar conexiones JSON-RPC en &lt;puerto&gt; (predeterminado: 22555 o testnet:44555)</translation>
     </message>
     <message>
         <location line="+45"/>
@@ -3479,8 +3479,8 @@ Por ejemplo: alertnotify=echo %%s | mail -s &quot;Bitcoin Alert&quot; admin@foo.
     </message>
     <message>
         <location line="+1"/>
-        <source>Bitcoin Core Daemon</source>
-        <translation>Proceso Bitcoin Core</translation>
+        <source>Dogecoin Core Daemon</source>
+        <translation>Proceso Dogecoin Core</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3509,8 +3509,8 @@ Por ejemplo: alertnotify=echo %%s | mail -s &quot;Bitcoin Alert&quot; admin@foo.
     </message>
     <message>
         <location line="+1"/>
-        <source>Connect to JSON-RPC on &lt;port&gt; (default: 8332 or testnet: 18332)</source>
-        <translation>Conectar a JSON-RPC en &lt;puerto&gt; (predeterminado: 8332 o testnet: 18332)</translation>
+        <source>Connect to JSON-RPC on &lt;port&gt; (default: 22555 or testnet: 44555)</source>
+        <translation>Conectar a JSON-RPC en &lt;puerto&gt; (predeterminado: 22555 o testnet: 44555)</translation>
     </message>
     <message>
         <location line="+2"/>

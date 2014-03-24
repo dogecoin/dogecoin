@@ -3,12 +3,12 @@
     <name>AboutDialog</name>
     <message>
         <location filename="../forms/aboutdialog.ui" line="+14"/>
-        <source>About Bitcoin Core</source>
+        <source>About Dogecoin Core</source>
         <translation>关于比特币核心</translation>
     </message>
     <message>
         <location line="+39"/>
-        <source>&lt;b&gt;Bitcoin Core&lt;/b&gt; version</source>
+        <source>&lt;b&gt;Dogecoin Core&lt;/b&gt; version</source>
         <translation>&lt;b&gt;比特币核心&lt;/b&gt; 版本</translation>
     </message>
     <message>
@@ -33,8 +33,8 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="+0"/>
-        <source>The Bitcoin Core developers</source>
-        <translation>Bitcoin Core 的开发者</translation>
+        <source>The Dogecoin Core developers</source>
+        <translation>Dogecoin Core 的开发者</translation>
     </message>
 </context>
 <context>
@@ -536,7 +536,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="-401"/>
-        <source>Bitcoin Core</source>
+        <source>Dogecoin Core</source>
         <translation>比特币核心</translation>
     </message>
     <message>
@@ -547,7 +547,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+29"/>
         <location line="+2"/>
-        <source>&amp;About Bitcoin Core</source>
+        <source>&amp;About Dogecoin Core</source>
         <translation>关于比特币核心(&amp;A)</translation>
     </message>
     <message>
@@ -572,7 +572,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="+1"/>
-        <source>Show the Bitcoin Core help message to get a list with possible Bitcoin command-line options</source>
+        <source>Show the Dogecoin Core help message to get a list with possible Bitcoin command-line options</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1095,12 +1095,12 @@ Address: %4
     <name>HelpMessageDialog</name>
     <message>
         <location filename="../forms/helpmessagedialog.ui" line="+19"/>
-        <source>Bitcoin Core - Command-line options</source>
+        <source>Dogecoin Core - Command-line options</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utilitydialog.cpp" line="+38"/>
-        <source>Bitcoin Core</source>
+        <source>Dogecoin Core</source>
         <translation>比特币核心</translation>
     </message>
     <message>
@@ -1154,17 +1154,17 @@ Address: %4
     </message>
     <message>
         <location line="+9"/>
-        <source>Welcome to Bitcoin Core.</source>
+        <source>Welcome to Dogecoin Core.</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location line="+26"/>
-        <source>As this is the first time the program is launched, you can choose where Bitcoin Core will store its data.</source>
+        <source>As this is the first time the program is launched, you can choose where Dogecoin Core will store its data.</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location line="+10"/>
-        <source>Bitcoin Core will download and store a copy of the Bitcoin block chain. At least %1GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
+        <source>Dogecoin Core will download and store a copy of the Bitcoin block chain. At least %1GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -2424,7 +2424,7 @@ Address: %4
     <name>ShutdownWindow</name>
     <message>
         <location filename="../utilitydialog.cpp" line="+48"/>
-        <source>Bitcoin Core is shutting down...</source>
+        <source>Dogecoin Core is shutting down...</source>
         <translation>比特币核心正在关机...</translation>
     </message>
     <message>
@@ -2630,13 +2630,13 @@ Address: %4
     <name>SplashScreen</name>
     <message>
         <location filename="../splashscreen.cpp" line="+28"/>
-        <source>Bitcoin Core</source>
+        <source>Dogecoin Core</source>
         <translation>比特币核心</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>The Bitcoin Core developers</source>
-        <translation>Bitcoin Core 的开发者</translation>
+        <source>The Dogecoin Core developers</source>
+        <translation>Dogecoin Core 的开发者</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3252,8 +3252,8 @@ Address: %4
     </message>
     <message>
         <location line="-26"/>
-        <source>Listen for connections on &lt;port&gt; (default: 8333 or testnet: 18333)</source>
-        <translation>监听端口连接 &lt;port&gt;（缺省: 8333 或测试网络: 18333）</translation>
+        <source>Listen for connections on &lt;port&gt; (default: 22556 or testnet: 44556)</source>
+        <translation>监听端口连接 &lt;port&gt;（缺省: 22556 或测试网络: 44556）</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -3287,8 +3287,8 @@ Address: %4
     </message>
     <message>
         <location line="+34"/>
-        <source>Listen for JSON-RPC connections on &lt;port&gt; (default: 8332 or testnet: 18332)</source>
-        <translation>JSON-RPC连接监听端口&lt;port&gt; (缺省：8332　testnet：18332)</translation>
+        <source>Listen for JSON-RPC connections on &lt;port&gt; (default: 22555 or testnet: 44555)</source>
+        <translation>JSON-RPC连接监听端口&lt;port&gt; (缺省：22555　testnet：44555)</translation>
     </message>
     <message>
         <location line="+45"/>
@@ -3436,7 +3436,7 @@ rpcpassword=%s
     </message>
     <message>
         <location line="+1"/>
-        <source>Bitcoin Core Daemon</source>
+        <source>Dogecoin Core Daemon</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -3461,8 +3461,8 @@ rpcpassword=%s
     </message>
     <message>
         <location line="+1"/>
-        <source>Connect to JSON-RPC on &lt;port&gt; (default: 8332 or testnet: 18332)</source>
-        <translation>连接到 JSON-RPC 于 &lt;port&gt;（默认: 8332，或测试网络: 18332）</translation>
+        <source>Connect to JSON-RPC on &lt;port&gt; (default: 22555 or testnet: 44555)</source>
+        <translation>连接到 JSON-RPC 于 &lt;port&gt;（默认: 22555，或测试网络: 44555）</translation>
     </message>
     <message>
         <location line="+2"/>

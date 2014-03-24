@@ -12,7 +12,7 @@ Files and Folders
 This file takes care of generating `.qm` files from `.ts` files. It is mostly
 automated.
 
-### src/qt/bitcoin.qrc
+### src/qt/dogecoin.qrc
 
 This file must be updated whenever a new translation is added. Please note that
 files must end with `.qm`, not `.ts`.

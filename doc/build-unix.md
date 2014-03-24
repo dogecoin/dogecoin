@@ -1,6 +1,6 @@
 UNIX BUILD NOTES
 ====================
-Some notes on how to build Bitcoin in Unix. 
+Some notes on how to build Dogecoin in Unix. 
 
 To Build
 ---------------------
@@ -9,7 +9,7 @@ To Build
 	./configure
 	make
 
-This will build bitcoin-qt as well if the dependencies are met.
+This will build dogecoin-qt as well if the dependencies are met.
 
 Dependencies
 ---------------------
@@ -101,7 +101,7 @@ Optional:
 Dependencies for the GUI: Ubuntu & Debian
 -----------------------------------------
 
-If you want to build Bitcoin-Qt, make sure that the required packages for Qt development
+If you want to build Dogecoin-Qt, make sure that the required packages for Qt development
 are installed. Either Qt 4 or Qt 5 are necessary to build the GUI.
 If both Qt 4 and Qt 5 are installed, Qt 4 will be used. Pass `--with-gui=qt5` to configure to choose Qt5.
 To build without GUI pass `--without-gui`.
@@ -116,14 +116,14 @@ For Qt 5 you need the following:
 
 libqrencode (optional) can be installed with:
 
-    apt-get install libqrencode-dev
+    sudo apt-get install libqrencode-dev
 
-Once these are installed, they will be found by configure and a bitcoin-qt executable will be
+Once these are installed, they will be found by configure and a dogecoin-qt executable will be
 built by default.
 
 Notes
 -----
-The release is built with GCC and then "strip bitcoind" to strip the debug
+The release is built with GCC and then "strip dogecoind" to strip the debug
 symbols, which reduces the executable size by about 90%.
 
 
@@ -181,7 +181,7 @@ Hardening enables the following features:
 
     To test that you have built PIE executable, install scanelf, part of paxutils, and use:
 
-    	scanelf -e ./bitcoin
+    	scanelf -e ./dogecoin
 
     The output should contain:
      TYPE
@@ -195,7 +195,7 @@ Hardening enables the following features:
     executable without the non-executable stack protection.
 
     To verify that the stack is non-executable after compiling use:
-    `scanelf -e ./bitcoin`
+    `scanelf -e ./dogecoin`
 
     the output should contain:
 	STK/REL/PTL

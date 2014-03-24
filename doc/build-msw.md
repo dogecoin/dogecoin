@@ -72,12 +72,12 @@ MSYS shell:
 	mkdir miniupnpc
 	cp *.h miniupnpc/
 
-Bitcoin
+Dogecoin
 -------
 MSYS shell:
 
-	cd \bitcoin
+	cd \dogecoin
 	sh autogen.sh
 	sh configure
 	mingw32-make
-	strip bitcoind.exe
+	strip dogecoind.exe

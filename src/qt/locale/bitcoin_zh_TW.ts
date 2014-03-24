@@ -3,12 +3,12 @@
     <name>AboutDialog</name>
     <message>
         <location filename="../forms/aboutdialog.ui" line="+14"/>
-        <source>About Bitcoin Core</source>
+        <source>About Dogecoin Core</source>
         <translation>關於位元幣核心</translation>
     </message>
     <message>
         <location line="+39"/>
-        <source>&lt;b&gt;Bitcoin Core&lt;/b&gt; version</source>
+        <source>&lt;b&gt;Dogecoin Core&lt;/b&gt; version</source>
         <translation>&lt;b&gt;位元幣核心&lt;/b&gt;版本</translation>
     </message>
     <message>
@@ -35,7 +35,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="+0"/>
-        <source>The Bitcoin Core developers</source>
+        <source>The Dogecoin Core developers</source>
         <translation>位元幣核心開發人員</translation>
     </message>
 </context>
@@ -538,7 +538,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="-401"/>
-        <source>Bitcoin Core</source>
+        <source>Dogecoin Core</source>
         <translation>位元幣核心</translation>
     </message>
     <message>
@@ -549,7 +549,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+29"/>
         <location line="+2"/>
-        <source>&amp;About Bitcoin Core</source>
+        <source>&amp;About Dogecoin Core</source>
         <translation>關於位元幣核心</translation>
     </message>
     <message>
@@ -574,7 +574,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="+1"/>
-        <source>Show the Bitcoin Core help message to get a list with possible Bitcoin command-line options</source>
+        <source>Show the Dogecoin Core help message to get a list with possible Bitcoin command-line options</source>
         <translation>顯示位元幣核心的說明訊息，來取得可用命令列選項的列表</translation>
     </message>
     <message>
@@ -1097,12 +1097,12 @@ Address: %4
     <name>HelpMessageDialog</name>
     <message>
         <location filename="../forms/helpmessagedialog.ui" line="+19"/>
-        <source>Bitcoin Core - Command-line options</source>
+        <source>Dogecoin Core - Command-line options</source>
         <translation>位元幣核心 - 命令列選項</translation>
     </message>
     <message>
         <location filename="../utilitydialog.cpp" line="+38"/>
-        <source>Bitcoin Core</source>
+        <source>Dogecoin Core</source>
         <translation>位元幣核心</translation>
     </message>
     <message>
@@ -1155,17 +1155,17 @@ Address: %4
     </message>
     <message>
         <location line="+9"/>
-        <source>Welcome to Bitcoin Core.</source>
+        <source>Welcome to Dogecoin Core.</source>
         <translation>歡迎使用位元幣核心</translation>
     </message>
     <message>
         <location line="+26"/>
-        <source>As this is the first time the program is launched, you can choose where Bitcoin Core will store its data.</source>
+        <source>As this is the first time the program is launched, you can choose where Dogecoin Core will store its data.</source>
         <translation>因為這是程式第一次啓動，你可以選擇位元幣核心儲存資料的地方。</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Bitcoin Core will download and store a copy of the Bitcoin block chain. At least %1GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
+        <source>Dogecoin Core will download and store a copy of the Bitcoin block chain. At least %1GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
         <translation>位元幣核心會下載並儲存一份位元幣區塊鏈的拷貝。至少有 %1GB 的資料會儲存到這個目錄中，並且還會持續增長。另外錢包資料也會儲存在這個目錄。</translation>
     </message>
     <message>
@@ -2443,7 +2443,7 @@ Address: %4
     <name>ShutdownWindow</name>
     <message>
         <location filename="../utilitydialog.cpp" line="+48"/>
-        <source>Bitcoin Core is shutting down...</source>
+        <source>Dogecoin Core is shutting down...</source>
         <translation>位元幣核心正在關閉中...</translation>
     </message>
     <message>
@@ -2643,12 +2643,12 @@ Address: %4
     <name>SplashScreen</name>
     <message>
         <location filename="../splashscreen.cpp" line="+28"/>
-        <source>Bitcoin Core</source>
+        <source>Dogecoin Core</source>
         <translation>位元幣核心</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>The Bitcoin Core developers</source>
+        <source>The Dogecoin Core developers</source>
         <translation>位元幣核心開發人員</translation>
     </message>
     <message>
@@ -3259,8 +3259,8 @@ Address: %4
     </message>
     <message>
         <location line="-26"/>
-        <source>Listen for connections on &lt;port&gt; (default: 8333 or testnet: 18333)</source>
-        <translation>在通訊埠 &lt;port&gt; 聽候連線(預設值: 8333, 或若是測試網路: 18333)</translation>
+        <source>Listen for connections on &lt;port&gt; (default: 22556 or testnet: 44556)</source>
+        <translation>在通訊埠 &lt;port&gt; 聽候連線(預設值: 22556, 或若是測試網路: 44556)</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -3294,8 +3294,8 @@ Address: %4
     </message>
     <message>
         <location line="+34"/>
-        <source>Listen for JSON-RPC connections on &lt;port&gt; (default: 8332 or testnet: 18332)</source>
-        <translation>在通訊埠 &lt;port&gt; 聽候 JSON-RPC 連線(預設值: 8332, 或若是測試網路: 18332)</translation>
+        <source>Listen for JSON-RPC connections on &lt;port&gt; (default: 22555 or testnet: 44555)</source>
+        <translation>在通訊埠 &lt;port&gt; 聽候 JSON-RPC 連線(預設值: 22555, 或若是測試網路: 44555)</translation>
     </message>
     <message>
         <location line="+45"/>
@@ -3440,7 +3440,7 @@ alertnotify=echo %%s | mail -s &quot;Bitcoin Alert&quot; admin@foo.com</translat
     </message>
     <message>
         <location line="+1"/>
-        <source>Bitcoin Core Daemon</source>
+        <source>Dogecoin Core Daemon</source>
         <translation>位元幣核心護靈</translation>
     </message>
     <message>
@@ -3465,8 +3465,8 @@ alertnotify=echo %%s | mail -s &quot;Bitcoin Alert&quot; admin@foo.com</translat
     </message>
     <message>
         <location line="+1"/>
-        <source>Connect to JSON-RPC on &lt;port&gt; (default: 8332 or testnet: 18332)</source>
-        <translation>連線到埠號 &lt;port&gt; 上的 JSON-RPC 伺服器(預設值: 8332，或若是測試網路: 18332)</translation>
+        <source>Connect to JSON-RPC on &lt;port&gt; (default: 22555 or testnet: 44555)</source>
+        <translation>連線到埠號 &lt;port&gt; 上的 JSON-RPC 伺服器(預設值: 22555，或若是測試網路: 44555)</translation>
     </message>
     <message>
         <location line="+2"/>
