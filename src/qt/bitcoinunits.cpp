@@ -43,7 +43,7 @@ QString BitcoinUnits::name(int unit)
     case DOGE: return QString("DOGE");
     case mDOGE: return QString("mDOGE");
     case uDOGE: return QString::fromUtf8("μDOGE");
-    case Koinu: return QString("Koinu")
+    case Koinu: return QString("Koinu");
     default: return QString("???");
     }
 }
@@ -55,7 +55,7 @@ QString BitcoinUnits::description(int unit)
     case DOGE: return QString("Dogecoin");
     case mDOGE: return QString("Milli-Dogecoin (1 / 1,000)");
     case uDOGE: return QString("Micro-Dogecoin (1 / 1,000,000)");
-    case Koinu: return QString("Koinu (1 / 100,000,000")
+    case Koinu: return QString("Koinu (1 / 100,000,000");
     default: return QString("???");
     }
 }
