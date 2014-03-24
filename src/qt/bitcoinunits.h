@@ -25,7 +25,8 @@ public:
     {
         DOGE,
         mDOGE,
-        uDOGE
+        uDOGE,
+        Koinu
     };
 
     //! @name Static API
