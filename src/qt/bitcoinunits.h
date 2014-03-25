@@ -21,11 +21,14 @@ public:
     /** Bitcoin units.
       @note Source: https://en.bitcoin.it/wiki/Units . Please add only sensible ones
      */
-    enum Unit
+    enum Unit   //Note: preserve positions in order to preserve existing settings
     {
         DOGE,
-        mDOGE,
-        uDOGE
+        //formerly mDOGE
+        //formerly uDOGE
+        MDOGE = 3,
+        kDOGE = 4,
+        Koinu = 5
     };
 
     //! @name Static API

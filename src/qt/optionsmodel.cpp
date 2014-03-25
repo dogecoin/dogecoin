@@ -53,6 +53,8 @@ void OptionsModel::Init()
     if (!settings.contains("nDisplayUnit"))
         settings.setValue("nDisplayUnit", BitcoinUnits::DOGE);
     nDisplayUnit = settings.value("nDisplayUnit").toInt();
+    if(!BitcoinUnits::valid(nDisplayUnit))
+        nDisplayUnit = BitcoinUnits::DOGE;
 
     if (!settings.contains("bDisplayAddresses"))
         settings.setValue("bDisplayAddresses", false);
