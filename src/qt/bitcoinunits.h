@@ -24,11 +24,11 @@ public:
     enum Unit   //Note: preserve positions in order to preserve existing settings
     {
         DOGE,
-        mDOGE,
-        uDOGE,
-        MDOGE,
-        kDOGE,
-        Koinu
+        //formerly mDOGE
+        //formerly uDOGE
+        MDOGE = 3,
+        kDOGE = 4,
+        Koinu = 5
     };
 
     //! @name Static API
