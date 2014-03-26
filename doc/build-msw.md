@@ -16,8 +16,12 @@ Libraries you need to download separately and build:
 	--------------------------------------------------------------------------------------------------------------------
 	OpenSSL         \openssl-1.0.1c-mgw        http://www.openssl.org/source/
 	Berkeley DB     \db-4.8.30.NC-mgw          http://www.oracle.com/technology/software/products/berkeley-db/index.html
-	Boost           \boost-1.50.0-mgw          http://www.boost.org/users/download/
+	Boost           \boost-1.55.0-mgw          http://www.boost.org/users/download/
 	miniupnpc       \miniupnpc-1.6-mgw         http://miniupnp.tuxfamily.org/files/
+    qt                                         http://download.qt-project.org/official_releases/qt/5.2/5.2.1/
+    protobuf                                   http://protobuf.googlecode.com/files/protobuf-2.5.0.zip
+    libpng                                     http://prdownloads.sourceforge.net/libpng/libpng-1.6.9.tar.gz?download
+    libqrencode                                http://fukuchi.org/works/qrencode/qrencode-3.4.3.tar.gz
 
 Their licenses:
 
@@ -25,13 +29,21 @@ Their licenses:
 	Berkeley DB    New BSD license with additional requirement that linked software must be free open source
 	Boost          MIT-like license
 	miniupnpc      New (3-clause) BSD license
+    qt             
+    protobuf       
+    libpng         
+    libqrencode    
 
 Versions used in this release:
 
 	OpenSSL      1.0.1c
 	Berkeley DB  4.8.30.NC
-	Boost        1.50.0
+	Boost        1.55.0
 	miniupnpc    1.6
+    qt           4.8.3
+    protobuf     2.5.0
+    libpng       1.6.9
+    libqrencode  3.2.0
 
 
 OpenSSL
@@ -55,11 +67,11 @@ MSYS shell:
 
 Boost
 -----
-MSYS shell:
+MS-DOS shell:
 
-	downloaded boost jam 3.1.18
-	cd \boost-1.50.0-mgw
-	bjam toolset=gcc --build-type=complete stage
+	cd boost_1_55_0\
+    bootstrap.bat mingw
+    b2 --build-type=complete --with-chrono --with-filesystem --with-program_options --with-system --with-thread toolset=gcc stage
 
 MiniUPnPc
 ---------
