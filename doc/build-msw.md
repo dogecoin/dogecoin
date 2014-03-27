@@ -75,7 +75,7 @@ MSYS shell:
 
 Include and library files files should then be placed into MinGW search paths, for example:
 
-Include: C:\MinGW\lib\gcc\mingw32\4.8.1\include\c++\db4.8
+Include: C:\MinGW\lib\gcc\mingw32\4.8.1\include\c++
 Library: C:\MinGW\lib
     
 Boost
@@ -87,6 +87,8 @@ MSYS shell:
     cp bin.ntx86/bjam.exe ../../../../
     cd ../../../../
     bjam --toolset=gcc
+    
+In case of problems, http://stackoverflow.com/questions/13256788/building-boost-1-52-with-mingw may be useful
 
 MiniUPnPc
 ---------
@@ -105,6 +107,6 @@ MSYS shell:
 
 	dogecoin
 	./autogen.sh
-	configure 
+	BOOST_ROOT=../boost_1_55_0 ./configure --disable-tests
 	mingw32-make
 	strip dogecoind.exe
