@@ -4,13 +4,21 @@ WINDOWS BUILD NOTES
 
 Compilers Supported
 -------------------
-TODO: What works?
-Note: releases are cross-compiled using mingw running on Linux.
+Compilation under Windows is supported using MinGW (http://www.mingw.org/)
 
 
 Dependencies
 ------------
-Libraries you need to download separately and build:
+To build Dogecoin for Windows, there are number of libraries you need to download
+separately and build. Note that, for those used to a Linux/UNIX background, the search
+paths for include files is not the conventional UNIX directories, see
+http://www.mingw.org/wiki/IncludePathHOWTO for more details. Library files can be placed
+in the more conventional /usr/local/lib directory, but see
+http://www.mingw.org/wiki/HOWTO_Specify_the_Location_of_Libraries_for_use_with_MinGW in
+case of difficulties.
+
+In both cases, include and library files will need to be placed in the relevant directories
+for the build process to succeed.
 
 	name            default path               download
 	--------------------------------------------------------------------------------------------------------------------
@@ -65,13 +73,20 @@ MSYS shell:
 	sh ../dist/configure --enable-mingw --enable-cxx
 	make
 
+Include and library files files should then be placed into MinGW search paths, for example:
+
+Include: C:\MinGW\lib\gcc\mingw32\4.8.1\include\c++\db4.8
+Library: C:\MinGW\lib
+    
 Boost
 -----
-MS-DOS shell:
+MSYS shell:
 
-	cd boost_1_55_0\
-    bootstrap.bat mingw
-    b2 --build-type=complete --with-chrono --with-filesystem --with-program_options --with-system --with-thread toolset=gcc stage
+	cd boost_1_55_0/tools/build/v2/engine
+    ./build.sh mingw
+    cp bin.ntx86/bjam.exe ../../../../
+    cd ../../../../
+    bjam --toolset=gcc
 
 MiniUPnPc
 ---------
@@ -88,8 +103,8 @@ Dogecoin
 -------
 MSYS shell:
 
-	cd \dogecoin
-	sh autogen.sh
-	sh configure
+	dogecoin
+	./autogen.sh
+	configure 
 	mingw32-make
 	strip dogecoind.exe
