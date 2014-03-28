@@ -962,13 +962,13 @@ void PrintExceptionContinue(std::exception* pex, const char* pszThread)
 boost::filesystem::path GetDefaultDataDir()
 {
     namespace fs = boost::filesystem;
-    // Windows < Vista: C:\Documents and Settings\Username\Application Data\Bitcoin
-    // Windows >= Vista: C:\Users\Username\AppData\Roaming\Bitcoin
-    // Mac: ~/Library/Application Support/Bitcoin
-    // Unix: ~/.bitcoin
+    // Windows < Vista: C:\Documents and Settings\Username\Application Data\Dogecoin
+    // Windows >= Vista: C:\Users\Username\AppData\Roaming\Dogecoin
+    // Mac: ~/Library/Application Support/Dogecoin
+    // Unix: ~/.dogecoin
 #ifdef WIN32
     // Windows
-    return GetSpecialFolderPath(CSIDL_APPDATA) / "Inutoshi";
+    return GetSpecialFolderPath(CSIDL_APPDATA) / "Dogecoin";
 #else
     fs::path pathRet;
     char* pszHome = getenv("HOME");
@@ -980,10 +980,10 @@ boost::filesystem::path GetDefaultDataDir()
     // Mac
     pathRet /= "Library/Application Support";
     fs::create_directory(pathRet);
-    return pathRet / "Inutoshi";
+    return pathRet / "Dogecoin";
 #else
     // Unix
-    return pathRet / ".inutoshi";
+    return pathRet / ".dogecoin";
 #endif
 #endif
 }
@@ -1298,7 +1298,7 @@ void AddTimeData(const CNetAddr& ip, int64_t nTime)
                 if (!fMatch)
                 {
                     fDone = true;
-                    string strMessage = _("Warning: Please check that your computer's date and time are correct! If your clock is wrong Bitcoin will not work properly.");
+                    string strMessage = _("Warning: Please check that your computer's date and time are correct! If your clock is wrong Dogecoin will not work properly.");
                     strMiscWarning = strMessage;
                     LogPrintf("*** %s\n", strMessage);
                     uiInterface.ThreadSafeMessageBox(strMessage, "", CClientUIInterface::MSG_WARNING);
