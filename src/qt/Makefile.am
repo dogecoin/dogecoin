@@ -5,7 +5,7 @@ AM_CPPFLAGS += -I$(top_srcdir)/src \
   -I$(top_builddir)/src/qt/forms \
   $(PROTOBUF_CFLAGS) \
   $(QR_CFLAGS)
-bin_PROGRAMS = bitcoin-qt
+bin_PROGRAMS = dogecoin-qt
 noinst_LIBRARIES = libbitcoinqt.a
 SUBDIRS = $(BUILD_TEST_QT)
 DIST_SUBDIRS = test
@@ -334,23 +334,23 @@ BUILT_SOURCES = $(nodist_libbitcoinqt_a_SOURCES)
 $(QT_MOC): $(PROTOBUF_H)
 $(QT_MOC_CPP): $(PROTOBUF_H)
 
-# bitcoin-qt binary #
-bitcoin_qt_CPPFLAGS = $(AM_CPPFLAGS) $(QT_INCLUDES) \
+# dogecoin-qt binary #
+dogecoin_qt_CPPFLAGS = $(AM_CPPFLAGS) $(QT_INCLUDES) \
   -I$(top_srcdir)/src/qt/forms
-bitcoin_qt_SOURCES = bitcoin.cpp
+dogecoin_qt_SOURCES = bitcoin.cpp
 if TARGET_DARWIN
-  bitcoin_qt_SOURCES += $(BITCOIN_MM)
+  dogecoin_qt_SOURCES += $(BITCOIN_MM)
 endif
 if TARGET_WINDOWS
-  bitcoin_qt_SOURCES += $(BITCOIN_RC)
+  dogecoin_qt_SOURCES += $(BITCOIN_RC)
 endif
-bitcoin_qt_LDADD = libbitcoinqt.a $(LIBBITCOIN_SERVER)
+dogecoin_qt_LDADD = libbitcoinqt.a $(LIBBITCOIN_SERVER)
 if ENABLE_WALLET
-bitcoin_qt_LDADD += $(LIBBITCOIN_WALLET)
+dogecoin_qt_LDADD += $(LIBBITCOIN_WALLET)
 endif
-bitcoin_qt_LDADD += $(LIBBITCOIN_CLI) $(LIBBITCOIN_COMMON) $(LIBLEVELDB) $(LIBMEMENV) \
+dogecoin_qt_LDADD += $(LIBBITCOIN_CLI) $(LIBBITCOIN_COMMON) $(LIBLEVELDB) $(LIBMEMENV) \
   $(BOOST_LIBS) $(QT_LIBS) $(QT_DBUS_LIBS) $(QR_LIBS) $(PROTOBUF_LIBS) $(BDB_LIBS)
-bitcoin_qt_LDFLAGS = $(QT_LDFLAGS)
+dogecoin_qt_LDFLAGS = $(QT_LDFLAGS)
 
 # forms/foo.h -> forms/ui_foo.h
 QT_FORMS_H=$(join $(dir $(QT_FORMS_UI)),$(addprefix ui_, $(notdir $(QT_FORMS_UI:.ui=.h))))

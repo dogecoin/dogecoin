@@ -13,7 +13,7 @@ endif
 bin_PROGRAMS =
 
 if BUILD_BITCOIND
-  bin_PROGRAMS += bitcoind
+  bin_PROGRAMS += dogecoind
 endif
 
 if BUILD_BITCOIN_CLI
@@ -146,25 +146,25 @@ libbitcoin_cli_a_SOURCES = \
 nodist_libbitcoin_common_a_SOURCES = $(top_srcdir)/src/obj/build.h
 #
 
-# bitcoind binary #
-bitcoind_LDADD = \
+# dogecoind binary #
+dogecoind_LDADD = \
   libbitcoin_server.a \
   libbitcoin_cli.a \
   libbitcoin_common.a \
   $(LIBLEVELDB) \
   $(LIBMEMENV)
 if ENABLE_WALLET
-bitcoind_LDADD += libbitcoin_wallet.a
+dogecoind_LDADD += libbitcoin_wallet.a
 endif
-bitcoind_SOURCES = bitcoind.cpp
+dogecoind_SOURCES = dogecoind.cpp
 #
 
 if TARGET_WINDOWS
-bitcoind_SOURCES += bitcoind-res.rc
+dogecoind_SOURCES += dogecoind-res.rc
 endif
 
 AM_CPPFLAGS += $(BDB_CPPFLAGS)
-bitcoind_LDADD += $(BOOST_LIBS) $(BDB_LIBS)
+dogecoind_LDADD += $(BOOST_LIBS) $(BDB_LIBS)
 
 # bitcoin-cli binary #
 bitcoin_cli_LDADD = \
