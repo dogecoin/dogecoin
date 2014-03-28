@@ -5,7 +5,7 @@ AM_CPPFLAGS += -I$(builddir)
 noinst_LIBRARIES = \
   libbitcoin_server.a \
   libbitcoin_common.a \
-  libdogecoin_cli.a
+  libbitcoin_cli.a
 if ENABLE_WALLET
 noinst_LIBRARIES += libbitcoin_wallet.a
 endif
@@ -139,7 +139,7 @@ libbitcoin_common_a_SOURCES = \
   version.cpp \
   $(BITCOIN_CORE_H)
 
-libdogecoin_cli_a_SOURCES = \
+libbitcoin_cli_a_SOURCES = \
   rpcclient.cpp \
   $(BITCOIN_CORE_H)
 
@@ -149,7 +149,7 @@ nodist_libbitcoin_common_a_SOURCES = $(top_srcdir)/src/obj/build.h
 # dogecoind binary #
 dogecoind_LDADD = \
   libbitcoin_server.a \
-  libdogecoin_cli.a \
+  libbitcoin_cli.a \
   libbitcoin_common.a \
   $(LIBLEVELDB) \
   $(LIBMEMENV)
@@ -168,7 +168,7 @@ dogecoind_LDADD += $(BOOST_LIBS) $(BDB_LIBS)
 
 # dogecoin-cli binary #
 dogecoin_cli_LDADD = \
-  libdogecoin_cli.a \
+  libbitcoin_cli.a \
   libbitcoin_common.a \
   $(BOOST_LIBS)
 dogecoin_cli_SOURCES = dogecoin-cli.cpp
