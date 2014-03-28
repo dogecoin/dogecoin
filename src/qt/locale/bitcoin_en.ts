@@ -3293,13 +3293,13 @@ Address: %4
     </message>
     <message>
         <location line="+22"/>
-        <source>Specify configuration file (default: inutoshi.conf)</source>
-        <translation>Specify configuration file (default: inutoshi.conf)</translation>
+        <source>Specify configuration file (default: dogecoin.conf)</source>
+        <translation>Specify configuration file (default: dogecoin.conf)</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>Specify pid file (default: inutoshi.pid)</source>
-        <translation>Specify pid file (default: inutoshi.pid)</translation>
+        <source>Specify pid file (default: dogecoin.pid)</source>
+        <translation>Specify pid file (default: dogecoin.pid)</translation>
     </message>
     <message>
         <location line="-1"/>
