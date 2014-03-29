@@ -27,21 +27,23 @@ Scrypt Proof of Work
 
 1 Minute Block Targets, 4 Hour Diff Readjustments
 
-Special reward system: Random block rewards before block 145,000. Static block reward of 250,00 afterwards.
+Special reward system: Random block rewards before block 145,000. Static block reward afterwards according to chart:
 
-1-100,000: 0-1,000,000 Dogecoin Reward
+1-100,000: 0-1,000,000 Dogecoin Reward (random)
 
-100,001 — 200,000: 0-500,000 Dogecoin Reward
+100,001 —144,999: 0-500,000 Dogecoin Reward (random)
 
-200,001 — 300,000: 0-250,000 Dogecoin Reward
+145,000 — 200,000: 250,000 Dogecoin Reward (flat)
 
-300,001 — 400,000: 0-125,000 Dogecoin Reward
+200,001 — 300,000: 125,000 Dogecoin Reward (flat)
 
-400,001 — 500,000: 0-62,500 Dogecoin Reward
+300,001 — 400,000: 62,500 Dogecoin Reward (flat)
 
-500,001 - 600,000: 0-31,250 Dogecoin Reward
+400,001 - 500,000: 31,250 Dogecoin Reward (flat)
 
-600,000+ — 10,000 Reward (flat)
+500,001 - 600,000: 15,625 Dogecoin Reward (flat)
+
+600,001+ — 10,000 Reward (flat)
 
 ### Wow - Plz make dogecoind (How to build `dogecoind`)
 ```bash
