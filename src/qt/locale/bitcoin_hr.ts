@@ -3220,13 +3220,13 @@ Adresa:%4
     </message>
     <message>
         <location line="+22"/>
-        <source>Specify configuration file (default: bitcoin.conf)</source>
-        <translation>Odredi konfiguracijsku datoteku (ugrađeni izbor: bitcoin.conf)</translation>
+        <source>Specify configuration file (default: dogecoin.conf)</source>
+        <translation>Odredi konfiguracijsku datoteku (ugrađeni izbor: dogecoin.conf)</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>Specify pid file (default: bitcoind.pid)</source>
-        <translation>Odredi proces ID datoteku (ugrađeni izbor: bitcoin.pid)</translation>
+        <source>Specify pid file (default: dogecoin.pid)</source>
+        <translation>Odredi proces ID datoteku (ugrađeni izbor: dogecoin.pid)</translation>
     </message>
     <message>
         <location line="-1"/>

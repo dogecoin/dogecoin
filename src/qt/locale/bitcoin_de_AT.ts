@@ -3220,13 +3220,13 @@ Wohin: %4
     </message>
     <message>
         <location line="+22"/>
-        <source>Specify configuration file (default: bitcoin.conf)</source>
-        <translation>Gib de Konfigurationsdatei aun (sunsta: bitcoin.conf)</translation>
+        <source>Specify configuration file (default: dogecoin.conf)</source>
+        <translation>Gib de Konfigurationsdatei aun (sunsta: dogecoin.conf)</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>Specify pid file (default: bitcoind.pid)</source>
-        <translation>Datei, wo de Prozessnumma gspeichat wiad (sunsta: bitcoin.pid)</translation>
+        <source>Specify pid file (default: dogecoin.pid)</source>
+        <translation>Datei, wo de Prozessnumma gspeichat wiad (sunsta: dogecoin.pid)</translation>
     </message>
     <message>
         <location line="-1"/>

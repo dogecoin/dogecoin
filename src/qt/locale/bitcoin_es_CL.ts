@@ -3243,14 +3243,14 @@ Dirección: %4</translation>
     </message>
     <message>
         <location line="+22"/>
-        <source>Specify configuration file (default: bitcoin.conf)</source>
-        <translation>Especifica archivo de configuración (predeterminado: bitcoin.conf)
+        <source>Specify configuration file (default: dogecoin.conf)</source>
+        <translation>Especifica archivo de configuración (predeterminado: dogecoin.conf)
 </translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>Specify pid file (default: bitcoind.pid)</source>
-        <translation>Especifica archivo pid (predeterminado: bitcoin.pid)
+        <source>Specify pid file (default: dogecoin.pid)</source>
+        <translation>Especifica archivo pid (predeterminado: dogecoin.pid)
 </translation>
     </message>
     <message>
