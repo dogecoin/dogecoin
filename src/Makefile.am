@@ -108,7 +108,6 @@ libbitcoin_server_a_SOURCES = \
   rpcmisc.cpp \
   rpcnet.cpp \
   rpcrawtransaction.cpp \
-  scrypt.cpp \
   txdb.cpp \
   txmempool.cpp \
   $(JSON_H) \
