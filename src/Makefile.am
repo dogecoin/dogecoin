@@ -7,7 +7,9 @@ noinst_LIBRARIES = \
   libbitcoin_common.a \
   libbitcoin_cli.a
 if ENABLE_WALLET
-noinst_LIBRARIES += libbitcoin_wallet.a
+noinst_LIBRARIES += \
+  libbitcoin_wallet.a \
+  libbitcoin_server_wallet.a
 endif
 
 bin_PROGRAMS =
@@ -116,10 +118,13 @@ libbitcoin_server_a_SOURCES = \
 libbitcoin_wallet_a_SOURCES = \
   db.cpp \
   crypter.cpp \
-  rpcdump.cpp \
-  rpcwallet.cpp \
   wallet.cpp \
   walletdb.cpp \
+  $(BITCOIN_CORE_H)
+
+libbitcoin_server_wallet_a_SOURCES = \
+  rpcdump.cpp \
+  rpcwallet.cpp \
   $(BITCOIN_CORE_H)
 
 libbitcoin_common_a_SOURCES = \
@@ -153,7 +158,7 @@ dogecoind_LDADD = \
   $(LIBLEVELDB) \
   $(LIBMEMENV)
 if ENABLE_WALLET
-dogecoind_LDADD += libbitcoin_wallet.a
+dogecoind_LDADD += libbitcoin_wallet.a libbitcoin_server_wallet.a
 endif
 dogecoind_SOURCES = dogecoind.cpp
 #
