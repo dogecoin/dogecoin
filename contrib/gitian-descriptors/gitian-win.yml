@@ -83,7 +83,7 @@ script: |
     make $MAKEOPTS
     make deploy
     make install-strip
-    # cp -f dogecoin-*setup*.exe $BINDIR/
+    cp -f dogecoin-*setup*.exe $BINDIR/
     unset LD_PRELOAD
     unset FAKETIME
   done # for BITS in
