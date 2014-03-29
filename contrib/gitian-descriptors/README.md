@@ -37,7 +37,7 @@ Once you've got the right hardware and software:
     git clone git://github.com/dogecoin/dogecoin.git
     git clone git://github.com/devrandom/gitian-builder.git
 
-Prepeare the builder VMs:
+Prepare the builder VMs:
 
     cd gitian-builder
     bin/make-base-vm --arch i386
@@ -45,4 +45,4 @@ Prepeare the builder VMs:
     cd ..
 
 Now follow the build process under doc/release-process to first build the dependecies
-(one time task, or when the dependencies change) and then the client packagaes.
+(one time task, or when the dependencies change) and then the client packages.
