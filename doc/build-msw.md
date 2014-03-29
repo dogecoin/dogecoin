@@ -23,7 +23,7 @@ for the build process to succeed.
 	name            default path               download
 	--------------------------------------------------------------------------------------------------------------------
 	OpenSSL         \openssl-1.0.1c-mgw        http://www.openssl.org/source/
-	Berkeley DB     \db-4.8.30.NC-mgw          http://www.oracle.com/technology/software/products/berkeley-db/index.html
+	Berkeley DB     \db-5.1.29.NC-mgw          http://www.oracle.com/technology/software/products/berkeley-db/index.html
 	Boost           \boost-1.55.0-mgw          http://www.boost.org/users/download/
 	miniupnpc       \miniupnpc-1.6-mgw         http://miniupnp.tuxfamily.org/files/
     qt                                         http://download.qt-project.org/official_releases/qt/5.2/5.2.1/
@@ -45,7 +45,7 @@ Their licenses:
 Versions used in this release:
 
 	OpenSSL      1.0.1c
-	Berkeley DB  4.8.30.NC
+	Berkeley DB  5.1.29.NC
 	Boost        1.55.0
 	miniupnpc    1.6
     qt           4.8.3
@@ -69,7 +69,7 @@ Berkeley DB
 -----------
 MSYS shell:
 
-	cd /c/db-4.8.30.NC-mgw/build_unix
+	cd /c/db-5.1.29.NC-mgw/build_unix
 	sh ../dist/configure --enable-mingw --enable-cxx
 	make
 
