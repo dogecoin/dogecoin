@@ -56,7 +56,7 @@ Dependency Build Instructions: Ubuntu & Debian
 ----------------------------------------------
 Build requirements:
 
-	sudo apt-get install build-essential
+	sudo apt-get install build-essential pkg-config
 	sudo apt-get install libtool autotools-dev autoconf
 	sudo apt-get install libssl-dev
 
@@ -153,6 +153,25 @@ If you need to build Boost yourself:
 	sudo su
 	./bootstrap.sh
 	./bjam install
+
+
+Dependency Build Instructions: Fedora
+-------------------------------------
+
+Tested on Fedora 20:
+
+	sudo yum install autoconf automake make gcc-c++
+	sudo yum install openssl-devel
+	sudo yum install miniupnpc-devel
+	sudo yum install boost-devel
+	sudo yum install libdb-cxx-devel
+	sudo yum install libss-devel
+	sudo yum install qrencode
+
+Optional:
+
+	sudo yum install miniupnpc-devel (see USE_UPNP compile flag)
+
 
 
 Security
