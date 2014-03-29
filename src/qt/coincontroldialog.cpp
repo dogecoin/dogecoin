@@ -436,7 +436,7 @@ void CoinControlDialog::updateLabels(WalletModel *model, QDialog* dialog)
 
         if (amount > 0)
         {
-            if (amount < CENT)
+            if (amount < COIN)
                 fLowOutput = true;
 
             CTxOut txout(amount, (CScript)vector<unsigned char>(24, 0));
@@ -525,7 +525,7 @@ void CoinControlDialog::updateLabels(WalletModel *model, QDialog* dialog)
             nChange = nAmount - nPayFee - nPayAmount;
 
             // if sub-cent change is required, the fee must be raised to at least CTransaction::nMinTxFee
-            if (nPayFee < CTransaction::nMinTxFee && nChange > 0 && nChange < CENT)
+            if (nPayFee < CTransaction::nMinTxFee && nChange > 0 && nChange < COIN)
             {
                 if (nChange < CTransaction::nMinTxFee) // change < 0.0001 => simply move all change to fees
                 {
@@ -540,7 +540,7 @@ void CoinControlDialog::updateLabels(WalletModel *model, QDialog* dialog)
             }
 
             // Never create dust outputs; if we would, just add the dust to the fee.
-            if (nChange > 0 && nChange < CENT)
+            if (nChange > 0 && nChange < COIN)
             {
                 CTxOut txout(nChange, (CScript)vector<unsigned char>(24, 0));
                 if (txout.IsDust(CTransaction::nMinRelayTxFee))
@@ -594,7 +594,7 @@ void CoinControlDialog::updateLabels(WalletModel *model, QDialog* dialog)
     l5->setStyleSheet((nBytes >= 1000) ? "color:red;" : "");                            // Bytes >= 1000
     l6->setStyleSheet((dPriority > 0 && !AllowFree(dPriority)) ? "color:red;" : "");    // Priority < "medium"
     l7->setStyleSheet((fLowOutput) ? "color:red;" : "");                                // Low Output = "yes"
-    l8->setStyleSheet((nChange > 0 && nChange < CENT) ? "color:red;" : "");             // Change < 0.01DOGE
+    l8->setStyleSheet((nChange > 0 && nChange < COIN) ? "color:red;" : "");             // Change < 0.01DOGE
 
     // tool tips
     QString toolTip1 = tr("This label turns red, if the transaction size is greater than 1000 bytes.") + "<br /><br />";
@@ -605,11 +605,11 @@ void CoinControlDialog::updateLabels(WalletModel *model, QDialog* dialog)
     toolTip2 += tr("This label turns red, if the priority is smaller than \"medium\".") + "<br /><br />";
     toolTip2 += tr("This means a fee of at least %1 per kB is required.").arg(BitcoinUnits::formatWithUnit(nDisplayUnit, CTransaction::nMinTxFee));
 
-    QString toolTip3 = tr("This label turns red, if any recipient receives an amount smaller than %1.").arg(BitcoinUnits::formatWithUnit(nDisplayUnit, CENT)) + "<br /><br />";
+    QString toolTip3 = tr("This label turns red, if any recipient receives an amount smaller than %1.").arg(BitcoinUnits::formatWithUnit(nDisplayUnit, COIN)) + "<br /><br />";
     toolTip3 += tr("This means a fee of at least %1 is required.").arg(BitcoinUnits::formatWithUnit(nDisplayUnit, CTransaction::nMinTxFee)) + "<br /><br />";
     toolTip3 += tr("Amounts below 0.546 times the minimum relay fee are shown as dust.");
 
-    QString toolTip4 = tr("This label turns red, if the change is smaller than %1.").arg(BitcoinUnits::formatWithUnit(nDisplayUnit, CENT)) + "<br /><br />";
+    QString toolTip4 = tr("This label turns red, if the change is smaller than %1.").arg(BitcoinUnits::formatWithUnit(nDisplayUnit, COIN)) + "<br /><br />";
     toolTip4 += tr("This means a fee of at least %1 is required.").arg(BitcoinUnits::formatWithUnit(nDisplayUnit, CTransaction::nMinTxFee));
 
     l5->setToolTip(toolTip1);
