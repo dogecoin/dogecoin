@@ -13,14 +13,15 @@ QT_TRANSLATE_NOOP("bitcoin-core", ""
 "%s, you must set a rpcpassword in the configuration file:\n"
 "%s\n"
 "It is recommended you use the following random password:\n"
-"rpcuser=bitcoinrpc\n"
+"rpcuser=dogecoinrpc\n"
 "rpcpassword=%s\n"
 "(you do not need to remember this password)\n"
 "The username and password MUST NOT be the same.\n"
 "If the file does not exist, create it with owner-readable-only file "
 "permissions.\n"
 "It is also recommended to set alertnotify so you are notified of problems;\n"
-"for example: alertnotify=echo %%s | mail -s \"Dogecoin Alert\" admin@foo.com\n"),
+"for example: alertnotify=echo %%s | mail -s \"Dogecoin Alert\" admin@foo."
+"com\n"),
 QT_TRANSLATE_NOOP("bitcoin-core", ""
 "Acceptable ciphers (default: TLSv1.2+HIGH:TLSv1+HIGH:!SSLv2:!aNULL:!eNULL:!"
 "3DES:@STRENGTH)"),
@@ -33,7 +34,7 @@ QT_TRANSLATE_NOOP("bitcoin-core", ""
 "Bind to given address and always listen on it. Use [host]:port notation for "
 "IPv6"),
 QT_TRANSLATE_NOOP("bitcoin-core", ""
-"Cannot obtain a lock on data directory %s. Dogecoin Core is probably already "
+"Cannot obtain a lock on data directory %s. Dogecoin is probably already "
 "running."),
 QT_TRANSLATE_NOOP("bitcoin-core", ""
 "Enter regression test mode, which uses a special chain in which blocks can "
@@ -42,6 +43,8 @@ QT_TRANSLATE_NOOP("bitcoin-core", ""
 QT_TRANSLATE_NOOP("bitcoin-core", ""
 "Enter regression test mode, which uses a special chain in which blocks can "
 "be solved instantly."),
+QT_TRANSLATE_NOOP("bitcoin-core", ""
+"Error: Listening for incoming connections failed (listen returned error %d)"),
 QT_TRANSLATE_NOOP("bitcoin-core", ""
 "Error: The transaction was rejected! This might happen if some of the coins "
 "in your wallet were already spent, such as if you used a copy of wallet.dat "
@@ -59,7 +62,7 @@ QT_TRANSLATE_NOOP("bitcoin-core", ""
 "Execute command when the best block changes (%s in cmd is replaced by block "
 "hash)"),
 QT_TRANSLATE_NOOP("bitcoin-core", ""
-"Listen for JSON-RPC connections on <port> (default: 8332 or testnet: 18332)"),
+"Listen for JSON-RPC connections on <port> (default: 22555 or testnet: 44555)"),
 QT_TRANSLATE_NOOP("bitcoin-core", ""
 "Number of seconds to keep misbehaving peers from reconnecting (default: "
 "86400)"),
@@ -74,7 +77,8 @@ QT_TRANSLATE_NOOP("bitcoin-core", ""
 "This is a pre-release test build - use at your own risk - do not use for "
 "mining or merchant applications"),
 QT_TRANSLATE_NOOP("bitcoin-core", ""
-"Unable to bind to %s on this computer. Dogecoin Core is probably already running."),
+"Unable to bind to %s on this computer. Dogecoin Core Daemon is probably "
+"already running."),
 QT_TRANSLATE_NOOP("bitcoin-core", ""
 "Use separate SOCKS5 proxy to reach peers via Tor hidden services (default: -"
 "proxy)"),
@@ -82,14 +86,14 @@ QT_TRANSLATE_NOOP("bitcoin-core", ""
 "Warning: -paytxfee is set very high! This is the transaction fee you will "
 "pay if you send a transaction."),
 QT_TRANSLATE_NOOP("bitcoin-core", ""
+"Warning: Displayed transactions may not be correct! You may need to upgrade, "
+"or other nodes may need to upgrade."),
+QT_TRANSLATE_NOOP("bitcoin-core", ""
 "Warning: Please check that your computer's date and time are correct! If "
-"your clock is wrong Dogecoin Core will not work properly."),
+"your clock is wrong Dogecoin will not work properly."),
 QT_TRANSLATE_NOOP("bitcoin-core", ""
 "Warning: The network does not appear to fully agree! Some miners appear to "
 "be experiencing issues."),
-QT_TRANSLATE_NOOP("bitcoin-core", ""
-"Warning: We do not appear to fully agree with our peers! You may need to "
-"upgrade, or other nodes may need to upgrade."),
 QT_TRANSLATE_NOOP("bitcoin-core", ""
 "Warning: error reading wallet.dat! All keys read correctly, but transaction "
 "data or address book entries might be missing or incorrect."),
@@ -108,9 +112,8 @@ QT_TRANSLATE_NOOP("bitcoin-core", "Accept connections from outside (default: 1 i
 QT_TRANSLATE_NOOP("bitcoin-core", "Add a node to connect to and attempt to keep the connection open"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Allow DNS lookups for -addnode, -seednode and -connect"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Allow JSON-RPC connections from specified IP address"),
+QT_TRANSLATE_NOOP("bitcoin-core", "Allow peers to set bloom filters (default: 1)"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Attempt to recover private keys from a corrupt wallet.dat"),
-QT_TRANSLATE_NOOP("bitcoin-core", "Dogecoin Core Daemon"),
-QT_TRANSLATE_NOOP("bitcoin-core", "Dogecoin RPC client version"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Block creation options:"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Cannot downgrade wallet"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Cannot resolve -bind address: '%s'"),
@@ -119,19 +122,21 @@ QT_TRANSLATE_NOOP("bitcoin-core", "Cannot write default address"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Clear list of wallet transactions (diagnostic tool; implies -rescan)"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Connect only to the specified node(s)"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Connect through SOCKS proxy"),
-QT_TRANSLATE_NOOP("bitcoin-core", "Connect to JSON-RPC on <port> (default: 8332 or testnet: 18332)"),
+QT_TRANSLATE_NOOP("bitcoin-core", "Connect to JSON-RPC on <port> (default: 22555 or testnet: 44555)"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Connect to a node to retrieve peer addresses, and disconnect"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Corrupted block database detected"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Discover own IP address (default: 1 when listening and no -externalip)"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Do not load the wallet and disable wallet RPC calls"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Do you want to rebuild the block database now?"),
+QT_TRANSLATE_NOOP("bitcoin-core", "Dogecoin Core Daemon"),
+QT_TRANSLATE_NOOP("bitcoin-core", "Dogecoin RPC client version"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Done loading"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Error initializing block database"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Error initializing wallet database environment %s!"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Error loading block database"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Error loading wallet.dat"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Error loading wallet.dat: Wallet corrupted"),
-QT_TRANSLATE_NOOP("bitcoin-core", "Error loading wallet.dat: Wallet requires newer version of Dogecoin Core"),
+QT_TRANSLATE_NOOP("bitcoin-core", "Error loading wallet.dat: Wallet requires newer version of Dogecoin"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Error opening block database"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Error"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Error: Disk space is low!"),
@@ -166,7 +171,7 @@ QT_TRANSLATE_NOOP("bitcoin-core", "Invalid amount for -mintxfee=<amount>: '%s'")
 QT_TRANSLATE_NOOP("bitcoin-core", "Invalid amount for -paytxfee=<amount>: '%s'"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Invalid amount"),
 QT_TRANSLATE_NOOP("bitcoin-core", "List commands"),
-QT_TRANSLATE_NOOP("bitcoin-core", "Listen for connections on <port> (default: 8333 or testnet: 18333)"),
+QT_TRANSLATE_NOOP("bitcoin-core", "Listen for connections on <port> (default: 22556 or testnet: 44556)"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Loading addresses..."),
 QT_TRANSLATE_NOOP("bitcoin-core", "Loading block index..."),
 QT_TRANSLATE_NOOP("bitcoin-core", "Loading wallet..."),
@@ -192,17 +197,17 @@ QT_TRANSLATE_NOOP("bitcoin-core", "Send commands to node running on <ip> (defaul
 QT_TRANSLATE_NOOP("bitcoin-core", "Send trace/debug info to console instead of debug.log file"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Server certificate file (default: server.cert)"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Server private key (default: server.pem)"),
-QT_TRANSLATE_NOOP("bitcoin-core", "Set database cache size in megabytes (default: 25)"),
+QT_TRANSLATE_NOOP("bitcoin-core", "Set database cache size in megabytes (%d to %d, default: %d)"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Set key pool size to <n> (default: 100)"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Set maximum block size in bytes (default: %d)"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Set minimum block size in bytes (default: 0)"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Set the number of threads to service RPC calls (default: 4)"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Shrink debug.log file on client startup (default: 1 when no -debug)"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Signing transaction failed"),
-QT_TRANSLATE_NOOP("bitcoin-core", "Specify configuration file (default: bitcoin.conf)"),
+QT_TRANSLATE_NOOP("bitcoin-core", "Specify configuration file (default: dogecoin.conf)"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Specify connection timeout in milliseconds (default: 5000)"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Specify data directory"),
-QT_TRANSLATE_NOOP("bitcoin-core", "Specify pid file (default: bitcoind.pid)"),
+QT_TRANSLATE_NOOP("bitcoin-core", "Specify pid file (default: dogecoind.pid)"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Specify wallet file (within data directory)"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Specify your own public address"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Spend unconfirmed change when sending transactions (default: 1)"),
@@ -219,7 +224,7 @@ QT_TRANSLATE_NOOP("bitcoin-core", "Unable to bind to %s on this computer (bind r
 QT_TRANSLATE_NOOP("bitcoin-core", "Unknown -socks proxy version requested: %i"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Unknown network specified in -onlynet: '%s'"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Upgrade wallet to latest format"),
-QT_TRANSLATE_NOOP("bitcoin-core", "Usage (deprecated, use bitcoin-cli):"),
+QT_TRANSLATE_NOOP("bitcoin-core", "Usage (deprecated, use dogecoin-cli):"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Usage:"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Use OpenSSL (https) for JSON-RPC connections"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Use UPnP to map the listening port (default: 0)"),
