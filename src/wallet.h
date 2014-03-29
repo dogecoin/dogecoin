@@ -28,6 +28,9 @@
 extern int64_t nTransactionFee;
 extern bool bSpendZeroConfChange;
 
+// -paytxfee will warn if called with a higher fee than this amount (in satoshis) per KB
+static const int nHighTransactionFeeWarning = 25 * COIN;
+
 class CAccountingEntry;
 class CCoinControl;
 class COutput;
