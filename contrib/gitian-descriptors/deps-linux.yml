@@ -1,5 +1,5 @@
 ---
-name: "bitcoin"
+name: "dogecoin"
 suites:
 - "precise"
 architectures:
@@ -20,7 +20,7 @@ files:
 - "miniupnpc-1.8.tar.gz"
 - "qrencode-3.4.3.tar.bz2"
 - "protobuf-2.5.0.tar.bz2"
-- "db-4.8.30.NC.tar.gz"
+- "db-5.1.29.NC.tar.gz"
 script: |
   STAGING="$HOME/install"
   TEMPDIR="$HOME/tmp"
@@ -34,7 +34,7 @@ script: |
   echo "bc5f73c7b0056252c1888a80e6075787a1e1e9112b808f863a245483ff79859c  miniupnpc-1.8.tar.gz"   | sha256sum -c
   echo "dfd71487513c871bad485806bfd1fdb304dedc84d2b01a8fb8e0940b50597a98  qrencode-3.4.3.tar.bz2" | sha256sum -c
   echo "13bfc5ae543cf3aa180ac2485c0bc89495e3ae711fc6fab4f8ffe90dfb4bb677  protobuf-2.5.0.tar.bz2" | sha256sum -c
-  echo "12edc0df75bf9abd7f82f821795bcee50f42cb2e5f76a6a281b85732798364ef  db-4.8.30.NC.tar.gz"    | sha256sum -c
+  echo "08238e59736d1aacdd47cfb8e68684c695516c37f4fbe1b8267dde58dc3a576c  db-5.1.29.NC.tar.gz"    | sha256sum -c
 
   #
   tar xzf openssl-1.0.1e.tar.gz
@@ -76,8 +76,8 @@ script: |
   make $MAKEOPTS install
   cd ..
   #
-  tar xzf db-4.8.30.NC.tar.gz
-  cd db-4.8.30.NC/build_unix
+  tar xzf db-5.1.29.NC.tar.gz
+  cd db-5.1.29.NC/build_unix
   #   need --with-pic to avoid relocation error in 64 bit builds
   ../dist/configure --prefix=$STAGING --enable-cxx --disable-shared --with-pic
   # Workaround to prevent re-configuring by make; make all files have a date in the past
@@ -95,4 +95,4 @@ script: |
   done
   #
   cd $STAGING
-  find include lib bin host | sort | zip -X@ $OUTDIR/bitcoin-deps-linux${GBUILD_BITS}-gitian-r3.zip
+  find include lib bin host | sort | zip -X@ $OUTDIR/dogecoin-deps-linux${GBUILD_BITS}-gitian-r3.zip
