@@ -90,9 +90,9 @@ QString TransactionDesc::toHTML(CWallet *wallet, CWalletTx &wtx, int vout, int u
             {
                 if (wallet->IsMine(txout))
                 {
-                    CTxDestination address;
-                    if (ExtractDestination(txout.scriptPubKey, address) && IsMine(*wallet, address))
+                    if (CBitcoinAddress(rec->address).IsValid())
                     {
+                        CTxDestination address = CBitcoinAddress(rec->address).Get();
                         if (wallet->mapAddressBook.count(address))
                         {
                             strHTML += "<b>" + tr("From") + ":</b> " + tr("unknown") + "<br>";
@@ -102,6 +102,14 @@ QString TransactionDesc::toHTML(CWallet *wallet, CWalletTx &wtx, int vout, int u
                                 strHTML += " (" + tr("own address") + ", " + tr("label") + ": " + GUIUtil::HtmlEscape(wallet->mapAddressBook[address].name) + ")";
                             else
                                 strHTML += " (" + tr("own address") + ")";
+=======
+                            strHTML += GUIUtil::HtmlEscape(rec->address);
+                            std::string addressOwned = wallet->IsMine(txout) == MINE_SPENDABLE ? "own address" : "watch-only";
+                            if (!wallet->mapAddressBook[address].name.empty())
+                                strHTML += " (" + tr(addressOwned.c_str()) + ", " + tr("label") + ": " + GUIUtil::HtmlEscape(wallet->mapAddressBook[address].name) + ")";
+                            else
+                                strHTML += " (" + tr(addressOwned.c_str()) + ")";
+>>>>>>> ffd40da... Watchonly balances are shown separately in gui.
                             strHTML += "<br>";
                         }
                     }
@@ -152,22 +160,33 @@ QString TransactionDesc::toHTML(CWallet *wallet, CWalletTx &wtx, int vout, int u
     }
     else
     {
-        bool fAllFromMe = true;
+        isminetype fAllFromMe = MINE_SPENDABLE;
         BOOST_FOREACH(const CTxIn& txin, wtx.vin)
-            fAllFromMe = fAllFromMe && wallet->IsMine(txin);
+        {
+            isminetype mine = wallet->IsMine(txin);
+            if(fAllFromMe > mine) fAllFromMe = mine;
+        }
 
-        bool fAllToMe = true;
+        isminetype fAllToMe = MINE_SPENDABLE;
         BOOST_FOREACH(const CTxOut& txout, wtx.vout)
-            fAllToMe = fAllToMe && wallet->IsMine(txout);
+        {
+            isminetype mine = wallet->IsMine(txout);
+            if(fAllToMe > mine) fAllToMe = mine;
+        }
 
         if (fAllFromMe)
         {
+            if(fAllFromMe == MINE_WATCH_ONLY)
+                strHTML += "<b>" + tr("From") + ":</b> " + tr("watch-only") + "<br>";
+
             //
             // Debit
             //
             BOOST_FOREACH(const CTxOut& txout, wtx.vout)
             {
-                if (wallet->IsMine(txout))
+                // Ignore change
+                isminetype toSelf = wallet->IsMine(txout);
+                if ((toSelf == MINE_SPENDABLE) && (fAllFromMe == MINE_SPENDABLE))
                     continue;
 
                 if (!wtx.mapValue.count("to") || wtx.mapValue["to"].empty())
@@ -180,11 +199,17 @@ QString TransactionDesc::toHTML(CWallet *wallet, CWalletTx &wtx, int vout, int u
                         if (wallet->mapAddressBook.count(address) && !wallet->mapAddressBook[address].name.empty())
                             strHTML += GUIUtil::HtmlEscape(wallet->mapAddressBook[address].name) + " ";
                         strHTML += GUIUtil::HtmlEscape(CBitcoinAddress(address).ToString());
+                        if(toSelf == MINE_SPENDABLE)
+                            strHTML += " (own address)";
+                        else if(toSelf == MINE_WATCH_ONLY)
+                            strHTML += " (watch-only)";
                         strHTML += "<br>";
                     }
                 }
 
                 strHTML += "<b>" + tr("Debit") + ":</b> " + BitcoinUnits::formatWithUnit(unit, -txout.nValue) + "<br>";
+                if(toSelf)
+                    strHTML += "<b>" + tr("Credit") + ":</b> " + BitcoinUnits::formatWithUnit(unit, txout.nValue) + "<br>";
             }
 
             if (fAllToMe)
@@ -192,8 +217,8 @@ QString TransactionDesc::toHTML(CWallet *wallet, CWalletTx &wtx, int vout, int u
                 // Payment to self
                 int64_t nChange = wtx.GetChange();
                 int64_t nValue = nCredit - nChange;
-                strHTML += "<b>" + tr("Debit") + ":</b> " + BitcoinUnits::formatWithUnit(unit, -nValue) + "<br>";
-                strHTML += "<b>" + tr("Credit") + ":</b> " + BitcoinUnits::formatWithUnit(unit, nValue) + "<br>";
+                strHTML += "<b>" + tr("Total debit") + ":</b> " + BitcoinUnits::formatWithUnit(unit, -nValue) + "<br>";
+                strHTML += "<b>" + tr("Total credit") + ":</b> " + BitcoinUnits::formatWithUnit(unit, nValue) + "<br>";
             }
 
             int64_t nTxFee = nDebit - wtx.GetValueOut();
@@ -295,7 +320,8 @@ QString TransactionDesc::toHTML(CWallet *wallet, CWalletTx &wtx, int vout, int u
                         strHTML += QString::fromStdString(CBitcoinAddress(address).ToString());
                     }
                     strHTML = strHTML + " " + tr("Amount") + "=" + BitcoinUnits::formatWithUnit(unit, vout.nValue);
-                    strHTML = strHTML + " IsMine=" + (wallet->IsMine(vout) ? tr("true") : tr("false")) + "</li>";
+                    strHTML = strHTML + " IsMine=" + (wallet->IsMine(vout) & MINE_SPENDABLE ? tr("true") : tr("false")) + "</li>";
+                    strHTML = strHTML + " IsWatchOnly=" + (wallet->IsMine(vout) & MINE_WATCH_ONLY ? tr("true") : tr("false")) + "</li>";
                 }
             }
         }
