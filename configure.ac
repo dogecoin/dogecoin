@@ -233,7 +233,7 @@ case $host in
        if test x$BREW = xbrew; then
          dnl add default homebrew paths
          openssl_prefix=`$BREW --prefix openssl`
-         bdb_prefix=`$BREW --prefix berkeley-db4`
+         bdb_prefix=`$BREW --prefix berkeley-db5`
          export PKG_CONFIG_PATH="$openssl_prefix/lib/pkgconfig:$PKG_CONFIG_PATH"
          CPPFLAGS="$CPPFLAGS -I$bdb_prefix/include"
          LIBS="$LIBS -L$bdb_prefix/lib"
@@ -359,7 +359,7 @@ AC_SUBST(LIBMEMENV)
 
 if test x$enable_wallet != xno; then
     dnl Check for libdb_cxx only if wallet enabled
-    BITCOIN_FIND_BDB48
+    BITCOIN_FIND_BDB51
 fi
 
 dnl Check for libminiupnpc (optional)
