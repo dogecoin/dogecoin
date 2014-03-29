@@ -15,8 +15,8 @@ reference_datetime: "2011-01-30 00:00:00"
 remotes: []
 files:
 - "qt-everywhere-opensource-src-5.2.0.tar.gz"
-- "bitcoin-deps-win32-gitian-r10.zip"
-- "bitcoin-deps-win64-gitian-r10.zip"
+- "dogecoin-deps-win32-gitian-r10.zip"
+- "dogecoin-deps-win64-gitian-r10.zip"
 script: |
   # Defines
   export TZ=UTC
@@ -46,9 +46,9 @@ script: |
     #
     mkdir -p $INSTALLPREFIX $INSTALLPREFIX/host/bin $DEPSDIR $BUILDDIR
     #
-    # Need mingw-compiled openssl from bitcoin-deps:
+    # Need mingw-compiled openssl from dogecoin-deps:
     cd $DEPSDIR
-    unzip $INDIR/bitcoin-deps-win${BITS}-gitian-r10.zip
+    unzip $INDIR/dogecoin-deps-win${BITS}-gitian-r10.zip
     #
     cd $BUILDDIR
     #
