@@ -1875,8 +1875,8 @@ Value settxfee(const Array& params, bool fHelp)
             "\nResult\n"
             "true|false        (boolean) Returns true if successful\n"
             "\nExamples:\n"
-            + HelpExampleCli("settxfee", "0.00001")
-            + HelpExampleRpc("settxfee", "0.00001")
+            + HelpExampleCli("settxfee", "5")
+            + HelpExampleRpc("settxfee", "5")
         );
 
     // Amount
