@@ -71,6 +71,7 @@ public:
         vSeeds.push_back(CDNSSeedData("dogecoin.com", "seed.dogecoin.com"));
         vSeeds.push_back(CDNSSeedData("mophides.com", "seed.mophides.com"));
         vSeeds.push_back(CDNSSeedData("dglibrary.org", "seed.dglibrary.org"));
+	vSeeds.push_back(CDNSSeedData("dogechain.info", "seed.dogechain.info"));
 
         base58Prefixes[PUBKEY_ADDRESS] = list_of(30);
         base58Prefixes[SCRIPT_ADDRESS] = list_of(22);
