@@ -4,12 +4,12 @@
     <message>
         <location filename="../forms/aboutdialog.ui" line="+14"/>
         <source>About Dogecoin Core</source>
-        <translation type="unfinished"/>
+        <translation>A Dogecoinról</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>&lt;b&gt;Dogecoin Core&lt;/b&gt; version</source>
-        <translation type="unfinished"/>
+        <translation>&lt;b&gt;Dogecoin&lt;/b&gt; verzió</translation>
     </message>
     <message>
         <location line="+57"/>
@@ -141,7 +141,7 @@ Ez a termék az OpenSSL Project által lett kifejlesztve az OpenSSL Toolkit (htt
     <message>
         <location line="+194"/>
         <source>Export Address List</source>
-        <translation type="unfinished"/>
+        <translation>Címjegyzék Adatainak Exportálása</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -151,12 +151,12 @@ Ez a termék az OpenSSL Project által lett kifejlesztve az OpenSSL Toolkit (htt
     <message>
         <location line="+13"/>
         <source>Exporting Failed</source>
-        <translation type="unfinished"/>
+        <translation>Hiba exportálás közben</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>There was an error trying to save the address list to %1.</source>
-        <translation type="unfinished"/>
+        <translation>%1 nevű fájl nem írható.</translation>
     </message>
 </context>
 <context>
