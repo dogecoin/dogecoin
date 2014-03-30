@@ -251,7 +251,7 @@ Eric Young (eay@cryptsoft.com) y UPnP software escrito por Thomas Bernard.</tran
     <message>
         <location line="+1"/>
         <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DOGECOINS&lt;/b&gt;!</source>
-        <translation>Atención: ¡Si codificas tu billetera y pierdes la contraseña perderás &lt;b&gt;TODOS TUS BITCOINS&lt;/b&gt;!</translation>
+        <translation>Atención: ¡Si codificas tu billetera y pierdes la contraseña perderás &lt;b&gt;TODOS TUS DOGECOINS&lt;/b&gt;!</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -278,7 +278,7 @@ Eric Young (eay@cryptsoft.com) y UPnP software escrito por Thomas Bernard.</tran
     <message>
         <location line="-56"/>
         <source>Dogecoin Core will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your Dogecoins from being stolen by malware infecting your computer.</source>
-        <translation>Dogecoin se cerrará para finalizar el proceso de encriptación. Recuerde que encriptar su billetera no protegera completatamente sus bitcoins de ser robados por malware que infecte su computador</translation>
+        <translation>Dogecoin se cerrará para finalizar el proceso de encriptación. Recuerde que encriptar su billetera no protegera completatamente sus dogecoins de ser robados por malware que infecte su computador</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -433,12 +433,12 @@ Eric Young (eay@cryptsoft.com) y UPnP software escrito por Thomas Bernard.</tran
     <message>
         <location line="-405"/>
         <source>Send coins to a Dogecoin address</source>
-        <translation>Enviar monedas a una dirección bitcoin</translation>
+        <translation>Enviar monedas a una dirección dogecoin</translation>
     </message>
     <message>
         <location line="+49"/>
         <source>Modify configuration options for Dogecoin Core</source>
-        <translation>Modifica las opciones de configuración de bitcoin</translation>
+        <translation>Modifica las opciones de configuración de dogecoin</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -587,7 +587,7 @@ Eric Young (eay@cryptsoft.com) y UPnP software escrito por Thomas Bernard.</tran
     <message numerus="yes">
         <location line="+142"/>
         <source>%n active connection(s) to Dogecoin network</source>
-        <translation><numerusform>%n conexión activa hacia la red Dogecoin</numerusform><numerusform>%n conexiones activas hacia la red Bitcoin</numerusform></translation>
+        <translation><numerusform>%n conexión activa hacia la red Dogecoin</numerusform><numerusform>%n conexiones activas hacia la red Dogecoin</numerusform></translation>
     </message>
     <message>
         <location line="+22"/>
@@ -3249,8 +3249,8 @@ Dirección: %4</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>Specify pid file (default: dogecoin.pid)</source>
-        <translation>Especifica archivo pid (predeterminado: dogecoin.pid)
+        <source>Specify pid file (default: dogecoind.pid)</source>
+        <translation>Especifica archivo pid (predeterminado: dogecoind.pid)
 </translation>
     </message>
     <message>

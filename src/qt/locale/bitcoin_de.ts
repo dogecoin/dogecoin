@@ -122,7 +122,7 @@ Dieses Produkt enthält Software, die vom OpenSSL-Projekt zur Verwendung im Open
     <message>
         <location line="+7"/>
         <source>These are your Dogecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>Dies sind ihre Dogecoin-Adressen zum Tätigen von Überweisungen. Bitte prüfen Sie den Betrag und die Empfangsadresse, bevor Sie Bitcoins überweisen.</translation>
+        <translation>Dies sind ihre Dogecoin-Adressen zum Tätigen von Überweisungen. Bitte prüfen Sie den Betrag und die Empfangsadresse, bevor Sie Dogecoins überweisen.</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -275,7 +275,7 @@ Dieses Produkt enthält Software, die vom OpenSSL-Projekt zur Verwendung im Open
     <message>
         <location line="-56"/>
         <source>Dogecoin Core will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your Dogecoins from being stolen by malware infecting your computer.</source>
-        <translation>Dogecoin wird jetzt beendet, um den Verschlüsselungsprozess abzuschließen. Bitte beachten Sie, dass die Wallet-Verschlüsselung nicht vollständig vor Diebstahl ihrer Bitcoins durch Schadsoftware schützt, die ihren Computer befällt.</translation>
+        <translation>Dogecoin wird jetzt beendet, um den Verschlüsselungsprozess abzuschließen. Bitte beachten Sie, dass die Wallet-Verschlüsselung nicht vollständig vor Diebstahl ihrer Dogecoins durch Schadsoftware schützt, die ihren Computer befällt.</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -430,7 +430,7 @@ Dieses Produkt enthält Software, die vom OpenSSL-Projekt zur Verwendung im Open
     <message>
         <location line="-405"/>
         <source>Send coins to a Dogecoin address</source>
-        <translation>Dogecoins an eine Bitcoin-Adresse überweisen</translation>
+        <translation>Dogecoins an eine Dogecoin-Adresse überweisen</translation>
     </message>
     <message>
         <location line="+49"/>
@@ -563,7 +563,7 @@ Dieses Produkt enthält Software, die vom OpenSSL-Projekt zur Verwendung im Open
     <message>
         <location line="+3"/>
         <source>Open a dogecoin: URI or payment request</source>
-        <translation>Eine &quot;bitcoin:&quot;-URI oder Zahlungsanforderung öffnen</translation>
+        <translation>Eine &quot;dogecoin:&quot;-URI oder Zahlungsanforderung öffnen</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -584,7 +584,7 @@ Dieses Produkt enthält Software, die vom OpenSSL-Projekt zur Verwendung im Open
     <message numerus="yes">
         <location line="+142"/>
         <source>%n active connection(s) to Dogecoin network</source>
-        <translation><numerusform>%n aktive Verbindung zum Dogecoin-Netzwerk</numerusform><numerusform>%n aktive Verbindungen zum Bitcoin-Netzwerk</numerusform></translation>
+        <translation><numerusform>%n aktive Verbindung zum Dogecoin-Netzwerk</numerusform><numerusform>%n aktive Verbindungen zum Dogecoin-Netzwerk</numerusform></translation>
     </message>
     <message>
         <location line="+22"/>
@@ -1574,7 +1574,7 @@ Adresse: %4</translation>
     <message>
         <location line="-353"/>
         <source>Cannot start dogecoin: click-to-pay handler</source>
-        <translation>&quot;bitcoin: Klicken-zum-Bezahlen&quot;-Handler konnte nicht gestartet werden</translation>
+        <translation>&quot;dogecoin: Klicken-zum-Bezahlen&quot;-Handler konnte nicht gestartet werden</translation>
     </message>
     <message>
         <location line="+58"/>
@@ -2299,7 +2299,7 @@ Adresse: %4</translation>
     <message>
         <location line="+4"/>
         <source>The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
-        <translation>Die Transaktion wurde abgelehnt! Dies kann passieren, wenn einige Dogecoins aus ihrer Wallet bereits ausgegeben wurden. Beispielsweise weil Sie eine Kopie ihrer wallet.dat genutzt, die Bitcoins dort ausgegeben haben und dies daher in der derzeit aktiven Wallet nicht vermerkt ist.</translation>
+        <translation>Die Transaktion wurde abgelehnt! Dies kann passieren, wenn einige Dogecoins aus ihrer Wallet bereits ausgegeben wurden. Beispielsweise weil Sie eine Kopie ihrer wallet.dat genutzt, die Dogecoins dort ausgegeben haben und dies daher in der derzeit aktiven Wallet nicht vermerkt ist.</translation>
     </message>
     <message>
         <location line="+113"/>
@@ -2416,7 +2416,7 @@ Adresse: %4</translation>
     <message>
         <location line="+33"/>
         <source>A message that was attached to the dogecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
-        <translation>Eine an die &quot;bitcoin:&quot;-URI angefügte Nachricht, die zusammen mit der Transaktion gespeichert wird. Hinweis: Diese Nachricht wird nicht über das Dogecoin-Netzwerk gesendet.</translation>
+        <translation>Eine an die &quot;dogecoin:&quot;-URI angefügte Nachricht, die zusammen mit der Transaktion gespeichert wird. Hinweis: Diese Nachricht wird nicht über das Dogecoin-Netzwerk gesendet.</translation>
     </message>
     <message>
         <location line="+426"/>
@@ -3372,7 +3372,7 @@ zum Beispiel: alertnotify=echo %%s | mail -s \&quot;Dogecoin Alert\&quot; admin@
     <message>
         <location line="+3"/>
         <source>Error: The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
-        <translation>Fehler: Die Transaktion wurde abgelehnt! Dies kann passieren, wenn einige Dogecoins aus ihrer Wallet bereits ausgegeben wurden. Beispielsweise weil Sie eine Kopie ihrer wallet.dat genutzt, die Bitcoins dort ausgegeben haben und dies daher in der derzeit aktiven Wallet nicht vermerkt ist.</translation>
+        <translation>Fehler: Die Transaktion wurde abgelehnt! Dies kann passieren, wenn einige Dogecoins aus ihrer Wallet bereits ausgegeben wurden. Beispielsweise weil Sie eine Kopie ihrer wallet.dat genutzt, die Dogecoins dort ausgegeben haben und dies daher in der derzeit aktiven Wallet nicht vermerkt ist.</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -3777,7 +3777,7 @@ zum Beispiel: alertnotify=echo %%s | mail -s \&quot;Dogecoin Alert\&quot; admin@
     <message>
         <location line="+9"/>
         <source>SSL options: (see the Bitcoin Wiki for SSL setup instructions)</source>
-        <translation>SSL-Optionen: (siehe Dogecoin-Wiki für SSL-Installationsanweisungen)</translation>
+        <translation>SSL-Optionen: (siehe Bitcoin-Wiki für SSL-Installationsanweisungen)</translation>
     </message>
     <message>
         <location line="+4"/>

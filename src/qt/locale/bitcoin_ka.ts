@@ -542,7 +542,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+163"/>
         <source>Request payments (generates QR codes and dogecoin: URIs)</source>
-        <translation>გადახდის მოთხოვნა (შეიქმნება QR-კოდები და bitcoin: ბმულები)</translation>
+        <translation>გადახდის მოთხოვნა (შეიქმნება QR-კოდები და dogecoin: ბმულები)</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -1575,7 +1575,7 @@ Address: %4
     <message>
         <location line="-353"/>
         <source>Cannot start dogecoin: click-to-pay handler</source>
-        <translation>ვერ გაიშვა bitcoin: click-to-pay</translation>
+        <translation>ვერ გაიშვა dogecoin: click-to-pay</translation>
     </message>
     <message>
         <location line="+58"/>

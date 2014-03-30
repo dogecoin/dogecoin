@@ -579,7 +579,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message numerus="yes">
         <location line="+142"/>
         <source>%n active connection(s) to Dogecoin network</source>
-        <translation><numerusform>%n Activar conexión a la red de Dogecoin</numerusform><numerusform>%n Activar conexiones a la red de Bitcoin</numerusform></translation>
+        <translation><numerusform>%n Activar conexión a la red de Dogecoin</numerusform><numerusform>%n Activar conexiones a la red de Dogecoin</numerusform></translation>
     </message>
     <message>
         <location line="+22"/>
@@ -2375,7 +2375,7 @@ Address: %4
     <message>
         <location line="+10"/>
         <source>A message that was attached to the Dogecoin URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
-        <translation>Mensaje que se agrgará al URI de Dogecoin el cual sera almacenado con la transacción para su referencia. Nota: Este mensaje no será mandado a travéz de la red de Bitcoin.</translation>
+        <translation>Mensaje que se agrgará al URI de Dogecoin el cual sera almacenado con la transacción para su referencia. Nota: Este mensaje no será mandado a travéz de la red de Dogecoin.</translation>
     </message>
     <message>
         <location line="+958"/>

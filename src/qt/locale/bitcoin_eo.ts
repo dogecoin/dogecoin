@@ -542,7 +542,7 @@ Tiu ĉi produkto enhavas erojn kreitajn de la &quot;OpenSSL Project&quot; por uz
     <message>
         <location line="+163"/>
         <source>Request payments (generates QR codes and dogecoin: URIs)</source>
-        <translation>Peti pagon (kreas QR-kodojn kaj URI-ojn kun prefikso bitcoin:)</translation>
+        <translation>Peti pagon (kreas QR-kodojn kaj URI-ojn kun prefikso dogecoin:)</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -563,7 +563,7 @@ Tiu ĉi produkto enhavas erojn kreitajn de la &quot;OpenSSL Project&quot; por uz
     <message>
         <location line="+3"/>
         <source>Open a dogecoin: URI or payment request</source>
-        <translation>Malfermi bitcoin:-URI-on aŭ pagpeton</translation>
+        <translation>Malfermi dogecoin:-URI-on aŭ pagpeton</translation>
     </message>
     <message>
         <location line="+2"/>

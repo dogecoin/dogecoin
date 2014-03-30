@@ -103,7 +103,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location filename="../addressbookpage.cpp" line="-30"/>
         <source>Choose the address to send coins to</source>
-        <translation>Wybierz adres żeby wysłać bitcoins</translation>
+        <translation>Wybierz adres żeby wysłać dogecoins</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -133,7 +133,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+4"/>
         <source>These are your Dogecoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation>To twoje adresy bitcoin do odbierania płatności. Zaleca się używanie nowych adresów odbiorczych dla każdej tranzakcji.</translation>
+        <translation>To twoje adresy dogecoin do odbierania płatności. Zaleca się używanie nowych adresów odbiorczych dla każdej tranzakcji.</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -254,7 +254,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+1"/>
         <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DOGECOINS&lt;/b&gt;!</source>
-        <translation>Uwaga: Jeśli zaszyfrujesz swój portfel i zgubisz hasło to &lt;b&gt;STRACISZ WSZYSTKIE SWOJE BITCOIN&apos;Y&lt;/b&gt;!</translation>
+        <translation>Uwaga: Jeśli zaszyfrujesz swój portfel i zgubisz hasło to &lt;b&gt;STRACISZ WSZYSTKIE SWOJE DOGECOIN&apos;Y&lt;/b&gt;!</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -281,7 +281,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="-56"/>
         <source>Dogecoin Core will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your Dogecoins from being stolen by malware infecting your computer.</source>
-        <translation>Program Dogecoin zamknie się aby dokończyć proces szyfrowania. Pamiętaj, że szyfrowanie portfela nie zabezpiecza w pełni Twoich bitcoinów przed kradzieżą przez wirusy lub trojany mogące zainfekować Twój komputer.</translation>
+        <translation>Program Dogecoin zamknie się aby dokończyć proces szyfrowania. Pamiętaj, że szyfrowanie portfela nie zabezpiecza w pełni Twoich dogecoinów przed kradzieżą przez wirusy lub trojany mogące zainfekować Twój komputer.</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -441,7 +441,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+49"/>
         <source>Modify configuration options for Dogecoin Core</source>
-        <translation>Zmienia opcje konfiguracji bitcoina</translation>
+        <translation>Zmienia opcje konfiguracji dogecoin.</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -543,12 +543,12 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="-401"/>
         <source>Dogecoin Core</source>
-        <translation>Rdzeń BitCoin</translation>
+        <translation>Rdzeń Dogecoin</translation>
     </message>
     <message>
         <location line="+163"/>
         <source>Request payments (generates QR codes and dogecoin: URIs)</source>
-        <translation>Żądaj płatności (generuje kod QR oraz bitcoin URI)</translation>
+        <translation>Żądaj płatności (generuje kod QR oraz dogecoin URI)</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -1107,7 +1107,7 @@ Adres: %4
     <message>
         <location filename="../utilitydialog.cpp" line="+24"/>
         <source>Dogecoin Core</source>
-        <translation>Rdzeń BitCoin</translation>
+        <translation>Rdzeń Dogecoin</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -1501,7 +1501,7 @@ Adres: %4
         <location line="+50"/>
         <location line="+231"/>
         <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Dogecoin network after a connection is established, but this process has not completed yet.</source>
-        <translation>Wyświetlana informacja może być nieaktualna. Twój portfel synchronizuje się automatycznie z siecią bitcoin, zaraz po tym jak uzyskano połączenie, ale proces ten nie został jeszcze ukończony.</translation>
+        <translation>Wyświetlana informacja może być nieaktualna. Twój portfel synchronizuje się automatycznie z siecią dogecoin, zaraz po tym jak uzyskano połączenie, ale proces ten nie został jeszcze ukończony.</translation>
     </message>
     <message>
         <location line="-238"/>
@@ -1591,7 +1591,7 @@ Adres: %4
     <message>
         <location line="-353"/>
         <source>Cannot start dogecoin: click-to-pay handler</source>
-        <translation>Nie można rozpocząć bitcoin: kliknij-by-zapłacić opiekunowi</translation>
+        <translation>Nie można rozpocząć dogecoin: kliknij-by-zapłacić opiekunowi</translation>
     </message>
     <message>
         <location line="+58"/>
@@ -2658,7 +2658,7 @@ Adres: %4
     <message>
         <location filename="../splashscreen.cpp" line="+28"/>
         <source>Dogecoin Core</source>
-        <translation>Rdzeń BitCoin</translation>
+        <translation>Rdzeń Dogecoin</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3272,8 +3272,8 @@ Adres: %4
     </message>
     <message>
         <location line="+3"/>
-        <source>Specify pid file (default: dogecoin.pid)</source>
-        <translation>Wskaż plik pid (domyślnie: dogecoin.pid)</translation>
+        <source>Specify pid file (default: dogecoind.pid)</source>
+        <translation>Wskaż plik pid (domyślnie: dogecoind.pid)</translation>
     </message>
     <message>
         <location line="-1"/>
@@ -3402,7 +3402,7 @@ na przykład: alertnotify=echo %%s | mail -s &quot;Alarm Dogecoin&quot; admin@fo
     <message>
         <location line="+3"/>
         <source>Error: The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
-        <translation>Błąd: transakcja została odrzucona. Może się to zdarzyć, gdy monety z Twojego portfela zostały już wydane, na przykład gdy używałeś kopii wallet.dat i bitcoiny które tam wydałeś nie zostały jeszcze odjęte z portfela z którego teraz korzystasz.</translation>
+        <translation>Błąd: transakcja została odrzucona. Może się to zdarzyć, gdy monety z Twojego portfela zostały już wydane, na przykład gdy używałeś kopii wallet.dat i dogecoiny które tam wydałeś nie zostały jeszcze odjęte z portfela z którego teraz korzystasz.</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -3472,7 +3472,7 @@ na przykład: alertnotify=echo %%s | mail -s &quot;Alarm Dogecoin&quot; admin@fo
     <message>
         <location line="+1"/>
         <source>Dogecoin Core RPC client version</source>
-        <translation>wersja klienta RPC bitcoin</translation>
+        <translation>wersja klienta RPC dogecoin</translation>
     </message>
     <message>
         <location line="+1"/>

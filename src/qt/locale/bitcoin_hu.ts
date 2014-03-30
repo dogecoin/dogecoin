@@ -247,7 +247,7 @@ Ez a termék az OpenSSL Project által lett kifejlesztve az OpenSSL Toolkit (htt
     <message>
         <location line="+1"/>
         <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DOGECOINS&lt;/b&gt;!</source>
-        <translation>Figyelem: Ha kódolod a tárcát, és elveszíted a jelszavad, akkor &lt;b&gt;AZ ÖSSZES BITCOINODAT IS EL FOGOD VESZÍTENI!&lt;/b&gt;</translation>
+        <translation>Figyelem: Ha kódolod a tárcát, és elveszíted a jelszavad, akkor &lt;b&gt;AZ ÖSSZES DOGECOINODAT IS EL FOGOD VESZÍTENI!&lt;/b&gt;</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -583,7 +583,7 @@ Ez a termék az OpenSSL Project által lett kifejlesztve az OpenSSL Toolkit (htt
     <message numerus="yes">
         <location line="+142"/>
         <source>%n active connection(s) to Dogecoin network</source>
-        <translation><numerusform>%n aktív kapcsolat a Dogecoin-hálózattal</numerusform><numerusform>%n aktív kapcsolat a Bitcoin-hálózattal</numerusform></translation>
+        <translation><numerusform>%n aktív kapcsolat a Dogecoin-hálózattal</numerusform><numerusform>%n aktív kapcsolat a Dogecoin-hálózattal</numerusform></translation>
     </message>
     <message>
         <location line="+22"/>
@@ -1575,7 +1575,7 @@ Cím: %4
     <message>
         <location line="-353"/>
         <source>Cannot start dogecoin: click-to-pay handler</source>
-        <translation>A bitcoint nem lehet elindítani: click-to-pay handler</translation>
+        <translation>A dogecoint nem lehet elindítani: click-to-pay handler</translation>
     </message>
     <message>
         <location line="+58"/>
@@ -2257,7 +2257,7 @@ Cím: %4
     <message>
         <location line="+3"/>
         <source>The amount exceeds your balance.</source>
-        <translation>Nincs ennyi bitcoin az egyenlegeden.</translation>
+        <translation>Nincs ennyi dogecoin az egyenlegeden.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3986,7 +3986,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <location line="-6"/>
         <source>Insufficient funds</source>
-        <translation>Nincs elég bitcoinod.</translation>
+        <translation>Nincs elég dogecoinod.</translation>
     </message>
     <message>
         <location line="+10"/>

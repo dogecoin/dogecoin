@@ -3225,8 +3225,8 @@ Wohin: %4
     </message>
     <message>
         <location line="+3"/>
-        <source>Specify pid file (default: dogecoin.pid)</source>
-        <translation>Datei, wo de Prozessnumma gspeichat wiad (sunsta: dogecoin.pid)</translation>
+        <source>Specify pid file (default: dogecoind.pid)</source>
+        <translation>Datei, wo de Prozessnumma gspeichat wiad (sunsta: dogecoind.pid)</translation>
     </message>
     <message>
         <location line="-1"/>

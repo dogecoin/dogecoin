@@ -248,7 +248,7 @@ Dette produktet inneholder programvare utviklet av OpenSSL prosjektet for bruk i
     <message>
         <location line="+1"/>
         <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DOGECOINS&lt;/b&gt;!</source>
-        <translation>Advarsel: Hvis du krypterer lommeboken og mister adgangsfrasen, så vil du &lt;b&gt;MISTE ALLE DINE BITCOINS&lt;/b&gt;!</translation>
+        <translation>Advarsel: Hvis du krypterer lommeboken og mister adgangsfrasen, så vil du &lt;b&gt;MISTE ALLE DINE DOGECOINS&lt;/b&gt;!</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -275,7 +275,7 @@ Dette produktet inneholder programvare utviklet av OpenSSL prosjektet for bruk i
     <message>
         <location line="-56"/>
         <source>Dogecoin Core will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your Dogecoins from being stolen by malware infecting your computer.</source>
-        <translation>Dogecoin vil nå lukkes for å fullføre krypteringsprosessen. Husk at kryptering av lommeboken ikke fullt ut kan beskytte dine bitcoins fra å bli stjålet om skadevare infiserer datamaskinen.</translation>
+        <translation>Dogecoin vil nå lukkes for å fullføre krypteringsprosessen. Husk at kryptering av lommeboken ikke fullt ut kan beskytte dine dogecoins fra å bli stjålet om skadevare infiserer datamaskinen.</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -1406,7 +1406,7 @@ Adresse: %4
     <message>
         <location line="+13"/>
         <source>Choose the default subdivision unit to show in the interface and when sending coins.</source>
-        <translation>Velg standard delt enhet for visning i grensesnittet og for sending av bitcoins.</translation>
+        <translation>Velg standard delt enhet for visning i grensesnittet og for sending av dogecoins.</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -2180,7 +2180,7 @@ Adresse: %4
     <message>
         <location filename="../sendcoinsdialog.cpp" line="-228"/>
         <source>Confirm send coins</source>
-        <translation>Bekreft sending av bitcoins</translation>
+        <translation>Bekreft sending av dogecoins</translation>
     </message>
     <message>
         <location line="-74"/>
@@ -3551,7 +3551,7 @@ For eksempel: varselmelding=echo %%s | mail -s &quot;Dogecoin varsel&quot; admin
     <message>
         <location line="+1"/>
         <source>Failed to write to coin database</source>
-        <translation>Feil ved skriving av bitcoin database</translation>
+        <translation>Feil ved skriving av dogecoin database</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3576,7 +3576,7 @@ For eksempel: varselmelding=echo %%s | mail -s &quot;Dogecoin varsel&quot; admin
     <message>
         <location line="+1"/>
         <source>Generate coins (default: 0)</source>
-        <translation>Generér bitcoins (standardverdi: 0)</translation>
+        <translation>Generér dogecoins (standardverdi: 0)</translation>
     </message>
     <message>
         <location line="+2"/>

@@ -542,7 +542,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+163"/>
         <source>Request payments (generates QR codes and dogecoin: URIs)</source>
-        <translation>Запросить платежи (создаёт QR-коды и bitcoin: ссылки)</translation>
+        <translation>Запросить платежи (создаёт QR-коды и dogecoin: ссылки)</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -1575,7 +1575,7 @@ Address: %4
     <message>
         <location line="-353"/>
         <source>Cannot start dogecoin: click-to-pay handler</source>
-        <translation>Не удаётся запустить bitcoin: обработчик click-to-pay</translation>
+        <translation>Не удаётся запустить dogecoin: обработчик click-to-pay</translation>
     </message>
     <message>
         <location line="+58"/>
@@ -3231,8 +3231,8 @@ Address: %4
     </message>
     <message>
         <location line="+3"/>
-        <source>Specify pid file (default: dogecoin.pid)</source>
-        <translation>Задать pid-файл (по умолчанию: dogecoin.pid)</translation>
+        <source>Specify pid file (default: dogecoind.pid)</source>
+        <translation>Задать pid-файл (по умолчанию: dogecoind.pid)</translation>
     </message>
     <message>
         <location line="-1"/>

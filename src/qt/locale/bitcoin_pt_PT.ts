@@ -248,7 +248,7 @@ Este produto inclui software desenvolvido pelo Projecto OpenSSL para uso no Open
     <message>
         <location line="+1"/>
         <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DOGECOINS&lt;/b&gt;!</source>
-        <translation>Atenção: Se encriptar a carteira e perder a sua senha irá &lt;b&gt;PERDER TODOS OS SEUS BITCOINS&lt;/b&gt;!</translation>
+        <translation>Atenção: Se encriptar a carteira e perder a sua senha irá &lt;b&gt;PERDER TODOS OS SEUS DOGECOINS&lt;/b&gt;!</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -275,7 +275,7 @@ Este produto inclui software desenvolvido pelo Projecto OpenSSL para uso no Open
     <message>
         <location line="-56"/>
         <source>Dogecoin Core will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your Dogecoins from being stolen by malware infecting your computer.</source>
-        <translation>O cliente Dogecoin irá agora ser fechado para terminar o processo de encriptação. Recorde que a encriptação da sua carteira não protegerá totalmente os seus bitcoins de serem roubados por programas maliciosos que infectem o seu computador.</translation>
+        <translation>O cliente Dogecoin irá agora ser fechado para terminar o processo de encriptação. Recorde que a encriptação da sua carteira não protegerá totalmente os seus dogecoins de serem roubados por programas maliciosos que infectem o seu computador.</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -430,12 +430,12 @@ Este produto inclui software desenvolvido pelo Projecto OpenSSL para uso no Open
     <message>
         <location line="-405"/>
         <source>Send coins to a Dogecoin address</source>
-        <translation>Enviar moedas para um endereço bitcoin</translation>
+        <translation>Enviar moedas para um endereço dogecoin</translation>
     </message>
     <message>
         <location line="+49"/>
         <source>Modify configuration options for Dogecoin Core</source>
-        <translation>Modificar opções de configuração para bitcoin</translation>
+        <translation>Modificar opções de configuração para dogecoin</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -563,7 +563,7 @@ Este produto inclui software desenvolvido pelo Projecto OpenSSL para uso no Open
     <message>
         <location line="+3"/>
         <source>Open a dogecoin: URI or payment request</source>
-        <translation>Abrir bitcoin: link ou pedido de pagamento</translation>
+        <translation>Abrir dogecoin: link ou pedido de pagamento</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1050,7 +1050,7 @@ Endereço: %4
     <message>
         <location line="-5"/>
         <source>The entered address &quot;%1&quot; is not a valid Dogecoin address.</source>
-        <translation>O endereço introduzido &quot;%1&quot; não é um endereço bitcoin válido.</translation>
+        <translation>O endereço introduzido &quot;%1&quot; não é um endereço dogecoin válido.</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1326,7 +1326,7 @@ A sua &quot;carteira&quot; também irá ser guardada neste directório.</transla
     <message>
         <location line="+6"/>
         <source>Automatically open the Dogecoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Abrir a porta do cliente bitcoin automaticamente no seu router. Isto penas funciona se o seu router suportar UPnP e este se encontrar ligado.</translation>
+        <translation>Abrir a porta do cliente dogecoin automaticamente no seu router. Isto penas funciona se o seu router suportar UPnP e este se encontrar ligado.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1576,7 +1576,7 @@ A sua &quot;carteira&quot; também irá ser guardada neste directório.</transla
     <message>
         <location line="-353"/>
         <source>Cannot start dogecoin: click-to-pay handler</source>
-        <translation>Impossível começar o modo clicar-para-pagar com bitcoin:</translation>
+        <translation>Impossível começar o modo clicar-para-pagar com dogecoin:</translation>
     </message>
     <message>
         <location line="+58"/>
@@ -3397,7 +3397,7 @@ por exemplo: alertnotify=echo %%s | mail -s &quot;Alerta Dogecoin&quot; admin@fo
     <message>
         <location line="+3"/>
         <source>Warning: The network does not appear to fully agree! Some miners appear to be experiencing issues.</source>
-        <translation>Aviso: A rede não parece estar completamente funcional! Parece que alguns bitcoiner&apos;s estão com dificuldades técnicas.</translation>
+        <translation>Aviso: A rede não parece estar completamente funcional! Parece que alguns dogecoiner&apos;s estão com dificuldades técnicas.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3767,7 +3767,7 @@ por exemplo: alertnotify=echo %%s | mail -s &quot;Alerta Dogecoin&quot; admin@fo
     <message>
         <location line="+9"/>
         <source>SSL options: (see the Bitcoin Wiki for SSL setup instructions)</source>
-        <translation>Opções SSL: (ver a Wiki Dogecoin para instruções de configuração SSL)</translation>
+        <translation>Opções SSL: (ver a Wiki Bitcoin para instruções de configuração SSL)</translation>
     </message>
     <message>
         <location line="+4"/>

@@ -579,7 +579,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message numerus="yes">
         <location line="+142"/>
         <source>%n active connection(s) to Dogecoin network</source>
-        <translation><numerusform>Konexio aktibo %n Dogecoin-en sarera</numerusform><numerusform>%n konexio aktibo Bitcoin-en sarera</numerusform></translation>
+        <translation><numerusform>Konexio aktibo %n Dogecoin-en sarera</numerusform><numerusform>%n konexio aktibo Dogecoin-en sarera</numerusform></translation>
     </message>
     <message>
         <location line="+22"/>

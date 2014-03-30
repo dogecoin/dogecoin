@@ -3229,8 +3229,8 @@ Inscriptio: %4
     </message>
     <message>
         <location line="+3"/>
-        <source>Specify pid file (default: dogecoin.pid)</source>
-        <translation>Specifica pid plicam (praedefinitum: dogecoin.pid)</translation>
+        <source>Specify pid file (default: dogecoind.pid)</source>
+        <translation>Specifica pid plicam (praedefinitum: dogecoind.pid)</translation>
     </message>
     <message>
         <location line="-1"/>

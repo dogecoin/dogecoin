@@ -460,7 +460,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+430"/>
         <source>Dogecoin</source>
-        <translation>bitcoin</translation>
+        <translation>dogecoin</translation>
     </message>
     <message>
         <location line="-643"/>
@@ -574,7 +574,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <location line="+159"/>
         <location line="+5"/>
         <source>Dogecoin client</source>
-        <translation>مشتری bitcoin</translation>
+        <translation>مشتری dogecoin</translation>
     </message>
     <message numerus="yes">
         <location line="+142"/>
@@ -1044,7 +1044,7 @@ Address: %4
     <message>
         <location line="-5"/>
         <source>The entered address &quot;%1&quot; is not a valid Dogecoin address.</source>
-        <translation>آدرس وارد شده &quot;%1&quot; یک آدرس صحیح برای bitcoin نسشت</translation>
+        <translation>آدرس وارد شده &quot;%1&quot; یک آدرس صحیح برای dogecoin نسشت</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1173,7 +1173,7 @@ Address: %4
     <message>
         <location filename="../intro.cpp" line="+85"/>
         <source>Dogecoin</source>
-        <translation>bitcoin</translation>
+        <translation>dogecoin</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1479,7 +1479,7 @@ Address: %4
         <location line="+50"/>
         <location line="+231"/>
         <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Dogecoin network after a connection is established, but this process has not completed yet.</source>
-        <translation>اطلاعات نمایش داده شده ممکن است روزآمد نباشد. wallet شما به صورت خودکار بعد از برقراری اتصال با شبکه bitcoin به روز می شود اما این فرایند هنوز تکمیل نشده است.</translation>
+        <translation>اطلاعات نمایش داده شده ممکن است روزآمد نباشد. wallet شما به صورت خودکار بعد از برقراری اتصال با شبکه dogecoin به روز می شود اما این فرایند هنوز تکمیل نشده است.</translation>
     </message>
     <message>
         <location line="-155"/>
@@ -1638,7 +1638,7 @@ Address: %4
         <location filename="../bitcoin.cpp" line="+71"/>
         <location line="+11"/>
         <source>Dogecoin</source>
-        <translation>bitcoin</translation>
+        <translation>dogecoin</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1819,7 +1819,7 @@ Address: %4
     <message>
         <location filename="../rpcconsole.cpp" line="-30"/>
         <source>Welcome to the Dogecoin Core RPC console.</source>
-        <translation>به کنسول آر.پی.سی. BITCOIN خوش آمدید</translation>
+        <translation>به کنسول آر.پی.سی. DOGECOIN خوش آمدید</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2186,7 +2186,7 @@ Address: %4
     <message>
         <location line="-136"/>
         <source>Enter a Dogecoin address (e.g. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</source>
-        <translation>یک آدرس bitcoin وارد کنید (مثال 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
+        <translation>یک آدرس dogecoin وارد کنید (مثال 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -2410,7 +2410,7 @@ Address: %4
     <message>
         <location filename="../sendcoinsentry.cpp" line="+1"/>
         <source>Enter a Dogecoin address (e.g. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</source>
-        <translation>یک آدرس bitcoin وارد کنید (مثال 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
+        <translation>یک آدرس dogecoin وارد کنید (مثال 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
     </message>
 </context>
 <context>
@@ -2446,7 +2446,7 @@ Address: %4
     <message>
         <location line="+18"/>
         <source>The address to sign the message with (e.g. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</source>
-        <translation>یک آدرس bitcoin وارد کنید (مثال 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
+        <translation>یک آدرس dogecoin وارد کنید (مثال 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -2519,7 +2519,7 @@ Address: %4
     <message>
         <location line="+21"/>
         <source>The address the message was signed with (e.g. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</source>
-        <translation>یک آدرس bitcoin وارد کنید (مثال 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
+        <translation>یک آدرس dogecoin وارد کنید (مثال 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
     </message>
     <message>
         <location line="+40"/>
@@ -2540,7 +2540,7 @@ Address: %4
         <location filename="../signverifymessagedialog.cpp" line="+29"/>
         <location line="+3"/>
         <source>Enter a Dogecoin address (e.g. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</source>
-        <translation>یک آدرس bitcoin وارد کنید (مثال 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
+        <translation>یک آدرس dogecoin وارد کنید (مثال 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
     </message>
     <message>
         <location line="-2"/>

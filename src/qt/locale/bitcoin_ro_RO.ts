@@ -254,7 +254,7 @@ Acest produs include programe dezvoltate de către OpenSSL Project pentru a fi f
     <message>
         <location line="+1"/>
         <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DOGECOINS&lt;/b&gt;!</source>
-        <translation>Atenție: Dacă pierdeţi parola portofelului electronic dupa criptare, &lt;b&gt;VEŢI PIERDE ÎNTREAGA SUMĂ DE BITCOIN ACUMULATĂ&lt;/b&gt;!</translation>
+        <translation>Atenție: Dacă pierdeţi parola portofelului electronic dupa criptare, &lt;b&gt;VEŢI PIERDE ÎNTREAGA SUMĂ DE DOGECOIN ACUMULATĂ&lt;/b&gt;!</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -548,7 +548,7 @@ Acest produs include programe dezvoltate de către OpenSSL Project pentru a fi f
     <message>
         <location line="+163"/>
         <source>Request payments (generates QR codes and dogecoin: URIs)</source>
-        <translation>Cereti plati (genereaza coduri QR si bitcoin-uri: URls)</translation>
+        <translation>Cereti plati (genereaza coduri QR si dogecoin-uri: URls)</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -569,7 +569,7 @@ Acest produs include programe dezvoltate de către OpenSSL Project pentru a fi f
     <message>
         <location line="+3"/>
         <source>Open a dogecoin: URI or payment request</source>
-        <translation>Deschideti un bitcoin: o adresa URI sau o cerere de plata</translation>
+        <translation>Deschideti un dogecoin: o adresa URI sau o cerere de plata</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1056,7 +1056,7 @@ Adresa: %4
     <message>
         <location line="-5"/>
         <source>The entered address &quot;%1&quot; is not a valid Dogecoin address.</source>
-        <translation>Adresa introdusă &quot;%1&quot; nu este o adresă bitcoin validă.</translation>
+        <translation>Adresa introdusă &quot;%1&quot; nu este o adresă dogecoin validă.</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1421,7 +1421,7 @@ Adresa: %4
     <message>
         <location line="+13"/>
         <source>Choose the default subdivision unit to show in the interface and when sending coins.</source>
-        <translation>Alege subdiviziunea folosită la afişarea interfeţei şi la trimiterea de bitcoin.</translation>
+        <translation>Alege subdiviziunea folosită la afişarea interfeţei şi la trimiterea de dogecoin.</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -1487,7 +1487,7 @@ Adresa: %4
     <message>
         <location line="+34"/>
         <source>The supplied proxy address is invalid.</source>
-        <translation>Adresa bitcoin pe care a-ti specificat-o este invalida</translation>
+        <translation>Adresa dogecoin pe care a-ti specificat-o este invalida</translation>
     </message>
 </context>
 <context>
@@ -1591,7 +1591,7 @@ Adresa: %4
     <message>
         <location line="-353"/>
         <source>Cannot start dogecoin: click-to-pay handler</source>
-        <translation>Nu poate porni bitcoin: regula clic-pentru-plata</translation>
+        <translation>Nu poate porni dogecoin: regula clic-pentru-plata</translation>
     </message>
     <message>
         <location line="+58"/>
@@ -1846,7 +1846,7 @@ Adresa: %4
     <message>
         <location filename="../rpcconsole.cpp" line="-30"/>
         <source>Welcome to the Dogecoin Core RPC console.</source>
-        <translation>Bun venit la consola bitcoin RPC</translation>
+        <translation>Bun venit la consola dogecoin RPC</translation>
     </message>
     <message>
         <location line="+1"/>

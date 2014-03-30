@@ -122,7 +122,7 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     <message>
         <location line="+7"/>
         <source>These are your Dogecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>Disse er dine Dogecoin-adresser for at sende betalinger. Tjek altid beløb og modtageradresse, inden du sender bitcoins.</translation>
+        <translation>Disse er dine Dogecoin-adresser for at sende betalinger. Tjek altid beløb og modtageradresse, inden du sender dogecoins.</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -248,7 +248,7 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     <message>
         <location line="+1"/>
         <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DOGECOINS&lt;/b&gt;!</source>
-        <translation>Advarsel: Hvis du krypterer din tegnebog og mister din adgangskode, vil du &lt;b&gt;MISTE ALLE DINE BITCOINS&lt;/b&gt;!</translation>
+        <translation>Advarsel: Hvis du krypterer din tegnebog og mister din adgangskode, vil du &lt;b&gt;MISTE ALLE DINE DOGECOINS&lt;/b&gt;!</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -275,7 +275,7 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     <message>
         <location line="-56"/>
         <source>Dogecoin Core will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your Dogecoins from being stolen by malware infecting your computer.</source>
-        <translation>Dogecoin vil nu lukke for at gennemføre krypteringsprocessen. Husk på, at kryptering af din tegnebog vil ikke beskytte dine bitcoins fuldt ud mod at blive stjålet af malware på din computer.</translation>
+        <translation>Dogecoin vil nu lukke for at gennemføre krypteringsprocessen. Husk på, at kryptering af din tegnebog vil ikke beskytte dine dogecoins fuldt ud mod at blive stjålet af malware på din computer.</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -430,7 +430,7 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     <message>
         <location line="-405"/>
         <source>Send coins to a Dogecoin address</source>
-        <translation>Send bitcoins til en Dogecoin-adresse</translation>
+        <translation>Send dogecoins til en Dogecoin-adresse</translation>
     </message>
     <message>
         <location line="+49"/>
@@ -584,7 +584,7 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     <message numerus="yes">
         <location line="+142"/>
         <source>%n active connection(s) to Dogecoin network</source>
-        <translation><numerusform>%n aktiv(e) forbindelse(r) til Dogecoin-netværket</numerusform><numerusform>%n aktiv(e) forbindelse(r) til Bitcoin-netværket</numerusform></translation>
+        <translation><numerusform>%n aktiv(e) forbindelse(r) til Dogecoin-netværket</numerusform><numerusform>%n aktiv(e) forbindelse(r) til Dogecoin-netværket</numerusform></translation>
     </message>
     <message>
         <location line="+22"/>
@@ -1405,7 +1405,7 @@ Adresse: %4
     <message>
         <location line="+13"/>
         <source>Choose the default subdivision unit to show in the interface and when sending coins.</source>
-        <translation>Vælg den standard underopdelingsenhed, som skal vises i brugergrænsefladen og ved afsendelse af bitcoins.</translation>
+        <translation>Vælg den standard underopdelingsenhed, som skal vises i brugergrænsefladen og ved afsendelse af dogecoins.</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -1575,7 +1575,7 @@ Adresse: %4
     <message>
         <location line="-353"/>
         <source>Cannot start dogecoin: click-to-pay handler</source>
-        <translation>Kan ikke starte bitcoin: click-to-pay-håndtering</translation>
+        <translation>Kan ikke starte dogecoin: click-to-pay-håndtering</translation>
     </message>
     <message>
         <location line="+58"/>
@@ -2069,7 +2069,7 @@ Adresse: %4
         <location filename="../sendcoinsdialog.cpp" line="+381"/>
         <location line="+80"/>
         <source>Send Coins</source>
-        <translation>Send bitcoins</translation>
+        <translation>Send dogecoins</translation>
     </message>
     <message>
         <location line="+76"/>
@@ -2179,7 +2179,7 @@ Adresse: %4
     <message>
         <location filename="../sendcoinsdialog.cpp" line="-228"/>
         <source>Confirm send coins</source>
-        <translation>Bekræft afsendelse af bitcoins</translation>
+        <translation>Bekræft afsendelse af dogecoins</translation>
     </message>
     <message>
         <location line="-74"/>
@@ -3155,7 +3155,7 @@ Adresse: %4
     <message>
         <location filename="../walletmodel.cpp" line="+245"/>
         <source>Send Coins</source>
-        <translation>Send bitcoins</translation>
+        <translation>Send dogecoins</translation>
     </message>
 </context>
 <context>
@@ -3361,12 +3361,12 @@ f.eks.: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     <message>
         <location line="+3"/>
         <source>Error: The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
-        <translation>Fejl: Transaktionen blev afvist. Dette kan ske, hvis nogle af dine bitcoins i din tegnebog allerede er brugt, som hvis du brugte en kopi af wallet.dat og dine bitcoins er blevet brugt i kopien, men ikke er markeret som brugt her.</translation>
+        <translation>Fejl: Transaktionen blev afvist. Dette kan ske, hvis nogle af dine dogecoins i din tegnebog allerede er brugt, som hvis du brugte en kopi af wallet.dat og dine dogecoins er blevet brugt i kopien, men ikke er markeret som brugt her.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Error: This transaction requires a transaction fee of at least %s because of its amount, complexity, or use of recently received funds!</source>
-        <translation>Fejl: Denne transaktion kræver et transaktionsgebyr på minimum %s pga. dens størrelse, kompleksitet eller anvendelse af nyligt modtagne bitcoins!</translation>
+        <translation>Fejl: Denne transaktion kræver et transaktionsgebyr på minimum %s pga. dens størrelse, kompleksitet eller anvendelse af nyligt modtagne dogecoins.</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -3551,7 +3551,7 @@ f.eks.: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     <message>
         <location line="+1"/>
         <source>Failed to write to coin database</source>
-        <translation>Skrivning af bitcoin-database mislykkedes</translation>
+        <translation>Skrivning af dogecoin-database mislykkedes</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3576,7 +3576,7 @@ f.eks.: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     <message>
         <location line="+1"/>
         <source>Generate coins (default: 0)</source>
-        <translation>Generer bitcoins (standard: 0)</translation>
+        <translation>Generer dogecoins (standard: 0)</translation>
     </message>
     <message>
         <location line="+2"/>

@@ -248,7 +248,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+1"/>
         <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DOGECOINS&lt;/b&gt;!</source>
-        <translation>Attention : Si vous chiffrez votre portefeuille et perdez votre phrase de passe, vous &lt;b&gt;PERDREZ TOUS VOS BITCOINS&lt;/b&gt; !</translation>
+        <translation>Attention : Si vous chiffrez votre portefeuille et perdez votre phrase de passe, vous &lt;b&gt;PERDREZ TOUS VOS DOGECOINS&lt;/b&gt; !</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -542,7 +542,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+163"/>
         <source>Request payments (generates QR codes and dogecoin: URIs)</source>
-        <translation>Demander des paiements (génère des codes QR et des URIs bitcoin:)</translation>
+        <translation>Demander des paiements (génère des codes QR et des URIs dogecoin:)</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -563,7 +563,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+3"/>
         <source>Open a dogecoin: URI or payment request</source>
-        <translation>Ouvrir un URI bitcoin: ou une demande de paiement</translation>
+        <translation>Ouvrir un URI dogecoin: ou une demande de paiement</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1575,7 +1575,7 @@ Adresse : %4
     <message>
         <location line="-353"/>
         <source>Cannot start dogecoin: click-to-pay handler</source>
-        <translation>Impossible de démarrer le gestionnaire de cliquer-pour-payer bitcoin :</translation>
+        <translation>Impossible de démarrer le gestionnaire de cliquer-pour-payer dogecoin :</translation>
     </message>
     <message>
         <location line="+58"/>
@@ -3766,7 +3766,7 @@ par exemple : alertnotify=echo %%s | mail -s &quot;Alerte Dogecoin&quot; admin@f
     <message>
         <location line="+9"/>
         <source>SSL options: (see the Bitcoin Wiki for SSL setup instructions)</source>
-        <translation>Options SSL : (voir le Wiki de Dogecoin pour les instructions de configuration du SSL)</translation>
+        <translation>Options SSL : (voir le Wiki de Bitcoin pour les instructions de configuration du SSL)</translation>
     </message>
     <message>
         <location line="+4"/>
