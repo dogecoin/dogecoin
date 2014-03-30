@@ -3,13 +3,13 @@
     <name>AboutDialog</name>
     <message>
         <location filename="../forms/aboutdialog.ui" line="+14"/>
-        <source>About Dogecoin Core</source>
-        <translation>Über Dogecoin Core</translation>
+        <source>About Dogecoin</source>
+        <translation>Über Dogecoin</translation>
     </message>
     <message>
         <location line="+39"/>
-        <source>&lt;b&gt;Dogecoin Core&lt;/b&gt; version</source>
-        <translation>&lt;b&gt;&quot;Dogecoin Core&quot;&lt;/b&gt;-Version</translation>
+        <source>&lt;b&gt;Dogecoin&lt;/b&gt; version</source>
+        <translation>&lt;b&gt;&quot;Dogecoin&quot;&lt;/b&gt;-Version</translation>
     </message>
     <message>
         <location line="+57"/>
@@ -33,8 +33,8 @@ Dieses Produkt enthält Software, die vom OpenSSL-Projekt zur Verwendung im Open
     </message>
     <message>
         <location line="+0"/>
-        <source>The Dogecoin Core developers</source>
-        <translation>Die &quot;Dogecoin Core&quot;-Entwickler</translation>
+        <source>The Dogecoin developers</source>
+        <translation>Die &quot;Dogecoin&quot;-Entwickler</translation>
     </message>
 </context>
 <context>
@@ -536,7 +536,7 @@ Dieses Produkt enthält Software, die vom OpenSSL-Projekt zur Verwendung im Open
     </message>
     <message>
         <location line="-401"/>
-        <source>Dogecoin Core</source>
+        <source>Dogecoin</source>
         <translation>Bitcoin-Kern</translation>
     </message>
     <message>
@@ -547,8 +547,8 @@ Dieses Produkt enthält Software, die vom OpenSSL-Projekt zur Verwendung im Open
     <message>
         <location line="+29"/>
         <location line="+2"/>
-        <source>&amp;About Dogecoin Core</source>
-        <translation>&amp;Über Dogecoin Core</translation>
+        <source>&amp;About Dogecoin</source>
+        <translation>&amp;Über Dogecoin</translation>
     </message>
     <message>
         <location line="+35"/>
@@ -572,8 +572,8 @@ Dieses Produkt enthält Software, die vom OpenSSL-Projekt zur Verwendung im Open
     </message>
     <message>
         <location line="+1"/>
-        <source>Show the Dogecoin Core help message to get a list with possible Bitcoin command-line options</source>
-        <translation>Zeige die &quot;Dogecoin Core&quot;-Hilfsnachricht, um eine Liste mit möglichen Kommandozeilenoptionen zu erhalten</translation>
+        <source>Show the Dogecoin help message to get a list with possible Bitcoin command-line options</source>
+        <translation>Zeige die &quot;Dogecoin&quot;-Hilfsnachricht, um eine Liste mit möglichen Kommandozeilenoptionen zu erhalten</translation>
     </message>
     <message>
         <location line="+159"/>
@@ -1094,12 +1094,12 @@ Adresse: %4</translation>
     <name>HelpMessageDialog</name>
     <message>
         <location filename="../forms/helpmessagedialog.ui" line="+19"/>
-        <source>Dogecoin Core - Command-line options</source>
-        <translation>Dogecoin Core - Kommandozeilenoptionen</translation>
+        <source>Dogecoin - Command-line options</source>
+        <translation>Dogecoin - Kommandozeilenoptionen</translation>
     </message>
     <message>
         <location filename="../utilitydialog.cpp" line="+38"/>
-        <source>Dogecoin Core</source>
+        <source>Dogecoin</source>
         <translation>Bitcoin-Kern</translation>
     </message>
     <message>
@@ -1152,18 +1152,18 @@ Adresse: %4</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>Welcome to Dogecoin Core.</source>
-        <translation>Willkommen zu Dogecoin Core.</translation>
+        <source>Welcome to Dogecoin.</source>
+        <translation>Willkommen zu Dogecoin.</translation>
     </message>
     <message>
         <location line="+26"/>
-        <source>As this is the first time the program is launched, you can choose where Dogecoin Core will store its data.</source>
-        <translation>Da Sie das Programm gerade zum ersten Mal starten, können Sie nun auswählen wo Dogecoin Core seine Daten ablegen wird.</translation>
+        <source>As this is the first time the program is launched, you can choose where Dogecoin will store its data.</source>
+        <translation>Da Sie das Programm gerade zum ersten Mal starten, können Sie nun auswählen wo Dogecoin seine Daten ablegen wird.</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Dogecoin Core will download and store a copy of the Bitcoin block chain. At least %1GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
-        <translation>Dogecoin Core wird eine Kopie der Blockkette herunterladen und speichern. Mindestens %1GB Daten werden in diesem Verzeichnis abgelegt und die Datenmenge wächst über die Zeit an. Auch die Wallet wird in diesem Verzeichnis abgelegt.</translation>
+        <source>Dogecoin will download and store a copy of the Bitcoin block chain. At least %1GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
+        <translation>Dogecoin wird eine Kopie der Blockkette herunterladen und speichern. Mindestens %1GB Daten werden in diesem Verzeichnis abgelegt und die Datenmenge wächst über die Zeit an. Auch die Wallet wird in diesem Verzeichnis abgelegt.</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -2440,8 +2440,8 @@ Adresse: %4</translation>
     <name>ShutdownWindow</name>
     <message>
         <location filename="../utilitydialog.cpp" line="+48"/>
-        <source>Dogecoin Core is shutting down...</source>
-        <translation>Dogecoin Core wird beendet...</translation>
+        <source>Dogecoin is shutting down...</source>
+        <translation>Dogecoin wird beendet...</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2640,13 +2640,13 @@ Adresse: %4</translation>
     <name>SplashScreen</name>
     <message>
         <location filename="../splashscreen.cpp" line="+28"/>
-        <source>Dogecoin Core</source>
+        <source>Dogecoin</source>
         <translation>Bitcoin-Kern</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>The Dogecoin Core developers</source>
-        <translation>Die &quot;Dogecoin Core&quot;-Entwickler</translation>
+        <source>The Dogecoin developers</source>
+        <translation>Die &quot;Dogecoin&quot;-Entwickler</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3256,8 +3256,8 @@ Adresse: %4</translation>
     </message>
     <message>
         <location line="-26"/>
-        <source>Listen for connections on &lt;port&gt; (default: 22556 or testnet: 44556)</source>
-        <translation>&lt;port&gt; nach Verbindungen abhören (Standard: 22556 oder Testnetz: 44556)</translation>
+        <source>Listen for connections on &lt;port&gt; (default: 8333 or testnet: 18333)</source>
+        <translation>&lt;port&gt; nach Verbindungen abhören (Standard: 8333 oder Testnetz: 18333)</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -3291,8 +3291,8 @@ Adresse: %4</translation>
     </message>
     <message>
         <location line="+34"/>
-        <source>Listen for JSON-RPC connections on &lt;port&gt; (default: 22555 or testnet: 44555)</source>
-        <translation>&lt;port&gt; nach JSON-RPC-Verbindungen abhören (Standard: 22555 oder Testnetz: 44555)</translation>
+        <source>Listen for JSON-RPC connections on &lt;port&gt; (default: 8332 or testnet: 18332)</source>
+        <translation>&lt;port&gt; nach JSON-RPC-Verbindungen abhören (Standard: 8332 oder Testnetz: 18332)</translation>
     </message>
     <message>
         <location line="+45"/>
@@ -3325,7 +3325,7 @@ rpcpassword=%s
 The username and password MUST NOT be the same.
 If the file does not exist, create it with owner-readable-only file permissions.
 It is also recommended to set alertnotify so you are notified of problems;
-for example: alertnotify=echo %%s | mail -s &quot;Bitcoin Alert&quot; admin@foo.com
+for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
 </source>
         <translation>%s, Sie müssen den Wert rpcpasswort in dieser Konfigurationsdatei angeben:
 %s
@@ -3336,7 +3336,7 @@ rpcpassword=%s
 Der Benutzername und das Passwort dürfen NICHT identisch sein.
 Falls die Konfigurationsdatei nicht existiert, erzeugen Sie diese bitte mit Leserechten nur für den Dateibesitzer.
 Es wird ebenfalls empfohlen alertnotify anzugeben, um im Problemfall benachrichtig zu werden;
-zum Beispiel: alertnotify=echo %%s | mail -s \&quot;Bitcoin Alert\&quot; admin@foo.com
+zum Beispiel: alertnotify=echo %%s | mail -s \&quot;Dogecoin Alert\&quot; admin@foo.com
 </translation>
     </message>
     <message>
@@ -3436,8 +3436,8 @@ zum Beispiel: alertnotify=echo %%s | mail -s \&quot;Bitcoin Alert\&quot; admin@f
     </message>
     <message>
         <location line="+1"/>
-        <source>Dogecoin Core Daemon</source>
-        <translation>&quot;Dogecoin Core&quot;-Daemon</translation>
+        <source>Dogecoin Daemon</source>
+        <translation>&quot;Dogecoin&quot;-Daemon</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3461,8 +3461,8 @@ zum Beispiel: alertnotify=echo %%s | mail -s \&quot;Bitcoin Alert\&quot; admin@f
     </message>
     <message>
         <location line="+1"/>
-        <source>Connect to JSON-RPC on &lt;port&gt; (default: 22555 or testnet: 44555)</source>
-        <translation>Mit JSON-RPC über &lt;port&gt; verbinden (Standard: 22555 oder Testnetz: 44555)</translation>
+        <source>Connect to JSON-RPC on &lt;port&gt; (default: 8332 or testnet: 18332)</source>
+        <translation>Mit JSON-RPC über &lt;port&gt; verbinden (Standard: 8332 oder Testnetz: 18332)</translation>
     </message>
     <message>
         <location line="+2"/>
