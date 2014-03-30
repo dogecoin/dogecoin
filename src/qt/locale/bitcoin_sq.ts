@@ -579,7 +579,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message numerus="yes">
         <location line="+142"/>
         <source>%n active connection(s) to Dogecoin network</source>
-        <translation><numerusform>%n lidhje aktive me rrjetin e Bitkoin</numerusform><numerusform>%n lidhje aktive me rrjetin e Bitkoin</numerusform></translation>
+        <translation><numerusform>%n lidhje aktive me rrjetin e Dogekoin</numerusform><numerusform>%n lidhje aktive me rrjetin e Dogekoin</numerusform></translation>
     </message>
     <message>
         <location line="+22"/>
@@ -2183,7 +2183,7 @@ Address: %4
     <message>
         <location line="-136"/>
         <source>Enter a Dogecoin address (e.g. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</source>
-        <translation>Futni një adresë Bitkoini (p.sh. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
+        <translation>Futni një adresë Dogekoini (p.sh. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -2407,7 +2407,7 @@ Address: %4
     <message>
         <location filename="../sendcoinsentry.cpp" line="+1"/>
         <source>Enter a Dogecoin address (e.g. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</source>
-        <translation>Futni një adresë Bitkoini (p.sh. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
+        <translation>Futni një adresë Dogekoini (p.sh. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
     </message>
 </context>
 <context>
@@ -2537,7 +2537,7 @@ Address: %4
         <location filename="../signverifymessagedialog.cpp" line="+29"/>
         <location line="+3"/>
         <source>Enter a Dogecoin address (e.g. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</source>
-        <translation>Futni një adresë Bitkoini (p.sh. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
+        <translation>Futni një adresë Dogekoini (p.sh. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
     </message>
     <message>
         <location line="-2"/>

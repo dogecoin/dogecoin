@@ -270,7 +270,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="-56"/>
         <source>Dogecoin Core will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your Dogecoins from being stolen by malware infecting your computer.</source>
-        <translation>Dogecoin aizvērsies, lai pabeigtu šifrēšanu. Atcerieties, ka maciņa šifrēšana nevar pilnībā novērst bitkoinu zādzību, ko veic datorā ieviesušās kaitīgas programmas.</translation>
+        <translation>Dogecoin aizvērsies, lai pabeigtu šifrēšanu. Atcerieties, ka maciņa šifrēšana nevar pilnībā novērst dogekoinu zādzību, ko veic datorā ieviesušās kaitīgas programmas.</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -425,7 +425,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="-405"/>
         <source>Send coins to a Dogecoin address</source>
-        <translation>Nosūtīt bitkoinus uz Dogecoin adresi</translation>
+        <translation>Nosūtīt dogekoinus uz Dogecoin adresi</translation>
     </message>
     <message>
         <location line="+49"/>
@@ -1400,7 +1400,7 @@ Adrese: %4
     <message>
         <location line="+13"/>
         <source>Choose the default subdivision unit to show in the interface and when sending coins.</source>
-        <translation>Izvēlēties dalījuma vienību pēc noklusēšanas, ko izmantot interfeisā un nosūtot bitkoinus.</translation>
+        <translation>Izvēlēties dalījuma vienību pēc noklusēšanas, ko izmantot interfeisā un nosūtot dogekoinus.</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -2064,7 +2064,7 @@ Adrese: %4
         <location filename="../sendcoinsdialog.cpp" line="+381"/>
         <location line="+80"/>
         <source>Send Coins</source>
-        <translation>Sūtīt bitkoinus</translation>
+        <translation>Sūtīt dogekoinus</translation>
     </message>
     <message>
         <location line="+76"/>
@@ -2174,7 +2174,7 @@ Adrese: %4
     <message>
         <location filename="../sendcoinsdialog.cpp" line="-228"/>
         <source>Confirm send coins</source>
-        <translation>Apstiprināt bitkoinu sūtīšanu</translation>
+        <translation>Apstiprināt dogekoinu sūtīšanu</translation>
     </message>
     <message>
         <location line="-74"/>
@@ -3961,7 +3961,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <location line="-6"/>
         <source>Insufficient funds</source>
-        <translation>Nepietiek bitkoinu</translation>
+        <translation>Nepietiek dogekoinu</translation>
     </message>
     <message>
         <location line="+10"/>

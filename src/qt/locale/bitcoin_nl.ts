@@ -3778,7 +3778,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <location line="+9"/>
         <source>SSL options: (see the Bitcoin Wiki for SSL setup instructions)</source>
-        <translation>SSL-opties: (zie de Dogecoin wiki voor SSL-instructies)</translation>
+        <translation>SSL-opties: (zie de Bitcoin Wiki voor SSL-instructies)</translation>
     </message>
     <message>
         <location line="+4"/>
