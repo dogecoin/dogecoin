@@ -342,7 +342,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="-407"/>
         <source>&amp;Overview</source>
-        <translation type="unfinished">&amp;Wow</translation>
+        <translation>&amp;Wow</translation>
     </message>
     <message>
         <location line="-137"/>
@@ -357,7 +357,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+20"/>
         <source>&amp;Transactions</source>
-        <translation type="unfinished">&amp;Many History</translation>
+        <translation>&amp;Many History</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -483,12 +483,12 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+146"/>
         <source>&amp;Send</source>
-        <translation type="unfinished">&amp;Pls Send</translation>
+        <translation>&amp;Pls Send</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>&amp;Receive</source>
-        <translation type="unfinished">&amp;Much Receive</translation>
+        <translation>&amp;Much Receive</translation>
     </message>
     <message>
         <location line="+46"/>
