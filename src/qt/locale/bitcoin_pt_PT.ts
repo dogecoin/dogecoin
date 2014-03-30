@@ -1163,7 +1163,7 @@ Endereço: %4
     </message>
     <message>
         <location line="+10"/>
-        <source>Dogecoin Core will download and store a copy of the Dogecoin Core block chain. At least %1GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
+        <source>Dogecoin Core will download and store a copy of the Dogecoin block chain. At least %1GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
         <translation>Dogecoin Core vai transferir e guardar uma cópia do Dogecoin &quot;block chain&quot; (cadeia de bloco). Pelo menos %1GB de dados será guardado neste directório, e vai crescer consoante o tempo.
 A sua &quot;carteira&quot; também irá ser guardada neste directório.</translation>
     </message>

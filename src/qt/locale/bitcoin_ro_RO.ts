@@ -1169,7 +1169,7 @@ Adresa: %4
     </message>
     <message>
         <location line="+10"/>
-        <source>Dogecoin Core will download and store a copy of the Dogecoin Core block chain. At least %1GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
+        <source>Dogecoin Core will download and store a copy of the Dogecoin block chain. At least %1GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
         <translation>Nucleul Dogecoin Core se va descărca şi va stoca o copie a lanţului blocului Dogecoin. Cel puţin 1GB de date vor fi stocate in acest dosar şi se va dezvolta în timp. Portofelul va fi, de asemenea, stocat în acest dosar.</translation>
     </message>
     <message>
