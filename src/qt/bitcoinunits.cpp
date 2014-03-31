@@ -79,7 +79,7 @@ qint64 BitcoinUnits::maxAmount(int unit)
     case MDOGE: return Q_INT64_C(900000);
     case kDOGE: return Q_INT64_C(900000000);
     case DOGE:  return Q_INT64_C(900000000000);    //less than the coin supply until the year 2170
-    case Koinu: return Q_INT64_C(90000000000000000000);
+    case Koinu: return Q_INT64_C(9000000000000000000); // Slightly under max value for int64
     default:   return 0;
     }
 }
@@ -91,7 +91,7 @@ int BitcoinUnits::amountDigits(int unit)
     case MDOGE: return 6;  // 900,000 (# digits, without commas)
     case kDOGE: return 9;  // 900,000,000
     case DOGE:  return 12; // 900,000,000,000
-    case Koinu: return 20; // 90,000,000,000,000,000,000
+    case Koinu: return 19; // 9,000,000,000,000,000,000
     default: return 0;
     }
 }
