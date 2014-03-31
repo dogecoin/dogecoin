@@ -304,7 +304,7 @@ inline bool AllowFree(double dPriority)
 {
     // Large (in bytes) low-priority (new, small-coin) transactions
     // need a fee.
-        return dPriority > 100 * COIN * 1440 / 250; // DogeCoin: 1440 blocks found a day. Priority cutoff is 100 dogecoin day / 250 bytes.
+        return dPriority > 100 * COIN * 1440 / 250; // Dogecoin: 1440 blocks found a day. Priority cutoff is 100 dogecoin day / 250 bytes.
     }
 
 // Check whether all inputs of this transaction are valid (no double spends, scripts & sigs, amounts)

@@ -1159,9 +1159,9 @@ int64_t GetBlockValue(int nHeight, int64_t nFees, uint256 prevHash)
 }
 
 // New Difficulty adjustement and reward scheme by /u/lleti, rog1121, and DigiByte (DigiShield Developers).
-static const int64_t nTargetTimespan = 4 * 60 * 60; // DogeCoin: every 4 hours
-static const int64_t nTargetTimespanNEW = 60 ; // DogeCoin: every 1 minute
-static const int64_t nTargetSpacing = 60; // DogeCoin: 1 minute
+static const int64_t nTargetTimespan = 4 * 60 * 60; // Dogecoin: every 4 hours
+static const int64_t nTargetTimespanNEW = 60 ; // Dogecoin: every 1 minute
+static const int64_t nTargetSpacing = 60; // Dogecoin: 1 minute
 static const int64_t nInterval = nTargetTimespan / nTargetSpacing;
 
 static const int64_t nDiffChangeTarget = 145000; // Patch effective @ block 145000
