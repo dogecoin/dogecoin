@@ -11,4 +11,8 @@ signers:
     weight: 40
     name: rnicoll
     key: rnicoll
+  1DDC450B45DB5ADCCF5DDA7F8E4217C6D47D946D:
+    weight: 40
+    name: langerhans
+    key: langerhans
 minimum_weight: 120
