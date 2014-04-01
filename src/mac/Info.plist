@@ -33,5 +33,7 @@
 	<string>com.dogecoin.wallet-qt</string>
 	<key>CFBundleName</key>
 	<string>Dogecoin-Qt</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.finance</string>
 </dict>
 </plist>
