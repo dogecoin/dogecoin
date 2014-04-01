@@ -30,7 +30,7 @@ SplashScreen::SplashScreen(const QPixmap &pixmap, Qt::WindowFlags f, bool isTest
     QString copyrightText   = QChar(0xA9)+QString(" 2009-%1 ").arg(COPYRIGHT_YEAR) + QString(tr("The Bitcoin Core developers"));
     QString testnetAddText  = QString(tr("[testnet]")); // define text to place as single text object
 
-    QString font            = "Arial";
+    QString font            = "Comic Sans MS";
 
     // load the bitmap for writing some text over it
     QPixmap newPixmap;
