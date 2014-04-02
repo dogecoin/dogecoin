@@ -40,8 +40,8 @@ Once you've got the right hardware and software:
 Prepare the builder VMs:
 
     cd gitian-builder
-    bin/make-base-vm --arch i386
-    bin/make-base-vm --arch amd64
+    bin/make-base-vm --lxc --suite precise --arch i386
+    bin/make-base-vm --lxc --suite precise --arch amd64
     cd ..
 
 Now follow the build process under doc/release-process to first build the dependecies
