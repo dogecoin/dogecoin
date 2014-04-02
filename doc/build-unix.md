@@ -88,11 +88,11 @@ To build without GUI pass `--without-gui`.
 
 To build with Qt 4 you need the following:
 
-    apt-get install libqt4-dev libprotobuf-dev protobuf-compiler
+    sudo apt-get install libqt4-dev libprotobuf-dev protobuf-compiler
 
 For Qt 5 you need the following:
 
-    apt-get install libqt5gui5 libqt5core5 libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev
+    sudo apt-get install libqt5gui5 libqt5core5 libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev
 
 libqrencode (optional) can be installed with:
 
