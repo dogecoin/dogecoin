@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Dogecoin
+Comment=Dogecoin P2P Cryptocurrency
+Comment[fr]=Dogecoin, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=Dogecoin, eşten eşe kriptografik sanal para birimi
+Exec=dogecoin-qt %u
+Terminal=false
+Type=Application
+Icon=dogecoin128
+MimeType=x-scheme-handler/dogecoin;
+Categories=Office;Finance;
