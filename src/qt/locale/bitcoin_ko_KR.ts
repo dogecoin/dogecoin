@@ -117,12 +117,12 @@ MIT/X11 프로그램 라이선스에 따라 배포합니다. COPYING 또는 http
     </message>
     <message>
         <location line="+6"/>
-        <source>Sending addresses</source>
+        <source>Very sending addresses</source>
         <translation>보내는 주소들</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Receiving addresses</source>
+        <source>Much receiving addresses</source>
         <translation>받은 주소들</translation>
     </message>
     <message>
@@ -410,12 +410,12 @@ MIT/X11 프로그램 라이선스에 따라 배포합니다. COPYING 또는 http
     </message>
     <message>
         <location line="+10"/>
-        <source>&amp;Sending addresses...</source>
+        <source>Very &amp;sending addresses...</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
-        <source>&amp;Receiving addresses...</source>
+        <source>Much &amp;receiving addresses...</source>
         <translation type="unfinished"/>
     </message>
     <message>

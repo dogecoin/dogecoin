@@ -111,12 +111,12 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="+6"/>
-        <source>Sending addresses</source>
+        <source>Very sending addresses</source>
         <translation>正在发送地址</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Receiving addresses</source>
+        <source>Much receiving addresses</source>
         <translation>正在接收地址</translation>
     </message>
     <message>
@@ -404,12 +404,12 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="+10"/>
-        <source>&amp;Sending addresses...</source>
+        <source>Very &amp;sending addresses...</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
-        <source>&amp;Receiving addresses...</source>
+        <source>Much &amp;receiving addresses...</source>
         <translation type="unfinished"/>
     </message>
     <message>

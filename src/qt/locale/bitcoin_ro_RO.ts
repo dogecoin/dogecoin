@@ -117,12 +117,12 @@ Acest produs include programe dezvoltate de către OpenSSL Project pentru a fi f
     </message>
     <message>
         <location line="+6"/>
-        <source>Sending addresses</source>
+        <source>Very sending addresses</source>
         <translation>Adresa Destinatarului</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Receiving addresses</source>
+        <source>Much receiving addresses</source>
         <translation>Adresa pe care primiti</translation>
     </message>
     <message>
@@ -410,12 +410,12 @@ Acest produs include programe dezvoltate de către OpenSSL Project pentru a fi f
     </message>
     <message>
         <location line="+10"/>
-        <source>&amp;Sending addresses...</source>
+        <source>Very &amp;sending addresses...</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
-        <source>&amp;Receiving addresses...</source>
+        <source>Much &amp;receiving addresses...</source>
         <translation type="unfinished"/>
     </message>
     <message>

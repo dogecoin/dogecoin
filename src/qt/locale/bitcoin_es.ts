@@ -120,12 +120,12 @@ Eric Young (eay@cryptsoft.com) y el software UPnP escrito por Thomas Bernard.</t
     </message>
     <message>
         <location line="+6"/>
-        <source>Sending addresses</source>
+        <source>Very sending addresses</source>
         <translation>Direcciones de envío</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Receiving addresses</source>
+        <source>Much receiving addresses</source>
         <translation>Direcciones de recepción</translation>
     </message>
     <message>
@@ -413,12 +413,12 @@ Eric Young (eay@cryptsoft.com) y el software UPnP escrito por Thomas Bernard.</t
     </message>
     <message>
         <location line="+10"/>
-        <source>&amp;Sending addresses...</source>
+        <source>Very &amp;sending addresses...</source>
         <translation>Direcciones de &amp;envío...</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>&amp;Receiving addresses...</source>
+        <source>Much &amp;receiving addresses...</source>
         <translation>Direcciones de &amp;recepción...</translation>
     </message>
     <message>
