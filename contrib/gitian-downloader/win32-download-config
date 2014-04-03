@@ -15,4 +15,8 @@ signers:
     weight: 40
     name: langerhans
     key: langerhans
+  86601A39AEE177B1D1F0F7971AEF9F73ECA11726
+    weight: 40
+    name: leofidus-ger
+    key: leofidus-key
 minimum_weight: 120
