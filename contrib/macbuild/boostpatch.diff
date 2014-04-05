@@ -1,6 +1,6 @@
-diff -rud boost/atomic/detail/gcc-atomic.hpp /Users/alan/Downloads/frakinboost/boost_1_55_0/boost/atomic/detail/gcc-atomic.hpp
---- boost/atomic/detail/gcc-atomic.hpp	2014-03-12 20:21:08.000000000 -0700
-+++ /Users/alan/Downloads/frakinboost/boost_1_55_0/boost/atomic/detail/gcc-atomic.hpp	2013-07-20 11:01:35.000000000 -0700
+diff -rud boost/atomic/detail/gcc-atomic.hpp boost/atomic/detail/gcc-atomic.hpp
+--- boost/atomic/detail/gcc-atomic.hpp
++++ boost/atomic/detail/gcc-atomic.hpp
 @@ -958,16 +958,14 @@
  
  public:
