@@ -526,8 +526,10 @@
 					"-DENABLE_WALLET=1",
 					"-DUSE_UPNP=1",
 					"-DMAC_OSX=1",
+					"-DHAVE_WORKING_BOOST_SLEEP_FOR=1",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.8;
 			};
 			name = Debug;
 		};
@@ -553,8 +555,10 @@
 					"-DENABLE_WALLET=1",
 					"-DUSE_UPNP=1",
 					"-DMAC_OSX=1",
+					"-DHAVE_WORKING_BOOST_SLEEP_FOR=1",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.8;
 			};
 			name = Release;
 		};

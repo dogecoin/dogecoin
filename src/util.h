@@ -90,8 +90,6 @@ T* alignup(T* p)
 #define MSG_NOSIGNAL 0
 #endif
 
-#define HAVE_WORKING_BOOST_SLEEP_FOR 1
-
 inline void MilliSleep(int64_t n)
 {
 // Boost's sleep_for was uninterruptable when backed by nanosleep from 1.50
