@@ -91,3 +91,5 @@ contrib/macbuild/boost/
 *.xcuserstate
 
 *.xcscheme
+
+contrib/macbuild/dogecoind.xcodeproj/xcuserdata/alan.xcuserdatad/xcschemes/xcschememanagement.plist
