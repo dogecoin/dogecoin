@@ -147,11 +147,21 @@ public:
         vSeeds.push_back(CDNSSeedData("dglibrary.org", "seed.dglibrary.org"));
         vSeeds.push_back(CDNSSeedData("dogechain.info", "seed.dogechain.info"));
 
-        base58Prefixes[PUBKEY_ADDRESS] = list_of(30);
-        base58Prefixes[SCRIPT_ADDRESS] = list_of(22);
-        base58Prefixes[SECRET_KEY] =     list_of(158);
-        base58Prefixes[EXT_PUBLIC_KEY] = list_of(0x04)(0x88)(0xC4)(0x2E);
-        base58Prefixes[EXT_SECRET_KEY] = list_of(0x04)(0x88)(0xE1)(0xF4);
+        // Boost sucks, and should not be used. Workaround for Boost not being compatible with C++11;
+        std::vector<unsigned char> pka = list_of(30);
+        base58Prefixes[PUBKEY_ADDRESS] = pka;
+        
+        std::vector<unsigned char> sca = list_of(22);
+        base58Prefixes[SCRIPT_ADDRESS] = sca;
+        
+        std::vector<unsigned char> sk  = list_of(158);
+        base58Prefixes[SECRET_KEY]     = sk;
+        
+        std::vector<unsigned char> epk = list_of(0x04)(0x88)(0xC4)(0x2E);
+        base58Prefixes[EXT_PUBLIC_KEY] = epk;
+        
+        std::vector<unsigned char> esk = list_of(0x04)(0x88)(0xE1)(0xF4);
+        base58Prefixes[EXT_SECRET_KEY] = esk;
 
         // Convert the pnSeeds array into usable address objects.
         for (unsigned int i = 0; i < ARRAYLEN(pnSeed); i++)
@@ -211,11 +221,18 @@ public:
         vSeeds.push_back(CDNSSeedData("testdoge.lionservers.de", "testdoge-seed.lionservers.de"));
         vSeeds.push_back(CDNSSeedData("lionservers.de", "testdoge-seed-static.lionservers.de"));
 
-        base58Prefixes[PUBKEY_ADDRESS] = list_of(113);
-        base58Prefixes[SCRIPT_ADDRESS] = list_of(196);
-        base58Prefixes[SECRET_KEY]     = list_of(241);
-        base58Prefixes[EXT_PUBLIC_KEY] = list_of(0x04)(0x35)(0xD1)(0xDF);
-        base58Prefixes[EXT_SECRET_KEY] = list_of(0x04)(0x35)(0x75)(0xA4);
+        // Boost sucks, and should not be used. Workaround for Boost not being compatible with C++11;
+        
+        std::vector<unsigned char> pka = list_of(113);
+        base58Prefixes[PUBKEY_ADDRESS] = pka;
+        std::vector<unsigned char> sca = list_of(196);
+        base58Prefixes[SCRIPT_ADDRESS] = sca;
+        std::vector<unsigned char> sk  = list_of(241);
+        base58Prefixes[SECRET_KEY]     = sk;
+        std::vector<unsigned char> epk = list_of(0x04)(0x35)(0xD1)(0xDF);
+        base58Prefixes[EXT_PUBLIC_KEY] = epk;
+        std::vector<unsigned char> esk = list_of(0x04)(0x35)(0x75)(0xA4);
+        base58Prefixes[EXT_SECRET_KEY] = esk;
     }
     virtual Network NetworkID() const { return CChainParams::TESTNET; }
 };

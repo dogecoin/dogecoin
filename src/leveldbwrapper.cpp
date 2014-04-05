@@ -10,7 +10,7 @@
 #include <leveldb/cache.h>
 #include <leveldb/env.h>
 #include <leveldb/filter_policy.h>
-#include <memenv.h>
+#include <helpers/memenv/memenv.h>
 
 void HandleError(const leveldb::Status &status) throw(leveldb_error) {
     if (status.ok())

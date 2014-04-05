@@ -8,6 +8,7 @@
 #include "allocators.h"
 #include "serialize.h"
 #include "keystore.h"
+#include "script.h"
 
 class uint256;
 

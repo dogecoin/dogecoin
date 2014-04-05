@@ -140,7 +140,7 @@ double CTransaction::ComputePriority(double dPriorityInputs, unsigned int nTxSiz
 std::string CTransaction::ToString() const
 {
     std::string str;
-    str += strprintf("CTransaction(hash=%s, ver=%d, vin.size=%"PRIszu", vout.size=%"PRIszu", nLockTime=%u)\n",
+    str += strprintf("CTransaction(hash=%s, ver=%d, vin.size=%" PRIszu", vout.size=%" PRIszu", nLockTime=%u)\n",
         GetHash().ToString().substr(0,10),
         nVersion,
         vin.size(),
@@ -242,11 +242,12 @@ std::vector<uint256> CBlock::GetMerkleBranch(int nIndex) const
         BuildMerkleTree();
     std::vector<uint256> vMerkleBranch;
     int j = 0;
-    for (int nSize = vtx.size(); nSize > 1; nSize = (nSize + 1) / 2)
+    size_t iH8cpp = nIndex;
+    for (size_t nSize = vtx.size(); nSize > 1; nSize = (nSize + 1) / 2)
     {
-        int i = std::min(nIndex^1, nSize-1);
+        int i = std::min(iH8cpp^1, nSize-1);
         vMerkleBranch.push_back(vMerkleTree[j+i]);
-        nIndex >>= 1;
+        iH8cpp >>= 1;
         j += nSize;
     }
     return vMerkleBranch;
@@ -269,7 +270,7 @@ uint256 CBlock::CheckMerkleBranch(uint256 hash, const std::vector<uint256>& vMer
 
 void CBlock::print() const
 {
-    LogPrintf("CBlock(hash=%s, ver=%d, hashPrevBlock=%s, hashMerkleRoot=%s, nTime=%u, nBits=%08x, nNonce=%u, vtx=%"PRIszu")\n",
+    LogPrintf("CBlock(hash=%s, ver=%d, hashPrevBlock=%s, hashMerkleRoot=%s, nTime=%u, nBits=%08x, nNonce=%u, vtx=%" PRIszu")\n",
         GetHash().ToString(),
         nVersion,
         hashPrevBlock.ToString(),

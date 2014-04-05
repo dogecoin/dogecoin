@@ -1,0 +1,54 @@
+diff -rud boost/atomic/detail/gcc-atomic.hpp /Users/alan/Downloads/frakinboost/boost_1_55_0/boost/atomic/detail/gcc-atomic.hpp
+--- boost/atomic/detail/gcc-atomic.hpp	2014-03-12 20:21:08.000000000 -0700
++++ /Users/alan/Downloads/frakinboost/boost_1_55_0/boost/atomic/detail/gcc-atomic.hpp	2013-07-20 11:01:35.000000000 -0700
+@@ -958,16 +958,14 @@
+ 
+ public:
+     BOOST_DEFAULTED_FUNCTION(base_atomic(void), {})
+-    explicit base_atomic(value_type const& v) BOOST_NOEXCEPT
++    explicit base_atomic(value_type const& v) BOOST_NOEXCEPT : v_(0)
+     {
+-        memset(&v_, 0, sizeof(v_));
+         memcpy(&v_, &v, sizeof(value_type));
+     }
+ 
+     void store(value_type const& v, memory_order order = memory_order_seq_cst) volatile BOOST_NOEXCEPT
+     {
+-        storage_type tmp;
+-        memset(&tmp, 0, sizeof(tmp));
++        storage_type tmp = 0;
+         memcpy(&tmp, &v, sizeof(value_type));
+         __atomic_store_n(&v_, tmp, atomics::detail::convert_memory_order_to_gcc(order));
+     }
+@@ -982,8 +980,7 @@
+ 
+     value_type exchange(value_type const& v, memory_order order = memory_order_seq_cst) volatile BOOST_NOEXCEPT
+     {
+-        storage_type tmp;
+-        memset(&tmp, 0, sizeof(tmp));
++        storage_type tmp = 0;
+         memcpy(&tmp, &v, sizeof(value_type));
+         tmp = __atomic_exchange_n(&v_, tmp, atomics::detail::convert_memory_order_to_gcc(order));
+         value_type res;
+@@ -997,9 +994,7 @@
+         memory_order success_order,
+         memory_order failure_order) volatile BOOST_NOEXCEPT
+     {
+-        storage_type expected_s, desired_s;
+-        memset(&expected_s, 0, sizeof(expected_s));
+-        memset(&desired_s, 0, sizeof(desired_s));
++        storage_type expected_s = 0, desired_s = 0;
+         memcpy(&expected_s, &expected, sizeof(value_type));
+         memcpy(&desired_s, &desired, sizeof(value_type));
+         const bool success = __atomic_compare_exchange_n(&v_, &expected_s, desired_s, false,
+@@ -1015,9 +1010,7 @@
+         memory_order success_order,
+         memory_order failure_order) volatile BOOST_NOEXCEPT
+     {
+-        storage_type expected_s, desired_s;
+-        memset(&expected_s, 0, sizeof(expected_s));
+-        memset(&desired_s, 0, sizeof(desired_s));
++        storage_type expected_s = 0, desired_s = 0;
+         memcpy(&expected_s, &expected, sizeof(value_type));
+         memcpy(&desired_s, &desired, sizeof(value_type));
+         const bool success = __atomic_compare_exchange_n(&v_, &expected_s, desired_s, true,
