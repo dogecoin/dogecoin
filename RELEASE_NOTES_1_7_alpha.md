@@ -3,15 +3,15 @@
 
 Dogecoin Core 1.7 is a complete re-architecture of Dogecoin, changing from
 using the Litecoin client as its base, to Bitcoin 0.9. It's still Dogecoin,
-same Scrypt PoW algorithm, same reward schedule, but there's a lot of
-changes under the hood.
+with the same Scrypt PoW algorithm, same reward schedule, but there are a 
+lot of changes under the hood.
 
 
 For the full Bitcoin 0.9 changelog, please see https://bitcointalk.org/index.php?topic=522014
 
 Please note that this is a very early release, and a full audit of the code
 is still in progress. The client has been hard-coded to only work with testnet
-for now, to avoid risks of damaging real wallets.
+for now, to avoid the risk of damaging real wallets.
 
 
 Downgrading
@@ -33,7 +33,7 @@ dogecoin-cli
 
 Where previously commands were sent to dogecoind by running
 "dogecoind <command>", 1.7 adopts the model from Bitcoin Core 0.9 where there is
-a separate "dogecoin-cli" executable which us used instead. This avoids the risk
+a separate "dogecoin-cli" executable which is used instead. This avoids the risk
 of accidentally trying to start two daemons at the same time, for example.
 
 
@@ -47,11 +47,11 @@ wallet system.
 Testnet
 -------
 
-As mentioned at the start of this document, the alpha-client is for use on the
+As mentioned at the start of this document, the alpha-client is for use with the
 Dogecoin testnet only. This is an alternative Dogecoin blockchain which is
 not used for real transactions, and instead is intended for testing of experimental
 clients. Wallets and addresses are incompatible with the normal Dogecoin
 network, in order to isolate the two.
 
-As "test Doge" is essentially valueless, it can be acquired easily for testing,
+As "TestDoge" is essentially valueless, it can be acquired easily for testing,
 either by mining, or from a faucet such as http://testdoge.lionservers.de/
