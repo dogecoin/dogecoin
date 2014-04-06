@@ -4,12 +4,12 @@
     <message>
         <location filename="../forms/aboutdialog.ui" line="+14"/>
         <source>About Dogecoin Core</source>
-        <translation>关于狗狗币</translation>
+        <translation>关于狗狗币核心</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>&lt;b&gt;Dogecoin Core&lt;/b&gt; version</source>
-        <translation>&lt;b&gt;狗狗币&lt;/b&gt;版本</translation>
+        <translation>&lt;b&gt;狗狗币核心&lt;/b&gt;版本</translation>
     </message>
     <message>
         <location line="+57"/>
@@ -127,7 +127,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+4"/>
         <source>These are your Dogecoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation>这些都是您的比特币地址，可用于收款。建议对每笔交易都使用一个新的地址。</translation>
+        <translation>这些都是您的狗狗币地址，可用于收款。建议对每笔交易都使用一个新的地址。</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -537,7 +537,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="-401"/>
         <source>Dogecoin Core</source>
-        <translation>比特币核心</translation>
+        <translation>狗狗币核心</translation>
     </message>
     <message>
         <location line="+163"/>
@@ -548,7 +548,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <location line="+29"/>
         <location line="+2"/>
         <source>&amp;About Dogecoin Core</source>
-        <translation>关于比特币核心(&amp;A)</translation>
+        <translation>关于狗狗币核心(&amp;A)</translation>
     </message>
     <message>
         <location line="+35"/>
@@ -563,7 +563,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+3"/>
         <source>Open a dogecoin: URI or payment request</source>
-        <translation>打开一个比特币：URI 或支付请求</translation>
+        <translation>打开一个狗狗币：URI 或支付请求</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1050,7 +1050,7 @@ Address: %4
     <message>
         <location line="-5"/>
         <source>The entered address &quot;%1&quot; is not a valid Dogecoin address.</source>
-        <translation>您输入的“%1”不是有效的比特币地址。</translation>
+        <translation>您输入的“%1”不是有效的狗狗币地址。</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1101,7 +1101,7 @@ Address: %4
     <message>
         <location filename="../utilitydialog.cpp" line="+38"/>
         <source>Dogecoin Core</source>
-        <translation>比特币核心</translation>
+        <translation>狗狗币核心</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -1180,7 +1180,7 @@ Address: %4
     <message>
         <location filename="../intro.cpp" line="+85"/>
         <source>Dogecoin</source>
-        <translation>比特币</translation>
+        <translation>狗狗币</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1291,7 +1291,7 @@ Address: %4
     <message>
         <location line="+58"/>
         <source>Connect to the Dogecoin network through a SOCKS proxy.</source>
-        <translation>通过 SOCKS 代理连接到比特币网络。</translation>
+        <translation>通过 SOCKS 代理连接到狗狗币网络。</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1401,12 +1401,12 @@ Address: %4
     <message>
         <location line="+11"/>
         <source>&amp;Unit to show amounts in:</source>
-        <translation>比特币金额单位(&amp;U)：</translation>
+        <translation>狗狗币金额单位(&amp;U)：</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Choose the default subdivision unit to show in the interface and when sending coins.</source>
-        <translation>选择比特币单位。</translation>
+        <translation>选择狗狗币单位。</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -1416,7 +1416,7 @@ Address: %4
     <message>
         <location line="+3"/>
         <source>&amp;Display addresses in transaction list</source>
-        <translation>在交易清单中显示比特币地址(&amp;D)</translation>
+        <translation>在交易清单中显示狗狗币地址(&amp;D)</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -1556,7 +1556,7 @@ Address: %4
     <message>
         <location line="+1"/>
         <source>URI can not be parsed! This can be caused by an invalid Dogecoin address or malformed URI parameters.</source>
-        <translation>URI无法解析！原因可能是比特币地址不正确，或者URI参数错误。</translation>
+        <translation>URI无法解析！原因可能是狗狗币地址不正确，或者URI参数错误。</translation>
     </message>
     <message>
         <location line="+96"/>
@@ -1645,7 +1645,7 @@ Address: %4
         <location filename="../bitcoin.cpp" line="+71"/>
         <location line="+11"/>
         <source>Dogecoin</source>
-        <translation>比特币</translation>
+        <translation>狗狗币</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2193,7 +2193,7 @@ Address: %4
     <message>
         <location line="-136"/>
         <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>请输入比特币地址（例如: DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM）</translation>
+        <translation>请输入狗狗币地址（例如: DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM）</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -2283,7 +2283,7 @@ Address: %4
     <message>
         <location line="+112"/>
         <source>Warning: Invalid Dogecoin address</source>
-        <translation>警告：无效的比特币地址</translation>
+        <translation>警告：无效的狗狗币地址</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -2425,7 +2425,7 @@ Address: %4
     <message>
         <location filename="../utilitydialog.cpp" line="+48"/>
         <source>Dogecoin Core is shutting down...</source>
-        <translation>比特币核心正在关机...</translation>
+        <translation>狗狗币核心正在关机...</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2631,7 +2631,7 @@ Address: %4
     <message>
         <location filename="../splashscreen.cpp" line="+28"/>
         <source>Dogecoin Core</source>
-        <translation>比特币核心</translation>
+        <translation>狗狗币核心</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3372,7 +3372,7 @@ rpcpassword=%s
     <message>
         <location line="+3"/>
         <source>Error: The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
-        <translation>错误：该交易被拒绝！发生这种错误的原因可能是：钱包中的比特币已经被用掉，有可能您复制了wallet.dat钱包文件，然后用复制的钱包文件支付了比特币，但是这个钱包文件中没有记录。</translation>
+        <translation>错误：该交易被拒绝！发生这种错误的原因可能是：钱包中的狗狗币已经被用掉，有可能您复制了wallet.dat钱包文件，然后用复制的钱包文件支付了狗狗币，但是这个钱包文件中没有记录。</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -3577,7 +3577,7 @@ rpcpassword=%s
     <message>
         <location line="+1"/>
         <source>Fee per kB to add to transactions you send</source>
-        <translation>为付款交易支付比特币(每kb)</translation>
+        <translation>为付款交易支付狗狗币(每kb)</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3587,7 +3587,7 @@ rpcpassword=%s
     <message>
         <location line="+1"/>
         <source>Generate coins (default: 0)</source>
-        <translation>生成比特币（默认为 0）</translation>
+        <translation>生成狗狗币（默认为 0）</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3642,7 +3642,7 @@ rpcpassword=%s
     <message>
         <location line="+1"/>
         <source>Send command to Dogecoin Core server</source>
-        <translation>发送命令到比特币服务器</translation>
+        <translation>发送命令到狗狗币服务器</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -3662,7 +3662,7 @@ rpcpassword=%s
     <message>
         <location line="+2"/>
         <source>Start Dogecoin Core server</source>
-        <translation>启动比特币服务器</translation>
+        <translation>启动狗狗币服务器</translation>
     </message>
     <message>
         <location line="+3"/>
