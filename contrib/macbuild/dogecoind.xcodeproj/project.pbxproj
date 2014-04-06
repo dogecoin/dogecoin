@@ -521,6 +521,7 @@
 					"$(PROJECT_DIR)/lib",
 					/Users/alan/src/dogecoin/src/leveldb,
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				OTHER_CFLAGS = (
 					"-DBOOST_NO_CXX11_SCOPED_ENUMS=1",
 					"-DENABLE_WALLET=1",
@@ -550,6 +551,7 @@
 					"$(PROJECT_DIR)/lib",
 					/Users/alan/src/dogecoin/src/leveldb,
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				OTHER_CFLAGS = (
 					"-DBOOST_NO_CXX11_SCOPED_ENUMS=1",
 					"-DENABLE_WALLET=1",
