@@ -147,7 +147,7 @@ public:
         vSeeds.push_back(CDNSSeedData("dglibrary.org", "seed.dglibrary.org"));
         vSeeds.push_back(CDNSSeedData("dogechain.info", "seed.dogechain.info"));
 
-        // Boost sucks, and should not be used. Workaround for Boost not being compatible with C++11;
+        // Workaround for Boost not being quite compatible with C++11;
         std::vector<unsigned char> pka = list_of(30);
         base58Prefixes[PUBKEY_ADDRESS] = pka;
         
@@ -170,7 +170,7 @@ public:
             // it'll get a pile of addresses with newer timestamps.
             // Seed nodes are given a random 'last seen time' of between one and two
             // weeks ago.
-            const int64_t nOneWeek = 7*24*60*60;
+            const uint64_t nOneWeek = 7*24*60*60;
             struct in_addr ip;
             memcpy(&ip, &pnSeed[i], sizeof(ip));
             CAddress addr(CService(ip, GetDefaultPort()));

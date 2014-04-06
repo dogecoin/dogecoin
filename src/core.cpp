@@ -223,11 +223,11 @@ uint256 CBlock::BuildMerkleTree() const
     BOOST_FOREACH(const CTransaction& tx, vtx)
         vMerkleTree.push_back(tx.GetHash());
     int j = 0;
-    for (int nSize = vtx.size(); nSize > 1; nSize = (nSize + 1) / 2)
+    for (size_t nSize = vtx.size(); nSize > 1; nSize = (nSize + 1) / 2)
     {
-        for (int i = 0; i < nSize; i += 2)
+        for (size_t i = 0; i < nSize; i += 2)
         {
-            int i2 = std::min(i+1, nSize-1);
+            size_t i2 = std::min(i+1, nSize-1);
             vMerkleTree.push_back(Hash(BEGIN(vMerkleTree[j+i]),  END(vMerkleTree[j+i]),
                                        BEGIN(vMerkleTree[j+i2]), END(vMerkleTree[j+i2])));
         }
@@ -242,12 +242,12 @@ std::vector<uint256> CBlock::GetMerkleBranch(int nIndex) const
         BuildMerkleTree();
     std::vector<uint256> vMerkleBranch;
     int j = 0;
-    size_t iH8cpp = nIndex;
+    size_t sizeIndex = (size_t)nIndex;
     for (size_t nSize = vtx.size(); nSize > 1; nSize = (nSize + 1) / 2)
     {
-        int i = std::min(iH8cpp^1, nSize-1);
+        size_t i = std::min(sizeIndex^1, nSize-1);
         vMerkleBranch.push_back(vMerkleTree[j+i]);
-        iH8cpp >>= 1;
+        sizeIndex >>= 1;
         j += nSize;
     }
     return vMerkleBranch;
