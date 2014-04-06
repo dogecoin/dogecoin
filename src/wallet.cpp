@@ -1,5 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2014 The Bitcoin developers
+// Copyright (c)      2014 The Dogecoin developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -18,6 +19,7 @@ using namespace std;
 // Settings
 int64_t nTransactionFee = 0;
 bool bSpendZeroConfChange = true;
+static std::vector<CKeyID> vChangeAddresses;
 
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -1397,8 +1399,15 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, int64_t> >& vecSend,
                     // coin control: send change to custom address
                     if (coinControl && !boost::get<CNoDestination>(&coinControl->destChange))
                         scriptChange.SetDestination(coinControl->destChange);
+                        
+                    // send change to one of the specified change addresses, if specified at init
+                    else if (vChangeAddresses.size())
+                    {
+                        CKeyID keyID = vChangeAddresses[GetRandInt(vChangeAddresses.size())];
+                        scriptChange.SetDestination(keyID);
+                    }
 
-                    // no coin control: send change to newly generated address
+                    // send change to newly generated address
                     else
                     {
                         // Note: We use a new key here to keep it from being obvious which side is the change.
@@ -2182,4 +2191,12 @@ bool CWallet::GetDestData(const CTxDestination &dest, const std::string &key, st
         }
     }
     return false;
+}
+
+// Add an address to the list of fixed change addresses to use. Fixed
+// addresses can be used to reduce the pace at which wallets expand
+// due to number of change addresses
+void AddFixedChangeAddress(const CKeyID &changeAddress)
+{
+    vChangeAddresses.push_back(changeAddress);
 }
