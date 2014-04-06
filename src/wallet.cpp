@@ -1,5 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2014 The Bitcoin developers
+// Copyright (c)      2014 The Dogecoin developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -1406,7 +1407,7 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, int64_t> >& vecSend,
                         scriptChange.SetDestination(keyID);
                     }
 
-                    // no coin control: send change to newly generated address
+                    // send change to newly generated address
                     else
                     {
                         // Note: We use a new key here to keep it from being obvious which side is the change.
