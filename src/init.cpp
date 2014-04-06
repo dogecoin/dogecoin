@@ -222,7 +222,7 @@ std::string HelpMessage(HelpMessageMode hmm)
     strUsage += "  -bantime=<n>           " + _("Number of seconds to keep misbehaving peers from reconnecting (default: 86400)") + "\n";
     strUsage += "  -maxreceivebuffer=<n>  " + _("Maximum per-connection receive buffer, <n>*1000 bytes (default: 5000)") + "\n";
     strUsage += "  -maxsendbuffer=<n>     " + _("Maximum per-connection send buffer, <n>*1000 bytes (default: 1000)") + "\n";
-        strUsage += "  -bloomfilters          " + _("Allow peers to set bloom filters (default: 1)") + "\n" +
+	strUsage += "  -bloomfilters          " + _("Allow peers to set bloom filters (default: 1)") + "\n" +
 #ifdef USE_UPNP
 #if USE_UPNP
     strUsage += "  -upnp                  " + _("Use UPnP to map the listening port (default: 1 when listening)") + "\n";
