@@ -18,6 +18,7 @@ using namespace std;
 // Settings
 int64_t nTransactionFee = 0;
 bool bSpendZeroConfChange = true;
+static std::vector<CKeyID> vChangeAddresses;
 
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -1398,17 +1399,10 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, int64_t> >& vecSend,
                     if (coinControl && !boost::get<CNoDestination>(&coinControl->destChange))
                         scriptChange.SetDestination(coinControl->destChange);
                         
-                    // send change to one of the specified change addresses
-                    else if (mapArgs.count("-change") && mapMultiArgs["-change"].size() > 0)
+                    // send change to one of the specified change addresses, if specified at init
+                    else if (vChangeAddresses.size())
                     {
-                        CBitcoinAddress address(mapMultiArgs["-change"][GetRandInt(mapMultiArgs["-change"].size())]);
-
-                        CKeyID keyID;
-                        if (!address.GetKeyID(keyID)) {
-                            strFailReason = _("Bad change address");
-                            return false;
-                        }
-
+                        CKeyID keyID = vChangeAddresses[GetRandInt(vChangeAddresses.size())];
                         scriptChange.SetDestination(keyID);
                     }
 
@@ -2196,4 +2190,12 @@ bool CWallet::GetDestData(const CTxDestination &dest, const std::string &key, st
         }
     }
     return false;
+}
+
+// Add an address to the list of fixed change addresses to use. Fixed
+// addresses can be used to reduce the pace at which wallets expand
+// due to number of change addresses
+void AddFixedChangeAddress(const CKeyID &changeAddress)
+{
+    vChangeAddresses.push_back(changeAddress);
 }

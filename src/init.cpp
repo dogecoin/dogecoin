@@ -2,6 +2,7 @@
 // Copyright (c) 2009-2014 The Bitcoin developers
 // Copyright (c) 2011-2013 The Litecoin developers
 // Copyright (c)      2014 The Inutoshi developers
+// Copyright (c)      2014 The Dogecoin developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -12,7 +13,9 @@
 #include "init.h"
 
 #include "addrman.h"
+#include "base58.h"
 #include "checkpoints.h"
+#include "key.h"
 #include "main.h"
 #include "miner.h"
 #include "net.h"
@@ -207,7 +210,6 @@ std::string HelpMessage(HelpMessageMode hmm)
     strUsage += "  -maxconnections=<n>    " + _("Maintain at most <n> connections to peers (default: 125)") + "\n";
     strUsage += "  -addnode=<ip>          " + _("Add a node to connect to and attempt to keep the connection open") + "\n";
     strUsage += "  -connect=<ip>          " + _("Connect only to the specified node(s)") + "\n";
-    strUsage += "  -change=<address>      " + _("Send change only to the specified address(es)") + "\n" +
     strUsage += "  -seednode=<ip>         " + _("Connect to a node to retrieve peer addresses, and disconnect") + "\n";
     strUsage += "  -externalip=<ip>       " + _("Specify your own public address") + "\n";
     strUsage += "  -onlynet=<net>         " + _("Only connect to nodes in network <net> (IPv4, IPv6 or Tor)") + "\n";
@@ -220,7 +222,7 @@ std::string HelpMessage(HelpMessageMode hmm)
     strUsage += "  -bantime=<n>           " + _("Number of seconds to keep misbehaving peers from reconnecting (default: 86400)") + "\n";
     strUsage += "  -maxreceivebuffer=<n>  " + _("Maximum per-connection receive buffer, <n>*1000 bytes (default: 5000)") + "\n";
     strUsage += "  -maxsendbuffer=<n>     " + _("Maximum per-connection send buffer, <n>*1000 bytes (default: 1000)") + "\n";
-	strUsage += "  -bloomfilters          " + _("Allow peers to set bloom filters (default: 1)") + "\n" +
+        strUsage += "  -bloomfilters          " + _("Allow peers to set bloom filters (default: 1)") + "\n" +
 #ifdef USE_UPNP
 #if USE_UPNP
     strUsage += "  -upnp                  " + _("Use UPnP to map the listening port (default: 1 when listening)") + "\n";
@@ -278,6 +280,7 @@ std::string HelpMessage(HelpMessageMode hmm)
     strUsage += "  -upgradewallet         " + _("Upgrade wallet to latest format") + "\n";
     strUsage += "  -wallet=<file>         " + _("Specify wallet file (within data directory)") + "\n";
     strUsage += "  -walletnotify=<cmd>    " + _("Execute command when a wallet transaction changes (%s in cmd is replaced by TxID)") + "\n";
+    strUsage += "  -change=<address>      " + _("Send change only to the specified address(es)") + "\n" +
     strUsage += "  -spendzeroconfchange   " + _("Spend unconfirmed change when sending transactions (default: 1)") + "\n";
 #endif
     strUsage += "\n" + _("Block creation options:") + "\n";
@@ -559,6 +562,20 @@ bool AppInit2(boost::thread_group& threadGroup)
         if (nTransactionFee > 25 * COIN)
             InitWarning(_("Warning: -paytxfee is set very high! This is the transaction fee you will pay if you send a transaction."));
     }
+    
+    if (mapArgs.count("-change"))
+    {
+        BOOST_FOREACH(std::string strChange, mapMultiArgs["-change"]) {
+            CBitcoinAddress address(strChange);
+            CKeyID keyID;
+            
+            if (!address.GetKeyID(keyID)) {
+                return InitError(strprintf(_("Bad -change address: '%s'"), strChange));
+            }
+            AddFixedChangeAddress(keyID);
+        }
+    }
+    
     bSpendZeroConfChange = GetArg("-spendzeroconfchange", true);
 
     strWalletFile = GetArg("-wallet", "wallet.dat");
