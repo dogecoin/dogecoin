@@ -62,11 +62,13 @@ static const CRPCConvertParam vRPCConvertParams[] =
     { "sendfrom", 3 },
     { "listtransactions", 1 },
     { "listtransactions", 2 },
+    { "listtransactions", 3 },
     { "listaccounts", 0 },
     { "listaccounts", 1 },
     { "walletpassphrase", 1 },
     { "getblocktemplate", 0 },
     { "listsinceblock", 1 },
+    { "listsinceblock", 2 },
     { "sendmany", 1 },
     { "sendmany", 2 },
     { "addmultisigaddress", 0 },
@@ -283,22 +285,6 @@ int CommandLineRPC(int argc, char *argv[])
             else
                 strPrint = write_string(result, true);
         }
-    }
-    catch (boost::thread_interrupted) {
-        throw;
-    }
-    catch (std::exception& e) {
-        strPrint = string("error: ") + e.what();
-        nRet = abs(RPC_MISC_ERROR);
-    }
-    catch (...) {
-        PrintExceptionContinue(NULL, "CommandLineRPC()");
-        throw;
-    }
-
-    if (strPrint != "")
-    {
-        fprintf((nRet == 0 ? stdout : stderr), "%s\n", strPrint.c_str());
     }
     return nRet;
 }
