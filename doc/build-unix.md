@@ -62,7 +62,7 @@ Build requirements:
 
 for Ubuntu 12.04 and later:
 
-	sudo apt-get install libboost-all-dev libdb5.1-dev libdb5.1++-dev
+	sudo apt-get install libboost-all-dev libdb5.1-dev libdb5.1++-dev protobuf-compiler qtcreator
 
 for Ubuntu 13.10:
 	libboost1.54 will not work,
