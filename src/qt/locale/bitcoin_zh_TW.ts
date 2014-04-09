@@ -20,7 +20,7 @@ Distributed under the MIT/X11 software license, see the accompanying file COPYIN
 
 This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit (http://www.openssl.org/) and cryptographic software written by Eric Young (eay@cryptsoft.com) and UPnP software written by Thomas Bernard.</source>
         <translation>
-位元幣，原名是 Dogecoin, 又叫做比特幣。
+狗狗幣，原名是 Dogecoin, 又叫做比特幣。
 
 這是一套實驗性的軟體。
 
@@ -129,7 +129,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+4"/>
         <source>These are your Dogecoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation>這些是你用來收款的位元幣位址。建議在每次交易時，都使用一個新的收款位址。</translation>
+        <translation>這些是你用來收款的狗狗幣位址。建議在每次交易時，都使用一個新的收款位址。</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -539,18 +539,18 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="-401"/>
         <source>Dogecoin Core</source>
-        <translation>位元幣核心</translation>
+        <translation>狗狗幣核心</translation>
     </message>
     <message>
         <location line="+163"/>
         <source>Request payments (generates QR codes and dogecoin: URIs)</source>
-        <translation>要求付款(產生 QR Code 和位元幣付款協議的 URI)</translation>
+        <translation>要求付款(產生 QR Code 和狗狗幣付款協議的 URI)</translation>
     </message>
     <message>
         <location line="+29"/>
         <location line="+2"/>
         <source>&amp;About Dogecoin Core</source>
-        <translation>關於位元幣核心</translation>
+        <translation>關於狗狗幣核心</translation>
     </message>
     <message>
         <location line="+35"/>
@@ -575,7 +575,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+1"/>
         <source>Show the Dogecoin Core help message to get a list with possible Dogecoin command-line options</source>
-        <translation>顯示位元幣核心的說明訊息，來取得可用命令列選項的列表</translation>
+        <translation>顯示狗狗幣核心的說明訊息，來取得可用命令列選項的列表</translation>
     </message>
     <message>
         <location line="+159"/>
@@ -1052,7 +1052,7 @@ Address: %4
     <message>
         <location line="-5"/>
         <source>The entered address &quot;%1&quot; is not a valid Dogecoin address.</source>
-        <translation>輸入的位址 %1 並不是有效的位元幣位址。</translation>
+        <translation>輸入的位址 %1 並不是有效的狗狗幣位址。</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1098,12 +1098,12 @@ Address: %4
     <message>
         <location filename="../forms/helpmessagedialog.ui" line="+19"/>
         <source>Dogecoin Core - Command-line options</source>
-        <translation>位元幣核心 - 命令列選項</translation>
+        <translation>狗狗幣核心 - 命令列選項</translation>
     </message>
     <message>
         <location filename="../utilitydialog.cpp" line="+38"/>
         <source>Dogecoin Core</source>
-        <translation>位元幣核心</translation>
+        <translation>狗狗幣核心</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -1156,17 +1156,17 @@ Address: %4
     <message>
         <location line="+9"/>
         <source>Welcome to Dogecoin Core.</source>
-        <translation>歡迎使用位元幣核心</translation>
+        <translation>歡迎使用狗狗幣核心</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>As this is the first time the program is launched, you can choose where Dogecoin Core will store its data.</source>
-        <translation>因為這是程式第一次啓動，你可以選擇位元幣核心儲存資料的地方。</translation>
+        <translation>因為這是程式第一次啓動，你可以選擇狗狗幣核心儲存資料的地方。</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Dogecoin Core will download and store a copy of the Dogecoin block chain. At least %1GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
-        <translation>位元幣核心會下載並儲存一份位元幣區塊鏈的拷貝。至少有 %1GB 的資料會儲存到這個目錄中，並且還會持續增長。另外錢包資料也會儲存在這個目錄。</translation>
+        <translation>狗狗幣核心會下載並儲存一份狗狗幣區塊鏈的拷貝。至少有 %1GB 的資料會儲存到這個目錄中，並且還會持續增長。另外錢包資料也會儲存在這個目錄。</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1181,7 +1181,7 @@ Address: %4
     <message>
         <location filename="../intro.cpp" line="+85"/>
         <source>Dogecoin</source>
-        <translation>位元幣</translation>
+        <translation>狗狗幣</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1257,12 +1257,12 @@ Address: %4
     <message>
         <location line="+31"/>
         <source>Automatically start Dogecoin after logging in to the system.</source>
-        <translation>在登入系統後自動啓動位元幣軟體。</translation>
+        <translation>在登入系統後自動啓動狗狗幣軟體。</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>&amp;Start Dogecoin on system login</source>
-        <translation>系統登入時啟動位元幣</translation>
+        <translation>系統登入時啟動狗狗幣</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -1327,7 +1327,7 @@ Address: %4
     <message>
         <location line="+6"/>
         <source>Automatically open the Dogecoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>自動在路由器上開放位元幣的客戶端通訊埠。只有在你的路由器支援且開啓通用即插即用(UPnP)協定時才有作用。</translation>
+        <translation>自動在路由器上開放狗狗幣的客戶端通訊埠。只有在你的路由器支援且開啓通用即插即用(UPnP)協定時才有作用。</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1397,7 +1397,7 @@ Address: %4
     <message>
         <location line="+13"/>
         <source>The user interface language can be set here. This setting will take effect after restarting Dogecoin.</source>
-        <translation>可以在這裡設定使用者介面的語言。這個設定在重啓位元幣軟體後才會生效。</translation>
+        <translation>可以在這裡設定使用者介面的語言。這個設定在重啓狗狗幣軟體後才會生效。</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -1412,7 +1412,7 @@ Address: %4
     <message>
         <location line="+9"/>
         <source>Whether to show Dogecoin addresses in the transaction list or not.</source>
-        <translation>是否要在交易列表中顯示位元幣位址。</translation>
+        <translation>是否要在交易列表中顯示狗狗幣位址。</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1557,7 +1557,7 @@ Address: %4
     <message>
         <location line="+1"/>
         <source>URI can not be parsed! This can be caused by an invalid Dogecoin address or malformed URI parameters.</source>
-        <translation>沒辦法解析 URI 位址！可能是因為位元幣位址無效，或是 URI 參數格式錯誤。</translation>
+        <translation>沒辦法解析 URI 位址！可能是因為狗狗幣位址無效，或是 URI 參數格式錯誤。</translation>
     </message>
     <message>
         <location line="+96"/>
@@ -1646,7 +1646,7 @@ Address: %4
         <location filename="../bitcoin.cpp" line="+71"/>
         <location line="+11"/>
         <source>Dogecoin</source>
-        <translation>位元幣</translation>
+        <translation>狗狗幣</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1911,7 +1911,7 @@ Address: %4
         <location line="+14"/>
         <location line="+23"/>
         <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Dogecoin network.</source>
-        <translation>附加在付款要求中的訊息，可以不填，打開要求內容時會顯示。注意: 這個訊息不會隨著付款送到位元幣網路上。</translation>
+        <translation>附加在付款要求中的訊息，可以不填，打開要求內容時會顯示。注意: 這個訊息不會隨著付款送到狗狗幣網路上。</translation>
     </message>
     <message>
         <location line="-7"/>
@@ -2307,7 +2307,7 @@ Address: %4
     <message>
         <location line="+113"/>
         <source>Warning: Invalid Dogecoin address</source>
-        <translation>警告: 位元幣位址無效</translation>
+        <translation>警告: 狗狗幣位址無效</translation>
     </message>
     <message>
         <location line="+20"/>
@@ -2419,7 +2419,7 @@ Address: %4
     <message>
         <location line="+33"/>
         <source>A message that was attached to the dogecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
-        <translation>附加在位元幣付款協議 URI 中的訊息，會和交易內容一起存起來，給你自己做參考。注意: 這個訊息不會送到位元幣網路上。</translation>
+        <translation>附加在狗狗幣付款協議 URI 中的訊息，會和交易內容一起存起來，給你自己做參考。注意: 這個訊息不會送到狗狗幣網路上。</translation>
     </message>
     <message>
         <location line="+426"/>
@@ -2444,7 +2444,7 @@ Address: %4
     <message>
         <location filename="../utilitydialog.cpp" line="+48"/>
         <source>Dogecoin Core is shutting down...</source>
-        <translation>位元幣核心正在關閉中...</translation>
+        <translation>狗狗幣核心正在關閉中...</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2644,7 +2644,7 @@ Address: %4
     <message>
         <location filename="../splashscreen.cpp" line="+28"/>
         <source>Dogecoin Core</source>
-        <translation>位元幣核心</translation>
+        <translation>狗狗幣核心</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3411,7 +3411,7 @@ alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com</transla
     <message>
         <location line="+3"/>
         <source>Warning: The network does not appear to fully agree! Some miners appear to be experiencing issues.</source>
-        <translation>警告: 位元幣網路對於區塊鏈結的決定目前有分歧！看來有些礦工會有問題。</translation>
+        <translation>警告: 狗狗幣網路對於區塊鏈結的決定目前有分歧！看來有些礦工會有問題。</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3441,12 +3441,12 @@ alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com</transla
     <message>
         <location line="+1"/>
         <source>Dogecoin Core Daemon</source>
-        <translation>位元幣核心護靈</translation>
+        <translation>狗狗幣核心護靈</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Dogecoin RPC client version</source>
-        <translation>位元幣 RPC 客戶端軟體版本</translation>
+        <translation>狗狗幣 RPC 客戶端軟體版本</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3646,7 +3646,7 @@ alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com</transla
     <message>
         <location line="+1"/>
         <source>Send command to Dogecoin server</source>
-        <translation>傳送指令給位元幣伺服器</translation>
+        <translation>傳送指令給狗狗幣伺服器</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -3666,7 +3666,7 @@ alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com</transla
     <message>
         <location line="+2"/>
         <source>Start Dogecoin server</source>
-        <translation>啟動位元幣伺服器</translation>
+        <translation>啟動狗狗幣伺服器</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3941,7 +3941,7 @@ alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com</transla
     <message>
         <location line="+1"/>
         <source>Error loading wallet.dat: Wallet requires newer version of Dogecoin</source>
-        <translation>載入 wallet.dat 檔案時發生錯誤: 這個錢包需要新版的位元幣軟體</translation>
+        <translation>載入 wallet.dat 檔案時發生錯誤: 這個錢包需要新版的狗狗幣軟體</translation>
     </message>
     <message>
         <location line="+98"/>
