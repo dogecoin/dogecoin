@@ -135,6 +135,28 @@ public:
 
 
 
+/** Type-safe wrapper class to for fee rates
+ * (how much to pay based on transaction size)
+ */
+class CFeeRate
+{
+private:
+    int64_t nKoinuPerK; // unit is satoshis-per-1,000-bytes
+public:
+    explicit CFeeRate(int64_t _nKoinuPerK): nKoinuPerK(_nKoinuPerK) { }
+    CFeeRate(int64_t nFeePaid, size_t nSize);
+    CFeeRate(const CFeeRate& other) { nKoinuPerK = other.nKoinuPerK; }
+
+    int64_t GetFee(size_t size); // unit returned is satoshis
+    int64_t GetFeePerK() { return GetFee(1000); } // satoshis-per-1000-bytes
+
+    friend bool operator<(const CFeeRate& a, const CFeeRate& b) { return a.nKoinuPerK < b.nKoinuPerK; }
+    friend bool operator>(const CFeeRate& a, const CFeeRate& b) { return a.nKoinuPerK > b.nKoinuPerK; }
+    friend bool operator==(const CFeeRate& a, const CFeeRate& b) { return a.nKoinuPerK == b.nKoinuPerK; }
+
+    std::string ToString() const;
+};
+
 
 /** An output of a transaction.  It contains the public key that the next input
  * must be able to sign with to claim it.
@@ -171,11 +193,21 @@ public:
 
     uint256 GetHash() const;
 
-    bool IsDust(int64_t nMinRelayTxFee) const
+    bool IsDust(CFeeRate minRelayTxFee) const
     {
         // Dogecoin: IsDust() detection disabled, allows any valid dust to be relayed.
         // The fees imposed on each dust txo is considered sufficient spam deterrant.
-		return false;
+        return false;
+        // "Dust" is defined in terms of CTransaction::minRelayTxFee,
+        // which has units satoshis-per-kilobyte.
+        // If you'd pay more than 1/3 in fees
+        // to spend something, then we consider it dust.
+        // A typical txout is 34 bytes big, and will
+        // need a CTxIn of at least 148 bytes to spend:
+        // so dust is a txout less than 546 satoshis 
+        // with default minRelayTxFee.
+        // size_t nSize = GetSerializeSize(SER_DISK,0)+148u;
+        // return (nValue < 3*minRelayTxFee.GetFee(nSize));
     }
 
     friend bool operator==(const CTxOut& a, const CTxOut& b)
@@ -200,8 +232,8 @@ public:
 class CTransaction
 {
 public:
-    static int64_t nMinTxFee;
-    static int64_t nMinRelayTxFee;
+    static CFeeRate minTxFee;
+    static CFeeRate minRelayTxFee;
     static const int CURRENT_VERSION=1;
     int nVersion;
     std::vector<CTxIn> vin;

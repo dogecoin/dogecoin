@@ -73,6 +73,25 @@ void CTxOut::print() const
     LogPrintf("%s\n", ToString());
 }
 
+CFeeRate::CFeeRate(int64_t nFeePaid, size_t nSize)
+{
+    if (nSize > 0)
+        nKoinuPerK = nFeePaid*1000/nSize;
+    else
+        nKoinuPerK = 0;
+}
+
+int64_t CFeeRate::GetFee(size_t nSize)
+{
+    return nKoinuPerK*nSize / 1000;
+}
+
+std::string CFeeRate::ToString() const
+{
+    std::string result = FormatMoney(nKoinuPerK) + " DOGE/kB";
+    return result;
+}
+
 uint256 CTransaction::GetHash() const
 {
     return SerializeHash(*this);
