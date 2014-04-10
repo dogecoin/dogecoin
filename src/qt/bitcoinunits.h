@@ -29,7 +29,8 @@ public:
         //formerly uDOGE
         MDOGE = 3,
         kDOGE = 4,
-        Koinu = 5
+        Koinu = 5,
+        DOGE_URL = 6
     };
 
     //! @name Static API

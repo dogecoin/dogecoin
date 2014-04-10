@@ -20,6 +20,7 @@ QList<BitcoinUnits::Unit> BitcoinUnits::availableUnits()
     unitlist.append(kDOGE);
     unitlist.append(DOGE);
     unitlist.append(Koinu);
+    unitlist.append(DOGE_URL);
     return unitlist;
 }
 
@@ -31,6 +32,7 @@ bool BitcoinUnits::valid(int unit)
     case kDOGE:
     case DOGE:
     case Koinu:
+    case DOGE_URL:
         return true;
     default:
         return false;
@@ -45,6 +47,7 @@ QString BitcoinUnits::name(int unit)
     case kDOGE: return QString("kDOGE");
     case DOGE: return QString("DOGE");
     case Koinu: return QString("Koinu");
+    case DOGE_URL: return QString("DOGE");
     default: return QString("???");
     }
 }
@@ -57,6 +60,7 @@ QString BitcoinUnits::description(int unit)
     case kDOGE: return QString("Kilo-Dogecoin (1000 DOGE)");
     case DOGE: return QString("Dogecoin");
     case Koinu: return QString("Koinu (1 / 100,000,000");
+    case DOGE_URL: return QString("Dogecoin");
     default: return QString("???");
     }
 }
@@ -69,6 +73,7 @@ qint64 BitcoinUnits::factor(int unit)
     case kDOGE: return Q_INT64_C(100000000000);
     case DOGE:  return Q_INT64_C(100000000);
     case Koinu: return Q_INT64_C(1);
+    case DOGE_URL: return Q_INT64_C(100000000);
     default:    return Q_INT64_C(100000000);
     }
 }
@@ -81,6 +86,7 @@ qint64 BitcoinUnits::maxAmount(int unit)
     case kDOGE: return Q_INT64_C(900000000);
     case DOGE:  return Q_INT64_C(900000000000);    //less than the coin supply until the year 2170
     case Koinu: return Q_INT64_C(9000000000000000000); // Slightly under max value for int64
+    case DOGE_URL:  return Q_INT64_C(900000000000);    //less than the coin supply until the year 2170
     default:   return 0;
     }
 }
@@ -93,6 +99,7 @@ int BitcoinUnits::amountDigits(int unit)
     case kDOGE: return 9;  // 900,000,000
     case DOGE:  return 12; // 900,000,000,000
     case Koinu: return 19; // 9,000,000,000,000,000,000
+    case DOGE_URL:  return 12; // 900,000,000,000
     default: return 0;
     }
 }
@@ -105,6 +112,7 @@ int BitcoinUnits::decimals(int unit)
     case kDOGE: return 11;
     case DOGE: return 8;
     case Koinu: return 0;
+    case DOGE_URL: return 8;
     default: return 0;
     }
 }
@@ -124,9 +132,17 @@ QString BitcoinUnits::format(int unit, qint64 n, bool fPlus, bool fTrim, const Q
     qint64 remainder = n_abs % coin;
     // Quotient has group (decimal) separators if locale has this enabled
     QString quotient_str = locale.toString(quotient);
+
     // Remainder does not have group separators
     locale.setNumberOptions(QLocale::OmitGroupSeparator | QLocale::RejectGroupSeparator);
     QString remainder_str = locale.toString(remainder).rightJustified(num_decimals, '0');
+
+    // For URL-type units only, drop separators by rebuilding the quotient with the
+    // group separators disabled.
+    if (unit == DOGE_URL)
+    {
+        quotient_str = locale.toString(quotient);
+    }
 
     if(fTrim)
     {
