@@ -4,7 +4,7 @@
 ![Dogecoin](http://static.tumblr.com/ppdj5y9/Ae9mxmxtp/300coin.png)
 
 ## What is Dogecoin? - Such coin
-Dogecoin is a cryptocurrency like Bitcoin, although it uses a different algorithm as its proof of work (POW). Taking its cue from Lightcoin, it employs a simplified version of scrypt; an algorithm specifically designed to make it difficult and costly to perform large-scale attacks using custom hardware by requiring large amounts of memory.
+Dogecoin is a cryptocurrency like Bitcoin, although it does not use SHA256 as its proof of work (POW). Taking development cues from Tenebrix and Litecoin, Dogecoin currently employs a simplified variant of scrypt.
 
 http://dogecoin.com/
 
