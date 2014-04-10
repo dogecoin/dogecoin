@@ -20,8 +20,6 @@ Distributed under the MIT/X11 software license, see the accompanying file COPYIN
 
 This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit (http://www.openssl.org/) and cryptographic software written by Eric Young (eay@cryptsoft.com) and UPnP software written by Thomas Bernard.</source>
         <translation>
-狗狗幣，原名是 Dogecoin, 又叫做比特幣。
-
 這是一套實驗性的軟體。
 
 這套軟體是依據 MIT/X11 軟體授權條款散布，詳情請見附帶的 COPYING 檔案，或是以下網站: http://www.opensource.org/licenses/mit-license.php.
