@@ -27,7 +27,7 @@ Dogecoin uses a simplified variant of the scrypt key derivation function as its 
 Originally, a different payout scheme was envisioned with block rewards being determined by taking the maximum reward as per the block schedule and applying the result of a Mersenne Twister pseudo-random number generator to arrive at a number between 0 and the maximum reward. This was changed, starting with block 145,000, to prevent large pools from gaming the system and mining only high reward blocks. At the same time, the difficulty retargeting was also changed from four hours to once per block (every minute), implementing an algorithm courtesy of the DigiByte Coin development team, to lessen the impact of sudden increases and decreases of network hashing rate.
 
 The current block reward schedule:
-1-100,000: 0 - 1,000,000 Dogecoin Reward
+1 - 100,000: 0 - 1,000,000 Dogecoin 
 
 100,001 - 145,000: 0 - 500,000 Dogecoin
 
@@ -41,10 +41,10 @@ The current block reward schedule:
 
 500,001 - 600,000: 15,625 Dogecoin
 
-600,000+ - 10,000 Reward (flat)
+600,000+: 10,000 Dogecoin
 
 The original block reward schedule with one minute block targets and four hour difficulty readjustment:
-1-100,000: 0-1,000,000 Dogecoin Reward
+1 - 100,000: 0 - 1,000,000 Dogecoin 
 
 100,001 - 200,000: 0-500,000 Dogecoin
 
@@ -56,7 +56,7 @@ The original block reward schedule with one minute block targets and four hour d
 
 500,001 - 600,000: 0-31,250 Dogecoin
 
-600,000+ - 10,000 Dogecoin
+600,000+: 10,000 Dogecoin
 
 ### Wow plz make dogecoind
 
