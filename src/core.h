@@ -17,10 +17,34 @@
 #include <stdint.h>
 
 class CTransaction;
+class CAuxPow;
+
+template <typename Stream>
+int ReadWriteAuxPow(Stream& s, const boost::shared_ptr<CAuxPow>& auxpow, int nType, int nVersion, CSerActionSerialize ser_action);
+
+template <typename Stream>
+int ReadWriteAuxPow(Stream& s, boost::shared_ptr<CAuxPow>& auxpow, int nType, int nVersion, CSerActionUnserialize ser_action);
+
+template <typename Stream>
+int ReadWriteAuxPow(Stream& s, const boost::shared_ptr<CAuxPow>& auxpow, int nType, int nVersion, CSerActionGetSerializeSize ser_action);
+
+enum
+{
+    // primary version
+    BLOCK_VERSION_DEFAULT        = (1 << 0),
+
+    // modifiers
+    BLOCK_VERSION_AUXPOW         = (1 << 8),
+
+    // bits allocated for chain ID
+    BLOCK_VERSION_CHAIN_START    = (1 << 16),
+    BLOCK_VERSION_CHAIN_END      = (1 << 30),
+};
 
 /** No amount larger than this (in satoshi) is valid */
 static const int64_t MAX_MONEY = 10000000000 * COIN; // Dogecoin: maximum of 100B coins (given some randomness), max transaction 10,000,000,000
 inline bool MoneyRange(int64_t nValue) { return (nValue >= 0 && nValue <= MAX_MONEY); }
+int GetOurChainID();
 
 /** An outpoint - a combination of a transaction hash and an index n into its vout */
 class COutPoint
@@ -350,6 +374,7 @@ public:
     unsigned int nTime;
     unsigned int nBits;
     unsigned int nNonce;
+    boost::shared_ptr<CAuxPow> auxpow;
 
     CBlockHeader()
     {
@@ -365,11 +390,27 @@ public:
         READWRITE(nTime);
         READWRITE(nBits);
         READWRITE(nNonce);
+
+        nSerSize += ReadWriteAuxPow(s, auxpow, nType, nVersion, ser_action);
     )
+
+    int GetChainID() const
+    {
+        return nVersion / BLOCK_VERSION_CHAIN_START;
+    }
+
+    uint256 GetPoWHash() const
+    {
+        uint256 thash;
+        scrypt_1024_1_1_256(BEGIN(nVersion), BEGIN(thash));
+        return thash;
+    }
+
+    void SetAuxPow(CAuxPow* pow);
 
     void SetNull()
     {
-        nVersion = CBlockHeader::CURRENT_VERSION;
+        nVersion = CBlockHeader::CURRENT_VERSION | (GetOurChainID() * BLOCK_VERSION_CHAIN_START);
         hashPrevBlock = 0;
         hashMerkleRoot = 0;
         nTime = 0;
@@ -395,6 +436,8 @@ public:
     {
         return (int64_t)nTime;
     }
+
+    bool CheckProofOfWork(int nHeight) const;
 };
 
 

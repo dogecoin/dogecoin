@@ -7,6 +7,7 @@
 
 #include "core.h"
 #include "uint256.h"
+#include "auxpow.h"
 
 #include <stdint.h>
 
@@ -68,9 +69,19 @@ bool CCoinsViewDB::BatchWrite(const std::map<uint256, CCoins> &mapCoins, const u
 CBlockTreeDB::CBlockTreeDB(size_t nCacheSize, bool fMemory, bool fWipe) : CLevelDBWrapper(GetDataDir() / "blocks" / "index", nCacheSize, fMemory, fWipe) {
 }
 
-bool CBlockTreeDB::WriteBlockIndex(const CDiskBlockIndex& blockindex)
+bool CBlockTreeDB::WriteDiskBlockIndex(const CDiskBlockIndex& diskblockindex)
 {
-    return Write(make_pair('b', blockindex.GetBlockHash()), blockindex);
+    return Write(boost::tuples::make_tuple('b', *diskblockindex.phashBlock, 'a'), diskblockindex);
+}
+
+bool CBlockTreeDB::WriteBlockIndex(const CBlockIndex& blockindex)
+{
+    return Write(boost::tuples::make_tuple('b', blockindex.GetBlockHash(), 'b'), blockindex);
+}
+
+bool CBlockTreeDB::ReadDiskBlockIndex(const uint256 &blkid, CDiskBlockIndex &diskblockindex)
+{
+    return Read(boost::tuples::make_tuple('b', blkid, 'a'), diskblockindex);
 }
 
 bool CBlockTreeDB::WriteBestInvalidWork(const CBigNum& bnBestInvalidWork)
@@ -186,7 +197,9 @@ bool CBlockTreeDB::LoadBlockIndexGuts()
     leveldb::Iterator *pcursor = NewIterator();
 
     CDataStream ssKeySet(SER_DISK, CLIENT_VERSION);
-    ssKeySet << make_pair('b', uint256(0));
+    ssKeySet << boost::tuples::make_tuple('b', uint256(0), 'a'); // 'b' is the prefix for BlockIndex, 'a' sigifies the first part
+    uint256 hash;
+    char cType;
     pcursor->Seek(ssKeySet.str());
 
     // Load mapBlockIndex
@@ -195,31 +208,40 @@ bool CBlockTreeDB::LoadBlockIndexGuts()
         try {
             leveldb::Slice slKey = pcursor->key();
             CDataStream ssKey(slKey.data(), slKey.data()+slKey.size(), SER_DISK, CLIENT_VERSION);
-            char chType;
-            ssKey >> chType;
-            if (chType == 'b') {
-                leveldb::Slice slValue = pcursor->value();
-                CDataStream ssValue(slValue.data(), slValue.data()+slValue.size(), SER_DISK, CLIENT_VERSION);
-                CDiskBlockIndex diskindex;
-                ssValue >> diskindex;
+            ssKey >> cType;
+            if (cType == 'b') {
+                ssKey >> hash;
 
-                // Construct block index object
-                CBlockIndex* pindexNew = InsertBlockIndex(diskindex.GetBlockHash());
+                leveldb::Slice slValue = pcursor->value();
+                CDataStream ssValue_immutable(slValue.data(), slValue.data()+slValue.size(), SER_DISK, CLIENT_VERSION);
+                CDiskBlockIndex diskindex;
+                ssValue_immutable >> diskindex; // read all immutable data
+
+                // Construct immutable parts of block index objecty
+                CBlockIndex* pindexNew = InsertBlockIndex(hash);
+                assert(diskindex.CalcBlockHash() == *pindexNew->phashBlock); // paranoia check
+
                 pindexNew->pprev          = InsertBlockIndex(diskindex.hashPrev);
                 pindexNew->nHeight        = diskindex.nHeight;
-                pindexNew->nFile          = diskindex.nFile;
-                pindexNew->nDataPos       = diskindex.nDataPos;
-                pindexNew->nUndoPos       = diskindex.nUndoPos;
                 pindexNew->nVersion       = diskindex.nVersion;
                 pindexNew->hashMerkleRoot = diskindex.hashMerkleRoot;
                 pindexNew->nTime          = diskindex.nTime;
                 pindexNew->nBits          = diskindex.nBits;
                 pindexNew->nNonce         = diskindex.nNonce;
-                pindexNew->nStatus        = diskindex.nStatus;
                 pindexNew->nTx            = diskindex.nTx;
 
-                if (!pindexNew->CheckIndex())
+                // CheckIndex need phashBlock to be set
+                diskindex.phashBlock = pindexNew->phashBlock;
+                if (!diskindex.CheckIndex())
                     return error("LoadBlockIndex() : CheckIndex failed: %s", pindexNew->ToString());
+
+                pcursor->Next(); // now we should be on the 'b' subkey
+
+                assert(pcursor->Valid());
+
+                slValue = pcursor->value();
+                CDataStream ssValue_mutable(slValue.data(), slValue.data()+slValue.size(), SER_DISK, CLIENT_VERSION);
+                ssValue_mutable >> *pindexNew;      // read all mutable data
 
                 pcursor->Next();
             } else {
