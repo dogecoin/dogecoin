@@ -3,6 +3,7 @@
 #include "base58.h"
 #include "key.h"
 #include "main.h"
+#include "auxpow.h"
 #include "serialize.h"
 #include "uint256.h"
 #include "util.h"

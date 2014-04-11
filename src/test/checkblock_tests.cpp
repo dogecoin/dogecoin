@@ -5,6 +5,7 @@
 
 
 #include "main.h"
+#include "auxpow.h"
 
 #include <cstdio>
 
