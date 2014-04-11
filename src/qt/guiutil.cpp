@@ -175,7 +175,9 @@ QString formatBitcoinURI(const SendCoinsRecipient &info)
 
     if (info.amount)
     {
-        ret += QString("?amount=%1").arg(BitcoinUnits::format(BitcoinUnits::DOGE, info.amount));
+        QLocale localeC(QLocale::c());
+        localeC.setNumberOptions(QLocale::OmitGroupSeparator | QLocale::RejectGroupSeparator);
+        ret += QString("?amount=%1").arg(BitcoinUnits::format(BitcoinUnits::DOGE, info.amount, false, true, localeC));
         paramCount++;
     }
 
