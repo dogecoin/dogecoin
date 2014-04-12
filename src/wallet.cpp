@@ -1228,7 +1228,12 @@ bool CWallet::SelectCoinsMinConf(int64_t nTargetValue, int nConfMine, int nConfT
         }
         else if (n < nTargetValue + DUST_SOFT_LIMIT)
         {
-            // Skip coins which, if used, would result in less than a transaction fee in change
+            // This coin is not sufficient to cover the target plus change above the dust
+            // limit. The dust limit is important here, as we don't want to leave change
+            // which cannot be spent (is below the network transaction fee).
+            
+            // Push the coin into an array for potential matching later, but keep trying to find
+            // an exact match
             vValue.push_back(coin);
             nTotalLower += n;
         }
