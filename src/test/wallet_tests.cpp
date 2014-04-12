@@ -130,51 +130,51 @@ BOOST_AUTO_TEST_CASE(coin_selection_tests)
         // now clear out the wallet and start again to test choosing between subsets of smaller coins and the next biggest coin
         empty_wallet();
 
-        add_coin( 6*CENT);
-        add_coin( 7*CENT);
-        add_coin( 8*CENT);
-        add_coin(20*CENT);
-        add_coin(30*CENT); // now we have 6+7+8+20+30 = 71 cents total
+        add_coin( 6*COIN);
+        add_coin( 7*COIN);
+        add_coin( 8*COIN);
+        add_coin(20*COIN);
+        add_coin(30*COIN); // now we have 6+7+8+20+30 = 71 cents total
 
         // check that we have 71 and not 72
-        BOOST_CHECK( wallet.SelectCoinsMinConf(71 * CENT, 1, 1, vCoins, setCoinsRet, nValueRet));
-        BOOST_CHECK(!wallet.SelectCoinsMinConf(72 * CENT, 1, 1, vCoins, setCoinsRet, nValueRet));
+        BOOST_CHECK( wallet.SelectCoinsMinConf(71 * COIN, 1, 1, vCoins, setCoinsRet, nValueRet));
+        BOOST_CHECK(!wallet.SelectCoinsMinConf(72 * COIN, 1, 1, vCoins, setCoinsRet, nValueRet));
 
         // now try making 16 cents.  the best smaller coins can do is 6+7+8 = 21; not as good at the next biggest coin, 20
-        BOOST_CHECK( wallet.SelectCoinsMinConf(16 * CENT, 1, 1, vCoins, setCoinsRet, nValueRet));
-        BOOST_CHECK_EQUAL(nValueRet, 20 * CENT); // we should get 20 in one coin
+        BOOST_CHECK( wallet.SelectCoinsMinConf(16 * COIN, 1, 1, vCoins, setCoinsRet, nValueRet));
+        BOOST_CHECK_EQUAL(nValueRet, 20 * COIN); // we should get 20 in one coin
         BOOST_CHECK_EQUAL(setCoinsRet.size(), 1U);
 
-        add_coin( 5*CENT); // now we have 5+6+7+8+20+30 = 75 cents total
+        add_coin( 5*COIN); // now we have 5+6+7+8+20+30 = 75 cents total
 
         // now if we try making 16 cents again, the smaller coins can make 5+6+7 = 18 cents, better than the next biggest coin, 20
-        BOOST_CHECK( wallet.SelectCoinsMinConf(16 * CENT, 1, 1, vCoins, setCoinsRet, nValueRet));
-        BOOST_CHECK_EQUAL(nValueRet, 18 * CENT); // we should get 18 in 3 coins
+        BOOST_CHECK( wallet.SelectCoinsMinConf(16 * COIN, 1, 1, vCoins, setCoinsRet, nValueRet));
+        BOOST_CHECK_EQUAL(nValueRet, 18 * COIN); // we should get 18 in 3 coins
         BOOST_CHECK_EQUAL(setCoinsRet.size(), 3U);
 
-        add_coin( 18*CENT); // now we have 5+6+7+8+18+20+30
+        add_coin( 18*COIN); // now we have 5+6+7+8+18+20+30
 
         // and now if we try making 16 cents again, the smaller coins can make 5+6+7 = 18 cents, the same as the next biggest coin, 18
-        BOOST_CHECK( wallet.SelectCoinsMinConf(16 * CENT, 1, 1, vCoins, setCoinsRet, nValueRet));
-        BOOST_CHECK_EQUAL(nValueRet, 18 * CENT);  // we should get 18 in 1 coin
+        BOOST_CHECK( wallet.SelectCoinsMinConf(16 * COIN, 1, 1, vCoins, setCoinsRet, nValueRet));
+        BOOST_CHECK_EQUAL(nValueRet, 18 * COIN);  // we should get 18 in 1 coin
         BOOST_CHECK_EQUAL(setCoinsRet.size(), 1U); // because in the event of a tie, the biggest coin wins
 
         // now try making 11 cents.  we should get 5+6
-        BOOST_CHECK( wallet.SelectCoinsMinConf(11 * CENT, 1, 1, vCoins, setCoinsRet, nValueRet));
-        BOOST_CHECK_EQUAL(nValueRet, 11 * CENT);
+        BOOST_CHECK( wallet.SelectCoinsMinConf(11 * COIN, 1, 1, vCoins, setCoinsRet, nValueRet));
+        BOOST_CHECK_EQUAL(nValueRet, 11 * COIN);
         BOOST_CHECK_EQUAL(setCoinsRet.size(), 2U);
 
         // check that the smallest bigger coin is used
-        add_coin( 1*COIN);
-        add_coin( 2*COIN);
-        add_coin( 3*COIN);
-        add_coin( 4*COIN); // now we have 5+6+7+8+18+20+30+100+200+300+400 = 1094 cents
-        BOOST_CHECK( wallet.SelectCoinsMinConf(95 * CENT, 1, 1, vCoins, setCoinsRet, nValueRet));
-        BOOST_CHECK_EQUAL(nValueRet, 2 * COIN);  // we should get 2 DOGE in 1 coin. 1 DOGE is not suitable due to transaction fee
+        add_coin( 100*COIN);
+        add_coin( 200*COIN);
+        add_coin( 300*COIN);
+        add_coin( 400*COIN); // now we have 5+6+7+8+18+20+30+100+200+300+400 = 1094 cents
+        BOOST_CHECK( wallet.SelectCoinsMinConf(95 * COIN, 1, 1, vCoins, setCoinsRet, nValueRet));
+        BOOST_CHECK_EQUAL(nValueRet, 100 * COIN);  // we should get 200 DOGE in 1 coin.
         BOOST_CHECK_EQUAL(setCoinsRet.size(), 1U);
 
-        BOOST_CHECK( wallet.SelectCoinsMinConf(195 * CENT, 1, 1, vCoins, setCoinsRet, nValueRet));
-        BOOST_CHECK_EQUAL(nValueRet, 3 * COIN);  // we should get 3 DOGE in 1 coin
+        BOOST_CHECK( wallet.SelectCoinsMinConf(195 * COIN, 1, 1, vCoins, setCoinsRet, nValueRet));
+        BOOST_CHECK_EQUAL(nValueRet, 200 * COIN);  // we should get 3 DOGE in 1 coin
         BOOST_CHECK_EQUAL(setCoinsRet.size(), 1U);
 
         // empty the wallet and start again, now with fractions of a cent, to test sub-cent change avoidance
