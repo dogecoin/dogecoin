@@ -1226,8 +1226,9 @@ bool CWallet::SelectCoinsMinConf(int64_t nTargetValue, int nConfMine, int nConfT
             nValueRet += coin.first;
             return true;
         }
-        else if (n < nTargetValue + COIN)
+        else if (n < nTargetValue + DUST_SOFT_LIMIT)
         {
+            // Skip coins which, if used, would result in less than a transaction fee in change
             vValue.push_back(coin);
             nTotalLower += n;
         }
