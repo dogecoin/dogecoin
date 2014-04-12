@@ -240,18 +240,18 @@ BOOST_AUTO_TEST_CASE(coin_selection_tests)
 
         // test avoiding sub-cent change
         empty_wallet();
-        add_coin(0.0005 * COIN);
-        add_coin(0.01 * COIN);
+        add_coin(0.05 * COIN);
         add_coin(1 * COIN);
+        add_coin(100 * COIN);
 
-        // trying to make 1.0001 from these three coins
-        BOOST_CHECK( wallet.SelectCoinsMinConf(1.0001 * COIN, 1, 1, vCoins, setCoinsRet, nValueRet));
-        BOOST_CHECK_EQUAL(nValueRet, 1.0105 * COIN);   // we should get all coins
+        // trying to make 100.01 from these three coins
+        BOOST_CHECK( wallet.SelectCoinsMinConf(100.01 * COIN, 1, 1, vCoins, setCoinsRet, nValueRet));
+        BOOST_CHECK_EQUAL(nValueRet, 101.05 * COIN);   // we should get all coins
         BOOST_CHECK_EQUAL(setCoinsRet.size(), 3U);
 
-        // but if we try to make 0.999, we should take the bigger of the two small coins to avoid sub-cent change
-        BOOST_CHECK( wallet.SelectCoinsMinConf(0.999 * COIN, 1, 1, vCoins, setCoinsRet, nValueRet));
-        BOOST_CHECK_EQUAL(nValueRet, 1.01 * COIN);   // we should get 1 + 0.01
+        // but if we try to make 99.9, we should take the bigger of the two small coins to avoid sub-cent change
+        BOOST_CHECK( wallet.SelectCoinsMinConf(99.9 * COIN, 1, 1, vCoins, setCoinsRet, nValueRet));
+        BOOST_CHECK_EQUAL(nValueRet, 101 * COIN);   // we should get 100 + 1
         BOOST_CHECK_EQUAL(setCoinsRet.size(), 2U);
 
         // test randomness
