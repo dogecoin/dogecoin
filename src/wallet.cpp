@@ -1226,8 +1226,14 @@ bool CWallet::SelectCoinsMinConf(int64_t nTargetValue, int nConfMine, int nConfT
             nValueRet += coin.first;
             return true;
         }
-        else if (n < nTargetValue + COIN)
+        else if (n < nTargetValue + DUST_SOFT_LIMIT)
         {
+            // This coin is not sufficient to cover the target plus change above the dust
+            // limit. The dust limit is important here, as we don't want to leave change
+            // which cannot be spent (is below the network transaction fee).
+            
+            // Push the coin into an array for potential matching later, but keep trying to find
+            // an exact match
             vValue.push_back(coin);
             nTotalLower += n;
         }
@@ -1262,13 +1268,13 @@ bool CWallet::SelectCoinsMinConf(int64_t nTargetValue, int nConfMine, int nConfT
     int64_t nBest;
 
     ApproximateBestSubset(vValue, nTotalLower, nTargetValue, vfBest, nBest, 1000);
-    if (nBest != nTargetValue && nTotalLower >= nTargetValue + COIN)
-        ApproximateBestSubset(vValue, nTotalLower, nTargetValue + COIN, vfBest, nBest, 1000);
+    if (nBest != nTargetValue && nTotalLower >= nTargetValue + DUST_SOFT_LIMIT)
+        ApproximateBestSubset(vValue, nTotalLower, nTargetValue + DUST_SOFT_LIMIT, vfBest, nBest, 1000);
 
     // If we have a bigger coin and (either the stochastic approximation didn't find a good solution,
     //                                   or the next bigger coin is closer), return the bigger coin
     if (coinLowestLarger.second.first &&
-        ((nBest != nTargetValue && nBest < nTargetValue + COIN) || coinLowestLarger.first <= nBest))
+        ((nBest != nTargetValue && nBest < nTargetValue + DUST_SOFT_LIMIT) || coinLowestLarger.first <= nBest))
     {
         setCoinsRet.insert(coinLowestLarger.second);
         nValueRet += coinLowestLarger.first;
