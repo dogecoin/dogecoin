@@ -25,7 +25,7 @@ For the block schedule, see http://en.wikipedia.org/wiki/Dogecoin#Block_schedule
 ### How get many doge? (How to mine)
 Scrypt Proof of Work
 
-1 Minute Block Targets, 4 Hour Diff Readjustments
+1-Minute Block Targets, 4-Hour Diff Readjustments
 
 Special reward system: Random block rewards before block 145,000. Static block reward afterwards according to chart:
 
