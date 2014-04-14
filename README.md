@@ -15,7 +15,7 @@ for more information or see http://opensource.org/licenses/MIT.
 Developers work in their own trees, then submit pull requests when they think
 their feature or bug fix is ready.
 
-## Very Much Asked Questions (FAQ)
+## Very much asked questions (FAQ)
 
 ### How much coin? (Release of new DogeCoins)
 Early 2015 (approximately a year and a half after release) there will be approximately 100,000,000,000 coins.
