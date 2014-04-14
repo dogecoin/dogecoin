@@ -29,21 +29,21 @@ Scrypt Proof of Work
 
 Special reward system: Random block rewards before block 145,000. Static block reward afterwards according to chart:
 
-1-100,000: 0-1,000,000 Dogecoin Reward (random)
+1–100,000: 0–1,000,000 Dogecoin Reward (random)
 
-100,001 —144,999: 0-500,000 Dogecoin Reward (random)
+100,001–144,999: 0–500,000 Dogecoin Reward (random)
 
-145,000 — 200,000: 250,000 Dogecoin Reward (flat)
+145,000–200,000: 250,000 Dogecoin Reward (flat)
 
-200,001 — 300,000: 125,000 Dogecoin Reward (flat)
+200,001–300,000: 125,000 Dogecoin Reward (flat)
 
-300,001 — 400,000: 62,500 Dogecoin Reward (flat)
+300,001–400,000: 62,500 Dogecoin Reward (flat)
 
-400,001 - 500,000: 31,250 Dogecoin Reward (flat)
+400,001–500,000: 31,250 Dogecoin Reward (flat)
 
-500,001 - 600,000: 15,625 Dogecoin Reward (flat)
+500,001–600,000: 15,625 Dogecoin Reward (flat)
 
-600,001+ — 10,000 Reward (flat)
+600,001+: 10,000 Reward (flat)
 
 ### Wow - Plz make dogecoind (How to build `dogecoind`)
 ```bash
