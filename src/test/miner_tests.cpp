@@ -11,45 +11,45 @@ extern void SHA256Transform(void* pstate, void* pinput, const void* pinit);
 
 BOOST_AUTO_TEST_SUITE(miner_tests)
 
+// this array of extranonce/nonce combinations has been generated
+// to be replayed on top of the DOGECOIN genesis block.
 static
 struct {
     unsigned char extranonce;
     unsigned int nonce;
 } blockinfo[] = {
-    {4, 0xa4a3e223}, {2, 0x15c32f9e}, {1, 0x0375b547}, {1, 0x7004a8a5},
-    {2, 0xce440296}, {2, 0x52cfe198}, {1, 0x77a72cd0}, {2, 0xbb5d6f84},
-    {2, 0x83f30c2c}, {1, 0x48a73d5b}, {1, 0xef7dcd01}, {2, 0x6809c6c4},
-    {2, 0x0883ab3c}, {1, 0x087bbbe2}, {2, 0x2104a814}, {2, 0xdffb6daa},
-    {1, 0xee8a0a08}, {2, 0xba4237c1}, {1, 0xa70349dc}, {1, 0x344722bb},
-    {3, 0xd6294733}, {2, 0xec9f5c94}, {2, 0xca2fbc28}, {1, 0x6ba4f406},
-    {2, 0x015d4532}, {1, 0x6e119b7c}, {2, 0x43e8f314}, {2, 0x27962f38},
-    {2, 0xb571b51b}, {2, 0xb36bee23}, {2, 0xd17924a8}, {2, 0x6bc212d9},
-    {1, 0x630d4948}, {2, 0x9a4c4ebb}, {2, 0x554be537}, {1, 0xd63ddfc7},
-    {2, 0xa10acc11}, {1, 0x759a8363}, {2, 0xfb73090d}, {1, 0xe82c6a34},
-    {1, 0xe33e92d7}, {3, 0x658ef5cb}, {2, 0xba32ff22}, {5, 0x0227a10c},
-    {1, 0xa9a70155}, {5, 0xd096d809}, {1, 0x37176174}, {1, 0x830b8d0f},
-    {1, 0xc6e3910e}, {2, 0x823f3ca8}, {1, 0x99850849}, {1, 0x7521fb81},
-    {1, 0xaacaabab}, {1, 0xd645a2eb}, {5, 0x7aea1781}, {5, 0x9d6e4b78},
-    {1, 0x4ce90fd8}, {1, 0xabdc832d}, {6, 0x4a34f32a}, {2, 0xf2524c1c},
-    {2, 0x1bbeb08a}, {1, 0xad47f480}, {1, 0x9f026aeb}, {1, 0x15a95049},
-    {2, 0xd1cb95b2}, {2, 0xf84bbda5}, {1, 0x0fa62cd1}, {1, 0xe05f9169},
-    {1, 0x78d194a9}, {5, 0x3e38147b}, {5, 0x737ba0d4}, {1, 0x63378e10},
-    {1, 0x6d5f91cf}, {2, 0x88612eb8}, {2, 0xe9639484}, {1, 0xb7fabc9d},
-    {2, 0x19b01592}, {1, 0x5a90dd31}, {2, 0x5bd7e028}, {2, 0x94d00323},
-    {1, 0xa9b9c01a}, {1, 0x3a40de61}, {1, 0x56e7eec7}, {5, 0x859f7ef6},
-    {1, 0xfd8e5630}, {1, 0x2b0c9f7f}, {1, 0xba700e26}, {1, 0x7170a408},
-    {1, 0x70de86a8}, {1, 0x74d64cd5}, {1, 0x49e738a1}, {2, 0x6910b602},
-    {0, 0x643c565f}, {1, 0x54264b3f}, {2, 0x97ea6396}, {2, 0x55174459},
-    {2, 0x03e8779a}, {1, 0x98f34d8f}, {1, 0xc07b2b07}, {1, 0xdfe29668},
-    {1, 0x3141c7c1}, {1, 0xb3b595f4}, {1, 0x735abf08}, {5, 0x623bfbce},
-    {2, 0xd351e722}, {1, 0xf4ca48c9}, {1, 0x5b19c670}, {1, 0xa164bf0e},
-    {2, 0xbbbeb305}, {2, 0xfe1c810a},
+    {4, 0x127fad2d}, {2, 0x335d1b8f}, {1, 0x33d47094}, {2, 0x0b09ec28},
+    {1, 0x06cf723b}, {2, 0x039202bc}, {1, 0x0a2c9d46}, {2, 0x6225cb92},
+    {2, 0x6ea1513e}, {1, 0x4401bef3}, {1, 0x04d3a1d2}, {2, 0x1c512825},
+    {2, 0x54a03b14}, {1, 0x6048e27d}, {1, 0x1b926afc}, {2, 0x68c4afbd},
+    {2, 0x4439c313}, {1, 0x1263fceb}, {2, 0x834dee3e}, {2, 0xf21ed9dc},
+    {1, 0xdcdac434}, {2, 0x4c1945be}, {1, 0x6d42a594}, {3, 0x20927a30},
+    {3, 0xfd60f461}, {2, 0xd9ad2207}, {2, 0xe7f69d1a}, {1, 0x7fa9b932},
+    {2, 0xb0511080}, {1, 0xe7d24cd5}, {2, 0x3c57e668}, {2, 0x83bfdc2e},
+    {2, 0x6eeb4e10}, {2, 0x9cacbcfd}, {2, 0xb27ea98e}, {2, 0x6d57c5a7},
+    {1, 0x6deb4fa8}, {2, 0xabf625c6}, {2, 0x27e7c569}, {1, 0x89c6e991},
+    {2, 0xc359bc28}, {1, 0x6f25768d}, {2, 0x654a4c31}, {1, 0x5cd03bab},
+    {1, 0xda405f69}, {3, 0xfea453e5}, {2, 0x137d2c3a}, {5, 0xdee2f36e},
+    {1, 0xeccbcf26}, {5, 0x9237dbaa}, {1, 0xb7b9350b}, {1, 0xcd0c7eb2},
+    {1, 0xf5ea5a32}, {2, 0x3486a7f3}, {1, 0xd0a0f2be}, {1, 0xe1238144},
+    {1, 0x28b98a9b}, {1, 0xe79d02aa}, {5, 0xf4555d56}, {5, 0x74da0bb7},
+    {1, 0x18728b91}, {1, 0x07ed3a93}, {6, 0xd7a5e106}, {2, 0xba50b06c},
+    {2, 0x952c830d}, {1, 0xfbd1bb18}, {1, 0x36126967}, {1, 0xcce357d0},
+    {2, 0xff1ec2d6}, {2, 0xbed5dfc9}, {1, 0x0d21fdd7}, {1, 0xd744edea},
+    {1, 0xe09fc8f2}, {5, 0x2ad325c5}, {5, 0x466b6549}, {1, 0x10705d49},
+    {1, 0xf88478ce}, {2, 0xbfda6c4a}, {2, 0x731fe414}, {1, 0x6f1b362e},
+    {2, 0x6be709cf}, {1, 0x60553200}, {2, 0xf6a992f0}, {2, 0x1521f7f5},
+    {1, 0x8b440273}, {1, 0xe9ade0c8}, {1, 0x4d414618}, {5, 0x7b48070d},
+    {1, 0x1202ebae}, {1, 0xd23fe97e}, {1, 0x8d1d6505}, {1, 0xfafbaae3},
+    {1, 0xf200353e}, {1, 0xe77bd65e}, {1, 0x9fa32102}, {2, 0x68dfa747},
+    {0, 0x7c74d78e}, {1, 0x9b79cc6b}, {2, 0xad957cc2}, {2, 0x91acb818}
 };
 
 // NOTE: These tests rely on CreateNewBlock doing its own self-validation!
 BOOST_AUTO_TEST_CASE(CreateNewBlock_validity)
 {
-    CScript scriptPubKey = CScript() << ParseHex("04678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5f") << OP_CHECKSIG;
+    // changed this to dogecoin genesis pubkey script
+    CScript scriptPubKey = CScript() << ParseHex("040184710fa689ad5023690c80f3a49c8f13f8d45b8c857fbcbc8bc4a8e4d3eb4b10f4d4604fa08dce601aaf0f470216fe1b51850b4acf21b179c45070ac7b03a9") << OP_CHECKSIG;
     CBlockTemplate *pblocktemplate;
     CTransaction tx,tx2;
     CScript script;
@@ -61,13 +61,17 @@ BOOST_AUTO_TEST_CASE(CreateNewBlock_validity)
     BOOST_CHECK(pblocktemplate = CreateNewBlock(scriptPubKey));
 
     // We can't make transactions until we have inputs
-    // Therefore, load 100 blocks :)
+    // Therefore, load 100 pregenerated blocks :)
     std::vector<CTransaction*>txFirst;
     for (unsigned int i = 0; i < sizeof(blockinfo)/sizeof(*blockinfo); ++i)
     {
         CBlock *pblock = &pblocktemplate->block; // pointer for convenience
         pblock->nVersion = 1;
-        pblock->nTime = chainActive.Tip()->GetMedianTimePast()+1;
+
+        // Replaced chainActive.Tip()->GetMedianTimePast()+1 with an actual 60 second block
+        // interval because median([1,2,2,3,3,3,4,4,4,4]) will eventually be problematic re:
+        // block timing. Tests should be more stable than that.
+        pblock->nTime = chainActive.Tip()->GetBlockTime() + 60;
         pblock->vtx[0].vin[0].scriptSig = CScript();
         pblock->vtx[0].vin[0].scriptSig.push_back(blockinfo[i].extranonce);
         pblock->vtx[0].vin[0].scriptSig.push_back(chainActive.Height());
@@ -82,6 +86,9 @@ BOOST_AUTO_TEST_CASE(CreateNewBlock_validity)
         pblock->hashPrevBlock = pblock->GetHash();
     }
     delete pblocktemplate;
+
+    // Make sure all created blocks are in the active chain
+    BOOST_CHECK(chainActive.Height() == sizeof(blockinfo)/sizeof(*blockinfo));
 
     // Just to make sure we can still make simple blocks
     BOOST_CHECK(pblocktemplate = CreateNewBlock(scriptPubKey));
@@ -205,7 +212,8 @@ BOOST_AUTO_TEST_CASE(CreateNewBlock_validity)
     chainActive.Tip()->nHeight = nHeight;
 
     // non-final txs in mempool
-    SetMockTime(chainActive.Tip()->GetMedianTimePast()+1);
+    // changed to 60 second block interval for consistency
+    SetMockTime(chainActive.Tip()->GetBlockTime() + 60);
 
     // height locked
     tx.vin[0].prevout.hash = txFirst[0]->GetHash();
@@ -227,7 +235,8 @@ BOOST_AUTO_TEST_CASE(CreateNewBlock_validity)
     tx2.vout.resize(1);
     tx2.vout[0].nValue = 4900000000LL;
     tx2.vout[0].scriptPubKey = CScript() << OP_1;
-    tx2.nLockTime = chainActive.Tip()->GetMedianTimePast()+1;
+    // changed to 60 second block interval for consistency
+    tx2.nLockTime = chainActive.Tip()->GetBlockTime() + 60;
     hash = tx2.GetHash();
     mempool.addUnchecked(hash, CTxMemPoolEntry(tx2, 11, GetTime(), 111.0, 11));
     BOOST_CHECK(!IsFinalTx(tx2));
@@ -240,7 +249,9 @@ BOOST_AUTO_TEST_CASE(CreateNewBlock_validity)
 
     // However if we advance height and time by one, both will.
     chainActive.Tip()->nHeight++;
-    SetMockTime(chainActive.Tip()->GetMedianTimePast()+2);
+
+    // changed to 60 second block interval for consistency (times 2 for this test)
+    SetMockTime(chainActive.Tip()->GetBlockTime() + 120);
 
     BOOST_CHECK(IsFinalTx(tx, chainActive.Tip()->nHeight + 1));
     BOOST_CHECK(IsFinalTx(tx2));
