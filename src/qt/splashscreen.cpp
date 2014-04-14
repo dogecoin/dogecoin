@@ -10,6 +10,7 @@
 
 #include <QApplication>
 #include <QPainter>
+#include <QRectF>
 
 SplashScreen::SplashScreen(const QPixmap &pixmap, Qt::WindowFlags f, bool isTestNet) :
     QSplashScreen(pixmap, f)
@@ -27,7 +28,7 @@ SplashScreen::SplashScreen(const QPixmap &pixmap, Qt::WindowFlags f, bool isTest
     // define text to place
     QString titleText       = tr("Dogecoin Core");
     QString versionText     = QString("Version %1").arg(QString::fromStdString(FormatFullVersion()));
-    QString copyrightText   = QChar(0xA9)+QString(" 2009-%1 ").arg(COPYRIGHT_YEAR) + QString(tr("The Bitcoin Core developers"));
+    QString copyrightText   = QChar(0xA9)+QString(" 2009-%1 ").arg(COPYRIGHT_YEAR) + QString(tr("The Bitcoin Core developers\n")) + QChar(0xA9)+QString(" 2013-%1 ").arg(COPYRIGHT_YEAR) + QString(tr("The Dogecoin Core developers"));
     QString testnetAddText  = QString(tr("[testnet]")); // define text to place as single text object
 
     QString font            = "Comic Sans MS";
@@ -71,7 +72,8 @@ SplashScreen::SplashScreen(const QPixmap &pixmap, Qt::WindowFlags f, bool isTest
 
     // draw copyright stuff
     pixPaint.setFont(QFont(font, 10*fontFactor));
-    pixPaint.drawText(newPixmap.width()-titleTextWidth-paddingRight,paddingTop+titleCopyrightVSpace,copyrightText);
+    QRect copyrightRect = QRect(newPixmap.width()-titleTextWidth-paddingRight,paddingTop+titleCopyrightVSpace,fm.width(copyrightText),fm.height()*2);
+    pixPaint.drawText(copyrightRect,Qt::TextWordWrap,copyrightText);
 
     // draw testnet string if testnet is on
     if(isTestNet) {
