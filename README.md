@@ -1,7 +1,7 @@
 # Dogecoin [DOGE, Ð]
 Dogecoin is an open source peer-to-peer cryptocurrency, favored by Shiba Inus worldwide.
 
-![DogeCoin](http://static.tumblr.com/ppdj5y9/Ae9mxmxtp/300coin.png)
+![Dogecoin](http://static.tumblr.com/ppdj5y9/Ae9mxmxtp/300coin.png)
 
 ## Such coin (What is Dogecoin?)
 Dogecoin is like Bitcoin, but based on Litecoin, and also much more wow.
@@ -45,7 +45,7 @@ Special reward system: Random block rewards before block 145,000. Static block r
 
 600,001+ — 10,000 Reward (flat)
 
-### Wow - Plz make dogecoind (How to build `dogecoind`)
+### Wow - Plz make Dogecoind (How to build `dogecoind`)
 ```bash
 sudo apt-get install build-essential \
                      libssl-dev \
