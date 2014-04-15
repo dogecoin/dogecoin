@@ -271,10 +271,12 @@ BOOST_AUTO_TEST_CASE(test_IsStandard)
     string reason;
     BOOST_CHECK(IsStandardTx(t, reason));
 
-    t.vout[0].nValue = 501; // dust
-    BOOST_CHECK(!IsStandardTx(t, reason));
+    // disabled, as there is no dust
+    // t.vout[0].nValue = 501; // dust
+    // BOOST_CHECK(!IsStandardTx(t, reason));
 
-    t.vout[0].nValue = 601; // not dust
+    // 1 should pass as not dust
+    t.vout[0].nValue = 1; // not dust
     BOOST_CHECK(IsStandardTx(t, reason));
 
     t.vout[0].scriptPubKey = CScript() << OP_1;
