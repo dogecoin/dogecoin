@@ -1,4 +1,4 @@
-Dogecoin 0.9.0rc1 BETA
+Dogecoin 1.7 BETA
 =====================
 
 Copyright (c) 2009-2014 Bitcoin Developers
