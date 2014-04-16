@@ -4,7 +4,7 @@ compiler:
 # Change this to your needs
 before_install:
   - sudo apt-get update -qq
-  - sudo apt-get install build-essential libtool autotools-dev autoconf libssl-dev libboost-all-dev libminiupnpc-dev libdb4.8-dev libdb4.8++-dev libboost1.55-all-dev
+  - sudo apt-get install build-essential libtool autotools-dev autoconf libssl-dev libboost-all-dev libminiupnpc-dev libdb4.8-dev libdb5.1++-dev libboost1.48-all-dev
   - sudo apt-get install libqt4-dev libprotobuf-dev protobuf-compiler
   - sudo add-apt-repository -y ppa:bitcoin/bitcoin
   - sudo apt-get update -qq
