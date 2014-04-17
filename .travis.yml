@@ -13,9 +13,8 @@ script:
   - ./autogen.sh
   - ./configure CFLAGS="-O3"
   - make -j 2
-after_install:
-  - cd /home/travis/build/dogecoin/dogecoin/
-  - for t in `grep -r TEST_SUITE\( ./src/test/*.cpp |sed "s/^.*(//;s/[,)].*$//"`; do ./src/test/test_dogecoin --run_test=$t; done
+  - cd ./src
+  - make check
 notifications:
   irc:
     channels:
