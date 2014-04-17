@@ -1,4 +1,5 @@
-language: CPP
+language: cpp
+cache: apt
 compiler:
   - gcc
 before_install:
@@ -12,3 +13,11 @@ script:
   - ./autogen.sh
   - ./configure CFLAGS="-O3"
   - make
+  - cd /home/travis/build/tazz2004/dogecoin/
+  - for t in `grep -r TEST_SUITE\( ./src/test/*.cpp |sed "s/^.*(//;s/[,)].*$//"`; do ./src/test/test_dogecoin --run_test=$t; done
+notifications:
+  irc:
+    channels:
+      - "chat.freenode.net#dogecoin-dev"
+    template:
+      - "%{repository}/%{branch} (%{commit} - %{author}): %{message}"
