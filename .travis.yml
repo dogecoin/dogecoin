@@ -4,7 +4,7 @@ compiler:
 before_install:
   - sudo add-apt-repository -y ppa:bitcoin/bitcoin
   - sudo apt-get update -qq
-  - sudo apt-get install libboost-dev libboost-chrono1.48-dev libboost-filesystem-dev libboost-program-options-dev libboost-system-dev libboost-test-dev libboost-thread-dev
+  - sudo apt-get install libboost-dev libboost-filesystem-dev libboost-program-options-dev libboost-system-dev libboost-test-dev libboost-thread-dev
   - sudo apt-get install libqt4-dev libprotobuf-dev protobuf-compiler
   - sudo apt-get install db4.8
 script:
