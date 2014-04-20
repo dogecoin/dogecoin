@@ -932,12 +932,17 @@ int CMerkleTx::GetDepthInMainChain(CBlockIndex* &pindexRet) const
     return nResult;
 }
 
+int CMerkleTx::GetHeightInMainChain(CBlockIndex* &pindexRet) const
+{
+    return chainActive.Height() - GetDepthInMainChain(pindexRet) + 1;
+}
+
 int CMerkleTx::GetBlocksToMaturity() const
 {
     if (!IsCoinBase())
         return 0;
         
-    if(GetDepthInMainChain() >= COINBASE_MATURITY_SWITCH)
+    if(GetHeightInMainChain() >= COINBASE_MATURITY_SWITCH)
         return max(0, (COINBASE_MATURITY_NEW+20) - GetDepthInMainChain());
     else
         return max(0, (COINBASE_MATURITY+20) - GetDepthInMainChain());
