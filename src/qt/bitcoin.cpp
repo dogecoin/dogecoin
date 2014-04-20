@@ -324,6 +324,10 @@ void BitcoinApplication::createSplashScreen(bool isaTestNet)
 {
     SplashScreen *splash = new SplashScreen(QPixmap(), 0, isaTestNet);
     splash->setAttribute(Qt::WA_DeleteOnClose);
+#if MAC_OSX
+        // QSplashScreen on Mac seems to always stay on top. Ugh.
+        splash->setWindowFlags(Qt::FramelessWindowHint);
+#endif
     splash->show();
     connect(this, SIGNAL(splashFinished(QWidget*)), splash, SLOT(slotFinish(QWidget*)));
 }
