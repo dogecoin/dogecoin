@@ -14,7 +14,6 @@
 #include <utility>
 #include <vector>
 
-class CBigNum;
 class CCoins;
 class uint256;
 

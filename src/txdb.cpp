@@ -84,12 +84,6 @@ bool CBlockTreeDB::ReadDiskBlockIndex(const uint256 &blkid, CDiskBlockIndex &dis
     return Read(boost::tuples::make_tuple('b', blkid, 'a'), diskblockindex);
 }
 
-bool CBlockTreeDB::WriteBestInvalidWork(const CBigNum& bnBestInvalidWork)
-{
-    // Obsolete; only written for backward compatibility.
-    return Write('I', bnBestInvalidWork);
-}
-
 bool CBlockTreeDB::WriteBlockFileInfo(int nFile, const CBlockFileInfo &info) {
     return Write(make_pair('f', nFile), info);
 }
