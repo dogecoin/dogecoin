@@ -307,6 +307,13 @@ inline bool AllowFree(double dPriority)
         return dPriority > 100 * COIN * 1440 / 250; // Dogecoin: 1440 blocks found a day. Priority cutoff is 100 dogecoin day / 250 bytes.
     }
 
+/** Get the maturity depth for coinbase transactions at a given height.
+    @param[in] nHeight  The height at which to check maturity for
+    @return the depth at which the coinbase transaction matures
+ */
+// Dogecoin specific implementation, standardizes checks for the hard maturity change at block 145k
+int GetRequiredMaturityDepth(int nHeight);
+
 // Check whether all inputs of this transaction are valid (no double spends, scripts & sigs, amounts)
 // This does not modify the UTXO set. If pvChecks is not NULL, script checks are pushed onto it
 // instead of being performed inline.
