@@ -61,17 +61,13 @@ The original block reward schedule with one-minute block targets and four-hour d
 
 600,000+: 10,000 Dogecoin
 
-### Wow plz make dogecoind
+### Wow plz make dogecoind/dogecoin-cli/dogecoin-qt
 
-    sudo apt-get install build-essential \
-                         libssl-dev \
-                         libdb5.1++-dev \
-                         libboost-all-dev \
-                         libqrencode-dev \
-                         libminiupnpc-dev
+  The following are developer notes on how to build Dogecoin on your native platform. They are not complete guides, but include notes on the necessary libraries, compile flags, etc.
 
-    cd src/
-    make -f makefile.unix USE_UPNP=1 USE_IPV6=1 USE_QRCODE=1
+  - [OSX Build Notes](doc/build-osx.md)
+  - [Unix Build Notes](doc/build-unix.md)
+  - [Windows Build Notes](doc/build-msw.md)
 
 ### Such ports
 RPC 22555
