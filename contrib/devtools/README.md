@@ -3,7 +3,7 @@ Contents
 This directory contains tools for developers working on this repository.
 
 github-merge.sh
-----------------
+==================
 
 A small script to automate merging pull-requests securely and sign them with GPG.
 
@@ -36,7 +36,8 @@ Configuring the github-merge tool for the bitcoin repository is done in the foll
     git config githubmerge.testcmd "make -j4 check" (adapt to whatever you want to use for testing)
     git config --global user.signingkey mykeyid (if you want to GPG sign)
 
-## fix-copyright-headers.py
+fix-copyright-headers.py
+===========================
 
 Every year newly updated files need to have its copyright headers updated to reflect the current year.
 If you run this script from src/ it will automatically update the year on the copyright header for all
