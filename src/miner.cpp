@@ -16,6 +16,11 @@
 #ifdef ENABLE_WALLET
 #include "wallet.h"
 #endif
+
+#include <openssl/sha.h>
+
+using namespace std;
+
 //////////////////////////////////////////////////////////////////////////////
 //
 // BitcoinMiner
