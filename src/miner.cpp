@@ -9,6 +9,7 @@
 #include "miner.h"
 
 #include "core.h"
+#include "hash.h"
 #include "main.h"
 #include "net.h"
 #include "scrypt.h"
@@ -16,8 +17,6 @@
 #ifdef ENABLE_WALLET
 #include "wallet.h"
 #endif
-
-#include <openssl/sha.h>
 
 using namespace std;
 
@@ -39,27 +38,6 @@ int static FormatHashBlocks(void* pbuffer, unsigned int len)
     pend[-3] = (bits >> 16) & 0xff;
     pend[-4] = (bits >> 24) & 0xff;
     return blocks;
-}
-
-static const unsigned int pSHA256InitState[8] =
-{0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19};
-
-void SHA256Transform(void* pstate, void* pinput, const void* pinit)
-{
-    SHA256_CTX ctx;
-    unsigned char data[64];
-
-    SHA256_Init(&ctx);
-
-    for (int i = 0; i < 16; i++)
-        ((uint32_t*)data)[i] = ByteReverse(((uint32_t*)pinput)[i]);
-
-    for (int i = 0; i < 8; i++)
-        ctx.h[i] = ((uint32_t*)pinit)[i];
-
-    SHA256_Update(&ctx, data, sizeof(data));
-    for (int i = 0; i < 8; i++)
-        ((uint32_t*)pstate)[i] = ctx.h[i];
 }
 
 //
@@ -381,7 +359,7 @@ void IncrementExtraNonce(CBlock* pblock, CBlockIndex* pindexPrev, unsigned int& 
 }
 
 
-void FormatHashBuffers(CBlock* pblock, char* pmidstate, char* pdata, char* phash1)
+void FormatHashBuffers(CBlock* pblock, char* pdata, char* phash1)
 {
     //
     // Pre-build hash buffers
@@ -419,9 +397,6 @@ void FormatHashBuffers(CBlock* pblock, char* pmidstate, char* pdata, char* phash
     for (unsigned int i = 0; i < sizeof(tmp)/4; i++)
         ((unsigned int*)&tmp)[i] = ByteReverse(((unsigned int*)&tmp)[i]);
 
-    // Precalc the first half of the first hash, which stays constant
-    SHA256Transform(pmidstate, &tmp.block, pSHA256InitState);
-
     memcpy(pdata, &tmp.block, 128);
     memcpy(phash1, &tmp.hash1, 64);
 }
@@ -433,6 +408,38 @@ void FormatHashBuffers(CBlock* pblock, char* pmidstate, char* pdata, char* phash
 //
 double dHashesPerSec = 0.0;
 int64_t nHPSTimerStart = 0;
+
+//
+// ScanHash scans nonces looking for a hash with at least some zero bits.
+// The nonce is usually preserved between calls, but periodically or if the
+// nonce is 0xffff0000 or above, the block is rebuilt and nNonce starts over at
+// zero.
+//
+bool static ScanHash(CBlockHeader *pblock, uint32_t& nNonce, uint256 *phash, char *pscratchpad) {
+    //CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
+    //ss << *pblock;
+    //assert(ss.size() == 80);
+
+    for (;;) {
+        nNonce++;
+
+        // Write the last 4 bytes of the block header (the nonce) to a copy of
+        // the double-SHA256 state, and compute the result.
+        pblock->nNonce = nNonce;
+        scrypt_1024_1_1_256_sp(BEGIN(pblock->nVersion), (char*)phash, pscratchpad);
+
+        // Return the nonce if the hash has at least some zero bits,
+        // caller will check if it has enough to reach the target
+        if (((uint16_t*)phash)[15] == 0)
+            return true;
+
+        // If nothing found after trying for a while, return -1
+        if ((nNonce & 0xffff) == 0)
+            return false;
+        if ((nNonce & 0xfff) == 0)
+            boost::this_thread::interruption_point();
+    }
+}
 
 CBlockTemplate* CreateNewBlockWithKey(CReserveKey& reservekey)
 {
@@ -530,42 +537,34 @@ void static DogecoinMiner(CWallet *pwallet)
         CBlock *pblock = &pblocktemplate->block;
         IncrementExtraNonce(pblock, pindexPrev, nExtraNonce);
 
-        LogPrintf("Running BitcoinMiner with %u transactions in block (%u bytes)\n", pblock->vtx.size(),
+        LogPrintf("Running DogecoinMiner with %u transactions in block (%u bytes)\n", pblock->vtx.size(),
                ::GetSerializeSize(*pblock, SER_NETWORK, PROTOCOL_VERSION));
-
-        //
-        // Pre-build hash buffers
-        //
-        char pmidstatebuf[32+16]; char* pmidstate = alignup<16>(pmidstatebuf);
-        char pdatabuf[128+16];    char* pdata     = alignup<16>(pdatabuf);
-        char phash1buf[64+16];    char* phash1    = alignup<16>(phash1buf);
-
-        FormatHashBuffers(pblock, pmidstate, pdata, phash1);
-
-        unsigned int& nBlockTime = *(unsigned int*)(pdata + 64 + 4);
-        unsigned int& nBlockBits = *(unsigned int*)(pdata + 64 + 8);
-        //unsigned int& nBlockNonce = *(unsigned int*)(pdata + 64 + 12);
-
 
         //
         // Search
         //
         int64_t nStart = GetTime();
         uint256 hashTarget = uint256().SetCompact(pblock->nBits);
+        uint256 hash;
+        uint32_t nNonce = 0;
+        uint32_t nOldNonce = 0;
+        char scratchpad[SCRYPT_SCRATCHPAD_SIZE];
         while (true)
         {
-            unsigned int nHashesDone = 0;
+            bool fFound = ScanHash(pblock, nNonce, &hash, scratchpad);
+            uint32_t nHashesDone = nNonce - nOldNonce;
+            nOldNonce = nNonce;
 
-            uint256 thash;
-            char scratchpad[SCRYPT_SCRATCHPAD_SIZE];
-            while (true)
+            // Check if something found
+            if (fFound)
             {
-
-                scrypt_1024_1_1_256_sp(BEGIN(pblock->nVersion), BEGIN(thash), scratchpad);
-
-                if (thash <= hashTarget)
+                if (hash <= hashTarget)
                 {
                     // Found a solution
+                    pblock->nNonce = nNonce; // In Dogecoin ScanHash does this for us already, but we should move towards a Bitcoin model
+                    // TODO: Have a Scrypt GetHash() function this can use to verify
+                    // assert(hash == pblock->GetHash());
+
                     SetThreadPriority(THREAD_PRIORITY_NORMAL);
                     CheckWork(pblock, *pwallet, reservekey);
                     SetThreadPriority(THREAD_PRIORITY_LOWEST);
@@ -616,7 +615,7 @@ void static DogecoinMiner(CWallet *pwallet)
             // Regtest mode doesn't require peers
             if (vNodes.empty() && Params().MiningRequiresPeers())
                 break;
-            if (pblock->nNonce >= 0xffff0000)
+            if (nNonce >= 0xffff0000)
                 break;
             if (mempool.GetTransactionsUpdated() != nTransactionsUpdatedLast && GetTime() - nStart > 60)
                 break;
@@ -625,11 +624,9 @@ void static DogecoinMiner(CWallet *pwallet)
 
             // Update nTime every few seconds
             UpdateTime(*pblock, pindexPrev);
-            nBlockTime = ByteReverse(pblock->nTime);
             if (Params().AllowMinDifficultyBlocks())
             {
                 // Changing pblock->nTime can change work required on testnet:
-                nBlockBits = ByteReverse(pblock->nBits);
                 hashTarget.SetCompact(pblock->nBits);
             }
         }

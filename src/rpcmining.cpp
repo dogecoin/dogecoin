@@ -582,7 +582,6 @@ Value getworkaux(const Array& params, bool fHelp)
             "<chain-index> is the aux chain index in the aux chain merkle tree\n"
             "<branch> is the optional merkle branch of the aux chain\n"
             "If <data> is not specified, returns formatted hash data to work on:\n"
-            "  \"midstate\" : precomputed hash state after hashing the first half of the data\n"
             "  \"data\" : block data\n"
             "  \"hash1\" : formatted hash buffer for second hash\n"
             "  \"target\" : little endian hash target\n"
@@ -654,15 +653,13 @@ Value getworkaux(const Array& params, bool fHelp)
         mapNewBlock[pblock->hashMerkleRoot] = make_pair(pblock, nExtraNonce);
 
         // Prebuild hash buffers
-        char pmidstate[32];
         char pdata[128];
         char phash1[64];
-        FormatHashBuffers(pblock, pmidstate, pdata, phash1);
+        FormatHashBuffers(pblock, pdata, phash1);
 
         uint256 hashTarget = uint256().SetCompact(pblock->nBits);
 
         Object result;
-        result.push_back(Pair("midstate", HexStr(BEGIN(pmidstate), END(pmidstate))));
         result.push_back(Pair("data",     HexStr(BEGIN(pdata), END(pdata))));
         result.push_back(Pair("hash1",    HexStr(BEGIN(phash1), END(phash1))));
         result.push_back(Pair("target",   HexStr(BEGIN(hashTarget), END(hashTarget))));
