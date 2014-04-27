@@ -430,14 +430,14 @@ void BitcoinApplication::initializeResult(int retval)
         // Now that initialization/startup is done, process any command-line
         // dogecoin: URIs or payment requests:
         /*
-	connect(paymentServer, SIGNAL(receivedPaymentRequest(SendCoinsRecipient)),
+        connect(paymentServer, SIGNAL(receivedPaymentRequest(SendCoinsRecipient)),
                          window, SLOT(handlePaymentRequest(SendCoinsRecipient)));
         connect(window, SIGNAL(receivedURI(QString)),
                          paymentServer, SLOT(handleURIOrFile(QString)));
         connect(paymentServer, SIGNAL(message(QString,QString,unsigned int)),
                          window, SLOT(message(QString,QString,unsigned int)));
-	QTimer::singleShot(100, paymentServer, SLOT(uiReady()));
-	*/
+        QTimer::singleShot(100, paymentServer, SLOT(uiReady()));
+        */
 #endif
     } else {
         quit(); // Exit main loop
