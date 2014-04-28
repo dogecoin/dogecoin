@@ -12,7 +12,7 @@
 #include "hash.h"
 #include "main.h"
 #include "net.h"
-#include "scrypt.h"
+#include "crypto/scrypt.h"
 #include "auxpow.h"
 #ifdef ENABLE_WALLET
 #include "wallet.h"

@@ -10,7 +10,7 @@
 #define BITCOIN_CORE_H
 
 #include "script.h"
-#include "scrypt.h"
+#include "crypto/scrypt.h"
 #include "serialize.h"
 #include "uint256.h"
 
