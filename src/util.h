@@ -185,8 +185,6 @@ std::string DecodeBase32(const std::string& str);
 std::string EncodeBase32(const unsigned char* pch, size_t len);
 std::string EncodeBase32(const std::string& str);
 void ParseParameters(int argc, const char*const argv[]);
-bool WildcardMatch(const char* psz, const char* mask);
-bool WildcardMatch(const std::string& str, const std::string& mask);
 void FileCommit(FILE *fileout);
 int GetFilesize(FILE* file);
 bool TruncateFile(FILE *file, unsigned int length);
@@ -351,13 +349,6 @@ inline std::string DateTimeStrFormat(const char* pszFormat, int64_t nTime)
     char pszTime[200];
     strftime(pszTime, sizeof(pszTime), pszFormat, ptmTime);
     return pszTime;
-}
-
-template<typename T>
-void skipspaces(T& it)
-{
-    while (isspace(*it))
-        ++it;
 }
 
 inline bool IsSwitchChar(char c)
