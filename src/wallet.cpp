@@ -893,7 +893,8 @@ void CWalletTx::GetAmounts(list<pair<CTxDestination, int64_t> >& listReceived,
     // Sent/received.
     BOOST_FOREACH(const CTxOut& txout, vout)
     {
-        bool fIsMine;
+        isminetype fIsMine = pwallet->IsMine(txout);
+
         // Only need to handle txouts if AT LEAST one of these is true:
         //   1) they debit from us (sent)
         //   2) the output is to us (received)
@@ -902,9 +903,8 @@ void CWalletTx::GetAmounts(list<pair<CTxDestination, int64_t> >& listReceived,
             // Don't report 'change' txouts
             if (pwallet->IsChange(txout))
                 continue;
-            fIsMine = (pwallet->IsMine(txout) & filter);
         }
-        else if (!(fIsMine = (pwallet->IsMine(txout) & filter)))
+        else if (!(fIsMine & filter))
             continue;
 
         // In either case, we need to get the destination address
