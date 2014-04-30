@@ -1498,16 +1498,16 @@ Address: %4
         <source>Wallet</source>
         <translation>钱包</translation>
     </message>
-+   <message>
-+        <location line="+51"/>
-+        <source>Available:</source>
-+        <translation>余额：</translation>
-+    </message>
-+    <message>
-+        <location line="+16"/>
-+        <source>Pending:</source>
-+        <translation>未确认：/translation>
-+   </message>
+    <message>
+        <location line="+51"/>
+        <source>Available:</source>
+        <translation>余额：</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Pending:</source>
+        <translation>未确认：/translation>
+    </message>
     <message>
         <location line="+51"/>
         <source>Confirmed:</source>
