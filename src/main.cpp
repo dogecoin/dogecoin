@@ -698,10 +698,7 @@ bool CheckTransaction(const CTransaction& tx, CValidationState &state)
 }
 
 int64_t GetMinFee(const CTransaction& tx, unsigned int nBytes, bool fAllowFree, enum GetMinFee_mode mode)
-{
-    unsigned int nBlockSize = 1000;
-    unsigned int nNewBlockSize = nBlockSize + nBytes;
-    
+{    
     // Base fee is either nMinTxFee or nMinRelayTxFee
     int64_t nBaseFee = (mode == GMF_RELAY) ? tx.nMinRelayTxFee : tx.nMinTxFee;
 
@@ -709,29 +706,9 @@ int64_t GetMinFee(const CTransaction& tx, unsigned int nBytes, bool fAllowFree, 
 
     if (fAllowFree)
     {
-        if (nBlockSize == 1)
-        {
-            // Transactions under 10K are free
-            // (about 4500bc if made of 50bc inputs)
-            if (nBytes < 10000)
-                nMinFee = 0;
-        }
-        else
-        {
             // Free transaction area
-            if (nNewBlockSize < 27000)
+            if (nBytes < 26000)
                 nMinFee = 0;
-        }
-#if 0
-        // There is a free transaction area in blocks created by most miners,
-        // * If we are relaying we allow transactions up to DEFAULT_BLOCK_PRIORITY_SIZE - 1000
-        //   to be considered to fall into this category. We don't want to encourage sending
-        //   multiple transactions instead of one big transaction to avoid fees.
-        // * If we are creating a transaction we allow transactions up to 5,000 bytes
-        //   to be considered safe and assume they can likely make it into this section.
-        if (nBytes < (mode == GMF_SEND ? 5000 : (DEFAULT_BLOCK_PRIORITY_SIZE - 1000)))
-            nMinFee = 0;
-#endif
     }
 
     // Dogecoin
@@ -739,14 +716,6 @@ int64_t GetMinFee(const CTransaction& tx, unsigned int nBytes, bool fAllowFree, 
     BOOST_FOREACH(const CTxOut& txout, tx.vout)
         if (txout.nValue < DUST_SOFT_LIMIT)
             nMinFee += nBaseFee;
-
-    // Raise the price as the block approaches full
-    if (nBlockSize != 1 && nNewBlockSize >= DEFAULT_BLOCK_MAX_SIZE/2)
-    {
-        if (nNewBlockSize >= DEFAULT_BLOCK_MAX_SIZE)
-            return MAX_MONEY;
-        nMinFee *= DEFAULT_BLOCK_MAX_SIZE / (DEFAULT_BLOCK_MAX_SIZE - nNewBlockSize);
-    }
 
     if (!MoneyRange(nMinFee))
         nMinFee = MAX_MONEY;
