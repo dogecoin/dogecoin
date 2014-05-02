@@ -80,6 +80,7 @@ BITCOIN_CORE_H = \
   scrypt.h \
   serialize.h \
   crypto/scrypt.h \
+  crypto/common.h \
   crypto/sha2.h \
   crypto/sha1.h \
   crypto/ripemd160.h \
