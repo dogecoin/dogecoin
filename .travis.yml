@@ -11,11 +11,11 @@ before_install:
   - sudo apt-get install  libprotobuf-dev protobuf-compiler
 script:
   - ./autogen.sh
-  - ./configure CFLAGS="-O3"
+  - CFLAGS="-O1" CXXFLAGS="-O1" ./configure
   - make -j 2
   - make check
   - make clean
-  - ./configure --disable-wallet CFLAGS="-O3"
+  - CFLAGS="-O1" CXXFLAGS="-O1" ./configure --disable-wallet
   - make -j 2
   - make check
 notifications:
