@@ -13,7 +13,10 @@ script:
   - ./autogen.sh
   - ./configure CFLAGS="-O3"
   - make -j 2
-  - cd ./src
+  - make check
+  - make clean
+  - ./configure --disable-wallet CFLAGS="-O3"
+  - make -j 2
   - make check
 notifications:
   irc:
