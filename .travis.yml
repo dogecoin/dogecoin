@@ -4,16 +4,22 @@ compiler:
   - gcc
 before_install:
   - sudo apt-get update -qq
-  - sudo apt-get install build-essential libtool autotools-dev autoconf libssl-dev pkg-config
+  - sudo apt-get install build-essential libtool autotools-dev autoconf libssl-dev pkg-config ccache
   - sudo apt-get install libboost1.48-dev libboost-chrono1.48-dev libboost-filesystem1.48-dev libboost-program-options1.48-dev libboost-system1.48-dev libboost-test1.48-dev libboost-thread1.48-dev
   - sudo apt-get install libdb++-dev
   - sudo apt-get install libqt4-dev 
   - sudo apt-get install  libprotobuf-dev protobuf-compiler
+  - mkdir $HOME/.ccache
+  - export CCACHE_DIR=$HOME/.ccache
+  - ccache -M 1G
 script:
   - ./autogen.sh
-  - ./configure CFLAGS="-O3"
+  - CFLAGS="-O1" CXXFLAGS="-O1" ./configure
   - make -j 2
-  - cd ./src
+  - make check
+  - make clean
+  - CFLAGS="-O1" CXXFLAGS="-O1" ./configure --disable-wallet
+  - make -j 2
   - make check
 notifications:
   irc:
