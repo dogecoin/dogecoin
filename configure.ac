@@ -266,15 +266,15 @@ if test x$use_lcov == xyes; then
   if test x$GCOV == x; then
     AC_MSG_ERROR("lcov testing requested but gcov not found")
   fi
-  if test x$JAVA == x; then
-    AC_MSG_ERROR("lcov testing requested but java not found")
-  fi
+  #if test x$JAVA == x; then
+  #  AC_MSG_ERROR("lcov testing requested but java not found")
+  #fi
   if test x$GENHTML == x; then
     AC_MSG_ERROR("lcov testing requested but genhtml not found")
   fi
-  if test x$use_comparison_tool == x; then
-    AC_MSG_ERROR("lcov testing requested but comparison tool was not specified")
-  fi
+  #if test x$use_comparison_tool == x; then
+  #  AC_MSG_ERROR("lcov testing requested but comparison tool was not specified")
+  #fi
   LCOV="$LCOV --gcov-tool=$GCOV"
   AX_CHECK_COMPILE_FLAG([--coverage],[CXXFLAGS="$CXXFLAGS --coverage"],
     [AC_MSG_ERROR("lcov testing requested but --coverage flag does not work")])
