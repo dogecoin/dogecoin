@@ -1506,7 +1506,7 @@ Address: %4
     <message>
         <location line="+16"/>
         <source>Pending:</source>
-        <translation>未确认：/translation>
+        <translation>未确认：</translation>
     </message>
     <message>
         <location line="+51"/>
