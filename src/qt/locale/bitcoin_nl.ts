@@ -57,12 +57,12 @@ Dit product bevat software ontwikkeld door het OpenSSL Project voor gebruik in d
     <message>
         <location line="+11"/>
         <source>Copy the currently selected address to the system clipboard</source>
-        <translation>Kopieer het huidig geselecteerde adres naar het klembord</translation>
+        <translation>Kopiëer het geselecteerde adres naar het klembord</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>&amp;Copy</source>
-        <translation>&amp;Kopieer</translation>
+        <translation>&amp;Kopiëer</translation>
     </message>
     <message>
         <location line="+52"/>
@@ -77,12 +77,12 @@ Dit product bevat software ontwikkeld door het OpenSSL Project voor gebruik in d
     <message>
         <location filename="../forms/addressbookpage.ui" line="-41"/>
         <source>Delete the currently selected address from the list</source>
-        <translation>Verwijder het geselecteerde adres van de lijst</translation>
+        <translation>Verwijder het geselecteerde adres uit de lijst</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Export the data in the current tab to a file</source>
-        <translation>Exporteer de data in de huidige tab naar een bestand</translation>
+        <translation>Exporteer de gegevens in de huidige tab naar een bestand</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -97,7 +97,7 @@ Dit product bevat software ontwikkeld door het OpenSSL Project voor gebruik in d
     <message>
         <location filename="../addressbookpage.cpp" line="-30"/>
         <source>Choose the address to send coins to</source>
-        <translation>Kies het adres om munten naar te versturen</translation>
+        <translation>Kies het adres om munten naar te verzenden</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -112,22 +112,22 @@ Dit product bevat software ontwikkeld door het OpenSSL Project voor gebruik in d
     <message>
         <location line="+6"/>
         <source>Very sending addresses</source>
-        <translation>Bezig met versturen adressen</translation>
+        <translation>Verzendadressen</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Much receiving addresses</source>
-        <translation>Adressen ontvangen</translation>
+        <translation>Ontvangst Adressen</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>These are your Dogecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>Dit zijn uw Dogecoinadressen om betalingen mee te verzenden. Check altijd het bedrag en het ontvangende adres voordat u uw dogecoins verzendt.</translation>
+        <translation>Dit zijn uw opgeslagen adressen om betalingen naar te verzenden. Controleer altijd het bedrag en het ontvangende adres voordat u uw dogecoins verzendt.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>These are your Dogecoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation>Dit zijn je Dogecoin adressen waar je ermee kunt betalen. We raden je aan om een nieuw ontvangstadres voor elke transactie te gebruiken.</translation>
+        <translation>Dit zijn uw Dogecoin adressen om betalingen te ontvangen. We raden u aan om een nieuw ontvangstadres voor iedere transactie te gebruiken.</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -137,7 +137,7 @@ Dit product bevat software ontwikkeld door het OpenSSL Project voor gebruik in d
     <message>
         <location line="+1"/>
         <source>&amp;Edit</source>
-        <translation>&amp;Bewerk</translation>
+        <translation>&amp;Bewerken</translation>
     </message>
     <message>
         <location line="+194"/>
@@ -152,12 +152,12 @@ Dit product bevat software ontwikkeld door het OpenSSL Project voor gebruik in d
     <message>
         <location line="+13"/>
         <source>Exporting Failed</source>
-        <translation>Export Mislukt</translation>
+        <translation>Export mislukt</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>There was an error trying to save the address list to %1.</source>
-        <translation type="unfinished"/>
+        <translation>Er is een fout opgetreden tijdens de opslag naar %1</translation>
     </message>
 </context>
 <context>
@@ -183,7 +183,7 @@ Dit product bevat software ontwikkeld door het OpenSSL Project voor gebruik in d
     <message>
         <location filename="../forms/askpassphrasedialog.ui" line="+26"/>
         <source>Passphrase Dialog</source>
-        <translation>Wachtwoorddialoogscherm</translation>
+        <translation>Wachtwoord instellen</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -198,7 +198,7 @@ Dit product bevat software ontwikkeld door het OpenSSL Project voor gebruik in d
     <message>
         <location line="+14"/>
         <source>Repeat new passphrase</source>
-        <translation>Herhaal wachtwoord</translation>
+        <translation>Herhaal nieuw wachtwoord</translation>
     </message>
     <message>
         <location filename="../askpassphrasedialog.cpp" line="+40"/>
@@ -248,7 +248,7 @@ Dit product bevat software ontwikkeld door het OpenSSL Project voor gebruik in d
     <message>
         <location line="+1"/>
         <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DOGECOINS&lt;/b&gt;!</source>
-        <translation>Waarschuwing: Als u uw portemonnee versleutelt en uw wachtwoord vergeet, zult u &lt;b&gt;AL UW DOGECOINS VERLIEZEN&lt;/b&gt;!</translation>
+        <translation>Waarschuwing: Als u uw portemonnee versleutelt en uw wachtwoord vergeet, zult u &lt;b&gt;AL UW DOGECOINS KWIJT RAKEN&lt;/b&gt;!</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -264,7 +264,7 @@ Dit product bevat software ontwikkeld door het OpenSSL Project voor gebruik in d
         <location line="+100"/>
         <location line="+24"/>
         <source>Warning: The Caps Lock key is on!</source>
-        <translation>Waarschuwing: De Caps-Lock-toets staat aan!</translation>
+        <translation>Waarschuwing: De Caps-Lock toets staat aan!</translation>
     </message>
     <message>
         <location line="-130"/>
@@ -339,7 +339,7 @@ Dit product bevat software ontwikkeld door het OpenSSL Project voor gebruik in d
     <message>
         <location line="-137"/>
         <source>Node</source>
-        <translation type="unfinished"/>
+        <translation>Node</translation>
     </message>
     <message>
         <location line="+138"/>
@@ -354,7 +354,7 @@ Dit product bevat software ontwikkeld door het OpenSSL Project voor gebruik in d
     <message>
         <location line="+1"/>
         <source>Browse transaction history</source>
-        <translation>Blader door transactieverleden</translation>
+        <translation>Blader door transactiegeschiedenis</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -405,12 +405,12 @@ Dit product bevat software ontwikkeld door het OpenSSL Project voor gebruik in d
     <message>
         <location line="+10"/>
         <source>Very &amp;sending addresses...</source>
-        <translation>&amp;Adressen aan het versturen.</translation>
+        <translation>&amp;Adresboek...</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Much &amp;receiving addresses...</source>
-        <translation>&amp;Adressen aan het ontvangen...</translation>
+        <translation>&amp;Mijn adressen..</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -425,12 +425,12 @@ Dit product bevat software ontwikkeld door het OpenSSL Project voor gebruik in d
     <message>
         <location line="+3"/>
         <source>Reindexing blocks on disk...</source>
-        <translation>Bezig met herindexeren van blokken op harde schijf...</translation>
+        <translation>Blokken aan het herindexeren op harde schijf...</translation>
     </message>
     <message>
         <location line="-405"/>
         <source>Send coins to a Dogecoin address</source>
-        <translation>Verstuur munten naar een Dogecoinadres</translation>
+        <translation>Verzend munten naar een Dogecoin adres</translation>
     </message>
     <message>
         <location line="+49"/>
@@ -475,7 +475,7 @@ Dit product bevat software ontwikkeld door het OpenSSL Project voor gebruik in d
     <message>
         <location line="+146"/>
         <source>&amp;Send</source>
-        <translation>&amp;Versturen</translation>
+        <translation>&amp;Verzenden</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -501,12 +501,12 @@ Dit product bevat software ontwikkeld door het OpenSSL Project voor gebruik in d
     <message>
         <location line="+7"/>
         <source>Sign messages with your Dogecoin addresses to prove you own them</source>
-        <translation>Onderteken berichten met uw Dogecoinadressen om te bewijzen dat u deze adressen bezit</translation>
+        <translation>Onderteken berichten met uw Dogecoin adressen om te bewijzen dat u deze adressen bezit</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Verify messages to ensure they were signed with specified Dogecoin addresses</source>
-        <translation>Verifiëer handtekeningen om zeker te zijn dat de berichten zijn ondertekend met de gespecificeerde Dogecoinadressen</translation>
+        <translation>Verifiëer handtekeningen om zeker te zijn dat de berichten zijn ondertekend met de gespecificeerde Dogecoin adressen</translation>
     </message>
     <message>
         <location line="+48"/>
@@ -537,12 +537,12 @@ Dit product bevat software ontwikkeld door het OpenSSL Project voor gebruik in d
     <message>
         <location line="-401"/>
         <source>Dogecoin Core</source>
-        <translation>Dogecoin Kern</translation>
+        <translation>Dogecoin Core</translation>
     </message>
     <message>
         <location line="+163"/>
         <source>Request payments (generates QR codes and dogecoin: URIs)</source>
-        <translation>Vraag betaling aan (genereert QR codes en dogecoin: URIs)</translation>
+        <translation>Vraag betaling aan (genereert QR codes en "dogecoin:" URIs)</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -553,7 +553,7 @@ Dit product bevat software ontwikkeld door het OpenSSL Project voor gebruik in d
     <message>
         <location line="+35"/>
         <source>Show the list of used sending addresses and labels</source>
-        <translation>Toon de lijst met gebruikt verzend adressen en labels</translation>
+        <translation>Toon de lijst met gebruikte verzend adressen en labels</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -573,7 +573,7 @@ Dit product bevat software ontwikkeld door het OpenSSL Project voor gebruik in d
     <message>
         <location line="+1"/>
         <source>Show the Dogecoin Core help message to get a list with possible Dogecoin Core command-line options</source>
-        <translation type="unfinished"/>
+        <translation>Toon het help-bericht voor een lijst met geldige commandoregel-opties</translation>
     </message>
     <message>
         <location line="+159"/>
@@ -584,7 +584,7 @@ Dit product bevat software ontwikkeld door het OpenSSL Project voor gebruik in d
     <message numerus="yes">
         <location line="+142"/>
         <source>%n active connection(s) to Dogecoin network</source>
-        <translation><numerusform>%n actieve connectie naar Dogecoinnetwerk</numerusform><numerusform>%n actieve connecties naar Dogecoinnetwerk</numerusform></translation>
+        <translation><numerusform>%n actieve connectie naar het Dogecoin netwerk</numerusform><numerusform>%n actieve connecties naar het Dogecoin netwerk</numerusform></translation>
     </message>
     <message>
         <location line="+22"/>
@@ -708,12 +708,12 @@ Adres: %4
     <message>
         <location filename="../forms/coincontroldialog.ui" line="+14"/>
         <source>Coin Control Address Selection</source>
-        <translation>Coin controle adres selectie</translation>
+        <translation>Geavanceerde muntopties - adres selectie</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Quantity:</source>
-        <translation>Kwantiteit</translation>
+        <translation>Kwantiteit:</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -733,7 +733,7 @@ Adres: %4
     <message>
         <location line="+45"/>
         <source>Fee:</source>
-        <translation>Vergoeding:</translation>
+        <translation>Kosten:</translation>
     </message>
     <message>
         <location line="+32"/>
@@ -743,12 +743,12 @@ Adres: %4
     <message>
         <location line="+48"/>
         <source>After Fee:</source>
-        <translation>Na vergoeding:</translation>
+        <translation>Na kosten:</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Change:</source>
-        <translation>Wijzigen:</translation>
+        <translation>Restant:</translation>
     </message>
     <message>
         <location line="+63"/>
@@ -758,7 +758,7 @@ Adres: %4
     <message>
         <location line="+13"/>
         <source>Tree mode</source>
-        <translation>Boom modus</translation>
+        <translation>Hierarchische modus</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -834,12 +834,12 @@ Adres: %4
     <message>
         <location line="+2"/>
         <source>Copy fee</source>
-        <translation>Kopieer vergoeding</translation>
+        <translation>Kopieer kosten</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Copy after fee</source>
-        <translation>Kopieer na vergoeding</translation>
+        <translation>Kopieer na kosten</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -859,7 +859,7 @@ Adres: %4
     <message>
         <location line="+1"/>
         <source>Copy change</source>
-        <translation>Kopieer wijzig</translation>
+        <translation>Kopieer restant</translation>
     </message>
     <message>
         <location line="+323"/>
@@ -879,7 +879,7 @@ Adres: %4
     <message>
         <location line="+1"/>
         <source>medium-high</source>
-        <translation>gemiddeld hoog</translation>
+        <translation>gemiddeld-hoog</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -889,7 +889,7 @@ Adres: %4
     <message>
         <location line="+4"/>
         <source>low-medium</source>
-        <translation>laag gemiddeld</translation>
+        <translation>laag-gemiddeld</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -909,7 +909,7 @@ Adres: %4
     <message>
         <location line="+11"/>
         <source>(%1 locked)</source>
-        <translation>(%1 geblokeerd)</translation>
+        <translation>(%1 geblokkeerd)</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -934,7 +934,7 @@ Adres: %4
     <message>
         <location line="+10"/>
         <source>This label turns red, if the transaction size is greater than 1000 bytes.</source>
-        <translation>Dit label wordt rood, als de transactie grootte meer dan 1000 bytes is.</translation>
+        <translation>Dit label wordt rood als de transactie grootte meer dan 1000 bytes is.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -950,7 +950,7 @@ Adres: %4
     <message>
         <location line="+2"/>
         <source>Transactions with higher priority are more likely to get included into a block.</source>
-        <translation>Transacties met een hogere prioriteit zullen eerder in een block gezet worden.</translation>
+        <translation>Transacties met een hogere prioriteit zullen eerder in een blok verwerkt worden.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -960,7 +960,7 @@ Adres: %4
     <message>
         <location line="+3"/>
         <source>This label turns red, if any recipient receives an amount smaller than %1.</source>
-        <translation>Dit label wordt rood, als een ontvanger een bedrag van minder dan %1 gekregen heeft.</translation>
+        <translation>Dit label wordt rood wanneer enig ontvanger een bedrag van minder dan %1 ontvangt.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -971,12 +971,12 @@ Adres: %4
     <message>
         <location line="-3"/>
         <source>Amounts below 0.546 times the minimum relay fee are shown as dust.</source>
-        <translation>Bedragen beneden 0.546 keer het minimum relais vergoeding, worden als stof aangemerkt.</translation>
+        <translation>Bedragen kleiner dan 0.546 keer de minimum doorstuur vergoeding (kosten), worden als stof aangemerkt.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>This label turns red, if the change is smaller than %1.</source>
-        <translation>Dit label wordt rood, als de wijziging is kleiner dan %1.</translation>
+        <translation>Dit label wordt rood, als het restant kleiner dan %1.</translation>
     </message>
     <message>
         <location line="+43"/>
@@ -987,12 +987,12 @@ Adres: %4
     <message>
         <location line="-9"/>
         <source>change from %1 (%2)</source>
-        <translation>wijzig van %1 (%2)</translation>
+        <translation>restant van %1 (%2)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>(change)</source>
-        <translation>(wijzig)</translation>
+        <translation>(wisselgeld)</translation>
     </message>
 </context>
 <context>
@@ -1010,12 +1010,12 @@ Adres: %4
     <message>
         <location line="+10"/>
         <source>The label associated with this address list entry</source>
-        <translation>Het label dat bij dit adres item hoort</translation>
+        <translation>Het label dat bij dit adres hoort</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>The address associated with this address list entry. This can only be modified for sending addresses.</source>
-        <translation>Het adres dat bij dit adres item hoort. Dit kan alleen bewerkt worden voor verstuur adressen.</translation>
+        <translation>Het adres dat bij dit item hoort. Dit kan alleen bewerkt worden voor verzendadressen.</translation>
     </message>
     <message>
         <location line="-10"/>
@@ -1050,7 +1050,7 @@ Adres: %4
     <message>
         <location line="-5"/>
         <source>The entered address &quot;%1&quot; is not a valid Dogecoin address.</source>
-        <translation>Het opgegeven adres &quot;%1&quot; is een ongeldig Dogecoinadres</translation>
+        <translation>Het opgegeven adres &quot;%1&quot; is een ongeldig Dogecoin adres</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1083,7 +1083,7 @@ Adres: %4
     <message>
         <location line="+3"/>
         <source>Path already exists, and is not a directory.</source>
-        <translation>Communicatiepad bestaat al, en is geen folder.</translation>
+        <translation>Locatie bestaat al, en is geen map.</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -1101,7 +1101,7 @@ Adres: %4
     <message>
         <location filename="../utilitydialog.cpp" line="+38"/>
         <source>Dogecoin Core</source>
-        <translation>Dogecoin Kern</translation>
+        <translation>Dogecoin Core</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -1174,7 +1174,7 @@ Adres: %4
     <message>
         <location line="+7"/>
         <source>Use a custom data directory:</source>
-        <translation>Gebruik een persoonlijke gegevensmap:</translation>
+        <translation>Gebruik een aangepaste gegevensmap:</translation>
     </message>
     <message>
         <location filename="../intro.cpp" line="+85"/>
@@ -1227,7 +1227,7 @@ Adres: %4
     <message>
         <location filename="../openuridialog.cpp" line="+47"/>
         <source>Select payment request file to open</source>
-        <translation>Selecteer betalingsverzoek bestand om te openen</translation>
+        <translation>Selecteer te openen betalingsverzoek bestand</translation>
     </message>
 </context>
 <context>
@@ -1253,13 +1253,23 @@ Adres: %4
         <translation>Betaal &amp;transactiekosten</translation>
     </message>
     <message>
+        <location line="+1"/>
+        <source>If you disable the spending of unconfirmed change, the change from a transaction cannot be used until that transaction has at least one confirmation. This also affects how your balance is computed.</source>
+        <translation>Wanneer u de optie om onbevestigd wisselgeld uit te kunnen geven uitschakeld, kan wisselgeld niet opnieuw worden uitgegeven totdat de transactie ten minste een bevestiging heeft. Dit beinvloed ook hoe uw beschikbare saldo wordt berekend</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&amp;Spend unconfirmed change (experts only)</source>
+        <translation>&amp;Geef onbevestigd wisselgeld uit (alleen voor experts)</translation>
+    </message>
+    <message>
         <location line="+31"/>
-        <source>Automatically start Dogecoin Core after logging in to the system.</source>
+        <source>Automatically start Dogecoin after logging in to the system.</source>
         <translation>Start Dogecoin automatisch na inloggen in het systeem</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>&amp;Start Dogecoin Core on system login</source>
+        <location line="+2"/>
+        <source>&amp;Start Dogecoin on system login</source>
         <translation>Start &amp;Dogecoin bij het inloggen in het systeem</translation>
     </message>
     <message>
@@ -1270,7 +1280,7 @@ Adres: %4
     <message>
         <location line="+13"/>
         <source>Set database cache size in megabytes (default: 25)</source>
-        <translation>Stel databankcachegrootte in in megabytes (standaard: 25)</translation>
+        <translation>Stel databasecachegrootte in in megabytes (standaard: 25)</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -1280,22 +1290,22 @@ Adres: %4
     <message>
         <location line="+27"/>
         <source>Number of script &amp;verification threads</source>
-        <translation type="unfinished"/>
+        <translation>Aantal script subprocessen (threads)</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Set the number of script verification threads (up to 16, 0 = auto, &lt;0 = leave that many cores free, default: 0)</source>
-        <translation>Stel het aantal threads voor scriptverificatie in (max 16, 0 = auto, &lt;0 = laat zoveel cores vrij, standaard: 0)</translation>
+        <translation>Stel het aantal subprocessen voor scriptverificatie in (max 16, 0 = auto, &lt;0 = laat zoveel cores vrij, standaard: 0)</translation>
     </message>
     <message>
         <location line="+58"/>
         <source>Connect to the Dogecoin network through a SOCKS proxy.</source>
-        <translation>Verbind met het Dogecoin-netwerk via een SOCKS-proxy.</translation>
+        <translation>Verbind met het Dogecoin netwerk via een SOCKS proxy.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>&amp;Connect through SOCKS proxy (default proxy):</source>
-        <translation type="unfinished"/>
+        <translation>Verbind via SOCKS proxy (standaard proxy):</translation>
     </message>
     <message>
         <location line="+34"/>
@@ -1305,7 +1315,7 @@ Adres: %4
     <message>
         <location line="+224"/>
         <source>Active command-line options that override above options:</source>
-        <translation type="unfinished"/>
+        <translation>Actieve commandoregel-opties die bovenstaande overschrijven</translation>
     </message>
     <message>
         <location line="+43"/>
@@ -1325,12 +1335,12 @@ Adres: %4
     <message>
         <location line="+6"/>
         <source>Automatically open the Dogecoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Open de Dogecoin-poort automatisch op de router. Dit werkt alleen als de router UPnP ondersteunt en het aanstaat.</translation>
+        <translation>Open de Dogecoin-poort automatisch op de router. Dit werkt alleen als de router UPnP ondersteunt en deze optie aan staat.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Map port using &amp;UPnP</source>
-        <translation>Portmapping via &amp;UPnP</translation>
+        <translation>Poortmapping via &amp;UPnP</translation>
     </message>
     <message>
         <location line="+19"/>
@@ -1400,12 +1410,12 @@ Adres: %4
     <message>
         <location line="+11"/>
         <source>&amp;Unit to show amounts in:</source>
-        <translation>&amp;Eenheid om bedrag in te tonen:</translation>
+        <translation>&amp;Eenheid om bedragen in te tonen:</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Choose the default subdivision unit to show in the interface and when sending coins.</source>
-        <translation>Kies de standaard onderverdelingseenheid om weer te geven in uw programma, en voor het versturen van munten</translation>
+        <translation>Kies de standaard onderverdelingseenheid om weer te geven in uw programma, en voor het verzenden van munten</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -1420,12 +1430,12 @@ Adres: %4
     <message>
         <location line="+7"/>
         <source>Whether to show coin control features or not.</source>
-        <translation>Munt controle functies weergeven of niet.</translation>
+        <translation>Geavanceerde munt functies weergeven of niet.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Display coin &amp;control features (experts only)</source>
-        <translation>Toon munt &amp;controle functions (alleen voor experts)</translation>
+        <translation>Toon geavan&amp;ceerde munt functions (alleen voor experts)</translation>
     </message>
     <message>
         <location line="+136"/>
@@ -1466,7 +1476,7 @@ Adres: %4
     <message>
         <location line="+33"/>
         <source>This change would require a client restart.</source>
-        <translation type="unfinished"/>
+        <translation>Deze wijziging vereist een herstart van de client</translation>
     </message>
     <message>
         <location line="+34"/>
@@ -1485,7 +1495,7 @@ Adres: %4
         <location line="+50"/>
         <location line="+231"/>
         <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Dogecoin network after a connection is established, but this process has not completed yet.</source>
-        <translation>De weergegeven informatie kan verouderd zijn. Uw portemonnee synchroniseert automaticsh met het Dogecoinnetwerk nadat een verbinding is gelegd, maar dit proces is nog niet voltooid.</translation>
+        <translation>De weergegeven informatie kan verouderd zijn. Uw portemonnee synchroniseert automatisch met het Dogecoin netwerk nadat een verbinding is gemaakt, maar dit proces is nog niet voltooid.</translation>
     </message>
     <message>
         <location line="-155"/>
@@ -1496,6 +1506,16 @@ Adres: %4
         <location line="-83"/>
         <source>Wallet</source>
         <translation>Portemonnee</translation>
+    </message>
+    <message>
+        <location line="+51"/>
+        <source>Available:</source>
+        <translation>Beschikbaar：</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Pending:</source>
+        <translation>In afwachting:</translation>
     </message>
     <message>
         <location line="+51"/>
@@ -1560,7 +1580,7 @@ Adres: %4
     <message>
         <location line="+96"/>
         <source>Requested payment amount of %1 is too small (considered dust).</source>
-        <translation>Het gevraagde betalingsbedrag van 1% is te weinig (beschouwd als stof).</translation>
+        <translation>Het gevraagde betalingsbedrag van 1% is te laag (beschouwd als stof).</translation>
     </message>
     <message>
         <location line="-221"/>
@@ -1580,27 +1600,27 @@ Adres: %4
     <message>
         <location line="+58"/>
         <source>Net manager warning</source>
-        <translation type="unfinished"/>
+        <translation>Netwerkmanager waarschuwing</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Your active proxy doesn&apos;t support SOCKS5, which is required for payment requests via proxy.</source>
-        <translation type="unfinished"/>
+        <translation>Uw actieve proxy ondersteund geen SOCK5. Dit is benodigd om betalingsverzoeken via een proxy uit te voeren.</translation>
     </message>
     <message>
         <location line="+52"/>
         <source>Payment request fetch URL is invalid: %1</source>
-        <translation type="unfinished"/>
+        <translation>URL van betaalverzoek is ongeldig: %1</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Payment request file handling</source>
-        <translation type="unfinished"/>
+        <translation>Betalingsverzoek bestandsverwerking</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Payment request file can not be read or processed! This can be caused by an invalid payment request file.</source>
-        <translation type="unfinished"/>
+        <translation>Betalingsverzoek bestand kan niet worden gelezeon of verwerkt! Dit kan worden veroorzaakt door een ongeldig bestand.</translation>
     </message>
     <message>
         <location line="+73"/>
@@ -1620,12 +1640,12 @@ Adres: %4
     <message>
         <location line="+24"/>
         <source>Payment request can not be parsed or processed!</source>
-        <translation type="unfinished"/>
+        <translation>Betalingsverzoek kan niet worden geinterpreteerd of verwerkt!</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Bad response from server %1</source>
-        <translation>Ongeldige respons van server %1</translation>
+        <translation>Ongeldig antwoord van server %1</translation>
     </message>
     <message>
         <location line="+33"/>
@@ -1755,7 +1775,7 @@ Adres: %4
     <message>
         <location line="+29"/>
         <source>Block chain</source>
-        <translation>Blokketen</translation>
+        <translation>Blok-keten</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -1800,7 +1820,7 @@ Adres: %4
     <message>
         <location line="+64"/>
         <source>In:</source>
-        <translation>In;</translation>
+        <translation>In:</translation>
     </message>
     <message>
         <location line="+80"/>
@@ -1850,7 +1870,7 @@ Adres: %4
     <message>
         <location line="+2"/>
         <source>%1 KB</source>
-        <translation>%1 Kb</translation>
+        <translation>%1 KB</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1860,7 +1880,7 @@ Adres: %4
     <message>
         <location line="+2"/>
         <source>%1 GB</source>
-        <translation>%1 Gb</translation>
+        <translation>%1 GB</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -1870,12 +1890,12 @@ Adres: %4
     <message>
         <location line="+5"/>
         <source>%1 h</source>
-        <translation>%1 uur</translation>
+        <translation>%1 u</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 h %2 m</source>
-        <translation>%</translation>
+        <translation>%1 u %2 m</translation>
     </message>
 </context>
 <context>
@@ -1883,7 +1903,7 @@ Adres: %4
     <message>
         <location filename="../forms/receivecoinsdialog.ui" line="+107"/>
         <source>&amp;Amount:</source>
-        <translation>&amp;Bedrag</translation>
+        <translation>&amp;Bedrag:</translation>
     </message>
     <message>
         <location line="-16"/>
@@ -1893,12 +1913,12 @@ Adres: %4
     <message>
         <location line="-37"/>
         <source>&amp;Message:</source>
-        <translation>&amp;Bericht</translation>
+        <translation>&amp;Bericht:</translation>
     </message>
     <message>
         <location line="-20"/>
         <source>Reuse one of the previously used receiving addresses. Reusing addresses has security and privacy issues. Do not use this unless re-generating a payment request made before.</source>
-        <translation>Gebruik een van de eerder gebruikte ontvangstadressen opnieuw. Het opnieuw gebruiken van adressen heeft beveiliging- en privacy problemen. Gebruik dit niet, behalve als er eerder een betalingsverzoek opnieuw gegenereerd is.</translation>
+        <translation>Gebruik een van de eerder gebruikte ontvangstadressen opnieuw. Het opnieuw gebruiken van adressen heeft beveiliging- en privacy risico. Gebruik dit niet tenzij een eerder betalingsverzoek opnieuw gegenereerd is.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1909,7 +1929,7 @@ Adres: %4
         <location line="+14"/>
         <location line="+23"/>
         <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Dogecoin network.</source>
-        <translation type="unfinished"/>
+        <translation>Een optioneel bericht om aan het betalingsverzoek toe te voegen, dat weergegeven zal worden bij het openen van het verzoek. Het bericht zal niet bij de betaling over het Dogecoin netwerk verzonden worden</translation>
     </message>
     <message>
         <location line="-7"/>
@@ -1920,13 +1940,13 @@ Adres: %4
     <message>
         <location line="-7"/>
         <source>Use this form to request payments. All fields are &lt;b&gt;optional&lt;/b&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>Gebruik dit formulier om betalingsverzoeken te doen. Alle velden zijn &lt;b&gt;optioneel&lt;/b&gt;.</translation>
     </message>
     <message>
         <location line="+23"/>
         <location line="+22"/>
         <source>An optional amount to request. Leave this empty or zero to not request a specific amount.</source>
-        <translation type="unfinished"/>
+        <translation>Een optioneel bedrag. Laat dit veld leeg om geen specifiek bedrag te verzoeken.</translation>
     </message>
     <message>
         <location line="+32"/>
@@ -2009,7 +2029,7 @@ Adres: %4
     <message>
         <location filename="../receiverequestdialog.cpp" line="+56"/>
         <source>Request payment to %1</source>
-        <translation>Betalingsverzoek tot %1</translation>
+        <translation>Betalingsverzoek aan %1</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -2087,7 +2107,7 @@ Adres: %4
     <message>
         <location line="+8"/>
         <source>(no amount)</source>
-        <translation type="unfinished"/>
+        <translation>(geen bedrag)</translation>
     </message>
 </context>
 <context>
@@ -2097,17 +2117,17 @@ Adres: %4
         <location filename="../sendcoinsdialog.cpp" line="+380"/>
         <location line="+80"/>
         <source>Send Coins</source>
-        <translation>Verstuur munten</translation>
+        <translation>Verzend munten</translation>
     </message>
     <message>
         <location line="+76"/>
         <source>Coin Control Features</source>
-        <translation>Coin controle opties</translation>
+        <translation>Geavanceerde muntopties</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Inputs...</source>
-        <translation>Invoer...</translation>
+        <translation>Muntbron...</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -2117,12 +2137,12 @@ Adres: %4
     <message>
         <location line="+19"/>
         <source>Insufficient funds!</source>
-        <translation>Onvoldoende fonds!</translation>
+        <translation>Onvoldoende saldo!</translation>
     </message>
     <message>
         <location line="+89"/>
         <source>Quantity:</source>
-        <translation>Kwantiteit</translation>
+        <translation>Kwantiteit:</translation>
     </message>
     <message>
         <location line="+35"/>
@@ -2142,7 +2162,7 @@ Adres: %4
     <message>
         <location line="+48"/>
         <source>Fee:</source>
-        <translation>Vergoeding:</translation>
+        <translation>Kosten:</translation>
     </message>
     <message>
         <location line="+32"/>
@@ -2152,27 +2172,27 @@ Adres: %4
     <message>
         <location line="+48"/>
         <source>After Fee:</source>
-        <translation>Na vergoeding:</translation>
+        <translation>Na kosten:</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Change:</source>
-        <translation>Wijzigen:</translation>
+        <translation>Wisselgeld:</translation>
     </message>
     <message>
         <location line="+44"/>
         <source>If this is activated, but the change address is empty or invalid, change will be sent to a newly generated address.</source>
-        <translation>Als dit is geactiveerd, maar het wijzigingsadres is leeg of ongeldig, dan wordt de wijziging verzonden naar een nieuw gegenereerde adres.</translation>
+        <translation>Als dit is geactiveerd en het wisselgeld-adres is leeg of ongeldig, dan wordt het wisselgeld verzonden naar een nieuw gegenereerde adres.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Custom change address</source>
-        <translation>Maatwerk wijzig adres</translation>
+        <translation>Specifiek wisselgeld-adres</translation>
     </message>
     <message>
         <location line="+164"/>
         <source>Send to multiple recipients at once</source>
-        <translation>Verstuur aan verschillende ontvangers ineens</translation>
+        <translation>Verzend aan meerdere ontvangers ineens</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -2197,17 +2217,17 @@ Adres: %4
     <message>
         <location line="-78"/>
         <source>Confirm the send action</source>
-        <translation>Bevestig de verstuuractie</translation>
+        <translation>Bevestig de verzendopdracht</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>S&amp;end</source>
-        <translation>&amp;Verstuur</translation>
+        <translation>&amp;Verzenden</translation>
     </message>
     <message>
         <location filename="../sendcoinsdialog.cpp" line="-229"/>
         <source>Confirm send coins</source>
-        <translation>Bevestig versturen munten</translation>
+        <translation>Bevestig de verzendopdracht</translation>
     </message>
     <message>
         <location line="-74"/>
@@ -2230,12 +2250,12 @@ Adres: %4
     <message>
         <location line="+1"/>
         <source>Copy fee</source>
-        <translation>Kopieer vergoeding</translation>
+        <translation>Kopieer kosten</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Copy after fee</source>
-        <translation>Kopieer na vergoeding</translation>
+        <translation>Kopieer bedrag na kosten</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2255,7 +2275,7 @@ Adres: %4
     <message>
         <location line="+1"/>
         <source>Copy change</source>
-        <translation>Kopieer wijzig</translation>
+        <translation>Kopieer restant</translation>
     </message>
     <message>
         <location line="+170"/>
@@ -2280,27 +2300,27 @@ Adres: %4
     <message>
         <location line="+3"/>
         <source>The amount exceeds your balance.</source>
-        <translation>Bedrag is hoger dan uw huidige saldo</translation>
+        <translation>Bedrag is hoger dan uw huidige saldo.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>The total exceeds your balance when the %1 transaction fee is included.</source>
-        <translation>Totaal overschrijdt uw huidige saldo wanneer de %1 transactiekosten worden meegerekend</translation>
+        <translation>Het totaal overschrijdt uw huidige saldo wanneer de %1 transactiekosten worden meegerekend</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Duplicate address found, can only send to each address once per send operation.</source>
-        <translation>Dubbel adres gevonden, u kunt slechts eenmaal naar een bepaald adres verzenden per verstuurtransactie</translation>
+        <translation>Dubbel adres gevonden, u kunt slechts eenmaal per transactie naar een bepaald adres verzenden</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Transaction creation failed!</source>
-        <translation>Transactie creatie niet gelukt!</translation>
+        <translation>Aanmaken van transactie is mislukt!</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
-        <translation>De transactie was afgewezen. Dit kan gebeuren als u eerder uitgegeven munten opnieuw wilt versturen, zoals wanneer u een kopie van uw wallet.dat heeft gebruikt en in de kopie deze munten zijn gemarkeerd als uitgegeven, maar in de huidige nog niet.</translation>
+        <translation>De transactie was afgewezen. Dit kan gebeuren als u eerder uitgegeven munten opnieuw wilt verenden, zoals wanneer u een kopie van uw wallet.dat heeft gebruikt en in de kopie deze munten zijn gemarkeerd als uitgegeven, maar in de huidige nog niet.</translation>
     </message>
     <message>
         <location line="+113"/>
@@ -2315,7 +2335,7 @@ Adres: %4
     <message>
         <location line="-11"/>
         <source>Warning: Unknown change address</source>
-        <translation>Waarschuwing: Onbekende adres wijziging</translation>
+        <translation>Waarschuwing: Onbekend wisselgeld-adres</translation>
     </message>
     <message>
         <location line="-367"/>
@@ -2355,12 +2375,12 @@ Adres: %4
     <message>
         <location line="+18"/>
         <source>The address to send the payment to (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>Het adres waaraan u wilt betalen  (bijv. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
+        <translation>Het adres waaraan u wilt betalen (bijv. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
     </message>
     <message>
         <location filename="../sendcoinsentry.cpp" line="+30"/>
         <source>Enter a label for this address to add it to your address book</source>
-        <translation>Vul een label in voor dit adres om het toe te voegen aan uw adresboek</translation>
+        <translation>Vul een label in voor dit adres om het op te slaan in uw adresboek</translation>
     </message>
     <message>
         <location filename="../forms/sendcoinsentry.ui" line="+57"/>
@@ -2370,7 +2390,7 @@ Adres: %4
     <message>
         <location line="-50"/>
         <source>Choose previously used address</source>
-        <translation>Kies een eerder gebruikt adres</translation>
+        <translation>Kies een opgeslagen adres</translation>
     </message>
     <message>
         <location line="-40"/>
@@ -2397,7 +2417,7 @@ Adres: %4
         <location line="+524"/>
         <location line="+536"/>
         <source>Remove this entry</source>
-        <translation>Verwijder deze toevoeging</translation>
+        <translation>Verwijder deze invoer</translation>
     </message>
     <message>
         <location line="-1008"/>
@@ -2412,17 +2432,17 @@ Adres: %4
     <message>
         <location line="-991"/>
         <source>Enter a label for this address to add it to the list of used addresses</source>
-        <translation>Vul een label voor dit adres in om het aan de lijst met gebruikte adressen toe te voegen</translation>
+        <translation>Vul een label voor dit adres in om het in het adresboek op te slaan</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>A message that was attached to the dogecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
-        <translation type="unfinished"/>
+        <translation>Het aan het betalingsverzoek bijgevoegde bericht zal bij de transactie worden opgeslagen. Let op: dit bericht zal niet over het Dogecoin netwerk verzonden worden.</translation>
     </message>
     <message>
         <location line="+426"/>
         <source>This is an unverified payment request.</source>
-        <translation>Dit is een ongeverifieerde betalingsverzoek.</translation>
+        <translation>Dit is een ongeverifieerd betalingsverzoek.</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -2465,12 +2485,12 @@ Adres: %4
     <message>
         <location line="+6"/>
         <source>You can sign messages with your addresses to prove you own them. Be careful not to sign anything vague, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</source>
-        <translation>U kunt berichten ondertekenen met een van uw adressen om te bewijzen dat u dit adres bezit. Pas op dat u geen onduidelijke dingen ondertekent, want phishingaanvallen zouden u kunnen misleiden om zo uw identiteit te stelen. Onderteken alleen berichten waarmee u het volledig eens bent.</translation>
+        <translation>U kunt berichten ondertekenen met een van uw adressen om te bewijzen dat u dit adres bezit. Pas op dat u geen onduidelijke berichten ondertekent, want phishing aanvallen zouden u kunnen misleiden om zo uw identiteit te stelen. Onderteken alleen berichten waarmee u het volledig eens bent.</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>The address to sign the message with (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>Het adres om het bericht mee te ondertekenen (Vb.: DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM).</translation>
+        <translation>Het adres om het bericht mee te ondertekenen (bijv. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM).</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -2543,7 +2563,7 @@ Adres: %4
     <message>
         <location line="+21"/>
         <source>The address the message was signed with (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>Het adres waarmee bet bericht was ondertekend (Vb.: DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM).</translation>
+        <translation>Het adres waarmee het bericht was ondertekend (bijv. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM).</translation>
     </message>
     <message>
         <location line="+37"/>
@@ -2642,7 +2662,7 @@ Adres: %4
     <message>
         <location filename="../splashscreen.cpp" line="+28"/>
         <source>Dogecoin Core</source>
-        <translation>Dogecoin Kern</translation>
+        <translation>Dogecoin Core</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2693,7 +2713,7 @@ Adres: %4
     <message numerus="yes">
         <location line="+7"/>
         <source>, broadcast through %n node(s)</source>
-        <translation><numerusform>, uitgezonden naar %n node</numerusform><numerusform>, uitgezonden naar %n nodes</numerusform></translation>
+        <translation><numerusform>, verzonden naar %n node</numerusform><numerusform>, verzonden naar %n nodes</numerusform></translation>
     </message>
     <message>
         <location line="+4"/>
@@ -2785,7 +2805,7 @@ Adres: %4
     <message>
         <location line="+2"/>
         <source>Transaction ID</source>
-        <translation>Transactie-ID:</translation>
+        <translation>Transactie-ID</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -2795,7 +2815,7 @@ Adres: %4
     <message>
         <location line="+7"/>
         <source>Generated coins must mature %1 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
-        <translation>Gegenereerde munten moeten % 1 blokken rijpen voordat ze kunnen worden besteed. Toen dit blok gegenereerd werd, werd het uitgezonden naar het netwerk om aan de blok keten toegevoegd te worden. Als het niet lukt om in de keten toe te voegen, zal de status te veranderen naar &quot;niet geaccepteerd&quot; en het zal deze niet besteedbaar zijn. Dit kan soms gebeuren als een ander knooppunt een blok genereert binnen een paar seconden na die van jou.</translation>
+        <translation>Gegenereerde munten moeten %1 blokken rijpen voordat ze kunnen worden besteed. Toen dit blok gegenereerd werd, werd het uitgezonden naar het netwerk om aan de blok keten toegevoegd te worden. Als het niet lukt om in de keten toe te voegen, zal de status te veranderen naar &quot;niet geaccepteerd&quot; en het zal deze niet besteedbaar zijn. Dit kan soms gebeuren als een ander knooppunt een blok genereert binnen een paar seconden na die van jou.</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -2830,7 +2850,7 @@ Adres: %4
     <message>
         <location line="-232"/>
         <source>, has not been successfully broadcast yet</source>
-        <translation>, is nog niet met succes uitgezonden</translation>
+        <translation>, is nog niet met succes verzonden</translation>
     </message>
     <message numerus="yes">
         <location line="-35"/>
@@ -2881,7 +2901,7 @@ Adres: %4
     <message>
         <location line="+59"/>
         <source>Immature (%1 confirmations, will be available after %2)</source>
-        <translation type="unfinished"/>
+        <translation>Onrijp (%1 bevestigingen, zal na %2 beschikbaar worden)</translation>
     </message>
     <message numerus="yes">
         <location line="+16"/>
@@ -2952,7 +2972,7 @@ Adres: %4
     <message>
         <location line="+199"/>
         <source>Transaction status. Hover over this field to show number of confirmations.</source>
-        <translation>Transactiestatus. Houd de muiscursor boven dit veld om het aantal bevestigingen te laten zien.</translation>
+        <translation>Transactiestatus. Houd de muiscursor boven dit veld om het aantal bevestigingen te tonen.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3101,7 +3121,7 @@ Adres: %4
     <message>
         <location line="+0"/>
         <source>The transaction history was successfully saved to %1.</source>
-        <translation>Het transactieverleden was succesvol bewaard in %1.</translation>
+        <translation>Het transactieverleden was succesvol opgeslagen in %1.</translation>
     </message>
     <message>
         <location line="-22"/>
@@ -3167,7 +3187,7 @@ Adres: %4
     <message>
         <location filename="../walletmodel.cpp" line="+245"/>
         <source>Send Coins</source>
-        <translation>Verstuur munten</translation>
+        <translation>Verzend munten</translation>
     </message>
 </context>
 <context>
@@ -3255,7 +3275,7 @@ Adres: %4
     <message>
         <location line="-9"/>
         <source>Set database cache size in megabytes (default: 25)</source>
-        <translation>Stel databankcachegrootte in in megabytes (standaard: 25)</translation>
+        <translation>Stel database-cachegrootte in in megabytes (standaard: 25)</translation>
     </message>
     <message>
         <location line="-26"/>
@@ -3270,12 +3290,12 @@ Adres: %4
     <message>
         <location line="-51"/>
         <source>Connect to a node to retrieve peer addresses, and disconnect</source>
-        <translation>Verbind naar een node om adressen van anderen op te halen, en verbreek vervolgens de verbinding</translation>
+        <translation>Verbind naar een node om netwerkadressen van anderen op te halen, en verbreek vervolgens de verbinding</translation>
     </message>
     <message>
         <location line="+84"/>
         <source>Specify your own public address</source>
-        <translation>Specificeer uw eigen publieke adres</translation>
+        <translation>Specificeer uw eigen publieke netwerkadres</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -3363,12 +3383,12 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <location line="+3"/>
         <source>Enter regression test mode, which uses a special chain in which blocks can be solved instantly. This is intended for regression testing tools and app development.</source>
-        <translation>Schakel regressietest-modus in, die een speciale blokketen gebruikt waarin blokken instantaan opgelost kunnen worden. Dit is bedoeld voor regressietestsoftware en app-ontwikkeling.</translation>
+        <translation>Schakel regressietest-modus in, die een speciale blokketen gebruikt waarin blokken onmiddelijk opgelost kunnen worden. Dit is bedoeld voor regressietestsoftware en app-ontwikkeling.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Enter regression test mode, which uses a special chain in which blocks can be solved instantly.</source>
-        <translation type="unfinished"/>
+        <translation>Schakel regressitest-modus in, die een speciale blok keten gebruikt waarin blokken onmiddelijk opgelost kunnen worden.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3398,7 +3418,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <location line="+3"/>
         <source>Warning: -paytxfee is set very high! This is the transaction fee you will pay if you send a transaction.</source>
-        <translation>Waarschuwing: -paytxfee is zeer hoog ingesteld.  Dit zijn de transactiekosten die u betaalt bij het versturen van een transactie.</translation>
+        <translation>Waarschuwing: -paytxfee is zeer hoog ingesteld.  Dit zijn de transactiekosten die u betaalt bij het verzenden van een transactie.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3413,7 +3433,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <location line="+3"/>
         <source>Warning: We do not appear to fully agree with our peers! You may need to upgrade, or other nodes may need to upgrade.</source>
-        <translation>Waarschuwing: Het lijkt erop dat we geen consensus kunnen vinden met onze peers! Mogelijk dient u te upgraden, of andere nodes moeten wellicht upgraden.</translation>
+        <translation>Waarschuwing: Het lijkt erop dat we geen consensus kunnen vinden met verbonden nodes! Mogelijk dient u te upgraden, of andere nodes moeten wellicht upgraden.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3478,7 +3498,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <location line="+1"/>
         <source>Do not load the wallet and disable wallet RPC calls</source>
-        <translation type="unfinished"/>
+        <translation>Laad geen portemonnee en schakel RPC aanvragen uit</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3668,12 +3688,12 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <location line="+3"/>
         <source>This is intended for regression testing tools and app development.</source>
-        <translation type="unfinished"/>
+        <translation>Dit is bedoeld voor regressietest hulpmiddelen en applicatieontwikkeling.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Usage (deprecated, use dogecoin-cli):</source>
-        <translation>Gebruik (vervangen; gebruik Dogecoin-cli);</translation>
+        <translation>Gebruik (vervallen; gebruik Dogecoin-cli);</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -3698,7 +3718,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <location line="+2"/>
         <source>Wallet options:</source>
-        <translation type="unfinished"/>
+        <translation>Portemonnee opties:</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3803,7 +3823,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <location line="+2"/>
         <source>Specify connection timeout in milliseconds (default: 5000)</source>
-        <translation>Specificeer de time-outtijd in milliseconden (standaard: 5000)</translation>
+        <translation>Specificeer de timeout-tijd in milliseconden (standaard: 5000)</translation>
     </message>
     <message>
         <location line="+6"/>
