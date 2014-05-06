@@ -9,7 +9,7 @@ Release Process
 ###update (commit) version in sources
 
 
-	bitcoin-qt.pro
+	dogecoin-qt.pro
 	contrib/verifysfbinaries/verify.sh
 	doc/README*
 	share/setup.nsi
@@ -66,13 +66,13 @@ Release Process
 
  Build dogecoind and dogecoin-qt on Linux32, Linux64, and Win32:
   
-	./bin/gbuild --commit bitcoin=v${VERSION} ../dogecoin/contrib/gitian-descriptors/gitian-linux.yml
+	./bin/gbuild --commit dogecoin=v${VERSION} ../dogecoin/contrib/gitian-descriptors/gitian-linux.yml
 	./bin/gsign --signer $SIGNER --release ${VERSION} --destination ../gitian.sigs/ ../dogecoin/contrib/gitian-descriptors/gitian-linux.yml
 	pushd build/out
 	zip -r dogecoin-${VERSION}-linux-gitian.zip *
 	mv dogecoin-${VERSION}-linux-gitian.zip ../../../
 	popd
-	./bin/gbuild --commit bitcoin=v${VERSION} ../dogecoin/contrib/gitian-descriptors/gitian-win.yml
+	./bin/gbuild --commit dogecoin=v${VERSION} ../dogecoin/contrib/gitian-descriptors/gitian-win.yml
 	./bin/gsign --signer $SIGNER --release ${VERSION}-win --destination ../gitian.sigs/ ../dogecoin/contrib/gitian-descriptors/gitian-win.yml
 	pushd build/out
 	zip -r dogecoin-${VERSION}-win-gitian.zip *
@@ -147,11 +147,11 @@ Commit your signature to gitian.sigs:
 
 ### After 3 or more people have gitian-built, repackage gitian-signed zips:
 
-From a directory containing bitcoin source, gitian.sigs and gitian zips
+From a directory containing dogecoin source, gitian.sigs and gitian zips
 
 	export VERSION=(new version, e.g. 0.8.0)
-	mkdir bitcoin-${VERSION}-linux-gitian
-	pushd bitcoin-${VERSION}-linux-gitian
+	mkdir dogecoin-${VERSION}-linux-gitian
+	pushd dogecoin-${VERSION}-linux-gitian
 	unzip ../dogecoin-${VERSION}-linux-gitian.zip
 	mkdir gitian
 	cp ../dogecoin/contrib/gitian-downloader/*.pgp ./gitian/
@@ -159,11 +159,11 @@ From a directory containing bitcoin source, gitian.sigs and gitian zips
 	 cp ../gitian.sigs/${VERSION}/${signer}/dogecoin-build.assert ./gitian/${signer}-build.assert
 	 cp ../gitian.sigs/${VERSION}/${signer}/dogecoin-build.assert.sig ./gitian/${signer}-build.assert.sig
 	done
-	zip -r bitcoin-${VERSION}-linux-gitian.zip *
-	cp bitcoin-${VERSION}-linux-gitian.zip ../
+	zip -r dogecoin-${VERSION}-linux-gitian.zip *
+	cp dogecoin-${VERSION}-linux-gitian.zip ../
 	popd
-	mkdir bitcoin-${VERSION}-win-gitian
-	pushd bitcoin-${VERSION}-win-gitian
+	mkdir dogecoin-${VERSION}-win-gitian
+	pushd dogecoin-${VERSION}-win-gitian
 	unzip ../dogecoin-${VERSION}-win-gitian.zip
 	mkdir gitian
 	cp ../dogecoin/contrib/gitian-downloader/*.pgp ./gitian/
@@ -171,8 +171,8 @@ From a directory containing bitcoin source, gitian.sigs and gitian zips
 	 cp ../gitian.sigs/${VERSION}-win/${signer}/dogecoin-build.assert ./gitian/${signer}-build.assert
 	 cp ../gitian.sigs/${VERSION}-win/${signer}/dogecoin-build.assert.sig ./gitian/${signer}-build.assert.sig
 	done
-	zip -r bitcoin-${VERSION}-win-gitian.zip *
-	cp bitcoin-${VERSION}-win-gitian.zip ../
+	zip -r dogecoin-${VERSION}-win-gitian.zip *
+	cp dogecoin-${VERSION}-win-gitian.zip ../
 	popd
 
 - Upload gitian zips to SourceForge
@@ -183,6 +183,6 @@ From a directory containing bitcoin source, gitian.sigs and gitian zips
 
   - Announce on reddit /r/dogecoin, /r/dogecoindev
 
-  - Release sticky on bitcointalk: https://bitcointalk.org/index.php?board=67.0
+  - Release sticky on discuss dogecoin: https://discuss.dogecoin.com/categories/announcements
 
 - Celebrate 
