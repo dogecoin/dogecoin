@@ -1350,6 +1350,10 @@ Adress: %4
         <translation>Fel: Felaktig kombination av -regtest och -testnet.</translation>
     </message>
     <message>
+        <source>Dogecoin Core did&apos;t yet exit safely...</source>
+        <translation>Dogecoin Core avslutades säkert...</translation>
+    </message>
+    <message>
         <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
         <translation>Ange en Dogecoin-adress (t.ex. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
     </message>
@@ -2953,6 +2957,10 @@ till exempel: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@fo
     <message>
         <source>If &lt;category&gt; is not supplied, output all debugging information.</source>
         <translation>Om &lt;category&gt; inte anges, skrivs all avlusningsinformation ut.</translation>
+    </message>
+    <message>
+        <source>Importing...</source>
+        <translation>Importerar...</translation>
     </message>
     <message>
         <source>Incorrect or no genesis block found. Wrong datadir for network?</source>

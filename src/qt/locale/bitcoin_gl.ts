@@ -1349,6 +1349,10 @@ Dirección: %4
         <translation>Erro: combinación inválida de -regtest e -testnet.</translation>
     </message>
     <message>
+        <source>Dogecoin Core did&apos;t yet exit safely...</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
         <translation>Introduce unha dirección Dogecoin (exemplo: DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
     </message>
@@ -2951,6 +2955,10 @@ por exemplo: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>If &lt;category&gt; is not supplied, output all debugging information.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Importing...</source>
         <translation type="unfinished"/>
     </message>
     <message>

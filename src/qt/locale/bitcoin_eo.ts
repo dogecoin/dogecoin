@@ -1349,6 +1349,10 @@ Adreso: %4
         <translation>Eraro: nevalida kunigo de -regtest kaj -testnet</translation>
     </message>
     <message>
+        <source>Dogecoin Core did&apos;t yet exit safely...</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
         <translation>Enigi Bitmon-adreson (ekz. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
     </message>
@@ -2951,6 +2955,10 @@ ekzemple: alertnotify=echo %%s | mail -s &quot;Averto de Bitmono&quot; admin@foo
     </message>
     <message>
         <source>If &lt;category&gt; is not supplied, output all debugging information.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Importing...</source>
         <translation type="unfinished"/>
     </message>
     <message>

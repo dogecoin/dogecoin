@@ -1349,6 +1349,10 @@ Address: %4
         <translation type="unfinished"/>
     </message>
     <message>
+        <source>Dogecoin Core did&apos;t yet exit safely...</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
         <translation>Введіть адресу Dogecoin (наприклад DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
     </message>
@@ -2941,6 +2945,10 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>If &lt;category&gt; is not supplied, output all debugging information.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Importing...</source>
         <translation type="unfinished"/>
     </message>
     <message>

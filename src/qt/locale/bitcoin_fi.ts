@@ -1349,6 +1349,10 @@ Osoite: %4</translation>
         <translation>Virhe: Virheellinen yhdistelmä -regtest ja -testnet.</translation>
     </message>
     <message>
+        <source>Dogecoin Core did&apos;t yet exit safely...</source>
+        <translation>Dogecoin Core ei vielä sulkeutunut turvallisesti...</translation>
+    </message>
+    <message>
         <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
         <translation>Anna Dogecoin-osoite (esim. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
     </message>
@@ -2952,6 +2956,10 @@ esimerkiksi: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <source>If &lt;category&gt; is not supplied, output all debugging information.</source>
         <translation>Jos &lt;kategoria&gt; ei annettu, tulosta kaikki debuggaustieto.</translation>
+    </message>
+    <message>
+        <source>Importing...</source>
+        <translation>Tuodaan...</translation>
     </message>
     <message>
         <source>Incorrect or no genesis block found. Wrong datadir for network?</source>

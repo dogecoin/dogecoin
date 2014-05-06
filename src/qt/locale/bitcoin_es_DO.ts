@@ -1352,6 +1352,10 @@ Dirección: %4
         <translation>Error: Combinación no válida de -regtest y -testnet.</translation>
     </message>
     <message>
+        <source>Dogecoin Core did&apos;t yet exit safely...</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
         <translation>Introduzca una dirección Dogecoin (ej. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
     </message>
@@ -2963,6 +2967,10 @@ Por ejemplo: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <source>If &lt;category&gt; is not supplied, output all debugging information.</source>
         <translation>Si no se proporciona &lt;category&gt;, mostrar toda la depuración</translation>
+    </message>
+    <message>
+        <source>Importing...</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Incorrect or no genesis block found. Wrong datadir for network?</source>

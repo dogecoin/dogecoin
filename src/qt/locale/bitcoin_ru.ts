@@ -1349,6 +1349,10 @@ Address: %4
         <translation>Ошибка: неверная комбинация -regtest и -testnet.</translation>
     </message>
     <message>
+        <source>Dogecoin Core did&apos;t yet exit safely...</source>
+        <translation>Dogecoin Core еще не готов к безопасному завершению...</translation>
+    </message>
+    <message>
         <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
         <translation>Введите Dogecoin-адрес (например DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
     </message>
@@ -2953,6 +2957,10 @@ rpcpassword=%s
     <message>
         <source>If &lt;category&gt; is not supplied, output all debugging information.</source>
         <translation>Если &lt;category&gt; не предоставлена, выводить всю отладочную информацию.</translation>
+    </message>
+    <message>
+        <source>Importing...</source>
+        <translation>Импорт ...</translation>
     </message>
     <message>
         <source>Incorrect or no genesis block found. Wrong datadir for network?</source>
