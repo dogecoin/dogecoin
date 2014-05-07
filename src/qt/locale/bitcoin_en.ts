@@ -1729,7 +1729,7 @@ Address: %4
     </message>
     <message>
         <location line="+60"/>
-        <source>Dogecoin Core did&apos;t yet exit safely...</source>
+        <source>Dogecoin Core didn&apos;t yet exit safely...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
