@@ -59,7 +59,7 @@ BitcoinAmountField::BitcoinAmountField(QWidget *parent) :
     amount(0),
     currentUnit(-1)
 {
-    nSingleStep = 100000; // satoshis
+    nSingleStep = 100000000; // satoshis
 
     amount = new AmountSpinBox(this);
     amount->installEventFilter(this);
