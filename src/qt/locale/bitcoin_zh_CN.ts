@@ -34,7 +34,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+0"/>
         <source>The Dogecoin Core developers</source>
-        <translation>Dogecoin Core 的开发者</translation>
+        <translation>Dogecoin Core 开发团队</translation>
     </message>
 </context>
 <context>
@@ -2646,7 +2646,7 @@ Address: %4
     <message>
         <location line="+2"/>
         <source>The Dogecoin Core developers</source>
-        <translation>Dogecoin Core 的开发者</translation>
+        <translation>Dogecoin Core 开发团队</translation>
     </message>
     <message>
         <location line="+1"/>
