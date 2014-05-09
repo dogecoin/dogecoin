@@ -32,6 +32,7 @@ endif
 test_dogecoin_LDADD += $(BDB_LIBS)
 
 test_dogecoin_SOURCES = \
+  bignum.h \
   alert_tests.cpp \
   allocator_tests.cpp \
   base32_tests.cpp \
