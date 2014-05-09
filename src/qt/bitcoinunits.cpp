@@ -12,6 +12,7 @@ BitcoinUnits::BitcoinUnits(QObject *parent):
 QList<BitcoinUnits::Unit> BitcoinUnits::availableUnits()
 {
     QList<BitcoinUnits::Unit> unitlist;
+    unitlist.append(kBTC);
     unitlist.append(BTC);
     unitlist.append(mBTC);
     unitlist.append(uBTC);
@@ -22,6 +23,7 @@ bool BitcoinUnits::valid(int unit)
 {
     switch(unit)
     {
+    case kBTC:
     case BTC:
     case mBTC:
     case uBTC:
@@ -35,6 +37,7 @@ QString BitcoinUnits::name(int unit)
 {
     switch(unit)
     {
+    case kBTC: return QString("kDOGE");
     case BTC: return QString("DOGE");
     case mBTC: return QString("mDOGE");
     case uBTC: return QString::fromUtf8("μDOGE");
@@ -46,6 +49,7 @@ QString BitcoinUnits::description(int unit)
 {
     switch(unit)
     {
+    case kBTC: return QString("Kilo-Dogecoins (1,000)");
     case BTC: return QString("Dogecoins");
     case mBTC: return QString("Milli-Dogecoins (1 / 1,000)");
     case uBTC: return QString("Micro-Dogecoins (1 / 1,000,000)");
@@ -57,6 +61,7 @@ qint64 BitcoinUnits::factor(int unit)
 {
     switch(unit)
     {
+    case kBTC: return 100000000000;
     case BTC:  return 100000000;
     case mBTC: return 100000;
     case uBTC: return 100;
@@ -68,7 +73,8 @@ int BitcoinUnits::amountDigits(int unit)
 {
     switch(unit)
     {
-    case BTC: return 8; // 21,000,000 (# digits, without commas)
+    case kBTC: return 5; // 21,000 (# digits, without commas)
+    case BTC: return 8; // 21,000,000
     case mBTC: return 11; // 21,000,000,000
     case uBTC: return 14; // 21,000,000,000,000
     default: return 0;
@@ -79,6 +85,7 @@ int BitcoinUnits::decimals(int unit)
 {
     switch(unit)
     {
+    case kBTC: return 11;
     case BTC: return 8;
     case mBTC: return 5;
     case uBTC: return 2;
