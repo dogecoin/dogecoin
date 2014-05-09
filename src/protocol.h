@@ -17,6 +17,7 @@
 #include "netbase.h"
 #include "serialize.h"
 #include "uint256.h"
+#include "version.h"
 
 #include <stdint.h>
 #include <string>
