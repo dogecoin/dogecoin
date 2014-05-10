@@ -54,7 +54,6 @@ public:
     }
 };
 
-
 uint64_t nLastBlockTx = 0;
 uint64_t nLastBlockSize = 0;
 
@@ -63,8 +62,10 @@ typedef boost::tuple<double, CFeeRate, const CTransaction*> TxPriority;
 class TxPriorityCompare
 {
     bool byFee;
+
 public:
     TxPriorityCompare(bool _byFee) : byFee(_byFee) { }
+
     bool operator()(const TxPriority& a, const TxPriority& b)
     {
         if (byFee)
@@ -119,6 +120,7 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn)
 
     // Collect memory pool transactions into the block
     int64_t nFees = 0;
+
     {
         LOCK2(cs_main, mempool.cs);
         CBlockIndex* pindexPrev = chainActive.Tip();
@@ -274,7 +276,7 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn)
             if (fPrintPriority)
             {
                 LogPrintf("priority %.1f fee %s txid %s\n",
-                          dPriority, feeRate.ToString(), tx.GetHash().ToString());
+                    dPriority, feeRate.ToString(), tx.GetHash().ToString());
             }
 
             // Add transactions that depend on this one to the priority queue
@@ -357,12 +359,13 @@ int64_t nHPSTimerStart = 0;
 // nonce is 0xffff0000 or above, the block is rebuilt and nNonce starts over at
 // zero.
 //
-bool static ScanHash(CBlockHeader *pblock, uint32_t& nNonce, uint256 *phash, char *pscratchpad) {
+bool static ScanHash(CBlockHeader *pblock, uint32_t& nNonce, uint256 *phash, char *pscratchpad)
+{
     //CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
     //ss << *pblock;
     //assert(ss.size() == 80);
 
-    for (;;) {
+    while (true) {
         nNonce++;
 
         // Write the last 4 bytes of the block header (the nonce) to a copy of
@@ -460,120 +463,121 @@ void static DogecoinMiner(CWallet *pwallet)
     CReserveKey reservekey(pwallet);
     unsigned int nExtraNonce = 0;
 
-    try { while (true) {
-        if (Params().MiningRequiresPeers()) {
-            // Busy-wait for the network to come online so we don't waste time mining
-            // on an obsolete chain. In regtest mode we expect to fly solo.
-            while (vNodes.empty())
-                MilliSleep(1000);
-        }
-
-        //
-        // Create new block
-        //
-        unsigned int nTransactionsUpdatedLast = mempool.GetTransactionsUpdated();
-        CBlockIndex* pindexPrev = chainActive.Tip();
-
-        auto_ptr<CBlockTemplate> pblocktemplate(CreateNewBlockWithKey(reservekey));
-        if (!pblocktemplate.get())
-            return;
-        CBlock *pblock = &pblocktemplate->block;
-        IncrementExtraNonce(pblock, pindexPrev, nExtraNonce);
-
-        LogPrintf("Running DogecoinMiner with %u transactions in block (%u bytes)\n", pblock->vtx.size(),
-               ::GetSerializeSize(*pblock, SER_NETWORK, PROTOCOL_VERSION));
-
-        //
-        // Search
-        //
-        int64_t nStart = GetTime();
-        uint256 hashTarget = uint256().SetCompact(pblock->nBits);
-        uint256 hash;
-        uint32_t nNonce = 0;
-        uint32_t nOldNonce = 0;
-        char scratchpad[SCRYPT_SCRATCHPAD_SIZE];
-        while (true)
-        {
-            bool fFound = ScanHash(pblock, nNonce, &hash, scratchpad);
-            uint32_t nHashesDone = nNonce - nOldNonce;
-            nOldNonce = nNonce;
-
-            // Check if something found
-            if (fFound)
-            {
-                if (hash <= hashTarget)
-                {
-                    // Found a solution
-                    pblock->nNonce = nNonce; // In Dogecoin ScanHash does this for us already, but we should move towards a Bitcoin model
-                    // TODO: Have a Scrypt GetHash() function this can use to verify
-                    // assert(hash == pblock->GetHash());
-
-                    SetThreadPriority(THREAD_PRIORITY_NORMAL);
-                    CheckWork(pblock, *pwallet, reservekey);
-                    SetThreadPriority(THREAD_PRIORITY_LOWEST);
-
-                    // In regression test mode, stop mining after a block is found.
-                    if (Params().MineBlocksOnDemand())
-                        throw boost::thread_interrupted();
-                    
-                    break;
-                }
-                pblock->nNonce += 1;
-                nHashesDone += 1;
-                if ((pblock->nNonce & 0xFF) == 0)
-                    break;
+    try {
+        while (true) {
+            if (Params().MiningRequiresPeers()) {
+                // Busy-wait for the network to come online so we don't waste time mining
+                // on an obsolete chain. In regtest mode we expect to fly solo.
+                while (vNodes.empty())
+                    MilliSleep(1000);
             }
 
-            // Meter hashes/sec
-            static int64_t nHashCounter;
-            if (nHPSTimerStart == 0)
-            {
-                nHPSTimerStart = GetTimeMillis();
-                nHashCounter = 0;
-            }
-            else
-                nHashCounter += nHashesDone;
-            if (GetTimeMillis() - nHPSTimerStart > 4000)
-            {
-                static CCriticalSection cs;
+            //
+            // Create new block
+            //
+            unsigned int nTransactionsUpdatedLast = mempool.GetTransactionsUpdated();
+            CBlockIndex* pindexPrev = chainActive.Tip();
+
+            auto_ptr<CBlockTemplate> pblocktemplate(CreateNewBlockWithKey(reservekey));
+            if (!pblocktemplate.get())
+                return;
+            CBlock *pblock = &pblocktemplate->block;
+            IncrementExtraNonce(pblock, pindexPrev, nExtraNonce);
+
+            LogPrintf("Running DogecoinMiner with %u transactions in block (%u bytes)\n", pblock->vtx.size(),
+                ::GetSerializeSize(*pblock, SER_NETWORK, PROTOCOL_VERSION));
+
+            //
+            // Search
+            //
+            int64_t nStart = GetTime();
+            uint256 hashTarget = uint256().SetCompact(pblock->nBits);
+            uint256 hash;
+            uint32_t nNonce = 0;
+            uint32_t nOldNonce = 0;
+            char scratchpad[SCRYPT_SCRATCHPAD_SIZE];
+            while (true) {
+                bool fFound = ScanHash(pblock, nNonce, &hash, scratchpad);
+                uint32_t nHashesDone = nNonce - nOldNonce;
+                nOldNonce = nNonce;
+
+                // Check if something found
+                if (fFound)
                 {
-                    LOCK(cs);
-                    if (GetTimeMillis() - nHPSTimerStart > 4000)
+                    if (hash <= hashTarget)
                     {
-                        dHashesPerSec = 1000.0 * nHashCounter / (GetTimeMillis() - nHPSTimerStart);
-                        nHPSTimerStart = GetTimeMillis();
-                        nHashCounter = 0;
-                        static int64_t nLogTime;
-                        if (GetTime() - nLogTime > 30 * 60)
+                        // Found a solution
+                        pblock->nNonce = nNonce;
+                        // TODO: Have a Scrypt GetHash() function this can use to verify
+                        // assert(hash == pblock->GetHash());
+
+                        SetThreadPriority(THREAD_PRIORITY_NORMAL);
+                        CheckWork(pblock, *pwallet, reservekey);
+                        SetThreadPriority(THREAD_PRIORITY_LOWEST);
+
+                        // In regression test mode, stop mining after a block is found.
+                        if (Params().MineBlocksOnDemand())
+                            throw boost::thread_interrupted();
+                    
+                        break;
+                    }
+                    pblock->nNonce += 1;
+                    nHashesDone += 1;
+                    if ((pblock->nNonce & 0xFF) == 0)
+                        break;
+                }
+
+                // Meter hashes/sec
+                static int64_t nHashCounter;
+                if (nHPSTimerStart == 0)
+                {
+                    nHPSTimerStart = GetTimeMillis();
+                    nHashCounter = 0;
+                }
+                else
+                    nHashCounter += nHashesDone;
+                if (GetTimeMillis() - nHPSTimerStart > 4000)
+                {
+                    static CCriticalSection cs;
+                    {
+                        LOCK(cs);
+                        if (GetTimeMillis() - nHPSTimerStart > 4000)
                         {
-                            nLogTime = GetTime();
-                            LogPrintf("hashmeter %6.0f khash/s\n", dHashesPerSec/1000.0);
+                            dHashesPerSec = 1000.0 * nHashCounter / (GetTimeMillis() - nHPSTimerStart);
+                            nHPSTimerStart = GetTimeMillis();
+                            nHashCounter = 0;
+                            static int64_t nLogTime;
+                            if (GetTime() - nLogTime > 30 * 60)
+                            {
+                                nLogTime = GetTime();
+                                LogPrintf("hashmeter %6.0f khash/s\n", dHashesPerSec/1000.0);
+                            }
                         }
                     }
                 }
-            }
 
-            // Check for stop or if block needs to be rebuilt
-            boost::this_thread::interruption_point();
-            // Regtest mode doesn't require peers
-            if (vNodes.empty() && Params().MiningRequiresPeers())
-                break;
-            if (nNonce >= 0xffff0000)
-                break;
-            if (mempool.GetTransactionsUpdated() != nTransactionsUpdatedLast && GetTime() - nStart > 60)
-                break;
-            if (pindexPrev != chainActive.Tip())
-                break;
+                // Check for stop or if block needs to be rebuilt
+                boost::this_thread::interruption_point();
+                // Regtest mode doesn't require peers
+                if (vNodes.empty() && Params().MiningRequiresPeers())
+                    break;
+                if (nNonce >= 0xffff0000)
+                    break;
+                if (mempool.GetTransactionsUpdated() != nTransactionsUpdatedLast && GetTime() - nStart > 60)
+                    break;
+                if (pindexPrev != chainActive.Tip())
+                    break;
 
-            // Update nTime every few seconds
-            UpdateTime(*pblock, pindexPrev);
-            if (Params().AllowMinDifficultyBlocks())
-            {
-                // Changing pblock->nTime can change work required on testnet:
-                hashTarget.SetCompact(pblock->nBits);
+                // Update nTime every few seconds
+                UpdateTime(*pblock, pindexPrev);
+                if (Params().AllowMinDifficultyBlocks())
+                {
+                    // Changing pblock->nTime can change work required on testnet:
+                    hashTarget.SetCompact(pblock->nBits);
+                }
             }
         }
-    } }
+    }
     catch (boost::thread_interrupted)
     {
         LogPrintf("DogecoinMiner terminated\n");
@@ -608,4 +612,4 @@ void GenerateBitcoins(bool fGenerate, CWallet* pwallet, int nThreads)
         minerThreads->create_thread(boost::bind(&DogecoinMiner, pwallet));
 }
 
-#endif
+#endif // ENABLE_WALLET
