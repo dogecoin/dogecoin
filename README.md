@@ -1,6 +1,8 @@
 # Dogecoin [DOGE, Ð]
 http://dogecoin.com/
 
+#This branch contains the version 1.4 which has reached End of Life. It is no longer supported and no longer works on the current dogecoin network#
+
 ![DogeCoin](http://static.tumblr.com/ppdj5y9/Ae9mxmxtp/300coin.png)
 
 ## What is DogeCoin? - Such coin
