@@ -1,4 +1,4 @@
-<TS language="cs" version="2.0">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="cs" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -333,7 +333,7 @@ Tento produkt zahrnuje programy vyvinuté OpenSSL Projektem pro použití v Open
     </message>
     <message>
         <source>Open &amp;URI...</source>
-        <translation type="unfinished"/>
+        <translation>Načíst &amp;URI...</translation>
     </message>
     <message>
         <source>Importing blocks from disk...</source>
@@ -433,7 +433,7 @@ Tento produkt zahrnuje programy vyvinuté OpenSSL Projektem pro použití v Open
     </message>
     <message>
         <source>Request payments (generates QR codes and dogecoin: URIs)</source>
-        <translation type="unfinished"/>
+        <translation>Požaduj platby (generuje QR kódy a dogecoin: URI)</translation>
     </message>
     <message>
         <source>&amp;About Dogecoin Core</source>
@@ -441,15 +441,15 @@ Tento produkt zahrnuje programy vyvinuté OpenSSL Projektem pro použití v Open
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
-        <translation type="unfinished"/>
+        <translation>Ukaž seznam použitých odesílacích adres a jejich označení</translation>
     </message>
     <message>
         <source>Show the list of used receiving addresses and labels</source>
-        <translation type="unfinished"/>
+        <translation>Ukaž seznam použitých přijímacích adres a jejich označení</translation>
     </message>
     <message>
         <source>Open a dogecoin: URI or payment request</source>
-        <translation type="unfinished"/>
+        <translation>Načti dogecoin: URI nebo platební požadavek</translation>
     </message>
     <message>
         <source>&amp;Command-line options</source>
@@ -457,7 +457,7 @@ Tento produkt zahrnuje programy vyvinuté OpenSSL Projektem pro použití v Open
     </message>
     <message>
         <source>Show the Dogecoin Core help message to get a list with possible command-line options</source>
-        <translation>Seznam argumentů Dogecoinu pro příkazovou řádku získáš v nápovědě Dogecoinu Core.</translation>
+        <translation>Seznam argumentů Dogecoinu pro příkazovou řádku získáš v nápovědě Dogecoinu Core</translation>
     </message>
     <message>
         <source>Dogecoin client</source>
@@ -497,7 +497,7 @@ Tento produkt zahrnuje programy vyvinuté OpenSSL Projektem pro použití v Open
     </message>
     <message numerus="yes">
         <source>%n year(s)</source>
-        <translation type="unfinished"><numerusform/><numerusform/><numerusform/></translation>
+        <translation><numerusform>rok</numerusform><numerusform>%n roky</numerusform><numerusform>%n roků</numerusform></translation>
     </message>
     <message>
         <source>%1 behind</source>
@@ -579,7 +579,7 @@ Adresa: %4
     </message>
     <message>
         <source>Quantity:</source>
-        <translation type="unfinished"/>
+        <translation>Počet:</translation>
     </message>
     <message>
         <source>Bytes:</source>
@@ -599,11 +599,11 @@ Adresa: %4
     </message>
     <message>
         <source>Low Output:</source>
-        <translation type="unfinished"/>
+        <translation>Malý výstup:</translation>
     </message>
     <message>
         <source>After Fee:</source>
-        <translation type="unfinished"/>
+        <translation>Čistá částka:</translation>
     </message>
     <message>
         <source>Change:</source>
@@ -611,15 +611,15 @@ Adresa: %4
     </message>
     <message>
         <source>(un)select all</source>
-        <translation type="unfinished"/>
+        <translation>(od)označit všechny</translation>
     </message>
     <message>
         <source>Tree mode</source>
-        <translation type="unfinished"/>
+        <translation>Zobrazit jako strom</translation>
     </message>
     <message>
         <source>List mode</source>
-        <translation type="unfinished"/>
+        <translation>Vypsat jako seznam</translation>
     </message>
     <message>
         <source>Amount</source>
@@ -667,15 +667,15 @@ Adresa: %4
     </message>
     <message>
         <source>Lock unspent</source>
-        <translation type="unfinished"/>
+        <translation>Zamkni neutracené</translation>
     </message>
     <message>
         <source>Unlock unspent</source>
-        <translation type="unfinished"/>
+        <translation>Odemkni k utracení</translation>
     </message>
     <message>
         <source>Copy quantity</source>
-        <translation type="unfinished"/>
+        <translation>Kopíruj počet</translation>
     </message>
     <message>
         <source>Copy fee</source>
@@ -683,7 +683,7 @@ Adresa: %4
     </message>
     <message>
         <source>Copy after fee</source>
-        <translation type="unfinished"/>
+        <translation>Kopíruj čistou částku</translation>
     </message>
     <message>
         <source>Copy bytes</source>
@@ -695,7 +695,7 @@ Adresa: %4
     </message>
     <message>
         <source>Copy low output</source>
-        <translation type="unfinished"/>
+        <translation>Kopíruj malý výstup</translation>
     </message>
     <message>
         <source>Copy change</source>
@@ -703,47 +703,47 @@ Adresa: %4
     </message>
     <message>
         <source>highest</source>
-        <translation type="unfinished"/>
+        <translation>nejvyšší</translation>
     </message>
     <message>
         <source>higher</source>
-        <translation type="unfinished"/>
+        <translation>vyšší</translation>
     </message>
     <message>
         <source>high</source>
-        <translation type="unfinished"/>
+        <translation>vysoká</translation>
     </message>
     <message>
         <source>medium-high</source>
-        <translation type="unfinished"/>
+        <translation>vyšší střední</translation>
     </message>
     <message>
         <source>medium</source>
-        <translation type="unfinished"/>
+        <translation>střední</translation>
     </message>
     <message>
         <source>low-medium</source>
-        <translation type="unfinished"/>
+        <translation>nižší střední</translation>
     </message>
     <message>
         <source>low</source>
-        <translation type="unfinished"/>
+        <translation>nízká</translation>
     </message>
     <message>
         <source>lower</source>
-        <translation type="unfinished"/>
+        <translation>nižší</translation>
     </message>
     <message>
         <source>lowest</source>
-        <translation type="unfinished"/>
+        <translation>nejnižší</translation>
     </message>
     <message>
         <source>(%1 locked)</source>
-        <translation type="unfinished"/>
+        <translation>(%1 zamčeno)</translation>
     </message>
     <message>
         <source>none</source>
-        <translation type="unfinished"/>
+        <translation>žádná</translation>
     </message>
     <message>
         <source>Dust</source>
@@ -751,11 +751,11 @@ Adresa: %4
     </message>
     <message>
         <source>yes</source>
-        <translation type="unfinished"/>
+        <translation>ano</translation>
     </message>
     <message>
         <source>no</source>
-        <translation type="unfinished"/>
+        <translation>ne</translation>
     </message>
     <message>
         <source>This label turns red, if the transaction size is greater than 1000 bytes.</source>
@@ -763,11 +763,11 @@ Adresa: %4
     </message>
     <message>
         <source>This means a fee of at least %1 per kB is required.</source>
-        <translation type="unfinished"/>
+        <translation>To znamená, že je vyžadován poplatek alespoň %1 za kB.</translation>
     </message>
     <message>
         <source>Can vary +/- 1 byte per input.</source>
-        <translation type="unfinished"/>
+        <translation>Může se lišit o +/– 1 bajt na každý vstup.</translation>
     </message>
     <message>
         <source>Transactions with higher priority are more likely to get included into a block.</source>
@@ -1053,11 +1053,11 @@ Adresa: %4
     </message>
     <message>
         <source>Third party URLs (e.g. a block explorer) that appear in the transactions tab as context menu items. %s in the URL is replaced by transaction hash. Multiple URLs are separated by vertical bar |.</source>
-        <translation>URL třetích stran (např. block exploreru), které se zobrazí v kontextovém menu v záložce Transakce. %s v URL se nahradí hashem transakce. Více URL odděl svislítkem |.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Third party transaction URLs</source>
-        <translation>URL transakcí třetích stran</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Active command-line options that override above options:</source>
@@ -1193,7 +1193,7 @@ Adresa: %4
     </message>
     <message>
         <source>none</source>
-        <translation>žádné</translation>
+        <translation>žádná</translation>
     </message>
     <message>
         <source>Confirm options reset</source>
@@ -1201,7 +1201,7 @@ Adresa: %4
     </message>
     <message>
         <source>Client restart required to activate changes.</source>
-        <translation type="unfinished"/>
+        <translation>K aktivaci změn je potřeba restartovat klienta.</translation>
     </message>
     <message>
         <source>Client will be shutdown, do you want to proceed?</source>
@@ -1303,7 +1303,7 @@ Adresa: %4
     </message>
     <message>
         <source>Payment request fetch URL is invalid: %1</source>
-        <translation type="unfinished"/>
+        <translation>Zdrojová URL platebního požadavku není platná: %1</translation>
     </message>
     <message>
         <source>Payment request file handling</source>
@@ -1315,7 +1315,7 @@ Adresa: %4
     </message>
     <message>
         <source>Unverified payment requests to custom payment scripts are unsupported.</source>
-        <translation type="unfinished"/>
+        <translation>Neověřené platební požadavky k uživatelským platebním skriptům nejsou podporované.</translation>
     </message>
     <message>
         <source>Refund from %1</source>
@@ -1626,15 +1626,15 @@ Adresa: %4
     </message>
     <message>
         <source>Copy &amp;URI</source>
-        <translation>&amp;Kopíruj URI</translation>
+        <translation>Kopíruj &amp;URI</translation>
     </message>
     <message>
         <source>Copy &amp;Address</source>
-        <translation type="unfinished"/>
+        <translation>Kopíruj &amp;adresu</translation>
     </message>
     <message>
         <source>&amp;Save Image...</source>
-        <translation>&amp;Ulož Obrázek...</translation>
+        <translation>&amp;Ulož obrázek...</translation>
     </message>
     <message>
         <source>Request payment to %1</source>
@@ -1642,7 +1642,7 @@ Adresa: %4
     </message>
     <message>
         <source>Payment information</source>
-        <translation type="unfinished"/>
+        <translation>Informace o platbě</translation>
     </message>
     <message>
         <source>URI</source>
@@ -1724,11 +1724,11 @@ Adresa: %4
     </message>
     <message>
         <source>Insufficient funds!</source>
-        <translation type="unfinished"/>
+        <translation>Nedostatek prostředků!</translation>
     </message>
     <message>
         <source>Quantity:</source>
-        <translation type="unfinished"/>
+        <translation>Počet:</translation>
     </message>
     <message>
         <source>Bytes:</source>
@@ -1748,11 +1748,11 @@ Adresa: %4
     </message>
     <message>
         <source>Low Output:</source>
-        <translation type="unfinished"/>
+        <translation>Malý výstup:</translation>
     </message>
     <message>
         <source>After Fee:</source>
-        <translation type="unfinished"/>
+        <translation>Čistá částka:</translation>
     </message>
     <message>
         <source>Change:</source>
@@ -1804,7 +1804,7 @@ Adresa: %4
     </message>
     <message>
         <source>Copy quantity</source>
-        <translation type="unfinished"/>
+        <translation>Kopíruj počet</translation>
     </message>
     <message>
         <source>Copy amount</source>
@@ -1816,7 +1816,7 @@ Adresa: %4
     </message>
     <message>
         <source>Copy after fee</source>
-        <translation type="unfinished"/>
+        <translation>Kopíruj čistou částku</translation>
     </message>
     <message>
         <source>Copy bytes</source>
@@ -1828,7 +1828,7 @@ Adresa: %4
     </message>
     <message>
         <source>Copy low output</source>
-        <translation type="unfinished"/>
+        <translation>Kopíruj malý výstup</translation>
     </message>
     <message>
         <source>Copy change</source>
@@ -1836,7 +1836,7 @@ Adresa: %4
     </message>
     <message>
         <source>Total Amount %1 (= %2)</source>
-        <translation type="unfinished"/>
+        <translation>Celková částka %1 (= %2)</translation>
     </message>
     <message>
         <source>or</source>
@@ -1888,11 +1888,11 @@ Adresa: %4
     </message>
     <message>
         <source>added as transaction fee</source>
-        <translation type="unfinished"/>
+        <translation>přidán jako transakční poplatek</translation>
     </message>
     <message>
         <source>Payment request expired</source>
-        <translation type="unfinished"/>
+        <translation>Platební požadavek vypršel</translation>
     </message>
     <message>
         <source>Invalid payment address %1</source>
@@ -1919,7 +1919,7 @@ Adresa: %4
     </message>
     <message>
         <source>Choose previously used address</source>
-        <translation type="unfinished"/>
+        <translation>Vyber již použitou adresu</translation>
     </message>
     <message>
         <source>This is a normal payment.</source>
@@ -1963,7 +1963,7 @@ Adresa: %4
     </message>
     <message>
         <source>Pay To:</source>
-        <translation type="unfinished"/>
+        <translation>Komu:</translation>
     </message>
     <message>
         <source>Memo:</source>
@@ -1997,7 +1997,7 @@ Adresa: %4
     </message>
     <message>
         <source>Choose previously used address</source>
-        <translation type="unfinished"/>
+        <translation>Vyber již použitou adresu</translation>
     </message>
     <message>
         <source>Alt+A</source>
@@ -2823,7 +2823,7 @@ například: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Connect through SOCKS proxy</source>
-        <translation type="unfinished"/>
+        <translation>Připojit se přes SOCKS proxy</translation>
     </message>
     <message>
         <source>Connect to JSON-RPC on &lt;port&gt; (default: 8332 or testnet: 18332)</source>
@@ -2831,7 +2831,7 @@ například: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Connection options:</source>
-        <translation type="unfinished"/>
+        <translation>Možnosti připojení:</translation>
     </message>
     <message>
         <source>Corrupted block database detected</source>
@@ -2839,7 +2839,7 @@ například: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Debugging/Testing options:</source>
-        <translation type="unfinished"/>
+        <translation>Možnosti ladění/testování:</translation>
     </message>
     <message>
         <source>Disable safemode, override a real safe mode event (default: 0)</source>
@@ -2851,7 +2851,7 @@ například: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Do not load the wallet and disable wallet RPC calls</source>
-        <translation type="unfinished"/>
+        <translation>Nenačítat peněženku a vypnout její RPC volání</translation>
     </message>
     <message>
         <source>Do you want to rebuild the block database now?</source>
@@ -3035,7 +3035,7 @@ například: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Wallet options:</source>
-        <translation type="unfinished"/>
+        <translation>Možnosti peněženky:</translation>
     </message>
     <message>
         <source>Warning: Deprecated argument -debugnet ignored, use -debug=net</source>

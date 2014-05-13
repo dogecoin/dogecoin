@@ -1,4 +1,4 @@
-<TS language="id_ID" version="2.0">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="id_ID" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -1057,7 +1057,7 @@ Alamat: %4
     </message>
     <message>
         <source>Third party transaction URLs</source>
-        <translation>Transaksi URLs pihak ketiga</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Active command-line options that override above options:</source>
@@ -1362,7 +1362,7 @@ Alamat: %4
     </message>
     <message>
         <source>Dogecoin Core did&apos;t yet exit safely...</source>
-        <translation>Inti Dogecoin belum keluar dengan sempurna...</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Enter a Dogecoin address (e.g. %1)</source>

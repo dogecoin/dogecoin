@@ -1,4 +1,4 @@
-<TS language="it" version="2.0">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="it" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -1053,6 +1053,15 @@ Indirizzo: %4
         <translation>Indirizzo IP del proxy (es: IPv4: 127.0.0.1 / IPv6: ::1)</translation>
     </message>
     <message>
+        <source>Third party URLs (e.g. a block explorer) that appear in the transactions tab as context menu items. %s in the URL is replaced by transaction hash. Multiple URLs are separated by vertical bar |.</source>
+        <translation>URL di terze parti (es: un block explorer) che appaiono nella tabella delle transazioni come voci nel menu contestuale. %s nell&apos;URL è sostituito dall&apos;hash della transazione.
+Più URL vengono separati da una barra verticale |.</translation>
+    </message>
+    <message>
+        <source>Third party transaction URLs</source>
+        <translation>URL di transazione di terze parti</translation>
+    </message>
+    <message>
         <source>Active command-line options that override above options:</source>
         <translation>Opzioni command-line attive che sostituiscono i settaggi sopra elencati:</translation>
     </message>
@@ -1355,7 +1364,7 @@ Indirizzo: %4
     </message>
     <message>
         <source>Dogecoin Core did&apos;t yet exit safely...</source>
-        <translation>Dogecoin Core non è ancora stato chiuso in modo sicuro ...</translation>
+        <translation>Bitcoin Core non si è ancora chiuso con sicurezza...</translation>
     </message>
     <message>
         <source>Enter a Dogecoin address (e.g. %1)</source>

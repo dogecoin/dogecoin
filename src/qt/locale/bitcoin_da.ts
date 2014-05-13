@@ -1,4 +1,4 @@
-<TS language="da" version="2.0">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="da" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -96,11 +96,11 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     </message>
     <message>
         <source>Very sending addresses</source>
-        <translation type="unfinished"/>
+        <translation>Afsendelsesadresser</translation>
     </message>
     <message>
         <source>Much receiving addresses</source>
-        <translation type="unfinished"/>
+        <translation>Modtagelsesadresser</translation>
     </message>
     <message>
         <source>These are your Dogecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
@@ -325,11 +325,11 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     </message>
     <message>
         <source>Very &amp;sending addresses...</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Afsendelsesadresser...</translation>
     </message>
     <message>
         <source>Much &amp;receiving addresses...</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Modtagelsesadresser...</translation>
     </message>
     <message>
         <source>Open &amp;URI...</source>
@@ -1049,6 +1049,14 @@ Adresse: %4
     </message>
     <message>
         <source>IP address of the proxy (e.g. IPv4: 127.0.0.1 / IPv6: ::1)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Third party URLs (e.g. a block explorer) that appear in the transactions tab as context menu items. %s in the URL is replaced by transaction hash. Multiple URLs are separated by vertical bar |.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Third party transaction URLs</source>
         <translation type="unfinished"/>
     </message>
     <message>
