@@ -17,6 +17,18 @@ for more information or see http://opensource.org/licenses/MIT.
 ## Development and contributions – omg developers
 Development is ongoing and the development team as well as other volunteers can freely work in their own trees and submit pull requests when features or bug fixes are ready.
 
+#### Version strategy
+Version numbers are following ```major.minor.patch``` semantics.
+
+#### Branches
+There are 3 types of branches in this repository:
+
+- **master:** Stable, contains the latest version of the latest *major.minor* release.
+- **maintenance:** Stable, contains the latest version of previous releases, which are still under active maintenance. Format: ```<version>-maint```
+- **development:** Unstable, contains new code for planned releases. Format: ```<version>-dev```
+
+*Master and maintenance branches are exclusively mutable by release. Planned releases will always have a development branch and pull requests should be submitted against those. Maintenance branches are there for* ***bug fixes only,*** *please submit new features against the development branch with the highest version.*
+
 ## Very Much Frequently Asked Questions
 
 ### How much doge can exist? – So many puppies!
