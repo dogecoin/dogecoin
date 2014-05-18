@@ -1,5 +1,5 @@
-Dogecoin 1.7
-=====================
+Dogecoin 1.7.2 ALPHA
+====================
 
 * Copyright (c) 2009-2014 Bitcoin Developers
 * Copyright (c) 2011-2013 Litecoin Developers
