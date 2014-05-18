@@ -591,7 +591,7 @@ void CoinControlDialog::updateLabels(WalletModel *model, QDialog* dialog)
     l8->setText(BitcoinUnits::formatWithUnit(nDisplayUnit, nChange));        // Change
 
     // turn labels "red"
-    l5->setStyleSheet((nBytes >= 1000) ? "color:red;" : "");                            // Bytes >= 1000
+    l5->setStyleSheet((nBytes >= 5000) ? "color:red;" : "");                            // Bytes >= 5000
     l6->setStyleSheet((dPriority > 0 && !AllowFree(dPriority)) ? "color:red;" : "");    // Priority < "medium"
     l7->setStyleSheet((fLowOutput) ? "color:red;" : "");                                // Low Output = "yes"
     l8->setStyleSheet((nChange > 0 && nChange < COIN) ? "color:red;" : "");             // Change < 0.01DOGE
