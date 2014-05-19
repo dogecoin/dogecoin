@@ -928,7 +928,7 @@ Wohin: %4
     </message>
     <message>
         <location line="+10"/>
-        <source>This label turns red, if the transaction size is greater than 1000 bytes.</source>
+        <source>This label turns red, if the transaction size is greater than 5000 bytes.</source>
         <translation type="unfinished"/>
     </message>
     <message>

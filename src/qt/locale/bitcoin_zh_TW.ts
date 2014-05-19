@@ -933,8 +933,8 @@ Address: %4
     </message>
     <message>
         <location line="+10"/>
-        <source>This label turns red, if the transaction size is greater than 1000 bytes.</source>
-        <translation>當交易大小大於 1000 位元組時，文字會變紅色。</translation>
+        <source>This label turns red, if the transaction size is greater than 5000 bytes.</source>
+        <translation>當交易大小大於 5000 位元組時，文字會變紅色。</translation>
     </message>
     <message>
         <location line="+1"/>

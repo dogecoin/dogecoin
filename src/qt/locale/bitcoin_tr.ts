@@ -933,8 +933,8 @@ Adres: %4
     </message>
     <message>
         <location line="+10"/>
-        <source>This label turns red, if the transaction size is greater than 1000 bytes.</source>
-        <translation>Eğer muamele boyutu 1000 bayttan büyükse bu etkiket kırmızı olur.</translation>
+        <source>This label turns red, if the transaction size is greater than 5000 bytes.</source>
+        <translation>Eğer muamele boyutu 5000 bayttan büyükse bu etkiket kırmızı olur.</translation>
     </message>
     <message>
         <location line="+1"/>

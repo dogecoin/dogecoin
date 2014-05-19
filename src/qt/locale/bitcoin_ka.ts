@@ -933,8 +933,8 @@ Address: %4
     </message>
     <message>
         <location line="+10"/>
-        <source>This label turns red, if the transaction size is greater than 1000 bytes.</source>
-        <translation>ნიშნული წითლდება, როცა ტრანსაქციის ზომა 1000 ბაიტზე მეტია.</translation>
+        <source>This label turns red, if the transaction size is greater than 5000 bytes.</source>
+        <translation>ნიშნული წითლდება, როცა ტრანსაქციის ზომა 5000 ბაიტზე მეტია.</translation>
     </message>
     <message>
         <location line="+1"/>

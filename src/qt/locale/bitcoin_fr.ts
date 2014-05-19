@@ -933,8 +933,8 @@ Adresse : %4
     </message>
     <message>
         <location line="+10"/>
-        <source>This label turns red, if the transaction size is greater than 1000 bytes.</source>
-        <translation>Cette étiquette devient rouge si la taille de la transaction est plus grande que 1 000 octets.</translation>
+        <source>This label turns red, if the transaction size is greater than 5000 bytes.</source>
+        <translation>Cette étiquette devient rouge si la taille de la transaction est plus grande que 5000 octets.</translation>
     </message>
     <message>
         <location line="+1"/>
