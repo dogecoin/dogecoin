@@ -158,4 +158,12 @@
         <file alias="zh_HK">locale/bitcoin_zh_HK.qm</file>
         <file alias="zh_TW">locale/bitcoin_zh_TW.qm</file>
     </qresource>
+    <qresource prefix="/fonts">
+        <file alias="ComicNeue-Bold">res/fonts/ComicNeue-Bold.ttf</file>
+        <file alias="ComicNeue-Bold-Oblique">res/fonts/ComicNeue-Bold-Oblique.ttf</file>
+        <file alias="ComicNeue-Light">res/fonts/ComicNeue-Light.ttf</file>
+        <file alias="ComicNeue-Light-Oblique">res/fonts/ComicNeue-Light-Oblique.ttf</file>
+        <file alias="ComicNeue-Regular">res/fonts/ComicNeue-Regular.ttf</file>
+        <file alias="ComicNeue-Regular-Oblique">res/fonts/ComicNeue-Regular-Oblique.ttf</file>
+    </qresource>
 </RCC>
