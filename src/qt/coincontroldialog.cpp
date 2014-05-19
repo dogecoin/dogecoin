@@ -597,7 +597,7 @@ void CoinControlDialog::updateLabels(WalletModel *model, QDialog* dialog)
     l8->setStyleSheet((nChange > 0 && nChange < COIN) ? "color:red;" : "");             // Change < 0.01DOGE
 
     // tool tips
-    QString toolTip1 = tr("This label turns red, if the transaction size is greater than 1000 bytes.") + "<br /><br />";
+    QString toolTip1 = tr("This label turns red, if the transaction size is greater than 5000 bytes.") + "<br /><br />";
     toolTip1 += tr("This means a fee of at least %1 per kB is required.").arg(BitcoinUnits::formatWithUnit(nDisplayUnit, CTransaction::nMinTxFee)) + "<br /><br />";
     toolTip1 += tr("Can vary +/- 1 byte per input.");
 

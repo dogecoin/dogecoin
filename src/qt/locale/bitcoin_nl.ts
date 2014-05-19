@@ -933,8 +933,8 @@ Adres: %4
     </message>
     <message>
         <location line="+10"/>
-        <source>This label turns red, if the transaction size is greater than 1000 bytes.</source>
-        <translation>Dit label wordt rood als de transactie grootte meer dan 1000 bytes is.</translation>
+        <source>This label turns red, if the transaction size is greater than 5000 bytes.</source>
+        <translation>Dit label wordt rood als de transactie grootte meer dan 5000 bytes is.</translation>
     </message>
     <message>
         <location line="+1"/>

@@ -933,8 +933,8 @@ Adresse: %4
     </message>
     <message>
         <location line="+10"/>
-        <source>This label turns red, if the transaction size is greater than 1000 bytes.</source>
-        <translation>Denne merkelappen blir rød, hvis transaksjonsstørrelsen er større enn 1000 bytes.</translation>
+        <source>This label turns red, if the transaction size is greater than 5000 bytes.</source>
+        <translation>Denne merkelappen blir rød, hvis transaksjonsstørrelsen er større enn 5000 bytes.</translation>
     </message>
     <message>
         <location line="+1"/>

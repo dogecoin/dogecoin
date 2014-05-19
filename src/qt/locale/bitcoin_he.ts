@@ -932,8 +932,8 @@ Address: %4
     </message>
     <message>
         <location line="+10"/>
-        <source>This label turns red, if the transaction size is greater than 1000 bytes.</source>
-        <translation>תווית זו מאדימה במידה וגודל הפעולה עולה על 1000 בייט</translation>
+        <source>This label turns red, if the transaction size is greater than 5000 bytes.</source>
+        <translation>תווית זו מאדימה במידה וגודל הפעולה עולה על 5000 בייט</translation>
     </message>
     <message>
         <location line="+1"/>
