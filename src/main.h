@@ -906,7 +906,7 @@ public:
 
     void print() const
     {
-        LogPrintf("%s\n", ToString().c_str());
+        LogPrintf("%s\n", ToString());
     }
 
     // Check whether this block index entry is valid up to the passed validity level.
@@ -987,12 +987,11 @@ public:
         return block.GetHash();
     }
 
-
     std::string ToString() const; // moved code to main.cpp
 
     void print() const
     {
-        LogPrintf("%s\n", ToString().c_str());
+        LogPrintf("%s\n", ToString());
     }
 };
 
