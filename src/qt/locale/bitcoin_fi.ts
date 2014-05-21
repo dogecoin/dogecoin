@@ -1052,6 +1052,14 @@ Osoite: %4</translation>
         <translation>IP osoite proxille (esim. IPv4: 127.0.0.1 / IPv6: ::1)</translation>
     </message>
     <message>
+        <source>Third party URLs (e.g. a block explorer) that appear in the transactions tab as context menu items. %s in the URL is replaced by transaction hash. Multiple URLs are separated by vertical bar |.</source>
+        <translation>Ulkopuoliset URL-osoitteet (esim. block explorer,) jotka esiintyvät siirrot-välilehdellä valikossa. %s URL-osoitteessa korvataan siirtotunnuksella. Useampi URL-osoite on eroteltu pystyviivalla |.</translation>
+    </message>
+    <message>
+        <source>Third party transaction URLs</source>
+        <translation>Kolmannen osapuolen rahansiirto URL:t</translation>
+    </message>
+    <message>
         <source>Active command-line options that override above options:</source>
         <translation>Aktiiviset komentorivivalinnat jotka ohittavat ylläolevat valinnat:</translation>
     </message>

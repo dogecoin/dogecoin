@@ -1485,8 +1485,13 @@ Adresas: %4</translation>
         <translation>Išvalyti konsolę</translation>
     </message>
     <message>
+<<<<<<< HEAD
         <source>Welcome to the Dogecoin RPC console.</source>
         <translation type="unfinished"/>
+=======
+        <source>Welcome to the Bitcoin RPC console.</source>
+        <translation>Sveiki atvykę į Bitcoin RPC konsolę.</translation>
+>>>>>>> 6fcdad7... qt: Periodic language update
     </message>
     <message>
         <source>Use up and down arrows to navigate history, and &lt;b&gt;Ctrl-L&lt;/b&gt; to clear screen.</source>
@@ -2617,7 +2622,7 @@ Adresas: %4</translation>
     </message>
     <message>
         <source>Specify your own public address</source>
-        <translation type="unfinished"/>
+        <translation>Nurodykite savo nuosavą viešą adresą</translation>
     </message>
     <message>
         <source>Threshold for disconnecting misbehaving peers (default: 100)</source>
@@ -3331,7 +3336,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Cannot write default address</source>
-        <translation type="unfinished"/>
+        <translation>Negalima parašyti įprasto adreso</translation>
     </message>
     <message>
         <source>Rescanning...</source>

@@ -611,7 +611,7 @@ Address: %4
     </message>
     <message>
         <source>(un)select all</source>
-        <translation type="unfinished"/>
+        <translation>すべて選択/選択解除</translation>
     </message>
     <message>
         <source>Tree mode</source>
@@ -743,7 +743,7 @@ Address: %4
     </message>
     <message>
         <source>none</source>
-        <translation type="unfinished"/>
+        <translation>なし</translation>
     </message>
     <message>
         <source>Dust</source>
@@ -1193,7 +1193,7 @@ Address: %4
     </message>
     <message>
         <source>none</source>
-        <translation type="unfinished"/>
+        <translation>なし</translation>
     </message>
     <message>
         <source>Confirm options reset</source>
@@ -1429,7 +1429,7 @@ Address: %4
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"/>
+        <translation>名前</translation>
     </message>
     <message>
         <source>Number of connections</source>

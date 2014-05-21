@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-<TS language="pl" version="2.0">
-=======
 <?xml version="1.0" ?><!DOCTYPE TS><TS language="pl" version="2.1">
->>>>>>> 795b921... qt: periodic language update
 <context>
     <name>AboutDialog</name>
     <message>
@@ -747,7 +743,7 @@ Adres: %4
     </message>
     <message>
         <source>none</source>
-        <translation type="unfinished"/>
+        <translation>żaden</translation>
     </message>
     <message>
         <source>Dust</source>
@@ -1197,7 +1193,7 @@ Adres: %4
     </message>
     <message>
         <source>none</source>
-        <translation type="unfinished"/>
+        <translation>żaden</translation>
     </message>
     <message>
         <source>Confirm options reset</source>
@@ -2336,7 +2332,7 @@ Adres: %4
     </message>
     <message>
         <source>Offline</source>
-        <translation type="unfinished"/>
+        <translation>Offline</translation>
     </message>
     <message>
         <source>Unconfirmed</source>
@@ -3141,13 +3137,8 @@ na przykład: alertnotify=echo %%s | mail -s &quot;Alarm Dogecoin&quot; admin@fo
         <translation>Opcje SSL: (odwiedź Bitcoin Wiki w celu uzyskania instrukcji)</translation>
     </message>
     <message>
-<<<<<<< HEAD
         <source>Send command to Dogecoin Core</source>
-        <translation type="unfinished"/>
-=======
-        <source>Send command to Bitcoin Core</source>
         <translation>Wyślij komendę do Bitcoin Core</translation>
->>>>>>> 795b921... qt: periodic language update
     </message>
     <message>
         <source>Send trace/debug info to console instead of debug.log file</source>
@@ -3183,7 +3174,7 @@ na przykład: alertnotify=echo %%s | mail -s &quot;Alarm Dogecoin&quot; admin@fo
     </message>
     <message>
         <source>Start Dogecoin Core Daemon</source>
-        <translation type="unfinished"/>
+        <translation>Uruchom serwer Bitcoin Core</translation>
     </message>
     <message>
         <source>System error: </source>

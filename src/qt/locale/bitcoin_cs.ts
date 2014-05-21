@@ -1575,7 +1575,7 @@ Adresa: %4
     </message>
     <message>
         <source>Clear all fields of the form.</source>
-        <translation>Promaž obsah ze všech formulářových políček.</translation>
+        <translation>Smaže všechny pole formuláře.</translation>
     </message>
     <message>
         <source>Clear</source>
@@ -1603,7 +1603,7 @@ Adresa: %4
     </message>
     <message>
         <source>Remove</source>
-        <translation>Smazat</translation>
+        <translation>Odstranit</translation>
     </message>
     <message>
         <source>Copy label</source>
@@ -1716,11 +1716,11 @@ Adresa: %4
     </message>
     <message>
         <source>Inputs...</source>
-        <translation type="unfinished"/>
+        <translation>Vstupy...</translation>
     </message>
     <message>
         <source>automatically selected</source>
-        <translation type="unfinished"/>
+        <translation>automaticky vybrané</translation>
     </message>
     <message>
         <source>Insufficient funds!</source>
@@ -1776,7 +1776,7 @@ Adresa: %4
     </message>
     <message>
         <source>Clear all fields of the form.</source>
-        <translation>Promaž obsah ze všech formulářových políček.</translation>
+        <translation>Smaže všechny pole formuláře.</translation>
     </message>
     <message>
         <source>Clear &amp;All</source>
@@ -1884,7 +1884,7 @@ Adresa: %4
     </message>
     <message>
         <source>Are you sure you want to send?</source>
-        <translation>Jsi si jistý, že to chceš poslat?</translation>
+        <translation>Opravdu chcete odeslat %1?</translation>
     </message>
     <message>
         <source>added as transaction fee</source>
@@ -1947,7 +1947,7 @@ Adresa: %4
     </message>
     <message>
         <source>This is a verified payment request.</source>
-        <translation>Tohle je ověřený platební požadavek.</translation>
+        <translation>Toto je ověřený požadavek k platbě.</translation>
     </message>
     <message>
         <source>Enter a label for this address to add it to the list of used addresses</source>
@@ -1959,7 +1959,7 @@ Adresa: %4
     </message>
     <message>
         <source>This is an unverified payment request.</source>
-        <translation>Tohle je neověřený platební požadavek.</translation>
+        <translation>Toto je neověřený požadavek k platbě.</translation>
     </message>
     <message>
         <source>Pay To:</source>
@@ -3119,7 +3119,7 @@ například: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>RPC server options:</source>
-        <translation type="unfinished"/>
+        <translation>Možnosti RPC serveru:</translation>
     </message>
     <message>
         <source>Randomly drop 1 of every &lt;n&gt; network messages</source>
