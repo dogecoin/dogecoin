@@ -1116,6 +1116,10 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
 
     int64_t nStart;
 
+#if defined(USE_SSE2)
+    scrypt_detect_sse2();
+#endif
+
     // ********************************************************* Step 5: verify wallet database integrity
 #ifdef ENABLE_WALLET
     if (!fDisableWallet) {
