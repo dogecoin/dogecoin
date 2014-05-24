@@ -1,15 +1,15 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="ko_KR" version="2.0">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ko_KR" version="2.2">
 <context>
     <name>AboutDialog</name>
     <message>
         <location filename="../forms/aboutdialog.ui" line="+14"/>
         <source>About Dogecoin Core</source>
-        <translation>비트코인 코어 소개</translation>
+        <translation>도기코인 코어 정보</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>&lt;b&gt;Dogecoin Core&lt;/b&gt; version</source>
-        <translation>&lt;b&gt;비트코인 코어&lt;/b&gt; 버젼</translation>
+        <translation>&lt;b&gt;도기코인 코어&lt;/b&gt; 버전</translation>
     </message>
     <message>
         <location line="+57"/>
@@ -22,9 +22,9 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>
 이 프로그램은 시험용입니다.
 
-MIT/X11 프로그램 라이선스에 따라 배포합니다. COPYING 또는 http://www.opensource.org/licenses/mit-license.php를 참조하십시오.
+MIT/X11 프로그램 라이선스에 따라 배포합니다. COPYING.txt 또는 http://www.opensource.org/licenses/mit-license.php를 참조 하십시오. 
 
-이 프로그램에는 OpenSSL 툴킷(http://www.openssl.org) 사용 목적으로 개발한 OpenSSL 프로젝트를 포함하고 있으며, 암호화 프로그램은 Eric Young(eay@cryptsoft.com)이, UPnP 프로그램은 Thomas Bernard가 작성했습니다.</translation>
+이 프로그램은 OpenSSL 툴킷 (http://www.openssl.org) 사용 목적으로 개발한 OpenSSL 프로젝트를 포함하고 있으며, 암호화 프로그램은 Eric Young (eay@cryptsoft.com) 이, UPnP 프로그램은 Thomas Bernard가 작성했습니다.</translation>
     </message>
     <message>
         <location filename="../utilitydialog.cpp" line="+29"/>
@@ -34,7 +34,7 @@ MIT/X11 프로그램 라이선스에 따라 배포합니다. COPYING 또는 http
     <message>
         <location line="+0"/>
         <source>The Dogecoin Core developers</source>
-        <translation>비트코인코어 개발자들</translation>
+        <translation>The Dogecoin Core developers</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -48,7 +48,7 @@ MIT/X11 프로그램 라이선스에 따라 배포합니다. COPYING 또는 http
     <message>
         <location filename="../forms/addressbookpage.ui" line="+30"/>
         <source>Double-click to edit address or label</source>
-        <translation>표 또는 주소를 편집하기 위해 더블클릭 하세요</translation>
+        <translation>주소 또는 이름표를 편집하기 위해 더블클릭 하세요</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -63,7 +63,7 @@ MIT/X11 프로그램 라이선스에 따라 배포합니다. COPYING 또는 http
     <message>
         <location line="+11"/>
         <source>Copy the currently selected address to the system clipboard</source>
-        <translation>현재 선택한 주소를 시스템 클립보드로 복사하기</translation>
+        <translation>현재 선택한 주소를 클립보드로 복사</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -78,22 +78,22 @@ MIT/X11 프로그램 라이선스에 따라 배포합니다. COPYING 또는 http
     <message>
         <location filename="../addressbookpage.cpp" line="+74"/>
         <source>&amp;Copy Address</source>
-        <translation>계좌 복사(&amp;C)</translation>
+        <translation>주소 복사(&amp;C)</translation>
     </message>
     <message>
         <location filename="../forms/addressbookpage.ui" line="-41"/>
         <source>Delete the currently selected address from the list</source>
-        <translation>현재 목록에 선택한 주소 삭제</translation>
+        <translation>현재 선택된 주소를 목록에서 삭제</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Export the data in the current tab to a file</source>
-        <translation>현재 탭에 있는 데이터를 파일로 내보내기</translation>
+        <translation>현재 창에 있는 데이터를 파일로 내보내기</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>&amp;Export</source>
-        <translation type="unfinished"/>
+        <translation>&amp;내보내기</translation>
     </message>
     <message>
         <location line="-27"/>
@@ -113,32 +113,32 @@ MIT/X11 프로그램 라이선스에 따라 배포합니다. COPYING 또는 http
     <message>
         <location line="+5"/>
         <source>C&amp;hoose</source>
-        <translation type="unfinished"/>
+        <translation>선택하기(&amp;H)</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Very sending addresses</source>
-        <translation>보내는 주소들</translation>
+        <translation>Very 보내는 주소들</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Much receiving addresses</source>
-        <translation>받은 주소들</translation>
+        <translation>Much 받는 주소들</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>These are your Dogecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation type="unfinished"/>
+        <translation>여기에 도기코인을 보낼 수 있는 주소가 있습니다. 코인을 보내기 전에 항상 보내는 주소와 액수를 확인하세요.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>These are your Dogecoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation type="unfinished"/>
+        <translation>여기에 도기코인을 받을 수 있는 주소가 있습니다. 매 거래마다 새로운 주소 사용을 권장합니다.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Copy &amp;Label</source>
-        <translation>표 복사</translation>
+        <translation>이름표 복사</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -153,7 +153,7 @@ MIT/X11 프로그램 라이선스에 따라 배포합니다. COPYING 또는 http
     <message>
         <location line="+1"/>
         <source>Comma separated file (*.csv)</source>
-        <translation>각각의 파일에 쉼표하기(*.csv)</translation>
+        <translation>CSV 파일 형식 (*.csv)</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -163,7 +163,7 @@ MIT/X11 프로그램 라이선스에 따라 배포합니다. COPYING 또는 http
     <message>
         <location line="+1"/>
         <source>There was an error trying to save the address list to %1.</source>
-        <translation type="unfinished"/>
+        <translation>주소 목록을 %1로 저장하던 중 에러가 발생했습니다.</translation>
     </message>
 </context>
 <context>
@@ -171,7 +171,7 @@ MIT/X11 프로그램 라이선스에 따라 배포합니다. COPYING 또는 http
     <message>
         <location filename="../addresstablemodel.cpp" line="+168"/>
         <source>Label</source>
-        <translation>표</translation>
+        <translation>이름표</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -181,7 +181,7 @@ MIT/X11 프로그램 라이선스에 따라 배포합니다. COPYING 또는 http
     <message>
         <location line="+36"/>
         <source>(no label)</source>
-        <translation>(표 없음)</translation>
+        <translation>(이름표 없음)</translation>
     </message>
 </context>
 <context>
@@ -194,22 +194,22 @@ MIT/X11 프로그램 라이선스에 따라 배포합니다. COPYING 또는 http
     <message>
         <location line="+21"/>
         <source>Enter passphrase</source>
-        <translation>암호 입력하기</translation>
+        <translation>암호문 입력하기</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>New passphrase</source>
-        <translation>새로운 암호</translation>
+        <translation>새로운 암호문</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Repeat new passphrase</source>
-        <translation>새 암호 반복</translation>
+        <translation>새 암호문 반복</translation>
     </message>
     <message>
         <location filename="../askpassphrasedialog.cpp" line="+40"/>
         <source>Enter the new passphrase to the wallet.&lt;br/&gt;Please use a passphrase of &lt;b&gt;10 or more random characters&lt;/b&gt;, or &lt;b&gt;eight or more words&lt;/b&gt;.</source>
-        <translation>새로운 암호를 지갑에 입력. 8자보다 많은 단어를 입력하거나 10 자보다 많은 여러 종류를 암호에 사용하세요.</translation>
+        <translation>새로운 암호문(passphrase)을 지갑에 입력하세요. 10자 이상의 랜덤한 문자 혹은 여덟 개나 그 이상의 단어(word)로 된 암호문을 사용하는 것이 좋습니다.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -219,7 +219,7 @@ MIT/X11 프로그램 라이선스에 따라 배포합니다. COPYING 또는 http
     <message>
         <location line="+3"/>
         <source>This operation needs your wallet passphrase to unlock the wallet.</source>
-        <translation>이 작업은 지갑을 열기위해 사용자의 지갑의  암호가 필요합니다.</translation>
+        <translation>이 작업은 지갑을 열기위해 사용자의 지갑 암호문이 필요합니다.</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -229,7 +229,7 @@ MIT/X11 프로그램 라이선스에 따라 배포합니다. COPYING 또는 http
     <message>
         <location line="+3"/>
         <source>This operation needs your wallet passphrase to decrypt the wallet.</source>
-        <translation>이 작업은 지갑을 해독하기 위해 사용자의 지갑 암호가 필요합니다.</translation>
+        <translation>이 작업은 지갑을 해독하기 위해 사용자의 지갑 암호문이 필요합니다.</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -239,38 +239,38 @@ MIT/X11 프로그램 라이선스에 따라 배포합니다. COPYING 또는 http
     <message>
         <location line="+3"/>
         <source>Change passphrase</source>
-        <translation>암호 변경</translation>
+        <translation>암호문 변경</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Enter the old and new passphrase to the wallet.</source>
-        <translation>지갑의 예전 암호와 새로운 암호를 입력</translation>
+        <translation>지갑의 예전 암호문과 새로운 암호문을 입력</translation>
     </message>
     <message>
         <location line="+46"/>
         <source>Confirm wallet encryption</source>
-        <translation>지갑의 암호화를 확정</translation>
+        <translation>지갑의 암호화를 승인</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DOGECOINS&lt;/b&gt;!</source>
-        <translation>경고: 만약 당신의 지갑을 암호화 하고 비밀번호를 잃어 버릴 경우, 당신의 모든 비트코인들을 잃어버릴 수 있습니다!</translation>
+        <translation>경고: 만약 지갑을 암호화 한 뒤 암호문을 잃어버리면, 모든 도기코인을 잃어버리게 됩니다!</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Are you sure you wish to encrypt your wallet?</source>
-        <translation>지갑 암호화를 허용하시겠습니까?</translation>
+        <translation>지갑을 암호화 하시겠습니까?</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>IMPORTANT: Any previous backups you have made of your wallet file should be replaced with the newly generated, encrypted wallet file. For security reasons, previous backups of the unencrypted wallet file will become useless as soon as you start using the new, encrypted wallet.</source>
-        <translation type="unfinished"/>
+        <translation>중요함: 이전에 사용자가 백업한 어느 지갑 파일이든 새롭게 생성된 암호화된 지갑 파일로 교체하여야 합니다. 보안상의 이유로, 이전의 암호화되지 않은 지갑의 백업 파일들은 새롭게 암호화된 지갑을 사용하자마자 무용지물이 될 것입니다.</translation>
     </message>
     <message>
         <location line="+100"/>
         <location line="+24"/>
         <source>Warning: The Caps Lock key is on!</source>
-        <translation>경고: 캡스록 키가 켜져있습니다!</translation>
+        <translation>경고: Caps Lock 키가 켜져 있습니다!</translation>
     </message>
     <message>
         <location line="-130"/>
@@ -281,7 +281,7 @@ MIT/X11 프로그램 라이선스에 따라 배포합니다. COPYING 또는 http
     <message>
         <location line="-56"/>
         <source>Dogecoin Core will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your Dogecoins from being stolen by malware infecting your computer.</source>
-        <translation>암호화 처리 과정을 끝내기 위해 비트코인을 닫겠습니다. 지갑 암호화는 컴퓨터로의 멀웨어 감염으로 인한 비트코인 도난을 완전히 막아주지 못함을 기억하십시오.</translation>
+        <translation>암호화 과정을 끝내기 위해 도기코인 코어를 닫겠습니다. 지갑 암호화는 컴퓨터의 멀웨어 감염으로 인한 도기코인 도난을 완전히 막아주지 못함을 기억하세요.</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -294,13 +294,13 @@ MIT/X11 프로그램 라이선스에 따라 배포합니다. COPYING 또는 http
     <message>
         <location line="-54"/>
         <source>Wallet encryption failed due to an internal error. Your wallet was not encrypted.</source>
-        <translation>지갑 암호화는 내부 에러로 인해 실패했습니다.  당신의 지갑은 암호화 되지 않았습니다.</translation>
+        <translation>지갑 암호화는 내부 에러로 인해 실패했습니다. 사용자의 지갑은 암호화 되지 않았습니다.</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+48"/>
         <source>The supplied passphrases do not match.</source>
-        <translation>지정한 암호가 일치하지 않습니다.</translation>
+        <translation>지정한 암호문이 일치하지 않습니다.</translation>
     </message>
     <message>
         <location line="-37"/>
@@ -312,7 +312,7 @@ MIT/X11 프로그램 라이선스에 따라 배포합니다. COPYING 또는 http
         <location line="+11"/>
         <location line="+19"/>
         <source>The passphrase entered for the wallet decryption was incorrect.</source>
-        <translation>지갑 해독을 위한 암호가 틀렸습니다.</translation>
+        <translation>지갑 해독을 위한 암호문이 틀렸습니다.</translation>
     </message>
     <message>
         <location line="-20"/>
@@ -322,7 +322,7 @@ MIT/X11 프로그램 라이선스에 따라 배포합니다. COPYING 또는 http
     <message>
         <location line="+14"/>
         <source>Wallet passphrase was successfully changed.</source>
-        <translation>지갑 비밀번호가 성공적으로 변경되었습니다</translation>
+        <translation>지갑 암호문이 성공적으로 변경되었습니다</translation>
     </message>
 </context>
 <context>
@@ -335,12 +335,12 @@ MIT/X11 프로그램 라이선스에 따라 배포합니다. COPYING 또는 http
     <message>
         <location line="+335"/>
         <source>Synchronizing with network...</source>
-        <translation>네트워크와 동기화중...</translation>
+        <translation>네트워크와 동기화 중...</translation>
     </message>
     <message>
         <location line="-407"/>
         <source>&amp;Overview</source>
-        <translation>&amp;개요</translation>
+        <translation>&amp;Wow</translation>
     </message>
     <message>
         <location line="-137"/>
@@ -350,7 +350,7 @@ MIT/X11 프로그램 라이선스에 따라 배포합니다. COPYING 또는 http
     <message>
         <location line="+138"/>
         <source>Show general overview of wallet</source>
-        <translation>지갑의 일반적 개요를 보여 줍니다.</translation>
+        <translation>지갑의 종합적 개요를 보여 줍니다.</translation>
     </message>
     <message>
         <location line="+20"/>
@@ -375,7 +375,7 @@ MIT/X11 프로그램 라이선스에 따라 배포합니다. COPYING 또는 http
     <message>
         <location line="+7"/>
         <source>Show information about Dogecoin Core</source>
-        <translation>비트코인에 대한 정보를 보여줍니다.</translation>
+        <translation>도기코인 코어에 대한 정보를 보여줍니다.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -391,7 +391,7 @@ MIT/X11 프로그램 라이선스에 따라 배포합니다. COPYING 또는 http
     <message>
         <location line="+2"/>
         <source>&amp;Options...</source>
-        <translation>&amp;옵션</translation>
+        <translation>&amp;옵션...</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -411,12 +411,12 @@ MIT/X11 프로그램 라이선스에 따라 배포합니다. COPYING 또는 http
     <message>
         <location line="+10"/>
         <source>Very &amp;sending addresses...</source>
-        <translation type="unfinished"/>
+        <translation>Very 보내는 주소들...</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Much &amp;receiving addresses...</source>
-        <translation type="unfinished"/>
+        <translation>Much 받는 주소들...</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -431,17 +431,17 @@ MIT/X11 프로그램 라이선스에 따라 배포합니다. COPYING 또는 http
     <message>
         <location line="+3"/>
         <source>Reindexing blocks on disk...</source>
-        <translation>디스크에서 블록 다시 색인중...</translation>
+        <translation>디스크에서 블록 다시 색인 중...</translation>
     </message>
     <message>
         <location line="-405"/>
         <source>Send coins to a Dogecoin address</source>
-        <translation>비트코인 주소로 코인 전송</translation>
+        <translation>도기코인 주소로 코인 전송</translation>
     </message>
     <message>
         <location line="+49"/>
         <source>Modify configuration options for Dogecoin Core</source>
-        <translation>비트코인 설정 옵션 수정</translation>
+        <translation>도기코인 코어 설정 옵션 수정</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -451,7 +451,7 @@ MIT/X11 프로그램 라이선스에 따라 배포합니다. COPYING 또는 http
     <message>
         <location line="+2"/>
         <source>Change the passphrase used for wallet encryption</source>
-        <translation>지갑 암호화에 사용되는 암호를 변경합니다</translation>
+        <translation>지갑 암호화에 사용되는 암호문을 변경합니다</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -466,12 +466,12 @@ MIT/X11 프로그램 라이선스에 따라 배포합니다. COPYING 또는 http
     <message>
         <location line="-4"/>
         <source>&amp;Verify message...</source>
-        <translation>메시지 확인&amp;...</translation>
+        <translation>메시지 검증&amp;...</translation>
     </message>
     <message>
         <location line="+430"/>
         <source>Dogecoin</source>
-        <translation>비트코인</translation>
+        <translation>도기코인</translation>
     </message>
     <message>
         <location line="-643"/>
@@ -481,12 +481,12 @@ MIT/X11 프로그램 라이선스에 따라 배포합니다. COPYING 또는 http
     <message>
         <location line="+146"/>
         <source>&amp;Send</source>
-        <translation>보내기(&amp;S)</translation>
+        <translation>보내기</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>&amp;Receive</source>
-        <translation>받기(&amp;R)</translation>
+        <translation>받기</translation>
     </message>
     <message>
         <location line="+46"/>
@@ -507,12 +507,12 @@ MIT/X11 프로그램 라이선스에 따라 배포합니다. COPYING 또는 http
     <message>
         <location line="+7"/>
         <source>Sign messages with your Dogecoin addresses to prove you own them</source>
-        <translation type="unfinished"/>
+        <translation>지갑 주소가 자신 소유의 것인지 증명하기 위해 도기코인 주소에 서명할 수 있습니다.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Verify messages to ensure they were signed with specified Dogecoin addresses</source>
-        <translation type="unfinished"/>
+        <translation>메시지를 확인하여 지정된 도기코인 주소가 서명되었는지 검증 하세요.</translation>
     </message>
     <message>
         <location line="+48"/>
@@ -532,7 +532,7 @@ MIT/X11 프로그램 라이선스에 따라 배포합니다. COPYING 또는 http
     <message>
         <location line="+15"/>
         <source>Tabs toolbar</source>
-        <translation>툴바 색인표</translation>
+        <translation>툴바 탭</translation>
     </message>
     <message>
         <location line="-284"/>
@@ -543,33 +543,33 @@ MIT/X11 프로그램 라이선스에 따라 배포합니다. COPYING 또는 http
     <message>
         <location line="-401"/>
         <source>Dogecoin Core</source>
-        <translation>비트코인코어</translation>
+        <translation>도기코인 코어</translation>
     </message>
     <message>
         <location line="+163"/>
         <source>Request payments (generates QR codes and dogecoin: URIs)</source>
-        <translation>지불 요청하기 (QR코드와 비트코인이 생성됩니다: URIs)</translation>
+        <translation>지불 요청하기 (QR코드와 도기코인:URI 생성)</translation>
     </message>
     <message>
         <location line="+29"/>
         <location line="+2"/>
         <source>&amp;About Dogecoin Core</source>
-        <translation>&amp;비트코인 코어 소개</translation>
+        <translation>&amp;도기코인 코어 소개</translation>
     </message>
     <message>
         <location line="+35"/>
         <source>Show the list of used sending addresses and labels</source>
-        <translation type="unfinished"/>
+        <translation>한번 이상 사용된 보내는 주소와 이름표 목록을 보여줍니다</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Show the list of used receiving addresses and labels</source>
-        <translation type="unfinished"/>
+        <translation>한번 이상 사용된 받는 주소와 이름표 목록을 보여줍니다</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Open a dogecoin: URI or payment request</source>
-        <translation>비트코인: URI 또는 지불요청 열기</translation>
+        <translation>도기코인: URI 또는 지불요청 열기</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -579,33 +579,33 @@ MIT/X11 프로그램 라이선스에 따라 배포합니다. COPYING 또는 http
     <message>
         <location line="+1"/>
         <source>Show the Dogecoin Core help message to get a list with possible Dogecoin Core command-line options</source>
-        <translation type="unfinished"/>
+        <translation>가능한 도기코인 코어 명령어-라인 옵션 목록을 도기코인 코어 도움말 메시지에서 안내합니다.</translation>
     </message>
     <message>
         <location line="+159"/>
         <location line="+5"/>
         <source>Dogecoin client</source>
-        <translation>비트코인 고객</translation>
+        <translation>도기코인 클라이언트</translation>
     </message>
     <message numerus="yes">
         <location line="+142"/>
         <source>%n active connection(s) to Dogecoin network</source>
-        <translation><numerusform>비트코인 네트워크와 %n 개의 활성연결</numerusform></translation>
+        <translation><numerusform>도기코인 네트워크와 %n개의 연결이 활성화 됨</numerusform></translation>
     </message>
     <message>
         <location line="+22"/>
         <source>No block source available...</source>
-        <translation>사용 가능한 블락 소스가 없습니다...</translation>
+        <translation>사용 가능한 블록 소스가 없습니다...</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Processed %1 of %2 (estimated) blocks of transaction history.</source>
-        <translation>송금 기록 %1/%2개 블록 (추산) 처리됨.</translation>
+        <translation>거래기록 블록 %2개(예상) 중 %1개가 처리됨.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Processed %1 blocks of transaction history.</source>
-        <translation>%1 블락의 거래 기록들이 처리됨.</translation>
+        <translation>%1블록의 거래 기록들이 처리됨.</translation>
     </message>
     <message numerus="yes">
         <location line="+23"/>
@@ -625,7 +625,7 @@ MIT/X11 프로그램 라이선스에 따라 배포합니다. COPYING 또는 http
     <message>
         <location line="+4"/>
         <source>%1 behind</source>
-        <translation type="unfinished"/>
+        <translation>%1 전</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -635,7 +635,7 @@ MIT/X11 프로그램 라이선스에 따라 배포합니다. COPYING 또는 http
     <message>
         <location line="+2"/>
         <source>Transactions after this will not yet be visible.</source>
-        <translation>이것 후의 거래들은 아직 보이지 않을 것입니다.</translation>
+        <translation>이것 이후의 거래는 아직 보이지 않을 것입니다.</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -665,12 +665,12 @@ MIT/X11 프로그램 라이선스에 따라 배포합니다. COPYING 또는 http
     <message>
         <location line="+130"/>
         <source>Sent transaction</source>
-        <translation>거래 보내기</translation>
+        <translation>보낸 거래</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Incoming transaction</source>
-        <translation>거래 들어오는 중</translation>
+        <translation>받은 거래</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -680,8 +680,8 @@ Type: %3
 Address: %4
 </source>
         <translation>날짜: %1
-거래액: %2
-형식: %3
+액수: %2
+종류: %3
 주소: %4
 </translation>
     </message>
@@ -693,12 +693,12 @@ Address: %4
     <message>
         <location line="+8"/>
         <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;locked&lt;/b&gt;</source>
-        <translation>지갑이 암호화 되었고 현재 잠겨져 있습니다</translation>
+        <translation>지갑이 암호화 되었고 현재 잠겨 있습니다</translation>
     </message>
     <message>
         <location filename="../bitcoin.cpp" line="+435"/>
         <source>A fatal error occurred. Dogecoin Core can no longer continue safely and will quit.</source>
-        <translation>치명적인 오류가 있습니다. 비트코인을 더이상 안전하게 진행할 수 없어 빠져나갑니다.</translation>
+        <translation>치명적인 오류가 있습니다. 도기코인을 더 이상 안전하게 진행할 수 없어 종료합니다.</translation>
     </message>
 </context>
 <context>
@@ -714,7 +714,7 @@ Address: %4
     <message>
         <location filename="../forms/coincontroldialog.ui" line="+14"/>
         <source>Coin Control Address Selection</source>
-        <translation>코인컨트롤 주소 선택</translation>
+        <translation>코인 컨트롤 주소 선택</translation>
     </message>
     <message>
         <location line="+34"/>
@@ -729,7 +729,7 @@ Address: %4
     <message>
         <location line="+45"/>
         <source>Amount:</source>
-        <translation>거래량</translation>
+        <translation>액수:</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -754,12 +754,12 @@ Address: %4
     <message>
         <location line="+32"/>
         <source>Change:</source>
-        <translation type="unfinished"/>
+        <translation>잔액:</translation>
     </message>
     <message>
         <location line="+56"/>
         <source>(un)select all</source>
-        <translation type="unfinished"/>
+        <translation>모두 (미)선택</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -774,7 +774,7 @@ Address: %4
     <message>
         <location line="+53"/>
         <source>Amount</source>
-        <translation>거래량</translation>
+        <translation>액수</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -809,13 +809,13 @@ Address: %4
     <message>
         <location line="+1"/>
         <source>Copy label</source>
-        <translation>라벨 복사하기</translation>
+        <translation>이름표 복사하기</translation>
     </message>
     <message>
         <location line="+1"/>
         <location line="+26"/>
         <source>Copy amount</source>
-        <translation>거래액 복사</translation>
+        <translation>액수 복사</translation>
     </message>
     <message>
         <location line="-25"/>
@@ -865,7 +865,7 @@ Address: %4
     <message>
         <location line="+1"/>
         <source>Copy change</source>
-        <translation type="unfinished"/>
+        <translation>잔액 복사</translation>
     </message>
     <message>
         <location line="+323"/>
@@ -910,7 +910,7 @@ Address: %4
     <message>
         <location line="+1"/>
         <source>lowest</source>
-        <translation type="unfinished"/>
+        <translation>최하</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -935,44 +935,44 @@ Address: %4
     <message>
         <location line="+0"/>
         <source>no</source>
-        <translation>아니요</translation>
+        <translation>아니오</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>This label turns red, if the transaction size is greater than 1000 bytes.</source>
-        <translation type="unfinished"/>
+        <translation>거래 크기가 1000bytes 보다 크면 이름표가 붉은 색으로 변합니다.</translation>
     </message>
     <message>
         <location line="+1"/>
         <location line="+5"/>
         <source>This means a fee of at least %1 per kB is required.</source>
-        <translation type="unfinished"/>
+        <translation>이것은 적어도 %1 per kB의 수수료가 필요함을 의미합니다.</translation>
     </message>
     <message>
         <location line="-4"/>
         <source>Can vary +/- 1 byte per input.</source>
-        <translation type="unfinished"/>
+        <translation>input 당 +/- 1 byte 씩 다르게 할 수 있습니다.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Transactions with higher priority are more likely to get included into a block.</source>
-        <translation type="unfinished"/>
+        <translation>우선도가 높은 거래는 블록에 더 잘 포함될 가능성이 있습니다.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>This label turns red, if the priority is smaller than &quot;medium&quot;.</source>
-        <translation type="unfinished"/>
+        <translation>우선도가 중보다 작으면, 이 이름표가 붉은색으로 변합니다.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>This label turns red, if any recipient receives an amount smaller than %1.</source>
-        <translation type="unfinished"/>
+        <translation>어떤 수령인이 %1보다 작은 액수를 받으면, 라벨이 붉은 색으로 변합니다.</translation>
     </message>
     <message>
         <location line="+1"/>
         <location line="+4"/>
         <source>This means a fee of at least %1 is required.</source>
-        <translation type="unfinished"/>
+        <translation>이것은 적어도 수수료가 %1 필요함을 의미합니다.</translation>
     </message>
     <message>
         <location line="-3"/>
@@ -982,13 +982,13 @@ Address: %4
     <message>
         <location line="+2"/>
         <source>This label turns red, if the change is smaller than %1.</source>
-        <translation type="unfinished"/>
+        <translation>잔액이 %1보다 작으면, 이름표가 붉은 색으로 바뀝니다.</translation>
     </message>
     <message>
         <location line="+43"/>
         <location line="+66"/>
         <source>(no label)</source>
-        <translation>(표 없슴)</translation>
+        <translation>(이름표 없음)</translation>
     </message>
     <message>
         <location line="-9"/>
@@ -1016,7 +1016,7 @@ Address: %4
     <message>
         <location line="+10"/>
         <source>The label associated with this address list entry</source>
-        <translation type="unfinished"/>
+        <translation>현재 선택된 주소 필드의 제목입니다.</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -1056,7 +1056,7 @@ Address: %4
     <message>
         <location line="-5"/>
         <source>The entered address &quot;%1&quot; is not a valid Dogecoin address.</source>
-        <translation>입력한 &quot;%1&quot; 주소는 올바른 비트코인 주소가 아닙니다.</translation>
+        <translation>입력한 &quot;%1&quot; 주소는 올바른 도기코인 주소가 아닙니다.</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1084,7 +1084,7 @@ Address: %4
     <message>
         <location line="+2"/>
         <source>Directory already exists. Add %1 if you intend to create a new directory here.</source>
-        <translation type="unfinished"/>
+        <translation>폴더가 이미 존재합니다. 새로운 폴더 생성을 원한다면 %1 명령어를 추가하세요.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1102,12 +1102,12 @@ Address: %4
     <message>
         <location filename="../forms/helpmessagedialog.ui" line="+19"/>
         <source>Dogecoin Core - Command-line options</source>
-        <translation>비트코인 코어 - 명령어-라인 옵션</translation>
+        <translation>도기코인 코어 - 명령어-라인 옵션</translation>
     </message>
     <message>
         <location filename="../utilitydialog.cpp" line="+24"/>
         <source>Dogecoin Core</source>
-        <translation>비트코인코어</translation>
+        <translation>도기코인 코어</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -1122,7 +1122,7 @@ Address: %4
     <message>
         <location line="+1"/>
         <source>command-line options</source>
-        <translation>명령줄 옵션</translation>
+        <translation>명령 줄 옵션</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -1132,7 +1132,7 @@ Address: %4
     <message>
         <location line="+1"/>
         <source>Set language, for example &quot;de_DE&quot; (default: system locale)</source>
-        <translation>&quot;de_DE&quot;와 같이 언어를 설정하십시오 (기본값: 시스템 로캘)</translation>
+        <translation>&quot;de_DE&quot;와 같이 언어를 설정하십시오 (기본값: 시스템 로켈)</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1142,7 +1142,7 @@ Address: %4
     <message>
         <location line="+1"/>
         <source>Show splash screen on startup (default: 1)</source>
-        <translation>시작시 시작 화면 표시 (기본값: 1)</translation>
+        <translation>시작 시 시작 화면 표시 (기본값: 1)</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1160,37 +1160,37 @@ Address: %4
     <message>
         <location line="+9"/>
         <source>Welcome to Dogecoin Core.</source>
-        <translation>비트코인 코어에 오신것을 환영합니.</translation>
+        <translation>도기코인 코어에 오신것을 환영합니다.</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>As this is the first time the program is launched, you can choose where Dogecoin Core will store its data.</source>
-        <translation type="unfinished"/>
+        <translation>프로그램 최초 실행 시, 도기코인 코어의 데이터를 어느 위치에 저장할지 선택할 수 있습니다.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Dogecoin Core will download and store a copy of the Dogecoin block chain. At least %1GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
-        <translation type="unfinished"/>
+        <translation>도기코인 코어는 블록 체인의 복사본을 다운받아 저장할 것입니다. 적어도 %1GB의 데이터가 이 디렉토리에 저장되고, 시간이 흐르면 증가합니다. 사용자의 지갑 또한 이곳에 저장됩니다.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Use the default data directory</source>
-        <translation>기본 데이터 폴더를 사용하기</translation>
+        <translation>기본 디렉토리 사용</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Use a custom data directory:</source>
-        <translation>커스텀 데이터 폴더 사용:</translation>
+        <translation>사용자 정의 디렉토리</translation>
     </message>
     <message>
         <location filename="../intro.cpp" line="+85"/>
         <source>Dogecoin</source>
-        <translation>비트코인</translation>
+        <translation>도기코인</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Error: Specified data directory &quot;%1&quot; can not be created.</source>
-        <translation type="unfinished"/>
+        <translation>에러: 지정된 디렉토리 &quot;%1&quot;에 생성할 수 없습니다.</translation>
     </message>
     <message>
         <location line="+19"/>
@@ -1205,7 +1205,7 @@ Address: %4
     <message>
         <location line="+3"/>
         <source>(of %1GB needed)</source>
-        <translation>(%1GB가 필요)</translation>
+        <translation>(%1GB 필요)</translation>
     </message>
 </context>
 <context>
@@ -1218,7 +1218,7 @@ Address: %4
     <message>
         <location line="+6"/>
         <source>Open payment request from URI or file</source>
-        <translation>지급 요청 URI 또는 파일 열기</translation>
+        <translation>지불 요청 URI 또는 파일 열기</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -1233,7 +1233,7 @@ Address: %4
     <message>
         <location filename="../openuridialog.cpp" line="+47"/>
         <source>Select payment request file to open</source>
-        <translation>지불 요청 파일을 열기 위해서 선택하세요</translation>
+        <translation>지불 요청 파일 선택</translation>
     </message>
 </context>
 <context>
@@ -1241,7 +1241,7 @@ Address: %4
     <message>
         <location filename="../forms/optionsdialog.ui" line="+14"/>
         <source>Options</source>
-        <translation>선택들</translation>
+        <translation>옵션</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -1251,7 +1251,7 @@ Address: %4
     <message>
         <location line="+122"/>
         <source>Optional transaction fee per kB that helps make sure your transactions are processed quickly. Most transactions are 1 kB.</source>
-        <translation>당신의 거래가 더욱 빠르게 처리될 수 있도록 선택적으로 kBd당 거래 수수료를 지정합니다. 참고로 대부분의 거래들은 1kB입니다.</translation>
+        <translation>사용자 거래가 더욱 빠르게 처리될 수 있도록 kB당 거래 수수료를 추가합니다. 대부분의 거래는 1kB입니다.</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -1261,12 +1261,12 @@ Address: %4
     <message>
         <location line="-131"/>
         <source>Automatically start Dogecoin Core after logging in to the system.</source>
-        <translation>시스템 로그인후에 비트코인을 자동으로 시작합니다.</translation>
+        <translation>시스템 로그인후에 도기코인 코어를 자동으로 시작합니다.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>&amp;Start Dogecoin Core on system login</source>
-        <translation>시스템 로그인시 비트코인 시작(&amp;S)</translation>
+        <translation>시스템 로그인 시 도기코인 코어 시작(&amp;S)</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -1281,22 +1281,22 @@ Address: %4
     <message>
         <location line="+27"/>
         <source>Number of script &amp;verification threads</source>
-        <translation type="unfinished"/>
+        <translation>script 검증 스레드의 수(&amp;v)</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Set the number of script verification threads (up to 16, 0 = auto, &lt;0 = leave that many cores free, default: 0)</source>
-        <translation type="unfinished"/>
+        <translation>script 검증 스레드의 수를 설정합니다. (16 까지, 0 = 자동, &lt;0 = 많은 코어를 쉬게함,기본값: 0)</translation>
     </message>
     <message>
         <location line="+107"/>
         <source>&amp;Spend unconfirmed change (experts only)</source>
-        <translation type="unfinished"/>
+        <translation>확인되지 않은 잔액을 사용함 (전문가용) (&amp;S)</translation>
     </message>
     <message>
         <location line="+37"/>
         <source>Connect to the Dogecoin network through a SOCKS proxy.</source>
-        <translation type="unfinished"/>
+        <translation>SOCKS 프록시를 통해 도기코인 네트워크 연결</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1331,17 +1331,17 @@ Address: %4
     <message>
         <location line="-86"/>
         <source>W&amp;allet</source>
-        <translation>지갑</translation>
+        <translation>지갑(&amp;a)</translation>
     </message>
     <message>
         <location line="+52"/>
         <source>If you disable the spending of unconfirmed change, the change from a transaction cannot be used until that transaction has at least one confirmation. This also affects how your balance is computed.</source>
-        <translation type="unfinished"/>
+        <translation>만약 확인되지 않은 잔액 사용을 비활성화하면, 거래 후 잔액은 그 거래가 적어도 한 번 승인되기 전까지 사용되지 않습니다. 이것은 잔액 계산에도 영향을 미칩니다.</translation>
     </message>
     <message>
         <location line="+40"/>
         <source>Automatically open the Dogecoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>라우터의 비트코인 클라이언트 포트를 자동으로 엽니다. 라우터에서 UPnP를 지원하고 활성화 했을 경우에만 동작합니다.</translation>
+        <translation>라우터의 도기코인 클라이언트 포트를 자동으로 엽니다. 라우터에서 UPnP를 지원하고 활성화 했을 경우에만 동작합니다.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1411,22 +1411,22 @@ Address: %4
     <message>
         <location line="+13"/>
         <source>The user interface language can be set here. This setting will take effect after restarting Dogecoin Core.</source>
-        <translation>사용자 인터페이스 언어를 여기서 설정할 수 있습니다. 이 설정은 비트코인을 다시 시작할때 적용됩니다.</translation>
+        <translation>사용자 인터페이스 언어를 여기서 설정할 수 있습니다. 이 설정은 도기코인을 다시 시작할 때 적용됩니다.</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>&amp;Unit to show amounts in:</source>
-        <translation>거래액을 표시할 단위(&amp;U):</translation>
+        <translation>액수를 표시할 단위(&amp;U):</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Choose the default subdivision unit to show in the interface and when sending coins.</source>
-        <translation>인터페이스에 표시하고 코인을 보낼때 사용할 기본 최소화 단위를 선택하십시오.</translation>
+        <translation>인터페이스에 표시하고 코인을 보낼 때 사용할 기본 최소화 단위를 선택하십시오.</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Whether to show Dogecoin addresses in the transaction list or not.</source>
-        <translation>송금 목록에 비트코인 주소를 표시할지의 여부입니다.</translation>
+        <translation>송금 목록에 도기코인 주소를 표시할 지의 여부입니다.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1436,12 +1436,12 @@ Address: %4
     <message>
         <location line="+7"/>
         <source>Whether to show coin control features or not.</source>
-        <translation type="unfinished"/>
+        <translation>코인 컨트롤 기능을 표시할지의 여부입니다.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Display coin &amp;control features (experts only)</source>
-        <translation type="unfinished"/>
+        <translation>코인 컨트롤 기능 표시 (전문가용)</translation>
     </message>
     <message>
         <location line="+136"/>
@@ -1466,13 +1466,13 @@ Address: %4
     <message>
         <location line="+78"/>
         <source>Confirm options reset</source>
-        <translation>옵션 초기화를 확인</translation>
+        <translation>옵션 초기화 확인</translation>
     </message>
     <message>
         <location line="+1"/>
         <location line="+29"/>
         <source>Client restart required to activate changes.</source>
-        <translation type="unfinished"/>
+        <translation>변경한 내용을 적용하려면 프로그램을 재시작 해야 합니다.</translation>
     </message>
     <message>
         <location line="-29"/>
@@ -1482,7 +1482,7 @@ Address: %4
     <message>
         <location line="+33"/>
         <source>This change would require a client restart.</source>
-        <translation type="unfinished"/>
+        <translation>변경을 위해 프로그램 재시작이 필요합니다.</translation>
     </message>
     <message>
         <location line="+34"/>
@@ -1501,7 +1501,7 @@ Address: %4
         <location line="+50"/>
         <location line="+231"/>
         <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Dogecoin network after a connection is established, but this process has not completed yet.</source>
-        <translation>표시한 정보가 오래된 것 같습니다. 비트코인 네트워크에 연결하고 난 다음에 지갑을 자동으로 동기화 하지만, 아직 과정이 끝나지는 않았습니다.</translation>
+        <translation>표시된 정보가 오래된 것 같습니다. 지갑은 연결이 안정된 후 도기코인 네트워크와 자동으로 동기화 하지만, 아직 과정이 완료되지 않았습니다.</translation>
     </message>
     <message>
         <location line="-238"/>
@@ -1511,7 +1511,7 @@ Address: %4
     <message>
         <location line="+51"/>
         <source>Available:</source>
-        <translation>유용한</translation>
+        <translation>사용가능:</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -1521,12 +1521,12 @@ Address: %4
     <message>
         <location line="+16"/>
         <source>Pending:</source>
-        <translation>미정</translation>
+        <translation>확인 중:</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Total of transactions that have yet to be confirmed, and do not yet count toward the spendable balance</source>
-        <translation>전체 거래들은 아직 확인되지 않았고, 그리고 현재 잔액에 아직 반영되지 않았습니다.</translation>
+        <translation>전체 거래가 아직 확인되지 않았기에, 사용 가능한 잔액에 아직 반영되지 않습니다.</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -1557,7 +1557,7 @@ Address: %4
         <location filename="../overviewpage.cpp" line="+120"/>
         <location line="+1"/>
         <source>out of sync</source>
-        <translation>오래됨</translation>
+        <translation>동기화 안 됨</translation>
     </message>
 </context>
 <context>
@@ -1571,12 +1571,12 @@ Address: %4
     <message>
         <location line="+1"/>
         <source>URI can not be parsed! This can be caused by an invalid Dogecoin address or malformed URI parameters.</source>
-        <translation type="unfinished"/>
+        <translation>URI를 파싱 할 수 없습니다! 이것은 유효하지 않은 도기코인 주소나 잘못된 형태의 URI parameter들로 인해 유발될 수 있습니다.</translation>
     </message>
     <message>
         <location line="+96"/>
         <source>Requested payment amount of %1 is too small (considered dust).</source>
-        <translation type="unfinished"/>
+        <translation>%1의 요청된 지불액이 너무 작습니다 (먼지 일 수 있음)</translation>
     </message>
     <message>
         <location line="-221"/>
@@ -1586,12 +1586,12 @@ Address: %4
         <location line="+18"/>
         <location line="+16"/>
         <source>Payment request error</source>
-        <translation>지불 요청 애러</translation>
+        <translation>지불 요청 에러</translation>
     </message>
     <message>
         <location line="-353"/>
         <source>Cannot start dogecoin: click-to-pay handler</source>
-        <translation>비트코인을 시작할 수 없습니다: 지급제어기를 클릭하시오</translation>
+        <translation>도기코인을 시작할 수 없습니다: click-to-pay handler</translation>
     </message>
     <message>
         <location line="+58"/>
@@ -1626,12 +1626,12 @@ Address: %4
     <message>
         <location line="+59"/>
         <source>Refund from %1</source>
-        <translation>%1 으로부터의 환불</translation>
+        <translation>%1 로부터의 환불</translation>
     </message>
     <message>
         <location line="+43"/>
         <source>Error communicating with %1: %2</source>
-        <translation>%1과 소통하는데 애러: %2</translation>
+        <translation>%1과 소통하는데 에러: %2</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -1641,17 +1641,17 @@ Address: %4
     <message>
         <location line="+11"/>
         <source>Bad response from server %1</source>
-        <translation>서버로 부터 반응이 없습니다 %1</translation>
+        <translation>서버로부터 반응이 없습니다 %1</translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Payment acknowledged</source>
-        <translation>지불이 승인됨</translation>
+        <translation>지불이 인정됨</translation>
     </message>
     <message>
         <location line="-11"/>
         <source>Network request error</source>
-        <translation>네트워크 요청 애러</translation>
+        <translation>네트워크 요청 에러</translation>
     </message>
 </context>
 <context>
@@ -1660,12 +1660,12 @@ Address: %4
         <location filename="../bitcoin.cpp" line="+71"/>
         <location line="+11"/>
         <source>Dogecoin</source>
-        <translation>비트코인</translation>
+        <translation>도기코인</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Error: Specified data directory &quot;%1&quot; does not exist.</source>
-        <translation>애러: 지정한 데이터 폴더 &quot;%1&quot;은 존재하지 않습니다.</translation>
+        <translation>에러: 지정한 데이터 폴더 &quot;%1&quot;은 존재하지 않습니다.</translation>
     </message>
     <message>
         <location line="-12"/>
@@ -1675,7 +1675,7 @@ Address: %4
     <message>
         <location filename="../guiutil.cpp" line="+82"/>
         <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>비트코인 주소를 입력하기 (예 DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
+        <translation>도기코인 주소 입력 (예 DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
     </message>
 </context>
 <context>
@@ -1771,22 +1771,22 @@ Address: %4
     <message>
         <location line="+29"/>
         <source>Block chain</source>
-        <translation>블럭 체인</translation>
+        <translation>블록 체인</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Current number of blocks</source>
-        <translation>현재 블럭 수</translation>
+        <translation>현재 블록 수</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Estimated total blocks</source>
-        <translation>예상 전체 블럭</translation>
+        <translation>예상 전체 블록</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Last block time</source>
-        <translation>최종 블럭 시각</translation>
+        <translation>최종 블록 시각</translation>
     </message>
     <message>
         <location line="+52"/>
@@ -1801,12 +1801,12 @@ Address: %4
     <message>
         <location line="+72"/>
         <source>&amp;Network Traffic</source>
-        <translation>&amp;네트워크 트래픽</translation>
+        <translation>네트워크 트래픽(&amp;N)</translation>
     </message>
     <message>
         <location line="+52"/>
         <source>&amp;Clear</source>
-        <translation type="unfinished"/>
+        <translation>제거(&amp;C)</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -1836,7 +1836,7 @@ Address: %4
     <message>
         <location line="+7"/>
         <source>Open the Dogecoin Core debug log file from the current data directory. This can take a few seconds for large log files.</source>
-        <translation>비트코인 디버그 로그파일을 현재 데이터 폴더에서 여십시요. 용량이 큰 로그 파일들은 몇 초가 걸릴 수 있습니다.</translation>
+        <translation>도기코인 디버그 로그파일을 현재 데이터 폴더에서 여세요. 용량이 큰 로그 파일들은 몇 초가 걸릴 수 있습니다.</translation>
     </message>
     <message>
         <location line="+76"/>
@@ -1846,7 +1846,7 @@ Address: %4
     <message>
         <location filename="../rpcconsole.cpp" line="-30"/>
         <source>Welcome to the Dogecoin Core RPC console.</source>
-        <translation>비트코인 RPC 콘솔에 오신걸 환영합니다</translation>
+        <translation>도기코인 코어 RPC 콘솔에 오신걸 환영합니다</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1861,37 +1861,37 @@ Address: %4
     <message>
         <location line="+122"/>
         <source>%1 B</source>
-        <translation>% 1 바이트</translation>
+        <translation>%1바이트</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 KB</source>
-        <translation>% 1 킬로바이트</translation>
+        <translation>%1킬로바이트</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 MB</source>
-        <translation>% 1 메가바이트</translation>
+        <translation>%1메가바이트</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 GB</source>
-        <translation>% 1 기가바이트</translation>
+        <translation>%1기가바이트</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>%1 m</source>
-        <translation>% 1 분</translation>
+        <translation>%1분</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>%1 h</source>
-        <translation>% 1 시간</translation>
+        <translation>%1시간</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>%1 h %2 m</source>
-        <translation>% 1시 %2 분</translation>
+        <translation>%1시 %2분</translation>
     </message>
 </context>
 <context>
@@ -1899,12 +1899,12 @@ Address: %4
     <message>
         <location filename="../forms/receivecoinsdialog.ui" line="+107"/>
         <source>&amp;Amount:</source>
-        <translation>&amp;거래량:</translation>
+        <translation>&amp;액수:</translation>
     </message>
     <message>
         <location line="-16"/>
         <source>&amp;Label:</source>
-        <translation>표:</translation>
+        <translation>이름표:</translation>
     </message>
     <message>
         <location line="-37"/>
@@ -1914,40 +1914,40 @@ Address: %4
     <message>
         <location line="-20"/>
         <source>Reuse one of the previously used receiving addresses. Reusing addresses has security and privacy issues. Do not use this unless re-generating a payment request made before.</source>
-        <translation type="unfinished"/>
+        <translation>이전에 사용된 주소를 재사용 합니다. 재사용된 주소는 보안과 개인정보 문제를 가집니다. 전에 만든 지불 요청을 재생성 하는 경우 외에는 그것을 사용하지 마세요.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>R&amp;euse an existing receiving address (not recommended)</source>
-        <translation type="unfinished"/>
+        <translation>존재하는 주소 재사용(&amp;e) (권장하지 않음)</translation>
     </message>
     <message>
         <location line="+14"/>
         <location line="+23"/>
         <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Dogecoin network.</source>
-        <translation type="unfinished"/>
+        <translation>지불 요청에 붙이는, 요청이 열리면 표시될 메시지입니다. 참고: 이 메시지는 지불과 함께 도기코인 네트워크로 전송되지는 않습니다.</translation>
     </message>
     <message>
         <location line="-7"/>
         <location line="+21"/>
         <source>An optional label to associate with the new receiving address.</source>
-        <translation type="unfinished"/>
+        <translation>새 받는 주소를 나타내는 이름표.</translation>
     </message>
     <message>
         <location line="-7"/>
         <source>Use this form to request payments. All fields are &lt;b&gt;optional&lt;/b&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>지불 요청을 위해 이 양식을 사용하세요. 모든 빈칸은 &lt;b&gt;선택&lt;/b&gt;입니다.</translation>
     </message>
     <message>
         <location line="+23"/>
         <location line="+22"/>
         <source>An optional amount to request. Leave this empty or zero to not request a specific amount.</source>
-        <translation type="unfinished"/>
+        <translation>요청할 액수입니다. 특정한 액수를 요청하지 않으려면 이곳을 빈칸으로 놔두거나 0으로 하세요.</translation>
     </message>
     <message>
         <location line="+32"/>
         <source>Clear all fields of the form.</source>
-        <translation>양식의 모든 필드를 지웁니다</translation>
+        <translation>양식의 모든 필드를 지웁니다.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1997,7 +1997,7 @@ Address: %4
     <message>
         <location line="+1"/>
         <source>Copy amount</source>
-        <translation>거래량 복사</translation>
+        <translation>액수 복사</translation>
     </message>
 </context>
 <context>
@@ -2045,7 +2045,7 @@ Address: %4
     <message>
         <location line="+2"/>
         <source>Amount</source>
-        <translation>거래량</translation>
+        <translation>액수</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2060,7 +2060,7 @@ Address: %4
     <message>
         <location line="+10"/>
         <source>Resulting URI too long, try to reduce the text for label / message.</source>
-        <translation>URI 결과가 너무 길음, 표/메세지의 글을 줄이도록 하세요.</translation>
+        <translation>URI 결과가 너무 깁니다. 표/메시지의 글을 줄이도록 하세요.</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -2088,22 +2088,22 @@ Address: %4
     <message>
         <location line="+0"/>
         <source>Amount</source>
-        <translation>거래량</translation>
+        <translation>액수</translation>
     </message>
     <message>
         <location line="+38"/>
         <source>(no label)</source>
-        <translation>(표 없슴)</translation>
+        <translation>(이름표 없음)</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>(no message)</source>
-        <translation>(메세지가 없습니다)</translation>
+        <translation>(메시지가 없습니다)</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>(no amount)</source>
-        <translation>(거래량 없음)</translation>
+        <translation>(액수 없음)</translation>
     </message>
 </context>
 <context>
@@ -2148,7 +2148,7 @@ Address: %4
     <message>
         <location line="+48"/>
         <source>Amount:</source>
-        <translation>거래량:</translation>
+        <translation>액수:</translation>
     </message>
     <message>
         <location line="+32"/>
@@ -2173,11 +2173,11 @@ Address: %4
     <message>
         <location line="+32"/>
         <source>Change:</source>
-        <translation type="unfinished"/>
+        <translation>잔액:</translation>
     </message>
     <message>
         <location line="+44"/>
-        <source>If this is activated, but the change address is empty or invalid, change will be sent to a newly generated address.</source>
+        <source>If this is activated, but the change address is empty or, change will be sent to a newly generated address.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -2223,7 +2223,7 @@ Address: %4
     <message>
         <location filename="../sendcoinsdialog.cpp" line="-229"/>
         <source>Confirm send coins</source>
-        <translation>코인 전송을 확인</translation>
+        <translation>코인 보내기 확인</translation>
     </message>
     <message>
         <location line="-74"/>
@@ -2241,7 +2241,7 @@ Address: %4
     <message>
         <location line="+1"/>
         <source>Copy amount</source>
-        <translation>거래액 복사</translation>
+        <translation>액수 복사</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2276,7 +2276,7 @@ Address: %4
     <message>
         <location line="+170"/>
         <source>Total Amount %1 (= %2)</source>
-        <translation>총 액수 %1(=%2)</translation>
+        <translation>총 액수 %1 (= %2)</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2306,7 +2306,7 @@ Address: %4
     <message>
         <location line="+3"/>
         <source>Duplicate address found, can only send to each address once per send operation.</source>
-        <translation>두개 이상의 주소입니다. 한번에 하나의 주소에만 작업할 수 있습니다.</translation>
+        <translation>두 개 이상의 주소입니다. 한번에 하나의 주소에만 작업할 수 있습니다.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -2316,17 +2316,17 @@ Address: %4
     <message>
         <location line="+4"/>
         <source>The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
-        <translation type="unfinished"/>
+        <translation>이 거래는 거절되었습니다! 지갑의 몇몇 코인이 이미 사용되었을 때 이런 일이 발생할 수 있습니다. 예를 들면 사용자가 복사한 wallet.dat를 이용하고 거기서 코인을 사용했지만 여기서는 사용되었다고 표시되지 않은 경우입니다.</translation>
     </message>
     <message>
         <location line="+113"/>
         <source>Warning: Invalid Dogecoin address</source>
-        <translation>경고: 잘못된 비트코인주소입니다</translation>
+        <translation>경고: 잘못된 도기코인주소입니다</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>(no label)</source>
-        <translation>(표 없슴)</translation>
+        <translation>(이름표 없음)</translation>
     </message>
     <message>
         <location line="-11"/>
@@ -2341,7 +2341,7 @@ Address: %4
     <message>
         <location line="+9"/>
         <source>added as transaction fee</source>
-        <translation>거래 수수료로 추가됨</translation>
+        <translation>거래 수수료가 추가됩니다</translation>
     </message>
     <message>
         <location line="+171"/>
@@ -2376,12 +2376,12 @@ Address: %4
     <message>
         <location filename="../sendcoinsentry.cpp" line="+30"/>
         <source>Enter a label for this address to add it to your address book</source>
-        <translation>당신의 주소록에 이 주소를 추가하기 위하여 표를 입역하세요 </translation>
+        <translation>주소록에 추가하기 위해 이 주소의 이름표를 입력하세요</translation>
     </message>
     <message>
         <location filename="../forms/sendcoinsentry.ui" line="+57"/>
         <source>&amp;Label:</source>
-        <translation>표:</translation>
+        <translation>이름표:</translation>
     </message>
     <message>
         <location line="-50"/>
@@ -2391,7 +2391,7 @@ Address: %4
     <message>
         <location line="-40"/>
         <source>This is a normal payment.</source>
-        <translation>평균지급입니다</translation>
+        <translation>보통 지불입니다.</translation>
     </message>
     <message>
         <location line="+50"/>
@@ -2401,7 +2401,7 @@ Address: %4
     <message>
         <location line="+7"/>
         <source>Paste address from clipboard</source>
-        <translation>클립보드로 부터 주소를 붙이세요</translation>
+        <translation>주소를 클립보드로 복사합니다</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -2413,7 +2413,7 @@ Address: %4
         <location line="+524"/>
         <location line="+536"/>
         <source>Remove this entry</source>
-        <translation>항목을 지우시오</translation>
+        <translation>항목을 지웁니다</translation>
     </message>
     <message>
         <location line="-1008"/>
@@ -2438,7 +2438,7 @@ Address: %4
     <message>
         <location line="+426"/>
         <source>This is an unverified payment request.</source>
-        <translation>지급요청 미확인입니다</translation>
+        <translation>확인되지 않은 지불 요청입니다.</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -2458,12 +2458,12 @@ Address: %4
     <message>
         <location filename="../utilitydialog.cpp" line="+48"/>
         <source>Dogecoin Core is shutting down...</source>
-        <translation>비트코인코어가 닫아지고 있습니다</translation>
+        <translation>도기코인 코어를 닫고 있습니다</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Do not shut down the computer until this window disappears.</source>
-        <translation>창이 사라지기 전까지 컴퓨터를 끄지마시오.</translation>
+        <translation>이 창이 사라지기 전까지 컴퓨터를 끄지 마세요.</translation>
     </message>
 </context>
 <context>
@@ -2471,7 +2471,7 @@ Address: %4
     <message>
         <location filename="../forms/signverifymessagedialog.ui" line="+14"/>
         <source>Signatures - Sign / Verify a Message</source>
-        <translation>서명 - 싸인 / 메시지 확인</translation>
+        <translation>서명 - 싸인 / 메시지 검증</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -2481,7 +2481,7 @@ Address: %4
     <message>
         <location line="+6"/>
         <source>You can sign messages with your addresses to prove you own them. Be careful not to sign anything vague, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</source>
-        <translation>여러분 자신을 증명하기 위해 주소를 첨가하고 섬여할 수 있습니다. 피싱 공격으로 말미암아 여러분의 서명을 통해 속아 넘어가게 할 수 있으므로, 서명하지 않은 어떤 모호한 요소든 주의하십시오. 동의하는 완전 무결한 조항에만 서명하십시오.</translation>
+        <translation>메시지를 서명하여 주소를 가지고 있다는 것을 증명할 수 있습니다. 사용자를 속여 개인정보를 유출시키는 피싱 공격 같은, 불분명한 어떠한 것에도 서명하지 않게 주의하시고, 동의하는 완전무결한 사항에만 서명하세요.</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -2503,7 +2503,7 @@ Address: %4
     <message>
         <location line="-200"/>
         <source>Paste address from clipboard</source>
-        <translation>클립보드로 부터 주소를 붙이세요</translation>
+        <translation>주소를 클립보드로 복사합니다</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -2528,7 +2528,7 @@ Address: %4
     <message>
         <location line="+21"/>
         <source>Sign the message to prove you own this Dogecoin address</source>
-        <translation>여러분의 비트코인 주소를 증명하려면 메시지 서명하십시오</translation>
+        <translation>메시지를 서명하여 이 도기코인 주소를 가지고 있다는 것을 증명하세요</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -2554,17 +2554,17 @@ Address: %4
     <message>
         <location line="+6"/>
         <source>Enter the signing address, message (ensure you copy line breaks, spaces, tabs, etc. exactly) and signature below to verify the message. Be careful not to read more into the signature than what is in the signed message itself, to avoid being tricked by a man-in-the-middle attack.</source>
-        <translation type="unfinished"/>
+        <translation>메시지를 검증하기 위해 아래 칸에 각각 지갑 주소와 메시지, 전자서명을 입력하세요. (메시지 원본의 띄어쓰기, 들여쓰기, 행 나눔 등이 정확하게 입력되어야 하므로 원본을 복사해서 입력하세요) 이 기능은 메시지 검증이 주 목적이며, 네트워크 침입자에 의해 변조되지 않도록 전자서명 해독에 불필요한 시간을 소모하지 마세요.</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>The address the message was signed with (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>서명한 메시지의 주소입니다 (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
+        <translation>메시지가 서명된 주소 (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
     </message>
     <message>
         <location line="+37"/>
         <source>Verify the message to ensure it was signed with the specified Dogecoin address</source>
-        <translation>정확한 비트코인주소가 입력됬는지 메시지를 확인하시오</translation>
+        <translation>메시지를 확인하여 지정된 도기코인 주소로 서명되었는지 검증하세요.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -2579,12 +2579,12 @@ Address: %4
     <message>
         <location filename="../signverifymessagedialog.cpp" line="+30"/>
         <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>비트코인 주소를 입력하기 (예 DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
+        <translation>도기코인 주소 넣기 (예DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
     </message>
     <message>
         <location line="-1"/>
         <source>Click &quot;Sign Message&quot; to generate signature</source>
-        <translation>서명을 만들려면 &quot;메시지 서명&quot;을 누르십시오</translation>
+        <translation>서명을 만들려면 &quot;메시지에 서명&quot;을 누르십시오</translation>
     </message>
     <message>
         <location line="+84"/>
@@ -2658,12 +2658,12 @@ Address: %4
     <message>
         <location filename="../splashscreen.cpp" line="+28"/>
         <source>Dogecoin Core</source>
-        <translation>비트코인코어</translation>
+        <translation>도기코인 코어</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The Dogecoin Core developers</source>
-        <translation>비트코인코어 개발자들</translation>
+        <translation>도기코인 코어 개발자들</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2836,7 +2836,7 @@ Address: %4
     <message>
         <location line="+23"/>
         <source>Amount</source>
-        <translation>거래량</translation>
+        <translation>액수</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2851,7 +2851,7 @@ Address: %4
     <message>
         <location line="-232"/>
         <source>, has not been successfully broadcast yet</source>
-        <translation>. 아직 성공적으로 통보하지 않음</translation>
+        <translation>, 아직 성공적으로 통보하지 않음</translation>
     </message>
     <message numerus="yes">
         <location line="-37"/>
@@ -2897,7 +2897,7 @@ Address: %4
     <message>
         <location line="+0"/>
         <source>Amount</source>
-        <translation>수량</translation>
+        <translation>액수</translation>
     </message>
     <message>
         <location line="+78"/>
@@ -2922,7 +2922,7 @@ Address: %4
     <message>
         <location line="+9"/>
         <source>This block was not received by any other nodes and will probably not be accepted!</source>
-        <translation>이 블럭은 다른 노드로부터 받지 않아 허용되지 않을 것임.</translation>
+        <translation>이 블록은 다른 노드로부터 받지 않아 허용되지 않을 것임.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -2952,7 +2952,7 @@ Address: %4
     <message>
         <location line="+51"/>
         <source>Received with</source>
-        <translation>다음과 함께 받음 : </translation>
+        <translation>받음: </translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2962,7 +2962,7 @@ Address: %4
     <message>
         <location line="+3"/>
         <source>Sent to</source>
-        <translation>다음에게 보냄 :</translation>
+        <translation>보냄: </translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2997,12 +2997,12 @@ Address: %4
     <message>
         <location line="+2"/>
         <source>Destination address of transaction.</source>
-        <translation>거래가 도달할 주소</translation>
+        <translation>거래의 도착 주소.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Amount removed from or added to balance.</source>
-        <translation type="unfinished"/>
+        <translation>잔액에서 가감된 양</translation>
     </message>
 </context>
 <context>
@@ -3046,12 +3046,12 @@ Address: %4
     <message>
         <location line="+11"/>
         <source>Received with</source>
-        <translation>보낸 주소</translation>
+        <translation>받음</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Sent to</source>
-        <translation>받는 주소</translation>
+        <translation>보냄</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3071,27 +3071,27 @@ Address: %4
     <message>
         <location line="+6"/>
         <source>Enter address or label to search</source>
-        <translation>검색하기 위한 주소 또는 표 입력</translation>
+        <translation>검색할 주소 또는 이름표 입력</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Min amount</source>
-        <translation>최소 거래량</translation>
+        <translation>최소액</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Copy address</source>
-        <translation>주소 복사하기</translation>
+        <translation>주소 복사</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Copy label</source>
-        <translation>표 복사하기</translation>
+        <translation>이름표 복사</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Copy amount</source>
-        <translation>거래액 복사</translation>
+        <translation>액수 복사</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3101,7 +3101,7 @@ Address: %4
     <message>
         <location line="+1"/>
         <source>Edit label</source>
-        <translation>표 수정하기</translation>
+        <translation>이름표 수정하기</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3121,7 +3121,7 @@ Address: %4
     <message>
         <location line="+0"/>
         <source>There was an error trying to save the transaction history to %1.</source>
-        <translation>%1으로 거래 기록을 저장하는데 애러가 있었습니다.</translation>
+        <translation>%1으로 거래 기록을 저장하는데 에러가 있었습니다.</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -3156,7 +3156,7 @@ Address: %4
     <message>
         <location line="+1"/>
         <source>Label</source>
-        <translation>표</translation>
+        <translation>이름표</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3166,7 +3166,7 @@ Address: %4
     <message>
         <location line="+1"/>
         <source>Amount</source>
-        <translation>거래량</translation>
+        <translation>액수</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3343,7 +3343,7 @@ Address: %4
     <message>
         <location line="-120"/>
         <source>Accept connections from outside (default: 1 if no -proxy or -connect)</source>
-        <translation>외부 접속을 승인합니다</translation>
+        <translation>외부 접속을 승인합니다 (기본값: no -proxy or –connect면 1)</translation>
     </message>
     <message>
         <location line="-95"/>
@@ -3378,7 +3378,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <location line="+3"/>
         <source>Cannot obtain a lock on data directory %s. Dogecoin Core is probably already running.</source>
-        <translation type="unfinished"/>
+        <translation>디렉토리 %s 데이터 락을 얻을 수 없습니다. 아마도 도기코인 코어가 실행중인 것 같습니다.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3418,12 +3418,12 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <location line="+3"/>
         <source>Warning: -paytxfee is set very high! This is the transaction fee you will pay if you send a transaction.</source>
-        <translation>경고: -paytxfee값이 너무 큽니다! 이 값은 송금할때 지불할 송금 수수료입니다.</translation>
+        <translation>경고: -paytxfee값이 너무 큽니다! 이 값은 송금할 때 지불할 송금 수수료입니다.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Warning: Please check that your computer&apos;s date and time are correct! If your clock is wrong Dogecoin Core will not work properly.</source>
-        <translation>경고: 컴퓨터의 날짜와 시간이 올바른지 확인하십시오! 시간이 잘못되면 비트코인은 제대로 동작하지 않습니다.</translation>
+        <translation>경고: 컴퓨터의 날짜와 시간이 올바른지 확인하십시오! 시간이 잘못되면 도기코인 코어는 제대로 동작하지 않습니다.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3458,12 +3458,12 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <location line="+1"/>
         <source>Dogecoin Core Daemon</source>
-        <translation>비트코인 코어 데몬</translation>
+        <translation>도기코인 코어 데몬</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Dogecoin Core RPC client version</source>
-        <translation>비트코인 RPC 클라이언트 버전</translation>
+        <translation>도기코인 RPC 클라이언트 버전</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3473,7 +3473,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <location line="+5"/>
         <source>Clear list of wallet transactions (diagnostic tool; implies -rescan)</source>
-        <translation>거래내역 삭제(진단도구; 재스캔 포함)</translation>
+        <translation>거래내역 지우기(진단도구; 재스캔 포함)</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3508,7 +3508,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <location line="+1"/>
         <source>Do you want to rebuild the block database now?</source>
-        <translation>블락 데이터베이스를 다시 생성하시겠습니까?</translation>
+        <translation>블록 데이터베이스를 다시 생성하시겠습니까?</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3543,7 +3543,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <location line="+1"/>
         <source>Error: system error: </source>
-        <translation>오류: 시스템 오류:</translation>
+        <translation>오류: 시스템 오류: </translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3608,7 +3608,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <location line="+1"/>
         <source>Find peers using DNS lookup (default: 1 unless -connect)</source>
-        <translation>DNS 찾기를 이용하여 사용자를 찾으시오(기본값: 1 연결 되면)</translation>
+        <translation>DNS 찾기를 이용하여 사용자를 찾으세요(기본값: 1 연결 되면)</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3618,7 +3618,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <location line="+2"/>
         <source>How many blocks to check at startup (default: 288, 0 = all)</source>
-        <translation>시작할때 검사할 블록 갯수입니다(기본값: 288, 0 = 모두)</translation>
+        <translation>시작할 때 검사할 블록 개수 입니다(기본값: 288, 0 = 모두)</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3668,12 +3668,12 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <location line="+1"/>
         <source>Send command to Dogecoin Core server</source>
-        <translation>비트코인 서버로 명령 보내기</translation>
+        <translation>도기코인 서버로 명령 보내기</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Set maximum block size in bytes (default: %d)</source>
-        <translation>최대 블락 크기를 Bytes로 지정하세요 (기본: %d)</translation>
+        <translation>최대 블록 크기를 Bytes로 지정하세요 (기본: %d)</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3693,7 +3693,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <location line="+1"/>
         <source>Start Dogecoin Core server</source>
-        <translation>비트코인 서버 시작</translation>
+        <translation>도기코인 코어 서버 시작</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3708,17 +3708,17 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <location line="+7"/>
         <source>Verifying blocks...</source>
-        <translation>블록 검증중...</translation>
+        <translation>블록 확인 중...</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Verifying wallet...</source>
-        <translation>지갑 검증중...</translation>
+        <translation>지갑 확인 중...</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Wait for RPC server to start</source>
-        <translation>RPC서버가 시작되길 기다리십시요</translation>
+        <translation>RPC서버가 시작되길 기다리세요</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3808,7 +3808,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <location line="+9"/>
         <source>SSL options: (see the Bitcoin Wiki for SSL setup instructions)</source>
-        <translation>SSL 옵션: (SSL 설정 절차를 보혀면 비트코인 위키를 참조하십시오)</translation>
+        <translation>SSL 옵션: (SSL 설정 절차를 보려면 도기코인 위키를 참조하십시오)</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -3823,32 +3823,32 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <location line="+2"/>
         <source>Shrink debug.log file on client startup (default: 1 when no -debug)</source>
-        <translation>클라이언트 시작시 debug.log 파일 비우기(기본값: 디버그 안할때 1)</translation>
+        <translation>클라이언트 시작 시 debug.log 파일 비우기 (기본값: 디버그 안 할 시 1)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Signing transaction failed</source>
-        <translation>거래를 서명하는것을 실패하였습니다.</translation>
+        <translation>거래를 서명하는 것을 실패하였습니다.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Specify connection timeout in milliseconds (default: 5000)</source>
-        <translation>밀리초 단위로 연결 제한시간을 설정하십시오(기본값: 5000)</translation>
+        <translation>밀리 초 단위로 연결 제한시간을 설정하십시오 (기본값: 5000)</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>System error: </source>
-        <translation>시스템 오류:</translation>
+        <translation>시스템 오류: </translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Transaction amount too small</source>
-        <translation>거래량이 너무 적습니다</translation>
+        <translation>액수가 너무 적습니다</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Transaction amounts must be positive</source>
-        <translation>거래량은 반드시 정수여야합니다.</translation>
+        <translation>액수는 반드시 정수여야 합니다</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3883,7 +3883,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <location line="+2"/>
         <source>Zapping all transactions from wallet...</source>
-        <translation>지갑의 모든거래내역 건너뛰기...</translation>
+        <translation>지갑의 모든 거래내역 건너뛰기...</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3913,12 +3913,12 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <location line="-133"/>
         <source>Execute command when the best block changes (%s in cmd is replaced by block hash)</source>
-        <translation>최고의 블럭이 변하면 명령을 실행(cmd 에 있는 %s 는 블럭 해시에 의해 대체되어 짐)</translation>
+        <translation>가장 높은 블록이 변하면 명령을 실행 (cmd 에 있는 %s 는 블록 해시에 의해 대체되어 짐)</translation>
     </message>
     <message>
         <location line="+163"/>
         <source>Upgrade wallet to latest format</source>
-        <translation>지갑을 최근 형식으로 개선하시오</translation>
+        <translation>지갑을 최근 형식으로 개선하세요</translation>
     </message>
     <message>
         <location line="-25"/>
@@ -3973,12 +3973,12 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <location line="+1"/>
         <source>Error loading wallet.dat: Wallet requires newer version of Dogecoin Core</source>
-        <translation>wallet.dat 불러오기 에러:  지갑은 새버전의 비트코인이 필요합니다.</translation>
+        <translation>wallet.dat 불러오기 에러: 지갑은 상위 버전의 도기코인 코어가 필요합니다.</translation>
     </message>
     <message>
         <location line="+99"/>
         <source>Wallet needed to be rewritten: restart Dogecoin Core to complete</source>
-        <translation>지갑을 새로 써야 합니다.:  완성하기 위하여 비트코인을 다시 시작하십시오.</translation>
+        <translation>지갑을 새로 써야 함: 완성하기 위하여 도기코인을 다시 시작하세요</translation>
     </message>
     <message>
         <location line="-101"/>
@@ -3998,7 +3998,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <location line="-1"/>
         <source>Unknown -socks proxy version requested: %i</source>
-        <translation>요청한 -socks 프록히 버전을 알 수 없습니다: %i</translation>
+        <translation>요청한 -socks 프록시 버전을 알 수 없습니다: %i</translation>
     </message>
     <message>
         <location line="-103"/>
@@ -4018,7 +4018,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <location line="+1"/>
         <source>Invalid amount</source>
-        <translation>효력없는 금액</translation>
+        <translation>잘못 된 액수</translation>
     </message>
     <message>
         <location line="-6"/>
@@ -4028,7 +4028,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <location line="+10"/>
         <source>Loading block index...</source>
-        <translation>블럭 인덱스를 불러오는 중...</translation>
+        <translation>블록 인덱스를 불러오는 중...</translation>
     </message>
     <message>
         <location line="-63"/>
@@ -4038,7 +4038,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <location line="-32"/>
         <source>Unable to bind to %s on this computer. Dogecoin Core is probably already running.</source>
-        <translation>이 컴퓨터의 %s에 바인딩 할 수 없습니다. 아마도 비트코인이 실행중인 것 같습니다.</translation>
+        <translation>이 컴퓨터의 %s에 바인딩 할 수 없습니다. 아마도 도기코인 코어가 실행중인 것 같습니다.</translation>
     </message>
     <message>
         <location line="+96"/>
@@ -4063,7 +4063,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     <message>
         <location line="-58"/>
         <source>Done loading</source>
-        <translation>로딩 완료</translation>
+        <translation>불러오기 완료</translation>
     </message>
     <message>
         <location line="+86"/>
