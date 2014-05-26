@@ -4,7 +4,6 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "rpcserver.h"
-#include "rpcclient.h"
 #include "init.h"
 #include "main.h"
 #include "noui.h"
@@ -94,14 +93,9 @@ bool AppInit(int argc, char* argv[])
             else
             {
                 strUsage += "\n" + _("Usage:") + "\n" +
-                      "  dogecoind [options]                     " + _("Start Dogecoin Core Daemon") + "\n" +
-                    _("Usage (deprecated, use dogecoin-cli):") + "\n" +
-                      "  dogecoind [options] <command> [params]  " + _("Send command to Dogecoin Core") + "\n" +
-                      "  dogecoind [options] help                " + _("List commands") + "\n" +
-                      "  dogecoind [options] help <command>      " + _("Get help for a command") + "\n";
+                      "  dogecoind [options]                     " + _("Start Dogecoin Core Daemon") + "\n";
 
                 strUsage += "\n" + HelpMessage(HMM_BITCOIND);
-                strUsage += "\n" + HelpMessageCli(false);
             }
 
             fprintf(stdout, "%s", strUsage.c_str());
@@ -116,8 +110,8 @@ bool AppInit(int argc, char* argv[])
 
         if (fCommandLine)
         {
-            int ret = CommandLineRPC(argc, argv);
-            exit(ret);
+            fprintf(stderr, "Error: There is no RPC client functionality in dogecoind anymore. Use the dogecoin-cli utility instead.\n");
+            exit(1);
         }
 #ifndef WIN32
         fDaemon = GetBoolArg("-daemon", false);
