@@ -155,6 +155,8 @@ public:
     friend bool operator<(const CFeeRate& a, const CFeeRate& b) { return a.nKoinuPerK < b.nKoinuPerK; }
     friend bool operator>(const CFeeRate& a, const CFeeRate& b) { return a.nKoinuPerK > b.nKoinuPerK; }
     friend bool operator==(const CFeeRate& a, const CFeeRate& b) { return a.nKoinuPerK == b.nKoinuPerK; }
+    friend bool operator<=(const CFeeRate& a, const CFeeRate& b) { return a.nKoinuPerK <= b.nKoinuPerK; }
+    friend bool operator>=(const CFeeRate& a, const CFeeRate& b) { return a.nKoinuPerK >= b.nKoinuPerK; }
 
     std::string ToString() const;
 
