@@ -70,7 +70,13 @@ bool AppInit(int argc, char* argv[])
             fprintf(stderr, "Error: Specified data directory \"%s\" does not exist.\n", mapArgs["-datadir"].c_str());
             return false;
         }
-        ReadConfigFile(mapArgs, mapMultiArgs);
+        try
+        {
+            ReadConfigFile(mapArgs, mapMultiArgs);
+        } catch(std::exception &e) {
+            fprintf(stderr,"Error reading configuration file: %s\n", e.what());
+            return false;
+        }
         // Check for -testnet or -regtest parameter (TestNet() calls are only valid after this clause)
         if (!SelectParamsFromCommandLine()) {
             fprintf(stderr, "Error: Invalid combination of -regtest and -testnet.\n");
@@ -82,9 +88,9 @@ bool AppInit(int argc, char* argv[])
             // First part of help message is specific to dogecoind / RPC client
             std::string strUsage = _("Dogecoin Core Daemon") + " " + _("version") + " " + FormatFullVersion() + "\n\n" +
                 _("Usage:") + "\n" +
-                  "  dogecoind [options]                     " + _("Start Dogecoin server") + "\n" +
+                  "  dogecoind [options]                     " + _("Start Dogecoin Core Daemon") + "\n" +
                 _("Usage (deprecated, use dogecoin-cli):") + "\n" +
-                  "  dogecoind [options] <command> [params]  " + _("Send command to Dogecoin server") + "\n" +
+                  "  dogecoind [options] <command> [params]  " + _("Send command to Dogecoin Core") + "\n" +
                   "  dogecoind [options] help                " + _("List commands") + "\n" +
                   "  dogecoind [options] help <command>      " + _("Get help for a command") + "\n";
 

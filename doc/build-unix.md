@@ -42,15 +42,14 @@ Licenses of statically linked libraries:
  Boost         MIT-like license
  miniupnpc     New (3-clause) BSD license
 
-- Versions used in this release:
--  GCC           4.3.3
--  OpenSSL       1.0.1c
--  Berkeley DB   5.1.29.NC
--  Boost         1.55
--  miniupnpc     1.6
--  qt            4.8.3
--  protobuf      2.5.0
--  libqrencode   3.2.0
+- For the versions used in this release, see doc/release-process.md under *Fetch and build inputs*.
+
+System requirements
+--------------------
+
+C++ compilers are memory-hungry. It is recommended to have at least 1 GB of
+memory available when compiling Dogecoin Core. With 512MB of memory or less
+compilation will take much longer due to swap thrashing.
 
 Dependency Build Instructions: Ubuntu & Debian
 ----------------------------------------------

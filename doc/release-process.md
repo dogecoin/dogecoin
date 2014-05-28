@@ -8,8 +8,6 @@ Release Process
 
 ###update (commit) version in sources
 
-
-	dogecoin-qt.pro
 	contrib/verifysfbinaries/verify.sh
 	doc/README*
 	share/setup.nsi
@@ -39,7 +37,7 @@ Release Process
  Fetch and build inputs: (first time, or when dependency versions change)
 
 	mkdir -p inputs; cd inputs/
-	wget 'http://miniupnp.free.fr/files/download.php?file=miniupnpc-1.8.tar.gz' -O miniupnpc-1.8.tar.gz
+	wget 'http://miniupnp.free.fr/files/download.php?file=miniupnpc-1.9.tar.gz' -O miniupnpc-1.9.tar.gz
 	wget 'https://www.openssl.org/source/openssl-1.0.1g.tar.gz'
 	wget 'http://download.oracle.com/berkeley-db/db-5.1.29.NC.tar.gz'
 	wget 'http://zlib.net/zlib-1.2.8.tar.gz'
@@ -63,6 +61,21 @@ Release Process
 	mv build/out/qt-*.zip inputs/
 	./bin/gbuild ../dogecoin/contrib/gitian-descriptors/protobuf-win.yml
 	mv build/out/protobuf-*.zip inputs/
+
+ The expected SHA256 hashes of the intermediate inputs are:
+
+    2bde8b4711c763f6a51449ce814d51553650d88603eda0f85a1a2e95e97d83d0  dogecoin-deps-linux32-gitian-r5.zip
+    f88ca2b78e660622d58ea6cfb524427d6eedb82313124d8b80a48a8211a82dbb  dogecoin-deps-linux64-gitian-r5.zip
+    f29b7d9577417333fb56e023c2977f5726a7c297f320b175a4108cf7cd4c2d29  boost-linux32-1.55.0-gitian-r1.zip
+    88232451c4104f7eb16e469ac6474fd1231bd485687253f7b2bdf46c0781d535  boost-linux64-1.55.0-gitian-r1.zip
+    60dc2d3b61e9c7d5dbe2f90d5955772ad748a47918ff2d8b74e8db9b1b91c909  boost-win32-1.55.0-gitian-r6.zip
+    f65fcaf346bc7b73bc8db3a8614f4f6bee2f61fcbe495e9881133a7c2612a167  boost-win64-1.55.0-gitian-r6.zip
+    b16bc26125f824f38e42b5f76c1134ccd10c1497238943d5e445d10f2d88733f  dogecoin-deps-win32-gitian-r12.zip
+    701bcb0938f86f8a3a2c2f26e7d680ad1678ade57b2cbae20888cddde4539acf  dogecoin-deps-win64-gitian-r12.zip
+    963e3e5e85879010a91143c90a711a5d1d5aba992e38672cdf7b54e42c56b2f1  qt-win32-5.2.0-gitian-r3.zip
+    751c579830d173ef3e6f194e83d18b92ebef6df03289db13ab77a52b6bc86ef0  qt-win64-5.2.0-gitian-r3.zip
+    e2e403e1a08869c7eed4d4293bce13d51ec6a63592918b90ae215a0eceb44cb4  protobuf-win32-2.5.0-gitian-r4.zip
+    a0999037e8b0ef9ade13efd88fee261ba401f5ca910068b7e0cd3262ba667db0  protobuf-win64-2.5.0-gitian-r4.zip
 
  Build dogecoind and dogecoin-qt on Linux32, Linux64, and Win32:
   

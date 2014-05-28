@@ -87,3 +87,15 @@ RPC 22555
 P2P 22556
 
 ![](http://dogesay.com/wow//////such/coin)
+
+Translations
+------------
+
+Changes to translations as well as new translations can be submitted to
+[Bitcoin Core's Transifex page](https://www.transifex.com/projects/p/bitcoin/).
+
+Periodically the translations are pulled from Transifex and merged into the git repository. See the
+[translation process](doc/translation_process.md) for details on how this works.
+
+If the changes are Dogecoin specific, they can be submitted as pull request against this repository.
+If it is a general translation, consider submitting it through upstream, as we will pull these changes later on.
