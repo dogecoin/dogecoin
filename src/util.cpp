@@ -97,7 +97,6 @@ bool fDaemon = false;
 bool fServer = false;
 string strMiscWarning;
 bool fBloomFilters = true;
-bool fNoListen = false;
 bool fLogTimestamps = false;
 volatile bool fReopenDebugLog = false;
 CClientUIInterface uiInterface;
