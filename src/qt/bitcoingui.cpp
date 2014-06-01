@@ -107,6 +107,8 @@ BitcoinGUI::BitcoinGUI(bool fIsTestnet, QWidget *parent) :
 #endif
     }
     setWindowTitle(windowTitle);
+    
+    setStyleSheet("QWidget { background-color: pink }");
 
 #if defined(Q_OS_MAC) && QT_VERSION < 0x050000
     // This property is not implemented in Qt 5. Setting it has no effect.
