@@ -571,6 +571,12 @@ void static DogecoinMiner(CWallet *pwallet)
                     SetThreadPriority(THREAD_PRIORITY_NORMAL);
                     CheckWork(pblock, *pwallet, reservekey);
                     SetThreadPriority(THREAD_PRIORITY_LOWEST);
+                    
+                    // In regression test mode, stop mining after a block is found. This
+                    // allows developers to controllably generate a block on demand.
+                    if (Params().NetworkID() == CChainParams::REGTEST)
+                        throw boost::thread_interrupted();
+                    
                     break;
                 }
                 pblock->nNonce += 1;
