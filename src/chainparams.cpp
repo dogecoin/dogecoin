@@ -262,6 +262,7 @@ public:
     }
 
     virtual bool RequireRPCPassword() const { return false; }
+    virtual bool SimplifiedRewards() const { return true; }
     virtual Network NetworkID() const { return CChainParams::REGTEST; }
 };
 static CRegTestParams regTestParams;
