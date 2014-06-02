@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Copyright (c) 2014 The Bitcoin Core developers
+# Copyright (c) 2014 The Dogecoin Core developers
 # Distributed under the MIT/X11 software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -23,8 +24,8 @@ fi
 
 set -f
 
-BITCOIND=${1}/bitcoind
-CLI=${1}/bitcoin-cli
+BITCOIND=${1}/dogecoind
+CLI=${1}/dogecoin-cli
 
 DIR="${BASH_SOURCE%/*}"
 SENDANDWAIT="${DIR}/send.sh"
@@ -81,16 +82,16 @@ echo "Generating test blockchain..."
 $CLI $B2ARGS addnode 127.0.0.1:11000 onetry
 WaitPeers "$B1ARGS" 1
 
-# 2 block, 50 XBT each == 100 XBT
+# 2 block, 500000 XDG each == 1000000 XDG
 # These will be transactions "A" and "B"
 $CLI $B1ARGS setgenerate true 2
 
 WaitBlocks
-# 100 blocks, 0 mature == 0 XBT
-$CLI $B2ARGS setgenerate true 100
+# 49 blocks, 0 mature == 0 XDG
+$CLI $B2ARGS setgenerate true 49
 WaitBlocks
 
-CheckBalance "$B1ARGS" 100
+CheckBalance "$B1ARGS" 1000000
 CheckBalance "$B2ARGS" 0
 
 # restart B2 with no connection
@@ -103,10 +104,10 @@ B1ADDRESS=$( $CLI $B1ARGS getnewaddress )
 B2ADDRESS=$( $CLI $B2ARGS getnewaddress )
 
 # Transaction C: send-to-self, spend A
-TXID_C=$( $CLI $B1ARGS sendtoaddress $B1ADDRESS 50.0)
+TXID_C=$( $CLI $B1ARGS sendtoaddress $B1ADDRESS 500000.0)
 
 # Transaction D: spends B and C
-TXID_D=$( $CLI $B1ARGS sendtoaddress $B2ADDRESS 100.0)
+TXID_D=$( $CLI $B1ARGS sendtoaddress $B2ADDRESS 1000000.0)
 
 CheckBalance "$B1ARGS" 0
 
@@ -132,9 +133,9 @@ WaitPeers "$B1ARGS" 1
 $CLI $B2ARGS setgenerate true 1
 WaitBlocks
 
-# B1 should still be able to spend 100, because D is conflicted
+# B1 should still be able to spend 1000000, because D is conflicted
 # so does not count as a spend of B
-CheckBalance "$B1ARGS" 100
+CheckBalance "$B1ARGS" 1000000
 
 $CLI $B2ARGS stop > /dev/null 2>&1
 wait $B2PID
