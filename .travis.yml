@@ -21,6 +21,8 @@ script:
   - CFLAGS="-O1" CXXFLAGS="-O1" ./configure --disable-wallet
   - make -j 2
   - make check
+  - cd src/qt/test
+  - sh test_pink.sh
 notifications:
   irc:
     channels:
