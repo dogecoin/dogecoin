@@ -83,19 +83,22 @@ bool AppInit(int argc, char* argv[])
             return false;
         }
 
-        if (mapArgs.count("-?") || mapArgs.count("--help"))
+        if (mapArgs.count("-?") || mapArgs.count("-help") || mapArgs.count("-version"))
         {
-            // First part of help message is specific to dogecoind / RPC client
-            std::string strUsage = _("Dogecoin Core Daemon") + " " + _("version") + " " + FormatFullVersion() + "\n\n" +
-                _("Usage:") + "\n" +
-                  "  dogecoind [options]                     " + _("Start Dogecoin Core Daemon") + "\n" +
-                _("Usage (deprecated, use dogecoin-cli):") + "\n" +
-                  "  dogecoind [options] <command> [params]  " + _("Send command to Dogecoin Core") + "\n" +
-                  "  dogecoind [options] help                " + _("List commands") + "\n" +
-                  "  dogecoind [options] help <command>      " + _("Get help for a command") + "\n";
+            std::string strUsage = _("Dogecoin Core Daemon") + " " + _("version") + " " + FormatFullVersion() + "\n";
 
-            strUsage += "\n" + HelpMessage(HMM_BITCOIND);
-            strUsage += "\n" + HelpMessageCli(false);
+            if (!mapArgs.count("-version"))
+            {
+                strUsage += "\n" + _("Usage:") + "\n" +
+                      "  dogecoind [options]                     " + _("Start Dogecoin Core Daemon") + "\n" +
+                    _("Usage (deprecated, use dogecoin-cli):") + "\n" +
+                      "  dogecoind [options] <command> [params]  " + _("Send command to Dogecoin Core") + "\n" +
+                      "  dogecoind [options] help                " + _("List commands") + "\n" +
+                      "  dogecoind [options] help <command>      " + _("Get help for a command") + "\n";
+
+                strUsage += "\n" + HelpMessage(HMM_BITCOIND);
+                strUsage += "\n" + HelpMessageCli(false);
+            }
 
             fprintf(stdout, "%s", strUsage.c_str());
             return false;
