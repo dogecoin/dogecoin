@@ -1,11 +1,6 @@
-AM_CPPFLAGS =  $(INCLUDES) \
-  -I$(builddir)/obj \
-  $(BDB_CPPFLAGS) \
-  $(BOOST_CPPFLAGS) $(BOOST_INCLUDES)
-AM_CPPFLAGS += $(LEVELDB_CPPFLAGS)
+AM_CPPFLAGS =  $(INCLUDES)
 AM_LDFLAGS = $(PTHREAD_CFLAGS)
 
-AM_CPPFLAGS += -I$(builddir)
 
 if EMBEDDED_LEVELDB
 LEVELDB_CPPFLAGS += -I$(srcdir)/leveldb/include
@@ -22,14 +17,15 @@ $(LIBLEVELDB) $(LIBMEMENV):
           OPT="$(CXXFLAGS) $(CPPFLAGS)"
 endif
 
+BITCOIN_INCLUDES=-I$(builddir) -I$(builddir)/obj $(BOOST_CPPFLAGS) $(LEVELDB_CPPFLAGS)
+
 noinst_LIBRARIES = \
   libbitcoin_server.a \
   libbitcoin_common.a \
   libbitcoin_cli.a
 if ENABLE_WALLET
-noinst_LIBRARIES += \
-  libbitcoin_wallet.a \
-  libbitcoin_server_wallet.a
+BITCOIN_INCLUDES += $(BDB_CPPFLAGS)
+noinst_LIBRARIES += libbitcoin_wallet.a
 endif
 
 bin_PROGRAMS =
@@ -110,6 +106,7 @@ obj/build.h: FORCE
 	  $(abs_top_srcdir)
 version.o: obj/build.h
 
+libbitcoin_server_a_CPPFLAGS = $(BITCOIN_INCLUDES)
 libbitcoin_server_a_SOURCES = \
   addrman.cpp \
   alert.cpp \
@@ -135,18 +132,17 @@ libbitcoin_server_a_SOURCES = \
   $(JSON_H) \
   $(BITCOIN_CORE_H)
 
+libbitcoin_wallet_a_CPPFLAGS = $(BITCOIN_INCLUDES)
 libbitcoin_wallet_a_SOURCES = \
   db.cpp \
   crypter.cpp \
+  rpcdump.cpp \
+  rpcwallet.cpp \
   wallet.cpp \
   walletdb.cpp \
   $(BITCOIN_CORE_H)
 
-libbitcoin_server_wallet_a_SOURCES = \
-  rpcdump.cpp \
-  rpcwallet.cpp \
-  $(BITCOIN_CORE_H)
-
+libbitcoin_common_a_CPPFLAGS = $(BITCOIN_INCLUDES)
 libbitcoin_common_a_SOURCES = \
   base58.cpp \
   allocators.cpp \
@@ -193,8 +189,8 @@ if TARGET_WINDOWS
 dogecoind_SOURCES += dogecoind-res.rc
 endif
 
-AM_CPPFLAGS += $(BDB_CPPFLAGS)
 dogecoind_LDADD += $(BOOST_LIBS) $(BDB_LIBS)
+dogecoind_CPPFLAGS = $(BITCOIN_INCLUDES)
 
 # dogecoin-cli binary #
 dogecoin_cli_LDADD = \
@@ -202,6 +198,7 @@ dogecoin_cli_LDADD = \
   libbitcoin_common.a \
   $(BOOST_LIBS)
 dogecoin_cli_SOURCES = dogecoin-cli.cpp
+bitcoin_cli_CPPFLAGS = $(BITCOIN_INCLUDES)
 #
 
 if TARGET_WINDOWS
