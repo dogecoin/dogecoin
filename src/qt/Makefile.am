@@ -288,6 +288,7 @@ BITCOIN_QT_CPP = \
   notificator.cpp \
   optionsdialog.cpp \
   optionsmodel.cpp \
+  peertablemodel.cpp \
   qvalidatedlineedit.cpp \
   qvaluecombobox.cpp \
   rpcconsole.cpp \
@@ -309,7 +310,6 @@ BITCOIN_QT_CPP += \
   overviewpage.cpp \
   paymentrequestplus.cpp \
   paymentserver.cpp \
-  peertablemodel.cpp \
   receivecoinsdialog.cpp \
   receiverequestdialog.cpp \
   recentrequeststablemodel.cpp \
