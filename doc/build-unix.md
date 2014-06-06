@@ -119,6 +119,10 @@ Berkeley DB
 -----------
 You need Berkeley DB 5.1.  If you have to build Berkeley DB yourself:
 
+	wget 'http://download.oracle.com/berkeley-db/db-5.1.29.NC.tar.gz'
+	echo '08238e59736d1aacdd47cfb8e68684c695516c37f4fbe1b8267dde58dc3a576c  db-5.1.29.NC.tar.gz' | sha256sum -c
+	# -> db-5.1.29.NC.tar.gz: OK
+	tar -xzvf db-5.1.29.NC.tar.gz
 	cd build_unix/
 	../dist/configure --enable-cxx
 	make

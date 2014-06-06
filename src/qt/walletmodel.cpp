@@ -98,11 +98,24 @@ void WalletModel::updateStatus()
 
 void WalletModel::pollBalanceChanged()
 {
+    // Get required locks upfront. This avoids the GUI from getting stuck on
+    // periodical polls if the core is holding the locks for a longer time -
+    // for example, during a wallet rescan.
+    TRY_LOCK(cs_main, lockMain);
+    if(!lockMain)
+        return;
+    TRY_LOCK(wallet->cs_wallet, lockWallet);
+    if(!lockWallet)
+        return;
+
     if(chainActive.Height() != cachedNumBlocks)
     {
         // Balance and number of transactions might have changed
         cachedNumBlocks = chainActive.Height();
+
         checkBalanceChanged();
+        if(transactionTableModel)
+            transactionTableModel->updateConfirmations();
     }
 }
 
@@ -520,7 +533,7 @@ bool WalletModel::getPubKey(const CKeyID &address, CPubKey& vchPubKeyOut) const
 // returns a list of COutputs from COutPoints
 void WalletModel::getOutputs(const std::vector<COutPoint>& vOutpoints, std::vector<COutput>& vOutputs)
 {
-    LOCK(wallet->cs_wallet);
+    LOCK2(cs_main, wallet->cs_wallet);
     BOOST_FOREACH(const COutPoint& outpoint, vOutpoints)
     {
         if (!wallet->mapWallet.count(outpoint.hash)) continue;
@@ -533,7 +546,7 @@ void WalletModel::getOutputs(const std::vector<COutPoint>& vOutpoints, std::vect
 
 bool WalletModel::isSpent(const COutPoint& outpoint) const
 {
-    LOCK(wallet->cs_wallet);
+    LOCK2(cs_main, wallet->cs_wallet);
     return wallet->IsSpent(outpoint.hash, outpoint.n);
 }
 
@@ -543,7 +556,7 @@ void WalletModel::listCoins(std::map<QString, std::vector<COutput> >& mapCoins) 
     std::vector<COutput> vCoins;
     wallet->AvailableCoins(vCoins);
 
-    LOCK(wallet->cs_wallet); // ListLockedCoins, mapWallet
+    LOCK2(cs_main, wallet->cs_wallet); // ListLockedCoins, mapWallet
     std::vector<COutPoint> vLockedCoins;
     wallet->ListLockedCoins(vLockedCoins);
 
@@ -575,25 +588,25 @@ void WalletModel::listCoins(std::map<QString, std::vector<COutput> >& mapCoins) 
 
 bool WalletModel::isLockedCoin(uint256 hash, unsigned int n) const
 {
-    LOCK(wallet->cs_wallet);
+    LOCK2(cs_main, wallet->cs_wallet);
     return wallet->IsLockedCoin(hash, n);
 }
 
 void WalletModel::lockCoin(COutPoint& output)
 {
-    LOCK(wallet->cs_wallet);
+    LOCK2(cs_main, wallet->cs_wallet);
     wallet->LockCoin(output);
 }
 
 void WalletModel::unlockCoin(COutPoint& output)
 {
-    LOCK(wallet->cs_wallet);
+    LOCK2(cs_main, wallet->cs_wallet);
     wallet->UnlockCoin(output);
 }
 
 void WalletModel::listLockedCoins(std::vector<COutPoint>& vOutpts)
 {
-    LOCK(wallet->cs_wallet);
+    LOCK2(cs_main, wallet->cs_wallet);
     wallet->ListLockedCoins(vOutpts);
 }
 
