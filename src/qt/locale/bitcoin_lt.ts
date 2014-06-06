@@ -1485,13 +1485,8 @@ Adresas: %4</translation>
         <translation>Išvalyti konsolę</translation>
     </message>
     <message>
-<<<<<<< HEAD
         <source>Welcome to the Dogecoin RPC console.</source>
-        <translation type="unfinished"/>
-=======
-        <source>Welcome to the Bitcoin RPC console.</source>
         <translation>Sveiki atvykę į Bitcoin RPC konsolę.</translation>
->>>>>>> 6fcdad7... qt: Periodic language update
     </message>
     <message>
         <source>Use up and down arrows to navigate history, and &lt;b&gt;Ctrl-L&lt;/b&gt; to clear screen.</source>
