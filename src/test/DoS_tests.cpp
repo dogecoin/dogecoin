@@ -165,7 +165,7 @@ BOOST_AUTO_TEST_CASE(DoS_mapOrphans)
     // 50 orphan transactions:
     for (int i = 0; i < 50; i++)
     {
-        CTransaction tx;
+        CMutableTransaction tx;
         tx.vin.resize(1);
         tx.vin[0].prevout.n = 0;
         tx.vin[0].prevout.hash = GetRandHash();
@@ -182,7 +182,7 @@ BOOST_AUTO_TEST_CASE(DoS_mapOrphans)
     {
         CTransaction txPrev = RandomOrphan();
 
-        CTransaction tx;
+        CMutableTransaction tx;
         tx.vin.resize(1);
         tx.vin[0].prevout.n = 0;
         tx.vin[0].prevout.hash = txPrev.GetHash();
@@ -199,7 +199,7 @@ BOOST_AUTO_TEST_CASE(DoS_mapOrphans)
     {
         CTransaction txPrev = RandomOrphan();
 
-        CTransaction tx;
+        CMutableTransaction tx;
         tx.vout.resize(1);
         tx.vout[0].nValue = 1*CENT;
         tx.vout[0].scriptPubKey.SetDestination(key.GetPubKey().GetID());
@@ -248,10 +248,10 @@ BOOST_AUTO_TEST_CASE(DoS_checkSig)
 
     // 100 orphan transactions:
     static const int NPREV=100;
-    CTransaction orphans[NPREV];
+    CMutableTransaction orphans[NPREV];
     for (int i = 0; i < NPREV; i++)
     {
-        CTransaction& tx = orphans[i];
+        CMutableTransaction& tx = orphans[i];
         tx.vin.resize(1);
         tx.vin[0].prevout.n = 0;
         tx.vin[0].prevout.hash = GetRandHash();
@@ -264,7 +264,7 @@ BOOST_AUTO_TEST_CASE(DoS_checkSig)
     }
 
     // Create a transaction that depends on orphans:
-    CTransaction tx;
+    CMutableTransaction tx;
     tx.vout.resize(1);
     tx.vout[0].nValue = 1*CENT;
     tx.vout[0].scriptPubKey.SetDestination(key.GetPubKey().GetID());
