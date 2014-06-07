@@ -1203,11 +1203,11 @@ int64_t GetBlockValue(int nHeight, int64_t nFees, uint256 prevHash)
     int rand = generateMTRandom(seed, 999999);
     int rand1 = 0;
 
-    if(nHeight < 100000)
+    if(nHeight < 100000 && !Params().SimplifiedRewards())
     {
         nSubsidy = (1 + rand) * COIN;
     }
-    else if(nHeight < 145000)
+    else if(nHeight < 145000 && !Params().SimplifiedRewards())
     {
         cseed_str = prevHash.ToString().substr(7,7);
         cseed = cseed_str.c_str();
