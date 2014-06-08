@@ -235,4 +235,28 @@ BOOST_AUTO_TEST_CASE(GetMinFee_createFree_test)
     BOOST_CHECK(GetMinFee(tx, MAX_STANDARD_TX_SIZE, true, GMF_SEND) == (1+(MAX_STANDARD_TX_SIZE/1000))*CTransaction::nMinTxFee);
 }
 
+BOOST_AUTO_TEST_CASE(GetMinFee_createNoFree_test)
+{
+    uint64_t value = 1000 * COIN;
+
+    CTransaction tx;
+    CTxOut txout1(value, (CScript)vector<unsigned char>(24, 0));
+    tx.vout.push_back(txout1);
+    
+    if(CTransaction::nMinTxFee == CTransaction::nMinRelayTxFee)
+        CTransaction::nMinTxFee++;
+    
+    BOOST_CHECK(GetMinFee(tx, 100, true, GMF_SEND) > 0);
+    BOOST_CHECK(GetMinFee(tx, 100, true, GMF_SEND) == GetMinFee(tx, 100, false, GMF_SEND));
+    BOOST_CHECK(GetMinFee(tx, 1000, true, GMF_SEND) > 0);
+    BOOST_CHECK(GetMinFee(tx, 1000, true, GMF_SEND) == GetMinFee(tx, 1000, false, GMF_SEND));
+    BOOST_CHECK(GetMinFee(tx, 25999, true, GMF_SEND) > 0);
+    BOOST_CHECK(GetMinFee(tx, 25999, true, GMF_SEND) == GetMinFee(tx, 25999, false, GMF_SEND));
+    
+    BOOST_CHECK(GetMinFee(tx, 26000, true, GMF_SEND) > 0);
+    BOOST_CHECK(GetMinFee(tx, 26000, true, GMF_SEND) == GetMinFee(tx, 26000, false, GMF_SEND));
+    
+    BOOST_CHECK(GetMinFee(tx, MAX_STANDARD_TX_SIZE, true, GMF_SEND) == (1+(MAX_STANDARD_TX_SIZE/1000))*CTransaction::nMinTxFee);
+}
+
 BOOST_AUTO_TEST_SUITE_END()
