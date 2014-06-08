@@ -97,7 +97,7 @@ B2ADDRESS=$( $CLI $B2ARGS getaccountaddress "from1" )
 $CLI $B1ARGS move "" "foo" 10.0 > /dev/null
 $CLI $B1ARGS move "" "bar" 10.0 > /dev/null
 TXID1=$( $CLI $B1ARGS sendfrom foo $B2ADDRESS 1.0 0)
-TXID2=$( $CLI $B1ARGS sendfrom bar $B2ADDRESS 2.0 0)
+TXID2=$( $CLI $B1ARGS sendfrom bar $B2ADDRESS 5.0 0)
 
 # Mutate TXID1 and add it to B2's memory pool:
 RAWTX1=$( $CLI $B1ARGS getrawtransaction $TXID1 )
@@ -130,12 +130,12 @@ $CLI $B2ARGS addnode 127.0.0.1:11000 onetry
 $CLI $B2ARGS setgenerate true 1
 WaitBlocks
 
-# B1 should have 499999 DOGE; the 2 DOGE send is
+# B1 should have 499998 DOGE; the 5 DOGE send is
 # conflicted, and should not count in
 # balances.
-CheckBalance "$B1ARGS" 499999
-CheckBalance "$B1ARGS" 499999 "*"
-CheckBalance "$B1ARGS" 9 "foo"
+CheckBalance "$B1ARGS" 499998
+CheckBalance "$B1ARGS" 499998 "*"
+CheckBalance "$B1ARGS" 8 "foo"
 CheckBalance "$B1ARGS" 10 "bar"
 
 # B2 should have 500001 DOGE
