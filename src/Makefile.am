@@ -23,7 +23,8 @@ BITCOIN_INCLUDES=-I$(builddir) -I$(builddir)/obj $(BITCOIN_CONFIG_INCLUDES) $(BO
 noinst_LIBRARIES = \
   libbitcoin_server.a \
   libbitcoin_common.a \
-  libbitcoin_cli.a
+  libbitcoin_cli.a \
+  crypto/libbitcoin_crypto.a
 if ENABLE_WALLET
 BITCOIN_INCLUDES += $(BDB_CPPFLAGS)
 noinst_LIBRARIES += \
@@ -80,11 +81,6 @@ BITCOIN_CORE_H = \
   script.h \
   scrypt.h \
   serialize.h \
-  crypto/scrypt.h \
-  crypto/common.h \
-  crypto/sha2.h \
-  crypto/sha1.h \
-  crypto/ripemd160.h \
   sync.h \
   threadsafety.h \
   tinyformat.h \
@@ -154,6 +150,17 @@ libbitcoin_server_wallet_a_SOURCES = \
   rpcdump.cpp \
   rpcwallet.cpp \
   $(BITCOIN_CORE_H)
+crypto_libbitcoin_crypto_a_CPPFLAGS = $(BITCOIN_CONFIG_INCLUDES)
+crypto_libbitcoin_crypto_a_SOURCES = \
+  crypto/scrypt.cpp \
+  crypto/sha1.cpp \
+  crypto/sha2.cpp \
+  crypto/ripemd160.cpp \
+  crypto/common.h \
+  crypto/scrypt.h \
+  crypto/sha2.h \
+  crypto/sha1.h \
+  crypto/ripemd160.h
 
 libbitcoin_common_a_CPPFLAGS = $(BITCOIN_INCLUDES)
 libbitcoin_common_a_SOURCES = \
@@ -167,10 +174,6 @@ libbitcoin_common_a_SOURCES = \
   protocol.cpp \
   rpcprotocol.cpp \
   script.cpp \
-  crypto/scrypt.cpp \
-  crypto/sha1.cpp \
-  crypto/sha2.cpp \
-  crypto/ripemd160.cpp \
   sync.cpp \
   util.cpp \
   version.cpp \
@@ -194,6 +197,7 @@ nodist_libbitcoin_common_a_SOURCES = $(srcdir)/obj/build.h
 dogecoind_LDADD = \
   libbitcoin_server.a \
   libbitcoin_common.a \
+  crypto/libbitcoin_crypto.a \
   $(LIBLEVELDB) \
   $(LIBMEMENV)
 if ENABLE_WALLET
@@ -213,6 +217,7 @@ dogecoind_CPPFLAGS = $(BITCOIN_INCLUDES)
 dogecoin_cli_LDADD = \
   libbitcoin_cli.a \
   libbitcoin_common.a \
+  crypto/libbitcoin_crypto.a \
   $(BOOST_LIBS)
 dogecoin_cli_SOURCES = dogecoin-cli.cpp
 dogecoin_cli_CPPFLAGS = $(BITCOIN_INCLUDES)
@@ -250,6 +255,7 @@ LIBBITCOIN_SERVER=libbitcoin_server.a
 LIBBITCOIN_WALLET=libbitcoin_wallet.a
 LIBBITCOIN_COMMON=libbitcoin_common.a
 LIBBITCOIN_CLI=libbitcoin_cli.a
+LIBBITCOIN_CRYPTO=crypto/libbitcoin_crypto.a
 LIBBITCOINQT=qt/libbitcoinqt.a
 
 if ENABLE_TESTS
