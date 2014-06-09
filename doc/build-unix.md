@@ -156,7 +156,7 @@ Optional:
 
 Security
 --------
-To help make your bitcoin installation more secure by making certain attacks impossible to
+To help make your Dogecoin installation more secure by making certain attacks impossible to
 exploit even if a vulnerability is found, binaries are hardened by default.
 This can be disabled with:
 
@@ -204,7 +204,7 @@ Hardening enables the following features:
 
 Disable-wallet mode
 --------------------
-When the intention is to run only a P2P node without a wallet, bitcoin may be compiled in
+When the intention is to run only a P2P node without a wallet, Dogecoin may be compiled in
 disable-wallet mode with:
 
     ./configure --disable-wallet
