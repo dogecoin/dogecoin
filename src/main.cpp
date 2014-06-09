@@ -858,7 +858,7 @@ bool AcceptToMemoryPool(CTxMemPool& pool, CValidationState &state, const CTransa
 
     // Rather not work on nonstandard transactions (unless -testnet/-regtest)
     string reason;
-    if (Params().NetworkID() == CChainParams::MAIN && !IsStandardTx(tx, reason))
+    if (Params().RequireStandard() && !IsStandardTx(tx, reason))
         return state.DoS(0,
                          error("AcceptToMemoryPool : nonstandard transaction: %s", reason),
                          REJECT_NONSTANDARD, reason);
@@ -919,7 +919,7 @@ bool AcceptToMemoryPool(CTxMemPool& pool, CValidationState &state, const CTransa
         }
 
         // Check for non-standard pay-to-script-hash in inputs
-        if (Params().NetworkID() == CChainParams::MAIN && !AreInputsStandard(tx, view))
+        if (Params().RequireStandard() && !AreInputsStandard(tx, view))
             return error("AcceptToMemoryPool: : nonstandard transaction input");
 
         // Note: if you modify this code to accept non-standard transactions, then
@@ -1290,7 +1290,7 @@ unsigned int ComputeMinWork(unsigned int nBase, int64_t nTime)
     const uint256 &bnLimit = Params().ProofOfWorkLimit();
     // Testnet has min-difficulty blocks
     // after nTargetSpacing*2 time between blocks:
-    if (TestNet() && nTime > nTargetSpacing*2)
+    if (Params().AllowMinDifficultyBlocks() && nTime > nTargetSpacing*2)
         return bnLimit.GetCompact();
 
     uint256 bnResult;
@@ -1344,7 +1344,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     // Only change once per interval
     if ((pindexLast->nHeight+1) % retargetInterval != 0)
     {
-        if (TestNet())
+        if (Params().AllowMinDifficultyBlocks())
         {
             if (pblock->nTime > pindexLast->nTime + nTargetSpacing*2)
             {
@@ -1626,7 +1626,7 @@ void UpdateTime(CBlockHeader& block, const CBlockIndex* pindexPrev)
     block.nTime = max(pindexPrev->GetMedianTimePast()+1, GetAdjustedTime());
 
     // Updating time can change work required on testnet:
-    if (TestNet())
+    if (Params().AllowMinDifficultyBlocks())
         block.nBits = GetNextWorkRequired(pindexPrev, &block);
 }
 
@@ -2700,14 +2700,11 @@ bool AcceptBlockHeader(CBlockHeader& block, CValidationState& state, CBlockIndex
             return state.DoS(100, error("AcceptBlock() : forked chain older than last checkpoint (height %d)", nHeight));
 
         // Reject block.nVersion=1 blocks when 95% (75% on testnet) of the network has upgraded:
-        if (block.nVersion < 2)
+        if (block.nVersion < 2 && 
+            CBlockIndex::IsSuperMajority(2, pindexPrev, Params().RejectBlockOutdatedMajority()))
         {
-            if ((!TestNet() && CBlockIndex::IsSuperMajority(2, pindexPrev, 950, 1000)) ||
-                (TestNet() && CBlockIndex::IsSuperMajority(2, pindexPrev, 75, 100)))
-            {
-                return state.Invalid(error("AcceptBlock() : rejected nVersion=1 block"),
-                                     REJECT_OBSOLETE, "bad-version");
-            }
+            return state.Invalid(error("AcceptBlock() : rejected nVersion=1 block"),
+                                 REJECT_OBSOLETE, "bad-version");
         }
     }
 
@@ -2749,19 +2746,15 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CBlockIndex** ppindex, 
         }
 
     // Enforce block.nVersion=2 rule that the coinbase starts with serialized block height
-    if (block.nVersion >= 2)
+    // if 750 of the last 1,000 blocks are version 2 or greater (51/100 if testnet):
+    if (block.nVersion >= 2 && 
+        CBlockIndex::IsSuperMajority(2, pindex->pprev, Params().EnforceBlockUpgradeMajority()))
     {
-        // if 750 of the last 1,000 blocks are version 2 or greater (51/100 if testnet):
-        if ((!TestNet() && CBlockIndex::IsSuperMajority(2, pindex->pprev, 750, 1000)) ||
-            (TestNet() && CBlockIndex::IsSuperMajority(2, pindex->pprev, 51, 100)))
-        {
-            CScript expect = CScript() << nHeight;
-            if (block.vtx[0].vin[0].scriptSig.size() < expect.size() ||
-                !std::equal(expect.begin(), expect.end(), block.vtx[0].vin[0].scriptSig.begin())) {
-                pindex->nStatus |= BLOCK_FAILED_VALID;
-                return state.DoS(100, error("AcceptBlock() : block height mismatch in coinbase"),
-                                 REJECT_INVALID, "bad-cb-height");
-            }
+        CScript expect = CScript() << nHeight;
+        if (block.vtx[0].vin[0].scriptSig.size() < expect.size() ||
+            !std::equal(expect.begin(), expect.end(), block.vtx[0].vin[0].scriptSig.begin())) {
+            pindex->nStatus |= BLOCK_FAILED_VALID;
+            return state.DoS(100, error("AcceptBlock() : block height mismatch in coinbase"), REJECT_INVALID, "bad-cb-height");
         }
     }
 
@@ -2795,10 +2788,13 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CBlockIndex** ppindex, 
     return true;
 }
 
-bool CBlockIndex::IsSuperMajority(int minVersion, const CBlockIndex* pstart, unsigned int nRequired, unsigned int nToCheck)
+bool CBlockIndex::IsSuperMajority(int minVersion, const CBlockIndex* pstart, unsigned int nRequired)
 {
+
     // Dogecoin: temporarily disable v2 block lockin until we are ready for v2 transition
     return false;
+
+    unsigned int nToCheck = Params().ToCheckBlockUpgradeMajority();
 
     unsigned int nFound = 0;
     for (unsigned int i = 0; i < nToCheck && nFound < nRequired && pstart != NULL; i++)
