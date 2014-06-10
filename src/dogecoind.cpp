@@ -87,7 +87,11 @@ bool AppInit(int argc, char* argv[])
         {
             std::string strUsage = _("Dogecoin Core Daemon") + " " + _("version") + " " + FormatFullVersion() + "\n";
 
-            if (!mapArgs.count("-version"))
+            if (mapArgs.count("-version"))
+            {
+                strUsage += LicenseInfo();
+            }
+            else
             {
                 strUsage += "\n" + _("Usage:") + "\n" +
                       "  dogecoind [options]                     " + _("Start Dogecoin Core Daemon") + "\n" +
