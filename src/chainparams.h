@@ -88,6 +88,8 @@ public:
 
     Network NetworkID() const { return networkID; }
 
+    /* Return the BIP70 network string (main, test or regtest) */
+    std::string NetworkIDString() const { return strNetworkID; }
     const std::vector<CDNSSeedData>& DNSSeeds() const { return vSeeds; }
 
     const std::vector<unsigned char>& Base58Prefix(Base58Type type) const { return base58Prefixes[type]; }
@@ -136,6 +138,7 @@ protected:
     std::vector<CDNSSeedData> vSeeds;
     std::vector<unsigned char> base58Prefixes[MAX_BASE58_TYPES];
     Network networkID;
+    std::string strNetworkID;
     CBlock genesis;
     std::vector<CAddress> vFixedSeeds;
     bool fRequireRPCPassword;
