@@ -262,7 +262,7 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += "\n" + _("Wallet options:") + "\n";
     strUsage += "  -disablewallet         " + _("Do not load the wallet and disable wallet RPC calls") + "\n";
     strUsage += "  -keypool=<n>           " + _("Set key pool size to <n> (default: 100)") + "\n";
-    strUsage += "  -paytxfee=<amt>        " + _("Fee per kB to add to transactions you send") + "\n";
+    strUsage += "  -paytxfee=<amt>        " + strprintf(_("Fee (in DOGE/kB) to add to transactions you send (default: %s)"), FormatMoney(payTxFee.GetFeePerK())) + "\n";
     strUsage += "  -rescan                " + _("Rescan the block chain for missing wallet transactions") + " " + _("on startup") + "\n";
     strUsage += "  -salvagewallet         " + _("Attempt to recover private keys from a corrupt wallet.dat") + " " + _("on startup") + "\n";
     strUsage += "  -spendzeroconfchange   " + _("Spend unconfirmed change when sending transactions (default: 1)") + "\n";
@@ -304,8 +304,8 @@ std::string HelpMessage(HelpMessageMode mode)
         strUsage += "  -limitfreerelay=<n>    " + _("Continuously rate-limit free transactions to <n>*1000 bytes per minute (default:15)") + "\n";
         strUsage += "  -maxsigcachesize=<n>   " + _("Limit size of signature cache to <n> entries (default: 50000)") + "\n";
     }
-    strUsage += "  -mintxfee=<amt>        " + _("Fees smaller than this are considered zero fee (for transaction creation) (default:") + " " + FormatMoney(CTransaction::minTxFee.GetFeePerK()) + ")" + "\n";
-    strUsage += "  -minrelaytxfee=<amt>   " + _("Fees smaller than this are considered zero fee (for relaying) (default:") + " " + FormatMoney(CTransaction::minRelayTxFee.GetFeePerK()) + ")" + "\n";
+    strUsage += "  -mintxfee=<amt>        " + strprintf(_("Fees (in DOGE/Kb) smaller than this are considered zero fee for transaction creation (default: %s)"), FormatMoney(CTransaction::minTxFee.GetFeePerK())) + "\n";
+    strUsage += "  -minrelaytxfee=<amt>   " + strprintf(_("Fees (in DOGE/Kb) smaller than this are considered zero fee for relaying (default: %s)"), FormatMoney(CTransaction::minRelayTxFee.GetFeePerK())) + "\n";
     strUsage += "  -printtoconsole        " + _("Send trace/debug info to console instead of debug.log file") + "\n";
     if (GetBoolArg("-help-debug", false))
     {
