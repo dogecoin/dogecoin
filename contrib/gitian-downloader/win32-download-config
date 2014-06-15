@@ -19,4 +19,7 @@ signers:
     weight: 40
     name: leofidus-ger
     key: leofidus-key
+  6E9C3630F63C1541054C9503B1C60A65E5E64D7B:
+    name: "Patrick Lodder"
+    key: patricklodder-key
 minimum_weight: 120
