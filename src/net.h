@@ -362,12 +362,11 @@ public:
 
     ~CNode()
     {
-        if (hSocket != INVALID_SOCKET)
-        {
-            CloseSocket(hSocket);
-        }
+        CloseSocket(hSocket);
+
         if (pfilter)
             delete pfilter;
+
         GetNodeSignals().FinalizeNode(GetId());
     }
 
