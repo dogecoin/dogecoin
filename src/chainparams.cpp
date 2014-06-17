@@ -190,7 +190,6 @@ public:
         fDefaultCheckMemPool = false;
         fAllowMinDifficultyBlocks = false;
         fRequireStandard = true;
-        fRPCisTestNet = false;
         fMineBlocksOnDemand = false;
 
         // Dogecoin specific properties
@@ -259,7 +258,6 @@ public:
         fDefaultCheckMemPool = false;
         fAllowMinDifficultyBlocks = true;
         fRequireStandard = false;
-        fRPCisTestNet = true;
         fMineBlocksOnDemand = false;
 
         // Dogecoin specific properties
@@ -308,7 +306,6 @@ public:
         fDefaultCheckMemPool = true;
         fAllowMinDifficultyBlocks = true;
         fRequireStandard = false;
-        fRPCisTestNet = true;
         fMineBlocksOnDemand = true;
 
         // Dogecoin specific properties

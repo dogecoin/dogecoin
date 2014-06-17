@@ -73,8 +73,6 @@ public:
     bool AllowMinDifficultyBlocks() const { return fAllowMinDifficultyBlocks; }
     /* Make standard checks */
     bool RequireStandard() const { return fRequireStandard; }
-    /* RPC network identity, to be depreciated */
-    bool RPCisTestNet() const { return fRPCisTestNet; }
 
     const std::string& DataDir() const { return strDataDir; }
 
@@ -146,7 +144,6 @@ protected:
     bool fDefaultCheckMemPool;
     bool fAllowMinDifficultyBlocks;
     bool fRequireStandard;
-    bool fRPCisTestNet;
     bool fMineBlocksOnDemand;
 
     // Dogecoin specific properties
