@@ -208,14 +208,19 @@ bool PaymentServer::ipcParseCommandLine(int argc, char* argv[])
         else if (QFile::exists(arg)) // Filename
         {
             savedPaymentRequests.append(arg);
-
+            
             PaymentRequestPlus request;
+            
             if (readPaymentRequest(arg, request))
             {
-                if (request.getDetails().network() == "main")
+                if (request.getDetails().genesis() == "1a91e3dace36e2be3bf030a65679fe821aa1d6ef92e7c9902eb318182c355691")
+                {
                     SelectParams(CChainParams::MAIN);
-                else
+                }
+                else if (request.getDetails().genesis() == "bb0a78264637406b6360aad926284d544d7049f45189db5664f3c4d07350559e")
+                {
                     SelectParams(CChainParams::TESTNET);
+                }
             }
         }
         else
@@ -497,10 +502,10 @@ bool PaymentServer::processPaymentRequest(PaymentRequestPlus& request, SendCoins
 
     if (request.IsInitialized()) {
         const payments::PaymentDetails& details = request.getDetails();
-
+        
         // Payment request network matches client network?
-        if ((details.network() == "main" && TestNet()) ||
-            (details.network() == "test" && !TestNet()))
+        if ((details.genesis() == "1a91e3dace36e2be3bf030a65679fe821aa1d6ef92e7c9902eb318182c355691" && TestNet()) ||
+            (details.genesis() == "bb0a78264637406b6360aad926284d544d7049f45189db5664f3c4d07350559e" && !TestNet()))
         {
             emit message(tr("Payment request rejected"), tr("Payment request network doesn't match client network."),
                 CClientUIInterface::MSG_ERROR);
