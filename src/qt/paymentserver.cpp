@@ -199,10 +199,10 @@ bool PaymentServer::ipcParseCommandLine(int argc, char* argv[])
             {
                 CBitcoinAddress address(r.address.toStdString());
 
-                SelectParams(CChainParams::MAIN);
+                SelectParams(CBaseChainParams::MAIN);
                 if (!address.IsValid())
                 {
-                    SelectParams(CChainParams::TESTNET);
+                    SelectParams(CBaseChainParams::TESTNET);
                 }
             }
         }
@@ -216,11 +216,11 @@ bool PaymentServer::ipcParseCommandLine(int argc, char* argv[])
             {
                 if (request.getDetails().genesis() == "1a91e3dace36e2be3bf030a65679fe821aa1d6ef92e7c9902eb318182c355691")
                 {
-                    SelectParams(CChainParams::MAIN);
+                    SelectParams(CBaseChainParams::MAIN);
                 }
                 else if (request.getDetails().genesis() == "bb0a78264637406b6360aad926284d544d7049f45189db5664f3c4d07350559e")
                 {
-                    SelectParams(CChainParams::TESTNET);
+                    SelectParams(CBaseChainParams::TESTNET);
                 }
             }
         }
