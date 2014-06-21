@@ -67,6 +67,15 @@ enum
 {
     NODE_NETWORK = (1 << 0),
     NODE_BLOOM = (1 << 1),
+
+    // Bits 24-30 are reserved for temporary experiments. Just pick a bit that
+    // is not getting used, or one not being used much, and notify the
+    // dogecoin-development mailing list. Remember that service bits are just
+    // unauthenticated advertisements, so your code must be robust against
+    // collisions and other cases where nodes may be advertising a service they
+    // do not actually support. Other service bits should be allocated via the
+    // DIP process.
+
 };
 
 /** A CService with information about it as peer */
