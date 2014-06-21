@@ -50,6 +50,17 @@
 using namespace std;
 using namespace boost;
 
+namespace {
+    const int MAX_OUTBOUND_CONNECTIONS = 8;
+
+    struct ListenSocket {
+        SOCKET socket;
+        bool whitelisted;
+
+        ListenSocket(SOCKET socket, bool whitelisted) : socket(socket), whitelisted(whitelisted) {}
+    };
+}
+
 bool OpenNetworkConnection(const CAddress& addrConnect, CSemaphoreGrant *grantOutbound = NULL, const char *strDest = NULL, bool fOneShot = false);
 
 
@@ -66,7 +77,7 @@ static bool vfLimited[NET_MAX] = {};
 static CNode* pnodeLocalHost = NULL;
 static CNode* pnodeSync = NULL;
 uint64_t nLocalHostNonce = 0;
-static std::vector<SOCKET> vhListenSocket;
+static std::vector<ListenSocket> vhListenSocket;
 CAddrMan addrman;
 int nMaxConnections = 125;
 int nMaxOutboundConnections = 8;
@@ -577,6 +588,24 @@ bool CNode::Ban(const CNetAddr &addr) {
     return true;
 }
 
+
+std::vector<CSubNet> CNode::vWhitelistedRange;
+CCriticalSection CNode::cs_vWhitelistedRange;
+
+bool CNode::IsWhitelistedRange(const CNetAddr &addr) {
+    LOCK(cs_vWhitelistedRange);
+    BOOST_FOREACH(const CSubNet& subnet, vWhitelistedRange) {
+        if (subnet.Match(addr))
+            return true;
+    }
+    return false;
+}
+
+void CNode::AddWhitelistedRange(const CSubNet &subnet) {
+    LOCK(cs_vWhitelistedRange);
+    vWhitelistedRange.push_back(subnet);
+}
+
 #undef X
 #define X(name) stats.name = name
 void CNode::copyStats(CNodeStats &stats)
@@ -593,6 +622,7 @@ void CNode::copyStats(CNodeStats &stats)
     X(nStartingHeight);
     X(nSendBytes);
     X(nRecvBytes);
+    X(fWhitelisted);
     stats.fSyncNode = (this == pnodeSync);
 
     // It is common for nodes with good ping times to suddenly become lagged,
@@ -828,9 +858,9 @@ void ThreadSocketHandler()
         SOCKET hSocketMax = 0;
         bool have_fds = false;
 
-        BOOST_FOREACH(SOCKET hListenSocket, vhListenSocket) {
-            FD_SET(hListenSocket, &fdsetRecv);
-            hSocketMax = max(hSocketMax, hListenSocket);
+        BOOST_FOREACH(const ListenSocket& hListenSocket, vhListenSocket) {
+            FD_SET(hListenSocket.socket, &fdsetRecv);
+            hSocketMax = max(hSocketMax, hListenSocket.socket);
             have_fds = true;
         }
 
@@ -897,13 +927,13 @@ void ThreadSocketHandler()
         //
         // Accept new connections
         //
-        BOOST_FOREACH(SOCKET hListenSocket, vhListenSocket)
+        BOOST_FOREACH(const ListenSocket& hListenSocket, vhListenSocket)
         {
-            if (hListenSocket != INVALID_SOCKET && FD_ISSET(hListenSocket, &fdsetRecv))
+            if (hListenSocket.socket != INVALID_SOCKET && FD_ISSET(hListenSocket.socket, &fdsetRecv))
             {
                 struct sockaddr_storage sockaddr;
                 socklen_t len = sizeof(sockaddr);
-                SOCKET hSocket = accept(hListenSocket, (struct sockaddr*)&sockaddr, &len);
+                SOCKET hSocket = accept(hListenSocket.socket, (struct sockaddr*)&sockaddr, &len);
                 CAddress addr;
                 int nInbound = 0;
 
@@ -911,6 +941,7 @@ void ThreadSocketHandler()
                     if (!addr.SetSockAddr((const struct sockaddr*)&sockaddr))
                         LogPrintf("Warning: Unknown socket family\n");
 
+                bool whitelisted = hListenSocket.whitelisted || CNode::IsWhitelistedRange(addr);
                 {
                     LOCK(cs_vNodes);
                     BOOST_FOREACH(CNode* pnode, vNodes)
@@ -928,7 +959,7 @@ void ThreadSocketHandler()
                 {
                     closesocket(hSocket);
                 }
-                else if (CNode::IsBanned(addr))
+                else if (CNode::IsBanned(addr) && !whitelisted)
                 {
                     LogPrintf("connection from %s dropped (banned)\n", addr.ToString());
                     closesocket(hSocket);
@@ -938,6 +969,7 @@ void ThreadSocketHandler()
                     LogPrint("net", "accepted connection %s\n", addr.ToString());
                     CNode* pnode = new CNode(hSocket, addr, "", true);
                     pnode->AddRef();
+                    pnode->fWhitelisted = whitelisted;
 
                     {
                         LOCK(cs_vNodes);
@@ -1571,7 +1603,7 @@ void ThreadMessageHandler()
 
 
 
-bool BindListenPort(const CService &addrBind, string& strError)
+bool BindListenPort(const CService &addrBind, string& strError, bool fWhitelisted)
 {
     strError = "";
     int nOne = 1;
@@ -1652,9 +1684,9 @@ bool BindListenPort(const CService &addrBind, string& strError)
         return false;
     }
 
-    vhListenSocket.push_back(hListenSocket);
+    vhListenSocket.push_back(ListenSocket(hListenSocket, fWhitelisted));
 
-    if (addrBind.IsRoutable() && fDiscover)
+    if (addrBind.IsRoutable() && fDiscover && !fWhitelisted)
         AddLocal(addrBind, LOCAL_BIND);
 
     return true;
@@ -1782,9 +1814,9 @@ public:
         BOOST_FOREACH(CNode* pnode, vNodes)
             if (pnode->hSocket != INVALID_SOCKET)
                 closesocket(pnode->hSocket);
-        BOOST_FOREACH(SOCKET hListenSocket, vhListenSocket)
-            if (hListenSocket != INVALID_SOCKET)
-                if (closesocket(hListenSocket) == SOCKET_ERROR)
+        BOOST_FOREACH(ListenSocket& hListenSocket, vhListenSocket)
+            if (hListenSocket.socket != INVALID_SOCKET)
+                if (closesocket(hListenSocket.socket) == SOCKET_ERROR)
                     LogPrintf("closesocket(hListenSocket) failed with error %s\n", NetworkErrorString(WSAGetLastError()));
 
         // clean up some globals (to help leak detection)

@@ -134,8 +134,8 @@ Value getpeerinfo(const Array& params, bool fHelp)
         if (fStateStats) {
             obj.push_back(Pair("banscore", statestats.nMisbehavior));
         }
-        if (stats.fSyncNode)
-            obj.push_back(Pair("syncnode", true));
+        obj.push_back(Pair("syncnode", stats.fSyncNode));
+        obj.push_back(Pair("whitelisted", stats.fWhitelisted));
 
         ret.push_back(obj);
     }
