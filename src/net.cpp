@@ -508,10 +508,6 @@ void CNode::CloseSocketDisconnect()
         pnodeSync = NULL;
 }
 
-void CNode::Cleanup()
-{
-}
-
 void CNode::PushVersion()
 {
     int nBestHeight = g_signals.GetHeight().get_value_or(0);
@@ -753,7 +749,6 @@ void ThreadSocketHandler()
 
                     // close socket and cleanup
                     pnode->CloseSocketDisconnect();
-                    pnode->Cleanup();
 
                     // hold in disconnected pool until all refs are released
                     if (pnode->fNetworkNode || pnode->fInbound)
