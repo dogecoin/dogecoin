@@ -177,34 +177,6 @@ Commit your signature to gitian.sigs:
 
 ### After 3 or more people have gitian-built and their results match:
 
-From a directory containing dogecoin source, gitian.sigs and gitian zips
-
-	export VERSION=(new version, e.g. 0.8.0)
-	mkdir dogecoin-${VERSION}-linux-gitian
-	pushd dogecoin-${VERSION}-linux-gitian
-	unzip ../dogecoin-${VERSION}-linux-gitian.zip
-	mkdir gitian
-	cp ../dogecoin/contrib/gitian-downloader/*.pgp ./gitian/
-	for signer in $(ls ../gitian.sigs/${VERSION}/); do
-	 cp ../gitian.sigs/${VERSION}/${signer}/dogecoin-build.assert ./gitian/${signer}-build.assert
-	 cp ../gitian.sigs/${VERSION}/${signer}/dogecoin-build.assert.sig ./gitian/${signer}-build.assert.sig
-	done
-	zip -r dogecoin-${VERSION}-linux-gitian.zip *
-	cp dogecoin-${VERSION}-linux-gitian.zip ../
-	popd
-	mkdir dogecoin-${VERSION}-win-gitian
-	pushd dogecoin-${VERSION}-win-gitian
-	unzip ../dogecoin-${VERSION}-win-gitian.zip
-	mkdir gitian
-	cp ../dogecoin/contrib/gitian-downloader/*.pgp ./gitian/
-	for signer in $(ls ../gitian.sigs/${VERSION}-win/); do
-	 cp ../gitian.sigs/${VERSION}-win/${signer}/dogecoin-build.assert ./gitian/${signer}-build.assert
-	 cp ../gitian.sigs/${VERSION}-win/${signer}/dogecoin-build.assert.sig ./gitian/${signer}-build.assert.sig
-	done
-	zip -r dogecoin-${VERSION}-win-gitian.zip *
-	cp dogecoin-${VERSION}-win-gitian.zip ../
-	popd
-
 - Upload gitian zips to SourceForge
 
 - Announce the release:
