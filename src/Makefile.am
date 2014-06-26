@@ -93,6 +93,7 @@ BITCOIN_CORE_H = \
   noui.h \
   pow.h \
   protocol.h \
+  random.h \
   rpcclient.h \
   rpcprotocol.h \
   rpcserver.h \
@@ -203,14 +204,15 @@ libbitcoin_common_a_SOURCES = \
 # backward-compatibility objects and their sanity checks are linked.
 libbitcoin_util_a_CPPFLAGS = $(BITCOIN_INCLUDES)
 libbitcoin_util_a_SOURCES = \
+  compat/glibc_sanity.cpp \
+  compat/glibcxx_sanity.cpp \
   chainparamsbase.cpp \
+  random.cpp \
   rpcprotocol.cpp \
   sync.cpp \
   uint256.cpp \
   util.cpp \
   version.cpp \
-  compat/glibc_sanity.cpp \
-  compat/glibcxx_sanity.cpp \
   $(BITCOIN_CORE_H)
 
 if GLIBC_BACK_COMPAT
