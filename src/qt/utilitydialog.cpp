@@ -480,6 +480,7 @@ void ShutdownWindow::showShutdownWindow(BitcoinGUI *window)
         tr("Dogecoin Core is shutting down...") + "<br /><br />" +
         tr("Do not shut down the computer until this window disappears.")));
     shutdownWindow->setLayout(layout);
+    shutdownWindow->setWindowTitle(window->windowTitle());
 
     // Center shutdown window at where main window was
     const QPoint global = window->mapToGlobal(window->rect().center());
