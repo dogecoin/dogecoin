@@ -175,6 +175,7 @@ libbitcoin_common_a_SOURCES = \
   rpcprotocol.cpp \
   script.cpp \
   sync.cpp \
+  uint256.cpp \
   util.cpp \
   version.cpp \
   compat/glibc_sanity.cpp \
