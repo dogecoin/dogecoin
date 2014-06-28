@@ -8,6 +8,7 @@
 #include "chainparams.h"
 #include "core.h"
 #include "main.h"
+#include "timedata.h"
 #include "uint256.h"
 
 // Determine if the for the given block, a min difficulty setting applies
@@ -197,4 +198,13 @@ unsigned int ComputeMinWork(unsigned int nBase, int64_t nTime)
     if (bnResult > bnLimit)
         bnResult = bnLimit;
     return bnResult.GetCompact();
+}
+
+void UpdateTime(CBlockHeader* pblock, const CBlockIndex* pindexPrev)
+{
+    pblock->nTime = std::max(pindexPrev->GetMedianTimePast()+1, GetAdjustedTime());
+
+    // Updating time can change work required on testnet:
+    if (Params().AllowMinDifficultyBlocks())
+        pblock->nBits = GetNextWorkRequired(pindexPrev, pblock);
 }
