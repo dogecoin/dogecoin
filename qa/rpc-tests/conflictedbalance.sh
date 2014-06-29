@@ -107,7 +107,7 @@ B2ADDRESS=$( $CLI $B2ARGS getnewaddress )
 TXID_C=$( $CLI $B1ARGS sendtoaddress $B1ADDRESS 500000.0)
 
 # Transaction D: spends B and C
-TXID_D=$( $CLI $B1ARGS sendtoaddress $B2ADDRESS 1000000.0)
+TXID_D=$( $CLI $B1ARGS sendtoaddress $B2ADDRESS 999998.0)
 
 CheckBalance "$B1ARGS" 0
 
@@ -133,9 +133,9 @@ WaitPeers "$B1ARGS" 1
 $CLI $B2ARGS setgenerate true 1
 WaitBlocks
 
-# B1 should still be able to spend 1000000, because D is conflicted
+# B1 should still be able to spend 1000000 (-1 DOGE fee for the successful transaction), because D is conflicted
 # so does not count as a spend of B
-CheckBalance "$B1ARGS" 1000000
+CheckBalance "$B1ARGS" "1000000-1"
 
 $CLI $B2ARGS stop > /dev/null 2>&1
 wait $B2PID

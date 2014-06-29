@@ -791,7 +791,7 @@ int64_t GetMinFee(const CTransaction& tx, unsigned int nBytes, bool fAllowFree, 
 
     int64_t nMinFee = (1 + (int64_t)nBytes / 1000) * nBaseFee;
 
-    if (fAllowFree)
+    if (fAllowFree && mode != GMF_SEND)
     {
             // Free transaction area
             if (nBytes < 26000)
