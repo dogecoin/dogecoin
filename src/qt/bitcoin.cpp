@@ -173,7 +173,7 @@ public:
 
 #ifdef ENABLE_WALLET
     /// Create payment server
-    // void createPaymentServer();
+    void createPaymentServer();
 #endif
     /// Create options model
     void createOptionsModel();
@@ -212,7 +212,7 @@ private:
     BitcoinGUI *window;
     QTimer *pollShutdownTimer;
 #ifdef ENABLE_WALLET
-    // PaymentServer* paymentServer;
+    PaymentServer* paymentServer;
     WalletModel *walletModel;
 #endif
     int returnValue;
@@ -279,7 +279,7 @@ BitcoinApplication::BitcoinApplication(int &argc, char **argv):
     window(0),
     pollShutdownTimer(0),
 #ifdef ENABLE_WALLET
-    // paymentServer(0),
+    paymentServer(0),
     walletModel(0),
 #endif
     returnValue(0)
@@ -298,20 +298,18 @@ BitcoinApplication::~BitcoinApplication()
     delete window;
     window = 0;
 #ifdef ENABLE_WALLET
-    // delete paymentServer;
-    // paymentServer = 0;
+    delete paymentServer;
+    paymentServer = 0;
 #endif
     delete optionsModel;
     optionsModel = 0;
 }
 
 #ifdef ENABLE_WALLET
-/*
 void BitcoinApplication::createPaymentServer()
 {
     paymentServer = new PaymentServer(this);
 }
-*/
 #endif
 
 void BitcoinApplication::createOptionsModel()
@@ -394,12 +392,10 @@ void BitcoinApplication::initializeResult(int retval)
     returnValue = retval ? 0 : 1;
     if(retval)
     {
-/*
 #ifdef ENABLE_WALLET
         PaymentServer::LoadRootCAs();
         paymentServer->setOptionsModel(optionsModel);
 #endif
-*/
 
         emit splashFinished(window);
 
@@ -414,10 +410,8 @@ void BitcoinApplication::initializeResult(int retval)
             window->addWallet("~Default", walletModel);
             window->setCurrentWallet("~Default");
 
-/*
             connect(walletModel, SIGNAL(coinsSent(CWallet*,SendCoinsRecipient,QByteArray)),
                              paymentServer, SLOT(fetchPaymentACK(CWallet*,const SendCoinsRecipient&,QByteArray)));
-*/
         }
 #endif
 
@@ -431,11 +425,8 @@ void BitcoinApplication::initializeResult(int retval)
             window->show();
         }
 #ifdef ENABLE_WALLET
-        // Payment server disabled pending future work on specifications
-
         // Now that initialization/startup is done, process any command-line
         // dogecoin: URIs or payment requests:
-        /*
         connect(paymentServer, SIGNAL(receivedPaymentRequest(SendCoinsRecipient)),
                          window, SLOT(handlePaymentRequest(SendCoinsRecipient)));
         connect(window, SIGNAL(receivedURI(QString)),
@@ -443,7 +434,6 @@ void BitcoinApplication::initializeResult(int retval)
         connect(paymentServer, SIGNAL(message(QString,QString,unsigned int)),
                          window, SLOT(message(QString,QString,unsigned int)));
         QTimer::singleShot(100, paymentServer, SLOT(uiReady()));
-        */
 #endif
     } else {
         quit(); // Exit main loop
@@ -578,7 +568,7 @@ int main(int argc, char *argv[])
 
     // Start up the payment server early, too, so impatient users that click on
     // dogecoin: links repeatedly have their payment requests routed to this process:
-    // app.createPaymentServer();
+    app.createPaymentServer();
 #endif
 
     /// 9. Main GUI initialization
