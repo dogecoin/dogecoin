@@ -95,7 +95,7 @@ void OptionsModel::Init()
     // Wallet
 #ifdef ENABLE_WALLET
     if (!settings.contains("nTransactionFee"))
-        settings.setValue("nTransactionFee", 0);
+        settings.setValue("nTransactionFee", (qint64)DEFAULT_TRANSACTION_FEE);
     nTransactionFee = settings.value("nTransactionFee").toLongLong(); // if -paytxfee is set, this will be overridden later in init.cpp
     if (mapArgs.count("-paytxfee"))
         addOverriddenOption("-paytxfee");

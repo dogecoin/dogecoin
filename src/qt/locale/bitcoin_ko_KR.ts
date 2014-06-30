@@ -1718,7 +1718,7 @@ Address: %4
     </message>
     <message>
         <location line="+60"/>
-        <source>Dogecoin Core did&apos;t yet exit safely...</source>
+        <source>Dogecoin Core didn&apos;t yet exit safely...</source>
         <translation>도기코인 코어를 아직 안전하게 끝낼 수 없습니다…</translation>
     </message>
     <message>
@@ -3774,7 +3774,9 @@ rpcpassword=%s
         <translation>가져오는 중…</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <source>Importing...</source>
+    </message>
+    <message>
         <source>Incorrect or no genesis block found. Wrong datadir for network?</source>
         <translation>부정확 또는 최초 블록 미 발견. 네트워크를 위한 datadir이 틀립니까?</translation>
     </message>

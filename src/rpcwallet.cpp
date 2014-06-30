@@ -871,7 +871,7 @@ Value sendmany(const Array& params, bool fHelp)
 }
 
 // Defined in rpcmisc.cpp
-extern CScript _createmultisig(const Array& params);
+extern CScript _createmultisig_redeemScript(const Array& params);
 
 Value addmultisigaddress(const Array& params, bool fHelp)
 {
@@ -908,7 +908,7 @@ Value addmultisigaddress(const Array& params, bool fHelp)
         strAccount = AccountFromValue(params[2]);
 
     // Construct using pay-to-script-hash:
-    CScript inner = _createmultisig(params);
+    CScript inner = _createmultisig_redeemScript(params);
     CScriptID innerID = inner.GetID();
     pwalletMain->AddCScript(inner);
 
@@ -1747,7 +1747,7 @@ Value lockunspent(const Array& params, bool fHelp)
         throw runtime_error(
             "lockunspent unlock [{\"txid\":\"txid\",\"vout\":n},...]\n"
             "\nUpdates list of temporarily unspendable outputs.\n"
-            "Temporarily lock (lock=true) or unlock (lock=false) specified transaction outputs.\n"
+            "Temporarily lock (unlock=false) or unlock (unlock=true) specified transaction outputs.\n"
             "A locked transaction output will not be chosen by automatic coin selection, when spending dogecoins.\n"
             "Locks are stored in memory only. Nodes start with zero locked outputs, and the locked output list\n"
             "is always cleared (by virtue of process exit) when a node stops or fails.\n"

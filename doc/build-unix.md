@@ -32,17 +32,13 @@ turned off by default.  See the configure options for upnp behavior desired:
 	--disable-upnp-default   (the default) UPnP support turned off by default at runtime
 	--enable-upnp-default    UPnP support turned on by default at runtime
 
-IPv6 support may be disabled by setting:
-
-	--disable-ipv6           Disable IPv6 support
-
 Licenses of statically linked libraries:
  Berkeley DB   New BSD license with additional requirement that linked
                software must be free open source
  Boost         MIT-like license
  miniupnpc     New (3-clause) BSD license
 
-- For the versions used in this release, see doc/release-process.md under *Fetch and build inputs*.
+- For the versions used in the release, see doc/release-process.md under *Fetch and build inputs*.
 
 System requirements
 --------------------
@@ -71,7 +67,6 @@ for other Ubuntu & Debian:
 
 	sudo apt-get install libdb5.1-dev
 	sudo apt-get install libdb5.1++-dev
-	sudo apt-get install libboost1.55-all-dev
 
 Optional:
 

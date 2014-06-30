@@ -27,6 +27,8 @@
 #include <miniupnpc/upnperrors.h>
 #endif
 
+#include <boost/filesystem.hpp>
+
 // Dump addresses to peers.dat every 15 minutes (900s)
 #define DUMP_ADDRESSES_INTERVAL 900
 
@@ -42,18 +44,13 @@ static const int MAX_OUTBOUND_CONNECTIONS = 8;
 bool OpenNetworkConnection(const CAddress& addrConnect, CSemaphoreGrant *grantOutbound = NULL, const char *strDest = NULL, bool fOneShot = false);
 
 
-struct LocalServiceInfo {
-    int nScore;
-    int nPort;
-};
-
 //
 // Global state variables
 //
 bool fDiscover = true;
 uint64_t nLocalServices = NODE_NETWORK;
-static CCriticalSection cs_mapLocalHost;
-static map<CNetAddr, LocalServiceInfo> mapLocalHost;
+CCriticalSection cs_mapLocalHost;
+map<CNetAddr, LocalServiceInfo> mapLocalHost;
 static bool vfReachable[NET_MAX] = {};
 static bool vfLimited[NET_MAX] = {};
 static CNode* pnodeLocalHost = NULL;
@@ -915,11 +912,7 @@ void ThreadSocketHandler()
         BOOST_FOREACH(SOCKET hListenSocket, vhListenSocket)
         if (hListenSocket != INVALID_SOCKET && FD_ISSET(hListenSocket, &fdsetRecv))
         {
-#ifdef USE_IPV6
             struct sockaddr_storage sockaddr;
-#else
-            struct sockaddr sockaddr;
-#endif
             socklen_t len = sizeof(sockaddr);
             SOCKET hSocket = accept(hListenSocket, (struct sockaddr*)&sockaddr, &len);
             CAddress addr;
@@ -1580,11 +1573,7 @@ bool BindListenPort(const CService &addrBind, string& strError)
     int nOne = 1;
 
     // Create socket for listening for incoming connections
-#ifdef USE_IPV6
     struct sockaddr_storage sockaddr;
-#else
-    struct sockaddr sockaddr;
-#endif
     socklen_t len = sizeof(sockaddr);
     if (!addrBind.GetSockAddr((struct sockaddr*)&sockaddr, &len))
     {
@@ -1625,7 +1614,6 @@ bool BindListenPort(const CService &addrBind, string& strError)
         return false;
     }
 
-#ifdef USE_IPV6
     // some systems don't have IPV6_V6ONLY but are always v6only; others do have the option
     // and enable it by default or not. Try to enable it, if possible.
     if (addrBind.IsIPv6()) {
@@ -1643,7 +1631,6 @@ bool BindListenPort(const CService &addrBind, string& strError)
         setsockopt(hListenSocket, IPPROTO_IPV6, nParameterId, (const char*)&nProtLevel, sizeof(int));
 #endif
     }
-#endif
 
     if (::bind(hListenSocket, (struct sockaddr*)&sockaddr, len) == SOCKET_ERROR)
     {
@@ -1710,7 +1697,6 @@ void static Discover(boost::thread_group& threadGroup)
                 if (AddLocal(addr, LOCAL_IF))
                     LogPrintf("IPv4 %s: %s\n", ifa->ifa_name, addr.ToString());
             }
-#ifdef USE_IPV6
             else if (ifa->ifa_addr->sa_family == AF_INET6)
             {
                 struct sockaddr_in6* s6 = (struct sockaddr_in6*)(ifa->ifa_addr);
@@ -1718,7 +1704,6 @@ void static Discover(boost::thread_group& threadGroup)
                 if (AddLocal(addr, LOCAL_IF))
                     LogPrintf("IPv6 %s: %s\n", ifa->ifa_name, addr.ToString());
             }
-#endif
         }
         freeifaddrs(myaddrs);
     }
@@ -1954,21 +1939,21 @@ bool CAddrDB::Write(const CAddrMan& addr)
     FILE *file = fopen(pathTmp.string().c_str(), "wb");
     CAutoFile fileout = CAutoFile(file, SER_DISK, CLIENT_VERSION);
     if (!fileout)
-        return error("CAddrman::Write() : open failed");
+        return error("%s : Failed to open file %s", __func__, pathTmp.string());
 
     // Write and commit header, data
     try {
         fileout << ssPeers;
     }
     catch (std::exception &e) {
-        return error("CAddrman::Write() : I/O error");
+        return error("%s : Serialize or I/O error - %s", __func__, e.what());
     }
     FileCommit(fileout);
     fileout.fclose();
 
     // replace existing peers.dat, if any, with new peers.dat.XXXX
     if (!RenameOver(pathTmp, pathAddr))
-        return error("CAddrman::Write() : Rename-into-place failed");
+        return error("%s : Rename-into-place failed", __func__);
 
     return true;
 }
@@ -1979,13 +1964,14 @@ bool CAddrDB::Read(CAddrMan& addr)
     FILE *file = fopen(pathAddr.string().c_str(), "rb");
     CAutoFile filein = CAutoFile(file, SER_DISK, CLIENT_VERSION);
     if (!filein)
-        return error("CAddrman::Read() : open failed");
+        return error("%s : Failed to open file %s", __func__, pathAddr.string());
 
     // use file size to size memory buffer
-    int fileSize = GetFilesize(filein);
+    int fileSize = boost::filesystem::file_size(pathAddr);
     int dataSize = fileSize - sizeof(uint256);
-    //Don't try to resize to a negative number if file is small
-    if ( dataSize < 0 ) dataSize = 0;
+    // Don't try to resize to a negative number if file is small
+    if (dataSize < 0)
+        dataSize = 0;
     vector<unsigned char> vchData;
     vchData.resize(dataSize);
     uint256 hashIn;
@@ -1996,7 +1982,7 @@ bool CAddrDB::Read(CAddrMan& addr)
         filein >> hashIn;
     }
     catch (std::exception &e) {
-        return error("CAddrman::Read() 2 : I/O error or stream data corrupted");
+        return error("%s : Deserialize or I/O error - %s", __func__, e.what());
     }
     filein.fclose();
 
@@ -2005,7 +1991,7 @@ bool CAddrDB::Read(CAddrMan& addr)
     // verify stored checksum matches input data
     uint256 hashTmp = Hash(ssPeers.begin(), ssPeers.end());
     if (hashIn != hashTmp)
-        return error("CAddrman::Read() : checksum mismatch; data corrupted");
+        return error("%s : Checksum mismatch, data corrupted", __func__);
 
     unsigned char pchMsgTmp[4];
     try {
@@ -2014,13 +2000,13 @@ bool CAddrDB::Read(CAddrMan& addr)
 
         // ... verify the network matches ours
         if (memcmp(pchMsgTmp, Params().MessageStart(), sizeof(pchMsgTmp)))
-            return error("CAddrman::Read() : invalid network magic number");
+            return error("%s : Invalid network magic number", __func__);
 
         // de-serialize address data into one CAddrMan object
         ssPeers >> addr;
     }
     catch (std::exception &e) {
-        return error("CAddrman::Read() : I/O error or stream data corrupted");
+        return error("%s : Deserialize or I/O error - %s", __func__, e.what());
     }
 
     return true;
