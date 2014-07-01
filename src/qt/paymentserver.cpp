@@ -89,7 +89,7 @@ static QList<QString> savedPaymentRequests;
 
 static void ReportInvalidCertificate(const QSslCertificate& cert)
 {
-    qDebug() << "ReportInvalidCertificate : Payment server found an invalid certificate: " << cert.subjectInfo(QSslCertificate::CommonName);
+    qWarning() << "ReportInvalidCertificate : Payment server found an invalid certificate: " << cert.subjectInfo(QSslCertificate::CommonName);
 }
 
 //
@@ -160,7 +160,7 @@ void PaymentServer::LoadRootCAs(X509_STORE* _store)
             continue;
         }
     }
-    qDebug() << "PaymentServer::LoadRootCAs : Loaded " << nRootCerts << " root certificates";
+    qWarning() << "PaymentServer::LoadRootCAs : Loaded " << nRootCerts << " root certificates";
 
     // Project for another day:
     // Fetch certificate revocation lists, and add them to certStore.
@@ -227,7 +227,7 @@ bool PaymentServer::ipcParseCommandLine(int argc, char* argv[])
         {
             // Printing to debug.log is about the best we can do here, the
             // GUI hasn't started yet so we can't pop up a message box.
-            qDebug() << "PaymentServer::ipcSendCommandLine : Payment request file does not exist: " << arg;
+            qWarning() << "PaymentServer::ipcSendCommandLine : Payment request file does not exist: " << arg;
         }
     }
     return true;
@@ -407,7 +407,7 @@ void PaymentServer::handleURIOrFile(const QString& s)
             }
             else
             {
-                qDebug() << "PaymentServer::handleURIOrFile : Invalid URL: " << fetchUrl;
+                qWarning() << "PaymentServer::handleURIOrFile : Invalid URL: " << fetchUrl;
                 emit message(tr("URI handling"),
                     tr("Payment request fetch URL is invalid: %1").arg(fetchUrl.toString()),
                     CClientUIInterface::ICON_WARNING);
@@ -480,13 +480,13 @@ bool PaymentServer::readPaymentRequest(const QString& filename, PaymentRequestPl
     QFile f(filename);
     if (!f.open(QIODevice::ReadOnly))
     {
-        qDebug() << "PaymentServer::readPaymentRequest : Failed to open " << filename;
+        qWarning() << "PaymentServer::readPaymentRequest : Failed to open " << filename;
         return false;
     }
 
     if (f.size() > MAX_PAYMENT_REQUEST_SIZE)
     {
-        qDebug() << "PaymentServer::readPaymentRequest : " << filename << " too large";
+        qWarning() << "PaymentServer::readPaymentRequest : " << filename << " too large";
         return false;
     }
 
@@ -628,7 +628,7 @@ void PaymentServer::fetchPaymentACK(CWallet* wallet, SendCoinsRecipient recipien
         else {
             // This should never happen, because sending coins should have
             // just unlocked the wallet and refilled the keypool.
-            qDebug() << "PaymentServer::fetchPaymentACK : Error getting refund key, refund_to not set";
+            qWarning() << "PaymentServer::fetchPaymentACK : Error getting refund key, refund_to not set";
         }
     }
 
@@ -640,7 +640,7 @@ void PaymentServer::fetchPaymentACK(CWallet* wallet, SendCoinsRecipient recipien
     }
     else {
         // This should never happen, either.
-        qDebug() << "PaymentServer::fetchPaymentACK : Error serializing payment message";
+        qWarning() << "PaymentServer::fetchPaymentACK : Error serializing payment message";
     }
 }
 
@@ -653,7 +653,7 @@ void PaymentServer::netRequestFinished(QNetworkReply* reply)
             .arg(reply->request().url().toString())
             .arg(reply->errorString());
 
-        qDebug() << "PaymentServer::netRequestFinished : " << msg;
+        qWarning() << "PaymentServer::netRequestFinished : " << msg;
         emit message(tr("Payment request error"), msg, CClientUIInterface::MSG_ERROR);
         return;
     }
@@ -667,7 +667,7 @@ void PaymentServer::netRequestFinished(QNetworkReply* reply)
         SendCoinsRecipient recipient;
         if (!request.parse(data))
         {
-            qDebug() << "PaymentServer::netRequestFinished : Error parsing payment request";
+            qWarning() << "PaymentServer::netRequestFinished : Error parsing payment request";
             emit message(tr("Payment request error"),
                 tr("Payment request can not be parsed!"),
                 CClientUIInterface::MSG_ERROR);
@@ -685,7 +685,7 @@ void PaymentServer::netRequestFinished(QNetworkReply* reply)
             QString msg = tr("Bad response from server %1")
                 .arg(reply->request().url().toString());
 
-            qDebug() << "PaymentServer::netRequestFinished : " << msg;
+            qWarning() << "PaymentServer::netRequestFinished : " << msg;
             emit message(tr("Payment request error"), msg, CClientUIInterface::MSG_ERROR);
         }
         else
@@ -701,7 +701,7 @@ void PaymentServer::reportSslErrors(QNetworkReply* reply, const QList<QSslError>
 
     QString errString;
     foreach (const QSslError& err, errs) {
-        qDebug() << "PaymentServer::reportSslErrors : " << err;
+        qWarning() << "PaymentServer::reportSslErrors : " << err;
         errString += err.errorString() + "\n";
     }
     emit message(tr("Network request error"), errString, CClientUIInterface::MSG_ERROR);
