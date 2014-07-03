@@ -66,7 +66,7 @@ CFeeRate::CFeeRate(int64_t nFeePaid, size_t nSize)
         nKoinuPerK = 0;
 }
 
-int64_t CFeeRate::GetFee(size_t nSize)
+int64_t CFeeRate::GetFee(size_t nSize) const
 {
     return nKoinuPerK*nSize / 1000;
 }

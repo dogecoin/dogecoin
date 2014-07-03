@@ -149,8 +149,8 @@ public:
     CFeeRate(int64_t nFeePaid, size_t nSize);
     CFeeRate(const CFeeRate& other) { nKoinuPerK = other.nKoinuPerK; }
 
-    int64_t GetFee(size_t size); // unit returned is satoshis
-    int64_t GetFeePerK() { return GetFee(1000); } // satoshis-per-1000-bytes
+    int64_t GetFee(size_t size) const; // unit returned is satoshis
+    int64_t GetFeePerK() const { return GetFee(1000); } // satoshis-per-1000-bytes
 
     friend bool operator<(const CFeeRate& a, const CFeeRate& b) { return a.nKoinuPerK < b.nKoinuPerK; }
     friend bool operator>(const CFeeRate& a, const CFeeRate& b) { return a.nKoinuPerK > b.nKoinuPerK; }
@@ -244,8 +244,6 @@ private:
     void UpdateHash() const;
 
 public:
-    static CFeeRate minTxFee;
-    static CFeeRate minRelayTxFee;
     static const int CURRENT_VERSION=1;
 
     // The local variables are made const to prevent unintended modification

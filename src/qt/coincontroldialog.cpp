@@ -406,7 +406,7 @@ QString CoinControlDialog::getPriorityLabel(const CTxMemPool& pool, double dPrio
 {
     // confirmations -> textual description
     typedef std::map<unsigned int, QString> PriorityDescription;
-    static PriorityDescription priorityDescriptions = boost::assign::map_list_of
+    const static PriorityDescription priorityDescriptions = boost::assign::map_list_of
         (1, tr("highest"))(2, tr("higher"))(3, tr("high"))
         (5, tr("medium-high"))(6, tr("medium"))
         (10, tr("low-medium"))(15, tr("low"))
@@ -545,7 +545,7 @@ void CoinControlDialog::updateLabels(WalletModel *model, QDialog* dialog)
             {
                 // Dogecoin: Anything below 1 DOGE is considered dust
                 //CTxOut txout(nChange, (CScript)vector<unsigned char>(24, 0));
-                //if (txout.IsDust(CTransaction::minRelayTxFee))
+                //if (txout.IsDust(::minRelayTxFee))
                 //{
                     nPayFee += nChange;
                     nChange = 0;
@@ -605,18 +605,18 @@ void CoinControlDialog::updateLabels(WalletModel *model, QDialog* dialog)
     l7->setStyleSheet((fDust) ? "color:red;" : "");                                     // Dust = "yes"
 
     // tool tips
-    QString toolTip1 = tr("This label turns red, if the transaction size is greater than 5000 bytes.") + "<br /><br />";
-    toolTip1 += tr("This means a fee of at least %1 per kB is required.").arg(BitcoinUnits::formatWithUnit(nDisplayUnit, CTransaction::minTxFee.GetFeePerK())) + "<br /><br />";
+    QString toolTip1 = tr("This label turns red, if the transaction size is greater than 1000 bytes.") + "<br /><br />";
+    toolTip1 += tr("This means a fee of at least %1 per kB is required.").arg(BitcoinUnits::formatWithUnit(nDisplayUnit, CWallet::minTxFee.GetFeePerK())) + "<br /><br />";
     toolTip1 += tr("Can vary +/- 1 byte per input.");
 
     QString toolTip2 = tr("Transactions with higher priority are more likely to get included into a block.") + "<br /><br />";
     toolTip2 += tr("This label turns red, if the priority is smaller than \"medium\".") + "<br /><br />";
-    toolTip2 += tr("This means a fee of at least %1 per kB is required.").arg(BitcoinUnits::formatWithUnit(nDisplayUnit, CTransaction::minTxFee.GetFeePerK()));
+    toolTip2 += tr("This means a fee of at least %1 per kB is required.").arg(BitcoinUnits::formatWithUnit(nDisplayUnit, CWallet::minTxFee.GetFeePerK()));
 
-    QString toolTip3 = tr("This label turns red, if any recipient receives an amount smaller than %1.").arg(BitcoinUnits::formatWithUnit(nDisplayUnit, COIN));
+    QString toolTip3 = tr("This label turns red, if any recipient receives an amount smaller than %1.").arg(BitcoinUnits::formatWithUnit(nDisplayUnit, ::minRelayTxFee.GetFee(546)));
 
     // how many satoshis the estimated fee can vary per byte we guess wrong
-    double dFeeVary = (double)std::max(CTransaction::minTxFee.GetFeePerK(), payTxFee.GetFeePerK()) / 1000;
+    double dFeeVary = (double)std::max(CWallet::minTxFee.GetFeePerK(), payTxFee.GetFeePerK()) / 1000;
     QString toolTip4 = tr("Can vary +/- %1 Koinu per input.").arg(dFeeVary);
 
     l3->setToolTip(toolTip4);
