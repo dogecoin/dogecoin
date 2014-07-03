@@ -10,7 +10,6 @@
 #include "chainparamsbase.h"
 #include "random.h"
 #include "sync.h"
-#include "ui_interface.h"
 #include "uint256.h"
 #include "version.h"
 
@@ -101,7 +100,6 @@ bool fBloomFilters = true;
 bool fLogTimestamps = false;
 bool fLogIPs = false;
 volatile bool fReopenDebugLog = false;
-CClientUIInterface uiInterface;
 
 // Init OpenSSL library multithreading support
 static CCriticalSection** ppmutexOpenSSL;
