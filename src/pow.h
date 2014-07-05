@@ -23,4 +23,6 @@ bool CheckMinWork(unsigned int nBits, unsigned int nBase, int64_t deltaTime);
 
 void UpdateTime(CBlockHeader* block, const CBlockIndex* pindexPrev);
 
+uint256 GetProofIncrement(unsigned int nBits);
+
 #endif
