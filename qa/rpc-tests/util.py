@@ -57,9 +57,9 @@ def sync_mempools(rpc_connections):
         if num_match == len(rpc_connections):
             break
         time.sleep(1)
-        
 
-dogecoind_processes = []
+
+dogecoind_processes = {}
 
 def initialize_datadir(dir, n):
     datadir = os.path.join(dir, "node"+str(n))
@@ -88,7 +88,7 @@ def initialize_chain(test_dir):
             args = [ "dogecoind", "-keypool=1", "-datadir="+datadir, "-discover=0" ]
             if i > 0:
                 args.append("-connect=127.0.0.1:"+str(p2p_port(0)))
-            dogecoind_processes.append(subprocess.Popen(args))
+            dogecoind_processes[i] = subprocess.Popen(args)
             subprocess.check_call([ "dogecoin-cli", "-datadir="+datadir,
                                     "-rpcwait", "getblockcount"], stdout=devnull)
         devnull.close()
@@ -149,7 +149,7 @@ def start_node(i, dir, extra_args=None, rpchost=None):
     datadir = os.path.join(dir, "node"+str(i))
     args = [ "dogecoind", "-datadir="+datadir, "-keypool=1","-discover=0" ]
     if extra_args is not None: args.extend(extra_args)
-    dogecoind_processes.append(subprocess.Popen(args))
+    dogecoind_processes[i] = subprocess.Popen(args)
     devnull = open("/dev/null", "w+")
     subprocess.check_call([ "dogecoin-cli", "-datadir="+datadir] +
                           _rpchost_to_args(rpchost)  +
@@ -168,6 +168,11 @@ def start_nodes(num_nodes, dir, extra_args=None, rpchost=None):
 def debug_log(dir, n_node):
     return os.path.join(dir, "node"+str(n_node), "regtest", "debug.log")
 
+def stop_node(node, i):
+    node.stop()
+    dogecoind_processes[i].wait()
+    del dogecoind_processes[i]
+
 def stop_nodes(nodes):
     for i in range(len(nodes)):
         nodes[i].stop()
@@ -175,9 +180,9 @@ def stop_nodes(nodes):
 
 def wait_bitcoinds():
     # Wait for all dogecoinds to cleanly exit
-    for dogecoind in dogecoind_processes:
+    for dogecoind in dogecoind_processes.values():
         dogecoind.wait()
-    del dogecoind_processes[:]
+    dogecoind_processes.clear()
 
 def connect_nodes(from_connection, node_num):
     ip_port = "127.0.0.1:"+str(p2p_port(node_num))
