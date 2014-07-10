@@ -16,6 +16,8 @@
 
 #include <stdarg.h>
 
+#include <boost/date_time/posix_time/posix_time.hpp>
+
 #ifndef WIN32
 // for posix_fallocate
 #ifdef __linux_
@@ -305,26 +307,6 @@ int LogPrintStr(const std::string &str)
 
     return ret;
 }
-
-void ParseString(const string& str, char c, vector<string>& v)
-{
-    if (str.empty())
-        return;
-    string::size_type i1 = 0;
-    string::size_type i2;
-    while (true)
-    {
-        i2 = str.find(c, i1);
-        if (i2 == str.npos)
-        {
-            v.push_back(str.substr(i1));
-            return;
-        }
-        v.push_back(str.substr(i1, i2-i1));
-        i1 = i2+1;
-    }
-}
-
 
 string FormatMoney(int64_t n, bool fPlus)
 {
@@ -1448,4 +1430,29 @@ bool ParseInt32(const std::string& str, int32_t *out)
         n >= std::numeric_limits<int32_t>::min() &&
         n <= std::numeric_limits<int32_t>::max();
 }
+void SetupEnvironment()
+{
+    #ifndef WIN32
+    try
+    {
+	#if BOOST_FILESYSTEM_VERSION == 3
+            boost::filesystem::path::codecvt(); // Raises runtime error if current locale is invalid
+	#else				          // boost filesystem v2
+            std::locale();                      // Raises runtime error if current locale is invalid
+	#endif
+    } catch(std::runtime_error &e)
+    {
+        setenv("LC_ALL", "C", 1); // Force C locale
+    }
+    #endif
+}
 
+std::string DateTimeStrFormat(const char* pszFormat, int64_t nTime)
+{
+    // std::locale takes ownership of the pointer
+    std::locale loc(std::locale::classic(), new boost::posix_time::time_facet(pszFormat));
+    std::stringstream ss;
+    ss.imbue(loc);
+    ss << boost::posix_time::from_time_t(nTime);
+    return ss.str();
+}

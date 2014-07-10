@@ -121,6 +121,7 @@ extern volatile bool fReopenDebugLog;
 
 void RandAddSeed();
 void RandAddSeedPerfmon();
+void SetupEnvironment();
 
 /* Return true if log accepts specified category */
 bool LogAcceptCategory(const char* category);
@@ -168,7 +169,6 @@ static inline bool error(const char* format)
 
 void LogException(std::exception* pex, const char* pszThread);
 void PrintExceptionContinue(std::exception* pex, const char* pszThread);
-void ParseString(const std::string& str, char c, std::vector<std::string>& v);
 std::string FormatMoney(int64_t n, bool fPlus=false);
 bool ParseMoney(const std::string& str, int64_t& nRet);
 bool ParseMoney(const char* pszIn, int64_t& nRet);
@@ -341,14 +341,7 @@ inline int64_t GetTimeMicros()
             boost::posix_time::ptime(boost::gregorian::date(1970,1,1))).total_microseconds();
 }
 
-inline std::string DateTimeStrFormat(const char* pszFormat, int64_t nTime)
-{
-    time_t n = nTime;
-    struct tm* ptmTime = gmtime(&n);
-    char pszTime[200];
-    strftime(pszTime, sizeof(pszTime), pszFormat, ptmTime);
-    return pszTime;
-}
+std::string DateTimeStrFormat(const char* pszFormat, int64_t nTime);
 
 inline bool IsSwitchChar(char c)
 {
