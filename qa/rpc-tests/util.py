@@ -156,7 +156,9 @@ def start_node(i, dir, extra_args=None, rpchost=None):
                           ["-rpcwait", "getblockcount"], stdout=devnull)
     devnull.close()
     url = "http://wowsuchtest:3kt4yEUdDJ4YGzsGNADvjYwubwaFhEEYjotPJDU2XMgG@%s:%d" % (rpchost or '127.0.0.1', rpc_port(i))
-    return AuthServiceProxy(url)
+    proxy = AuthServiceProxy(url)
+    proxy.url = url # store URL on proxy for info
+    return proxy
 
 def start_nodes(num_nodes, dir, extra_args=None, rpchost=None):
     """
