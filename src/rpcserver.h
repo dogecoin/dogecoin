@@ -69,6 +69,7 @@ typedef json_spirit::Value(*rpcfn_type)(const json_spirit::Array& params, bool f
 class CRPCCommand
 {
 public:
+    std::string category;
     std::string name;
     rpcfn_type actor;
     bool okSafeMode;
