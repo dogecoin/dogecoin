@@ -1658,6 +1658,7 @@ bool BindListenPort(const CService &addrBind, string& strError, bool fWhiteliste
         else
             strError = strprintf(_("Unable to bind to %s on this computer (bind returned error %s)"), addrBind.ToString(), NetworkErrorString(nErr));
         LogPrintf("%s\n", strError);
+        CloseSocket(hListenSocket);
         return false;
     }
     LogPrintf("Bound to %s\n", addrBind.ToString());
@@ -1667,6 +1668,7 @@ bool BindListenPort(const CService &addrBind, string& strError, bool fWhiteliste
     {
         strError = strprintf(_("Error: Listening for incoming connections failed (listen returned error %s)"), NetworkErrorString(WSAGetLastError()));
         LogPrintf("%s\n", strError);
+        CloseSocket(hListenSocket);
         return false;
     }
 
