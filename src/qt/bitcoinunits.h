@@ -74,6 +74,15 @@ public:
     QVariant data(const QModelIndex &index, int role) const;
     ///@}
 
+    static QString removeSpaces(QString text)
+    {
+        text.remove(' ');
+        return text;
+    }
+
+    //! Return maximum number of base units (Satoshis)
+    static qint64 maxMoney();
+
 private:
     QList<BitcoinUnits::Unit> unitlist;
 };

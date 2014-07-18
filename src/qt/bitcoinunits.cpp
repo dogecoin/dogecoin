@@ -4,6 +4,8 @@
 
 #include "bitcoinunits.h"
 
+#include "core.h"
+
 #include <QStringList>
 #include <QLocale>
 
@@ -230,4 +232,9 @@ QVariant BitcoinUnits::data(const QModelIndex &index, int role) const
         }
     }
     return QVariant();
+}
+
+qint64 BitcoinUnits::maxMoney()
+{
+    return MAX_MONEY;
 }
