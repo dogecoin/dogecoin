@@ -87,18 +87,6 @@ qint64 BitcoinUnits::maxAmount(int unit)
     }
 }
 
-int BitcoinUnits::amountDigits(int unit)
-{
-    switch(unit)
-    {
-    case MDOGE: return 6;  // 900,000 (# digits, without commas)
-    case kDOGE: return 9;  // 900,000,000
-    case DOGE:  return 12; // 900,000,000,000
-    case Koinu: return 19; // 9,000,000,000,000,000,000
-    default: return 0;
-    }
-}
-
 int BitcoinUnits::decimals(int unit)
 {
     switch(unit)

@@ -48,8 +48,6 @@ public:
     static qint64 factor(int unit);
     //! Max amount per unit
     static qint64 maxAmount(int unit);
-    //! Number of amount digits (to represent max number of coins)
-    static int amountDigits(int unit);
     //! Number of decimals left
     static int decimals(int unit);
     //! Format as string
