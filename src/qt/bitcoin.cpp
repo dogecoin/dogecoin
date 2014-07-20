@@ -399,8 +399,6 @@ void BitcoinApplication::initializeResult(int retval)
         paymentServer->setOptionsModel(optionsModel);
 #endif
 
-        emit splashFinished(window);
-
         clientModel = new ClientModel(optionsModel);
         window->setClientModel(clientModel);
 
@@ -416,6 +414,8 @@ void BitcoinApplication::initializeResult(int retval)
                              paymentServer, SLOT(fetchPaymentACK(CWallet*,const SendCoinsRecipient&,QByteArray)));
         }
 #endif
+
+        emit splashFinished(window);
 
         // If -min option passed, start window minimized.
         if(GetBoolArg("-min", false))
