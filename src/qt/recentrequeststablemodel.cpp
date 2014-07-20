@@ -83,6 +83,11 @@ QVariant RecentRequestsTableModel::data(const QModelIndex &index, int role) cons
                 return BitcoinUnits::format(walletModel->getOptionsModel()->getDisplayUnit(), rec->recipient.amount);
         }
     }
+    else if (role == Qt::TextAlignmentRole)
+    {
+        if (index.column() == Amount)
+            return (int)(Qt::AlignRight|Qt::AlignVCenter);
+    }
     return QVariant();
 }
 
