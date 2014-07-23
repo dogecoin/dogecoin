@@ -28,23 +28,19 @@ int ReadWriteAuxPow(Stream& s, boost::shared_ptr<CAuxPow>& auxpow, int nType, in
 template <typename Stream>
 int ReadWriteAuxPow(Stream& s, const boost::shared_ptr<CAuxPow>& auxpow, int nType, int nVersion, CSerActionGetSerializeSize ser_action);
 
-enum
-{
-    // primary version
-    BLOCK_VERSION_DEFAULT        = (1 << 0),
+// primary version
+static const int BLOCK_VERSION_DEFAULT = (1 << 0);
+static const int BLOCK_VERSION_AUXPOW = (1 << 8);
+static const int BLOCK_VERSION_CHAIN_START = (1 << 16);
+static const int BLOCK_VERSION_CHAIN_END = (1 << 30);
 
-    // modifiers
-    BLOCK_VERSION_AUXPOW         = (1 << 8),
-
-    // bits allocated for chain ID
-    BLOCK_VERSION_CHAIN_START    = (1 << 16),
-    BLOCK_VERSION_CHAIN_END      = (1 << 30),
-};
+static const int AUXPOW_CHAIN_ID = 0x0000; //TODO change me
+static const int AUXPOW_START_MAINNET = INT_MAX; //TODO change me
+static const int AUXPOW_START_TESTNET = 158100;
 
 /** No amount larger than this (in satoshi) is valid */
 static const int64_t MAX_MONEY = 10000000000 * COIN; // Dogecoin: maximum of 100B coins (given some randomness), max transaction 10,000,000,000
 inline bool MoneyRange(int64_t nValue) { return (nValue >= 0 && nValue <= MAX_MONEY); }
-int GetOurChainID();
 
 /** An outpoint - a combination of a transaction hash and an index n into its vout */
 class COutPoint
@@ -403,7 +399,7 @@ public:
 
     void SetNull()
     {
-        nVersion = CBlockHeader::CURRENT_VERSION | (GetOurChainID() * BLOCK_VERSION_CHAIN_START);
+        nVersion = CBlockHeader::CURRENT_VERSION | (AUXPOW_CHAIN_ID * BLOCK_VERSION_CHAIN_START);
         hashPrevBlock = 0;
         hashMerkleRoot = 0;
         nTime = 0;
