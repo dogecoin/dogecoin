@@ -64,7 +64,7 @@ for Ubuntu 12.04 and later:
 
 	sudo apt-get install libboost-all-dev libdb5.1-dev libdb5.1++-dev
 
-for Ubuntu 13.10:
+for Ubuntu 13.10 & 14.04:
 	libboost1.54 will not work,
 	remove libboost1.54-all-dev and install libboost1.53-all-dev instead.
 
