@@ -481,9 +481,9 @@ bool CheckWork(CBlock* pblock, CWallet& wallet, CReserveKey& reservekey)
 
         if (auxpow->GetParentBlockHash() > hashTarget)
             return error("AUX POW parent hash %s is not under target %s", auxpow->GetParentBlockHash().GetHex().c_str(), hashTarget.GetHex().c_str());
-        //// debug print
-        printf("DogecoinMiner:\n");
-        printf("AUX proof-of-work found  \n     our hash: %s   \n  parent hash: %s  \n       target: %s\n",
+        
+        // print to log
+        LogPrintf("DogecoinMiner: AUX proof-of-work found; our hash: %s ; parent hash: %s ; target: %s\n",
                hash.GetHex().c_str(),
                auxpow->GetParentBlockHash().GetHex().c_str(),
                hashTarget.GetHex().c_str());
@@ -493,9 +493,8 @@ bool CheckWork(CBlock* pblock, CWallet& wallet, CReserveKey& reservekey)
         if (hash > hashTarget)
             return false;
 
-        //// debug print
-        printf("DogecoinMiner:\n");
-        printf("proof-of-work found  \n  hash: %s  \ntarget: %s\n", hash.GetHex().c_str(), hashTarget.GetHex().c_str());
+        // print to log
+        LogPrintf("DogecoinMiner: proof-of-work found; hash: %s ; target: %s\n", hash.GetHex().c_str(), hashTarget.GetHex().c_str());
     }
     
     pblock->print();
