@@ -22,4 +22,7 @@ signers:
   6E9C3630F63C1541054C9503B1C60A65E5E64D7B:
     name: "Patrick Lodder"
     key: patricklodder-key
+  B8273C8A55820B19C2152407279566AD6D852A36:
+    name: stapler117
+    key: stapler117
 minimum_weight: 120
