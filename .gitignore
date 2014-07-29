@@ -4,6 +4,7 @@
 src/dogecoin
 src/dogecoind
 src/dogecoin-cli
+src/dogecoin-tx
 src/test/test_dogecoin
 src/qt/test/test_dogecoin-qt
 
