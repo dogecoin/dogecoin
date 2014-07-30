@@ -42,6 +42,18 @@ bool CPubKey::IsFullyValid() const {
     return true;
 }
 
+bool CPubKey::Compress() {
+    if (!IsValid())
+        return false;
+    CECKey key;
+    if (!key.SetPubKey(begin(), size()))
+        return false;
+    std::vector<unsigned char> pubkey;
+    key.GetPubKey(pubkey, true);
+    Set(pubkey.begin(), pubkey.end());
+    return true;
+}
+
 bool CPubKey::Decompress() {
     if (!IsValid())
         return false;
