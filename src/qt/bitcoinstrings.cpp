@@ -112,7 +112,8 @@ QT_TRANSLATE_NOOP("bitcoin-core", ""
 QT_TRANSLATE_NOOP("bitcoin-core", ""
 "This product includes software developed by the OpenSSL Project for use in "
 "the OpenSSL Toolkit <https://www.openssl.org/> and cryptographic software "
-"written by Eric Young and UPnP software written by Thomas Bernard."),
+"written by Eric Young and UPnP software written by Thomas Bernard. "
+"Paper wallet art provided by Anacoluthia."),
 QT_TRANSLATE_NOOP("bitcoin-core", ""
 "To use bitcoind, or the -server option to bitcoin-qt, you must set an "
 "rpcpassword in the configuration file:\n"
