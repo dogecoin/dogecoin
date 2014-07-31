@@ -13,6 +13,7 @@ class ClientModel;
 
 namespace Ui {
     class AboutDialog;
+    class PaperWalletDialog;
     class HelpMessageDialog;
 }
 
@@ -32,6 +33,24 @@ private:
 
 private slots:
     void on_buttonBox_accepted();
+};
+
+/** "Paper Wallet" dialog box */
+class PaperWalletDialog : public QDialog
+{
+    Q_OBJECT
+
+public:
+    explicit PaperWalletDialog(QWidget *parent);
+    ~PaperWalletDialog();
+
+    void setModel(ClientModel *model);
+
+private:
+    Ui::PaperWalletDialog *ui;
+
+private slots:
+    void on_getNewAddress_clicked();
 };
 
 /** "Help message" dialog box */

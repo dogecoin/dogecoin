@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PaperWalletDialog</class>
+ <widget class="QDialog" name="PaperWalletDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>716</width>
+    <height>445</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Print Your Paper Wallets</string>
+  </property>
+  <widget class="QRImageWidget" name="privateKey">
+   <property name="geometry">
+    <rect>
+     <x>524</x>
+     <y>219</y>
+     <width>149</width>
+     <height>149</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QRImageWidget" name="publicKey">
+   <property name="geometry">
+    <rect>
+     <x>47</x>
+     <y>146</y>
+     <width>120</width>
+     <height>120</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="getNewAddress">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>20</y>
+     <width>151</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Very New Address</string>
+   </property>
+   <property name="icon">
+    <iconset resource="../../../../../Dogecoin/dogecoin/src/qt/dogecoin.qrc">
+     <normaloff>:/icons/add</normaloff>:/icons/add</iconset>
+   </property>
+  </widget>
+  <widget class="QRImageWidget" name="paperTemplate">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>70</y>
+     <width>675</width>
+     <height>362</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string notr="true"/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="../../../../../Dogecoin/dogecoin/src/qt/dogecoin.qrc">:/images/paper_wallet</pixmap>
+   </property>
+  </widget>
+  <widget class="VerticalLabel" name="publicKeyText">
+   <property name="geometry">
+    <rect>
+     <x>212</x>
+     <y>80</y>
+     <width>31</width>
+     <height>341</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Monospace</family>
+     <pointsize>12</pointsize>
+     <weight>75</weight>
+     <italic>false</italic>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="VerticalLabel" name="privateKeyText">
+   <property name="geometry">
+    <rect>
+     <x>500</x>
+     <y>70</y>
+     <width>31</width>
+     <height>361</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Monospace</family>
+     <pointsize>8</pointsize>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <zorder>getNewAddress</zorder>
+  <zorder>paperTemplate</zorder>
+  <zorder>publicKey</zorder>
+  <zorder>privateKey</zorder>
+  <zorder>publicKeyText</zorder>
+  <zorder>privateKeyText</zorder>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QRImageWidget</class>
+   <extends>QLabel</extends>
+   <header>receiverequestdialog.h</header>
+  </customwidget>
+  <customwidget>
+   <class>VerticalLabel</class>
+   <extends>QLabel</extends>
+   <header>verticallabel.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../../../../../Dogecoin/dogecoin/src/qt/dogecoin.qrc"/>
+  <include location="../../../../../.designer/dogecoin.qrc"/>
+ </resources>
+ <connections/>
+</ui>
