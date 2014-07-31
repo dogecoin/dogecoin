@@ -5,6 +5,7 @@
 #include "utilitydialog.h"
 
 #include "ui_aboutdialog.h"
+#include "ui_paperwalletdialog.h"
 #include "ui_helpmessagedialog.h"
 
 #include "bitcoingui.h"
@@ -17,6 +18,17 @@
 
 #include <QLabel>
 #include <QVBoxLayout>
+
+#ifdef USE_QRCODE
+#include <qrencode.h>
+#endif
+
+#include <QPrinter>
+#include <QPainter>
+#include <QPrintPreviewDialog>
+#include <QPrintDialog>
+#include <QGraphicsScene>
+
 
 /** "About" dialog box */
 AboutDialog::AboutDialog(QWidget *parent) :
@@ -54,6 +66,85 @@ AboutDialog::~AboutDialog()
 void AboutDialog::on_buttonBox_accepted()
 {
     close();
+}
+
+/** "PaperWallet" dialog box */
+PaperWalletDialog::PaperWalletDialog(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::PaperWalletDialog)
+{
+    ui->setupUi(this);
+
+}
+
+void PaperWalletDialog::setModel(ClientModel *model)
+{
+    RandAddSeed();
+    this->on_getNewAddress_clicked();
+}
+
+PaperWalletDialog::~PaperWalletDialog()
+{
+    delete ui;
+}
+
+void PaperWalletDialog::on_getNewAddress_clicked()
+{
+        CKey newKey;
+	newKey.MakeNewKey(false);
+	CPubKey pub = newKey.GetPubKey();
+        CBitcoinAddress myaddr;
+        myaddr.Set(pub.GetID());
+	string myPubKey;
+	string myPrivKey;
+
+	myPubKey = myaddr.ToString();
+	myPrivKey = CBitcoinSecret(newKey).ToString(); 
+
+        QRcode *code = QRcode_encodeString(myPubKey.c_str(), 0, QR_ECLEVEL_L, QR_MODE_8, 1);
+        if (!code)
+        {
+            ui->publicKey->setText(tr("Error encoding URI into QR Code."));
+            return;
+        }
+        QImage myImage = QImage(code->width + 8, code->width + 8, QImage::Format_RGB32);
+        myImage.fill(0xffffff);
+        unsigned char *p = code->data;
+        for (int y = 0; y < code->width; y++)
+        {
+            for (int x = 0; x < code->width; x++)
+            {
+                myImage.setPixel(x + 4, y + 4, ((*p & 1) ? 0x0 : 0xffffff));
+                p++;
+            }
+        }
+        QRcode_free(code);
+
+        ui->publicKey->setPixmap(QPixmap::fromImage(myImage).scaled(125, 125));
+	ui->publicKeyText->setText(tr(myPubKey.c_str()));	
+
+        QRcode *codePriv = QRcode_encodeString(myPrivKey.c_str(), 0, QR_ECLEVEL_L, QR_MODE_8, 1);
+        if (!codePriv)
+        {
+            ui->privateKey->setText(tr("Error encoding URI into QR Code."));
+            return;
+        }
+        QImage myImagePriv = QImage(codePriv->width + 8, codePriv->width + 8, QImage::Format_RGB32);
+        myImagePriv.fill(0xffffff);
+        unsigned char *p2 = codePriv->data;
+        for (int y2 = 0; y2 < codePriv->width; y2++)
+        {
+            for (int x2 = 0; x2 < codePriv->width; x2++)
+            {
+                myImagePriv.setPixel(x2 + 4, y2 + 4, ((*p2 & 1) ? 0x0 : 0xffffff));
+                p2++;
+            }
+        }
+        QRcode_free(codePriv);
+
+        ui->privateKey->setPixmap(QPixmap::fromImage(myImagePriv).scaled(140, 140));
+	ui->privateKeyText->setText(tr(myPrivKey.c_str()));	
+
 }
 
 /** "Help message" dialog box */

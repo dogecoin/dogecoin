@@ -83,6 +83,7 @@ private:
     QAction *usedReceivingAddressesAction;
     QAction *signMessageAction;
     QAction *verifyMessageAction;
+    QAction *paperWalletAction;
     QAction *aboutAction;
     QAction *receiveCoinsAction;
     QAction *optionsAction;
@@ -177,6 +178,7 @@ private slots:
     void optionsClicked();
     /** Show about dialog */
     void aboutClicked();
+    void paperWalletClicked();
     /** Show help message dialog */
     void showHelpMessageClicked();
 #ifndef Q_OS_MAC
