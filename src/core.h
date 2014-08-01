@@ -34,7 +34,8 @@ static const int BLOCK_VERSION_AUXPOW = (1 << 8);
 static const int BLOCK_VERSION_CHAIN_START = (1 << 16);
 static const int BLOCK_VERSION_CHAIN_END = (1 << 30);
 
-static const int AUXPOW_CHAIN_ID = 0x0000; //TODO change me
+// DogeCoin aux chain ID = 0x0062 (98)
+static const int AUXPOW_CHAIN_ID = 0x0062;
 static const int AUXPOW_START_MAINNET = INT_MAX; //TODO change me
 static const int AUXPOW_START_TESTNET = 158100;
 
