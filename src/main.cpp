@@ -2059,7 +2059,7 @@ void static UpdateTip(CBlockIndex *pindexNew) {
         const CBlockIndex* pindex = chainActive.Tip();
         for (int i = 0; i < 100 && pindex != NULL; i++)
         {
-            if (pindex->nVersion > CBlock::CURRENT_VERSION)
+            if (pindex->nVersion > CBlock::CURRENT_VERSION && pindex->nVersion != BLOCK_VERSION_AUXPOW)
                 ++nUpgraded;
             pindex = pindex->pprev;
         }
