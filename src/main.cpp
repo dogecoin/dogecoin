@@ -1288,7 +1288,6 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     bool fNewDifficultyProtocol = (nHeight >= nDiffChangeTarget);
     
     int64_t retargetTimespan = nTargetTimespan;
-    int64_t retargetSpacing = nTargetSpacing;
     int64_t retargetInterval = nInterval;
     
     if (fNewDifficultyProtocol) {
@@ -1336,49 +1335,48 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
 
     // Limit adjustment step
     int64_t nActualTimespan = pindexLast->GetBlockTime() - pindexFirst->GetBlockTime();
-    LogPrintf("  nActualTimespan = %d  before bounds\n", nActualTimespan);
+    int64_t nModulatedTimespan = nActualTimespan;
     
     if (fNewDifficultyProtocol) //DigiShield implementation - thanks to RealSolid & WDC for this code
     {
         // amplitude filter - thanks to daft27 for this code
-        nActualTimespan = retargetTimespan + (nActualTimespan - retargetTimespan)/8;
+        nModulatedTimespan = retargetTimespan + (nModulatedTimespan - retargetTimespan)/8;
 
-        if (nActualTimespan < (retargetTimespan - (retargetTimespan/4)) ) nActualTimespan = (retargetTimespan - (retargetTimespan/4));
-        if (nActualTimespan > (retargetTimespan + (retargetTimespan/2)) ) nActualTimespan = (retargetTimespan + (retargetTimespan/2));
+        if (nModulatedTimespan < (retargetTimespan - (retargetTimespan/4)) ) nModulatedTimespan = (retargetTimespan - (retargetTimespan/4));
+        if (nModulatedTimespan > (retargetTimespan + (retargetTimespan/2)) ) nModulatedTimespan = (retargetTimespan + (retargetTimespan/2));
     }
     else if (pindexLast->nHeight+1 > 10000) {
-        if (nActualTimespan < nTargetTimespan/4)
-            nActualTimespan = nTargetTimespan/4;
-        if (nActualTimespan > nTargetTimespan*4)
-            nActualTimespan = nTargetTimespan*4;
+        if (nModulatedTimespan < nTargetTimespan/4)
+            nModulatedTimespan = nTargetTimespan/4;
+        if (nModulatedTimespan > nTargetTimespan*4)
+            nModulatedTimespan = nTargetTimespan*4;
     }
     else if (pindexLast->nHeight+1 > 5000)
     {
-        if (nActualTimespan < nTargetTimespan/8)
-            nActualTimespan = nTargetTimespan/8;
-        if (nActualTimespan > nTargetTimespan*4)
-            nActualTimespan = nTargetTimespan*4;
+        if (nModulatedTimespan < nTargetTimespan/8)
+            nModulatedTimespan = nTargetTimespan/8;
+        if (nModulatedTimespan > nTargetTimespan*4)
+            nModulatedTimespan = nTargetTimespan*4;
     }
     else
     {
-        if (nActualTimespan < nTargetTimespan/16)
-            nActualTimespan = nTargetTimespan/16;
-        if (nActualTimespan > nTargetTimespan*4)
-            nActualTimespan = nTargetTimespan*4;
+        if (nModulatedTimespan < nTargetTimespan/16)
+            nModulatedTimespan = nTargetTimespan/16;
+        if (nModulatedTimespan > nTargetTimespan*4)
+            nModulatedTimespan = nTargetTimespan*4;
     }
 
     // Retarget
     CBigNum bnNew;
     bnNew.SetCompact(pindexLast->nBits);
-    bnNew *= nActualTimespan;
+    bnNew *= nModulatedTimespan;
     bnNew /= retargetTimespan;
 
     if (bnNew > Params().ProofOfWorkLimit())
         bnNew = Params().ProofOfWorkLimit();
 
     /// debug print
-    LogPrintf("GetNextWorkRequired RETARGET\n");
-    LogPrintf("nTargetTimespan = %d    nActualTimespan = %d\n", retargetTimespan, nActualTimespan);
+    LogPrintf("RETARGET: target: %d, actual: %d, modulated: %d\n", retargetTimespan, nActualTimespan, nModulatedTimespan);
     LogPrintf("Before: %08x  %s\n", pindexLast->nBits, CBigNum().SetCompact(pindexLast->nBits).getuint256().ToString());
     LogPrintf("After:  %08x  %s\n", bnNew.GetCompact(), bnNew.getuint256().ToString());
 
