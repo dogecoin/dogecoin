@@ -12,6 +12,7 @@
 #include "main.h"
 #include "net.h"
 #include "scrypt.h"
+#include "auxpow.h"
 #ifdef ENABLE_WALLET
 #include "wallet.h"
 #endif
@@ -472,12 +473,30 @@ bool CheckWork(CBlock* pblock, CWallet& wallet, CReserveKey& reservekey)
     uint256 hash = pblock->GetPoWHash();
     uint256 hashTarget = CBigNum().SetCompact(pblock->nBits).getuint256();
 
-    if (hash > hashTarget)
-        return false;
+    CAuxPow *auxpow = pblock->auxpow.get();
 
-    //// debug print
-    LogPrintf("DogecoinMiner:\n");
-    LogPrintf("proof-of-work found  \n  hash: %s  \ntarget: %s\n", hash.GetHex().c_str(), hashTarget.GetHex().c_str());
+    if (auxpow != NULL) {
+        if (!auxpow->Check(pblock->GetHash(), pblock->GetChainID()))
+            return error("AUX POW is not valid");
+
+        if (auxpow->GetParentBlockHash() > hashTarget)
+            return error("AUX POW parent hash %s is not under target %s", auxpow->GetParentBlockHash().GetHex().c_str(), hashTarget.GetHex().c_str());
+        
+        // print to log
+        LogPrintf("DogecoinMiner: AUX proof-of-work found; our hash: %s ; parent hash: %s ; target: %s\n",
+               hash.GetHex().c_str(),
+               auxpow->GetParentBlockHash().GetHex().c_str(),
+               hashTarget.GetHex().c_str());
+    }
+    else
+    {
+        if (hash > hashTarget)
+            return false;
+
+        // print to log
+        LogPrintf("DogecoinMiner: proof-of-work found; hash: %s ; target: %s\n", hash.GetHex().c_str(), hashTarget.GetHex().c_str());
+    }
+    
     pblock->print();
     LogPrintf("generated %s\n", FormatMoney(pblock->vtx[0].vout[0].nValue).c_str());
 

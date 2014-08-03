@@ -17,6 +17,27 @@
 #include <stdint.h>
 
 class CTransaction;
+class CAuxPow;
+
+template <typename Stream>
+int ReadWriteAuxPow(Stream& s, const boost::shared_ptr<CAuxPow>& auxpow, int nType, int nVersion, CSerActionSerialize ser_action);
+
+template <typename Stream>
+int ReadWriteAuxPow(Stream& s, boost::shared_ptr<CAuxPow>& auxpow, int nType, int nVersion, CSerActionUnserialize ser_action);
+
+template <typename Stream>
+int ReadWriteAuxPow(Stream& s, const boost::shared_ptr<CAuxPow>& auxpow, int nType, int nVersion, CSerActionGetSerializeSize ser_action);
+
+// primary version
+static const int BLOCK_VERSION_DEFAULT = (1 << 0);
+static const int BLOCK_VERSION_AUXPOW = (1 << 8);
+static const int BLOCK_VERSION_CHAIN_START = (1 << 16);
+static const int BLOCK_VERSION_CHAIN_END = (1 << 30);
+
+// DogeCoin aux chain ID = 0x0062 (98)
+static const int AUXPOW_CHAIN_ID = 0x0062;
+static const int AUXPOW_START_MAINNET = INT_MAX; //TODO change me
+static const int AUXPOW_START_TESTNET = 158100;
 
 /** No amount larger than this (in satoshi) is valid */
 static const int64_t MAX_MONEY = 10000000000 * COIN; // Dogecoin: maximum of 100B coins (given some randomness), max transaction 10,000,000,000
@@ -350,6 +371,7 @@ public:
     unsigned int nTime;
     unsigned int nBits;
     unsigned int nNonce;
+    boost::shared_ptr<CAuxPow> auxpow;
 
     CBlockHeader()
     {
@@ -365,11 +387,20 @@ public:
         READWRITE(nTime);
         READWRITE(nBits);
         READWRITE(nNonce);
+
+        nSerSize += ReadWriteAuxPow(s, auxpow, nType, nVersion, ser_action);
     )
+
+    int GetChainID() const
+    {
+        return nVersion / BLOCK_VERSION_CHAIN_START;
+    }
+
+    void SetAuxPow(CAuxPow* pow);
 
     void SetNull()
     {
-        nVersion = CBlockHeader::CURRENT_VERSION;
+        nVersion = CBlockHeader::CURRENT_VERSION | (AUXPOW_CHAIN_ID * BLOCK_VERSION_CHAIN_START);
         hashPrevBlock = 0;
         hashMerkleRoot = 0;
         nTime = 0;
@@ -395,6 +426,8 @@ public:
     {
         return (int64_t)nTime;
     }
+
+    bool CheckProofOfWork(int nHeight) const;
 };
 
 
