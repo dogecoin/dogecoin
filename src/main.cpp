@@ -1246,6 +1246,7 @@ static const int64_t nTargetSpacing = 60; // Dogecoin: 1 minute
 static const int64_t nInterval = nTargetTimespan / nTargetSpacing;
 
 static const int64_t nDiffChangeTarget = 145000; // Patch effective @ block 145000
+static const int64_t nTestnetResetTargetFix = 157500; // Testnet enables target reset at block 157500
 
 //
 // minimum amount of work that could possibly be required nTime after
@@ -1299,7 +1300,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     if (pindexLast == NULL)
         return nProofOfWorkLimit;
 
-    if (TestNet() && pblock->nTime > pindexLast->nTime + nTargetSpacing*2)
+    if (TestNet() && pindexLast->nHeight >= nTestnetResetTargetFix && pblock->nTime > pindexLast->nTime + nTargetSpacing*2)
     {
         // Special difficulty rule for testnet:
         // If the new block's timestamp is more than 2* nTargetSpacing minutes
@@ -1312,11 +1313,19 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     {
         if (TestNet())
         {
-            // Return the last non-special-min-difficulty-rules-block
-            const CBlockIndex* pindex = pindexLast;
-            while (pindex->pprev && pindex->nHeight % retargetInterval != 0 && pindex->nBits == nProofOfWorkLimit)
-                pindex = pindex->pprev;
-            return pindex->nBits;
+            if (pblock->nTime > pindexLast->nTime + nTargetSpacing*2)
+            {
+                // Special difficulty rule for testnet:
+                // If the new block's timestamp is more than 2* nTargetSpacing minutes
+                // then allow mining of a min-difficulty block.
+                return nProofOfWorkLimit;
+            } else {
+                // Return the last non-special-min-difficulty-rules-block
+                const CBlockIndex* pindex = pindexLast;
+                while (pindex->pprev && pindex->nHeight % retargetInterval != 0 && pindex->nBits == nProofOfWorkLimit)
+                    pindex = pindex->pprev;
+                return pindex->nBits;
+            }
         }
         return pindexLast->nBits;
     }
