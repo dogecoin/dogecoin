@@ -953,7 +953,7 @@ public:
         ReadWriteAuxPow(s, auxpow, nType, this->nVersion, ser_action);
     )
 
-    uint256 CalcBlockHash() const
+    uint256 GetBlockHash() const
     {
         CBlockHeader block;
         block.nVersion        = nVersion;
