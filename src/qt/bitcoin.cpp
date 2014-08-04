@@ -537,7 +537,7 @@ int main(int argc, char *argv[])
     try {
         ReadConfigFile(mapArgs, mapMultiArgs);
     } catch(std::exception &e) {
-        QMessageBox::critical(0, QObject::tr("Bitcoin"),
+        QMessageBox::critical(0, QObject::tr("Dogecoin Core"),
                               QObject::tr("Error: Cannot parse configuration file: %1. Only use key=value syntax.").arg(e.what()));
         return false;
     }
