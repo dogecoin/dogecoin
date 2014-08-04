@@ -197,9 +197,8 @@ bool CBlockTreeDB::LoadBlockIndexGuts()
     leveldb::Iterator *pcursor = NewIterator();
 
     CDataStream ssKeySet(SER_DISK, CLIENT_VERSION);
-    ssKeySet << boost::tuples::make_tuple('b', uint256(0), 'a'); // 'b' is the prefix for BlockIndex, 'a' sigifies the first part
     uint256 hash;
-    char cType;
+    ssKeySet << boost::tuples::make_tuple('b', uint256(0), 'a'); // 'b' is the prefix for BlockIndex, 'a' sigifies the first part
     pcursor->Seek(ssKeySet.str());
 
     // Load mapBlockIndex
@@ -208,10 +207,11 @@ bool CBlockTreeDB::LoadBlockIndexGuts()
         try {
             leveldb::Slice slKey = pcursor->key();
             CDataStream ssKey(slKey.data(), slKey.data()+slKey.size(), SER_DISK, CLIENT_VERSION);
-            ssKey >> cType;
-            if (cType == 'b') {
+            char chType;
+            ssKey >> chType;
+            if (chType == 'b') {
                 ssKey >> hash;
-
+                
                 leveldb::Slice slValue = pcursor->value();
                 CDataStream ssValue_immutable(slValue.data(), slValue.data()+slValue.size(), SER_DISK, CLIENT_VERSION);
                 CDiskBlockIndex diskindex;
@@ -219,15 +219,19 @@ bool CBlockTreeDB::LoadBlockIndexGuts()
 
                 // Construct immutable parts of block index objecty
                 CBlockIndex* pindexNew = InsertBlockIndex(hash);
-                assert(diskindex.CalcBlockHash() == *pindexNew->phashBlock); // paranoia check
+                assert(diskindex.GetBlockHash() == *pindexNew->phashBlock); // paranoia check
 
                 pindexNew->pprev          = InsertBlockIndex(diskindex.hashPrev);
                 pindexNew->nHeight        = diskindex.nHeight;
+                pindexNew->nFile          = diskindex.nFile;
+                pindexNew->nDataPos       = diskindex.nDataPos;
+                pindexNew->nUndoPos       = diskindex.nUndoPos;
                 pindexNew->nVersion       = diskindex.nVersion;
                 pindexNew->hashMerkleRoot = diskindex.hashMerkleRoot;
                 pindexNew->nTime          = diskindex.nTime;
                 pindexNew->nBits          = diskindex.nBits;
                 pindexNew->nNonce         = diskindex.nNonce;
+                pindexNew->nStatus        = diskindex.nStatus;
                 pindexNew->nTx            = diskindex.nTx;
 
                 // CheckIndex need phashBlock to be set
