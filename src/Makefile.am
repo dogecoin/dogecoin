@@ -1,4 +1,3 @@
-AM_CPPFLAGS =  $(INCLUDES)
 AM_LDFLAGS = $(PTHREAD_CFLAGS) $(LIBTOOL_LDFLAGS)
 
 if USE_LIBSECP256K1
@@ -22,7 +21,7 @@ $(LIBLEVELDB) $(LIBMEMENV):
 endif
 
 BITCOIN_CONFIG_INCLUDES=-I$(builddir)/config
-BITCOIN_INCLUDES=-I$(builddir) -I$(builddir)/obj $(BOOST_CPPFLAGS) $(LEVELDB_CPPFLAGS)
+BITCOIN_INCLUDES=-I$(builddir) -I$(builddir)/obj $(BOOST_CPPFLAGS) $(LEVELDB_CPPFLAGS) $(CRYPTO_CFLAGS) $(SSL_CFLAGS)
 
 if USE_LIBSECP256K1
 BITCOIN_INCLUDES += -I$(srcdir)/secp256k1/include
@@ -267,9 +266,8 @@ if TARGET_WINDOWS
 dogecoind_SOURCES += dogecoind-res.rc
 endif
 
-dogecoind_LDADD += $(BOOST_LIBS) $(BDB_LIBS)
+dogecoind_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS)
 dogecoind_CPPFLAGS = $(BITCOIN_INCLUDES)
-
 
 # dogecoin-cli binary #
 dogecoin_cli_LDADD = \
@@ -277,7 +275,12 @@ dogecoin_cli_LDADD = \
   $(LIBBITCOIN_COMMON) \
   $(LIBBITCOIN_UTIL) \
   $(LIBBITCOIN_CRYPTO) \
-  $(BOOST_LIBS)
+  $(BOOST_LIBS) \
+  $(SSL_LIBS) \
+  $(CRYPTO_LIBS)
+
+dogecoin_cli_SOURCES = \
+  dogecoin-cli.cpp
 
 if USE_LIBSECP256K1
   dogecoin_cli_LDADD += secp256k1/libsecp256k1.la
@@ -293,8 +296,15 @@ dogecoin_tx_LDADD = \
   $(LIBBITCOIN_UNIVALUE) \
   $(LIBBITCOIN_COMMON) \
   $(LIBBITCOIN_UTIL) \
-  $(LIBBITCOIN_CRYPTO) \
-  $(BOOST_LIBS)
+  $(LIBBITCOIN_CRYPTO)
+
+if USE_LIBSECP256K1
+  dogecoin_tx_LDADD += secp256k1/libsecp256k1.la
+endif
+
+  dogecoin_tx_LDADD += $(BOOST_LIBS) \
+  $(SSL_LIBS) \
+  $(CRYPTO_LIBS)
 dogecoin_tx_SOURCES = dogecoin-tx.cpp
 dogecoin_tx_CPPFLAGS = $(BITCOIN_INCLUDES)
 #

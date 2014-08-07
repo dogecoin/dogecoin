@@ -2,27 +2,27 @@ bin_PROGRAMS += qt/test/test_dogecoin-qt
 TESTS += qt/test/test_dogecoin-qt
 
 TEST_QT_MOC_CPP = \
-  qt/test/moc_bitcoinunitstests.cpp \
-  qt/test/moc_uritests.cpp
+	qt/test/moc_bitcoinunitstests.cpp \
+	qt/test/moc_uritests.cpp
 
 #if ENABLE_WALLET
 #TEST_QT_MOC_CPP += qt/test/moc_paymentservertests.cpp
 #endif
 
 TEST_QT_H = \
-  qt/test/bitcoinunitstests.h \
-  qt/test/uritests.h \
-  qt/test/paymentrequestdata.h \
-  qt/test/paymentservertests.h
+	qt/test/bitcoinunitstests.h \
+	qt/test/uritests.h \
+	qt/test/paymentrequestdata.h \
+	qt/test/paymentservertests.h
 
 qt_test_test_dogecoin_qt_CPPFLAGS = $(BITCOIN_INCLUDES) $(BITCOIN_QT_INCLUDES) \
-  $(QT_INCLUDES) $(QT_TEST_INCLUDES)
+	$(QT_INCLUDES) $(QT_TEST_INCLUDES)
 
 qt_test_test_dogecoin_qt_SOURCES = \
-  qt/test/bitcoinunitstests.cpp \
-  qt/test/test_main.cpp \
-  qt/test/uritests.cpp \
-  $(TEST_QT_H)
+	qt/test/bitcoinunitstests.cpp \
+	qt/test/test_main.cpp \
+	qt/test/uritests.cpp \
+	$(TEST_QT_H)
 #if ENABLE_WALLET
 #qt_test_test_dogecoin_qt_SOURCES += \
 #  qt/test/paymentservertests.cpp
@@ -36,11 +36,10 @@ qt_test_test_dogecoin_qt_LDADD = $(LIBBITCOINQT) $(LIBBITCOIN_SERVER)
 #endif
 
 qt_test_test_dogecoin_qt_LDADD += $(LIBBITCOIN_CLI) $(LIBBITCOIN_COMMON) $(LIBBITCOIN_UTIL) $(LIBBITCOIN_CRYPTO) $(LIBBITCOIN_UNIVALUE) $(LIBLEVELDB) \
-  $(LIBMEMENV) $(BOOST_LIBS) $(QT_DBUS_LIBS) $(QT_TEST_LIBS) $(QT_LIBS) \
-  $(QR_LIBS) $(PROTOBUF_LIBS) $(BDB_LIBS)
-
+	$(LIBMEMENV) $(BOOST_LIBS) $(QT_DBUS_LIBS) $(QT_TEST_LIBS) $(QT_LIBS) \
+	$(QR_LIBS) $(PROTOBUF_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS)
 if USE_LIBSECP256K1
-  qt_test_test_dogecoin_qt_LDADD += secp256k1/libsecp256k1.la
+	qt_test_test_dogecoin_qt_LDADD += secp256k1/libsecp256k1.la
 endif
 
 qt_test_test_dogecoin_qt_LDFLAGS = $(AM_LDFLAGS) $(QT_LDFLAGS)
