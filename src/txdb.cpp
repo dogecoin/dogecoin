@@ -194,7 +194,7 @@ bool CBlockTreeDB::ReadFlag(const std::string &name, bool &fValue) {
 
 bool CBlockTreeDB::LoadBlockIndexGuts()
 {
-    leveldb::Iterator *pcursor = NewIterator();
+    boost::scoped_ptr<leveldb::Iterator> pcursor(NewIterator());
 
     CDataStream ssKeySet(SER_DISK, CLIENT_VERSION);
     ssKeySet << boost::tuples::make_tuple('b', uint256(0), 'a'); // 'b' is the prefix for BlockIndex, 'a' sigifies the first part
@@ -251,7 +251,6 @@ bool CBlockTreeDB::LoadBlockIndexGuts()
             return error("%s : Deserialize or I/O error - %s", __func__, e.what());
         }
     }
-    delete pcursor;
 
     return true;
 }
