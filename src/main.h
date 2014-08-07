@@ -962,6 +962,7 @@ public:
         block.nTime           = nTime;
         block.nBits           = nBits;
         block.nNonce          = nNonce;
+        // AuxPoW is not part of the hash
         return block.GetHash();
     }
 
