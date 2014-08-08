@@ -8,6 +8,13 @@
 #include "ui_paperwalletdialog.h"
 #include "ui_helpmessagedialog.h"
 
+#include "bitcoinunits.h"
+#include "sendcoinsdialog.h"
+#include "sendcoinsentry.h"
+#include "coincontrol.h"
+#include "coincontroldialog.h"
+
+#include "optionsmodel.h"
 #include "bitcoingui.h"
 #include "clientmodel.h"
 #include "guiutil.h"
@@ -18,6 +25,7 @@
 
 #include <QLabel>
 #include <QVBoxLayout>
+#include <QInputDialog>
 
 #ifdef USE_QRCODE
 #include <qrencode.h>
@@ -28,6 +36,7 @@
 #include <QPrintPreviewDialog>
 #include <QPrintDialog>
 #include <QGraphicsScene>
+#include "walletmodel.h"
 
 
 /** "About" dialog box */
@@ -75,11 +84,14 @@ PaperWalletDialog::PaperWalletDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    ui->buttonBox->addButton(tr("Close"), QDialogButtonBox::RejectRole);
+
 }
 
-void PaperWalletDialog::setModel(ClientModel *model)
+void PaperWalletDialog::setModel(WalletModel *model)
 {
     RandAddSeed();
+    this->model = model;
     this->on_getNewAddress_clicked();
 }
 
@@ -90,60 +102,213 @@ PaperWalletDialog::~PaperWalletDialog()
 
 void PaperWalletDialog::on_getNewAddress_clicked()
 {
-        CKey newKey;
-	newKey.MakeNewKey(false);
-	CPubKey pub = newKey.GetPubKey();
-        CBitcoinAddress myaddr;
-        myaddr.Set(pub.GetID());
-	string myPubKey;
-	string myPrivKey;
+    // Create a new private key
+    CKey privKey;
+    privKey.MakeNewKey(false);
 
-	myPubKey = myaddr.ToString();
-	myPrivKey = CBitcoinSecret(newKey).ToString(); 
+    // Derive the public key and compress it
+    CPubKey pubkey = privKey.GetPubKey();
+    pubkey.Compress();
 
-        QRcode *code = QRcode_encodeString(myPubKey.c_str(), 0, QR_ECLEVEL_L, QR_MODE_8, 1);
-        if (!code)
+    // Derive the public key hash
+    CBitcoinAddress pubkeyhash;
+    pubkeyhash.Set(pubkey.GetID());
+
+    // Create String versions of each
+    string myPrivKey = CBitcoinSecret(privKey).ToString();
+    string myPubKey = HexStr(pubkey.begin(), pubkey.end());
+    string myAddress = pubkeyhash.ToString();
+
+
+    // Generate the address QR code
+    QRcode *code = QRcode_encodeString(myAddress.c_str(), 0, QR_ECLEVEL_M, QR_MODE_8, 1);
+    if (!code)
+    {
+        ui->addressQRCode->setText(tr("Error encoding Address into QR Code."));
+        return;
+    }
+    QImage myImage = QImage(code->width, code->width, QImage::Format_ARGB32);
+    myImage.fill(QColor(0,0,0,0));
+    unsigned char *p = code->data;
+    for (int y = 0; y < code->width; y++)
+    {
+        for (int x = 0; x < code->width; x++)
         {
-            ui->publicKey->setText(tr("Error encoding URI into QR Code."));
+            myImage.setPixel(x, y, ((*p & 1) ? 0xff000000 : 0x0));
+            p++;
+        }
+    }
+    QRcode_free(code);
+
+
+    // Generate the private key QR code
+    code = QRcode_encodeString(myPrivKey.c_str(), 0, QR_ECLEVEL_M, QR_MODE_8, 1);
+    if (!code)
+    {
+        ui->privateKeyQRCode->setText(tr("Error encoding private key into QR Code."));
+        return;
+    }
+    QImage myImagePriv = QImage(code->width, code->width, QImage::Format_ARGB32);
+    myImagePriv.fill(QColor(0,0,0,0));
+    p = code->data;
+    for (int y = 0; y < code->width; y++)
+    {
+        for (int x = 0; x < code->width; x++)
+        {
+            myImagePriv.setPixel(x, y, ((*p & 1) ? 0xff000000 : 0x0));
+            p++;
+        }
+    }
+    QRcode_free(code);
+
+    // Populate the QR Codes and text
+    ui->addressQRCode->setPixmap(QPixmap::fromImage(myImage).scaled(ui->addressQRCode->width(), ui->addressQRCode->height()));
+    ui->addressText->setText(tr(myAddress.c_str()));
+
+    ui->privateKeyQRCode->setPixmap(QPixmap::fromImage(myImagePriv).scaled(ui->privateKeyQRCode->width(), ui->privateKeyQRCode->height()));
+    ui->privateKeyText->setText(tr(myPrivKey.c_str()));
+
+    ui->publicKey->setHtml(myPubKey.c_str());
+
+}
+
+void PaperWalletDialog::on_printButton_clicked()
+{
+
+    QPrinter printer(QPrinter::HighResolution);
+    QPrintDialog *qpd = new QPrintDialog(&printer, this);
+
+    qpd->setEnabledOptions(QAbstractPrintDialog::PrintToFile);
+    qpd->setPrintRange(QAbstractPrintDialog::AllPages);
+
+    QList<QString> recipientPubKeyHashes;
+
+    if ( qpd->exec() != QDialog::Accepted ) {
+
+        QPainter painter;
+        if (! painter.begin(&printer)) { // failed to open file
+            qWarning("failed to open file, is it writable?");
             return;
         }
-        QImage myImage = QImage(code->width + 8, code->width + 8, QImage::Format_RGB32);
-        myImage.fill(0xffffff);
-        unsigned char *p = code->data;
-        for (int y = 0; y < code->width; y++)
-        {
-            for (int x = 0; x < code->width; x++)
-            {
-                myImage.setPixel(x + 4, y + 4, ((*p & 1) ? 0x0 : 0xffffff));
-                p++;
+
+	int walletCount = ui->walletCount->currentIndex() + 1;
+
+        int pageHeight = printer.pageRect().height();
+        int walletHeight = ui->paperTemplate->height();
+        double computedWalletHeight = 0.9 * pageHeight / 3;
+        double scale = computedWalletHeight / walletHeight;
+        double walletPadding = pageHeight * 0.05 / scale;
+
+        cout << "Page Height: " << pageHeight << "\n";
+        cout << "wallet height: " << walletHeight << "\n";
+        cout << "comp wallet height: " << computedWalletHeight << "\n";
+        cout << "scale: " << scale << "\n";
+        cout << "wallet padding: " << walletPadding << "\n";
+
+        QRegion walletRegion = QRegion(ui->paperTemplate->x(), ui->paperTemplate->y(),
+        ui->paperTemplate->width(), ui->paperTemplate->height());
+        painter.scale(scale, scale);
+
+	for(int i = 0; i < walletCount; i++) {
+
+            this->on_getNewAddress_clicked();
+            // Wallet 1
+            QPoint point = QPoint(0, ( i % 3 ) * (walletHeight + walletPadding));
+            this->render(&painter, point, walletRegion);
+	    recipientPubKeyHashes.append(ui->addressText->text());
+
+            if ( i % 3 == 2 ) {
+
+                printer.newPage();
+
             }
-        }
-        QRcode_free(code);
 
-        ui->publicKey->setPixmap(QPixmap::fromImage(myImage).scaled(125, 125));
-	ui->publicKeyText->setText(tr(myPubKey.c_str()));	
+	}
 
-        QRcode *codePriv = QRcode_encodeString(myPrivKey.c_str(), 0, QR_ECLEVEL_L, QR_MODE_8, 1);
-        if (!codePriv)
-        {
-            ui->privateKey->setText(tr("Error encoding URI into QR Code."));
-            return;
-        }
-        QImage myImagePriv = QImage(codePriv->width + 8, codePriv->width + 8, QImage::Format_RGB32);
-        myImagePriv.fill(0xffffff);
-        unsigned char *p2 = codePriv->data;
-        for (int y2 = 0; y2 < codePriv->width; y2++)
-        {
-            for (int x2 = 0; x2 < codePriv->width; x2++)
-            {
-                myImagePriv.setPixel(x2 + 4, y2 + 4, ((*p2 & 1) ? 0x0 : 0xffffff));
-                p2++;
-            }
-        }
-        QRcode_free(codePriv);
+        painter.end();
 
-        ui->privateKey->setPixmap(QPixmap::fromImage(myImagePriv).scaled(140, 140));
-	ui->privateKeyText->setText(tr(myPrivKey.c_str()));	
+    }
+
+    bool ok;
+
+    QString amountInput = QInputDialog::getText(this, "Load Wallets", "Please enter the number of DOGE you wish to send to each wallet:", QLineEdit::Normal, QString(), &ok);
+
+    if(!ok) {
+        return;
+    }
+
+    quint64 amount = amountInput.toULongLong() * COIN;
+
+    WalletModel::UnlockContext ctx(this->model->requestUnlock());
+    if(!ctx.isValid())
+    {
+        return;
+    }
+
+    QList<SendCoinsRecipient> recipients;
+    QStringList formatted;
+    foreach(const QString &dest, recipientPubKeyHashes)
+    {
+
+        recipients.append(SendCoinsRecipient(dest,tr("Paper wallet %1").arg(dest), amount,""));
+        formatted.append(tr("<b>%1</b> to Paper Wallet <span style='font-family: monospace;'>%2</span>").arg(amt,GUIUtil::HtmlEscape(dest)));
+
+    }
+
+    WalletModelTransaction tx(recipients);
+
+    WalletModel::SendCoinsReturn prepareStatus;
+    if (this->model->getOptionsModel()->getCoinControlFeatures()) // coin control enabled
+        prepareStatus = this->model->prepareTransaction(tx, CoinControlDialog::coinControl);
+    else
+        prepareStatus = this->model->prepareTransaction(tx);
+
+    if(prepareStatus.status != WalletModel::OK) {
+	cout << "Wallet model ! == OK\n";
+        return;
+    }
+
+   // Stolen from sendcoinsdialog.cpp
+    qint64 txFee = tx.getTransactionFee();
+    QString questionString = tr("Are you sure you want to send?");
+    questionString.append("<br /><br />%1");
+
+    if(txFee > 0)
+    {
+        // append fee string if a fee is required
+        questionString.append("<hr /><span style='color:#aa0000;'>");
+        questionString.append(BitcoinUnits::formatWithUnit(model->getOptionsModel()->getDisplayUnit(), txFee));
+        questionString.append("</span> ");
+        questionString.append(tr("added as transaction fee"));
+    }
+
+    // add total amount in all subdivision units
+    questionString.append("<hr />");
+    qint64 totalAmount = tx.getTotalTransactionAmount() + txFee;
+    QStringList alternativeUnits;
+    foreach(BitcoinUnits::Unit u, BitcoinUnits::availableUnits())
+    {
+        if(u != model->getOptionsModel()->getDisplayUnit())
+            alternativeUnits.append(BitcoinUnits::formatWithUnit(u, totalAmount));
+    }
+
+    questionString.append(tr("Total Amount %1 (= %2)")
+        .arg(BitcoinUnits::formatWithUnit(model->getOptionsModel()->getDisplayUnit(), totalAmount))
+        .arg(alternativeUnits.join(" " + tr("or") + " ")));
+
+    QMessageBox::StandardButton retval = QMessageBox::question(this, tr("Confirm send coins"),
+        questionString.arg(formatted.join("<br />")),
+        QMessageBox::Yes | QMessageBox::Cancel,
+        QMessageBox::Cancel);
+
+    if(retval != QMessageBox::Yes)
+    {
+        return;
+    }
+
+    WalletModel::SendCoinsReturn sendStatus = this->model->sendCoins(tx);
+
+    return;
 
 }
 
