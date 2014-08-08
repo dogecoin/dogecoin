@@ -251,7 +251,7 @@ void PaperWalletDialog::on_printButton_clicked()
     {
 
         recipients.append(SendCoinsRecipient(dest,tr("Paper wallet %1").arg(dest), amount,""));
-        formatted.append(tr("<b>%1</b> to Paper Wallet <span style='font-family: monospace;'>%2</span>").arg(amt,GUIUtil::HtmlEscape(dest)));
+        formatted.append(tr("<b>%1</b> to Paper Wallet <span style='font-family: monospace;'>%2</span>").arg(amountInput,GUIUtil::HtmlEscape(dest)));
 
     }
 
