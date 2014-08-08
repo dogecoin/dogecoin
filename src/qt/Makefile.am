@@ -247,6 +247,7 @@ RES_ICONS = \
   res/icons/lock_closed.png \
   res/icons/lock_open.png \
   res/icons/overview.png \
+  res/icons/print.png \
   res/icons/qrcode.png \
   res/icons/quit.png \
   res/icons/receive.png \

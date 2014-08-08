@@ -7,6 +7,7 @@
 
 #include <QDialog>
 #include <QObject>
+#include "walletmodel.h"
 
 class BitcoinGUI;
 class ClientModel;
@@ -44,13 +45,15 @@ public:
     explicit PaperWalletDialog(QWidget *parent);
     ~PaperWalletDialog();
 
-    void setModel(ClientModel *model);
+    void setModel(WalletModel *model);
 
 private:
     Ui::PaperWalletDialog *ui;
+    WalletModel *model;
 
 private slots:
     void on_getNewAddress_clicked();
+    void on_printButton_clicked();
 };
 
 /** "Help message" dialog box */
