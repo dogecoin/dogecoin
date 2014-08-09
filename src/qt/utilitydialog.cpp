@@ -31,7 +31,7 @@
 #include <qrencode.h>
 #endif
 
-#include <QPrinter>
+#include <QtPrintSupport/QPrinter>
 #include <QPainter>
 #include <QPrintPreviewDialog>
 #include <QPrintDialog>
