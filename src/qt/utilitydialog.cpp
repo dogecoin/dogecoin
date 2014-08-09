@@ -32,8 +32,8 @@
 #endif
 
 #include <QtPrintSupport/QPrinter>
+#include <QtPrintSupport/QPrintPreviewDialog>
 #include <QPainter>
-#include <QPrintPreviewDialog>
 #include <QPrintDialog>
 #include <QGraphicsScene>
 #include "walletmodel.h"
