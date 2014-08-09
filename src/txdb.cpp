@@ -198,7 +198,7 @@ bool CBlockTreeDB::LoadBlockIndexGuts()
 
     CDataStream ssKeySet(SER_DISK, CLIENT_VERSION);
     uint256 hash;
-    ssKeySet << boost::tuples::make_tuple('b', uint256(0), 'a'); // 'b' is the prefix for BlockIndex, 'a' sigifies the first part
+    ssKeySet << boost::tuples::make_tuple('b', uint256(0), 'a'); // 'b' is the prefix for BlockIndex, 'a' signifies the first part
     pcursor->Seek(ssKeySet.str());
 
     // Load mapBlockIndex
@@ -210,6 +210,11 @@ bool CBlockTreeDB::LoadBlockIndexGuts()
             char chType;
             ssKey >> chType;
             if (chType == 'b') {
+                // Detect pre-1.8 keys in the database and abort if found
+                if (slKey.size() < ssKeySet.size()) {
+                    return error("Database key size is %d expected %d, require reindex to upgrade.", slKey.size(), ssKeySet.size());
+                }
+
                 ssKey >> hash;
                 
                 leveldb::Slice slValue = pcursor->value();
