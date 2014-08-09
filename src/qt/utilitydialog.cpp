@@ -183,7 +183,7 @@ void PaperWalletDialog::on_printButton_clicked()
 
     QList<QString> recipientPubKeyHashes;
 
-    if ( qpd->exec() != QDialog::Accepted ) {
+    if ( qpd->exec() == QDialog::Accepted ) {
 
         QPainter painter;
         if (! painter.begin(&printer)) { // failed to open file
@@ -199,27 +199,24 @@ void PaperWalletDialog::on_printButton_clicked()
         double scale = computedWalletHeight / walletHeight;
         double walletPadding = pageHeight * 0.05 / scale;
 
-        cout << "Page Height: " << pageHeight << "\n";
-        cout << "wallet height: " << walletHeight << "\n";
-        cout << "comp wallet height: " << computedWalletHeight << "\n";
-        cout << "scale: " << scale << "\n";
-        cout << "wallet padding: " << walletPadding << "\n";
-
         QRegion walletRegion = QRegion(ui->paperTemplate->x(), ui->paperTemplate->y(),
         ui->paperTemplate->width(), ui->paperTemplate->height());
         painter.scale(scale, scale);
 
 	for(int i = 0; i < walletCount; i++) {
 
+            cout << "Starting to generate wallet #" << i << "\n";
             this->on_getNewAddress_clicked();
-            // Wallet 1
             QPoint point = QPoint(0, ( i % 3 ) * (walletHeight + walletPadding));
             this->render(&painter, point, walletRegion);
 	    recipientPubKeyHashes.append(ui->addressText->text());
 
+            cout << "Generated wallet #" << i << "\n";
+
             if ( i % 3 == 2 ) {
 
                 printer.newPage();
+                cout << "Next Page\n";
 
             }
 
@@ -231,7 +228,7 @@ void PaperWalletDialog::on_printButton_clicked()
 
     bool ok;
 
-    QString amountInput = QInputDialog::getText(this, "Load Wallets", "Please enter the number of DOGE you wish to send to each wallet:", QLineEdit::Normal, QString(), &ok);
+    QString amountInput = QInputDialog::getText(this, "Load Wallets", "Please wait for wallets to print and verify readability.<br/>Enter the number of DOGE you wish to send to each wallet:", QLineEdit::Normal, QString(), &ok);
 
     if(!ok) {
         return;
