@@ -32,9 +32,9 @@
 #endif
 
 #include <QtPrintSupport/QPrinter>
+#include <QtPrintSupport/QPrintDialog>
 #include <QtPrintSupport/QPrintPreviewDialog>
 #include <QPainter>
-#include <QPrintDialog>
 #include <QGraphicsScene>
 #include "walletmodel.h"
 
