@@ -1,5 +1,7 @@
-Building Bitcoin
+####Building Dogecoin
+
+----
 
 See doc/build-*.md for instructions on building bitcoind,
 the intended-for-services, no-graphical-interface, reference
-implementation of Bitcoin.
+implementation of Dogecoin.
