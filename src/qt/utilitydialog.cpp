@@ -31,9 +31,16 @@
 #include <qrencode.h>
 #endif
 
+#if QT_VERSION < 0x050000
+#include <QPrinter>
+#include <QPrintDialog>
+#include <QPrintPreviewDialog>
+#else
+// Use QT5's new modular classes
 #include <QtPrintSupport/QPrinter>
 #include <QtPrintSupport/QPrintDialog>
 #include <QtPrintSupport/QPrintPreviewDialog>
+#endif
 #include <QPainter>
 #include <QGraphicsScene>
 #include "walletmodel.h"
