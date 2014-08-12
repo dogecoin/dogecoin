@@ -57,7 +57,7 @@ Dependency Build Instructions: Ubuntu & Debian
 Build requirements:
 
 	sudo apt-get install build-essential pkg-config
-	sudo apt-get install libtool autotools-dev autoconf
+	sudo apt-get install libtool autotools-dev autoconf automake
 	sudo apt-get install libssl-dev
 
 for Ubuntu 12.04 and later:
