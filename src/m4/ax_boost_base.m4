@@ -103,6 +103,12 @@ if test "x$want_boost" = "xyes"; then
     AC_REQUIRE([AC_CANONICAL_HOST])
     libsubdirs="lib/${host_cpu}-${host_os} $libsubdirs"
 
+    case ${host_cpu} in
+      i?86)
+        libsubdirs="lib/i386-${host_os} $libsubdirs"
+        ;;
+    esac
+
     dnl first we check the system location for boost libraries
     dnl this location ist chosen if boost libraries are installed with the --layout=system option
     dnl or if you install boost with RPM
