@@ -101,7 +101,7 @@ BITCOIN_CORE_H = \
   rpcclient.h \
   rpcprotocol.h \
   rpcserver.h \
-  script.h \
+  scriptutils.h \
   serialize.h \
   sync.h \
   threadsafety.h \
@@ -213,7 +213,7 @@ libbitcoin_common_a_SOURCES = \
   keystore.cpp \
   netbase.cpp \
   protocol.cpp \
-  script.cpp \
+  scriptutils.cpp \
   $(BITCOIN_CORE_H)
 
 # util: shared between all executables.

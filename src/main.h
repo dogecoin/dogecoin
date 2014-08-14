@@ -18,7 +18,7 @@
 #include "core.h"
 #include "net.h"
 #include "pow.h"
-#include "script.h"
+#include "scriptutils.h"
 #include "crypto/scrypt.h"
 #include "sync.h"
 #include "txmempool.h"

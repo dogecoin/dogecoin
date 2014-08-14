@@ -1,7 +1,7 @@
 // Copyright (c) 2011 Vince Durham
 // Distributed under the MIT/X11 software license, see the accompanying
 // file license.txt or http://www.opensource.org/licenses/mit-license.php.
-#include "script.h"
+#include "scriptutils.h"
 #include "auxpow.h"
 #include "init.h"
 #include "util.h"

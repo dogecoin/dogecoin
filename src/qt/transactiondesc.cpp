@@ -16,7 +16,7 @@
 #include "ui_interface.h"
 #include "util.h"
 #include "wallet.h"
-#include "script.h"
+#include "scriptutils.h"
 
 #include <stdint.h>
 #include <string>
