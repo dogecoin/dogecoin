@@ -24,6 +24,7 @@
 #include "util.h"
 
 #include <QLabel>
+#include <QFont>
 #include <QVBoxLayout>
 #include <QInputDialog>
 
@@ -42,7 +43,6 @@
 #include <QtPrintSupport/QPrintPreviewDialog>
 #endif
 #include <QPainter>
-#include <QGraphicsScene>
 #include "walletmodel.h"
 
 
@@ -93,6 +93,16 @@ PaperWalletDialog::PaperWalletDialog(QWidget *parent) :
 
     ui->buttonBox->addButton(tr("Close"), QDialogButtonBox::RejectRole);
 
+    // Begin with a small bold monospace font for the textual version of the key and address.
+    QFont font("Monospace");
+    font.setBold(true);
+    font.setStyleHint(QFont::TypeWriter);
+    font.setPointSize(7);
+    ui->addressText->setFont(font);
+    ui->privateKeyText->setFont(font);
+    ui->addressText->setAlignment(Qt::AlignJustify);
+    ui->privateKeyText->setAlignment(Qt::AlignJustify);
+
 }
 
 void PaperWalletDialog::setModel(WalletModel *model)
@@ -111,11 +121,10 @@ void PaperWalletDialog::on_getNewAddress_clicked()
 {
     // Create a new private key
     CKey privKey;
-    privKey.MakeNewKey(false);
+    privKey.MakeNewKey(true);
 
-    // Derive the public key and compress it
+    // Derive the public key
     CPubKey pubkey = privKey.GetPubKey();
-    pubkey.Compress();
 
     // Derive the public key hash
     CBitcoinAddress pubkeyhash;
@@ -170,12 +179,51 @@ void PaperWalletDialog::on_getNewAddress_clicked()
 
     // Populate the QR Codes and text
     ui->addressQRCode->setPixmap(QPixmap::fromImage(myImage).scaled(ui->addressQRCode->width(), ui->addressQRCode->height()));
-    ui->addressText->setText(tr(myAddress.c_str()));
+    ui->addressText->setText(myAddress.c_str());
 
     ui->privateKeyQRCode->setPixmap(QPixmap::fromImage(myImagePriv).scaled(ui->privateKeyQRCode->width(), ui->privateKeyQRCode->height()));
     ui->privateKeyText->setText(tr(myPrivKey.c_str()));
 
     ui->publicKey->setHtml(myPubKey.c_str());
+
+    // Update the fonts to fit the height of the wallet.
+    // This should only really trigger the first time since the font size persists.
+    double paperHeight = (double) ui->paperTemplate->height();
+    double maxAddressLength = paperHeight * 0.99;   
+    double minAddressLength = paperHeight * 0.9;
+    double fontSizeStep = 0.25;
+
+    int addressTextLength = ui->addressText->fontMetrics().boundingRect(ui->addressText->text()).width();
+    QFont font = ui->addressText->font();
+    for(int i = 0; i < 20; i++) {
+        if ( addressTextLength < minAddressLength) {
+            font.setPointSizeF((qreal)(font.pointSizeF() + fontSizeStep));
+            ui->addressText->setFont(font);
+            addressTextLength = ui->addressText->fontMetrics().boundingRect(ui->addressText->text()).width();
+        }
+
+    }
+    if ( addressTextLength > maxAddressLength ) {
+        font.setPointSizeF((qreal)(font.pointSizeF() - fontSizeStep));
+        ui->addressText->setFont(font);
+    }
+
+    minAddressLength = paperHeight * 0.97;
+
+    int privateKeyTextLength = ui->privateKeyText->fontMetrics().boundingRect(ui->privateKeyText->text()).width();
+    font = ui->privateKeyText->font();
+    for(int i = 0; i < 10; i++) {
+        if ( privateKeyTextLength < minAddressLength) {
+            font.setPointSizeF((qreal)(font.pointSizeF() + fontSizeStep));
+            ui->privateKeyText->setFont(font);
+            privateKeyTextLength = ui->privateKeyText->fontMetrics().boundingRect(ui->privateKeyText->text()).width();
+        }
+
+    }
+    if ( privateKeyTextLength > maxAddressLength ) {
+        font.setPointSizeF((qreal) (font.pointSizeF() - fontSizeStep));
+        ui->privateKeyText->setFont(font);
+    }
 
 }
 
@@ -185,53 +233,56 @@ void PaperWalletDialog::on_printButton_clicked()
     QPrinter printer(QPrinter::HighResolution);
     QPrintDialog *qpd = new QPrintDialog(&printer, this);
 
-    qpd->setEnabledOptions(QAbstractPrintDialog::PrintToFile);
     qpd->setPrintRange(QAbstractPrintDialog::AllPages);
 
     QList<QString> recipientPubKeyHashes;
 
-    if ( qpd->exec() == QDialog::Accepted ) {
+    if ( qpd->exec() != QDialog::Accepted ) {
+        return;
+    }
 
-        QPainter painter;
-        if (! painter.begin(&printer)) { // failed to open file
-            qWarning("failed to open file, is it writable?");
-            return;
-        }
+    QPrinter::PaperSize paperSize = printer.paperSize();
 
-	int walletCount = ui->walletCount->currentIndex() + 1;
+    // Hardcode these values
+    printer.setOrientation(QPrinter::Portrait);
+    printer.setPaperSize(QPrinter::A4);
+    printer.setFullPage(true);
 
-        int pageHeight = printer.pageRect().height();
-        int walletHeight = ui->paperTemplate->height();
-        double computedWalletHeight = 0.9 * pageHeight / 3;
-        double scale = computedWalletHeight / walletHeight;
-        double walletPadding = pageHeight * 0.05 / scale;
+    QPainter painter;
+    if (! painter.begin(&printer)) { // failed to open file
+        QMessageBox::critical(this, "Printing Error", tr("failed to open file, is it writable?"), QMessageBox::Ok, QMessageBox::Ok);
+        return;
+    }
 
-        QRegion walletRegion = QRegion(ui->paperTemplate->x(), ui->paperTemplate->y(),
-        ui->paperTemplate->width(), ui->paperTemplate->height());
+    int walletCount = ui->walletCount->currentIndex() + 1;
+    int walletsPerPage = 4;
+
+    int pageHeight = printer.pageRect().height();
+    int walletHeight = ui->paperTemplate->height();
+    double computedWalletHeight = 0.9 * pageHeight / walletsPerPage;
+    double scale = computedWalletHeight / walletHeight;
+    double walletPadding = pageHeight * 0.05 / (walletsPerPage - 1) / scale;
+
+    QRegion walletRegion = QRegion(ui->paperTemplate->x(), ui->paperTemplate->y(),
+    ui->paperTemplate->width(), ui->paperTemplate->height());
         painter.scale(scale, scale);
 
-	for(int i = 0; i < walletCount; i++) {
+    for(int i = 0; i < walletCount; i++) {
 
-            cout << "Starting to generate wallet #" << i << "\n";
-            this->on_getNewAddress_clicked();
-            QPoint point = QPoint(0, ( i % 3 ) * (walletHeight + walletPadding));
-            this->render(&painter, point, walletRegion);
-	    recipientPubKeyHashes.append(ui->addressText->text());
+        this->on_getNewAddress_clicked();
+        QPoint point = QPoint(0, ( i % walletsPerPage ) * (walletHeight + walletPadding));
+        this->render(&painter, point, walletRegion);
+	recipientPubKeyHashes.append(ui->addressText->text());
 
-            cout << "Generated wallet #" << i << "\n";
+        if ( i % walletsPerPage == ( walletsPerPage - 1 ) ) {
 
-            if ( i % 3 == 2 ) {
+            printer.newPage();
 
-                printer.newPage();
-                cout << "Next Page\n";
-
-            }
-
-	}
-
-        painter.end();
+        }
 
     }
+
+    painter.end();
 
     bool ok;
 
