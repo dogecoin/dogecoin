@@ -58,7 +58,7 @@
     <string>Very New Address</string>
    </property>
    <property name="icon">
-    <iconset resource="../../../../../Dogecoin/dogecoin/src/qt/dogecoin.qrc">
+    <iconset resource="../dogecoin.qrc">
      <normaloff>:/icons/add</normaloff>:/icons/add</iconset>
    </property>
   </widget>
@@ -89,7 +89,6 @@
    </property>
    <property name="font">
     <font>
-     <family>Monospace</family>
      <pointsize>12</pointsize>
      <weight>75</weight>
      <italic>false</italic>
@@ -97,7 +96,7 @@
     </font>
    </property>
    <property name="text">
-    <string/>
+    <string>HELLO</string>
    </property>
    <property name="textInteractionFlags">
     <set>Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
@@ -141,7 +140,7 @@
     <string>So Print</string>
    </property>
    <property name="icon">
-    <iconset resource="../../../../../Dogecoin/dogecoin/src/qt/dogecoin.qrc">
+    <iconset resource="../dogecoin.qrc">
      <normaloff>:/icons/receiving_addresses</normaloff>:/icons/receiving_addresses</iconset>
    </property>
   </widget>
@@ -312,9 +311,7 @@ p, li { white-space: pre-wrap; }
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../../../../../Dogecoin/dogecoin/src/qt/dogecoin.qrc"/>
-  <include location="../../../../../.designer/dogecoin.qrc"/>
-  <include location="../../../../../../../../Dogecoin/dogecoin/src/qt/dogecoin.qrc"/>
+  <include location="../dogecoin.qrc"/>
  </resources>
  <connections>
   <connection>
