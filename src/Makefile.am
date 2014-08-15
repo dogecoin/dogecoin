@@ -234,6 +234,7 @@ libbitcoin_util_a_SOURCES += compat/glibcxx_compat.cpp
 endif
 
 # cli: shared between bitcoin-cli and bitcoin-qt
+libbitcoin_cli_a_CPPFLAGS = $(BITCOIN_INCLUDES)
 libbitcoin_cli_a_SOURCES = \
   rpcclient.cpp \
   $(BITCOIN_CORE_H)
@@ -285,9 +286,6 @@ dogecoin_cli_SOURCES = \
 if USE_LIBSECP256K1
   dogecoin_cli_LDADD += secp256k1/libsecp256k1.la
 endif
-
-dogecoin_cli_SOURCES = \
-  dogecoin-cli.cpp
 dogecoin_cli_CPPFLAGS = $(BITCOIN_INCLUDES)
 #
 
