@@ -55,8 +55,8 @@ if BUILD_BITCOIND
   bin_PROGRAMS += dogecoind
 endif
 
-if BUILD_BITCOIN_CLI
-  bin_PROGRAMS += dogecoin-cli
+if BUILD_BITCOIN_UTILS
+  bin_PROGRAMS += dogecoin-cli dogecoin-tx
 endif
 
 .PHONY: FORCE
