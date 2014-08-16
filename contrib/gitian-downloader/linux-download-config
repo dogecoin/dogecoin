@@ -3,7 +3,7 @@ name: dogecoin
 urls:
 - http://example.org/dogecoin-latest-linux-gitian.zip
 rss:
-- url: http://sourceforge.net/api/file/index/project-id/244765/mtime/desc/limit/100/rss
+- url: http://sourceforge.net/projects/dogecoin/rss
   xpath: //item/link/text()
   pattern: dogecoin-\d+.\d+.\d+-linux-gitian.zip
 signers:
