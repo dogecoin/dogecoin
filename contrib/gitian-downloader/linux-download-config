@@ -3,7 +3,7 @@ name: dogecoin
 urls:
 - http://example.org/dogecoin-latest-linux-gitian.zip
 rss:
-- url: http://sourceforge.net/api/file/index/project-id/244765/mtime/desc/limit/100/rss
+- url: http://sourceforge.net/projects/dogecoin/rss
   xpath: //item/link/text()
   pattern: dogecoin-\d+.\d+.\d+-linux-gitian.zip
 signers:
@@ -16,13 +16,15 @@ signers:
     name: langerhans
     key: langerhans
   86601A39AEE177B1D1F0F7971AEF9F73ECA11726:
-    weight: 40
+    weight: 20
     name: leofidus-ger
     key: leofidus-key
   6E9C3630F63C1541054C9503B1C60A65E5E64D7B:
+    weight: 20
     name: "Patrick Lodder"
     key: patricklodder-key
   B8273C8A55820B19C2152407279566AD6D852A36:
+    weight: 20
     name: stapler117
     key: stapler117
 minimum_weight: 120
