@@ -763,7 +763,8 @@ Value getworkaux(const Array& params, bool fHelp)
 
         RemoveMergedMiningHeader(vchAux);
 
-        pblock->vtx[0].vin[0].scriptSig = MakeCoinbaseWithAux(pblock->nBits, nExtraNonce, vchAux);
+        unsigned int nHeight = chainActive.Tip()->nHeight+1; // Height first in coinbase required for block.version=2
+        pblock->vtx[0].vin[0].scriptSig = MakeCoinbaseWithAux(nHeight, nExtraNonce, vchAux);
         pblock->hashMerkleRoot = pblock->BuildMerkleTree();
 
         if (params.size() > 2)
@@ -859,9 +860,10 @@ Value getauxblock(const Array& params, bool fHelp)
             pblock->nTime = max(pindexPrev->GetMedianTimePast()+1, GetAdjustedTime());
             pblock->nNonce = 0;
 
-            // Push OP_2 just in case we want versioning later
-            pblock->vtx[0].vin[0].scriptSig = CScript() << pblock->nBits << CScriptNum(1) << OP_2;
-            pblock->hashMerkleRoot = pblock->BuildMerkleTree();
+            
+            // Update nExtraNonce
+            static unsigned int nExtraNonce = 0;
+            IncrementExtraNonce(pblock, pindexPrev, nExtraNonce);
 
             // Sets the version
             pblock->SetAuxPow(new CAuxPow());
