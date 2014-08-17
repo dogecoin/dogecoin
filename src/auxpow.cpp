@@ -109,8 +109,12 @@ CScript MakeCoinbaseWithAux(unsigned int nHeight, unsigned int nExtraNonce, vect
     vector<unsigned char> vchAuxWithHeader(UBEGIN(pchMergedMiningHeader), UEND(pchMergedMiningHeader));
     vchAuxWithHeader.insert(vchAuxWithHeader.end(), vchAux.begin(), vchAux.end());
 
+    CScript script = (CScript() << nHeight << CScriptNum(nExtraNonce)) + COINBASE_FLAGS;
+    
     // Push OP_2 just in case we want versioning later
-    return CScript() << nHeight << CScriptNum(nExtraNonce) << COINBASE_FLAGS << OP_2 << vchAuxWithHeader;
+    script = script << OP_2 << vchAuxWithHeader;
+    
+    return script;
 }
 
 
