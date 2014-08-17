@@ -89,6 +89,7 @@
    </property>
    <property name="font">
     <font>
+     <family>Monospace</family>
      <pointsize>12</pointsize>
      <weight>75</weight>
      <italic>false</italic>
@@ -96,7 +97,10 @@
     </font>
    </property>
    <property name="text">
-    <string>HELLO</string>
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
    <property name="textInteractionFlags">
     <set>Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
@@ -122,6 +126,12 @@
    </property>
    <property name="text">
     <string/>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
    <property name="textInteractionFlags">
     <set>Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>

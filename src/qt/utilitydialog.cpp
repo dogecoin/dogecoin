@@ -97,7 +97,7 @@ PaperWalletDialog::PaperWalletDialog(QWidget *parent) :
     QFont font("Monospace");
     font.setBold(true);
     font.setStyleHint(QFont::TypeWriter);
-    font.setPointSize(7);
+    font.setPixelSize(1);
     ui->addressText->setFont(font);
     ui->privateKeyText->setFont(font);
     ui->addressText->setAlignment(Qt::AlignJustify);
@@ -189,40 +189,40 @@ void PaperWalletDialog::on_getNewAddress_clicked()
     // Update the fonts to fit the height of the wallet.
     // This should only really trigger the first time since the font size persists.
     double paperHeight = (double) ui->paperTemplate->height();
-    double maxAddressLength = paperHeight * 0.99;   
-    double minAddressLength = paperHeight * 0.9;
-    double fontSizeStep = 0.25;
+    double maxTextWidth = paperHeight * 0.99;   
+    double minTextWidth = paperHeight * 0.95;
+    int pixelSizeStep = 1;
 
     int addressTextLength = ui->addressText->fontMetrics().boundingRect(ui->addressText->text()).width();
     QFont font = ui->addressText->font();
     for(int i = 0; i < 20; i++) {
-        if ( addressTextLength < minAddressLength) {
-            font.setPointSizeF((qreal)(font.pointSizeF() + fontSizeStep));
+        if ( addressTextLength < minTextWidth) {
+            font.setPixelSize(font.pixelSize() + pixelSizeStep);
             ui->addressText->setFont(font);
             addressTextLength = ui->addressText->fontMetrics().boundingRect(ui->addressText->text()).width();
         }
 
     }
-    if ( addressTextLength > maxAddressLength ) {
-        font.setPointSizeF((qreal)(font.pointSizeF() - fontSizeStep));
+    if ( addressTextLength > maxTextWidth ) {
+        font.setPixelSize(font.pixelSize() - pixelSizeStep);
         ui->addressText->setFont(font);
+        addressTextLength = ui->addressText->fontMetrics().boundingRect(ui->addressText->text()).width();
     }
-
-    minAddressLength = paperHeight * 0.97;
 
     int privateKeyTextLength = ui->privateKeyText->fontMetrics().boundingRect(ui->privateKeyText->text()).width();
     font = ui->privateKeyText->font();
-    for(int i = 0; i < 10; i++) {
-        if ( privateKeyTextLength < minAddressLength) {
-            font.setPointSizeF((qreal)(font.pointSizeF() + fontSizeStep));
+    for(int i = 0; i < 20; i++) {
+        if ( privateKeyTextLength < minTextWidth) {
+            font.setPixelSize(font.pixelSize() + pixelSizeStep);
             ui->privateKeyText->setFont(font);
             privateKeyTextLength = ui->privateKeyText->fontMetrics().boundingRect(ui->privateKeyText->text()).width();
         }
 
     }
-    if ( privateKeyTextLength > maxAddressLength ) {
-        font.setPointSizeF((qreal) (font.pointSizeF() - fontSizeStep));
+    if ( privateKeyTextLength > maxTextWidth ) {
+        font.setPixelSize(font.pixelSize() - pixelSizeStep);
         ui->privateKeyText->setFont(font);
+        privateKeyTextLength = ui->privateKeyText->fontMetrics().boundingRect(ui->privateKeyText->text()).width();
     }
 
 }
@@ -240,8 +240,6 @@ void PaperWalletDialog::on_printButton_clicked()
     if ( qpd->exec() != QDialog::Accepted ) {
         return;
     }
-
-    QPrinter::PaperSize paperSize = printer.paperSize();
 
     // Hardcode these values
     printer.setOrientation(QPrinter::Portrait);
@@ -284,47 +282,66 @@ void PaperWalletDialog::on_printButton_clicked()
 
     painter.end();
 
-    bool ok;
-
-    QString amountInput = QInputDialog::getText(this, "Load Wallets", "Please wait for wallets to print and verify readability.<br/>Enter the number of DOGE you wish to send to each wallet:", QLineEdit::Normal, QString(), &ok);
-
-    if(!ok) {
-        return;
-    }
-
-    quint64 amount = amountInput.toULongLong() * COIN;
-
-    WalletModel::UnlockContext ctx(this->model->requestUnlock());
-    if(!ctx.isValid())
-    {
-        return;
-    }
-
-    QList<SendCoinsRecipient> recipients;
     QStringList formatted;
-    foreach(const QString &dest, recipientPubKeyHashes)
-    {
 
-        recipients.append(SendCoinsRecipient(dest,tr("Paper wallet %1").arg(dest), amount,""));
-        formatted.append(tr("<b>%1</b> to Paper Wallet <span style='font-family: monospace;'>%2</span>").arg(amountInput,GUIUtil::HtmlEscape(dest)));
+    WalletModelTransaction *tx;
+    while( true ) {
+        bool ok;
 
-    }
+        QString amountInput = QInputDialog::getText(this, tr("Load Paper Wallets"), "Please wait for wallets to print and verify readability.<br/>Enter the number of DOGE you wish to send to each wallet:", QLineEdit::Normal, QString(), &ok);
 
-    WalletModelTransaction tx(recipients);
+        if(!ok) {
+    	    return;
+        }
 
-    WalletModel::SendCoinsReturn prepareStatus;
-    if (this->model->getOptionsModel()->getCoinControlFeatures()) // coin control enabled
-        prepareStatus = this->model->prepareTransaction(tx, CoinControlDialog::coinControl);
-    else
-        prepareStatus = this->model->prepareTransaction(tx);
 
-    if(prepareStatus.status != WalletModel::OK) {
-	cout << "Wallet model ! == OK\n";
-        return;
+        WalletModel::UnlockContext ctx(this->model->requestUnlock());
+        if(!ctx.isValid())
+        {
+    	    return;
+        }
+
+        QList<SendCoinsRecipient> recipients;
+        quint64 amount = amountInput.toULongLong() * COIN;
+        foreach(const QString &dest, recipientPubKeyHashes)
+        {
+
+    	    recipients.append(SendCoinsRecipient(dest,tr("Paper wallet %1").arg(dest), amount,""));
+    	    formatted.append(tr("<b>%1</b> to Paper Wallet <span style='font-family: monospace;'>%2</span>").arg(amountInput,GUIUtil::HtmlEscape(dest)));
+
+        }
+
+        tx = new WalletModelTransaction(recipients);
+
+        WalletModel::SendCoinsReturn prepareStatus;
+        if (this->model->getOptionsModel()->getCoinControlFeatures()) // coin control enabled
+    	    prepareStatus = this->model->prepareTransaction(*tx, CoinControlDialog::coinControl);
+        else
+    	    prepareStatus = this->model->prepareTransaction(*tx);
+
+        if (prepareStatus.status == WalletModel::InvalidAddress) {
+            QMessageBox::critical(this, tr("Send Coins"), tr("The recipient address is not valid, please recheck."), QMessageBox::Ok, QMessageBox::Ok);
+        } else if (prepareStatus.status == WalletModel::InvalidAmount) {
+            QMessageBox::critical(this, tr("Send Coins"), tr("The amount to pay must be larger than 0"), QMessageBox::Ok, QMessageBox::Ok);
+        } else if (prepareStatus.status == WalletModel::AmountExceedsBalance) {
+            QMessageBox::critical(this, tr("Send Coins"), tr("The amount exceeds your balance."), QMessageBox::Ok, QMessageBox::Ok);
+        } else if (prepareStatus.status == WalletModel::AmountWithFeeExceedsBalance) {
+            QMessageBox::critical(this, tr("Send Coins"), tr("The total exceeds your balance when the transaction fee is included"), QMessageBox::Ok, QMessageBox::Ok);
+        } else if (prepareStatus.status == WalletModel::DuplicateAddress) {
+            QMessageBox::critical(this, tr("Send Coins"), tr("Duplicate address found, can only send to each address once per send operation."), QMessageBox::Ok, QMessageBox::Ok);
+        } else if (prepareStatus.status == WalletModel::TransactionCreationFailed) {
+            QMessageBox::critical(this, tr("Send Coins"), tr("Transaction creation failed!"), QMessageBox::Ok, QMessageBox::Ok);
+        } else if (prepareStatus.status == WalletModel::OK) {
+	    break;
+        } else {
+            delete tx;
+	    return;
+        }
+
     }
 
    // Stolen from sendcoinsdialog.cpp
-    qint64 txFee = tx.getTransactionFee();
+    qint64 txFee = tx->getTransactionFee();
     QString questionString = tr("Are you sure you want to send?");
     questionString.append("<br /><br />%1");
 
@@ -339,7 +356,7 @@ void PaperWalletDialog::on_printButton_clicked()
 
     // add total amount in all subdivision units
     questionString.append("<hr />");
-    qint64 totalAmount = tx.getTotalTransactionAmount() + txFee;
+    qint64 totalAmount = tx->getTotalTransactionAmount() + txFee;
     QStringList alternativeUnits;
     foreach(BitcoinUnits::Unit u, BitcoinUnits::availableUnits())
     {
@@ -358,11 +375,16 @@ void PaperWalletDialog::on_printButton_clicked()
 
     if(retval != QMessageBox::Yes)
     {
+        delete tx;
         return;
     }
 
-    WalletModel::SendCoinsReturn sendStatus = this->model->sendCoins(tx);
+    WalletModel::SendCoinsReturn sendStatus = this->model->sendCoins(*tx);
 
+    if (sendStatus.status == WalletModel::TransactionCommitFailed) {
+        QMessageBox::critical(this, tr("Send Coins"), tr("The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here."), QMessageBox::Ok, QMessageBox::Ok);
+    }
+    delete tx;
     return;
 
 }
