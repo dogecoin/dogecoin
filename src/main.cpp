@@ -1428,6 +1428,9 @@ bool fLargeWorkForkFound = false;
 bool fLargeWorkInvalidChainFound = false;
 CBlockIndex *pindexBestForkTip = NULL, *pindexBestForkBase = NULL;
 
+// Temporarily declare this here so CheckForkWarningConditions() knows it exists
+int GetAuxPowStartBlock();
+
 void CheckForkWarningConditions()
 {
     AssertLockHeld(cs_main);
@@ -1435,6 +1438,22 @@ void CheckForkWarningConditions()
     // (we assume we don't get stuck on a fork before the last checkpoint)
     if (IsInitialBlockDownload())
         return;
+    
+    // For an hour before, and a day after the AuxPoW hard fork, disable
+    // warnings.
+    int proximityToAuxPoWFork = chainActive.Height() - GetAuxPowStartBlock();
+    
+    if (proximityToAuxPoWFork < 0) {
+      // One hour of one-minute blocks
+      if (proximityToAuxPoWFork >= -60) {
+        return;
+      }
+    } else {
+      // 1440 is 24 * 60 (24 hours of one-minute blocks)
+      if (proximityToAuxPoWFork < 1440) {
+        return;
+      }
+    }
 
     // If our best fork is no longer within 360 blocks (+/- 6 hours if no one mines it)
     // of our head, drop it
