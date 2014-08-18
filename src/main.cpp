@@ -1889,9 +1889,11 @@ bool ConnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex, C
     if (fEnforceBIP30) {
         for (unsigned int i = 0; i < block.vtx.size(); i++) {
             uint256 hash = block.GetTxHash(i);
-            if (view.HaveCoins(hash) && !view.GetCoins(hash).IsPruned())
-                return state.DoS(100, error("ConnectBlock() : tried to overwrite transaction"),
+            if (view.HaveCoins(hash) && !view.GetCoins(hash).IsPruned()) {
+                std::string errorMsg = "ConnectBlock() : tried to overwrite transaction " + (hash.GetHex());
+                return state.DoS(100, error(errorMsg.data()),
                                  REJECT_INVALID, "bad-txns-BIP30");
+            }
         }
     }
 
