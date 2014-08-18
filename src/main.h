@@ -79,6 +79,14 @@ static const int MAX_BLOCKS_IN_TRANSIT_PER_PEER = 128;
 /** Timeout in seconds before considering a block download peer unresponsive. */
 static const unsigned int BLOCK_DOWNLOAD_TIMEOUT = 60;
 
+/** AuxPow Block versions for sanity checks. */
+/** bare AuxPoW block version which will be modulated further. */
+static const int BLOCK_VERSION_AUXPOW_BARE = CBlockHeader::CURRENT_VERSION | (AUXPOW_CHAIN_ID * BLOCK_VERSION_CHAIN_START);
+/** version when AuxPoW exists on the block */
+static const int BLOCK_VERSION_AUXPOW_WITH_AUX = BLOCK_VERSION_AUXPOW_BARE | BLOCK_VERSION_AUXPOW;
+/** version when no AuxPoW exists on the block */
+static const int BLOCK_VERSION_AUXPOW_WITHOUT_AUX = BLOCK_VERSION_AUXPOW_BARE & ~BLOCK_VERSION_AUXPOW;
+
 #ifdef USE_UPNP
 static const int fHaveUPnP = true;
 #else
@@ -184,6 +192,9 @@ int64_t GetBlockValue(int nHeight, int64_t nFees, uint256 prevHash);
 unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock);
 
 void UpdateTime(CBlockHeader& block, const CBlockIndex* pindexPrev);
+
+/** Determine whether the block version is modulated with auxpow logic */
+bool IsAuxPowVersion(int nVersion);
 
 /** Create a new block index entry for a given block hash */
 CBlockIndex * InsertBlockIndex(uint256 hash);
