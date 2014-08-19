@@ -108,7 +108,10 @@ bool parseBitcoinURI(const QUrl &uri, SendCoinsRecipient *out)
         return false;
 
     SendCoinsRecipient rv;
-    rv.address = uri.path();
+    QStringList addressParts = uri.path().split("/", QString::SkipEmptyParts, Qt::CaseSensitive);
+    rv.address = addressParts.isEmpty()
+      ? ""
+      : addressParts.first();
     rv.amount = 0;
 
 #if QT_VERSION < 0x050000
@@ -171,6 +174,7 @@ bool parseBitcoinURI(QString uri, SendCoinsRecipient *out)
     {
         uri.replace(0, 11, "dogecoin:");
     }
+    
     QUrl uriInstance(uri);
     return parseBitcoinURI(uriInstance, out);
 }
@@ -575,7 +579,7 @@ bool SetStartOnSystemStartup(bool fAutoStart)
     return true;
 }
 
-#elif defined(LINUX)
+#elif defined(Q_OS_LINUX)
 
 // Follow the Desktop Application Autostart Spec:
 //  http://standards.freedesktop.org/autostart-spec/autostart-spec-latest.html
