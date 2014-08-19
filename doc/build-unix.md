@@ -52,7 +52,7 @@ Dependency Build Instructions: Ubuntu & Debian
 Build requirements:
 
 	sudo apt-get install build-essential pkg-config
-	sudo apt-get install libtool autotools-dev autoconf
+	sudo apt-get install libtool autotools-dev autoconf automake
 	sudo apt-get install libssl-dev
 
 for Ubuntu 12.04 and later:
@@ -117,7 +117,7 @@ It is recommended to use Berkeley DB 5.1. If you have to build it yourself:
 ```bash
 BITCOIN_ROOT=$(pwd)
 
-# Pick some path to install BDB to, here we create a directory within the bitcoin directory
+# Pick some path to install BDB to, here we create a directory within the dogecoin directory
 BDB_PREFIX="${BITCOIN_ROOT}/db5"
 mkdir -p $BDB_PREFIX
 
@@ -133,7 +133,7 @@ cd db-5.1.29.NC/build_unix/
 ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=$BDB_PREFIX
 make install
 
-# Configure Bitcoin Core to use our own-built instance of BDB
+# Configure Dogecoin Core to use our own-built instance of BDB
 cd $BITCOIN_ROOT
 ./configure (other args...) LDFLAGS="-L${BDB_PREFIX}/lib/" CPPFLAGS="-I${BDB_PREFIX}/include/"
 ```
