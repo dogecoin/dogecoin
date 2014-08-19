@@ -3,7 +3,7 @@
 
 ![Dogecoin](http://static.tumblr.com/ppdj5y9/Ae9mxmxtp/300coin.png)
 
-[![Build Status](https://travis-ci.org/dogecoin/dogecoin.svg?branch=1.7-dev)](https://travis-ci.org/dogecoin/dogecoin) [![tip for next commit](https://tip4commit.com/projects/702.svg)](https://tip4commit.com/github/dogecoin/dogecoin)
+[![Build Status](https://travis-ci.org/dogecoin/dogecoin.svg?branch=1.7-dev)](https://travis-ci.org/dogecoin/dogecoin)
 
 ## What is Dogecoin? – Such coin
 Dogecoin is a cryptocurrency like Bitcoin, although it does not use SHA256 as its proof of work (POW). Taking development cues from Tenebrix and Litecoin, Dogecoin currently employs a simplified variant of scrypt.
