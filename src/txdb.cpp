@@ -7,7 +7,6 @@
 
 #include "core.h"
 #include "uint256.h"
-#include "auxpow.h"
 
 #include <stdint.h>
 
@@ -69,19 +68,9 @@ bool CCoinsViewDB::BatchWrite(const std::map<uint256, CCoins> &mapCoins, const u
 CBlockTreeDB::CBlockTreeDB(size_t nCacheSize, bool fMemory, bool fWipe) : CLevelDBWrapper(GetDataDir() / "blocks" / "index", nCacheSize, fMemory, fWipe) {
 }
 
-bool CBlockTreeDB::WriteDiskBlockIndex(const CDiskBlockIndex& diskblockindex)
+bool CBlockTreeDB::WriteBlockIndex(const CDiskBlockIndex& blockindex)
 {
-    return Write(boost::tuples::make_tuple('b', *diskblockindex.phashBlock, 'a'), diskblockindex);
-}
-
-bool CBlockTreeDB::WriteBlockIndex(const CBlockIndex& blockindex)
-{
-    return Write(boost::tuples::make_tuple('b', blockindex.GetBlockHash(), 'b'), blockindex);
-}
-
-bool CBlockTreeDB::ReadDiskBlockIndex(const uint256 &blkid, CDiskBlockIndex &diskblockindex)
-{
-    return Read(boost::tuples::make_tuple('b', blkid, 'a'), diskblockindex);
+    return Write(make_pair('b', blockindex.GetBlockHash()), blockindex);
 }
 
 bool CBlockTreeDB::WriteBestInvalidWork(const CBigNum& bnBestInvalidWork)
@@ -119,7 +108,7 @@ bool CBlockTreeDB::ReadLastBlockFile(int &nFile) {
 }
 
 bool CCoinsViewDB::GetStats(CCoinsStats &stats) {
-    boost::scoped_ptr<leveldb::Iterator> pcursor(db.NewIterator());
+    leveldb::Iterator *pcursor = db.NewIterator();
     pcursor->SeekToFirst();
 
     CHashWriter ss(SER_GETHASH, PROTOCOL_VERSION);
@@ -162,7 +151,7 @@ bool CCoinsViewDB::GetStats(CCoinsStats &stats) {
             return error("%s : Deserialize or I/O error - %s", __func__, e.what());
         }
     }
-    
+    delete pcursor;
     stats.nHeight = mapBlockIndex.find(GetBestBlock())->second->nHeight;
     stats.hashSerialized = ss.GetHash();
     stats.nTotalAmount = nTotalAmount;
@@ -194,11 +183,10 @@ bool CBlockTreeDB::ReadFlag(const std::string &name, bool &fValue) {
 
 bool CBlockTreeDB::LoadBlockIndexGuts()
 {
-    boost::scoped_ptr<leveldb::Iterator> pcursor(NewIterator());
+    leveldb::Iterator *pcursor = NewIterator();
 
     CDataStream ssKeySet(SER_DISK, CLIENT_VERSION);
-    uint256 hash;
-    ssKeySet << boost::tuples::make_tuple('b', uint256(0), 'a'); // 'b' is the prefix for BlockIndex, 'a' signifies the first part
+    ssKeySet << make_pair('b', uint256(0));
     pcursor->Seek(ssKeySet.str());
 
     // Load mapBlockIndex
@@ -210,22 +198,13 @@ bool CBlockTreeDB::LoadBlockIndexGuts()
             char chType;
             ssKey >> chType;
             if (chType == 'b') {
-                // Detect pre-1.8 keys in the database and abort if found
-                if (slKey.size() < ssKeySet.size()) {
-                    return error("Database key size is %d expected %d, require reindex to upgrade.", slKey.size(), ssKeySet.size());
-                }
-
-                ssKey >> hash;
-                
                 leveldb::Slice slValue = pcursor->value();
-                CDataStream ssValue_immutable(slValue.data(), slValue.data()+slValue.size(), SER_DISK, CLIENT_VERSION);
+                CDataStream ssValue(slValue.data(), slValue.data()+slValue.size(), SER_DISK, CLIENT_VERSION);
                 CDiskBlockIndex diskindex;
-                ssValue_immutable >> diskindex; // read all immutable data
+                ssValue >> diskindex;
 
-                // Construct immutable parts of block index objecty
-                CBlockIndex* pindexNew = InsertBlockIndex(hash);
-                assert(diskindex.GetBlockHash() == *pindexNew->phashBlock); // paranoia check
-
+                // Construct block index object
+                CBlockIndex* pindexNew = InsertBlockIndex(diskindex.GetBlockHash());
                 pindexNew->pprev          = InsertBlockIndex(diskindex.hashPrev);
                 pindexNew->nHeight        = diskindex.nHeight;
                 pindexNew->nFile          = diskindex.nFile;
@@ -239,18 +218,8 @@ bool CBlockTreeDB::LoadBlockIndexGuts()
                 pindexNew->nStatus        = diskindex.nStatus;
                 pindexNew->nTx            = diskindex.nTx;
 
-                // CheckIndex need phashBlock to be set
-                diskindex.phashBlock = pindexNew->phashBlock;
-                if (!diskindex.CheckIndex())
+                if (!pindexNew->CheckIndex())
                     return error("LoadBlockIndex() : CheckIndex failed: %s", pindexNew->ToString());
-
-                pcursor->Next(); // now we should be on the 'b' subkey
-
-                assert(pcursor->Valid());
-
-                slValue = pcursor->value();
-                CDataStream ssValue_mutable(slValue.data(), slValue.data()+slValue.size(), SER_DISK, CLIENT_VERSION);
-                ssValue_mutable >> *pindexNew;      // read all mutable data
 
                 pcursor->Next();
             } else {
@@ -260,6 +229,7 @@ bool CBlockTreeDB::LoadBlockIndexGuts()
             return error("%s : Deserialize or I/O error - %s", __func__, e.what());
         }
     }
+    delete pcursor;
 
     return true;
 }

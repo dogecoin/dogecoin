@@ -7,7 +7,6 @@
 #include "main.h"
 #include "sync.h"
 #include "checkpoints.h"
-#include "auxpow.h"
 
 #include <stdint.h>
 
@@ -15,9 +14,6 @@
 
 using namespace json_spirit;
 using namespace std;
-
-// from rpcraw.cpp
-void TxToJSON(const CTransaction& tx, const uint256 hashBlock, Object& entry);
 
 void ScriptPubKeyToJSON(const CScript& scriptPubKey, Object& out, bool fIncludeHex);
 
@@ -64,38 +60,6 @@ Object blockToJSON(const CBlock& block, const CBlockIndex* blockindex)
     result.push_back(Pair("height", blockindex->nHeight));
     result.push_back(Pair("version", block.nVersion));
     result.push_back(Pair("merkleroot", block.hashMerkleRoot.GetHex()));
-    if (block.nVersion & BLOCK_VERSION_AUXPOW) {
-        // this block includes auxpow
-        Object auxpow;
-        auxpow.push_back(Pair("size", (int)::GetSerializeSize(*block.auxpow, SER_NETWORK, PROTOCOL_VERSION)));
-
-        Object coinbasetx;
-        TxToJSON(*block.auxpow, 0, coinbasetx);
-        auxpow.push_back(Pair("coinbasetx", Value(coinbasetx)));
-
-        Array coinbaseMerkle;
-        BOOST_FOREACH(const uint256 &hash, block.auxpow->vMerkleBranch)
-            coinbaseMerkle.push_back(hash.GetHex());
-        auxpow.push_back(Pair("coinbaseMerkleBranch", coinbaseMerkle));
-        auxpow.push_back(Pair("coinbaseIndex", block.auxpow->nIndex));
-
-        Array chainMerkle;
-        BOOST_FOREACH(const uint256 &hash, block.auxpow->vChainMerkleBranch)
-            chainMerkle.push_back(hash.GetHex());
-        auxpow.push_back(Pair("chainMerkleBranch", chainMerkle));
-        auxpow.push_back(Pair("chainIndex", (boost::uint64_t)block.auxpow->nChainIndex));
-
-        Object parent_block;
-        parent_block.push_back(Pair("hash", block.auxpow->parentBlockHeader.GetHash().GetHex()));
-        parent_block.push_back(Pair("version", (boost::uint64_t)block.auxpow->parentBlockHeader.nVersion));
-        parent_block.push_back(Pair("previousblockhash", block.auxpow->parentBlockHeader.hashPrevBlock.GetHex()));
-        parent_block.push_back(Pair("merkleroot", block.auxpow->parentBlockHeader.hashMerkleRoot.GetHex()));
-        parent_block.push_back(Pair("time", (boost::int64_t)block.auxpow->parentBlockHeader.nTime));
-        parent_block.push_back(Pair("bits", HexBits(block.auxpow->parentBlockHeader.nBits)));
-        parent_block.push_back(Pair("nonce", (boost::uint64_t)block.auxpow->parentBlockHeader.nNonce));
-        auxpow.push_back(Pair("parent_block", Value(parent_block)));
-        result.push_back(Pair("auxpow", Value(auxpow)));
-    }
     Array txs;
     BOOST_FOREACH(const CTransaction&tx, block.vtx)
         txs.push_back(tx.GetHash().GetHex());
