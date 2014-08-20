@@ -5,5 +5,34 @@
   { "exec": ["./dogecoin-tx", "-"],
     "input": "blanktx.hex",
     "output_cmp": "blanktx.hex"
+  },
+  { "exec": ["./dogecoin-tx", "-", "delin=1"],
+    "input": "tx394b54bb.hex",
+    "output_cmp": "tt-delin1-out.hex"
+  },
+  { "exec": ["./dogecoin-tx", "-", "delin=31"],
+    "input": "tx394b54bb.hex",
+    "return_code": 1
+  },
+  { "exec": ["./dogecoin-tx", "-", "delout=1"],
+    "input": "tx394b54bb.hex",
+    "output_cmp": "tt-delout1-out.hex"
+  },
+  { "exec": ["./dogecoin-tx", "-", "delout=2"],
+    "input": "tx394b54bb.hex",
+    "return_code": 1
+  },
+  { "exec": ["./dogecoin-tx", "-", "locktime=317000"],
+    "input": "tx394b54bb.hex",
+    "output_cmp": "tt-locktime317000-out.hex"
+  },
+  { "exec":
+    ["./dogecoin-tx", "-create",
+      "in=e77257d3d08551b5953a032cba341f321a07c8cf5d1d82fadbf447b2c4128673:1",
+      "in=8ce7d3b72eabcbc5045bc236f28e7dc461d604af86103a9d68f753248258f363:1",
+      "in=60dd8c7f241c2039239b2de91ebcab3df1e13e43ec3c745995d8294a0d337edd:1",
+      "outaddr=3.57927857:DHr4nExv2VgkgXHbzcMt6jzGUp9GevQdUm",
+      "outaddr=170.28452330:D63Lk4HVjuSsDWfDB1KmmvBT14Bgc4ZNXR"],
+    "output_cmp": "txcreate1.hex"
   }
 ]
