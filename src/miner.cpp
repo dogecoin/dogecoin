@@ -435,7 +435,7 @@ bool CheckWork(CBlock* pblock, CWallet& wallet, CReserveKey& reservekey)
         LogPrintf("DogecoinMiner: proof-of-work found; hash: %s ; target: %s\n", hash.GetHex().c_str(), hashTarget.GetHex().c_str());
     }
     
-    pblock->print();
+    LogPrintf("%s\n", pblock->ToString());
     LogPrintf("generated %s\n", FormatMoney(pblock->vtx[0].vout[0].nValue).c_str());
 
     // Found a solution
