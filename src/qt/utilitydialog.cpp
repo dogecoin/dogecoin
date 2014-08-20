@@ -255,7 +255,7 @@ void PaperWalletDialog::on_printButton_clicked()
     int walletCount = ui->walletCount->currentIndex() + 1;
     int walletsPerPage = 4;
 
-    int pageHeight = printer.pageRect().height();
+    int pageHeight = printer.pageRect().height() - 50;
     int walletHeight = ui->paperTemplate->height();
     double computedWalletHeight = 0.9 * pageHeight / walletsPerPage;
     double scale = computedWalletHeight / walletHeight;
@@ -268,7 +268,7 @@ void PaperWalletDialog::on_printButton_clicked()
     for(int i = 0; i < walletCount; i++) {
 
         this->on_getNewAddress_clicked();
-        QPoint point = QPoint(0, ( i % walletsPerPage ) * (walletHeight + walletPadding));
+        QPoint point = QPoint(50, 25 + ( i % walletsPerPage ) * (walletHeight + walletPadding));
         this->render(&painter, point, walletRegion);
 	recipientPubKeyHashes.append(ui->addressText->text());
 
