@@ -6,7 +6,7 @@
 #include "core.h"
 #include "auxpow.h"
 
-#include "util.h"
+#include "tinyformat.h"
 
 std::string COutPoint::ToString() const
 {
