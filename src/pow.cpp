@@ -9,6 +9,7 @@
 #include "core.h"
 #include "main.h"
 #include "uint256.h"
+#include "util.h"
 
 // Determine if the for the given block, a min difficulty setting applies
 bool AllowMinDifficultyForBlock(const CBlockIndex* pindexLast, const CBlockHeader *pblock)

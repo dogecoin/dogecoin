@@ -9,6 +9,7 @@
 #include "uint256.h"
 #include "auxpow.h"
 
+#include <boost/thread.hpp>
 #include <stdint.h>
 
 using namespace std;

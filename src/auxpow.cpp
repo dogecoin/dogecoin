@@ -4,6 +4,7 @@
 #include "script.h"
 #include "auxpow.h"
 #include "init.h"
+#include "util.h"
 
 using namespace std;
 using namespace boost;

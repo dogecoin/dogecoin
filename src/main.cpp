@@ -21,6 +21,7 @@
 #include "txmempool.h"
 #include "ui_interface.h"
 #include "util.h"
+#include "utilstrencodings.h"
 
 #include <sstream>
 
@@ -29,6 +30,7 @@
 #include <boost/filesystem/fstream.hpp>
 #include <boost/random/mersenne_twister.hpp>
 #include <boost/random/uniform_int.hpp>
+#include <boost/thread.hpp>
 
 using namespace std;
 using namespace boost;

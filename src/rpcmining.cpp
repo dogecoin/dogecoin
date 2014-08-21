@@ -13,6 +13,7 @@
 #include "pow.h"
 #include "timedata.h"
 #include "core_io.h"
+#include "util.h"
 #ifdef ENABLE_WALLET
 #include "db.h"
 #include "wallet.h"

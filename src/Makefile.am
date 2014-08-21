@@ -112,6 +112,9 @@ BITCOIN_CORE_H = \
   ui_interface.h \
   uint256.h \
   util.h \
+  utilstrencodings.h \
+  utilmoneystr.h \
+  utiltime.h \
   version.h \
   walletdb.h \
   wallet.h \
@@ -225,6 +228,9 @@ libbitcoin_util_a_SOURCES = \
   sync.cpp \
   uint256.cpp \
   util.cpp \
+  utilstrencodings.cpp \
+  utilmoneystr.cpp \
+  utiltime.cpp \
   version.cpp \
   $(BITCOIN_CORE_H)
 
