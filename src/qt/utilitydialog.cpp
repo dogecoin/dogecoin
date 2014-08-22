@@ -276,7 +276,7 @@ void PaperWalletDialog::on_printButton_clicked()
         this->on_getNewAddress_clicked();
         QPoint point = QPoint(50, 25 + ( i % walletsPerPage ) * (walletHeight + walletPadding));
         this->render(&painter, point, walletRegion);
-	recipientPubKeyHashes.append(ui->addressText->text());
+    recipientPubKeyHashes.append(ui->addressText->text());
 
         if ( i % walletsPerPage == ( walletsPerPage - 1 ) ) {
 
@@ -293,19 +293,20 @@ void PaperWalletDialog::on_printButton_clicked()
 
     WalletModelTransaction *tx;
     while( true ) {
+
         bool ok;
 
         QString amountInput = QInputDialog::getText(this, tr("Load Paper Wallets"), "Please wait for wallets to print and verify readability.<br/>Enter the number of DOGE you wish to send to each wallet:", QLineEdit::Normal, QString(), &ok);
 
         if(!ok) {
-    	    return;
+            return;
         }
 
 
         WalletModel::UnlockContext ctx(this->model->requestUnlock());
         if(!ctx.isValid())
         {
-    	    return;
+            return;
         }
 
         QList<SendCoinsRecipient> recipients;
@@ -313,8 +314,8 @@ void PaperWalletDialog::on_printButton_clicked()
         foreach(const QString &dest, recipientPubKeyHashes)
         {
 
-    	    recipients.append(SendCoinsRecipient(dest,tr("Paper wallet %1").arg(dest), amount,""));
-    	    formatted.append(tr("<b>%1</b> to Paper Wallet <span style='font-family: monospace;'>%2</span>").arg(amountInput,GUIUtil::HtmlEscape(dest)));
+            recipients.append(SendCoinsRecipient(dest,tr("Paper wallet %1").arg(dest), amount,""));
+            formatted.append(tr("<b>%1</b> to Paper Wallet <span style='font-family: monospace;'>%2</span>").arg(amountInput,GUIUtil::HtmlEscape(dest)));
 
         }
 
@@ -322,9 +323,9 @@ void PaperWalletDialog::on_printButton_clicked()
 
         WalletModel::SendCoinsReturn prepareStatus;
         if (this->model->getOptionsModel()->getCoinControlFeatures()) // coin control enabled
-    	    prepareStatus = this->model->prepareTransaction(*tx, CoinControlDialog::coinControl);
+            prepareStatus = this->model->prepareTransaction(*tx, CoinControlDialog::coinControl);
         else
-    	    prepareStatus = this->model->prepareTransaction(*tx);
+            prepareStatus = this->model->prepareTransaction(*tx);
 
         if (prepareStatus.status == WalletModel::InvalidAddress) {
             QMessageBox::critical(this, tr("Send Coins"), tr("The recipient address is not valid, please recheck."), QMessageBox::Ok, QMessageBox::Ok);
@@ -339,10 +340,10 @@ void PaperWalletDialog::on_printButton_clicked()
         } else if (prepareStatus.status == WalletModel::TransactionCreationFailed) {
             QMessageBox::critical(this, tr("Send Coins"), tr("Transaction creation failed!"), QMessageBox::Ok, QMessageBox::Ok);
         } else if (prepareStatus.status == WalletModel::OK) {
-	    break;
+            break;
         } else {
             delete tx;
-	    return;
+            return;
         }
 
     }
