@@ -9,10 +9,13 @@
 #include "ui_helpmessagedialog.h"
 
 #include "bitcoinunits.h"
+
+#ifdef ENABLE_WALLET
 #include "sendcoinsdialog.h"
 #include "sendcoinsentry.h"
 #include "coincontrol.h"
 #include "coincontroldialog.h"
+#endif
 
 #include "optionsmodel.h"
 #include "bitcoingui.h"
@@ -285,6 +288,7 @@ void PaperWalletDialog::on_printButton_clicked()
 
     painter.end();
 
+#ifdef ENABLE_WALLET
     QStringList formatted;
 
     WalletModelTransaction *tx;
@@ -388,6 +392,7 @@ void PaperWalletDialog::on_printButton_clicked()
         QMessageBox::critical(this, tr("Send Coins"), tr("The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here."), QMessageBox::Ok, QMessageBox::Ok);
     }
     delete tx;
+#endif
     return;
 
 }
