@@ -26,8 +26,8 @@ files:
 - "qt-win64-5.2.0-gitian-r3.zip"
 - "boost-win32-1.55.0-gitian-r6.zip"
 - "boost-win64-1.55.0-gitian-r6.zip"
-- "dogecoin-deps-win32-gitian-r11a.zip"
-- "dogecoin-deps-win64-gitian-r11a.zip"
+- "dogecoin-deps-win32-gitian-r13.zip"
+- "dogecoin-deps-win64-gitian-r13.zip"
 - "protobuf-win32-2.5.0-gitian-r4.zip"
 - "protobuf-win64-2.5.0-gitian-r4.zip"
 script: |
