@@ -136,6 +136,7 @@ void PaperWalletDialog::on_getNewAddress_clicked()
     string myAddress = pubkeyhash.ToString();
 
 
+#ifdef USE_QRCODE
     // Generate the address QR code
     QRcode *code = QRcode_encodeString(myAddress.c_str(), 0, QR_ECLEVEL_M, QR_MODE_8, 1);
     if (!code)
@@ -177,11 +178,13 @@ void PaperWalletDialog::on_getNewAddress_clicked()
     }
     QRcode_free(code);
 
-    // Populate the QR Codes and text
+    // Populate the QR Codes
     ui->addressQRCode->setPixmap(QPixmap::fromImage(myImage).scaled(ui->addressQRCode->width(), ui->addressQRCode->height()));
-    ui->addressText->setText(myAddress.c_str());
-
     ui->privateKeyQRCode->setPixmap(QPixmap::fromImage(myImagePriv).scaled(ui->privateKeyQRCode->width(), ui->privateKeyQRCode->height()));
+#endif
+
+    // Populate the Texts
+    ui->addressText->setText(myAddress.c_str());
     ui->privateKeyText->setText(tr(myPrivKey.c_str()));
 
     ui->publicKey->setHtml(myPubKey.c_str());
