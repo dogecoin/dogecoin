@@ -206,7 +206,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DogecoinS&lt;/b&gt;!</source>
-        <translation type="unfinished"/>
+        <translation>ВНИМАНИЕ: Ако защитите вашият портфейл и изгубите ключовата дума, вие ще &lt;b&gt;ИЗГУБИТЕ ВСИЧКИТЕ СИ БИТКОЙНОВЕ&lt;/b&gt;!</translation>
     </message>
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
@@ -214,7 +214,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>IMPORTANT: Any previous backups you have made of your wallet file should be replaced with the newly generated, encrypted wallet file. For security reasons, previous backups of the unencrypted wallet file will become useless as soon as you start using the new, encrypted wallet.</source>
-        <translation type="unfinished"/>
+        <translation>ВАЖНО: Всякакви стари бекъп версии, които сте направили на вашият портфейл трябва да бъдат заменени със ново-генерирания, криптиран портфейл файл. От съображения за сигурност, предишните бекъпи на некриптираните портфейли ще станат неизползваеми веднага щом започнете да използвате новият криптиран портфейл.</translation>
     </message>
     <message>
         <source>Warning: The Caps Lock key is on!</source>
@@ -381,7 +381,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>&amp;Send</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Изпращане</translation>
     </message>
     <message>
         <source>&amp;Receive</source>
@@ -389,7 +389,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>&amp;Show / Hide</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Покажи / Скрий</translation>
     </message>
     <message>
         <source>Show or hide the main Window</source>
@@ -557,7 +557,7 @@ Address: %4
     </message>
     <message>
         <source>A fatal error occurred. Dogecoin can no longer continue safely and will quit.</source>
-        <translation type="unfinished"/>
+        <translation>Възникна фатална грешка. Биткойн не може да продължи безопасно и ще се изключи.</translation>
     </message>
 </context>
 <context>
@@ -1097,7 +1097,7 @@ Address: %4
     </message>
     <message>
         <source>Proxy &amp;IP:</source>
-        <translation type="unfinished"/>
+        <translation>Прокси &amp; АйПи:</translation>
     </message>
     <message>
         <source>&amp;Port:</source>
@@ -1105,15 +1105,15 @@ Address: %4
     </message>
     <message>
         <source>Port of the proxy (e.g. 9050)</source>
-        <translation type="unfinished"/>
+        <translation>Порт на прокси сървъра (пр. 9050)</translation>
     </message>
     <message>
         <source>SOCKS &amp;Version:</source>
-        <translation type="unfinished"/>
+        <translation>SOCKS &amp;Версия:</translation>
     </message>
     <message>
         <source>SOCKS version of the proxy (e.g. 5)</source>
-        <translation type="unfinished"/>
+        <translation>SOCKS версия на прокси сървъра (пр. 5)</translation>
     </message>
     <message>
         <source>&amp;Window</source>
@@ -1169,11 +1169,11 @@ Address: %4
     </message>
     <message>
         <source>&amp;OK</source>
-        <translation type="unfinished"/>
+        <translation>ОК</translation>
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"/>
+        <translation>Отказ</translation>
     </message>
     <message>
         <source>default</source>
@@ -1392,7 +1392,7 @@ Address: %4
     </message>
     <message>
         <source>&amp;Information</source>
-        <translation type="unfinished"/>
+        <translation>Данни</translation>
     </message>
     <message>
         <source>Debug window</source>
@@ -1404,7 +1404,7 @@ Address: %4
     </message>
     <message>
         <source>Using OpenSSL version</source>
-        <translation type="unfinished"/>
+        <translation>Използване на OpenSSL версия</translation>
     </message>
     <message>
         <source>Startup time</source>
@@ -1456,7 +1456,7 @@ Address: %4
     </message>
     <message>
         <source>Totals</source>
-        <translation type="unfinished"/>
+        <translation>Общо:</translation>
     </message>
     <message>
         <source>In:</source>
@@ -1476,7 +1476,7 @@ Address: %4
     </message>
     <message>
         <source>Open the Dogecoin debug log file from the current data directory. This can take a few seconds for large log files.</source>
-        <translation type="unfinished"/>
+        <translation>Отворете Биткой дебъг лог файла от настоящата Data папка. Може да отнеме няколко секунди при по - големи лог файлове.</translation>
     </message>
     <message>
         <source>Clear console</source>
@@ -2025,7 +2025,7 @@ Address: %4
     </message>
     <message>
         <source>Sign &amp;Message</source>
-        <translation type="unfinished"/>
+        <translation>Подпиши &amp;съобщение</translation>
     </message>
     <message>
         <source>Reset all sign message fields</source>
@@ -2081,7 +2081,7 @@ Address: %4
     </message>
     <message>
         <source>Wallet unlock was cancelled.</source>
-        <translation type="unfinished"/>
+        <translation>Отключването на портфейла беше отменено.</translation>
     </message>
     <message>
         <source>Private key for the entered address is not available.</source>
@@ -2206,7 +2206,7 @@ Address: %4
     </message>
     <message>
         <source>not accepted</source>
-        <translation type="unfinished"/>
+        <translation>не е приет</translation>
     </message>
     <message>
         <source>Debit</source>
@@ -2560,7 +2560,7 @@ Address: %4
     </message>
     <message>
         <source>Backup Wallet</source>
-        <translation type="unfinished"/>
+        <translation>Запазване на портфейла</translation>
     </message>
     <message>
         <source>Wallet Data (*.dat)</source>
@@ -2757,11 +2757,11 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Warning: -paytxfee is set very high! This is the transaction fee you will pay if you send a transaction.</source>
-        <translation type="unfinished"/>
+        <translation>Внимание: -paytxfee има голяма стойност! Това е таксата за транзакциите, която ще платите ако направите транзакция.</translation>
     </message>
     <message>
         <source>Warning: Please check that your computer&apos;s date and time are correct! If your clock is wrong Dogecoin will not work properly.</source>
-        <translation type="unfinished"/>
+        <translation>Внимание: Моля проверете дали датата и часът на вашият компютър са верни! Ако часовникът ви не е сверен, Биткойн няма да работи правилно.</translation>
     </message>
     <message>
         <source>Warning: The network does not appear to fully agree! Some miners appear to be experiencing issues.</source>
@@ -2877,7 +2877,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Failed to listen on any port. Use -listen=0 if you want this.</source>
-        <translation type="unfinished"/>
+        <translation>Провалено &quot;слушане&quot; на всеки порт. Използвайте -listen=0 ако искате това.</translation>
     </message>
     <message>
         <source>Failed to read block info</source>
@@ -3137,7 +3137,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Set minimum block size in bytes (default: 0)</source>
-        <translation type="unfinished"/>
+        <translation>Задайте минимален размер на блок-а в байтове (подразбиране: 0)</translation>
     </message>
     <message>
         <source>Sets the DB_PRIVATE flag in the wallet db environment (default: 1)</source>
@@ -3161,7 +3161,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Specify connection timeout in milliseconds (default: 5000)</source>
-        <translation type="unfinished"/>
+        <translation>Определете таймаут за свързване в милисекунди (подразбиране: 5000)</translation>
     </message>
     <message>
         <source>Start Dogecoin Core Daemon</source>
@@ -3201,7 +3201,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Warning: This version is obsolete, upgrade required!</source>
-        <translation type="unfinished"/>
+        <translation>Внимание: Използвате остаряла версия, необходимо е обновление!</translation>
     </message>
     <message>
         <source>Zapping all transactions from wallet...</source>

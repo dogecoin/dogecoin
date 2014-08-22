@@ -1458,7 +1458,7 @@ Address: %4
     </message>
     <message>
         <source>Totals</source>
-        <translation type="unfinished"/>
+        <translation>Kabuuan:</translation>
     </message>
     <message>
         <source>In:</source>

@@ -958,7 +958,7 @@ Address: %4
     </message>
     <message>
         <source>Error</source>
-        <translation type="unfinished"/>
+        <translation>Fout</translation>
     </message>
     <message>
         <source>GB of free space available</source>
@@ -1387,7 +1387,7 @@ Address: %4
     </message>
     <message>
         <source>&amp;Information</source>
-        <translation type="unfinished"/>
+        <translation>Informasie</translation>
     </message>
     <message>
         <source>Debug window</source>
