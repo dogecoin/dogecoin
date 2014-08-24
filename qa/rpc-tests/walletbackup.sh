@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+# Copyright (c) 2014 The Bitcoin Core developers
+# Copyright (c) 2014 The Dogecoin Core developers
+# Distributed under the MIT/X11 software license, see the accompanying
+# file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 # Test wallet backup / dump / restore functionality
 
@@ -6,7 +10,7 @@
 # 4 nodes. 1 2 3 and send transactions between each other,
 # fourth node is a miner.
 # 1 2 3 and each mine a block to start, then
-# miner creates 100 blocks so 1 2 3 each have 50 mature
+# miner creates 49 blocks so 1 2 3 each have 500k mature
 # coins to spend.
 # Then 5 iterations of 1/2/3 sending coins amongst
 # themselves to get transactions in the wallets,
@@ -15,12 +19,8 @@
 # Wallets are backed up using dumpwallet/backupwallet.
 # Then 5 more iterations of transactions, then block.
 #
-# Miner then generates 101 more blocks, so any
+# Miner then generates 50 more blocks, so any
 # transaction fees paid mature.
-#
-# Sanity checks done:
-#   Miner balance >= 150*50
-#   Sum(1,2,3,4 balances) == 153*150
 #
 # 1/2/3 are shutdown, and their wallets erased.
 # Then restore using wallet.dat backup. And
@@ -36,8 +36,8 @@ if [ $# -lt 1 ]; then
         exit 1
 fi
 
-BITCOIND=${1}/bitcoind
-CLI=${1}/bitcoin-cli
+BITCOIND=${1}/dogecoind
+CLI=${1}/dogecoin-cli
 
 DIR="${BASH_SOURCE%/*}"
 SENDANDWAIT="${DIR}/send.sh"
@@ -61,7 +61,7 @@ B4PID=$!
 function CreateConfDir {
   DIR=$1
   mkdir -p $DIR
-  CONF=$DIR/bitcoin.conf
+  CONF=$DIR/dogecoin.conf
   echo "regtest=1" >> $CONF
   echo "rpcuser=rt" >> $CONF
   echo "rpcpassword=rt" >> $CONF
@@ -125,7 +125,7 @@ function WaitMemPools {
 
 echo "Generating initial blockchain..."
 
-# 1 block, 50 XBT each == 50 BTC
+# 1 block, 500000 XDG each == 500000 DOGE
 $CLI $B1ARGS setgenerate true 1
 WaitBlocks
 $CLI $B2ARGS setgenerate true 1
@@ -133,13 +133,13 @@ WaitBlocks
 $CLI $B3ARGS setgenerate true 1
 WaitBlocks
 
-# 100 blocks, 0 mature
-$CLI $B4ARGS setgenerate true 100
+# 49 blocks, 0 mature
+$CLI $B4ARGS setgenerate true 49
 WaitBlocks
 
-CheckBalance "$B1ARGS" 50
-CheckBalance "$B2ARGS" 50
-CheckBalance "$B3ARGS" 50
+CheckBalance "$B1ARGS" 500000
+CheckBalance "$B2ARGS" 500000
+CheckBalance "$B3ARGS" 500000
 CheckBalance "$B4ARGS" 0
 
 echo "Creating transactions..."
@@ -147,7 +147,7 @@ echo "Creating transactions..."
 function S {
   TXID=$( $CLI -datadir=${D}/node${1} sendtoaddress ${2} "${3}" 0 )
   if [[ $TXID == "" ]] ; then
-      echoerr "node${1}: error sending ${3} btc"
+      echoerr "node${1}: error sending ${3} doge"
       echo -n "node${1} balance: "
       $CLI -datadir=${D}/node${1} getbalance "*" 0
       exit 1
@@ -201,9 +201,9 @@ for i in {1..5}; do OneRound ; done
 
 WaitMemPools
 
-# Generate 101 more blocks, so any fees paid
+# Generate 50 more blocks, so any fees paid
 # mature
-$CLI "$B4ARGS" setgenerate true 101
+$CLI "$B4ARGS" setgenerate true 50
 
 BALANCE1=$( $CLI "$B1ARGS" getbalance )
 BALANCE2=$( $CLI "$B2ARGS" getbalance )
@@ -212,7 +212,8 @@ BALANCE4=$( $CLI "$B4ARGS" getbalance )
 
 TOTAL=$( dc -e "$BALANCE1 $BALANCE2 $BALANCE3 $BALANCE4 + + + p" )
 
-AssertEqual $TOTAL 5700.00000000
+#500000 * (3 + 49 + 5 + 5 + 1 (+49 unmature))
+AssertEqual $TOTAL 31500000.00000000
 
 function StopThree {
   $CLI $B1ARGS stop > /dev/null 2>&1

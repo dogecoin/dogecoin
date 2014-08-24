@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+# Copyright (c) 2013-2014 The Bitcoin Core developers
+# Copyright (c) 2014 The Dogecoin Core developers
+# Distributed under the MIT/X11 software license, see the accompanying
+# file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 # Test block generation and basic wallet sending
 
@@ -10,8 +14,8 @@ fi
 
 set -f
 
-BITCOIND=${1}/bitcoind
-CLI=${1}/bitcoin-cli
+BITCOIND=${1}/dogecoind
+CLI=${1}/dogecoin-cli
 
 DIR="${BASH_SOURCE%/*}"
 SENDANDWAIT="${DIR}/send.sh"
@@ -55,21 +59,21 @@ function WaitBlocks {
 
 echo "Generating test blockchain..."
 
-# 1 block, 50 XBT each == 50 XBT
+# 1 block, 500000 XDG each == 500000 XDG
 $CLI $B1ARGS setgenerate true 1
 WaitBlocks
-# 101 blocks, 1 mature == 50 XBT
-$CLI $B2ARGS setgenerate true 101
+# 50 blocks, 1 mature == 500000 XDG
+$CLI $B2ARGS setgenerate true 50
 WaitBlocks
 
-CheckBalance "$B1ARGS" 50
-CheckBalance "$B2ARGS" 50
+CheckBalance "$B1ARGS" 500000
+CheckBalance "$B2ARGS" 500000
 
-# Send 21 XBT from 1 to 3. Second
+# Send 210000 XDG from 1 to 3. Second
 # transaction will be child of first, and
 # will require a fee
-Send $B1ARGS $B3ARGS 11
-Send $B1ARGS $B3ARGS 10
+Send $B1ARGS $B3ARGS 110000
+Send $B1ARGS $B3ARGS 100000
 
 # Have B1 mine a new block, and mature it
 # to recover transaction fees
@@ -77,13 +81,13 @@ $CLI $B1ARGS setgenerate true 1
 WaitBlocks
 
 # Have B2 mine 100 blocks so B1's block is mature:
-$CLI $B2ARGS setgenerate true 100
+$CLI $B2ARGS setgenerate true 49
 WaitBlocks
 
-# B1 should end up with 100 XBT in block rewards plus fees,
-# minus the 21 XBT sent to B3:
-CheckBalance "$B1ARGS" "100-21"
-CheckBalance "$B3ARGS" "21"
+# B1 should end up with 1000k XDG in block rewards plus fees,
+# minus the 210k XDG sent to B3:
+CheckBalance "$B1ARGS" "1000000-210000"
+CheckBalance "$B3ARGS" "210000"
 
 # B1 should have two unspent outputs; create a couple
 # of raw transactions to send them to B3, submit them through
@@ -99,8 +103,8 @@ WaitBlocks
 
 # Check balances after confirmation
 CheckBalance "$B1ARGS" 0
-CheckBalance "$B3ARGS" 100
-CheckBalance "$B3ARGS" "100-21" "from1"
+CheckBalance "$B3ARGS" 1000000
+CheckBalance "$B3ARGS" "1000000-210000" "from1"
 
 $CLI $B3ARGS stop > /dev/null 2>&1
 wait $B3PID

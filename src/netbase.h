@@ -49,6 +49,13 @@ class CNetAddr
         explicit CNetAddr(const std::string &strIp, bool fAllowLookup = false);
         void Init();
         void SetIP(const CNetAddr& ip);
+
+        /**
+         * Set raw IPv4 or IPv6 address (in network byte order)
+         * @note Only NET_IPV4 and NET_IPV6 are allowed for network.
+         */
+        void SetRaw(Network network, const uint8_t *data);
+
         bool SetSpecial(const std::string &strName); // for Tor addresses
         bool IsIPv4() const;    // IPv4 mapped address (::FFFF:0:0/96, 0.0.0.0/0)
         bool IsIPv6() const;    // IPv6 address (not mapped IPv4, not Tor)
@@ -77,10 +84,8 @@ class CNetAddr
         int GetReachabilityFrom(const CNetAddr *paddrPartner = NULL) const;
         void print() const;
 
-#ifdef USE_IPV6
         CNetAddr(const struct in6_addr& pipv6Addr);
         bool GetIn6Addr(struct in6_addr* pipv6Addr) const;
-#endif
 
         friend bool operator==(const CNetAddr& a, const CNetAddr& b);
         friend bool operator!=(const CNetAddr& a, const CNetAddr& b);
@@ -90,6 +95,29 @@ class CNetAddr
             (
              READWRITE(FLATDATA(ip));
             )
+};
+
+class CSubNet
+{
+    protected:
+        /// Network (base) address
+        CNetAddr network;
+        /// Netmask, in network byte order
+        uint8_t netmask[16];
+        /// Is this value valid? (only used to signal parse errors)
+        bool valid;
+
+    public:
+        CSubNet();
+        explicit CSubNet(const std::string &strSubnet, bool fAllowLookup = false);
+
+        bool Match(const CNetAddr &addr) const;
+
+        std::string ToString() const;
+        bool IsValid() const;
+
+        friend bool operator==(const CSubNet& a, const CSubNet& b);
+        friend bool operator!=(const CSubNet& a, const CSubNet& b);
 };
 
 /** A combination of a network address (CNetAddr) and a (TCP) port */
@@ -121,10 +149,8 @@ class CService : public CNetAddr
         std::string ToStringIPPort() const;
         void print() const;
 
-#ifdef USE_IPV6
         CService(const struct in6_addr& ipv6Addr, unsigned short port);
         CService(const struct sockaddr_in6& addr);
-#endif
 
         IMPLEMENT_SERIALIZE
             (
@@ -153,5 +179,7 @@ bool Lookup(const char *pszName, std::vector<CService>& vAddr, int portDefault =
 bool LookupNumeric(const char *pszName, CService& addr, int portDefault = 0);
 bool ConnectSocket(const CService &addr, SOCKET& hSocketRet, int nTimeout = nConnectTimeout);
 bool ConnectSocketByName(CService &addr, SOCKET& hSocketRet, const char *pszDest, int portDefault = 0, int nTimeout = nConnectTimeout);
+/** Return readable error string for a network error code */
+std::string NetworkErrorString(int err);
 
 #endif

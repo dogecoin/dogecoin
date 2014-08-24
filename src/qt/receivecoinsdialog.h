@@ -6,16 +6,20 @@
 #define RECEIVECOINSDIALOG_H
 
 #include <QDialog>
+#include <QHeaderView>
+#include <QItemSelection>
 #include <QKeyEvent>
 #include <QMenu>
 #include <QPoint>
 #include <QVariant>
 
+#include "guiutil.h"
+
 namespace Ui {
     class ReceiveCoinsDialog;
 }
-class WalletModel;
 class OptionsModel;
+class WalletModel;
 
 QT_BEGIN_NAMESPACE
 class QModelIndex;
@@ -27,6 +31,13 @@ class ReceiveCoinsDialog : public QDialog
     Q_OBJECT
 
 public:
+    enum ColumnWidths {
+        DATE_COLUMN_WIDTH = 130,
+        LABEL_COLUMN_WIDTH = 120,
+        AMOUNT_MINIMUM_COLUMN_WIDTH = 160,
+        MINIMUM_COLUMN_WIDTH = 130
+    };
+
     explicit ReceiveCoinsDialog(QWidget *parent = 0);
     ~ReceiveCoinsDialog();
 
@@ -42,17 +53,20 @@ protected:
 
 private:
     Ui::ReceiveCoinsDialog *ui;
+    GUIUtil::TableViewLastColumnResizingFixer *columnResizingFixer;
     WalletModel *model;
     QMenu *contextMenu;
     void copyColumnToClipboard(int column);
+    virtual void resizeEvent(QResizeEvent *event);
 
 private slots:
     void on_receiveButton_clicked();
     void on_showRequestButton_clicked();
     void on_removeRequestButton_clicked();
     void on_recentRequestsView_doubleClicked(const QModelIndex &index);
+    void recentRequestsView_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
     void updateDisplayUnit();
-    void showMenu(const QPoint &);
+    void showMenu(const QPoint &point);
     void copyLabel();
     void copyMessage();
     void copyAmount();

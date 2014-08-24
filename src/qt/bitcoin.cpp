@@ -15,6 +15,7 @@
 #include "optionsmodel.h"
 #include "splashscreen.h"
 #include "utilitydialog.h"
+#include "winshutdownmonitor.h"
 #ifdef ENABLE_WALLET
 #include "paymentserver.h"
 #include "walletmodel.h"
@@ -25,7 +26,9 @@
 #include "rpcserver.h"
 #include "ui_interface.h"
 #include "util.h"
+#ifdef ENABLE_WALLET
 #include "wallet.h"
+#endif
 
 #include <stdint.h>
 
@@ -170,7 +173,7 @@ public:
 
 #ifdef ENABLE_WALLET
     /// Create payment server
-    // void createPaymentServer();
+    void createPaymentServer();
 #endif
     /// Create options model
     void createOptionsModel();
@@ -186,6 +189,9 @@ public:
 
     /// Get process return value
     int getReturnValue() { return returnValue; }
+
+    /// Get window identifier of QMainWindow (BitcoinGUI)
+    WId getMainWinId() const;
 
 public slots:
     void initializeResult(int retval);
@@ -206,7 +212,7 @@ private:
     BitcoinGUI *window;
     QTimer *pollShutdownTimer;
 #ifdef ENABLE_WALLET
-    // PaymentServer* paymentServer;
+    PaymentServer* paymentServer;
     WalletModel *walletModel;
 #endif
     int returnValue;
@@ -273,7 +279,7 @@ BitcoinApplication::BitcoinApplication(int &argc, char **argv):
     window(0),
     pollShutdownTimer(0),
 #ifdef ENABLE_WALLET
-    // paymentServer(0),
+    paymentServer(0),
     walletModel(0),
 #endif
     returnValue(0)
@@ -292,20 +298,18 @@ BitcoinApplication::~BitcoinApplication()
     delete window;
     window = 0;
 #ifdef ENABLE_WALLET
-    // delete paymentServer;
-    // paymentServer = 0;
+    delete paymentServer;
+    paymentServer = 0;
 #endif
     delete optionsModel;
     optionsModel = 0;
 }
 
 #ifdef ENABLE_WALLET
-/*
 void BitcoinApplication::createPaymentServer()
 {
     paymentServer = new PaymentServer(this);
 }
-*/
 #endif
 
 void BitcoinApplication::createOptionsModel()
@@ -388,12 +392,10 @@ void BitcoinApplication::initializeResult(int retval)
     returnValue = retval ? 0 : 1;
     if(retval)
     {
-/*
 #ifdef ENABLE_WALLET
         PaymentServer::LoadRootCAs();
         paymentServer->setOptionsModel(optionsModel);
 #endif
-*/
 
         emit splashFinished(window);
 
@@ -408,10 +410,8 @@ void BitcoinApplication::initializeResult(int retval)
             window->addWallet("~Default", walletModel);
             window->setCurrentWallet("~Default");
 
-/*
             connect(walletModel, SIGNAL(coinsSent(CWallet*,SendCoinsRecipient,QByteArray)),
                              paymentServer, SLOT(fetchPaymentACK(CWallet*,const SendCoinsRecipient&,QByteArray)));
-*/
         }
 #endif
 
@@ -425,11 +425,8 @@ void BitcoinApplication::initializeResult(int retval)
             window->show();
         }
 #ifdef ENABLE_WALLET
-        // Payment server disabled pending future work on specifications
-
         // Now that initialization/startup is done, process any command-line
         // dogecoin: URIs or payment requests:
-        /*
         connect(paymentServer, SIGNAL(receivedPaymentRequest(SendCoinsRecipient)),
                          window, SLOT(handlePaymentRequest(SendCoinsRecipient)));
         connect(window, SIGNAL(receivedURI(QString)),
@@ -437,7 +434,6 @@ void BitcoinApplication::initializeResult(int retval)
         connect(paymentServer, SIGNAL(message(QString,QString,unsigned int)),
                          window, SLOT(message(QString,QString,unsigned int)));
         QTimer::singleShot(100, paymentServer, SLOT(uiReady()));
-        */
 #endif
     } else {
         quit(); // Exit main loop
@@ -456,9 +452,19 @@ void BitcoinApplication::handleRunawayException(const QString &message)
     ::exit(1);
 }
 
+WId BitcoinApplication::getMainWinId() const
+{
+    if (!window)
+        return 0;
+
+    return window->winId();
+}
+
 #ifndef BITCOIN_QT_TEST
 int main(int argc, char *argv[])
 {
+    SetupEnvironment();
+
     /// 1. Parse command-line options. These take precedence over anything else.
     // Command-line options take precedence:
     ParseParameters(argc, argv);
@@ -519,7 +525,13 @@ int main(int argc, char *argv[])
                               QObject::tr("Error: Specified data directory \"%1\" does not exist.").arg(QString::fromStdString(mapArgs["-datadir"])));
         return 1;
     }
-    ReadConfigFile(mapArgs, mapMultiArgs);
+    try {
+        ReadConfigFile(mapArgs, mapMultiArgs);
+    } catch(std::exception &e) {
+        QMessageBox::critical(0, QObject::tr("Bitcoin"),
+                              QObject::tr("Error: Cannot parse configuration file: %1. Only use key=value syntax.").arg(e.what()));
+        return false;
+    }
 
     /// 7. Determine network (and switch to network specific options)
     // - Do not call Params() before this step
@@ -558,16 +570,21 @@ int main(int argc, char *argv[])
 
     // Start up the payment server early, too, so impatient users that click on
     // dogecoin: links repeatedly have their payment requests routed to this process:
-    // app.createPaymentServer();
+    app.createPaymentServer();
 #endif
 
     /// 9. Main GUI initialization
     // Install global event filter that makes sure that long tooltips can be word-wrapped
     app.installEventFilter(new GUIUtil::ToolTipToRichTextFilter(TOOLTIP_WRAP_THRESHOLD, &app));
-    // Install qDebug() message handler to route to debug.log
 #if QT_VERSION < 0x050000
+    // Install qDebug() message handler to route to debug.log
     qInstallMsgHandler(DebugMessageHandler);
 #else
+#if defined(Q_OS_WIN)
+    // Install global event filter for processing Windows session related Windows messages (WM_QUERYENDSESSION and WM_ENDSESSION)
+    qApp->installNativeEventFilter(new WinShutdownMonitor());
+#endif
+    // Install qDebug() message handler to route to debug.log
     qInstallMessageHandler(DebugMessageHandler);
 #endif
     // Load GUI settings from QSettings
@@ -583,6 +600,9 @@ int main(int argc, char *argv[])
     {
         app.createWindow(isaTestNet);
         app.requestInitialize();
+#if defined(Q_OS_WIN) && QT_VERSION >= 0x050000
+        WinShutdownMonitor::registerShutdownBlockReason(QObject::tr("Dogecoin Core didn't yet exit safely..."), (HWND)app.getMainWinId());
+#endif
         app.exec();
         app.requestShutdown();
         app.exec();

@@ -1,6 +1,7 @@
 from jsonrpc import ServiceProxy
 import sys
 import string
+import getpass
 
 # ===== BEGIN USER SETTINGS =====
 # if you do not set these you will be prompted for a password for every command
@@ -301,24 +302,24 @@ elif cmd == "validateaddress":
 		print "\n---An error occurred---\n"
 
 elif cmd == "walletpassphrase":
-	try:
-		pwd = raw_input("Enter wallet passphrase: ")
-		access.walletpassphrase(pwd, 60)
-		print "\n---Wallet unlocked---\n"
-	except:
-		print "\n---An error occurred---\n"
+    try:
+        pwd = getpass.getpass(prompt="Enter wallet passphrase: ")
+        access.walletpassphrase(pwd, 60)
+        print "\n---Wallet unlocked---\n"
+    except:
+        print "\n---An error occurred---\n"
 
 elif cmd == "walletpassphrasechange":
-	try:
-		pwd = raw_input("Enter old wallet passphrase: ")
-		pwd2 = raw_input("Enter new wallet passphrase: ")
-		access.walletpassphrasechange(pwd, pwd2)
-		print
-		print "\n---Passphrase changed---\n"
-	except:
-		print
-		print "\n---An error occurred---\n"
-		print
+    try:
+        pwd = getpass.getpass(prompt="Enter old wallet passphrase: ")
+        pwd2 = getpass.getpass(prompt="Enter new wallet passphrase: ")
+        access.walletpassphrasechange(pwd, pwd2)
+        print
+        print "\n---Passphrase changed---\n"
+    except:
+        print
+        print "\n---An error occurred---\n"
+        print
 
 else:
 	print "Command not found or not supported"

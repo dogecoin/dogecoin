@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+# Copyright (c) 2014 The Bitcoin Core developers
+# Copyright (c) 2014 The Dogecoin Core developers
+# Distributed under the MIT/X11 software license, see the accompanying
+# file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 # Test proper accounting with malleable transactions
 
@@ -10,8 +14,8 @@ fi
 
 set -f
 
-BITCOIND=${1}/bitcoind
-CLI=${1}/bitcoin-cli
+BITCOIND=${1}/dogecoind
+CLI=${1}/dogecoin-cli
 
 DIR="${BASH_SOURCE%/*}"
 SENDANDWAIT="${DIR}/send.sh"
@@ -68,15 +72,15 @@ echo "Generating test blockchain..."
 $CLI $B2ARGS addnode 127.0.0.1:11000 onetry
 WaitPeers "$B1ARGS" 1
 
-# 1 block, 50 XBT each == 50 XBT
+# 1 block, 500000 XDG each == 50 XDG
 $CLI $B1ARGS setgenerate true 1
 
 WaitBlocks
-# 100 blocks, 0 mature == 0 XBT
-$CLI $B2ARGS setgenerate true 100
+# 49 blocks, 0 mature == 0 XDG
+$CLI $B2ARGS setgenerate true 49
 WaitBlocks
 
-CheckBalance "$B1ARGS" 50
+CheckBalance "$B1ARGS" 500000
 CheckBalance "$B2ARGS" 0
 
 # restart B2 with no connection
@@ -89,11 +93,11 @@ B2ADDRESS=$( $CLI $B2ARGS getaccountaddress "from1" )
 
 # Have B1 create two transactions; second will
 # spend change from first, since B1 starts with only a single
-# 50 bitcoin output:
+# 500000 dogecoin output:
 $CLI $B1ARGS move "" "foo" 10.0 > /dev/null
 $CLI $B1ARGS move "" "bar" 10.0 > /dev/null
 TXID1=$( $CLI $B1ARGS sendfrom foo $B2ADDRESS 1.0 0)
-TXID2=$( $CLI $B1ARGS sendfrom bar $B2ADDRESS 2.0 0)
+TXID2=$( $CLI $B1ARGS sendfrom bar $B2ADDRESS 5.0 0)
 
 # Mutate TXID1 and add it to B2's memory pool:
 RAWTX1=$( $CLI $B1ARGS getrawtransaction $TXID1 )
@@ -126,16 +130,16 @@ $CLI $B2ARGS addnode 127.0.0.1:11000 onetry
 $CLI $B2ARGS setgenerate true 1
 WaitBlocks
 
-# B1 should have 49 BTC; the 2 BTC send is
+# B1 should have 499998 DOGE; the 5 DOGE send is
 # conflicted, and should not count in
 # balances.
-CheckBalance "$B1ARGS" 49
-CheckBalance "$B1ARGS" 49 "*"
-CheckBalance "$B1ARGS" 9 "foo"
+CheckBalance "$B1ARGS" 499998
+CheckBalance "$B1ARGS" 499998 "*"
+CheckBalance "$B1ARGS" 8 "foo"
 CheckBalance "$B1ARGS" 10 "bar"
 
-# B2 should have 51 BTC
-CheckBalance "$B2ARGS" 51
+# B2 should have 500001 DOGE
+CheckBalance "$B2ARGS" 500001
 CheckBalance "$B2ARGS" 1 "from1"
 
 $CLI $B2ARGS stop > /dev/null 2>&1

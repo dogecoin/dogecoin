@@ -1,3 +1,7 @@
+// Copyright (c) 2011-2013 The Bitcoin Core developers
+// Distributed under the MIT/X11 software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
 #include "script.h"
 
 #include "data/script_invalid.json.h"
@@ -63,7 +67,11 @@ ParseScript(string s)
 
     BOOST_FOREACH(string w, words)
     {
-        if (all(w, is_digit()) ||
+        if (w.size() == 0)
+        {
+            // Empty string, ignore. (boost::split given '' will return one word)
+        }
+        else if (all(w, is_digit()) ||
             (starts_with(w, "-") && all(string(w.begin()+1, w.end()), is_digit())))
         {
             // Number

@@ -1,3 +1,7 @@
+// Copyright (c) 2012-2013 The Bitcoin Core developers
+// Distributed under the MIT/X11 software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
 //
 // Unit tests for canonical signatures
 //
@@ -86,6 +90,23 @@ BOOST_AUTO_TEST_CASE(script_noncanon)
             BOOST_CHECK_MESSAGE(!IsCanonicalSignature(sig, SCRIPT_VERIFY_STRICTENC), test);
             BOOST_CHECK_MESSAGE(!IsCanonicalSignature_OpenSSL(sig), test);
         }
+    }
+}
+
+BOOST_AUTO_TEST_CASE(script_signstrict)
+{
+    for (int i=0; i<100; i++) {
+        CKey key;
+        key.MakeNewKey(i & 1);
+        std::vector<unsigned char> sig;
+        uint256 hash = GetRandHash();
+
+        BOOST_CHECK(key.Sign(hash, sig)); // Generate a random signature.
+        BOOST_CHECK(key.GetPubKey().Verify(hash, sig)); // Check it.
+        sig.push_back(0x01); // Append a sighash type.
+
+        BOOST_CHECK(IsCanonicalSignature(sig, SCRIPT_VERIFY_STRICTENC | SCRIPT_VERIFY_LOW_S));
+        BOOST_CHECK(IsCanonicalSignature_OpenSSL(sig));
     }
 }
 

@@ -1,3 +1,7 @@
+// Copyright (c) 2014 The Bitcoin Core developers
+// Distributed under the MIT/X11 software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
 #include "core.h"
 #include "main.h"
 #include "uint256.h"
@@ -210,7 +214,7 @@ BOOST_AUTO_TEST_CASE(GetMinFee_relayfree_test)
     BOOST_CHECK(GetMinFee(tx, MAX_STANDARD_TX_SIZE, true, GMF_RELAY) == (1+(MAX_STANDARD_TX_SIZE/1000))*CTransaction::nMinRelayTxFee);
 }
 
-BOOST_AUTO_TEST_CASE(GetMinFee_createFree_test)
+BOOST_AUTO_TEST_CASE(GetMinFee_createNoFree_test)
 {
     uint64_t value = 1000 * COIN;
 
@@ -221,9 +225,12 @@ BOOST_AUTO_TEST_CASE(GetMinFee_createFree_test)
     if(CTransaction::nMinTxFee == CTransaction::nMinRelayTxFee)
         CTransaction::nMinTxFee++;
     
-    BOOST_CHECK(GetMinFee(tx, 100, true, GMF_SEND) == 0);
-    BOOST_CHECK(GetMinFee(tx, 1000, true, GMF_SEND) == 0);
-    BOOST_CHECK(GetMinFee(tx, 25999, true, GMF_SEND) == 0);
+    BOOST_CHECK(GetMinFee(tx, 100, true, GMF_SEND) > 0);
+    BOOST_CHECK(GetMinFee(tx, 100, true, GMF_SEND) == GetMinFee(tx, 100, false, GMF_SEND));
+    BOOST_CHECK(GetMinFee(tx, 1000, true, GMF_SEND) > 0);
+    BOOST_CHECK(GetMinFee(tx, 1000, true, GMF_SEND) == GetMinFee(tx, 1000, false, GMF_SEND));
+    BOOST_CHECK(GetMinFee(tx, 25999, true, GMF_SEND) > 0);
+    BOOST_CHECK(GetMinFee(tx, 25999, true, GMF_SEND) == GetMinFee(tx, 25999, false, GMF_SEND));
     
     BOOST_CHECK(GetMinFee(tx, 26000, true, GMF_SEND) > 0);
     BOOST_CHECK(GetMinFee(tx, 26000, true, GMF_SEND) == GetMinFee(tx, 26000, false, GMF_SEND));

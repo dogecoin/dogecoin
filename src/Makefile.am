@@ -29,6 +29,7 @@ DIST_SUBDIRS = . qt test
 BITCOIN_CORE_H = \
   addrman.h \
   alert.h \
+  auxpow.h \
   allocators.h \
   base58.h bignum.h \
   bloom.h \
@@ -93,9 +94,8 @@ version.o: obj/build.h
 libbitcoin_server_a_SOURCES = \
   addrman.cpp \
   alert.cpp \
-  rpcserver.cpp \
+  auxpow.cpp \
   bloom.cpp \
-  chainparams.cpp \
   checkpoints.cpp \
   coins.cpp \
   init.cpp \
@@ -110,6 +110,7 @@ libbitcoin_server_a_SOURCES = \
   rpcmisc.cpp \
   rpcnet.cpp \
   rpcrawtransaction.cpp \
+  rpcserver.cpp \
   txdb.cpp \
   txmempool.cpp \
   $(JSON_H) \
@@ -128,6 +129,7 @@ libbitcoin_server_wallet_a_SOURCES = \
   $(BITCOIN_CORE_H)
 
 libbitcoin_common_a_SOURCES = \
+  base58.cpp \
   allocators.cpp \
   chainparams.cpp \
   core.cpp \
@@ -142,6 +144,11 @@ libbitcoin_common_a_SOURCES = \
   util.cpp \
   version.cpp \
   $(BITCOIN_CORE_H)
+
+if GLIBC_BACK_COMPAT
+libbitcoin_common_a_SOURCES += compat/glibc_compat.cpp
+libbitcoin_common_a_SOURCES += compat/glibcxx_compat.cpp
+endif
 
 libbitcoin_cli_a_SOURCES = \
   rpcclient.cpp \

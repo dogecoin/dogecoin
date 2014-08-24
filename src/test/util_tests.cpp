@@ -1,3 +1,7 @@
+// Copyright (c) 2011-2014 The Bitcoin Core developers
+// Distributed under the MIT/X11 software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
 #include "util.h"
 
 #include "sync.h"
@@ -104,13 +108,11 @@ BOOST_AUTO_TEST_CASE(util_HexStr)
 
 BOOST_AUTO_TEST_CASE(util_DateTimeStrFormat)
 {
-/*These are platform-dependant and thus removed to avoid useless test failures
     BOOST_CHECK_EQUAL(DateTimeStrFormat("%Y-%m-%d %H:%M:%S", 0), "1970-01-01 00:00:00");
     BOOST_CHECK_EQUAL(DateTimeStrFormat("%Y-%m-%d %H:%M:%S", 0x7FFFFFFF), "2038-01-19 03:14:07");
-    // Formats used within Bitcoin
     BOOST_CHECK_EQUAL(DateTimeStrFormat("%Y-%m-%d %H:%M:%S", 1317425777), "2011-09-30 23:36:17");
     BOOST_CHECK_EQUAL(DateTimeStrFormat("%Y-%m-%d %H:%M", 1317425777), "2011-09-30 23:36");
-*/
+    BOOST_CHECK_EQUAL(DateTimeStrFormat("%a, %d %b %Y %H:%M:%S +0000", 1317425777), "Fri, 30 Sep 2011 23:36:17 +0000");
 }
 
 BOOST_AUTO_TEST_CASE(util_ParseParameters)
@@ -159,17 +161,6 @@ BOOST_AUTO_TEST_CASE(util_GetArg)
     BOOST_CHECK_EQUAL(GetBoolArg("booltest2", false), false);
     BOOST_CHECK_EQUAL(GetBoolArg("booltest3", false), false);
     BOOST_CHECK_EQUAL(GetBoolArg("booltest4", false), true);
-}
-
-BOOST_AUTO_TEST_CASE(util_WildcardMatch)
-{
-    BOOST_CHECK(WildcardMatch("127.0.0.1", "*"));
-    BOOST_CHECK(WildcardMatch("127.0.0.1", "127.*"));
-    BOOST_CHECK(WildcardMatch("abcdef", "a?cde?"));
-    BOOST_CHECK(!WildcardMatch("abcdef", "a?cde??"));
-    BOOST_CHECK(WildcardMatch("abcdef", "a*f"));
-    BOOST_CHECK(!WildcardMatch("abcdef", "a*x"));
-    BOOST_CHECK(WildcardMatch("", "*"));
 }
 
 BOOST_AUTO_TEST_CASE(util_FormatMoney)
@@ -336,6 +327,28 @@ BOOST_AUTO_TEST_CASE(strprintf_numbers)
 BOOST_AUTO_TEST_CASE(gettime)
 {
     BOOST_CHECK((GetTime() & ~0xFFFFFFFFLL) == 0);
+}
+
+BOOST_AUTO_TEST_CASE(test_ParseInt32)
+{
+    int32_t n;
+    // Valid values
+    BOOST_CHECK(ParseInt32("1234", NULL));
+    BOOST_CHECK(ParseInt32("0", &n) && n == 0);
+    BOOST_CHECK(ParseInt32("1234", &n) && n == 1234);
+    BOOST_CHECK(ParseInt32("01234", &n) && n == 1234); // no octal
+    BOOST_CHECK(ParseInt32("2147483647", &n) && n == 2147483647);
+    BOOST_CHECK(ParseInt32("-2147483648", &n) && n == -2147483648);
+    BOOST_CHECK(ParseInt32("-1234", &n) && n == -1234);
+    // Invalid values
+    BOOST_CHECK(!ParseInt32("1a", &n));
+    BOOST_CHECK(!ParseInt32("aap", &n));
+    BOOST_CHECK(!ParseInt32("0x1", &n)); // no hex
+    // Overflow and underflow
+    BOOST_CHECK(!ParseInt32("-2147483649", NULL));
+    BOOST_CHECK(!ParseInt32("2147483648", NULL));
+    BOOST_CHECK(!ParseInt32("-32482348723847471234", NULL));
+    BOOST_CHECK(!ParseInt32("32482348723847471234", NULL));
 }
 
 BOOST_AUTO_TEST_SUITE_END()

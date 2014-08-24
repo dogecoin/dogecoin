@@ -13,8 +13,8 @@
         <file alias="transaction_0">res/icons/transaction0.png</file>
         <file alias="transaction_confirmed">res/icons/transaction2.png</file>
         <file alias="transaction_conflicted">res/icons/transaction_conflicted.png</file>
-        <file alias="transaction_1">res/icons/clock2.png</file>
-        <file alias="transaction_2">res/icons/clock4.png</file>
+        <file alias="transaction_1">res/icons/clock1.png</file>
+        <file alias="transaction_2">res/icons/clock2.png</file>
         <file alias="transaction_3">res/icons/clock3.png</file>
         <file alias="transaction_4">res/icons/clock4.png</file>
         <file alias="transaction_5">res/icons/clock5.png</file>
@@ -157,5 +157,13 @@
         <file alias="zh_CN">locale/bitcoin_zh_CN.qm</file>
         <file alias="zh_HK">locale/bitcoin_zh_HK.qm</file>
         <file alias="zh_TW">locale/bitcoin_zh_TW.qm</file>
+    </qresource>
+    <qresource prefix="/fonts">
+        <file alias="ComicNeue-Bold">res/fonts/ComicNeue-Bold.ttf</file>
+        <file alias="ComicNeue-Bold-Oblique">res/fonts/ComicNeue-Bold-Oblique.ttf</file>
+        <file alias="ComicNeue-Light">res/fonts/ComicNeue-Light.ttf</file>
+        <file alias="ComicNeue-Light-Oblique">res/fonts/ComicNeue-Light-Oblique.ttf</file>
+        <file alias="ComicNeue-Regular">res/fonts/ComicNeue-Regular.ttf</file>
+        <file alias="ComicNeue-Regular-Oblique">res/fonts/ComicNeue-Regular-Oblique.ttf</file>
     </qresource>
 </RCC>

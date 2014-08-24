@@ -15,7 +15,8 @@ JSON_TEST_FILES = \
   data/base58_keys_invalid.json \
   data/script_invalid.json \
   data/tx_invalid.json \
-  data/tx_valid.json
+  data/tx_valid.json \
+  data/sighash.json
 
 RAW_TEST_FILES = data/alertTests.raw
 
@@ -61,6 +62,7 @@ test_dogecoin_SOURCES = \
   transaction_tests.cpp \
   uint256_tests.cpp \
   util_tests.cpp \
+  scriptnum_tests.cpp \
   sighash_tests.cpp \
   $(JSON_TEST_FILES) $(RAW_TEST_FILES)
 

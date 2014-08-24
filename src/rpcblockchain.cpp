@@ -6,6 +6,8 @@
 #include "rpcserver.h"
 #include "main.h"
 #include "sync.h"
+#include "checkpoints.h"
+#include "auxpow.h"
 
 #include <stdint.h>
 
@@ -13,6 +15,9 @@
 
 using namespace json_spirit;
 using namespace std;
+
+// from rpcraw.cpp
+void TxToJSON(const CTransaction& tx, const uint256 hashBlock, Object& entry);
 
 void ScriptPubKeyToJSON(const CScript& scriptPubKey, Object& out, bool fIncludeHex);
 
@@ -59,12 +64,44 @@ Object blockToJSON(const CBlock& block, const CBlockIndex* blockindex)
     result.push_back(Pair("height", blockindex->nHeight));
     result.push_back(Pair("version", block.nVersion));
     result.push_back(Pair("merkleroot", block.hashMerkleRoot.GetHex()));
+    if (block.nVersion & BLOCK_VERSION_AUXPOW) {
+        // this block includes auxpow
+        Object auxpow;
+        auxpow.push_back(Pair("size", (int)::GetSerializeSize(*block.auxpow, SER_NETWORK, PROTOCOL_VERSION)));
+
+        Object coinbasetx;
+        TxToJSON(*block.auxpow, 0, coinbasetx);
+        auxpow.push_back(Pair("coinbasetx", Value(coinbasetx)));
+
+        Array coinbaseMerkle;
+        BOOST_FOREACH(const uint256 &hash, block.auxpow->vMerkleBranch)
+            coinbaseMerkle.push_back(hash.GetHex());
+        auxpow.push_back(Pair("coinbaseMerkleBranch", coinbaseMerkle));
+        auxpow.push_back(Pair("coinbaseIndex", block.auxpow->nIndex));
+
+        Array chainMerkle;
+        BOOST_FOREACH(const uint256 &hash, block.auxpow->vChainMerkleBranch)
+            chainMerkle.push_back(hash.GetHex());
+        auxpow.push_back(Pair("chainMerkleBranch", chainMerkle));
+        auxpow.push_back(Pair("chainIndex", (boost::uint64_t)block.auxpow->nChainIndex));
+
+        Object parent_block;
+        parent_block.push_back(Pair("hash", block.auxpow->parentBlockHeader.GetHash().GetHex()));
+        parent_block.push_back(Pair("version", (boost::uint64_t)block.auxpow->parentBlockHeader.nVersion));
+        parent_block.push_back(Pair("previousblockhash", block.auxpow->parentBlockHeader.hashPrevBlock.GetHex()));
+        parent_block.push_back(Pair("merkleroot", block.auxpow->parentBlockHeader.hashMerkleRoot.GetHex()));
+        parent_block.push_back(Pair("time", (boost::int64_t)block.auxpow->parentBlockHeader.nTime));
+        parent_block.push_back(Pair("bits", HexBits(block.auxpow->parentBlockHeader.nBits)));
+        parent_block.push_back(Pair("nonce", (boost::uint64_t)block.auxpow->parentBlockHeader.nNonce));
+        auxpow.push_back(Pair("parent_block", Value(parent_block)));
+        result.push_back(Pair("auxpow", Value(auxpow)));
+    }
     Array txs;
     BOOST_FOREACH(const CTransaction&tx, block.vtx)
         txs.push_back(tx.GetHash().GetHex());
     result.push_back(Pair("tx", txs));
-    result.push_back(Pair("time", (boost::int64_t)block.GetBlockTime()));
-    result.push_back(Pair("nonce", (boost::uint64_t)block.nNonce));
+    result.push_back(Pair("time", block.GetBlockTime()));
+    result.push_back(Pair("nonce", (uint64_t)block.nNonce));
     result.push_back(Pair("bits", HexBits(block.nBits)));
     result.push_back(Pair("difficulty", GetDifficulty(blockindex)));
     result.push_back(Pair("chainwork", blockindex->nChainWork.GetHex()));
@@ -174,7 +211,7 @@ Value getrawmempool(const Array& params, bool fHelp)
             Object info;
             info.push_back(Pair("size", (int)e.GetTxSize()));
             info.push_back(Pair("fee", ValueFromAmount(e.GetFee())));
-            info.push_back(Pair("time", (boost::int64_t)e.GetTime()));
+            info.push_back(Pair("time", e.GetTime()));
             info.push_back(Pair("height", (int)e.GetHeight()));
             info.push_back(Pair("startingpriority", e.GetPriority(e.GetHeight())));
             info.push_back(Pair("currentpriority", e.GetPriority(chainActive.Height())));
@@ -314,11 +351,11 @@ Value gettxoutsetinfo(const Array& params, bool fHelp)
 
     CCoinsStats stats;
     if (pcoinsTip->GetStats(stats)) {
-        ret.push_back(Pair("height", (boost::int64_t)stats.nHeight));
+        ret.push_back(Pair("height", (int64_t)stats.nHeight));
         ret.push_back(Pair("bestblock", stats.hashBlock.GetHex()));
-        ret.push_back(Pair("transactions", (boost::int64_t)stats.nTransactions));
-        ret.push_back(Pair("txouts", (boost::int64_t)stats.nTransactionOutputs));
-        ret.push_back(Pair("bytes_serialized", (boost::int64_t)stats.nSerializedSize));
+        ret.push_back(Pair("transactions", (int64_t)stats.nTransactions));
+        ret.push_back(Pair("txouts", (int64_t)stats.nTransactionOutputs));
+        ret.push_back(Pair("bytes_serialized", (int64_t)stats.nSerializedSize));
         ret.push_back(Pair("hash_serialized", stats.hashSerialized.GetHex()));
         ret.push_back(Pair("total_amount", ValueFromAmount(stats.nTotalAmount)));
     }
@@ -429,3 +466,38 @@ Value verifychain(const Array& params, bool fHelp)
     return VerifyDB(nCheckLevel, nCheckDepth);
 }
 
+Value getblockchaininfo(const Array& params, bool fHelp)
+{
+    if (fHelp || params.size() != 0)
+        throw runtime_error(
+            "getblockchaininfo\n"
+            "Returns an object containing various state info regarding block chain processing.\n"
+            "\nResult:\n"
+            "{\n"
+            "  \"chain\": \"xxxx\",        (string) current chain (main, testnet3, regtest)\n"
+            "  \"blocks\": xxxxxx,         (numeric) the current number of blocks processed in the server\n"
+            "  \"bestblockhash\": \"...\", (string) the hash of the currently best block\n"
+            "  \"difficulty\": xxxxxx,     (numeric) the current difficulty\n"
+            "  \"verificationprogress\": xxxx, (numeric) estimate of verification progress [0..1]\n"
+            "  \"chainwork\": \"xxxx\"     (string) total amount of work in active chain, in hexadecimal\n"
+            "}\n"
+            "\nExamples:\n"
+            + HelpExampleCli("getblockchaininfo", "")
+            + HelpExampleRpc("getblockchaininfo", "")
+        );
+
+    proxyType proxy;
+    GetProxy(NET_IPV4, proxy);
+
+    Object obj;
+    std::string chain = Params().DataDir();
+    if(chain.empty())
+        chain = "main";
+    obj.push_back(Pair("chain",         chain));
+    obj.push_back(Pair("blocks",        (int)chainActive.Height()));
+    obj.push_back(Pair("bestblockhash", chainActive.Tip()->GetBlockHash().GetHex()));
+    obj.push_back(Pair("difficulty",    (double)GetDifficulty()));
+    obj.push_back(Pair("verificationprogress", Checkpoints::GuessVerificationProgress(chainActive.Tip())));
+    obj.push_back(Pair("chainwork",     chainActive.Tip()->nChainWork.GetHex()));
+    return obj;
+}
