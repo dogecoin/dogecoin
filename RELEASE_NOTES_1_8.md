@@ -13,11 +13,10 @@ around 150 bugfixes from Bitcoin Core).
 Note that all users MUST upgrade to 1.8. If you're unable to update before the
 switchover block (371,337, expected around 12 September 2014), you MUST update
 as soon as possible afterwards in order to be able to continue to use Dogecoin.
-Users remaining on the previous client WILL NOT be able to receive or spend
+Users remaining on the previous client **will not** be able to receive or spend
 Dogecoin (with the exception of with other nodes who have not upgraded).
 
 ## Upgrading
-============
 
 Before upgrading, back up your wallet.dat file just in case of any problems; you
 can back up the wallet.dat file by using the "Backup Wallet" option from the "File"
@@ -29,19 +28,17 @@ you will be prompted to reindex when first running the software, while if you
 use "dogecoind" you must run it the first time with the "-reindex" command line
 option.
 
-For mining applications ONLY, please run Dogecoin Core with the -disablesafemode
+For mining applications **only**, please run Dogecoin Core with the -disablesafemode
 command line option during the block switchover period to ensure mining is not
 halted when the blockchain forks. All others should run Dogecoin Core as normal,
 and in case of safe mode being activated should restart their client.
 
 ## Downgrading
-==============
 
 As 1.8 includes a substantial change to the mining protocol, downgrading to previous
 clients is not possible.
 
 ## AuxPoW
-=========
 
 AuxPoW is enabled from block 371,337. Until that block the RPC commands for using AuxPoW
 will not function, and AuxPoW blocks will be rejected.
@@ -60,7 +57,6 @@ different coinbase transaction input script format which includes block height i
 compliance with BIP0034.
 
 ## Payment Protocol
-===================
 
 Dogecoin Core 1.8 adds payment protocol support, which is used to streamline payments
 being made to merchants.
@@ -74,21 +70,18 @@ for the request, payment and response are modified to identify the files as dist
 types from the Bitcoin files.
 
 ## Transaction Fees
-===================
 
 As of 1.8 all transactions have fees applied by defaults, with no exemptions made for
 "old" coins. This ensures fees are consistent, while remaining extremely competitive
 (typically 1 Doge, or around $0.00012 per transaction).
 
 ## RPC Allow IP
-===============
 
 The format of IP masks supplied to the "rpcallowip" command line option has changed.
 It no longer accepts subnets like '192.168.*.*', and the format '192.168/16" should
 be used instead.
 
 ## Other Changes
-================
 
 The Chinese and Korean translations have been updated.
 
