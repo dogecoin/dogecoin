@@ -28,10 +28,10 @@ you will be prompted to reindex when first running the software, while if you
 use "dogecoind" you must run it the first time with the "-reindex" command line
 option.
 
-For mining applications **only**, please run Dogecoin Core with the -disablesafemode
-command line option during the block switchover period to ensure mining is not
-halted when the blockchain forks. All others should run Dogecoin Core as normal,
-and in case of safe mode being activated should restart their client.
+To ensure a smooth switchover to AuxPoW, 1.8 has safe mode disabled 1 hour before
+until 24 hours after the switch block. This ensures the actually legit fork will not
+trigger safe mode and halt mining. If you don't want to have this behavior, then
+refer to the 1.8-safemode branch. This one doesn't include the patch to disable safe mode.
 
 ## Downgrading
 
@@ -85,7 +85,7 @@ be used instead.
 
 The Chinese and Korean translations have been updated.
 
-Protocol version has been updated to 80000, meaning that a later release of the client
+Protocol version has been updated to 70003, meaning that a later release of the client
 can block access to all old clients (70002 and below).
 
 In case of an error reading the block database from disk, the database cursor could be
