@@ -1298,8 +1298,8 @@ Address: %4
     </message>
     <message>
         <location line="+3"/>
-        <source>&amp;Start Dogecoin Core on system login</source>
-        <translation>&amp;Start Dogecoin Core on system login</translation>
+        <source>&amp;Start Dogecoin on system login</source>
+        <translation>&amp;Start Dogecoin on system login</translation>
     </message>
     <message>
         <location line="+9"/>

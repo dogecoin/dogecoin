@@ -805,7 +805,12 @@ Address: %4
         <translation>액수</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+5"/>
+        <source>Label</source>
+        <translation>라벨</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Address</source>
         <translation>주소</translation>
     </message>
@@ -853,12 +858,12 @@ Address: %4
     <message>
         <location line="+1"/>
         <source>Lock unspent</source>
-        <translation>미소비 잠금</translation>
+        <translation>미사용액 잠금</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Unlock unspent</source>
-        <translation>미소비 풀기</translation>
+        <translation>미사용액 해제</translation>
     </message>
     <message>
         <location line="+22"/>
@@ -1298,8 +1303,8 @@ Address: %4
     </message>
     <message>
         <location line="+3"/>
-        <source>&amp;Start Dogecoin Core on system login</source>
-        <translation>시스템 로그인 시 Dogecoin 코어 시작(&amp;S)</translation>
+        <source>&amp;Start Dogecoin on system login</source>
+        <translation>시스템 로그인 시 Dogecoin 시작(&amp;S)</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -1375,7 +1380,7 @@ Address: %4
     <message>
         <location line="+65"/>
         <source>Expert</source>
-        <translation>전문가</translation>
+        <translation>전문가용</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -2751,7 +2756,7 @@ Address: %4
     <message>
         <location line="+6"/>
         <source>conflicted</source>
-        <translation>충돌</translation>
+        <translation>미일치</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3180,7 +3185,7 @@ Address: %4
     <message>
         <location line="+1"/>
         <source>Show transaction details</source>
-        <translation>거래기록 내역 보기</translation>
+        <translation>거래기록 정보 보기</translation>
     </message>
     <message>
         <location line="+163"/>
