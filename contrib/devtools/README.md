@@ -9,10 +9,10 @@ A small script to automate merging pull-requests securely and sign them with GPG
 
 For example:
 
-  ./github-merge.sh bitcoin/bitcoin 3077
+  ./github-merge.sh dogecoin/dogecoin 3077
 
 (in any git repository) will help you merge pull request #3077 for the
-bitcoin/bitcoin repository.
+dogecoin/dogecoin repository.
 
 What it does:
 * Fetch master and the pull request.
@@ -32,7 +32,7 @@ Setup
 ---------
 Configuring the github-merge tool for the bitcoin repository is done in the following way:
 
-    git config githubmerge.repository bitcoin/bitcoin
+    git config githubmerge.repository dogecoin/dogecoin
     git config githubmerge.testcmd "make -j4 check" (adapt to whatever you want to use for testing)
     git config --global user.signingkey mykeyid (if you want to GPG sign)
 
@@ -45,9 +45,11 @@ If you run this script from src/ it will automatically update the year on the co
 
 For example a file changed in 2014 (with 2014 being the current year):
 ```// Copyright (c) 2009-2013 The Bitcoin developers```
+```// Copyright (c) 2013-2014 The Dogecoin developers```
 
 would be changed to:
-```// Copyright (c) 2009-2014 The Bitcoin developers```
+```// Copyright (c) 2009-2013 The Bitcoin developers```
+```// Copyright (c) 2013-2014 The Dogecoin developers```
 
 symbol-check.py
 ==================
