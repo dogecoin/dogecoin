@@ -74,21 +74,7 @@ Instructions: Homebrew
 
 #### Install dependencies using Homebrew
 
-        brew install autoconf automake berkeley-db5 boost miniupnpc openssl pkg-config protobuf qt
-
-Note: After you have installed the dependencies, you should check that the Homebrew installed version of OpenSSL is the one available for compilation. You can check this by typing
-
-        openssl version
-
-into Terminal. You should see OpenSSL 1.0.1f 6 Jan 2014.
-
-If not, you can ensure that the Homebrew OpenSSL is correctly linked by running
-
-        brew link openssl --force
-
-Rerunning "openssl version" should now return the correct version. If it
-doesn't, make sure `/usr/local/bin` comes before `/usr/bin` in your
-PATH. 
+        brew install autoconf automake berkeley-db boost miniupnpc openssl pkg-config protobuf qt
 
 ### Building `dogecoind`
 
