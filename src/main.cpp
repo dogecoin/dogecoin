@@ -1389,12 +1389,13 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     if (bnNew > Params().ProofOfWorkLimit())
         bnNew = Params().ProofOfWorkLimit();
 
-    /// debug print
-    LogPrintf("RETARGET: target: %d, actual: %d, modulated: %d\n", retargetTimespan, nActualTimespan, nModulatedTimespan);
-    LogPrintf("Before: %08x  %s\n", pindexLast->nBits, CBigNum().SetCompact(pindexLast->nBits).getuint256().ToString());
-    LogPrintf("After:  %08x  %s\n", bnNew.GetCompact(), bnNew.getuint256().ToString());
+    unsigned int nNewBits = bnNew.GetCompact();
 
-    return bnNew.GetCompact();
+    /// debug print
+    LogPrintf("GetNextWorkRequired() : RETARGET; target: %d, actual: %d, modulated: %d, before: %08x, after: %08x\n",
+        retargetTimespan, nActualTimespan, nModulatedTimespan, pindexLast->nBits, nNewBits);
+
+    return nNewBits;
 }
 
 bool CheckProofOfWork(uint256 hash, unsigned int nBits)
