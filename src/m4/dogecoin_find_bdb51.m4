@@ -1,4 +1,4 @@
-AC_DEFUN([BITCOIN_FIND_BDB51],[
+AC_DEFUN([DOGECOIN_FIND_BDB51],[
   AC_MSG_CHECKING([for Berkeley DB C++ headers])
   BDB_CPPFLAGS=
   BDB_LIBS=
@@ -40,14 +40,14 @@ AC_DEFUN([BITCOIN_FIND_BDB51],[
     AC_MSG_RESULT([no])
     AC_MSG_ERROR(libdb_cxx headers missing)
   elif test "x$bdb51path" = "xX"; then
-    BITCOIN_SUBDIR_TO_INCLUDE(BDB_CPPFLAGS,[${bdbpath}],db_cxx)
+    DOGECOIN_SUBDIR_TO_INCLUDE(BDB_CPPFLAGS,[${bdbpath}],db_cxx)
     AC_ARG_WITH([incompatible-bdb],[AS_HELP_STRING([--with-incompatible-bdb], [allow using a bdb version other than 5.1])],[
       AC_MSG_WARN([Found Berkeley DB other than 5.1; wallets opened by this build will not be portable!])
     ],[
       AC_MSG_ERROR([Found Berkeley DB other than 5.1, required for portable wallets (--with-incompatible-bdb to ignore)])
     ])
   else
-    BITCOIN_SUBDIR_TO_INCLUDE(BDB_CPPFLAGS,[${bdb51path}],db_cxx)
+    DOGECOIN_SUBDIR_TO_INCLUDE(BDB_CPPFLAGS,[${bdb51path}],db_cxx)
     bdbpath="${bdb51path}"
   fi
   AC_SUBST(BDB_CPPFLAGS)
