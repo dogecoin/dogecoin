@@ -2,7 +2,7 @@
 
 from distutils.core import setup
 
-setup(name='python-bitcoinrpc',
+setup(name='python-dogecoinrpc',
       version='0.1',
       description='Enhanced version of python-jsonrpc for use with Bitcoin',
       long_description=open('README').read(),
