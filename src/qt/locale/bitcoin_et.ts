@@ -225,7 +225,7 @@ Toode sisaldab OpenSSL Projekti all toodetud tarkvara, mis on kasutamiseks OpenS
         <translation>Rahakott krüpteeritud</translation>
     </message>
     <message>
-        <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your bitcoins from being stolen by malware infecting your computer.</source>
+        <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your dogecoins from being stolen by malware infecting your computer.</source>
         <translation>Dogecoin sulgub krüpteeringu lõpetamiseks. Pea meeles, et rahakoti krüpteerimine ei välista bitcoinide vargust, kui sinu arvuti on nakatunud pahavaraga.</translation>
     </message>
     <message>
@@ -432,7 +432,7 @@ Toode sisaldab OpenSSL Projekti all toodetud tarkvara, mis on kasutamiseks OpenS
         <translation>Dogecoini tuumik</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and bitcoin: URIs)</source>
+        <source>Request payments (generates QR codes and dogecoin: URIs)</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -448,7 +448,7 @@ Toode sisaldab OpenSSL Projekti all toodetud tarkvara, mis on kasutamiseks OpenS
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Open a bitcoin: URI or payment request</source>
+        <source>Open a dogecoin: URI or payment request</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1277,7 +1277,7 @@ Aadress: %4⏎</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Cannot start bitcoin: click-to-pay handler</source>
+        <source>Cannot start dogecoin: click-to-pay handler</source>
         <translation>Dogecoin ei käivitu: vajuta-maksa toiming</translation>
     </message>
     <message>
@@ -1945,7 +1945,7 @@ Aadress: %4⏎</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>A message that was attached to the bitcoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
+        <source>A message that was attached to the dogecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -2601,12 +2601,12 @@ Aadress: %4⏎</translation>
         <translation>Valikud:</translation>
     </message>
     <message>
-        <source>Specify configuration file (default: bitcoin.conf)</source>
-        <translation>Täpsusta sätete fail (vaikimisi: bitcoin.conf)</translation>
+        <source>Specify configuration file (default: dogecoin.conf)</source>
+        <translation>Täpsusta sätete fail (vaikimisi: dogecoin.conf)</translation>
     </message>
     <message>
         <source>Specify pid file (default: bitcoind.pid)</source>
-        <translation>Täpsusta PID fail (vaikimisi: bitcoin.pid)</translation>
+        <translation>Täpsusta PID fail (vaikimisi: dogecoind.pid)</translation>
     </message>
     <message>
         <source>Specify data directory</source>
@@ -3013,7 +3013,7 @@ nt: alertnotify=echo %%s | email -s &quot;Dogecoin Alert&quot; admin@foo.com
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Usage (deprecated, use bitcoin-cli):</source>
+        <source>Usage (deprecated, use dogecoin-cli):</source>
         <translation type="unfinished"/>
     </message>
     <message>

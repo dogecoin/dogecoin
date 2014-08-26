@@ -225,7 +225,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Бумажник зашифрован</translation>
     </message>
     <message>
-        <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your bitcoins from being stolen by malware infecting your computer.</source>
+        <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your dogecoins from being stolen by malware infecting your computer.</source>
         <translation>Сейчас программа закроется для завершения процесса шифрования. Помните, что шифрование вашего бумажника не может полностью защитить ваши биткойны от кражи с помощью инфицирования вашего компьютера вредоносным ПО.</translation>
     </message>
     <message>
@@ -432,8 +432,8 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Dogecoin Core</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and bitcoin: URIs)</source>
-        <translation>Запросить платежи (создаёт QR-коды и bitcoin: ссылки)</translation>
+        <source>Request payments (generates QR codes and dogecoin: URIs)</source>
+        <translation>Запросить платежи (создаёт QR-коды и dogecoin: ссылки)</translation>
     </message>
     <message>
         <source>&amp;About Dogecoin Core</source>
@@ -448,8 +448,8 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Показать список использованных адресов и меток получения</translation>
     </message>
     <message>
-        <source>Open a bitcoin: URI or payment request</source>
-        <translation>Открыть bitcoin: URI или запрос платежа</translation>
+        <source>Open a dogecoin: URI or payment request</source>
+        <translation>Открыть dogecoin: URI или запрос платежа</translation>
     </message>
     <message>
         <source>&amp;Command-line options</source>
@@ -1278,8 +1278,8 @@ Address: %4
         <translation>Ошибка запроса платежа</translation>
     </message>
     <message>
-        <source>Cannot start bitcoin: click-to-pay handler</source>
-        <translation>Не удаётся запустить bitcoin: обработчик click-to-pay</translation>
+        <source>Cannot start dogecoin: click-to-pay handler</source>
+        <translation>Не удаётся запустить dogecoin: обработчик click-to-pay</translation>
     </message>
     <message>
         <source>Net manager warning</source>
@@ -1946,8 +1946,8 @@ Address: %4
         <translation>Введите метку для этого адреса, чтобы добавить его в список использованных</translation>
     </message>
     <message>
-        <source>A message that was attached to the bitcoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
-        <translation>К bitcoin: URI было прикреплено сообщение, которое будет сохранено вместе с транзакцией для вашего сведения. Заметьте: сообщение не будет отправлено через сеть Dogecoin.</translation>
+        <source>A message that was attached to the dogecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
+        <translation>К dogecoin: URI было прикреплено сообщение, которое будет сохранено вместе с транзакцией для вашего сведения. Заметьте: сообщение не будет отправлено через сеть Dogecoin.</translation>
     </message>
     <message>
         <source>This is an unverified payment request.</source>
@@ -2603,12 +2603,12 @@ Address: %4
         <translation>Опции:</translation>
     </message>
     <message>
-        <source>Specify configuration file (default: bitcoin.conf)</source>
-        <translation>Указать конфигурационный файл (по умолчанию: bitcoin.conf)</translation>
+        <source>Specify configuration file (default: dogecoin.conf)</source>
+        <translation>Указать конфигурационный файл (по умолчанию: dogecoin.conf)</translation>
     </message>
     <message>
         <source>Specify pid file (default: bitcoind.pid)</source>
-        <translation>Задать pid-файл (по умолчанию: bitcoin.pid)</translation>
+        <translation>Задать pid-файл (по умолчанию: dogecoind.pid)</translation>
     </message>
     <message>
         <source>Specify data directory</source>
@@ -3015,8 +3015,8 @@ rpcpassword=%s
         <translation>Это рассчитано на инструменты регрессионного тестирования и разработку приложений.</translation>
     </message>
     <message>
-        <source>Usage (deprecated, use bitcoin-cli):</source>
-        <translation>Использование (устарело, используйте bitcoin-cli):</translation>
+        <source>Usage (deprecated, use dogecoin-cli):</source>
+        <translation>Использование (устарело, используйте dogecoin-cli):</translation>
     </message>
     <message>
         <source>Verifying blocks...</source>

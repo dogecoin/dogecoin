@@ -225,7 +225,7 @@ Questo prodotto include software sviluppato dal progetto OpenSSL per l&apos;uso 
         <translation>Portamonete cifrato</translation>
     </message>
     <message>
-        <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your bitcoins from being stolen by malware infecting your computer.</source>
+        <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your dogecoins from being stolen by malware infecting your computer.</source>
         <translation>Dogecoin si chiuderà per portare a termine il processo di cifratura. Ricorda che cifrare il tuo portamonete non può fornire una protezione totale contro i furti causati da infezioni malware.</translation>
     </message>
     <message>
@@ -432,8 +432,8 @@ Questo prodotto include software sviluppato dal progetto OpenSSL per l&apos;uso 
         <translation>Dogecoin Core</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and bitcoin: URIs)</source>
-        <translation>Richiedi pagamenti (genera codici QR e bitcoin: URI)</translation>
+        <source>Request payments (generates QR codes and dogecoin: URIs)</source>
+        <translation>Richiedi pagamenti (genera codici QR e dogecoin: URI)</translation>
     </message>
     <message>
         <source>&amp;About Dogecoin Core</source>
@@ -448,7 +448,7 @@ Questo prodotto include software sviluppato dal progetto OpenSSL per l&apos;uso 
         <translation>Mostra la lista degli indirizzi di ricezione utilizzati</translation>
     </message>
     <message>
-        <source>Open a bitcoin: URI or payment request</source>
+        <source>Open a dogecoin: URI or payment request</source>
         <translation>Apri un URI o una richiesta di pagamento</translation>
     </message>
     <message>
@@ -1279,8 +1279,8 @@ Indirizzo: %4
         <translation>Errore di richiesta di pagamento</translation>
     </message>
     <message>
-        <source>Cannot start bitcoin: click-to-pay handler</source>
-        <translation>Impossibile avviare bitcoin: gestore click-to-pay</translation>
+        <source>Cannot start dogecoin: click-to-pay handler</source>
+        <translation>Impossibile avviare dogecoin: gestore click-to-pay</translation>
     </message>
     <message>
         <source>Net manager warning</source>
@@ -1947,7 +1947,7 @@ Indirizzo: %4
         <translation>Inserisci un&apos;etichetta per questo indirizzo per aggiungerlo alla lista degli indirizzi utilizzati</translation>
     </message>
     <message>
-        <source>A message that was attached to the bitcoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
+        <source>A message that was attached to the dogecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
         <translation>Messaggio incluso nel bitcoin URI e che sarà memorizzato con la transazione per vostro riferimento. Nota: Questo messaggio non sarà inviato attraverso la rete Dogecoin.</translation>
     </message>
     <message>
@@ -2603,8 +2603,8 @@ Indirizzo: %4
         <translation>Opzioni:</translation>
     </message>
     <message>
-        <source>Specify configuration file (default: bitcoin.conf)</source>
-        <translation>Specifica il file di configurazione (predefinito: bitcoin.conf)</translation>
+        <source>Specify configuration file (default: dogecoin.conf)</source>
+        <translation>Specifica il file di configurazione (predefinito: dogecoin.conf)</translation>
     </message>
     <message>
         <source>Specify pid file (default: bitcoind.pid)</source>
@@ -3015,8 +3015,8 @@ ad esempio: alertnotify=echo %%s | mail -s &quot;Allarme Dogecoin&quot; admin@fo
         <translation>Questo è previsto per l&apos;uso con test di regressione e per lo sviluppo di applicazioni.</translation>
     </message>
     <message>
-        <source>Usage (deprecated, use bitcoin-cli):</source>
-        <translation>Usage (deprecato, usare bitcoin-cli):</translation>
+        <source>Usage (deprecated, use dogecoin-cli):</source>
+        <translation>Usage (deprecato, usare dogecoin-cli):</translation>
     </message>
     <message>
         <source>Verifying blocks...</source>

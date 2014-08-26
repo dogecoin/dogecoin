@@ -220,7 +220,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Zorroa enkriptatuta</translation>
     </message>
     <message>
-        <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your bitcoins from being stolen by malware infecting your computer.</source>
+        <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your dogecoins from being stolen by malware infecting your computer.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -427,7 +427,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Request payments (generates QR codes and bitcoin: URIs)</source>
+        <source>Request payments (generates QR codes and dogecoin: URIs)</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -443,7 +443,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Open a bitcoin: URI or payment request</source>
+        <source>Open a dogecoin: URI or payment request</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1269,7 +1269,7 @@ Address: %4
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Cannot start bitcoin: click-to-pay handler</source>
+        <source>Cannot start dogecoin: click-to-pay handler</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1937,7 +1937,7 @@ Address: %4
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>A message that was attached to the bitcoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
+        <source>A message that was attached to the dogecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -2593,8 +2593,8 @@ Address: %4
         <translation>Aukerak</translation>
     </message>
     <message>
-        <source>Specify configuration file (default: bitcoin.conf)</source>
-        <translation>Ezarpen fitxategia aukeratu (berezkoa: bitcoin.conf)</translation>
+        <source>Specify configuration file (default: dogecoin.conf)</source>
+        <translation>Ezarpen fitxategia aukeratu (berezkoa: dogecoin.conf)</translation>
     </message>
     <message>
         <source>Specify pid file (default: bitcoind.pid)</source>
@@ -2995,7 +2995,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Usage (deprecated, use bitcoin-cli):</source>
+        <source>Usage (deprecated, use dogecoin-cli):</source>
         <translation type="unfinished"/>
     </message>
     <message>

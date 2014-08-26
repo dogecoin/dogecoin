@@ -225,7 +225,7 @@ Dieses Produkt enthält Software, die vom OpenSSL-Projekt zur Verwendung im Open
         <translation>Brieftasche verschlüsselt</translation>
     </message>
     <message>
-        <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your bitcoins from being stolen by malware infecting your computer.</source>
+        <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your dogecoins from being stolen by malware infecting your computer.</source>
         <translation>Dogecoin wird jetzt beendet, um den Verschlüsselungsprozess abzuschließen. Bitte beachten Sie, dass die Verschlüsselung der Brieftasche nicht vollständig vor Diebstahl ihrer Dogecoins durch Schadsoftware schützt, die ihren Computer befällt.</translation>
     </message>
     <message>

@@ -3251,7 +3251,7 @@ Wohin: %4
 <context>
     <name>dogecoin-core</name>
     <message>
-        <location filename="../bitcoinstrings.cpp" line="+223"/>
+        <location filename="../dogecoinstrings.cpp" line="+223"/>
         <source>Usage:</source>
         <translation>Vawendung:</translation>
     </message>
