@@ -448,7 +448,7 @@
      </column>
      <column>
       <property name="text">
-       <string notr="true">Label</string>
+       <string>Label</string>
       </property>
      </column>
      <column>
