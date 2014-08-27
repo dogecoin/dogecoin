@@ -349,7 +349,7 @@ Denna produkten innehåller mjukvara utvecklad av OpenSSL Project för användni
         <translation>Skicka mynt till en Dogecoin-adress</translation>
     </message>
     <message>
-        <source>Modify configuration options for Dogecoin</source>
+        <source>Modify configuration options for Dogecoin Core</source>
         <translation>Ändra konfigurationsalternativ för Dogecoin</translation>
     </message>
     <message>
@@ -457,7 +457,7 @@ Denna produkten innehåller mjukvara utvecklad av OpenSSL Project för användni
         <translation>&amp;Kommandoradsalternativ</translation>
     </message>
     <message>
-        <source>Show the Dogecoin Core help message to get a list with possible Dogecoin command-line options</source>
+        <source>Show the Dogecoin Core help message to get a list with possible command-line options</source>
         <translation>Visa Dogecoin Core hjälpmeddelande för att få en lista med möjliga Dogecoin kommandoradsalternativ.</translation>
     </message>
     <message>
@@ -625,6 +625,10 @@ Adress: %4
     <message>
         <source>Amount</source>
         <translation>Mängd</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation>Label</translation>
     </message>
     <message>
         <source>Address</source>
@@ -1017,11 +1021,11 @@ Adress: %4
         <translation>Betala överförings&amp;avgift</translation>
     </message>
     <message>
-        <source>Automatically start Dogecoin after logging in to the system.</source>
+        <source>Automatically start Dogecoin Core after logging in to the system.</source>
         <translation>Starta Dogecoin automatiskt efter inloggning.</translation>
     </message>
     <message>
-        <source>&amp;Start Dogecoin on system login</source>
+        <source>&amp;Start Dogecoin Core on system login</source>
         <translation>&amp;Starta Dogecoin vid systemstart</translation>
     </message>
     <message>
@@ -1145,7 +1149,7 @@ Adress: %4
         <translation>Användargränssnittets &amp;språk: </translation>
     </message>
     <message>
-        <source>The user interface language can be set here. This setting will take effect after restarting Dogecoin.</source>
+        <source>The user interface language can be set here. This setting will take effect after restarting Dogecoin Core.</source>
         <translation>Användargränssnittets språk kan ställas in här. Denna inställning träder i kraft efter en omstart av Dogecoin.</translation>
     </message>
     <message>
