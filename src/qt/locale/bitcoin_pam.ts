@@ -346,7 +346,7 @@ Ing produktung ini atin yang makayabeng software a gewa dareng OpenSSL Project p
         <translation>Magpadalang barya king Dogecoin address</translation>
     </message>
     <message>
-        <source>Modify configuration options for Dogecoin</source>
+        <source>Modify configuration options for Dogecoin Core</source>
         <translation>Alilan ing pipamilian konpigurasion para keng Dogecoin</translation>
     </message>
     <message>
@@ -454,7 +454,7 @@ Ing produktung ini atin yang makayabeng software a gewa dareng OpenSSL Project p
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Show the Dogecoin Core help message to get a list with possible Dogecoin command-line options</source>
+        <source>Show the Dogecoin Core help message to get a list with possible command-line options</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -622,6 +622,10 @@ Address: %4
     <message>
         <source>Amount</source>
         <translation>Alaga</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation>Label</translation>
     </message>
     <message>
         <source>Address</source>
@@ -1014,11 +1018,11 @@ Address: %4
         <translation>Mamayad &amp;bayad para king transaksion </translation>
     </message>
     <message>
-        <source>Automatically start Dogecoin after logging in to the system.</source>
+        <source>Automatically start Dogecoin Core after logging in to the system.</source>
         <translation>Umpisan yang antimu ing Dogecoin kaibat mekapag-log in king sistema.</translation>
     </message>
     <message>
-        <source>&amp;Start Dogecoin on system login</source>
+        <source>&amp;Start Dogecoin Core on system login</source>
         <translation>&amp;Umpisan ya ing Dogecoin king pamag-log-in na ning sistema.</translation>
     </message>
     <message>
@@ -1142,7 +1146,7 @@ Address: %4
         <translation>Amanu na ning user interface:</translation>
     </message>
     <message>
-        <source>The user interface language can be set here. This setting will take effect after restarting Dogecoin.</source>
+        <source>The user interface language can be set here. This setting will take effect after restarting Dogecoin Core.</source>
         <translation>Ing amanu na ning user interface maliari yang i-ayus o ilage keni. Ing ayus a ini magsilbi yamu istung pesibayuan meng pasibayu ing Dogecoin.</translation>
     </message>
     <message>
