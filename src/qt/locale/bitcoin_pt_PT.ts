@@ -348,7 +348,7 @@ Este produto inclui software desenvolvido pelo Projecto OpenSSL para uso no Open
         <translation>Enviar moedas para um endereço bitcoin</translation>
     </message>
     <message>
-        <source>Modify configuration options for Dogecoin</source>
+        <source>Modify configuration options for Dogecoin Core</source>
         <translation>Modificar opções de configuração para bitcoin</translation>
     </message>
     <message>
@@ -456,7 +456,7 @@ Este produto inclui software desenvolvido pelo Projecto OpenSSL para uso no Open
         <translation>Opções da linha de &amp;comandos</translation>
     </message>
     <message>
-        <source>Show the Dogecoin Core help message to get a list with possible Dogecoin command-line options</source>
+        <source>Show the Dogecoin Core help message to get a list with possible command-line options</source>
         <translation>Mostrar a mensagem de ajuda do Dogecoin Core para obter uma lista com possíveis opções de linha de comandos</translation>
     </message>
     <message>
@@ -623,6 +623,10 @@ Endereço: %4</translation>
     <message>
         <source>Amount</source>
         <translation>Quantia</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation>Label</translation>
     </message>
     <message>
         <source>Address</source>
@@ -1015,11 +1019,11 @@ Endereço: %4</translation>
         <translation>Pagar &amp;taxa de transação</translation>
     </message>
     <message>
-        <source>Automatically start Dogecoin after logging in to the system.</source>
+        <source>Automatically start Dogecoin Core after logging in to the system.</source>
         <translation>Começar o Dogecoin automaticamente ao iniciar sessão no sistema.</translation>
     </message>
     <message>
-        <source>&amp;Start Dogecoin on system login</source>
+        <source>&amp;Start Dogecoin Core on system login</source>
         <translation>&amp;Começar o Dogecoin ao iniciar o sistema</translation>
     </message>
     <message>
@@ -1143,7 +1147,7 @@ Endereço: %4</translation>
         <translation>&amp;Linguagem da interface de utilizador:</translation>
     </message>
     <message>
-        <source>The user interface language can be set here. This setting will take effect after restarting Dogecoin.</source>
+        <source>The user interface language can be set here. This setting will take effect after restarting Dogecoin Core.</source>
         <translation>A linguagem da interface do utilizador pode ser definida aqui. Esta definição entrará em efeito após reiniciar o Dogecoin.</translation>
     </message>
     <message>
