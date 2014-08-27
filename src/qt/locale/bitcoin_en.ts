@@ -806,13 +806,13 @@ Address: %4
     </message>
     <message>
         <location line="+5"/>
-        <source>Address</source>
-        <translation type="unfinished">Address</translation>
+        <source>Label</source>
+        <translation>Label</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Label</source>
-        <translation>Label</translation>
+        <source>Address</source>
+        <translation type="unfinished">Address</translation>
     </message>
     <message>
         <location line="+5"/>
