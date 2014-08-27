@@ -805,9 +805,14 @@ Address: %4
         <translation type="unfinished">Amount</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+5"/>
         <source>Address</source>
         <translation type="unfinished">Address</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Label</source>
+        <translation>Label</translation>
     </message>
     <message>
         <location line="+5"/>
