@@ -348,7 +348,7 @@ Acest produs include programe dezvoltate de către OpenSSL Project pentru a fi f
         <translation>Trimite monede către o adresă Dogecoin</translation>
     </message>
     <message>
-        <source>Modify configuration options for Dogecoin</source>
+        <source>Modify configuration options for Dogecoin Core</source>
         <translation>Modifică opțiunile de configurare pentru Dogecoin</translation>
     </message>
     <message>
@@ -456,7 +456,7 @@ Acest produs include programe dezvoltate de către OpenSSL Project pentru a fi f
         <translation>Command-line setări</translation>
     </message>
     <message>
-        <source>Show the Dogecoin Core help message to get a list with possible Dogecoin command-line options</source>
+        <source>Show the Dogecoin Core help message to get a list with possible command-line options</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -624,6 +624,10 @@ Adresa: %4
     <message>
         <source>Amount</source>
         <translation>Sumă</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation>Label</translation>
     </message>
     <message>
         <source>Address</source>
@@ -1016,11 +1020,11 @@ Adresa: %4
         <translation>Plăteşte comision pentru tranzacţie &amp;f</translation>
     </message>
     <message>
-        <source>Automatically start Dogecoin after logging in to the system.</source>
+        <source>Automatically start Dogecoin Core after logging in to the system.</source>
         <translation>Porneşte automat programul Dogecoin la pornirea computerului.</translation>
     </message>
     <message>
-        <source>&amp;Start Dogecoin on system login</source>
+        <source>&amp;Start Dogecoin Core on system login</source>
         <translation>&amp;S Porneşte Dogecoin la pornirea sistemului</translation>
     </message>
     <message>
@@ -1144,7 +1148,7 @@ Adresa: %4
         <translation>Interfata &amp; limba userului</translation>
     </message>
     <message>
-        <source>The user interface language can be set here. This setting will take effect after restarting Dogecoin.</source>
+        <source>The user interface language can be set here. This setting will take effect after restarting Dogecoin Core.</source>
         <translation>Limba interfeței utilizatorului poate fi setat aici. Această setare va avea efect după repornirea Dogecoin.</translation>
     </message>
     <message>
