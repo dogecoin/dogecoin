@@ -350,7 +350,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>付錢給一個位元幣位址</translation>
     </message>
     <message>
-        <source>Modify configuration options for Dogecoin</source>
+        <source>Modify configuration options for Dogecoin Core</source>
         <translation>修改位元幣軟體的設定選項</translation>
     </message>
     <message>
@@ -458,7 +458,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>命令列選項</translation>
     </message>
     <message>
-        <source>Show the Dogecoin Core help message to get a list with possible Dogecoin command-line options</source>
+        <source>Show the Dogecoin Core help message to get a list with possible command-line options</source>
         <translation>顯示位元幣核心的說明訊息，來取得可用命令列選項的列表</translation>
     </message>
     <message>
@@ -626,6 +626,10 @@ Address: %4
     <message>
         <source>Amount</source>
         <translation>金額</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation>Label</translation>
     </message>
     <message>
         <source>Address</source>
@@ -1018,11 +1022,11 @@ Address: %4
         <translation>付交易手續費</translation>
     </message>
     <message>
-        <source>Automatically start Dogecoin after logging in to the system.</source>
+        <source>Automatically start Dogecoin Core after logging in to the system.</source>
         <translation>在登入系統後自動啓動位元幣軟體。</translation>
     </message>
     <message>
-        <source>&amp;Start Dogecoin on system login</source>
+        <source>&amp;Start Dogecoin Core on system login</source>
         <translation>系統登入時啟動位元幣</translation>
     </message>
     <message>
@@ -1146,7 +1150,7 @@ Address: %4
         <translation>使用界面語言:</translation>
     </message>
     <message>
-        <source>The user interface language can be set here. This setting will take effect after restarting Dogecoin.</source>
+        <source>The user interface language can be set here. This setting will take effect after restarting Dogecoin Core.</source>
         <translation>可以在這裡設定使用者介面的語言。這個設定在重啓位元幣軟體後才會生效。</translation>
     </message>
     <message>
