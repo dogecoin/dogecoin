@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="da" version="2.0">
+﻿<?xml version="1.0" ?><!DOCTYPE TS><TS language="da" version="2.0">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -348,7 +348,7 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
         <translation>Send bitcoins til en Dogecoin-adresse</translation>
     </message>
     <message>
-        <source>Modify configuration options for Dogecoin</source>
+        <source>Modify configuration options for Dogecoin Core</source>
         <translation>Rediger konfigurationsindstillinger af Dogecoin</translation>
     </message>
     <message>
@@ -456,7 +456,7 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Show the Dogecoin Core help message to get a list with possible Dogecoin command-line options</source>
+        <source>Show the Dogecoin Core help message to get a list with possible command-line options</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -624,6 +624,10 @@ Adresse: %4
     <message>
         <source>Amount</source>
         <translation>Beløb</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Address</source>
@@ -1016,11 +1020,11 @@ Adresse: %4
         <translation>Betal transaktionsgebyr</translation>
     </message>
     <message>
-        <source>Automatically start Dogecoin after logging in to the system.</source>
+        <source>Automatically start Dogecoin Core after logging in to the system.</source>
         <translation>Start Dogecoin automatisk, når der logges ind på systemet</translation>
     </message>
     <message>
-        <source>&amp;Start Dogecoin on system login</source>
+        <source>&amp;Start Dogecoin Core on system login</source>
         <translation>Start Dogecoin, når systemet startes</translation>
     </message>
     <message>
@@ -1144,7 +1148,7 @@ Adresse: %4
         <translation>Brugergrænsefladesprog:</translation>
     </message>
     <message>
-        <source>The user interface language can be set here. This setting will take effect after restarting Dogecoin.</source>
+        <source>The user interface language can be set here. This setting will take effect after restarting Dogecoin Core.</source>
         <translation>Brugergrænsefladesproget kan angives her. Denne indstilling træder først i kraft, når Dogecoin genstartes.</translation>
     </message>
     <message>
