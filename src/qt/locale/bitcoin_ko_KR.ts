@@ -3325,7 +3325,7 @@ Address: %4
 <context>
     <name>bitcoin-core</name>
     <message>
-        <location filename="../dogecoinstrings.cpp" line="+262"/>
+        <location filename="../bitcoinstrings.cpp" line="+262"/>
         <source>Usage:</source>
         <translation>사용법:</translation>
     </message>
