@@ -3320,7 +3320,7 @@ Address: %4
 <context>
     <name>dogecoin-core</name>
     <message>
-        <location filename="../dogecoinstrings.cpp" line="+262"/>
+        <location filename="../bitcoinstrings.cpp" line="+262"/>
         <source>Usage:</source>
         <translation>사용법: (이 항목의 번역은 완전하지 않습니다. 참고용으로만 사용하세요.)</translation>
     </message>

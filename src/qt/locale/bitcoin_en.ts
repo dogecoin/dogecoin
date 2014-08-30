@@ -3320,7 +3320,7 @@ Address: %4
 <context>
     <name>dogecoin-core</name>
     <message>
-        <location filename="../dogecoinstrings.cpp" line="+262"/>
+        <location filename="../bitcoinstrings.cpp" line="+262"/>
         <source>Usage:</source>
         <translation>Usage:</translation>
     </message>
