@@ -23,6 +23,15 @@ Dependencies
  qt          | GUI              | GUI toolkit
  protobuf    | Payments in GUI  | Data interchange format used for payment protocol
  libqrencode | QR codes in GUI  | Optional for generating QR codes
+ 
+ Suggested versions of these libraries are as follows:
+      openssl-1.0.1i
+      db-5.1.29
+      boost 1.55
+      miniupnpc-1.9.20140701
+      qt 4.6.4
+      protobuf-2.5.0
+      qrencode-3.4.3
 
 [miniupnpc](http://miniupnp.free.fr/) may be used for UPnP port mapping.  It can be downloaded from [here](
 http://miniupnp.tuxfamily.org/files/).  UPnP support is compiled in and
@@ -63,7 +72,7 @@ for Ubuntu 13.10:
 	libboost1.54 will not work,
 	remove libboost1.54-all-dev and install libboost1.53-all-dev instead.
 
-for other Ubuntu & Debian:
+for other Debian:
 
 	sudo apt-get install libdb5.1-dev
 	sudo apt-get install libdb5.1++-dev
