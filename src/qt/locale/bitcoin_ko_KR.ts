@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
 <TS version="2.0" language="ko_KR">
 <context>
@@ -24,7 +24,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>
 이 프로그램은 시험용입니다.
 
-MIT/X11 프로그램 라이선스에 따라 배포합니다. 동봉된 COPYING.txt 파일 또는 http://www.opensource.org/licenses/mit-license.php를 참조하세요. 
+MIT/X11 프로그램 라이선스에 따라 배포합니다. COPYING.txt 파일 또는 http://www.opensource.org/licenses/mit-license.php를 참조하세요. 
 
 이 프로그램은 OpenSSL Toolkit (http://www.openssl.org) 사용 목적으로 개발한 OpenSSL 프로젝트를 포함하고 있으며, 암호화 프로그램은 Eric Young (eay@cryptsoft.com)이, UPnP 프로그램은 Thomas Bernard가 작성했습니다.</translation>
     </message>
@@ -438,7 +438,7 @@ MIT/X11 프로그램 라이선스에 따라 배포합니다. 동봉된 COPYING.t
     <message>
         <location line="-405"/>
         <source>Send coins to a Dogecoin address</source>
-        <translation>Dogecoin 주소로 코인 전송</translation>
+        <translation>Dogecoin 주소로 코인 보내기</translation>
     </message>
     <message>
         <location line="+49"/>
@@ -483,18 +483,18 @@ MIT/X11 프로그램 라이선스에 따라 배포합니다. 동봉된 COPYING.t
     <message>
         <location line="+145"/>
         <source>&amp;Send</source>
-        <translation>매우 보내기(&amp;S)</translation>
+        <translation>매우 보냄(&amp;S)</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>&amp;Receive</source>
-        <translation>많이 받기(&amp;R)</translation>
+        <translation>너무 받음(&amp;R)</translation>
     </message>
     <message>
         <location line="+46"/>
         <location line="+2"/>
         <source>&amp;Show / Hide</source>
-        <translation>보이기/숨기기(&amp;S)</translation>
+        <translation>보기/숨기기(&amp;S)</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -509,7 +509,7 @@ MIT/X11 프로그램 라이선스에 따라 배포합니다. 동봉된 COPYING.t
     <message>
         <location line="+7"/>
         <source>Sign messages with your Dogecoin addresses to prove you own them</source>
-        <translation>지갑 주소가 자신 소유의 것인지 증명하기 위해 Dogecoin 주소에 서명할 수 있습니다.</translation>
+        <translation>Dogecoin 주소에 메시지를 서명하여 그것을 가지고 있음을 증명하세요.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -550,7 +550,7 @@ MIT/X11 프로그램 라이선스에 따라 배포합니다. 동봉된 COPYING.t
     <message>
         <location line="+162"/>
         <source>Request payments (generates QR codes and dogecoin: URIs)</source>
-        <translation>지불 요청하기 (QR코드와 DogecoinURI 생성)</translation>
+        <translation>지불 요청하기 (QR코드와 Dogecoin URI 생성)</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -571,12 +571,12 @@ MIT/X11 프로그램 라이선스에 따라 배포합니다. 동봉된 COPYING.t
     <message>
         <location line="+3"/>
         <source>Open a dogecoin: URI or payment request</source>
-        <translation>DogecoinURI 또는 지불 요청을 엽니다</translation>
+        <translation>Dogecoin URI 또는 지불 요청을 엽니다</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>&amp;Command-line options</source>
-        <translation>명령어-라인 옵션(&amp;C)</translation>
+        <translation>명령-줄 옵션(&amp;C)</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -616,8 +616,8 @@ MIT/X11 프로그램 라이선스에 따라 배포합니다. 동봉된 COPYING.t
         <location line="+27"/>
         <source>%n hour(s)</source>
         <translation>
-            <numerusform>%시간</numerusform>
-            <numerusform>%시간</numerusform>
+            <numerusform>%n시간</numerusform>
+            <numerusform>%n시간</numerusform>
         </translation>
     </message>
     <message numerus="yes">
@@ -805,7 +805,12 @@ Address: %4
         <translation>액수</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+5"/>
+        <source>Label</source>
+        <translation>라벨</translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Address</source>
         <translation>주소</translation>
     </message>
@@ -832,12 +837,12 @@ Address: %4
     <message>
         <location filename="../coincontroldialog.cpp" line="+41"/>
         <source>Copy address</source>
-        <translation>주소 복사하기</translation>
+        <translation>주소 복사</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Copy label</source>
-        <translation>라벨 복사하기</translation>
+        <translation>라벨 복사</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -853,12 +858,12 @@ Address: %4
     <message>
         <location line="+1"/>
         <source>Lock unspent</source>
-        <translation>미소비 잠금</translation>
+        <translation>미사용액 잠금</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Unlock unspent</source>
-        <translation>미소비 풀기</translation>
+        <translation>미사용액 해제</translation>
     </message>
     <message>
         <location line="+22"/>
@@ -1284,12 +1289,12 @@ Address: %4
     <message>
         <location line="+116"/>
         <source>Optional transaction fee per kB that helps make sure your transactions are processed quickly. Most transactions are 1 kB.</source>
-        <translation>사용자의 거래기록들이 더욱 빠르게 처리될 수 있도록 돕는 추가적인 kB당 거래기록 수수료입니다. 대부분의 거래기록들은 1kB입니다.</translation>
+        <translation>사용자의 거래기록들이 빠르게 처리될 수 있도록 돕는 추가적인 kB당 거래기록 수수료입니다. 대부분의 거래기록들은 1kB입니다.</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Pay transaction &amp;fee</source>
-        <translation>거래기록 수수료 지불하기(&amp;f)</translation>
+        <translation>거래기록 수수료 지불(&amp;f)</translation>
     </message>
     <message>
         <location line="-125"/>
@@ -1324,18 +1329,18 @@ Address: %4
     <message>
         <location line="+3"/>
         <source>&amp;Connect through SOCKS proxy (default proxy):</source>
-        <translation>SOCKS 프록시를 통해 연결합니다(&amp;C) (프록시 기본값):</translation>
+        <translation>SOCKS 프록시를 통해 연결(&amp;C) (프록시 기본값):</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>IP address of the proxy (e.g. IPv4: 127.0.0.1 / IPv6: ::1)</source>
-        <translation>프록시 아이피 주소(예: IPv4:127.0.0.1 / IPv6: ::1)</translation>
+        <translation>프록시의 아이피 주소입니다(예: IPv4:127.0.0.1 / IPv6: ::1)</translation>
     </message>
     <message>
         <location line="+194"/>
         <location line="+13"/>
         <source>Third party URLs (e.g. a block explorer) that appear in the transactions tab as context menu items. %s in the URL is replaced by transaction hash. Multiple URLs are separated by vertical bar |.</source>
-        <translation>바로 가기 메뉴 항목으로 거래기록 탭에 나타나는 서드 파티 URL (예: a block explorer)입니다. URL안의 %s(은)는 거래기록 해쉬로 대체됩니다. 여러 개의 URL들은 수직 바 | 로 구분됩니다.</translation>
+        <translation>거래기록 탭의 바로 가기 메뉴 항목으로 나타나는 서드 파티 URL (예: 블록 탐색기)입니다. URL안의 %s는 거래기록 해쉬로 대체됩니다. 여러 개의 URL들은 수직 바 | 로 구분됩니다.</translation>
     </message>
     <message>
         <location line="-10"/>
@@ -1350,7 +1355,7 @@ Address: %4
     <message>
         <location line="+43"/>
         <source>Reset all client options to default.</source>
-        <translation>모든 클라이언트 옵션을 기본값으로 재설정</translation>
+        <translation>모든 클라이언트 옵션을 기본값으로 재설정합니다.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1375,7 +1380,7 @@ Address: %4
     <message>
         <location line="+65"/>
         <source>Expert</source>
-        <translation>전문가</translation>
+        <translation>전문가용</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -1521,7 +1526,7 @@ Address: %4
         <location line="+1"/>
         <location line="+29"/>
         <source>Client restart required to activate changes.</source>
-        <translation>변경한 내용을 적용하려면 클라이언트를 재 시작 해야 합니다.</translation>
+        <translation>변경한 내용을 적용하려면 클라이언트를 재시작 해야 합니다.</translation>
     </message>
     <message>
         <location line="-29"/>
@@ -1531,7 +1536,7 @@ Address: %4
     <message>
         <location line="+33"/>
         <source>This change would require a client restart.</source>
-        <translation>변경을 위해 클라이언트 재 시작이 필요합니다.</translation>
+        <translation>변경을 위해 클라이언트 재시작이 필요합니다.</translation>
     </message>
     <message>
         <location line="+34"/>
@@ -2029,7 +2034,7 @@ Address: %4
     <message>
         <location line="+120"/>
         <source>Show the selected request (does the same as double clicking an entry)</source>
-        <translation>선택된 요청 보이기 (항목 더블클릭)</translation>
+        <translation>선택된 요청 보기 (항목 더블클릭)</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -2039,17 +2044,17 @@ Address: %4
     <message>
         <location line="+14"/>
         <source>Remove the selected entries from the list</source>
-        <translation>목록에 있는 선택된 항목들을 삭제합니다</translation>
+        <translation>목록에 있는 선택된 항목들을 제거합니다</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Remove</source>
-        <translation>삭제</translation>
+        <translation>제거</translation>
     </message>
     <message>
         <location filename="../receivecoinsdialog.cpp" line="+39"/>
         <source>Copy label</source>
-        <translation>표 복사하기</translation>
+        <translation>라벨 복사</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2112,7 +2117,7 @@ Address: %4
     <message>
         <location line="+2"/>
         <source>Label</source>
-        <translation>표</translation>
+        <translation>라벨</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2160,7 +2165,7 @@ Address: %4
     <message>
         <location line="+9"/>
         <source>(no message)</source>
-        <translation>(메시지가 없습니다)</translation>
+        <translation>(메시지 없음)</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -2240,7 +2245,7 @@ Address: %4
     <message>
         <location line="+44"/>
         <source>If this is activated, but the change address is empty or invalid, change will be sent to a newly generated address.</source>
-        <translation>이것이 활성화 되었을 때, 반환액 주소가 비어있거나 잘못되었더라도, 반환액은 새롭게 생성된 주소로 보내질 것입니다.</translation >
+        <translation>활성화 되면 반환액 주소가 비어있거나 잘못되었더라도, 반환액은 새롭게 생성된 주소로 보내질 것입니다.</translation >
     </message>
     <message>
         <location line="+3"/>
@@ -2255,7 +2260,7 @@ Address: %4
     <message>
         <location line="+3"/>
         <source>Add &amp;Recipient</source>
-        <translation>받는 이 추가하기(&amp;R)</translation>
+        <translation>받는 이 추가(&amp;R)</translation>
     </message>
     <message>
         <location line="-23"/>
@@ -2293,7 +2298,7 @@ Address: %4
         <location line="+5"/>
         <location line="+4"/>
         <source>%1 to %2</source>
-        <translation>%1 를 %2 에</translation>
+        <translation>%1를 %2로</translation>
     </message>
     <message>
         <location line="-121"/>
@@ -2403,7 +2408,7 @@ Address: %4
     <message>
         <location line="+9"/>
         <source>added as transaction fee</source>
-        <translation>거래기록 수수료로 추가됩니다</translation>
+        <translation>거래기록 수수료 추가됨</translation>
     </message>
     <message>
         <location line="+171"/>
@@ -2463,7 +2468,7 @@ Address: %4
     <message>
         <location line="+7"/>
         <source>Paste address from clipboard</source>
-        <translation>주소를 클립보드로 복사합니다</translation>
+        <translation>주소를 클립보드에서 붙여넣습니다</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -2475,7 +2480,7 @@ Address: %4
         <location line="+524"/>
         <location line="+536"/>
         <source>Remove this entry</source>
-        <translation>항목을 지웁니다</translation>
+        <translation>항목을 제거합니다.</translation>
     </message>
     <message>
         <location line="-1008"/>
@@ -2495,7 +2500,7 @@ Address: %4
     <message>
         <location line="+33"/>
         <source>A message that was attached to the dogecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
-        <translation>참고용으로 DogecoinURI에 첨부된 거래기록에 저장될 수 있는 메시지 입니다. 참고: 이 메시지는 Dogecoin 네트워크를 통해 보내지지는 않을 것입니다.</translation>
+        <translation>참고용으로 Dogecoin URI에 첨부된 거래기록에 저장될 수 있는 메시지 입니다. 참고: 이 메시지는 Dogecoin 네트워크를 통해 보내지지는 않을 것입니다.</translation>
     </message>
     <message>
         <location line="+426"/>
@@ -2565,7 +2570,7 @@ Address: %4
     <message>
         <location line="-200"/>
         <source>Paste address from clipboard</source>
-        <translation>주소를 클립보드로 복사합니다</translation>
+        <translation>주소를 클립보드에서 붙여넣습니다</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -2595,7 +2600,7 @@ Address: %4
     <message>
         <location line="+3"/>
         <source>Sign &amp;Message</source>
-        <translation>메시지 서명하기(&amp;M)</translation>
+        <translation>메시지 서명(&amp;M)</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -2631,7 +2636,7 @@ Address: %4
     <message>
         <location line="+3"/>
         <source>Verify &amp;Message</source>
-        <translation>메시지 검증하기(&amp;M)</translation>
+        <translation>메시지 검증(&amp;M)</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -2646,7 +2651,7 @@ Address: %4
     <message>
         <location line="-1"/>
         <source>Click &quot;Sign Message&quot; to generate signature</source>
-        <translation>서명을 생성하려면 &quot;메시지 서명하기&quot;를 클릭하세요</translation>
+        <translation>서명을 생성하려면 &quot;메시지 서명&quot;을 클릭하세요</translation>
     </message>
     <message>
         <location line="+84"/>
@@ -2751,7 +2756,7 @@ Address: %4
     <message>
         <location line="+6"/>
         <source>conflicted</source>
-        <translation>충돌</translation>
+        <translation>미일치</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2777,8 +2782,8 @@ Address: %4
         <location line="+7"/>
         <source>, broadcast through %n node(s)</source>
         <translation>
-            <numerusform>, %n 노드를 통해 알려짐</numerusform>
-            <numerusform>, %n 노드들을 통해 알려짐</numerusform>
+            <numerusform>, %n개 노드를 통해 알려짐</numerusform>
+            <numerusform>, %n게 노드를 통해 알려짐</numerusform>
         </translation>
     </message>
     <message>
@@ -3021,7 +3026,7 @@ Address: %4
     <message>
         <location line="+6"/>
         <source>Conflicted</source>
-        <translation>충돌</translation>
+        <translation>미일치</translation>
     </message>
     <message>
         <location line="+51"/>
@@ -3175,12 +3180,12 @@ Address: %4
     <message>
         <location line="+1"/>
         <source>Edit label</source>
-        <translation>라벨 수정하기</translation>
+        <translation>라벨 수정</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Show transaction details</source>
-        <translation>거래기록 내역 보기</translation>
+        <translation>거래기록 정보 보기</translation>
     </message>
     <message>
         <location line="+163"/>
@@ -3318,16 +3323,16 @@ Address: %4
     </message>
 </context>
 <context>
-    <name>dogecoin-core</name>
+    <name>bitcoin-core</name>
     <message>
         <location filename="../bitcoinstrings.cpp" line="+262"/>
         <source>Usage:</source>
-        <translation>사용법: (이 항목의 번역은 완전하지 않습니다. 참고용으로만 사용하세요.)</translation>
+        <translation>사용법:</translation>
     </message>
     <message>
         <location line="-66"/>
         <source>List commands</source>
-        <translation>커맨드 목록</translation>
+        <translation>명령 목록</translation>
     </message>
     <message>
         <location line="-15"/>
@@ -3397,7 +3402,7 @@ Address: %4
     <message>
         <location line="+51"/>
         <source>Accept command line and JSON-RPC commands</source>
-        <translation>명령줄과 JSON-RPC 명령 수락</translation>
+        <translation>명령 줄과 JSON-RPC 명령 수락</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -3667,7 +3672,7 @@ rpcpassword=%s
     <message>
         <location line="+1"/>
         <source>Error loading block database</source>
-        <translation>블록 데이터베이스 불러오는 중 오류</translation>
+        <translation>블록 데이터베이스를 불러오는 중 오류</translation>
     </message>
     <message>
         <location line="+4"/>

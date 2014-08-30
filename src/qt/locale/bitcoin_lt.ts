@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="lt" version="2.0">
+﻿<?xml version="1.0" ?><!DOCTYPE TS><TS language="lt" version="2.0">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -347,7 +347,7 @@ Platinama pagal MIT/X11 licenciją, kurią rasite faile COPYING arba http://www.
         <translation>Siųsti monetas Dogecoin adresui</translation>
     </message>
     <message>
-        <source>Modify configuration options for Dogecoin</source>
+        <source>Modify configuration options for Dogecoin Core</source>
         <translation>Keisti bitcoin konfigūracijos galimybes</translation>
     </message>
     <message>
@@ -455,7 +455,7 @@ Platinama pagal MIT/X11 licenciją, kurią rasite faile COPYING arba http://www.
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Show the Dogecoin Core help message to get a list with possible Dogecoin command-line options</source>
+        <source>Show the Dogecoin Core help message to get a list with possible command-line options</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -622,6 +622,10 @@ Adresas: %4</translation>
     <message>
         <source>Amount</source>
         <translation>Suma</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Address</source>
@@ -1014,11 +1018,11 @@ Adresas: %4</translation>
         <translation>&amp;Mokėti sandorio mokestį</translation>
     </message>
     <message>
-        <source>Automatically start Dogecoin after logging in to the system.</source>
+        <source>Automatically start Dogecoin Core after logging in to the system.</source>
         <translation>Automatiškai paleisti Dogekoin programą įjungus sistemą.</translation>
     </message>
     <message>
-        <source>&amp;Start Dogecoin on system login</source>
+        <source>&amp;Start Dogecoin Core on system login</source>
         <translation>&amp;Paleisti Dogecoin programą su window sistemos paleidimu</translation>
     </message>
     <message>
@@ -1142,7 +1146,7 @@ Adresas: %4</translation>
         <translation>Naudotojo sąsajos &amp;kalba:</translation>
     </message>
     <message>
-        <source>The user interface language can be set here. This setting will take effect after restarting Dogecoin.</source>
+        <source>The user interface language can be set here. This setting will take effect after restarting Dogecoin Core.</source>
         <translation>Čia gali būti nustatyta naudotojo sąsajos kalba. Šis nustatymas įsigalios iš naujo paleidus Dogecoin.</translation>
     </message>
     <message>
