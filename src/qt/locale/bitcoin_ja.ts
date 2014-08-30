@@ -225,7 +225,7 @@ MIT/X11 ソフトウェア ライセンスの下で配布されています。�
         <translation>ウォレットは暗号化されました</translation>
     </message>
     <message>
-        <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your bitcoins from being stolen by malware infecting your computer.</source>
+        <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your dogecoins from being stolen by malware infecting your computer.</source>
         <translation>Dogecoin は暗号化プロセスを終了するために今すぐ終了します。あなたのコンピュータがマルウェアに感染してコインを盗まれることもあるので、暗号化してもあなたのウォレットを完全に保護できないことを覚えていてください。</translation>
     </message>
     <message>
@@ -432,7 +432,7 @@ MIT/X11 ソフトウェア ライセンスの下で配布されています。�
         <translation>Dogecoin のコア</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and bitcoin: URIs)</source>
+        <source>Request payments (generates QR codes and dogecoin: URIs)</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -448,7 +448,7 @@ MIT/X11 ソフトウェア ライセンスの下で配布されています。�
         <translation>支払いを受け取るアドレスとラベルのリストを表示する</translation>
     </message>
     <message>
-        <source>Open a bitcoin: URI or payment request</source>
+        <source>Open a dogecoin: URI or payment request</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1283,7 +1283,7 @@ Address: %4
         <translation>支払いのリクエストのエラーです</translation>
     </message>
     <message>
-        <source>Cannot start bitcoin: click-to-pay handler</source>
+        <source>Cannot start dogecoin: click-to-pay handler</source>
         <translation>Dogecoin を起動できません: click-to-pay handler</translation>
     </message>
     <message>
@@ -1951,7 +1951,7 @@ Address: %4
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>A message that was attached to the bitcoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
+        <source>A message that was attached to the dogecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -2607,8 +2607,8 @@ Address: %4
         <translation>オプション:</translation>
     </message>
     <message>
-        <source>Specify configuration file (default: bitcoin.conf)</source>
-        <translation>設定ファイルの指定 (初期値: bitcoin.conf)</translation>
+        <source>Specify configuration file (default: dogecoin.conf)</source>
+        <translation>設定ファイルの指定 (初期値: dogecoin.conf)</translation>
     </message>
     <message>
         <source>Specify pid file (default: bitcoind.pid)</source>
@@ -3019,7 +3019,7 @@ rpcpassword=%s
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Usage (deprecated, use bitcoin-cli):</source>
+        <source>Usage (deprecated, use dogecoin-cli):</source>
         <translation type="unfinished"/>
     </message>
     <message>

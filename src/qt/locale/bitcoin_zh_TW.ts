@@ -227,7 +227,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>錢包已加密</translation>
     </message>
     <message>
-        <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your bitcoins from being stolen by malware infecting your computer.</source>
+        <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your dogecoins from being stolen by malware infecting your computer.</source>
         <translation>位元幣軟體現在要關閉，好完成加密程序。請注意，加密錢包不能完全防止入侵你的電腦的惡意程式偷取位元幣。</translation>
     </message>
     <message>
@@ -434,7 +434,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>位元幣核心</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and bitcoin: URIs)</source>
+        <source>Request payments (generates QR codes and dogecoin: URIs)</source>
         <translation>要求付款(產生 QR Code 和位元幣付款協議的 URI)</translation>
     </message>
     <message>
@@ -450,7 +450,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>顯示已使用過的收款位址和標記的清單</translation>
     </message>
     <message>
-        <source>Open a bitcoin: URI or payment request</source>
+        <source>Open a dogecoin: URI or payment request</source>
         <translation>開啓 bitcoin 協議的 URI 或付款要求</translation>
     </message>
     <message>
@@ -1284,7 +1284,7 @@ Address: %4
         <translation>要求付款時發生錯誤</translation>
     </message>
     <message>
-        <source>Cannot start bitcoin: click-to-pay handler</source>
+        <source>Cannot start dogecoin: click-to-pay handler</source>
         <translation>沒辦法啟動 bitcoin 協議的按就付處理器</translation>
     </message>
     <message>
@@ -1952,7 +1952,7 @@ Address: %4
         <translation>請輸入這個位址的標記，來把它加進去已使用過位址的清單。</translation>
     </message>
     <message>
-        <source>A message that was attached to the bitcoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
+        <source>A message that was attached to the dogecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
         <translation>附加在位元幣付款協議 URI 中的訊息，會和交易內容一起存起來，給你自己做參考。注意: 這個訊息不會送到位元幣網路上。</translation>
     </message>
     <message>
@@ -2608,8 +2608,8 @@ Address: %4
         <translation>選項:</translation>
     </message>
     <message>
-        <source>Specify configuration file (default: bitcoin.conf)</source>
-        <translation>指定設定檔(預設值: bitcoin.conf)</translation>
+        <source>Specify configuration file (default: dogecoin.conf)</source>
+        <translation>指定設定檔(預設值: dogecoin.conf)</translation>
     </message>
     <message>
         <source>Specify pid file (default: bitcoind.pid)</source>
@@ -3021,8 +3021,8 @@ alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com</transla
         <translation>這是設計用來給回歸測試工具和應用程式開發用的。</translation>
     </message>
     <message>
-        <source>Usage (deprecated, use bitcoin-cli):</source>
-        <translation>用法(已過時，請改用 bitcoin-cli):</translation>
+        <source>Usage (deprecated, use dogecoin-cli):</source>
+        <translation>用法(已過時，請改用 dogecoin-cli):</translation>
     </message>
     <message>
         <source>Verifying blocks...</source>

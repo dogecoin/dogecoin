@@ -220,8 +220,8 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Moneder encriptat</translation>
     </message>
     <message>
-        <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your bitcoins from being stolen by malware infecting your computer.</source>
-        <translation>Dogecoin es tancarà ara per acabar el procés d&apos;encriptació. Recorda que encriptar el teu moneder no protegeix completament els teus bitcoins de ser robades per programari maliciós instal·lat al teu ordinador.</translation>
+        <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your dogecoins from being stolen by malware infecting your computer.</source>
+        <translation>Dogecoin es tancarà ara per acabar el procés d&apos;encriptació. Recorda que encriptar el teu moneder no protegeix completament els teus dogecoins de ser robades per programari maliciós instal·lat al teu ordinador.</translation>
     </message>
     <message>
         <source>Wallet encryption failed</source>
@@ -427,7 +427,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Nucli de Dogecoin</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and bitcoin: URIs)</source>
+        <source>Request payments (generates QR codes and dogecoin: URIs)</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -443,7 +443,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Open a bitcoin: URI or payment request</source>
+        <source>Open a dogecoin: URI or payment request</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1273,8 +1273,8 @@ Address: %4
         <translation>Error en la sol·licitud de pagament</translation>
     </message>
     <message>
-        <source>Cannot start bitcoin: click-to-pay handler</source>
-        <translation>No es pot iniciar bitcoin: manejador clicla-per-pagar</translation>
+        <source>Cannot start dogecoin: click-to-pay handler</source>
+        <translation>No es pot iniciar dogecoin: manejador clicla-per-pagar</translation>
     </message>
     <message>
         <source>Net manager warning</source>
@@ -1941,7 +1941,7 @@ Address: %4
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>A message that was attached to the bitcoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
+        <source>A message that was attached to the dogecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -2597,8 +2597,8 @@ Address: %4
         <translation>Opcions:</translation>
     </message>
     <message>
-        <source>Specify configuration file (default: bitcoin.conf)</source>
-        <translation>Especificat arxiu de configuració (per defecte: bitcoin.conf)</translation>
+        <source>Specify configuration file (default: dogecoin.conf)</source>
+        <translation>Especificat arxiu de configuració (per defecte: dogecoin.conf)</translation>
     </message>
     <message>
         <source>Specify pid file (default: bitcoind.pid)</source>
@@ -2999,7 +2999,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Usage (deprecated, use bitcoin-cli):</source>
+        <source>Usage (deprecated, use dogecoin-cli):</source>
         <translation type="unfinished"/>
     </message>
     <message>

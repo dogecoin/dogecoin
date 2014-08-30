@@ -226,7 +226,7 @@ Denna produkten innehåller mjukvara utvecklad av OpenSSL Project för användni
         <translation>Plånboken är krypterad</translation>
     </message>
     <message>
-        <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your bitcoins from being stolen by malware infecting your computer.</source>
+        <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your dogecoins from being stolen by malware infecting your computer.</source>
         <translation>Programmet kommer nu att stänga ner för att färdigställa krypteringen. Tänk på att en krypterad plånbok inte skyddar mot stöld om din dator är infekterad med en keylogger.</translation>
     </message>
     <message>
@@ -433,7 +433,7 @@ Denna produkten innehåller mjukvara utvecklad av OpenSSL Project för användni
         <translation>Dogecoin Kärna</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and bitcoin: URIs)</source>
+        <source>Request payments (generates QR codes and dogecoin: URIs)</source>
         <translation>Begär betalning (genererar QR-koder och bitcoin-URI)</translation>
     </message>
     <message>
@@ -449,8 +449,8 @@ Denna produkten innehåller mjukvara utvecklad av OpenSSL Project för användni
         <translation>Visa listan av använda mottagningsadresser och etiketter</translation>
     </message>
     <message>
-        <source>Open a bitcoin: URI or payment request</source>
-        <translation>Öppna en bitcoin: URI eller betalningsbegäran</translation>
+        <source>Open a dogecoin: URI or payment request</source>
+        <translation>Öppna en dogecoin: URI eller betalningsbegäran</translation>
     </message>
     <message>
         <source>&amp;Command-line options</source>
@@ -1283,8 +1283,8 @@ Adress: %4
         <translation>Fel vid betalningsbegäran</translation>
     </message>
     <message>
-        <source>Cannot start bitcoin: click-to-pay handler</source>
-        <translation>Kan inte starta bitcoin: klicka-och-betala handhavare</translation>
+        <source>Cannot start dogecoin: click-to-pay handler</source>
+        <translation>Kan inte starta dogecoin: klicka-och-betala handhavare</translation>
     </message>
     <message>
         <source>Net manager warning</source>
@@ -1951,7 +1951,7 @@ Adress: %4
         <translation>Ange en etikett för denna adress att adderas till listan över använda adresser</translation>
     </message>
     <message>
-        <source>A message that was attached to the bitcoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
+        <source>A message that was attached to the dogecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
         <translation>Ett meddelande som bifogades bitcoin-URI, vilket lagras med transaktionen som referens. NB: Meddelandet kommer inte att sändas över Dogecoinnätverket.</translation>
     </message>
     <message>
@@ -2607,8 +2607,8 @@ Adress: %4
         <translation>Inställningar:</translation>
     </message>
     <message>
-        <source>Specify configuration file (default: bitcoin.conf)</source>
-        <translation>Ange konfigurationsfil (förvalt: bitcoin.conf)</translation>
+        <source>Specify configuration file (default: dogecoin.conf)</source>
+        <translation>Ange konfigurationsfil (förvalt: dogecoin.conf)</translation>
     </message>
     <message>
         <source>Specify pid file (default: bitcoind.pid)</source>
@@ -2728,7 +2728,7 @@ till exempel: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@fo
     </message>
     <message>
         <source>Error: This transaction requires a transaction fee of at least %s because of its amount, complexity, or use of recently received funds!</source>
-        <translation>Fel: Denna transaktion kräver en transaktionsavgift på minst %s på grund av dess storlek, komplexitet, eller användning av senast mottagna bitcoins!</translation>
+        <translation>Fel: Denna transaktion kräver en transaktionsavgift på minst %s på grund av dess storlek, komplexitet, eller användning av senast mottagna dogecoins!</translation>
     </message>
     <message>
         <source>Execute command when a wallet transaction changes (%s in cmd is replaced by TxID)</source>
@@ -3019,8 +3019,8 @@ till exempel: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@fo
         <translation>Detta är avsett för regressionstestningsverktyg och applikationsutveckling.</translation>
     </message>
     <message>
-        <source>Usage (deprecated, use bitcoin-cli):</source>
-        <translation>Användning (föråldrat, använd bitcoin-cli):</translation>
+        <source>Usage (deprecated, use dogecoin-cli):</source>
+        <translation>Användning (föråldrat, använd dogecoin-cli):</translation>
     </message>
     <message>
         <source>Verifying blocks...</source>
@@ -3336,7 +3336,7 @@ till exempel: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@fo
     </message>
     <message>
         <source>Insufficient funds</source>
-        <translation>Otillräckligt med bitcoins</translation>
+        <translation>Otillräckligt med dogecoins</translation>
     </message>
     <message>
         <source>Loading block index...</source>

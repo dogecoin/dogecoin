@@ -225,7 +225,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>საფულე დაშიფრულია</translation>
     </message>
     <message>
-        <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your bitcoins from being stolen by malware infecting your computer.</source>
+        <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your dogecoins from being stolen by malware infecting your computer.</source>
         <translation>ახლა Dogecoin დაიხურება დაშიფრვის პროცესის დასასრულებლად. გაითვალისწინეთ, რომ დაშიფრვა სრულად ვერ დაიცავს თქვენს ბითქოინებს თქვენს კომპიუტერში შემოპარული მავნე პროგრამების საშუალებით დატაცებისაგან.</translation>
     </message>
     <message>
@@ -432,8 +432,8 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Dogecoin Core</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and bitcoin: URIs)</source>
-        <translation>გადახდის მოთხოვნა (შეიქმნება QR-კოდები და bitcoin: ბმულები)</translation>
+        <source>Request payments (generates QR codes and dogecoin: URIs)</source>
+        <translation>გადახდის მოთხოვნა (შეიქმნება QR-კოდები და dogecoin: ბმულები)</translation>
     </message>
     <message>
         <source>&amp;About Dogecoin Core</source>
@@ -448,8 +448,8 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>გამოყენებული მიღების მისამართებისა და ნიშნულების სიის ჩვენება</translation>
     </message>
     <message>
-        <source>Open a bitcoin: URI or payment request</source>
-        <translation>bitcoin: URI-ის ან გადახდის მოთხოვნის გახსნა</translation>
+        <source>Open a dogecoin: URI or payment request</source>
+        <translation>dogecoin: URI-ის ან გადახდის მოთხოვნის გახსნა</translation>
     </message>
     <message>
         <source>&amp;Command-line options</source>
@@ -1282,8 +1282,8 @@ Address: %4
         <translation>გადახდის მოთხოვნის შეცდომა</translation>
     </message>
     <message>
-        <source>Cannot start bitcoin: click-to-pay handler</source>
-        <translation>ვერ გაიშვა bitcoin: click-to-pay</translation>
+        <source>Cannot start dogecoin: click-to-pay handler</source>
+        <translation>ვერ გაიშვა dogecoin: click-to-pay</translation>
     </message>
     <message>
         <source>Net manager warning</source>
@@ -1950,7 +1950,7 @@ Address: %4
         <translation>შეიყვანეთ ამ მისამართის ნიშნული გამოყენებული მისამართების სიაში დასამატებლად</translation>
     </message>
     <message>
-        <source>A message that was attached to the bitcoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
+        <source>A message that was attached to the dogecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
         <translation>მესიჯი, რომელიც თან ერთვის მონეტებს:  URI, რომელიც შეინახება ტრანსაქციასთან ერთად თქვენთვის. შენიშვნა: მესიჯი არ გაყვება გადახდას ბითქოინის ქსელში.</translation>
     </message>
     <message>
@@ -2606,8 +2606,8 @@ Address: %4
         <translation>ოპციები:</translation>
     </message>
     <message>
-        <source>Specify configuration file (default: bitcoin.conf)</source>
-        <translation>მიუთითეთ საკონფიგურაციო ფაილი (ნაგულისხმევია: bitcoin.conf)</translation>
+        <source>Specify configuration file (default: dogecoin.conf)</source>
+        <translation>მიუთითეთ საკონფიგურაციო ფაილი (ნაგულისხმევია: dogecoin.conf)</translation>
     </message>
     <message>
         <source>Specify pid file (default: bitcoind.pid)</source>
@@ -3018,8 +3018,8 @@ rpcpassword=%s
         <translation>გამოიყენება რეგრესული ტესტირების ინსტრუმენტებისა და პროგრამების შემუშავებისას.</translation>
     </message>
     <message>
-        <source>Usage (deprecated, use bitcoin-cli):</source>
-        <translation>გამოყენება (მოძველებულია, გამოიყენეთ bitcoin-cli):</translation>
+        <source>Usage (deprecated, use dogecoin-cli):</source>
+        <translation>გამოყენება (მოძველებულია, გამოიყენეთ dogecoin-cli):</translation>
     </message>
     <message>
         <source>Verifying blocks...</source>

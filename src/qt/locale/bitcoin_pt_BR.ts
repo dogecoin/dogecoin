@@ -225,8 +225,8 @@ Este produto inclui software desenvolvido pelo Projeto OpenSSL para uso no OpenS
         <translation>Carteira criptografada</translation>
     </message>
     <message>
-        <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your bitcoins from being stolen by malware infecting your computer.</source>
-        <translation>O Dogecoin irá fechar agora para finalizar o processo de encriptação. Lembre-se de que encriptar sua carteira não protege totalmente suas bitcoins de serem roubadas por malwares que tenham infectado o seu computador.</translation>
+        <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your dogecoins from being stolen by malware infecting your computer.</source>
+        <translation>O Dogecoin irá fechar agora para finalizar o processo de encriptação. Lembre-se de que encriptar sua carteira não protege totalmente suas dogecoins de serem roubadas por malwares que tenham infectado o seu computador.</translation>
     </message>
     <message>
         <source>Wallet encryption failed</source>
@@ -432,8 +432,8 @@ Este produto inclui software desenvolvido pelo Projeto OpenSSL para uso no OpenS
         <translation>Núcleo Dogecoin</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and bitcoin: URIs)</source>
-        <translation>Solicitações de pagamentos (gera códigos QR e bitcoin: URIs)</translation>
+        <source>Request payments (generates QR codes and dogecoin: URIs)</source>
+        <translation>Solicitações de pagamentos (gera códigos QR e dogecoin: URIs)</translation>
     </message>
     <message>
         <source>&amp;About Dogecoin Core</source>
@@ -448,8 +448,8 @@ Este produto inclui software desenvolvido pelo Projeto OpenSSL para uso no OpenS
         <translation>Mostrar a lista de endereços de recebimento usados ​​e rótulos</translation>
     </message>
     <message>
-        <source>Open a bitcoin: URI or payment request</source>
-        <translation>Abrir um bitcoin: URI ou cobrança</translation>
+        <source>Open a dogecoin: URI or payment request</source>
+        <translation>Abrir um dogecoin: URI ou cobrança</translation>
     </message>
     <message>
         <source>&amp;Command-line options</source>
@@ -1156,7 +1156,7 @@ Endereço: %4</translation>
     </message>
     <message>
         <source>Choose the default subdivision unit to show in the interface and when sending coins.</source>
-        <translation>Escolha a unidade padrão de subdivisão para interface mostrar quando enviar bitcoins.</translation>
+        <translation>Escolha a unidade padrão de subdivisão para interface mostrar quando enviar dogecoins.</translation>
     </message>
     <message>
         <source>Whether to show Dogecoin addresses in the transaction list or not.</source>
@@ -1281,8 +1281,8 @@ Endereço: %4</translation>
         <translation>Erro no pedido de pagamento</translation>
     </message>
     <message>
-        <source>Cannot start bitcoin: click-to-pay handler</source>
-        <translation>Não foi possível iniciar bitcoin: manipulador clique-para-pagar</translation>
+        <source>Cannot start dogecoin: click-to-pay handler</source>
+        <translation>Não foi possível iniciar dogecoin: manipulador clique-para-pagar</translation>
     </message>
     <message>
         <source>Net manager warning</source>
@@ -1859,7 +1859,7 @@ Endereço: %4</translation>
     </message>
     <message>
         <source>The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
-        <translation>A transação foi rejeitada! Isso pode acontecer se alguns bitcoins na sua carteira já foram gastos em outro local, por exemplo se você tiver uma cópia do wallet.dat e os bitcoins tiverem sido gastos na cópia mas não marcados como gastos aqui ainda.</translation>
+        <translation>A transação foi rejeitada! Isso pode acontecer se alguns dogecoins na sua carteira já foram gastos em outro local, por exemplo se você tiver uma cópia do wallet.dat e os dogecoins tiverem sido gastos na cópia mas não marcados como gastos aqui ainda.</translation>
     </message>
     <message>
         <source>Warning: Invalid Dogecoin address</source>
@@ -1949,8 +1949,8 @@ Endereço: %4</translation>
         <translation>Digite um rótulo para este endereço para adicioná-lo no catálogo</translation>
     </message>
     <message>
-        <source>A message that was attached to the bitcoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
-        <translation>A mensagem que foi anexada ao bitcoin: URI na qual será gravada na transação para sua referência. Nota: Essa mensagem não será gravada publicamente na rede Dogecoin.</translation>
+        <source>A message that was attached to the dogecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
+        <translation>A mensagem que foi anexada ao dogecoin: URI na qual será gravada na transação para sua referência. Nota: Essa mensagem não será gravada publicamente na rede Dogecoin.</translation>
     </message>
     <message>
         <source>This is an unverified payment request.</source>
@@ -2605,8 +2605,8 @@ Endereço: %4</translation>
         <translation>Opções:</translation>
     </message>
     <message>
-        <source>Specify configuration file (default: bitcoin.conf)</source>
-        <translation>Especifique um arquivo de configurações (padrão: bitcoin.conf)</translation>
+        <source>Specify configuration file (default: dogecoin.conf)</source>
+        <translation>Especifique um arquivo de configurações (padrão: dogecoin.conf)</translation>
     </message>
     <message>
         <source>Specify pid file (default: bitcoind.pid)</source>
@@ -2722,7 +2722,7 @@ por exemplo: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Error: The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
-        <translation>Erro: A transação foi rejeitada. Isso pode acontecer se alguns dos bitcoins de sua carteira já haviam sido gastos, por exemplo se você usou uma cópia do arquivo wallet.dat e alguns bitcoins foram gastos na cópia mas não foram marcados como gastos aqui.</translation>
+        <translation>Erro: A transação foi rejeitada. Isso pode acontecer se alguns dos dogecoins de sua carteira já haviam sido gastos, por exemplo se você usou uma cópia do arquivo wallet.dat e alguns dogecoins foram gastos na cópia mas não foram marcados como gastos aqui.</translation>
     </message>
     <message>
         <source>Error: This transaction requires a transaction fee of at least %s because of its amount, complexity, or use of recently received funds!</source>
@@ -3017,8 +3017,8 @@ por exemplo: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
         <translation>Isso é usado para testes de regressão e ferramentas de desenvolvimento.</translation>
     </message>
     <message>
-        <source>Usage (deprecated, use bitcoin-cli):</source>
-        <translation>Exemplo de uso (obsoleto, use bitcoin-cli):</translation>
+        <source>Usage (deprecated, use dogecoin-cli):</source>
+        <translation>Exemplo de uso (obsoleto, use dogecoin-cli):</translation>
     </message>
     <message>
         <source>Verifying blocks...</source>
