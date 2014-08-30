@@ -78,7 +78,7 @@ As of 1.8 all transactions have fees applied by defaults, with no exemptions mad
 ## RPC Allow IP
 
 The format of IP masks supplied to the "rpcallowip" command line option has changed.
-It no longer accepts subnets like '192.168.*.*', and the format '192.168/16" should
+It no longer accepts subnets like '192.168.*.*', and the format '192.168.0.0/16" should
 be used instead.
 
 ## Other Changes
