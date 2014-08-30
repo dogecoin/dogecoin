@@ -225,7 +225,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>钱包已加密</translation>
     </message>
     <message>
-        <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your bitcoins from being stolen by malware infecting your computer.</source>
+        <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your dogecoins from being stolen by malware infecting your computer.</source>
         <translation>狗狗币客户端将关闭软件以完成加密过程。请您谨记：钱包加密并不是万能的，电脑中毒等原因仍可能导致您的狗狗币意外丢失。</translation>
     </message>
     <message>
@@ -432,8 +432,8 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>狗狗币核心</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and bitcoin: URIs)</source>
-        <translation>请求支付（生成二维码和 bitcoin: URI）</translation>
+        <source>Request payments (generates QR codes and dogecoin: URIs)</source>
+        <translation>请求支付（生成二维码和 dogecoin: URI）</translation>
     </message>
     <message>
         <source>&amp;About Dogecoin Core</source>
@@ -448,7 +448,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>显示用过的接收地址和标签的列表</translation>
     </message>
     <message>
-        <source>Open a bitcoin: URI or payment request</source>
+        <source>Open a dogecoin: URI or payment request</source>
         <translation>打开一个狗狗币：URI 或支付请求</translation>
     </message>
     <message>
@@ -1279,7 +1279,7 @@ Address: %4
         <translation>支付请求出错</translation>
     </message>
     <message>
-        <source>Cannot start bitcoin: click-to-pay handler</source>
+        <source>Cannot start dogecoin: click-to-pay handler</source>
         <translation>暂时无法启动狗狗币：点击支付功能</translation>
     </message>
     <message>
@@ -1947,8 +1947,8 @@ Address: %4
         <translation>请为此地址输入一个标签以将它加入用过的地址列表</translation>
     </message>
     <message>
-        <source>A message that was attached to the bitcoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
-        <translation>bitcoin:URI 附带的备注信息，将会和交易一起存储，备查。 注意：该消息不会通过狗狗币网络传输。</translation>
+        <source>A message that was attached to the dogecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
+        <translation>dogecoin:URI 附带的备注信息，将会和交易一起存储，备查。 注意：该消息不会通过狗狗币网络传输。</translation>
     </message>
     <message>
         <source>This is an unverified payment request.</source>
@@ -2606,8 +2606,8 @@ Address: %4
 </translation>
     </message>
     <message>
-        <source>Specify configuration file (default: bitcoin.conf)</source>
-        <translation>指定配置文件 (默认为 bitcoin.conf)
+        <source>Specify configuration file (default: dogecoin.conf)</source>
+        <translation>指定配置文件 (默认为 dogecoin.conf)
 </translation>
     </message>
     <message>
@@ -3025,8 +3025,8 @@ rpcpassword=%s
         <translation>这是用于回归测试和应用开发目的。</translation>
     </message>
     <message>
-        <source>Usage (deprecated, use bitcoin-cli):</source>
-        <translation>用法（不推荐，请使用 bitcoin-cli）：</translation>
+        <source>Usage (deprecated, use dogecoin-cli):</source>
+        <translation>用法（不推荐，请使用 dogecoin-cli）：</translation>
     </message>
     <message>
         <source>Verifying blocks...</source>
