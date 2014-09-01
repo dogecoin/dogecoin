@@ -295,7 +295,7 @@ void PaperWalletDialog::on_printButton_clicked()
     while( true ) {
         bool ok;
 
-        QString amountInput = QInputDialog::getText(this, tr("Load Paper Wallets"), "Please wait for wallets to print and verify readability.<br/>Enter the number of DOGE you wish to send to each wallet:", QLineEdit::Normal, QString(), &ok);
+        QString amountInput = QInputDialog::getText(this, tr("Load Paper Wallets"), tr("Please wait for wallets to print and verify readability.<br/>Enter the number of DOGE you wish to send to each wallet:"), QLineEdit::Normal, QString(), &ok);
 
         if(!ok) {
             return;
