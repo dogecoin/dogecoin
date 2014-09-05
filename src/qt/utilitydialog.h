@@ -50,6 +50,8 @@ public:
 private:
     Ui::PaperWalletDialog *ui;
     WalletModel *model;
+    static const int PAPER_WALLET_READJUST_LIMIT = 20;
+    static const int PAPER_WALLET_PAGE_MARGIN = 50;
 
 private slots:
     void on_getNewAddress_clicked();

@@ -201,11 +201,13 @@ void PaperWalletDialog::on_getNewAddress_clicked()
 
     int addressTextLength = ui->addressText->fontMetrics().boundingRect(ui->addressText->text()).width();
     QFont font = ui->addressText->font();
-    for(int i = 0; i < 20; i++) {
+    for(int i = 0; i < PAPER_WALLET_READJUST_LIMIT; i++) {
         if ( addressTextLength < minTextWidth) {
             font.setPixelSize(font.pixelSize() + pixelSizeStep);
             ui->addressText->setFont(font);
             addressTextLength = ui->addressText->fontMetrics().boundingRect(ui->addressText->text()).width();
+        } else {
+            break;
         }
 
     }
@@ -217,13 +219,14 @@ void PaperWalletDialog::on_getNewAddress_clicked()
 
     int privateKeyTextLength = ui->privateKeyText->fontMetrics().boundingRect(ui->privateKeyText->text()).width();
     font = ui->privateKeyText->font();
-    for(int i = 0; i < 20; i++) {
+    for(int i = 0; i < PAPER_WALLET_READJUST_LIMIT; i++) {
         if ( privateKeyTextLength < minTextWidth) {
             font.setPixelSize(font.pixelSize() + pixelSizeStep);
             ui->privateKeyText->setFont(font);
             privateKeyTextLength = ui->privateKeyText->fontMetrics().boundingRect(ui->privateKeyText->text()).width();
+        } else {
+            break;
         }
-
     }
     if ( privateKeyTextLength > maxTextWidth ) {
         font.setPixelSize(font.pixelSize() - pixelSizeStep);
@@ -261,7 +264,7 @@ void PaperWalletDialog::on_printButton_clicked()
     int walletCount = ui->walletCount->currentIndex() + 1;
     int walletsPerPage = 4;
 
-    int pageHeight = printer.pageRect().height() - 50;
+    int pageHeight = printer.pageRect().height() - PAPER_WALLET_PAGE_MARGIN;
     int walletHeight = ui->paperTemplate->height();
     double computedWalletHeight = 0.9 * pageHeight / walletsPerPage;
     double scale = computedWalletHeight / walletHeight;
@@ -274,7 +277,7 @@ void PaperWalletDialog::on_printButton_clicked()
     for(int i = 0; i < walletCount; i++) {
 
         this->on_getNewAddress_clicked();
-        QPoint point = QPoint(50, 25 + ( i % walletsPerPage ) * (walletHeight + walletPadding));
+        QPoint point = QPoint(PAPER_WALLET_PAGE_MARGIN, (PAPER_WALLET_PAGE_MARGIN / 2) + ( i % walletsPerPage ) * (walletHeight + walletPadding));
         this->render(&painter, point, walletRegion);
         recipientPubKeyHashes.append(ui->addressText->text());
 
