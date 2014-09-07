@@ -300,7 +300,7 @@ void PaperWalletDialog::on_printButton_clicked()
 
         QString amountInput = QInputDialog::getText(this, tr("Load Paper Wallets"), tr("Please wait for wallets to print and verify readability.<br/>Enter the number of DOGE you wish to send to each wallet:"), QLineEdit::Normal, QString(), &ok);
 
-        if(!ok) {
+        if(!ok || amountInput == "0" || amountInput == "0.0") {
             return;
         }
 
@@ -312,7 +312,7 @@ void PaperWalletDialog::on_printButton_clicked()
         }
 
         QList<SendCoinsRecipient> recipients;
-        quint64 amount = amountInput.toULongLong() * COIN;
+        quint64 amount = (quint64) ( amountInput.toFloat() * COIN );
         foreach(const QString &dest, recipientPubKeyHashes)
         {
 
