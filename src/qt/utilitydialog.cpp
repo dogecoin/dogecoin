@@ -298,9 +298,10 @@ void PaperWalletDialog::on_printButton_clicked()
     while( true ) {
         bool ok;
 
-        QString amountInput = QInputDialog::getText(this, tr("Load Paper Wallets"), tr("Please wait for wallets to print and verify readability.<br/>Enter the number of DOGE you wish to send to each wallet:"), QLineEdit::Normal, QString(), &ok);
+        // Ask for an amount to send to each paper wallet. It might be better to try to use the BitcoinAmountField, but this works fine.
+        double amountInput = QInputDialog::getDouble(this, tr("Load Paper Wallets"), tr("Please wait for wallets to print and verify readability.<br/>Enter the number of DOGE you wish to send to each wallet:"), 0, 0, 2147483647, 8, &ok);
 
-        if(!ok || amountInput == "0" || amountInput == "0.0") {
+        if(!ok) {
             return;
         }
 
@@ -312,12 +313,12 @@ void PaperWalletDialog::on_printButton_clicked()
         }
 
         QList<SendCoinsRecipient> recipients;
-        quint64 amount = (quint64) ( amountInput.toFloat() * COIN );
+        quint64 amount = (quint64) ( amountInput * COIN );
         foreach(const QString &dest, recipientPubKeyHashes)
         {
 
             recipients.append(SendCoinsRecipient(dest,tr("Paper wallet %1").arg(dest), amount,""));
-            formatted.append(tr("<b>%1</b> to Paper Wallet <span style='font-family: monospace;'>%2</span>").arg(amountInput,GUIUtil::HtmlEscape(dest)));
+            formatted.append(tr("<b>%1</b> to Paper Wallet <span style='font-family: monospace;'>%2</span>").arg(QString::number(amountInput, 'f', 8), GUIUtil::HtmlEscape(dest)));
 
         }
 
