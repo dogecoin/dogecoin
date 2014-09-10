@@ -450,3 +450,6 @@ SOURCES += \
     ../src/wallet.cpp \
     ../src/walletdb.cpp \
     ../src/leveldb/db/c_test.c
+
+QT += \
+    printsupport
