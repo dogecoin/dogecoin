@@ -205,7 +205,7 @@ Dieses Produkt enthält Software, die vom OpenSSL-Projekt zur Verwendung im Open
         <translation>Verschlüsselung der Brieftasche bestätigen</translation>
     </message>
     <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DogecoinS&lt;/b&gt;!</source>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DOGECOINS&lt;/b&gt;!</source>
         <translation>Warnung: Wenn Sie ihre Brieftasche verschlüsseln und ihre Passphrase verlieren, werden Sie &lt;b&gt;alle ihre Dogecoins verlieren&lt;/b&gt;!</translation>
     </message>
     <message>
