@@ -3,11 +3,11 @@
     <name>AboutDialog</name>
     <message>
         <source>About Dogecoin Core</source>
-        <translation>Bitcoin Core ҳақида</translation>
+        <translation>Dogecoin Core ҳақида</translation>
     </message>
     <message>
         <source>&lt;b&gt;Dogecoin Core&lt;/b&gt; version</source>
-        <translation>&lt;b&gt;Bitcoin Core&lt;/b&gt; версияси</translation>
+        <translation>&lt;b&gt;Dogecoin Core&lt;/b&gt; версияси</translation>
     </message>
     <message>
         <source>
@@ -29,7 +29,7 @@ MIT/X11 дастурий таъминот лицензияси остида та
     </message>
     <message>
         <source>The Dogecoin Core developers</source>
-        <translation>Bitcoin Core дастурчилари</translation>
+        <translation>Dogecoin Core дастурчилари</translation>
     </message>
     <message>
         <source>(%1-bit)</source>
@@ -104,11 +104,11 @@ MIT/X11 дастурий таъминот лицензияси остида та
     </message>
     <message>
         <source>These are your Dogecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>Улар тўловларни жўнатиш учун сизнинг Bitcoin манзилларингиз. Доимо тангаларни жўнатишдан олдин сумма ва қабул қилувчи манзилни текшириб кўринг. </translation>
+        <translation>Улар тўловларни жўнатиш учун сизнинг Dogecoin манзилларингиз. Доимо тангаларни жўнатишдан олдин сумма ва қабул қилувчи манзилни текшириб кўринг. </translation>
     </message>
     <message>
         <source>These are your Dogecoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation>Улар тўловларни қабул қилиш учун сизнинг Bitcoin манзилларингиз. Ҳар бир ўтказма учун янги қабул қилувчи манзилдан фойдаланиш тавсия қилинади.</translation>
+        <translation>Улар тўловларни қабул қилиш учун сизнинг Dogecoin манзилларингиз. Ҳар бир ўтказма учун янги қабул қилувчи манзилдан фойдаланиш тавсия қилинади.</translation>
     </message>
     <message>
         <source>Copy &amp;Label</source>
@@ -297,7 +297,7 @@ MIT/X11 дастурий таъминот лицензияси остида та
     </message>
     <message>
         <source>Show information about Dogecoin</source>
-        <translation>Bitcoin ҳақидаги маълумотларни кўрсатиш</translation>
+        <translation>Dogecoin ҳақидаги маълумотларни кўрсатиш</translation>
     </message>
     <message>
         <source>About &amp;Qt</source>
@@ -461,11 +461,11 @@ MIT/X11 дастурий таъминот лицензияси остида та
     </message>
     <message>
         <source>Dogecoin client</source>
-        <translation>Bitcoin мижози</translation>
+        <translation>Dogecoin мижози</translation>
     </message>
     <message numerus="yes">
         <source>%n active connection(s) to Dogecoin network</source>
-        <translation><numerusform>%n та Bitcoin тармоғига фаол уланиш мавжуд</numerusform></translation>
+        <translation><numerusform>%n та Dogecoin тармоғига фаол уланиш мавжуд</numerusform></translation>
     </message>
     <message>
         <source>No block source available...</source>
@@ -2124,7 +2124,7 @@ Address: %4
     </message>
     <message>
         <source>The Dogecoin Core developers</source>
-        <translation>Bitcoin Core дастурчилари</translation>
+        <translation>Dogecoin Core дастурчилари</translation>
     </message>
     <message>
         <source>[testnet]</source>
@@ -2603,7 +2603,7 @@ Address: %4
     </message>
     <message>
         <source>Specify configuration file (default: dogecoin.conf)</source>
-        <translation>Мослаш файлини кўрсатинг (default: bitcoin.conf)</translation>
+        <translation>Мослаш файлини кўрсатинг (default: dogecoin.conf)</translation>
     </message>
     <message>
         <source>Specify pid file (default: bitcoind.pid)</source>

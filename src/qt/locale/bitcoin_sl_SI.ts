@@ -99,7 +99,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>These are your Dogecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>To so Bitcoin naslovi za pošiljanje plačilnih čekov. Vedno preveri količino in naslov za prejemanje pred pošiljanjem kovancev.</translation>
+        <translation>To so Dogecoin naslovi za pošiljanje plačilnih čekov. Vedno preveri količino in naslov za prejemanje pred pošiljanjem kovancev.</translation>
     </message>
     <message>
         <source>These are your Dogecoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
@@ -460,7 +460,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message numerus="yes">
         <source>%n active connection(s) to Dogecoin network</source>
-        <translation><numerusform>%n aktivna povezava v bitcoin omrežje</numerusform><numerusform>%n aktivni povezavi v bitcoin omrežje</numerusform><numerusform>%n aktivnih povezav v bitcoin omrežje</numerusform><numerusform>%n aktivnih povezav v bitcoin omrežje</numerusform></translation>
+        <translation><numerusform>%n aktivna povezava v dogecoin omrežje</numerusform><numerusform>%n aktivni povezavi v dogecoin omrežje</numerusform><numerusform>%n aktivnih povezav v dogecoin omrežje</numerusform><numerusform>%n aktivnih povezav v dogecoin omrežje</numerusform></translation>
     </message>
     <message>
         <source>No block source available...</source>
@@ -1088,7 +1088,7 @@ Naslov: %4
     </message>
     <message>
         <source>Automatically open the Dogecoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Avtomatično odpri vrata Bitcoin odjemalca na usmerjevalniku. To deluje samo, če vaš usmerjevalnik podpira UPnP in je omogočen.</translation>
+        <translation>Avtomatično odpri vrata Dogecoin odjemalca na usmerjevalniku. To deluje samo, če vaš usmerjevalnik podpira UPnP in je omogočen.</translation>
     </message>
     <message>
         <source>Map port using &amp;UPnP</source>
@@ -1144,7 +1144,7 @@ Naslov: %4
     </message>
     <message>
         <source>The user interface language can be set here. This setting will take effect after restarting Dogecoin Core.</source>
-        <translation>Tukaj je mogoče nastaviti uporabniški vmesnik za jezike. Ta nastavitev bo prikazana šele, ko boste znova zagnali Bitcoin.</translation>
+        <translation>Tukaj je mogoče nastaviti uporabniški vmesnik za jezike. Ta nastavitev bo prikazana šele, ko boste znova zagnali Dogecoin.</translation>
     </message>
     <message>
         <source>&amp;Unit to show amounts in:</source>
@@ -1353,7 +1353,7 @@ Naslov: %4
     </message>
     <message>
         <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>Vnesite bitcoin naslov (npr.: DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
+        <translation>Vnesite dogecoin naslov (npr.: DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
     </message>
 </context>
 <context>
@@ -2060,7 +2060,7 @@ Naslov: %4
     </message>
     <message>
         <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>Vnesite bitcoin naslov (npr.: DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
+        <translation>Vnesite dogecoin naslov (npr.: DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
     </message>
     <message>
         <source>Click &quot;Sign Message&quot; to generate signature</source>

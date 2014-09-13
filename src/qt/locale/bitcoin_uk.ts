@@ -108,7 +108,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>These are your Dogecoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation>Це ваша нова Bitcoin адреса для отримування платежів. Рекомендовано використовувати нову адресу для кожної транзакції.</translation>
+        <translation>Це ваша нова Dogecoin адреса для отримування платежів. Рекомендовано використовувати нову адресу для кожної транзакції.</translation>
     </message>
     <message>
         <source>Copy &amp;Label</source>
@@ -939,15 +939,15 @@ Address: %4
     </message>
     <message>
         <source>Welcome to Dogecoin Core.</source>
-        <translation>Ласкаво просимо в Bitcoin Core.</translation>
+        <translation>Ласкаво просимо в Dogecoin Core.</translation>
     </message>
     <message>
         <source>As this is the first time the program is launched, you can choose where Dogecoin Core will store its data.</source>
-        <translation>Оскільки це перший запуск програми, ви можете обрати де Bitcoin Core буде зберігати дані.</translation>
+        <translation>Оскільки це перший запуск програми, ви можете обрати де Dogecoin Core буде зберігати дані.</translation>
     </message>
     <message>
         <source>Dogecoin Core will download and store a copy of the Dogecoin block chain. At least %1GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
-        <translation>Bitcoin Core завантажить та збереже копію ланцюга Bitcoin блоків. Щонайменше %1Gb даних буде збережено в цьому каталозі. Гаманець теж буде збережено в цьому каталозі.</translation>
+        <translation>Dogecoin Core завантажить та збереже копію ланцюга Dogecoin блоків. Щонайменше %1Gb даних буде збережено в цьому каталозі. Гаманець теж буде збережено в цьому каталозі.</translation>
     </message>
     <message>
         <source>Use the default data directory</source>

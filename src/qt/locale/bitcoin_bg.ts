@@ -206,7 +206,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DogecoinS&lt;/b&gt;!</source>
-        <translation>ВНИМАНИЕ: Ако защитите вашият портфейл и изгубите ключовата дума, вие ще &lt;b&gt;ИЗГУБИТЕ ВСИЧКИТЕ СИ БИТКОЙНОВЕ&lt;/b&gt;!</translation>
+        <translation>ВНИМАНИЕ: Ако защитите вашият портфейл и изгубите ключовата дума, вие ще &lt;b&gt;ИЗГУБИТЕ ВСИЧКИТЕ СИ ДОЖКОЙНОВЕ&lt;/b&gt;!</translation>
     </message>
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
@@ -226,7 +226,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your dogecoins from being stolen by malware infecting your computer.</source>
-        <translation>Биткоин ще се затоври сега за да завърши процеса на криптиране. Запомнете, че криптирането на вашия портефейл не може напълно да предпази вашите Бит-монети от кражба чрез зловреден софтуер, инфектирал вашия компютър</translation>
+        <translation>дожкоин ще се затоври сега за да завърши процеса на криптиране. Запомнете, че криптирането на вашия портефейл не може напълно да предпази вашите дож-монети от кражба чрез зловреден софтуер, инфектирал вашия компютър</translation>
     </message>
     <message>
         <source>Wallet encryption failed</source>
@@ -297,7 +297,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>Show information about Dogecoin</source>
-        <translation>Информация за Биткоин</translation>
+        <translation>Информация за дожкоин</translation>
     </message>
     <message>
         <source>About &amp;Qt</source>
@@ -345,7 +345,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>Send coins to a Dogecoin address</source>
-        <translation>Изпращане към Биткоин адрес</translation>
+        <translation>Изпращане към дожкоин адрес</translation>
     </message>
     <message>
         <source>Modify configuration options for Dogecoin Core</source>
@@ -373,7 +373,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>Dogecoin</source>
-        <translation>Биткоин</translation>
+        <translation>дожкоин</translation>
     </message>
     <message>
         <source>Wallet</source>
@@ -465,7 +465,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message numerus="yes">
         <source>%n active connection(s) to Dogecoin network</source>
-        <translation><numerusform>%n връзка към Биткоин мрежата</numerusform><numerusform>%n връзки към Биткоин мрежата</numerusform></translation>
+        <translation><numerusform>%n връзка към дожкоин мрежата</numerusform><numerusform>%n връзки към дожкоин мрежата</numerusform></translation>
     </message>
     <message>
         <source>No block source available...</source>
@@ -557,7 +557,7 @@ Address: %4
     </message>
     <message>
         <source>A fatal error occurred. Dogecoin can no longer continue safely and will quit.</source>
-        <translation>Възникна фатална грешка. Биткойн не може да продължи безопасно и ще се изключи.</translation>
+        <translation>Възникна фатална грешка. дожкойн не може да продължи безопасно и ще се изключи.</translation>
     </message>
 </context>
 <context>
@@ -846,7 +846,7 @@ Address: %4
     </message>
     <message>
         <source>The entered address &quot;%1&quot; is not a valid Dogecoin address.</source>
-        <translation>&quot;%1&quot; не е валиден Биткоин адрес.</translation>
+        <translation>&quot;%1&quot; не е валиден дожкоин адрес.</translation>
     </message>
     <message>
         <source>Could not unlock wallet.</source>
@@ -955,7 +955,7 @@ Address: %4
     </message>
     <message>
         <source>Dogecoin</source>
-        <translation>Биткоин</translation>
+        <translation>дожкоин</translation>
     </message>
     <message>
         <source>Error: Specified data directory &quot;%1&quot; can not be created.</source>
@@ -1021,7 +1021,7 @@ Address: %4
     </message>
     <message>
         <source>&amp;Start Dogecoin Core on system login</source>
-        <translation>&amp;Пускане на Биткоин при вход в системата</translation>
+        <translation>&amp;Пускане на дожкоин при вход в системата</translation>
     </message>
     <message>
         <source>Size of &amp;database cache</source>
@@ -1145,7 +1145,7 @@ Address: %4
     </message>
     <message>
         <source>The user interface language can be set here. This setting will take effect after restarting Dogecoin Core.</source>
-        <translation>Промяната на езика ще влезе в сила след рестартиране на Биткоин.</translation>
+        <translation>Промяната на езика ще влезе в сила след рестартиране на дожкоин.</translation>
     </message>
     <message>
         <source>&amp;Unit to show amounts in:</source>
@@ -1334,7 +1334,7 @@ Address: %4
     <name>QObject</name>
     <message>
         <source>Dogecoin</source>
-        <translation>Биткоин</translation>
+        <translation>дожкоин</translation>
     </message>
     <message>
         <source>Error: Specified data directory &quot;%1&quot; does not exist.</source>
@@ -1354,7 +1354,7 @@ Address: %4
     </message>
     <message>
         <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>Въведете Биткоин адрес (например DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
+        <translation>Въведете дожкоин адрес (например DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
     </message>
 </context>
 <context>
@@ -1476,7 +1476,7 @@ Address: %4
     </message>
     <message>
         <source>Open the Dogecoin debug log file from the current data directory. This can take a few seconds for large log files.</source>
-        <translation>Отворете Биткой дебъг лог файла от настоящата Data папка. Може да отнеме няколко секунди при по - големи лог файлове.</translation>
+        <translation>Отворете дожкой дебъг лог файла от настоящата Data папка. Може да отнеме няколко секунди при по - големи лог файлове.</translation>
     </message>
     <message>
         <source>Clear console</source>
@@ -2049,7 +2049,7 @@ Address: %4
     </message>
     <message>
         <source>Verify the message to ensure it was signed with the specified Dogecoin address</source>
-        <translation>Проверете съобщение, за да сте сигурни че е подписано с определен Биткоин адрес</translation>
+        <translation>Проверете съобщение, за да сте сигурни че е подписано с определен дожкоин адрес</translation>
     </message>
     <message>
         <source>Verify &amp;Message</source>
@@ -2061,7 +2061,7 @@ Address: %4
     </message>
     <message>
         <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>Въведете Биткоин адрес (например DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
+        <translation>Въведете дожкоин адрес (например DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
     </message>
     <message>
         <source>Click &quot;Sign Message&quot; to generate signature</source>
@@ -2761,7 +2761,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Warning: Please check that your computer&apos;s date and time are correct! If your clock is wrong Dogecoin will not work properly.</source>
-        <translation>Внимание: Моля проверете дали датата и часът на вашият компютър са верни! Ако часовникът ви не е сверен, Биткойн няма да работи правилно.</translation>
+        <translation>Внимание: Моля проверете дали датата и часът на вашият компютър са верни! Ако часовникът ви не е сверен, дожкойн няма да работи правилно.</translation>
     </message>
     <message>
         <source>Warning: The network does not appear to fully agree! Some miners appear to be experiencing issues.</source>

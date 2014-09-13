@@ -108,7 +108,7 @@ Ten produkt zawiera oprogramowanie opracowane przez Projekt OpenSSL do użycia w
     </message>
     <message>
         <source>These are your Dogecoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation>To twoje adresy bitcoin do odbierania płatności. Zaleca się używanie nowych adresów odbiorczych dla każdej tranzakcji.</translation>
+        <translation>To twoje adresy dogecoin do odbierania płatności. Zaleca się używanie nowych adresów odbiorczych dla każdej tranzakcji.</translation>
     </message>
     <message>
         <source>Copy &amp;Label</source>
@@ -226,7 +226,7 @@ Ten produkt zawiera oprogramowanie opracowane przez Projekt OpenSSL do użycia w
     </message>
     <message>
         <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your dogecoins from being stolen by malware infecting your computer.</source>
-        <translation>Program Dogecoin zamknie się aby dokończyć proces szyfrowania. Pamiętaj, że szyfrowanie portfela nie zabezpiecza w pełni Twoich bitcoinów przed kradzieżą przez wirusy lub trojany mogące zainfekować Twój komputer.</translation>
+        <translation>Program Dogecoin zamknie się aby dokończyć proces szyfrowania. Pamiętaj, że szyfrowanie portfela nie zabezpiecza w pełni Twoich dogecoinów przed kradzieżą przez wirusy lub trojany mogące zainfekować Twój komputer.</translation>
     </message>
     <message>
         <source>Wallet encryption failed</source>
@@ -349,7 +349,7 @@ Ten produkt zawiera oprogramowanie opracowane przez Projekt OpenSSL do użycia w
     </message>
     <message>
         <source>Modify configuration options for Dogecoin Core</source>
-        <translation>Zmienia opcje konfiguracji bitcoina</translation>
+        <translation>Zmienia opcje konfiguracji dogecoina</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -429,11 +429,11 @@ Ten produkt zawiera oprogramowanie opracowane przez Projekt OpenSSL do użycia w
     </message>
     <message>
         <source>Dogecoin Core</source>
-        <translation>Rdzeń BitCoin</translation>
+        <translation>Rdzeń Dogecoin</translation>
     </message>
     <message>
         <source>Request payments (generates QR codes and dogecoin: URIs)</source>
-        <translation>Żądaj płatności (generuje kod QR oraz bitcoin URI)</translation>
+        <translation>Żądaj płatności (generuje kod QR oraz dogecoin: URI)</translation>
     </message>
     <message>
         <source>&amp;About Dogecoin Core</source>
@@ -457,7 +457,7 @@ Ten produkt zawiera oprogramowanie opracowane przez Projekt OpenSSL do użycia w
     </message>
     <message>
         <source>Show the Dogecoin Core help message to get a list with possible command-line options</source>
-        <translation>Pokaż pomoc Rdzenia Bitcoin, aby zobaczyć listę wszystkich opcji linii poleceń</translation>
+        <translation>Pokaż pomoc Rdzenia Dogecoin, aby zobaczyć listę wszystkich opcji linii poleceń</translation>
     </message>
     <message>
         <source>Dogecoin client</source>
@@ -892,7 +892,7 @@ Adres: %4
     </message>
     <message>
         <source>Dogecoin Core</source>
-        <translation>Rdzeń BitCoin</translation>
+        <translation>Rdzeń Dogecoin</translation>
     </message>
     <message>
         <source>version</source>
@@ -1041,7 +1041,7 @@ Adres: %4
     </message>
     <message>
         <source>Connect to the Dogecoin network through a SOCKS proxy.</source>
-        <translation>Połącz się z siecią Bitcoin poprzez SOCKS proxy.</translation>
+        <translation>Połącz się z siecią Dogecoin poprzez SOCKS proxy.</translation>
     </message>
     <message>
         <source>&amp;Connect through SOCKS proxy (default proxy):</source>
@@ -1216,7 +1216,7 @@ Adres: %4
     </message>
     <message>
         <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Dogecoin network after a connection is established, but this process has not completed yet.</source>
-        <translation>Wyświetlana informacja może być nieaktualna. Twój portfel synchronizuje się automatycznie z siecią bitcoin, zaraz po tym jak uzyskano połączenie, ale proces ten nie został jeszcze ukończony.</translation>
+        <translation>Wyświetlana informacja może być nieaktualna. Twój portfel synchronizuje się automatycznie z siecią dogecoin, zaraz po tym jak uzyskano połączenie, ale proces ten nie został jeszcze ukończony.</translation>
     </message>
     <message>
         <source>Wallet</source>
@@ -2124,7 +2124,7 @@ Adres: %4
     <name>SplashScreen</name>
     <message>
         <source>Dogecoin Core</source>
-        <translation>Rdzeń BitCoin</translation>
+        <translation>Rdzeń Dogecoin</translation>
     </message>
     <message>
         <source>The Dogecoin Core developers</source>
@@ -2722,7 +2722,7 @@ na przykład: alertnotify=echo %%s | mail -s &quot;Alarm Dogecoin&quot; admin@fo
     </message>
     <message>
         <source>Error: The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
-        <translation>Błąd: transakcja została odrzucona. Może się to zdarzyć, gdy monety z Twojego portfela zostały już wydane, na przykład gdy używałeś kopii wallet.dat i bitcoiny które tam wydałeś nie zostały jeszcze odjęte z portfela z którego teraz korzystasz.</translation>
+        <translation>Błąd: transakcja została odrzucona. Może się to zdarzyć, gdy monety z Twojego portfela zostały już wydane, na przykład gdy używałeś kopii wallet.dat i dogecoiny które tam wydałeś nie zostały jeszcze odjęte z portfela z którego teraz korzystasz.</translation>
     </message>
     <message>
         <source>Error: This transaction requires a transaction fee of at least %s because of its amount, complexity, or use of recently received funds!</source>
@@ -3054,7 +3054,7 @@ na przykład: alertnotify=echo %%s | mail -s &quot;Alarm Dogecoin&quot; admin@fo
     </message>
     <message>
         <source>Cannot obtain a lock on data directory %s. Dogecoin Core is probably already running.</source>
-        <translation>Nie można uzyskać blokady na katalogu z danymi %s. Rdzeń Bitcoin najprawdopodobniej jest już uruchomiony.</translation>
+        <translation>Nie można uzyskać blokady na katalogu z danymi %s. Rdzeń Dogecoin najprawdopodobniej jest już uruchomiony.</translation>
     </message>
     <message>
         <source>Execute command when a relevant alert is received or we see a really long fork (%s in cmd is replaced by message)</source>

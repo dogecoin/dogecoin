@@ -3,11 +3,11 @@
     <name>AboutDialog</name>
     <message>
         <source>About Dogecoin Core</source>
-        <translation>A Bitcoin Core-ról</translation>
+        <translation>A Dogecoin Core-ról</translation>
     </message>
     <message>
         <source>&lt;b&gt;Dogecoin Core&lt;/b&gt; version</source>
-        <translation>&lt;b&gt;Bitcoin&lt;/b&gt; verzió</translation>
+        <translation>&lt;b&gt;Dogecoin&lt;/b&gt; verzió</translation>
     </message>
     <message>
         <source>
@@ -28,7 +28,7 @@ Ez a termék az OpenSSL Project által lett kifejlesztve az OpenSSL Toolkit (htt
     </message>
     <message>
         <source>The Dogecoin Core developers</source>
-        <translation>A Bitcoin Core fejlesztői</translation>
+        <translation>A Dogecoin Core fejlesztői</translation>
     </message>
     <message>
         <source>(%1-bit)</source>
@@ -103,11 +103,11 @@ Ez a termék az OpenSSL Project által lett kifejlesztve az OpenSSL Toolkit (htt
     </message>
     <message>
         <source>These are your Dogecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>Ezekkel a Bitcoin-címekkel küldhetsz kifizetéseket. Mindig ellenőrizd a fogadó címet és a fizetendő összeget, mielőtt elküldöd.</translation>
+        <translation>Ezekkel a Dogecoin-címekkel küldhetsz kifizetéseket. Mindig ellenőrizd a fogadó címet és a fizetendő összeget, mielőtt elküldöd.</translation>
     </message>
     <message>
         <source>These are your Dogecoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation>Ezekkel a címekkel fogadhatsz bitcoint. Ajánlott minden tranzakciónál egy új fogadó címet használni.</translation>
+        <translation>Ezekkel a címekkel fogadhatsz dogecoint. Ajánlott minden tranzakciónál egy új fogadó címet használni.</translation>
     </message>
     <message>
         <source>Copy &amp;Label</source>
@@ -432,11 +432,11 @@ Ez a termék az OpenSSL Project által lett kifejlesztve az OpenSSL Toolkit (htt
     </message>
     <message>
         <source>Request payments (generates QR codes and dogecoin: URIs)</source>
-        <translation>Kifizetési kérelem (QR-kódot és &quot;bitcoin:&quot; azonosítót (URI-t) hoz létre)</translation>
+        <translation>Kifizetési kérelem (QR-kódot és &quot;dogecoin:&quot; azonosítót (URI-t) hoz létre)</translation>
     </message>
     <message>
         <source>&amp;About Dogecoin Core</source>
-        <translation>&amp;A Bitcoin Core-ról</translation>
+        <translation>&amp;A Dogecoin Core-ról</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -448,7 +448,7 @@ Ez a termék az OpenSSL Project által lett kifejlesztve az OpenSSL Toolkit (htt
     </message>
     <message>
         <source>Open a dogecoin: URI or payment request</source>
-        <translation>&quot;bitcoin:&quot; URI azonosító vagy fizetési kérelem megnyitása</translation>
+        <translation>&quot;dogecoin:&quot; URI azonosító vagy fizetési kérelem megnyitása</translation>
     </message>
     <message>
         <source>&amp;Command-line options</source>
@@ -456,7 +456,7 @@ Ez a termék az OpenSSL Project által lett kifejlesztve az OpenSSL Toolkit (htt
     </message>
     <message>
         <source>Show the Dogecoin Core help message to get a list with possible command-line options</source>
-        <translation>A Bitcoin Core súgóüzenet megjelenítése a Bitcoin lehetséges parancssori kapcsolóival.</translation>
+        <translation>A Dogecoin Core súgóüzenet megjelenítése a Dogecoin lehetséges parancssori kapcsolóival.</translation>
     </message>
     <message>
         <source>Dogecoin client</source>
@@ -560,7 +560,7 @@ Cím: %4
     </message>
     <message>
         <source>A fatal error occurred. Dogecoin can no longer continue safely and will quit.</source>
-        <translation>Végzetes hiba történt. A Bitcoin működése nem biztonságos és hamarosan leáll.</translation>
+        <translation>Végzetes hiba történt. A Dogecoin működése nem biztonságos és hamarosan leáll.</translation>
     </message>
 </context>
 <context>
@@ -939,7 +939,7 @@ Cím: %4
     </message>
     <message>
         <source>Welcome to Dogecoin Core.</source>
-        <translation>Üdvözlünk a Bitcoin Core-ban.</translation>
+        <translation>Üdvözlünk a Dogecoin Core-ban.</translation>
     </message>
     <message>
         <source>As this is the first time the program is launched, you can choose where Dogecoin Core will store its data.</source>
@@ -1041,7 +1041,7 @@ Cím: %4
     </message>
     <message>
         <source>Connect to the Dogecoin network through a SOCKS proxy.</source>
-        <translation>SOCKS proxyn keresztüli csatlakozás a Bitcoin hálózatához.</translation>
+        <translation>SOCKS proxyn keresztüli csatlakozás a Dogecoin hálózatához.</translation>
     </message>
     <message>
         <source>&amp;Connect through SOCKS proxy (default proxy):</source>
@@ -1283,7 +1283,7 @@ Cím: %4
     </message>
     <message>
         <source>Cannot start dogecoin: click-to-pay handler</source>
-        <translation>A bitcoint nem lehet elindítani: click-to-pay handler</translation>
+        <translation>A dogecoint nem lehet elindítani: click-to-pay handler</translation>
     </message>
     <message>
         <source>Net manager warning</source>
@@ -1844,7 +1844,7 @@ Cím: %4
     </message>
     <message>
         <source>The amount exceeds your balance.</source>
-        <translation>Nincs ennyi bitcoin az egyenlegeden.</translation>
+        <translation>Nincs ennyi dogecoin az egyenlegeden.</translation>
     </message>
     <message>
         <source>The total exceeds your balance when the %1 transaction fee is included.</source>
@@ -1971,7 +1971,7 @@ Cím: %4
     <name>ShutdownWindow</name>
     <message>
         <source>Dogecoin Core is shutting down...</source>
-        <translation>A Bitcoin Core leáll...</translation>
+        <translation>A Dogecoin Core leáll...</translation>
     </message>
     <message>
         <source>Do not shut down the computer until this window disappears.</source>
@@ -2129,7 +2129,7 @@ Cím: %4
     </message>
     <message>
         <source>The Dogecoin Core developers</source>
-        <translation>A Bitcoin Core fejlesztői</translation>
+        <translation>A Dogecoin Core fejlesztői</translation>
     </message>
     <message>
         <source>[testnet]</source>
@@ -3345,7 +3345,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Insufficient funds</source>
-        <translation>Nincs elég bitcoinod.</translation>
+        <translation>Nincs elég dogecoinod.</translation>
     </message>
     <message>
         <source>Loading block index...</source>

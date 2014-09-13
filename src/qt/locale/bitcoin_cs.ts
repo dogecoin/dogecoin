@@ -206,7 +206,7 @@ Tento produkt zahrnuje programy vyvinuté OpenSSL Projektem pro použití v Open
     </message>
     <message>
         <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DogecoinS&lt;/b&gt;!</source>
-        <translation>Varování: Pokud si zašifruješ peněženku a ztratíš či zapomeneš heslo, &lt;b&gt;PŘIJDEŠ O VŠECHNY BITCOINY&lt;/b&gt;!</translation>
+        <translation>Varování: Pokud si zašifruješ peněženku a ztratíš či zapomeneš heslo, &lt;b&gt;PŘIJDEŠ O VŠECHNY DOGECOINY&lt;/b&gt;!</translation>
     </message>
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
@@ -226,7 +226,7 @@ Tento produkt zahrnuje programy vyvinuté OpenSSL Projektem pro použití v Open
     </message>
     <message>
         <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your dogecoins from being stolen by malware infecting your computer.</source>
-        <translation>Dogecoin se teď ukončí, aby dokončil zašifrování. Pamatuj však, že pouhé zašifrování peněženky úplně nezabraňuje krádeži tvých bitcoinů malwarem, kterým se může počítač nakazit.</translation>
+        <translation>Dogecoin se teď ukončí, aby dokončil zašifrování. Pamatuj však, že pouhé zašifrování peněženky úplně nezabraňuje krádeži tvých dogecoinů malwarem, kterým se může počítač nakazit.</translation>
     </message>
     <message>
         <source>Wallet encryption failed</source>
@@ -457,7 +457,7 @@ Tento produkt zahrnuje programy vyvinuté OpenSSL Projektem pro použití v Open
     </message>
     <message>
         <source>Show the Dogecoin Core help message to get a list with possible command-line options</source>
-        <translation>Seznam argumentů Dogecoinu pro příkazovou řádku získáš v nápovědě Bitcoinu Core.</translation>
+        <translation>Seznam argumentů Dogecoinu pro příkazovou řádku získáš v nápovědě Dogecoinu Core.</translation>
     </message>
     <message>
         <source>Dogecoin client</source>
@@ -888,11 +888,11 @@ Adresa: %4
     <name>HelpMessageDialog</name>
     <message>
         <source>Dogecoin Core - Command-line options</source>
-        <translation>BitcoinCore – Argumenty z příkazové řádky</translation>
+        <translation>Dogecoin Core – Argumenty z příkazové řádky</translation>
     </message>
     <message>
         <source>Dogecoin Core</source>
-        <translation>Jádro Dogecoinu</translation>
+        <translation>Dogecoin Core</translation>
     </message>
     <message>
         <source>version</source>
@@ -1169,7 +1169,7 @@ Adresa: %4
     </message>
     <message>
         <source>Whether to show Dogecoin addresses in the transaction list or not.</source>
-        <translation>Zda ukazovat bitcoinové adresy ve výpisu transakcí nebo ne.</translation>
+        <translation>Zda ukazovat dogecoinové adresy ve výpisu transakcí nebo ne.</translation>
     </message>
     <message>
         <source>&amp;Display addresses in transaction list</source>
@@ -1559,7 +1559,7 @@ Adresa: %4
     </message>
     <message>
         <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Dogecoin network.</source>
-        <translation>Volitelná zpráva, která se připojí k platebnímu požadavku a která se zobrazí, když se požadavek otevře. Poznámka: Tahle zpráva se neposílá s platbou po Bitcoinové síti.</translation>
+        <translation>Volitelná zpráva, která se připojí k platebnímu požadavku a která se zobrazí, když se požadavek otevře. Poznámka: Tahle zpráva se neposílá s platbou po Dogecoinové síti.</translation>
     </message>
     <message>
         <source>An optional label to associate with the new receiving address.</source>
@@ -1959,7 +1959,7 @@ Adresa: %4
     </message>
     <message>
         <source>A message that was attached to the dogecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
-        <translation>Zpráva, která byla připojena k bitcoin: URI a která se ti pro přehled uloží k transakci. Poznámka: Tahle zpráva se neposílá s platbou po Bitcoinové síti.</translation>
+        <translation>Zpráva, která byla připojena k dogecoin: URI a která se ti pro přehled uloží k transakci. Poznámka: Tahle zpráva se neposílá s platbou po Dogecoinové síti.</translation>
     </message>
     <message>
         <source>This is an unverified payment request.</source>
@@ -3027,7 +3027,7 @@ například: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Usage (deprecated, use dogecoin-cli):</source>
-        <translation>Užití (zastaralé, použij bitcoin-cli):</translation>
+        <translation>Užití (zastaralé, použij dogecoin-cli):</translation>
     </message>
     <message>
         <source>Verifying blocks...</source>
@@ -3187,7 +3187,7 @@ například: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Start Dogecoin Core Daemon</source>
-        <translation>Spustit Bitcoin Core démona</translation>
+        <translation>Spustit Dogecoin Core démona</translation>
     </message>
     <message>
         <source>System error: </source>

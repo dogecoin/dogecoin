@@ -3,11 +3,11 @@
     <name>AboutDialog</name>
     <message>
         <source>About Dogecoin Core</source>
-        <translation>Acerca de Bitcoin Core</translation>
+        <translation>Acerca de Dogecoin Core</translation>
     </message>
     <message>
         <source>&lt;b&gt;Dogecoin Core&lt;/b&gt; version</source>
-        <translation>&lt;b&gt;Bitcoin Core&lt;/b&gt; versión</translation>
+        <translation>&lt;b&gt;Dogecoin Core&lt;/b&gt; versión</translation>
     </message>
     <message>
         <source>
@@ -24,7 +24,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>The Dogecoin Core developers</source>
-        <translation>Los desarrolladores de Bitcoin Core</translation>
+        <translation>Los desarrolladores de Dogecoin Core</translation>
     </message>
     <message>
         <source>(%1-bit)</source>
@@ -99,11 +99,11 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>These are your Dogecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>Estas son tus direcciones de Bitcoin para enviar pagos. Siempre revise la cantidad y la dirección receptora antes de enviar monedas</translation>
+        <translation>Estas son tus direcciones de Dogecoin para enviar pagos. Siempre revise la cantidad y la dirección receptora antes de enviar monedas</translation>
     </message>
     <message>
         <source>These are your Dogecoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation>Estas son tus direcciones Bitcoin para recibir pagos. Es recomendado usar una nueva dirección receptora para cada transacción.</translation>
+        <translation>Estas son tus direcciones Dogecoin para recibir pagos. Es recomendado usar una nueva dirección receptora para cada transacción.</translation>
     </message>
     <message>
         <source>Copy &amp;Label</source>
@@ -201,7 +201,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DogecoinS&lt;/b&gt;!</source>
-        <translation>Advertencia: Si encripta su cartera y pierde su contraseña, &lt;b&gt;PERDERÁ TODOS SUS BITCOINS&lt;/b&gt;!</translation>
+        <translation>Advertencia: Si encripta su cartera y pierde su contraseña, &lt;b&gt;PERDERÁ TODOS SUS DOGECOINS&lt;/b&gt;!</translation>
     </message>
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
@@ -221,7 +221,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your dogecoins from being stolen by malware infecting your computer.</source>
-        <translation>Bitcoin se cerrará para finalizar el proceso de encriptación. Recuerda que encriptar tu cartera no protege completamente a tus bitcoins de ser robadas por malware infectando tu computadora.</translation>
+        <translation>Dogecoin se cerrará para finalizar el proceso de encriptación. Recuerda que encriptar tu cartera no protege completamente a tus dogecoins de ser robadas por malware infectando tu computadora.</translation>
     </message>
     <message>
         <source>Wallet encryption failed</source>
@@ -340,11 +340,11 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>Send coins to a Dogecoin address</source>
-        <translation>Enviar monedas a una dirección Bitcoin</translation>
+        <translation>Enviar monedas a una dirección Dogecoin</translation>
     </message>
     <message>
         <source>Modify configuration options for Dogecoin Core</source>
-        <translation>Modificar las opciones de configuración de Bitcoin</translation>
+        <translation>Modificar las opciones de configuración de Dogecoin</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>

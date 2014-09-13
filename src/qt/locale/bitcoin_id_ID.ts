@@ -226,7 +226,7 @@ Produk ini termasuk software yang dibangun oleh Proyek OpenSSL untuk Toolkit Ope
     </message>
     <message>
         <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your dogecoins from being stolen by malware infecting your computer.</source>
-        <translation>Dogecoin akan menutup untuk menyelesaikan proses enkripsi. Ingat bahwa dengan mengenkripsi dompet Anda tidak sepenuhnya melindungi bitcoin Anda dari perangkat lunak berbahaya yang menginfeksi komputer Anda.</translation>
+        <translation>Dogecoin akan menutup untuk menyelesaikan proses enkripsi. Ingat bahwa dengan mengenkripsi dompet Anda tidak sepenuhnya melindungi dogecoin Anda dari perangkat lunak berbahaya yang menginfeksi komputer Anda.</translation>
     </message>
     <message>
         <source>Wallet encryption failed</source>
@@ -1362,7 +1362,7 @@ Alamat: %4
     </message>
     <message>
         <source>Dogecoin Core did&apos;t yet exit safely...</source>
-        <translation>Inti Bitcoin belum keluar dengan sempurna...</translation>
+        <translation>Inti Dogecoin belum keluar dengan sempurna...</translation>
     </message>
     <message>
         <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
@@ -2663,7 +2663,7 @@ Alamat: %4
     </message>
     <message>
         <source>Dogecoin Core RPC client version</source>
-        <translation>Versi klien RPC Inti Bitcoin </translation>
+        <translation>Versi klien RPC Inti Dogecoin</translation>
     </message>
     <message>
         <source>Run in the background as a daemon and accept commands</source>
