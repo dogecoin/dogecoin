@@ -10,7 +10,7 @@ import os
 import sys
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "python-bitcoinrpc"))
 
-from decimal import Decimal
+from decimal import Decimal, ROUND_DOWN
 import json
 import shutil
 import subprocess
@@ -146,6 +146,114 @@ def wait_bitcoinds():
 def connect_nodes(from_connection, node_num):
     ip_port = "127.0.0.1:"+str(START_P2P_PORT+node_num)
     from_connection.addnode(ip_port, "onetry")
+    # poll until version handshake complete to avoid race conditions
+    # with transaction relaying
+    while any(peer['version'] == 0 for peer in from_connection.getpeerinfo()):
+        time.sleep(0.1)
+
+def find_output(node, txid, amount):
+    """
+    Return index to output of txid with value amount
+    Raises exception if there is none.
+    """
+    txdata = node.getrawtransaction(txid, 1)
+    for i in range(len(txdata["vout"])):
+        if txdata["vout"][i]["value"] == amount:
+            return i
+    raise RuntimeError("find_output txid %s : %s not found"%(txid,str(amount)))
+
+def gather_inputs(from_node, amount_needed):
+    """
+    Return a random set of unspent txouts that are enough to pay amount_needed
+    """
+    utxo = from_node.listunspent(1)
+    random.shuffle(utxo)
+    inputs = []
+    total_in = Decimal("0.00000000")
+    while total_in < amount_needed and len(utxo) > 0:
+        t = utxo.pop()
+        total_in += t["amount"]
+        inputs.append({ "txid" : t["txid"], "vout" : t["vout"], "address" : t["address"] } )
+    if total_in < amount_needed:
+        raise RuntimeError("Insufficient funds: need %d, have %d"%(amount+fee*2, total_in))
+    return (total_in, inputs)
+
+def make_change(from_node, amount_in, amount_out, fee):
+    """
+    Create change output(s), return them
+    """
+    outputs = {}
+    amount = amount_out+fee
+    change = amount_in - amount
+    if change > amount*2:
+        # Create an extra change output to break up big inputs
+        change_address = from_node.getnewaddress()
+        # Split change in two, being careful of rounding:
+        outputs[change_address] = Decimal(change/2).quantize(Decimal('0.00000001'), rounding=ROUND_DOWN)
+        change = amount_in - amount - outputs[change_address]
+    if change > 0:
+        outputs[from_node.getnewaddress()] = change
+    return outputs
+
+def send_zeropri_transaction(from_node, to_node, amount, fee):
+    """
+    Create&broadcast a zero-priority transaction.
+    Returns (txid, hex-encoded-txdata)
+    Ensures transaction is zero-priority by first creating a send-to-self,
+    then using it's output
+    """
+
+    # Create a send-to-self with confirmed inputs:
+    self_address = from_node.getnewaddress()
+    (total_in, inputs) = gather_inputs(from_node, amount+fee*2)
+    outputs = make_change(from_node, total_in, amount+fee, fee)
+    outputs[self_address] = float(amount+fee)
+
+    self_rawtx = from_node.createrawtransaction(inputs, outputs)
+    self_signresult = from_node.signrawtransaction(self_rawtx)
+    self_txid = from_node.sendrawtransaction(self_signresult["hex"], True)
+
+    vout = find_output(from_node, self_txid, amount+fee)
+    # Now immediately spend the output to create a 1-input, 1-output
+    # zero-priority transaction:
+    inputs = [ { "txid" : self_txid, "vout" : vout } ]
+    outputs = { to_node.getnewaddress() : float(amount) }
+
+    rawtx = from_node.createrawtransaction(inputs, outputs)
+    signresult = from_node.signrawtransaction(rawtx)
+    txid = from_node.sendrawtransaction(signresult["hex"], True)
+
+    return (txid, signresult["hex"])
+
+def random_zeropri_transaction(nodes, amount, min_fee, fee_increment, fee_variants):
+    """
+    Create a random zero-priority transaction.
+    Returns (txid, hex-encoded-transaction-data, fee)
+    """
+    from_node = random.choice(nodes)
+    to_node = random.choice(nodes)
+    fee = min_fee + fee_increment*random.randint(0,fee_variants)
+    (txid, txhex) = send_zeropri_transaction(from_node, to_node, amount, fee)
+    return (txid, txhex, fee)
+
+def random_transaction(nodes, amount, min_fee, fee_increment, fee_variants):
+    """
+    Create a random transaction.
+    Returns (txid, hex-encoded-transaction-data, fee)
+    """
+    from_node = random.choice(nodes)
+    to_node = random.choice(nodes)
+    fee = min_fee + fee_increment*random.randint(0,fee_variants)
+
+    (total_in, inputs) = gather_inputs(from_node, amount+fee)
+    outputs = make_change(from_node, total_in, amount, fee)
+    outputs[to_node.getnewaddress()] = float(amount)
+
+    rawtx = from_node.createrawtransaction(inputs, outputs)
+    signresult = from_node.signrawtransaction(rawtx)
+    txid = from_node.sendrawtransaction(signresult["hex"], True)
+
+    return (txid, signresult["hex"], fee)
 
 def assert_equal(thing1, thing2):
     if thing1 != thing2:
