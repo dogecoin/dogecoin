@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="de_AT" version="2.0">
+﻿<?xml version="1.0" ?><!DOCTYPE TS><TS language="de_AT" version="2.0">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -782,7 +782,12 @@ Wohin: %4
         <translation>Betrog</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+5"/>
+        <source>Label</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Address</source>
         <translation>Adress</translation>
     </message>
