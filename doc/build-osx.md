@@ -26,50 +26,20 @@ There's also an assumption that you already have `git` installed. If
 not, it's the path of least resistance to install [Github for Mac](https://mac.github.com/)
 (OS X 10.7+) or
 [Git for OS X](https://code.google.com/p/git-osx-installer/). It is also
-available via Homebrew or MacPorts.
+available via Homebrew.
 
-You will also need to install [Homebrew](http://brew.sh)
-or [MacPorts](https://www.macports.org/) in order to install library
-dependencies. It's largely a religious decision which to choose, however, Homebrew
-is now used for building release versions.
+You will also need to install [Homebrew](http://brew.sh) in order to install library
+dependencies.
 
 The installation of the actual dependencies is covered in the Instructions
 sections below.
-
-Instructions: MacPorts
-----------------------
-
-### Install dependencies
-
-    sudo port install boost db51@+no_java openssl miniupnpc autoconf pkgconfig automake
-
-Optional: install Qt4
-
-    sudo port install qt4-mac qrencode protobuf-cpp
-
-### Building `dogecoind`
-
-1. Clone the github tree to get the source code and go into the directory.
-
-        git clone git@github.com:dogecoin/dogecoin.git dogecoin
-        cd dogecoin
-
-2.  Build dogecoind (and Dogecoin-Qt, if configured):
-
-        ./autogen.sh
-        ./configure
-        make
-
-3.  It is a good idea to build and run the unit tests, too:
-
-        make check
 
 Instructions: Homebrew
 ----------------------
 
 #### Install dependencies using Homebrew
 
-        brew install autoconf automake berkeley-db boost miniupnpc openssl pkg-config protobuf qt
+        brew install autoconf automake berkeley-db libtool boost miniupnpc openssl pkg-config protobuf qt
 
 ### Building `dogecoind`
 
@@ -102,18 +72,6 @@ All dependencies should be compiled with these flags:
  -mmacosx-version-min=10.6
  -arch x86_64
  -isysroot $(xcode-select --print-path)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.6.sdk
-
-For MacPorts, that means editing your macports.conf and setting
-`macosx_deployment_target` and `build_arch`:
-
-    macosx_deployment_target=10.6
-    build_arch=x86_64
-
-... and then uninstalling and re-installing, or simply rebuilding, all ports.
-
-As of December 2012, the `boost` port does not obey `macosx_deployment_target`.
-Download `https://gavinandresen-bitcoin.s3.amazonaws.com/boost_macports_fix.zip`
-for a fix.
 
 Once dependencies are compiled, see release-process.md for how the Dogecoin-Qt.app
 bundle is packaged and signed to create the .dmg disk image that is distributed.
