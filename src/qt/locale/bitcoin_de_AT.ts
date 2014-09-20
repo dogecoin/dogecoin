@@ -2816,7 +2816,7 @@ Wohin: %4
     <message>
         <location line="+2"/>
         <source>Transaction ID</source>
-        <translation>Тодорхойлолт</translation>
+        <translation>Iwaweisungs Nr</translation>
     </message>
     <message>
         <location line="+18"/>
