@@ -163,8 +163,9 @@ def postprocess_translations(reduce_diff_hacks=False):
                     message.remove(location)
 
                 # Remove entire message if it is an unfinished translation
-                if translation_node.get('type') == 'unfinished':
-                    context.remove(message)
+                # disable this for dogecoin because we do manual translations
+                # if translation_node.get('type') == 'unfinished':
+                #    context.remove(message)
 
         # write fixed-up tree
         # if diff reduction requested, replace some XML to 'sanitize' to qt formatting
@@ -181,6 +182,7 @@ def postprocess_translations(reduce_diff_hacks=False):
 
 if __name__ == '__main__':
     check_at_repository_root()
-    fetch_all_translations()
+    # disable the transifex process as long as we sync with bitcoin, but keep postprocessing
+    # fetch_all_translations()
     postprocess_translations()
 
