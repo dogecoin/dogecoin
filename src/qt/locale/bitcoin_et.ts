@@ -1008,7 +1008,7 @@ Aadress: %4⏎</translation>
     </message>
     <message>
         <source>&amp;Main</source>
-        <translation>%Peamine</translation>
+        <translation>&amp;Peamine</translation>
     </message>
     <message>
         <source>Optional transaction fee per kB that helps make sure your transactions are processed quickly. Most transactions are 1 kB.</source>
@@ -2153,7 +2153,7 @@ Aadress: %4⏎</translation>
     </message>
     <message>
         <source>%1/offline</source>
-        <translation>%/1offline&apos;is</translation>
+        <translation>%1/offline&apos;is</translation>
     </message>
     <message>
         <source>%1/unconfirmed</source>

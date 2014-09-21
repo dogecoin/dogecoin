@@ -2486,7 +2486,7 @@ Address: %4
     </message>
     <message>
         <source>The transaction history was successfully saved to %1.</source>
-        <translation>el historial de transaciones ha sido guardado exitosamente en 1%</translation>
+        <translation>el historial de transaciones ha sido guardado exitosamente en %1</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
@@ -2571,7 +2571,7 @@ Address: %4
     </message>
     <message>
         <source>The wallet data was successfully saved to %1.</source>
-        <translation>La información de la cartera fué guardada exitosamente a 1%</translation>
+        <translation>La información de la cartera fué guardada exitosamente a %1</translation>
     </message>
     <message>
         <source>Backup Successful</source>

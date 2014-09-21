@@ -837,7 +837,7 @@ Address: %4
     </message>
     <message>
         <source>The entered address &quot;%1&quot; is already in the address book.</source>
-        <translation>La dirección introducida &quot;% 1&quot; ya está en la libreta de direcciones.</translation>
+        <translation>La dirección introducida &quot;%1&quot; ya está en la libreta de direcciones.</translation>
     </message>
     <message>
         <source>The entered address &quot;%1&quot; is not a valid Dogecoin address.</source>

@@ -3392,7 +3392,7 @@ Address: %4
     <message>
         <location line="-52"/>
         <source>An error occurred while setting up the RPC port %u for listening on IPv4: %s</source>
-        <translation>IPv4: %s 에서 수신 대기를 위해 RPC 포트 %u(을)를 설정하던 중 오류가 발생했습니다: %s</translation>
+        <translation>IPv4: 에서 수신 대기를 위해 RPC 포트 %u(을)를 설정하던 중 오류가 발생했습니다: %s</translation>
     </message>
     <message>
         <location line="+50"/>
@@ -3522,7 +3522,7 @@ rpcpassword=%s
     <message>
         <location line="+12"/>
         <source>Set the number of script verification threads (%u to %d, 0 = auto, &lt;0 = leave that many cores free, default: %d)</source>
-        <translation>스크립트 검증 스레드의 수를 설정합니다. (%u부터 %d, 0 = 자동, &lt;0 = 많은 코어들을 쉬게 함, 기본값: 0)</translation>
+        <translation>스크립트 검증 스레드의 수를 설정합니다. (%u 부터 %d, 0 = 자동, &lt;0 = 많은 코어들을 쉬게 함, 기본값: %d)</translation>
     </message>
     <message>
         <location line="+3"/>

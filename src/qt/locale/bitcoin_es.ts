@@ -320,7 +320,7 @@ Eric Young (eay@cryptsoft.com) y el software UPnP escrito por Thomas Bernard.</t
     </message>
     <message>
         <source>&amp;Backup Wallet...</source>
-        <translation>%Guardar copia del monedero...</translation>
+        <translation>&amp;Guardar copia del monedero...</translation>
     </message>
     <message>
         <source>&amp;Change Passphrase...</source>

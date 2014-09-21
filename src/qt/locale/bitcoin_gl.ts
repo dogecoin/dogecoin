@@ -2170,7 +2170,7 @@ Dirección: %4
     </message>
     <message numerus="yes">
         <source>, broadcast through %n node(s)</source>
-        <translation><numerusform>, propagado a % nodo</numerusform><numerusform>, propagado a % nodos</numerusform></translation>
+        <translation><numerusform>, propagado a %n nodo</numerusform><numerusform>, propagado a %n nodos</numerusform></translation>
     </message>
     <message>
         <source>Date</source>
@@ -2206,7 +2206,7 @@ Dirección: %4
     </message>
     <message numerus="yes">
         <source>matures in %n more block(s)</source>
-        <translation><numerusform>madura nun bloque máis</numerusform><numerusform>madura en %n bloques máis</numerusform></translation>
+        <translation><numerusform>madura nun (%n) bloque máis</numerusform><numerusform>madura en %n bloques máis</numerusform></translation>
     </message>
     <message>
         <source>not accepted</source>
@@ -2274,7 +2274,7 @@ Dirección: %4
     </message>
     <message numerus="yes">
         <source>Open for %n more block(s)</source>
-        <translation><numerusform>Abrir para %s bloque máis</numerusform><numerusform>Abrir para %n bloques máis</numerusform></translation>
+        <translation><numerusform>Abrir para %n bloque máis</numerusform><numerusform>Abrir para %n bloques máis</numerusform></translation>
     </message>
     <message>
         <source>unknown</source>

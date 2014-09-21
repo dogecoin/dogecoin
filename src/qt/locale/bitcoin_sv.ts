@@ -1532,7 +1532,7 @@ Adress: %4
     <name>ReceiveCoinsDialog</name>
     <message>
         <source>&amp;Amount:</source>
-        <translation>%Belopp:</translation>
+        <translation>&amp;Belopp:</translation>
     </message>
     <message>
         <source>&amp;Label:</source>

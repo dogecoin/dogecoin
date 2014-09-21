@@ -763,7 +763,7 @@ Adresse : %4
     </message>
     <message>
         <source>This means a fee of at least %1 per kB is required.</source>
-        <translation>Signifie que des frais d&apos;au moins 1% par ko sont requis.</translation>
+        <translation>Signifie que des frais d&apos;au moins %1 par ko sont requis.</translation>
     </message>
     <message>
         <source>Can vary +/- 1 byte per input.</source>
@@ -779,7 +779,7 @@ Adresse : %4
     </message>
     <message>
         <source>This label turns red, if any recipient receives an amount smaller than %1.</source>
-        <translation>Cette étiquette devient rouge si un destinataire reçoit un montant inférieur à 1%.</translation>
+        <translation>Cette étiquette devient rouge si un destinataire reçoit un montant inférieur à %1.</translation>
     </message>
     <message>
         <source>This means a fee of at least %1 is required.</source>

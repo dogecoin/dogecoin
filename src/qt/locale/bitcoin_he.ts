@@ -465,7 +465,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message numerus="yes">
         <source>%n active connection(s) to Dogecoin network</source>
-        <translation><numerusform>חיבור פעיל אחד לרשת הביטקוין</numerusform><numerusform>%n חיבורים פעילים לרשת הביטקוין</numerusform></translation>
+        <translation><numerusform>%n חיבור פעיל אחד לרשת הביטקוין</numerusform><numerusform>%n חיבורים פעילים לרשת הביטקוין</numerusform></translation>
     </message>
     <message>
         <source>No block source available...</source>
@@ -501,7 +501,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>%1 behind</source>
-        <translation>1% מאחור</translation>
+        <translation>%1 מאחור</translation>
     </message>
     <message>
         <source>Last received block was generated %1 ago.</source>
@@ -738,7 +738,7 @@ Address: %4
     </message>
     <message>
         <source>(%1 locked)</source>
-        <translation>(1% נעול)</translation>
+        <translation>(%1 נעול)</translation>
     </message>
     <message>
         <source>none</source>
@@ -778,11 +778,11 @@ Address: %4
     </message>
     <message>
         <source>This label turns red, if any recipient receives an amount smaller than %1.</source>
-        <translation>התווית הזו הופכת לאדומה, אם אחד מהנמענים מקבל סכום אשר קטן מ 1%</translation>
+        <translation>התווית הזו הופכת לאדומה, אם אחד מהנמענים מקבל סכום אשר קטן מ %1</translation>
     </message>
     <message>
         <source>This means a fee of at least %1 is required.</source>
-        <translation>זה אומר שצריך לפחות 1% עמלה</translation>
+        <translation>זה אומר שצריך לפחות %1 עמלה</translation>
     </message>
     <message>
         <source>Amounts below 0.546 times the minimum relay fee are shown as dust.</source>
@@ -790,7 +790,7 @@ Address: %4
     </message>
     <message>
         <source>This label turns red, if the change is smaller than %1.</source>
-        <translation>התווית הופכת אדומה, אם השינוי קטן מ1%.</translation>
+        <translation>התווית הופכת אדומה, אם השינוי קטן מ %1.</translation>
     </message>
     <message>
         <source>(no label)</source>
@@ -1515,7 +1515,7 @@ Address: %4
     </message>
     <message>
         <source>%1 m</source>
-        <translation>1% דקות</translation>
+        <translation>%1 דקות</translation>
     </message>
     <message>
         <source>%1 h</source>
@@ -2169,7 +2169,7 @@ Address: %4
     </message>
     <message numerus="yes">
         <source>, broadcast through %n node(s)</source>
-        <translation><numerusform>, הופץ דרך צומת אחד</numerusform><numerusform>, הופץ דרך %n צמתים</numerusform></translation>
+        <translation><numerusform>, הופץ דרך צומת אחד (%n)</numerusform><numerusform>, הופץ דרך %n צמתים</numerusform></translation>
     </message>
     <message>
         <source>Date</source>
@@ -2205,7 +2205,7 @@ Address: %4
     </message>
     <message numerus="yes">
         <source>matures in %n more block(s)</source>
-        <translation><numerusform>מבשיל בעוד בלוק אחד</numerusform><numerusform>מבשיל בעוד %n בלוקים</numerusform></translation>
+        <translation><numerusform>מבשיל בעוד בלוק אחד (%n)</numerusform><numerusform>מבשיל בעוד %n בלוקים</numerusform></translation>
     </message>
     <message>
         <source>not accepted</source>

@@ -460,8 +460,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message numerus="yes">
         <source>%n active connection(s) to Dogecoin network</source>
-        <translation><numerusform>%n ارتباط فعال به شبکه Dogecoin
-%n ارتباط فعال به شبکه Dogecoin</numerusform></translation>
+        <translation><numerusform>%n ارتباط فعال به شبکه Dogecoin</numerusform><numerusform>%n ارتباط فعال به شبکه Dogecoin</numerusform></translation>
     </message>
     <message>
         <source>No block source available...</source>
@@ -840,7 +839,7 @@ Address: %4
     </message>
     <message>
         <source>The entered address &quot;%1&quot; is already in the address book.</source>
-        <translation>حساب وارد شده «1%» از پیش در دفترچه حساب ها موجود است.</translation>
+        <translation>حساب وارد شده &quot;%1&quot; از پیش در دفترچه حساب ها موجود است.</translation>
     </message>
     <message>
         <source>The entered address &quot;%1&quot; is not a valid Dogecoin address.</source>

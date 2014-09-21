@@ -962,7 +962,7 @@ Endereço: %4</translation>
     </message>
     <message>
         <source>Error: Specified data directory &quot;%1&quot; can not be created.</source>
-        <translation>Erro: dados especificados diretório &quot;% 1&quot; não pode ser criado.</translation>
+        <translation>Erro: dados especificados diretório &quot;%1&quot; não pode ser criado.</translation>
     </message>
     <message>
         <source>Error</source>
@@ -974,7 +974,7 @@ Endereço: %4</translation>
     </message>
     <message>
         <source>(of %1GB needed)</source>
-        <translation>(Mais de 1GB necessário)</translation>
+        <translation>(Mais de %1GB necessário)</translation>
     </message>
 </context>
 <context>
@@ -1282,7 +1282,7 @@ Endereço: %4</translation>
     </message>
     <message>
         <source>Requested payment amount of %1 is too small (considered dust).</source>
-        <translation>Valor do pagamento solicitado de 1% é muito pequeno (Considerado poeira).</translation>
+        <translation>Valor do pagamento solicitado de %1 é muito pequeno (Considerado poeira).</translation>
     </message>
     <message>
         <source>Payment request error</source>
@@ -1318,11 +1318,11 @@ Endereço: %4</translation>
     </message>
     <message>
         <source>Refund from %1</source>
-        <translation>Reembolso de 1%</translation>
+        <translation>Reembolso de %1</translation>
     </message>
     <message>
         <source>Error communicating with %1: %2</source>
-        <translation>Erro na comunicação com% 1:% 2</translation>
+        <translation>Erro na comunicação com %1: %2</translation>
     </message>
     <message>
         <source>Payment request can not be parsed or processed!</source>
@@ -1330,7 +1330,7 @@ Endereço: %4</translation>
     </message>
     <message>
         <source>Bad response from server %1</source>
-        <translation>Resposta ruim do servidor% 1</translation>
+        <translation>Resposta ruim do servidor %1</translation>
     </message>
     <message>
         <source>Payment acknowledged</source>
@@ -1349,7 +1349,7 @@ Endereço: %4</translation>
     </message>
     <message>
         <source>Error: Specified data directory &quot;%1&quot; does not exist.</source>
-        <translation>Erro: diretório de dados especificado &quot;% 1&quot; não existe.</translation>
+        <translation>Erro: diretório de dados especificado &quot;%1&quot; não existe.</translation>
     </message>
     <message>
         <source>Error: Cannot parse configuration file: %1. Only use key=value syntax.</source>
@@ -2064,7 +2064,7 @@ Endereço: %4</translation>
     </message>
     <message>
         <source>Verify &amp;Message</source>
-        <translation>Verificar %Mensagem</translation>
+        <translation>Verificar &amp;Mensagem</translation>
     </message>
     <message>
         <source>Reset all verify message fields</source>
@@ -3042,7 +3042,7 @@ por exemplo: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Wallet %s resides outside data directory %s</source>
-        <translation>Carteira de% s reside fora de dados do diretório% s</translation>
+        <translation>Carteira de %s reside fora de dados do diretório %s</translation>
     </message>
     <message>
         <source>Wallet options:</source>
@@ -3066,7 +3066,7 @@ por exemplo: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Execute command when a relevant alert is received or we see a really long fork (%s in cmd is replaced by message)</source>
-        <translation>Executa o comando quando um alerta relevante é recebido ou vemos um longo garfo (% s em cmd é substituída pela mensagem)</translation>
+        <translation>Executa o comando quando um alerta relevante é recebido ou vemos um longo garfo (%s em cmd é substituída pela mensagem)</translation>
     </message>
     <message>
         <source>Output debugging information (default: 0, supplying &lt;category&gt; is optional)</source>
@@ -3086,7 +3086,7 @@ por exemplo: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Invalid amount for -mintxfee=&lt;amount&gt;: &apos;%s&apos;</source>
-        <translation>Inválido montante for-mintxfee = &lt;amount&gt;: &apos;% s&apos;</translation>
+        <translation>Quantidade inválida para -mintxfee=&lt;amount&gt;: &apos;%s&apos;</translation>
     </message>
     <message>
         <source>Limit size of signature cache to &lt;n&gt; entries (default: 50000)</source>

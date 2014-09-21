@@ -364,7 +364,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>&amp;Verify message...</source>
-        <translation>%Preveri sporočilo ...</translation>
+        <translation>&amp;Preveri sporočilo ...</translation>
     </message>
     <message>
         <source>Dogecoin</source>
@@ -841,7 +841,7 @@ Naslov: %4
     </message>
     <message>
         <source>The entered address &quot;%1&quot; is already in the address book.</source>
-        <translation>Vnešeni naslov &quot;&amp;1&quot; je že v imeniku.</translation>
+        <translation>Vnešeni naslov &quot;%1&quot; je že v imeniku.</translation>
     </message>
     <message>
         <source>The entered address &quot;%1&quot; is not a valid Dogecoin address.</source>

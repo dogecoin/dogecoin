@@ -2076,7 +2076,7 @@ Dirección: %4</translation>
     </message>
     <message>
         <source>The entered address is invalid.</source>
-        <translation>La dirección introducida &quot;%1&quot; no es una dirección Dogecoin valida.</translation>
+        <translation>La dirección introducida no es una dirección Dogecoin valida.</translation>
     </message>
     <message>
         <source>Please check the address and try again.</source>
@@ -2319,7 +2319,7 @@ Dirección: %4</translation>
     </message>
     <message numerus="yes">
         <source>Open for %n more block(s)</source>
-        <translation><numerusform>Abierto para &amp;n bloque más</numerusform><numerusform>Abierto para &amp;n bloques más</numerusform></translation>
+        <translation><numerusform>Abierto para %n bloque más</numerusform><numerusform>Abierto para %n bloques más</numerusform></translation>
     </message>
     <message>
         <source>Open until %1</source>

@@ -2344,7 +2344,7 @@ Address: %4
     </message>
     <message>
         <source>Confirming (%1 of %2 recommended confirmations)</source>
-        <translation>Подтверждено(%1 подтверждений, рекомендуется 2% подтверждений)</translation>
+        <translation>Подтверждено(%1 подтверждений, рекомендуется %2 подтверждений)</translation>
     </message>
     <message>
         <source>Conflicted</source>

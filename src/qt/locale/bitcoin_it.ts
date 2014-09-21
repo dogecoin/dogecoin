@@ -1090,7 +1090,7 @@ Indirizzo: %4
     </message>
     <message>
         <source>&amp;Spend unconfirmed change</source>
-        <translation>%Spendere resti non confermati</translation>
+        <translation>&amp;Spendere resti non confermati</translation>
     </message>
     <message>
         <source>Automatically open the Dogecoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>

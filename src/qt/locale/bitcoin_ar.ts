@@ -2140,7 +2140,7 @@ Address: %4
     <name>TransactionDesc</name>
     <message>
         <source>Open until %1</source>
-        <translation>مفتوح حتى 1٪</translation>
+        <translation>مفتوح حتى %1</translation>
     </message>
     <message>
         <source>conflicted</source>
@@ -2148,11 +2148,11 @@ Address: %4
     </message>
     <message>
         <source>%1/offline</source>
-        <translation>1% غير متواجد</translation>
+        <translation>%1 غير متواجد</translation>
     </message>
     <message>
         <source>%1/unconfirmed</source>
-        <translation>غير مؤكدة/1%</translation>
+        <translation>غير مؤكدة/%1</translation>
     </message>
     <message>
         <source>%1 confirmations</source>
@@ -2314,11 +2314,11 @@ Address: %4
     </message>
     <message>
         <source>Open until %1</source>
-        <translation>مفتوح حتى 1٪</translation>
+        <translation>مفتوح حتى %1</translation>
     </message>
     <message>
         <source>Confirmed (%1 confirmations)</source>
-        <translation>تأكيد الإرسال Coins</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>This block was not received by any other nodes and will probably not be accepted!</source>
