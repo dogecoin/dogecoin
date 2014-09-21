@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" ?><!DOCTYPE TS><TS language="cs" version="2.0">
+<TS language="cs" version="2.0">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -497,7 +497,7 @@ Tento produkt zahrnuje programy vyvinuté OpenSSL Projektem pro použití v Open
     </message>
     <message numerus="yes">
         <source>%n year(s)</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation type="unfinished"><numerusform/><numerusform/><numerusform/></translation>
     </message>
     <message>
         <source>%1 behind</source>

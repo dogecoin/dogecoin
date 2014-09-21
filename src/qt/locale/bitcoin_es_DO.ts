@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" ?><!DOCTYPE TS><TS language="es_DO" version="2.0">
+<TS language="es_DO" version="2.0">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -500,7 +500,7 @@ Eric Young (eay@cryptsoft.com) y el software UPnP escrito por Thomas Bernard.</t
     </message>
     <message numerus="yes">
         <source>%n year(s)</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation type="unfinished"><numerusform/><numerusform/></translation>
     </message>
     <message>
         <source>%1 behind</source>

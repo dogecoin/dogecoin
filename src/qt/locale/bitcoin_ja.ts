@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" ?><!DOCTYPE TS><TS language="ja" version="2.0">
+<TS language="ja" version="2.0">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -497,7 +497,7 @@ MIT/X11 ソフトウェア ライセンスの下で配布されています。�
     </message>
     <message numerus="yes">
         <source>%n year(s)</source>
-        <translation type="unfinished"><numerusform></numerusform></translation>
+        <translation type="unfinished"><numerusform/></translation>
     </message>
     <message>
         <source>%1 behind</source>

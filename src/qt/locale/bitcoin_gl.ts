@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" ?><!DOCTYPE TS><TS language="gl" version="2.0">
+<TS language="gl" version="2.0">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -497,7 +497,7 @@ Este produto inclúe software desenvolvido polo OpenSSL Project para o uso no Op
     </message>
     <message numerus="yes">
         <source>%n year(s)</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation type="unfinished"><numerusform/><numerusform/></translation>
     </message>
     <message>
         <source>%1 behind</source>

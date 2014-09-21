@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="la" version="2.0">
+<TS language="la" version="2.0">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -496,7 +496,7 @@ Hoc productum continet programmata composita ab OpenSSL Project pro utendo in Op
     </message>
     <message numerus="yes">
         <source>%n year(s)</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation type="unfinished"><numerusform/><numerusform/></translation>
     </message>
     <message>
         <source>%1 behind</source>
@@ -2273,7 +2273,7 @@ Inscriptio: %4
     </message>
     <message numerus="yes">
         <source>Open for %n more block(s)</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform>Aperi pro %n pluribus frustis</numerusform></translation>
+        <translation type="unfinished"><numerusform/><numerusform>Aperi pro %n pluribus frustis</numerusform></translation>
     </message>
     <message>
         <source>unknown</source>

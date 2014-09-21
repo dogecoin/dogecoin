@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" ?><!DOCTYPE TS><TS language="pl" version="2.0">
+<TS language="pl" version="2.0">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -2316,7 +2316,7 @@ Adres: %4
     </message>
     <message numerus="yes">
         <source>Open for %n more block(s)</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform>Otwórz dla %n następnych bloków</numerusform></translation>
+        <translation type="unfinished"><numerusform/><numerusform/><numerusform>Otwórz dla %n następnych bloków</numerusform></translation>
     </message>
     <message>
         <source>Open until %1</source>
