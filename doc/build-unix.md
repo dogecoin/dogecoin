@@ -68,14 +68,17 @@ for Ubuntu 12.04 and later:
 
 	sudo apt-get install libboost-all-dev libdb5.1-dev libdb5.1++-dev
 
-for Ubuntu 13.10:
-	libboost1.54 will not work,
-	remove libboost1.54-all-dev and install libboost1.53-all-dev instead.
-
-for other Debian:
+for Debian 7 (Wheezy) and later:
 
 	sudo apt-get install libdb5.1-dev
-	sudo apt-get install libdb5.1++-dev
+        sudo apt-get install libdb5.1++-dev
+
+	Note that if you have Berkeley DB 4.8 packages installed (i.e. for other
+	wallet software), they are incompatible with the packages for 5.1. You
+	will have to manually download 5.1 from
+	http://download.oracle.com/berkeley-db/db-5.1.29.NC.tar.gz and compile
+	it, install it to /usr/local where the configure script should locate it
+	automatically.
 
 Optional:
 
@@ -161,10 +164,16 @@ If you need to build Boost yourself:
 Dependency Build Instructions: Fedora
 -------------------------------------
 
+Fedora ships with a version of OpenSSL which does not include elliptic curve
+cryptography functions, and therefore cannot be used for Dogecoin (or other
+cryptocurrencies based on the Bitcoin design). Further details are available
+on the Bitcoin Wiki: https://en.bitcoin.it/wiki/OpenSSL_and_EC_Libraries
+
+Recommended solution is to compile your own OpenSSL libraries.
+
 Tested on Fedora 20:
 
 	sudo yum install autoconf automake make gcc-c++
-	sudo yum install openssl-devel
 	sudo yum install miniupnpc-devel
 	sudo yum install boost-devel
 	sudo yum install libdb-cxx-devel
