@@ -132,7 +132,7 @@ Produk ini termasuk software yang dibangun oleh Proyek OpenSSL untuk Toolkit Ope
     </message>
     <message>
         <source>There was an error trying to save the address list to %1.</source>
-        <translation type="unfinished"/>
+        <translation>Ada kesalahan di dalam menyimpan susunan alamat ke %1.</translation>
     </message>
 </context>
 <context>
@@ -226,7 +226,7 @@ Produk ini termasuk software yang dibangun oleh Proyek OpenSSL untuk Toolkit Ope
     </message>
     <message>
         <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your dogecoins from being stolen by malware infecting your computer.</source>
-        <translation>Dogecoin akan menutup untuk menyelesaikan proses enkripsi. Ingat bahwa dengan mengenkripsi dompet Anda tidak sepenuhnya melindungi bitcoin Anda dari perangkat lunak berbahaya yang menginfeksi komputer Anda.</translation>
+        <translation>Dogecoin akan menutup untuk menyelesaikan proses enkripsi. Ingat bahwa dengan mengenkripsi dompet Anda tidak sepenuhnya melindungi dogecoin Anda dari perangkat lunak berbahaya yang menginfeksi komputer Anda.</translation>
     </message>
     <message>
         <source>Wallet encryption failed</source>
@@ -1052,6 +1052,14 @@ Alamat: %4
         <translation>Alamat IP proxy (cth. IPv4: 127.0.0.1 / IPv6: ::1)</translation>
     </message>
     <message>
+        <source>Third party URLs (e.g. a block explorer) that appear in the transactions tab as context menu items. %s in the URL is replaced by transaction hash. Multiple URLs are separated by vertical bar |.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Third party transaction URLs</source>
+        <translation>Transaksi URLs pihak ketiga</translation>
+    </message>
+    <message>
         <source>Active command-line options that override above options:</source>
         <translation>pilihan perintah-baris aktif menimpa atas pilihan-pilihan: </translation>
     </message>
@@ -1193,15 +1201,15 @@ Alamat: %4
     </message>
     <message>
         <source>Client restart required to activate changes.</source>
-        <translation type="unfinished"/>
+        <translation>Restart klien diperlukan untuk mengaktifkan perubahan.</translation>
     </message>
     <message>
         <source>Client will be shutdown, do you want to proceed?</source>
-        <translation type="unfinished"/>
+        <translation>Klien akan dimatikan, apakah anda hendak melanjutkan?</translation>
     </message>
     <message>
         <source>This change would require a client restart.</source>
-        <translation type="unfinished"/>
+        <translation>Perubahan ini akan memerlukan restart klien</translation>
     </message>
     <message>
         <source>The supplied proxy address is invalid.</source>
@@ -1354,7 +1362,7 @@ Alamat: %4
     </message>
     <message>
         <source>Dogecoin Core did&apos;t yet exit safely...</source>
-        <translation type="unfinished"/>
+        <translation>Inti Dogecoin belum keluar dengan sempurna...</translation>
     </message>
     <message>
         <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
@@ -1919,7 +1927,7 @@ Alamat: %4
     </message>
     <message>
         <source>This is a normal payment.</source>
-        <translation type="unfinished"/>
+        <translation>Ini adalah pembayaran normal</translation>
     </message>
     <message>
         <source>Alt+A</source>
@@ -1935,7 +1943,7 @@ Alamat: %4
     </message>
     <message>
         <source>Remove this entry</source>
-        <translation type="unfinished"/>
+        <translation>Hapus masukan ini</translation>
     </message>
     <message>
         <source>Message:</source>
@@ -2069,7 +2077,7 @@ Alamat: %4
     </message>
     <message>
         <source>Click &quot;Sign Message&quot; to generate signature</source>
-        <translation type="unfinished"/>
+        <translation>Tekan &quot;Tandatangan Pesan&quot; untuk menghasilan tanda tangan</translation>
     </message>
     <message>
         <source>The entered address is invalid.</source>
@@ -2655,7 +2663,7 @@ Alamat: %4
     </message>
     <message>
         <source>Dogecoin Core RPC client version</source>
-        <translation type="unfinished"/>
+        <translation>Versi klien RPC Inti Dogecoin</translation>
     </message>
     <message>
         <source>Run in the background as a daemon and accept commands</source>
@@ -2846,7 +2854,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Do not load the wallet and disable wallet RPC calls</source>
-        <translation type="unfinished"/>
+        <translation>Jangan memuat dompet dan menonaktifkan panggilan dompet RPC</translation>
     </message>
     <message>
         <source>Do you want to rebuild the block database now?</source>
@@ -2914,7 +2922,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Failed to write to coin database</source>
-        <translation type="unfinished"/>
+        <translation>Gagal menuliskan ke dalam database koin</translation>
     </message>
     <message>
         <source>Failed to write transaction index</source>
@@ -2922,7 +2930,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Failed to write undo data</source>
-        <translation type="unfinished"/>
+        <translation>Gagal menulis ulang data</translation>
     </message>
     <message>
         <source>Fee per kB to add to transactions you send</source>
@@ -3030,7 +3038,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Wallet options:</source>
-        <translation type="unfinished"/>
+        <translation>Opsi dompet:</translation>
     </message>
     <message>
         <source>Warning: Deprecated argument -debugnet ignored, use -debug=net</source>
@@ -3114,7 +3122,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>RPC server options:</source>
-        <translation type="unfinished"/>
+        <translation>Opsi server RPC:</translation>
     </message>
     <message>
         <source>Randomly drop 1 of every &lt;n&gt; network messages</source>

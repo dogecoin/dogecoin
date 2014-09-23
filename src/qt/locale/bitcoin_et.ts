@@ -72,7 +72,7 @@ Toode sisaldab OpenSSL Projekti all toodetud tarkvara, mis on kasutamiseks OpenS
     </message>
     <message>
         <source>Export the data in the current tab to a file</source>
-        <translation type="unfinished"/>
+        <translation>Ekspordi kuvatava vahelehe sisu faili</translation>
     </message>
     <message>
         <source>&amp;Export</source>
@@ -966,7 +966,7 @@ Aadress: %4⏎</translation>
     </message>
     <message>
         <source>Error</source>
-        <translation type="unfinished"/>
+        <translation>Tõrge</translation>
     </message>
     <message>
         <source>GB of free space available</source>
@@ -2131,7 +2131,7 @@ Aadress: %4⏎</translation>
     </message>
     <message>
         <source>[testnet]</source>
-        <translation type="unfinished"/>
+        <translation>[testnet]</translation>
     </message>
 </context>
 <context>
@@ -2548,7 +2548,7 @@ Aadress: %4⏎</translation>
     <name>WalletModel</name>
     <message>
         <source>Send Coins</source>
-        <translation type="unfinished"/>
+        <translation>Müntide saatmine</translation>
     </message>
 </context>
 <context>
@@ -2559,7 +2559,7 @@ Aadress: %4⏎</translation>
     </message>
     <message>
         <source>Export the data in the current tab to a file</source>
-        <translation type="unfinished"/>
+        <translation>Ekspordi kuvatava vahelehe sisu faili</translation>
     </message>
     <message>
         <source>Backup Wallet</source>

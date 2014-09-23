@@ -51,11 +51,11 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>&amp;Copy</source>
-        <translation type="unfinished"/>
+        <translation>&amp;رونوشت</translation>
     </message>
     <message>
         <source>C&amp;lose</source>
-        <translation type="unfinished"/>
+        <translation>&amp;بستن</translation>
     </message>
     <message>
         <source>&amp;Copy Address</source>
@@ -115,7 +115,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>Export Address List</source>
-        <translation type="unfinished"/>
+        <translation>استخراج لیست آدرس</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
@@ -746,11 +746,11 @@ Address: %4
     </message>
     <message>
         <source>yes</source>
-        <translation type="unfinished"/>
+        <translation>بله</translation>
     </message>
     <message>
         <source>no</source>
-        <translation type="unfinished"/>
+        <translation>خیر</translation>
     </message>
     <message>
         <source>This label turns red, if the transaction size is greater than 1000 bytes.</source>
@@ -1072,7 +1072,7 @@ Address: %4
     </message>
     <message>
         <source>Expert</source>
-        <translation type="unfinished"/>
+        <translation>استخراج</translation>
     </message>
     <message>
         <source>Enable coin &amp;control features</source>
@@ -1196,7 +1196,7 @@ Address: %4
     </message>
     <message>
         <source>This change would require a client restart.</source>
-        <translation type="unfinished"/>
+        <translation>برای این تغییرات بازنشانی مشتری ضروری است</translation>
     </message>
     <message>
         <source>The supplied proxy address is invalid.</source>
@@ -1219,7 +1219,7 @@ Address: %4
     </message>
     <message>
         <source>Available:</source>
-        <translation type="unfinished"/>
+        <translation>در دسترس:</translation>
     </message>
     <message>
         <source>Your current spendable balance</source>
@@ -1455,7 +1455,7 @@ Address: %4
     </message>
     <message>
         <source>Totals</source>
-        <translation type="unfinished"/>
+        <translation>جمع کل:</translation>
     </message>
     <message>
         <source>In:</source>
@@ -1827,7 +1827,7 @@ Address: %4
     </message>
     <message>
         <source>or</source>
-        <translation type="unfinished"/>
+        <translation>یا</translation>
     </message>
     <message>
         <source>The recipient address is not valid, please recheck.</source>
