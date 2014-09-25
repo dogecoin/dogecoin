@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" ?><!DOCTYPE TS><TS language="ja" version="2.0">
+<TS language="ja" version="2.0">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -205,7 +205,7 @@ MIT/X11 ソフトウェア ライセンスの下で配布されています。�
         <translation>ウォレットの暗号化を確認する</translation>
     </message>
     <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DogecoinS&lt;/b&gt;!</source>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DOGECOINS&lt;/b&gt;!</source>
         <translation>警告: もしもあなたのウォレットを暗号化してパスフレーズを失ってしまったなら、&lt;b&gt;あなたの Dogecoin はすべて失われます&lt;/b&gt;!</translation>
     </message>
     <message>
@@ -497,7 +497,7 @@ MIT/X11 ソフトウェア ライセンスの下で配布されています。�
     </message>
     <message numerus="yes">
         <source>%n year(s)</source>
-        <translation type="unfinished"><numerusform></numerusform></translation>
+        <translation type="unfinished"><numerusform/></translation>
     </message>
     <message>
         <source>%1 behind</source>

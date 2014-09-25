@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" ?><!DOCTYPE TS><TS language="sl_SI" version="2.0">
+<TS language="sl_SI" version="2.0">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -200,7 +200,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Potrdi šifriranje denarnice</translation>
     </message>
     <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DogecoinS&lt;/b&gt;!</source>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DOGECOINS&lt;/b&gt;!</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -364,7 +364,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>&amp;Verify message...</source>
-        <translation>%Preveri sporočilo ...</translation>
+        <translation>&amp;Preveri sporočilo ...</translation>
     </message>
     <message>
         <source>Dogecoin</source>
@@ -841,7 +841,7 @@ Naslov: %4
     </message>
     <message>
         <source>The entered address &quot;%1&quot; is already in the address book.</source>
-        <translation>Vnešeni naslov &quot;&amp;1&quot; je že v imeniku.</translation>
+        <translation>Vnešeni naslov &quot;%1&quot; je že v imeniku.</translation>
     </message>
     <message>
         <source>The entered address &quot;%1&quot; is not a valid Dogecoin address.</source>
@@ -2165,7 +2165,7 @@ Naslov: %4
     </message>
     <message numerus="yes">
         <source>, broadcast through %n node(s)</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation type="unfinished"><numerusform/><numerusform/><numerusform/><numerusform/></translation>
     </message>
     <message>
         <source>Date</source>
@@ -2201,7 +2201,7 @@ Naslov: %4
     </message>
     <message numerus="yes">
         <source>matures in %n more block(s)</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation type="unfinished"><numerusform/><numerusform/><numerusform/><numerusform/></translation>
     </message>
     <message>
         <source>not accepted</source>
@@ -2269,7 +2269,7 @@ Naslov: %4
     </message>
     <message numerus="yes">
         <source>Open for %n more block(s)</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation type="unfinished"><numerusform/><numerusform/><numerusform/><numerusform/></translation>
     </message>
     <message>
         <source>unknown</source>
@@ -2311,7 +2311,7 @@ Naslov: %4
     </message>
     <message numerus="yes">
         <source>Open for %n more block(s)</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation type="unfinished"><numerusform/><numerusform/><numerusform/><numerusform/></translation>
     </message>
     <message>
         <source>Open until %1</source>
