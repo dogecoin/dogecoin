@@ -155,6 +155,10 @@ repackage gitian builds for release as stand-alone zip/tar/installer exe
 	rm -rf dogecoin-${VERSION}-win
 
 
+**Mac OS X .dmg:**
+
+	mv Dogecoin-Qt.dmg dogecoin-${VERSION}-osx.dmg
+
 ###Next steps:
 
 * Code-sign Windows -setup.exe (in a Windows virtual machine using signtool)
