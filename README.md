@@ -1,6 +1,6 @@
 # Dogecoin Core [DOGE, Ð]
 ==========================
-2014
+
 
 
 ![Dogecoin](http://static.tumblr.com/ppdj5y9/Ae9mxmxtp/300coin.png)
