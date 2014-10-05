@@ -25,6 +25,7 @@
 #include "clientversion.h"
 #include "init.h"
 #include "util.h"
+#include "net.h"
 
 #include <QLabel>
 #include <QFont>
@@ -105,6 +106,12 @@ PaperWalletDialog::PaperWalletDialog(QWidget *parent) :
     ui->privateKeyText->setFont(font);
     ui->addressText->setAlignment(Qt::AlignJustify);
     ui->privateKeyText->setAlignment(Qt::AlignJustify);
+
+    if (vNodes.size() > 0) {
+
+		QMessageBox::critical(this, "Warning: Network Activity Detected", tr("It is recommended to disconnect from the internet before printing paper wallets. Even though paper wallets are generated on your local computer, it is still possible to unknowingly have malware that transmits your screen to a remote location. It is also recommended to print to a local printer vs a network printer since that network traffic can be monitored. Some advanced printers also store copies of each printed document. Proceed with caution relative to the amount of value you plan to store on each address."), QMessageBox::Ok, QMessageBox::Ok);
+
+    }
 
 }
 
@@ -276,7 +283,6 @@ void PaperWalletDialog::on_printButton_clicked()
 
     for(int i = 0; i < walletCount; i++) {
 
-        this->on_getNewAddress_clicked();
         QPoint point = QPoint(PAPER_WALLET_PAGE_MARGIN, (PAPER_WALLET_PAGE_MARGIN / 2) + ( i % walletsPerPage ) * (walletHeight + walletPadding));
         this->render(&painter, point, walletRegion);
         recipientPubKeyHashes.append(ui->addressText->text());
@@ -286,6 +292,8 @@ void PaperWalletDialog::on_printButton_clicked()
             printer.newPage();
 
         }
+
+        this->on_getNewAddress_clicked();
 
     }
 
@@ -299,7 +307,7 @@ void PaperWalletDialog::on_printButton_clicked()
         bool ok;
 
         // Ask for an amount to send to each paper wallet. It might be better to try to use the BitcoinAmountField, but this works fine.
-        double amountInput = QInputDialog::getDouble(this, tr("Load Paper Wallets"), tr("Please wait for wallets to print and verify readability.<br/>Enter the number of DOGE you wish to send to each wallet:"), 0, 0, 2147483647, 8, &ok);
+        double amountInput = QInputDialog::getDouble(this, tr("Load Paper Wallets"), tr("The paper wallet printing process has begun.<br/>Please wait for the wallets to print completely and verify that everything printed correctly.<br/>Check for misalignments, ink bleeding, smears, or anything else that could make the private keys unreadable.<br/>Now, enter the number of DOGE you wish to send to each wallet:"), 0, 0, 2147483647, 8, &ok);
 
         if(!ok) {
             return;
