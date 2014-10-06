@@ -46,6 +46,9 @@ private slots:
     void updateDisplayUnit();
     void doProxyIpChecks(QValidatedLineEdit *pUiProxyIp, int nProxyPort);
 
+    /* Feature 1 - on browse button clicked for backup file location */
+    void on_backupSelectFileButton_clicked();
+
 signals:
     void proxyIpChecks(QValidatedLineEdit *pUiProxyIp, int nProxyPort);
 

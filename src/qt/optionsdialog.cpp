@@ -59,6 +59,15 @@ OptionsDialog::OptionsDialog(QWidget *parent) :
     connect(ui->connectSocks, SIGNAL(toggled(bool)), ui->proxyPort, SLOT(setEnabled(bool)));
     connect(ui->connectSocks, SIGNAL(toggled(bool)), ui->socksVersion, SLOT(setEnabled(bool)));
 
+    /* Feature 1 - Set the ui->backupMinsSpinBox disabled by default */
+    ui->backupMinsSpinBox->setEnabled(false);
+
+    /* Feature 1 - Set the ui->backupFileLocationLabel disabled by default */
+    ui->backupFileLocationLabel->setEnabled(false);
+
+    /* Feature 1 - Map backupOnDemand Button to disable the ui->backupMinsSpinBox */
+    connect(ui->backupOnDemand, SIGNAL(toggled(bool)), ui->backupMinsSpinBox, SLOT(setEnabled(bool)));
+
     ui->proxyIp->installEventFilter(this);
 
     /* Window elements init */
@@ -155,6 +164,10 @@ void OptionsDialog::setModel(OptionsModel *model)
     /* Display */
     connect(ui->lang, SIGNAL(valueChanged()), this, SLOT(showRestartWarning()));
     connect(ui->thirdPartyTxUrls, SIGNAL(textChanged(const QString &)), this, SLOT(showRestartWarning()));
+
+    /* Feature 1 - Show warning for the backup options*/
+    //connect(ui->backupOnDemand, SIGNAL(clicked(bool)), this, SLOT(showRestartWarning()));
+    //connect(ui->backupOnStart, SIGNAL(clicked(bool)), this, SLOT(showRestartWarning()));
 }
 
 void OptionsDialog::setMapper()
@@ -188,6 +201,12 @@ void OptionsDialog::setMapper()
     mapper->addMapping(ui->unit, OptionsModel::DisplayUnit);
     mapper->addMapping(ui->displayAddresses, OptionsModel::DisplayAddresses);
     mapper->addMapping(ui->thirdPartyTxUrls, OptionsModel::ThirdPartyTxUrls);
+
+    /* Feature 1 - setMapper for backup option model */
+    //mapper->addMapping(ui->backupOnDemand, OptionsModel::backupOnDemandOpt);
+    //mapper->addMapping(ui->backupOnStart, OptionsModel::backupOnStartOpt);
+    //mapper->addMapping(ui->backupMinsSpinBox, OptionsModel::backupOnDemandFreqOpt);
+    //mapper->addMapping(ui->backupFileLocationLabel, OptionsModel::backupFileLocation);
 }
 
 void OptionsDialog::enableOkButton()
@@ -233,7 +252,7 @@ void OptionsDialog::on_okButton_clicked()
 
 void OptionsDialog::on_cancelButton_clicked()
 {
-    reject();
+   reject();
 }
 
 void OptionsDialog::showRestartWarning(bool fPersistent)
@@ -299,4 +318,13 @@ bool OptionsDialog::eventFilter(QObject *object, QEvent *event)
         }
     }
     return QDialog::eventFilter(object, event);
+}
+
+/* Feature 1 - implement on browse button for backup file location */
+void OptionsDialog::on_backupSelectFileButton_clicked()
+{
+    QString filename = GUIUtil::getOpenFileName(this, tr("Select backup file location"), "", "", NULL);
+    if(filename.isEmpty())
+        return;
+    ui->backupFileLocationLabel->setText(filename);
 }

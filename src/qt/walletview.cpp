@@ -28,6 +28,8 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 
+#include <QDebug>
+
 WalletView::WalletView(QWidget *parent):
     QStackedWidget(parent),
     clientModel(0),
@@ -229,6 +231,22 @@ void WalletView::backupWallet()
         tr("Backup Wallet"), QString(),
         tr("Wallet Data (*.dat)"), NULL);
 
+    if (filename.isEmpty())
+        return;
+
+    if (!walletModel->backupWallet("/home/amalfiyd/Desktop/test.dat")) {
+        emit message(tr("Backup Failed"), tr("There was an error trying to save the wallet data to %1.").arg(filename),
+            CClientUIInterface::MSG_ERROR);
+        }
+    else {
+        emit message(tr("Backup Successful"), tr("The wallet data was successfully saved to %1.").arg(filename),
+            CClientUIInterface::MSG_INFORMATION);
+    }
+}
+
+/* Feature 1 - backup to database without save dialog box*/
+void WalletView::backupWalletWoDialog(QString filename)
+{
     if (filename.isEmpty())
         return;
 

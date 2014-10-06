@@ -43,6 +43,12 @@ public:
         DatabaseCache,          // int
         SpendZeroConfChange,    // bool
         OptionIDRowCount,
+
+        /* Feature 1 - backup settings*/
+        // backupOnDemandOpt,      // bool
+        // backupOnStartOpt,       // bool
+        // backupOnDemandFreqOpt,  // int
+        // backupFileLocation,     // QString
     };
 
     void Init();
@@ -62,6 +68,12 @@ public:
     bool getCoinControlFeatures() { return fCoinControlFeatures; }
     const QString& getOverriddenByCommandLine() { return strOverriddenByCommandLine; }
 
+    /* Feature 1 - Explicit Getters */
+    //bool getBackupOnDemandOpt() { return fBackupOnDemandOpt; }
+    //bool getBackupOnStartOpt() { return backupOnStartOpt; }
+    //int getBackupOnDemandFreqOpt() { return backupOnDemandFreqOpt; }
+    //QString getBackupFileLocation() { return strBackupFileLocation; }
+
     /* Restart flag helper */
     void setRestartRequired(bool fRequired);
     bool isRestartRequired();
@@ -78,6 +90,12 @@ private:
     /* settings that were overriden by command-line */
     QString strOverriddenByCommandLine;
 
+    /*  Feature 1 - Private variable for backup option model */
+    //bool fBackupOnDemandOpt;
+    //bool fBackupOnStartOpt;
+    //int fBackupOnDemandFreqOpt;
+    //QString strBackupFileLocation;
+
     /// Add option to list of GUI options overridden through command line/config file
     void addOverriddenOption(const std::string &option);
 
@@ -85,6 +103,9 @@ signals:
     void displayUnitChanged(int unit);
     void transactionFeeChanged(qint64);
     void coinControlFeaturesChanged(bool);
+
+    /* Feature 1 - Signals for the backup options */
+    //void backupOnDemandOptChanged(bool);
 };
 
 #endif // OPTIONSMODEL_H
