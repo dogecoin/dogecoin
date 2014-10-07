@@ -42,13 +42,13 @@ public:
         ThreadsScriptVerif,     // int
         DatabaseCache,          // int
         SpendZeroConfChange,    // bool
-        OptionIDRowCount,
+         /* Feature 1 - backup settings*/
+        backupOnDemandOpt,      // bool
+        backupOnStartOpt,       // bool
+        backupOnDemandFreqOpt,  // int
+        backupFileLocation,     // QString
 
-        /* Feature 1 - backup settings*/
-        // backupOnDemandOpt,      // bool
-        // backupOnStartOpt,       // bool
-        // backupOnDemandFreqOpt,  // int
-        // backupFileLocation,     // QString
+        OptionIDRowCount,
     };
 
     void Init();
@@ -69,10 +69,10 @@ public:
     const QString& getOverriddenByCommandLine() { return strOverriddenByCommandLine; }
 
     /* Feature 1 - Explicit Getters */
-    //bool getBackupOnDemandOpt() { return fBackupOnDemandOpt; }
-    //bool getBackupOnStartOpt() { return backupOnStartOpt; }
+    bool getBackupOnDemandOpt() { return fBackupOnDemandOpt; }
+    bool getBackupOnStartOpt() { return fBackupOnStartOpt; }
     //int getBackupOnDemandFreqOpt() { return backupOnDemandFreqOpt; }
-    //QString getBackupFileLocation() { return strBackupFileLocation; }
+    QString getBackupFileLocation() { return strBackupFileLocation; }
 
     /* Restart flag helper */
     void setRestartRequired(bool fRequired);
@@ -91,10 +91,9 @@ private:
     QString strOverriddenByCommandLine;
 
     /*  Feature 1 - Private variable for backup option model */
-    //bool fBackupOnDemandOpt;
-    //bool fBackupOnStartOpt;
-    //int fBackupOnDemandFreqOpt;
-    //QString strBackupFileLocation;
+    bool fBackupOnDemandOpt;
+    bool fBackupOnStartOpt;
+    QString strBackupFileLocation;
 
     /// Add option to list of GUI options overridden through command line/config file
     void addOverriddenOption(const std::string &option);

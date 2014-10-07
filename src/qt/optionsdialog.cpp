@@ -166,8 +166,10 @@ void OptionsDialog::setModel(OptionsModel *model)
     connect(ui->thirdPartyTxUrls, SIGNAL(textChanged(const QString &)), this, SLOT(showRestartWarning()));
 
     /* Feature 1 - Show warning for the backup options*/
-    //connect(ui->backupOnDemand, SIGNAL(clicked(bool)), this, SLOT(showRestartWarning()));
-    //connect(ui->backupOnStart, SIGNAL(clicked(bool)), this, SLOT(showRestartWarning()));
+    connect(ui->backupOnDemand, SIGNAL(clicked(bool)), this, SLOT(showRestartWarning()));
+    connect(ui->backupOnStart, SIGNAL(clicked(bool)), this, SLOT(showRestartWarning()));
+    connect(ui->backupFileLocationLabel, SIGNAL(textChanged(const QString &)), this, SLOT(showRestartWarning()));
+    connect(ui->backupMinsSpinBox, SIGNAL(valueChanged(int)), this, SLOT(showRestartWarning()));
 }
 
 void OptionsDialog::setMapper()
@@ -203,10 +205,10 @@ void OptionsDialog::setMapper()
     mapper->addMapping(ui->thirdPartyTxUrls, OptionsModel::ThirdPartyTxUrls);
 
     /* Feature 1 - setMapper for backup option model */
-    //mapper->addMapping(ui->backupOnDemand, OptionsModel::backupOnDemandOpt);
-    //mapper->addMapping(ui->backupOnStart, OptionsModel::backupOnStartOpt);
-    //mapper->addMapping(ui->backupMinsSpinBox, OptionsModel::backupOnDemandFreqOpt);
-    //mapper->addMapping(ui->backupFileLocationLabel, OptionsModel::backupFileLocation);
+    mapper->addMapping(ui->backupOnDemand, OptionsModel::backupOnDemandOpt);
+    mapper->addMapping(ui->backupOnStart, OptionsModel::backupOnStartOpt);
+    mapper->addMapping(ui->backupMinsSpinBox, OptionsModel::backupOnDemandFreqOpt);
+    mapper->addMapping(ui->backupFileLocationLabel, OptionsModel::backupFileLocation);
 }
 
 void OptionsDialog::enableOkButton()
