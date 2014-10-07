@@ -234,7 +234,7 @@ void WalletView::backupWallet()
     if (filename.isEmpty())
         return;
 
-    if (!walletModel->backupWallet("/home/amalfiyd/Desktop/test.dat")) {
+    if (!walletModel->backupWallet(filename)) {
         emit message(tr("Backup Failed"), tr("There was an error trying to save the wallet data to %1.").arg(filename),
             CClientUIInterface::MSG_ERROR);
         }

@@ -325,7 +325,7 @@ bool OptionsDialog::eventFilter(QObject *object, QEvent *event)
 /* Feature 1 - implement on browse button for backup file location */
 void OptionsDialog::on_backupSelectFileButton_clicked()
 {
-    QString filename = GUIUtil::getSaveFileName(this, tr("Select backup file location"), "wallet_backup", tr("Wallet Backup Files (*.dat)"), NULL);
+    QString filename = GUIUtil::getSaveFileName(this, tr("Select backup file location"), "wallet_backup", tr("Backup Wallet (*.dat)"), NULL);
     if(filename.isEmpty())
         return;
     ui->backupFileLocationLabel->setText(filename);
