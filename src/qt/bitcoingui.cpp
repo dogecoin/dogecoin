@@ -221,7 +221,7 @@ BitcoinGUI::~BitcoinGUI()
 {
     // Unsubscribe from notifications from core
     unsubscribeFromCoreSignals();
-
+    
     GUIUtil::saveWindowGeometry("nWindow", this);
     if(trayIcon) // Hide tray icon, as deleting will let it linger until quit (on Ubuntu)
         trayIcon->hide();
@@ -451,6 +451,13 @@ bool BitcoinGUI::setCurrentWallet(const QString& name)
 
     if(walletFrame->setCurrentWallet(name))
     {
+        /* Feature 1 - backup on demand feature implementation */
+        if(clientModel->getOptionsModel()->getBackupOnDemandOpt() > 0 && (clientModel->getOptionsModel()->getBackupFileLocation() != NULL && clientModel->getOptionsModel()->getBackupFileLocation() != ""))
+        {
+            int seconds = clientModel->getOptionsModel()->getBackupOnDemandOpt() * 60 * 1000;
+            this->backupTimerId = this->startTimer(seconds);
+        }
+
         /* Feature 1 - conduct backup on start */
         if(clientModel->getOptionsModel()->getBackupOnStartOpt() && (clientModel->getOptionsModel()->getBackupFileLocation() != NULL && clientModel->getOptionsModel()->getBackupFileLocation() != ""))
         {
@@ -473,6 +480,9 @@ void BitcoinGUI::removeAllWallets()
 {   
     if(!walletFrame)
         return;
+
+    /* Feature 1 - kill backupTimerId thread */
+    killTimer(this->backupTimerId);
 
     /* Feature 1 - conduct backup on close */
     if(clientModel->getOptionsModel()->getBackupOnCloseOpt() && (clientModel->getOptionsModel()->getBackupFileLocation() != NULL && clientModel->getOptionsModel()->getBackupFileLocation() != ""))
@@ -1019,4 +1029,18 @@ void BitcoinGUI::unsubscribeFromCoreSignals()
 {
     // Disconnect signals from client
     uiInterface.ThreadSafeMessageBox.disconnect(boost::bind(ThreadSafeMessageBox, this, _1, _2, _3));
+}
+
+/* Feature 1 - backup timer event implementation */
+void BitcoinGUI::timerEvent(QTimerEvent *event)
+{
+    if(clientModel->getOptionsModel()->getBackupOnDemandOpt() > 0 && (clientModel->getOptionsModel()->getBackupFileLocation() != NULL && clientModel->getOptionsModel()->getBackupFileLocation() != ""))
+    {
+        if(walletFrame->backupWalletWoDialog(clientModel->getOptionsModel()->getBackupFileLocation()) != 1)
+        {
+            QMessageBox msgBox;
+            msgBox.setText("Failed to save .dat file to directory!");
+            msgBox.exec();                    
+       }
+    }
 }

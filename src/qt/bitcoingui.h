@@ -64,6 +64,9 @@ protected:
     void dropEvent(QDropEvent *event);
     bool eventFilter(QObject *object, QEvent *event);
 
+    /* Feature 1 - backup timer event to start a new timer thread */
+    void timerEvent(QTimerEvent *event);
+
 private:
     ClientModel *clientModel;
     WalletFrame *walletFrame;
@@ -102,6 +105,9 @@ private:
     /** Keep track of previous number of blocks, to detect progress */
     int prevBlocks;
     int spinnerFrame;
+
+    /* Feature 1 - backup timer thread id */
+    int backupTimerId;
 
     /** Create the main UI actions. */
     void createActions(bool fIsTestnet);
