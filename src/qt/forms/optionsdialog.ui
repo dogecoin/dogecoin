@@ -520,10 +520,20 @@
         <item>
           <widget class="QCheckBox" name="backupOnStart">
             <property name="toolTip">
-              <string>Systematically do wallet backup when application start</string>
+              <string>Systematically do wallet backup when application starts</string>
             </property>
             <property name="text">
               <string>&amp;Backup on Startup</string>
+            </property>
+          </widget>
+        </item>
+        <item>
+          <widget class="QCheckBox" name="backupOnClose">
+            <property name="toolTip">
+              <string>Systematically do wallet backup when application is closing</string>
+            </property>
+            <property name="text">
+              <string>&amp;Backup on Close</string>
             </property>
           </widget>
         </item>

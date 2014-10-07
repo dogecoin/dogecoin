@@ -115,6 +115,10 @@ void OptionsModel::Init()
         settings.setValue("fBackupOnStartOpt", false);
     fBackupOnStartOpt = settings.value("fBackupOnStartOpt", false).toBool();
     //
+    if (!settings.contains("fBackupOnCloseOpt"))
+        settings.setValue("fBackupOnCloseOpt", false);
+    fBackupOnCloseOpt = settings.value("fBackupOnCloseOpt", false).toBool();
+    //
     if (!settings.contains("fBackupOnDemandFreqOpt"))
         settings.setValue("fBackupOnDemandFreqOpt", 0);
     if (!SoftSetArg("-freq", settings.value("fBackupOnDemandFreqOpt").toString().toStdString()))
@@ -230,6 +234,8 @@ QVariant OptionsModel::data(const QModelIndex & index, int role) const
             return fBackupOnDemandOpt;
         case backupOnStartOpt:
             return fBackupOnStartOpt;
+        case backupOnCloseOpt:
+            return fBackupOnCloseOpt;
         case backupOnDemandFreqOpt:
             return settings.value("fBackupOnDemandFreqOpt");
         case backupFileLocation:
@@ -342,6 +348,11 @@ bool OptionsModel::setData(const QModelIndex & index, const QVariant & value, in
         case backupOnStartOpt:
             fBackupOnStartOpt = value.toBool();
             settings.setValue("fBackupOnStartOpt", fBackupOnStartOpt);
+            setRestartRequired(true);
+            break;
+        case backupOnCloseOpt:
+            fBackupOnCloseOpt = value.toBool();
+            settings.setValue("fBackupOnCloseOpt", fBackupOnCloseOpt);
             setRestartRequired(true);
             break;
        case backupOnDemandFreqOpt:

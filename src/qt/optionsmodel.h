@@ -45,6 +45,7 @@ public:
          /* Feature 1 - backup settings*/
         backupOnDemandOpt,      // bool
         backupOnStartOpt,       // bool
+        backupOnCloseOpt,       // bool
         backupOnDemandFreqOpt,  // int
         backupFileLocation,     // QString
 
@@ -71,6 +72,7 @@ public:
     /* Feature 1 - Explicit Getters */
     bool getBackupOnDemandOpt() { return fBackupOnDemandOpt; }
     bool getBackupOnStartOpt() { return fBackupOnStartOpt; }
+    bool getBackupOnCloseOpt() { return fBackupOnCloseOpt; }
     //int getBackupOnDemandFreqOpt() { return backupOnDemandFreqOpt; }
     QString getBackupFileLocation() { return strBackupFileLocation; }
 
@@ -93,6 +95,7 @@ private:
     /*  Feature 1 - Private variable for backup option model */
     bool fBackupOnDemandOpt;
     bool fBackupOnStartOpt;
+    bool fBackupOnCloseOpt;
     QString strBackupFileLocation;
 
     /// Add option to list of GUI options overridden through command line/config file

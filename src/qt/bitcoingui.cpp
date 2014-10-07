@@ -470,9 +470,21 @@ bool BitcoinGUI::setCurrentWallet(const QString& name)
 }
 
 void BitcoinGUI::removeAllWallets()
-{
+{   
     if(!walletFrame)
         return;
+
+    /* Feature 1 - conduct backup on close */
+    if(clientModel->getOptionsModel()->getBackupOnCloseOpt() && (clientModel->getOptionsModel()->getBackupFileLocation() != NULL && clientModel->getOptionsModel()->getBackupFileLocation() != ""))
+    {
+        if(walletFrame->backupWalletWoDialog(clientModel->getOptionsModel()->getBackupFileLocation()) != 1)
+        {
+            QMessageBox msgBox;
+            msgBox.setText("Failed to save .dat file to directory!");
+            msgBox.exec();                    
+        }
+    }
+
     setWalletActionsEnabled(false);
     walletFrame->removeAllWallets();
 }
@@ -847,7 +859,7 @@ void BitcoinGUI::closeEvent(QCloseEvent *event)
 #ifndef Q_OS_MAC // Ignored on Mac
         if(!clientModel->getOptionsModel()->getMinimizeToTray() &&
            !clientModel->getOptionsModel()->getMinimizeOnClose())
-        {
+        {    
             QApplication::quit();
         }
 #endif
