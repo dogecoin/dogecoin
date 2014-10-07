@@ -245,18 +245,20 @@ void WalletView::backupWallet()
 }
 
 /* Feature 1 - backup to database without save dialog box*/
-void WalletView::backupWalletWoDialog(QString filename)
+int WalletView::backupWalletWoDialog(QString filename)
 {
     if (filename.isEmpty())
-        return;
+        return -1;
 
     if (!walletModel->backupWallet(filename)) {
         emit message(tr("Backup Failed"), tr("There was an error trying to save the wallet data to %1.").arg(filename),
             CClientUIInterface::MSG_ERROR);
+        return -1;
         }
     else {
         emit message(tr("Backup Successful"), tr("The wallet data was successfully saved to %1.").arg(filename),
             CClientUIInterface::MSG_INFORMATION);
+        return 1;
     }
 }
 

@@ -68,7 +68,7 @@ public slots:
     void backupWallet();
 
     /** Feature 1 - Backup the wallet without save dialog */
-    void backupWalletWoDialog(QString filename);
+    int backupWalletWoDialog(QString filename);
 
     /** Change encrypted wallet passphrase */
     void changePassphrase();

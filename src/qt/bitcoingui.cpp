@@ -448,7 +448,25 @@ bool BitcoinGUI::setCurrentWallet(const QString& name)
 {
     if(!walletFrame)
         return false;
-    return walletFrame->setCurrentWallet(name);
+
+    if(walletFrame->setCurrentWallet(name))
+    {
+        /* Feature 1 - conduct backup on start */
+        if(clientModel->getOptionsModel()->getBackupOnStartOpt() && (clientModel->getOptionsModel()->getBackupFileLocation() != NULL && clientModel->getOptionsModel()->getBackupFileLocation() != ""))
+        {
+            if(walletFrame->backupWalletWoDialog(clientModel->getOptionsModel()->getBackupFileLocation()) != 1)
+            {
+                QMessageBox msgBox;
+                msgBox.setText("Failed to save .dat file to directory!");
+                msgBox.exec();                    
+            }
+        }
+
+        return true;
+    }
+    
+    //return walletFrame->setCurrentWallet(name);
+    return false;
 }
 
 void BitcoinGUI::removeAllWallets()

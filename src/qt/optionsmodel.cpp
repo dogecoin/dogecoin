@@ -336,12 +336,12 @@ bool OptionsModel::setData(const QModelIndex & index, const QVariant & value, in
         /* Feature 1 - Data setter from option model */
         case backupOnDemandOpt:
             fBackupOnDemandOpt = value.toBool();
-            settings.setValue("fBackupOnDemandOpt", true);
+            settings.setValue("fBackupOnDemandOpt", fBackupOnDemandOpt);
             setRestartRequired(true);
             break;
         case backupOnStartOpt:
             fBackupOnStartOpt = value.toBool();
-            settings.setValue("fBackupOnStartOpt", true);
+            settings.setValue("fBackupOnStartOpt", fBackupOnStartOpt);
             setRestartRequired(true);
             break;
        case backupOnDemandFreqOpt:
