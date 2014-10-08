@@ -454,6 +454,13 @@ bool BitcoinGUI::setCurrentWallet(const QString& name)
         /////////////////
         // Feature 1   //
         /////////////////
+        /* startup check for backupOnDemand */
+        if(!clientModel->getOptionsModel()->getBackupOnStartOpt() 
+            && clientModel->getOptionsModel()->getBackupOnDemandOpt())
+        {
+            singleBackup();
+        }
+
         /* backup on demand feature implementation */
         startBackupOnDemand();
 
@@ -1025,23 +1032,26 @@ void BitcoinGUI::unsubscribeFromCoreSignals()
 /* backup timer event implementation */
 void BitcoinGUI::timerEvent(QTimerEvent *event)
 {
-    if(clientModel->getOptionsModel()->getBackupOnDemandOpt() > 0 && (clientModel->getOptionsModel()->getBackupFileLocation() != NULL && clientModel->getOptionsModel()->getBackupFileLocation() != ""))
-    {
+    //if(clientModel->getOptionsModel()->getBackupOnDemandOpt() > 0 && (clientModel->getOptionsModel()->getBackupFileLocation() != NULL && clientModel->getOptionsModel()->getBackupFileLocation() != ""))
+    //{
         if(walletFrame->backupWalletWoDialog(clientModel->getOptionsModel()->getBackupFileLocation()) != 1)
         {
             QMessageBox msgBox;
             msgBox.setText("Failed to save .dat file to directory!");
             msgBox.exec();                    
        }
-    }
+    //}
 }
 
 /* start backupOnDemand process */
 void BitcoinGUI::startBackupOnDemand()
 {
-    if(clientModel->getOptionsModel()->getBackupOnDemandOpt() > 0 && (clientModel->getOptionsModel()->getBackupFileLocation() != NULL && clientModel->getOptionsModel()->getBackupFileLocation() != ""))
+    int minutes = clientModel->getOptionsModel()->getBackupOnDemandFreqOpt();
+
+    if((minutes > 0 && clientModel->getOptionsModel()->getBackupOnDemandOpt()) 
+        && (clientModel->getOptionsModel()->getBackupFileLocation() != NULL && clientModel->getOptionsModel()->getBackupFileLocation() != ""))
     {
-        int seconds = clientModel->getOptionsModel()->getBackupOnDemandFreqOpt() * 60 * 1000;
+        int seconds = minutes * 60 * 1000;
         this->backupTimerId = this->startTimer(seconds);
     }
 }
@@ -1071,6 +1081,17 @@ void BitcoinGUI::startBackupOnClose()
             msgBox.setText("Failed to save .dat file to directory!");
             msgBox.exec();                    
         }
+    }
+}
+
+/* start first backupOnDemand first save */
+void BitcoinGUI::singleBackup()
+{
+    if(walletFrame->backupWalletWoDialog(clientModel->getOptionsModel()->getBackupFileLocation()) != 1)
+    {
+        QMessageBox msgBox;
+        msgBox.setText("Failed to save .dat file to directory!");
+        msgBox.exec();                    
     }
 }
 /////////////////

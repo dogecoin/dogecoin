@@ -75,6 +75,8 @@ protected:
     void startBackupOnStart();
     /* start backupOnClose process */
     void startBackupOnClose();
+    /* start first backupOnDemand first save */
+    void singleBackup();
     /////////////////
 
 private:
