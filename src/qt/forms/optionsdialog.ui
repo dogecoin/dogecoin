@@ -511,7 +511,7 @@
       </layout>
      </widget>
 
-    <!-- Feature 1 - Start of backup_tab -->
+    <!-- Feature 1 - backup_tab -->
     <widget class="QWidget" name="tabBackup">
       <attribute name="title">
         <string>&amp;Backup</string>

@@ -368,9 +368,14 @@ void BitcoinApplication::requestShutdown()
     LogPrintf("Requesting shutdown\n");
     window->hide();
 
-    /* Feature 1 - move clientModel unset after remove all wallets */
-    //window->setClientModel(0);
-    //pollShutdownTimer->stop();
+    /////////////////
+    // Feature 1   //
+    /////////////////
+    /* move clientModel unset after remove all wallets to conduct backupOnClose */
+    /* moved code :  
+        window->setClientModel(0);
+        pollShutdownTimer->stop();
+    */
 
 #ifdef ENABLE_WALLET
     window->removeAllWallets();
@@ -378,9 +383,10 @@ void BitcoinApplication::requestShutdown()
     walletModel = 0;
 #endif
 
-    /* Feature 1 - move clientModel unset after remove all wallets - ctn'd */
+    /* to here : */    
     window->setClientModel(0);
     pollShutdownTimer->stop();
+    /////////////////
 
     delete clientModel;
     clientModel = 0;

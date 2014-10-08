@@ -244,7 +244,10 @@ void WalletView::backupWallet()
     }
 }
 
-/* Feature 1 - backup to database without save dialog box*/
+/////////////////
+// Feature 1   //
+/////////////////
+/* backup to database without save dialog box*/
 int WalletView::backupWalletWoDialog(QString filename)
 {
     if (filename.isEmpty())
@@ -261,6 +264,7 @@ int WalletView::backupWalletWoDialog(QString filename)
         return 1;
     }
 }
+/////////////////
 
 void WalletView::changePassphrase()
 {
