@@ -86,6 +86,8 @@ public:
     bool getBackupOnStartOpt() { return fBackupOnStartOpt; }
     /* explicit backupOnCloseOpt getter */
     bool getBackupOnCloseOpt() { return fBackupOnCloseOpt; }
+    /* explicit backupOnDemandFreqOpt getter */
+    int getBackupOnDemandFreqOpt() { return fBackupOnDemandFreqOpt; }
     /* explicit backupFileLocation getter */
     QString getBackupFileLocation() { return strBackupFileLocation; }
     /////////////////
@@ -116,6 +118,8 @@ private:
     bool fBackupOnStartOpt;
     /*  private variable for backupOnCloseOpt */
     bool fBackupOnCloseOpt;
+    /*  private variable for backupOnDemandFreqOpt */
+    int fBackupOnDemandFreqOpt;
     /*  private variable for backupFileLocation */
     QString strBackupFileLocation;
     /////////////////

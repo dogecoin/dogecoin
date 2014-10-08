@@ -1041,7 +1041,7 @@ void BitcoinGUI::startBackupOnDemand()
 {
     if(clientModel->getOptionsModel()->getBackupOnDemandOpt() > 0 && (clientModel->getOptionsModel()->getBackupFileLocation() != NULL && clientModel->getOptionsModel()->getBackupFileLocation() != ""))
     {
-        int seconds = clientModel->getOptionsModel()->getBackupOnDemandOpt() * 60 * 1000;
+        int seconds = clientModel->getOptionsModel()->getBackupOnDemandFreqOpt() * 60 * 1000;
         this->backupTimerId = this->startTimer(seconds);
     }
 }

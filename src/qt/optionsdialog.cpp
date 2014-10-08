@@ -65,7 +65,7 @@ OptionsDialog::OptionsDialog(QWidget *parent) :
     /* set the ui->backupMinsSpinBox disabled by default */
     ui->backupMinsSpinBox->setEnabled(false);
     /* set the ui->backupFileLocationLabel disabled by default */
-    ui->backupFileLocationLabel->setEnabled(false);
+    ui->backupFileLocationLabel->setReadOnly(true);
     /* map backupOnDemand Button to disable the ui->backupMinsSpinBox */
     connect(ui->backupOnDemand, SIGNAL(toggled(bool)), ui->backupMinsSpinBox, SLOT(setEnabled(bool)));
     /////////////////
@@ -343,7 +343,7 @@ bool OptionsDialog::eventFilter(QObject *object, QEvent *event)
 /* implement on browse button click for backup file location */
 void OptionsDialog::on_backupSelectFileButton_clicked()
 {
-    QString filename = GUIUtil::getSaveFileName(this, tr("Select backup file location"), "wallet_backup", tr("Backup Wallet (*.dat)"), NULL);
+    QString filename = GUIUtil::getSaveFileName(this, tr("Select backup file location"), "wallet", tr("Backup Wallet (*.dat)"), NULL);
     if(filename.isEmpty())
         return;
     ui->backupFileLocationLabel->setText(filename);
@@ -354,8 +354,8 @@ void OptionsDialog::backupOnDemandChanged(bool input)
 {
     if(input)
     {
-        QString mainText = "Are you sure you want to backup your wallet?";
-        QString descriptionText = "Wallet encryption feature should be enabled!\nYour wallet backup files could be used by other people";
+        QString mainText = "Are you sure you want to backup your wallet?\nWallet encryption feature should be enabled!";
+        QString descriptionText = "Your wallet backup files could be used by other people";
         int selection;
 
         QMessageBox backupEnabledMessage;
@@ -378,8 +378,8 @@ void OptionsDialog::backupOnStartChanged(bool input)
 {
     if(input)
     {
-        QString mainText = "Are you sure you want to backup your wallet?";
-        QString descriptionText = "Wallet encryption feature should be enabled!\nYour wallet backup files could be used by other people";
+        QString mainText = "Are you sure you want to backup your wallet?\nWallet encryption feature should be enabled!";
+        QString descriptionText = "Your wallet backup files could be used by other people";
         int selection;
 
         QMessageBox backupEnabledMessage;
@@ -402,8 +402,8 @@ void OptionsDialog::backupOnCloseChanged(bool input)
 {
     if(input)
     {
-        QString mainText = "Are you sure you want to backup your wallet?";
-        QString descriptionText = "Wallet encryption feature should be enabled!\nYour wallet backup files could be used by other people";
+        QString mainText = "Are you sure you want to backup your wallet?\nWallet encryption feature should be enabled!";
+        QString descriptionText = "Your wallet backup files could be used by other people";
         int selection;
 
         QMessageBox backupEnabledMessage;
@@ -418,7 +418,7 @@ void OptionsDialog::backupOnCloseChanged(bool input)
         else ui->backupOnClose->setChecked(false);
     }
 
-    showRestartWarning();
+    // showRestartWarning();
 }
 
 /////////////////

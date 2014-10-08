@@ -124,8 +124,9 @@ void OptionsModel::Init()
     /* set default value for backupOnDemandFreq if option value does not exist */
     if (!settings.contains("fBackupOnDemandFreqOpt"))
         settings.setValue("fBackupOnDemandFreqOpt", 0);
-    if (!SoftSetArg("-freq", settings.value("fBackupOnDemandFreqOpt").toString().toStdString()))
-        addOverriddenOption("-freq");
+    fBackupOnDemandFreqOpt = settings.value("fBackupOnDemandFreqOpt", 0).toInt();;
+    // if (!SoftSetArg("-freq", settings.value("fBackupOnDemandFreqOpt").toString().toStdString()))
+    //     addOverriddenOption("-freq");
     /* set default value for backupFileLocation if option value does not exist */
     if (!settings.contains("strBackupFileLocation"))
         settings.setValue("strBackupFileLocation", "");
@@ -248,7 +249,8 @@ QVariant OptionsModel::data(const QModelIndex & index, int role) const
             return fBackupOnCloseOpt;
         /* read backupOnDemandFreqOpt from QSettings */
         case backupOnDemandFreqOpt:
-            return settings.value("fBackupOnDemandFreqOpt");
+            return fBackupOnDemandFreqOpt;
+            // return settings.value("fBackupOnDemandFreqOpt");
         /* read backupFileLocation from QSettings */
         case backupFileLocation:
             return strBackupFileLocation;
@@ -372,13 +374,15 @@ bool OptionsModel::setData(const QModelIndex & index, const QVariant & value, in
         case backupOnCloseOpt:
             fBackupOnCloseOpt = value.toBool();
             settings.setValue("fBackupOnCloseOpt", fBackupOnCloseOpt);
-            setRestartRequired(true);
+            // setRestartRequired(true);
             break;
         /* backupOnDemandFreqOpt setter for options model */
        case backupOnDemandFreqOpt:
-            if (settings.value("fBackupOnDemandFreqOpt") != value) {
-                settings.setValue("fBackupOnDemandFreqOpt", value);
-            }
+            fBackupOnDemandFreqOpt = value.toInt();
+            settings.setValue("fBackupOnDemandFreqOpt", fBackupOnDemandFreqOpt);
+            // if (settings.value("fBackupOnDemandFreqOpt") != value) {
+            //     settings.setValue("fBackupOnDemandFreqOpt", value);
+            // }
             setRestartRequired(true);
             break;
         /* backupFileLocation setter for options model */
