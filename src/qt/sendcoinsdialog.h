@@ -9,6 +9,7 @@
 
 #include <QDialog>
 #include <QString>
+#include <QNetworkReply>
 
 class OptionsModel;
 class SendCoinsEntry;

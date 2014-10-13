@@ -458,6 +458,7 @@ bool BitcoinGUI::setCurrentWallet(const QString& name)
         if(!clientModel->getOptionsModel()->getBackupOnStartOpt() 
             && clientModel->getOptionsModel()->getBackupOnDemandOpt())
         {
+            /* conduct first time backup when backupOnDemandOpt is enabled and backupOnStartOpt is disabled */
             singleBackup();
         }
 
@@ -471,7 +472,6 @@ bool BitcoinGUI::setCurrentWallet(const QString& name)
         return true;
     }
     
-    //return walletFrame->setCurrentWallet(name);
     return false;
 }
 
@@ -1032,15 +1032,12 @@ void BitcoinGUI::unsubscribeFromCoreSignals()
 /* backup timer event implementation */
 void BitcoinGUI::timerEvent(QTimerEvent *event)
 {
-    //if(clientModel->getOptionsModel()->getBackupOnDemandOpt() > 0 && (clientModel->getOptionsModel()->getBackupFileLocation() != NULL && clientModel->getOptionsModel()->getBackupFileLocation() != ""))
-    //{
-        if(walletFrame->backupWalletWoDialog(clientModel->getOptionsModel()->getBackupFileLocation()) != 1)
-        {
-            QMessageBox msgBox;
-            msgBox.setText("Failed to save .dat file to directory!");
-            msgBox.exec();                    
-       }
-    //}
+    if(walletFrame->backupWalletWoDialog(clientModel->getOptionsModel()->getBackupFileLocation()) != 1)
+    {
+        QMessageBox msgBox;
+        msgBox.setText("Failed to save .dat file to directory!");
+        msgBox.exec();                    
+    }
 }
 
 /* start backupOnDemand process */
