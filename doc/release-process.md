@@ -121,8 +121,6 @@ repackage gitian builds for release as stand-alone zip/tar/installer exe
 
 **Perform Mac build:**
 
-  OSX binaries are created by Gavin Andresen on a 64-bit, OSX 10.6 machine.
-
 	./autogen.sh
         SDK=$(xcode-select --print-path)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.6.sdk
         CXXFLAGS="-mmacosx-version-min=10.6 -isysroot $SDK" ./configure --enable-upnp-default
@@ -137,7 +135,6 @@ repackage gitian builds for release as stand-alone zip/tar/installer exe
 ###Next steps:
 
 * Code-sign Windows -setup.exe (in a Windows virtual machine using signtool)
- Note: only Gavin has the code-signing keys currently.
 
 * upload builds to SourceForge
 
