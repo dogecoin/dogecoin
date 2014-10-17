@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="eo" version="2.0">
+﻿<?xml version="1.0" ?><!DOCTYPE TS><TS language="eo" version="2.0">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -225,7 +225,7 @@ Tiu ĉi produkto enhavas erojn kreitajn de la &quot;OpenSSL Project&quot; por uz
         <translation>La monujo estas ĉifrita</translation>
     </message>
     <message>
-        <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your bitcoins from being stolen by malware infecting your computer.</source>
+        <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your dogecoins from being stolen by malware infecting your computer.</source>
         <translation>Bitmono nun fermiĝos por fini la ĉifradon. Memoru, ke eĉ ĉifrado ne protektas kontraŭ ĉiu atako, ekz. se viruso infektus vian komputilon.</translation>
     </message>
     <message>
@@ -348,7 +348,7 @@ Tiu ĉi produkto enhavas erojn kreitajn de la &quot;OpenSSL Project&quot; por uz
         <translation>Sendi monon al Bitmon-adreso</translation>
     </message>
     <message>
-        <source>Modify configuration options for Dogecoin</source>
+        <source>Modify configuration options for Dogecoin Core</source>
         <translation>Modifi agordaĵojn por Bitmono</translation>
     </message>
     <message>
@@ -432,8 +432,8 @@ Tiu ĉi produkto enhavas erojn kreitajn de la &quot;OpenSSL Project&quot; por uz
         <translation>Kerno de Bitmono</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and bitcoin: URIs)</source>
-        <translation>Peti pagon (kreas QR-kodojn kaj URI-ojn kun prefikso bitcoin:)</translation>
+        <source>Request payments (generates QR codes and dogecoin: URIs)</source>
+        <translation>Peti pagon (kreas QR-kodojn kaj URI-ojn kun prefikso dogecoin:)</translation>
     </message>
     <message>
         <source>&amp;About Dogecoin Core</source>
@@ -448,15 +448,15 @@ Tiu ĉi produkto enhavas erojn kreitajn de la &quot;OpenSSL Project&quot; por uz
         <translation>Vidigi la liston de uzitaj ricevaj adresoj kaj etikedoj</translation>
     </message>
     <message>
-        <source>Open a bitcoin: URI or payment request</source>
-        <translation>Malfermi bitcoin:-URI-on aŭ pagpeton</translation>
+        <source>Open a dogecoin: URI or payment request</source>
+        <translation>Malfermi dogecoin:-URI-on aŭ pagpeton</translation>
     </message>
     <message>
         <source>&amp;Command-line options</source>
         <translation>&amp;Komandliniaj agordaĵoj</translation>
     </message>
     <message>
-        <source>Show the Dogecoin Core help message to get a list with possible Dogecoin command-line options</source>
+        <source>Show the Dogecoin Core help message to get a list with possible command-line options</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -624,6 +624,10 @@ Adreso: %4
     <message>
         <source>Amount</source>
         <translation>Sumo</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Address</source>
@@ -1016,11 +1020,11 @@ Adreso: %4
         <translation>Krompago</translation>
     </message>
     <message>
-        <source>Automatically start Dogecoin after logging in to the system.</source>
+        <source>Automatically start Dogecoin Core after logging in to the system.</source>
         <translation>Aŭtomate lanĉi Bitmonon post ensaluto al la sistemo.</translation>
     </message>
     <message>
-        <source>&amp;Start Dogecoin on system login</source>
+        <source>&amp;Start Dogecoin Core on system login</source>
         <translation>&amp;Lanĉi Bitmonon tuj post ensaluto al la sistemo</translation>
     </message>
     <message>
@@ -1144,7 +1148,7 @@ Adreso: %4
         <translation>&amp;Lingvo de la fasado:</translation>
     </message>
     <message>
-        <source>The user interface language can be set here. This setting will take effect after restarting Dogecoin.</source>
+        <source>The user interface language can be set here. This setting will take effect after restarting Dogecoin Core.</source>
         <translation>Vi povas elekti la lingvon uzata en la aplikaĵo ĉi tie. Tiu ekefikos nur post relanĉo de Bitmono.</translation>
     </message>
     <message>
@@ -1278,7 +1282,7 @@ Adreso: %4
         <translation>Eraro dum pagopeto</translation>
     </message>
     <message>
-        <source>Cannot start bitcoin: click-to-pay handler</source>
+        <source>Cannot start dogecoin: click-to-pay handler</source>
         <translation>Ne eblas lanĉi la ilon &apos;klaki-por-pagi&apos;</translation>
     </message>
     <message>
@@ -1946,7 +1950,7 @@ Adreso: %4
         <translation>Tajpu etikedon por tiu ĉi adreso por aldoni ĝin al la listo de uzitaj adresoj</translation>
     </message>
     <message>
-        <source>A message that was attached to the bitcoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
+        <source>A message that was attached to the dogecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -2602,8 +2606,8 @@ Adreso: %4
         <translation>Agordoj:</translation>
     </message>
     <message>
-        <source>Specify configuration file (default: bitcoin.conf)</source>
-        <translation>Specifi konfiguran dosieron (defaŭlte: bitcoin.conf)</translation>
+        <source>Specify configuration file (default: dogecoin.conf)</source>
+        <translation>Specifi konfiguran dosieron (defaŭlte: dogecoin.conf)</translation>
     </message>
     <message>
         <source>Specify pid file (default: bitcoind.pid)</source>
@@ -3014,8 +3018,8 @@ ekzemple: alertnotify=echo %%s | mail -s &quot;Averto de Bitmono&quot; admin@foo
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Usage (deprecated, use bitcoin-cli):</source>
-        <translation>Uzado (malaktuala, uzu anstataŭe bitcoin-cli):</translation>
+        <source>Usage (deprecated, use dogecoin-cli):</source>
+        <translation>Uzado (malaktuala, uzu anstataŭe dogecoin-cli):</translation>
     </message>
     <message>
         <source>Verifying blocks...</source>

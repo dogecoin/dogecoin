@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="tr" version="2.0">
+﻿<?xml version="1.0" ?><!DOCTYPE TS><TS language="tr" version="2.0">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -225,7 +225,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Cüzdan şifrelendi</translation>
     </message>
     <message>
-        <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your bitcoins from being stolen by malware infecting your computer.</source>
+        <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your dogecoins from being stolen by malware infecting your computer.</source>
         <translation>Şifreleme işlemini tamamlamak için Dogecoin şimdi kapanacaktır. Cüzdanınızı şifrelemenin, Dogecoinlerinizin bilgisayara bulaşan kötücül bir yazılım tarafından çalınmaya karşı tamamen koruyamayacağını unutmayınız.</translation>
     </message>
     <message>
@@ -348,7 +348,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Bir Dogecoin adresine Dogecoin yolla</translation>
     </message>
     <message>
-        <source>Modify configuration options for Dogecoin</source>
+        <source>Modify configuration options for Dogecoin Core</source>
         <translation>Dogecoin seçeneklerinin yapılandırmasını değiştir</translation>
     </message>
     <message>
@@ -432,7 +432,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Dogecoin Çekirdeği</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and bitcoin: URIs)</source>
+        <source>Request payments (generates QR codes and dogecoin: URIs)</source>
         <translation>Ödeme talep et (QR kodu ve bitcoin URI&apos;si oluşturur)</translation>
     </message>
     <message>
@@ -448,15 +448,15 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Kullanılmış alım adresleri ve etiketlerin listesini göster</translation>
     </message>
     <message>
-        <source>Open a bitcoin: URI or payment request</source>
-        <translation>Bir bitcoin: bağlantısı ya da ödeme talebi aç</translation>
+        <source>Open a dogecoin: URI or payment request</source>
+        <translation>Bir dogecoin: bağlantısı ya da ödeme talebi aç</translation>
     </message>
     <message>
         <source>&amp;Command-line options</source>
         <translation>&amp;Komut satırı seçenekleri</translation>
     </message>
     <message>
-        <source>Show the Dogecoin Core help message to get a list with possible Dogecoin command-line options</source>
+        <source>Show the Dogecoin Core help message to get a list with possible command-line options</source>
         <translation>Dogecoin komut satırı seçeneklerinin listesini elde etmek için Dogecoin Çekirdeği yardım mesajını göster</translation>
     </message>
     <message>
@@ -624,6 +624,10 @@ Adres: %4
     <message>
         <source>Amount</source>
         <translation>Meblağ</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Address</source>
@@ -1016,11 +1020,11 @@ Adres: %4
         <translation>Muamele ücreti &amp;öde</translation>
     </message>
     <message>
-        <source>Automatically start Dogecoin after logging in to the system.</source>
+        <source>Automatically start Dogecoin Core after logging in to the system.</source>
         <translation>Sistemde oturum açıldığında Dogecoin&apos;i otomatik olarak başlat.</translation>
     </message>
     <message>
-        <source>&amp;Start Dogecoin on system login</source>
+        <source>&amp;Start Dogecoin Core on system login</source>
         <translation>Dogecoin&apos;i sistem oturumuyla &amp;başlat</translation>
     </message>
     <message>
@@ -1144,7 +1148,7 @@ Adres: %4
         <translation>Kullanıcı arayüzü &amp;lisanı:</translation>
     </message>
     <message>
-        <source>The user interface language can be set here. This setting will take effect after restarting Dogecoin.</source>
+        <source>The user interface language can be set here. This setting will take effect after restarting Dogecoin Core.</source>
         <translation>Kullanıcı arayüzünün dili burada belirtilebilir. Bu ayar Dogecoin tekrar başlatıldığında etkinleşecektir.</translation>
     </message>
     <message>
@@ -1278,7 +1282,7 @@ Adres: %4
         <translation>Ödeme talebi hatası</translation>
     </message>
     <message>
-        <source>Cannot start bitcoin: click-to-pay handler</source>
+        <source>Cannot start dogecoin: click-to-pay handler</source>
         <translation>Dogecoin başlatılamadı: tıkla-ve-öde yöneticisi</translation>
     </message>
     <message>
@@ -1350,7 +1354,7 @@ Adres: %4
     </message>
     <message>
         <source>Dogecoin Core did&apos;t yet exit safely...</source>
-        <translation>Bitcoin Çekirdeği henüz güvenli bir şekilde çıkış yapmamıştır...</translation>
+        <translation>Dogecoin Çekirdeği henüz güvenli bir şekilde çıkış yapmamıştır...</translation>
     </message>
     <message>
         <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
@@ -1946,7 +1950,7 @@ Adres: %4
         <translation>Kullanılmış adres listesine eklemek için bu adrese bir etiket girin</translation>
     </message>
     <message>
-        <source>A message that was attached to the bitcoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
+        <source>A message that was attached to the dogecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
         <translation>Dogecoin: URI&apos;siyle ilişkili ve bilginiz için muameleyle saklanacak bir mesaj. Not: Bu mesaj Dogecoin şebekesi üzerinden gönderilmeyecektir.</translation>
     </message>
     <message>
@@ -2602,8 +2606,8 @@ Adres: %4
         <translation>Seçenekler:</translation>
     </message>
     <message>
-        <source>Specify configuration file (default: bitcoin.conf)</source>
-        <translation>Yapılandırma dosyası belirt (varsayılan: bitcoin.conf)</translation>
+        <source>Specify configuration file (default: dogecoin.conf)</source>
+        <translation>Yapılandırma dosyası belirt (varsayılan: dogecoin.conf)</translation>
     </message>
     <message>
         <source>Specify pid file (default: bitcoind.pid)</source>
@@ -3014,8 +3018,8 @@ mesela: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
         <translation>Bu, regresyon deneme araçları ve uygulama geliştirmesi için tasarlanmıştır. </translation>
     </message>
     <message>
-        <source>Usage (deprecated, use bitcoin-cli):</source>
-        <translation>Kullanım (önerilmemektedir, bitcoin-cli kullanın):</translation>
+        <source>Usage (deprecated, use dogecoin-cli):</source>
+        <translation>Kullanım (önerilmemektedir, dogecoin-cli kullanın):</translation>
     </message>
     <message>
         <source>Verifying blocks...</source>

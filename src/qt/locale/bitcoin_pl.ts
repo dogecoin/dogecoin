@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="pl" version="2.0">
+﻿<?xml version="1.0" ?><!DOCTYPE TS><TS language="pl" version="2.0">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -84,7 +84,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>Choose the address to send coins to</source>
-        <translation>Wybierz adres żeby wysłać bitcoins</translation>
+        <translation>Wybierz adres żeby wysłać dogecoins</translation>
     </message>
     <message>
         <source>Choose the address to receive coins with</source>
@@ -225,7 +225,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Portfel zaszyfrowany</translation>
     </message>
     <message>
-        <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your bitcoins from being stolen by malware infecting your computer.</source>
+        <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your dogecoins from being stolen by malware infecting your computer.</source>
         <translation>Program Dogecoin zamknie się aby dokończyć proces szyfrowania. Pamiętaj, że szyfrowanie portfela nie zabezpiecza w pełni Twoich bitcoinów przed kradzieżą przez wirusy lub trojany mogące zainfekować Twój komputer.</translation>
     </message>
     <message>
@@ -348,7 +348,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Wyślij monety na adres Dogecoin</translation>
     </message>
     <message>
-        <source>Modify configuration options for Dogecoin</source>
+        <source>Modify configuration options for Dogecoin Core</source>
         <translation>Zmienia opcje konfiguracji bitcoina</translation>
     </message>
     <message>
@@ -432,7 +432,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Rdzeń BitCoin</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and bitcoin: URIs)</source>
+        <source>Request payments (generates QR codes and dogecoin: URIs)</source>
         <translation>Żądaj płatności (generuje kod QR oraz bitcoin URI)</translation>
     </message>
     <message>
@@ -448,7 +448,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Pokaż listę użytych adresów odbiorczych i etykiety</translation>
     </message>
     <message>
-        <source>Open a bitcoin: URI or payment request</source>
+        <source>Open a dogecoin: URI or payment request</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -456,7 +456,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Show the Dogecoin Core help message to get a list with possible Dogecoin command-line options</source>
+        <source>Show the Dogecoin Core help message to get a list with possible command-line options</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -624,6 +624,10 @@ Adres: %4
     <message>
         <source>Amount</source>
         <translation>Kwota</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Address</source>
@@ -1016,11 +1020,11 @@ Adres: %4
         <translation>Płać prowizję za transakcje</translation>
     </message>
     <message>
-        <source>Automatically start Dogecoin after logging in to the system.</source>
+        <source>Automatically start Dogecoin Core after logging in to the system.</source>
         <translation>Automatycznie uruchamia Dogecoin po zalogowaniu do systemu.</translation>
     </message>
     <message>
-        <source>&amp;Start Dogecoin on system login</source>
+        <source>&amp;Start Dogecoin Core on system login</source>
         <translation>Uruchamiaj Dogecoin wraz z zalogowaniem do &amp;systemu</translation>
     </message>
     <message>
@@ -1144,7 +1148,7 @@ Adres: %4
         <translation>Język &amp;Użytkownika:</translation>
     </message>
     <message>
-        <source>The user interface language can be set here. This setting will take effect after restarting Dogecoin.</source>
+        <source>The user interface language can be set here. This setting will take effect after restarting Dogecoin Core.</source>
         <translation>Można tu ustawić język interfejsu uzytkownika. Żeby ustawienie przyniosło skutek trzeba uruchomić ponownie Dogecoin.</translation>
     </message>
     <message>
@@ -1278,8 +1282,8 @@ Adres: %4
         <translation>Błąd żądania płatności</translation>
     </message>
     <message>
-        <source>Cannot start bitcoin: click-to-pay handler</source>
-        <translation>Nie można rozpocząć bitcoin: kliknij-by-zapłacić opiekunowi</translation>
+        <source>Cannot start dogecoin: click-to-pay handler</source>
+        <translation>Nie można rozpocząć dogecoin: kliknij-by-zapłacić opiekunowi</translation>
     </message>
     <message>
         <source>Net manager warning</source>
@@ -1946,7 +1950,7 @@ Adres: %4
         <translation>Wprowadź etykietę dla tego adresu by dodać go do listy użytych adresów</translation>
     </message>
     <message>
-        <source>A message that was attached to the bitcoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
+        <source>A message that was attached to the dogecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -2602,12 +2606,12 @@ Adres: %4
         <translation>Opcje:</translation>
     </message>
     <message>
-        <source>Specify configuration file (default: bitcoin.conf)</source>
-        <translation>Wskaż plik konfiguracyjny (domyślnie: bitcoin.conf)</translation>
+        <source>Specify configuration file (default: dogecoin.conf)</source>
+        <translation>Wskaż plik konfiguracyjny (domyślnie: dogecoin.conf)</translation>
     </message>
     <message>
         <source>Specify pid file (default: bitcoind.pid)</source>
-        <translation>Wskaż plik pid (domyślnie: bitcoin.pid)</translation>
+        <translation>Wskaż plik pid (domyślnie: dogecoind.pid)</translation>
     </message>
     <message>
         <source>Specify data directory</source>
@@ -3013,8 +3017,8 @@ na przykład: alertnotify=echo %%s | mail -s &quot;Alarm Dogecoin&quot; admin@fo
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Usage (deprecated, use bitcoin-cli):</source>
-        <translation>Użycie (przestarzałe, użyj bitcoin-cli):</translation>
+        <source>Usage (deprecated, use dogecoin-cli):</source>
+        <translation>Użycie (przestarzałe, użyj dogecoin-cli):</translation>
     </message>
     <message>
         <source>Verifying blocks...</source>
