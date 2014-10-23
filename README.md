@@ -1,5 +1,6 @@
 # Dogecoin Core [DOGE, Ð]
 ==========================
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/dogecoin/dogecoin?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ![Dogecoin](http://static.tumblr.com/ppdj5y9/Ae9mxmxtp/300coin.png)
 
