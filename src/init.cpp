@@ -591,19 +591,6 @@ bool AppInit2(boost::thread_group& threadGroup)
             InitWarning(_("Warning: -paytxfee is set very high! This is the transaction fee you will pay if you send a transaction."));
     }
     
-    if (mapArgs.count("-change"))
-    {
-        BOOST_FOREACH(std::string strChange, mapMultiArgs["-change"]) {
-            CBitcoinAddress address(strChange);
-            CKeyID keyID;
-            
-            if (!address.GetKeyID(keyID)) {
-                return InitError(strprintf(_("Bad -change address: '%s'"), strChange));
-            }
-            AddFixedChangeAddress(keyID);
-        }
-    }
-    
     bSpendZeroConfChange = GetArg("-spendzeroconfchange", true);
 
     strWalletFile = GetArg("-wallet", "wallet.dat");
