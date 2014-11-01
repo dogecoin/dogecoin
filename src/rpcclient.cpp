@@ -37,14 +37,74 @@ Object CallRPC(const string& strMethod, const Array& params)
               "If the file does not exist, create it with owner-readable-only file permissions."),
                 GetConfigFile().string().c_str()));
 
-    // Connect to localhost
-    bool fUseSSL = GetBoolArg("-rpcssl", false);
-    asio::io_service io_service;
-    ssl::context context(io_service, ssl::context::sslv23);
-    context.set_options(ssl::context::no_sslv2);
-    asio::ssl::stream<asio::ip::tcp::socket> sslStream(io_service, context);
-    SSLIOStreamDevice<asio::ip::tcp> d(sslStream, fUseSSL);
-    iostreams::stream< SSLIOStreamDevice<asio::ip::tcp> > stream(d);
+static const CRPCConvertParam vRPCConvertParams[] =
+{
+    { "stop", 0 },
+    { "getaddednodeinfo", 0 },
+    { "setgenerate", 0 },
+    { "setgenerate", 1 },
+    { "getnetworkhashps", 0 },
+    { "getnetworkhashps", 1 },
+    { "sendtoaddress", 1 },
+    { "settxfee", 0 },
+    { "getreceivedbyaddress", 1 },
+    { "getreceivedbyaccount", 1 },
+    { "listreceivedbyaddress", 0 },
+    { "listreceivedbyaddress", 1 },
+    { "listreceivedbyaddress", 2 },
+    { "listreceivedbyaccount", 0 },
+    { "listreceivedbyaccount", 1 },
+    { "listreceivedbyaccount", 2 },
+    { "getbalance", 1 },
+    { "getbalance", 2 },
+    { "getblockhash", 0 },
+    { "move", 2 },
+    { "move", 3 },
+    { "sendfrom", 2 },
+    { "sendfrom", 3 },
+    { "listtransactions", 1 },
+    { "listtransactions", 2 },
+    { "listtransactions", 3 },
+    { "listaccounts", 0 },
+    { "listaccounts", 1 },
+    { "walletpassphrase", 1 },
+    { "getblocktemplate", 0 },
+    { "listsinceblock", 1 },
+    { "listsinceblock", 2 },
+    { "sendmany", 1 },
+    { "sendmany", 2 },
+    { "addmultisigaddress", 0 },
+    { "addmultisigaddress", 1 },
+    { "createmultisig", 0 },
+    { "createmultisig", 1 },
+    { "listunspent", 0 },
+    { "listunspent", 1 },
+    { "listunspent", 2 },
+    { "getblock", 1 },
+    { "getrawtransaction", 1 },
+    { "createrawtransaction", 0 },
+    { "createrawtransaction", 1 },
+    { "signrawtransaction", 1 },
+    { "signrawtransaction", 2 },
+    { "sendrawtransaction", 1 },
+    { "gettxout", 1 },
+    { "gettxout", 2 },
+    { "lockunspent", 0 },
+    { "lockunspent", 1 },
+    { "importprivkey", 2 },
+    { "importaddress", 2 },
+    { "verifychain", 0 },
+    { "verifychain", 1 },
+    { "keypoolrefill", 0 },
+    { "getrawmempool", 0 },
+    { "estimatefee", 0 },
+    { "estimatepriority", 0 },
+};
+
+class CRPCConvertTable
+{
+private:
+    std::set<std::pair<std::string, int> > members;
 
     bool fWait = GetBoolArg("-rpcwait", false); // -rpcwait means try until server has started
     do {
@@ -227,22 +287,6 @@ int CommandLineRPC(int argc, char *argv[])
             else
                 strPrint = write_string(result, true);
         }
-    }
-    catch (boost::thread_interrupted) {
-        throw;
-    }
-    catch (std::exception& e) {
-        strPrint = string("error: ") + e.what();
-        nRet = abs(RPC_MISC_ERROR);
-    }
-    catch (...) {
-        PrintExceptionContinue(NULL, "CommandLineRPC()");
-        throw;
-    }
-
-    if (strPrint != "")
-    {
-        fprintf((nRet == 0 ? stdout : stderr), "%s\n", strPrint.c_str());
     }
     return nRet;
 }

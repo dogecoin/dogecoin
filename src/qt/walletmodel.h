@@ -128,6 +128,10 @@ public:
     qint64 getBalance(const CCoinControl *coinControl = NULL) const;
     qint64 getUnconfirmedBalance() const;
     qint64 getImmatureBalance() const;
+    bool haveWatchOnly() const;
+    qint64 getWatchBalance() const;
+    qint64 getWatchUnconfirmedBalance() const;
+    qint64 getWatchImmatureBalance() const;
     int getNumTransactions() const;
     EncryptionStatus getEncryptionStatus() const;
 
@@ -193,6 +197,8 @@ public:
 
 private:
     CWallet *wallet;
+    bool fProcessingQueuedTransactions;
+    bool fHaveWatchOnly;
 
     // Wallet has an options model for wallet-specific options
     // (transaction fee, for example)
@@ -206,6 +212,9 @@ private:
     qint64 cachedBalance;
     qint64 cachedUnconfirmedBalance;
     qint64 cachedImmatureBalance;
+    qint64 cachedWatchOnlyBalance;
+    qint64 cachedWatchUnconfBalance;
+    qint64 cachedWatchImmatureBalance;
     qint64 cachedNumTransactions;
     EncryptionStatus cachedEncryptionStatus;
     int cachedNumBlocks;
@@ -218,7 +227,8 @@ private:
 
 signals:
     // Signal that balance in wallet changed
-    void balanceChanged(qint64 balance, qint64 unconfirmedBalance, qint64 immatureBalance);
+    void balanceChanged(qint64 balance, qint64 unconfirmedBalance, qint64 immatureBalance,
+                        qint64 watchOnlyBalance, qint64 watchUnconfBalance, qint64 watchImmatureBalance);
 
     // Number of transactions in wallet changed
     void numTransactionsChanged(int count);
@@ -240,6 +250,9 @@ signals:
     // Show progress dialog e.g. for rescan
     void showProgress(const QString &title, int nProgress);
 
+    // Watch-only address added
+    void notifyWatchonlyChanged(bool fHaveWatchonly);
+
 public slots:
     /* Wallet status might have changed */
     void updateStatus();
@@ -247,6 +260,8 @@ public slots:
     void updateTransaction(const QString &hash, int status);
     /* New, updated or removed address book entry */
     void updateAddressBook(const QString &address, const QString &label, bool isMine, const QString &purpose, int status);
+    /* Watch-only added */
+    void updateWatchOnlyFlag(bool fHaveWatchonly);
     /* Current, immature or unconfirmed balance might have changed - emit 'balanceChanged' if so */
     void pollBalanceChanged();
 };
