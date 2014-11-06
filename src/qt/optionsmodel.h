@@ -6,6 +6,9 @@
 #define OPTIONSMODEL_H
 
 #include <QAbstractListModel>
+/* Feature 3 - Recurrent Payment */
+#include <QDate>
+#include <QDateTime>
 
 QT_BEGIN_NAMESPACE
 class QNetworkProxy;
@@ -42,6 +45,22 @@ public:
         ThreadsScriptVerif,     // int
         DatabaseCache,          // int
         SpendZeroConfChange,    // bool
+
+        /* Feature 3 - Recurrent Payment */
+        IsMonthlyRecurrent,     // bool
+        IsWeeklyRecurrent,      // bool
+        IsDailyRecurrent,       // bool
+
+        RecurrentMonthlyDate,   // QDate
+        RecurrentMonthlyTime,   // QDateTime
+        RecurrentWeeklyDate,    // QDate
+        RecurrentWeeklyTime,    // QDateTime
+        RecurrentDailyTime,     // QDateTime
+
+        RecurrentPaymentAddress,    // QString
+        RecurrentPaymentLabel,      // QString
+        RecurrentPaymentAmount,        // qint64
+
         OptionIDRowCount,
     };
 
@@ -62,6 +81,20 @@ public:
     bool getCoinControlFeatures() { return fCoinControlFeatures; }
     const QString& getOverriddenByCommandLine() { return strOverriddenByCommandLine; }
 
+    /* Feature 3 - Recurrent Payment */
+    bool getMonthlyRecurrent() { return bMonthlyRecurrent; }
+    bool getWeeklyRecurrent() { return bWeeklyRecurrent; }
+    bool getDailyRecurrent() { return bDailyRecurrent; }
+    QDate getRecurrentMonthlyDate() { return dRecurrentMonthlyDate; }
+    QDateTime getRecurrentMonthlyTime() { return dRecurrentMonthlyTime; }
+    QDate getRecurrentWeeklyDate() { return dRecurrentWeeklyDate; }
+    QDateTime getRecurrentWeeklyTime() { return dRecurrentWeeklyTime; }
+    QDateTime getRecurrentDailyTime() { return dRecurrentDailyTime; }
+
+    QString getRecurrentPaymentAddress() { return sRecurrentPaymentAddress; }
+    QString getRecurrentPaymentLabel() { return sRecurrentPaymentLabel; }
+    qint64 getRecurrentPaymentAmount() { return sRecurrentPaymentAmount; }
+
     /* Restart flag helper */
     void setRestartRequired(bool fRequired);
     bool isRestartRequired();
@@ -77,6 +110,20 @@ private:
     bool fCoinControlFeatures;
     /* settings that were overriden by command-line */
     QString strOverriddenByCommandLine;
+
+    /* Feature 3 - Recurrent Payment */
+    bool bMonthlyRecurrent;
+    bool bWeeklyRecurrent;
+    bool bDailyRecurrent;
+    QDate dRecurrentMonthlyDate;
+    QDateTime dRecurrentMonthlyTime;
+    QDate dRecurrentWeeklyDate;
+    QDateTime dRecurrentWeeklyTime;
+    QDateTime dRecurrentDailyTime;
+
+    QString sRecurrentPaymentAddress;
+    QString sRecurrentPaymentLabel;
+    qint64 sRecurrentPaymentAmount;
 
     /// Add option to list of GUI options overridden through command line/config file
     void addOverriddenOption(const std::string &option);

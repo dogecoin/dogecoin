@@ -135,6 +135,45 @@ void OptionsModel::Init()
     if (!SoftSetArg("-lang", settings.value("language").toString().toStdString()))
         addOverriddenOption("-lang");
 
+    /* Feature 3 - Recurrent Payment */
+    if (!settings.contains("bMonthlyRecurrent"))
+        settings.setValue("bMonthlyRecurrent", false);
+    bMonthlyRecurrent = settings.value("bMonthlyRecurrent", false).toBool();
+    if (!settings.contains("bWeeklyRecurrent"))
+        settings.setValue("bWeeklyRecurrent", false);
+    bWeeklyRecurrent = settings.value("bWeeklyRecurrent", false).toBool();
+    if (!settings.contains("bDailyRecurrent"))
+        settings.setValue("bDailyRecurrent", false);
+    bDailyRecurrent = settings.value("bDailyRecurrent", false).toBool();
+
+    if (!settings.contains("dRecurrentMonthlyDate"))
+        settings.setValue("dRecurrentMonthlyDate", QDate::fromString("01/01/2000","dd/MM/yyyy"));
+    dRecurrentMonthlyDate = settings.value("dRecurrentMonthlyDate").toDate();
+    if (!settings.contains("dRecurrentMonthlyTime"))
+        settings.setValue("dRecurrentMonthlyTime", QDateTime::fromString("01/01/2000 12:00 AM","dd/MM/yyyy hh:mm AP"));
+    dRecurrentMonthlyTime = settings.value("dRecurrentMonthlyTime").toDateTime();
+
+    if (!settings.contains("dRecurrentWeeklyDate"))
+        settings.setValue("dRecurrentWeeklyDate", QDate::fromString("03/01/2000","dd/MM/yyyy"));
+    dRecurrentWeeklyDate = settings.value("dRecurrentWeeklyDate").toDate();
+    if (!settings.contains("dRecurrentWeeklyTime"))
+        settings.setValue("dRecurrentWeeklyTime", QDateTime::fromString("03/01/2000 12:00 AM","dd/MM/yyyy hh:mm AP"));
+    dRecurrentWeeklyTime = settings.value("dRecurrentWeeklyTime").toDateTime();
+
+    if (!settings.contains("dRecurrentDailyTime"))
+        settings.setValue("dRecurrentDailyTime", QDateTime::fromString("01/01/2000 12:00 AM","dd/MM/yyyy hh:mm AP"));
+    dRecurrentDailyTime = settings.value("dRecurrentDailyTime").toDateTime();
+
+    if (!settings.contains("sRecurrentPaymentAmount"))
+        settings.setValue("sRecurrentPaymentAmount", (qint64)100000000);
+    sRecurrentPaymentAmount = settings.value("sRecurrentPaymentAmount").toLongLong();
+    if (!settings.contains("sRecurrentPaymentAddress"))
+        settings.setValue("sRecurrentPaymentAddress", "");
+    sRecurrentPaymentAddress = settings.value("sRecurrentPaymentAddress", false).toString();
+    if (!settings.contains("sRecurrentPaymentLabel"))
+        settings.setValue("sRecurrentPaymentLabel", "");
+    sRecurrentPaymentLabel = settings.value("sRecurrentPaymentLabel", false).toString();
+
     language = settings.value("language").toString();
 }
 
@@ -219,6 +258,31 @@ QVariant OptionsModel::data(const QModelIndex & index, int role) const
             return settings.value("nDatabaseCache");
         case ThreadsScriptVerif:
             return settings.value("nThreadsScriptVerif");
+        /* Feature 3 - Recurrent Payment */
+        case IsMonthlyRecurrent:
+            return bMonthlyRecurrent;
+        case IsWeeklyRecurrent:
+            return bWeeklyRecurrent;
+        case IsDailyRecurrent:
+            return bDailyRecurrent;
+
+        case RecurrentMonthlyDate:
+            return dRecurrentMonthlyDate;
+        case RecurrentMonthlyTime:
+            return dRecurrentMonthlyTime;
+        case RecurrentWeeklyDate:
+            return dRecurrentWeeklyDate;
+        case RecurrentWeeklyTime:
+            return dRecurrentWeeklyTime;
+        case RecurrentDailyTime:
+            return dRecurrentDailyTime;
+        case RecurrentPaymentAddress:
+            return sRecurrentPaymentAddress;
+        case RecurrentPaymentLabel:
+            return sRecurrentPaymentLabel;
+        case RecurrentPaymentAmount:
+            return sRecurrentPaymentAmount;
+
         default:
             return QVariant();
         }
@@ -342,6 +406,54 @@ bool OptionsModel::setData(const QModelIndex & index, const QVariant & value, in
                 setRestartRequired(true);
             }
             break;
+        /* Feature 3 - Recurrent Payment */
+         case IsMonthlyRecurrent:
+            bMonthlyRecurrent = value.toBool();
+            settings.setValue("bMonthlyRecurrent", bMonthlyRecurrent);
+            break;
+        case IsWeeklyRecurrent:
+            bWeeklyRecurrent = value.toBool();
+            settings.setValue("bWeeklyRecurrent", bWeeklyRecurrent);
+            break;
+        case IsDailyRecurrent:
+            bDailyRecurrent = value.toBool();
+            settings.setValue("bDailyRecurrent", bDailyRecurrent);
+            break;
+
+        case RecurrentMonthlyDate:
+            dRecurrentMonthlyDate = value.toDate();
+            settings.setValue("dRecurrentMonthlyDate", dRecurrentMonthlyDate);
+            break;
+        case RecurrentMonthlyTime:
+            dRecurrentMonthlyTime = value.toDateTime();
+            settings.setValue("dRecurrentMonthlyTime", dRecurrentMonthlyTime);
+            break;
+        case RecurrentWeeklyDate:
+            dRecurrentWeeklyDate = value.toDate();
+            settings.setValue("dRecurrentWeeklyDate", dRecurrentWeeklyDate);
+            break;
+        case RecurrentWeeklyTime:
+            dRecurrentWeeklyTime = value.toDateTime();
+            settings.setValue("dRecurrentWeeklyTime", dRecurrentWeeklyTime);
+            break;
+        case RecurrentDailyTime:
+            dRecurrentDailyTime = value.toDateTime();
+            settings.setValue("dRecurrentDailyTime", dRecurrentDailyTime);
+            break;
+                
+        case RecurrentPaymentAddress: 
+            sRecurrentPaymentAddress = value.toString();
+            settings.setValue("sRecurrentPaymentAddress", sRecurrentPaymentAddress);
+            break;
+        case RecurrentPaymentLabel: 
+            sRecurrentPaymentLabel = value.toString();
+            settings.setValue("sRecurrentPaymentLabel", sRecurrentPaymentLabel);
+            break;
+        case RecurrentPaymentAmount: 
+            sRecurrentPaymentAmount = value.toLongLong();
+            settings.setValue("sRecurrentPaymentAmount", (qint64)sRecurrentPaymentAmount);
+            break;
+
         default:
             break;
         }

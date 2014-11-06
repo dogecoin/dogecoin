@@ -102,6 +102,8 @@ OptionsDialog::OptionsDialog(QWidget *parent) :
 
     ui->unit->setModel(new BitcoinUnits(this));
     ui->transactionFee->setSingleStep(CTransaction::nMinTxFee);
+    /* Feature 3 - Recurrent Payment */
+    ui->recurrentTransactionAmount->setSingleStep(CTransaction::nMinTxFee);
 
     /* Widget-to-option mapper */
     mapper = new MonitoredDataMapper(this);
@@ -110,6 +112,101 @@ OptionsDialog::OptionsDialog(QWidget *parent) :
 
     /* setup/change UI elements when proxy IP is invalid/valid */
     connect(this, SIGNAL(proxyIpChecks(QValidatedLineEdit *, int)), this, SLOT(doProxyIpChecks(QValidatedLineEdit *, int)));
+
+    /* Feature 3 - Recurrent Pattern */
+    ui->recurrentMonthly_value->setDisplayFormat("dd");
+    ui->recurrentMonthly_value2->setDisplayFormat("hh:mm AP");
+    ui->recurrentWeekly_value->setDisplayFormat("ddd");
+    ui->recurrentWeekly_value->setMinimumDate(QDate::fromString("20000103","yyyyMMdd"));
+    ui->recurrentWeekly_value->setMaximumDate(QDate::fromString("20000109","yyyyMMdd"));
+    ui->recurrentWeekly_value2->setDisplayFormat("hh:mm AP");
+    ui->recurrentDaily_value->setDisplayFormat("hh:mm AP");
+
+    connect(ui->monthlyRecurrent, SIGNAL(toggled(bool)), this, SLOT(monthlyRecurrentToggled(bool)));
+    connect(ui->weeklyRecurrent, SIGNAL(toggled(bool)), this, SLOT(weeklyRecurrentToggled(bool)));
+    connect(ui->dailyRecurrent, SIGNAL(toggled(bool)), this, SLOT(dailyRecurrentToggled(bool)));
+
+    ui->monthlyRecurrent->setChecked(false);
+    ui->weeklyRecurrent->setChecked(false);
+    ui->dailyRecurrent->setChecked(false);
+
+    ui->recurrentMonthly_value->setEnabled(false);
+    ui->recurrentMonthly_value2->setEnabled(false);
+    ui->recurrentWeekly_value->setEnabled(false);
+    ui->recurrentWeekly_value2->setEnabled(false);
+    ui->recurrentDaily_value->setEnabled(false);
+
+    ui->recurrentPaymentTo_value->setPlaceholderText("The address to send the payment to (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)");
+    ui->recurrentPaymentLabel_value->setPlaceholderText("Enter a label for this address to add it to the list of used addresses");
+}
+
+/* Feature 3 - Recurrent Payment */
+void OptionsDialog::monthlyRecurrentToggled(bool input)
+{
+    if(input)
+    {
+        ui->weeklyRecurrent->setChecked(false);
+        ui->dailyRecurrent->setChecked(false);
+
+        ui->recurrentMonthly_value->setEnabled(true);
+        ui->recurrentMonthly_value2->setEnabled(true);
+        ui->recurrentWeekly_value->setEnabled(false);
+        ui->recurrentWeekly_value2->setEnabled(false);
+        ui->recurrentDaily_value->setEnabled(false);
+
+    }
+    else
+    {
+        ui->recurrentMonthly_value->setEnabled(false);
+        ui->recurrentMonthly_value2->setEnabled(false);
+        ui->recurrentWeekly_value->setEnabled(false);
+        ui->recurrentWeekly_value2->setEnabled(false);
+        ui->recurrentDaily_value->setEnabled(false);
+    }
+}
+void OptionsDialog::weeklyRecurrentToggled(bool input)
+{
+    if(input)
+    {
+        ui->monthlyRecurrent->setChecked(false);
+        ui->dailyRecurrent->setChecked(false);
+
+        ui->recurrentMonthly_value->setEnabled(false);
+        ui->recurrentMonthly_value2->setEnabled(false);
+        ui->recurrentWeekly_value->setEnabled(true);
+        ui->recurrentWeekly_value2->setEnabled(true);
+        ui->recurrentDaily_value->setEnabled(false);
+    }
+    else
+    {
+        ui->recurrentMonthly_value->setEnabled(false);
+        ui->recurrentMonthly_value2->setEnabled(false);
+        ui->recurrentWeekly_value->setEnabled(false);
+        ui->recurrentWeekly_value2->setEnabled(false);
+        ui->recurrentDaily_value->setEnabled(false);
+    }
+}
+void OptionsDialog::dailyRecurrentToggled(bool input)
+{
+    if(input)
+    {
+        ui->monthlyRecurrent->setChecked(false);
+        ui->weeklyRecurrent->setChecked(false);
+
+        ui->recurrentMonthly_value->setEnabled(false);
+        ui->recurrentMonthly_value2->setEnabled(false);
+        ui->recurrentWeekly_value->setEnabled(false);
+        ui->recurrentWeekly_value2->setEnabled(false);
+        ui->recurrentDaily_value->setEnabled(true);
+    }
+    else
+    {
+        ui->recurrentMonthly_value->setEnabled(false);
+        ui->recurrentMonthly_value2->setEnabled(false);
+        ui->recurrentWeekly_value->setEnabled(false);
+        ui->recurrentWeekly_value2->setEnabled(false);
+        ui->recurrentDaily_value->setEnabled(false);
+    }
 }
 
 OptionsDialog::~OptionsDialog()
@@ -188,6 +285,20 @@ void OptionsDialog::setMapper()
     mapper->addMapping(ui->unit, OptionsModel::DisplayUnit);
     mapper->addMapping(ui->displayAddresses, OptionsModel::DisplayAddresses);
     mapper->addMapping(ui->thirdPartyTxUrls, OptionsModel::ThirdPartyTxUrls);
+
+    /* Feature 3 - Recurrent Payment */
+    mapper->addMapping(ui->monthlyRecurrent, OptionsModel::IsMonthlyRecurrent);
+    mapper->addMapping(ui->weeklyRecurrent, OptionsModel::IsWeeklyRecurrent);
+    mapper->addMapping(ui->dailyRecurrent, OptionsModel::IsDailyRecurrent);
+    mapper->addMapping(ui->recurrentMonthly_value, OptionsModel::RecurrentMonthlyDate);
+    mapper->addMapping(ui->recurrentMonthly_value2, OptionsModel::RecurrentMonthlyTime);
+    mapper->addMapping(ui->recurrentWeekly_value, OptionsModel::RecurrentWeeklyDate);
+    mapper->addMapping(ui->recurrentWeekly_value2, OptionsModel::RecurrentWeeklyTime);
+    mapper->addMapping(ui->recurrentDaily_value, OptionsModel::RecurrentDailyTime);
+
+    mapper->addMapping(ui->recurrentPaymentTo_value, OptionsModel::RecurrentPaymentAddress);
+    mapper->addMapping(ui->recurrentPaymentLabel_value, OptionsModel::RecurrentPaymentLabel);
+    mapper->addMapping(ui->recurrentTransactionAmount, OptionsModel::RecurrentPaymentAmount);
 }
 
 void OptionsDialog::enableOkButton()
@@ -264,6 +375,9 @@ void OptionsDialog::updateDisplayUnit()
     {
         /* Update transactionFee with the current unit */
         ui->transactionFee->setDisplayUnit(model->getDisplayUnit());
+
+        /* Feature 3 - Recurrent Payment */
+        ui->recurrentTransactionAmount->setDisplayUnit(model->getDisplayUnit());        
     }
 }
 

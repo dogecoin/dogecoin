@@ -46,6 +46,11 @@ private slots:
     void updateDisplayUnit();
     void doProxyIpChecks(QValidatedLineEdit *pUiProxyIp, int nProxyPort);
 
+    /* Feature 3 - Recurrent Payment */
+    void monthlyRecurrentToggled(bool input);
+    void weeklyRecurrentToggled(bool input);
+    void dailyRecurrentToggled(bool input);
+
 signals:
     void proxyIpChecks(QValidatedLineEdit *pUiProxyIp, int nProxyPort);
 

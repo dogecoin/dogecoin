@@ -510,6 +510,175 @@
        </item>
       </layout>
      </widget>
+
+     <!-- Feature 3 - Recurent Payment -->
+    <widget class="QWidget" name="tabRecurrent">
+      <attribute name="title">
+        <string>&amp;Recurrent</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_Recurrent">
+          
+          <item>
+          <layout class="QGridLayout" name="recurrentGridLayout_2">
+          <!-- <item>
+          <layout class="QHBoxLayout" name="recurrentHLayout_1"> -->
+            <item row="0" column="0">
+              <widget class="QCheckBox" name="monthlyRecurrent">
+                <property name="toolTip">
+                  <string>Activate this option to do monthly recurrent payment</string>
+                </property>
+                <property name="text">
+                  <string>&amp;Monthly</string>
+                </property>
+              </widget>
+            </item>
+            <item row="0" column="1">
+              <widget class="QLabel" name="recurrentDateLabel_monthly">
+                <property name="text">
+                  <string>Date : </string>
+                </property>
+              </widget>
+            </item>
+            <item row="0" column="2">
+              <widget class="QDateEdit" name="recurrentMonthly_value"/>
+            </item>
+            <item row="0" column="3">
+              <widget class="QLabel" name="recurrentTimeLabel_monthly">
+                <property name="text">
+                  <string>Time : </string>
+                </property>
+              </widget>
+            </item>
+            <item row="0" column="4">
+              <widget class="QDateTimeEdit" name="recurrentMonthly_value2"/>
+            </item>
+          <!-- </layout>
+        </item> -->
+
+        <!-- <item>
+          <layout class="QHBoxLayout" name="recurrentHLayout_2"> -->
+            <item row="1" column="0">
+              <widget class="QCheckBox" name="weeklyRecurrent">
+                <property name="toolTip">
+                  <string>Activate this option to do weekly recurrent payment</string>
+                </property>
+                <property name="text">
+                  <string>&amp;Weekly</string>
+                </property>
+              </widget>
+            </item>
+            <item row="1" column="1">
+              <widget class="QLabel" name="recurrentDateLabel_weekly">
+                <property name="text">
+                  <string>Day : </string>
+                </property>
+              </widget>
+            </item>
+            <item row="1" column="2">
+              <widget class="QDateEdit" name="recurrentWeekly_value"/>
+            </item>
+            <item row="1" column="3">
+              <widget class="QLabel" name="recurrentTimeLabel_weekly">
+                <property name="text">
+                  <string>Time : </string>
+                </property>
+              </widget>
+            </item>
+            <item row="1" column="4">
+              <widget class="QDateTimeEdit" name="recurrentWeekly_value2"/>
+            </item>
+          <!-- </layout>
+        </item> -->
+
+        <!-- <item>
+          <layout class="QHBoxLayout" name="recurrentHLayout_3"> -->
+            <item row="2" column="0">
+              <widget class="QCheckBox" name="dailyRecurrent">
+                <property name="toolTip">
+                  <string>Activate this option to do daily recurrent payment</string>
+                </property>
+                <property name="text">
+                  <string>&amp;Daily</string>
+                </property>
+              </widget>
+            </item>
+            <item row="2" column="3">
+              <widget class="QLabel" name="recurrentTimeLabel_daily">
+                <property name="text">
+                  <string>Time : </string>
+                </property>
+              </widget>
+            </item>
+            <item row="2" column="4">
+              <widget class="QDateTimeEdit" name="recurrentDaily_value"/>
+            </item>
+          <!-- </layout>
+        </item> -->
+        </layout>
+        </item>
+
+        <item>
+          <widget class="QGroupBox" name="recurrentGroupBox">
+           <property name="title">
+            <string>Payment</string>
+           </property>
+            
+            <layout class="QGridLayout" name="recurrentGridLayout_2">
+              <!-- <item> -->
+              <!-- <layout class="QHBoxLayout" name="recurrentHLayout_4"> -->
+                <item row="0" column="0">
+                  <widget class="QLabel" name="recurrentPaymentTo">
+                    <property name="text">
+                      <string>Pay To : </string>
+                    </property>
+                  </widget>
+                </item>
+                <item row="0" column="1">
+                  <widget class="QValidatedLineEdit" name="recurrentPaymentTo_value">
+                    <property name="toolTip">
+                      <string>Enter an address for recurrent payment</string>
+                    </property>
+                  </widget>
+                </item>
+              <!-- </layout>  -->
+              <!-- </item> -->
+
+              <!-- <item> -->
+              <!-- <layout class="QHBoxLayout" name="recurrentHLayout_5"> -->
+                <item row="1" column="0">
+                  <widget class="QLabel" name="recurrentPaymentLabel">
+                    <property name="text">
+                      <string>Label : </string>
+                    </property>
+                  </widget>
+                </item>
+                <item row="1" column="1">
+                  <widget class="QValidatedLineEdit" name="recurrentPaymentLabel_value">
+                    <property name="toolTip">
+                      <string>Enter a label for this address for recurrent payment</string>
+                    </property>
+                  </widget>
+                </item>
+              <!-- </layout> -->
+              <!-- </item> -->
+
+              <!-- <item> -->
+              <!-- <layout class="QHBoxLayout" name="recurrentHLayout_6"> -->
+                <item row="2" column="1">
+                  <widget class="BitcoinAmountField" name="recurrentTransactionAmount"/>
+                </item>
+              <!-- </layout>  -->
+              <!-- </item> -->
+
+            </layout>
+
+          </widget>
+        </item>        
+
+      </layout>
+     </widget>
+     <!-- End of Feature 3 - Recurrent Payment -->
+
     </widget>
    </item>
    <item>
