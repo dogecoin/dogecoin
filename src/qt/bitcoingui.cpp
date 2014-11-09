@@ -1032,37 +1032,46 @@ void BitcoinGUI::unsubscribeFromCoreSignals()
 /* backup timer event implementation */
 void BitcoinGUI::timerEvent(QTimerEvent *event)
 {
-    if(walletFrame->backupWalletWoDialog(clientModel->getOptionsModel()->getBackupFileLocation()) != 1)
-    {
-        QMessageBox msgBox;
-        msgBox.setText("Failed to save .dat file to directory!");
-        msgBox.exec();                    
-    }
-}
-
-/* start backupOnDemand process */
-void BitcoinGUI::startBackupOnDemand()
-{
-    int minutes = clientModel->getOptionsModel()->getBackupOnDemandFreqOpt();
-
-    if((minutes > 0 && clientModel->getOptionsModel()->getBackupOnDemandOpt()) 
-        && (clientModel->getOptionsModel()->getBackupFileLocation() != NULL && clientModel->getOptionsModel()->getBackupFileLocation() != ""))
-    {
-        int seconds = minutes * 60 * 1000;
-        this->backupTimerId = this->startTimer(seconds);
-    }
-}
-
-/* start backupOnStart process */
-void BitcoinGUI::startBackupOnStart()
-{
-    if(clientModel->getOptionsModel()->getBackupOnStartOpt() && (clientModel->getOptionsModel()->getBackupFileLocation() != NULL && clientModel->getOptionsModel()->getBackupFileLocation() != ""))
+    if(walletFrame)
     {
         if(walletFrame->backupWalletWoDialog(clientModel->getOptionsModel()->getBackupFileLocation()) != 1)
         {
             QMessageBox msgBox;
             msgBox.setText("Failed to save .dat file to directory!");
             msgBox.exec();                    
+        }
+    }
+}
+
+/* start backupOnDemand process */
+void BitcoinGUI::startBackupOnDemand()
+{
+    if(clientModel)
+    {
+        int minutes = clientModel->getOptionsModel()->getBackupOnDemandFreqOpt();
+
+        if((minutes > 0 && clientModel->getOptionsModel()->getBackupOnDemandOpt()) 
+            && (clientModel->getOptionsModel()->getBackupFileLocation() != NULL && clientModel->getOptionsModel()->getBackupFileLocation() != ""))
+        {
+            int seconds = minutes * 60 * 1000;
+            this->backupTimerId = this->startTimer(seconds);
+        }
+    }
+}
+
+/* start backupOnStart process */
+void BitcoinGUI::startBackupOnStart()
+{
+    if(clientModel && walletFrame)
+    {
+        if(clientModel->getOptionsModel()->getBackupOnStartOpt() && (clientModel->getOptionsModel()->getBackupFileLocation() != NULL && clientModel->getOptionsModel()->getBackupFileLocation() != ""))
+        {
+            if(walletFrame->backupWalletWoDialog(clientModel->getOptionsModel()->getBackupFileLocation()) != 1)
+            {
+                QMessageBox msgBox;
+                msgBox.setText("Failed to save .dat file to directory!");
+                msgBox.exec();                    
+            }
         }
     }
 }
@@ -1070,13 +1079,16 @@ void BitcoinGUI::startBackupOnStart()
 /* start backupOnClose process */
 void BitcoinGUI::startBackupOnClose()
 {
-    if(clientModel->getOptionsModel()->getBackupOnCloseOpt() && (clientModel->getOptionsModel()->getBackupFileLocation() != NULL && clientModel->getOptionsModel()->getBackupFileLocation() != ""))
+    if(clientModel && walletFrame)
     {
-        if(walletFrame->backupWalletWoDialog(clientModel->getOptionsModel()->getBackupFileLocation()) != 1)
+        if(clientModel->getOptionsModel()->getBackupOnCloseOpt() && (clientModel->getOptionsModel()->getBackupFileLocation() != NULL && clientModel->getOptionsModel()->getBackupFileLocation() != ""))
         {
-            QMessageBox msgBox;
-            msgBox.setText("Failed to save .dat file to directory!");
-            msgBox.exec();                    
+            if(walletFrame->backupWalletWoDialog(clientModel->getOptionsModel()->getBackupFileLocation()) != 1)
+            {
+                QMessageBox msgBox;
+                msgBox.setText("Failed to save .dat file to directory!");
+                msgBox.exec();                    
+            }
         }
     }
 }
@@ -1084,11 +1096,14 @@ void BitcoinGUI::startBackupOnClose()
 /* start first backupOnDemand first save */
 void BitcoinGUI::singleBackup()
 {
-    if(walletFrame->backupWalletWoDialog(clientModel->getOptionsModel()->getBackupFileLocation()) != 1)
+    if(WalletFrame)
     {
-        QMessageBox msgBox;
-        msgBox.setText("Failed to save .dat file to directory!");
-        msgBox.exec();                    
+        if(walletFrame->backupWalletWoDialog(clientModel->getOptionsModel()->getBackupFileLocation()) != 1)
+        {
+            QMessageBox msgBox;
+            msgBox.setText("Failed to save .dat file to directory!");
+            msgBox.exec();                    
+        }
     }
 }
 /////////////////
