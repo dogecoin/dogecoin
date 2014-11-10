@@ -655,9 +655,9 @@ void BitcoinGUI::timerEvent(QTimerEvent *event)
     QSettings settings;
     QString dType = settings.value("dType").toString();
 
-    if(dType == "daily") seconds = 86400;
-    else if(dType == "weekly") seconds = 86400 * 7;
-    else seconds = 86400 * QDate::currentDate(). daysInMonth();
+    if(dType == "daily") seconds = 86400 * 1000;
+    else if(dType == "weekly") seconds = 86400 * 7 * 1000;
+    else seconds = 86400 * QDate::currentDate(). daysInMonth() * 1000;
 
     this->recurrentTimerId = this->startTimer(seconds);
 }
