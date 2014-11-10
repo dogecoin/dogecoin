@@ -114,12 +114,16 @@ OptionsDialog::OptionsDialog(QWidget *parent) :
     connect(this, SIGNAL(proxyIpChecks(QValidatedLineEdit *, int)), this, SLOT(doProxyIpChecks(QValidatedLineEdit *, int)));
 
     /* Feature 3 - Recurrent Pattern */
+    ui->recurrentMonthly_value->setMinimumDate(QDate::fromString("20000101","yyyyMMdd"));
+    ui->recurrentMonthly_value->setMaximumDate(QDate::fromString("20000131","yyyyMMdd"));
     ui->recurrentMonthly_value->setDisplayFormat("dd");
     ui->recurrentMonthly_value2->setDisplayFormat("hh:mm AP");
+
     ui->recurrentWeekly_value->setDisplayFormat("ddd");
     ui->recurrentWeekly_value->setMinimumDate(QDate::fromString("20000103","yyyyMMdd"));
     ui->recurrentWeekly_value->setMaximumDate(QDate::fromString("20000109","yyyyMMdd"));
     ui->recurrentWeekly_value2->setDisplayFormat("hh:mm AP");
+
     ui->recurrentDaily_value->setDisplayFormat("hh:mm AP");
 
     connect(ui->monthlyRecurrent, SIGNAL(toggled(bool)), this, SLOT(monthlyRecurrentToggled(bool)));
@@ -138,75 +142,8 @@ OptionsDialog::OptionsDialog(QWidget *parent) :
 
     ui->recurrentPaymentTo_value->setPlaceholderText("The address to send the payment to (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)");
     ui->recurrentPaymentLabel_value->setPlaceholderText("Enter a label for this address to add it to the list of used addresses");
-}
 
-/* Feature 3 - Recurrent Payment */
-void OptionsDialog::monthlyRecurrentToggled(bool input)
-{
-    if(input)
-    {
-        ui->weeklyRecurrent->setChecked(false);
-        ui->dailyRecurrent->setChecked(false);
-
-        ui->recurrentMonthly_value->setEnabled(true);
-        ui->recurrentMonthly_value2->setEnabled(true);
-        ui->recurrentWeekly_value->setEnabled(false);
-        ui->recurrentWeekly_value2->setEnabled(false);
-        ui->recurrentDaily_value->setEnabled(false);
-
-    }
-    else
-    {
-        ui->recurrentMonthly_value->setEnabled(false);
-        ui->recurrentMonthly_value2->setEnabled(false);
-        ui->recurrentWeekly_value->setEnabled(false);
-        ui->recurrentWeekly_value2->setEnabled(false);
-        ui->recurrentDaily_value->setEnabled(false);
-    }
-}
-void OptionsDialog::weeklyRecurrentToggled(bool input)
-{
-    if(input)
-    {
-        ui->monthlyRecurrent->setChecked(false);
-        ui->dailyRecurrent->setChecked(false);
-
-        ui->recurrentMonthly_value->setEnabled(false);
-        ui->recurrentMonthly_value2->setEnabled(false);
-        ui->recurrentWeekly_value->setEnabled(true);
-        ui->recurrentWeekly_value2->setEnabled(true);
-        ui->recurrentDaily_value->setEnabled(false);
-    }
-    else
-    {
-        ui->recurrentMonthly_value->setEnabled(false);
-        ui->recurrentMonthly_value2->setEnabled(false);
-        ui->recurrentWeekly_value->setEnabled(false);
-        ui->recurrentWeekly_value2->setEnabled(false);
-        ui->recurrentDaily_value->setEnabled(false);
-    }
-}
-void OptionsDialog::dailyRecurrentToggled(bool input)
-{
-    if(input)
-    {
-        ui->monthlyRecurrent->setChecked(false);
-        ui->weeklyRecurrent->setChecked(false);
-
-        ui->recurrentMonthly_value->setEnabled(false);
-        ui->recurrentMonthly_value2->setEnabled(false);
-        ui->recurrentWeekly_value->setEnabled(false);
-        ui->recurrentWeekly_value2->setEnabled(false);
-        ui->recurrentDaily_value->setEnabled(true);
-    }
-    else
-    {
-        ui->recurrentMonthly_value->setEnabled(false);
-        ui->recurrentMonthly_value2->setEnabled(false);
-        ui->recurrentWeekly_value->setEnabled(false);
-        ui->recurrentWeekly_value2->setEnabled(false);
-        ui->recurrentDaily_value->setEnabled(false);
-    }
+    // connect(ui->testButton, SIGNAL(clicked(bool)), this, SLOT(test()));
 }
 
 OptionsDialog::~OptionsDialog()
@@ -338,6 +275,8 @@ void OptionsDialog::on_resetButton_clicked()
 
 void OptionsDialog::on_okButton_clicked()
 {
+    /* Feature 3 - Recurrent Payment */
+    saveRecurrentADT();
     mapper->submit();
     accept();
 }
@@ -413,4 +352,137 @@ bool OptionsDialog::eventFilter(QObject *object, QEvent *event)
         }
     }
     return QDialog::eventFilter(object, event);
+}
+
+/* Feature 3 - Recurrent Payment */
+// void OptionsDialog::test()
+// {
+//     QSettings settings;
+//     if(model)
+//     {
+//         QString value = settings.value("dType").toString();
+
+//         QMessageBox temp;
+//         temp.setText(value);
+//         temp.exec();
+//     }
+// }
+
+void OptionsDialog::saveRecurrentADT()
+{
+    QSettings settings;
+    bool monthly = ui->monthlyRecurrent->isChecked();
+    QDate monthlyDate = ui->recurrentMonthly_value->date();
+    QDateTime monthlyTime = ui->recurrentMonthly_value2->dateTime();
+
+    bool weekly = ui->weeklyRecurrent->isChecked();
+    QDate weeklyDate = ui->recurrentWeekly_value->date();
+    QDateTime weeklyTime = ui->recurrentWeekly_value2->dateTime();
+
+    bool daily = ui->dailyRecurrent->isChecked();
+    QDateTime dailyTime = ui->recurrentDaily_value->dateTime();
+
+    if(daily)
+    {
+        QVariant dType("daily");
+        QVariant dTime(dailyTime);
+        QVariant dStatus(0);
+
+        settings.setValue("dType", dType);
+        settings.setValue("dDate", QDate::currentDate());
+        settings.setValue("dTime", dTime);
+        settings.setValue("dStatus", dStatus);
+    }
+    else if(monthly)
+    {
+        QVariant dType("monthly");
+        QVariant dDate(monthlyDate);
+        QVariant dTime(monthlyTime);
+        QVariant dStatus(0);
+
+        settings.setValue("dType", dType);
+        settings.setValue("dDate", dDate);
+        settings.setValue("dTime", dTime);
+        settings.setValue("dStatus", dStatus);
+    }
+    else if(weekly)
+    {
+        QVariant dType("weekly");
+        QVariant dDate(weeklyDate);
+        QVariant dTime(weeklyTime);
+        QVariant dStatus(0);
+
+        settings.setValue("dType", dType);
+        settings.setValue("dDate", dDate);
+        settings.setValue("dTime", dTime);
+        settings.setValue("dStatus", dStatus);
+    }
+}
+
+void OptionsDialog::monthlyRecurrentToggled(bool input)
+{
+    if(input)
+    {
+        ui->weeklyRecurrent->setChecked(false);
+        ui->dailyRecurrent->setChecked(false);
+
+        ui->recurrentMonthly_value->setEnabled(true);
+        ui->recurrentMonthly_value2->setEnabled(true);
+        ui->recurrentWeekly_value->setEnabled(false);
+        ui->recurrentWeekly_value2->setEnabled(false);
+        ui->recurrentDaily_value->setEnabled(false);
+
+    }
+    else
+    {
+        ui->recurrentMonthly_value->setEnabled(false);
+        ui->recurrentMonthly_value2->setEnabled(false);
+        ui->recurrentWeekly_value->setEnabled(false);
+        ui->recurrentWeekly_value2->setEnabled(false);
+        ui->recurrentDaily_value->setEnabled(false);
+    }
+}
+void OptionsDialog::weeklyRecurrentToggled(bool input)
+{
+    if(input)
+    {
+        ui->monthlyRecurrent->setChecked(false);
+        ui->dailyRecurrent->setChecked(false);
+
+        ui->recurrentMonthly_value->setEnabled(false);
+        ui->recurrentMonthly_value2->setEnabled(false);
+        ui->recurrentWeekly_value->setEnabled(true);
+        ui->recurrentWeekly_value2->setEnabled(true);
+        ui->recurrentDaily_value->setEnabled(false);
+    }
+    else
+    {
+        ui->recurrentMonthly_value->setEnabled(false);
+        ui->recurrentMonthly_value2->setEnabled(false);
+        ui->recurrentWeekly_value->setEnabled(false);
+        ui->recurrentWeekly_value2->setEnabled(false);
+        ui->recurrentDaily_value->setEnabled(false);
+    }
+}
+void OptionsDialog::dailyRecurrentToggled(bool input)
+{
+    if(input)
+    {
+        ui->monthlyRecurrent->setChecked(false);
+        ui->weeklyRecurrent->setChecked(false);
+
+        ui->recurrentMonthly_value->setEnabled(false);
+        ui->recurrentMonthly_value2->setEnabled(false);
+        ui->recurrentWeekly_value->setEnabled(false);
+        ui->recurrentWeekly_value2->setEnabled(false);
+        ui->recurrentDaily_value->setEnabled(true);
+    }
+    else
+    {
+        ui->recurrentMonthly_value->setEnabled(false);
+        ui->recurrentMonthly_value2->setEnabled(false);
+        ui->recurrentWeekly_value->setEnabled(false);
+        ui->recurrentWeekly_value2->setEnabled(false);
+        ui->recurrentDaily_value->setEnabled(false);
+    }
 }

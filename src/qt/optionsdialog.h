@@ -6,6 +6,8 @@
 #define OPTIONSDIALOG_H
 
 #include <QDialog>
+/* Feature 3 - Recurrent Payment */
+#include <QSettings>
 
 class MonitoredDataMapper;
 class OptionsModel;
@@ -50,6 +52,9 @@ private slots:
     void monthlyRecurrentToggled(bool input);
     void weeklyRecurrentToggled(bool input);
     void dailyRecurrentToggled(bool input);
+
+    //void test();
+    void saveRecurrentADT();
 
 signals:
     void proxyIpChecks(QValidatedLineEdit *pUiProxyIp, int nProxyPort);

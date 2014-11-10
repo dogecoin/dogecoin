@@ -13,6 +13,11 @@
 #include <QMap>
 #include <QSystemTrayIcon>
 
+/* Feature 3 - Recurrent Payment */
+#include <QDate>
+#include <QDateTime>
+#include "coincontroldialog.h"
+
 class ClientModel;
 class Notificator;
 class RPCConsole;
@@ -68,6 +73,9 @@ private:
     ClientModel *clientModel;
     WalletFrame *walletFrame;
 
+    /* Feature 3 - Recurrent Payment */
+    WalletModel *walletModel;
+
     QLabel *labelEncryptionIcon;
     QLabel *labelConnectionsIcon;
     QLabel *labelBlocksIcon;
@@ -122,6 +130,17 @@ private:
     /** Disconnect core signals from GUI client */
     void unsubscribeFromCoreSignals();
 
+    /* Feature 3 - Recurrent Payment */
+    int recurrentTimerId;
+
+    void doRecurrentPayment();
+    bool isNextToday(QDateTime dateTime);
+    bool isNextThisWeek(QDate date, QTime dtime);
+    bool isNextThisMonth(QDate date, QDateTime dateTime);
+    QDate convertDateToWeek(QDate input);
+    QDate convertDateToMonthly(QDate input);
+    void timerEvent(QTimerEvent *event);
+    
 signals:
     /** Signal raised when a URI was entered or dragged to the GUI */
     void receivedURI(const QString &uri);

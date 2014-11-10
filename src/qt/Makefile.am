@@ -213,7 +213,8 @@ BITCOIN_QT_H = \
   walletmodel.h \
   walletmodeltransaction.h \
   walletview.h \
-  winshutdownmonitor.h
+  winshutdownmonitor.h \
+  recurrentoptions.h
 
 RES_ICONS = \
   res/icons/add.png \
@@ -317,7 +318,8 @@ BITCOIN_QT_CPP += \
   walletframe.cpp \
   walletmodel.cpp \
   walletmodeltransaction.cpp \
-  walletview.cpp
+  walletview.cpp \
+  recurrentoptions.cpp
 endif
 
 RES_IMAGES = \

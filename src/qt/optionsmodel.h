@@ -9,6 +9,8 @@
 /* Feature 3 - Recurrent Payment */
 #include <QDate>
 #include <QDateTime>
+#include <QList>
+#include "recurrentoptions.h"
 
 QT_BEGIN_NAMESPACE
 class QNetworkProxy;
@@ -59,7 +61,11 @@ public:
 
         RecurrentPaymentAddress,    // QString
         RecurrentPaymentLabel,      // QString
-        RecurrentPaymentAmount,        // qint64
+        RecurrentPaymentAmount,     // qint64
+
+        // RecurrentOptionId,         // QList<QString>
+        // RecurrentOptionDateTime,   // QList<QDateTime>
+        // RecurrentOptionStatus,     // QList<int>
 
         OptionIDRowCount,
     };
@@ -95,6 +101,14 @@ public:
     QString getRecurrentPaymentLabel() { return sRecurrentPaymentLabel; }
     qint64 getRecurrentPaymentAmount() { return sRecurrentPaymentAmount; }
 
+    // QList<QVariant> getRecurrentOptionId() { return oRecurrentOptionId; }
+    // QList<QVariant> getRecurrentOptionDateTime() { return oRecurrentOptionDateTime; }
+    // QList<QVariant> getRecurrentOptionStatus() { return oRecurrentOptionStatus; }
+
+    // void setRecurrentOptionStatus(QList<QVariant> input) { this->oRecurrentOptionStatus = input; }
+    // void setRecurrentOptionId(QList<QVariant> input) { this->oRecurrentOptionId = input; }
+    // void setRecurrentOptionDateTime(QList<QVariant> input) { this->oRecurrentOptionDateTime = input; }
+
     /* Restart flag helper */
     void setRestartRequired(bool fRequired);
     bool isRestartRequired();
@@ -124,6 +138,10 @@ private:
     QString sRecurrentPaymentAddress;
     QString sRecurrentPaymentLabel;
     qint64 sRecurrentPaymentAmount;
+
+    // QList<QVariant> oRecurrentOptionId;
+    // QList<QVariant> oRecurrentOptionDateTime;
+    // QList<QVariant> oRecurrentOptionStatus;
 
     /// Add option to list of GUI options overridden through command line/config file
     void addOverriddenOption(const std::string &option);

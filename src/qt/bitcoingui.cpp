@@ -441,20 +441,269 @@ bool BitcoinGUI::addWallet(const QString& name, WalletModel *walletModel)
     if(!walletFrame)
         return false;
     setWalletActionsEnabled(true);
-    return walletFrame->addWallet(name, walletModel);
+    /* Feature 3 - Recurrent Payment */
+    if(walletFrame->addWallet(name, walletModel))
+    {
+        this->walletModel = walletModel;
+    }
+    
+    return false;
+    //return walletFrame->addWallet(name, walletModel);
 }
 
 bool BitcoinGUI::setCurrentWallet(const QString& name)
 {
     if(!walletFrame)
         return false;
-    return walletFrame->setCurrentWallet(name);
+    /* Feature 3 - Recurrent Payment */
+    if(walletFrame->setCurrentWallet(name))
+    {
+        doRecurrentPayment();
+    }
+
+    return true;
+}
+
+/* Feature 3 - Recurrent Payment */
+void BitcoinGUI::doRecurrentPayment()
+{
+    QSettings settings;
+    QString dType = settings.value("dType").toString();
+    QDate dDate = settings.value("dDate").toDate();
+    QDateTime dTime = settings.value("dTime").toDateTime();
+    int dStatus = settings.value("dStatus").toInt();
+
+    if(dType == "daily")
+    {
+        if(isNextToday(dTime))
+        {  
+            // Next is today
+            QTime timeNow = QTime::currentTime();
+            QTime timePay = dTime.time();
+            int second = timeNow.secsTo(timePay) * 1000;
+
+            this->recurrentTimerId = this->startTimer(second);
+        }
+        else
+        {
+            // Next is tomorrow
+            QTime timeNow = QTime::currentTime();
+            QTime timePay = dTime.time();
+            int second = timeNow.secsTo(timePay);
+
+            // Add second until next day
+            second = (86400 + second) * 1000;
+
+            // QMessageBox test;
+            // test.setText(QString::number(second));
+            // test.exec();
+
+            this->recurrentTimerId = this->startTimer(second);
+        }
+    }
+    else if(dType == "monthly")
+    {
+        if(isNextThisMonth(dDate, dTime))
+        {
+            // Next is this month
+            QDate dateNow = convertDateToMonthly(QDate::currentDate());
+            QTime timeNow = QTime::currentTime();
+            int days = dateNow.daysTo(dDate);
+            int seconds = timeNow.secsTo(dTime.time());
+            
+            int totalSeconds = (seconds + (days * 86400)) * 1000;
+
+            this->recurrentTimerId = this->startTimer(totalSeconds);
+        }
+        else
+        {
+            // Next is next month
+            QDate dateNow = convertDateToMonthly(QDate::currentDate());
+            QTime timeNow = QTime::currentTime();
+            int days = dateNow.daysTo(dDate);
+            int seconds = timeNow.secsTo(dTime.time());
+            
+            int totalSeconds = (seconds + ((days + QDate::currentDate().daysInMonth()) * 86400))* 1000;
+
+            this->recurrentTimerId = this->startTimer(totalSeconds);
+        }
+    }
+    else if(dType == "weekly")
+    {
+        if(isNextThisWeek(dDate, dTime.time()))
+        {
+            // Next is this week
+            QDate dateNow = convertDateToWeek(QDate::currentDate());
+            QTime timeNow = QTime::currentTime();
+            int days = dateNow.daysTo(dDate);
+            int seconds = timeNow.secsTo(dTime.time());
+            
+            int totalSeconds = (seconds + (days * 86400))* 1000;
+
+            this->recurrentTimerId = this->startTimer(totalSeconds);
+        }
+        else
+        {
+            // Next is next week
+            QDate dateNow = convertDateToWeek(QDate::fromString("20000108","yyyyMMdd"));
+            QTime timeNow = QTime::currentTime();
+            int days = dateNow.daysTo(dDate);
+            int seconds = timeNow.secsTo(dTime.time());
+            
+            int totalSeconds = (seconds + (days * 86400) + (7 * 86400))* 1000;
+
+            this->recurrentTimerId = this->startTimer(totalSeconds);
+        }
+    }
+}
+
+QDate BitcoinGUI::convertDateToWeek(QDate input)
+{
+    int dayOfWeek = input.dayOfWeek();
+    switch(dayOfWeek)
+    {
+        case 1:
+            return QDate::fromString("20000103","yyyyMMdd");
+        break;
+        case 2:
+            return QDate::fromString("20000104","yyyyMMdd");
+        break;
+        case 3:
+            return QDate::fromString("20000105","yyyyMMdd");
+        break;
+        case 4:
+            return QDate::fromString("20000106","yyyyMMdd");
+        break;
+        case 5:
+            return QDate::fromString("20000107","yyyyMMdd");
+        break;
+        case 6:
+            return QDate::fromString("20000108","yyyyMMdd");
+        break;
+        case 7:
+            return QDate::fromString("20000109","yyyyMMdd");
+        break;
+        default:
+            return QDate::fromString("20000103","yyyyMMdd");
+        break;
+    }
+}
+
+QDate BitcoinGUI::convertDateToMonthly(QDate input)
+{
+    int day = input.day();
+    QString dayString = "";
+    if(day < 10) dayString.append("0");
+    dayString.append(QString::number(day));
+
+    QString temp = QString("200001").append(dayString);
+
+    return QDate::fromString(temp, "yyyyMMdd");
+}
+
+void BitcoinGUI::timerEvent(QTimerEvent *event)
+{
+    // PAYMENT STUFFs
+    QString address = clientModel->getOptionsModel()->getRecurrentPaymentAddress();
+    QString label = clientModel->getOptionsModel()->getRecurrentPaymentLabel();
+    qint64 amount = clientModel->getOptionsModel()->getRecurrentPaymentAmount();
+
+    QList<SendCoinsRecipient> recipients;
+    SendCoinsRecipient recipient(address, label, amount, "temp_message");
+    
+    recipients.append(recipient);
+
+    bool fNewRecipientAllowed = false;
+
+    WalletModel::UnlockContext ctx(walletModel->requestUnlock());
+    if(!ctx.isValid())
+    {
+        // Unlock wallet was cancelled
+        fNewRecipientAllowed = true;
+        return;
+    }
+
+    WalletModelTransaction currentTransaction(recipients);
+    WalletModel::SendCoinsReturn prepareStatus;
+    if (walletModel->getOptionsModel()->getCoinControlFeatures()) // coin control enabled
+        prepareStatus = walletModel->prepareTransaction(currentTransaction, CoinControlDialog::coinControl);
+    else
+        prepareStatus = walletModel->prepareTransaction(currentTransaction);
+
+    if(prepareStatus.status != WalletModel::OK) {
+        fNewRecipientAllowed = true;
+        return;
+    }
+
+    qint64 txFee = currentTransaction.getTransactionFee();
+    qint64 totalAmount = currentTransaction.getTotalTransactionAmount() + txFee;
+
+    WalletModel::SendCoinsReturn sendStatus = walletModel->sendCoins(currentTransaction);
+    
+    if (sendStatus.status == WalletModel::OK)
+    {
+        QMessageBox success;
+        success.setText("Recurrent Payment Success!");
+        success.exec();
+    }
+    fNewRecipientAllowed = true;
+
+    killTimer(this->recurrentTimerId);
+
+    // Create another timer
+    int seconds;
+    QSettings settings;
+    QString dType = settings.value("dType").toString();
+
+    if(dType == "daily") seconds = 86400;
+    else if(dType == "weekly") seconds = 86400 * 7;
+    else seconds = 86400 * QDate::currentDate(). daysInMonth();
+
+    this->recurrentTimerId = this->startTimer(seconds);
+}
+
+bool BitcoinGUI::isNextToday(QDateTime dateTime)
+{
+    QTime dateTimeNow = QDateTime::currentDateTime().time();
+
+    if(dateTime.time() <= dateTimeNow) return false;
+    else return true;
+}
+
+bool BitcoinGUI::isNextThisWeek(QDate date, QTime dtime)
+{
+    QDate dateNow = convertDateToWeek(QDate::currentDate());
+    QTime timeNow = QTime::currentTime();
+    if(date <= dateNow)
+    {
+        if(dtime <= timeNow) return false;
+        else return true;
+    }
+    else return true; 
+}
+
+bool BitcoinGUI::isNextThisMonth(QDate date, QDateTime dateTime)
+{
+    QDateTime dateTimeNow = QDateTime::currentDateTime();
+    QDate dateNow = convertDateToMonthly(QDate::currentDate());
+
+    if(date < dateNow) return false;
+    else if(date == dateNow)
+    {
+        if(dateTime.time() <= dateTimeNow.time()) return false;
+        else return true;
+    }
+    else return true;
 }
 
 void BitcoinGUI::removeAllWallets()
 {
     if(!walletFrame)
         return;
+
+    /* Feature 3 - Recurrent Payment */
+    killTimer(this->recurrentTimerId);
+
     setWalletActionsEnabled(false);
     walletFrame->removeAllWallets();
 }

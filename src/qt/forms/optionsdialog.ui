@@ -623,7 +623,7 @@
             <string>Payment</string>
            </property>
             
-            <layout class="QGridLayout" name="recurrentGridLayout_2">
+            <layout class="QGridLayout" name="recurrentGridLayout_3">
               <!-- <item> -->
               <!-- <layout class="QHBoxLayout" name="recurrentHLayout_4"> -->
                 <item row="0" column="0">
@@ -669,6 +669,10 @@
                 </item>
               <!-- </layout>  -->
               <!-- </item> -->
+
+                <item row="3" column="0">
+                  <widget class="QPushButton" name="testButton"/>
+                </item>
 
             </layout>
 

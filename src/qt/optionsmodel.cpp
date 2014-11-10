@@ -174,6 +174,16 @@ void OptionsModel::Init()
         settings.setValue("sRecurrentPaymentLabel", "");
     sRecurrentPaymentLabel = settings.value("sRecurrentPaymentLabel", false).toString();
 
+    // if(!settings.contains("oRecurrentOptionId"))
+    //     settings.setValue("oRecurrentOptionId", 0);
+    // oRecurrentOptionId = settings.value("oRecurrentOptionId", false).toList();
+    // if(!settings.contains("oRecurrentOptionDateTime"))
+    //     settings.setValue("oRecurrentOptionDateTime", 0);
+    // oRecurrentOptionDateTime = settings.value("oRecurrentOptionDateTime", false).toList();
+    // if(!settings.contains("oRecurrentOptionStatus"))
+    //     settings.setValue("oRecurrentOptionStatus", 0);
+    // oRecurrentOptionStatus = settings.value("oRecurrentOptionStatus", false).toList();
+
     language = settings.value("language").toString();
 }
 
@@ -282,6 +292,13 @@ QVariant OptionsModel::data(const QModelIndex & index, int role) const
             return sRecurrentPaymentLabel;
         case RecurrentPaymentAmount:
             return sRecurrentPaymentAmount;
+
+        // case RecurrentOptionId:
+        //     return oRecurrentOptionId;
+        // case RecurrentOptionStatus:
+        //     return oRecurrentOptionStatus;
+        // case RecurrentOptionDateTime:
+        //     return oRecurrentOptionDateTime;
 
         default:
             return QVariant();
@@ -453,6 +470,19 @@ bool OptionsModel::setData(const QModelIndex & index, const QVariant & value, in
             sRecurrentPaymentAmount = value.toLongLong();
             settings.setValue("sRecurrentPaymentAmount", (qint64)sRecurrentPaymentAmount);
             break;
+
+        // case RecurrentOptionId: 
+        //     oRecurrentOptionId = value.toList();
+        //     settings.setValue("oRecurrentOptionId", oRecurrentOptionId);
+        //     break;
+        // case RecurrentOptionDateTime: 
+        //     oRecurrentOptionDateTime = value.toList();
+        //     settings.setValue("oRecurrentOptionDateTime", oRecurrentOptionDateTime);
+        //     break;
+        // case RecurrentOptionStatus: 
+        //     oRecurrentOptionStatus = value.toList();
+        //     settings.setValue("oRecurrentOptionStatus", oRecurrentOptionStatus);
+        //     break;
 
         default:
             break;
