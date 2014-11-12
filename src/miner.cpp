@@ -82,6 +82,10 @@ CBlockTemplate* CreateNewBlock(const CChainParams& chainparams, const CScript& s
         return NULL;
     CBlock *pblock = &pblocktemplate->block; // pointer for convenience
 
+    /* Initialise the block version.  */
+    pblock->nVersion = CBlockHeader::CURRENT_VERSION;
+    pblock->nVersion.SetChainId(chainparams.GetConsensus().nAuxpowChainId);
+
     // -regtest only: allow overriding block.nVersion with
     // -blockversion=N to test forking scenarios
     if (chainparams.MineBlocksOnDemand())
