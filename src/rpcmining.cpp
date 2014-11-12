@@ -30,6 +30,30 @@
 using namespace json_spirit;
 using namespace std;
 
+#ifdef ENABLE_WALLET
+// Key used by getwork miners.
+// Allocated in InitRPCMining, free'd in ShutdownRPCMining
+static CReserveKey* pminingKey = NULL;
+
+void InitRPCMining()
+{
+    if (!pwalletMain)
+        return;
+
+    // getwork/getblocktemplate mining rewards paid here:
+    pminingKey = new CReserveKey(pwalletMain);
+}
+
+void ShutdownRPCMining()
+{
+    if (!pminingKey)
+        return;
+
+    delete pminingKey;
+    pminingKey = NULL;
+}
+#endif // ENABLE_WALLET
+
 /**
  * Return average network hashes per second based on the last 'lookup' blocks,
  * or from the last difficulty change if 'lookup' is nonpositive.
@@ -569,7 +593,7 @@ Value getblocktemplate(const Array& params, bool fHelp)
 
     Object result;
     result.push_back(Pair("capabilities", aCaps));
-    result.push_back(Pair("version", pblock->nVersion));
+    result.push_back(Pair("version", pblock->nVersion.GetFullVersion()));
     result.push_back(Pair("previousblockhash", pblock->hashPrevBlock.GetHex()));
     result.push_back(Pair("transactions", transactions));
     result.push_back(Pair("coinbaseaux", aux));
@@ -726,3 +750,156 @@ Value estimatepriority(const Array& params, bool fHelp)
 
     return mempool.estimatePriority(nBlocks);
 }
+
+/* ************************************************************************** */
+/* Merge mining.  */
+
+#ifdef ENABLE_WALLET
+Value getauxblock(const Array& params, bool fHelp)
+{
+    if (fHelp || (params.size() != 0 && params.size() != 2))
+        throw std::runtime_error(
+            "getauxblock (hash auxpow)\n"
+            "\nCreate or submit a merge-mined block.\n"
+            "\nWithout arguments, create a new block and return information\n"
+            "required to merge-mine it.  With arguments, submit a solved\n"
+            "auxpow for a previously returned block.\n"
+            "\nArguments:\n"
+            "1. \"hash\"    (string, optional) hash of the block to submit\n"
+            "2. \"auxpow\"  (string, optional) serialised auxpow found\n"
+            "\nResult (without arguments):\n"
+            "{\n"
+            "  \"hash\"               (string) hash of the created block\n"
+            "  \"chainid\"            (numeric) chain ID for this block\n"
+            "  \"previousblockhash\"  (string) hash of the previous block\n"
+            "  \"coinbasevalue\"      (numeric) value of the block's coinbase\n"
+            "  \"bits\"               (string) compressed target of the block\n"
+            "  \"height\"             (numeric) height of the block\n"
+            "  \"_target\"            (string) target in reversed byte order, deprecated\n"
+            "}\n"
+            "\nResult (with arguments):\n"
+            "xxxxx        (boolean) whether the submitted block was correct\n"
+            "\nExamples:\n"
+            + HelpExampleCli("getauxblock", "")
+            + HelpExampleCli("getauxblock", "\"hash\" \"serialised auxpow\"")
+            + HelpExampleRpc("getauxblock", "")
+            );
+
+    if (pwalletMain == NULL)
+        throw JSONRPCError(RPC_METHOD_NOT_FOUND, "Method not found (disabled)");
+    assert (pminingKey);
+
+    if (vNodes.empty() && !Params().MineBlocksOnDemand())
+        throw JSONRPCError(RPC_CLIENT_NOT_CONNECTED,
+                           "Namecoin is not connected!");
+
+    if (IsInitialBlockDownload() && !Params().MineBlocksOnDemand())
+        throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD,
+                           "Namecoin is downloading blocks...");
+    
+    /* This should never fail, since the chain is already
+       past the point of merge-mining start.  Check nevertheless.  */
+    {
+        LOCK(cs_main);
+        if (chainActive.Height() + 1 < Params().GetConsensus().nAuxpowStartHeight)
+            throw std::runtime_error("getauxblock method is not yet available");
+    }
+
+    /* The variables below are used to keep track of created and not yet
+       submitted auxpow blocks.  Lock them, just in case.  In principle
+       there's only one RPC thread, so it should be fine without locking
+       as well.  But it cannot hurt to be safe.  */
+    static CCriticalSection cs_auxblockCache;
+    LOCK(cs_auxblockCache);
+    static std::map<uint256, CBlock*> mapNewBlock;
+    static std::vector<CBlockTemplate*> vNewBlockTemplate;
+
+    /* Create a new block?  */
+    if (params.size() == 0)
+    {
+        static unsigned nTransactionsUpdatedLast;
+        static const CBlockIndex* pindexPrev = NULL;
+        static uint64_t nStart;
+        static CBlockTemplate* pblocktemplate;
+        static unsigned nExtraNonce = 0;
+
+        // Update block
+        {
+        LOCK(cs_main);
+        if (pindexPrev != chainActive.Tip()
+            || (mempool.GetTransactionsUpdated() != nTransactionsUpdatedLast
+                && GetTime() - nStart > 60))
+        {
+            if (pindexPrev != chainActive.Tip())
+            {
+                // Deallocate old blocks since they're obsolete now
+                mapNewBlock.clear();
+                BOOST_FOREACH(CBlockTemplate* pbt, vNewBlockTemplate)
+                    delete pbt;
+                vNewBlockTemplate.clear();
+            }
+
+            // Create new block with nonce = 0 and extraNonce = 1
+            pblocktemplate = CreateNewBlockWithKey(*pminingKey);
+            if (!pblocktemplate)
+                throw JSONRPCError(RPC_OUT_OF_MEMORY, "out of memory");
+
+            // Update state only when CreateNewBlock succeeded
+            nTransactionsUpdatedLast = mempool.GetTransactionsUpdated();
+            pindexPrev = chainActive.Tip();
+            nStart = GetTime();
+
+            // Finalise it by setting the version and building the merkle root
+            CBlock* pblock = &pblocktemplate->block;
+            IncrementExtraNonce(pblock, pindexPrev, nExtraNonce);
+            pblock->nVersion.SetAuxpow(true);
+            pblock->hashMerkleRoot = pblock->BuildMerkleTree();
+
+            // Save
+            mapNewBlock[pblock->GetHash()] = pblock;
+            vNewBlockTemplate.push_back(pblocktemplate);
+        }
+        }
+
+        const CBlock& block = pblocktemplate->block;
+
+        arith_uint256 target;
+        bool fNegative, fOverflow;
+        target.SetCompact(block.nBits, &fNegative, &fOverflow);
+        if (fNegative || fOverflow || target == 0)
+            throw std::runtime_error("invalid difficulty bits in block");
+
+        json_spirit::Object result;
+        result.push_back(Pair("hash", block.GetHash().GetHex()));
+        result.push_back(Pair("chainid", block.nVersion.GetChainId()));
+        result.push_back(Pair("previousblockhash", block.hashPrevBlock.GetHex()));
+        result.push_back(Pair("coinbasevalue", (int64_t)block.vtx[0].vout[0].nValue));
+        result.push_back(Pair("bits", strprintf("%08x", block.nBits)));
+        result.push_back(Pair("height", static_cast<int64_t> (pindexPrev->nHeight + 1)));
+        result.push_back(Pair("_target", HexStr(BEGIN(target), END(target))));
+
+        return result;
+    }
+
+    /* Submit a block instead.  Note that this need not lock cs_main,
+       since ProcessBlockFound below locks it instead.  */
+
+    assert(params.size() == 2);
+    uint256 hash;
+    hash.SetHex(params[0].get_str());
+
+    const std::map<uint256, CBlock*>::iterator mit = mapNewBlock.find(hash);
+    if (mit == mapNewBlock.end())
+        throw JSONRPCError(RPC_INVALID_PARAMETER, "block hash unknown");
+    CBlock& block = *mit->second;
+
+    const std::vector<unsigned char> vchAuxPow = ParseHex(params[1].get_str());
+    CDataStream ss(vchAuxPow, SER_GETHASH, PROTOCOL_VERSION);
+    CAuxPow pow;
+    ss >> pow;
+    block.SetAuxpow(new CAuxPow(pow));
+    assert(block.GetHash() == hash);
+
+    return ProcessBlockFound(&block, *pwalletMain, *pminingKey);
+}
+#endif // ENABLE_WALLET
