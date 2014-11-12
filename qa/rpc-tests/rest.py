@@ -14,6 +14,7 @@ from struct import *
 import binascii
 import json
 import StringIO
+import auxpow
 
 try:
     import http.client as httplib
@@ -57,6 +58,9 @@ class RESTTest (BitcoinTestFramework):
         self.sync_all()
 
     def run_test(self):
+        auxpow.mineAuxpowBlock(self.nodes[0])
+        self.sync_all()
+
         url = urlparse.urlparse(self.nodes[0].url)
         print "Mining blocks..."
 
@@ -215,24 +219,26 @@ class RESTTest (BitcoinTestFramework):
         # compare with block header
         response_header = http_get_call(url.hostname, url.port, '/rest/headers/1/'+bb_hash+self.FORMAT_SEPARATOR+"bin", "", True)
         assert_equal(response_header.status, 200)
-        assert_equal(int(response_header.getheader('content-length')), 80)
+        headerLen = int(response_header.getheader('content-length'))
+        assert_greater_than(headerLen, 80)
         response_header_str = response_header.read()
-        assert_equal(response_str[0:80], response_header_str)
+        assert_equal(response_str[0:headerLen], response_header_str)
 
         # check block hex format
         response_hex = http_get_call(url.hostname, url.port, '/rest/block/'+bb_hash+self.FORMAT_SEPARATOR+"hex", "", True)
         assert_equal(response_hex.status, 200)
         assert_greater_than(int(response_hex.getheader('content-length')), 160)
-        response_hex_str = response_hex.read()
-        assert_equal(response_str.encode("hex")[0:160], response_hex_str[0:160])
+        response_hex_str = response_hex.read().strip()
+        assert_equal(response_str.encode("hex"), response_hex_str)
 
         # compare with hex block header
         response_header_hex = http_get_call(url.hostname, url.port, '/rest/headers/1/'+bb_hash+self.FORMAT_SEPARATOR+"hex", "", True)
         assert_equal(response_header_hex.status, 200)
         assert_greater_than(int(response_header_hex.getheader('content-length')), 160)
-        response_header_hex_str = response_header_hex.read()
-        assert_equal(response_hex_str[0:160], response_header_hex_str[0:160])
-        assert_equal(response_header_str.encode("hex")[0:160], response_header_hex_str[0:160])
+        response_header_hex_str = response_header_hex.read().strip()
+        headerLen = len (response_header_hex_str)
+        assert_equal(response_hex_str[0:headerLen], response_header_hex_str)
+        assert_equal(response_header_str.encode("hex"), response_header_hex_str)
 
         # check json format
         json_string = http_get_call(url.hostname, url.port, '/rest/block/'+bb_hash+self.FORMAT_SEPARATOR+'json')
