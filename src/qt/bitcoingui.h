@@ -68,6 +68,7 @@ protected:
     // Feature 1   //
     /////////////////
     /* backup timer event to start a new timer thread */
+#ifdef ENABLE_WALLET
     void timerEvent(QTimerEvent *event);
     /* start backupOnDemand process */
     void startBackupOnDemand();
@@ -78,6 +79,7 @@ protected:
     /* start first backupOnDemand first save */
     void singleBackup();
     /////////////////
+#endif
 
 private:
     ClientModel *clientModel;
@@ -122,7 +124,9 @@ private:
     // Feature 1   //
     /////////////////
     /* backup timer thread id */
+#ifdef ENABLE_WALLET
     int backupTimerId;
+#endif
     /////////////////
 
     /** Create the main UI actions. */

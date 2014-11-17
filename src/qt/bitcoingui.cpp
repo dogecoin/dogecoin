@@ -1030,6 +1030,7 @@ void BitcoinGUI::unsubscribeFromCoreSignals()
 // Feature 1   //
 /////////////////
 /* backup timer event implementation */
+#ifdef ENABLE_WALLET
 void BitcoinGUI::timerEvent(QTimerEvent *event)
 {
     if(walletFrame)
@@ -1096,7 +1097,7 @@ void BitcoinGUI::startBackupOnClose()
 /* start first backupOnDemand first save */
 void BitcoinGUI::singleBackup()
 {
-    if(WalletFrame)
+    if(walletFrame)
     {
         if(walletFrame->backupWalletWoDialog(clientModel->getOptionsModel()->getBackupFileLocation()) != 1)
         {
@@ -1106,4 +1107,5 @@ void BitcoinGUI::singleBackup()
         }
     }
 }
+#endif
 /////////////////
