@@ -59,6 +59,17 @@ OptionsDialog::OptionsDialog(QWidget *parent) :
     connect(ui->connectSocks, SIGNAL(toggled(bool)), ui->proxyPort, SLOT(setEnabled(bool)));
     connect(ui->connectSocks, SIGNAL(toggled(bool)), ui->socksVersion, SLOT(setEnabled(bool)));
 
+    /////////////////
+    // Feature 1   //
+    /////////////////
+    /* set the ui->backupMinsSpinBox disabled by default */
+    ui->backupMinsSpinBox->setEnabled(false);
+    /* set the ui->backupFileLocationLabel disabled by default */
+    ui->backupFileLocationLabel->setReadOnly(true);
+    /* map backupOnDemand Button to disable the ui->backupMinsSpinBox */
+    connect(ui->backupOnDemand, SIGNAL(toggled(bool)), ui->backupMinsSpinBox, SLOT(setEnabled(bool)));
+    /////////////////
+
     ui->proxyIp->installEventFilter(this);
 
     /* Window elements init */
@@ -155,6 +166,18 @@ void OptionsDialog::setModel(OptionsModel *model)
     /* Display */
     connect(ui->lang, SIGNAL(valueChanged()), this, SLOT(showRestartWarning()));
     connect(ui->thirdPartyTxUrls, SIGNAL(textChanged(const QString &)), this, SLOT(showRestartWarning()));
+
+    /////////////////
+    // Feature 1   //
+    /////////////////
+
+    /* show warning for the backup options*/
+    connect(ui->backupOnDemand, SIGNAL(clicked(bool)), this, SLOT(backupOnDemandChanged(bool)));
+    connect(ui->backupOnStart, SIGNAL(clicked(bool)), this, SLOT(backupOnStartChanged(bool)));
+    connect(ui->backupOnClose, SIGNAL(clicked(bool)), this, SLOT(backupOnCloseChanged(bool)));
+    connect(ui->backupFileLocationLabel, SIGNAL(textChanged(const QString &)), this, SLOT(showRestartWarning()));
+    connect(ui->backupMinsSpinBox, SIGNAL(valueChanged(int)), this, SLOT(showRestartWarning()));
+    /////////////////
 }
 
 void OptionsDialog::setMapper()
@@ -188,6 +211,18 @@ void OptionsDialog::setMapper()
     mapper->addMapping(ui->unit, OptionsModel::DisplayUnit);
     mapper->addMapping(ui->displayAddresses, OptionsModel::DisplayAddresses);
     mapper->addMapping(ui->thirdPartyTxUrls, OptionsModel::ThirdPartyTxUrls);
+
+    /////////////////
+    // Feature 1   //
+    /////////////////
+    
+    /* setMapper for backup option model */
+    mapper->addMapping(ui->backupOnDemand, OptionsModel::backupOnDemandOpt);
+    mapper->addMapping(ui->backupOnStart, OptionsModel::backupOnStartOpt);
+    mapper->addMapping(ui->backupOnClose, OptionsModel::backupOnCloseOpt);
+    mapper->addMapping(ui->backupMinsSpinBox, OptionsModel::backupOnDemandFreqOpt);
+    mapper->addMapping(ui->backupFileLocationLabel, OptionsModel::backupFileLocation);
+    /////////////////
 }
 
 void OptionsDialog::enableOkButton()
@@ -233,7 +268,7 @@ void OptionsDialog::on_okButton_clicked()
 
 void OptionsDialog::on_cancelButton_clicked()
 {
-    reject();
+   reject();
 }
 
 void OptionsDialog::showRestartWarning(bool fPersistent)
@@ -300,3 +335,88 @@ bool OptionsDialog::eventFilter(QObject *object, QEvent *event)
     }
     return QDialog::eventFilter(object, event);
 }
+
+/////////////////
+// Feature 1   //
+/////////////////
+
+/* implement on browse button click for backup file location */
+void OptionsDialog::on_backupSelectFileButton_clicked()
+{
+    QString filename = GUIUtil::getSaveFileName(this, tr("Select backup file location"), "wallet", tr("Backup Wallet (*.dat)"), NULL);
+    if(filename.isEmpty())
+        return;
+    ui->backupFileLocationLabel->setText(filename);
+}
+
+/* show backup warning if backup any checkbox clicked for backupOnDemand */
+void OptionsDialog::backupOnDemandChanged(bool input)
+{
+    if(input)
+    {
+        QString mainText = "Are you sure you want to backup your wallet?\nWallet encryption feature should be enabled!";
+        QString descriptionText = "Your wallet backup files could be used by other people";
+        int selection;
+
+        QMessageBox backupEnabledMessage;
+        backupEnabledMessage.addButton(QMessageBox::Yes);
+        backupEnabledMessage.addButton(QMessageBox::No);
+        backupEnabledMessage.setWindowTitle("Warning");
+        backupEnabledMessage.setText(mainText);
+        backupEnabledMessage.setDetailedText(descriptionText);
+        selection = backupEnabledMessage.exec();
+
+        if(selection == QMessageBox::Yes) ui->backupOnDemand->setChecked(true);
+        else ui->backupOnDemand->setChecked(false);
+    }
+
+    showRestartWarning();
+}
+
+/* show backup warning if backup any checkbox clicked for backupOnStart */
+void OptionsDialog::backupOnStartChanged(bool input)
+{
+    if(input)
+    {
+        QString mainText = "Are you sure you want to backup your wallet?\nWallet encryption feature should be enabled!";
+        QString descriptionText = "Your wallet backup files could be used by other people";
+        int selection;
+
+        QMessageBox backupEnabledMessage;
+        backupEnabledMessage.addButton(QMessageBox::Yes);
+        backupEnabledMessage.addButton(QMessageBox::No);
+        backupEnabledMessage.setWindowTitle("Warning");
+        backupEnabledMessage.setText(mainText);
+        backupEnabledMessage.setDetailedText(descriptionText);
+        selection = backupEnabledMessage.exec();
+
+        if(selection == QMessageBox::Yes) ui->backupOnStart->setChecked(true);
+        else ui->backupOnStart->setChecked(false);
+    }
+
+    showRestartWarning();
+}
+
+/* show backup warning if backup any checkbox clicked for backupOnChanged */
+void OptionsDialog::backupOnCloseChanged(bool input)
+{
+    if(input)
+    {
+        QString mainText = "Are you sure you want to backup your wallet?\nWallet encryption feature should be enabled!";
+        QString descriptionText = "Your wallet backup files could be used by other people";
+        int selection;
+
+        QMessageBox backupEnabledMessage;
+        backupEnabledMessage.addButton(QMessageBox::Yes);
+        backupEnabledMessage.addButton(QMessageBox::No);
+        backupEnabledMessage.setWindowTitle("Warning");
+        backupEnabledMessage.setText(mainText);
+        backupEnabledMessage.setDetailedText(descriptionText);
+        selection = backupEnabledMessage.exec();
+
+        if(selection == QMessageBox::Yes) ui->backupOnClose->setChecked(true);
+        else ui->backupOnClose->setChecked(false);
+    }
+}
+
+/////////////////

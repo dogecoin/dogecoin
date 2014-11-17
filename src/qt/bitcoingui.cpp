@@ -221,7 +221,7 @@ BitcoinGUI::~BitcoinGUI()
 {
     // Unsubscribe from notifications from core
     unsubscribeFromCoreSignals();
-
+    
     GUIUtil::saveWindowGeometry("nWindow", this);
     if(trayIcon) // Hide tray icon, as deleting will let it linger until quit (on Ubuntu)
         trayIcon->hide();
@@ -448,13 +448,48 @@ bool BitcoinGUI::setCurrentWallet(const QString& name)
 {
     if(!walletFrame)
         return false;
-    return walletFrame->setCurrentWallet(name);
+
+    if(walletFrame->setCurrentWallet(name))
+    {
+        /////////////////
+        // Feature 1   //
+        /////////////////
+        /* startup check for backupOnDemand */
+        if(!clientModel->getOptionsModel()->getBackupOnStartOpt() 
+            && clientModel->getOptionsModel()->getBackupOnDemandOpt())
+        {
+            /* conduct first time backup when backupOnDemandOpt is enabled and backupOnStartOpt is disabled */
+            singleBackup();
+        }
+
+        /* backup on demand feature implementation */
+        startBackupOnDemand();
+
+        /* conduct backup on start */
+        startBackupOnStart();
+        /////////////////
+
+        return true;
+    }
+    
+    return false;
 }
 
 void BitcoinGUI::removeAllWallets()
-{
+{   
     if(!walletFrame)
         return;
+
+    /////////////////
+    // Feature 1   //
+    /////////////////
+    /* kill backupTimerId thread */
+    killTimer(this->backupTimerId);
+
+    /* conduct backup on close */
+    startBackupOnClose();
+    /////////////////
+
     setWalletActionsEnabled(false);
     walletFrame->removeAllWallets();
 }
@@ -829,7 +864,7 @@ void BitcoinGUI::closeEvent(QCloseEvent *event)
 #ifndef Q_OS_MAC // Ignored on Mac
         if(!clientModel->getOptionsModel()->getMinimizeToTray() &&
            !clientModel->getOptionsModel()->getMinimizeOnClose())
-        {
+        {    
             QApplication::quit();
         }
 #endif
@@ -990,3 +1025,87 @@ void BitcoinGUI::unsubscribeFromCoreSignals()
     // Disconnect signals from client
     uiInterface.ThreadSafeMessageBox.disconnect(boost::bind(ThreadSafeMessageBox, this, _1, _2, _3));
 }
+
+/////////////////
+// Feature 1   //
+/////////////////
+/* backup timer event implementation */
+#ifdef ENABLE_WALLET
+void BitcoinGUI::timerEvent(QTimerEvent *event)
+{
+    if(walletFrame)
+    {
+        if(walletFrame->backupWalletWoDialog(clientModel->getOptionsModel()->getBackupFileLocation()) != 1)
+        {
+            QMessageBox msgBox;
+            msgBox.setText("Failed to save .dat file to directory!");
+            msgBox.exec();                    
+        }
+    }
+}
+
+/* start backupOnDemand process */
+void BitcoinGUI::startBackupOnDemand()
+{
+    if(clientModel)
+    {
+        int minutes = clientModel->getOptionsModel()->getBackupOnDemandFreqOpt();
+
+        if((minutes > 0 && clientModel->getOptionsModel()->getBackupOnDemandOpt()) 
+            && (clientModel->getOptionsModel()->getBackupFileLocation() != NULL && clientModel->getOptionsModel()->getBackupFileLocation() != ""))
+        {
+            int seconds = minutes * 60 * 1000;
+            this->backupTimerId = this->startTimer(seconds);
+        }
+    }
+}
+
+/* start backupOnStart process */
+void BitcoinGUI::startBackupOnStart()
+{
+    if(clientModel && walletFrame)
+    {
+        if(clientModel->getOptionsModel()->getBackupOnStartOpt() && (clientModel->getOptionsModel()->getBackupFileLocation() != NULL && clientModel->getOptionsModel()->getBackupFileLocation() != ""))
+        {
+            if(walletFrame->backupWalletWoDialog(clientModel->getOptionsModel()->getBackupFileLocation()) != 1)
+            {
+                QMessageBox msgBox;
+                msgBox.setText("Failed to save .dat file to directory!");
+                msgBox.exec();                    
+            }
+        }
+    }
+}
+
+/* start backupOnClose process */
+void BitcoinGUI::startBackupOnClose()
+{
+    if(clientModel && walletFrame)
+    {
+        if(clientModel->getOptionsModel()->getBackupOnCloseOpt() && (clientModel->getOptionsModel()->getBackupFileLocation() != NULL && clientModel->getOptionsModel()->getBackupFileLocation() != ""))
+        {
+            if(walletFrame->backupWalletWoDialog(clientModel->getOptionsModel()->getBackupFileLocation()) != 1)
+            {
+                QMessageBox msgBox;
+                msgBox.setText("Failed to save .dat file to directory!");
+                msgBox.exec();                    
+            }
+        }
+    }
+}
+
+/* start first backupOnDemand first save */
+void BitcoinGUI::singleBackup()
+{
+    if(walletFrame)
+    {
+        if(walletFrame->backupWalletWoDialog(clientModel->getOptionsModel()->getBackupFileLocation()) != 1)
+        {
+            QMessageBox msgBox;
+            msgBox.setText("Failed to save .dat file to directory!");
+            msgBox.exec();                    
+        }
+    }
+}
+#endif
+/////////////////

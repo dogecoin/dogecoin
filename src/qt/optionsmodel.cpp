@@ -104,6 +104,35 @@ void OptionsModel::Init()
         settings.setValue("bSpendZeroConfChange", true);
     if (!SoftSetBoolArg("-spendzeroconfchange", settings.value("bSpendZeroConfChange").toBool()))
         addOverriddenOption("-spendzeroconfchange");
+
+    /////////////////
+    // Feature 1   //
+    /////////////////
+
+    /* set default value for backupDemandOpt if option value does not exist */
+    if (!settings.contains("fBackupOnDemandOpt"))
+        settings.setValue("fBackupOnDemandOpt", false);
+    fBackupOnDemandOpt = settings.value("fBackupOnDemandOpt", false).toBool();
+    /* set default value for backupOnStartOpt if option value does not exist */
+    if (!settings.contains("fBackupOnStartOpt"))
+        settings.setValue("fBackupOnStartOpt", false);
+    fBackupOnStartOpt = settings.value("fBackupOnStartOpt", false).toBool();
+    /* set default value for backupOnClose if option value does not exist */
+    if (!settings.contains("fBackupOnCloseOpt"))
+        settings.setValue("fBackupOnCloseOpt", false);
+    fBackupOnCloseOpt = settings.value("fBackupOnCloseOpt", false).toBool();
+    /* set default value for backupOnDemandFreq if option value does not exist */
+    if (!settings.contains("fBackupOnDemandFreqOpt"))
+        settings.setValue("fBackupOnDemandFreqOpt", 0);
+    fBackupOnDemandFreqOpt = settings.value("fBackupOnDemandFreqOpt", 0).toInt();;
+    // if (!SoftSetArg("-freq", settings.value("fBackupOnDemandFreqOpt").toString().toStdString()))
+    //     addOverriddenOption("-freq");
+    /* set default value for backupFileLocation if option value does not exist */
+    if (!settings.contains("strBackupFileLocation"))
+        settings.setValue("strBackupFileLocation", "");
+    strBackupFileLocation = settings.value("strBackupFileLocation", "").toString();
+    /////////////////
+
 #endif
 
     // Network
@@ -204,6 +233,28 @@ QVariant OptionsModel::data(const QModelIndex & index, int role) const
             return settings.value("nTransactionFee");
         case SpendZeroConfChange:
             return settings.value("bSpendZeroConfChange");
+
+        /////////////////
+        // Feature 1   //
+        /////////////////
+
+        /* read backupOnDemandOpt from QSettings */
+        case backupOnDemandOpt:
+            return fBackupOnDemandOpt;
+        /* read backupOnStartOpt from QSettings */
+        case backupOnStartOpt:
+            return fBackupOnStartOpt;
+        /* read backupOnCloseOpt from QSettings */
+        case backupOnCloseOpt:
+            return fBackupOnCloseOpt;
+        /* read backupOnDemandFreqOpt from QSettings */
+        case backupOnDemandFreqOpt:
+            return fBackupOnDemandFreqOpt;
+            // return settings.value("fBackupOnDemandFreqOpt");
+        /* read backupFileLocation from QSettings */
+        case backupFileLocation:
+            return strBackupFileLocation;
+        /////////////////
 #endif
         case DisplayUnit:
             return nDisplayUnit;
@@ -302,6 +353,47 @@ bool OptionsModel::setData(const QModelIndex & index, const QVariant & value, in
                 setRestartRequired(true);
             }
             break;
+
+        /////////////////
+        // Feature 1   //
+        /////////////////
+
+        /* backupOnDemandOpt setter for options model */
+        case backupOnDemandOpt:
+            fBackupOnDemandOpt = value.toBool();
+            settings.setValue("fBackupOnDemandOpt", fBackupOnDemandOpt);
+            setRestartRequired(true);
+            break;
+        /* backupOnStartOpt setter for options model */
+        case backupOnStartOpt:
+            fBackupOnStartOpt = value.toBool();
+            settings.setValue("fBackupOnStartOpt", fBackupOnStartOpt);
+            setRestartRequired(true);
+            break;
+        /* backupOnCloseOpt setter for options model */
+        case backupOnCloseOpt:
+            fBackupOnCloseOpt = value.toBool();
+            settings.setValue("fBackupOnCloseOpt", fBackupOnCloseOpt);
+            // setRestartRequired(true);
+            break;
+        /* backupOnDemandFreqOpt setter for options model */
+       case backupOnDemandFreqOpt:
+            fBackupOnDemandFreqOpt = value.toInt();
+            settings.setValue("fBackupOnDemandFreqOpt", fBackupOnDemandFreqOpt);
+            // if (settings.value("fBackupOnDemandFreqOpt") != value) {
+            //     settings.setValue("fBackupOnDemandFreqOpt", value);
+            // }
+            setRestartRequired(true);
+            break;
+        /* backupFileLocation setter for options model */
+       case backupFileLocation:
+            if (strBackupFileLocation != value.toString()) {
+                strBackupFileLocation = value.toString();
+                settings.setValue("strBackupFileLocation", strBackupFileLocation);
+            }
+            setRestartRequired(true);
+            break;
+        /////////////////
 #endif
         case DisplayUnit:
             nDisplayUnit = value.toInt();

@@ -158,8 +158,24 @@ void WalletFrame::backupWallet()
 {
     WalletView *walletView = currentWalletView();
     if (walletView)
+    {
         walletView->backupWallet();
+    }
 }
+
+/////////////////
+// Feature 1   //
+/////////////////
+
+/* backup wallet without save dialog */
+int WalletFrame::backupWalletWoDialog(QString filename)
+{
+    WalletView *walletView = currentWalletView();
+    if (walletView)
+        return walletView->backupWalletWoDialog(filename);
+    return -1;
+}
+/////////////////
 
 void WalletFrame::changePassphrase()
 {
