@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 
+#include <algorithm>
 #include <vector>
 
 BOOST_AUTO_TEST_SUITE (auxpow_tests)
@@ -165,6 +166,23 @@ CAuxpowBuilder::buildCoinbaseData (bool header, const valtype& auxRoot,
   res.insert (res.end (), UBEGIN (nonce), UEND (nonce));
 
   return res;
+}
+
+/* ************************************************************************** */
+
+BOOST_AUTO_TEST_CASE (cblockversion)
+{
+  /* Simple check to make sure that CBlockVersion behaves like the int32_t
+     that backs it.  This is necessary because of the way CBlockHeader::GetHash
+     calculates the hash.  */
+
+  CBlockVersion nVersion;
+  const int32_t nVersionRaw = 0x12345678;
+  nVersion.SetGenesisVersion (nVersionRaw);
+
+  BOOST_CHECK (sizeof (nVersion) == sizeof (nVersionRaw));
+  BOOST_CHECK (std::equal (BEGIN (nVersion), END (nVersion),
+                           BEGIN (nVersionRaw)));
 }
 
 /* ************************************************************************** */
