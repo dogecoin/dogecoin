@@ -10,7 +10,8 @@ TESTS = test_dogecoin-qt
 
 TEST_QT_MOC_CPP = \
   moc_bitcoinunitstests.cpp \
-  moc_uritests.cpp
+  moc_uritests.cpp \
+  moc_walletBackupTests.cpp
 
 if ENABLE_WALLET
 TEST_QT_MOC_CPP += moc_paymentservertests.cpp
@@ -20,8 +21,8 @@ TEST_QT_H = \
   bitcoinunitstests.h \
   uritests.h \
   paymentrequestdata.h \
-  paymentservertests.h
-
+  paymentservertests.h \
+  walletBackupTests.h
 BUILT_SOURCES = $(TEST_QT_MOC_CPP)
 
 test_dogecoin_qt_CPPFLAGS = $(AM_CPPFLAGS) $(QT_INCLUDES) $(QT_TEST_INCLUDES)
@@ -30,6 +31,7 @@ test_dogecoin_qt_SOURCES = \
   bitcoinunitstests.cpp \
   test_main.cpp \
   uritests.cpp \
+  walletBackupTests.cpp \
   $(TEST_QT_H)
 if ENABLE_WALLET
 test_dogecoin_qt_SOURCES += \

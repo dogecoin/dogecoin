@@ -7,6 +7,8 @@
 #include "uritests.h"
 #ifdef ENABLE_WALLET
 #include "paymentservertests.h"
+#include "walletBackupTests.h"
+
 #endif
 
 #include <QCoreApplication>
@@ -34,6 +36,11 @@ int main(int argc, char *argv[])
     URITests test1;
     if (QTest::qExec(&test1) != 0)
         fInvalid = true;
+
+    WalletBackupTests walletBackupOnStartTest;
+      if (QTest::qExec(&walletBackupOnStartTest) != 0)
+        fInvalid = true;
+
 #ifdef ENABLE_WALLET
     PaymentServerTests test2;
     if (QTest::qExec(&test2) != 0)

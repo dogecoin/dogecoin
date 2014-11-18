@@ -344,7 +344,6 @@ QString AddressTableModel::addRow(const QString &type, const QString &label, con
 {
     std::string strLabel = label.toStdString();
     std::string strAddress = address.toStdString();
-
     editStatus = OK;
 
     if(type == Send)
@@ -396,6 +395,7 @@ QString AddressTableModel::addRow(const QString &type, const QString &label, con
         wallet->SetAddressBook(CBitcoinAddress(strAddress).Get(), strLabel,
                                (type == Send ? "send" : "receive"));
     }
+
     return QString::fromStdString(strAddress);
 }
 

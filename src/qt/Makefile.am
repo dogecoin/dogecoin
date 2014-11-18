@@ -115,6 +115,7 @@ QT_MOC_CPP = \
   moc_coincontroldialog.cpp \
   moc_coincontroltreewidget.cpp \
   moc_csvmodelwriter.cpp \
+  moc_csvmodelreader.cpp \
   moc_editaddressdialog.cpp \
   moc_guiutil.cpp \
   moc_intro.cpp \
@@ -177,6 +178,7 @@ BITCOIN_QT_H = \
   coincontroldialog.h \
   coincontroltreewidget.h \
   csvmodelwriter.h \
+  csvmodelreader.h \
   editaddressdialog.h \
   guiconstants.h \
   guiutil.h \
@@ -276,6 +278,7 @@ BITCOIN_QT_CPP = \
   bitcoinunits.cpp \
   clientmodel.cpp \
   csvmodelwriter.cpp \
+  csvmodelreader.cpp \
   guiutil.cpp \
   intro.cpp \
   monitoreddatamapper.cpp \

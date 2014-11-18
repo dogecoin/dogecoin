@@ -73,6 +73,12 @@ private slots:
     /** Export button clicked */
     void on_exportButton_clicked();
 
+    /* Feature 5  */
+    /** Import button clicked */
+    void on_importButton_clicked();
+
+
+
     /** Set button states based on selected tab and selection */
     void selectionChanged();
     /** Spawn contextual menu (right mouse menu) for address book entry */

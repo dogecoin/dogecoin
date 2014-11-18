@@ -106,6 +106,23 @@
        </property>
       </spacer>
      </item>
+
+ <!-- Feature 5 - Import Addresses Button -->
+     <item>
+      <widget class="QPushButton" name="importButton">
+       <property name="toolTip">
+        <string>Import addressbook from backup file</string>
+       </property>
+       <property name="text">
+        <string>&amp;Import</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../bitcoin.qrc">
+         <normaloff>:/icons/export</normaloff>:/icons/export</iconset>
+       </property>
+      </widget>
+     </item>
+<!-- End of Feature 5 - Import Addresses Button -->
      <item>
       <widget class="QPushButton" name="exportButton">
        <property name="toolTip">

@@ -12,12 +12,16 @@
 #include "addresstablemodel.h"
 #include "bitcoingui.h"
 #include "csvmodelwriter.h"
+#include "csvmodelreader.h"
+
 #include "editaddressdialog.h"
 #include "guiutil.h"
 
 #include <QIcon>
 #include <QMenu>
 #include <QMessageBox>
+#include <QStringList>
+#include <QString>
 #include <QSortFilterProxyModel>
 
 AddressBookPage::AddressBookPage(Mode mode, Tabs tab, QWidget *parent) :
@@ -34,6 +38,8 @@ AddressBookPage::AddressBookPage(Mode mode, Tabs tab, QWidget *parent) :
     ui->copyAddress->setIcon(QIcon());
     ui->deleteAddress->setIcon(QIcon());
     ui->exportButton->setIcon(QIcon());
+    /* Feature 5 -- Add the import addresses button*/
+    ui->importButton->setIcon(QIcon());
 #endif
 
     switch(mode)
@@ -67,6 +73,8 @@ AddressBookPage::AddressBookPage(Mode mode, Tabs tab, QWidget *parent) :
     case ReceivingTab:
         ui->labelExplanation->setText(tr("These are your Dogecoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction."));
         ui->deleteAddress->setVisible(false);
+        /* Feature 5 -- Cannot import receiving addresses*/
+         ui->importButton->setVisible(false);
         break;
     }
 
@@ -131,10 +139,10 @@ void AddressBookPage::setModel(AddressTableModel *model)
     // Set column widths
 #if QT_VERSION < 0x050000
     ui->tableView->horizontalHeader()->setResizeMode(AddressTableModel::Label, QHeaderView::Stretch);
-    ui->tableView->horizontalHeader()->setResizeMode(AddressTableModel::Address, QHeaderView::ResizeToContents);
+    ui->tableView->horizontalHeader()->setResizeMode(AddressTableModel::Address, QHeaderView::Stretch);
 #else
     ui->tableView->horizontalHeader()->setSectionResizeMode(AddressTableModel::Label, QHeaderView::Stretch);
-    ui->tableView->horizontalHeader()->setSectionResizeMode(AddressTableModel::Address, QHeaderView::ResizeToContents);
+    ui->tableView->horizontalHeader()->setSectionResizeMode(AddressTableModel::Address, QHeaderView::Stretch);
 #endif
 
     connect(ui->tableView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
@@ -285,6 +293,45 @@ void AddressBookPage::on_exportButton_clicked()
             tr("There was an error trying to save the address list to %1.").arg(filename));
     }
 }
+
+ /* Feature 5 - Import adderessbook from CSV file */
+void AddressBookPage::on_importButton_clicked()
+{ 
+    QMessageBox msgBox;
+    // CSV is currently the only supported format
+    // QString filename = GUIUtil::getSaveFileName(this,
+    //     tr("Import Address List"), QString(),
+    //     tr("Comma separated file (*.csv)"), NULL);
+
+   QString filename = GUIUtil::getOpenFileName(this, tr("Import Address List"), "", "", NULL);
+   if(filename.isEmpty())
+        return;
+
+
+    //QString filename = "/home/ikhlas/Documents/test2.csv";
+    
+
+        CSVModelReader reader(filename);  
+        
+        // QStringList list=reader.read();
+        // QStringList row;
+        // for (int i=0; i<list.length(); i++)
+        // {
+        //     row = list.value(i).split(",");
+        //     QString label (row.value(0));
+        //     label.replace(QString("\""), QString(""));
+        //     QString address (row.value(1));
+        //     address.replace(QString("\""), QString(""));
+          
+        //     model->addRow(AddressTableModel::Send, label,address);
+        // }
+
+    if(!reader.read(model)) {
+        QMessageBox::critical(this, tr("Importing Failed"),
+            tr("There was an error trying to read the address list from %1.").arg(filename));
+    }
+}
+/* Feature 5 - End*/
 
 void AddressBookPage::contextualMenu(const QPoint &point)
 {
