@@ -39,7 +39,7 @@ Instructions: Homebrew
 
 #### Install dependencies using Homebrew
 
-        brew install autoconf automake berkeley-db libtool boost miniupnpc openssl pkg-config protobuf qt
+        brew install autoconf automake libtool boost miniupnpc openssl pkg-config protobuf qt gmp
 
 ### Building `dogecoind`
 
