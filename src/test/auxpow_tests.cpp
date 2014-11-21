@@ -8,7 +8,7 @@
 #include "main.h"
 #include "uint256.h"
 
-#include "core/block.h"
+#include "primitives/block.h"
 
 #include "script/script.h"
 
