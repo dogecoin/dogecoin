@@ -163,6 +163,9 @@ public:
     // Recover a public key from a compact signature.
     bool RecoverCompact(const uint256 &hash, const std::vector<unsigned char>& vchSig);
 
+    // Turn this public key into a compressed public key.
+    bool Compress();
+
     // Turn this public key into an uncompressed public key.
     bool Decompress();
 
@@ -309,5 +312,8 @@ struct CExtKey {
     CExtPubKey Neuter() const;
     void SetMaster(const unsigned char *seed, unsigned int nSeedLen);
 };
+
+/** Check that required EC support is available at runtime */
+bool ECC_InitSanityCheck(void);
 
 #endif

@@ -53,8 +53,8 @@ AddressBookPage::AddressBookPage(Mode mode, Tabs tab, QWidget *parent) :
     case ForEditing:
         switch(tab)
         {
-        case SendingTab: setWindowTitle(tr("Sending addresses")); break;
-        case ReceivingTab: setWindowTitle(tr("Receiving addresses")); break;
+        case SendingTab: setWindowTitle(tr("Very sending addresses")); break;
+        case ReceivingTab: setWindowTitle(tr("Much receiving addresses")); break;
         }
         break;
     }

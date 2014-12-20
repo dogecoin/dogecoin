@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="cs" version="2.0">
+<TS language="cs" version="2.0">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -108,7 +108,7 @@ Tento produkt zahrnuje programy vyvinuté OpenSSL Projektem pro použití v Open
     </message>
     <message>
         <source>These are your Dogecoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation>Tohle jsou tvé Bitcoinové adresy pro příjem plateb. Je doporučené používat pokaždé novou adresu pro každou transakci.</translation>
+        <translation>Tohle jsou tvé Dogecoinové adresy pro příjem plateb. Je doporučené používat pokaždé novou adresu pro každou transakci.</translation>
     </message>
     <message>
         <source>Copy &amp;Label</source>
@@ -205,8 +205,8 @@ Tento produkt zahrnuje programy vyvinuté OpenSSL Projektem pro použití v Open
         <translation>Potvrď zašifrování peněženky</translation>
     </message>
     <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DogecoinS&lt;/b&gt;!</source>
-        <translation>Varování: Pokud si zašifruješ peněženku a ztratíš či zapomeneš heslo, &lt;b&gt;PŘIJDEŠ O VŠECHNY BITCOINY&lt;/b&gt;!</translation>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DOGECOINS&lt;/b&gt;!</source>
+        <translation>Varování: Pokud si zašifruješ peněženku a ztratíš či zapomeneš heslo, &lt;b&gt;PŘIJDEŠ O VŠECHNY DOGECOINY&lt;/b&gt;!</translation>
     </message>
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
@@ -225,8 +225,8 @@ Tento produkt zahrnuje programy vyvinuté OpenSSL Projektem pro použití v Open
         <translation>Peněženka je zašifrována</translation>
     </message>
     <message>
-        <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your bitcoins from being stolen by malware infecting your computer.</source>
-        <translation>Dogecoin se teď ukončí, aby dokončil zašifrování. Pamatuj však, že pouhé zašifrování peněženky úplně nezabraňuje krádeži tvých bitcoinů malwarem, kterým se může počítač nakazit.</translation>
+        <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your dogecoins from being stolen by malware infecting your computer.</source>
+        <translation>Dogecoin se teď ukončí, aby dokončil zašifrování. Pamatuj však, že pouhé zašifrování peněženky úplně nezabraňuje krádeži tvých dogecoinů malwarem, kterým se může počítač nakazit.</translation>
     </message>
     <message>
         <source>Wallet encryption failed</source>
@@ -348,7 +348,7 @@ Tento produkt zahrnuje programy vyvinuté OpenSSL Projektem pro použití v Open
         <translation>Pošli mince na Dogecoinovou adresu</translation>
     </message>
     <message>
-        <source>Modify configuration options for Dogecoin</source>
+        <source>Modify configuration options for Dogecoin Core</source>
         <translation>Uprav nastavení Dogecoinu</translation>
     </message>
     <message>
@@ -432,7 +432,7 @@ Tento produkt zahrnuje programy vyvinuté OpenSSL Projektem pro použití v Open
         <translation>Jádro Dogecoinu</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and bitcoin: URIs)</source>
+        <source>Request payments (generates QR codes and dogecoin: URIs)</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -448,7 +448,7 @@ Tento produkt zahrnuje programy vyvinuté OpenSSL Projektem pro použití v Open
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Open a bitcoin: URI or payment request</source>
+        <source>Open a dogecoin: URI or payment request</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -456,8 +456,8 @@ Tento produkt zahrnuje programy vyvinuté OpenSSL Projektem pro použití v Open
         <translation>Ar&amp;gumenty z příkazové řádky</translation>
     </message>
     <message>
-        <source>Show the Dogecoin Core help message to get a list with possible Dogecoin command-line options</source>
-        <translation>Seznam argumentů Bitcoinu pro příkazovou řádku získáš v nápovědě Bitcoinu Core.</translation>
+        <source>Show the Dogecoin Core help message to get a list with possible command-line options</source>
+        <translation>Seznam argumentů Dogecoinu pro příkazovou řádku získáš v nápovědě Dogecoinu Core.</translation>
     </message>
     <message>
         <source>Dogecoin client</source>
@@ -481,15 +481,15 @@ Tento produkt zahrnuje programy vyvinuté OpenSSL Projektem pro použití v Open
     </message>
     <message numerus="yes">
         <source>%n hour(s)</source>
-        <translation><numerusform>hodinu</numerusform><numerusform>%n hodiny</numerusform><numerusform>%n hodin</numerusform></translation>
+        <translation><numerusform>%n hodinu</numerusform><numerusform>%n hodiny</numerusform><numerusform>%n hodin</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n day(s)</source>
-        <translation><numerusform>den</numerusform><numerusform>%n dny</numerusform><numerusform>%n dnů</numerusform></translation>
+        <translation><numerusform>%n den</numerusform><numerusform>%n dny</numerusform><numerusform>%n dnů</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n week(s)</source>
-        <translation><numerusform>týden</numerusform><numerusform>%n týdny</numerusform><numerusform>%n týdnů</numerusform></translation>
+        <translation><numerusform>%n týden</numerusform><numerusform>%n týdny</numerusform><numerusform>%n týdnů</numerusform></translation>
     </message>
     <message>
         <source>%1 and %2</source>
@@ -497,7 +497,7 @@ Tento produkt zahrnuje programy vyvinuté OpenSSL Projektem pro použití v Open
     </message>
     <message numerus="yes">
         <source>%n year(s)</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation type="unfinished"><numerusform/><numerusform/><numerusform/></translation>
     </message>
     <message>
         <source>%1 behind</source>
@@ -575,7 +575,7 @@ Adresa: %4
     <name>CoinControlDialog</name>
     <message>
         <source>Coin Control Address Selection</source>
-        <translation type="unfinished"/>
+        <translation>Volba adres v rámci ruční správy mincí</translation>
     </message>
     <message>
         <source>Quantity:</source>
@@ -624,6 +624,10 @@ Adresa: %4
     <message>
         <source>Amount</source>
         <translation>Částka</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Address</source>
@@ -743,7 +747,7 @@ Adresa: %4
     </message>
     <message>
         <source>Dust</source>
-        <translation type="unfinished"/>
+        <translation>Prach</translation>
     </message>
     <message>
         <source>yes</source>
@@ -755,7 +759,7 @@ Adresa: %4
     </message>
     <message>
         <source>This label turns red, if the transaction size is greater than 1000 bytes.</source>
-        <translation type="unfinished"/>
+        <translation>Popisek zčervená, pokud je velikost transakce větší než 1000 bajtů.</translation>
     </message>
     <message>
         <source>This means a fee of at least %1 per kB is required.</source>
@@ -767,27 +771,27 @@ Adresa: %4
     </message>
     <message>
         <source>Transactions with higher priority are more likely to get included into a block.</source>
-        <translation type="unfinished"/>
+        <translation>Transakce s vyšší prioritou mají větší šanci na zařazení do bloku.</translation>
     </message>
     <message>
         <source>This label turns red, if the priority is smaller than &quot;medium&quot;.</source>
-        <translation type="unfinished"/>
+        <translation>Popisek zčervená, pokud je priorita menší než „střední“.</translation>
     </message>
     <message>
         <source>This label turns red, if any recipient receives an amount smaller than %1.</source>
-        <translation type="unfinished"/>
+        <translation>Popisek zčervená, pokud má některý příjemce obdržet částku menší než %1.</translation>
     </message>
     <message>
         <source>This means a fee of at least %1 is required.</source>
-        <translation type="unfinished"/>
+        <translation>To znamená, že je vyžadován poplatek alespoň %1.</translation>
     </message>
     <message>
         <source>Amounts below 0.546 times the minimum relay fee are shown as dust.</source>
-        <translation type="unfinished"/>
+        <translation>Částky menší než 0,546násobek minimálního poplatku pro přenos jsou označovány jako prach.</translation>
     </message>
     <message>
         <source>This label turns red, if the change is smaller than %1.</source>
-        <translation type="unfinished"/>
+        <translation>Popisek zčervená, pokud jsou drobné menší než %1.</translation>
     </message>
     <message>
         <source>(no label)</source>
@@ -795,7 +799,7 @@ Adresa: %4
     </message>
     <message>
         <source>change from %1 (%2)</source>
-        <translation type="unfinished"/>
+        <translation>drobné z %1 (%2)</translation>
     </message>
     <message>
         <source>(change)</source>
@@ -884,11 +888,11 @@ Adresa: %4
     <name>HelpMessageDialog</name>
     <message>
         <source>Dogecoin Core - Command-line options</source>
-        <translation type="unfinished"/>
+        <translation>Dogecoin Core – Argumenty z příkazové řádky</translation>
     </message>
     <message>
         <source>Dogecoin Core</source>
-        <translation>Jádro Dogecoinu</translation>
+        <translation>Dogecoin Core</translation>
     </message>
     <message>
         <source>version</source>
@@ -916,7 +920,7 @@ Adresa: %4
     </message>
     <message>
         <source>Set SSL root certificates for payment request (default: -system-)</source>
-        <translation type="unfinished"/>
+        <translation>Nastavit kořenové SSL certifikáty pro platební požadavky (výchozí: -system-)</translation>
     </message>
     <message>
         <source>Show splash screen on startup (default: 1)</source>
@@ -1016,11 +1020,11 @@ Adresa: %4
         <translation>Platit &amp;transakční poplatek</translation>
     </message>
     <message>
-        <source>Automatically start Dogecoin after logging in to the system.</source>
+        <source>Automatically start Dogecoin Core after logging in to the system.</source>
         <translation>Automaticky spustí Dogecoin po přihlášení do systému.</translation>
     </message>
     <message>
-        <source>&amp;Start Dogecoin on system login</source>
+        <source>&amp;Start Dogecoin Core on system login</source>
         <translation>S&amp;pustit Dogecoin po přihlášení do systému</translation>
     </message>
     <message>
@@ -1048,8 +1052,16 @@ Adresa: %4
         <translation>IP adresa proxy (např. IPv4: 127.0.0.1/IPv6: ::1)</translation>
     </message>
     <message>
+        <source>Third party URLs (e.g. a block explorer) that appear in the transactions tab as context menu items. %s in the URL is replaced by transaction hash. Multiple URLs are separated by vertical bar |.</source>
+        <translation>URL třetích stran (např. block exploreru), které se zobrazí v kontextovém menu v záložce Transakce. %s v URL se nahradí hashem transakce. Více URL odděl svislítkem |.</translation>
+    </message>
+    <message>
+        <source>Third party transaction URLs</source>
+        <translation>URL transakcí třetích stran</translation>
+    </message>
+    <message>
         <source>Active command-line options that override above options:</source>
-        <translation type="unfinished"/>
+        <translation>Aktivní argumenty z příkazové řádky, které přetloukly tato nastavení:</translation>
     </message>
     <message>
         <source>Reset all client options to default.</source>
@@ -1077,15 +1089,15 @@ Adresa: %4
     </message>
     <message>
         <source>Enable coin &amp;control features</source>
-        <translation type="unfinished"/>
+        <translation>Povolit ruční správu &amp;mincí</translation>
     </message>
     <message>
         <source>If you disable the spending of unconfirmed change, the change from a transaction cannot be used until that transaction has at least one confirmation. This also affects how your balance is computed.</source>
-        <translation type="unfinished"/>
+        <translation>Pokud zakážeš utrácení ještě nepotvrzených drobných, nepůjde použít drobné z transakce, dokud nebude mít alespoň jedno potvrzení. Ovlivní to také výpočet stavu účtu.</translation>
     </message>
     <message>
         <source>&amp;Spend unconfirmed change</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Utrácet i ještě nepotvrzené drobné</translation>
     </message>
     <message>
         <source>Automatically open the Dogecoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
@@ -1144,7 +1156,7 @@ Adresa: %4
         <translation>&amp;Jazyk uživatelského rozhraní:</translation>
     </message>
     <message>
-        <source>The user interface language can be set here. This setting will take effect after restarting Dogecoin.</source>
+        <source>The user interface language can be set here. This setting will take effect after restarting Dogecoin Core.</source>
         <translation>Tady lze nastavit jazyk uživatelského rozhraní. Nastavení se projeví až po restartování Dogecoinu.</translation>
     </message>
     <message>
@@ -1157,7 +1169,7 @@ Adresa: %4
     </message>
     <message>
         <source>Whether to show Dogecoin addresses in the transaction list or not.</source>
-        <translation>Zda ukazovat bitcoinové adresy ve výpisu transakcí nebo ne.</translation>
+        <translation>Zda ukazovat dogecoinové adresy ve výpisu transakcí nebo ne.</translation>
     </message>
     <message>
         <source>&amp;Display addresses in transaction list</source>
@@ -1165,7 +1177,7 @@ Adresa: %4
     </message>
     <message>
         <source>Whether to show coin control features or not.</source>
-        <translation type="unfinished"/>
+        <translation>Zda ukazovat možnosti pro ruční správu mincí nebo ne.</translation>
     </message>
     <message>
         <source>&amp;OK</source>
@@ -1181,7 +1193,7 @@ Adresa: %4
     </message>
     <message>
         <source>none</source>
-        <translation type="unfinished"/>
+        <translation>žádné</translation>
     </message>
     <message>
         <source>Confirm options reset</source>
@@ -1278,8 +1290,8 @@ Adresa: %4
         <translation>Chyba platebního požadavku</translation>
     </message>
     <message>
-        <source>Cannot start bitcoin: click-to-pay handler</source>
-        <translation>Nemůžu spustit bitcoin: obsluha click-to-pay</translation>
+        <source>Cannot start dogecoin: click-to-pay handler</source>
+        <translation>Nemůžu spustit dogecoin: obsluha click-to-pay</translation>
     </message>
     <message>
         <source>Net manager warning</source>
@@ -1539,39 +1551,39 @@ Adresa: %4
     </message>
     <message>
         <source>Reuse one of the previously used receiving addresses. Reusing addresses has security and privacy issues. Do not use this unless re-generating a payment request made before.</source>
-        <translation type="unfinished"/>
+        <translation>Recyklovat již dříve použité adresy. Recyklace adres má bezpečnostní rizika a narušuje soukromí. Nezaškrtávejte to, pokud znovu nevytváříte již dříve vytvořený platební požadavek.</translation>
     </message>
     <message>
         <source>R&amp;euse an existing receiving address (not recommended)</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Recyklovat již existující adresy (nedoporučeno)</translation>
     </message>
     <message>
         <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Dogecoin network.</source>
-        <translation type="unfinished"/>
+        <translation>Volitelná zpráva, která se připojí k platebnímu požadavku a která se zobrazí, když se požadavek otevře. Poznámka: Tahle zpráva se neposílá s platbou po Dogecoinové síti.</translation>
     </message>
     <message>
         <source>An optional label to associate with the new receiving address.</source>
-        <translation type="unfinished"/>
+        <translation>Volitelné označení, které se má přiřadit k nové adrese.</translation>
     </message>
     <message>
         <source>Use this form to request payments. All fields are &lt;b&gt;optional&lt;/b&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>Tímto formulář můžeš požadovat platby. Všechna pole jsou &lt;b&gt;volitelná&lt;/b&gt;.</translation>
     </message>
     <message>
         <source>An optional amount to request. Leave this empty or zero to not request a specific amount.</source>
-        <translation type="unfinished"/>
+        <translation>Volitelná částka, kterou požaduješ. Nech prázdné nebo nulové, pokud nepožaduješ konkrétní částku.</translation>
     </message>
     <message>
         <source>Clear all fields of the form.</source>
-        <translation type="unfinished"/>
+        <translation>Promaž obsah ze všech formulářových políček.</translation>
     </message>
     <message>
         <source>Clear</source>
-        <translation type="unfinished"/>
+        <translation>Vyčistit</translation>
     </message>
     <message>
         <source>Requested payments history</source>
-        <translation type="unfinished"/>
+        <translation>Historie vyžádaných plateb</translation>
     </message>
     <message>
         <source>&amp;Request payment</source>
@@ -1579,19 +1591,19 @@ Adresa: %4
     </message>
     <message>
         <source>Show the selected request (does the same as double clicking an entry)</source>
-        <translation type="unfinished"/>
+        <translation>Zobraz zvolený požadavek (stejně tak můžeš přímo na něj dvakrát poklepat)</translation>
     </message>
     <message>
         <source>Show</source>
-        <translation type="unfinished"/>
+        <translation>Zobrazit</translation>
     </message>
     <message>
         <source>Remove the selected entries from the list</source>
-        <translation type="unfinished"/>
+        <translation>Smaž zvolené požadavky ze seznamu</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished"/>
+        <translation>Smazat</translation>
     </message>
     <message>
         <source>Copy label</source>
@@ -1614,7 +1626,7 @@ Adresa: %4
     </message>
     <message>
         <source>Copy &amp;URI</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Kopíruj URI</translation>
     </message>
     <message>
         <source>Copy &amp;Address</source>
@@ -1626,7 +1638,7 @@ Adresa: %4
     </message>
     <message>
         <source>Request payment to %1</source>
-        <translation type="unfinished"/>
+        <translation>Platební požadavek: %1</translation>
     </message>
     <message>
         <source>Payment information</source>
@@ -1700,7 +1712,7 @@ Adresa: %4
     </message>
     <message>
         <source>Coin Control Features</source>
-        <translation type="unfinished"/>
+        <translation>Možnosti ruční správy mincí</translation>
     </message>
     <message>
         <source>Inputs...</source>
@@ -1748,7 +1760,7 @@ Adresa: %4
     </message>
     <message>
         <source>If this is activated, but the change address is empty or invalid, change will be sent to a newly generated address.</source>
-        <translation type="unfinished"/>
+        <translation>Pokud aktivováno, ale adresa pro drobné je prázdná nebo neplatná, tak se drobné pošlou na nově vygenerovanou adresu.</translation>
     </message>
     <message>
         <source>Custom change address</source>
@@ -1764,7 +1776,7 @@ Adresa: %4
     </message>
     <message>
         <source>Clear all fields of the form.</source>
-        <translation type="unfinished"/>
+        <translation>Promaž obsah ze všech formulářových políček.</translation>
     </message>
     <message>
         <source>Clear &amp;All</source>
@@ -1788,7 +1800,7 @@ Adresa: %4
     </message>
     <message>
         <source>%1 to %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 pro %2</translation>
     </message>
     <message>
         <source>Copy quantity</source>
@@ -1872,7 +1884,7 @@ Adresa: %4
     </message>
     <message>
         <source>Are you sure you want to send?</source>
-        <translation type="unfinished"/>
+        <translation>Jsi si jistý, že to chceš poslat?</translation>
     </message>
     <message>
         <source>added as transaction fee</source>
@@ -1939,19 +1951,19 @@ Adresa: %4
     </message>
     <message>
         <source>This is a verified payment request.</source>
-        <translation type="unfinished"/>
+        <translation>Tohle je ověřený platební požadavek.</translation>
     </message>
     <message>
         <source>Enter a label for this address to add it to the list of used addresses</source>
-        <translation type="unfinished"/>
+        <translation>Zadej označení této adresy; obojí se ti pak uloží do adresáře</translation>
     </message>
     <message>
-        <source>A message that was attached to the bitcoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
-        <translation type="unfinished"/>
+        <source>A message that was attached to the dogecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
+        <translation>Zpráva, která byla připojena k dogecoin: URI a která se ti pro přehled uloží k transakci. Poznámka: Tahle zpráva se neposílá s platbou po Dogecoinové síti.</translation>
     </message>
     <message>
         <source>This is an unverified payment request.</source>
-        <translation type="unfinished"/>
+        <translation>Tohle je neověřený platební požadavek.</translation>
     </message>
     <message>
         <source>Pay To:</source>
@@ -2166,7 +2178,7 @@ Adresa: %4
     </message>
     <message numerus="yes">
         <source>, broadcast through %n node(s)</source>
-        <translation><numerusform>, rozesláno přes 1 uzel</numerusform><numerusform>, rozesláno přes %n uzly</numerusform><numerusform>, rozesláno přes %n uzlů</numerusform></translation>
+        <translation><numerusform>, rozesláno přes %n uzel</numerusform><numerusform>, rozesláno přes %n uzly</numerusform><numerusform>, rozesláno přes %n uzlů</numerusform></translation>
     </message>
     <message>
         <source>Date</source>
@@ -2202,7 +2214,7 @@ Adresa: %4
     </message>
     <message numerus="yes">
         <source>matures in %n more block(s)</source>
-        <translation><numerusform>dozraje po jednom bloku</numerusform><numerusform>dozraje po %n blocích</numerusform><numerusform>dozraje po %n blocích</numerusform></translation>
+        <translation><numerusform>dozraje po %n bloku</numerusform><numerusform>dozraje po %n blocích</numerusform><numerusform>dozraje po %n blocích</numerusform></translation>
     </message>
     <message>
         <source>not accepted</source>
@@ -2270,7 +2282,7 @@ Adresa: %4
     </message>
     <message numerus="yes">
         <source>Open for %n more block(s)</source>
-        <translation><numerusform>Otevřeno pro 1 další blok</numerusform><numerusform>Otevřeno pro %n další bloky</numerusform><numerusform>Otevřeno pro %n dalších bloků</numerusform></translation>
+        <translation><numerusform>Otevřeno pro %n další blok</numerusform><numerusform>Otevřeno pro %n další bloky</numerusform><numerusform>Otevřeno pro %n dalších bloků</numerusform></translation>
     </message>
     <message>
         <source>unknown</source>
@@ -2312,7 +2324,7 @@ Adresa: %4
     </message>
     <message numerus="yes">
         <source>Open for %n more block(s)</source>
-        <translation><numerusform>Otevřeno pro 1 další blok</numerusform><numerusform>Otevřeno pro %n další bloky</numerusform><numerusform>Otevřeno pro %n dalších bloků</numerusform></translation>
+        <translation><numerusform>Otevřeno pro %n další blok</numerusform><numerusform>Otevřeno pro %n další bloky</numerusform><numerusform>Otevřeno pro %n dalších bloků</numerusform></translation>
     </message>
     <message>
         <source>Open until %1</source>
@@ -2602,8 +2614,8 @@ Adresa: %4
         <translation>Možnosti:</translation>
     </message>
     <message>
-        <source>Specify configuration file (default: bitcoin.conf)</source>
-        <translation>Konfigurační soubor (výchozí: bitcoin.conf)</translation>
+        <source>Specify configuration file (default: dogecoin.conf)</source>
+        <translation>Konfigurační soubor (výchozí: dogecoin.conf)</translation>
     </message>
     <message>
         <source>Specify pid file (default: bitcoind.pid)</source>
@@ -2639,7 +2651,7 @@ Adresa: %4
     </message>
     <message>
         <source>An error occurred while setting up the RPC port %u for listening on IPv4: %s</source>
-        <translation>Při nastavování naslouchacího RPC portu %i pro IPv4 nastala chyba: %s</translation>
+        <translation>Při nastavování naslouchacího RPC portu %u pro IPv4 nastala chyba: %s</translation>
     </message>
     <message>
         <source>Listen for JSON-RPC connections on &lt;port&gt; (default: 8332 or testnet: 18332)</source>
@@ -2703,7 +2715,7 @@ například: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Continuously rate-limit free transactions to &lt;n&gt;*1000 bytes per minute (default:15)</source>
-        <translation type="unfinished"/>
+        <translation>Kontinuálně omezovat bezpoplatkové transakce na &lt;n&gt;*1000 bajtů za minutu (výchozí: 15)</translation>
     </message>
     <message>
         <source>Enter regression test mode, which uses a special chain in which blocks can be solved instantly. This is intended for regression testing tools and app development.</source>
@@ -2715,7 +2727,7 @@ například: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Error: Listening for incoming connections failed (listen returned error %d)</source>
-        <translation type="unfinished"/>
+        <translation>Chyba: Nelze naslouchat příchozí spojení (listen vrátil chybu %d)</translation>
     </message>
     <message>
         <source>Error: The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
@@ -2731,11 +2743,11 @@ například: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Fees smaller than this are considered zero fee (for transaction creation) (default:</source>
-        <translation type="unfinished"/>
+        <translation>Poplatky menší než tato hodnota jsou považovány za nulové (pro vytváření transakcí) (výchozí:</translation>
     </message>
     <message>
         <source>Flush database activity from memory pool to disk log every &lt;n&gt; megabytes (default: 100)</source>
-        <translation type="unfinished"/>
+        <translation>Promítnout databázovou aktivitu z paměťového prostoru do záznamu na disku každých &lt;n&gt; megabajtů (výchozí: 100)</translation>
     </message>
     <message>
         <source>How thorough the block verification of -checkblocks is (0-4, default: 3)</source>
@@ -2743,15 +2755,15 @@ například: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>In this mode -genproclimit controls how many blocks are generated immediately.</source>
-        <translation type="unfinished"/>
+        <translation>V tomto módu -genproclimit určuje, kolik bloků je vygenerováno okamžitě.</translation>
     </message>
     <message>
         <source>Set the number of script verification threads (%u to %d, 0 = auto, &lt;0 = leave that many cores free, default: %d)</source>
-        <translation>Nastavení počtu vláken pro verifikaci skriptů (%u až %d, 0 = automaticky, &lt;0 = nechat daný počet jader volný, výchozí: 0)</translation>
+        <translation>Nastavení počtu vláken pro verifikaci skriptů (%u až %d, 0 = automaticky, &lt;0 = nechat daný počet jader volný, výchozí: %d)</translation>
     </message>
     <message>
         <source>Set the processor limit for when generation is on (-1 = unlimited, default: -1)</source>
-        <translation type="unfinished"/>
+        <translation>Nastavit omezení procesoru pro zapnuté generování (-1 = bez omezení, výchozí: -1)</translation>
     </message>
     <message>
         <source>This is a pre-release test build - use at your own risk - do not use for mining or merchant applications</source>
@@ -2815,7 +2827,7 @@ například: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Clear list of wallet transactions (diagnostic tool; implies -rescan)</source>
-        <translation type="unfinished"/>
+        <translation>Smazat seznam transakcí peněženky (diagnostický nástroj; vynutí -rescan)</translation>
     </message>
     <message>
         <source>Connect only to the specified node(s)</source>
@@ -2843,7 +2855,7 @@ například: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Disable safemode, override a real safe mode event (default: 0)</source>
-        <translation type="unfinished"/>
+        <translation>Vypnout bezpečný režim (safemode), překrýt skutečnou událost bezpečného režimu (výchozí: 0)</translation>
     </message>
     <message>
         <source>Discover own IP address (default: 1 when listening and no -externalip)</source>
@@ -2935,7 +2947,7 @@ například: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Fees smaller than this are considered zero fee (for relaying) (default:</source>
-        <translation type="unfinished"/>
+        <translation>Poplatky menší než tato hodnota jsou považovány za nulové (pro přeposílání transakcí) (výchozí:</translation>
     </message>
     <message>
         <source>Find peers using DNS lookup (default: 1 unless -connect)</source>
@@ -2955,7 +2967,7 @@ například: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>If &lt;category&gt; is not supplied, output all debugging information.</source>
-        <translation type="unfinished"/>
+        <translation>Pokud není &lt;category&gt; zadána, bude tisknout veškeré ladicí informace.</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -2979,7 +2991,7 @@ například: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>RPC client options:</source>
-        <translation type="unfinished"/>
+        <translation>Možnosti RPC klienta:</translation>
     </message>
     <message>
         <source>Rebuild block chain index from current blk000??.dat files</source>
@@ -3007,15 +3019,15 @@ například: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Spend unconfirmed change when sending transactions (default: 1)</source>
-        <translation type="unfinished"/>
+        <translation>Utrácet i ještě nepotvrzené drobné při posílání transakcí (výchozí: 1)</translation>
     </message>
     <message>
         <source>This is intended for regression testing tools and app development.</source>
         <translation>Tohle je určeno pro nástroje na regresní testování a vyvíjení aplikací.</translation>
     </message>
     <message>
-        <source>Usage (deprecated, use bitcoin-cli):</source>
-        <translation type="unfinished"/>
+        <source>Usage (deprecated, use dogecoin-cli):</source>
+        <translation>Užití (zastaralé, použij dogecoin-cli):</translation>
     </message>
     <message>
         <source>Verifying blocks...</source>
@@ -3027,7 +3039,7 @@ například: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Wait for RPC server to start</source>
-        <translation type="unfinished"/>
+        <translation>Počkat, než RPC server nastartuje</translation>
     </message>
     <message>
         <source>Wallet %s resides outside data directory %s</source>
@@ -3039,7 +3051,7 @@ například: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Warning: Deprecated argument -debugnet ignored, use -debug=net</source>
-        <translation type="unfinished"/>
+        <translation>Upozornění: Zastaralý argument -debugnet se ignoruje, použij -debug=net</translation>
     </message>
     <message>
         <source>You need to rebuild the database using -reindex to change -txindex</source>
@@ -3079,11 +3091,11 @@ například: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Limit size of signature cache to &lt;n&gt; entries (default: 50000)</source>
-        <translation type="unfinished"/>
+        <translation>Omezit velikost vyrovnávací paměti pro podpisy na &lt;n&gt; položek (výchozí: 50000)</translation>
     </message>
     <message>
         <source>Log transaction priority and fee per kB when mining blocks (default: 0)</source>
-        <translation type="unfinished"/>
+        <translation>Zaznamenávat během těžení bloků prioritu transakce a poplatek za kB (výchozí: 0)</translation>
     </message>
     <message>
         <source>Maintain a full transaction index (default: 0)</source>
@@ -3107,15 +3119,15 @@ například: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Print block on startup, if found in block index</source>
-        <translation type="unfinished"/>
+        <translation>Vypsat při startu blok,pokud se nachází v indexu bloků</translation>
     </message>
     <message>
         <source>Print block tree on startup (default: 0)</source>
-        <translation type="unfinished"/>
+        <translation>Vypsat při startu strom bloků (výchozí: 0)</translation>
     </message>
     <message>
         <source>RPC SSL options: (see the Bitcoin Wiki for SSL setup instructions)</source>
-        <translation type="unfinished"/>
+        <translation>Možnosti SSL pro RPC: (viz instrukce nastavení SSL na Bitcoin Wiki)</translation>
     </message>
     <message>
         <source>RPC server options:</source>
@@ -3123,19 +3135,19 @@ například: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Randomly drop 1 of every &lt;n&gt; network messages</source>
-        <translation type="unfinished"/>
+        <translation>Náhodně zahazovat jednu z každých &lt;n&gt; síťových zpráv</translation>
     </message>
     <message>
         <source>Randomly fuzz 1 of every &lt;n&gt; network messages</source>
-        <translation type="unfinished"/>
+        <translation>Náhodně pozměňovat jednu z každých &lt;n&gt; síťových zpráv</translation>
     </message>
     <message>
         <source>Run a thread to flush wallet periodically (default: 1)</source>
-        <translation type="unfinished"/>
+        <translation>Spustit vlákno pročišťující periodicky peněženku (výchozí: 1)</translation>
     </message>
     <message>
         <source>SSL options: (see the Bitcoin Wiki for SSL setup instructions)</source>
-        <translation>Možnosti SSL: (viz instrukce nastavení SSL v Bitcoin Wiki)</translation>
+        <translation>Možnosti SSL: (viz instrukce nastavení SSL na Bitcoin Wiki)</translation>
     </message>
     <message>
         <source>Send command to Dogecoin Core</source>
@@ -3151,15 +3163,15 @@ například: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Sets the DB_PRIVATE flag in the wallet db environment (default: 1)</source>
-        <translation type="unfinished"/>
+        <translation>Nastavit příznak DB_PRIVATE v databázovém prostředí peněženky (výchozí: 1)</translation>
     </message>
     <message>
         <source>Show all debugging options (usage: --help -help-debug)</source>
-        <translation type="unfinished"/>
+        <translation>Zobrazit všechny možnosti ladění (užití: --help -help-debug)</translation>
     </message>
     <message>
         <source>Show benchmark information (default: 0)</source>
-        <translation type="unfinished"/>
+        <translation>Zobrazit výkonnostní informace (výchozí: 0)</translation>
     </message>
     <message>
         <source>Shrink debug.log file on client startup (default: 1 when no -debug)</source>
@@ -3175,7 +3187,7 @@ například: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Start Dogecoin Core Daemon</source>
-        <translation type="unfinished"/>
+        <translation>Spustit Dogecoin Core démona</translation>
     </message>
     <message>
         <source>System error: </source>
@@ -3215,7 +3227,7 @@ například: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Zapping all transactions from wallet...</source>
-        <translation type="unfinished"/>
+        <translation>Vymazat všechny transakce z peněženky...</translation>
     </message>
     <message>
         <source>on startup</source>

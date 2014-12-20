@@ -38,6 +38,8 @@ namespace boost {
 
 /** The maximum number of entries in an 'inv' protocol message */
 static const unsigned int MAX_INV_SZ = 50000;
+/** The maximum number of entries in mapAskFor */
+static const size_t MAPASKFOR_MAX_SZ = MAX_INV_SZ;
 
 inline unsigned int ReceiveFloodSize() { return 1000*GetArg("-maxreceivebuffer", 5*1000); }
 inline unsigned int SendBufferSize() { return 1000*GetArg("-maxsendbuffer", 1*1000); }
@@ -102,6 +104,7 @@ extern uint64_t nLocalServices;
 extern uint64_t nLocalHostNonce;
 extern CAddrMan addrman;
 extern int nMaxConnections;
+extern int nMaxOutboundConnections;
 
 extern std::vector<CNode*> vNodes;
 extern CCriticalSection cs_vNodes;
@@ -422,6 +425,9 @@ public:
 
     void AskFor(const CInv& inv)
     {
+        if (mapAskFor.size() > MAPASKFOR_MAX_SZ)
+            return;
+
         // We're using mapAskFor as a priority queue,
         // the key is the earliest time the request can be sent
         int64_t nRequestTime;

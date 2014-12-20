@@ -53,6 +53,8 @@ Q_IMPORT_PLUGIN(qtaccessiblewidgets)
 #else
 Q_IMPORT_PLUGIN(AccessibleFactory)
 Q_IMPORT_PLUGIN(QWindowsIntegrationPlugin);
+Q_IMPORT_PLUGIN(QMinimalIntegrationPlugin);
+Q_IMPORT_PLUGIN(QWindowsPrinterSupportPlugin);
 #endif
 #endif
 

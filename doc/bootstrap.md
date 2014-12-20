@@ -1,6 +1,6 @@
 ### Bootstrap the Blockchain Synchronization
 
-Normally the Dogecoin Core client will download the transaction and network information, called the blockchain, from network by syncing with the other clients. This can be a process that can take multiple days as the Dogecoin block chain has grown to more than 3 gigabytes, and is growing almost half a gigabyte every month. Luckily there is a safe and fast way to speed up this process. We’ll show you how to bootstrap your blockchain to bring your client up to speed in just a few simple steps.
+Normally the Dogecoin Core client will download the transaction and network information, called the blockchain, from network by syncing with the other clients. This can be a process that can take multiple days as the Dogecoin block chain has grown to approximately 5 gigabytes, and is growing almost half a gigabyte every month. Luckily there is a safe and fast way to speed up this process. We’ll show you how to bootstrap your blockchain to bring your client up to speed in just a few simple steps.
 
 You only need to do this when first syncing Dogecoin Core; after that, updates are relatively small and shouldn't take too long.
 
@@ -10,22 +10,19 @@ You only need to do this when first syncing Dogecoin Core; after that, updates a
 
 ### Download the block chain
 Be sure to only use the official repositories listed below.
+Both mirrors are updated nightly and hosted by [SoChain](https://chain.so)
 
 #### US Mirror
 
-*Updated once per day, hosted by SoChain*
+Click [here](https://bootstrap.chain.so/) to go to the download page, or use the URL below.
 
-Click [here](https://bootstrap.chain.so/bootstrap.dat) to download, or use the URL below.
-
-    https://bootstrap.chain.so/bootstrap.dat 
+    https://bootstrap.chain.so/bootstrap.dat
 
 #### EU Mirror
 
-*Updated once per month, hosted by Moolah*
+Click [here](https://uk.bootstrap.chain.so/) to go to the download page, or use the URL below.
 
-Click [here](http://bootstrap.moolah.io/dogecoin/bootstrap.dat) to download, or use the URL below.
-
-    http://bootstrap.moolah.io/dogecoin/bootstrap.dat
+    https://uk.bootstrap.chain.so/bootstrap.dat
 
 ### Importing the blockchain
 Launch the Dogecoin Core client once before continuing the process and then exit the Dogecoin Core software. Be sure not to have an actively used wallet in use. Now we are going to copy the download of the blockchain to the Dogecoin Core data directory. You should run the client software at least once so it can generate the data directory. Copy the downloaded bootstrap.dat file into the Dogecoin data folder.

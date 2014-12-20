@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="hr" version="2.0">
+<TS language="hr" version="2.0">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -200,8 +200,8 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Potvrdi šifriranje novčanika</translation>
     </message>
     <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DogecoinS&lt;/b&gt;!</source>
-        <translation>Upozorenje: Ako šifrirate vaš novčanik i izgubite lozinku, &lt;b&gt;IZGUBIT ĆETE SVE SVOJE DogecoinSE!&lt;/b&gt;</translation>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DOGECOINS&lt;/b&gt;!</source>
+        <translation>Upozorenje: Ako šifrirate vaš novčanik i izgubite lozinku, &lt;b&gt;IZGUBIT ĆETE SVE SVOJE DOGECOINSE!&lt;/b&gt;</translation>
     </message>
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
@@ -220,7 +220,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Novčanik šifriran</translation>
     </message>
     <message>
-        <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your bitcoins from being stolen by malware infecting your computer.</source>
+        <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your dogecoins from being stolen by malware infecting your computer.</source>
         <translation>Dogecoin će se sada zatvoriti kako bi dovršio postupak šifriranja. Zapamtite da šifriranje vašeg novčanika ne može u potpunosti zaštititi vaše bitcoine od krađe preko zloćudnog softvera koji bi bio na vašem računalu.</translation>
     </message>
     <message>
@@ -343,7 +343,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Slanje novca na bitcoin adresu</translation>
     </message>
     <message>
-        <source>Modify configuration options for Dogecoin</source>
+        <source>Modify configuration options for Dogecoin Core</source>
         <translation>Promijeni postavke konfiguracije za bitcoin</translation>
     </message>
     <message>
@@ -427,7 +427,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Dogecoin Jezgra</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and bitcoin: URIs)</source>
+        <source>Request payments (generates QR codes and dogecoin: URIs)</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -443,7 +443,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Open a bitcoin: URI or payment request</source>
+        <source>Open a dogecoin: URI or payment request</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -451,7 +451,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Show the Dogecoin Core help message to get a list with possible Dogecoin command-line options</source>
+        <source>Show the Dogecoin Core help message to get a list with possible command-line options</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -476,15 +476,15 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message numerus="yes">
         <source>%n hour(s)</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation type="unfinished"><numerusform/><numerusform/><numerusform/></translation>
     </message>
     <message numerus="yes">
         <source>%n day(s)</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation type="unfinished"><numerusform/><numerusform/><numerusform/></translation>
     </message>
     <message numerus="yes">
         <source>%n week(s)</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation type="unfinished"><numerusform/><numerusform/><numerusform/></translation>
     </message>
     <message>
         <source>%1 and %2</source>
@@ -492,7 +492,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message numerus="yes">
         <source>%n year(s)</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation type="unfinished"><numerusform/><numerusform/><numerusform/></translation>
     </message>
     <message>
         <source>%1 behind</source>
@@ -619,6 +619,10 @@ Adresa:%4
     <message>
         <source>Amount</source>
         <translation>Iznos</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Address</source>
@@ -1011,11 +1015,11 @@ Adresa:%4
         <translation>Plati &amp;naknadu za transakciju</translation>
     </message>
     <message>
-        <source>Automatically start Dogecoin after logging in to the system.</source>
+        <source>Automatically start Dogecoin Core after logging in to the system.</source>
         <translation>Automatski pokreni Dogecoin kad se uključi računalo</translation>
     </message>
     <message>
-        <source>&amp;Start Dogecoin on system login</source>
+        <source>&amp;Start Dogecoin Core on system login</source>
         <translation>&amp;Pokreni Dogecoin kod pokretanja sustava</translation>
     </message>
     <message>
@@ -1139,7 +1143,7 @@ Adresa:%4
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>The user interface language can be set here. This setting will take effect after restarting Dogecoin.</source>
+        <source>The user interface language can be set here. This setting will take effect after restarting Dogecoin Core.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1273,7 +1277,7 @@ Adresa:%4
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Cannot start bitcoin: click-to-pay handler</source>
+        <source>Cannot start dogecoin: click-to-pay handler</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1451,7 +1455,7 @@ Adresa:%4
     </message>
     <message>
         <source>Totals</source>
-        <translation type="unfinished"/>
+        <translation>Ukupno:</translation>
     </message>
     <message>
         <source>In:</source>
@@ -1941,7 +1945,7 @@ Adresa:%4
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>A message that was attached to the bitcoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
+        <source>A message that was attached to the dogecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -2161,7 +2165,7 @@ Adresa:%4
     </message>
     <message numerus="yes">
         <source>, broadcast through %n node(s)</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation type="unfinished"><numerusform/><numerusform/><numerusform/></translation>
     </message>
     <message>
         <source>Date</source>
@@ -2197,7 +2201,7 @@ Adresa:%4
     </message>
     <message numerus="yes">
         <source>matures in %n more block(s)</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation type="unfinished"><numerusform/><numerusform/><numerusform/></translation>
     </message>
     <message>
         <source>not accepted</source>
@@ -2265,7 +2269,7 @@ Adresa:%4
     </message>
     <message numerus="yes">
         <source>Open for %n more block(s)</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation type="unfinished"><numerusform/><numerusform/><numerusform/></translation>
     </message>
     <message>
         <source>unknown</source>
@@ -2307,7 +2311,7 @@ Adresa:%4
     </message>
     <message numerus="yes">
         <source>Open for %n more block(s)</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation type="unfinished"><numerusform/><numerusform/><numerusform/></translation>
     </message>
     <message>
         <source>Open until %1</source>
@@ -2555,7 +2559,7 @@ Adresa:%4
     </message>
     <message>
         <source>Backup Wallet</source>
-        <translation type="unfinished"/>
+        <translation>Backup novčanika</translation>
     </message>
     <message>
         <source>Wallet Data (*.dat)</source>
@@ -2563,7 +2567,7 @@ Adresa:%4
     </message>
     <message>
         <source>Backup Failed</source>
-        <translation type="unfinished"/>
+        <translation>Backup nije uspio</translation>
     </message>
     <message>
         <source>There was an error trying to save the wallet data to %1.</source>
@@ -2597,12 +2601,12 @@ Adresa:%4
         <translation>Postavke:</translation>
     </message>
     <message>
-        <source>Specify configuration file (default: bitcoin.conf)</source>
-        <translation>Odredi konfiguracijsku datoteku (ugrađeni izbor: bitcoin.conf)</translation>
+        <source>Specify configuration file (default: dogecoin.conf)</source>
+        <translation>Odredi konfiguracijsku datoteku (ugrađeni izbor: dogecoin.conf)</translation>
     </message>
     <message>
         <source>Specify pid file (default: bitcoind.pid)</source>
-        <translation>Odredi proces ID datoteku (ugrađeni izbor: bitcoin.pid)</translation>
+        <translation>Odredi proces ID datoteku (ugrađeni izbor: dogecoind.pid)</translation>
     </message>
     <message>
         <source>Specify data directory</source>
@@ -2999,7 +3003,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Usage (deprecated, use bitcoin-cli):</source>
+        <source>Usage (deprecated, use dogecoin-cli):</source>
         <translation type="unfinished"/>
     </message>
     <message>
