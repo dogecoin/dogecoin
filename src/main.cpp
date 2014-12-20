@@ -28,6 +28,7 @@
 #include <boost/filesystem/fstream.hpp>
 #include <boost/random/mersenne_twister.hpp>
 #include <boost/random/uniform_int.hpp>
+#include <boost/lexical_cast.hpp>
 
 using namespace std;
 using namespace boost;
@@ -2318,6 +2319,7 @@ bool ActivateBestChain(CValidationState &state) {
         if (!IsInitialBlockDownload() && !strCmd.empty())
         {
             boost::replace_all(strCmd, "%s", chainActive.Tip()->GetBlockHash().GetHex());
+            boost::replace_all(strCmd, "%i", boost::lexical_cast<std::string>(chainActive.Height()));
             boost::thread t(runCommand, strCmd); // thread runs free
         }
     }
