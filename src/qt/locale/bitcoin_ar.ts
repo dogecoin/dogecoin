@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="ar" version="2.0">
+<TS language="ar" version="2.0">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -200,7 +200,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>تأكيد التشفير المحفظة</translation>
     </message>
     <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DogecoinS&lt;/b&gt;!</source>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DOGECOINS&lt;/b&gt;!</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -220,7 +220,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>محفظة مشفرة</translation>
     </message>
     <message>
-        <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your bitcoins from being stolen by malware infecting your computer.</source>
+        <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your dogecoins from being stolen by malware infecting your computer.</source>
         <translation>بتكوين سوف يغلق الآن لإنهاء عملية التشفير. تذكر أن التشفير لا يستطيع حماية محفظتك تمامًا من السرقة من خلال البرمجيات الخبيثة التي تصيب جهازك </translation>
     </message>
     <message>
@@ -345,7 +345,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>ارسل عملات الى عنوان بيتكوين</translation>
     </message>
     <message>
-        <source>Modify configuration options for Dogecoin</source>
+        <source>Modify configuration options for Dogecoin Core</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -453,7 +453,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Show the Dogecoin Core help message to get a list with possible Dogecoin command-line options</source>
+        <source>Show the Dogecoin Core help message to get a list with possible command-line options</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -462,7 +462,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message numerus="yes">
         <source>%n active connection(s) to Dogecoin network</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation type="unfinished"><numerusform/><numerusform/><numerusform/><numerusform/><numerusform/><numerusform/></translation>
     </message>
     <message>
         <source>No block source available...</source>
@@ -478,15 +478,15 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message numerus="yes">
         <source>%n hour(s)</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation type="unfinished"><numerusform/><numerusform/><numerusform/><numerusform/><numerusform/><numerusform/></translation>
     </message>
     <message numerus="yes">
         <source>%n day(s)</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation type="unfinished"><numerusform/><numerusform/><numerusform/><numerusform/><numerusform/><numerusform/></translation>
     </message>
     <message numerus="yes">
         <source>%n week(s)</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation type="unfinished"><numerusform/><numerusform/><numerusform/><numerusform/><numerusform/><numerusform/></translation>
     </message>
     <message>
         <source>%1 and %2</source>
@@ -494,7 +494,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message numerus="yes">
         <source>%n year(s)</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation type="unfinished"><numerusform/><numerusform/><numerusform/><numerusform/><numerusform/><numerusform/></translation>
     </message>
     <message>
         <source>%1 behind</source>
@@ -617,6 +617,10 @@ Address: %4
     <message>
         <source>Amount</source>
         <translation>المبلغ</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Address</source>
@@ -1010,11 +1014,11 @@ Address: %4
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Automatically start Dogecoin after logging in to the system.</source>
+        <source>Automatically start Dogecoin Core after logging in to the system.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>&amp;Start Dogecoin on system login</source>
+        <source>&amp;Start Dogecoin Core on system login</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1138,7 +1142,7 @@ Address: %4
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>The user interface language can be set here. This setting will take effect after restarting Dogecoin.</source>
+        <source>The user interface language can be set here. This setting will take effect after restarting Dogecoin Core.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -2136,7 +2140,7 @@ Address: %4
     <name>TransactionDesc</name>
     <message>
         <source>Open until %1</source>
-        <translation>مفتوح حتى 1٪</translation>
+        <translation>مفتوح حتى %1</translation>
     </message>
     <message>
         <source>conflicted</source>
@@ -2144,11 +2148,11 @@ Address: %4
     </message>
     <message>
         <source>%1/offline</source>
-        <translation>1% غير متواجد</translation>
+        <translation>%1 غير متواجد</translation>
     </message>
     <message>
         <source>%1/unconfirmed</source>
-        <translation>غير مؤكدة/1%</translation>
+        <translation>غير مؤكدة/%1</translation>
     </message>
     <message>
         <source>%1 confirmations</source>
@@ -2160,7 +2164,7 @@ Address: %4
     </message>
     <message numerus="yes">
         <source>, broadcast through %n node(s)</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation type="unfinished"><numerusform/><numerusform/><numerusform/><numerusform/><numerusform/><numerusform/></translation>
     </message>
     <message>
         <source>Date</source>
@@ -2196,7 +2200,7 @@ Address: %4
     </message>
     <message numerus="yes">
         <source>matures in %n more block(s)</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation type="unfinished"><numerusform/><numerusform/><numerusform/><numerusform/><numerusform/><numerusform/></translation>
     </message>
     <message>
         <source>not accepted</source>
@@ -2264,7 +2268,7 @@ Address: %4
     </message>
     <message numerus="yes">
         <source>Open for %n more block(s)</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation type="unfinished"><numerusform/><numerusform/><numerusform/><numerusform/><numerusform/><numerusform/></translation>
     </message>
     <message>
         <source>unknown</source>
@@ -2306,15 +2310,15 @@ Address: %4
     </message>
     <message numerus="yes">
         <source>Open for %n more block(s)</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation type="unfinished"><numerusform/><numerusform/><numerusform/><numerusform/><numerusform/><numerusform/></translation>
     </message>
     <message>
         <source>Open until %1</source>
-        <translation>مفتوح حتى 1٪</translation>
+        <translation>مفتوح حتى %1</translation>
     </message>
     <message>
         <source>Confirmed (%1 confirmations)</source>
-        <translation>تأكيد الإرسال Coins</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>This block was not received by any other nodes and will probably not be accepted!</source>

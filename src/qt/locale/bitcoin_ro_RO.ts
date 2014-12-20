@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="ro_RO" version="2.0">
+<TS language="ro_RO" version="2.0">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -205,7 +205,7 @@ Acest produs include programe dezvoltate de către OpenSSL Project pentru a fi f
         <translation>Confirmă criptarea portofelului</translation>
     </message>
     <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DogecoinS&lt;/b&gt;!</source>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DOGECOINS&lt;/b&gt;!</source>
         <translation>Atenție: Dacă pierdeţi parola portofelului electronic dupa criptare, &lt;b&gt;VEŢI PIERDE ÎNTREAGA SUMĂ DE Dogecoin ACUMULATĂ&lt;/b&gt;!</translation>
     </message>
     <message>
@@ -225,7 +225,7 @@ Acest produs include programe dezvoltate de către OpenSSL Project pentru a fi f
         <translation>Portofel criptat</translation>
     </message>
     <message>
-        <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your bitcoins from being stolen by malware infecting your computer.</source>
+        <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your dogecoins from being stolen by malware infecting your computer.</source>
         <translation>Dogecoin se va închide acum pentru a termina procesul de criptare. Ține minte că criptarea portofelului nu te poate proteja în totalitate de furtul monedelor de către programe dăunătoare care îți infectează calculatorul.</translation>
     </message>
     <message>
@@ -348,7 +348,7 @@ Acest produs include programe dezvoltate de către OpenSSL Project pentru a fi f
         <translation>Trimite monede către o adresă Dogecoin</translation>
     </message>
     <message>
-        <source>Modify configuration options for Dogecoin</source>
+        <source>Modify configuration options for Dogecoin Core</source>
         <translation>Modifică opțiunile de configurare pentru Dogecoin</translation>
     </message>
     <message>
@@ -432,7 +432,7 @@ Acest produs include programe dezvoltate de către OpenSSL Project pentru a fi f
         <translation>Dogecoin Core</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and bitcoin: URIs)</source>
+        <source>Request payments (generates QR codes and dogecoin: URIs)</source>
         <translation>Cereti plati (genereaza coduri QR si bitcoin-uri: URls)</translation>
     </message>
     <message>
@@ -448,15 +448,15 @@ Acest produs include programe dezvoltate de către OpenSSL Project pentru a fi f
         <translation>Aratati lista de adrese pentru primire si etichete </translation>
     </message>
     <message>
-        <source>Open a bitcoin: URI or payment request</source>
-        <translation>Deschideti un bitcoin: o adresa URI sau o cerere de plata</translation>
+        <source>Open a dogecoin: URI or payment request</source>
+        <translation>Deschideti un dogecoin: o adresa URI sau o cerere de plata</translation>
     </message>
     <message>
         <source>&amp;Command-line options</source>
         <translation>Command-line setări</translation>
     </message>
     <message>
-        <source>Show the Dogecoin Core help message to get a list with possible Dogecoin command-line options</source>
+        <source>Show the Dogecoin Core help message to get a list with possible command-line options</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -497,7 +497,7 @@ Acest produs include programe dezvoltate de către OpenSSL Project pentru a fi f
     </message>
     <message numerus="yes">
         <source>%n year(s)</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation type="unfinished"><numerusform/><numerusform/><numerusform/></translation>
     </message>
     <message>
         <source>%1 behind</source>
@@ -626,6 +626,10 @@ Adresa: %4
         <translation>Sumă</translation>
     </message>
     <message>
+        <source>Label</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <source>Address</source>
         <translation>Adresă</translation>
     </message>
@@ -735,7 +739,7 @@ Adresa: %4
     </message>
     <message>
         <source>(%1 locked)</source>
-        <translation>(1% blocat)</translation>
+        <translation>(%1 blocat)</translation>
     </message>
     <message>
         <source>none</source>
@@ -759,7 +763,7 @@ Adresa: %4
     </message>
     <message>
         <source>This means a fee of at least %1 per kB is required.</source>
-        <translation>Aceasta înseamnă o taxă de cel puţin 1% pe kB necesar.</translation>
+        <translation>Aceasta înseamnă o taxă de cel puţin %1 pe kB necesar.</translation>
     </message>
     <message>
         <source>Can vary +/- 1 byte per input.</source>
@@ -775,11 +779,11 @@ Adresa: %4
     </message>
     <message>
         <source>This label turns red, if any recipient receives an amount smaller than %1.</source>
-        <translation>Această etichetă devine roşie, dacă orice beneficiar primeşte o sumă mai mică decât 1. </translation>
+        <translation>Această etichetă devine roşie, dacă orice beneficiar primeşte o sumă mai mică decât %1. </translation>
     </message>
     <message>
         <source>This means a fee of at least %1 is required.</source>
-        <translation>Aceasta înseamnă că o taxă de cel puţin 1% este necesară. </translation>
+        <translation>Aceasta înseamnă că o taxă de cel puţin %1 este necesară. </translation>
     </message>
     <message>
         <source>Amounts below 0.546 times the minimum relay fee are shown as dust.</source>
@@ -787,7 +791,7 @@ Adresa: %4
     </message>
     <message>
         <source>This label turns red, if the change is smaller than %1.</source>
-        <translation>Această etichetă devine roşie, dacă schimbul e mai mic de 1%.</translation>
+        <translation>Această etichetă devine roşie, dacă schimbul e mai mic de %1.</translation>
     </message>
     <message>
         <source>(no label)</source>
@@ -943,7 +947,7 @@ Adresa: %4
     </message>
     <message>
         <source>Dogecoin Core will download and store a copy of the Dogecoin block chain. At least %1GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
-        <translation>Nucleul Dogecoin Core se va descărca şi va stoca o copie a lanţului blocului Dogecoin. Cel puţin 1GB de date vor fi stocate in acest dosar şi se va dezvolta în timp. Portofelul va fi, de asemenea, stocat în acest dosar.</translation>
+        <translation>Nucleul Dogecoin Core se va descărca şi va stoca o copie a lanţului blocului Dogecoin. Cel puţin %1GB de date vor fi stocate in acest dosar şi se va dezvolta în timp. Portofelul va fi, de asemenea, stocat în acest dosar.</translation>
     </message>
     <message>
         <source>Use the default data directory</source>
@@ -1016,11 +1020,11 @@ Adresa: %4
         <translation>Plăteşte comision pentru tranzacţie &amp;f</translation>
     </message>
     <message>
-        <source>Automatically start Dogecoin after logging in to the system.</source>
+        <source>Automatically start Dogecoin Core after logging in to the system.</source>
         <translation>Porneşte automat programul Dogecoin la pornirea computerului.</translation>
     </message>
     <message>
-        <source>&amp;Start Dogecoin on system login</source>
+        <source>&amp;Start Dogecoin Core on system login</source>
         <translation>&amp;S Porneşte Dogecoin la pornirea sistemului</translation>
     </message>
     <message>
@@ -1144,7 +1148,7 @@ Adresa: %4
         <translation>Interfata &amp; limba userului</translation>
     </message>
     <message>
-        <source>The user interface language can be set here. This setting will take effect after restarting Dogecoin.</source>
+        <source>The user interface language can be set here. This setting will take effect after restarting Dogecoin Core.</source>
         <translation>Limba interfeței utilizatorului poate fi setat aici. Această setare va avea efect după repornirea Dogecoin.</translation>
     </message>
     <message>
@@ -1278,8 +1282,8 @@ Adresa: %4
         <translation>Eroare la cererea de plată</translation>
     </message>
     <message>
-        <source>Cannot start bitcoin: click-to-pay handler</source>
-        <translation>Nu poate porni bitcoin: regula clic-pentru-plata</translation>
+        <source>Cannot start dogecoin: click-to-pay handler</source>
+        <translation>Nu poate porni dogecoin: regula clic-pentru-plata</translation>
     </message>
     <message>
         <source>Net manager warning</source>
@@ -1946,7 +1950,7 @@ Adresa: %4
         <translation>Introduceti eticheta pentru ca aceasta adresa sa fie introdusa in lista de adrese folosite</translation>
     </message>
     <message>
-        <source>A message that was attached to the bitcoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
+        <source>A message that was attached to the dogecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -2270,7 +2274,7 @@ Adresa: %4
     </message>
     <message numerus="yes">
         <source>Open for %n more block(s)</source>
-        <translation><numerusform>Deschis pentru încă %1 bloc</numerusform><numerusform>Deschis pentru încă %1 blocuri</numerusform><numerusform>Deschis pentru încă %1 de blocuri</numerusform></translation>
+        <translation><numerusform>Deschis pentru încă %n bloc</numerusform><numerusform>Deschis pentru încă %n blocuri</numerusform><numerusform>Deschis pentru încă %n de blocuri</numerusform></translation>
     </message>
     <message>
         <source>unknown</source>
@@ -2312,7 +2316,7 @@ Adresa: %4
     </message>
     <message numerus="yes">
         <source>Open for %n more block(s)</source>
-        <translation><numerusform>Deschis pentru încă %1 bloc</numerusform><numerusform>Deschis pentru încă %1 blocuri</numerusform><numerusform>Deschis pentru încă %1 de blocuri</numerusform></translation>
+        <translation><numerusform>Deschis pentru încă %n bloc</numerusform><numerusform>Deschis pentru încă %n blocuri</numerusform><numerusform>Deschis pentru încă %n de blocuri</numerusform></translation>
     </message>
     <message>
         <source>Open until %1</source>
@@ -2602,8 +2606,8 @@ Adresa: %4
         <translation>Setări:</translation>
     </message>
     <message>
-        <source>Specify configuration file (default: bitcoin.conf)</source>
-        <translation>Specifică fișierul de configurare (implicit: bitcoin.conf)</translation>
+        <source>Specify configuration file (default: dogecoin.conf)</source>
+        <translation>Specifică fișierul de configurare (implicit: dogecoin.conf)</translation>
     </message>
     <message>
         <source>Specify pid file (default: bitcoind.pid)</source>
@@ -3015,8 +3019,8 @@ spre exemplu: alertnotify=echo %%s | mail -s &quot;Alerta Dogecoin&quot; admin@f
         <translation>Este folosita pentru programe de testare a regresiei in algoritmi si  dezvoltare de alte aplicatii. </translation>
     </message>
     <message>
-        <source>Usage (deprecated, use bitcoin-cli):</source>
-        <translation>Utilizare (învechită, folositi bitcoin-cli):</translation>
+        <source>Usage (deprecated, use dogecoin-cli):</source>
+        <translation>Utilizare (învechită, folositi dogecoin-cli):</translation>
     </message>
     <message>
         <source>Verifying blocks...</source>

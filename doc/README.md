@@ -1,4 +1,4 @@
-Dogecoin 1.7.2 ALPHA
+Dogecoin 1.8.1
 ====================
 
 * Copyright (c) 2009-2014 Bitcoin Developers

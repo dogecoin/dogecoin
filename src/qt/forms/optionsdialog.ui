@@ -30,10 +30,10 @@
        <item>
         <widget class="QCheckBox" name="bitcoinAtStartup">
          <property name="toolTip">
-          <string>Automatically start Dogecoin after logging in to the system.</string>
+          <string>Automatically start Dogecoin Core after logging in to the system.</string>
          </property>
          <property name="text">
-          <string>&amp;Start Dogecoin on system login</string>
+          <string>&amp;Start Dogecoin Core on system login</string>
          </property>
         </widget>
        </item>
@@ -431,7 +431,7 @@
          <item>
           <widget class="QValueComboBox" name="lang">
            <property name="toolTip">
-            <string>The user interface language can be set here. This setting will take effect after restarting Dogecoin.</string>
+            <string>The user interface language can be set here. This setting will take effect after restarting Dogecoin Core.</string>
            </property>
           </widget>
          </item>

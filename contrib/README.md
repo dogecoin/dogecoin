@@ -19,10 +19,6 @@ Contains the script `github-merge.sh` for merging github pull requests securely 
 ### [Linearize](/contrib/linearize) ###
 Construct a linear, no-fork, best version of the blockchain.
 
-### [PyMiner](/contrib/pyminer) ###
-
-This is a 'getwork' CPU mining client for Dogecoin. It is pure-python, and therefore very, very slow.  The purpose is to provide a reference implementation of a miner, for study.
-
 ### [Qos](/contrib/qos) ###
 
 A Linux bash script that will set up tc to limit the outgoing bandwidth for connections to the Dogecoin network. This means one can have an always-on bitcoind instance running, and another local dogecoind/dogecoin-qt instance which connects to this node and receives blocks from it.

@@ -1,4 +1,4 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="he" version="2.0">
+<TS language="he" version="2.0">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -205,7 +205,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>אשר הצפנת ארנק</translation>
     </message>
     <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DogecoinS&lt;/b&gt;!</source>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DOGECOINS&lt;/b&gt;!</source>
         <translation>אזהרה: אם אתה מצפין את הארנק ומאבד את הסיסמא, אתה &lt;b&gt;תאבד את כל הביטקוינים שלך&lt;/b&gt;!</translation>
     </message>
     <message>
@@ -225,7 +225,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>הארנק הוצפן</translation>
     </message>
     <message>
-        <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your bitcoins from being stolen by malware infecting your computer.</source>
+        <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your dogecoins from being stolen by malware infecting your computer.</source>
         <translation>ביטקוין ייסגר עכשיו כדי להשלים את תהליך ההצפנה. זכור שהצפנת הארנק שלך אינו יכול להגן באופן מלא על הביטקוינים שלך מתוכנות זדוניות המושתלות על המחשב.</translation>
     </message>
     <message>
@@ -348,7 +348,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>שלח מטבעות לכתובת ביטקוין</translation>
     </message>
     <message>
-        <source>Modify configuration options for Dogecoin</source>
+        <source>Modify configuration options for Dogecoin Core</source>
         <translation>שנה אפשרויות תצורה עבור ביטקוין</translation>
     </message>
     <message>
@@ -432,7 +432,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>ליבת ביטקוין</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and bitcoin: URIs)</source>
+        <source>Request payments (generates QR codes and dogecoin: URIs)</source>
         <translation>בקש תשלומים (מייצר קודיי QR וסכימות URI של :bitcoin)</translation>
     </message>
     <message>
@@ -448,15 +448,15 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>הצג את רשימת הכתובות והתויות המשומשות</translation>
     </message>
     <message>
-        <source>Open a bitcoin: URI or payment request</source>
-        <translation type="unfinished"/>
+        <source>Open a dogecoin: URI or payment request</source>
+        <translation>פתח ביטקוין: URI או בקשת תשלום</translation>
     </message>
     <message>
         <source>&amp;Command-line options</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Show the Dogecoin Core help message to get a list with possible Dogecoin command-line options</source>
+        <source>Show the Dogecoin Core help message to get a list with possible command-line options</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -465,7 +465,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message numerus="yes">
         <source>%n active connection(s) to Dogecoin network</source>
-        <translation><numerusform>חיבור פעיל אחד לרשת הביטקוין</numerusform><numerusform>%n חיבורים פעילים לרשת הביטקוין</numerusform></translation>
+        <translation><numerusform>%n חיבור פעיל אחד לרשת הביטקוין</numerusform><numerusform>%n חיבורים פעילים לרשת הביטקוין</numerusform></translation>
     </message>
     <message>
         <source>No block source available...</source>
@@ -497,11 +497,11 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message numerus="yes">
         <source>%n year(s)</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation type="unfinished"><numerusform/><numerusform/></translation>
     </message>
     <message>
         <source>%1 behind</source>
-        <translation>1% מאחור</translation>
+        <translation>%1 מאחור</translation>
     </message>
     <message>
         <source>Last received block was generated %1 ago.</source>
@@ -574,7 +574,7 @@ Address: %4
     <name>CoinControlDialog</name>
     <message>
         <source>Coin Control Address Selection</source>
-        <translation type="unfinished"/>
+        <translation>בחירת כתובת שליטת מטבעות</translation>
     </message>
     <message>
         <source>Quantity:</source>
@@ -598,7 +598,7 @@ Address: %4
     </message>
     <message>
         <source>Low Output:</source>
-        <translation type="unfinished"/>
+        <translation>פלט נמוך:</translation>
     </message>
     <message>
         <source>After Fee:</source>
@@ -623,6 +623,10 @@ Address: %4
     <message>
         <source>Amount</source>
         <translation>כמות</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Address</source>
@@ -662,11 +666,11 @@ Address: %4
     </message>
     <message>
         <source>Lock unspent</source>
-        <translation type="unfinished"/>
+        <translation>נעל יתרה</translation>
     </message>
     <message>
         <source>Unlock unspent</source>
-        <translation type="unfinished"/>
+        <translation>פתח יתרה</translation>
     </message>
     <message>
         <source>Copy quantity</source>
@@ -690,7 +694,7 @@ Address: %4
     </message>
     <message>
         <source>Copy low output</source>
-        <translation type="unfinished"/>
+        <translation>העתק פלט נמוך</translation>
     </message>
     <message>
         <source>Copy change</source>
@@ -734,7 +738,7 @@ Address: %4
     </message>
     <message>
         <source>(%1 locked)</source>
-        <translation type="unfinished"/>
+        <translation>(%1 נעול)</translation>
     </message>
     <message>
         <source>none</source>
@@ -774,19 +778,19 @@ Address: %4
     </message>
     <message>
         <source>This label turns red, if any recipient receives an amount smaller than %1.</source>
-        <translation>התווית הזו הופכת לאדומה, אם אחד מהנמענים מקבל סכום אשר קטן מ 1%</translation>
+        <translation>התווית הזו הופכת לאדומה, אם אחד מהנמענים מקבל סכום אשר קטן מ %1</translation>
     </message>
     <message>
         <source>This means a fee of at least %1 is required.</source>
-        <translation>זה אומר שצריך לפחות 1% עמלה</translation>
+        <translation>זה אומר שצריך לפחות %1 עמלה</translation>
     </message>
     <message>
         <source>Amounts below 0.546 times the minimum relay fee are shown as dust.</source>
-        <translation type="unfinished"/>
+        <translation>סכומים נמוכים מ 0.546 כפול מינימום סכום ההעברה מופיעים כאבק</translation>
     </message>
     <message>
         <source>This label turns red, if the change is smaller than %1.</source>
-        <translation type="unfinished"/>
+        <translation>התווית הופכת אדומה, אם השינוי קטן מ %1.</translation>
     </message>
     <message>
         <source>(no label)</source>
@@ -981,7 +985,7 @@ Address: %4
     </message>
     <message>
         <source>Open payment request from URI or file</source>
-        <translation type="unfinished"/>
+        <translation>פתח בקשת תשלום מ-URI או קובץ</translation>
     </message>
     <message>
         <source>URI:</source>
@@ -1015,11 +1019,11 @@ Address: %4
         <translation>שלם &amp;עמלת פעולה</translation>
     </message>
     <message>
-        <source>Automatically start Dogecoin after logging in to the system.</source>
+        <source>Automatically start Dogecoin Core after logging in to the system.</source>
         <translation>הפעל את ביטקוין באופן עצמאי לאחר התחברות למערכת.</translation>
     </message>
     <message>
-        <source>&amp;Start Dogecoin on system login</source>
+        <source>&amp;Start Dogecoin Core on system login</source>
         <translation>התחל את ביטקוין בעת התחברות למערכת</translation>
     </message>
     <message>
@@ -1143,7 +1147,7 @@ Address: %4
         <translation>שפת ממשק המשתמש:</translation>
     </message>
     <message>
-        <source>The user interface language can be set here. This setting will take effect after restarting Dogecoin.</source>
+        <source>The user interface language can be set here. This setting will take effect after restarting Dogecoin Core.</source>
         <translation>ניתן לקבוע כאן את שפת ממשק המשתמש. הגדרה זו תחול לאחר הפעלה מחדש של ביטקוין.</translation>
     </message>
     <message>
@@ -1164,7 +1168,7 @@ Address: %4
     </message>
     <message>
         <source>Whether to show coin control features or not.</source>
-        <translation type="unfinished"/>
+        <translation>הצג תכונות שליטת מטבע או לא.</translation>
     </message>
     <message>
         <source>&amp;OK</source>
@@ -1277,7 +1281,7 @@ Address: %4
         <translation>שגיאה בבקשת תשלום</translation>
     </message>
     <message>
-        <source>Cannot start bitcoin: click-to-pay handler</source>
+        <source>Cannot start dogecoin: click-to-pay handler</source>
         <translation>לא ניתן להתחיל את ביטקוין: מפעיל לחץ-לתשלום </translation>
     </message>
     <message>
@@ -1511,7 +1515,7 @@ Address: %4
     </message>
     <message>
         <source>%1 m</source>
-        <translation>1% דקות</translation>
+        <translation>%1 דקות</translation>
     </message>
     <message>
         <source>%1 h</source>
@@ -1578,7 +1582,7 @@ Address: %4
     </message>
     <message>
         <source>Show the selected request (does the same as double clicking an entry)</source>
-        <translation type="unfinished"/>
+        <translation>הצג בקשות נבחרות (דומה ללחיצה כפולה על רשומה)</translation>
     </message>
     <message>
         <source>Show</source>
@@ -1586,7 +1590,7 @@ Address: %4
     </message>
     <message>
         <source>Remove the selected entries from the list</source>
-        <translation type="unfinished"/>
+        <translation>הסר הרשומות הנבחרות מהרשימה</translation>
     </message>
     <message>
         <source>Remove</source>
@@ -1735,7 +1739,7 @@ Address: %4
     </message>
     <message>
         <source>Low Output:</source>
-        <translation type="unfinished"/>
+        <translation>פלט נמוך:</translation>
     </message>
     <message>
         <source>After Fee:</source>
@@ -1815,7 +1819,7 @@ Address: %4
     </message>
     <message>
         <source>Copy low output</source>
-        <translation type="unfinished"/>
+        <translation>העתק פלט נמוך</translation>
     </message>
     <message>
         <source>Copy change</source>
@@ -1945,7 +1949,7 @@ Address: %4
         <translation>הקלד תווית עבור כתובת זו בכדי להוסיף אותה לרשימת הכתובות בשימוש</translation>
     </message>
     <message>
-        <source>A message that was attached to the bitcoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
+        <source>A message that was attached to the dogecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -2165,7 +2169,7 @@ Address: %4
     </message>
     <message numerus="yes">
         <source>, broadcast through %n node(s)</source>
-        <translation><numerusform>, הופץ דרך צומת אחד</numerusform><numerusform>, הופץ דרך %n צמתים</numerusform></translation>
+        <translation><numerusform>, הופץ דרך צומת אחד (%n)</numerusform><numerusform>, הופץ דרך %n צמתים</numerusform></translation>
     </message>
     <message>
         <source>Date</source>
@@ -2201,7 +2205,7 @@ Address: %4
     </message>
     <message numerus="yes">
         <source>matures in %n more block(s)</source>
-        <translation><numerusform>מבשיל בעוד בלוק אחד</numerusform><numerusform>מבשיל בעוד %n בלוקים</numerusform></translation>
+        <translation><numerusform>מבשיל בעוד בלוק אחד (%n)</numerusform><numerusform>מבשיל בעוד %n בלוקים</numerusform></translation>
     </message>
     <message>
         <source>not accepted</source>
@@ -2601,8 +2605,8 @@ Address: %4
         <translation>אפשרויות:</translation>
     </message>
     <message>
-        <source>Specify configuration file (default: bitcoin.conf)</source>
-        <translation>ציין קובץ הגדרות (ברירת מחדל: bitcoin.conf)</translation>
+        <source>Specify configuration file (default: dogecoin.conf)</source>
+        <translation>ציין קובץ הגדרות (ברירת מחדל: dogecoin.conf)</translation>
     </message>
     <message>
         <source>Specify pid file (default: bitcoind.pid)</source>
@@ -3013,8 +3017,8 @@ rpcpassword=%s
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Usage (deprecated, use bitcoin-cli):</source>
-        <translation>שימוש (מיושן, השתמש ב bitcoin-cli):</translation>
+        <source>Usage (deprecated, use dogecoin-cli):</source>
+        <translation>שימוש (מיושן, השתמש ב dogecoin-cli):</translation>
     </message>
     <message>
         <source>Verifying blocks...</source>
