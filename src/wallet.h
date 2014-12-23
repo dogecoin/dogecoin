@@ -59,9 +59,6 @@ static void WriteOrderPos(const int64_t& nOrderPos, mapValue_t& mapValue)
     mapValue["n"] = i64tostr(nOrderPos);
 }
 
-// Add an address to the list of fixed change addresses to use.
-void AddFixedChangeAddress(const CKeyID &changeAddress);
-
 /** (client) version numbers for particular wallet features */
 enum WalletFeature
 {
