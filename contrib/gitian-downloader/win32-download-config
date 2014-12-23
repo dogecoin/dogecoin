@@ -27,4 +27,7 @@ signers:
     weight: 20
     name: stapler117
     key: stapler117
+  BEC5406F9FE5B07FD93964073AF52B1CB90A06E5:
+    name: whit
+    key: whit
 minimum_weight: 120

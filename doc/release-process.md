@@ -37,8 +37,8 @@ Release Process
  Fetch and build inputs: (first time, or when dependency versions change)
 
 	mkdir -p inputs; cd inputs/
-	wget 'http://miniupnp.free.fr/files/download.php?file=miniupnpc-1.9.tar.gz' -O miniupnpc-1.9.tar.gz
-	wget 'https://www.openssl.org/source/openssl-1.0.1h.tar.gz'
+	wget 'http://miniupnp.free.fr/files/download.php?file=miniupnpc-1.9.20140701.tar.gz' -O miniupnpc-1.9.20140701.tar.gz
+	wget 'https://www.openssl.org/source/openssl-1.0.1j.tar.gz'
 	wget 'http://download.oracle.com/berkeley-db/db-5.1.29.NC.tar.gz'
 	wget 'http://zlib.net/zlib-1.2.8.tar.gz'
 	wget 'https://downloads.sourceforge.net/project/libpng/libpng16/older-releases/1.6.8/libpng-1.6.8.tar.gz'
@@ -67,16 +67,16 @@ Release Process
 
  The expected SHA256 hashes of the intermediate inputs are:
 
-    d517e84a79fdcdebfdb3405aa91fb2e53bce9fb760d34b9dda611db8813ae7a3  dogecoin-deps-linux32-gitian-r6.zip
-    2c275eecbe11b4b29620fac523ccc30c35c45dbac096ed7d0a117467c95b1b13  dogecoin-deps-linux64-gitian-r6.zip
+    19afcc075d52b7853dd0b0b7d54ad2bf71e2746625677e24a1f9f63474674577  dogecoin-deps-linux32-gitian-r9.zip
+    e6d34fe758bf965b759421c7049a7b5aac9d53356caff6f53c95d01cbc49bd85  dogecoin-deps-linux64-gitian-r9.zip
     f29b7d9577417333fb56e023c2977f5726a7c297f320b175a4108cf7cd4c2d29  boost-linux32-1.55.0-gitian-r1.zip
     88232451c4104f7eb16e469ac6474fd1231bd485687253f7b2bdf46c0781d535  boost-linux64-1.55.0-gitian-r1.zip
     57e57dbdadc818cd270e7e00500a5e1085b3bcbdef69a885f0fb7573a8d987e1  qt-linux32-4.6.4-gitian-r1.tar.gz
     60eb4b9c5779580b7d66529efa5b2836ba1a70edde2a0f3f696d647906a826be  qt-linux64-4.6.4-gitian-r1.tar.gz
     60dc2d3b61e9c7d5dbe2f90d5955772ad748a47918ff2d8b74e8db9b1b91c909  boost-win32-1.55.0-gitian-r6.zip
     f65fcaf346bc7b73bc8db3a8614f4f6bee2f61fcbe495e9881133a7c2612a167  boost-win64-1.55.0-gitian-r6.zip
-    2d9d16006c61a23ecb82e3d440599aa324d2b48ada58a2c017b5ca0d74a1bab3  dogecoin-deps-win32-gitian-r13.zip
-    0fea0b372c2586713d3c277e4a36d1ca518591f59097a1f23ed095124505b71b  dogecoin-deps-win64-gitian-r13.zip
+    d46a21cad396fcb7bed0d5f430a37b76117fe06b3349c7a4784f11b35bd00989  dogecoin-deps-win32-gitian-r16.zip
+    ab93f7c623904f1f70638119a239ec2b41bc0c6295dad9f81fcd0bc9aa2f83d8  dogecoin-deps-win64-gitian-r16.zip
     963e3e5e85879010a91143c90a711a5d1d5aba992e38672cdf7b54e42c56b2f1  qt-win32-5.2.0-gitian-r3.zip
     751c579830d173ef3e6f194e83d18b92ebef6df03289db13ab77a52b6bc86ef0  qt-win64-5.2.0-gitian-r3.zip
     e2e403e1a08869c7eed4d4293bce13d51ec6a63592918b90ae215a0eceb44cb4  protobuf-win32-2.5.0-gitian-r4.zip
@@ -155,15 +155,16 @@ repackage gitian builds for release as stand-alone zip/tar/installer exe
 Commit your signature to gitian.sigs:
 
 	pushd gitian.sigs
-	git add ${VERSION}/${SIGNER}
+	git add ${VERSION}-linux/${SIGNER}
 	git add ${VERSION}-win/${SIGNER}
+	git add ${VERSION}-osx/${SIGNER}
 	git commit -a
 	git push  # Assuming you can push to the gitian.sigs tree
 	popd
 
 -------------------------------------------------------------------------
 
-### After 3 or more people have gitian-built, repackage gitian-signed zips:
+### After 3 or more people have gitian-built and their results match:
 
 From a directory containing dogecoin source, gitian.sigs and gitian zips
 
@@ -192,6 +193,21 @@ From a directory containing dogecoin source, gitian.sigs and gitian zips
 	zip -r dogecoin-${VERSION}-win-gitian.zip *
 	cp dogecoin-${VERSION}-win-gitian.zip ../
 	popd
+
+    - Code-sign MacOSX .dmg
+
+  Note: only Gavin has the code-signing keys currently.
+
+- Create `SHA256SUMS.asc` for builds, and PGP-sign it. This is done manually.
+  Include all the files to be uploaded. The file has `sha256sum` format with a
+  simple header at the top:
+
+```
+Hash: SHA256
+
+0060f7d38b98113ab912d4c184000291d7f026eaf77ca5830deec15059678f54  bitcoin-x.y.z-linux.tar.gz
+...
+```
 
 - Upload gitian zips to SourceForge
 
