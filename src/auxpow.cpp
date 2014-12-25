@@ -54,24 +54,12 @@ bool CAuxPow::Check(uint256 hashAuxBlock, int nChainID)
     if (pc == script.end())
         return error("Aux POW missing chain merkle root in parent coinbase");
 
-    if (pcHead != script.end())
-    {
-        // Enforce only one chain merkle root by checking that a single instance of the merged
-        // mining header exists just before.
-        if (script.end() != std::search(pcHead + 1, script.end(), UBEGIN(pchMergedMiningHeader), UEND(pchMergedMiningHeader)))
-            return error("Multiple merged mining headers in coinbase");
-        if (pcHead + sizeof(pchMergedMiningHeader) != pc)
-            return error("Merged mining header is not just before chain merkle root");
-    }
-    else
-    {
-        // For backward compatibility.
-        // Enforce only one chain merkle root by checking that it starts early in the coinbase.
-        // 8-12 bytes are enough to encode extraNonce and nBits.
-        if (pc - script.begin() > 20)
-            return error("Aux POW chain merkle root must start in the first 20 bytes of the parent coinbase");
-    }
-
+    // Enforce only one chain merkle root by checking that a single instance of the merged
+    // mining header exists just before.
+    if (script.end() != std::search(pcHead + 1, script.end(), UBEGIN(pchMergedMiningHeader), UEND(pchMergedMiningHeader)))
+        return error("Multiple merged mining headers in coinbase");
+    if (pcHead + sizeof(pchMergedMiningHeader) != pc)
+        return error("Merged mining header is not just before chain merkle root");
 
     // Ensure we are at a deterministic point in the merkle leaves by hashing
     // a nonce and our chain ID and comparing to the index.
