@@ -436,7 +436,7 @@ CBlockTemplate* CreateNewBlockWithKey(CReserveKey& reservekey)
 bool CheckWork(CBlock* pblock, CWallet& wallet, CReserveKey& reservekey)
 {
     uint256 hash = pblock->GetPoWHash();
-    uint256 hashTarget = CBigNum().SetCompact(pblock->nBits).getuint256();
+    uint256 hashTarget = uint256().SetCompact(pblock->nBits);
 
     CAuxPow *auxpow = pblock->auxpow.get();
 
@@ -540,7 +540,7 @@ void static DogecoinMiner(CWallet *pwallet)
         // Search
         //
         int64_t nStart = GetTime();
-        uint256 hashTarget = CBigNum().SetCompact(pblock->nBits).getuint256();
+        uint256 hashTarget = uint256().SetCompact(pblock->nBits);
         while (true)
         {
             unsigned int nHashesDone = 0;
@@ -619,7 +619,7 @@ void static DogecoinMiner(CWallet *pwallet)
             {
                 // Changing pblock->nTime can change work required on testnet:
                 nBlockBits = ByteReverse(pblock->nBits);
-                hashTarget = CBigNum().SetCompact(pblock->nBits).getuint256();
+                hashTarget.SetCompact(pblock->nBits);
             }
         }
     } }
