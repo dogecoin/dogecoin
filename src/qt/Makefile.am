@@ -127,6 +127,7 @@ QT_MOC_CPP = \
   moc_optionsdialog.cpp \
   moc_optionsmodel.cpp \
   moc_overviewpage.cpp \
+  moc_peertablemodel.cpp \
   moc_paymentserver.cpp \
   moc_qvalidatedlineedit.cpp \
   moc_qvaluecombobox.cpp \
@@ -193,6 +194,7 @@ BITCOIN_QT_H = \
   overviewpage.h \
   paymentrequestplus.h \
   paymentserver.h \
+  peertablemodel.h \
   qvalidatedlineedit.h \
   qvaluecombobox.h \
   receivecoinsdialog.h \
@@ -307,6 +309,7 @@ BITCOIN_QT_CPP += \
   overviewpage.cpp \
   paymentrequestplus.cpp \
   paymentserver.cpp \
+  peertablemodel.cpp \
   receivecoinsdialog.cpp \
   receiverequestdialog.cpp \
   recentrequeststablemodel.cpp \
