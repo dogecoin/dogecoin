@@ -39,9 +39,6 @@
 using namespace std;
 using namespace boost;
 
-bool OpenNetworkConnection(const CAddress& addrConnect, CSemaphoreGrant *grantOutbound = NULL, const char *strDest = NULL, bool fOneShot = false);
-
-
 //
 // Global state variables
 //
