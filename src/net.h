@@ -36,6 +36,11 @@ namespace boost {
     class thread_group;
 }
 
+/** The minimum number of connections to attempt to make out to other peers */
+static const int MIN_OUTBOUND_CONNECTIONS = 2;
+/** The default number of connections to attempt to make out to other peers */
+static const int DEFAULT_MAX_OUTBOUND_CONNECTIONS = 8;
+
 /** The maximum number of entries in an 'inv' protocol message */
 static const unsigned int MAX_INV_SZ = 50000;
 /** The maximum number of entries in mapAskFor */
