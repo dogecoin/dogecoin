@@ -869,6 +869,7 @@ bool AcceptToMemoryPool(CTxMemPool& pool, CValidationState &state, const CTransa
         return false;
 
     // Check for conflicts with in-memory transactions
+    bool fConflictTx = false;
     {
     LOCK(pool.cs); // protect pool.mapNextTx
     for (unsigned int i = 0; i < tx.vin.size(); i++)
@@ -876,8 +877,17 @@ bool AcceptToMemoryPool(CTxMemPool& pool, CValidationState &state, const CTransa
         COutPoint outpoint = tx.vin[i].prevout;
         if (pool.mapNextTx.count(outpoint))
         {
-            // Disable replacement feature for now
-            return false;
+            if (pool.mapNextTx.count(outpoint) != 1) {
+                // I don't think this can happen, but better safe than sorry
+                return false;
+            }
+            const CTransaction& conflictTx = *pool.mapNextTx[outpoint].ptx;
+            fConflictTx = true;
+            if (!IsFinalTx(tx, chainActive.Height() + 1)
+                || IsFinalTx(conflictTx, chainActive.Height() + 1)) {
+                // Disable transaction replacement by sequence number for now
+                return false;
+            }
         }
     }
     }
@@ -975,6 +985,12 @@ bool AcceptToMemoryPool(CTxMemPool& pool, CValidationState &state, const CTransa
         if (!CheckInputs(tx, state, view, true, STANDARD_SCRIPT_VERIFY_FLAGS))
         {
             return error("AcceptToMemoryPool: : ConnectInputs failed %s", hash.ToString());
+        }
+        if (fConflictTx) {
+            std::list<CTransaction> removed;
+            pool.removeConflicts(tx, removed);
+            BOOST_FOREACH(const CTransaction& txRemove, removed)
+                g_signals.EraseTransaction(txRemove.GetHash());
         }
         // Store transaction in memory
         pool.addUnchecked(hash, entry);
