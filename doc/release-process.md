@@ -38,7 +38,7 @@ Release Process
 
 	mkdir -p inputs; cd inputs/
 	wget 'http://miniupnp.free.fr/files/download.php?file=miniupnpc-1.9.20140701.tar.gz' -O miniupnpc-1.9.20140701.tar.gz
-	wget 'https://www.openssl.org/source/openssl-1.0.1j.tar.gz'
+	wget 'https://www.openssl.org/source/openssl-1.0.1l.tar.gz'
 	wget 'http://download.oracle.com/berkeley-db/db-5.1.29.NC.tar.gz'
 	wget 'http://zlib.net/zlib-1.2.8.tar.gz'
 	wget 'https://downloads.sourceforge.net/project/libpng/libpng16/older-releases/1.6.8/libpng-1.6.8.tar.gz'
@@ -67,16 +67,16 @@ Release Process
 
  The expected SHA256 hashes of the intermediate inputs are:
 
-    19afcc075d52b7853dd0b0b7d54ad2bf71e2746625677e24a1f9f63474674577  dogecoin-deps-linux32-gitian-r9.zip
-    e6d34fe758bf965b759421c7049a7b5aac9d53356caff6f53c95d01cbc49bd85  dogecoin-deps-linux64-gitian-r9.zip
+    0331de2b05c275986545e8d2d6a4becf625e5935034803dc508c9d641e70c7cb  dogecoin-deps-linux32-gitian-r10.zip
+    d99caabf13011494dd147b4ffad1626480889f5080270a1a04e1a7adc543cc4f  dogecoin-deps-linux64-gitian-r10.zip
     f29b7d9577417333fb56e023c2977f5726a7c297f320b175a4108cf7cd4c2d29  boost-linux32-1.55.0-gitian-r1.zip
     88232451c4104f7eb16e469ac6474fd1231bd485687253f7b2bdf46c0781d535  boost-linux64-1.55.0-gitian-r1.zip
     57e57dbdadc818cd270e7e00500a5e1085b3bcbdef69a885f0fb7573a8d987e1  qt-linux32-4.6.4-gitian-r1.tar.gz
     60eb4b9c5779580b7d66529efa5b2836ba1a70edde2a0f3f696d647906a826be  qt-linux64-4.6.4-gitian-r1.tar.gz
     60dc2d3b61e9c7d5dbe2f90d5955772ad748a47918ff2d8b74e8db9b1b91c909  boost-win32-1.55.0-gitian-r6.zip
     f65fcaf346bc7b73bc8db3a8614f4f6bee2f61fcbe495e9881133a7c2612a167  boost-win64-1.55.0-gitian-r6.zip
-    d46a21cad396fcb7bed0d5f430a37b76117fe06b3349c7a4784f11b35bd00989  dogecoin-deps-win32-gitian-r16.zip
-    ab93f7c623904f1f70638119a239ec2b41bc0c6295dad9f81fcd0bc9aa2f83d8  dogecoin-deps-win64-gitian-r16.zip
+    3783d98ac49256f11381d4eadffed5b51c1779afedca43ffef6cf8998d1db9c5  dogecoin-deps-win32-gitian-r17.zip
+    b579a9af8a8b77d542738cf93e5a12bfb0957dade0281bebd96a1619fc587855  dogecoin-deps-win64-gitian-r17.zip
     963e3e5e85879010a91143c90a711a5d1d5aba992e38672cdf7b54e42c56b2f1  qt-win32-5.2.0-gitian-r3.zip
     751c579830d173ef3e6f194e83d18b92ebef6df03289db13ab77a52b6bc86ef0  qt-win64-5.2.0-gitian-r3.zip
     e2e403e1a08869c7eed4d4293bce13d51ec6a63592918b90ae215a0eceb44cb4  protobuf-win32-2.5.0-gitian-r4.zip
