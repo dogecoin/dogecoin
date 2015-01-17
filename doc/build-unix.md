@@ -25,7 +25,7 @@ Dependencies
  libqrencode | QR codes in GUI  | Optional for generating QR codes
  
  Suggested versions of these libraries are as follows:
-      openssl-1.0.1k
+      openssl-1.0.1l
       db-5.1.29
       boost 1.55
       miniupnpc-1.9.20140701
