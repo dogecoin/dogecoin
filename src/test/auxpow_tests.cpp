@@ -140,6 +140,7 @@ CAuxpowBuilder::buildAuxpowChain (const uint256& hashAux, unsigned h, int index)
 CAuxPow
 CAuxpowBuilder::get (const CTransaction& tx) const
 {
+  LOCK(cs_main);
   CAuxPow res(tx);
   res.SetMerkleBranch (parentBlock);
 
