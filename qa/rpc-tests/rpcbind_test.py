@@ -33,7 +33,7 @@ def run_bind_test(tmpdir, allow_ips, connect_to, addresses, expected):
     binds = ['-rpcbind='+addr for addr in addresses]
     nodes = start_nodes(1, tmpdir, [base_args + binds], connect_to)
     try:
-        pid = bitcoind_processes[0].pid
+        pid = dogecoind_processes[0].pid
         assert_equal(set(get_bind_addrs(pid)), set(expected))
     finally:
         stop_nodes(nodes)
@@ -107,9 +107,9 @@ def main():
 
     parser = optparse.OptionParser(usage="%prog [options]")
     parser.add_option("--nocleanup", dest="nocleanup", default=False, action="store_true",
-                      help="Leave bitcoinds and test.* datadir on exit or error")
+                      help="Leave dogecoinds and test.* datadir on exit or error")
     parser.add_option("--srcdir", dest="srcdir", default="../../src",
-                      help="Source directory containing bitcoind/bitcoin-cli (default: %default%)")
+                      help="Source directory containing dogecoind/dogecoin-cli (default: %default%)")
     parser.add_option("--tmpdir", dest="tmpdir", default=tempfile.mkdtemp(prefix="test"),
                       help="Root directory for datadirs")
     (options, args) = parser.parse_args()
