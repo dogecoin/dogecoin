@@ -10,13 +10,16 @@
 #include "peertablemodel.h"
 
 #include "main.h"
-#include "util.h"
-
 #include "rpcserver.h"
 #include "rpcclient.h"
+#include "util.h"
 
 #include "json/json_spirit_value.h"
+#ifdef ENABLE_WALLET
+#include <db_cxx.h>
+#endif
 #include <openssl/crypto.h>
+
 #include <QKeyEvent>
 #include <QScrollBar>
 #include <QThread>
@@ -217,8 +220,14 @@ RPCConsole::RPCConsole(QWidget *parent) :
     connect(ui->clearButton, SIGNAL(clicked()), this, SLOT(clear()));
     connect(ui->btnClearTrafficGraph, SIGNAL(clicked()), ui->trafficGraph, SLOT(clear()));
 
-    // set OpenSSL version label
+    // set library version labels
     ui->openSSLVersion->setText(SSLeay_version(SSLEAY_VERSION));
+#ifdef ENABLE_WALLET
+    ui->berkeleyDBVersion->setText(DbEnv::version(0, 0, 0));
+#else
+    ui->label_berkeleyDBVersion->hide();
+    ui->berkeleyDBVersion->hide();
+#endif
 
     startExecutor();
     setTrafficGraphRange(INITIAL_TRAFFIC_GRAPH_MINS);
@@ -297,10 +306,8 @@ void RPCConsole::setClientModel(ClientModel *model)
 
         // connect the peerWidget's selection model to our peerSelected() handler
         QItemSelectionModel *peerSelectModel = ui->peerWidget->selectionModel();
-        connect(peerSelectModel,
-                SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
-                this,
-                SLOT(peerSelected(const QItemSelection &, const QItemSelection &)));
+        connect(peerSelectModel, SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
+             this, SLOT(peerSelected(const QItemSelection &, const QItemSelection &)));
         connect(model->getPeerTableModel(), SIGNAL(layoutChanged()), this, SLOT(peerLayoutChanged()));
 
         // Provide initial values
@@ -504,6 +511,8 @@ void RPCConsole::updateTrafficStats(quint64 totalBytesIn, quint64 totalBytesOut)
 
 void RPCConsole::peerSelected(const QItemSelection &selected, const QItemSelection &deselected)
 {
+    Q_UNUSED(deselected);
+
     if (selected.indexes().isEmpty())
         return;
 
@@ -631,6 +640,8 @@ void RPCConsole::updateNodeDetail(const CNodeCombinedStats *combinedStats)
         ui->peerBanScore->setText(tr("Fetching..."));
 }
 
+// We override the virtual resizeEvent of the QWidget to adjust tables column
+// sizes as the tables width is proportional to the dialogs width.
 void RPCConsole::resizeEvent(QResizeEvent *event)
 {
     QWidget::resizeEvent(event);
@@ -644,7 +655,7 @@ void RPCConsole::showEvent(QShowEvent *event)
     // peerWidget needs a resize in case the dialog has non-default geometry
     columnResizingFixer->stretchColumnWidth(PeerTableModel::Address);
 
-    // start the PeerTableModel refresh timer
+    // start PeerTableModel auto refresh
     clientModel->getPeerTableModel()->startAutoRefresh(1000);
 }
 
