@@ -1,9 +1,9 @@
-Dogecoin 1.8.1
+Dogecoin 1.8.2
 ====================
 
-* Copyright (c) 2009-2014 Bitcoin Developers
+* Copyright (c) 2009-2015 Bitcoin Developers
 * Copyright (c) 2011-2013 Litecoin Developers
-* Copyright (c) 2013-2014 Dogecoin Developers
+* Copyright (c) 2013-2015 Dogecoin Developers
 
 
 Setup
@@ -19,6 +19,10 @@ The following are some helpful notes on how to run Dogecoin on your native platf
 You need the Qt4 run-time libraries to run Dogecoin-Qt. On Debian or Ubuntu:
 
 	sudo apt-get install libqtgui4
+	
+On Fedora/CentOS/Red Hat:
+
+	sudo yum install qt-x11
 
 Unpack the files into a directory and run:
 
