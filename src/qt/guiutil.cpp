@@ -66,7 +66,7 @@ namespace GUIUtil {
 
 QString dateTimeStr(const QDateTime &date)
 {
-    return date.date().toString(Qt::DefaultLocaleShortDate) + QString(" ") + date.toString("hh:mm");
+    return date.date().toString(Qt::SystemLocaleShortDate) + QString(" ") + date.toString("hh:mm");
 }
 
 QString dateTimeStr(qint64 nTime)
@@ -144,10 +144,7 @@ bool parseBitcoinURI(const QUrl &uri, SendCoinsRecipient *out)
         {
             if(!i->second.isEmpty())
             {
-                // Parse amount in C locale with no number separators
-                QLocale locale(QLocale::c());
-                locale.setNumberOptions(QLocale::OmitGroupSeparator | QLocale::RejectGroupSeparator);
-                if(!BitcoinUnits::parse(BitcoinUnits::DOGE, i->second, &rv.amount, locale))
+                if(!BitcoinUnits::parse(BitcoinUnits::DOGE, i->second, &rv.amount))
                 {
                     return false;
                 }
