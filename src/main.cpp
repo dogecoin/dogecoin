@@ -2814,8 +2814,8 @@ std::string CBlockIndex::ToString() const
 {
     return strprintf("CBlockIndex(pprev=%p, nHeight=%d, merkle=%s, hashBlock=%s)",
                      pprev, nHeight,
-                     hashMerkleRoot.ToString().substr(0,10).c_str(),
-                     GetBlockHash().ToString().c_str());
+                     hashMerkleRoot.ToString().substr(0,10),
+                     GetBlockHash().ToString());
 }
 
 std::string CDiskBlockIndex::ToString() const
@@ -2823,8 +2823,8 @@ std::string CDiskBlockIndex::ToString() const
     std::string str = "CDiskBlockIndex(";
     str += CBlockIndex::ToString();
     str += strprintf("\n                hashBlock=%s, hashPrev=%s, hashParentBlock=%s)",
-        GetBlockHash().ToString().c_str(),
-        hashPrev.ToString().c_str(),
+        GetBlockHash().ToString(),
+        hashPrev.ToString(),
         (auxpow.get() != NULL) ? auxpow->GetParentBlockHash().ToString().substr(0,20).c_str() : "-");
     return str;
 }
