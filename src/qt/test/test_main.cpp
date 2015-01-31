@@ -3,11 +3,10 @@
 #include "bitcoin-config.h"
 #endif
 
-#include "bitcoinunitstests.h"
-#include "uritests.h"
 #ifdef ENABLE_WALLET
 #include "paymentservertests.h"
 #endif
+#include "uritests.h"
 
 #include <QCoreApplication>
 #include <QObject>
@@ -39,9 +38,6 @@ int main(int argc, char *argv[])
     if (QTest::qExec(&test2) != 0)
         fInvalid = true;
 #endif
-    BitcoinUnitsTests test3;
-    if (QTest::qExec(&test3) != 0)
-        fInvalid = true;
 
     return fInvalid;
 }
