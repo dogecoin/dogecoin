@@ -5,7 +5,6 @@
 #include "bitcoinunits.h"
 
 #include <QStringList>
-#include <QLocale>
 
 BitcoinUnits::BitcoinUnits(QObject *parent):
         QAbstractListModel(parent),
@@ -53,10 +52,10 @@ QString BitcoinUnits::description(int unit)
 {
     switch(unit)
     {
-    case MDOGE: return QString("Mega-Dogecoin (1,000,000 DOGE)");
-    case kDOGE: return QString("Kilo-Dogecoin (1000 DOGE)");
+    case MDOGE: return QString("Mega-Dogecoin (1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000 DOGE)");
+    case kDOGE: return QString("Kilo-Dogecoin (1" THIN_SP_UTF8 "000 DOGE)");
     case DOGE: return QString("Dogecoin");
-    case Koinu: return QString("Koinu (1 / 100,000,000");
+    case Koinu: return QString("Koinu (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
     default: return QString("???");
     }
 }
@@ -109,89 +108,106 @@ int BitcoinUnits::decimals(int unit)
     }
 }
 
-QString BitcoinUnits::format(int unit, qint64 n, bool fPlus, bool fTrim, const QLocale &locale_in)
+QString BitcoinUnits::format(int unit, qint64 n, bool fPlus, SeparatorStyle separators)
 {
     // Note: not using straight sprintf here because we do NOT want
     // localized number formatting.
     if(!valid(unit))
         return QString(); // Refuse to format invalid unit
-    QLocale locale(locale_in);
     qint64 coin = factor(unit);
     int num_decimals = decimals(unit);
-
     qint64 n_abs = (n > 0 ? n : -n);
     qint64 quotient = n_abs / coin;
     qint64 remainder = n_abs % coin;
-    // Quotient has group (decimal) separators if locale has this enabled
-    QString quotient_str = locale.toString(quotient);
-    // Remainder does not have group separators
-    locale.setNumberOptions(QLocale::OmitGroupSeparator | QLocale::RejectGroupSeparator);
-    QString remainder_str = locale.toString(remainder).rightJustified(num_decimals, '0');
+    QString quotient_str = QString::number(quotient);
+    QString remainder_str = QString::number(remainder).rightJustified(num_decimals, '0');
 
-    if(fTrim)
-    {
-        // Right-trim excess zeros after the decimal point
-        int nTrim = 0;
-        for (int i = remainder_str.size()-1; i>=2 && (remainder_str.at(i) == '0'); --i)
-            ++nTrim;
-        remainder_str.chop(nTrim);
-    }
+    // Use SI-stule separators as these are locale indendent and can't be
+    // confused with the decimal marker.  Rule is to use a thin space every
+    // three digits on *both* sides of the decimal point - but only if there
+    // are five or more digits
+    QChar thin_sp(THIN_SP_CP);
+    int q_size = quotient_str.size();
+    if (separators == separatorAlways || (separators == separatorStandard && q_size > 4))
+        for (int i = 3; i < q_size; i += 3)
+            quotient_str.insert(q_size - i, thin_sp);
+
+    int r_size = remainder_str.size();
+    if (separators == separatorAlways || (separators == separatorStandard && r_size > 4))
+        for (int i = 3, adj = 0; i < r_size ; i += 3, adj++)
+            remainder_str.insert(i + adj, thin_sp);
 
     if (n < 0)
         quotient_str.insert(0, '-');
-    else if (fPlus && n >= 0)
+    else if (fPlus && n > 0)
         quotient_str.insert(0, '+');
-    return quotient_str + locale.decimalPoint() + remainder_str;
+    return quotient_str + QString(".") + remainder_str;
 }
 
-QString BitcoinUnits::formatWithUnit(int unit, qint64 amount, bool plussign, bool trim, const QLocale &locale)
+
+// TODO: Review all remaining calls to BitcoinUnits::formatWithUnit to
+// TODO: determine whether the output is used in a plain text context
+// TODO: or an HTML context (and replace with
+// TODO: BtcoinUnits::formatHtmlWithUnit in the latter case). Hopefully
+// TODO: there aren't instances where the result could be used in
+// TODO: either context.
+
+// NOTE: Using formatWithUnit in an HTML context risks wrapping
+// quantities at the thousands separator. More subtly, it also results
+// in a standard space rather than a thin space, due to a bug in Qt's
+// XML whitespace canonicalisation
+//
+// Please take care to use formatHtmlWithUnit instead, when
+// appropriate.
+
+QString BitcoinUnits::formatWithUnit(int unit, qint64 amount, bool plussign, SeparatorStyle separators)
 {
-    return format(unit, amount, plussign, trim) + QString(" ") + name(unit);
+    return format(unit, amount, plussign, separators) + QString(" ") + name(unit);
 }
-bool BitcoinUnits::parse(int unit, const QString &value, qint64 *val_out, const QLocale &locale_in)
+
+QString BitcoinUnits::formatHtmlWithUnit(int unit, qint64 amount, bool plussign, SeparatorStyle separators)
+{
+    QString str(formatWithUnit(unit, amount, plussign, separators));
+    str.replace(QChar(THIN_SP_CP), QString(THIN_SP_HTML));
+    return QString("<span style='white-space: nowrap;'>%1</span>").arg(str);
+}
+
+
+bool BitcoinUnits::parse(int unit, const QString &value, qint64 *val_out)
 {
     if(!valid(unit) || value.isEmpty())
         return false; // Refuse to parse invalid unit or empty string
-
-    QLocale locale(locale_in);
-    qint64 coin = factor(unit);
     int num_decimals = decimals(unit);
-    QStringList parts = value.split(locale.decimalPoint());
-    bool ok = false;
+
+    // Ignore spaces and thin spaces when parsing
+    QStringList parts = removeSpaces(value).split(".");
 
     if(parts.size() > 2)
-        return false; // More than one decimal point
+    {
+        return false; // More than one dot
+    }
+    QString whole = parts[0];
+    QString decimals;
 
-    // Parse whole part (may include locale-specific group separators)
-#if QT_VERSION < 0x050000
-    qint64 whole = locale.toLongLong(parts[0], &ok, 10);
-#else
-    qint64 whole = locale.toLongLong(parts[0], &ok);
-#endif
-    if(!ok)
-        return false; // Parse error
-    if(whole > maxAmount(unit) || whole < 0)
-        return false; // Overflow or underflow
-
-    // Parse decimals part (if present, may not include group separators)
-    qint64 decimals = 0;
     if(parts.size() > 1)
     {
-        if(parts[1].size() > num_decimals)
-            return false; // Exceeds max precision
-        locale.setNumberOptions(QLocale::OmitGroupSeparator | QLocale::RejectGroupSeparator);
-#if QT_VERSION < 0x050000
-        decimals = locale.toLongLong(parts[1].leftJustified(num_decimals, '0'), &ok, 10);
-#else
-        decimals = locale.toLongLong(parts[1].leftJustified(num_decimals, '0'), &ok);
-#endif
-        if(!ok || decimals < 0)
-            return false; // Parse error
+        decimals = parts[1];
     }
+    if(decimals.size() > num_decimals)
+    {
+        return false; // Exceeds max precision
+    }
+    bool ok = false;
+    QString str = whole + decimals.leftJustified(num_decimals, '0');
 
+    if(str.size() > 18)
+    {
+        return false; // Longer numbers will exceed 63 bits
+    }
+    qint64 retvalue = str.toLongLong(&ok);
     if(val_out)
     {
-        *val_out = whole * coin + decimals;
+        *val_out = retvalue;
     }
     return ok;
 }

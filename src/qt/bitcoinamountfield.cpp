@@ -14,13 +14,7 @@
 #include <QKeyEvent>
 #include <qmath.h> // for qPow()
 
-/** QDoubleSpinBox that shows number group seperators.
- * In Qt 5.3+ this could be replaced with QAbstractSpinBox::setGroupSeparatorShown(true)
- * See https://bugreports.qt-project.org/browse/QTBUG-5142
- *
- * TODO: We should not use a QDoubleSpinBox at all but implement our own
- * spinbox for fixed-point numbers.
- */
+// QDoubleSpinBox that shows SI-style thin space thousands separators
 class AmountSpinBox: public QDoubleSpinBox
 {
 public:
@@ -30,27 +24,38 @@ public:
     }
     QString textFromValue(double value) const
     {
-        return QLocale().toString(value, 'f', decimals());
+        QStringList parts = QDoubleSpinBox::textFromValue(value).split(".");
+        QString quotient_str = parts[0];
+        QString remainder_str;
+        if(parts.size() > 1)
+            remainder_str = parts[1];
+
+        // Code duplication between here and BitcoinUnits::format
+        // TODO: Figure out how to share this code
+        QChar thin_sp(THIN_SP_CP);
+        int q_size = quotient_str.size();
+        if (q_size > 4)
+            for (int i = 3; i < q_size; i += 3)
+                quotient_str.insert(q_size - i, thin_sp);
+
+        int r_size = remainder_str.size();
+        if (r_size > 4)
+            for (int i = 3, adj = 0; i < r_size; i += 3, adj++)
+                remainder_str.insert(i + adj, thin_sp);
+
+        if(remainder_str.isEmpty())
+            return quotient_str;
+        else
+            return quotient_str + QString(".") + remainder_str;
     }
     QValidator::State validate (QString &text, int &pos) const
     {
-        bool ok = false;
-        QValidator::State rv = QDoubleSpinBox::validate(text, pos);
-        if (rv == QValidator::Acceptable)
-        {
-            // Make sure that we only return acceptable if group seperators
-            // are in the right place. If not, a fixup step is needed first so
-            // return Intermediate.
-            QLocale().toDouble(text, &ok);
-            if (!ok)
-                return QValidator::Intermediate;
-        }
-        return rv;
+        QString s(BitcoinUnits::removeSpaces(text));
+        return QDoubleSpinBox::validate(s, pos);
     }
-
     double valueFromText(const QString& text) const
     {
-        return QLocale().toDouble(text);
+        return QDoubleSpinBox::valueFromText(BitcoinUnits::removeSpaces(text));
     }
 };
 
@@ -62,6 +67,7 @@ BitcoinAmountField::BitcoinAmountField(QWidget *parent) :
     nSingleStep = 100000000; // satoshis
 
     amount = new AmountSpinBox(this);
+    amount->setLocale(QLocale::c());
     amount->installEventFilter(this);
     amount->setMaximumWidth(170);
 
@@ -91,7 +97,7 @@ void BitcoinAmountField::setText(const QString &text)
     if (text.isEmpty())
         amount->clear();
     else
-        amount->setValue(QLocale().toDouble(text));
+        amount->setValue(BitcoinUnits::removeSpaces(text).toDouble());
 }
 
 void BitcoinAmountField::clear()
@@ -137,6 +143,17 @@ bool BitcoinAmountField::eventFilter(QObject *object, QEvent *event)
     {
         // Clear invalid flag on focus
         setValid(true);
+    }
+    else if (event->type() == QEvent::KeyPress || event->type() == QEvent::KeyRelease)
+    {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+        if (keyEvent->key() == Qt::Key_Comma)
+        {
+            // Translate a comma into a period
+            QKeyEvent periodKeyEvent(event->type(), Qt::Key_Period, keyEvent->modifiers(), ".", keyEvent->isAutoRepeat(), keyEvent->count());
+            QApplication::sendEvent(object, &periodKeyEvent);
+            return true;
+        }
     }
     return QWidget::eventFilter(object, event);
 }
