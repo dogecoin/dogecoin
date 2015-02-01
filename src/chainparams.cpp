@@ -118,8 +118,8 @@ public:
         nRejectBlockOutdatedMajority = 950;
         nToCheckBlockUpgradeMajority = 1000;
         nMinerThreads = 0;
-        //nTargetTimespan = 14 * 24 * 60 * 60; // two weeks
-        //nTargetSpacing = 10 * 60;
+        nTargetTimespan = 4 * 60 * 60; // pre-digishield: 4 hours
+        nTargetSpacing = 60;
 
         // Build the genesis block. Note that the output of the genesis coinbase cannot
         // be spent as it did not originally exist in the database.
@@ -196,6 +196,8 @@ public:
         fSimplifiedRewards = false;
         nAuxPowStartBlock = 371337;
         fAllowSelfAuxParent = false;
+        nDigiShieldForkBlock = 145000; // digishield activates at block 145k
+        nDigiShieldTargetTimespan = 60; // digishield: 1 minute block retargeting
         nMinDifficultyAllowedStartBlock = INT_MAX;
     }
 };
@@ -222,8 +224,8 @@ public:
         nRejectBlockOutdatedMajority = 75;
         nToCheckBlockUpgradeMajority = 100;
         nMinerThreads = 0;
-        //nTargetTimespan = 14 * 24 * 60 * 60; // two weeks
-        //nTargetSpacing = 10 * 60;
+        nTargetTimespan = 4 * 60 * 60;
+        nTargetSpacing = 60;
         strDataDir = "testnet3";
 
         // Modify the testnet genesis block so the timestamp is valid for a later start.
@@ -262,6 +264,8 @@ public:
         fSimplifiedRewards = false;
         nAuxPowStartBlock = 158100;
         fAllowSelfAuxParent = true;
+        nDigiShieldForkBlock = 145000; // digishield activates at block 145k
+        nDigiShieldTargetTimespan = 60; // digishield: 1 minute block retargeting
         nMinDifficultyAllowedStartBlock = 157500;
     }
 };
@@ -283,8 +287,8 @@ public:
         nRejectBlockOutdatedMajority = 950;
         nToCheckBlockUpgradeMajority = 1000;
         nMinerThreads = 1;
-        //nTargetTimespan = 14 * 24 * 60 * 60; // two weeks
-        //nTargetSpacing = 10 * 60;
+        nTargetTimespan = 4 * 60 * 60;
+        nTargetSpacing = 60;
         bnProofOfWorkLimit = ~uint256(0) >> 1;
         genesis.nTime = 1296688602;
         genesis.nBits = 0x207fffff;
@@ -308,6 +312,8 @@ public:
         fSimplifiedRewards = true;
         nAuxPowStartBlock = 5000;
         fAllowSelfAuxParent = true;
+        nDigiShieldForkBlock = 145000; // digishield activates at block 145k
+        nDigiShieldTargetTimespan = 60; // digishield: 1 minute block retargeting
         nMinDifficultyAllowedStartBlock = 1;
     }
 };

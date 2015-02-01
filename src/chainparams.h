@@ -103,6 +103,14 @@ public:
     /* whether we allow ourself to be the auxpow parent chain */
     bool AllowSelfAuxParent() const { return fAllowSelfAuxParent; }
 
+    // DIGISHIELD
+    /* The block number where digishield starts */
+    int GetDigiShieldForkBlock() const { return nDigiShieldForkBlock; }
+    /* The TargetTimespan with DigiShield */
+    int64_t DigiShieldTargetTimespan() const { return nDigiShieldTargetTimespan; }
+    /* Retarget interval with DigiShield */
+    int64_t DigiShieldInterval() const { return nDigiShieldTargetTimespan / nTargetSpacing; }
+
     // TESTNET FORK: Allow post-digishield min difficulty at 157500
     /* The minimum difficulty at which we allow post-DigiShield minimum difficulty blocks */
     int GetMinDifficultyAllowedStartBlock() const { return nMinDifficultyAllowedStartBlock; }
@@ -143,6 +151,9 @@ protected:
 
     int nAuxPowStartBlock;
     bool fAllowSelfAuxParent;
+
+    int nDigiShieldForkBlock;
+    int64_t nDigiShieldTargetTimespan;
 
     int nMinDifficultyAllowedStartBlock;
 
