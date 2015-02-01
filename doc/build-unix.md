@@ -70,9 +70,7 @@ Dependency Build Instructions: Ubuntu & Debian
 ----------------------------------------------
 Build requirements:
 
-	sudo apt-get install build-essential pkg-config
-	sudo apt-get install libtool autotools-dev autoconf automake
-	sudo apt-get install libssl-dev
+	sudo apt-get install build-essential pkg-config libtool autotools-dev autoconf automake libssl-dev
 
 for Ubuntu 12.04 and later:
 
@@ -80,8 +78,7 @@ for Ubuntu 12.04 and later:
 
 for Debian 7 (Wheezy) and later:
 
-	sudo apt-get install libdb5.1-dev
-        sudo apt-get install libdb5.1++-dev
+	sudo apt-get install libdb5.1-dev libdb5.1++-dev
 
 	Note that if you have Berkeley DB 4.8 packages installed (i.e. for other
 	wallet software), they are incompatible with the packages for 5.1. You
