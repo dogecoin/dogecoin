@@ -188,6 +188,12 @@ public:
         fRequireStandard = true;
         fRPCisTestNet = false;
         fMineBlocksOnDemand = false;
+
+        // Dogecoin specific properties
+        fSimplifiedRewards = false;
+        nAuxPowStartBlock = 371337;
+        fAllowSelfAuxParent = false;
+        nMinDifficultyAllowedStartBlock = INT_MAX;
     }
 };
 static CMainParams mainParams;
@@ -245,6 +251,12 @@ public:
         fRequireStandard = false;
         fRPCisTestNet = true;
         fMineBlocksOnDemand = false;
+
+        // Dogecoin specific properties
+        fSimplifiedRewards = false;
+        nAuxPowStartBlock = 158100;
+        fAllowSelfAuxParent = true;
+        nMinDifficultyAllowedStartBlock = 157500;
     }
 };
 static CTestNetParams testNetParams;
@@ -283,6 +295,12 @@ public:
         fRequireStandard = false;
         fRPCisTestNet = true;
         fMineBlocksOnDemand = true;
+
+        // Dogecoin specific properties
+        fSimplifiedRewards = true;
+        nAuxPowStartBlock = 5000;
+        fAllowSelfAuxParent = true;
+        nMinDifficultyAllowedStartBlock = 1;
     }
 };
 

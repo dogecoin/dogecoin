@@ -663,7 +663,7 @@ Value getworkaux(const Array& params, bool fHelp)
         throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD, "Dogecoin is downloading blocks...");
     
     // We use height plus one because we're testing the next block
-    if ((chainActive.Tip()->nHeight+1) < GetAuxPowStartBlock()) {
+    if ((chainActive.Tip()->nHeight+1) < Params().GetAuxPowStartBlock()) {
         throw JSONRPCError(RPC_METHOD_NOT_FOUND, "getworkaux method is not available until switch-over block.");
     }
 
@@ -829,7 +829,7 @@ Value getauxblock(const Array& params, bool fHelp)
         throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD, "Dogecoin is downloading blocks...");
     
     // We use height plus one because we're testing the next block
-    if ((chainActive.Tip()->nHeight+1) < GetAuxPowStartBlock()) {
+    if ((chainActive.Tip()->nHeight+1) < Params().GetAuxPowStartBlock()) {
         throw JSONRPCError(RPC_METHOD_NOT_FOUND, "getauxblock method is not available until switch-over block.");
     }
 

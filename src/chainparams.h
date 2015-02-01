@@ -87,6 +87,20 @@ public:
     const std::vector<unsigned char>& Base58Prefix(Base58Type type) const { return base58Prefixes[type]; }
     const vector<CAddress>& FixedSeeds() const { return vFixedSeeds; }
     int RPCPort() const { return nRPCPort; }
+
+    // Dogecoin specific properties
+    bool SimplifiedRewards() const { return fSimplifiedRewards; }
+
+    // AUXPOW
+    /* The block number from where AuxPow starts */
+    int GetAuxPowStartBlock() const { return nAuxPowStartBlock; }
+    /* whether we allow ourself to be the auxpow parent chain */
+    bool AllowSelfAuxParent() const { return fAllowSelfAuxParent; }
+
+    // TESTNET FORK: Allow post-digishield min difficulty at 157500
+    /* The minimum difficulty at which we allow post-DigiShield minimum difficulty blocks */
+    int GetMinDifficultyAllowedStartBlock() const { return nMinDifficultyAllowedStartBlock; }
+
 protected:
     CChainParams() {}
 
@@ -115,6 +129,15 @@ protected:
     bool fRequireStandard;
     bool fRPCisTestNet;
     bool fMineBlocksOnDemand;
+
+    // Dogecoin specific properties
+    bool fSimplifiedRewards;
+
+    int nAuxPowStartBlock;
+    bool fAllowSelfAuxParent;
+
+    int nMinDifficultyAllowedStartBlock;
+
 };
 
 /**

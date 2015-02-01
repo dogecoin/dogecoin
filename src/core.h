@@ -36,8 +36,6 @@ static const int BLOCK_VERSION_CHAIN_END = (1 << 30);
 
 // DogeCoin aux chain ID = 0x0062 (98)
 static const int AUXPOW_CHAIN_ID = 0x0062;
-static const int AUXPOW_START_MAINNET = 371337;
-static const int AUXPOW_START_TESTNET = 158100;
 
 /** No amount larger than this (in satoshi) is valid */
 static const int64_t MAX_MONEY = 10000000000 * COIN; // Dogecoin: maximum of 100B coins (given some randomness), max transaction 10,000,000,000

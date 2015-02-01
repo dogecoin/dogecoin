@@ -1279,7 +1279,6 @@ static const int64_t nTargetSpacing = 60; // Dogecoin: 1 minute
 static const int64_t nInterval = nTargetTimespan / nTargetSpacing;
 
 static const int64_t nDiffChangeTarget = 145000; // Patch effective @ block 145000
-static const int64_t nTestnetResetTargetFix = 157500; // Testnet enables target reset at block 157500
 
 //
 // minimum amount of work that could possibly be required nTime after
@@ -1314,6 +1313,21 @@ unsigned int ComputeMinWork(unsigned int nBase, int64_t nTime)
     return bnResult.GetCompact();
 }
 
+// Determine if the for the given block, a min difficulty setting applies
+bool AllowMinDifficultyForBlock(const CBlockIndex* pindexLast, const CBlockHeader *pblock)
+{
+    // check if the chain allows minimum difficulty blocks
+    if (!Params().AllowMinDifficultyBlocks())
+        return false;
+
+    // check if we allow minimum difficulty at this block-height
+    if (pindexLast->nHeight < Params().GetMinDifficultyAllowedStartBlock())
+        return false;
+
+    // Allow for a minimum block time if the elapsed time > 2*nTargetSpacing
+    return (pblock->nTime > pindexLast->nTime + nTargetSpacing*2);
+}
+
 unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock)
 {
     unsigned int nProofOfWorkLimit = Params().ProofOfWorkLimit().GetCompact();
@@ -1333,7 +1347,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     if (pindexLast == NULL)
         return nProofOfWorkLimit;
 
-    if (TestNet() && pindexLast->nHeight >= nTestnetResetTargetFix && pblock->nTime > pindexLast->nTime + nTargetSpacing*2)
+    if (AllowMinDifficultyForBlock(pindexLast, pblock))
     {
         // Special difficulty rule for testnet:
         // If the new block's timestamp is more than 2* nTargetSpacing minutes
@@ -1344,6 +1358,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     // Only change once per interval
     if ((pindexLast->nHeight+1) % retargetInterval != 0)
     {
+        // kept for testnet legacy pre-block 160000
         if (Params().AllowMinDifficultyBlocks())
         {
             if (pblock->nTime > pindexLast->nTime + nTargetSpacing*2)
@@ -1468,9 +1483,6 @@ bool fLargeWorkForkFound = false;
 bool fLargeWorkInvalidChainFound = false;
 CBlockIndex *pindexBestForkTip = NULL, *pindexBestForkBase = NULL;
 
-// Temporarily declare this here so CheckForkWarningConditions() knows it exists
-int GetAuxPowStartBlock();
-
 void CheckForkWarningConditions()
 {
     AssertLockHeld(cs_main);
@@ -1481,7 +1493,7 @@ void CheckForkWarningConditions()
     
     // For an hour before, and a day after the AuxPoW hard fork, disable
     // warnings.
-    int proximityToAuxPoWFork = chainActive.Height() - GetAuxPowStartBlock();
+    int proximityToAuxPoWFork = chainActive.Height() - Params().GetAuxPowStartBlock();
     
     if (proximityToAuxPoWFork < 0) {
       // One hour of one-minute blocks
@@ -2413,28 +2425,15 @@ bool ReceivedBlockTransactions(const CBlock &block, CValidationState& state, CBl
     return true;
 }
 
-// to enable merged mining:
-// - set a block from which it will be enabled
-// - set a unique chain ID
-//   each merged minable scrypt_1024_1_1_256 coin should have a different one
-//   (if two have the same ID, they can't be merge mined together)
-int GetAuxPowStartBlock()
-{
-    if (TestNet())
-        return AUXPOW_START_TESTNET;
-    else
-        return AUXPOW_START_MAINNET;
-}
-
 bool CBlockHeader::CheckProofOfWork(int nHeight) const
 {
-    if (nHeight >= GetAuxPowStartBlock())
+    if (nHeight >= Params().GetAuxPowStartBlock())
     {
         // Prevent same work from being submitted twice:
         // - this block must have our chain ID
         // - parent block must not have the same chain ID (see CAuxPow::Check)
         // - index of this chain in chain merkle tree must be pre-determined (see CAuxPow::Check)
-        if (!TestNet() && nHeight != INT_MAX && GetChainID() != AUXPOW_CHAIN_ID)
+        if (!Params().AllowSelfAuxParent() && nHeight != INT_MAX && GetChainID() != AUXPOW_CHAIN_ID)
             return error("CheckProofOfWork() : block does not have our chain ID");
 
         if (auxpow.get() != NULL)
