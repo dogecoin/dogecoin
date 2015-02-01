@@ -307,7 +307,7 @@ Value sendtoaddress(const Array& params, bool fHelp)
     if (fHelp || params.size() < 2 || params.size() > 4)
         throw runtime_error(
             "sendtoaddress \"dogecoinaddress\" amount ( \"comment\" \"comment-to\" )\n"
-            "\nSent an amount to a given address. The amount is a real and is rounded to the nearest 0.00000001\n"
+            "\nSend an amount to a given address. The amount is a real and is rounded to the nearest 0.00000001\n"
             + HelpRequiringPassphrase() +
             "\nArguments:\n"
             "1. \"dogecoinaddress\"  (string, required) The Dogecoin address to send to.\n"
@@ -1461,7 +1461,7 @@ Value gettransaction(const Array& params, bool fHelp)
             "  \"hex\" : \"data\"         (string) Raw data for transaction\n"
             "}\n"
 
-            "\nbExamples\n"
+            "\nExamples:\n"
             + HelpExampleCli("gettransaction", "\"1075db55d416d3ca199f55b6084e2115b9345e16c5cf302fc80e9d5fbf5d48d\"")
             + HelpExampleRpc("gettransaction", "\"1075db55d416d3ca199f55b6084e2115b9345e16c5cf302fc80e9d5fbf5d48d\"")
         );

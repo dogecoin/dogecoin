@@ -23,7 +23,7 @@ Release Process
 
 * * *
 
-##perform gitian builds
+###perform gitian builds
 
  From a directory containing the dogecoin source, gitian-builder and gitian.sigs
   
@@ -34,8 +34,8 @@ Release Process
 	popd
 	pushd ./gitian-builder
 
- Fetch and build inputs: (first time, or when dependency versions change)
-
+###fetch and build inputs: (first time, or when dependency versions change)
+ 
 	mkdir -p inputs; cd inputs/
 	wget 'http://miniupnp.free.fr/files/download.php?file=miniupnpc-1.9.20140701.tar.gz' -O miniupnpc-1.9.20140701.tar.gz
 	wget 'https://www.openssl.org/source/openssl-1.0.1j.tar.gz'
