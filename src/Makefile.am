@@ -25,7 +25,9 @@ noinst_LIBRARIES = \
   libbitcoin_cli.a
 if ENABLE_WALLET
 BITCOIN_INCLUDES += $(BDB_CPPFLAGS)
-noinst_LIBRARIES += libbitcoin_wallet.a
+noinst_LIBRARIES += \
+  libbitcoin_wallet.a \
+  libbitcoin_server_wallet.a
 endif
 
 bin_PROGRAMS =
@@ -136,10 +138,14 @@ libbitcoin_wallet_a_CPPFLAGS = $(BITCOIN_INCLUDES)
 libbitcoin_wallet_a_SOURCES = \
   db.cpp \
   crypter.cpp \
-  rpcdump.cpp \
-  rpcwallet.cpp \
   wallet.cpp \
   walletdb.cpp \
+  $(BITCOIN_CORE_H)
+
+libbitcoin_server_wallet_a_CPPFLAGS = $(BITCOIN_INCLUDES)
+libbitcoin_server_wallet_a_SOURCES = \
+  rpcdump.cpp \
+  rpcwallet.cpp \
   $(BITCOIN_CORE_H)
 
 libbitcoin_common_a_CPPFLAGS = $(BITCOIN_INCLUDES)
@@ -198,7 +204,7 @@ dogecoin_cli_LDADD = \
   libbitcoin_common.a \
   $(BOOST_LIBS)
 dogecoin_cli_SOURCES = dogecoin-cli.cpp
-bitcoin_cli_CPPFLAGS = $(BITCOIN_INCLUDES)
+dogecoin_cli_CPPFLAGS = $(BITCOIN_INCLUDES)
 #
 
 if TARGET_WINDOWS
@@ -227,6 +233,7 @@ clean-local:
 	@test -f $(PROTOC)
 	$(AM_V_GEN) $(PROTOC) --cpp_out=$(@D) --proto_path=$(abspath $(<D) $<)
 
+LIBBITCOIN_SERVER_WALLET=libbitcoin_server_wallet.a
 LIBBITCOIN_SERVER=libbitcoin_server.a
 LIBBITCOIN_WALLET=libbitcoin_wallet.a
 LIBBITCOIN_COMMON=libbitcoin_common.a

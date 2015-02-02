@@ -1,7 +1,7 @@
-TESTS += test/test_bitcoin
-bin_PROGRAMS += test/test_bitcoin
+TESTS += test/test_dogecoin
+bin_PROGRAMS += test/test_dogecoin
 TEST_SRCDIR = test
-TEST_BINARY=test/test_bitcoin$(EXEEXT)
+TEST_BINARY=test/test_dogecoin$(EXEEXT)
 
 JSON_TEST_FILES = \
   test/data/script_valid.json \
@@ -45,7 +45,7 @@ BITCOIN_TESTS =\
   test/script_tests.cpp \
   test/serialize_tests.cpp \
   test/sigopcount_tests.cpp \
-  test/test_bitcoin.cpp \
+  test/test_dogecoin.cpp \
   test/transaction_tests.cpp \
   test/uint256_tests.cpp \
   test/util_tests.cpp \
@@ -59,16 +59,16 @@ BITCOIN_TESTS += \
   test/rpc_wallet_tests.cpp
 endif
 
-test_test_bitcoin_SOURCES = $(BITCOIN_TESTS) $(JSON_TEST_FILES) $(RAW_TEST_FILES)
-test_test_bitcoin_CPPFLAGS = $(BITCOIN_INCLUDES) -I$(builddir)/test/ $(TESTDEFS)
-test_test_bitcoin_LDADD = $(LIBBITCOIN_SERVER) $(LIBBITCOIN_CLI) $(LIBBITCOIN_COMMON) $(LIBLEVELDB) $(LIBMEMENV) \
+test_test_dogecoin_SOURCES = $(BITCOIN_TESTS) $(JSON_TEST_FILES) $(RAW_TEST_FILES)
+test_test_dogecoin_CPPFLAGS = $(BITCOIN_INCLUDES) -I$(builddir)/test/ $(TESTDEFS)
+test_test_dogecoin_LDADD = $(LIBBITCOIN_SERVER) $(LIBBITCOIN_CLI) $(LIBBITCOIN_COMMON) $(LIBLEVELDB) $(LIBMEMENV) \
   $(BOOST_LIBS) $(BOOST_UNIT_TEST_FRAMEWORK_LIB)
 if ENABLE_WALLET
-test_test_bitcoin_LDADD += $(LIBBITCOIN_WALLET)
+test_test_dogecoin_LDADD += $(LIBBITCOIN_WALLET) $(LIBBITCOIN_SERVER_WALLET)
 endif
-test_test_bitcoin_LDADD += $(BDB_LIBS)
+test_test_dogecoin_LDADD += $(BDB_LIBS)
 
-nodist_test_test_bitcoin_SOURCES = $(GENERATED_TEST_FILES)
+nodist_test_test_dogecoin_SOURCES = $(GENERATED_TEST_FILES)
 
 $(BITCOIN_TESTS): $(GENERATED_TEST_FILES)
 
@@ -76,13 +76,13 @@ CLEAN_BITCOIN_TEST = test/*.gcda test/*.gcno $(GENERATED_TEST_FILES)
 
 CLEANFILES += $(CLEAN_BITCOIN_TEST)
 
-bitcoin_test: $(TEST_BINARY)
+dogecoin_test: $(TEST_BINARY)
 
-bitcoin_test_check: $(TEST_BINARY) FORCE
+dogecoin_test_check: $(TEST_BINARY) FORCE
 	$(MAKE) check-TESTS TESTS=$^
 
-bitcoin_test_clean : FORCE
-	rm -f $(CLEAN_BITCOIN_TEST) $(test_test_bitcoin_OBJECTS) $(TEST_BINARY)
+dogecoin_test_clean : FORCE
+	rm -f $(CLEAN_BITCOIN_TEST) $(test_test_dogecoin_OBJECTS) $(TEST_BINARY)
 
 %.json.h: %.json
 	@$(MKDIR_P) $(@D)
