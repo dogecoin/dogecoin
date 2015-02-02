@@ -136,7 +136,7 @@ repackage gitian builds for release as stand-alone zip/tar/installer exe
 
 **Mac OS X .dmg:**
 
-	mv Bitcoin-Qt.dmg bitcoin-${VERSION}-osx.dmg
+	mv Dogecoin-Qt.dmg dogecoin-${VERSION}-osx.dmg
 
 ###Next steps:
 
