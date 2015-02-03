@@ -178,7 +178,7 @@ Value setgenerate(const Array& params, bool fHelp)
     }
 
     // -regtest mode: don't return until nGenProcLimit blocks are generated
-    if (fGenerate && Params().NetworkID() == CChainParams::REGTEST)
+    if (fGenerate && Params().MineBlocksOnDemand())
     {
         int nHeightStart = 0;
         int nHeightEnd = 0;
@@ -269,7 +269,7 @@ Value getmininginfo(const Array& params, bool fHelp)
     obj.push_back(Pair("genproclimit",     (int)GetArg("-genproclimit", -1)));
     obj.push_back(Pair("networkhashps",    getnetworkhashps(params, false)));
     obj.push_back(Pair("pooledtx",         (uint64_t)mempool.size()));
-    obj.push_back(Pair("testnet",          TestNet()));
+    obj.push_back(Pair("testnet",          Params().RPCisTestNet()));
 #ifdef ENABLE_WALLET
     obj.push_back(Pair("generate",         getgenerate(params, false)));
     obj.push_back(Pair("hashespersec",     gethashespersec(params, false)));
@@ -663,7 +663,7 @@ Value getworkaux(const Array& params, bool fHelp)
         throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD, "Dogecoin is downloading blocks...");
     
     // We use height plus one because we're testing the next block
-    if ((chainActive.Tip()->nHeight+1) < GetAuxPowStartBlock()) {
+    if ((chainActive.Tip()->nHeight+1) < Params().GetAuxPowStartBlock()) {
         throw JSONRPCError(RPC_METHOD_NOT_FOUND, "getworkaux method is not available until switch-over block.");
     }
 
@@ -829,7 +829,7 @@ Value getauxblock(const Array& params, bool fHelp)
         throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD, "Dogecoin is downloading blocks...");
     
     // We use height plus one because we're testing the next block
-    if ((chainActive.Tip()->nHeight+1) < GetAuxPowStartBlock()) {
+    if ((chainActive.Tip()->nHeight+1) < Params().GetAuxPowStartBlock()) {
         throw JSONRPCError(RPC_METHOD_NOT_FOUND, "getauxblock method is not available until switch-over block.");
     }
 

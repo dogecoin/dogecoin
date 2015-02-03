@@ -8,8 +8,6 @@
 #include "chainparams.h"
 
 #include "assert.h"
-#include "core.h"
-#include "protocol.h"
 #include "util.h"
 
 #include <boost/assign/list_of.hpp>
@@ -102,6 +100,7 @@ unsigned int pnSeed[] =
 class CMainParams : public CChainParams {
 public:
     CMainParams() {
+        networkID = CChainParams::MAIN;
         // The message start string is designed to be unlikely to occur in normal data.
         // The characters are rarely used upper ASCII, not valid as UTF-8, and produce
         // a large 4-byte int at any alignment.
@@ -114,6 +113,10 @@ public:
         nRPCPort = 22555;
         bnProofOfWorkLimit = ~uint256(0) >> 20;
         nSubsidyHalvingInterval = 210000;
+        nEnforceBlockUpgradeMajority = 750;
+        nRejectBlockOutdatedMajority = 950;
+        nToCheckBlockUpgradeMajority = 1000;
+        nMinerThreads = 0;
 
         // Build the genesis block. Note that the output of the genesis coinbase cannot
         // be spent as it did not originally exist in the database.
@@ -177,20 +180,23 @@ public:
             addr.nTime = GetTime() - GetRand(nOneWeek) - nOneWeek;
             vFixedSeeds.push_back(addr);
         }
-    }
 
-    virtual const CBlock& GenesisBlock() const { return genesis; }
-    virtual Network NetworkID() const { return CChainParams::MAIN; }
+        fRequireRPCPassword = true;
+        fMiningRequiresPeers = true;
+        fDefaultCheckMemPool = false;
+        fAllowMinDifficultyBlocks = false;
+        fRequireStandard = true;
+        fRPCisTestNet = false;
+        fMineBlocksOnDemand = false;
 
-    virtual const vector<CAddress>& FixedSeeds() const {
-        return vFixedSeeds;
+        // Dogecoin specific properties
+        fSimplifiedRewards = false;
+        nAuxPowStartBlock = 371337;
+        fAllowSelfAuxParent = false;
+        nMinDifficultyAllowedStartBlock = INT_MAX;
     }
-protected:
-    CBlock genesis;
-    vector<CAddress> vFixedSeeds;
 };
 static CMainParams mainParams;
-
 
 //
 // Testnet (v3)
@@ -198,6 +204,7 @@ static CMainParams mainParams;
 class CTestNetParams : public CMainParams {
 public:
     CTestNetParams() {
+        networkID = CChainParams::TESTNET;
         // The message start string is designed to be unlikely to occur in normal data.
         // The characters are rarely used upper ASCII, not valid as UTF-8, and produce
         // a large 4-byte int at any alignment.
@@ -208,6 +215,9 @@ public:
         vAlertPubKey = ParseHex("042756726da3c7ef515d89212ee1705023d14be389e25fe15611585661b9a20021908b2b80a3c7200a0139dd2b26946606aab0eef9aa7689a6dc2c7eee237fa834");
         nDefaultPort = 44556;
         nRPCPort = 44555;
+        nEnforceBlockUpgradeMajority = 51;
+        nRejectBlockOutdatedMajority = 75;
+        nToCheckBlockUpgradeMajority = 100;
         strDataDir = "testnet3";
 
         // Modify the testnet genesis block so the timestamp is valid for a later start.
@@ -233,8 +243,21 @@ public:
         base58Prefixes[EXT_PUBLIC_KEY] = epk;
         std::vector<unsigned char> esk = list_of(0x04)(0x35)(0x75)(0xA4);
         base58Prefixes[EXT_SECRET_KEY] = esk;
+
+        fRequireRPCPassword = true;
+        fMiningRequiresPeers = true;
+        fDefaultCheckMemPool = false;
+        fAllowMinDifficultyBlocks = true;
+        fRequireStandard = false;
+        fRPCisTestNet = true;
+        fMineBlocksOnDemand = false;
+
+        // Dogecoin specific properties
+        fSimplifiedRewards = false;
+        nAuxPowStartBlock = 158100;
+        fAllowSelfAuxParent = true;
+        nMinDifficultyAllowedStartBlock = 157500;
     }
-    virtual Network NetworkID() const { return CChainParams::TESTNET; }
 };
 static CTestNetParams testNetParams;
 
@@ -244,11 +267,16 @@ static CTestNetParams testNetParams;
 class CRegTestParams : public CTestNetParams {
 public:
     CRegTestParams() {
+        networkID = CChainParams::REGTEST;
         pchMessageStart[0] = 0xfa;
         pchMessageStart[1] = 0xbf;
         pchMessageStart[2] = 0xb5;
         pchMessageStart[3] = 0xda;
         nSubsidyHalvingInterval = 150;
+        nEnforceBlockUpgradeMajority = 750;
+        nRejectBlockOutdatedMajority = 950;
+        nToCheckBlockUpgradeMajority = 1000;
+        nMinerThreads = 1;
         bnProofOfWorkLimit = ~uint256(0) >> 1;
         genesis.nTime = 1296688602;
         genesis.nBits = 0x207fffff;
@@ -259,12 +287,23 @@ public:
         assert(hashGenesisBlock == uint256("0x3d2160a3b5dc4a9d62e7e66a295f70313ac808440ef7400d6c0772171ce973a5"));
 
         vSeeds.clear();  // Regtest mode doesn't have any DNS seeds.
-    }
 
-    virtual bool RequireRPCPassword() const { return false; }
-    virtual bool SimplifiedRewards() const { return true; }
-    virtual Network NetworkID() const { return CChainParams::REGTEST; }
+        fRequireRPCPassword = false;
+        fMiningRequiresPeers = false;
+        fDefaultCheckMemPool = true;
+        fAllowMinDifficultyBlocks = true;
+        fRequireStandard = false;
+        fRPCisTestNet = true;
+        fMineBlocksOnDemand = true;
+
+        // Dogecoin specific properties
+        fSimplifiedRewards = true;
+        nAuxPowStartBlock = 5000;
+        fAllowSelfAuxParent = true;
+        nMinDifficultyAllowedStartBlock = 1;
+    }
 };
+
 static CRegTestParams regTestParams;
 
 static CChainParams *pCurrentParams = &mainParams;

@@ -13,7 +13,6 @@
 #ifndef __INCLUDED_PROTOCOL_H__
 #define __INCLUDED_PROTOCOL_H__
 
-#include "chainparams.h"
 #include "netbase.h"
 #include "serialize.h"
 #include "uint256.h"
@@ -21,6 +20,8 @@
 
 #include <stdint.h>
 #include <string>
+
+#define MESSAGE_START_SIZE 4
 
 /** Message header.
  * (4) message start.

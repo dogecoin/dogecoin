@@ -500,7 +500,7 @@ void static DogecoinMiner(CWallet *pwallet)
     unsigned int nExtraNonce = 0;
 
     try { while (true) {
-        if (Params().NetworkID() != CChainParams::REGTEST) {
+        if (Params().MiningRequiresPeers()) {
             // Busy-wait for the network to come online so we don't waste time mining
             // on an obsolete chain. In regtest mode we expect to fly solo.
             while (vNodes.empty())
@@ -558,10 +558,9 @@ void static DogecoinMiner(CWallet *pwallet)
                     SetThreadPriority(THREAD_PRIORITY_NORMAL);
                     CheckWork(pblock, *pwallet, reservekey);
                     SetThreadPriority(THREAD_PRIORITY_LOWEST);
-                    
-                    // In regression test mode, stop mining after a block is found. This
-                    // allows developers to controllably generate a block on demand.
-                    if (Params().NetworkID() == CChainParams::REGTEST)
+
+                    // In regression test mode, stop mining after a block is found.
+                    if (Params().MineBlocksOnDemand())
                         throw boost::thread_interrupted();
                     
                     break;
@@ -603,7 +602,8 @@ void static DogecoinMiner(CWallet *pwallet)
 
             // Check for stop or if block needs to be rebuilt
             boost::this_thread::interruption_point();
-            if (vNodes.empty() && Params().NetworkID() != CChainParams::REGTEST)
+            // Regtest mode doesn't require peers
+            if (vNodes.empty() && Params().MiningRequiresPeers())
                 break;
             if (pblock->nNonce >= 0xffff0000)
                 break;
@@ -615,7 +615,7 @@ void static DogecoinMiner(CWallet *pwallet)
             // Update nTime every few seconds
             UpdateTime(*pblock, pindexPrev);
             nBlockTime = ByteReverse(pblock->nTime);
-            if (TestNet())
+            if (Params().AllowMinDifficultyBlocks())
             {
                 // Changing pblock->nTime can change work required on testnet:
                 nBlockBits = ByteReverse(pblock->nBits);
@@ -635,8 +635,9 @@ void GenerateBitcoins(bool fGenerate, CWallet* pwallet, int nThreads)
     static boost::thread_group* minerThreads = NULL;
 
     if (nThreads < 0) {
-        if (Params().NetworkID() == CChainParams::REGTEST)
-            nThreads = 1;
+        // In regtest threads defaults to 1
+        if (Params().DefaultMinerThreads())
+            nThreads = Params().DefaultMinerThreads();
         else
             nThreads = boost::thread::hardware_concurrency();
     }

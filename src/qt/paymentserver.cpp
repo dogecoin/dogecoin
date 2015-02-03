@@ -504,8 +504,7 @@ bool PaymentServer::processPaymentRequest(PaymentRequestPlus& request, SendCoins
         const payments::PaymentDetails& details = request.getDetails();
         
         // Payment request network matches client network?
-        if ((details.genesis() == "1a91e3dace36e2be3bf030a65679fe821aa1d6ef92e7c9902eb318182c355691" && TestNet()) ||
-            (details.genesis() == "bb0a78264637406b6360aad926284d544d7049f45189db5664f3c4d07350559e" && !TestNet()))
+        if (details.genesis() != Params().HashGenesisBlock().GetHex())
         {
             emit message(tr("Payment request rejected"), tr("Payment request network doesn't match client network."),
                 CClientUIInterface::MSG_ERROR);
