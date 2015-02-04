@@ -49,7 +49,7 @@ Value getinfo(const Array& params, bool fHelp)
             "  \"unlocked_until\": ttt,      (numeric) the timestamp in seconds since epoch (midnight Jan 1 1970 GMT) that the wallet is unlocked for transfers, or 0 if the wallet is locked\n"
             "  \"paytxfee\": x.xxxx,         (numeric) the transaction fee set in doge/kb\n"
             "  \"relayfee\": x.xxxx,         (numeric) minimum relay fee for non-free transactions in doge/kb\n"
-            "  \"moon\": true|false,         (boolean) if moon is available to the server or not\n"
+            "  \"moon\": true|false,         (boolean) if moon is available to the Dogecoin Core or not\n"
             "  \"errors\": \"...\"           (string) any error messages\n"
             "}\n"
             "\nExamples:\n"
