@@ -89,7 +89,8 @@ BITCOIN_CORE_H = \
   util.h \
   version.h \
   walletdb.h \
-  wallet.h
+  wallet.h \
+  compat/sanity.h
 
 JSON_H = \
   json/json_spirit.h \
@@ -164,6 +165,8 @@ libbitcoin_common_a_SOURCES = \
   sync.cpp \
   util.cpp \
   version.cpp \
+  compat/glibc_sanity.cpp \
+  compat/glibcxx_sanity.cpp \
   $(BITCOIN_CORE_H)
 
 if GLIBC_BACK_COMPAT
