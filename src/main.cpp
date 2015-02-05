@@ -820,7 +820,8 @@ int64_t GetMinFee(const CTransaction& tx, unsigned int nBytes, bool fAllowFree, 
     // Base fee is either minTxFee or minRelayTxFee
     CFeeRate baseFeeRate = (mode == GMF_RELAY) ? tx.minRelayTxFee : tx.minTxFee;
 
-    int64_t nMinFee = baseFeeRate.GetFee(nBytes);
+    size_t nFeeBytes = 1000 + (nBytes - (nBytes % 1000));
+    int64_t nMinFee = baseFeeRate.GetFee(nFeeBytes);
 
     if (fAllowFree && mode != GMF_SEND)
     {
