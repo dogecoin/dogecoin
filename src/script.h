@@ -208,6 +208,7 @@ static const unsigned int MANDATORY_SCRIPT_VERIFY_FLAGS = SCRIPT_VERIFY_P2SH;
 static const unsigned int STANDARD_SCRIPT_VERIFY_FLAGS = MANDATORY_SCRIPT_VERIFY_FLAGS |
                                                          SCRIPT_VERIFY_STRICTENC |
                                                          SCRIPT_VERIFY_NULLDUMMY |
+                                                         SCRIPT_VERIFY_DERSIG |
                                                          SCRIPT_VERIFY_LOW_S;
 
 // For convenience, standard but not mandatory verify flags.
