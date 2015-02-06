@@ -429,7 +429,7 @@ Value decoderawtransaction(const Array& params, bool fHelp)
             "         \"reqSigs\" : n,            (numeric) The required sigs\n"
             "         \"type\" : \"pubkeyhash\",  (string) The type, eg 'pubkeyhash'\n"
             "         \"addresses\" : [           (json array of string)\n"
-            "           \"DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM\"   (string) Dogecoin address\n"
+            "           \"DEaT9KZM6b6oDZMr8pj7pWTLZSdtYZFAx8\"   (string) Dogecoin address\n"
             "           ,...\n"
             "         ]\n"
             "       }\n"

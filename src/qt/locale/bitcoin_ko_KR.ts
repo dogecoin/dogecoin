@@ -1925,10 +1925,6 @@ Address: %4
         <translation>지불할 곳(&amp;T):</translation>
     </message>
     <message>
-        <source>The address to send the payment to (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>금액을 보낼 주소 (예: DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
-    </message>
-    <message>
         <source>Enter a label for this address to add it to your address book</source>
         <translation>주소록에 추가하기 위해 이 주소에 쓸 라벨 입력</translation>
     </message>
@@ -2015,10 +2011,6 @@ Address: %4
         <translation>메시지를 서명하여 주소를 가지고 있다는 것을 증명할 수 있습니다. 피싱 공격같이 사용자를 속여 개인정보를 넘기게 만들 수 있는 불분명한, 어떠한 것에도 서명하지 않게 주의하시고, 동의하는 완전무결한 사항에만 서명하세요.</translation>
     </message>
     <message>
-        <source>The address to sign the message with (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>메시지를 서명할 주소입니다 (예: DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
-    </message>
-    <message>
         <source>Choose previously used address</source>
         <translation>이전에 사용했던 주소 선택</translation>
     </message>
@@ -2069,10 +2061,6 @@ Address: %4
     <message>
         <source>Enter the signing address, message (ensure you copy line breaks, spaces, tabs, etc. exactly) and signature below to verify the message. Be careful not to read more into the signature than what is in the signed message itself, to avoid being tricked by a man-in-the-middle attack.</source>
         <translation>메시지를 검증하기 위해 아래에 서명하는 주소, 메시지(띄어쓰기, 들여쓰기, 행 나눔 등을 정확하게 복사했는지 확인하세요)와 서명을 입력하세요. 사용자를 속이는 공격을 피하기 위해 서명된 메시지 내용을 잘못 읽지 않게 주의하세요.</translation>
-    </message>
-    <message>
-        <source>The address the message was signed with (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>메시지가 서명된 주소 (예: DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
     </message>
     <message>
         <source>Verify the message to ensure it was signed with the specified Dogecoin address</source>
