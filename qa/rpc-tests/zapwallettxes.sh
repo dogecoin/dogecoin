@@ -10,8 +10,8 @@ fi
 
 set -f
 
-BITCOIND=${1}/bitcoind
-CLI=${1}/bitcoin-cli
+BITCOIND=${1}/dogecoind
+CLI=${1}/dogecoin-cli
 
 DIR="${BASH_SOURCE%/*}"
 SENDANDWAIT="${DIR}/send.sh"
@@ -41,48 +41,48 @@ wait $B1PID
 rm -rf $D
 }
 
-# 110 blocks, 10 mature == 500 XBT
+# 110 blocks, 61 mature == 30500000 DOGE
 $CLI $B1ARGS setgenerate true 110
 $CLI $B2ARGS setgenerate true 110
 
-CheckBalance "$B1ARGS" 500
-CheckBalance "$B2ARGS" 500
+CheckBalance "$B1ARGS" 30500000
+CheckBalance "$B2ARGS" 30500000
 
-# Send 10 XBT
-TXID1_DEFAULT=$($CLI $B1ARGS sendtoaddress "mrhz5ZgSF3C1BSdyCKt3gEdhKoRL5BNfJV" 10)
-TXID2_DEFAULT=$($CLI $B2ARGS sendtoaddress "mrhz5ZgSF3C1BSdyCKt3gEdhKoRL5BNfJV" 10)
+# Send 500000 DOGE
+TXID1_DEFAULT=$($CLI $B1ARGS sendtoaddress "nXGoqHceG1MHKgMH9PzDVpE1LmT4RaeqFp" 500000)
+TXID2_DEFAULT=$($CLI $B2ARGS sendtoaddress "nXGoqHceG1MHKgMH9PzDVpE1LmT4RaeqFp" 500000)
 
-CheckBalance $B1ARGS 490
-CheckBalance $B2ARGS 490
+CheckBalance $B1ARGS 29999999
+CheckBalance $B2ARGS 29999999
 
-# Move 10 XBT to testaccount
-TMP=$($CLI $B1ARGS move "" "testaccount" 10)
-TMP=$($CLI $B2ARGS move "" "testaccount" 10)
+# Move 1000000 DOGE to testaccount
+TMP=$($CLI $B1ARGS move "" "testaccount" 1000000)
+TMP=$($CLI $B2ARGS move "" "testaccount" 1000000)
 
-CheckBalance $B1ARGS 10 "testaccount"
-CheckBalance $B2ARGS 10 "testaccount"
+CheckBalance $B1ARGS 1000000 "testaccount"
+CheckBalance $B2ARGS 1000000 "testaccount"
 
-# Send 1 XBT from testaccount
-TXID1_TESTACCOUNT=$($CLI $B1ARGS sendfrom "testaccount" "mrhz5ZgSF3C1BSdyCKt3gEdhKoRL5BNfJV" 1)
-TXID2_TESTACCOUNT=$($CLI $B2ARGS sendfrom "testaccount" "mrhz5ZgSF3C1BSdyCKt3gEdhKoRL5BNfJV" 1)
+# Send 100000 DOGE from testaccount
+TXID1_TESTACCOUNT=$($CLI $B1ARGS sendfrom "testaccount" "nXGoqHceG1MHKgMH9PzDVpE1LmT4RaeqFp" 100000)
+TXID2_TESTACCOUNT=$($CLI $B2ARGS sendfrom "testaccount" "nXGoqHceG1MHKgMH9PzDVpE1LmT4RaeqFp" 100000)
 
-CheckBalance $B1ARGS 9 "testaccount"
-CheckBalance $B2ARGS 9 "testaccount"
+CheckBalance $B1ARGS 899999 "testaccount"
+CheckBalance $B2ARGS 899999 "testaccount"
 
-CheckBalance $B1ARGS 489
-CheckBalance $B2ARGS 489
+CheckBalance $B1ARGS 29899998
+CheckBalance $B2ARGS 29899998
 
 # Confirm transactions
 $CLI $B1ARGS setgenerate true 1
 $CLI $B2ARGS setgenerate true 1
 
 # Create unconfirmed transaction
-TXID1_UNCONFIRMED=$($CLI $B1ARGS sendtoaddress "mrhz5ZgSF3C1BSdyCKt3gEdhKoRL5BNfJV" 1)
-TXID2_UNCONFIRMED=$($CLI $B2ARGS sendtoaddress "mrhz5ZgSF3C1BSdyCKt3gEdhKoRL5BNfJV" 1)
+TXID1_UNCONFIRMED=$($CLI $B1ARGS sendtoaddress "nXGoqHceG1MHKgMH9PzDVpE1LmT4RaeqFp" 100000)
+TXID2_UNCONFIRMED=$($CLI $B2ARGS sendtoaddress "nXGoqHceG1MHKgMH9PzDVpE1LmT4RaeqFp" 100000)
 
-# check balance (we created another 50 and spent 1 in the meantime)
-CheckBalance $B1ARGS 538
-CheckBalance $B2ARGS 538
+# check balance (we created another 500000 and spent 100000 in the meantime)
+CheckBalance $B1ARGS 30299997
+CheckBalance $B2ARGS 30299997
 
 # Safety check, if unconfirmed transactions are there
 $CLI $B1ARGS gettransaction $TXID1_UNCONFIRMED > /dev/null 2>&1
@@ -150,11 +150,11 @@ if [[ $? -eq 0 ]] ; then
     exit 1
 fi
 
-# check zapwallet mode 1, testaccount balance must be 9 (keeping transaction metadata)
-CheckBalance $B1ARGS 9 "testaccount"
+# check zapwallet mode 1, testaccount balance must be 899999 (keeping transaction metadata)
+CheckBalance $B1ARGS 899999 "testaccount"
 
-# check zapwallet mode 2, testaccount balance must be 10 (dropping transaction metadata)
-CheckBalance $B2ARGS 10 "testaccount"
+# check zapwallet mode 2, testaccount balance must be 1000000 (dropping transaction metadata)
+CheckBalance $B2ARGS 1000000 "testaccount"
 
 echo "Tests successful, cleaning up"
 CleanUp
