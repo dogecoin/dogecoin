@@ -84,10 +84,10 @@ BOOST_AUTO_TEST_CASE(rpc_wallet)
 	/*********************************
 	 * 			setaccount
 	 *********************************/
-	BOOST_CHECK_NO_THROW(CallRPC("setaccount DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM nullaccount"));
+	BOOST_CHECK_NO_THROW(CallRPC("setaccount DEaT9KZM6b6oDZMr8pj7pWTLZSdtYZFAx8 nullaccount"));
 	BOOST_CHECK_THROW(CallRPC("setaccount"), runtime_error);
-	/* DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRL (33 chars) is an illegal address (should be 34 chars) */
-	BOOST_CHECK_THROW(CallRPC("setaccount DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRL nullaccount"), runtime_error);
+	/* DEaT9KZM6b6oDZMr8pj7pWTLZSdtYZFAx (33 chars) is an illegal address (should be 34 chars) */
+	BOOST_CHECK_THROW(CallRPC("setaccount DEaT9KZM6b6oDZMr8pj7pWTLZSdtYZFAx nullaccount"), runtime_error);
 
     /*********************************
      * 			listunspent
@@ -157,9 +157,9 @@ BOOST_AUTO_TEST_CASE(rpc_wallet)
 	BOOST_CHECK_THROW(CallRPC("verifymessage "+ demoAddress.ToString()), runtime_error);
 	BOOST_CHECK_THROW(CallRPC("verifymessage "+ demoAddress.ToString() + " " + retValue.get_str()), runtime_error);
 	/* Illegal address */
-	BOOST_CHECK_THROW(CallRPC("verifymessage DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRL " + retValue.get_str() + " mymessage"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("verifymessage DEaT9KZM6b6oDZMr8pj7pWTLZSdtYZFAx " + retValue.get_str() + " mymessage"), runtime_error);
 	/* wrong address */
-	BOOST_CHECK(CallRPC("verifymessage DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM " + retValue.get_str() + " mymessage").get_bool() == false);
+	BOOST_CHECK(CallRPC("verifymessage DEaT9KZM6b6oDZMr8pj7pWTLZSdtYZFAx8 " + retValue.get_str() + " mymessage").get_bool() == false);
 	/* Correct address and signature but wrong message */
 	BOOST_CHECK(CallRPC("verifymessage "+ demoAddress.ToString() + " " + retValue.get_str() + " wrongmessage").get_bool() == false);
 	/* Correct address, message and signature*/

@@ -1357,8 +1357,8 @@ Cím: %4
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>Adj meg egy Dogecoin-címet (pl.: DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM )</translation>
+        <source>Enter a Dogecoin address (e.g. %1)</source>
+        <translation>Adj meg egy Dogecoin-címet (pl.: %1)</translation>
     </message>
 </context>
 <context>
@@ -1902,10 +1902,6 @@ Cím: %4
         <translation>Címzett:</translation>
     </message>
     <message>
-        <source>The address to send the payment to (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Enter a label for this address to add it to your address book</source>
         <translation>Milyen címkével kerüljön be ez a cím a címtáradba?
 </translation>
@@ -1993,10 +1989,6 @@ Cím: %4
         <translation>Aláírhat a címeivel üzeneteket, amivel bizonyíthatja, hogy a címek az önéi. Vigyázzon, hogy ne írjon alá semmi félreérthetőt, mivel a phising támadásokkal megpróbálhatják becsapni, hogy az azonosságát átírja másokra. Csak olyan részletes állításokat írjon alá, amivel egyetért.</translation>
     </message>
     <message>
-        <source>The address to sign the message with (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>Adj meg egy Dogecoin-címet (pl.: DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM )</translation>
-    </message>
-    <message>
         <source>Choose previously used address</source>
         <translation type="unfinished"/>
     </message>
@@ -2049,10 +2041,6 @@ Cím: %4
         <translation>Írja be az aláírás címét, az üzenetet (ügyelve arra, hogy az új-sor, szóköz, tab, stb. karaktereket is pontosan) és az aláírást az üzenet ellenőrzéséhez. Ügyeljen arra, ne gondoljon többet az aláírásról, mint amennyi az aláírt szövegben ténylegesen áll, hogy elkerülje a köztes-ember (man-in-the-middle) támadást.</translation>
     </message>
     <message>
-        <source>The address the message was signed with (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>Adj meg egy Dogecoin-címet (pl.: DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM )</translation>
-    </message>
-    <message>
         <source>Verify the message to ensure it was signed with the specified Dogecoin address</source>
         <translation type="unfinished"/>
     </message>
@@ -2065,8 +2053,8 @@ Cím: %4
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>Adj meg egy Dogecoin-címet (pl.: DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM )</translation>
+        <source>Enter a Dogecoin address (e.g. %1)</source>
+        <translation>Adj meg egy Dogecoin-címet (pl.: %1)</translation>
     </message>
     <message>
         <source>Click &quot;Sign Message&quot; to generate signature</source>

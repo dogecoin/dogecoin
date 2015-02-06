@@ -1336,8 +1336,8 @@ Wohin: %4
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>Gib a Dogecoin-Adress ei (sowos wia: DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
+        <source>Enter a Dogecoin address (e.g. %1)</source>
+        <translation>Gib a Dogecoin-Adress ei (sowos wia: %1)</translation>
     </message>
 </context>
 <context>
@@ -1881,10 +1881,6 @@ Wohin: %4
         <translation>wo&amp;hin:</translation>
     </message>
     <message>
-        <source>The address to send the payment to (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <source>Enter a label for this address to add it to your address book</source>
         <translation>Gib an Titl fia de neiche Adress</translation>
     </message>
@@ -1971,10 +1967,6 @@ Wohin: %4
         <translation>Duachs Untaschreim vo ana Mödung mit deina Adress stöllst kloa, dass du den Schlissl dazua host. Pass owa auf, dassd ned glei ois untaschreibsd wos da iangdana hinhoit, weu sunst kennts leicht passian, dassd vasehentlich kwasi an Blanko-Scheck untaschreibst. Untaschreib nua konkrete Mödungen denenst aa wiakli zuastimmst.</translation>
     </message>
     <message>
-        <source>The address to sign the message with (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>De Adress mit dera&apos;st untaschreibst (z.B. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
-    </message>
-    <message>
         <source>Choose previously used address</source>
         <translation type="unfinished"/>
     </message>
@@ -2027,10 +2019,6 @@ Wohin: %4
         <translation>Gib de Untaschrifts-Adress, de Mödung und de Untaschrift ei. De Mödung muass auf Punkt und Beistrich (und Leerzeichn, Tabulatorn, Zeulnumbrüch, usw) gaunz genau des gleiche sein, wos untaschriem wuan is. Pass auf, dassd ned mea in de Mödung eineliest, ois wos wiakli drinsteht, sunst kenntast leicht auf an Schmäh einefoin.</translation>
     </message>
     <message>
-        <source>The address the message was signed with (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>De Adress, mit dera untaschriem wuan is (z.B. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
-    </message>
-    <message>
         <source>Verify the message to ensure it was signed with the specified Dogecoin address</source>
         <translation>Tscheck, doss de Mödung a wiakli mit da aungebanan Adress untaschriem wuan is</translation>
     </message>
@@ -2043,8 +2031,8 @@ Wohin: %4
         <translation>Olle Föda zrucksetzn</translation>
     </message>
     <message>
-        <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>Gib a Dogecoin-Adress ei (sowos wia: DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
+        <source>Enter a Dogecoin address (e.g. %1)</source>
+        <translation>Gib a Dogecoin-Adress ei (sowos wia: %1)</translation>
     </message>
     <message>
         <source>Click &quot;Sign Message&quot; to generate signature</source>
