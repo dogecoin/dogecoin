@@ -645,7 +645,7 @@ void StartRPCThreads()
         LogPrintf("Binding RPC on address %s port %i (IPv4+IPv6 bind any: %i)\n", bindAddress.to_string(), endpoint.port(), bBindAny);
         boost::system::error_code v6_only_error;
         boost::shared_ptr<ip::tcp::acceptor> acceptor(new ip::tcp::acceptor(*rpc_io_service));
-        rpc_acceptors.push_back(acceptor);
+
         try {
             acceptor->open(endpoint.protocol());
             acceptor->set_option(boost::asio::ip::tcp::acceptor::reuse_address(true));
@@ -660,6 +660,7 @@ void StartRPCThreads()
             RPCListen(acceptor, *rpc_ssl_context, fUseSSL);
 
             fListening = true;
+            rpc_acceptors.push_back(acceptor);
             // If dual IPv6/IPv4 bind succesful, skip binding to IPv4 separately
             if(bBindAny && bindAddress == asio::ip::address_v6::any() && !v6_only_error)
                 break;
