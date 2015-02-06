@@ -1365,8 +1365,8 @@ Adresa: %4
         <translation>Dogecoin Core ještě bezpečně neskončil...</translation>
     </message>
     <message>
-        <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>Zadej Dogecoinovou adresu (např. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
+        <source>Enter a Dogecoin address (e.g. %1)</source>
+        <translation>Zadej Dogecoinovou adresu (např. %1)</translation>
     </message>
 </context>
 <context>
@@ -2072,8 +2072,8 @@ Adresa: %4
         <translation>Vymaž všechna pole formuláře pro ověření zrávy</translation>
     </message>
     <message>
-        <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>Zadej Dogecoinovou adresu (např. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
+        <source>Enter a Dogecoin address (e.g. %1)</source>
+        <translation>Zadej Dogecoinovou adresu (např. %1)</translation>
     </message>
     <message>
         <source>Click &quot;Sign Message&quot; to generate signature</source>

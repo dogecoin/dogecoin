@@ -1355,8 +1355,8 @@ Address: %4
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>Magpalub kang Dogecoin address(e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
+        <source>Enter a Dogecoin address (e.g. %1)</source>
+        <translation>Magpalub kang Dogecoin address(e.g. %1)</translation>
     </message>
 </context>
 <context>
@@ -2062,8 +2062,8 @@ Address: %4
         <translation>Ibalik king dati reng ngan fields na ning pamag beripikang mensayi</translation>
     </message>
     <message>
-        <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>Magpalub kang Dogecoin address(e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
+        <source>Enter a Dogecoin address (e.g. %1)</source>
+        <translation>Magpalub kang Dogecoin address(e.g. %1)</translation>
     </message>
     <message>
         <source>Click &quot;Sign Message&quot; to generate signature</source>

@@ -1357,8 +1357,8 @@ Adres: %4
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>Wprowadź adres Dogecoin (np. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
+        <source>Enter a Dogecoin address (e.g. %1)</source>
+        <translation>Wprowadź adres Dogecoin (np. %1)</translation>
     </message>
 </context>
 <context>
@@ -2064,8 +2064,8 @@ Adres: %4
         <translation>Resetuje wszystkie pola weryfikacji wiadomości</translation>
     </message>
     <message>
-        <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>Wprowadź adres Dogecoin (np. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
+        <source>Enter a Dogecoin address (e.g. %1)</source>
+        <translation>Wprowadź adres Dogecoin (np. %1)</translation>
     </message>
     <message>
         <source>Click &quot;Sign Message&quot; to generate signature</source>

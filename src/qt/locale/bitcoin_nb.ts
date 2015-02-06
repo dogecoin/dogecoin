@@ -1357,8 +1357,8 @@ Adresse: %4
         <translation>Dogecoin Core har annå ikke avsluttet på en sikker måte...</translation>
     </message>
     <message>
-        <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>Skriv inn en Dogecoin-adresse (f.eks. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
+        <source>Enter a Dogecoin address (e.g. %1)</source>
+        <translation>Skriv inn en Dogecoin-adresse (f.eks. %1)</translation>
     </message>
 </context>
 <context>
@@ -2064,8 +2064,8 @@ Adresse: %4
         <translation>Tilbakestill alle felter for meldingsverifikasjon</translation>
     </message>
     <message>
-        <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>Skriv inn en Dogecoin-adresse (f.eks. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
+        <source>Enter a Dogecoin address (e.g. %1)</source>
+        <translation>Skriv inn en Dogecoin-adresse (f.eks. %1)</translation>
     </message>
     <message>
         <source>Click &quot;Sign Message&quot; to generate signature</source>

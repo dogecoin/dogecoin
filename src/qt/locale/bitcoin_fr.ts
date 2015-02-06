@@ -1357,8 +1357,8 @@ Adresse : %4
         <translation>Dogecoin Core ne s’est pas arrêté correctement...</translation>
     </message>
     <message>
-        <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>Saisir une adresse Dogecoin (par ex. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
+        <source>Enter a Dogecoin address (e.g. %1)</source>
+        <translation>Saisir une adresse Dogecoin (par ex. %1)</translation>
     </message>
 </context>
 <context>
@@ -2064,8 +2064,8 @@ Adresse : %4
         <translation>Réinitialiser tous les champs de vérification de message</translation>
     </message>
     <message>
-        <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>Saisir une adresse Dogecoin (par ex. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
+        <source>Enter a Dogecoin address (e.g. %1)</source>
+        <translation>Saisir une adresse Dogecoin (par ex. %1)</translation>
     </message>
     <message>
         <source>Click &quot;Sign Message&quot; to generate signature</source>

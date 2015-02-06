@@ -1380,8 +1380,8 @@ Address: %4
         <translation>도지코인 코어를 아직 안전하게 끝낼 수 없습니다…</translation>
     </message>
     <message>
-        <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>도지코인 주소 입력 (예: DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
+        <source>Enter a Dogecoin address (e.g. %1)</source>
+        <translation>도지코인 주소 입력 (예: %1)</translation>
     </message>
 </context>
 <context>
@@ -2087,8 +2087,8 @@ Address: %4
         <translation>모든 메시지 검증 항목 재설정</translation>
     </message>
     <message>
-        <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>도지코인 주소 입력 (예: DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
+        <source>Enter a Dogecoin address (e.g. %1)</source>
+        <translation>도지코인 주소 입력 (예: %1)</translation>
     </message>
     <message>
         <source>Click &quot;Sign Message&quot; to generate signature</source>

@@ -1358,8 +1358,8 @@ Address: %4
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>请输入狗狗币地址（例如: DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM）</translation>
+        <source>Enter a Dogecoin address (e.g. %1)</source>
+        <translation>请输入狗狗币地址（例如: %1)</translation>
     </message>
 </context>
 <context>
@@ -2065,8 +2065,8 @@ Address: %4
         <translation>清空所有验证消息栏</translation>
     </message>
     <message>
-        <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>请输入狗狗币地址 (例如: DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
+        <source>Enter a Dogecoin address (e.g. %1)</source>
+        <translation>请输入狗狗币地址 (例如: %1)</translation>
     </message>
     <message>
         <source>Click &quot;Sign Message&quot; to generate signature</source>

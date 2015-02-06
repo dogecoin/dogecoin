@@ -1358,8 +1358,8 @@ Indirizzo: %4
         <translation>Dogecoin Core non è ancora stato chiuso in modo sicuro ...</translation>
     </message>
     <message>
-        <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>Inserisci un indirizzo Dogecoin (ad esempio DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
+        <source>Enter a Dogecoin address (e.g. %1)</source>
+        <translation>Inserisci un indirizzo Dogecoin (ad esempio %1)</translation>
     </message>
 </context>
 <context>
@@ -2065,8 +2065,8 @@ Indirizzo: %4
         <translation>Reimposta tutti i campi della verifica messaggio</translation>
     </message>
     <message>
-        <source>Enter a Dogecoin address (e.g. DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</source>
-        <translation>Inserisci un indirizzo Dogecoin (ad esempio DJ7zB7c5BsB9UJLy1rKQtY7c6CQfGiaRLM)</translation>
+        <source>Enter a Dogecoin address (e.g. %1)</source>
+        <translation>Inserisci un indirizzo Dogecoin (ad esempio %1)</translation>
     </message>
     <message>
         <source>Click &quot;Sign Message&quot; to generate signature</source>
