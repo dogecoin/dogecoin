@@ -219,8 +219,11 @@ public:
             }
             BOOST_FOREACH(const CTxMemPoolEntry* entry, e)
             {
-                // Fees are stored and reported as BTC-per-kb:
-                CFeeRate feeRate(entry->GetFee(), entry->GetTxSize());
+                // Dogecoin fee calculation modifies the transaction size before determining
+                // fee, which we need to compensate for to get the actual cost per kb.
+                size_t txSizeAdjusted = entry->GetTxSize() + 1000 - (entry->GetTxSize() % 1000);
+                // Fees are stored and reported as DOGE-per-kb:
+                CFeeRate feeRate(entry->GetFee(), txSizeAdjusted);
                 double dPriority = entry->GetPriority(entry->GetHeight()); // Want priority when it went IN
                 seenTxConfirm(feeRate, dPriority, i);
             }
