@@ -396,7 +396,9 @@ Value getwork(const Array& params, bool fHelp)
 
         pblock->nTime = pdata->nTime;
         pblock->nNonce = pdata->nNonce;
-        pblock->vtx[0].vin[0].scriptSig = mapNewBlock[pdata->hashMerkleRoot].second;
+        CMutableTransaction txCoinbase(pblock->vtx[0]);
+        txCoinbase.vin[0].scriptSig = mapNewBlock[pdata->hashMerkleRoot].second;
+        pblock->vtx[0] = txCoinbase;
         pblock->hashMerkleRoot = pblock->BuildMerkleTree();
 
         assert(pwalletMain != NULL);
@@ -830,7 +832,9 @@ Value getworkaux(const Array& params, bool fHelp)
         RemoveMergedMiningHeader(vchAux);
 
         unsigned int nHeight = chainActive.Tip()->nHeight+1; // Height first in coinbase required for block.version=2
-        pblock->vtx[0].vin[0].scriptSig = MakeCoinbaseWithAux(nHeight, nExtraNonce, vchAux);
+        CMutableTransaction txCoinbase(pblock->vtx[0]);
+        txCoinbase.vin[0].scriptSig = MakeCoinbaseWithAux(nHeight, nExtraNonce, vchAux);
+        pblock->vtx[0] = txCoinbase;
         pblock->hashMerkleRoot = pblock->BuildMerkleTree();
 
         if (params.size() > 2)

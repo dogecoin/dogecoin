@@ -105,7 +105,7 @@ BOOST_AUTO_TEST_CASE(GetMinFee_test)
 {
     uint64_t value = 1000 * COIN;
 
-    CTransaction tx;
+    CMutableTransaction tx;
     CTxOut txout1(value, (CScript)vector<unsigned char>(24, 0));
     tx.vout.push_back(txout1);
     
@@ -135,7 +135,7 @@ BOOST_AUTO_TEST_CASE(GetMinFee_dust_test)
 {
     uint64_t value = 1000;
 
-    CTransaction tx;
+    CMutableTransaction tx;
     CTxOut txout1(value, (CScript)vector<unsigned char>(24, 0));
     tx.vout.push_back(txout1);
     
@@ -162,7 +162,7 @@ BOOST_AUTO_TEST_CASE(GetMinFee_manydust_test)
 {
     uint64_t value = 1000;
 
-    CTransaction tx;
+    CMutableTransaction tx;
     CTxOut txout1(1000 * COIN, (CScript)vector<unsigned char>(24, 0));
     tx.vout.push_back(txout1);
     
@@ -197,7 +197,7 @@ BOOST_AUTO_TEST_CASE(GetMinFee_relayfree_test)
 {
     uint64_t value = 1000 * COIN;
 
-    CTransaction tx;
+    CMutableTransaction tx;
     CTxOut txout1(value, (CScript)vector<unsigned char>(24, 0));
     tx.vout.push_back(txout1);
     
@@ -217,7 +217,7 @@ BOOST_AUTO_TEST_CASE(GetMinFee_createNoFree_test)
 {
     uint64_t value = 1000 * COIN;
 
-    CTransaction tx;
+    CMutableTransaction tx;
     CTxOut txout1(value, (CScript)vector<unsigned char>(24, 0));
     tx.vout.push_back(txout1);
     
