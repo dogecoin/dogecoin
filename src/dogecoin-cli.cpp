@@ -39,16 +39,17 @@ static bool AppInitRPC(int argc, char* argv[])
         return false;
     }
 
-    if (argc<2 || mapArgs.count("-?") || mapArgs.count("--help"))
+    if (argc<2 || mapArgs.count("-?") || mapArgs.count("-help") || mapArgs.count("-version"))
     {
-        // First part of help message is specific to RPC client
-        std::string strUsage = _("Dogecoin Core RPC client version") + " " + FormatFullVersion() + "\n\n" +
-            _("Usage:") + "\n" +
-              "  dogecoin-cli [options] <command> [params]  " + _("Send command to Dogecoin Core") + "\n" +
-              "  dogecoin-cli [options] help                " + _("List commands") + "\n" +
-              "  dogecoin-cli [options] help <command>      " + _("Get help for a command") + "\n";
-
-        strUsage += "\n" + HelpMessageCli(true);
+        std::string strUsage = _("Dogecoin Core RPC client version") + " " + FormatFullVersion() + "\n";
+        if (!mapArgs.count("-version"))
+        {
+            strUsage += "\n" + _("Usage:") + "\n" +
+                  "  dogecoin-cli [options] <command> [params]  " + _("Send command to Dogecoin Core") + "\n" +
+                  "  dogecoin-cli [options] help                " + _("List commands") + "\n" +
+                  "  dogecoin-cli [options] help <command>      " + _("Get help for a command") + "\n";
+            strUsage += "\n" + HelpMessageCli(true);
+        }
 
         fprintf(stdout, "%s", strUsage.c_str());
         return false;
