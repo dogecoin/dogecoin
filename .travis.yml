@@ -21,6 +21,7 @@ script:
   - qa/rpc-tests/txnmall.sh src
   - qa/rpc-tests/wallet.sh src
   - qa/rpc-tests/walletbackup.sh src
+  - qa/rpc-tests/zapwallettxes.sh src
   - make clean
   - CFLAGS="-O1" CXXFLAGS="-O1" ./configure --disable-wallet
   - make -j 2
