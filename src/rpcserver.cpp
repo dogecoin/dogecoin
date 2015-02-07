@@ -308,7 +308,6 @@ static const CRPCCommand vRPCCommands[] =
     { "getgenerate",            &getgenerate,            true,      false,      false },
     { "gethashespersec",        &gethashespersec,        true,      false,      false },
     { "setgenerate",            &setgenerate,            true,      true,       false },
-    { "getworkaux",             &getworkaux,             true,      false,      true },
     { "getauxblock",            &getauxblock,            true,      false,      true  }
 #endif // ENABLE_WALLET
 };
