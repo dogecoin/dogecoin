@@ -3,11 +3,11 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "rpcserver.h"
-#include "main.h"
-#include "sync.h"
-#include "checkpoints.h"
 #include "auxpow.h"
+#include "checkpoints.h"
+#include "main.h"
+#include "rpcserver.h"
+#include "sync.h"
 
 #include <stdint.h>
 
