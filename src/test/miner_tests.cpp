@@ -1,4 +1,5 @@
 // Copyright (c) 2011-2014 The Bitcoin Core developers
+// Copyright (c) 2013-2015 The Dogecoin Core developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -53,7 +54,7 @@ BOOST_AUTO_TEST_CASE(CreateNewBlock_validity)
     // changed this to dogecoin genesis pubkey script
     CScript scriptPubKey = CScript() << ParseHex("040184710fa689ad5023690c80f3a49c8f13f8d45b8c857fbcbc8bc4a8e4d3eb4b10f4d4604fa08dce601aaf0f470216fe1b51850b4acf21b179c45070ac7b03a9") << OP_CHECKSIG;
     CBlockTemplate *pblocktemplate;
-    CTransaction tx,tx2;
+    CMutableTransaction tx,tx2;
     CScript script;
     uint256 hash;
 
@@ -74,10 +75,12 @@ BOOST_AUTO_TEST_CASE(CreateNewBlock_validity)
         // interval because median([1,2,2,3,3,3,4,4,4,4]) will eventually be problematic re:
         // block timing. Tests should be more stable than that.
         pblock->nTime = chainActive.Tip()->GetBlockTime() + 60;
-        pblock->vtx[0].vin[0].scriptSig = CScript();
-        pblock->vtx[0].vin[0].scriptSig.push_back(blockinfo[i].extranonce);
-        pblock->vtx[0].vin[0].scriptSig.push_back(chainActive.Height());
-        pblock->vtx[0].vout[0].scriptPubKey = CScript();
+        CMutableTransaction txCoinbase(pblock->vtx[0]);
+        txCoinbase.vin[0].scriptSig = CScript();
+        txCoinbase.vin[0].scriptSig.push_back(blockinfo[i].extranonce);
+        txCoinbase.vin[0].scriptSig.push_back(chainActive.Height());
+        txCoinbase.vout[0].scriptPubKey = CScript();
+        pblock->vtx[0] = CTransaction(txCoinbase);
         if (txFirst.size() < 2)
             txFirst.push_back(new CTransaction(pblock->vtx[0]));
         pblock->hashMerkleRoot = pblock->BuildMerkleTree();

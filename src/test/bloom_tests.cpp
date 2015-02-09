@@ -119,33 +119,33 @@ BOOST_AUTO_TEST_CASE(bloom_match)
 
     CBloomFilter filter(10, 0.000001, 0, BLOOM_UPDATE_ALL);
     filter.insert(uint256("0x516a1229cd8dbf59b33597772484e4db14b91bd5620cad567b8bfe0a5ea99ff9"));
-    BOOST_CHECK_MESSAGE(filter.IsRelevantAndUpdate(tx, tx.GetHash()), "Simple Bloom filter didn't match tx hash");
+    BOOST_CHECK_MESSAGE(filter.IsRelevantAndUpdate(tx), "Simple Bloom filter didn't match tx hash");
 
     filter = CBloomFilter(10, 0.000001, 0, BLOOM_UPDATE_ALL);
     // byte-reversed tx hash
     filter.insert(ParseHex("f99fa95e0afe8b7b56ad0c62d51bb914dbe48424779735b359bf8dcd29126a51"));
-    BOOST_CHECK_MESSAGE(filter.IsRelevantAndUpdate(tx, tx.GetHash()), "Simple Bloom filter didn't match manually serialized tx hash");
+    BOOST_CHECK_MESSAGE(filter.IsRelevantAndUpdate(tx), "Simple Bloom filter didn't match manually serialized tx hash");
 
     filter = CBloomFilter(10, 0.000001, 0, BLOOM_UPDATE_ALL);
     filter.insert(ParseHex("3045022100e676203127a390a526438bcbb3506f94a67d20f1a871a431c862004187c72bd802203bcf3a5daab349c98fe1199c96eb838501e0dd4387e431fc42a158608220880601"));
-    BOOST_CHECK_MESSAGE(filter.IsRelevantAndUpdate(tx, tx.GetHash()), "Simple Bloom filter didn't match input signature");
+    BOOST_CHECK_MESSAGE(filter.IsRelevantAndUpdate(tx), "Simple Bloom filter didn't match input signature");
 
     filter = CBloomFilter(10, 0.000001, 0, BLOOM_UPDATE_ALL);
     filter.insert(ParseHex("03861fe3437b6102a6bdb5664bd15d1e4c695978675c0897a8510f49932eac8d83"));
-    BOOST_CHECK_MESSAGE(filter.IsRelevantAndUpdate(tx, tx.GetHash()), "Simple Bloom filter didn't match input pub key");
+    BOOST_CHECK_MESSAGE(filter.IsRelevantAndUpdate(tx), "Simple Bloom filter didn't match input pub key");
 
     filter = CBloomFilter(10, 0.000001, 0, BLOOM_UPDATE_ALL);
     filter.insert(ParseHex("14e568f3b94de18a4b0131e0dba1c0ee0d76b96b"));
-    BOOST_CHECK_MESSAGE(filter.IsRelevantAndUpdate(tx, tx.GetHash()), "Simple Bloom filter didn't match output address");
-    BOOST_CHECK_MESSAGE(filter.IsRelevantAndUpdate(spendingTx, spendingTx.GetHash()), "Simple Bloom filter didn't add output");
+    BOOST_CHECK_MESSAGE(filter.IsRelevantAndUpdate(tx), "Simple Bloom filter didn't match output address");
+    BOOST_CHECK_MESSAGE(filter.IsRelevantAndUpdate(spendingTx), "Simple Bloom filter didn't add output");
 
     filter = CBloomFilter(10, 0.000001, 0, BLOOM_UPDATE_ALL);
     filter.insert(ParseHex("e37c8e7fd5c53d6288794bedc19b55758ddd9412"));
-    BOOST_CHECK_MESSAGE(filter.IsRelevantAndUpdate(tx, tx.GetHash()), "Simple Bloom filter didn't match output address");
+    BOOST_CHECK_MESSAGE(filter.IsRelevantAndUpdate(tx), "Simple Bloom filter didn't match output address");
 
     filter = CBloomFilter(10, 0.000001, 0, BLOOM_UPDATE_ALL);
     filter.insert(COutPoint(uint256("0x52d29c72b392c7a07b8c5719e218153f45e20b6cd79683cb79ee784d21ef0745"), 0));
-    BOOST_CHECK_MESSAGE(filter.IsRelevantAndUpdate(tx, tx.GetHash()), "Simple Bloom filter didn't match COutPoint");
+    BOOST_CHECK_MESSAGE(filter.IsRelevantAndUpdate(tx), "Simple Bloom filter didn't match COutPoint");
 
     filter = CBloomFilter(10, 0.000001, 0, BLOOM_UPDATE_ALL);
     COutPoint prevOutPoint(uint256("0x52d29c72b392c7a07b8c5719e218153f45e20b6cd79683cb79ee784d21ef0745"), 0);
@@ -155,23 +155,23 @@ BOOST_AUTO_TEST_CASE(bloom_match)
         memcpy(&data[32], &prevOutPoint.n, sizeof(unsigned int));
         filter.insert(data);
     }
-    BOOST_CHECK_MESSAGE(filter.IsRelevantAndUpdate(tx, tx.GetHash()), "Simple Bloom filter didn't match manually serialized COutPoint");
+    BOOST_CHECK_MESSAGE(filter.IsRelevantAndUpdate(tx), "Simple Bloom filter didn't match manually serialized COutPoint");
 
     filter = CBloomFilter(10, 0.000001, 0, BLOOM_UPDATE_ALL);
     filter.insert(uint256("00000009e784f32f62ef849763d4f45b98e07ba658647343b915ff832b110436"));
-    BOOST_CHECK_MESSAGE(!filter.IsRelevantAndUpdate(tx, tx.GetHash()), "Simple Bloom filter matched random tx hash");
+    BOOST_CHECK_MESSAGE(!filter.IsRelevantAndUpdate(tx), "Simple Bloom filter matched random tx hash");
 
     filter = CBloomFilter(10, 0.000001, 0, BLOOM_UPDATE_ALL);
     filter.insert(ParseHex("0000006d2965547608b9e15d9032a7b9d64fa431"));
-    BOOST_CHECK_MESSAGE(!filter.IsRelevantAndUpdate(tx, tx.GetHash()), "Simple Bloom filter matched random address");
+    BOOST_CHECK_MESSAGE(!filter.IsRelevantAndUpdate(tx), "Simple Bloom filter matched random address");
 
     filter = CBloomFilter(10, 0.000001, 0, BLOOM_UPDATE_ALL);
     filter.insert(COutPoint(uint256("0x52d29c72b392c7a07b8c5719e218153f45e20b6cd79683cb79ee784d21ef0745"), 1));
-    BOOST_CHECK_MESSAGE(!filter.IsRelevantAndUpdate(tx, tx.GetHash()), "Simple Bloom filter matched COutPoint for an output we didn't care about");
+    BOOST_CHECK_MESSAGE(!filter.IsRelevantAndUpdate(tx), "Simple Bloom filter matched COutPoint for an output we didn't care about");
 
     filter = CBloomFilter(10, 0.000001, 0, BLOOM_UPDATE_ALL);
     filter.insert(COutPoint(uint256("0x000000d70786e899529d71dbeba91ba216982fb6ba58f3bdaab65e73b7e9260b"), 0));
-    BOOST_CHECK_MESSAGE(!filter.IsRelevantAndUpdate(tx, tx.GetHash()), "Simple Bloom filter matched COutPoint for an output we didn't care about");
+    BOOST_CHECK_MESSAGE(!filter.IsRelevantAndUpdate(tx), "Simple Bloom filter matched COutPoint for an output we didn't care about");
 }
 
 BOOST_AUTO_TEST_CASE(merkle_block_1)
