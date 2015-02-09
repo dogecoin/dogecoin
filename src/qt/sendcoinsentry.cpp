@@ -60,6 +60,13 @@ void SendCoinsEntry::on_addressBookButton_clicked()
     }
 }
 
+void SendCoinsEntry::on_donateButton_clicked()
+{
+    ui->payTo->setText("9x9zSN9vx3Kf9B4ofwzEfWgiqxwBieCNEb");
+    ui->addAsLabel->setText("Dev Fund");
+    ui->payAmount->setFocus();
+}
+
 void SendCoinsEntry::on_payTo_textChanged(const QString &address)
 {
     updateLabel(address);
