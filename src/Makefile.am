@@ -184,7 +184,6 @@ nodist_libbitcoin_common_a_SOURCES = $(srcdir)/obj/build.h
 # dogecoind binary #
 dogecoind_LDADD = \
   libbitcoin_server.a \
-  libbitcoin_cli.a \
   libbitcoin_common.a \
   $(LIBLEVELDB) \
   $(LIBMEMENV)
