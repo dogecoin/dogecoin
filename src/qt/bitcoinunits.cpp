@@ -1,4 +1,5 @@
 // Copyright (c) 2011-2013 The Bitcoin developers
+// Copyright (c) 2013-2015 The Dogecoin Core developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -41,9 +42,10 @@ QString BitcoinUnits::id(int unit)
 {
     switch(unit)
     {
-    case BTC: return QString("btc");
-    case mBTC: return QString("mbtc");
-    case uBTC: return QString("ubtc");
+    case DOGE: return QString("doge");
+    case MDOGE: return QString("mdoge");
+    case kDOGE: return QString("kdoge");
+    case Koinu: return QString("koinu");
     default: return QString("???");
     }
 }
