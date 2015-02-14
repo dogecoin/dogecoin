@@ -91,7 +91,7 @@ Object blockToJSON(const CBlock& block, const CBlockIndex* blockindex)
         parent_block.push_back(Pair("previousblockhash", block.auxpow->parentBlockHeader.hashPrevBlock.GetHex()));
         parent_block.push_back(Pair("merkleroot", block.auxpow->parentBlockHeader.hashMerkleRoot.GetHex()));
         parent_block.push_back(Pair("time", (boost::int64_t)block.auxpow->parentBlockHeader.nTime));
-        parent_block.push_back(Pair("bits", HexBits(block.auxpow->parentBlockHeader.nBits)));
+        parent_block.push_back(Pair("bits", strprintf("%08x", block.auxpow->parentBlockHeader.nBits)));
         parent_block.push_back(Pair("nonce", (boost::uint64_t)block.auxpow->parentBlockHeader.nNonce));
         auxpow.push_back(Pair("parent_block", Value(parent_block)));
         result.push_back(Pair("auxpow", Value(auxpow)));
@@ -102,7 +102,7 @@ Object blockToJSON(const CBlock& block, const CBlockIndex* blockindex)
     result.push_back(Pair("tx", txs));
     result.push_back(Pair("time", block.GetBlockTime()));
     result.push_back(Pair("nonce", (uint64_t)block.nNonce));
-    result.push_back(Pair("bits", HexBits(block.nBits)));
+    result.push_back(Pair("bits", strprintf("%08x", block.nBits)));
     result.push_back(Pair("difficulty", GetDifficulty(blockindex)));
     result.push_back(Pair("chainwork", blockindex->nChainWork.GetHex()));
 
