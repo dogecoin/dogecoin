@@ -372,13 +372,14 @@ bool static ScanHash(CBlockHeader *pblock, uint32_t& nNonce, uint256 *phash, cha
 
         // Return the nonce if the hash has at least some zero bits,
         // caller will check if it has enough to reach the target
-        if (((uint16_t*)phash)[15] == 0)
+        // TODO: I don't like having this hard-coded, it's too coarse for regtest, too fine for main
+        if (((uint8_t*)phash)[31] == 0)
             return true;
 
         // If nothing found after trying for a while, return -1
-        if ((nNonce & 0xffff) == 0)
+        if ((nNonce & 0x1fff) == 0)
             return false;
-        if ((nNonce & 0xfff) == 0)
+        if ((nNonce & 0x01ff) == 0)
             boost::this_thread::interruption_point();
     }
 }
