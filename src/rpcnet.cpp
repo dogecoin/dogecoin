@@ -133,6 +133,7 @@ Value getpeerinfo(const Array& params, bool fHelp)
         obj.push_back(Pair("startingheight", stats.nStartingHeight));
         if (fStateStats) {
             obj.push_back(Pair("banscore", statestats.nMisbehavior));
+            obj.push_back(Pair("syncheight", statestats.nSyncHeight));
         }
         if (stats.fSyncNode)
             obj.push_back(Pair("syncnode", true));
