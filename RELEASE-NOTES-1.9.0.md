@@ -5,7 +5,9 @@ line with Bitcoin 0.10.0.
 
 ## Dogecoin Core Release Notes
 
-TBC
+"getworkaux" RPC call has been removed, in addition to the removal of "getwork" from Bitcoin Core
+
+TBC...
 
 ## Bitcoin Core Release Notes
 
