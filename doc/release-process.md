@@ -34,9 +34,20 @@ Release Process
 	popd
 	pushd ./gitian-builder
 
-###fetch and build inputs: (first time, or when dependency versions change)
+ ###Fetch and build inputs: (first time, or when dependency versions change)
  
 	mkdir -p inputs; cd inputs/
+
+ Register and download the Apple SDK: (see OSX Readme for details)
+ 
+ https://developer.apple.com/downloads/download.action?path=Developer_Tools/xcode_4.6.3/xcode4630916281a.dmg
+ 
+ Using a Mac, create a tarball for the 10.7 SDK and copy it to the inputs directory:
+ 
+	tar -C /Volumes/Xcode/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/ -czf MacOSX10.7.sdk.tar.gz MacOSX10.7.sdk
+
+ Download remaining inputs, and build everything:
+ 
 	wget 'http://miniupnp.free.fr/files/download.php?file=miniupnpc-1.9.20140701.tar.gz' -O miniupnpc-1.9.20140701.tar.gz
 	wget 'https://www.openssl.org/source/openssl-1.0.1l.tar.gz'
 	wget 'http://download.oracle.com/berkeley-db/db-5.1.29.NC.tar.gz'
@@ -44,11 +55,19 @@ Release Process
 	wget 'https://downloads.sourceforge.net/project/libpng/libpng16/older-releases/1.6.8/libpng-1.6.8.tar.gz'
 	wget 'https://fukuchi.org/works/qrencode/qrencode-3.4.3.tar.bz2'
 	wget 'https://downloads.sourceforge.net/project/boost/boost/1.55.0/boost_1_55_0.tar.bz2'
-	wget 'https://svn.boost.org/trac/boost/raw-attachment/ticket/7262/boost-mingw.patch' -O \
-	     boost-mingw-gas-cross-compile-2013-03-03.patch
+	wget 'https://svn.boost.org/trac/boost/raw-attachment/ticket/7262/boost-mingw.patch' -O boost-mingw-gas-cross-compile-2013-03-03.patch
 	wget 'https://download.qt-project.org/official_releases/qt/5.2/5.2.0/single/qt-everywhere-opensource-src-5.2.0.tar.gz'
+	wget 'https://download.qt-project.org/official_releases/qt/5.2/5.2.1/single/qt-everywhere-opensource-src-5.2.1.tar.gz'
 	wget 'https://download.qt-project.org/archive/qt/4.6/qt-everywhere-opensource-src-4.6.4.tar.gz'
 	wget 'https://protobuf.googlecode.com/files/protobuf-2.5.0.tar.bz2'
+	wget 'https://github.com/mingwandroid/toolchain4/archive/10cc648683617cca8bcbeae507888099b41b530c.tar.gz'
+	wget 'http://www.opensource.apple.com/tarballs/cctools/cctools-809.tar.gz'
+	wget 'http://www.opensource.apple.com/tarballs/dyld/dyld-195.5.tar.gz'
+	wget 'http://www.opensource.apple.com/tarballs/ld64/ld64-127.2.tar.gz'
+	wget 'http://cdrkit.org/releases/cdrkit-1.1.11.tar.gz'
+	wget 'https://github.com/theuni/libdmg-hfsplus/archive/libdmg-hfsplus-v0.1.tar.gz'
+	wget 'http://llvm.org/releases/3.2/clang+llvm-3.2-x86-linux-ubuntu-12.04.tar.gz' -O clang-llvm-3.2-x86-linux-ubuntu-12.04.tar.gz
+	wget 'https://raw.githubusercontent.com/theuni/osx-cross-depends/master/patches/cdrtools/genisoimage.diff' -O cdrkit-deterministic.patch
 	cd ..
 	./bin/gbuild ../dogecoin/contrib/gitian-descriptors/boost-linux.yml
 	mv build/out/boost-*.zip inputs/
@@ -64,6 +83,12 @@ Release Process
 	mv build/out/qt-*.zip inputs/
 	./bin/gbuild ../dogecoin/contrib/gitian-descriptors/protobuf-win.yml
 	mv build/out/protobuf-*.zip inputs/
+	./bin/gbuild ../dogecoin/contrib/gitian-descriptors/gitian-osx-native.yml
+	mv build/out/osx-*.tar.gz inputs/
+	./bin/gbuild ../dogecoin/contrib/gitian-descriptors/gitian-osx-depends.yml
+	mv build/out/osx-*.tar.gz inputs/
+	./bin/gbuild ../dogecoin/contrib/gitian-descriptors/gitian-osx-qt.yml
+	mv build/out/osx-*.tar.gz inputs/
 
  The expected SHA256 hashes of the intermediate inputs are:
 
@@ -81,11 +106,15 @@ Release Process
     751c579830d173ef3e6f194e83d18b92ebef6df03289db13ab77a52b6bc86ef0  qt-win64-5.2.0-gitian-r3.zip
     e2e403e1a08869c7eed4d4293bce13d51ec6a63592918b90ae215a0eceb44cb4  protobuf-win32-2.5.0-gitian-r4.zip
     a0999037e8b0ef9ade13efd88fee261ba401f5ca910068b7e0cd3262ba667db0  protobuf-win64-2.5.0-gitian-r4.zip
+    512bc0622c883e2e0f4cbc3fedfd8c2402d06c004ce6fb32303cc2a6f405b6df  osx-native-depends-r3.tar.gz
+    927e4b222be6d590b4bc2fc185872a5d0ca5c322adb983764d3ed84be6bdbc81  osx-depends-r4.tar.gz
+    ec95abef1df2b096a970359787c01d8c45e2a4475b7ae34e12c022634fbdba8a  osx-depends-qt-5.2.1-r4.tar.gz
 
- Build dogecoind and dogecoin-qt on Linux32, Linux64, and Win32:
+
+ Build Dogecoin Core for Linux, Windows, and OS X:
   
 	./bin/gbuild --commit dogecoin=v${VERSION} ../dogecoin/contrib/gitian-descriptors/gitian-linux.yml
-	./bin/gsign --signer $SIGNER --release ${VERSION} --destination ../gitian.sigs/ ../dogecoin/contrib/gitian-descriptors/gitian-linux.yml
+	./bin/gsign --signer $SIGNER --release ${VERSION}-linux --destination ../gitian.sigs/ ../dogecoin/contrib/gitian-descriptors/gitian-linux.yml
 	pushd build/out
 	zip -r dogecoin-${VERSION}-linux-gitian.zip *
 	mv dogecoin-${VERSION}-linux-gitian.zip ../../../
@@ -96,13 +125,19 @@ Release Process
 	zip -r dogecoin-${VERSION}-win-gitian.zip *
 	mv dogecoin-${VERSION}-win-gitian.zip ../../../
 	popd
+        ./bin/gbuild --commit dogecoin=v${VERSION} ../dogecoin/contrib/gitian-descriptors/gitian-osx-bitcoin.yml
+        ./bin/gsign --signer $SIGNER --release ${VERSION}-osx --destination ../gitian.sigs/ ../dogecoin/contrib/gitian-descriptors/gitian-osx-bitcoin.yml
+	pushd build/out
+	mv Dogecoin-Qt.dmg ../../../
+	popd
 	popd
 
   Build output expected:
 
   1. linux 32-bit and 64-bit binaries + source (dogecoin-${VERSION}-linux-gitian.zip)
   2. windows 32-bit and 64-bit binaries + installer + source (dogecoin-${VERSION}-win-gitian.zip)
-  3. Gitian signatures (in gitian.sigs/${VERSION}[-win]/(your gitian key)/
+  3. OSX installer (Dogecoin-Qt.dmg)
+  4. Gitian signatures (in gitian.sigs/${VERSION}-<linux|win|osx>/(your gitian key)/
 
 repackage gitian builds for release as stand-alone zip/tar/installer exe
 
@@ -119,20 +154,6 @@ repackage gitian builds for release as stand-alone zip/tar/installer exe
 	zip -r dogecoin-${VERSION}-win.zip dogecoin-${VERSION}-win
 	rm -rf dogecoin-${VERSION}-win
 
-**Perform Mac build:**
-
-  OSX binaries are created by Gavin Andresen on a 64-bit, OSX 10.6 machine.
-
-	./autogen.sh
-        SDK=$(xcode-select --print-path)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.6.sdk
-        CXXFLAGS="-mmacosx-version-min=10.6 -isysroot $SDK" ./configure --enable-upnp-default
-	make
-	export QTDIR=/opt/local/share/qt4  # needed to find translations/qt_*.qm files
-	T=$(contrib/qt_translations.py $QTDIR/translations src/qt/locale)
-        export CODESIGNARGS='--keychain ...path_to_keychain --sign "Developer ID Application: DOGECOIN FOUNDATION, INC., THE"'
-	python2.7 contrib/macdeploy/macdeployqtplus Dogecoin-Qt.app -sign -add-qt-tr $T -dmg -fancy contrib/macdeploy/fancy.plist
-
- Build output expected: Dogecoin-Qt.dmg
 
 **Mac OS X .dmg:**
 
@@ -169,49 +190,6 @@ Commit your signature to gitian.sigs:
 -------------------------------------------------------------------------
 
 ### After 3 or more people have gitian-built and their results match:
-
-From a directory containing dogecoin source, gitian.sigs and gitian zips
-
-	export VERSION=(new version, e.g. 0.8.0)
-	mkdir dogecoin-${VERSION}-linux-gitian
-	pushd dogecoin-${VERSION}-linux-gitian
-	unzip ../dogecoin-${VERSION}-linux-gitian.zip
-	mkdir gitian
-	cp ../dogecoin/contrib/gitian-downloader/*.pgp ./gitian/
-	for signer in $(ls ../gitian.sigs/${VERSION}/); do
-	 cp ../gitian.sigs/${VERSION}/${signer}/dogecoin-build.assert ./gitian/${signer}-build.assert
-	 cp ../gitian.sigs/${VERSION}/${signer}/dogecoin-build.assert.sig ./gitian/${signer}-build.assert.sig
-	done
-	zip -r dogecoin-${VERSION}-linux-gitian.zip *
-	cp dogecoin-${VERSION}-linux-gitian.zip ../
-	popd
-	mkdir dogecoin-${VERSION}-win-gitian
-	pushd dogecoin-${VERSION}-win-gitian
-	unzip ../dogecoin-${VERSION}-win-gitian.zip
-	mkdir gitian
-	cp ../dogecoin/contrib/gitian-downloader/*.pgp ./gitian/
-	for signer in $(ls ../gitian.sigs/${VERSION}-win/); do
-	 cp ../gitian.sigs/${VERSION}-win/${signer}/dogecoin-build.assert ./gitian/${signer}-build.assert
-	 cp ../gitian.sigs/${VERSION}-win/${signer}/dogecoin-build.assert.sig ./gitian/${signer}-build.assert.sig
-	done
-	zip -r dogecoin-${VERSION}-win-gitian.zip *
-	cp dogecoin-${VERSION}-win-gitian.zip ../
-	popd
-
-    - Code-sign MacOSX .dmg
-
-  Note: only Gavin has the code-signing keys currently.
-
-- Create `SHA256SUMS.asc` for builds, and PGP-sign it. This is done manually.
-  Include all the files to be uploaded. The file has `sha256sum` format with a
-  simple header at the top:
-
-```
-Hash: SHA256
-
-0060f7d38b98113ab912d4c184000291d7f026eaf77ca5830deec15059678f54  bitcoin-x.y.z-linux.tar.gz
-...
-```
 
 - Upload gitian zips to SourceForge
 
