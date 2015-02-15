@@ -255,7 +255,11 @@ RES_ICONS = \
   qt/res/icons/tx_inout.png \
   qt/res/icons/tx_input.png \
   qt/res/icons/tx_output.png \
-  qt/res/icons/tx_mined.png
+  qt/res/icons/tx_mined.png \
+  qt/res/icons/unit_doge.png \
+  qt/res/icons/unit_mdoge.png \
+  qt/res/icons/unit_kdoge.png \
+  qt/res/icons/unit_koinu.png
 
 RES_FONTS = \
   qt/res/fonts/ComicNeue-Bold.ttf \
