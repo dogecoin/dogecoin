@@ -49,6 +49,7 @@
 #include <QPainter>
 #include "walletmodel.h"
 
+using namespace std;
 
 /** "Help message" or "About" dialog box */
 HelpMessageDialog::HelpMessageDialog(QWidget *parent, bool about) :

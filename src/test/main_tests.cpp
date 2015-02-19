@@ -8,6 +8,8 @@
 
 #include <boost/test/unit_test.hpp>
 
+using namespace std;
+
 BOOST_AUTO_TEST_SUITE(main_tests)
 
 /**
