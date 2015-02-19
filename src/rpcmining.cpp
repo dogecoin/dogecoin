@@ -288,10 +288,14 @@ Value prioritisetransaction(const Array& params, bool fHelp)
             "prioritisetransaction <txid> <priority delta> <fee delta>\n"
             "Accepts the transaction into mined blocks at a higher (or lower) priority");
 
-    uint256 hash;
+    // Transaction fees for Dogecoin are so low that trying to alter priorities doesn't
+    // make sense. Code retained to allow clean merges
+    throw JSONRPCError(RPC_METHOD_NOT_FOUND, "Method not found (such unsupported)");
+
+    /* uint256 hash;
     hash.SetHex(params[0].get_str());
     mempool.PrioritiseTransaction(hash, params[0].get_str(), params[1].get_real(), params[2].get_int64());
-    return true;
+    return true; */
 }
 
 
