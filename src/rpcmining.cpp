@@ -281,6 +281,24 @@ Value getmininginfo(const Array& params, bool fHelp)
 }
 
 
+Value prioritisetransaction(const Array& params, bool fHelp)
+{
+    if (fHelp || params.size() != 3)
+        throw runtime_error(
+            "prioritisetransaction <txid> <priority delta> <fee delta>\n"
+            "Accepts the transaction into mined blocks at a higher (or lower) priority");
+
+    // Transaction fees for Dogecoin are so low that trying to alter priorities doesn't
+    // make sense. Code retained to allow clean merges
+    throw JSONRPCError(RPC_METHOD_NOT_FOUND, "Method not found (such unsupported)");
+
+    /* uint256 hash;
+    hash.SetHex(params[0].get_str());
+    mempool.PrioritiseTransaction(hash, params[0].get_str(), params[1].get_real(), params[2].get_int64());
+    return true; */
+}
+
+
 Value getblocktemplate(const Array& params, bool fHelp)
 {
     if (fHelp || params.size() > 1)
