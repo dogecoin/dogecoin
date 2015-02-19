@@ -34,7 +34,7 @@ class CNode;
 
 namespace boost {
     class thread_group;
-}
+} // namespace boost
 
 /** The minimum number of connections to attempt to make out to other peers */
 static const int MIN_OUTBOUND_CONNECTIONS = 2;
