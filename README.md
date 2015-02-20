@@ -42,7 +42,7 @@ Originally, a different payout scheme was envisioned with block rewards being de
 
 The current block reward schedule:
 
-1–99,000: 0–1,000,000 Dogecoin 
+1–99,999: 0–1,000,000 Dogecoin 
 
 100,000–144,999: 0–500,000 Dogecoin
 
@@ -58,9 +58,9 @@ The current block reward schedule:
 
 600,000+: 10,000 Dogecoin
 
-The original block reward schedule with one-minute block targets and four-hour difficulty readjustment:
+The original block reward schedule, with one-minute block targets and four-hour difficulty readjustment:
 
-1–99,000: 0–1,000,000 Dogecoin 
+1–99,999: 0–1,000,000 Dogecoin 
 
 100,000–199,999: 0–500,000 Dogecoin
 
@@ -91,13 +91,13 @@ P2P 22556
 Translations
 ------------
 
-Changes to translations as well as new translations can be submitted to
+Changes to translations, as well as new translations, can be submitted to
 [Bitcoin Core's Transifex page](https://www.transifex.com/projects/p/bitcoin/).
 
 Periodically the translations are pulled from Transifex and merged into the git repository. See the
 [translation process](doc/translation_process.md) for details on how this works.
 
-If the changes are Dogecoin specific, they can be submitted as pull request against this repository.
+If the changes are Dogecoin specific, they can be submitted as pull requests against this repository.
 If it is a general translation, consider submitting it through upstream, as we will pull these changes later on.
 
 Development tips and tricks
