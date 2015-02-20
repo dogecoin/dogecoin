@@ -73,16 +73,21 @@ public:
     bool AllowMinDifficultyBlocks() const { return fAllowMinDifficultyBlocks; }
     /* Make standard checks */
     bool RequireStandard() const { return fRequireStandard; }
-    /* RPC network identity, to be depreciated */
-    bool RPCisTestNet() const { return fRPCisTestNet; }
 
     const std::string& DataDir() const { return strDataDir; }
+
+    int64_t TargetTimespan() const { return nTargetTimespan; }
+    int64_t TargetSpacing() const { return nTargetSpacing; }
+    int64_t Interval() const { return nTargetTimespan / nTargetSpacing; }
+
     /* Make miner stop after a block is found. In RPC, don't return
      * until nGenProcLimit blocks are generated */
     bool MineBlocksOnDemand() const { return fMineBlocksOnDemand; }
 
     Network NetworkID() const { return networkID; }
 
+    /* Return the BIP70 network string (main, test or regtest) */
+    std::string NetworkIDString() const { return strNetworkID; }
     const std::vector<CDNSSeedData>& DNSSeeds() const { return vSeeds; }
 
     const std::vector<unsigned char>& Base58Prefix(Base58Type type) const { return base58Prefixes[type]; }
@@ -97,6 +102,14 @@ public:
     int GetAuxPowStartBlock() const { return nAuxPowStartBlock; }
     /* whether we allow ourself to be the auxpow parent chain */
     bool AllowSelfAuxParent() const { return fAllowSelfAuxParent; }
+
+    // DIGISHIELD
+    /* The block number where digishield starts */
+    int GetDigiShieldForkBlock() const { return nDigiShieldForkBlock; }
+    /* The TargetTimespan with DigiShield */
+    int64_t DigiShieldTargetTimespan() const { return nDigiShieldTargetTimespan; }
+    /* Retarget interval with DigiShield */
+    int64_t DigiShieldInterval() const { return nDigiShieldTargetTimespan / nTargetSpacing; }
 
     // TESTNET FORK: Allow post-digishield min difficulty at 157500
     /* The minimum difficulty at which we allow post-DigiShield minimum difficulty blocks */
@@ -117,10 +130,13 @@ protected:
     int nRejectBlockOutdatedMajority;
     int nToCheckBlockUpgradeMajority;
     std::string strDataDir;
+    int64_t nTargetTimespan;
+    int64_t nTargetSpacing;
     int nMinerThreads;
     std::vector<CDNSSeedData> vSeeds;
     std::vector<unsigned char> base58Prefixes[MAX_BASE58_TYPES];
     Network networkID;
+    std::string strNetworkID;
     CBlock genesis;
     std::vector<CAddress> vFixedSeeds;
     bool fRequireRPCPassword;
@@ -128,7 +144,6 @@ protected:
     bool fDefaultCheckMemPool;
     bool fAllowMinDifficultyBlocks;
     bool fRequireStandard;
-    bool fRPCisTestNet;
     bool fMineBlocksOnDemand;
 
     // Dogecoin specific properties
@@ -136,6 +151,9 @@ protected:
 
     int nAuxPowStartBlock;
     bool fAllowSelfAuxParent;
+
+    int nDigiShieldForkBlock;
+    int64_t nDigiShieldTargetTimespan;
 
     int nMinDifficultyAllowedStartBlock;
 

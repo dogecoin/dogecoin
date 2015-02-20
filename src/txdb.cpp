@@ -235,8 +235,10 @@ bool CBlockTreeDB::LoadBlockIndexGuts()
 
                 // CheckIndex need phashBlock to be set
                 diskindex.phashBlock = pindexNew->phashBlock;
-                if (!diskindex.CheckIndex())
-                    return error("LoadBlockIndex() : CheckIndex failed: %s", pindexNew->ToString());
+                
+                //
+                //if (!diskindex.CheckIndex())
+                //    return error("LoadBlockIndex() : CheckIndex failed: %s", pindexNew->ToString());
 
                 pcursor->Next(); // now we should be on the 'b' subkey
 

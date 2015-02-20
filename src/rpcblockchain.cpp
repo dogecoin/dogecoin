@@ -476,7 +476,7 @@ Value getblockchaininfo(const Array& params, bool fHelp)
             "Returns an object containing various state info regarding block chain processing.\n"
             "\nResult:\n"
             "{\n"
-            "  \"chain\": \"xxxx\",        (string) current chain (main, testnet3, regtest)\n"
+            "  \"chain\": \"xxxx\",        (string) current network name as defined in BIP70 (main, test, regtest)\n"
             "  \"blocks\": xxxxxx,         (numeric) the current number of blocks processed in the server\n"
             "  \"bestblockhash\": \"...\", (string) the hash of the currently best block\n"
             "  \"difficulty\": xxxxxx,     (numeric) the current difficulty\n"
@@ -489,14 +489,11 @@ Value getblockchaininfo(const Array& params, bool fHelp)
         );
 
     Object obj;
-    std::string chain = Params().DataDir();
-    if(chain.empty())
-        chain = "main";
-    obj.push_back(Pair("chain",         chain));
-    obj.push_back(Pair("blocks",        (int)chainActive.Height()));
-    obj.push_back(Pair("bestblockhash", chainActive.Tip()->GetBlockHash().GetHex()));
-    obj.push_back(Pair("difficulty",    (double)GetDifficulty()));
-    obj.push_back(Pair("verificationprogress", Checkpoints::GuessVerificationProgress(chainActive.Tip())));
-    obj.push_back(Pair("chainwork",     chainActive.Tip()->nChainWork.GetHex()));
+    obj.push_back(Pair("chain",                 Params().NetworkIDString()));
+    obj.push_back(Pair("blocks",                (int)chainActive.Height()));
+    obj.push_back(Pair("bestblockhash",         chainActive.Tip()->GetBlockHash().GetHex()));
+    obj.push_back(Pair("difficulty",            (double)GetDifficulty()));
+    obj.push_back(Pair("verificationprogress",  Checkpoints::GuessVerificationProgress(chainActive.Tip())));
+    obj.push_back(Pair("chainwork",             chainActive.Tip()->nChainWork.GetHex()));
     return obj;
 }
