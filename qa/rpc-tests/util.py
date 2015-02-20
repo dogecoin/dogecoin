@@ -65,10 +65,10 @@ def initialize_datadir(dir, n):
     datadir = os.path.join(dir, "node"+str(n))
     if not os.path.isdir(datadir):
         os.makedirs(datadir)
-    with open(os.path.join(datadir, "bitcoin.conf"), 'w') as f:
+    with open(os.path.join(datadir, "dogecoin.conf"), 'w') as f:
         f.write("regtest=1\n");
-        f.write("rpcuser=rt\n");
-        f.write("rpcpassword=rt\n");
+        f.write("rpcuser=wowsuchtest\n");
+        f.write("rpcpassword=3kt4yEUdDJ4YGzsGNADvjYwubwaFhEEYjotPJDU2XMgG\n");
         f.write("port="+str(p2p_port(n))+"\n");
         f.write("rpcport="+str(rpc_port(n))+"\n");
     return datadir
@@ -95,7 +95,7 @@ def initialize_chain(test_dir):
         rpcs = []
         for i in range(4):
             try:
-                url = "http://rt:rt@127.0.0.1:%d"%(rpc_port(i),)
+                url = "http://wowsuchtest:3kt4yEUdDJ4YGzsGNADvjYwubwaFhEEYjotPJDU2XMgG@127.0.0.1:%d"%(rpc_port(i),)
                 rpcs.append(AuthServiceProxy(url))
             except:
                 sys.stderr.write("Error connecting to "+url+"\n")
@@ -155,7 +155,7 @@ def start_node(i, dir, extra_args=None, rpchost=None):
                           _rpchost_to_args(rpchost)  +
                           ["-rpcwait", "getblockcount"], stdout=devnull)
     devnull.close()
-    url = "http://rt:rt@%s:%d" % (rpchost or '127.0.0.1', rpc_port(i))
+    url = "http://wowsuchtest:3kt4yEUdDJ4YGzsGNADvjYwubwaFhEEYjotPJDU2XMgG@%s:%d" % (rpchost or '127.0.0.1', rpc_port(i))
     return AuthServiceProxy(url)
 
 def start_nodes(num_nodes, dir, extra_args=None, rpchost=None):

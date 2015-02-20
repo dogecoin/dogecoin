@@ -26,7 +26,7 @@ def run_test(nodes):
     # Replace this as appropriate
     for node in nodes:
         assert_equal(node.getblockcount(), 200)
-        assert_equal(node.getbalance(), 25*50)
+        assert_equal(node.getbalance(), 50*500000)
 
 def main():
     import optparse
