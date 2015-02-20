@@ -88,7 +88,7 @@ Dit product bevat software ontwikkeld door het OpenSSL Project voor gebruik in d
     </message>
     <message>
         <source>Choose the address to receive coins with</source>
-        <translation>Kies het adres om munten voor te ontvangen</translation>
+        <translation>Kies het adres om munten mee te ontvangen</translation>
     </message>
     <message>
         <source>C&amp;hoose</source>
@@ -96,15 +96,15 @@ Dit product bevat software ontwikkeld door het OpenSSL Project voor gebruik in d
     </message>
     <message>
         <source>Very sending addresses</source>
-        <translation>Bezig met versturen adressen</translation>
+        <translation>Versturende adressen</translation>
     </message>
     <message>
         <source>Much receiving addresses</source>
-        <translation>Adressen ontvangen</translation>
+        <translation>Ontvangende adressen</translation>
     </message>
     <message>
         <source>These are your Dogecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>Dit zijn uw Dogecoinadressen om betalingen mee te verzenden. Check altijd het bedrag en het ontvangende adres voordat u uw dogecoins verzendt.</translation>
+        <translation>Dit zijn uw Dogecoin-adressen om betalingen mee te verzenden. Controleer altijd het bedrag en het ontvangende adres voordat u uw dogecoins verzendt.</translation>
     </message>
     <message>
         <source>These are your Dogecoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
@@ -128,7 +128,7 @@ Dit product bevat software ontwikkeld door het OpenSSL Project voor gebruik in d
     </message>
     <message>
         <source>Exporting Failed</source>
-        <translation>Export Mislukt</translation>
+        <translation>Exporteren Mislukt</translation>
     </message>
     <message>
         <source>There was an error trying to save the address list to %1.</source>
@@ -321,15 +321,15 @@ Dit product bevat software ontwikkeld door het OpenSSL Project voor gebruik in d
     </message>
     <message>
         <source>&amp;Change Passphrase...</source>
-        <translation>&amp;Wijzig Wachtwoord</translation>
+        <translation>&amp;Wijzig Wachtwoord...</translation>
     </message>
     <message>
         <source>Very &amp;sending addresses...</source>
-        <translation>&amp;Adressen aan het versturen.</translation>
+        <translation>&amp;Versturende adressen...</translation>
     </message>
     <message>
         <source>Much &amp;receiving addresses...</source>
-        <translation>&amp;Adressen aan het ontvangen...</translation>
+        <translation>&amp;Ontvangende adressen...</translation>
     </message>
     <message>
         <source>Open &amp;URI...</source>
@@ -579,7 +579,7 @@ Adres: %4
     </message>
     <message>
         <source>Quantity:</source>
-        <translation>Kwantiteit</translation>
+        <translation>Kwantiteit:</translation>
     </message>
     <message>
         <source>Bytes:</source>
@@ -715,7 +715,7 @@ Adres: %4
     </message>
     <message>
         <source>medium-high</source>
-        <translation>gemiddeld hoog</translation>
+        <translation>gemiddeld-hoog</translation>
     </message>
     <message>
         <source>medium</source>
@@ -723,7 +723,7 @@ Adres: %4
     </message>
     <message>
         <source>low-medium</source>
-        <translation>laag gemiddeld</translation>
+        <translation>laag-gemiddeld</translation>
     </message>
     <message>
         <source>low</source>
@@ -787,7 +787,7 @@ Adres: %4
     </message>
     <message>
         <source>Amounts below 0.546 times the minimum relay fee are shown as dust.</source>
-        <translation>Bedragen beneden 0.546 keer het minimum relais vergoeding, worden als stof aangemerkt.</translation>
+        <translation>Bedragen minder dan 0.546 keer de minimum relais vergoeding, worden als stof aangemerkt.</translation>
     </message>
     <message>
         <source>This label turns red, if the change is smaller than %1.</source>
@@ -822,7 +822,7 @@ Adres: %4
     </message>
     <message>
         <source>The address associated with this address list entry. This can only be modified for sending addresses.</source>
-        <translation>Het adres dat bij dit adres item hoort. Dit kan alleen bewerkt worden voor verstuur adressen.</translation>
+        <translation>Het adres dat bij dit adres item hoort. Dit kan alleen bewerkt worden voor versturende adressen.</translation>
     </message>
     <message>
         <source>&amp;Address</source>
@@ -920,7 +920,7 @@ Adres: %4
     </message>
     <message>
         <source>Set SSL root certificates for payment request (default: -system-)</source>
-        <translation>Zet SSL root certificaten voor betalingsverzoek (standaard: -sytem-)</translation>
+        <translation>Stel SSL root certificaten in voor betalingsverzoek (standaard: -sytem-)</translation>
     </message>
     <message>
         <source>Show splash screen on startup (default: 1)</source>
@@ -1133,7 +1133,7 @@ Adres: %4
     </message>
     <message>
         <source>Minimize instead of exit the application when the window is closed. When this option is enabled, the application will be closed only after selecting Quit in the menu.</source>
-        <translation>Minimaliseer het venster in de plaats van de applicatie af te sluiten als het venster gesloten wordt. Wanneer deze optie aan staan, kan de applicatie alleen worden afgesloten door Afsluiten te kiezen in het menu.</translation>
+        <translation>Minimaliseer het venster in plaats van de applicatie af te sluiten als het venster gesloten wordt. Wanneer deze optie aan staan, kan de applicatie alleen worden afgesloten door Afsluiten te kiezen in het menu.</translation>
     </message>
     <message>
         <source>M&amp;inimize on close</source>
@@ -1283,7 +1283,7 @@ Adres: %4
     </message>
     <message>
         <source>Cannot start dogecoin: click-to-pay handler</source>
-        <translation>Kan bitcoin niet starten: click-to-pay handler</translation>
+        <translation>Kan Dogecoin niet starten: click-to-pay handler</translation>
     </message>
     <message>
         <source>Net manager warning</source>
@@ -1291,7 +1291,7 @@ Adres: %4
     </message>
     <message>
         <source>Your active proxy doesn&apos;t support SOCKS5, which is required for payment requests via proxy.</source>
-        <translation>Uw actieve proxy ondersteunt geen SOCKS5, dewelke vereist is voor betalingsverzoeken via proxy.</translation>
+        <translation>Uw actieve proxy ondersteunt geen SOCKS5, deze is vereist voor betalingsverzoeken via proxy.</translation>
     </message>
     <message>
         <source>Payment request fetch URL is invalid: %1</source>
@@ -1480,7 +1480,7 @@ Adres: %4
     </message>
     <message>
         <source>Open the Dogecoin debug log file from the current data directory. This can take a few seconds for large log files.</source>
-        <translation>Open het Dogecoindebug-logbestand van de huidige datamap. Dit kan een aantal seconden duren voor grote logbestanden.</translation>
+        <translation>Open het Dogecoindebug-logbestand van de huidige datamap. Dit kan enkele seconden duren voor grote logbestanden.</translation>
     </message>
     <message>
         <source>Clear console</source>
@@ -1547,11 +1547,11 @@ Adres: %4
     </message>
     <message>
         <source>R&amp;euse an existing receiving address (not recommended)</source>
-        <translation>H&amp;ergebruik en bestaand ontvangstadres (niet aanbevolen)</translation>
+        <translation>H&amp;ergebruik een bestaand ontvangstadres (niet aanbevolen)</translation>
     </message>
     <message>
         <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Dogecoin network.</source>
-        <translation>Een optioneel bericht om bij te voegen aan het betalingsverzoek, dewelke zal getoond worden wanneer het verzoek is geopend. Opermerking: Het bericht zal niet worden verzonden met de betaling over het Dogecoin netwerk.</translation>
+        <translation>Een optioneel bericht om bij te voegen aan het betalingsverzoek, deze zal getoond worden wanneer het verzoek is geopend. Opermerking: Het bericht zal niet worden verzonden met de betaling over het Dogecoin netwerk.</translation>
     </message>
     <message>
         <source>An optional label to associate with the new receiving address.</source>
@@ -1716,7 +1716,7 @@ Adres: %4
     </message>
     <message>
         <source>Insufficient funds!</source>
-        <translation>Onvoldoende fonds!</translation>
+        <translation>Onvoldoende saldo!</translation>
     </message>
     <message>
         <source>Quantity:</source>
@@ -1947,7 +1947,7 @@ Adres: %4
     </message>
     <message>
         <source>A message that was attached to the dogecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
-        <translation>Een bericht dat werd toegevoegd aan de dogecoin: URI dewelke wordt opgeslagen met de transactie ter referentie. Opmerking: Dit bericht zal niet worden verzonden over het Dogecoin netwerk.</translation>
+        <translation>Een bericht dat werd toegevoegd aan de dogecoin: URI deze wordt opgeslagen met de transactie ter referentie. Opmerking: Dit bericht zal niet worden verzonden over het Dogecoin netwerk.</translation>
     </message>
     <message>
         <source>This is an unverified payment request.</source>
@@ -2380,7 +2380,7 @@ Adres: %4
     </message>
     <message>
         <source>Amount removed from or added to balance.</source>
-        <translation>Bedrag verwijderd van of toegevoegd aan saldo</translation>
+        <translation>Bedrag verwijderd van, of toegevoegd aan, uw saldo</translation>
     </message>
 </context>
 <context>
@@ -2552,7 +2552,7 @@ Adres: %4
     </message>
     <message>
         <source>Backup Wallet</source>
-        <translation>Portemonnee backuppen</translation>
+        <translation>Backup maken van portemonnee</translation>
     </message>
     <message>
         <source>Wallet Data (*.dat)</source>
@@ -2673,7 +2673,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
 </source>
         <translation>%s, u moet een RPC-wachtwoord instellen in het configuratiebestand: %s
 U wordt aangeraden het volgende willekeurige wachtwoord te gebruiken:
-rpcuser=bitcoinrpc
+rpcuser=dogecoinrpc
 rpcpassword=%s
 (u hoeft dit wachtwoord niet te onthouden)
 De gebruikersnaam en wachtwoord mogen niet hetzelfde zijn.
@@ -2775,7 +2775,7 @@ bijvoorbeeld: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@fo
     </message>
     <message>
         <source>Warning: error reading wallet.dat! All keys read correctly, but transaction data or address book entries might be missing or incorrect.</source>
-        <translation>Waarschuwing: Fout bij het lezen van wallet.dat! Alle sleutels zijn in goede orde uitgelezen, maar transactiedata of adresboeklemma&apos;s zouden kunnen ontbreken of fouten bevatten.</translation>
+        <translation>Waarschuwing: Fout bij het lezen van wallet.dat! Alle sleutels zijn in goede staat uitgelezen, maar transactiedata of adresboeklemma&apos;s zouden kunnen ontbreken of fouten bevatten.</translation>
     </message>
     <message>
         <source>Warning: wallet.dat corrupt, data salvaged! Original wallet.dat saved as wallet.{timestamp}.bak in %s; if your balance or transactions are incorrect you should restore from a backup.</source>
@@ -2967,7 +2967,7 @@ bijvoorbeeld: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@fo
     </message>
     <message>
         <source>Prepend debug output with timestamp (default: 1)</source>
-        <translation>Prepend debug output met tijdstempel (standaard: 1)</translation>
+        <translation>Start debug output met tijdstempel (standaard: 1)</translation>
     </message>
     <message>
         <source>RPC client options:</source>
@@ -3163,7 +3163,7 @@ bijvoorbeeld: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@fo
     </message>
     <message>
         <source>Specify connection timeout in milliseconds (default: 5000)</source>
-        <translation>Specificeer de time-outtijd in milliseconden (standaard: 5000)</translation>
+        <translation>Specificeer de time-out tijd in milliseconden (standaard: 5000)</translation>
     </message>
     <message>
         <source>Start Dogecoin Core Daemon</source>
@@ -3323,7 +3323,7 @@ bijvoorbeeld: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@fo
     </message>
     <message>
         <source>Insufficient funds</source>
-        <translation>Ontoereikend saldo</translation>
+        <translation>Saldo niet toereikend</translation>
     </message>
     <message>
         <source>Loading block index...</source>
