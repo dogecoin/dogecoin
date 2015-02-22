@@ -28,17 +28,12 @@ bool AllowMinDifficultyForBlock(const CBlockIndex* pindexLast, const CBlockHeade
 unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock)
 {
     unsigned int nProofOfWorkLimit = Params().ProofOfWorkLimit().GetCompact();
-
     int nHeight = pindexLast->nHeight + 1;
     bool fNewDifficultyProtocol = (nHeight >= Params().GetDigiShieldForkBlock());
-
-    int64_t retargetTimespan = Params().TargetTimespan();
-    int64_t retargetInterval = Params().Interval();
-
-    if (fNewDifficultyProtocol) {
-        retargetInterval = Params().DigiShieldInterval();
-        retargetTimespan = Params().DigiShieldTargetTimespan();
-    }
+    int64_t retargetInterval
+      = fNewDifficultyProtocol
+        ? Params().DigiShieldInterval()
+        : Params().Interval();
 
     // Genesis block
     if (pindexLast == NULL)
@@ -87,8 +82,19 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
         pindexFirst = pindexFirst->pprev;
     assert(pindexFirst);
 
+    return CalculateNextWorkRequired(pindexLast, pindexFirst->nTime);
+}
+
+unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nLastRetargetTime) {
+    int nHeight = pindexLast->nHeight + 1;
+    bool fNewDifficultyProtocol = (nHeight >= Params().GetDigiShieldForkBlock());
+    int64_t retargetTimespan =
+        fNewDifficultyProtocol
+        ? Params().DigiShieldTargetTimespan()
+        : Params().TargetTimespan();
+
     // Limit adjustment step
-    int64_t nActualTimespan = pindexLast->GetBlockTime() - pindexFirst->GetBlockTime();
+    int64_t nActualTimespan = pindexLast->GetBlockTime() - nLastRetargetTime;
     int64_t nModulatedTimespan = nActualTimespan;
 
     if (fNewDifficultyProtocol) //DigiShield implementation - thanks to RealSolid & WDC for this code
@@ -99,25 +105,25 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
         if (nModulatedTimespan < (retargetTimespan - (retargetTimespan/4)) ) nModulatedTimespan = (retargetTimespan - (retargetTimespan/4));
         if (nModulatedTimespan > (retargetTimespan + (retargetTimespan/2)) ) nModulatedTimespan = (retargetTimespan + (retargetTimespan/2));
     }
-    else if (pindexLast->nHeight+1 > 10000) {
-        if (nModulatedTimespan < Params().TargetTimespan()/4)
-            nModulatedTimespan = Params().TargetTimespan()/4;
-        if (nModulatedTimespan > Params().TargetTimespan()*4)
-            nModulatedTimespan = Params().TargetTimespan()*4;
+    else if (nHeight+1 > 10000) {
+        if (nModulatedTimespan < retargetTimespan/4)
+            nModulatedTimespan = retargetTimespan/4;
+        if (nModulatedTimespan > retargetTimespan*4)
+            nModulatedTimespan = retargetTimespan*4;
     }
-    else if (pindexLast->nHeight+1 > 5000)
+    else if (nHeight+1 > 5000)
     {
-        if (nModulatedTimespan < Params().TargetTimespan()/8)
-            nModulatedTimespan = Params().TargetTimespan()/8;
-        if (nModulatedTimespan > Params().TargetTimespan()*4)
-            nModulatedTimespan = Params().TargetTimespan()*4;
+        if (nModulatedTimespan < retargetTimespan/8)
+            nModulatedTimespan = retargetTimespan/8;
+        if (nModulatedTimespan > retargetTimespan*4)
+            nModulatedTimespan = retargetTimespan*4;
     }
     else
     {
-        if (nModulatedTimespan < Params().TargetTimespan()/16)
-            nModulatedTimespan = Params().TargetTimespan()/16;
-        if (nModulatedTimespan > Params().TargetTimespan()*4)
-            nModulatedTimespan = Params().TargetTimespan()*4;
+        if (nModulatedTimespan < retargetTimespan/16)
+            nModulatedTimespan = retargetTimespan/16;
+        if (nModulatedTimespan > retargetTimespan*4)
+            nModulatedTimespan = retargetTimespan*4;
     }
 
     // Retarget
