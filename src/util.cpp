@@ -99,6 +99,7 @@ bool fServer = false;
 string strMiscWarning;
 bool fBloomFilters = true;
 bool fLogTimestamps = false;
+bool fLogIPs = false;
 volatile bool fReopenDebugLog = false;
 CClientUIInterface uiInterface;
 
