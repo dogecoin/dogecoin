@@ -1034,6 +1034,15 @@ UnitDisplayStatusBarControl::UnitDisplayStatusBarControl():QLabel()
     createContextMenu();
     setStyleSheet("font:11pt; color: #333333");
     setToolTip(tr("Unit to show amounts in. Click to select another unit."));
+    QList<BitcoinUnits::Unit> units = BitcoinUnits::availableUnits();
+    int max_width = 0;
+    const QFontMetrics fm(font());
+    foreach (const BitcoinUnits::Unit unit, units)
+    {
+        max_width = qMax(max_width, fm.width(BitcoinUnits::name(unit)));
+    }
+    setMinimumSize(max_width, 0);
+    setAlignment(Qt::AlignRight | Qt::AlignVCenter);
 }
 
 /** So that it responds to button clicks */
