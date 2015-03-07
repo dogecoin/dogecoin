@@ -113,7 +113,6 @@ extern const std::string strMessageMagic;
 extern int64_t nTimeBestReceived;
 extern bool fImporting;
 extern bool fReindex;
-extern bool fBenchmark;
 extern int nScriptCheckThreads;
 extern bool fTxIndex;
 extern unsigned int nCoinCacheSize;
