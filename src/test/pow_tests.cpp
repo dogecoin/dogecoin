@@ -14,7 +14,7 @@ BOOST_AUTO_TEST_SUITE(pow_tests)
 
 BOOST_AUTO_TEST_CASE(get_next_work_difficulty_limit)
 {
-    SelectParams(CChainParams::MAIN);
+    SelectParams(CBaseChainParams::MAIN);
 
     CBlockIndex pindexLast;
     int64_t nLastRetargetTime = 1386474927; // Block # 1
@@ -27,7 +27,7 @@ BOOST_AUTO_TEST_CASE(get_next_work_difficulty_limit)
 
 BOOST_AUTO_TEST_CASE(get_next_work_pre_digishield)
 {
-    SelectParams(CChainParams::MAIN);
+    SelectParams(CBaseChainParams::MAIN);
     
     CBlockIndex pindexLast;
     int64_t nLastRetargetTime = 1386942008; // Block 9359
@@ -40,7 +40,7 @@ BOOST_AUTO_TEST_CASE(get_next_work_pre_digishield)
 
 BOOST_AUTO_TEST_CASE(get_next_work_digishield)
 {
-    SelectParams(CChainParams::MAIN);
+    SelectParams(CBaseChainParams::MAIN);
     
     CBlockIndex pindexLast;
     int64_t nLastRetargetTime = 1395094427;
@@ -54,7 +54,7 @@ BOOST_AUTO_TEST_CASE(get_next_work_digishield)
 
 BOOST_AUTO_TEST_CASE(get_next_work_digishield_modulated_upper)
 {
-    SelectParams(CChainParams::MAIN);
+    SelectParams(CBaseChainParams::MAIN);
     
     CBlockIndex pindexLast;
     int64_t nLastRetargetTime = 1395100835;
@@ -68,7 +68,7 @@ BOOST_AUTO_TEST_CASE(get_next_work_digishield_modulated_upper)
 
 BOOST_AUTO_TEST_CASE(get_next_work_digishield_modulated_lower)
 {
-    SelectParams(CChainParams::MAIN);
+    SelectParams(CBaseChainParams::MAIN);
     
     CBlockIndex pindexLast;
     int64_t nLastRetargetTime = 1395380517;
@@ -82,7 +82,7 @@ BOOST_AUTO_TEST_CASE(get_next_work_digishield_modulated_lower)
 
 BOOST_AUTO_TEST_CASE(get_next_work_digishield_rounding)
 {
-    SelectParams(CChainParams::MAIN);
+    SelectParams(CBaseChainParams::MAIN);
     
     CBlockIndex pindexLast;
     int64_t nLastRetargetTime = 1395094679;
