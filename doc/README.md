@@ -72,6 +72,7 @@ The Dogecoin repo's [root README](https://github.com/dogecoin/dogecoin/blob/mast
 - [Assets Attribution](assets-attribution.md)
 - [Files](files.md)
 - [Tor Support](tor.md)
+- [Systemd](systemd.md)
 
 License
 ---------------------
