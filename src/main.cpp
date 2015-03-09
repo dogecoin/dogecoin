@@ -1846,7 +1846,7 @@ bool ConnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex, C
             }
         }
     }
-
+    
     // BIP16 was always active in Dogecoin
     bool fStrictPayToScriptHash = true;
 
@@ -2573,7 +2573,7 @@ bool AcceptBlockHeader(CBlockHeader& block, CValidationState& state, CBlockIndex
     if (pcheckpoint && block.hashPrevBlock != (chainActive.Tip() ? chainActive.Tip()->GetBlockHash() : uint256(0)))
     {
         // Extra checks to prevent "fill up memory by spamming with bogus blocks"
-        int64_t deltaTime = block.GetBlockTime() - pcheckpoint->nTime;
+        int64_t deltaTime = block.GetBlockTime() - pcheckpoint->GetBlockTime();
         if (deltaTime < 0)
         {
             return state.DoS(100, error("CheckBlockHeader() : block with timestamp before last checkpoint"),
@@ -2684,7 +2684,7 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CBlockIndex** ppindex, 
         CDiskBlockPos blockPos;
         if (dbp != NULL)
             blockPos = *dbp;
-        if (!FindBlockPos(state, blockPos, nBlockSize+8, nHeight, block.nTime, dbp != NULL))
+        if (!FindBlockPos(state, blockPos, nBlockSize+8, nHeight, block.GetBlockTime(), dbp != NULL))
             return error("AcceptBlock() : FindBlockPos failed");
         if (dbp == NULL)
             if (!WriteBlockToDisk(block, blockPos))
@@ -3337,7 +3337,7 @@ bool InitBlockIndex() {
             unsigned int nBlockSize = ::GetSerializeSize(block, SER_DISK, CLIENT_VERSION);
             CDiskBlockPos blockPos;
             CValidationState state;
-            if (!FindBlockPos(state, blockPos, nBlockSize+8, 0, block.nTime))
+            if (!FindBlockPos(state, blockPos, nBlockSize+8, 0, block.GetBlockTime()))
                 return error("LoadBlockIndex() : FindBlockPos failed");
             if (!WriteBlockToDisk(block, blockPos))
                 return error("LoadBlockIndex() : writing genesis block to disk failed");
