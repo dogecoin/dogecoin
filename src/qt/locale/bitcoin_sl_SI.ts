@@ -344,7 +344,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>Modify configuration options for Dogecoin Core</source>
-        <translation>Spremeni konfiguracijo nastavitev za Bitcoin</translation>
+        <translation>Spremeni konfiguracijo nastavitev za Dogecoin</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -1483,7 +1483,7 @@ Naslov: %4
     </message>
     <message>
         <source>Welcome to the Dogecoin RPC console.</source>
-        <translation>Dobrodošli na Bitcoin RPC konzoli.</translation>
+        <translation>Dobrodošli na Dogecoin RPC konzoli.</translation>
     </message>
     <message>
         <source>Use up and down arrows to navigate history, and &lt;b&gt;Ctrl-L&lt;/b&gt; to clear screen.</source>
@@ -2593,7 +2593,7 @@ Naslov: %4
         <translation>Določi datoteko z nastavitvami (privzeta: dogecoin.conf)</translation>
     </message>
     <message>
-        <source>Specify pid file (default: bitcoind.pid)</source>
+        <source>Specify pid file (default: dogecoind.pid)</source>
         <translation>Določi pid datoteko (privzeta: dogecoind.pid)</translation>
     </message>
     <message>
@@ -2656,7 +2656,7 @@ Naslov: %4
         <source>%s, you must set a rpcpassword in the configuration file:
 %s
 It is recommended you use the following random password:
-rpcuser=bitcoinrpc
+rpcuser=dogecoinrpc
 rpcpassword=%s
 (you do not need to remember this password)
 The username and password MUST NOT be the same.

@@ -3,11 +3,11 @@
     <name>AboutDialog</name>
     <message>
         <source>About Dogecoin Core</source>
-        <translation>Om Bitcoin Core</translation>
+        <translation>Om Dogecoin Core</translation>
     </message>
     <message>
         <source>&lt;b&gt;Dogecoin Core&lt;/b&gt; version</source>
-        <translation>&lt;b&gt;Bitcoin Core&lt;/b&gt; version</translation>
+        <translation>&lt;b&gt;Dogecoin Core&lt;/b&gt; version</translation>
     </message>
     <message>
         <source>
@@ -29,7 +29,7 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     </message>
     <message>
         <source>The Dogecoin Core developers</source>
-        <translation>Udviklerne af Bitcoin Core</translation>
+        <translation>Udviklerne af Dogecoin Core</translation>
     </message>
     <message>
         <source>(%1-bit)</source>
@@ -84,11 +84,11 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     </message>
     <message>
         <source>Choose the address to send coins to</source>
-        <translation>Vælg adresse at sende bitcoins til</translation>
+        <translation>Vælg adresse at sende dogecoins til</translation>
     </message>
     <message>
         <source>Choose the address to receive coins with</source>
-        <translation>Vælg adresse at modtage bitcoins med</translation>
+        <translation>Vælg adresse at modtage dogecoins med</translation>
     </message>
     <message>
         <source>C&amp;hoose</source>
@@ -108,7 +108,7 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     </message>
     <message>
         <source>These are your Dogecoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation>Dette er dine Bitcoin-adresser til at modtage betalinger med. Det anbefales are bruge en ny modtagelsesadresse for hver transaktion.</translation>
+        <translation>Dette er dine Dogecoin-adresser til at modtage betalinger med. Det anbefales are bruge en ny modtagelsesadresse for hver transaktion.</translation>
     </message>
     <message>
         <source>Copy &amp;Label</source>
@@ -405,7 +405,7 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     </message>
     <message>
         <source>Verify messages to ensure they were signed with specified Dogecoin addresses</source>
-        <translation>Verificér beskeder for at sikre, at de er underskrevet med de angivne Bitcoin-adresser</translation>
+        <translation>Verificér beskeder for at sikre, at de er underskrevet med de angivne Dogecoin-adresser</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -433,11 +433,11 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     </message>
     <message>
         <source>Request payments (generates QR codes and dogecoin: URIs)</source>
-        <translation>Forespørg betalinger (genererer QR-koder og &quot;bitcoin:&quot;-URI&apos;er)</translation>
+        <translation>Forespørg betalinger (genererer QR-koder og &quot;dogecoin:&quot;-URI&apos;er)</translation>
     </message>
     <message>
         <source>&amp;About Dogecoin Core</source>
-        <translation>Om Bitcoin Core</translation>
+        <translation>Om Dogecoin Core</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -449,7 +449,7 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     </message>
     <message>
         <source>Open a dogecoin: URI or payment request</source>
-        <translation>Åbn en &quot;bitcoin:&quot;-URI eller betalingsforespørgsel</translation>
+        <translation>Åbn en &quot;dogecoin:&quot;-URI eller betalingsforespørgsel</translation>
     </message>
     <message>
         <source>&amp;Command-line options</source>
@@ -457,7 +457,7 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     </message>
     <message>
         <source>Show the Dogecoin Core help message to get a list with possible command-line options</source>
-        <translation>Vis Bitcoin Core hjælpebesked for at få en liste over mulige tilvalg for Bitcoin kommandolinje</translation>
+        <translation>Vis Dogecoin Core hjælpebesked for at få en liste over mulige tilvalg for Dogecoin kommandolinje</translation>
     </message>
     <message>
         <source>Dogecoin client</source>
@@ -465,7 +465,7 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     </message>
     <message numerus="yes">
         <source>%n active connection(s) to Dogecoin network</source>
-        <translation><numerusform>%n aktiv forbindelse til Bitcoin-netværket</numerusform><numerusform>%n aktive forbindelser til Bitcoin-netværket</numerusform></translation>
+        <translation><numerusform>%n aktiv forbindelse til Dogecoin-netværket</numerusform><numerusform>%n aktive forbindelser til Dogecoin-netværket</numerusform></translation>
     </message>
     <message>
         <source>No block source available...</source>
@@ -888,7 +888,7 @@ Adresse: %4
     <name>HelpMessageDialog</name>
     <message>
         <source>Dogecoin Core - Command-line options</source>
-        <translation>Bitcoin Core – tilvalg for kommandolinje</translation>
+        <translation>Dogecoin Core – tilvalg for kommandolinje</translation>
     </message>
     <message>
         <source>Dogecoin Core</source>
@@ -939,15 +939,15 @@ Adresse: %4
     </message>
     <message>
         <source>Welcome to Dogecoin Core.</source>
-        <translation>Velkommen til Bitcoin Core.</translation>
+        <translation>Velkommen til Dogecoin Core.</translation>
     </message>
     <message>
         <source>As this is the first time the program is launched, you can choose where Dogecoin Core will store its data.</source>
-        <translation>Siden dette er første gang, programmet startes, kan du vælge, hvor Bitcoin Core skal gemme sin data.</translation>
+        <translation>Siden dette er første gang, programmet startes, kan du vælge, hvor Dogecoin Core skal gemme sin data.</translation>
     </message>
     <message>
         <source>Dogecoin Core will download and store a copy of the Dogecoin block chain. At least %1GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
-        <translation>Bitcoin Core vil downloade og gemme et kopi af Bitcoin-blokkæden. Mindst %1 GB data vil blive gemt i denne mappe, og den vil vokse over tid. Tegnebogen vil også blive gemt i denne mappe.</translation>
+        <translation>Dogecoin Core vil downloade og gemme et kopi af Dogecoin-blokkæden. Mindst %1 GB data vil blive gemt i denne mappe, og den vil vokse over tid. Tegnebogen vil også blive gemt i denne mappe.</translation>
     </message>
     <message>
         <source>Use the default data directory</source>
@@ -1025,7 +1025,7 @@ Adresse: %4
     </message>
     <message>
         <source>&amp;Start Dogecoin Core on system login</source>
-        <translation>Start Bitcoin ved systemlogin</translation>
+        <translation>Start Dogecoin ved systemlogin</translation>
     </message>
     <message>
         <source>Size of &amp;database cache</source>
@@ -1041,7 +1041,7 @@ Adresse: %4
     </message>
     <message>
         <source>Connect to the Dogecoin network through a SOCKS proxy.</source>
-        <translation>Forbind til Bitcoin-netværket gennem en SOCKS-proxy.</translation>
+        <translation>Forbind til Dogecoin-netværket gennem en SOCKS-proxy.</translation>
     </message>
     <message>
         <source>&amp;Connect through SOCKS proxy (default proxy):</source>
@@ -1101,7 +1101,7 @@ Adresse: %4
     </message>
     <message>
         <source>Automatically open the Dogecoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Åbn automatisk Bitcoin-klientens port på routeren. Dette virker kun, når din router understøtter UPnP, og UPnP er aktiveret.</translation>
+        <translation>Åbn automatisk Dogecoin-klientens port på routeren. Dette virker kun, når din router understøtter UPnP, og UPnP er aktiveret.</translation>
     </message>
     <message>
         <source>Map port using &amp;UPnP</source>
@@ -1157,7 +1157,7 @@ Adresse: %4
     </message>
     <message>
         <source>The user interface language can be set here. This setting will take effect after restarting Dogecoin Core.</source>
-        <translation>Sproget for brugergrænsefladen kan angives her. Denne indstilling træder først i kraft, når Bitcoin genstartes.</translation>
+        <translation>Sproget for brugergrænsefladen kan angives her. Denne indstilling træder først i kraft, når Dogecoin genstartes.</translation>
     </message>
     <message>
         <source>&amp;Unit to show amounts in:</source>
@@ -1165,7 +1165,7 @@ Adresse: %4
     </message>
     <message>
         <source>Choose the default subdivision unit to show in the interface and when sending coins.</source>
-        <translation>Vælg standard for underopdeling af enhed, som skal vises i brugergrænsefladen og ved afsendelse af bitcoins.</translation>
+        <translation>Vælg standard for underopdeling af enhed, som skal vises i brugergrænsefladen og ved afsendelse af dogecoins.</translation>
     </message>
     <message>
         <source>Whether to show Dogecoin addresses in the transaction list or not.</source>
@@ -1362,11 +1362,11 @@ Adresse: %4
     </message>
     <message>
         <source>Dogecoin Core did&apos;t yet exit safely...</source>
-        <translation>Bitcoin Core blev ikke afsluttet på sikker vis …</translation>
+        <translation>Dogecoin Core blev ikke afsluttet på sikker vis …</translation>
     </message>
     <message>
         <source>Enter a Dogecoin address (e.g. %1)</source>
-        <translation>Indtast en Bitcoin-adresse (fx 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
+        <translation>Indtast en Dogecoin-adresse (fx 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
     </message>
 </context>
 <context>
@@ -1488,7 +1488,7 @@ Adresse: %4
     </message>
     <message>
         <source>Open the Dogecoin debug log file from the current data directory. This can take a few seconds for large log files.</source>
-        <translation>Åbn Bitcoin-fejlsøgningslogfilen fra den nuværende datamappe. Dette kan tage nogle få sekunder for store logfiler.</translation>
+        <translation>Åbn Dogecoin-fejlsøgningslogfilen fra den nuværende datamappe. Dette kan tage nogle få sekunder for store logfiler.</translation>
     </message>
     <message>
         <source>Clear console</source>
@@ -1559,7 +1559,7 @@ Adresse: %4
     </message>
     <message>
         <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Dogecoin network.</source>
-        <translation>En valgfri besked, der føjes til betalingsanmodningen, og som vil vises, når anmodningen åbnes. Bemærk: Beskeden vil ikke sendes med betalingen over Bitcoin-netværket.</translation>
+        <translation>En valgfri besked, der føjes til betalingsanmodningen, og som vil vises, når anmodningen åbnes. Bemærk: Beskeden vil ikke sendes med betalingen over Dogecoin-netværket.</translation>
     </message>
     <message>
         <source>An optional label to associate with the new receiving address.</source>
@@ -1868,11 +1868,11 @@ Adresse: %4
     </message>
     <message>
         <source>The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
-        <translation>Transaktionen blev afvist! Dette kan ske, hvis nogle af dine bitcoins i din tegnebog allerede er brugt, som hvis du brugte en kopi af wallet.dat og dine bitcoins er blevet brugt i kopien, men ikke er markeret som brugt her.</translation>
+        <translation>Transaktionen blev afvist! Dette kan ske, hvis nogle af dine dogecoins i din tegnebog allerede er brugt, som hvis du brugte en kopi af wallet.dat og dine dogecoins er blevet brugt i kopien, men ikke er markeret som brugt her.</translation>
     </message>
     <message>
         <source>Warning: Invalid Dogecoin address</source>
-        <translation>Advarsel: Ugyldig Bitcoin-adresse</translation>
+        <translation>Advarsel: Ugyldig Dogecoin-adresse</translation>
     </message>
     <message>
         <source>(no label)</source>
@@ -1911,7 +1911,7 @@ Adresse: %4
     </message>
     <message>
         <source>The address to send the payment to (e.g. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</source>
-        <translation>Bitcoin-adressen som betalingen skal sendes til (fx 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
+        <translation>Dogecoin-adressen som betalingen skal sendes til (fx 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
     </message>
     <message>
         <source>Enter a label for this address to add it to your address book</source>
@@ -1959,7 +1959,7 @@ Adresse: %4
     </message>
     <message>
         <source>A message that was attached to the dogecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
-        <translation>En besked, som blev føjet til &quot;bitcon:&quot;-URI&apos;en, som vil gemmes med transaktionen til din reference. Bemærk: Denne besked vil ikke blive sendt over Bitcoin-netværket.</translation>
+        <translation>En besked, som blev føjet til &quot;bitcon:&quot;-URI&apos;en, som vil gemmes med transaktionen til din reference. Bemærk: Denne besked vil ikke blive sendt over Dogecoin-netværket.</translation>
     </message>
     <message>
         <source>This is an unverified payment request.</source>
@@ -1978,7 +1978,7 @@ Adresse: %4
     <name>ShutdownWindow</name>
     <message>
         <source>Dogecoin Core is shutting down...</source>
-        <translation>Bitcoin Core lukker ned …</translation>
+        <translation>Dogecoin Core lukker ned …</translation>
     </message>
     <message>
         <source>Do not shut down the computer until this window disappears.</source>
@@ -1997,11 +1997,11 @@ Adresse: %4
     </message>
     <message>
         <source>You can sign messages with your addresses to prove you own them. Be careful not to sign anything vague, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</source>
-        <translation>Du kan underskrive beskeder med dine Bitcoin-adresser for at bevise, at de tilhører dig. Pas på ikke at underskrive noget vagt, da phisingangreb kan narre dig til at overdrage din identitet. Underskriv kun fuldt detaljerede udsagn, du er enig i.</translation>
+        <translation>Du kan underskrive beskeder med dine Dogecoin-adresser for at bevise, at de tilhører dig. Pas på ikke at underskrive noget vagt, da phisingangreb kan narre dig til at overdrage din identitet. Underskriv kun fuldt detaljerede udsagn, du er enig i.</translation>
     </message>
     <message>
         <source>The address to sign the message with (e.g. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</source>
-        <translation>Bitcoin-adressen som beskeden skal underskrives med (fx 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
+        <translation>Dogecoin-adressen som beskeden skal underskrives med (fx 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
     </message>
     <message>
         <source>Choose previously used address</source>
@@ -2057,11 +2057,11 @@ Adresse: %4
     </message>
     <message>
         <source>Verify the message to ensure it was signed with the specified Dogecoin address</source>
-        <translation>Bitcoin-adressen som beskeden er underskrevet med (fx 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
+        <translation>Dogecoin-adressen som beskeden er underskrevet med (fx 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
     </message>
     <message>
-        <source>Verify the message to ensure it was signed with the specified Bitcoin address</source>
-        <translation>Verificér beskeden for at sikre, at den er underskrevet med den angivne Bitcoin-adresse</translation>
+        <source>Verify the message to ensure it was signed with the specified Dogecoin address</source>
+        <translation>Verificér beskeden for at sikre, at den er underskrevet med den angivne Dogecoin-adresse</translation>
     </message>
     <message>
         <source>Verify &amp;Message</source>
@@ -2073,7 +2073,7 @@ Adresse: %4
     </message>
     <message>
         <source>Enter a Dogecoin address (e.g. %1)</source>
-        <translation>Indtast en Bitcoin-adresse (fx 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
+        <translation>Indtast en Dogecoin-adresse (fx 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
     </message>
     <message>
         <source>Click &quot;Sign Message&quot; to generate signature</source>
@@ -2136,7 +2136,7 @@ Adresse: %4
     </message>
     <message>
         <source>The Dogecoin Core developers</source>
-        <translation>Udviklerne af Bitcoin Core</translation>
+        <translation>Udviklerne af Dogecoin Core</translation>
     </message>
     <message>
         <source>[testnet]</source>
@@ -2250,7 +2250,7 @@ Adresse: %4
     </message>
     <message>
         <source>Generated coins must mature %1 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
-        <translation>Udvundne bitcoins skal modne %1 blokke, før de kan bruges. Da du genererede denne blok, blev den udsendt til netværket for at blive føjet til blokkæden. Hvis det ikke lykkes at få den i kæden, vil dens tilstand ændres til &quot;ikke accepteret&quot;, og den vil ikke kunne bruges. Dette kan ske nu og da, hvis en anden knude udvinder en blok inden for nogle få sekunder fra din.</translation>
+        <translation>Udvundne dogecoins skal modne %1 blokke, før de kan bruges. Da du genererede denne blok, blev den udsendt til netværket for at blive føjet til blokkæden. Hvis det ikke lykkes at få den i kæden, vil dens tilstand ændres til &quot;ikke accepteret&quot;, og den vil ikke kunne bruges. Dette kan ske nu og da, hvis en anden knude udvinder en blok inden for nogle få sekunder fra din.</translation>
     </message>
     <message>
         <source>Debug information</source>
@@ -2618,8 +2618,8 @@ Adresse: %4
         <translation>Angiv konfigurationsfil (standard: dogecoin.conf)</translation>
     </message>
     <message>
-        <source>Specify pid file (default: bitcoind.pid)</source>
-        <translation>Angiv pid-fil (default: bitcoind.pid)</translation>
+        <source>Specify pid file (default: dogecoind.pid)</source>
+        <translation>Angiv pid-fil (default: dogecoind.pid)</translation>
     </message>
     <message>
         <source>Specify data directory</source>
@@ -2663,7 +2663,7 @@ Adresse: %4
     </message>
     <message>
         <source>Dogecoin Core RPC client version</source>
-        <translation>Bitcoin Core RPC-klient-version</translation>
+        <translation>Dogecoin Core RPC-klient-version</translation>
     </message>
     <message>
         <source>Run in the background as a daemon and accept commands</source>
@@ -2681,7 +2681,7 @@ Adresse: %4
         <source>%s, you must set a rpcpassword in the configuration file:
 %s
 It is recommended you use the following random password:
-rpcuser=bitcoinrpc
+rpcuser=dogecoinrpc
 rpcpassword=%s
 (you do not need to remember this password)
 The username and password MUST NOT be the same.
@@ -2692,7 +2692,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
         <translation>%s, du skal angive en RPC-adgangskode i konfigurationsfilen:
 %s
 Det anbefales, at du bruger nedenstående, tilfældige adgangskode:
-rpcuser=bitcoinrpc
+rpcuser=dogecoinrpc
 rpcpassword=%s
 (du behøver ikke huske denne adgangskode)
 Brugernavnet og adgangskode MÅ IKKE være det samme.
@@ -2735,7 +2735,7 @@ fx: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <source>Error: This transaction requires a transaction fee of at least %s because of its amount, complexity, or use of recently received funds!</source>
-        <translation>Fejl: Denne transaktion kræver et transaktionsgebyr på minimum %s pga. dens beløb, kompleksitet eller anvendelse af nyligt modtagne bitcoins!</translation>
+        <translation>Fejl: Denne transaktion kræver et transaktionsgebyr på minimum %s pga. dens beløb, kompleksitet eller anvendelse af nyligt modtagne dogecoins!</translation>
     </message>
     <message>
         <source>Execute command when a wallet transaction changes (%s in cmd is replaced by TxID)</source>
@@ -2771,7 +2771,7 @@ fx: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <source>Unable to bind to %s on this computer. Dogecoin Core is probably already running.</source>
-        <translation>Ikke i stand til at tildele til %s på denne computer. Bitcoin Core kører sansynligvis allerede.</translation>
+        <translation>Ikke i stand til at tildele til %s på denne computer. Dogecoin Core kører sansynligvis allerede.</translation>
     </message>
     <message>
         <source>Use separate SOCKS5 proxy to reach peers via Tor hidden services (default: -proxy)</source>
@@ -2819,7 +2819,7 @@ fx: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <source>Dogecoin Core Daemon</source>
-        <translation>Bitcoin Core-tjeneste</translation>
+        <translation>Dogecoin Core-tjeneste</translation>
     </message>
     <message>
         <source>Block creation options:</source>
@@ -2931,7 +2931,7 @@ fx: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <source>Failed to write to coin database</source>
-        <translation>Skrivning af bitcoin-database mislykkedes</translation>
+        <translation>Skrivning af dogecoin-database mislykkedes</translation>
     </message>
     <message>
         <source>Failed to write transaction index</source>
@@ -2959,7 +2959,7 @@ fx: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <source>Generate coins (default: 0)</source>
-        <translation>Generér bitcoins (standard: 0)</translation>
+        <translation>Generér dogecoins (standard: 0)</translation>
     </message>
     <message>
         <source>How many blocks to check at startup (default: 288, 0 = all)</source>
@@ -3027,7 +3027,7 @@ fx: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <source>Usage (deprecated, use dogecoin-cli):</source>
-        <translation>Brug (forældet, brug bitcoin-cli):</translation>
+        <translation>Brug (forældet, brug dogecoin-cli):</translation>
     </message>
     <message>
         <source>Verifying blocks...</source>
@@ -3063,7 +3063,7 @@ fx: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <source>Cannot obtain a lock on data directory %s. Dogecoin Core is probably already running.</source>
-        <translation>Kan ikke opnå en lås på datamappe %s. Bitcoin Core kører sansynligvis allerede.</translation>
+        <translation>Kan ikke opnå en lås på datamappe %s. Dogecoin Core kører sansynligvis allerede.</translation>
     </message>
     <message>
         <source>Execute command when a relevant alert is received or we see a really long fork (%s in cmd is replaced by message)</source>
@@ -3151,7 +3151,7 @@ fx: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <source>Send command to Dogecoin Core</source>
-        <translation>Send kommando til Bitcoin Core</translation>
+        <translation>Send kommando til Dogecoin Core</translation>
     </message>
     <message>
         <source>Send trace/debug info to console instead of debug.log file</source>
@@ -3187,7 +3187,7 @@ fx: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <source>Start Dogecoin Core Daemon</source>
-        <translation>Start Bitcoin Core-tjeneste</translation>
+        <translation>Start Dogecoin Core-tjeneste</translation>
     </message>
     <message>
         <source>System error: </source>

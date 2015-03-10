@@ -1362,7 +1362,7 @@ Adres: %4
     </message>
     <message>
         <source>Dogecoin Core did&apos;t yet exit safely...</source>
-        <translation>Bitcoin Core jeszcze się nie wyłączył bezpiecznie…</translation>
+        <translation>Dogecoin Core jeszcze się nie wyłączył bezpiecznie…</translation>
     </message>
     <message>
         <source>Enter a Dogecoin address (e.g. %1)</source>
@@ -2606,7 +2606,7 @@ Adres: %4
         <translation>Wskaż plik konfiguracyjny (domyślnie: dogecoin.conf)</translation>
     </message>
     <message>
-        <source>Specify pid file (default: bitcoind.pid)</source>
+        <source>Specify pid file (default: dogecoind.pid)</source>
         <translation>Wskaż plik pid (domyślnie: dogecoind.pid)</translation>
     </message>
     <message>
@@ -2669,7 +2669,7 @@ Adres: %4
         <source>%s, you must set a rpcpassword in the configuration file:
 %s
 It is recommended you use the following random password:
-rpcuser=bitcoinrpc
+rpcuser=dogecoinrpc
 rpcpassword=%s
 (you do not need to remember this password)
 The username and password MUST NOT be the same.
@@ -2680,7 +2680,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
         <translation>%s, musisz ustawić rpcpassword w pliku konfiguracyjnym:⏎
 %s⏎
 Zalecane jest użycie losowego hasła:⏎
-rpcuser=bitcoinrpc⏎
+rpcuser=dogecoinrpc⏎
 rpcpassword=%s⏎
 (nie musisz pamiętać tego hasła)⏎
 Użytkownik i hasło nie mogą być takie same.⏎
@@ -3138,7 +3138,7 @@ na przykład: alertnotify=echo %%s | mail -s &quot;Alarm Dogecoin&quot; admin@fo
     </message>
     <message>
         <source>Send command to Dogecoin Core</source>
-        <translation>Wyślij komendę do Bitcoin Core</translation>
+        <translation>Wyślij komendę do Dogecoin Core</translation>
     </message>
     <message>
         <source>Send trace/debug info to console instead of debug.log file</source>
@@ -3174,7 +3174,7 @@ na przykład: alertnotify=echo %%s | mail -s &quot;Alarm Dogecoin&quot; admin@fo
     </message>
     <message>
         <source>Start Dogecoin Core Daemon</source>
-        <translation>Uruchom serwer Bitcoin Core</translation>
+        <translation>Uruchom serwer Dogecoin Core</translation>
     </message>
     <message>
         <source>System error: </source>

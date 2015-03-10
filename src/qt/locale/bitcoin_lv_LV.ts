@@ -84,11 +84,11 @@ Izplatīta saskaņā ar MIT/X11 programmatūras licenci, skatīt pievienoto datn
     </message>
     <message>
         <source>Choose the address to send coins to</source>
-        <translation>Izvēlies adresi uz kuru sūtīt bitcoins</translation>
+        <translation>Izvēlies adresi uz kuru sūtīt dogecoins</translation>
     </message>
     <message>
         <source>Choose the address to receive coins with</source>
-        <translation>Izvēlies adresi ar kuru saņemt bitcoins</translation>
+        <translation>Izvēlies adresi ar kuru saņemt dogecoins</translation>
     </message>
     <message>
         <source>C&amp;hoose</source>
@@ -206,7 +206,7 @@ Izplatīta saskaņā ar MIT/X11 programmatūras licenci, skatīt pievienoto datn
     </message>
     <message>
         <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DOGECOINS&lt;/b&gt;!</source>
-        <translation>Brīdinājums: Ja tu nošifrē savu maciņu un pazaudē paroli, tu &lt;b&gt;PAZAUDĒSI VISAS SAVAS BITCOINS&lt;/b&gt;!</translation>
+        <translation>Brīdinājums: Ja tu nošifrē savu maciņu un pazaudē paroli, tu &lt;b&gt;PAZAUDĒSI VISAS SAVAS DOGECOINS&lt;/b&gt;!</translation>
     </message>
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
@@ -433,7 +433,7 @@ Izplatīta saskaņā ar MIT/X11 programmatūras licenci, skatīt pievienoto datn
     </message>
     <message>
         <source>Request payments (generates QR codes and dogecoin: URIs)</source>
-        <translation>Pieprasīt maksājumus (izveido QR kodu un bitcoin: URIs)</translation>
+        <translation>Pieprasīt maksājumus (izveido QR kodu un dogecoin: URIs)</translation>
     </message>
     <message>
         <source>&amp;About Dogecoin Core</source>
@@ -449,7 +449,7 @@ Izplatīta saskaņā ar MIT/X11 programmatūras licenci, skatīt pievienoto datn
     </message>
     <message>
         <source>Open a dogecoin: URI or payment request</source>
-        <translation>Atvērt bitcoin URI vai maksājuma pieprasījumu</translation>
+        <translation>Atvērt dogecoin URI vai maksājuma pieprasījumu</translation>
     </message>
     <message>
         <source>&amp;Command-line options</source>
@@ -561,7 +561,7 @@ Adrese: %4
     </message>
     <message>
         <source>A fatal error occurred. Dogecoin can no longer continue safely and will quit.</source>
-        <translation>Radās fatāla kļūda. Bitcoin Core nevar vairs droši turpināt un tiks izslēgta.</translation>
+        <translation>Radās fatāla kļūda. Dogecoin Core nevar vairs droši turpināt un tiks izslēgta.</translation>
     </message>
 </context>
 <context>
@@ -1041,7 +1041,7 @@ Adrese: %4
     </message>
     <message>
         <source>Connect to the Dogecoin network through a SOCKS proxy.</source>
-        <translation>Savienoties ar Bitcoin tīklu caur SOCKS starpniekserveri.</translation>
+        <translation>Savienoties ar Dogecoin tīklu caur SOCKS starpniekserveri.</translation>
     </message>
     <message>
         <source>&amp;Connect through SOCKS proxy (default proxy):</source>
@@ -1089,7 +1089,7 @@ Adrese: %4
     </message>
     <message>
         <source>Enable coin &amp;control features</source>
-        <translation>Ieslēgt bitcoin &amp;kontroles funkcijas</translation>
+        <translation>Ieslēgt dogecoin &amp;kontroles funkcijas</translation>
     </message>
     <message>
         <source>If you disable the spending of unconfirmed change, the change from a transaction cannot be used until that transaction has at least one confirmation. This also affects how your balance is computed.</source>
@@ -1291,7 +1291,7 @@ Adrese: %4
     </message>
     <message>
         <source>Cannot start dogecoin: click-to-pay handler</source>
-        <translation>Nevar palaist Bitcoin: nospied-lai-maksātu apstrādātāju</translation>
+        <translation>Nevar palaist dogecoin: nospied-lai-maksātu apstrādātāju</translation>
     </message>
     <message>
         <source>Net manager warning</source>
@@ -1362,7 +1362,7 @@ Adrese: %4
     </message>
     <message>
         <source>Dogecoin Core did&apos;t yet exit safely...</source>
-        <translation>Bitcoin Core vel neizgāja droši...</translation>
+        <translation>Dogecoin Core vel neizgāja droši...</translation>
     </message>
     <message>
         <source>Enter a Dogecoin address (e.g. %1)</source>
@@ -1872,7 +1872,7 @@ Adrese: %4
     </message>
     <message>
         <source>Warning: Invalid Dogecoin address</source>
-        <translation>Brīdinājums: Nederīga Bitcoin adrese</translation>
+        <translation>Brīdinājums: Nederīga Dogecoin adrese</translation>
     </message>
     <message>
         <source>(no label)</source>
@@ -2029,7 +2029,7 @@ Adrese: %4
     </message>
     <message>
         <source>Sign the message to prove you own this Dogecoin address</source>
-        <translation>Parakstīt ziņojumu lai pierādītu, ka esi šīs Bitcoin adreses īpašnieks.</translation>
+        <translation>Parakstīt ziņojumu lai pierādītu, ka esi šīs Dogecoin adreses īpašnieks.</translation>
     </message>
     <message>
         <source>Sign &amp;Message</source>
@@ -2614,8 +2614,8 @@ Adrese: %4
         <translation>Norādiet konfigurācijas failu (pēc noklusēšanas: dogecoin.conf)</translation>
     </message>
     <message>
-        <source>Specify pid file (default: bitcoind.pid)</source>
-        <translation>Norādiet pid failu (pēc noklusēšanas: bitcoind.pid)</translation>
+        <source>Specify pid file (default: dogecoind.pid)</source>
+        <translation>Norādiet pid failu (pēc noklusēšanas: dogecoind.pid)</translation>
     </message>
     <message>
         <source>Specify data directory</source>
@@ -2659,7 +2659,7 @@ Adrese: %4
     </message>
     <message>
         <source>Dogecoin Core RPC client version</source>
-        <translation>Bitcoin Core RPC klienta versija</translation>
+        <translation>Dogecoin Core RPC klienta versija</translation>
     </message>
     <message>
         <source>Run in the background as a daemon and accept commands</source>
@@ -2677,7 +2677,7 @@ Adrese: %4
         <source>%s, you must set a rpcpassword in the configuration file:
 %s
 It is recommended you use the following random password:
-rpcuser=bitcoinrpc
+rpcuser=dogecoinrpc
 rpcpassword=%s
 (you do not need to remember this password)
 The username and password MUST NOT be the same.
@@ -2769,7 +2769,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Warning: Please check that your computer&apos;s date and time are correct! If your clock is wrong Dogecoin will not work properly.</source>
-        <translation>Brīdinājums: Lūdzu pārbaudi vai tava datora datums un laiks ir pareizs! Ja pulkstenis ir nepareizs, Bitcoin Core nestrādās pareizi.</translation>
+        <translation>Brīdinājums: Lūdzu pārbaudi vai tava datora datums un laiks ir pareizs! Ja pulkstenis ir nepareizs, Dogecoin Core nestrādās pareizi.</translation>
     </message>
     <message>
         <source>Warning: The network does not appear to fully agree! Some miners appear to be experiencing issues.</source>
@@ -3137,7 +3137,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Send command to Dogecoin Core</source>
-        <translation>Sūtīt komandu uz Bitcoin Core</translation>
+        <translation>Sūtīt komandu uz Dogecoin Core</translation>
     </message>
     <message>
         <source>Send trace/debug info to console instead of debug.log file</source>
@@ -3173,7 +3173,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Start Dogecoin Core Daemon</source>
-        <translation>Sākt Bitcoin Core Procesu</translation>
+        <translation>Sākt Dogecoin Core Procesu</translation>
     </message>
     <message>
         <source>System error: </source>

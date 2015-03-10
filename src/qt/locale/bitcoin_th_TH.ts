@@ -292,7 +292,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>Show information about Dogecoin</source>
-        <translation>แสดงข้อมูลเกี่ยวกับ Bitcoin</translation>
+        <translation>แสดงข้อมูลเกี่ยวกับ Dogecoin</translation>
     </message>
     <message>
         <source>About &amp;Qt</source>
@@ -460,7 +460,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message numerus="yes">
         <source>%n active connection(s) to Dogecoin network</source>
-        <translation><numerusform>%n ที่ใช้งานการเชื่อมต่อกับเครือข่าย Bitcoin</numerusform></translation>
+        <translation><numerusform>%n ที่ใช้งานการเชื่อมต่อกับเครือข่าย Dogecoin</numerusform></translation>
     </message>
     <message>
         <source>No block source available...</source>
@@ -2589,7 +2589,7 @@ Address: %4
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Specify pid file (default: bitcoind.pid)</source>
+        <source>Specify pid file (default: dogecoind.pid)</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -2652,7 +2652,7 @@ Address: %4
         <source>%s, you must set a rpcpassword in the configuration file:
 %s
 It is recommended you use the following random password:
-rpcuser=bitcoinrpc
+rpcuser=dogecoinrpc
 rpcpassword=%s
 (you do not need to remember this password)
 The username and password MUST NOT be the same.

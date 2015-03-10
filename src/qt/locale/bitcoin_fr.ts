@@ -1291,7 +1291,7 @@ Adresse : %4
     </message>
     <message>
         <source>Cannot start dogecoin: click-to-pay handler</source>
-        <translation>Impossible de démarrer le gestionnaire de cliquer-pour-payer bitcoin :</translation>
+        <translation>Impossible de démarrer le gestionnaire de cliquer-pour-payer dogecoin :</translation>
     </message>
     <message>
         <source>Net manager warning</source>
@@ -1362,7 +1362,7 @@ Adresse : %4
     </message>
     <message>
         <source>Dogecoin Core did&apos;t yet exit safely...</source>
-        <translation>Bitcoin Core ne s&apos;est pas encore arrêté en toute sécurité...</translation>
+        <translation>Dogecoin Core ne s&apos;est pas encore arrêté en toute sécurité...</translation>
     </message>
     <message>
         <source>Enter a Dogecoin address (e.g. %1)</source>
@@ -2606,8 +2606,8 @@ Adresse : %4
         <translation>Spécifier le fichier de configuration (par défaut : dogecoin.conf)</translation>
     </message>
     <message>
-        <source>Specify pid file (default: bitcoind.pid)</source>
-        <translation>Spécifier le fichier PID (par défaut : bitcoind.pid)</translation>
+        <source>Specify pid file (default: dogecoind.pid)</source>
+        <translation>Spécifier le fichier PID (par défaut : dogecoind.pid)</translation>
     </message>
     <message>
         <source>Specify data directory</source>
@@ -2669,7 +2669,7 @@ Adresse : %4
         <source>%s, you must set a rpcpassword in the configuration file:
 %s
 It is recommended you use the following random password:
-rpcuser=bitcoinrpc
+rpcuser=dogecoinrpc
 rpcpassword=%s
 (you do not need to remember this password)
 The username and password MUST NOT be the same.
@@ -2680,7 +2680,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
         <translation>%s, vous devez définir un mot de passe rpc dans le fichier de configuration : 
 %s
 Il vous est conseillé d&apos;utiliser le mot de passe aléatoire suivant :
-rpcuser=bitcoinrpc
+rpcuser=dogecoinrpc
 rpcpassword=%s
 (vous n&apos;avez pas besoin de retenir ce mot de passe)
 Le nom d&apos;utilisateur et le mot de passe NE DOIVENT PAS être identiques.
@@ -3115,7 +3115,7 @@ par exemple : alertnotify=echo %%s | mail -s &quot;Alerte Dogecoin&quot; admin@f
     </message>
     <message>
         <source>RPC SSL options: (see the Bitcoin Wiki for SSL setup instructions)</source>
-        <translation>Options RPC SSL : (voir le wiki Dogecoin pour les instructions de configuration de SSL)</translation>
+        <translation>Options RPC SSL : (voir le wiki Bitcoin pour les instructions de configuration de SSL)</translation>
     </message>
     <message>
         <source>RPC server options:</source>
@@ -3135,7 +3135,7 @@ par exemple : alertnotify=echo %%s | mail -s &quot;Alerte Dogecoin&quot; admin@f
     </message>
     <message>
         <source>SSL options: (see the Bitcoin Wiki for SSL setup instructions)</source>
-        <translation>Options SSL : (voir le Wiki de Dogecoin pour les instructions de configuration du SSL)</translation>
+        <translation>Options SSL : (voir le Wiki de Bitcoin pour les instructions de configuration du SSL)</translation>
     </message>
     <message>
         <source>Send command to Dogecoin Core</source>

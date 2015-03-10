@@ -3,11 +3,11 @@
     <name>AboutDialog</name>
     <message>
         <source>About Dogecoin Core</source>
-        <translation>Σχετικά με το Bitcoin Core</translation>
+        <translation>Σχετικά με το Dogecoin Core</translation>
     </message>
     <message>
         <source>&lt;b&gt;Dogecoin Core&lt;/b&gt; version</source>
-        <translation>&lt;b&gt;Bitcoin Core&lt;/b&gt; έκδοση</translation>
+        <translation>&lt;b&gt;Dogecoin Core&lt;/b&gt; έκδοση</translation>
     </message>
     <message>
         <source>
@@ -29,7 +29,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>The Dogecoin Core developers</source>
-        <translation>Οι προγραμματιστές του Bitcoin Core</translation>
+        <translation>Οι προγραμματιστές του Dogecoin Core</translation>
     </message>
     <message>
         <source>(%1-bit)</source>
@@ -346,7 +346,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>Send coins to a Dogecoin address</source>
-        <translation>Στείλε νομίσματα σε μια διεύθυνση bitcoin</translation>
+        <translation>Στείλε νομίσματα σε μια διεύθυνση Dogecoin</translation>
     </message>
     <message>
         <source>Modify configuration options for Dogecoin Core</source>
@@ -438,7 +438,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>&amp;About Dogecoin Core</source>
-        <translation>&amp;Σχετικά με το Bitcoin Core</translation>
+        <translation>&amp;Σχετικά με το Dogecoin Core</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -941,11 +941,11 @@ Address: %4
     </message>
     <message>
         <source>Welcome to Dogecoin Core.</source>
-        <translation>Καλώς ήρθατε στο Bitcoin Core.</translation>
+        <translation>Καλώς ήρθατε στο Dogecoin Core.</translation>
     </message>
     <message>
         <source>As this is the first time the program is launched, you can choose where Dogecoin Core will store its data.</source>
-        <translation>Καθώς αυτή είναι η πρώτη φορά που εκκινείται το πρόγραμμα, μπορείτε να διαλέξετε πού θα αποθηκεύει το Bitcoin Core τα δεδομένα του.</translation>
+        <translation>Καθώς αυτή είναι η πρώτη φορά που εκκινείται το πρόγραμμα, μπορείτε να διαλέξετε πού θα αποθηκεύει το Dogecoin Core τα δεδομένα του.</translation>
     </message>
     <message>
         <source>Dogecoin Core will download and store a copy of the Dogecoin block chain. At least %1GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
@@ -1968,7 +1968,7 @@ Address: %4
     <name>ShutdownWindow</name>
     <message>
         <source>Dogecoin Core is shutting down...</source>
-        <translation>Το Bitcoin Core τερματίζεται...</translation>
+        <translation>Το Dogecoin Core τερματίζεται...</translation>
     </message>
     <message>
         <source>Do not shut down the computer until this window disappears.</source>
@@ -2118,7 +2118,7 @@ Address: %4
     </message>
     <message>
         <source>The Dogecoin Core developers</source>
-        <translation>Οι προγραμματιστές του Bitcoin Core</translation>
+        <translation>Οι προγραμματιστές του Dogecoin Core</translation>
     </message>
     <message>
         <source>[testnet]</source>
@@ -2600,8 +2600,8 @@ Address: %4
         <translation>Ορίστε αρχείο ρυθμίσεων (προεπιλογή: dogecoin.conf)</translation>
     </message>
     <message>
-        <source>Specify pid file (default: bitcoind.pid)</source>
-        <translation>Ορίστε αρχείο pid (προεπιλογή: bitcoind.pid)</translation>
+        <source>Specify pid file (default: dogecoind.pid)</source>
+        <translation>Ορίστε αρχείο pid (προεπιλογή: dogecoind.pid)</translation>
     </message>
     <message>
         <source>Specify data directory</source>
@@ -2663,7 +2663,7 @@ Address: %4
         <source>%s, you must set a rpcpassword in the configuration file:
 %s
 It is recommended you use the following random password:
-rpcuser=bitcoinrpc
+rpcuser=dogecoinrpc
 rpcpassword=%s
 (you do not need to remember this password)
 The username and password MUST NOT be the same.
@@ -2674,7 +2674,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
         <translation>%s, you must set a rpcpassword in the configuration file:
 %s
 It is recommended you use the following random password:
-rpcuser=bitcoinrpc
+rpcuser=dogecoinrpc
 rpcpassword=%s
 (you do not need to remember this password)
 The username and password MUST NOT be the same.
@@ -3109,7 +3109,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>RPC SSL options: (see the Dogecoin Wiki for SSL setup instructions)</source>
+        <source>RPC SSL options: (see the Bitcoin Wiki for SSL setup instructions)</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -3129,8 +3129,8 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>SSL options: (see the Dogecoin Wiki for SSL setup instructions)</source>
-        <translation>Ρυθμίσεις SSL: (ανατρέξτε στο Dogecoin Wiki για οδηγίες ρυθμίσεων SSL)</translation>
+        <source>SSL options: (see the Bitcoin Wiki for SSL setup instructions)</source>
+        <translation>Ρυθμίσεις SSL: (ανατρέξτε στο Bitcoin Wiki για οδηγίες ρυθμίσεων SSL)</translation>
     </message>
     <message>
         <source>Send command to Dogecoin Core</source>

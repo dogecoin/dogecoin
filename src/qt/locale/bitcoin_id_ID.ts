@@ -433,7 +433,7 @@ Produk ini termasuk software yang dibangun oleh Proyek OpenSSL untuk Toolkit Ope
     </message>
     <message>
         <source>Request payments (generates QR codes and dogecoin: URIs)</source>
-        <translation>Permintaan pembayaran (membangkitkan kode QR dan bitcoin: URIs)</translation>
+        <translation>Permintaan pembayaran (membangkitkan kode QR dan dogecoin: URIs)</translation>
     </message>
     <message>
         <source>&amp;About Dogecoin Core</source>
@@ -561,7 +561,7 @@ Alamat: %4
     </message>
     <message>
         <source>A fatal error occurred. Dogecoin can no longer continue safely and will quit.</source>
-        <translation>Terjadi kesalahan fatal. Bitcoin tidak bisa lagi meneruskan dengan aman dan akan berhenti.</translation>
+        <translation>Terjadi kesalahan fatal. Dogecoin tidak bisa lagi meneruskan dengan aman dan akan berhenti.</translation>
     </message>
 </context>
 <context>
@@ -2606,8 +2606,8 @@ Alamat: %4
         <translation>Tentukan berkas konfigurasi (standar: dogecoin.conf)</translation>
     </message>
     <message>
-        <source>Specify pid file (default: bitcoind.pid)</source>
-        <translation>Tentukan berkas pid (standar: bitcoind.pid)</translation>
+        <source>Specify pid file (default: dogecoind.pid)</source>
+        <translation>Tentukan berkas pid (standar: dogecoind.pid)</translation>
     </message>
     <message>
         <source>Specify data directory</source>
@@ -2669,7 +2669,7 @@ Alamat: %4
         <source>%s, you must set a rpcpassword in the configuration file:
 %s
 It is recommended you use the following random password:
-rpcuser=bitcoinrpc
+rpcuser=dogecoinrpc
 rpcpassword=%s
 (you do not need to remember this password)
 The username and password MUST NOT be the same.
@@ -3165,7 +3165,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Start Dogecoin Core Daemon</source>
-        <translation>Memulai Bitcoin Core Daemon</translation>
+        <translation>Memulai Dogecoin Core Daemon</translation>
     </message>
     <message>
         <source>System error: </source>

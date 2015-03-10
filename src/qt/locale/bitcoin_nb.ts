@@ -1362,7 +1362,7 @@ Adresse: %4
     </message>
     <message>
         <source>Dogecoin Core did&apos;t yet exit safely...</source>
-        <translation>Bitcoin Core har ennå ikke avsluttet på en sikker måte...</translation>
+        <translation>Dogecoin Core har ennå ikke avsluttet på en sikker måte...</translation>
     </message>
     <message>
         <source>Enter a Dogecoin address (e.g. %1)</source>
@@ -1955,7 +1955,7 @@ Adresse: %4
     </message>
     <message>
         <source>A message that was attached to the dogecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
-        <translation>En melding som var tilknyttet bitcoinen: URI vil bli lagret med transaksjonen for din oversikt. Denne meldingen vil ikke bli sendt over Dogecoin-nettverket.</translation>
+        <translation>En melding som var tilknyttet dogecoinen: URI vil bli lagret med transaksjonen for din oversikt. Denne meldingen vil ikke bli sendt over Dogecoin-nettverket.</translation>
     </message>
     <message>
         <source>This is an unverified payment request.</source>
@@ -2606,8 +2606,8 @@ Adresse: %4
         <translation>Angi konfigurasjonsfil (standardverdi: dogecoin.conf)</translation>
     </message>
     <message>
-        <source>Specify pid file (default: bitcoind.pid)</source>
-        <translation>Angi pid-fil (standardverdi: bitcoind.pid)</translation>
+        <source>Specify pid file (default: dogecoind.pid)</source>
+        <translation>Angi pid-fil (standardverdi: dogecoind.pid)</translation>
     </message>
     <message>
         <source>Specify data directory</source>
@@ -2669,7 +2669,7 @@ Adresse: %4
         <source>%s, you must set a rpcpassword in the configuration file:
 %s
 It is recommended you use the following random password:
-rpcuser=bitcoinrpc
+rpcuser=dogecoinrpc
 rpcpassword=%s
 (you do not need to remember this password)
 The username and password MUST NOT be the same.
@@ -2680,7 +2680,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
         <translation>%s, du må angi rpcpassord i konfigurasjonsfilen.
 %s
 Det anbefales at du bruker det følgende tilfeldige passordet:
-rpcbruker=bitcoinrpc
+rpcbruker=dogecoinrpc
 rpcpassord=%s
 (du behøver ikke å huske passordet)
 Brukernavnet og passordet MÅ IKKE være like.
@@ -2918,7 +2918,7 @@ For eksempel: varselmelding=echo %%s | mail -s &quot;Dogecoin Varsel&quot; admin
     </message>
     <message>
         <source>Failed to write to coin database</source>
-        <translation>Feil ved skriving til bitcoin sin database</translation>
+        <translation>Feil ved skriving til dogecoin sin database</translation>
     </message>
     <message>
         <source>Failed to write transaction index</source>
