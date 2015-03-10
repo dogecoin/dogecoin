@@ -2593,8 +2593,8 @@ Address: %4
         <translation>Вызначыць канфігурацыйны файл (зыходна: dogecoin.conf)</translation>
     </message>
     <message>
-        <source>Specify pid file (default: bitcoind.pid)</source>
-        <translation>Вызначыць pid-файл (зыходна: bitcoind.pid)</translation>
+        <source>Specify pid file (default: dogecoind.pid)</source>
+        <translation>Вызначыць pid-файл (зыходна: dogecoind.pid)</translation>
     </message>
     <message>
         <source>Specify data directory</source>
@@ -2656,7 +2656,7 @@ Address: %4
         <source>%s, you must set a rpcpassword in the configuration file:
 %s
 It is recommended you use the following random password:
-rpcuser=bitcoinrpc
+rpcuser=dogecoinrpc
 rpcpassword=%s
 (you do not need to remember this password)
 The username and password MUST NOT be the same.

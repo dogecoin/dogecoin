@@ -1,13 +1,13 @@
-<TS language="da" version="2.0">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="da" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
         <source>About Dogecoin Core</source>
-        <translation type="unfinished"/>
+        <translation>Om Dogecoin Core</translation>
     </message>
     <message>
         <source>&lt;b&gt;Dogecoin Core&lt;/b&gt; version</source>
-        <translation type="unfinished"/>
+        <translation>&lt;b&gt;Dogecoin Core&lt;/b&gt; version</translation>
     </message>
     <message>
         <source>
@@ -25,15 +25,15 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     </message>
     <message>
         <source>Copyright</source>
-        <translation>Copyright</translation>
+        <translation>Ophavsret</translation>
     </message>
     <message>
         <source>The Dogecoin Core developers</source>
-        <translation type="unfinished"/>
+        <translation>Udviklerne af Dogecoin Core</translation>
     </message>
     <message>
         <source>(%1-bit)</source>
-        <translation type="unfinished"/>
+        <translation>(%1-bit)</translation>
     </message>
 </context>
 <context>
@@ -48,23 +48,23 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     </message>
     <message>
         <source>&amp;New</source>
-        <translation>&amp;Ny</translation>
+        <translation>Ny</translation>
     </message>
     <message>
         <source>Copy the currently selected address to the system clipboard</source>
-        <translation>Kopier den valgte adresse til systemets udklipsholder</translation>
+        <translation>Kopiér den valgte adresse til systemets udklipsholder</translation>
     </message>
     <message>
         <source>&amp;Copy</source>
-        <translation>&amp;Kopiér</translation>
+        <translation>Kopiér</translation>
     </message>
     <message>
         <source>C&amp;lose</source>
-        <translation type="unfinished"/>
+        <translation>Luk</translation>
     </message>
     <message>
         <source>&amp;Copy Address</source>
-        <translation>Kopier adresse</translation>
+        <translation>Kopiér adresse</translation>
     </message>
     <message>
         <source>Delete the currently selected address from the list</source>
@@ -76,7 +76,7 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     </message>
     <message>
         <source>&amp;Export</source>
-        <translation>Eksporter</translation>
+        <translation>Eksportér</translation>
     </message>
     <message>
         <source>&amp;Delete</source>
@@ -84,23 +84,23 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     </message>
     <message>
         <source>Choose the address to send coins to</source>
-        <translation type="unfinished"/>
+        <translation>Vælg adresse at sende dogecoins til</translation>
     </message>
     <message>
         <source>Choose the address to receive coins with</source>
-        <translation type="unfinished"/>
+        <translation>Vælg adresse at modtage dogecoins med</translation>
     </message>
     <message>
         <source>C&amp;hoose</source>
-        <translation type="unfinished"/>
+        <translation>Vælg</translation>
     </message>
     <message>
         <source>Very sending addresses</source>
-        <translation type="unfinished"/>
+        <translation>Afsendelsesadresser</translation>
     </message>
     <message>
         <source>Much receiving addresses</source>
-        <translation type="unfinished"/>
+        <translation>Modtagelsesadresser</translation>
     </message>
     <message>
         <source>These are your Dogecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
@@ -108,19 +108,19 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     </message>
     <message>
         <source>These are your Dogecoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation type="unfinished"/>
+        <translation>Dette er dine Dogecoin-adresser til at modtage betalinger med. Det anbefales are bruge en ny modtagelsesadresse for hver transaktion.</translation>
     </message>
     <message>
         <source>Copy &amp;Label</source>
-        <translation>Kopier mærkat</translation>
+        <translation>Kopiér mærkat</translation>
     </message>
     <message>
         <source>&amp;Edit</source>
-        <translation>Rediger</translation>
+        <translation>Redigér</translation>
     </message>
     <message>
         <source>Export Address List</source>
-        <translation type="unfinished"/>
+        <translation>Eksportér adresseliste</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
@@ -128,11 +128,11 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     </message>
     <message>
         <source>Exporting Failed</source>
-        <translation type="unfinished"/>
+        <translation>Eksport mislykkedes</translation>
     </message>
     <message>
         <source>There was an error trying to save the address list to %1.</source>
-        <translation type="unfinished"/>
+        <translation>En fejl opstod under gemning af adresseliste til %1.</translation>
     </message>
 </context>
 <context>
@@ -174,7 +174,7 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     </message>
     <message>
         <source>Encrypt wallet</source>
-        <translation>Krypter tegnebog</translation>
+        <translation>Kryptér tegnebog</translation>
     </message>
     <message>
         <source>This operation needs your wallet passphrase to unlock the wallet.</source>
@@ -190,7 +190,7 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     </message>
     <message>
         <source>Decrypt wallet</source>
-        <translation>Dekrypter tegnebog</translation>
+        <translation>Dekryptér tegnebog</translation>
     </message>
     <message>
         <source>Change passphrase</source>
@@ -214,7 +214,7 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     </message>
     <message>
         <source>IMPORTANT: Any previous backups you have made of your wallet file should be replaced with the newly generated, encrypted wallet file. For security reasons, previous backups of the unencrypted wallet file will become useless as soon as you start using the new, encrypted wallet.</source>
-        <translation>VIGTIGT: Enhver tidligere sikkerhedskopi, som du har lavet af tegnebogsfilen, bør blive erstattet af den nyligt genererede, krypterede tegnebogsfil. Af sikkerhedsmæssige årsager vil tidligere sikkerhedskopier af den ikke-krypterede tegnebogsfil blive ubrugelig i det øjeblik, du starter med at anvende den nye, krypterede tegnebog.</translation>
+        <translation>VIGTIGT: Enhver tidligere sikkerhedskopi, som du har lavet af tegnebogsfilen, bør blive erstattet af den nyligt genererede, krypterede tegnebogsfil. Af sikkerhedsmæssige årsager vil tidligere sikkerhedskopier af den ikke-krypterede tegnebogsfil blive ubrugelige i det øjeblik, du starter med at anvende den nye, krypterede tegnebog.</translation>
     </message>
     <message>
         <source>Warning: The Caps Lock key is on!</source>
@@ -261,11 +261,11 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     <name>BitcoinGUI</name>
     <message>
         <source>Sign &amp;message...</source>
-        <translation>Underskriv besked...</translation>
+        <translation>Underskriv besked …</translation>
     </message>
     <message>
         <source>Synchronizing with network...</source>
-        <translation>Synkroniserer med netværk...</translation>
+        <translation>Synkroniserer med netværk …</translation>
     </message>
     <message>
         <source>&amp;Overview</source>
@@ -273,7 +273,7 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     </message>
     <message>
         <source>Node</source>
-        <translation type="unfinished"/>
+        <translation>Knude</translation>
     </message>
     <message>
         <source>Show general overview of wallet</source>
@@ -309,39 +309,39 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     </message>
     <message>
         <source>&amp;Options...</source>
-        <translation>Indstillinger...</translation>
+        <translation>Indstillinger …</translation>
     </message>
     <message>
         <source>&amp;Encrypt Wallet...</source>
-        <translation>Krypter tegnebog...</translation>
+        <translation>Kryptér tegnebog …</translation>
     </message>
     <message>
         <source>&amp;Backup Wallet...</source>
-        <translation>Sikkerhedskopier tegnebog...</translation>
+        <translation>Sikkerhedskopiér tegnebog …</translation>
     </message>
     <message>
         <source>&amp;Change Passphrase...</source>
-        <translation>Skift adgangskode...</translation>
+        <translation>Skift adgangskode …</translation>
     </message>
     <message>
         <source>Very &amp;sending addresses...</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Afsendelsesadresser...</translation>
     </message>
     <message>
         <source>Much &amp;receiving addresses...</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Modtagelsesadresser...</translation>
     </message>
     <message>
         <source>Open &amp;URI...</source>
-        <translation type="unfinished"/>
+        <translation>Åbn URI …</translation>
     </message>
     <message>
         <source>Importing blocks from disk...</source>
-        <translation>Importerer blokke fra disken...</translation>
+        <translation>Importerer blokke fra disken …</translation>
     </message>
     <message>
         <source>Reindexing blocks on disk...</source>
-        <translation>Genindekserer blokke på disken...</translation>
+        <translation>Genindekserer blokke på disken …</translation>
     </message>
     <message>
         <source>Send coins to a Dogecoin address</source>
@@ -349,7 +349,7 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     </message>
     <message>
         <source>Modify configuration options for Dogecoin Core</source>
-        <translation>Rediger konfigurationsindstillinger af Dogecoin</translation>
+        <translation>Redigér konfigurationsindstillinger af Dogecoin</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -369,7 +369,7 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     </message>
     <message>
         <source>&amp;Verify message...</source>
-        <translation>Verificér besked...</translation>
+        <translation>Verificér besked …</translation>
     </message>
     <message>
         <source>Dogecoin</source>
@@ -397,7 +397,7 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     </message>
     <message>
         <source>Encrypt the private keys that belong to your wallet</source>
-        <translation>Krypter de private nøgler, der hører til din tegnebog</translation>
+        <translation>Kryptér de private nøgler, der hører til din tegnebog</translation>
     </message>
     <message>
         <source>Sign messages with your Dogecoin addresses to prove you own them</source>
@@ -405,7 +405,7 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     </message>
     <message>
         <source>Verify messages to ensure they were signed with specified Dogecoin addresses</source>
-        <translation>Verificér beskeder for at sikre, at de er underskrevet med de(n) angivne Dogecoin-adresse(r)</translation>
+        <translation>Verificér beskeder for at sikre, at de er underskrevet med de angivne Dogecoin-adresser</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -413,7 +413,7 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     </message>
     <message>
         <source>&amp;Settings</source>
-        <translation>Indstillinger</translation>
+        <translation>Opsætning</translation>
     </message>
     <message>
         <source>&amp;Help</source>
@@ -433,31 +433,31 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     </message>
     <message>
         <source>Request payments (generates QR codes and dogecoin: URIs)</source>
-        <translation type="unfinished"/>
+        <translation>Forespørg betalinger (genererer QR-koder og &quot;dogecoin:&quot;-URI&apos;er)</translation>
     </message>
     <message>
         <source>&amp;About Dogecoin Core</source>
-        <translation type="unfinished"/>
+        <translation>Om Dogecoin Core</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
-        <translation type="unfinished"/>
+        <translation>Vis listen over brugte afsendelsesadresser og -mærkater</translation>
     </message>
     <message>
         <source>Show the list of used receiving addresses and labels</source>
-        <translation type="unfinished"/>
+        <translation>Vis listen over brugte modtagelsesadresser og -mærkater</translation>
     </message>
     <message>
         <source>Open a dogecoin: URI or payment request</source>
-        <translation type="unfinished"/>
+        <translation>Åbn en &quot;dogecoin:&quot;-URI eller betalingsforespørgsel</translation>
     </message>
     <message>
         <source>&amp;Command-line options</source>
-        <translation type="unfinished"/>
+        <translation>Tilvalg for kommandolinje</translation>
     </message>
     <message>
         <source>Show the Dogecoin Core help message to get a list with possible command-line options</source>
-        <translation type="unfinished"/>
+        <translation>Vis Dogecoin Core hjælpebesked for at få en liste over mulige tilvalg for Dogecoin kommandolinje</translation>
     </message>
     <message>
         <source>Dogecoin client</source>
@@ -465,11 +465,11 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     </message>
     <message numerus="yes">
         <source>%n active connection(s) to Dogecoin network</source>
-        <translation><numerusform>%n aktiv(e) forbindelse(r) til Dogecoin-netværket</numerusform><numerusform>%n aktiv(e) forbindelse(r) til Dogecoin-netværket</numerusform></translation>
+        <translation><numerusform>%n aktiv forbindelse til Dogecoin-netværket</numerusform><numerusform>%n aktive forbindelser til Dogecoin-netværket</numerusform></translation>
     </message>
     <message>
         <source>No block source available...</source>
-        <translation>Ingen blokkilde tilgængelig...</translation>
+        <translation>Ingen blokkilde tilgængelig …</translation>
     </message>
     <message>
         <source>Processed %1 of %2 (estimated) blocks of transaction history.</source>
@@ -493,11 +493,11 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     </message>
     <message>
         <source>%1 and %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 og %2</translation>
     </message>
     <message numerus="yes">
         <source>%n year(s)</source>
-        <translation type="unfinished"><numerusform/><numerusform/></translation>
+        <translation><numerusform>%n år</numerusform><numerusform>%n år</numerusform></translation>
     </message>
     <message>
         <source>%1 behind</source>
@@ -529,7 +529,7 @@ Produktet indeholder software som er udviklet af OpenSSL Project til brug i Open
     </message>
     <message>
         <source>Catching up...</source>
-        <translation>Indhenter...</translation>
+        <translation>Indhenter …</translation>
     </message>
     <message>
         <source>Sent transaction</source>
@@ -575,15 +575,15 @@ Adresse: %4
     <name>CoinControlDialog</name>
     <message>
         <source>Coin Control Address Selection</source>
-        <translation type="unfinished"/>
+        <translation>Adressevalg for coin-styring</translation>
     </message>
     <message>
         <source>Quantity:</source>
-        <translation type="unfinished"/>
+        <translation>Mængde:</translation>
     </message>
     <message>
         <source>Bytes:</source>
-        <translation type="unfinished"/>
+        <translation>Byte:</translation>
     </message>
     <message>
         <source>Amount:</source>
@@ -591,35 +591,35 @@ Adresse: %4
     </message>
     <message>
         <source>Priority:</source>
-        <translation type="unfinished"/>
+        <translation>Prioritet:</translation>
     </message>
     <message>
         <source>Fee:</source>
-        <translation type="unfinished"/>
+        <translation>Gebyr:</translation>
     </message>
     <message>
         <source>Low Output:</source>
-        <translation type="unfinished"/>
+        <translation>Lavt output:</translation>
     </message>
     <message>
         <source>After Fee:</source>
-        <translation type="unfinished"/>
+        <translation>Efter gebyr:</translation>
     </message>
     <message>
         <source>Change:</source>
-        <translation type="unfinished"/>
+        <translation>Byttepenge:</translation>
     </message>
     <message>
         <source>(un)select all</source>
-        <translation type="unfinished"/>
+        <translation>(af)vælg alle</translation>
     </message>
     <message>
         <source>Tree mode</source>
-        <translation type="unfinished"/>
+        <translation>Trætilstand</translation>
     </message>
     <message>
         <source>List mode</source>
-        <translation type="unfinished"/>
+        <translation>Listetilstand</translation>
     </message>
     <message>
         <source>Amount</source>
@@ -639,7 +639,7 @@ Adresse: %4
     </message>
     <message>
         <source>Confirmations</source>
-        <translation type="unfinished"/>
+        <translation>Bekræftelser</translation>
     </message>
     <message>
         <source>Confirmed</source>
@@ -647,151 +647,151 @@ Adresse: %4
     </message>
     <message>
         <source>Priority</source>
-        <translation type="unfinished"/>
+        <translation>Prioritet</translation>
     </message>
     <message>
         <source>Copy address</source>
-        <translation>Kopier adresse</translation>
+        <translation>Kopiér adresse</translation>
     </message>
     <message>
         <source>Copy label</source>
-        <translation>Kopier mærkat</translation>
+        <translation>Kopiér mærkat</translation>
     </message>
     <message>
         <source>Copy amount</source>
-        <translation>Kopier beløb</translation>
+        <translation>Kopiér beløb</translation>
     </message>
     <message>
         <source>Copy transaction ID</source>
-        <translation>Kopier transaktionens ID</translation>
+        <translation>Kopiér transaktions-ID</translation>
     </message>
     <message>
         <source>Lock unspent</source>
-        <translation type="unfinished"/>
+        <translation>Fastlås ubrugte</translation>
     </message>
     <message>
         <source>Unlock unspent</source>
-        <translation type="unfinished"/>
+        <translation>Lås ubrugte op</translation>
     </message>
     <message>
         <source>Copy quantity</source>
-        <translation type="unfinished"/>
+        <translation>Kopiér mængde</translation>
     </message>
     <message>
         <source>Copy fee</source>
-        <translation type="unfinished"/>
+        <translation>Kopiér gebyr</translation>
     </message>
     <message>
         <source>Copy after fee</source>
-        <translation type="unfinished"/>
+        <translation>Kopiér efter-gebyr</translation>
     </message>
     <message>
         <source>Copy bytes</source>
-        <translation type="unfinished"/>
+        <translation>Kopiér byte</translation>
     </message>
     <message>
         <source>Copy priority</source>
-        <translation type="unfinished"/>
+        <translation>Kopiér prioritet</translation>
     </message>
     <message>
         <source>Copy low output</source>
-        <translation type="unfinished"/>
+        <translation>Kopiér lavt output</translation>
     </message>
     <message>
         <source>Copy change</source>
-        <translation type="unfinished"/>
+        <translation>Kopiér byttepenge</translation>
     </message>
     <message>
         <source>highest</source>
-        <translation type="unfinished"/>
+        <translation>højest</translation>
     </message>
     <message>
         <source>higher</source>
-        <translation type="unfinished"/>
+        <translation>højere</translation>
     </message>
     <message>
         <source>high</source>
-        <translation type="unfinished"/>
+        <translation>højt</translation>
     </message>
     <message>
         <source>medium-high</source>
-        <translation type="unfinished"/>
+        <translation>mellemhøj</translation>
     </message>
     <message>
         <source>medium</source>
-        <translation type="unfinished"/>
+        <translation>medium</translation>
     </message>
     <message>
         <source>low-medium</source>
-        <translation type="unfinished"/>
+        <translation>mellemlav</translation>
     </message>
     <message>
         <source>low</source>
-        <translation type="unfinished"/>
+        <translation>lav</translation>
     </message>
     <message>
         <source>lower</source>
-        <translation type="unfinished"/>
+        <translation>lavere</translation>
     </message>
     <message>
         <source>lowest</source>
-        <translation type="unfinished"/>
+        <translation>lavest</translation>
     </message>
     <message>
         <source>(%1 locked)</source>
-        <translation type="unfinished"/>
+        <translation>(%1 fastlåst)</translation>
     </message>
     <message>
         <source>none</source>
-        <translation type="unfinished"/>
+        <translation>ingen</translation>
     </message>
     <message>
         <source>Dust</source>
-        <translation type="unfinished"/>
+        <translation>Støv</translation>
     </message>
     <message>
         <source>yes</source>
-        <translation type="unfinished"/>
+        <translation>ja</translation>
     </message>
     <message>
         <source>no</source>
-        <translation type="unfinished"/>
+        <translation>nej</translation>
     </message>
     <message>
         <source>This label turns red, if the transaction size is greater than 1000 bytes.</source>
-        <translation type="unfinished"/>
+        <translation>Dette mærkat bliver rødt, hvis transaktionsstørrelsen er større end 1000 byte.</translation>
     </message>
     <message>
         <source>This means a fee of at least %1 per kB is required.</source>
-        <translation type="unfinished"/>
+        <translation>Dette betyder, at et gebyr på mindst %1 pr. kB er nødvendigt.</translation>
     </message>
     <message>
         <source>Can vary +/- 1 byte per input.</source>
-        <translation type="unfinished"/>
+        <translation>Kan variere ±1 byte pr. input.</translation>
     </message>
     <message>
         <source>Transactions with higher priority are more likely to get included into a block.</source>
-        <translation type="unfinished"/>
+        <translation>Transaktioner med højere prioritet har højere sansynlighed for at blive inkluderet i en blok.</translation>
     </message>
     <message>
         <source>This label turns red, if the priority is smaller than &quot;medium&quot;.</source>
-        <translation type="unfinished"/>
+        <translation>Dette mærkat bliver rødt, hvis prioriteten er mindre end &quot;medium&quot;.</translation>
     </message>
     <message>
         <source>This label turns red, if any recipient receives an amount smaller than %1.</source>
-        <translation type="unfinished"/>
+        <translation>Dette mærkat bliver rødt, hvis mindst én modtager et beløb mindre end %1.</translation>
     </message>
     <message>
         <source>This means a fee of at least %1 is required.</source>
-        <translation type="unfinished"/>
+        <translation>Dette betyder, at et gebyr på mindst %1 er nødvendigt.</translation>
     </message>
     <message>
         <source>Amounts below 0.546 times the minimum relay fee are shown as dust.</source>
-        <translation type="unfinished"/>
+        <translation>Beløb under 0,546 gange det minimale videreførselsgebyr vises som støv.</translation>
     </message>
     <message>
         <source>This label turns red, if the change is smaller than %1.</source>
-        <translation type="unfinished"/>
+        <translation>Dette mærkat bliver rødt, hvis byttepengene er mindre end %1.</translation>
     </message>
     <message>
         <source>(no label)</source>
@@ -799,18 +799,18 @@ Adresse: %4
     </message>
     <message>
         <source>change from %1 (%2)</source>
-        <translation type="unfinished"/>
+        <translation>byttepenge fra %1 (%2)</translation>
     </message>
     <message>
         <source>(change)</source>
-        <translation type="unfinished"/>
+        <translation>(byttepange)</translation>
     </message>
 </context>
 <context>
     <name>EditAddressDialog</name>
     <message>
         <source>Edit Address</source>
-        <translation>Rediger adresse</translation>
+        <translation>Redigér adresse</translation>
     </message>
     <message>
         <source>&amp;Label</source>
@@ -818,11 +818,11 @@ Adresse: %4
     </message>
     <message>
         <source>The label associated with this address list entry</source>
-        <translation type="unfinished"/>
+        <translation>Mærkatet, der er associeret med denne indgang i adresselisten</translation>
     </message>
     <message>
         <source>The address associated with this address list entry. This can only be modified for sending addresses.</source>
-        <translation type="unfinished"/>
+        <translation>Adressen, der er associeret med denne indgang i adresselisten. Denne kan kune ændres for afsendelsesadresser.</translation>
     </message>
     <message>
         <source>&amp;Address</source>
@@ -838,11 +838,11 @@ Adresse: %4
     </message>
     <message>
         <source>Edit receiving address</source>
-        <translation>Rediger modtagelsesadresse</translation>
+        <translation>Redigér modtagelsesadresse</translation>
     </message>
     <message>
         <source>Edit sending address</source>
-        <translation>Rediger afsendelsesadresse</translation>
+        <translation>Redigér afsendelsesadresse</translation>
     </message>
     <message>
         <source>The entered address &quot;%1&quot; is already in the address book.</source>
@@ -865,7 +865,7 @@ Adresse: %4
     <name>FreespaceChecker</name>
     <message>
         <source>A new data directory will be created.</source>
-        <translation type="unfinished"/>
+        <translation>En ny datamappe vil blive oprettet.</translation>
     </message>
     <message>
         <source>name</source>
@@ -873,22 +873,22 @@ Adresse: %4
     </message>
     <message>
         <source>Directory already exists. Add %1 if you intend to create a new directory here.</source>
-        <translation type="unfinished"/>
+        <translation>Mappe eksisterer allerede. Tilføj %1, hvis du vil oprette en ny mappe her.</translation>
     </message>
     <message>
         <source>Path already exists, and is not a directory.</source>
-        <translation type="unfinished"/>
+        <translation>Sti eksisterer allerede og er ikke en mappe.</translation>
     </message>
     <message>
         <source>Cannot create data directory here.</source>
-        <translation type="unfinished"/>
+        <translation>Kan ikke oprette en mappe her.</translation>
     </message>
 </context>
 <context>
     <name>HelpMessageDialog</name>
     <message>
         <source>Dogecoin Core - Command-line options</source>
-        <translation type="unfinished"/>
+        <translation>Dogecoin Core – tilvalg for kommandolinje</translation>
     </message>
     <message>
         <source>Dogecoin Core</source>
@@ -912,7 +912,7 @@ Adresse: %4
     </message>
     <message>
         <source>Set language, for example &quot;de_DE&quot; (default: system locale)</source>
-        <translation>Angiv sprog, f.eks &quot;de_DE&quot; (standard: systemlokalitet)</translation>
+        <translation>Angiv sprog, fx &quot;da_DK&quot; (standard: systemlokalitet)</translation>
     </message>
     <message>
         <source>Start minimized</source>
@@ -920,15 +920,15 @@ Adresse: %4
     </message>
     <message>
         <source>Set SSL root certificates for payment request (default: -system-)</source>
-        <translation type="unfinished"/>
+        <translation>Sæt SSL-rodcertifikater for betalingsforespørgsel (standard: -system-)</translation>
     </message>
     <message>
         <source>Show splash screen on startup (default: 1)</source>
-        <translation>Vis opstartsbillede ved start (standard: 1)</translation>
+        <translation>Vis opstartsbillede ved opstart (standard: 1)</translation>
     </message>
     <message>
         <source>Choose data directory on startup (default: 0)</source>
-        <translation type="unfinished"/>
+        <translation>Vælg datamappe ved opstart (standard: 0)</translation>
     </message>
 </context>
 <context>
@@ -939,23 +939,23 @@ Adresse: %4
     </message>
     <message>
         <source>Welcome to Dogecoin Core.</source>
-        <translation type="unfinished"/>
+        <translation>Velkommen til Dogecoin Core.</translation>
     </message>
     <message>
         <source>As this is the first time the program is launched, you can choose where Dogecoin Core will store its data.</source>
-        <translation type="unfinished"/>
+        <translation>Siden dette er første gang, programmet startes, kan du vælge, hvor Dogecoin Core skal gemme sin data.</translation>
     </message>
     <message>
         <source>Dogecoin Core will download and store a copy of the Dogecoin block chain. At least %1GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
-        <translation type="unfinished"/>
+        <translation>Dogecoin Core vil downloade og gemme et kopi af Dogecoin-blokkæden. Mindst %1 GB data vil blive gemt i denne mappe, og den vil vokse over tid. Tegnebogen vil også blive gemt i denne mappe.</translation>
     </message>
     <message>
         <source>Use the default data directory</source>
-        <translation type="unfinished"/>
+        <translation>Brug standardmappen for data</translation>
     </message>
     <message>
         <source>Use a custom data directory:</source>
-        <translation type="unfinished"/>
+        <translation>Brug tilpasset mappe for data:</translation>
     </message>
     <message>
         <source>Dogecoin</source>
@@ -963,7 +963,7 @@ Adresse: %4
     </message>
     <message>
         <source>Error: Specified data directory &quot;%1&quot; can not be created.</source>
-        <translation type="unfinished"/>
+        <translation>Fejl: Angivet datamappe &quot;%1&quot; kan ikke oprettes.</translation>
     </message>
     <message>
         <source>Error</source>
@@ -971,34 +971,34 @@ Adresse: %4
     </message>
     <message>
         <source>GB of free space available</source>
-        <translation type="unfinished"/>
+        <translation>GB fri plads tilgængelig</translation>
     </message>
     <message>
         <source>(of %1GB needed)</source>
-        <translation type="unfinished"/>
+        <translation>(ud af %1 GB behøvet)</translation>
     </message>
 </context>
 <context>
     <name>OpenURIDialog</name>
     <message>
         <source>Open URI</source>
-        <translation type="unfinished"/>
+        <translation>Åbn URI</translation>
     </message>
     <message>
         <source>Open payment request from URI or file</source>
-        <translation type="unfinished"/>
+        <translation>Åbn betalingsforespørgsel fra URI eller fil</translation>
     </message>
     <message>
         <source>URI:</source>
-        <translation type="unfinished"/>
+        <translation>URI:</translation>
     </message>
     <message>
         <source>Select payment request file</source>
-        <translation type="unfinished"/>
+        <translation>Vælg fil for betalingsforespørgsel</translation>
     </message>
     <message>
         <source>Select payment request file to open</source>
-        <translation type="unfinished"/>
+        <translation>Vælg fil for betalingsforespørgsel til åbning</translation>
     </message>
 </context>
 <context>
@@ -1025,35 +1025,43 @@ Adresse: %4
     </message>
     <message>
         <source>&amp;Start Dogecoin Core on system login</source>
-        <translation>Start Dogecoin, når systemet startes</translation>
+        <translation>Start Dogecoin ved systemlogin</translation>
     </message>
     <message>
         <source>Size of &amp;database cache</source>
-        <translation type="unfinished"/>
+        <translation>Størrelsen på databasens cache</translation>
     </message>
     <message>
         <source>MB</source>
-        <translation type="unfinished"/>
+        <translation>MB</translation>
     </message>
     <message>
         <source>Number of script &amp;verification threads</source>
-        <translation type="unfinished"/>
+        <translation>Antallet af scriptverificeringstråde</translation>
     </message>
     <message>
         <source>Connect to the Dogecoin network through a SOCKS proxy.</source>
-        <translation type="unfinished"/>
+        <translation>Forbind til Dogecoin-netværket gennem en SOCKS-proxy.</translation>
     </message>
     <message>
         <source>&amp;Connect through SOCKS proxy (default proxy):</source>
-        <translation type="unfinished"/>
+        <translation>Forbind gennem SOCKS-proxy (standard-proxy):</translation>
     </message>
     <message>
         <source>IP address of the proxy (e.g. IPv4: 127.0.0.1 / IPv6: ::1)</source>
-        <translation type="unfinished"/>
+        <translation>IP-adresse for proxyen (fx IPv4: 127.0.0.1 / IPv6: ::1)</translation>
+    </message>
+    <message>
+        <source>Third party URLs (e.g. a block explorer) that appear in the transactions tab as context menu items. %s in the URL is replaced by transaction hash. Multiple URLs are separated by vertical bar |.</source>
+        <translation>Tredjeparts-URL&apos;er (fx et blokhåndteringsværktøj), der vises i transaktionsfanen som genvejsmenupunkter. %s i URL&apos;en erstattes med transaktionens hash. Flere URL&apos;er separeres med en lodret streg |.</translation>
+    </message>
+    <message>
+        <source>Third party transaction URLs</source>
+        <translation>Tredjeparts-transaktions-URL&apos;er</translation>
     </message>
     <message>
         <source>Active command-line options that override above options:</source>
-        <translation type="unfinished"/>
+        <translation>Aktuelle tilvalg for kommandolinjen, der tilsidesætter ovenstående tilvalg:</translation>
     </message>
     <message>
         <source>Reset all client options to default.</source>
@@ -1069,35 +1077,35 @@ Adresse: %4
     </message>
     <message>
         <source>(0 = auto, &lt;0 = leave that many cores free)</source>
-        <translation type="unfinished"/>
+        <translation>(0 = auto, &lt;0 = efterlad så mange kerner fri)</translation>
     </message>
     <message>
         <source>W&amp;allet</source>
-        <translation type="unfinished"/>
+        <translation>Tegnebog</translation>
     </message>
     <message>
         <source>Expert</source>
-        <translation type="unfinished"/>
+        <translation>Ekspert</translation>
     </message>
     <message>
         <source>Enable coin &amp;control features</source>
-        <translation type="unfinished"/>
+        <translation>Slå egenskaber for coin-styring til</translation>
     </message>
     <message>
         <source>If you disable the spending of unconfirmed change, the change from a transaction cannot be used until that transaction has at least one confirmation. This also affects how your balance is computed.</source>
-        <translation type="unfinished"/>
+        <translation>Hvis du slår brug af ubekræftede byttepenge fra, kan byttepengene fra en transaktion ikke bruges, før pågældende transaktion har mindst én bekræftelse. Dette påvirker også måden hvorpå din saldo beregnes.</translation>
     </message>
     <message>
         <source>&amp;Spend unconfirmed change</source>
-        <translation type="unfinished"/>
+        <translation>Brug ubekræftede byttepenge</translation>
     </message>
     <message>
         <source>Automatically open the Dogecoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Åbn Dogecoin-klientens port på routeren automatisk. Dette virker kun, når din router understøtter UPnP og UPnP er aktiveret.</translation>
+        <translation>Åbn automatisk Dogecoin-klientens port på routeren. Dette virker kun, når din router understøtter UPnP, og UPnP er aktiveret.</translation>
     </message>
     <message>
         <source>Map port using &amp;UPnP</source>
-        <translation>Konfigurer port vha. UPnP</translation>
+        <translation>Konfigurér port vha. UPnP</translation>
     </message>
     <message>
         <source>Proxy &amp;IP:</source>
@@ -1109,7 +1117,7 @@ Adresse: %4
     </message>
     <message>
         <source>Port of the proxy (e.g. 9050)</source>
-        <translation>Porten på proxyen (f.eks. 9050)</translation>
+        <translation>Port for proxyen (fx 9050)</translation>
     </message>
     <message>
         <source>SOCKS &amp;Version:</source>
@@ -1117,7 +1125,7 @@ Adresse: %4
     </message>
     <message>
         <source>SOCKS version of the proxy (e.g. 5)</source>
-        <translation>SOCKS-version af proxyen (f.eks. 5)</translation>
+        <translation>SOCKS-version for proxyen (fx 5)</translation>
     </message>
     <message>
         <source>&amp;Window</source>
@@ -1129,15 +1137,15 @@ Adresse: %4
     </message>
     <message>
         <source>&amp;Minimize to the tray instead of the taskbar</source>
-        <translation>Minimer til statusfeltet i stedet for proceslinjen</translation>
+        <translation>Minimér til statusfeltet i stedet for proceslinjen</translation>
     </message>
     <message>
         <source>Minimize instead of exit the application when the window is closed. When this option is enabled, the application will be closed only after selecting Quit in the menu.</source>
-        <translation>Minimer i stedet for at afslutte programmet, når vinduet lukkes. Når denne indstilling er valgt, vil programmet kun blive lukket, når du har valgt Afslut i menuen.</translation>
+        <translation>Minimér i stedet for at afslutte programmet, når vinduet lukkes. Når denne indstilling er valgt, vil programmet kun blive lukket, når du har valgt Afslut i menuen.</translation>
     </message>
     <message>
         <source>M&amp;inimize on close</source>
-        <translation>Minimer ved lukning</translation>
+        <translation>Minimér ved lukning</translation>
     </message>
     <message>
         <source>&amp;Display</source>
@@ -1145,11 +1153,11 @@ Adresse: %4
     </message>
     <message>
         <source>User Interface &amp;language:</source>
-        <translation>Brugergrænsefladesprog:</translation>
+        <translation>Sprog for brugergrænseflade:</translation>
     </message>
     <message>
         <source>The user interface language can be set here. This setting will take effect after restarting Dogecoin Core.</source>
-        <translation>Brugergrænsefladesproget kan angives her. Denne indstilling træder først i kraft, når Dogecoin genstartes.</translation>
+        <translation>Sproget for brugergrænsefladen kan angives her. Denne indstilling træder først i kraft, når Dogecoin genstartes.</translation>
     </message>
     <message>
         <source>&amp;Unit to show amounts in:</source>
@@ -1157,7 +1165,7 @@ Adresse: %4
     </message>
     <message>
         <source>Choose the default subdivision unit to show in the interface and when sending coins.</source>
-        <translation>Vælg den standard underopdelingsenhed, som skal vises i brugergrænsefladen og ved afsendelse af dogecoins.</translation>
+        <translation>Vælg standard for underopdeling af enhed, som skal vises i brugergrænsefladen og ved afsendelse af dogecoins.</translation>
     </message>
     <message>
         <source>Whether to show Dogecoin addresses in the transaction list or not.</source>
@@ -1169,7 +1177,7 @@ Adresse: %4
     </message>
     <message>
         <source>Whether to show coin control features or not.</source>
-        <translation type="unfinished"/>
+        <translation>Hvorvidt egenskaber for coin-styring skal vises eller ej.</translation>
     </message>
     <message>
         <source>&amp;OK</source>
@@ -1177,7 +1185,7 @@ Adresse: %4
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation>Annuller</translation>
+        <translation>Annullér</translation>
     </message>
     <message>
         <source>default</source>
@@ -1185,7 +1193,7 @@ Adresse: %4
     </message>
     <message>
         <source>none</source>
-        <translation type="unfinished"/>
+        <translation>ingeningen</translation>
     </message>
     <message>
         <source>Confirm options reset</source>
@@ -1193,19 +1201,19 @@ Adresse: %4
     </message>
     <message>
         <source>Client restart required to activate changes.</source>
-        <translation type="unfinished"/>
+        <translation>Genstart af klienten er nødvendig for at aktivere ændringer.</translation>
     </message>
     <message>
         <source>Client will be shutdown, do you want to proceed?</source>
-        <translation type="unfinished"/>
+        <translation>Klienten vil blive lukket ned; vil du fortsætte?</translation>
     </message>
     <message>
         <source>This change would require a client restart.</source>
-        <translation type="unfinished"/>
+        <translation>Denne ændring vil kræve en genstart af klienten.</translation>
     </message>
     <message>
         <source>The supplied proxy address is invalid.</source>
-        <translation>Ugyldig proxy-adresse</translation>
+        <translation>Den angivne proxy-adresse er ugyldig.</translation>
     </message>
 </context>
 <context>
@@ -1224,7 +1232,7 @@ Adresse: %4
     </message>
     <message>
         <source>Available:</source>
-        <translation type="unfinished"/>
+        <translation>Tilgængelig:</translation>
     </message>
     <message>
         <source>Your current spendable balance</source>
@@ -1232,11 +1240,11 @@ Adresse: %4
     </message>
     <message>
         <source>Pending:</source>
-        <translation type="unfinished"/>
+        <translation>Uafgjort:</translation>
     </message>
     <message>
         <source>Total of transactions that have yet to be confirmed, and do not yet count toward the spendable balance</source>
-        <translation>Total transaktioner, som ikke er blevet bekræftet endnu, og som ikke endnu er en del af den nuværende saldo</translation>
+        <translation>Total saldo for transaktioner, som ikke er blevet bekræftet endnu, og som ikke endnu er en del af den tilgængelige saldo</translation>
     </message>
     <message>
         <source>Immature:</source>
@@ -1275,11 +1283,11 @@ Adresse: %4
     </message>
     <message>
         <source>Requested payment amount of %1 is too small (considered dust).</source>
-        <translation type="unfinished"/>
+        <translation>Forespurgt betalingsbeløb på %1 er for lille (regnes som støv).</translation>
     </message>
     <message>
         <source>Payment request error</source>
-        <translation>Fejl i betalingsforespørgelse</translation>
+        <translation>Fejl i betalingsforespørgsel</translation>
     </message>
     <message>
         <source>Cannot start dogecoin: click-to-pay handler</source>
@@ -1287,27 +1295,27 @@ Adresse: %4
     </message>
     <message>
         <source>Net manager warning</source>
-        <translation type="unfinished"/>
+        <translation>Net-håndterings-advarsel</translation>
     </message>
     <message>
         <source>Your active proxy doesn&apos;t support SOCKS5, which is required for payment requests via proxy.</source>
-        <translation type="unfinished"/>
+        <translation>Din aktuelle proxy understøtter ikke SOCKS5, hvilket kræves for betalingsforespørgsler via proxy.</translation>
     </message>
     <message>
         <source>Payment request fetch URL is invalid: %1</source>
-        <translation type="unfinished"/>
+        <translation>Betalingsforespørgslens hentnings-URL er ugyldig: %1</translation>
     </message>
     <message>
         <source>Payment request file handling</source>
-        <translation type="unfinished"/>
+        <translation>Filhåndtering for betalingsanmodninger</translation>
     </message>
     <message>
         <source>Payment request file can not be read or processed! This can be caused by an invalid payment request file.</source>
-        <translation type="unfinished"/>
+        <translation>Betalingsanmodningsfil kan ikke indlæses eller bearbejdes! Dette kan skyldes en ugyldig betalingsanmodningsfil.</translation>
     </message>
     <message>
         <source>Unverified payment requests to custom payment scripts are unsupported.</source>
-        <translation type="unfinished"/>
+        <translation>Ikke-verificerede betalingsforespørgsler for tilpassede betalings-scripts understøttes ikke.</translation>
     </message>
     <message>
         <source>Refund from %1</source>
@@ -1315,23 +1323,23 @@ Adresse: %4
     </message>
     <message>
         <source>Error communicating with %1: %2</source>
-        <translation type="unfinished"/>
+        <translation>Fejl under kommunikation med %1: %2</translation>
     </message>
     <message>
         <source>Payment request can not be parsed or processed!</source>
-        <translation type="unfinished"/>
+        <translation>Betalingsanmodning kan ikke fortolkes eller bearbejdes!</translation>
     </message>
     <message>
         <source>Bad response from server %1</source>
-        <translation type="unfinished"/>
+        <translation>Fejlagtigt svar fra server %1</translation>
     </message>
     <message>
         <source>Payment acknowledged</source>
-        <translation type="unfinished"/>
+        <translation>Betaling anerkendt</translation>
     </message>
     <message>
         <source>Network request error</source>
-        <translation type="unfinished"/>
+        <translation>Fejl i netværksforespørgsel</translation>
     </message>
 </context>
 <context>
@@ -1342,34 +1350,34 @@ Adresse: %4
     </message>
     <message>
         <source>Error: Specified data directory &quot;%1&quot; does not exist.</source>
-        <translation type="unfinished"/>
+        <translation>Fejl: Angivet datamappe &quot;%1&quot; eksisterer ikke.</translation>
     </message>
     <message>
         <source>Error: Cannot parse configuration file: %1. Only use key=value syntax.</source>
-        <translation type="unfinished"/>
+        <translation>Fejl: Kan ikke fortolke konfigurationsfil: %1. Brug kun syntaksen nøgle=værdi.</translation>
     </message>
     <message>
         <source>Error: Invalid combination of -regtest and -testnet.</source>
-        <translation type="unfinished"/>
+        <translation>Fejl: Ugyldig kombination af -regtest og -testnet.</translation>
     </message>
     <message>
         <source>Dogecoin Core did&apos;t yet exit safely...</source>
-        <translation type="unfinished"/>
+        <translation>Dogecoin Core blev ikke afsluttet på sikker vis …</translation>
     </message>
     <message>
         <source>Enter a Dogecoin address (e.g. %1)</source>
-        <translation>Indtast en Dogecoin-adresse (f.eks. %1)</translation>
+        <translation>Indtast en Dogecoin-adresse (fx 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
     </message>
 </context>
 <context>
     <name>QRImageWidget</name>
     <message>
         <source>&amp;Save Image...</source>
-        <translation>&amp;Gem foto...</translation>
+        <translation>Gem billede …</translation>
     </message>
     <message>
         <source>&amp;Copy Image</source>
-        <translation>&amp;Kopiér foto</translation>
+        <translation>Kopiér foto</translation>
     </message>
     <message>
         <source>Save QR Code</source>
@@ -1377,7 +1385,7 @@ Adresse: %4
     </message>
     <message>
         <source>PNG Image (*.png)</source>
-        <translation type="unfinished"/>
+        <translation>PNG-billede (*.png)</translation>
     </message>
 </context>
 <context>
@@ -1400,11 +1408,11 @@ Adresse: %4
     </message>
     <message>
         <source>Debug window</source>
-        <translation type="unfinished"/>
+        <translation>Fejlsøgningsvindue</translation>
     </message>
     <message>
         <source>General</source>
-        <translation type="unfinished"/>
+        <translation>Generelt</translation>
     </message>
     <message>
         <source>Using OpenSSL version</source>
@@ -1412,7 +1420,7 @@ Adresse: %4
     </message>
     <message>
         <source>Startup time</source>
-        <translation>Opstartstid</translation>
+        <translation>Opstartstidspunkt</translation>
     </message>
     <message>
         <source>Network</source>
@@ -1452,23 +1460,23 @@ Adresse: %4
     </message>
     <message>
         <source>&amp;Network Traffic</source>
-        <translation type="unfinished"/>
+        <translation>Netværkstrafik</translation>
     </message>
     <message>
         <source>&amp;Clear</source>
-        <translation type="unfinished"/>
+        <translation>Ryd</translation>
     </message>
     <message>
         <source>Totals</source>
-        <translation type="unfinished"/>
+        <translation>Totaler</translation>
     </message>
     <message>
         <source>In:</source>
-        <translation type="unfinished"/>
+        <translation>Indkommende:</translation>
     </message>
     <message>
         <source>Out:</source>
-        <translation>Ud:</translation>
+        <translation>Udgående:</translation>
     </message>
     <message>
         <source>Build date</source>
@@ -1480,7 +1488,7 @@ Adresse: %4
     </message>
     <message>
         <source>Open the Dogecoin debug log file from the current data directory. This can take a few seconds for large log files.</source>
-        <translation>Åbn Dogecoin-fejlsøgningslogfilen fra det nuværende datakatalog. Dette kan tage nogle få sekunder for en store logfiler.</translation>
+        <translation>Åbn Dogecoin-fejlsøgningslogfilen fra den nuværende datamappe. Dette kan tage nogle få sekunder for store logfiler.</translation>
     </message>
     <message>
         <source>Clear console</source>
@@ -1492,7 +1500,7 @@ Adresse: %4
     </message>
     <message>
         <source>Use up and down arrows to navigate history, and &lt;b&gt;Ctrl-L&lt;/b&gt; to clear screen.</source>
-        <translation>Brug op og ned-piletasterne til at navigere historikken og &lt;b&gt;Ctrl-L&lt;/b&gt; til at rydde skærmen.</translation>
+        <translation>Brug op- og ned-piletasterne til at navigere i historikken og &lt;b&gt;Ctrl-L&lt;/b&gt; til at rydde skærmen.</translation>
     </message>
     <message>
         <source>Type &lt;b&gt;help&lt;/b&gt; for an overview of available commands.</source>
@@ -1531,7 +1539,7 @@ Adresse: %4
     <name>ReceiveCoinsDialog</name>
     <message>
         <source>&amp;Amount:</source>
-        <translation>&amp;Mængde:</translation>
+        <translation>Beløb:</translation>
     </message>
     <message>
         <source>&amp;Label:</source>
@@ -1539,35 +1547,35 @@ Adresse: %4
     </message>
     <message>
         <source>&amp;Message:</source>
-        <translation>&amp;Besked:</translation>
+        <translation>Besked:</translation>
     </message>
     <message>
         <source>Reuse one of the previously used receiving addresses. Reusing addresses has security and privacy issues. Do not use this unless re-generating a payment request made before.</source>
-        <translation type="unfinished"/>
+        <translation>Genbrug en af de tidligere brugte modtagelsesadresser. Genbrug af adresser har indflydelse på sikkerhed og privatliv. Brug ikke dette med mindre du genskaber en betalingsforespørgsel fra tidligere.</translation>
     </message>
     <message>
         <source>R&amp;euse an existing receiving address (not recommended)</source>
-        <translation type="unfinished"/>
+        <translation>Genbrug en eksisterende modtagelsesadresse (anbefales ikke)</translation>
     </message>
     <message>
         <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Dogecoin network.</source>
-        <translation type="unfinished"/>
+        <translation>En valgfri besked, der føjes til betalingsanmodningen, og som vil vises, når anmodningen åbnes. Bemærk: Beskeden vil ikke sendes med betalingen over Dogecoin-netværket.</translation>
     </message>
     <message>
         <source>An optional label to associate with the new receiving address.</source>
-        <translation type="unfinished"/>
+        <translation>Et valgfrit mærkat, der associeres med den nye modtagelsesadresse.</translation>
     </message>
     <message>
         <source>Use this form to request payments. All fields are &lt;b&gt;optional&lt;/b&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>Brug denne formular for at anmode om betalinger. Alle felter er &lt;b&gt;valgfri&lt;/b&gt;.</translation>
     </message>
     <message>
         <source>An optional amount to request. Leave this empty or zero to not request a specific amount.</source>
-        <translation type="unfinished"/>
+        <translation>Et valgfrit beløb til anmodning. Lad dette felt være tomt eller indeholde nul for at anmode om et ikke-specifikt beløb.</translation>
     </message>
     <message>
         <source>Clear all fields of the form.</source>
-        <translation>Ryd alle fælter af formen.</translation>
+        <translation>Ryd alle felter af formen.</translation>
     </message>
     <message>
         <source>Clear</source>
@@ -1575,35 +1583,35 @@ Adresse: %4
     </message>
     <message>
         <source>Requested payments history</source>
-        <translation type="unfinished"/>
+        <translation>Historik over betalingsanmodninger</translation>
     </message>
     <message>
         <source>&amp;Request payment</source>
-        <translation>&amp;Anmod betaling</translation>
+        <translation>Anmod om betaling</translation>
     </message>
     <message>
         <source>Show the selected request (does the same as double clicking an entry)</source>
-        <translation type="unfinished"/>
+        <translation>Vis den valgte forespørgsel (gør det samme som dobbeltklik på en indgang)</translation>
     </message>
     <message>
         <source>Show</source>
-        <translation type="unfinished"/>
+        <translation>Vis</translation>
     </message>
     <message>
         <source>Remove the selected entries from the list</source>
-        <translation type="unfinished"/>
+        <translation>Fjern de valgte indgange fra listen</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished"/>
+        <translation>Fjern</translation>
     </message>
     <message>
         <source>Copy label</source>
-        <translation>Kopier mærkat</translation>
+        <translation>Kopiér mærkat</translation>
     </message>
     <message>
         <source>Copy message</source>
-        <translation type="unfinished"/>
+        <translation>Kopiér besked</translation>
     </message>
     <message>
         <source>Copy amount</source>
@@ -1614,23 +1622,23 @@ Adresse: %4
     <name>ReceiveRequestDialog</name>
     <message>
         <source>QR Code</source>
-        <translation>QR Kode</translation>
+        <translation>QR-kode</translation>
     </message>
     <message>
         <source>Copy &amp;URI</source>
-        <translation>Kopiér &amp;URL</translation>
+        <translation>Kopiér URI</translation>
     </message>
     <message>
         <source>Copy &amp;Address</source>
-        <translation>Kopiér &amp;Adresse</translation>
+        <translation>Kopiér adresse</translation>
     </message>
     <message>
         <source>&amp;Save Image...</source>
-        <translation>&amp;Gem foto...</translation>
+        <translation>Gem billede …</translation>
     </message>
     <message>
         <source>Request payment to %1</source>
-        <translation type="unfinished"/>
+        <translation>Anmod om betaling til %1</translation>
     </message>
     <message>
         <source>Payment information</source>
@@ -1662,7 +1670,7 @@ Adresse: %4
     </message>
     <message>
         <source>Error encoding URI into QR Code.</source>
-        <translation>Fejl ved kodning fra URI til QR-kode</translation>
+        <translation>Fejl ved kodning fra URI til QR-kode.</translation>
     </message>
 </context>
 <context>
@@ -1689,11 +1697,11 @@ Adresse: %4
     </message>
     <message>
         <source>(no message)</source>
-        <translation type="unfinished"/>
+        <translation>(ingen besked)</translation>
     </message>
     <message>
         <source>(no amount)</source>
-        <translation type="unfinished"/>
+        <translation>(intet beløb)</translation>
     </message>
 </context>
 <context>
@@ -1704,27 +1712,27 @@ Adresse: %4
     </message>
     <message>
         <source>Coin Control Features</source>
-        <translation type="unfinished"/>
+        <translation>Egenskaber for coin-styring</translation>
     </message>
     <message>
         <source>Inputs...</source>
-        <translation type="unfinished"/>
+        <translation>Inputs …</translation>
     </message>
     <message>
         <source>automatically selected</source>
-        <translation type="unfinished"/>
+        <translation>valgt automatisk</translation>
     </message>
     <message>
         <source>Insufficient funds!</source>
-        <translation type="unfinished"/>
+        <translation>Utilstrækkelige midler!</translation>
     </message>
     <message>
         <source>Quantity:</source>
-        <translation type="unfinished"/>
+        <translation>Mængde:</translation>
     </message>
     <message>
         <source>Bytes:</source>
-        <translation type="unfinished"/>
+        <translation>Byte:</translation>
     </message>
     <message>
         <source>Amount:</source>
@@ -1732,31 +1740,31 @@ Adresse: %4
     </message>
     <message>
         <source>Priority:</source>
-        <translation type="unfinished"/>
+        <translation>Prioritet:</translation>
     </message>
     <message>
         <source>Fee:</source>
-        <translation type="unfinished"/>
+        <translation>Gebyr:</translation>
     </message>
     <message>
         <source>Low Output:</source>
-        <translation type="unfinished"/>
+        <translation>Lavt output:</translation>
     </message>
     <message>
         <source>After Fee:</source>
-        <translation type="unfinished"/>
+        <translation>Efter gebyr:</translation>
     </message>
     <message>
         <source>Change:</source>
-        <translation type="unfinished"/>
+        <translation>Byttepenge:</translation>
     </message>
     <message>
         <source>If this is activated, but the change address is empty or invalid, change will be sent to a newly generated address.</source>
-        <translation type="unfinished"/>
+        <translation>Hvis dette aktiveres, men byttepengeadressen er tom eller ugyldig, vil byttepenge blive sendt til en nygenereret adresse.</translation>
     </message>
     <message>
         <source>Custom change address</source>
-        <translation type="unfinished"/>
+        <translation>Tilpasset byttepengeadresse</translation>
     </message>
     <message>
         <source>Send to multiple recipients at once</source>
@@ -1768,7 +1776,7 @@ Adresse: %4
     </message>
     <message>
         <source>Clear all fields of the form.</source>
-        <translation>Ryd alle fælter af formen.</translation>
+        <translation>Ryd alle felter af formen.</translation>
     </message>
     <message>
         <source>Clear &amp;All</source>
@@ -1792,11 +1800,11 @@ Adresse: %4
     </message>
     <message>
         <source>%1 to %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 til %2</translation>
     </message>
     <message>
         <source>Copy quantity</source>
-        <translation type="unfinished"/>
+        <translation>Kopiér mængde</translation>
     </message>
     <message>
         <source>Copy amount</source>
@@ -1804,35 +1812,35 @@ Adresse: %4
     </message>
     <message>
         <source>Copy fee</source>
-        <translation type="unfinished"/>
+        <translation>Kopiér gebyr</translation>
     </message>
     <message>
         <source>Copy after fee</source>
-        <translation type="unfinished"/>
+        <translation>Kopiér efter-gebyr</translation>
     </message>
     <message>
         <source>Copy bytes</source>
-        <translation type="unfinished"/>
+        <translation>Kopiér byte</translation>
     </message>
     <message>
         <source>Copy priority</source>
-        <translation type="unfinished"/>
+        <translation>Kopiér prioritet</translation>
     </message>
     <message>
         <source>Copy low output</source>
-        <translation type="unfinished"/>
+        <translation>Kopiér lavt output</translation>
     </message>
     <message>
         <source>Copy change</source>
-        <translation type="unfinished"/>
+        <translation>Kopiér byttepenge</translation>
     </message>
     <message>
         <source>Total Amount %1 (= %2)</source>
-        <translation type="unfinished"/>
+        <translation>Totalbeløb %1 (= %2)</translation>
     </message>
     <message>
         <source>or</source>
-        <translation type="unfinished"/>
+        <translation>eller</translation>
     </message>
     <message>
         <source>The recipient address is not valid, please recheck.</source>
@@ -1848,23 +1856,23 @@ Adresse: %4
     </message>
     <message>
         <source>The total exceeds your balance when the %1 transaction fee is included.</source>
-        <translation>Totalen overstiger din saldo, når %1 transaktionsgebyr er inkluderet.</translation>
+        <translation>Totalen overstiger din saldo, når transaktionsgebyret på %1 er inkluderet.</translation>
     </message>
     <message>
         <source>Duplicate address found, can only send to each address once per send operation.</source>
-        <translation>Duplikeret adresse fundet. Du kan kun sende til hver adresse en gang pr. afsendelse.</translation>
+        <translation>Duplikeret adresse fundet. Du kan kun sende til hver adresse én gang pr. afsendelse.</translation>
     </message>
     <message>
         <source>Transaction creation failed!</source>
-        <translation type="unfinished"/>
+        <translation>Oprettelse af transaktion mislykkedes!</translation>
     </message>
     <message>
         <source>The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
-        <translation type="unfinished"/>
+        <translation>Transaktionen blev afvist! Dette kan ske, hvis nogle af dine dogecoins i din tegnebog allerede er brugt, som hvis du brugte en kopi af wallet.dat og dine dogecoins er blevet brugt i kopien, men ikke er markeret som brugt her.</translation>
     </message>
     <message>
         <source>Warning: Invalid Dogecoin address</source>
-        <translation type="unfinished"/>
+        <translation>Advarsel: Ugyldig Dogecoin-adresse</translation>
     </message>
     <message>
         <source>(no label)</source>
@@ -1872,11 +1880,11 @@ Adresse: %4
     </message>
     <message>
         <source>Warning: Unknown change address</source>
-        <translation type="unfinished"/>
+        <translation>Advarsel: Ukendt byttepengeadresse</translation>
     </message>
     <message>
         <source>Are you sure you want to send?</source>
-        <translation>Er du sikker på at du vil sende?</translation>
+        <translation>Er du sikker på, at du vil sende?</translation>
     </message>
     <message>
         <source>added as transaction fee</source>
@@ -1884,11 +1892,11 @@ Adresse: %4
     </message>
     <message>
         <source>Payment request expired</source>
-        <translation>Betalingsforespørgsel udløb</translation>
+        <translation>Betalingsforespørgsel udløbet</translation>
     </message>
     <message>
         <source>Invalid payment address %1</source>
-        <translation type="unfinished"/>
+        <translation>Ugyldig betalingsadresse %1</translation>
     </message>
 </context>
 <context>
@@ -1902,6 +1910,10 @@ Adresse: %4
         <translation>Betal til:</translation>
     </message>
     <message>
+        <source>The address to send the payment to (e.g. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</source>
+        <translation>Dogecoin-adressen som betalingen skal sendes til (fx 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
+    </message>
+    <message>
         <source>Enter a label for this address to add it to your address book</source>
         <translation>Indtast en mærkat for denne adresse for at føje den til din adressebog</translation>
     </message>
@@ -1911,11 +1923,11 @@ Adresse: %4
     </message>
     <message>
         <source>Choose previously used address</source>
-        <translation type="unfinished"/>
+        <translation>Vælg tidligere brugt adresse</translation>
     </message>
     <message>
         <source>This is a normal payment.</source>
-        <translation type="unfinished"/>
+        <translation>Dette er en normal betaling.</translation>
     </message>
     <message>
         <source>Alt+A</source>
@@ -1931,7 +1943,7 @@ Adresse: %4
     </message>
     <message>
         <source>Remove this entry</source>
-        <translation type="unfinished"/>
+        <translation>Fjern denne indgang</translation>
     </message>
     <message>
         <source>Message:</source>
@@ -1939,38 +1951,38 @@ Adresse: %4
     </message>
     <message>
         <source>This is a verified payment request.</source>
-        <translation type="unfinished"/>
+        <translation>Dette er en verificeret betalingsforespørgsel.</translation>
     </message>
     <message>
         <source>Enter a label for this address to add it to the list of used addresses</source>
-        <translation type="unfinished"/>
+        <translation>Indtast et mærkat for denne adresse for at føje den til listen over brugte adresser</translation>
     </message>
     <message>
         <source>A message that was attached to the dogecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
-        <translation type="unfinished"/>
+        <translation>En besked, som blev føjet til &quot;bitcon:&quot;-URI&apos;en, som vil gemmes med transaktionen til din reference. Bemærk: Denne besked vil ikke blive sendt over Dogecoin-netværket.</translation>
     </message>
     <message>
         <source>This is an unverified payment request.</source>
-        <translation type="unfinished"/>
+        <translation>Dette er en ikke-verificeret betalingsforespørgsel.</translation>
     </message>
     <message>
         <source>Pay To:</source>
-        <translation type="unfinished"/>
+        <translation>Betal til:</translation>
     </message>
     <message>
         <source>Memo:</source>
-        <translation type="unfinished"/>
+        <translation>Memo:</translation>
     </message>
 </context>
 <context>
     <name>ShutdownWindow</name>
     <message>
         <source>Dogecoin Core is shutting down...</source>
-        <translation type="unfinished"/>
+        <translation>Dogecoin Core lukker ned …</translation>
     </message>
     <message>
         <source>Do not shut down the computer until this window disappears.</source>
-        <translation type="unfinished"/>
+        <translation>Luk ikke computeren ned, før dette vindue forsvinder.</translation>
     </message>
 </context>
 <context>
@@ -1988,8 +2000,12 @@ Adresse: %4
         <translation>Du kan underskrive beskeder med dine Dogecoin-adresser for at bevise, at de tilhører dig. Pas på ikke at underskrive noget vagt, da phisingangreb kan narre dig til at overdrage din identitet. Underskriv kun fuldt detaljerede udsagn, du er enig i.</translation>
     </message>
     <message>
+        <source>The address to sign the message with (e.g. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</source>
+        <translation>Dogecoin-adressen som beskeden skal underskrives med (fx 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
+    </message>
+    <message>
         <source>Choose previously used address</source>
-        <translation type="unfinished"/>
+        <translation>Vælg tidligere brugt adresse</translation>
     </message>
     <message>
         <source>Alt+A</source>
@@ -2005,7 +2021,7 @@ Adresse: %4
     </message>
     <message>
         <source>Enter the message you want to sign here</source>
-        <translation>Indtast beskeden, du ønsker at underskrive</translation>
+        <translation>Indtast her beskeden, du ønsker at underskrive</translation>
     </message>
     <message>
         <source>Signature</source>
@@ -2013,7 +2029,7 @@ Adresse: %4
     </message>
     <message>
         <source>Copy the current signature to the system clipboard</source>
-        <translation>Kopier den nuværende underskrift til systemets udklipsholder</translation>
+        <translation>Kopiér den nuværende underskrift til systemets udklipsholder</translation>
     </message>
     <message>
         <source>Sign the message to prove you own this Dogecoin address</source>
@@ -2037,7 +2053,11 @@ Adresse: %4
     </message>
     <message>
         <source>Enter the signing address, message (ensure you copy line breaks, spaces, tabs, etc. exactly) and signature below to verify the message. Be careful not to read more into the signature than what is in the signed message itself, to avoid being tricked by a man-in-the-middle attack.</source>
-        <translation>Indtast den underskrevne adresse, beskeden (inkluder linjeskift, mellemrum mv. nøjagtigt, som de fremgår) og underskriften for at verificére beskeden. Vær forsigtig med ikke at lægge mere i underskriften end besked selv, så du undgår at blive narret af et man-in-the-middle-angreb.</translation>
+        <translation>Indtast herunder den underskrivende adresse, beskeden (inkludér linjeskift, mellemrum mv. nøjagtigt, som de fremgår) og underskriften for at verificere beskeden. Vær forsigtig med ikke at lægge mere i underskriften end besked selv, så du undgår at blive narret af et man-in-the-middle-angreb.</translation>
+    </message>
+    <message>
+        <source>Verify the message to ensure it was signed with the specified Dogecoin address</source>
+        <translation>Dogecoin-adressen som beskeden er underskrevet med (fx 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
     </message>
     <message>
         <source>Verify the message to ensure it was signed with the specified Dogecoin address</source>
@@ -2053,7 +2073,7 @@ Adresse: %4
     </message>
     <message>
         <source>Enter a Dogecoin address (e.g. %1)</source>
-        <translation>Indtast en Dogecoin-adresse (f.eks. %1)</translation>
+        <translation>Indtast en Dogecoin-adresse (fx 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
     </message>
     <message>
         <source>Click &quot;Sign Message&quot; to generate signature</source>
@@ -2065,7 +2085,7 @@ Adresse: %4
     </message>
     <message>
         <source>Please check the address and try again.</source>
-        <translation>Tjek venligst adressen, og forsøg igen.</translation>
+        <translation>Tjek venligst adressen og forsøg igen.</translation>
     </message>
     <message>
         <source>The entered address does not refer to a key.</source>
@@ -2101,11 +2121,11 @@ Adresse: %4
     </message>
     <message>
         <source>Message verification failed.</source>
-        <translation>Verificéring af besked mislykkedes.</translation>
+        <translation>Verificering af besked mislykkedes.</translation>
     </message>
     <message>
         <source>Message verified.</source>
-        <translation>Besked verificéret.</translation>
+        <translation>Besked verificeret.</translation>
     </message>
 </context>
 <context>
@@ -2116,11 +2136,11 @@ Adresse: %4
     </message>
     <message>
         <source>The Dogecoin Core developers</source>
-        <translation type="unfinished"/>
+        <translation>Udviklerne af Dogecoin Core</translation>
     </message>
     <message>
         <source>[testnet]</source>
-        <translation>[testnet]</translation>
+        <translation>[testnetværk]</translation>
     </message>
 </context>
 <context>
@@ -2138,7 +2158,7 @@ Adresse: %4
     </message>
     <message>
         <source>conflicted</source>
-        <translation type="unfinished"/>
+        <translation>konflikt</translation>
     </message>
     <message>
         <source>%1/offline</source>
@@ -2158,7 +2178,7 @@ Adresse: %4
     </message>
     <message numerus="yes">
         <source>, broadcast through %n node(s)</source>
-        <translation><numerusform>, transmitteret igennem %n knude(r)</numerusform><numerusform>, transmitteret igennem %n knude(r)</numerusform></translation>
+        <translation><numerusform>, transmitteret igennem %n knude</numerusform><numerusform>, transmitteret igennem %n knuder</numerusform></translation>
     </message>
     <message>
         <source>Date</source>
@@ -2194,7 +2214,7 @@ Adresse: %4
     </message>
     <message numerus="yes">
         <source>matures in %n more block(s)</source>
-        <translation><numerusform>modner efter yderligere %n blok(ke)</numerusform><numerusform>modner efter yderligere %n blok(ke)</numerusform></translation>
+        <translation><numerusform>modner efter yderligere %n blok</numerusform><numerusform>modner efter yderligere %n blokke</numerusform></translation>
     </message>
     <message>
         <source>not accepted</source>
@@ -2222,15 +2242,15 @@ Adresse: %4
     </message>
     <message>
         <source>Transaction ID</source>
-        <translation>Transaktionens ID</translation>
+        <translation>Transaktions-ID</translation>
     </message>
     <message>
         <source>Merchant</source>
-        <translation type="unfinished"/>
+        <translation>Forretningsdrivende</translation>
     </message>
     <message>
         <source>Generated coins must mature %1 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
-        <translation type="unfinished"/>
+        <translation>Udvundne dogecoins skal modne %1 blokke, før de kan bruges. Da du genererede denne blok, blev den udsendt til netværket for at blive føjet til blokkæden. Hvis det ikke lykkes at få den i kæden, vil dens tilstand ændres til &quot;ikke accepteret&quot;, og den vil ikke kunne bruges. Dette kan ske nu og da, hvis en anden knude udvinder en blok inden for nogle få sekunder fra din.</translation>
     </message>
     <message>
         <source>Debug information</source>
@@ -2300,7 +2320,7 @@ Adresse: %4
     </message>
     <message>
         <source>Immature (%1 confirmations, will be available after %2)</source>
-        <translation type="unfinished"/>
+        <translation>Umoden (%1 bekræftelser; vil være tilgængelig efter %2)</translation>
     </message>
     <message numerus="yes">
         <source>Open for %n more block(s)</source>
@@ -2324,19 +2344,19 @@ Adresse: %4
     </message>
     <message>
         <source>Offline</source>
-        <translation type="unfinished"/>
+        <translation>Offline</translation>
     </message>
     <message>
         <source>Unconfirmed</source>
-        <translation type="unfinished"/>
+        <translation>Ubekræftet</translation>
     </message>
     <message>
         <source>Confirming (%1 of %2 recommended confirmations)</source>
-        <translation type="unfinished"/>
+        <translation>Bekræfter (%1 af %2 anbefalede bekræftelser)</translation>
     </message>
     <message>
         <source>Conflicted</source>
-        <translation type="unfinished"/>
+        <translation>Konflikt</translation>
     </message>
     <message>
         <source>Received with</source>
@@ -2380,7 +2400,7 @@ Adresse: %4
     </message>
     <message>
         <source>Amount removed from or added to balance.</source>
-        <translation>Beløb fjernet eller tilføjet balance.</translation>
+        <translation>Beløb trukket fra eller tilføjet balance.</translation>
     </message>
 </context>
 <context>
@@ -2411,7 +2431,7 @@ Adresse: %4
     </message>
     <message>
         <source>Range...</source>
-        <translation>Interval...</translation>
+        <translation>Interval …</translation>
     </message>
     <message>
         <source>Received with</source>
@@ -2443,23 +2463,23 @@ Adresse: %4
     </message>
     <message>
         <source>Copy address</source>
-        <translation>Kopier adresse</translation>
+        <translation>Kopiér adresse</translation>
     </message>
     <message>
         <source>Copy label</source>
-        <translation>Kopier mærkat</translation>
+        <translation>Kopiér mærkat</translation>
     </message>
     <message>
         <source>Copy amount</source>
-        <translation>Kopier beløb</translation>
+        <translation>Kopiér beløb</translation>
     </message>
     <message>
         <source>Copy transaction ID</source>
-        <translation>Kopier transaktionens ID</translation>
+        <translation>Kopiér transaktions-ID</translation>
     </message>
     <message>
         <source>Edit label</source>
-        <translation>Rediger mærkat</translation>
+        <translation>Redigér mærkat</translation>
     </message>
     <message>
         <source>Show transaction details</source>
@@ -2467,23 +2487,23 @@ Adresse: %4
     </message>
     <message>
         <source>Export Transaction History</source>
-        <translation type="unfinished"/>
+        <translation>Historik for eksport af transaktioner</translation>
     </message>
     <message>
         <source>Exporting Failed</source>
-        <translation type="unfinished"/>
+        <translation>Eksport mislykkedes</translation>
     </message>
     <message>
         <source>There was an error trying to save the transaction history to %1.</source>
-        <translation type="unfinished"/>
+        <translation>En fejl opstod under gemning af transaktionshistorik til %1.</translation>
     </message>
     <message>
         <source>Exporting Successful</source>
-        <translation type="unfinished"/>
+        <translation>Eksport problemfri</translation>
     </message>
     <message>
         <source>The transaction history was successfully saved to %1.</source>
-        <translation type="unfinished"/>
+        <translation>Transaktionshistorikken blev gemt til %1 med succes.</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
@@ -2530,7 +2550,7 @@ Adresse: %4
     <name>WalletFrame</name>
     <message>
         <source>No wallet has been loaded.</source>
-        <translation type="unfinished"/>
+        <translation>Ingen tegnebog er indlæst.</translation>
     </message>
 </context>
 <context>
@@ -2544,7 +2564,7 @@ Adresse: %4
     <name>WalletView</name>
     <message>
         <source>&amp;Export</source>
-        <translation>Eksporter</translation>
+        <translation>Eksportér</translation>
     </message>
     <message>
         <source>Export the data in the current tab to a file</source>
@@ -2552,7 +2572,7 @@ Adresse: %4
     </message>
     <message>
         <source>Backup Wallet</source>
-        <translation>Sikkerhedskopier tegnebog</translation>
+        <translation>Sikkerhedskopiér tegnebog</translation>
     </message>
     <message>
         <source>Wallet Data (*.dat)</source>
@@ -2560,19 +2580,19 @@ Adresse: %4
     </message>
     <message>
         <source>Backup Failed</source>
-        <translation>Foretagelse af sikkerhedskopi fejlede</translation>
+        <translation>Sikkerhedskopiering mislykkedes</translation>
     </message>
     <message>
         <source>There was an error trying to save the wallet data to %1.</source>
-        <translation type="unfinished"/>
+        <translation>Der skete en fejl under gemning af tegnebogsdata til %1.</translation>
     </message>
     <message>
         <source>The wallet data was successfully saved to %1.</source>
-        <translation type="unfinished"/>
+        <translation>Tegnebogsdata blev gemt til %1 med succes.</translation>
     </message>
     <message>
         <source>Backup Successful</source>
-        <translation>Sikkerhedskopieret problemfri</translation>
+        <translation>Sikkerhedskopiering problemfri</translation>
     </message>
 </context>
 <context>
@@ -2598,12 +2618,12 @@ Adresse: %4
         <translation>Angiv konfigurationsfil (standard: dogecoin.conf)</translation>
     </message>
     <message>
-        <source>Specify pid file (default: bitcoind.pid)</source>
-        <translation>Angiv pid-fil (default: bitcoind.pid)</translation>
+        <source>Specify pid file (default: dogecoind.pid)</source>
+        <translation>Angiv pid-fil (default: dogecoind.pid)</translation>
     </message>
     <message>
         <source>Specify data directory</source>
-        <translation>Angiv datakatalog</translation>
+        <translation>Angiv datamappe</translation>
     </message>
     <message>
         <source>Listen for connections on &lt;port&gt; (default: 8333 or testnet: 18333)</source>
@@ -2615,7 +2635,7 @@ Adresse: %4
     </message>
     <message>
         <source>Connect to a node to retrieve peer addresses, and disconnect</source>
-        <translation>Forbind til en knude for at modtage adresse, og afbryd</translation>
+        <translation>Forbind til en knude for at modtage adresser på andre knuder, og afbryd derefter</translation>
     </message>
     <message>
         <source>Specify your own public address</source>
@@ -2639,15 +2659,15 @@ Adresse: %4
     </message>
     <message>
         <source>Accept command line and JSON-RPC commands</source>
-        <translation>Accepter kommandolinje- og JSON-RPC-kommandoer</translation>
+        <translation>Acceptér kommandolinje- og JSON-RPC-kommandoer</translation>
     </message>
     <message>
         <source>Dogecoin Core RPC client version</source>
-        <translation type="unfinished"/>
+        <translation>Dogecoin Core RPC-klient-version</translation>
     </message>
     <message>
         <source>Run in the background as a daemon and accept commands</source>
-        <translation>Kør i baggrunden som en service, og accepter kommandoer</translation>
+        <translation>Kør i baggrunden som en service, og acceptér kommandoer</translation>
     </message>
     <message>
         <source>Use the test network</source>
@@ -2655,13 +2675,13 @@ Adresse: %4
     </message>
     <message>
         <source>Accept connections from outside (default: 1 if no -proxy or -connect)</source>
-        <translation>Accepter forbindelser udefra (standard: 1 hvis hverken -proxy eller -connect)</translation>
+        <translation>Acceptér forbindelser udefra (standard: 1 hvis hverken -proxy eller -connect)</translation>
     </message>
     <message>
         <source>%s, you must set a rpcpassword in the configuration file:
 %s
 It is recommended you use the following random password:
-rpcuser=bitcoinrpc
+rpcuser=dogecoinrpc
 rpcpassword=%s
 (you do not need to remember this password)
 The username and password MUST NOT be the same.
@@ -2672,18 +2692,18 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
         <translation>%s, du skal angive en RPC-adgangskode i konfigurationsfilen:
 %s
 Det anbefales, at du bruger nedenstående, tilfældige adgangskode:
-rpcuser=bitcoinrpc
+rpcuser=dogecoinrpc
 rpcpassword=%s
 (du behøver ikke huske denne adgangskode)
 Brugernavnet og adgangskode MÅ IKKE være det samme.
 Hvis filen ikke eksisterer, opret den og giv ingen andre end ejeren læserettighed.
 Det anbefales også at angive alertnotify, så du påmindes om problemer;
-f.eks.: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
+fx: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
 </translation>
     </message>
     <message>
         <source>Acceptable ciphers (default: TLSv1.2+HIGH:TLSv1+HIGH:!SSLv2:!aNULL:!eNULL:!3DES:@STRENGTH)</source>
-        <translation type="unfinished"/>
+        <translation>Accepterede krypteringer (standard: TLSv1.2+HIGH:TLSv1+HIGH:!SSLv2:!aNULL:!eNULL:!3DES:@STRENGTH)</translation>
     </message>
     <message>
         <source>An error occurred while setting up the RPC port %u for listening on IPv6, falling back to IPv4: %s</source>
@@ -2695,19 +2715,19 @@ f.eks.: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <source>Continuously rate-limit free transactions to &lt;n&gt;*1000 bytes per minute (default:15)</source>
-        <translation type="unfinished"/>
+        <translation>Rate-begræns kontinuerligt frie transaktioner til &lt;n&gt;*1000 byte i minuttet (standard:15)</translation>
     </message>
     <message>
         <source>Enter regression test mode, which uses a special chain in which blocks can be solved instantly. This is intended for regression testing tools and app development.</source>
-        <translation type="unfinished"/>
+        <translation>Start regressionstesttilstand, som bruger en speciel kæde, hvor blokke kan løses med det samme. Dette er tiltænkt til testværktøjer for regression of programudvikling.</translation>
     </message>
     <message>
         <source>Enter regression test mode, which uses a special chain in which blocks can be solved instantly.</source>
-        <translation type="unfinished"/>
+        <translation>Start regressionstesttilstand, som bruger en speciel kæde, hvor blokke kan løses med det samme.</translation>
     </message>
     <message>
         <source>Error: Listening for incoming connections failed (listen returned error %d)</source>
-        <translation type="unfinished"/>
+        <translation>Fejl: Lytning efter indkommende forbindelser mislykkedes (lytning returnerede fejl %d)</translation>
     </message>
     <message>
         <source>Error: The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
@@ -2715,7 +2735,7 @@ f.eks.: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <source>Error: This transaction requires a transaction fee of at least %s because of its amount, complexity, or use of recently received funds!</source>
-        <translation>Fejl: Denne transaktion kræver et transaktionsgebyr på minimum %s pga. dens størrelse, kompleksitet eller anvendelse af nyligt modtagne dogecoins!</translation>
+        <translation>Fejl: Denne transaktion kræver et transaktionsgebyr på minimum %s pga. dens beløb, kompleksitet eller anvendelse af nyligt modtagne dogecoins!</translation>
     </message>
     <message>
         <source>Execute command when a wallet transaction changes (%s in cmd is replaced by TxID)</source>
@@ -2723,27 +2743,27 @@ f.eks.: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <source>Fees smaller than this are considered zero fee (for transaction creation) (default:</source>
-        <translation type="unfinished"/>
+        <translation>Gebyrer mindre end dette opfattes som nul-gebyr (for oprettelse af transaktioner) (standard:</translation>
     </message>
     <message>
         <source>Flush database activity from memory pool to disk log every &lt;n&gt; megabytes (default: 100)</source>
-        <translation type="unfinished"/>
+        <translation>Flyt databaseaktivitet fra hukommelsespulje til disklog hver &lt;n&gt; megabytes (standard: 100)</translation>
     </message>
     <message>
         <source>How thorough the block verification of -checkblocks is (0-4, default: 3)</source>
-        <translation type="unfinished"/>
+        <translation>Hvor gennemarbejdet blokverificeringen for -checkblocks er (0-4; standard: 3)</translation>
     </message>
     <message>
         <source>In this mode -genproclimit controls how many blocks are generated immediately.</source>
-        <translation type="unfinished"/>
+        <translation>I denne tilstand styrer -genproclimit hvor mange blokke, der genereres med det samme.</translation>
     </message>
     <message>
         <source>Set the number of script verification threads (%u to %d, 0 = auto, &lt;0 = leave that many cores free, default: %d)</source>
-        <translation type="unfinished"/>
+        <translation>Sæt antallet af scriptverificeringstråde (%u til %d, 0 = auto, &lt;0 = efterlad det antal kernet fri, standard: %d)</translation>
     </message>
     <message>
         <source>Set the processor limit for when generation is on (-1 = unlimited, default: -1)</source>
-        <translation type="unfinished"/>
+        <translation>Sæt processorbegrænsning for når generering er slået til (-1 = ubegrænset, standard: -1)</translation>
     </message>
     <message>
         <source>This is a pre-release test build - use at your own risk - do not use for mining or merchant applications</source>
@@ -2751,11 +2771,11 @@ f.eks.: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <source>Unable to bind to %s on this computer. Dogecoin Core is probably already running.</source>
-        <translation type="unfinished"/>
+        <translation>Ikke i stand til at tildele til %s på denne computer. Dogecoin Core kører sansynligvis allerede.</translation>
     </message>
     <message>
         <source>Use separate SOCKS5 proxy to reach peers via Tor hidden services (default: -proxy)</source>
-        <translation type="unfinished"/>
+        <translation>Brug separat SOCS5-proxy for at nå andre knuder via Tor skjulte tjenester (standard: -proxy)</translation>
     </message>
     <message>
         <source>Warning: -paytxfee is set very high! This is the transaction fee you will pay if you send a transaction.</source>
@@ -2767,11 +2787,11 @@ f.eks.: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <source>Warning: The network does not appear to fully agree! Some miners appear to be experiencing issues.</source>
-        <translation type="unfinished"/>
+        <translation>Advarsel: Netværket ser ikke ud til at være fuldt ud enige! Enkelte minere ser ud til at opleve problemer.</translation>
     </message>
     <message>
         <source>Warning: We do not appear to fully agree with our peers! You may need to upgrade, or other nodes may need to upgrade.</source>
-        <translation type="unfinished"/>
+        <translation>Advarsel: Vi ser ikke ud til at være fuldt ud enige med andre noder! Du kan være nødt til at opgradere, eller andre noder kan være nødt til at opgradere.</translation>
     </message>
     <message>
         <source>Warning: error reading wallet.dat! All keys read correctly, but transaction data or address book entries might be missing or incorrect.</source>
@@ -2779,19 +2799,19 @@ f.eks.: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <source>Warning: wallet.dat corrupt, data salvaged! Original wallet.dat saved as wallet.{timestamp}.bak in %s; if your balance or transactions are incorrect you should restore from a backup.</source>
-        <translation>Advarsel: wallet.dat ødelagt, data reddet! Oprindelig wallet.net gemt som wallet.{timestamp}.bak i %s; hvis din saldo eller dine transaktioner er forkert, bør du genskabe fra en sikkerhedskopi.</translation>
+        <translation>Advarsel: wallet.dat ødelagt, data reddet! Oprindelig wallet.dat gemt som wallet.{timestamp}.bak i %s; hvis din saldo eller dine transaktioner er forkert, bør du genskabe fra en sikkerhedskopi.</translation>
     </message>
     <message>
         <source>(default: 1)</source>
-        <translation type="unfinished"/>
+        <translation>(standard: 1)</translation>
     </message>
     <message>
         <source>(default: wallet.dat)</source>
-        <translation type="unfinished"/>
+        <translation>(standard: wallet.dat)</translation>
     </message>
     <message>
         <source>&lt;category&gt; can be:</source>
-        <translation type="unfinished"/>
+        <translation>&lt;kategori&gt; kan være:</translation>
     </message>
     <message>
         <source>Attempt to recover private keys from a corrupt wallet.dat</source>
@@ -2799,7 +2819,7 @@ f.eks.: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <source>Dogecoin Core Daemon</source>
-        <translation type="unfinished"/>
+        <translation>Dogecoin Core-tjeneste</translation>
     </message>
     <message>
         <source>Block creation options:</source>
@@ -2807,7 +2827,7 @@ f.eks.: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <source>Clear list of wallet transactions (diagnostic tool; implies -rescan)</source>
-        <translation type="unfinished"/>
+        <translation>Ryd liste over transaktioner i tegnebog (diagnoseværktøj; medfører -rescan)</translation>
     </message>
     <message>
         <source>Connect only to the specified node(s)</source>
@@ -2815,15 +2835,15 @@ f.eks.: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <source>Connect through SOCKS proxy</source>
-        <translation type="unfinished"/>
+        <translation>Forbind gennem SOCKS-proxy</translation>
     </message>
     <message>
         <source>Connect to JSON-RPC on &lt;port&gt; (default: 8332 or testnet: 18332)</source>
-        <translation type="unfinished"/>
+        <translation>Forbind til JSON-RPC på &lt;port&gt; (standard: 8332 eller testnetværk: 18332)</translation>
     </message>
     <message>
         <source>Connection options:</source>
-        <translation type="unfinished"/>
+        <translation>Tilvalg for forbindelser:</translation>
     </message>
     <message>
         <source>Corrupted block database detected</source>
@@ -2831,11 +2851,11 @@ f.eks.: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <source>Debugging/Testing options:</source>
-        <translation type="unfinished"/>
+        <translation>Tilvalg for fejlfinding/test:</translation>
     </message>
     <message>
         <source>Disable safemode, override a real safe mode event (default: 0)</source>
-        <translation type="unfinished"/>
+        <translation>Slå sikker tilstand fra, tilsidesæt hændelser fra sikker tilstand (standard: 0)</translation>
     </message>
     <message>
         <source>Discover own IP address (default: 1 when listening and no -externalip)</source>
@@ -2843,7 +2863,7 @@ f.eks.: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <source>Do not load the wallet and disable wallet RPC calls</source>
-        <translation type="unfinished"/>
+        <translation>Indlæs ikke tegnebogen og slå tegnebogs-RPC-kald fra</translation>
     </message>
     <message>
         <source>Do you want to rebuild the block database now?</source>
@@ -2911,7 +2931,7 @@ f.eks.: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <source>Failed to write to coin database</source>
-        <translation>Skrivning af bitcoin-database mislykkedes</translation>
+        <translation>Skrivning af dogecoin-database mislykkedes</translation>
     </message>
     <message>
         <source>Failed to write transaction index</source>
@@ -2923,43 +2943,43 @@ f.eks.: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <source>Fee per kB to add to transactions you send</source>
-        <translation type="unfinished"/>
+        <translation>Føj gebyr pr. kB til transaktioner, du sender</translation>
     </message>
     <message>
         <source>Fees smaller than this are considered zero fee (for relaying) (default:</source>
-        <translation type="unfinished"/>
+        <translation>Gebyrer mindre end dette opfattes som nul-gebyr (for videreførsler) (standard:</translation>
     </message>
     <message>
         <source>Find peers using DNS lookup (default: 1 unless -connect)</source>
-        <translation>Find ligeværdige ved DNS-opslag (standard: 1 hvis ikke -connect)</translation>
+        <translation>Find andre knuder ved DNS-opslag (standard: 1 hvis ikke -connect)</translation>
     </message>
     <message>
         <source>Force safe mode (default: 0)</source>
-        <translation type="unfinished"/>
+        <translation>Gennemtving sikker tilstand (standard: 0)</translation>
     </message>
     <message>
         <source>Generate coins (default: 0)</source>
-        <translation>Generer dogecoins (standard: 0)</translation>
+        <translation>Generér dogecoins (standard: 0)</translation>
     </message>
     <message>
         <source>How many blocks to check at startup (default: 288, 0 = all)</source>
-        <translation>Antal blokke som tjekkes ved opstart (0=alle, standard: 288)</translation>
+        <translation>Antal blokke som tjekkes ved opstart (standard: 288, 0=alle)</translation>
     </message>
     <message>
         <source>If &lt;category&gt; is not supplied, output all debugging information.</source>
-        <translation type="unfinished"/>
+        <translation>Hvis &lt;kategori&gt; ikke angives, udskriv al fejlsøgningsinformation.</translation>
     </message>
     <message>
         <source>Importing...</source>
-        <translation type="unfinished"/>
+        <translation>Importerer …</translation>
     </message>
     <message>
         <source>Incorrect or no genesis block found. Wrong datadir for network?</source>
-        <translation type="unfinished"/>
+        <translation>Ukorrekt eller ingen tilblivelsesblok fundet. Forkert datamappe for netværk?</translation>
     </message>
     <message>
         <source>Invalid -onion address: &apos;%s&apos;</source>
-        <translation type="unfinished"/>
+        <translation>Ugyldig -onion adresse: &quot;%s&quot;</translation>
     </message>
     <message>
         <source>Not enough file descriptors available.</source>
@@ -2967,11 +2987,11 @@ f.eks.: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <source>Prepend debug output with timestamp (default: 1)</source>
-        <translation type="unfinished"/>
+        <translation>Føj tidsstempel foran fejlsøgningsoutput (standard: 1)</translation>
     </message>
     <message>
         <source>RPC client options:</source>
-        <translation type="unfinished"/>
+        <translation>Tilvalg for RPC-klient:</translation>
     </message>
     <message>
         <source>Rebuild block chain index from current blk000??.dat files</source>
@@ -2979,15 +2999,15 @@ f.eks.: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <source>Select SOCKS version for -proxy (4 or 5, default: 5)</source>
-        <translation type="unfinished"/>
+        <translation>Vælg SOCKS-version for -proxy (4 eller 5, standard: 5)</translation>
     </message>
     <message>
         <source>Set database cache size in megabytes (%d to %d, default: %d)</source>
-        <translation type="unfinished"/>
+        <translation>Sæt cache-størrelse for database i megabytes (%d til %d; standard: %d)</translation>
     </message>
     <message>
         <source>Set maximum block size in bytes (default: %d)</source>
-        <translation type="unfinished"/>
+        <translation>Sæt maksimum blokstørrelse i byte (standard: %d)</translation>
     </message>
     <message>
         <source>Set the number of threads to service RPC calls (default: 4)</source>
@@ -2995,47 +3015,47 @@ f.eks.: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <source>Specify wallet file (within data directory)</source>
-        <translation type="unfinished"/>
+        <translation>Angiv tegnebogsfil (inden for datamappe)</translation>
     </message>
     <message>
         <source>Spend unconfirmed change when sending transactions (default: 1)</source>
-        <translation type="unfinished"/>
+        <translation>Brug ubekræftede byttepenge under afsendelse af transaktioner (standard: 1)</translation>
     </message>
     <message>
         <source>This is intended for regression testing tools and app development.</source>
-        <translation type="unfinished"/>
+        <translation>This is intended for regression testing tools and app development.</translation>
     </message>
     <message>
         <source>Usage (deprecated, use dogecoin-cli):</source>
-        <translation type="unfinished"/>
+        <translation>Brug (forældet, brug dogecoin-cli):</translation>
     </message>
     <message>
         <source>Verifying blocks...</source>
-        <translation>Verificerer blokke...</translation>
+        <translation>Verificerer blokke …</translation>
     </message>
     <message>
         <source>Verifying wallet...</source>
-        <translation>Verificerer tegnebog...</translation>
+        <translation>Verificerer tegnebog …</translation>
     </message>
     <message>
         <source>Wait for RPC server to start</source>
-        <translation type="unfinished"/>
+        <translation>Vent på opstart af RPC-server</translation>
     </message>
     <message>
         <source>Wallet %s resides outside data directory %s</source>
-        <translation type="unfinished"/>
+        <translation>Tegnebog %1 findes uden for datamappe %s</translation>
     </message>
     <message>
         <source>Wallet options:</source>
-        <translation type="unfinished"/>
+        <translation>Tilvalg for tegnebog:</translation>
     </message>
     <message>
         <source>Warning: Deprecated argument -debugnet ignored, use -debug=net</source>
-        <translation type="unfinished"/>
+        <translation>Advarsel: Forældet argument -debugnet ignoreret; brug -debug=net</translation>
     </message>
     <message>
         <source>You need to rebuild the database using -reindex to change -txindex</source>
-        <translation type="unfinished"/>
+        <translation>Du er nødt til at genopbygge databasen ved hjælp af -reindex for at ændre -txindex</translation>
     </message>
     <message>
         <source>Imports blocks from external blk000??.dat file</source>
@@ -3043,19 +3063,19 @@ f.eks.: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <source>Cannot obtain a lock on data directory %s. Dogecoin Core is probably already running.</source>
-        <translation type="unfinished"/>
+        <translation>Kan ikke opnå en lås på datamappe %s. Dogecoin Core kører sansynligvis allerede.</translation>
     </message>
     <message>
         <source>Execute command when a relevant alert is received or we see a really long fork (%s in cmd is replaced by message)</source>
-        <translation type="unfinished"/>
+        <translation>Udfør kommando, når en relevant alarm modtages eller vi ser en virkelig lang udsplitning (%s i cmd erstattes af besked)</translation>
     </message>
     <message>
         <source>Output debugging information (default: 0, supplying &lt;category&gt; is optional)</source>
-        <translation type="unfinished"/>
+        <translation>Udskriv fejlsøgningsinformation (standard: 0, angivelse af &lt;kategori&gt; er valgfri)</translation>
     </message>
     <message>
         <source>Set maximum size of high-priority/low-fee transactions in bytes (default: %d)</source>
-        <translation type="unfinished"/>
+        <translation>Sæt maksimumstørrelse for højprioritet/lavgebyr-transaktioner i byte (standard: %d)</translation>
     </message>
     <message>
         <source>Information</source>
@@ -3063,19 +3083,19 @@ f.eks.: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <source>Invalid amount for -minrelaytxfee=&lt;amount&gt;: &apos;%s&apos;</source>
-        <translation>Ugyldigt beløb til -minrelaytxfee=&lt;beløb&gt;:&apos;%s&apos;</translation>
+        <translation>Ugyldigt beløb til -minrelaytxfee=&lt;beløb&gt;: &quot;%s&quot;</translation>
     </message>
     <message>
         <source>Invalid amount for -mintxfee=&lt;amount&gt;: &apos;%s&apos;</source>
-        <translation>Ugyldigt beløb til -mintxfee=&lt;beløb&gt;:&apos;%s&apos;</translation>
+        <translation>Ugyldigt beløb til -mintxfee=&lt;beløb&gt;: &quot;%s&quot;</translation>
     </message>
     <message>
         <source>Limit size of signature cache to &lt;n&gt; entries (default: 50000)</source>
-        <translation type="unfinished"/>
+        <translation>Begræns størrelsen på signaturcache til &lt;n&gt; indgange (standard: 50000)</translation>
     </message>
     <message>
         <source>Log transaction priority and fee per kB when mining blocks (default: 0)</source>
-        <translation type="unfinished"/>
+        <translation>Prioritet for transaktionslog og gebyr pr. kB under udvinding af blokke (standard: 0)</translation>
     </message>
     <message>
         <source>Maintain a full transaction index (default: 0)</source>
@@ -3083,15 +3103,15 @@ f.eks.: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <source>Maximum per-connection receive buffer, &lt;n&gt;*1000 bytes (default: 5000)</source>
-        <translation>Maksimum for modtagelsesbuffer pr. forbindelse, &lt;n&gt;*1000 bytes (standard: 5000)</translation>
+        <translation>Maksimum for modtagelsesbuffer pr. forbindelse, &lt;n&gt;*1000 byte (standard: 5000)</translation>
     </message>
     <message>
         <source>Maximum per-connection send buffer, &lt;n&gt;*1000 bytes (default: 1000)</source>
-        <translation>Maksimum for afsendelsesbuffer pr. forbindelse, &lt;n&gt;*1000 bytes (standard: 1000)</translation>
+        <translation>Maksimum for afsendelsesbuffer pr. forbindelse, &lt;n&gt;*1000 byte (standard: 1000)</translation>
     </message>
     <message>
         <source>Only accept block chain matching built-in checkpoints (default: 1)</source>
-        <translation>Accepter kun blokkæde, som matcher indbyggede kontrolposter (standard: 1)</translation>
+        <translation>Acceptér kun blokkæde, som matcher indbyggede kontrolposter (standard: 1)</translation>
     </message>
     <message>
         <source>Only connect to nodes in network &lt;net&gt; (IPv4, IPv6 or Tor)</source>
@@ -3099,31 +3119,31 @@ f.eks.: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <source>Print block on startup, if found in block index</source>
-        <translation type="unfinished"/>
+        <translation>Udskriv blok under opstart, hvis den findes i blokindeks</translation>
     </message>
     <message>
         <source>Print block tree on startup (default: 0)</source>
-        <translation type="unfinished"/>
+        <translation>Udskriv bloktræ under startop (standard: 0)</translation>
     </message>
     <message>
         <source>RPC SSL options: (see the Bitcoin Wiki for SSL setup instructions)</source>
-        <translation type="unfinished"/>
+        <translation>Tilvalg for RPC SSL: (se Bitcoin Wiki for instruktioner i SSL-opstart)</translation>
     </message>
     <message>
         <source>RPC server options:</source>
-        <translation type="unfinished"/>
+        <translation>Tilvalg for RPC-server:</translation>
     </message>
     <message>
         <source>Randomly drop 1 of every &lt;n&gt; network messages</source>
-        <translation type="unfinished"/>
+        <translation>Drop tilfældigt 1 ud af hver &lt;n&gt; netværksbeskeder</translation>
     </message>
     <message>
         <source>Randomly fuzz 1 of every &lt;n&gt; network messages</source>
-        <translation type="unfinished"/>
+        <translation>Slør tilfældigt 1 ud af hver &lt;n&gt; netværksbeskeder</translation>
     </message>
     <message>
         <source>Run a thread to flush wallet periodically (default: 1)</source>
-        <translation type="unfinished"/>
+        <translation>Kør en tråd for at rydde tegnebog periodisk (standard: 1)</translation>
     </message>
     <message>
         <source>SSL options: (see the Bitcoin Wiki for SSL setup instructions)</source>
@@ -3131,7 +3151,7 @@ f.eks.: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <source>Send command to Dogecoin Core</source>
-        <translation type="unfinished"/>
+        <translation>Send kommando til Dogecoin Core</translation>
     </message>
     <message>
         <source>Send trace/debug info to console instead of debug.log file</source>
@@ -3139,19 +3159,19 @@ f.eks.: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <source>Set minimum block size in bytes (default: 0)</source>
-        <translation>Angiv minimumsblokstørrelse i bytes (standard: 0)</translation>
+        <translation>Angiv minimumsblokstørrelse i byte (standard: 0)</translation>
     </message>
     <message>
         <source>Sets the DB_PRIVATE flag in the wallet db environment (default: 1)</source>
-        <translation type="unfinished"/>
+        <translation>Sætter DB_PRIVATE-flaget i tegnebogens db-miljø (standard: 1)</translation>
     </message>
     <message>
         <source>Show all debugging options (usage: --help -help-debug)</source>
-        <translation type="unfinished"/>
+        <translation>Vis alle tilvalg for fejlsøgning (brug: --help -help-debug)</translation>
     </message>
     <message>
         <source>Show benchmark information (default: 0)</source>
-        <translation type="unfinished"/>
+        <translation>Vis information om ydelsesmåling (standard: 0)</translation>
     </message>
     <message>
         <source>Shrink debug.log file on client startup (default: 1 when no -debug)</source>
@@ -3167,7 +3187,7 @@ f.eks.: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <source>Start Dogecoin Core Daemon</source>
-        <translation type="unfinished"/>
+        <translation>Start Dogecoin Core-tjeneste</translation>
     </message>
     <message>
         <source>System error: </source>
@@ -3187,11 +3207,11 @@ f.eks.: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <source>Use UPnP to map the listening port (default: 0)</source>
-        <translation>Forsøg at bruge UPnP til at konfigurere den lyttende port (standard: 0)</translation>
+        <translation>Brug UPnP til at konfigurere den lyttende port (standard: 0)</translation>
     </message>
     <message>
         <source>Use UPnP to map the listening port (default: 1 when listening)</source>
-        <translation>Forsøg at bruge UPnP til at konfigurere den lyttende port (standard: 1 når lytter)</translation>
+        <translation>Brug UPnP til at konfigurere den lyttende port (standard: 1 under lytning)</translation>
     </message>
     <message>
         <source>Username for JSON-RPC connections</source>
@@ -3207,11 +3227,11 @@ f.eks.: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <source>Zapping all transactions from wallet...</source>
-        <translation type="unfinished"/>
+        <translation>Zapper alle transaktioner fra tegnebog …</translation>
     </message>
     <message>
         <source>on startup</source>
-        <translation type="unfinished"/>
+        <translation>under opstart</translation>
     </message>
     <message>
         <source>version</source>
@@ -3275,7 +3295,7 @@ f.eks.: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <source>Loading addresses...</source>
-        <translation>Indlæser adresser...</translation>
+        <translation>Indlæser adresser …</translation>
     </message>
     <message>
         <source>Error loading wallet.dat: Wallet corrupted</source>
@@ -3295,11 +3315,11 @@ f.eks.: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <source>Invalid -proxy address: &apos;%s&apos;</source>
-        <translation>Ugyldig -proxy adresse: &apos;%s&apos;</translation>
+        <translation>Ugyldig -proxy adresse: &quot;%s&quot;</translation>
     </message>
     <message>
         <source>Unknown network specified in -onlynet: &apos;%s&apos;</source>
-        <translation>Ukendt netværk anført i -onlynet: &apos;%s&apos;</translation>
+        <translation>Ukendt netværk anført i -onlynet: &quot;%s&quot;</translation>
     </message>
     <message>
         <source>Unknown -socks proxy version requested: %i</source>
@@ -3307,15 +3327,15 @@ f.eks.: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <source>Cannot resolve -bind address: &apos;%s&apos;</source>
-        <translation>Kan ikke finde -bind adressen: &apos;%s&apos;</translation>
+        <translation>Kan ikke finde -bind adressen: &quot;%s&quot;</translation>
     </message>
     <message>
         <source>Cannot resolve -externalip address: &apos;%s&apos;</source>
-        <translation>Kan ikke finde -externalip adressen: &apos;%s&apos;</translation>
+        <translation>Kan ikke finde -externalip adressen: &quot;%s&quot;</translation>
     </message>
     <message>
         <source>Invalid amount for -paytxfee=&lt;amount&gt;: &apos;%s&apos;</source>
-        <translation>Ugyldigt beløb for -paytxfee=&lt;amount&gt;: &apos;%s&apos;</translation>
+        <translation>Ugyldigt beløb for -paytxfee=&lt;beløb&gt;: &quot;%s&quot;</translation>
     </message>
     <message>
         <source>Invalid amount</source>
@@ -3327,7 +3347,7 @@ f.eks.: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <source>Loading block index...</source>
-        <translation>Indlæser blokindeks...</translation>
+        <translation>Indlæser blokindeks …</translation>
     </message>
     <message>
         <source>Add a node to connect to and attempt to keep the connection open</source>
@@ -3335,7 +3355,7 @@ f.eks.: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <source>Loading wallet...</source>
-        <translation>Indlæser tegnebog...</translation>
+        <translation>Indlæser tegnebog …</translation>
     </message>
     <message>
         <source>Cannot downgrade wallet</source>
@@ -3347,7 +3367,7 @@ f.eks.: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <source>Rescanning...</source>
-        <translation>Genindlæser...</translation>
+        <translation>Genindlæser …</translation>
     </message>
     <message>
         <source>Done loading</source>
@@ -3365,7 +3385,7 @@ f.eks.: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo.com
         <source>You must set rpcpassword=&lt;password&gt; in the configuration file:
 %s
 If the file does not exist, create it with owner-readable-only file permissions.</source>
-        <translation>Du skal angive rpcpassword=&lt;password&gt; i konfigurationsfilen:
+        <translation>Du skal angive rpcpassword=&lt;adgangskode&gt; i konfigurationsfilen:
 %s
 Hvis filen ikke eksisterer, opret den og giv ingen andre end ejeren læserettighed.</translation>
     </message>

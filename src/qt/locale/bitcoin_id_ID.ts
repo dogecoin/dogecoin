@@ -1,4 +1,4 @@
-<TS language="id_ID" version="2.0">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="id_ID" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -433,7 +433,7 @@ Produk ini termasuk software yang dibangun oleh Proyek OpenSSL untuk Toolkit Ope
     </message>
     <message>
         <source>Request payments (generates QR codes and dogecoin: URIs)</source>
-        <translation type="unfinished"/>
+        <translation>Permintaan pembayaran (membangkitkan kode QR dan dogecoin: URIs)</translation>
     </message>
     <message>
         <source>&amp;About Dogecoin Core</source>
@@ -473,7 +473,7 @@ Produk ini termasuk software yang dibangun oleh Proyek OpenSSL untuk Toolkit Ope
     </message>
     <message>
         <source>Processed %1 of %2 (estimated) blocks of transaction history.</source>
-        <translation type="unfinished"/>
+        <translation>Proses % 1 dar i% 2 (perkiraan) blok catatan transaksi</translation>
     </message>
     <message>
         <source>Processed %1 blocks of transaction history.</source>
@@ -509,7 +509,7 @@ Produk ini termasuk software yang dibangun oleh Proyek OpenSSL untuk Toolkit Ope
     </message>
     <message>
         <source>Transactions after this will not yet be visible.</source>
-        <translation type="unfinished"/>
+        <translation>Transaksi setelah ini tidak akan ditampilkan</translation>
     </message>
     <message>
         <source>Error</source>
@@ -561,7 +561,7 @@ Alamat: %4
     </message>
     <message>
         <source>A fatal error occurred. Dogecoin can no longer continue safely and will quit.</source>
-        <translation type="unfinished"/>
+        <translation>Terjadi kesalahan fatal. Dogecoin tidak bisa lagi meneruskan dengan aman dan akan berhenti.</translation>
     </message>
 </context>
 <context>
@@ -611,15 +611,15 @@ Alamat: %4
     </message>
     <message>
         <source>(un)select all</source>
-        <translation type="unfinished"/>
+        <translation>(Tidak)memilih semua</translation>
     </message>
     <message>
         <source>Tree mode</source>
-        <translation type="unfinished"/>
+        <translation>mode pohon</translation>
     </message>
     <message>
         <source>List mode</source>
-        <translation type="unfinished"/>
+        <translation>Mode daftar</translation>
     </message>
     <message>
         <source>Amount</source>
@@ -667,11 +667,11 @@ Alamat: %4
     </message>
     <message>
         <source>Lock unspent</source>
-        <translation type="unfinished"/>
+        <translation>Kunci terpakai.</translation>
     </message>
     <message>
         <source>Unlock unspent</source>
-        <translation type="unfinished"/>
+        <translation>Membuka kunci terpakai</translation>
     </message>
     <message>
         <source>Copy quantity</source>
@@ -1057,7 +1057,7 @@ Alamat: %4
     </message>
     <message>
         <source>Third party transaction URLs</source>
-        <translation>Transaksi URLs pihak ketiga</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Active command-line options that override above options:</source>
@@ -1354,7 +1354,7 @@ Alamat: %4
     </message>
     <message>
         <source>Error: Cannot parse configuration file: %1. Only use key=value syntax.</source>
-        <translation type="unfinished"/>
+        <translation>Kesalahan: Tidak dapat memproses pengaturan berkas: %1. Hanya menggunakan kunci= nilai sintak.</translation>
     </message>
     <message>
         <source>Error: Invalid combination of -regtest and -testnet.</source>
@@ -1362,7 +1362,7 @@ Alamat: %4
     </message>
     <message>
         <source>Dogecoin Core did&apos;t yet exit safely...</source>
-        <translation>Inti Dogecoin belum keluar dengan sempurna...</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Enter a Dogecoin address (e.g. %1)</source>
@@ -1412,7 +1412,7 @@ Alamat: %4
     </message>
     <message>
         <source>General</source>
-        <translation type="unfinished"/>
+        <translation>Umum</translation>
     </message>
     <message>
         <source>Using OpenSSL version</source>
@@ -1464,7 +1464,7 @@ Alamat: %4
     </message>
     <message>
         <source>&amp;Clear</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Kosongkan</translation>
     </message>
     <message>
         <source>Totals</source>
@@ -1508,31 +1508,31 @@ Alamat: %4
     </message>
     <message>
         <source>%1 B</source>
-        <translation type="unfinished"/>
+        <translation>%1 B</translation>
     </message>
     <message>
         <source>%1 KB</source>
-        <translation type="unfinished"/>
+        <translation>%1 KB</translation>
     </message>
     <message>
         <source>%1 MB</source>
-        <translation type="unfinished"/>
+        <translation>%1 MB</translation>
     </message>
     <message>
         <source>%1 GB</source>
-        <translation type="unfinished"/>
+        <translation>%1 GB</translation>
     </message>
     <message>
         <source>%1 m</source>
-        <translation type="unfinished"/>
+        <translation>%1 menit</translation>
     </message>
     <message>
         <source>%1 h</source>
-        <translation type="unfinished"/>
+        <translation>%1 Jam</translation>
     </message>
     <message>
         <source>%1 h %2 m</source>
-        <translation type="unfinished"/>
+        <translation>%1 Jam %2 menit</translation>
     </message>
 </context>
 <context>
@@ -1555,7 +1555,7 @@ Alamat: %4
     </message>
     <message>
         <source>R&amp;euse an existing receiving address (not recommended)</source>
-        <translation type="unfinished"/>
+        <translation>Gunakan lagi alamat penerima yang ada (tidak disarankan)</translation>
     </message>
     <message>
         <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Dogecoin network.</source>
@@ -1720,7 +1720,7 @@ Alamat: %4
     </message>
     <message>
         <source>automatically selected</source>
-        <translation type="unfinished"/>
+        <translation>Pemilihan otomatis</translation>
     </message>
     <message>
         <source>Insufficient funds!</source>
@@ -1947,7 +1947,7 @@ Alamat: %4
     </message>
     <message>
         <source>This is a verified payment request.</source>
-        <translation type="unfinished"/>
+        <translation>Permintaan pembayaran terverifikasi.</translation>
     </message>
     <message>
         <source>Enter a label for this address to add it to the list of used addresses</source>
@@ -1959,7 +1959,7 @@ Alamat: %4
     </message>
     <message>
         <source>This is an unverified payment request.</source>
-        <translation type="unfinished"/>
+        <translation>Permintaan pembayaran tidak terverifikasi.</translation>
     </message>
     <message>
         <source>Pay To:</source>
@@ -2001,7 +2001,7 @@ Alamat: %4
     </message>
     <message>
         <source>Alt+A</source>
-        <translation>Alt+J</translation>
+        <translation>Alt+A</translation>
     </message>
     <message>
         <source>Paste address from clipboard</source>
@@ -2606,8 +2606,8 @@ Alamat: %4
         <translation>Tentukan berkas konfigurasi (standar: dogecoin.conf)</translation>
     </message>
     <message>
-        <source>Specify pid file (default: bitcoind.pid)</source>
-        <translation>Tentukan berkas pid (standar: bitcoind.pid)</translation>
+        <source>Specify pid file (default: dogecoind.pid)</source>
+        <translation>Tentukan berkas pid (standar: dogecoind.pid)</translation>
     </message>
     <message>
         <source>Specify data directory</source>
@@ -2669,7 +2669,7 @@ Alamat: %4
         <source>%s, you must set a rpcpassword in the configuration file:
 %s
 It is recommended you use the following random password:
-rpcuser=bitcoinrpc
+rpcuser=dogecoinrpc
 rpcpassword=%s
 (you do not need to remember this password)
 The username and password MUST NOT be the same.
@@ -2717,7 +2717,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Execute command when a wallet transaction changes (%s in cmd is replaced by TxID)</source>
-        <translation type="unfinished"/>
+        <translation>Jalankan perintah ketika perubahan transaksi dompet (%s di cmd digantikan oleh TxID)</translation>
     </message>
     <message>
         <source>Fees smaller than this are considered zero fee (for transaction creation) (default:</source>
@@ -2781,11 +2781,11 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>(default: 1)</source>
-        <translation type="unfinished"/>
+        <translation>(pengaturan awal: 1)</translation>
     </message>
     <message>
         <source>(default: wallet.dat)</source>
-        <translation type="unfinished"/>
+        <translation>(pengaturan awal: wallet.dat)</translation>
     </message>
     <message>
         <source>&lt;category&gt; can be:</source>
@@ -2821,7 +2821,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Connection options:</source>
-        <translation type="unfinished"/>
+        <translation>Pilih koneksi:</translation>
     </message>
     <message>
         <source>Corrupted block database detected</source>
@@ -2849,11 +2849,11 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Error initializing block database</source>
-        <translation type="unfinished"/>
+        <translation>Kesalahan menginisialisasi database blok</translation>
     </message>
     <message>
         <source>Error initializing wallet database environment %s!</source>
-        <translation type="unfinished"/>
+        <translation>Kesalahan menginisialisasi dompet pada database%s!</translation>
     </message>
     <message>
         <source>Error loading block database</source>
@@ -2949,7 +2949,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Importing...</source>
-        <translation type="unfinished"/>
+        <translation>mengimpor...</translation>
     </message>
     <message>
         <source>Incorrect or no genesis block found. Wrong datadir for network?</source>
@@ -2961,7 +2961,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Not enough file descriptors available.</source>
-        <translation type="unfinished"/>
+        <translation>Deskripsi berkas tidak tersedia dengan cukup.</translation>
     </message>
     <message>
         <source>Prepend debug output with timestamp (default: 1)</source>
@@ -2969,7 +2969,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>RPC client options:</source>
-        <translation type="unfinished"/>
+        <translation>Pilihan RPC klien:</translation>
     </message>
     <message>
         <source>Rebuild block chain index from current blk000??.dat files</source>
@@ -2989,7 +2989,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Set the number of threads to service RPC calls (default: 4)</source>
-        <translation type="unfinished"/>
+        <translation>Mengatur jumlah urutan untuk layanan panggilan RPC (pengaturan awal: 4)</translation>
     </message>
     <message>
         <source>Specify wallet file (within data directory)</source>
@@ -3165,11 +3165,11 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Start Dogecoin Core Daemon</source>
-        <translation type="unfinished"/>
+        <translation>Memulai Dogecoin Core Daemon</translation>
     </message>
     <message>
         <source>System error: </source>
-        <translation type="unfinished"/>
+        <translation>Kesalahan sistem:</translation>
     </message>
     <message>
         <source>Transaction amount too small</source>

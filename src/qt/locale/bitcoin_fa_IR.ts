@@ -368,7 +368,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>Dogecoin</source>
-        <translation>bitcoin</translation>
+        <translation>Dogecoin</translation>
     </message>
     <message>
         <source>Wallet</source>
@@ -456,7 +456,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>Dogecoin client</source>
-        <translation>مشتری bitcoin</translation>
+        <translation>مشتری dogecoin</translation>
     </message>
     <message numerus="yes">
         <source>%n active connection(s) to Dogecoin network</source>
@@ -843,7 +843,7 @@ Address: %4
     </message>
     <message>
         <source>The entered address &quot;%1&quot; is not a valid Dogecoin address.</source>
-        <translation>آدرس وارد شده &quot;%1&quot; یک آدرس صحیح برای bitcoin نسشت</translation>
+        <translation>آدرس وارد شده &quot;%1&quot; یک آدرس صحیح برای dogecoin نسشت</translation>
     </message>
     <message>
         <source>Could not unlock wallet.</source>
@@ -952,7 +952,7 @@ Address: %4
     </message>
     <message>
         <source>Dogecoin</source>
-        <translation>bitcoin</translation>
+        <translation>dogecoin</translation>
     </message>
     <message>
         <source>Error: Specified data directory &quot;%1&quot; can not be created.</source>
@@ -1209,7 +1209,7 @@ Address: %4
     </message>
     <message>
         <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Dogecoin network after a connection is established, but this process has not completed yet.</source>
-        <translation>اطلاعات نمایش داده شده ممکن است روزآمد نباشد. wallet شما به صورت خودکار بعد از برقراری اتصال با شبکه bitcoin به روز می شود اما این فرایند هنوز تکمیل نشده است.</translation>
+        <translation>اطلاعات نمایش داده شده ممکن است روزآمد نباشد. wallet شما به صورت خودکار بعد از برقراری اتصال با شبکه dogecoin به روز می شود اما این فرایند هنوز تکمیل نشده است.</translation>
     </message>
     <message>
         <source>Wallet</source>
@@ -1331,7 +1331,7 @@ Address: %4
     <name>QObject</name>
     <message>
         <source>Dogecoin</source>
-        <translation>bitcoin</translation>
+        <translation>dogecoin</translation>
     </message>
     <message>
         <source>Error: Specified data directory &quot;%1&quot; does not exist.</source>
@@ -1351,7 +1351,7 @@ Address: %4
     </message>
     <message>
         <source>Enter a Dogecoin address (e.g. %1)</source>
-        <translation>یک آدرس bitcoin وارد کنید (مثال %1)</translation>
+        <translation>یک آدرس dogecoin وارد کنید (مثال %1)</translation>
     </message>
 </context>
 <context>
@@ -2046,7 +2046,7 @@ Address: %4
     </message>
     <message>
         <source>Enter a Dogecoin address (e.g. %1)</source>
-        <translation>یک آدرس bitcoin وارد کنید (مثال %1)</translation>
+        <translation>یک آدرس dogecoin وارد کنید (مثال %1)</translation>
     </message>
     <message>
         <source>Click &quot;Sign Message&quot; to generate signature</source>
@@ -2592,8 +2592,8 @@ Address: %4
         <translation>فایل پیکربندیِ را مشخص کنید (پیش فرض: dogecoin.conf)</translation>
     </message>
     <message>
-        <source>Specify pid file (default: bitcoind.pid)</source>
-        <translation>فایل pid  را مشخص کنید (پیش فرض: bitcoind.pid)</translation>
+        <source>Specify pid file (default: dogecoind.pid)</source>
+        <translation>فایل pid  را مشخص کنید (پیش فرض: dogecoind.pid)</translation>
     </message>
     <message>
         <source>Specify data directory</source>
@@ -2655,7 +2655,7 @@ Address: %4
         <source>%s, you must set a rpcpassword in the configuration file:
 %s
 It is recommended you use the following random password:
-rpcuser=bitcoinrpc
+rpcuser=dogecoinrpc
 rpcpassword=%s
 (you do not need to remember this password)
 The username and password MUST NOT be the same.

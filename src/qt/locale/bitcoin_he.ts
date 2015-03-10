@@ -433,7 +433,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>Request payments (generates QR codes and dogecoin: URIs)</source>
-        <translation>בקש תשלומים (מייצר קודיי QR וסכימות URI של :bitcoin)</translation>
+        <translation>בקש תשלומים (מייצר קודיי QR וסכימות URI של :dogecoin)</translation>
     </message>
     <message>
         <source>&amp;About Dogecoin Core</source>
@@ -2597,8 +2597,8 @@ Address: %4
         <translation>ציין קובץ הגדרות (ברירת מחדל: dogecoin.conf)</translation>
     </message>
     <message>
-        <source>Specify pid file (default: bitcoind.pid)</source>
-        <translation>ציין קובץ pid (ברירת מחדל: bitcoind.pid)</translation>
+        <source>Specify pid file (default: dogecoind.pid)</source>
+        <translation>ציין קובץ pid (ברירת מחדל: dogecoind.pid)</translation>
     </message>
     <message>
         <source>Specify data directory</source>
@@ -2660,7 +2660,7 @@ Address: %4
         <source>%s, you must set a rpcpassword in the configuration file:
 %s
 It is recommended you use the following random password:
-rpcuser=bitcoinrpc
+rpcuser=dogecoinrpc
 rpcpassword=%s
 (you do not need to remember this password)
 The username and password MUST NOT be the same.
@@ -2671,7 +2671,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
         <translation>%s, עליך לקבוע סיסמת RPC בקובץ הקונפיגורציה:
  %s
 מומלץ להשתמש בסיסמא האקראית הבאה:
-rpcuser=bitcoinrpc
+rpcuser=dogecoinrpc
 rpcpassword=%s
 (אין צורך לזכור את הסיסמה)
 אסור ששם המשתמש והסיסמא יהיו זהים.

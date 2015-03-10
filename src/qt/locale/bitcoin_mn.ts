@@ -1,4 +1,4 @@
-<TS language="sr" version="2.0">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="mn" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -35,11 +35,11 @@ This product includes software developed by the OpenSSL Project for use in the O
     <name>AddressBookPage</name>
     <message>
         <source>Double-click to edit address or label</source>
-        <translation>Кликните два пута да промените адресу и/или етикету</translation>
+        <translation>Хаяг эсвэл шошгыг ѳѳрчлѳхийн тулд хоёр удаа дар</translation>
     </message>
     <message>
         <source>Create a new address</source>
-        <translation>Прави нову адресу</translation>
+        <translation>Шинэ хаяг нээх</translation>
     </message>
     <message>
         <source>&amp;New</source>
@@ -47,7 +47,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>Copy the currently selected address to the system clipboard</source>
-        <translation>Копира изабрану адресу на системски клипборд</translation>
+        <translation>Одоогоор сонгогдсон байгаа хаягуудыг сануулах</translation>
     </message>
     <message>
         <source>&amp;Copy</source>
@@ -59,7 +59,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>&amp;Copy Address</source>
-        <translation type="unfinished"/>
+        <translation>Хаягийг &amp;Хуулбарлах</translation>
     </message>
     <message>
         <source>Delete the currently selected address from the list</source>
@@ -75,7 +75,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>&amp;Delete</source>
-        <translation>&amp;Избриши</translation>
+        <translation>&amp;Устгах</translation>
     </message>
     <message>
         <source>Choose the address to send coins to</source>
@@ -90,11 +90,11 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Very sending addresses</source>
+        <source>Sending addresses</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Much receiving addresses</source>
+        <source>Receiving addresses</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -107,11 +107,11 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>Copy &amp;Label</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Шошгыг хуулбарлах</translation>
     </message>
     <message>
         <source>&amp;Edit</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Ѳѳрчлѳх</translation>
     </message>
     <message>
         <source>Export Address List</source>
@@ -119,7 +119,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
-        <translation>Зарезом одвојене вредности (*.csv)</translation>
+        <translation>Таслалаар тусгаарлагдсан хүснэгтэн файл (.csv)</translation>
     </message>
     <message>
         <source>Exporting Failed</source>
@@ -134,15 +134,15 @@ This product includes software developed by the OpenSSL Project for use in the O
     <name>AddressTableModel</name>
     <message>
         <source>Label</source>
-        <translation>Етикета</translation>
+        <translation>Шошго</translation>
     </message>
     <message>
         <source>Address</source>
-        <translation>Адреса</translation>
+        <translation>Хаяг</translation>
     </message>
     <message>
         <source>(no label)</source>
-        <translation>(без етикете)</translation>
+        <translation>(шошго алга)</translation>
     </message>
 </context>
 <context>
@@ -153,59 +153,59 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>Enter passphrase</source>
-        <translation>Унесите лозинку</translation>
+        <translation>Нууц үгийг оруул</translation>
     </message>
     <message>
         <source>New passphrase</source>
-        <translation>Нова лозинка</translation>
+        <translation>Шинэ нууц үг</translation>
     </message>
     <message>
         <source>Repeat new passphrase</source>
-        <translation>Поновите нову лозинку</translation>
+        <translation>Шинэ нууц үгийг давтана уу</translation>
     </message>
     <message>
         <source>Enter the new passphrase to the wallet.&lt;br/&gt;Please use a passphrase of &lt;b&gt;10 or more random characters&lt;/b&gt;, or &lt;b&gt;eight or more words&lt;/b&gt;.</source>
-        <translation>Унесите нову лозинку за приступ новчанику.&lt;br/&gt;Молимо Вас да лозинка буде &lt;b&gt;10 или више насумице одабраних знакова&lt;/b&gt;, или &lt;b&gt;осам или више речи&lt;/b&gt;.</translation>
+        <translation>Түрүйвчийн шинэ нууц үгийг оруул. &lt;br/&gt;&lt;b&gt;Дор хаяж 10 дурын үсэг/тоо бүхий&lt;/b&gt; эсвэл &lt;b&gt;дор хаяж 8 дурын үгнээс бүрдсэн&lt;/b&gt; нууц үгийг ашиглана уу. </translation>
     </message>
     <message>
         <source>Encrypt wallet</source>
-        <translation>Шифровање новчаника</translation>
+        <translation>Түрүйвчийг цоожлох</translation>
     </message>
     <message>
         <source>This operation needs your wallet passphrase to unlock the wallet.</source>
-        <translation>Ова акција захтева лозинку Вашег новчаника да би га откључала.</translation>
+        <translation>Энэ үйлдэлийг гүйцэтгэхийн тулд та нууц үгээрээ түрүйвчийн цоожийг тайлах хэрэгтэй</translation>
     </message>
     <message>
         <source>Unlock wallet</source>
-        <translation>Откључавање новчаника</translation>
+        <translation>Түрүйвчийн цоожийг тайлах</translation>
     </message>
     <message>
         <source>This operation needs your wallet passphrase to decrypt the wallet.</source>
-        <translation>Ова акција захтева да унесете лозинку да би дешифловала новчаник.</translation>
+        <translation>Энэ үйлдэлийг гүйцэтгэхийн тулд та эхлээд түрүйвчийн нууц үгийг оруулж цоожийг тайлах шаардлагтай.</translation>
     </message>
     <message>
         <source>Decrypt wallet</source>
-        <translation>Дешифровање новчаника</translation>
+        <translation>Түрүйвчийн цоожийг устгах</translation>
     </message>
     <message>
         <source>Change passphrase</source>
-        <translation>Промена лозинке</translation>
+        <translation>Нууц үгийг солих</translation>
     </message>
     <message>
         <source>Enter the old and new passphrase to the wallet.</source>
-        <translation>Унесите стару и нову лозинку за шифровање новчаника.</translation>
+        <translation>Түрүйвчийн хуучин болоод шинэ нууц үгсийг оруулна уу</translation>
     </message>
     <message>
         <source>Confirm wallet encryption</source>
-        <translation>Одобрите шифровање новчаника</translation>
+        <translation>Түрүйвчийн цоожийг баталгаажуулах</translation>
     </message>
     <message>
         <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DOGECOINS&lt;/b&gt;!</source>
-        <translation>Упозорење: Ако се ваш новчаник шифрује а потом изгубите лозинкзу, ви ћете &lt;b&gt;ИЗГУБИТИ СВЕ Dogecoin-Е&lt;/b&gt;!</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
-        <translation>Да ли сте сигурни да желите да се новчаник шифује?</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>IMPORTANT: Any previous backups you have made of your wallet file should be replaced with the newly generated, encrypted wallet file. For security reasons, previous backups of the unencrypted wallet file will become useless as soon as you start using the new, encrypted wallet.</source>
@@ -217,113 +217,113 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>Wallet encrypted</source>
-        <translation>Новчаник је шифрован</translation>
+        <translation>Түрүйвч цоожлогдлоо</translation>
     </message>
     <message>
         <source>Dogecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your dogecoins from being stolen by malware infecting your computer.</source>
-        <translation>Dogecoin će se sad zatvoriti da bi završio  proces enkripcije. Zapamti da enkripcija tvog novčanika ne može u potpunosti da zaštiti tvoje dogecoine da ne budu ukradeni od malawarea koji bi inficirao tvoj kompjuter.</translation>
+        <translation>Цоожлолтын процесыг дуусгахын тулд Биткойн одоо хаагдана. Ѳѳрийн түрүйвчийг цоожлох нь таны биткойнуудыг компьютерийн вирус хулгайлахаас бүрэн сэргийлж чадахгүй гэдгийг санаарай.</translation>
     </message>
     <message>
         <source>Wallet encryption failed</source>
-        <translation>Неуспело шифровање новчаника</translation>
+        <translation>Түрүйвчийн цоожлол амжилттай болсонгүй</translation>
     </message>
     <message>
         <source>Wallet encryption failed due to an internal error. Your wallet was not encrypted.</source>
-        <translation>Настала је унутрашња грешка током шифровања новчаника. Ваш новчаник није шифрован.</translation>
+        <translation>Түрүйвчийн цоожлол дотоод алдаанаас үүдэн амжилттай болсонгүй. Түрүйвч цоожлогдоогүй байна.</translation>
     </message>
     <message>
         <source>The supplied passphrases do not match.</source>
-        <translation>Лозинке које сте унели се не подударају.</translation>
+        <translation>Таны оруулсан нууц үг таарсангүй</translation>
     </message>
     <message>
         <source>Wallet unlock failed</source>
-        <translation>Неуспело откључавање новчаника</translation>
+        <translation>Түрүйвчийн цоож тайлагдсангүй</translation>
     </message>
     <message>
         <source>The passphrase entered for the wallet decryption was incorrect.</source>
-        <translation>Лозинка коју сте унели за откључавање новчаника је нетачна.</translation>
+        <translation>Таны оруулсан түрүйвчийн цоожийг тайлах нууц үг буруу байна</translation>
     </message>
     <message>
         <source>Wallet decryption failed</source>
-        <translation>Неуспело дешифровање новчаника</translation>
+        <translation>Түрүйвчийн цоож амжилттай устгагдсангүй</translation>
     </message>
     <message>
         <source>Wallet passphrase was successfully changed.</source>
-        <translation>Лозинка за приступ новчанику је успешно промењена.</translation>
+        <translation>Түрүйвчийн нууц үг амжилттай ѳѳр</translation>
     </message>
 </context>
 <context>
     <name>BitcoinGUI</name>
     <message>
         <source>Sign &amp;message...</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Зурвас хавсаргах...</translation>
     </message>
     <message>
         <source>Synchronizing with network...</source>
-        <translation>Синхронизација са мрежом у току...</translation>
+        <translation>Сүлжээтэй тааруулж байна...</translation>
     </message>
     <message>
         <source>&amp;Overview</source>
-        <translation>&amp;Општи преглед</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Node</source>
-        <translation type="unfinished"/>
+        <translation>Нод</translation>
     </message>
     <message>
         <source>Show general overview of wallet</source>
-        <translation>Погледајте општи преглед новчаника</translation>
-    </message>
-    <message>
-        <source>&amp;Transactions</source>
-        <translation>&amp;Трансакције</translation>
-    </message>
-    <message>
-        <source>Browse transaction history</source>
-        <translation>Претражите историјат трансакција</translation>
-    </message>
-    <message>
-        <source>E&amp;xit</source>
-        <translation>I&amp;zlaz</translation>
-    </message>
-    <message>
-        <source>Quit application</source>
-        <translation>Напустите програм</translation>
-    </message>
-    <message>
-        <source>Show information about Dogecoin</source>
-        <translation>Прегледајте информације о Dogecoin-у</translation>
-    </message>
-    <message>
-        <source>About &amp;Qt</source>
-        <translation>О &amp;Qt-у</translation>
-    </message>
-    <message>
-        <source>Show information about Qt</source>
-        <translation>Прегледајте информације о Qt-у</translation>
-    </message>
-    <message>
-        <source>&amp;Options...</source>
-        <translation>П&amp;оставке...</translation>
-    </message>
-    <message>
-        <source>&amp;Encrypt Wallet...</source>
-        <translation>&amp;Шифровање новчаника...</translation>
-    </message>
-    <message>
-        <source>&amp;Backup Wallet...</source>
-        <translation>&amp;Backup новчаника</translation>
-    </message>
-    <message>
-        <source>&amp;Change Passphrase...</source>
-        <translation>Промени &amp;лозинку...</translation>
-    </message>
-    <message>
-        <source>Very &amp;sending addresses...</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Much &amp;receiving addresses...</source>
+        <source>&amp;Transactions</source>
+        <translation>Гүйлгээнүүд</translation>
+    </message>
+    <message>
+        <source>Browse transaction history</source>
+        <translation>Гүйлгээнүүдийн түүхийг харах</translation>
+    </message>
+    <message>
+        <source>E&amp;xit</source>
+        <translation>Гарах</translation>
+    </message>
+    <message>
+        <source>Quit application</source>
+        <translation>Програмаас Гарах</translation>
+    </message>
+    <message>
+        <source>Show information about Dogecoin</source>
+        <translation>Биткойны мэдээллийг харуулах</translation>
+    </message>
+    <message>
+        <source>About &amp;Qt</source>
+        <translation>&amp;Клиентийн тухай</translation>
+    </message>
+    <message>
+        <source>Show information about Qt</source>
+        <translation>Клиентийн тухай мэдээллийг харуул</translation>
+    </message>
+    <message>
+        <source>&amp;Options...</source>
+        <translation>&amp;Сонголтууд...</translation>
+    </message>
+    <message>
+        <source>&amp;Encrypt Wallet...</source>
+        <translation>&amp;Түрүйвчийг цоожлох...</translation>
+    </message>
+    <message>
+        <source>&amp;Backup Wallet...</source>
+        <translation>&amp;Түрүйвчийг Жоорлох...</translation>
+    </message>
+    <message>
+        <source>&amp;Change Passphrase...</source>
+        <translation>&amp;Нууц Үгийг Солих...</translation>
+    </message>
+    <message>
+        <source>&amp;Sending addresses...</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>&amp;Receiving addresses...</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -340,11 +340,11 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>Send coins to a Dogecoin address</source>
-        <translation>Пошаљите новац на dogecoin адресу</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <source>Modify configuration options for Dogecoin Core</source>
-        <translation>Изаберите могућности dogecoin-а</translation>
+        <source>Modify configuration options for Dogecoin</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -352,7 +352,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>Change the passphrase used for wallet encryption</source>
-        <translation>Мењање лозинке којом се шифрује новчаник</translation>
+        <translation>Түрүйвчийг цоожлох нууц үгийг солих</translation>
     </message>
     <message>
         <source>&amp;Debug window</source>
@@ -360,7 +360,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>Open debugging and diagnostic console</source>
-        <translation type="unfinished"/>
+        <translation>Оношилгоо ба засварын консолыг онгойлго</translation>
     </message>
     <message>
         <source>&amp;Verify message...</source>
@@ -372,11 +372,11 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>Wallet</source>
-        <translation>новчаник</translation>
+        <translation>Түрүйвч</translation>
     </message>
     <message>
         <source>&amp;Send</source>
-        <translation>&amp;Пошаљи</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>&amp;Receive</source>
@@ -384,7 +384,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>&amp;Show / Hide</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Харуул / Нуу</translation>
     </message>
     <message>
         <source>Show or hide the main Window</source>
@@ -404,23 +404,23 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>&amp;File</source>
-        <translation>&amp;Фајл</translation>
+        <translation>&amp;Файл</translation>
     </message>
     <message>
         <source>&amp;Settings</source>
-        <translation>&amp;Подешавања</translation>
+        <translation>&amp;Тохиргоо</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>П&amp;омоћ</translation>
+        <translation>&amp;Тусламж</translation>
     </message>
     <message>
         <source>Tabs toolbar</source>
-        <translation>Трака са картицама</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>[testnet]</source>
-        <translation>[testnet]</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Dogecoin Core</source>
@@ -451,16 +451,16 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Show the Dogecoin Core help message to get a list with possible command-line options</source>
+        <source>Show the Dogecoin Core help message to get a list with possible Dogecoin command-line options</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <source>Dogecoin client</source>
-        <translation type="unfinished"/>
+        <translation>Биткойн клиент</translation>
     </message>
     <message numerus="yes">
         <source>%n active connection(s) to Dogecoin network</source>
-        <translation><numerusform>%n активна веза са Dogecoin мрежом</numerusform><numerusform>%n активне везе са Dogecoin мрежом</numerusform><numerusform>%n активних веза са Dogecoin мрежом</numerusform></translation>
+        <translation><numerusform>Биткойны сүлжээрүү %n идэвхитэй холболт байна </numerusform><numerusform>Биткойны сүлжээрүү %n идэвхитэй холболтууд байна </numerusform></translation>
     </message>
     <message>
         <source>No block source available...</source>
@@ -476,15 +476,15 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message numerus="yes">
         <source>%n hour(s)</source>
-        <translation type="unfinished"><numerusform/><numerusform/><numerusform/></translation>
+        <translation><numerusform>%n цаг</numerusform><numerusform>%n цаг</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n day(s)</source>
-        <translation type="unfinished"><numerusform/><numerusform/><numerusform/></translation>
+        <translation><numerusform>%n ѳдѳр</numerusform><numerusform>%n ѳдрүүд</numerusform></translation>
     </message>
     <message numerus="yes">
         <source>%n week(s)</source>
-        <translation type="unfinished"><numerusform/><numerusform/><numerusform/></translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message>
         <source>%1 and %2</source>
@@ -492,7 +492,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message numerus="yes">
         <source>%n year(s)</source>
-        <translation type="unfinished"><numerusform/><numerusform/><numerusform/></translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message>
         <source>%1 behind</source>
@@ -508,7 +508,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>Error</source>
-        <translation type="unfinished"/>
+        <translation>Алдаа</translation>
     </message>
     <message>
         <source>Warning</source>
@@ -520,19 +520,19 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <source>Up to date</source>
-        <translation>Ажурно</translation>
+        <translation>Шинэчлэгдсэн</translation>
     </message>
     <message>
         <source>Catching up...</source>
-        <translation>Ажурирање у току...</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Sent transaction</source>
-        <translation>Послана трансакција</translation>
+        <translation>Гадагшаа гүйлгээ</translation>
     </message>
     <message>
         <source>Incoming transaction</source>
-        <translation>Придошла трансакција</translation>
+        <translation>Дотогшоо гүйлгээ</translation>
     </message>
     <message>
         <source>Date: %1
@@ -540,15 +540,22 @@ Amount: %2
 Type: %3
 Address: %4
 </source>
-        <translation>Datum: %1⏎ Iznos: %2⏎ Tip: %3⏎ Adresa: %4⏎</translation>
+        <translation>Огноо: %1
+
+Хэмжээ: %2 
+
+Тѳрѳл: %3 
+
+Хаяг: %4
+</translation>
     </message>
     <message>
         <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt;</source>
-        <translation>Новчаник јс &lt;b&gt;шифрован&lt;/b&gt; и тренутно &lt;b&gt;откључан&lt;/b&gt;</translation>
+        <translation>Түрүйвч &lt;b&gt;цоожтой&lt;/b&gt; ба одоогоор цоож &lt;b&gt;онгорхой&lt;/b&gt; байна</translation>
     </message>
     <message>
         <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;locked&lt;/b&gt;</source>
-        <translation>Новчаник јс &lt;b&gt;шифрован&lt;/b&gt; и тренутно &lt;b&gt;закључан&lt;/b&gt;</translation>
+        <translation>Түрүйвч &lt;b&gt;цоожтой&lt;/b&gt; ба одоогоор цоож &lt;b&gt;хаалттай&lt;/b&gt; байна</translation>
     </message>
     <message>
         <source>A fatal error occurred. Dogecoin can no longer continue safely and will quit.</source>
@@ -578,7 +585,7 @@ Address: %4
     </message>
     <message>
         <source>Amount:</source>
-        <translation>Iznos:</translation>
+        <translation>Хэмжээ:</translation>
     </message>
     <message>
         <source>Priority:</source>
@@ -586,7 +593,7 @@ Address: %4
     </message>
     <message>
         <source>Fee:</source>
-        <translation type="unfinished"/>
+        <translation>Тѳлбѳр:</translation>
     </message>
     <message>
         <source>Low Output:</source>
@@ -614,19 +621,15 @@ Address: %4
     </message>
     <message>
         <source>Amount</source>
-        <translation>iznos</translation>
-    </message>
-    <message>
-        <source>Label</source>
-        <translation type="unfinished"/>
+        <translation>Хэмжээ</translation>
     </message>
     <message>
         <source>Address</source>
-        <translation>Адреса</translation>
+        <translation>Хаяг</translation>
     </message>
     <message>
         <source>Date</source>
-        <translation>datum</translation>
+        <translation>Огноо</translation>
     </message>
     <message>
         <source>Confirmations</source>
@@ -634,7 +637,7 @@ Address: %4
     </message>
     <message>
         <source>Confirmed</source>
-        <translation>Potvrdjen</translation>
+        <translation>Баталгаажлаа</translation>
     </message>
     <message>
         <source>Priority</source>
@@ -642,15 +645,15 @@ Address: %4
     </message>
     <message>
         <source>Copy address</source>
-        <translation>kopiraj adresu</translation>
+        <translation>Хаягийг санах</translation>
     </message>
     <message>
         <source>Copy label</source>
-        <translation>kopiraj naziv</translation>
+        <translation>Шошгыг санах</translation>
     </message>
     <message>
         <source>Copy amount</source>
-        <translation>kopiraj iznos</translation>
+        <translation>Хэмжээг санах</translation>
     </message>
     <message>
         <source>Copy transaction ID</source>
@@ -690,7 +693,7 @@ Address: %4
     </message>
     <message>
         <source>Copy change</source>
-        <translation type="unfinished"/>
+        <translation>Ѳѳрчлѳлтийг санах</translation>
     </message>
     <message>
         <source>highest</source>
@@ -786,7 +789,7 @@ Address: %4
     </message>
     <message>
         <source>(no label)</source>
-        <translation>(без етикете)</translation>
+        <translation>(шошгогүй)</translation>
     </message>
     <message>
         <source>change from %1 (%2)</source>
@@ -794,18 +797,18 @@ Address: %4
     </message>
     <message>
         <source>(change)</source>
-        <translation type="unfinished"/>
+        <translation>(ѳѳрчлѳх)</translation>
     </message>
 </context>
 <context>
     <name>EditAddressDialog</name>
     <message>
         <source>Edit Address</source>
-        <translation>Измени адресу</translation>
+        <translation>Хаягийг ѳѳрчлѳх</translation>
     </message>
     <message>
         <source>&amp;Label</source>
-        <translation>&amp;Етикета</translation>
+        <translation>&amp;Шошго</translation>
     </message>
     <message>
         <source>The label associated with this address list entry</source>
@@ -817,27 +820,27 @@ Address: %4
     </message>
     <message>
         <source>&amp;Address</source>
-        <translation>&amp;Адреса</translation>
+        <translation>&amp;Хаяг</translation>
     </message>
     <message>
         <source>New receiving address</source>
-        <translation type="unfinished"/>
+        <translation>Шинэ хүлээн авах хаяг</translation>
     </message>
     <message>
         <source>New sending address</source>
-        <translation type="unfinished"/>
+        <translation>Шинэ явуулах хаяг</translation>
     </message>
     <message>
         <source>Edit receiving address</source>
-        <translation type="unfinished"/>
+        <translation>Хүлээн авах хаягийг ѳѳрчлѳх</translation>
     </message>
     <message>
         <source>Edit sending address</source>
-        <translation type="unfinished"/>
+        <translation>Явуулах хаягийг ѳѳрчлѳх</translation>
     </message>
     <message>
         <source>The entered address &quot;%1&quot; is already in the address book.</source>
-        <translation>Унешена адреса &quot;%1&quot; се већ налази у адресару.</translation>
+        <translation>Таны оруулсан хаяг &quot;%1&quot; нь хаягийн бүртгэлд ѳмнѳ нь орсон байна</translation>
     </message>
     <message>
         <source>The entered address &quot;%1&quot; is not a valid Dogecoin address.</source>
@@ -845,11 +848,11 @@ Address: %4
     </message>
     <message>
         <source>Could not unlock wallet.</source>
-        <translation>Немогуће откључати новчаник.</translation>
+        <translation>Түрүйвчийн цоожийг тайлж чадсангүй</translation>
     </message>
     <message>
         <source>New key generation failed.</source>
-        <translation type="unfinished"/>
+        <translation>Шинэ түлхүүр амжилттай гарсангүй</translation>
     </message>
 </context>
 <context>
@@ -887,11 +890,11 @@ Address: %4
     </message>
     <message>
         <source>version</source>
-        <translation>верзија</translation>
+        <translation>хувилбар</translation>
     </message>
     <message>
         <source>Usage:</source>
-        <translation>Korišćenje:</translation>
+        <translation>Хэрэглээ:</translation>
     </message>
     <message>
         <source>command-line options</source>
@@ -958,7 +961,7 @@ Address: %4
     </message>
     <message>
         <source>Error</source>
-        <translation type="unfinished"/>
+        <translation>Алдаа</translation>
     </message>
     <message>
         <source>GB of free space available</source>
@@ -996,7 +999,7 @@ Address: %4
     <name>OptionsDialog</name>
     <message>
         <source>Options</source>
-        <translation>Поставке</translation>
+        <translation>Сонголтууд</translation>
     </message>
     <message>
         <source>&amp;Main</source>
@@ -1011,11 +1014,11 @@ Address: %4
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Automatically start Dogecoin Core after logging in to the system.</source>
+        <source>Automatically start Dogecoin after logging in to the system.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>&amp;Start Dogecoin Core on system login</source>
+        <source>&amp;Start Dogecoin on system login</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1024,7 +1027,7 @@ Address: %4
     </message>
     <message>
         <source>MB</source>
-        <translation type="unfinished"/>
+        <translation>МБ</translation>
     </message>
     <message>
         <source>Number of script &amp;verification threads</source>
@@ -1040,6 +1043,14 @@ Address: %4
     </message>
     <message>
         <source>IP address of the proxy (e.g. IPv4: 127.0.0.1 / IPv6: ::1)</source>
+        <translation>проксигийн IP хаяг (жишээ нь: IPv4: 127.0.0.1 / IPv6: ::1)</translation>
+    </message>
+    <message>
+        <source>Third party URLs (e.g. a block explorer) that appear in the transactions tab as context menu items. %s in the URL is replaced by transaction hash. Multiple URLs are separated by vertical bar |.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Third party transaction URLs</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1139,12 +1150,12 @@ Address: %4
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>The user interface language can be set here. This setting will take effect after restarting Dogecoin Core.</source>
+        <source>The user interface language can be set here. This setting will take effect after restarting Dogecoin.</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <source>&amp;Unit to show amounts in:</source>
-        <translation>&amp;Јединица за приказивање износа:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Choose the default subdivision unit to show in the interface and when sending coins.</source>
@@ -1164,7 +1175,7 @@ Address: %4
     </message>
     <message>
         <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>&amp;Cancel</source>
@@ -1184,15 +1195,15 @@ Address: %4
     </message>
     <message>
         <source>Client restart required to activate changes.</source>
-        <translation type="unfinished"/>
+        <translation>Ѳѳрчлѳлтүүдийг идэвхижүүлхийн тулд клиентийг ахин эхлүүлэх шаардлагтай</translation>
     </message>
     <message>
         <source>Client will be shutdown, do you want to proceed?</source>
-        <translation type="unfinished"/>
+        <translation>Клиент унтрах гэж байна, яг унтраах уу?</translation>
     </message>
     <message>
         <source>This change would require a client restart.</source>
-        <translation type="unfinished"/>
+        <translation>Энэ ѳѳрчлѳлтийг оруулахын тулд кли1нт програмыг ахин эхлүүлэх шаардлагтай</translation>
     </message>
     <message>
         <source>The supplied proxy address is invalid.</source>
@@ -1203,7 +1214,7 @@ Address: %4
     <name>OverviewPage</name>
     <message>
         <source>Form</source>
-        <translation>Форма</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Dogecoin network after a connection is established, but this process has not completed yet.</source>
@@ -1211,11 +1222,11 @@ Address: %4
     </message>
     <message>
         <source>Wallet</source>
-        <translation>новчаник</translation>
+        <translation>Түрүйвч</translation>
     </message>
     <message>
         <source>Available:</source>
-        <translation type="unfinished"/>
+        <translation>Хэрэглэж болох хэмжээ:</translation>
     </message>
     <message>
         <source>Your current spendable balance</source>
@@ -1247,7 +1258,7 @@ Address: %4
     </message>
     <message>
         <source>&lt;b&gt;Recent transactions&lt;/b&gt;</source>
-        <translation>&lt;b&gt;Недавне трансакције&lt;/b&gt;</translation>
+        <translation>&lt;b&gt;Сүүлд хийгдсэн гүйлгээнүүд&lt;/b&gt;</translation>
     </message>
     <message>
         <source>out of sync</source>
@@ -1344,12 +1355,12 @@ Address: %4
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Dogecoin Core did&apos;t yet exit safely...</source>
+        <source>Dogecoin Core didn&apos;t yet exit safely...</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Enter a Dogecoin address (e.g. %1)</source>
-        <translation>Unesite Dogecoin adresu (n.pr. %1)</translation>
+        <source>Enter a Dogecoin address (e.g. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1368,26 +1379,26 @@ Address: %4
     </message>
     <message>
         <source>PNG Image (*.png)</source>
-        <translation type="unfinished"/>
+        <translation>PNG форматын зураг (*.png)</translation>
     </message>
 </context>
 <context>
     <name>RPCConsole</name>
     <message>
         <source>Client name</source>
-        <translation type="unfinished"/>
+        <translation>Клиентийн нэр</translation>
     </message>
     <message>
         <source>N/A</source>
-        <translation type="unfinished"/>
+        <translation>Алга Байна</translation>
     </message>
     <message>
         <source>Client version</source>
-        <translation type="unfinished"/>
+        <translation>Клиентийн хувилбар</translation>
     </message>
     <message>
         <source>&amp;Information</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Мэдээллэл</translation>
     </message>
     <message>
         <source>Debug window</source>
@@ -1395,7 +1406,7 @@ Address: %4
     </message>
     <message>
         <source>General</source>
-        <translation type="unfinished"/>
+        <translation>Ерѳнхий</translation>
     </message>
     <message>
         <source>Using OpenSSL version</source>
@@ -1407,39 +1418,39 @@ Address: %4
     </message>
     <message>
         <source>Network</source>
-        <translation type="unfinished"/>
+        <translation>Сүлжээ</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"/>
+        <translation>Нэр</translation>
     </message>
     <message>
         <source>Number of connections</source>
-        <translation type="unfinished"/>
+        <translation>Холболтын тоо</translation>
     </message>
     <message>
         <source>Block chain</source>
-        <translation type="unfinished"/>
+        <translation>Блокийн цуваа</translation>
     </message>
     <message>
         <source>Current number of blocks</source>
-        <translation type="unfinished"/>
+        <translation>Одоогийн блокийн тоо</translation>
     </message>
     <message>
         <source>Estimated total blocks</source>
-        <translation type="unfinished"/>
+        <translation>Нийт блокийн барагцаа</translation>
     </message>
     <message>
         <source>Last block time</source>
-        <translation type="unfinished"/>
+        <translation>Сүүлийн блокийн хугацаа</translation>
     </message>
     <message>
         <source>&amp;Open</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Нээх</translation>
     </message>
     <message>
         <source>&amp;Console</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Консол</translation>
     </message>
     <message>
         <source>&amp;Network Traffic</source>
@@ -1475,7 +1486,7 @@ Address: %4
     </message>
     <message>
         <source>Clear console</source>
-        <translation type="unfinished"/>
+        <translation>Консолыг цэвэрлэх</translation>
     </message>
     <message>
         <source>Welcome to the Dogecoin RPC console.</source>
@@ -1526,7 +1537,7 @@ Address: %4
     </message>
     <message>
         <source>&amp;Label:</source>
-        <translation>&amp;Етикета</translation>
+        <translation>&amp;Шошго:</translation>
     </message>
     <message>
         <source>&amp;Message:</source>
@@ -1578,27 +1589,27 @@ Address: %4
     </message>
     <message>
         <source>Show</source>
-        <translation type="unfinished"/>
+        <translation>Харуул</translation>
     </message>
     <message>
         <source>Remove the selected entries from the list</source>
-        <translation type="unfinished"/>
+        <translation>Сонгогдсон ѳгѳгдлүүдийг устгах</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished"/>
+        <translation>Устгах</translation>
     </message>
     <message>
         <source>Copy label</source>
-        <translation>kopiraj naziv</translation>
+        <translation>Шошгыг санах</translation>
     </message>
     <message>
         <source>Copy message</source>
-        <translation type="unfinished"/>
+        <translation>Зурвасыг санах</translation>
     </message>
     <message>
         <source>Copy amount</source>
-        <translation>kopiraj iznos</translation>
+        <translation>Хэмжээг санах</translation>
     </message>
 </context>
 <context>
@@ -1633,19 +1644,19 @@ Address: %4
     </message>
     <message>
         <source>Address</source>
-        <translation>Адреса</translation>
+        <translation>Хаяг</translation>
     </message>
     <message>
         <source>Amount</source>
-        <translation>iznos</translation>
+        <translation>Хэмжээ</translation>
     </message>
     <message>
         <source>Label</source>
-        <translation>Етикета</translation>
+        <translation>Шошго</translation>
     </message>
     <message>
         <source>Message</source>
-        <translation type="unfinished"/>
+        <translation>Зурвас</translation>
     </message>
     <message>
         <source>Resulting URI too long, try to reduce the text for label / message.</source>
@@ -1660,27 +1671,27 @@ Address: %4
     <name>RecentRequestsTableModel</name>
     <message>
         <source>Date</source>
-        <translation>datum</translation>
+        <translation>Огноо</translation>
     </message>
     <message>
         <source>Label</source>
-        <translation>Етикета</translation>
+        <translation>Шошго</translation>
     </message>
     <message>
         <source>Message</source>
-        <translation type="unfinished"/>
+        <translation>Зурвас</translation>
     </message>
     <message>
         <source>Amount</source>
-        <translation>iznos</translation>
+        <translation>Хэмжээ</translation>
     </message>
     <message>
         <source>(no label)</source>
-        <translation>(без етикете)</translation>
+        <translation>(шошго алга)</translation>
     </message>
     <message>
         <source>(no message)</source>
-        <translation type="unfinished"/>
+        <translation>(зурвас алга)</translation>
     </message>
     <message>
         <source>(no amount)</source>
@@ -1691,7 +1702,7 @@ Address: %4
     <name>SendCoinsDialog</name>
     <message>
         <source>Send Coins</source>
-        <translation>Слање новца</translation>
+        <translation>Зоос явуулах</translation>
     </message>
     <message>
         <source>Coin Control Features</source>
@@ -1703,11 +1714,11 @@ Address: %4
     </message>
     <message>
         <source>automatically selected</source>
-        <translation type="unfinished"/>
+        <translation>автоматаар сонгогдсон</translation>
     </message>
     <message>
         <source>Insufficient funds!</source>
-        <translation type="unfinished"/>
+        <translation>Таны дансны үлдэгдэл хүрэлцэхгүй байна!</translation>
     </message>
     <message>
         <source>Quantity:</source>
@@ -1719,7 +1730,7 @@ Address: %4
     </message>
     <message>
         <source>Amount:</source>
-        <translation>Iznos:</translation>
+        <translation>Хэмжээ:</translation>
     </message>
     <message>
         <source>Priority:</source>
@@ -1727,7 +1738,7 @@ Address: %4
     </message>
     <message>
         <source>Fee:</source>
-        <translation type="unfinished"/>
+        <translation>Тѳлбѳр:</translation>
     </message>
     <message>
         <source>Low Output:</source>
@@ -1751,11 +1762,11 @@ Address: %4
     </message>
     <message>
         <source>Send to multiple recipients at once</source>
-        <translation type="unfinished"/>
+        <translation>Нэгэн зэрэг олон хүлээн авагчруу явуулах</translation>
     </message>
     <message>
         <source>Add &amp;Recipient</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Хүлээн авагчийг Нэмэх</translation>
     </message>
     <message>
         <source>Clear all fields of the form.</source>
@@ -1763,23 +1774,23 @@ Address: %4
     </message>
     <message>
         <source>Clear &amp;All</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Бүгдийг Цэвэрлэ</translation>
     </message>
     <message>
         <source>Balance:</source>
-        <translation type="unfinished"/>
+        <translation>Баланс:</translation>
     </message>
     <message>
         <source>Confirm the send action</source>
-        <translation>Потврди акцију слања</translation>
+        <translation>Явуулах үйлдлийг баталгаажуулна уу</translation>
     </message>
     <message>
         <source>S&amp;end</source>
-        <translation>&amp;Пошаљи</translation>
+        <translation>Яв&amp;уул</translation>
     </message>
     <message>
         <source>Confirm send coins</source>
-        <translation type="unfinished"/>
+        <translation>Зоос явуулахыг баталгаажуулна уу</translation>
     </message>
     <message>
         <source>%1 to %2</source>
@@ -1791,7 +1802,7 @@ Address: %4
     </message>
     <message>
         <source>Copy amount</source>
-        <translation>kopiraj iznos</translation>
+        <translation>Хэмжээг санах</translation>
     </message>
     <message>
         <source>Copy fee</source>
@@ -1815,15 +1826,15 @@ Address: %4
     </message>
     <message>
         <source>Copy change</source>
-        <translation type="unfinished"/>
+        <translation>Ѳѳрчлѳлтийг санах</translation>
     </message>
     <message>
         <source>Total Amount %1 (= %2)</source>
-        <translation type="unfinished"/>
+        <translation>Нийт дүн %1 (= %2)</translation>
     </message>
     <message>
         <source>or</source>
-        <translation type="unfinished"/>
+        <translation>эсвэл</translation>
     </message>
     <message>
         <source>The recipient address is not valid, please recheck.</source>
@@ -1831,15 +1842,15 @@ Address: %4
     </message>
     <message>
         <source>The amount to pay must be larger than 0.</source>
-        <translation type="unfinished"/>
+        <translation>Тѳлѳх хэмжээ 0.-оос их байх ёстой</translation>
     </message>
     <message>
         <source>The amount exceeds your balance.</source>
-        <translation type="unfinished"/>
+        <translation>Энэ хэмжээ таны балансаас хэтэрсэн байна.</translation>
     </message>
     <message>
         <source>The total exceeds your balance when the %1 transaction fee is included.</source>
-        <translation type="unfinished"/>
+        <translation>Гүйлгээний тѳлбѳр %1-ийг тооцхоор нийт дүн нь таны балансаас хэтрээд байна.</translation>
     </message>
     <message>
         <source>Duplicate address found, can only send to each address once per send operation.</source>
@@ -1859,7 +1870,7 @@ Address: %4
     </message>
     <message>
         <source>(no label)</source>
-        <translation>(без етикете)</translation>
+        <translation>(шошгогүй)</translation>
     </message>
     <message>
         <source>Warning: Unknown change address</source>
@@ -1886,19 +1897,23 @@ Address: %4
     <name>SendCoinsEntry</name>
     <message>
         <source>A&amp;mount:</source>
-        <translation type="unfinished"/>
+        <translation>Дүн:</translation>
     </message>
     <message>
         <source>Pay &amp;To:</source>
+        <translation>Тѳлѳх &amp;хаяг:</translation>
+    </message>
+    <message>
+        <source>The address to send the payment to (e.g. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <source>Enter a label for this address to add it to your address book</source>
-        <translation type="unfinished"/>
+        <translation>Энэ хаягийг ѳѳрийн бүртгэлдээ авахын тулд шошго оруул</translation>
     </message>
     <message>
         <source>&amp;Label:</source>
-        <translation>&amp;Етикета</translation>
+        <translation>&amp;Шошго:</translation>
     </message>
     <message>
         <source>Choose previously used address</source>
@@ -1910,15 +1925,15 @@ Address: %4
     </message>
     <message>
         <source>Alt+A</source>
-        <translation>Alt+</translation>
+        <translation>Alt+A</translation>
     </message>
     <message>
         <source>Paste address from clipboard</source>
-        <translation type="unfinished"/>
+        <translation>Копидсон хаягийг буулгах</translation>
     </message>
     <message>
         <source>Alt+P</source>
-        <translation>Alt+П</translation>
+        <translation>Alt+P</translation>
     </message>
     <message>
         <source>Remove this entry</source>
@@ -1926,7 +1941,7 @@ Address: %4
     </message>
     <message>
         <source>Message:</source>
-        <translation>Poruka:</translation>
+        <translation>Зурвас:</translation>
     </message>
     <message>
         <source>This is a verified payment request.</source>
@@ -1957,11 +1972,11 @@ Address: %4
     <name>ShutdownWindow</name>
     <message>
         <source>Dogecoin Core is shutting down...</source>
-        <translation type="unfinished"/>
+        <translation>Биткойны цѳм хаагдаж байна...</translation>
     </message>
     <message>
         <source>Do not shut down the computer until this window disappears.</source>
-        <translation type="unfinished"/>
+        <translation>Энэ цонхыг хаагдтал компьютерээ бүү унтраагаарай</translation>
     </message>
 </context>
 <context>
@@ -1979,6 +1994,10 @@ Address: %4
         <translation type="unfinished"/>
     </message>
     <message>
+        <source>The address to sign the message with (e.g. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <source>Choose previously used address</source>
         <translation type="unfinished"/>
     </message>
@@ -1988,11 +2007,11 @@ Address: %4
     </message>
     <message>
         <source>Paste address from clipboard</source>
-        <translation type="unfinished"/>
+        <translation>Копидсон хаягийг буулгах</translation>
     </message>
     <message>
         <source>Alt+P</source>
-        <translation>Alt+П</translation>
+        <translation>Alt+P</translation>
     </message>
     <message>
         <source>Enter the message you want to sign here</source>
@@ -2020,7 +2039,7 @@ Address: %4
     </message>
     <message>
         <source>Clear &amp;All</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Бүгдийг Цэвэрлэ</translation>
     </message>
     <message>
         <source>&amp;Verify Message</source>
@@ -2028,6 +2047,10 @@ Address: %4
     </message>
     <message>
         <source>Enter the signing address, message (ensure you copy line breaks, spaces, tabs, etc. exactly) and signature below to verify the message. Be careful not to read more into the signature than what is in the signed message itself, to avoid being tricked by a man-in-the-middle attack.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>The address the message was signed with (e.g. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -2043,8 +2066,8 @@ Address: %4
         <translation type="unfinished"/>
     </message>
     <message>
-        <source>Enter a Dogecoin address (e.g. %1)</source>
-        <translation>Unesite Dogecoin adresu (n.pr. %1)</translation>
+        <source>Enter a Dogecoin address (e.g. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Click &quot;Sign Message&quot; to generate signature</source>
@@ -2111,7 +2134,7 @@ Address: %4
     </message>
     <message>
         <source>[testnet]</source>
-        <translation>[testnet]</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2125,11 +2148,11 @@ Address: %4
     <name>TransactionDesc</name>
     <message>
         <source>Open until %1</source>
-        <translation>Otvorite do %1</translation>
+        <translation>%1 хүртэл нээлттэй</translation>
     </message>
     <message>
         <source>conflicted</source>
-        <translation type="unfinished"/>
+        <translation>зѳрчилдлѳѳ</translation>
     </message>
     <message>
         <source>%1/offline</source>
@@ -2137,11 +2160,11 @@ Address: %4
     </message>
     <message>
         <source>%1/unconfirmed</source>
-        <translation>%1/nepotvrdjeno</translation>
+        <translation>%1/баталгаажаагүй</translation>
     </message>
     <message>
         <source>%1 confirmations</source>
-        <translation>%1 potvrde</translation>
+        <translation>%1 баталгаажилтууд</translation>
     </message>
     <message>
         <source>Status</source>
@@ -2149,11 +2172,11 @@ Address: %4
     </message>
     <message numerus="yes">
         <source>, broadcast through %n node(s)</source>
-        <translation type="unfinished"><numerusform/><numerusform/><numerusform/></translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message>
         <source>Date</source>
-        <translation>datum</translation>
+        <translation>Огноо</translation>
     </message>
     <message>
         <source>Source</source>
@@ -2177,7 +2200,7 @@ Address: %4
     </message>
     <message>
         <source>label</source>
-        <translation>етикета</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Credit</source>
@@ -2185,7 +2208,7 @@ Address: %4
     </message>
     <message numerus="yes">
         <source>matures in %n more block(s)</source>
-        <translation type="unfinished"><numerusform/><numerusform/><numerusform/></translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message>
         <source>not accepted</source>
@@ -2205,7 +2228,7 @@ Address: %4
     </message>
     <message>
         <source>Message</source>
-        <translation type="unfinished"/>
+        <translation>Зурвас</translation>
     </message>
     <message>
         <source>Comment</source>
@@ -2237,7 +2260,7 @@ Address: %4
     </message>
     <message>
         <source>Amount</source>
-        <translation>iznos</translation>
+        <translation>Хэмжээ</translation>
     </message>
     <message>
         <source>true</source>
@@ -2249,45 +2272,45 @@ Address: %4
     </message>
     <message>
         <source>, has not been successfully broadcast yet</source>
-        <translation>, nije još uvek uspešno emitovan</translation>
+        <translation>, хараахан амжилттай цацагдаагүй байна</translation>
     </message>
     <message numerus="yes">
         <source>Open for %n more block(s)</source>
-        <translation type="unfinished"><numerusform/><numerusform/><numerusform/></translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message>
         <source>unknown</source>
-        <translation>nepoznato</translation>
+        <translation>үл мэдэгдэх</translation>
     </message>
 </context>
 <context>
     <name>TransactionDescDialog</name>
     <message>
         <source>Transaction details</source>
-        <translation>detalji transakcije</translation>
+        <translation>Гүйлгээний мэдээллэл</translation>
     </message>
     <message>
         <source>This pane shows a detailed description of the transaction</source>
-        <translation>Ovaj odeljak pokazuje detaljan opis transakcije</translation>
+        <translation>Гүйлгээний дэлгэрэнгүйг энэ бичил цонх харуулж байна</translation>
     </message>
 </context>
 <context>
     <name>TransactionTableModel</name>
     <message>
         <source>Date</source>
-        <translation>datum</translation>
+        <translation>Огноо</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation>tip</translation>
+        <translation>Тѳрѳл</translation>
     </message>
     <message>
         <source>Address</source>
-        <translation>Адреса</translation>
+        <translation>Хаяг</translation>
     </message>
     <message>
         <source>Amount</source>
-        <translation>iznos</translation>
+        <translation>Хэмжээ</translation>
     </message>
     <message>
         <source>Immature (%1 confirmations, will be available after %2)</source>
@@ -2295,23 +2318,23 @@ Address: %4
     </message>
     <message numerus="yes">
         <source>Open for %n more block(s)</source>
-        <translation type="unfinished"><numerusform/><numerusform/><numerusform/></translation>
+        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message>
         <source>Open until %1</source>
-        <translation>Otvoreno do %1</translation>
+        <translation>%1 хүртэл нээлттэй</translation>
     </message>
     <message>
         <source>Confirmed (%1 confirmations)</source>
-        <translation>Potvrdjena (%1 potvrdjenih)</translation>
+        <translation>Баталгаажлаа (%1 баталгаажилт)</translation>
     </message>
     <message>
         <source>This block was not received by any other nodes and will probably not be accepted!</source>
-        <translation>Ovaj blok nije primljen od ostalih čvorova (nodova) i verovatno neće biti prihvaćen!</translation>
+        <translation>Энэ блокийг аль ч нод хүлээн авсангүй ба ер нь зѳвшѳѳрѳгдѳхгүй байж мэднэ!</translation>
     </message>
     <message>
         <source>Generated but not accepted</source>
-        <translation>Generisan ali nije prihvaćen</translation>
+        <translation>Үүсгэгдсэн гэхдээ хүлээн авагдаагүй</translation>
     </message>
     <message>
         <source>Offline</source>
@@ -2319,7 +2342,7 @@ Address: %4
     </message>
     <message>
         <source>Unconfirmed</source>
-        <translation type="unfinished"/>
+        <translation>Баталгаажаагүй</translation>
     </message>
     <message>
         <source>Confirming (%1 of %2 recommended confirmations)</source>
@@ -2327,122 +2350,122 @@ Address: %4
     </message>
     <message>
         <source>Conflicted</source>
-        <translation type="unfinished"/>
+        <translation>Зѳрчилдлѳѳ</translation>
     </message>
     <message>
         <source>Received with</source>
-        <translation>Primljen sa</translation>
+        <translation>Хүлээн авсан хаяг</translation>
     </message>
     <message>
         <source>Received from</source>
-        <translation>Primljeno od</translation>
+        <translation>Хүлээн авагдсан хаяг</translation>
     </message>
     <message>
         <source>Sent to</source>
-        <translation>Poslat ka</translation>
+        <translation>Явуулсан хаяг</translation>
     </message>
     <message>
         <source>Payment to yourself</source>
-        <translation>Isplata samom sebi</translation>
+        <translation>Ѳѳрлүүгээ хийсэн тѳлбѳр</translation>
     </message>
     <message>
         <source>Mined</source>
-        <translation>Minirano</translation>
+        <translation>Олборлогдсон</translation>
     </message>
     <message>
         <source>(n/a)</source>
-        <translation>(n/a)</translation>
+        <translation>(алга байна)</translation>
     </message>
     <message>
         <source>Transaction status. Hover over this field to show number of confirmations.</source>
-        <translation>Status vaše transakcije. Predjite mišem preko ovog polja da bi ste videli broj konfirmacija</translation>
+        <translation>Гүйлгээний байдал. Энд хулганыг авчирч баталгаажуулалтын тоог харна уу.</translation>
     </message>
     <message>
         <source>Date and time that the transaction was received.</source>
-        <translation>Datum i vreme primljene transakcije.</translation>
+        <translation>Гүйлгээг хүлээн авсан огноо ба цаг.</translation>
     </message>
     <message>
         <source>Type of transaction.</source>
-        <translation>Tip transakcije</translation>
+        <translation>Гүйлгээний тѳрѳл</translation>
     </message>
     <message>
         <source>Destination address of transaction.</source>
-        <translation>Destinacija  i adresa transakcije</translation>
+        <translation>Гүйлгээг хүлээн авах хаяг</translation>
     </message>
     <message>
         <source>Amount removed from or added to balance.</source>
-        <translation>Iznos odbijen ili dodat balansu.</translation>
+        <translation>Балансаас авагдсан болон нэмэгдсэн хэмжээ.</translation>
     </message>
 </context>
 <context>
     <name>TransactionView</name>
     <message>
         <source>All</source>
-        <translation>Sve</translation>
+        <translation>Бүгд</translation>
     </message>
     <message>
         <source>Today</source>
-        <translation>Danas</translation>
+        <translation>Ѳнѳѳдѳр</translation>
     </message>
     <message>
         <source>This week</source>
-        <translation>ove nedelje</translation>
+        <translation>Энэ долоо хоног</translation>
     </message>
     <message>
         <source>This month</source>
-        <translation>Ovog meseca</translation>
+        <translation>Энэ сар</translation>
     </message>
     <message>
         <source>Last month</source>
-        <translation>Prošlog meseca</translation>
+        <translation>Ѳнгѳрсѳн сар</translation>
     </message>
     <message>
         <source>This year</source>
-        <translation>Ove godine</translation>
+        <translation>Энэ жил</translation>
     </message>
     <message>
         <source>Range...</source>
-        <translation>Opseg...</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Received with</source>
-        <translation>Primljen sa</translation>
+        <translation>Хүлээн авсан хаяг</translation>
     </message>
     <message>
         <source>Sent to</source>
-        <translation>Poslat ka</translation>
+        <translation>Явуулсан хаяг</translation>
     </message>
     <message>
         <source>To yourself</source>
-        <translation>Vama - samom sebi</translation>
+        <translation>Ѳѳрлүүгээ</translation>
     </message>
     <message>
         <source>Mined</source>
-        <translation>Minirano</translation>
+        <translation>Олборлогдсон</translation>
     </message>
     <message>
         <source>Other</source>
-        <translation>Drugi</translation>
+        <translation>Бусад</translation>
     </message>
     <message>
         <source>Enter address or label to search</source>
-        <translation>Navedite adresu ili naziv koji bi ste potražili</translation>
+        <translation>Хайлт хийхийн тулд хаяг эсвэл шошгыг оруул</translation>
     </message>
     <message>
         <source>Min amount</source>
-        <translation>Min iznos</translation>
+        <translation>Хамгийн бага хэмжээ</translation>
     </message>
     <message>
         <source>Copy address</source>
-        <translation>kopiraj adresu</translation>
+        <translation>Хаягийг санах</translation>
     </message>
     <message>
         <source>Copy label</source>
-        <translation>kopiraj naziv</translation>
+        <translation>Шошгыг санах</translation>
     </message>
     <message>
         <source>Copy amount</source>
-        <translation>kopiraj iznos</translation>
+        <translation>Хэмжээг санах</translation>
     </message>
     <message>
         <source>Copy transaction ID</source>
@@ -2450,11 +2473,11 @@ Address: %4
     </message>
     <message>
         <source>Edit label</source>
-        <translation>promeni naziv</translation>
+        <translation>Шошгыг ѳѳрчлѳх</translation>
     </message>
     <message>
         <source>Show transaction details</source>
-        <translation type="unfinished"/>
+        <translation>Гүйлгээний дэлгэрэнгүйг харуул</translation>
     </message>
     <message>
         <source>Export Transaction History</source>
@@ -2474,61 +2497,61 @@ Address: %4
     </message>
     <message>
         <source>The transaction history was successfully saved to %1.</source>
-        <translation type="unfinished"/>
+        <translation>Гүйлгээнүй түүхийг %1-д амжилттай хадгаллаа.</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
-        <translation>Зарезом одвојене вредности (*.csv)</translation>
+        <translation>Таслалаар тусгаарлагдсан хүснэгтэн файл (.csv)</translation>
     </message>
     <message>
         <source>Confirmed</source>
-        <translation>Potvrdjen</translation>
+        <translation>Баталгаажлаа</translation>
     </message>
     <message>
         <source>Date</source>
-        <translation>datum</translation>
+        <translation>Огноо</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation>tip</translation>
+        <translation>Тѳрѳл</translation>
     </message>
     <message>
         <source>Label</source>
-        <translation>Етикета</translation>
+        <translation>Шошго</translation>
     </message>
     <message>
         <source>Address</source>
-        <translation>Адреса</translation>
+        <translation>Хаяг</translation>
     </message>
     <message>
         <source>Amount</source>
-        <translation>iznos</translation>
+        <translation>Хэмжээ</translation>
     </message>
     <message>
         <source>ID</source>
-        <translation type="unfinished"/>
+        <translation>Тодорхойлолт</translation>
     </message>
     <message>
         <source>Range:</source>
-        <translation>Opseg:</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>to</source>
-        <translation>do</translation>
+        <translation>-рүү/руу</translation>
     </message>
 </context>
 <context>
     <name>WalletFrame</name>
     <message>
         <source>No wallet has been loaded.</source>
-        <translation type="unfinished"/>
+        <translation>Ямар ч түрүйвч ачааллагдсангүй.</translation>
     </message>
 </context>
 <context>
     <name>WalletModel</name>
     <message>
         <source>Send Coins</source>
-        <translation>Слање новца</translation>
+        <translation>Зоос явуулах</translation>
     </message>
 </context>
 <context>
@@ -2543,7 +2566,7 @@ Address: %4
     </message>
     <message>
         <source>Backup Wallet</source>
-        <translation>Backup новчаника</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Wallet Data (*.dat)</source>
@@ -2570,40 +2593,39 @@ Address: %4
     <name>bitcoin-core</name>
     <message>
         <source>Usage:</source>
-        <translation>Korišćenje:</translation>
+        <translation>Хэрэглээ:</translation>
     </message>
     <message>
         <source>List commands</source>
-        <translation>Listaj komande</translation>
+        <translation>Үйлдлүүдийг жагсаах</translation>
     </message>
     <message>
         <source>Get help for a command</source>
-        <translation>Zatraži pomoć za komande</translation>
+        <translation>Үйлдэлд туслалцаа авах</translation>
     </message>
     <message>
         <source>Options:</source>
-        <translation>Opcije</translation>
+        <translation>Сонголтууд:</translation>
     </message>
     <message>
         <source>Specify configuration file (default: dogecoin.conf)</source>
-        <translation>Potvrdi željeni konfiguracioni fajl (podrazumevani:dogecoin.conf)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Specify pid file (default: dogecoind.pid)</source>
-        <translation>Konkretizuj pid fajl (podrazumevani: dogecoind.pid)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Specify data directory</source>
-        <translation>Gde je konkretni data direktorijum </translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Listen for connections on &lt;port&gt; (default: 8333 or testnet: 18333)</source>
-        <translation>Slušaj konekcije na &lt;port&gt; (default: 8333 or testnet: 18333)</translation>
+        <translation>&lt;port&gt; дээрх холболтуудыг чагна (ѳгѳгдмѳл: 8333 эсвэл testnet: 18333)</translation>
     </message>
     <message>
         <source>Maintain at most &lt;n&gt; connections to peers (default: 125)</source>
-        <translation>Održavaj najviše &lt;n&gt; konekcija  po priključku (default: 125)
-</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Connect to a node to retrieve peer addresses, and disconnect</source>
@@ -2631,7 +2653,7 @@ Address: %4
     </message>
     <message>
         <source>Accept command line and JSON-RPC commands</source>
-        <translation>Prihvati komandnu liniju i JSON-RPC komande</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Dogecoin Core RPC client version</source>
@@ -2639,11 +2661,11 @@ Address: %4
     </message>
     <message>
         <source>Run in the background as a daemon and accept commands</source>
-        <translation>Radi u pozadini kao daemon servis i prihvati komande</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Use the test network</source>
-        <translation>Koristi testnu mrežu</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Accept connections from outside (default: 1 if no -proxy or -connect)</source>
@@ -2797,7 +2819,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Connect through SOCKS proxy</source>
-        <translation type="unfinished"/>
+        <translation>SOCKS проксигоор холбогдох</translation>
     </message>
     <message>
         <source>Connect to JSON-RPC on &lt;port&gt; (default: 8332 or testnet: 18332)</source>
@@ -3001,7 +3023,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Wait for RPC server to start</source>
-        <translation type="unfinished"/>
+        <translation>RPC серверийг эхэлтэл хүлээ</translation>
     </message>
     <message>
         <source>Wallet %s resides outside data directory %s</source>
@@ -3009,7 +3031,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Wallet options:</source>
-        <translation type="unfinished"/>
+        <translation>Түрүйвчийн сонголтууд:</translation>
     </message>
     <message>
         <source>Warning: Deprecated argument -debugnet ignored, use -debug=net</source>
@@ -3177,7 +3199,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Username for JSON-RPC connections</source>
-        <translation>Korisničko ime za JSON-RPC konekcije</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Warning</source>
@@ -3197,7 +3219,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>version</source>
-        <translation>верзија</translation>
+        <translation>хувилбар</translation>
     </message>
     <message>
         <source>wallet.dat corrupt, salvage failed</source>
@@ -3205,15 +3227,15 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Password for JSON-RPC connections</source>
-        <translation>Lozinka za JSON-RPC konekcije</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Allow JSON-RPC connections from specified IP address</source>
-        <translation>Dozvoli JSON-RPC konekcije sa posebne IP adrese</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Send commands to node running on &lt;ip&gt; (default: 127.0.0.1)</source>
-        <translation>Pošalji komande to nodu koji radi na &lt;ip&gt; (default: 127.0.0.1)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Execute command when the best block changes (%s in cmd is replaced by block hash)</source>
@@ -3221,19 +3243,19 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Upgrade wallet to latest format</source>
-        <translation type="unfinished"/>
+        <translation>Түрүйвчийг хамгийн сүүлийн үеийн форматруу шинэчлэх</translation>
     </message>
     <message>
         <source>Set key pool size to &lt;n&gt; (default: 100)</source>
-        <translation>Odredi veličinu zaštićenih ključeva na &lt;n&gt; (default: 100)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Rescan the block chain for missing wallet transactions</source>
-        <translation>Ponovo skeniraj lanac blokova za nedostajuće transakcije iz novčanika</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Use OpenSSL (https) for JSON-RPC connections</source>
-        <translation>Koristi OpenSSL (https) za  JSON-RPC konekcije</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Server certificate file (default: server.cert)</source>
@@ -3241,11 +3263,11 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Server private key (default: server.pem)</source>
-        <translation>privatni ključ za Server (podrazumevan: server.pem)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>This help message</source>
-        <translation>Ova poruka Pomoći</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <source>Unable to bind to %s on this computer (bind returned error %d, %s)</source>
@@ -3257,15 +3279,15 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Loading addresses...</source>
-        <translation>učitavam adrese....</translation>
+        <translation>Хаягуудыг ачааллаж байна...</translation>
     </message>
     <message>
         <source>Error loading wallet.dat: Wallet corrupted</source>
-        <translation>Грешка током учитавања wallet.dat: Новчаник је покварен      </translation>
+        <translation>wallet.dat-ыг ачааллахад алдаа гарлаа: Түрүйвч эвдэрсэн байна</translation>
     </message>
     <message>
         <source>Error loading wallet.dat: Wallet requires newer version of Dogecoin</source>
-        <translation>Грешка током учитавања wallet.dat: Новчанику је неопходна нова верзија Dogecoin-a.</translation>
+        <translation>wallet.dat-ыг ачааллахад алдаа гарлаа: Түрүйвч Биткойны шинэ хувилбарыг шаардаж байна</translation>
     </message>
     <message>
         <source>Wallet needed to be rewritten: restart Dogecoin to complete</source>
@@ -3273,11 +3295,11 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Error loading wallet.dat</source>
-        <translation>Грешка током учитавања wallet.dat      </translation>
+        <translation>wallet.dat-ыг ачааллахад алдаа гарлаа</translation>
     </message>
     <message>
         <source>Invalid -proxy address: &apos;%s&apos;</source>
-        <translation type="unfinished"/>
+        <translation>Эдгээр прокси хаягнууд буруу байна: &apos;%s&apos;</translation>
     </message>
     <message>
         <source>Unknown network specified in -onlynet: &apos;%s&apos;</source>
@@ -3301,23 +3323,23 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Invalid amount</source>
-        <translation type="unfinished"/>
+        <translation>Буруу хэмжээ</translation>
     </message>
     <message>
         <source>Insufficient funds</source>
-        <translation type="unfinished"/>
+        <translation>Таны дансны үлдэгдэл хүрэлцэхгүй байна</translation>
     </message>
     <message>
         <source>Loading block index...</source>
-        <translation>Učitavam blok indeksa...</translation>
+        <translation>Блокийн индексүүдийг ачааллаж байна...</translation>
     </message>
     <message>
         <source>Add a node to connect to and attempt to keep the connection open</source>
-        <translation type="unfinished"/>
+        <translation>Холболт хийхийн тулд мѳн холболтой онгорхой хадгалхын тулд шинэ нод нэм</translation>
     </message>
     <message>
         <source>Loading wallet...</source>
-        <translation>Новчаник се учитава...</translation>
+        <translation>Түрүйвчийг ачааллаж байна...</translation>
     </message>
     <message>
         <source>Cannot downgrade wallet</source>
@@ -3329,19 +3351,19 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
     </message>
     <message>
         <source>Rescanning...</source>
-        <translation>Ponovo skeniram...</translation>
+        <translation>Ахин уншиж байна...</translation>
     </message>
     <message>
         <source>Done loading</source>
-        <translation>Završeno učitavanje</translation>
+        <translation>Ачааллаж дууслаа</translation>
     </message>
     <message>
         <source>To use the %s option</source>
-        <translation type="unfinished"/>
+        <translation>%s сонголтыг ашиглахын тулд</translation>
     </message>
     <message>
         <source>Error</source>
-        <translation type="unfinished"/>
+        <translation>Алдаа</translation>
     </message>
     <message>
         <source>You must set rpcpassword=&lt;password&gt; in the configuration file:

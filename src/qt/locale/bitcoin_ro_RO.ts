@@ -433,7 +433,7 @@ Acest produs include programe dezvoltate de către OpenSSL Project pentru a fi f
     </message>
     <message>
         <source>Request payments (generates QR codes and dogecoin: URIs)</source>
-        <translation>Cereti plati (genereaza coduri QR si bitcoin-uri: URls)</translation>
+        <translation>Cereti plati (genereaza coduri QR si dogecoin-uri: URls)</translation>
     </message>
     <message>
         <source>&amp;About Dogecoin Core</source>
@@ -799,7 +799,7 @@ Adresa: %4
     </message>
     <message>
         <source>change from %1 (%2)</source>
-        <translation type="unfinished"/>
+        <translation>restul de la %1 (%2)</translation>
     </message>
     <message>
         <source>(change)</source>
@@ -850,7 +850,7 @@ Adresa: %4
     </message>
     <message>
         <source>The entered address &quot;%1&quot; is not a valid Dogecoin address.</source>
-        <translation>Adresa introdusă &quot;%1&quot; nu este o adresă bitcoin validă.</translation>
+        <translation>Adresa introdusă &quot;%1&quot; nu este o adresă Dogecoin validă.</translation>
     </message>
     <message>
         <source>Could not unlock wallet.</source>
@@ -1157,7 +1157,7 @@ Adresa: %4
     </message>
     <message>
         <source>Choose the default subdivision unit to show in the interface and when sending coins.</source>
-        <translation>Alege subdiviziunea folosită la afişarea interfeţei şi la trimiterea de bitcoin.</translation>
+        <translation>Alege subdiviziunea folosită la afişarea interfeţei şi la trimiterea de dogecoin.</translation>
     </message>
     <message>
         <source>Whether to show Dogecoin addresses in the transaction list or not.</source>
@@ -1205,7 +1205,7 @@ Adresa: %4
     </message>
     <message>
         <source>The supplied proxy address is invalid.</source>
-        <translation>Adresa bitcoin pe care a-ti specificat-o este invalida</translation>
+        <translation>Adresa dogecoin pe care a-ti specificat-o este invalida</translation>
     </message>
 </context>
 <context>
@@ -1488,7 +1488,7 @@ Adresa: %4
     </message>
     <message>
         <source>Welcome to the Dogecoin RPC console.</source>
-        <translation>Bun venit la consola bitcoin RPC</translation>
+        <translation>Bun venit la consola dogecoin RPC</translation>
     </message>
     <message>
         <source>Use up and down arrows to navigate history, and &lt;b&gt;Ctrl-L&lt;/b&gt; to clear screen.</source>
@@ -1583,7 +1583,7 @@ Adresa: %4
     </message>
     <message>
         <source>Show the selected request (does the same as double clicking an entry)</source>
-        <translation type="unfinished"/>
+        <translation>Arata cererea selectata (acelas lucru ca si dublu-click pe o inregistrare)</translation>
     </message>
     <message>
         <source>Show</source>
@@ -2598,8 +2598,8 @@ Adresa: %4
         <translation>Specifică fișierul de configurare (implicit: dogecoin.conf)</translation>
     </message>
     <message>
-        <source>Specify pid file (default: bitcoind.pid)</source>
-        <translation>Specifică fișierul pid (implicit bitcoind.pid)</translation>
+        <source>Specify pid file (default: dogecoind.pid)</source>
+        <translation>Specifică fișierul pid (implicit dogecoind.pid)</translation>
     </message>
     <message>
         <source>Specify data directory</source>
@@ -2661,7 +2661,7 @@ Adresa: %4
         <source>%s, you must set a rpcpassword in the configuration file:
 %s
 It is recommended you use the following random password:
-rpcuser=bitcoinrpc
+rpcuser=dogecoinrpc
 rpcpassword=%s
 (you do not need to remember this password)
 The username and password MUST NOT be the same.
@@ -2672,7 +2672,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
         <translation>%s trebuie sa setezi o parola rpc in fisierul de configurare
 %s
 Este recomandat sa folosesti aceasta parola aleatorie:
-rpcuser=bitcoinrpc
+rpcuser=dogecoinrpc
 parola rpc=%s
 (nu este necesar ca sa iti amintesti aceasta parola)
 Numele de utilizator si parola NU trebuie sa fie la fel.
@@ -2992,7 +2992,7 @@ spre exemplu: alertnotify=echo %%s | mail -s &quot;Alerta Dogecoin&quot; admin@f
     </message>
     <message>
         <source>Set the number of threads to service RPC calls (default: 4)</source>
-        <translation type="unfinished"/>
+        <translation>Stabileste numarul de thread-uri care servesc apeluri RPC (implicit: 4)</translation>
     </message>
     <message>
         <source>Specify wallet file (within data directory)</source>
@@ -3128,7 +3128,7 @@ spre exemplu: alertnotify=echo %%s | mail -s &quot;Alerta Dogecoin&quot; admin@f
     </message>
     <message>
         <source>SSL options: (see the Bitcoin Wiki for SSL setup instructions)</source>
-        <translation>Optiuni SSl (vezi Dogecoin wiki pentru intructiunile de instalare)</translation>
+        <translation>Optiuni SSl (vezi Bitcoin wiki pentru intructiunile de instalare)</translation>
     </message>
     <message>
         <source>Send command to Dogecoin Core</source>

@@ -1,4 +1,4 @@
-<TS language="ja" version="2.0">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ja" version="2.1">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -7,7 +7,7 @@
     </message>
     <message>
         <source>&lt;b&gt;Dogecoin Core&lt;/b&gt; version</source>
-        <translation type="unfinished"/>
+        <translation>&lt;b&gt;Dogecoin Core&lt;/b&gt; バージョン</translation>
     </message>
     <message>
         <source>
@@ -128,7 +128,7 @@ MIT/X11 ソフトウェア ライセンスの下で配布されています。�
     </message>
     <message>
         <source>Exporting Failed</source>
-        <translation type="unfinished"/>
+        <translation>エクスポート失敗</translation>
     </message>
     <message>
         <source>There was an error trying to save the address list to %1.</source>
@@ -273,7 +273,7 @@ MIT/X11 ソフトウェア ライセンスの下で配布されています。�
     </message>
     <message>
         <source>Node</source>
-        <translation type="unfinished"/>
+        <translation>ノード</translation>
     </message>
     <message>
         <source>Show general overview of wallet</source>
@@ -325,15 +325,15 @@ MIT/X11 ソフトウェア ライセンスの下で配布されています。�
     </message>
     <message>
         <source>Very &amp;sending addresses...</source>
-        <translation type="unfinished"/>
+        <translation>送金先アドレス一覧 (&amp;S)...</translation>
     </message>
     <message>
         <source>Much &amp;receiving addresses...</source>
-        <translation type="unfinished"/>
+        <translation>受け取り用アドレス一覧 (&amp;R)...</translation>
     </message>
     <message>
         <source>Open &amp;URI...</source>
-        <translation type="unfinished"/>
+        <translation>URI を開く (&amp;U)...</translation>
     </message>
     <message>
         <source>Importing blocks from disk...</source>
@@ -453,7 +453,7 @@ MIT/X11 ソフトウェア ライセンスの下で配布されています。�
     </message>
     <message>
         <source>&amp;Command-line options</source>
-        <translation type="unfinished"/>
+        <translation>コマンドラインオプション (&amp;C)</translation>
     </message>
     <message>
         <source>Show the Dogecoin Core help message to get a list with possible command-line options</source>
@@ -493,11 +493,11 @@ MIT/X11 ソフトウェア ライセンスの下で配布されています。�
     </message>
     <message>
         <source>%1 and %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 と %2</translation>
     </message>
     <message numerus="yes">
         <source>%n year(s)</source>
-        <translation type="unfinished"><numerusform/></translation>
+        <translation><numerusform>%n 年</numerusform></translation>
     </message>
     <message>
         <source>%1 behind</source>
@@ -579,11 +579,11 @@ Address: %4
     </message>
     <message>
         <source>Quantity:</source>
-        <translation type="unfinished"/>
+        <translation>数量:</translation>
     </message>
     <message>
         <source>Bytes:</source>
-        <translation type="unfinished"/>
+        <translation>バイト:</translation>
     </message>
     <message>
         <source>Amount:</source>
@@ -591,11 +591,11 @@ Address: %4
     </message>
     <message>
         <source>Priority:</source>
-        <translation type="unfinished"/>
+        <translation>優先度:</translation>
     </message>
     <message>
         <source>Fee:</source>
-        <translation type="unfinished"/>
+        <translation>手数料:</translation>
     </message>
     <message>
         <source>Low Output:</source>
@@ -603,7 +603,7 @@ Address: %4
     </message>
     <message>
         <source>After Fee:</source>
-        <translation type="unfinished"/>
+        <translation>手数料差引後:</translation>
     </message>
     <message>
         <source>Change:</source>
@@ -611,15 +611,15 @@ Address: %4
     </message>
     <message>
         <source>(un)select all</source>
-        <translation type="unfinished"/>
+        <translation>すべて選択/選択解除</translation>
     </message>
     <message>
         <source>Tree mode</source>
-        <translation type="unfinished"/>
+        <translation>ツリーモード</translation>
     </message>
     <message>
         <source>List mode</source>
-        <translation type="unfinished"/>
+        <translation>リストモード</translation>
     </message>
     <message>
         <source>Amount</source>
@@ -639,7 +639,7 @@ Address: %4
     </message>
     <message>
         <source>Confirmations</source>
-        <translation type="unfinished"/>
+        <translation>検証数</translation>
     </message>
     <message>
         <source>Confirmed</source>
@@ -647,7 +647,7 @@ Address: %4
     </message>
     <message>
         <source>Priority</source>
-        <translation type="unfinished"/>
+        <translation>優先度</translation>
     </message>
     <message>
         <source>Copy address</source>
@@ -675,23 +675,23 @@ Address: %4
     </message>
     <message>
         <source>Copy quantity</source>
-        <translation type="unfinished"/>
+        <translation>数量をコピーする</translation>
     </message>
     <message>
         <source>Copy fee</source>
-        <translation type="unfinished"/>
+        <translation>手数料をコピーする</translation>
     </message>
     <message>
         <source>Copy after fee</source>
-        <translation type="unfinished"/>
+        <translation>手数料差引後の値をコピーする</translation>
     </message>
     <message>
         <source>Copy bytes</source>
-        <translation type="unfinished"/>
+        <translation>バイト数をコピーする</translation>
     </message>
     <message>
         <source>Copy priority</source>
-        <translation type="unfinished"/>
+        <translation>優先度をコピーする</translation>
     </message>
     <message>
         <source>Copy low output</source>
@@ -743,7 +743,7 @@ Address: %4
     </message>
     <message>
         <source>none</source>
-        <translation type="unfinished"/>
+        <translation>なし</translation>
     </message>
     <message>
         <source>Dust</source>
@@ -775,7 +775,7 @@ Address: %4
     </message>
     <message>
         <source>This label turns red, if the priority is smaller than &quot;medium&quot;.</source>
-        <translation type="unfinished"/>
+        <translation>優先度が「中」未満の場合には、このラベルは赤くなります。</translation>
     </message>
     <message>
         <source>This label turns red, if any recipient receives an amount smaller than %1.</source>
@@ -982,11 +982,11 @@ Address: %4
     <name>OpenURIDialog</name>
     <message>
         <source>Open URI</source>
-        <translation type="unfinished"/>
+        <translation>URI を開く</translation>
     </message>
     <message>
         <source>Open payment request from URI or file</source>
-        <translation type="unfinished"/>
+        <translation>URI またはファイルから支払いリクエストを開く</translation>
     </message>
     <message>
         <source>URI:</source>
@@ -994,11 +994,11 @@ Address: %4
     </message>
     <message>
         <source>Select payment request file</source>
-        <translation type="unfinished"/>
+        <translation>支払いリクエストファイルを選択してください</translation>
     </message>
     <message>
         <source>Select payment request file to open</source>
-        <translation type="unfinished"/>
+        <translation>開きたい支払いリクエストファイルを選択してください</translation>
     </message>
 </context>
 <context>
@@ -1029,11 +1029,11 @@ Address: %4
     </message>
     <message>
         <source>Size of &amp;database cache</source>
-        <translation type="unfinished"/>
+        <translation>データベースキャッシュのサイズ (&amp;D)</translation>
     </message>
     <message>
         <source>MB</source>
-        <translation type="unfinished"/>
+        <translation>MB</translation>
     </message>
     <message>
         <source>Number of script &amp;verification threads</source>
@@ -1049,6 +1049,14 @@ Address: %4
     </message>
     <message>
         <source>IP address of the proxy (e.g. IPv4: 127.0.0.1 / IPv6: ::1)</source>
+        <translation>プロキシのIPアドレス (例えば IPv4: 127.0.0.1 / IPv6: ::1)</translation>
+    </message>
+    <message>
+        <source>Third party URLs (e.g. a block explorer) that appear in the transactions tab as context menu items. %s in the URL is replaced by transaction hash. Multiple URLs are separated by vertical bar |.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <source>Third party transaction URLs</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1073,15 +1081,15 @@ Address: %4
     </message>
     <message>
         <source>W&amp;allet</source>
-        <translation type="unfinished"/>
+        <translation>ウォレット (&amp;A)</translation>
     </message>
     <message>
         <source>Expert</source>
-        <translation type="unfinished"/>
+        <translation>エクスポート</translation>
     </message>
     <message>
         <source>Enable coin &amp;control features</source>
-        <translation type="unfinished"/>
+        <translation>コインコントロール機能を有効化する (&amp;C)</translation>
     </message>
     <message>
         <source>If you disable the spending of unconfirmed change, the change from a transaction cannot be used until that transaction has at least one confirmation. This also affects how your balance is computed.</source>
@@ -1185,7 +1193,7 @@ Address: %4
     </message>
     <message>
         <source>none</source>
-        <translation type="unfinished"/>
+        <translation>なし</translation>
     </message>
     <message>
         <source>Confirm options reset</source>
@@ -1421,7 +1429,7 @@ Address: %4
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"/>
+        <translation>名前</translation>
     </message>
     <message>
         <source>Number of connections</source>
@@ -1465,11 +1473,11 @@ Address: %4
     </message>
     <message>
         <source>In:</source>
-        <translation type="unfinished"/>
+        <translation>入力:</translation>
     </message>
     <message>
         <source>Out:</source>
-        <translation type="unfinished"/>
+        <translation>出力:</translation>
     </message>
     <message>
         <source>Build date</source>
@@ -1501,31 +1509,31 @@ Address: %4
     </message>
     <message>
         <source>%1 B</source>
-        <translation type="unfinished"/>
+        <translation>%1 B</translation>
     </message>
     <message>
         <source>%1 KB</source>
-        <translation type="unfinished"/>
+        <translation>%1 KB</translation>
     </message>
     <message>
         <source>%1 MB</source>
-        <translation type="unfinished"/>
+        <translation>%1 MB</translation>
     </message>
     <message>
         <source>%1 GB</source>
-        <translation type="unfinished"/>
+        <translation>%1 GB</translation>
     </message>
     <message>
         <source>%1 m</source>
-        <translation type="unfinished"/>
+        <translation>%1 m</translation>
     </message>
     <message>
         <source>%1 h</source>
-        <translation type="unfinished"/>
+        <translation>%1 h</translation>
     </message>
     <message>
         <source>%1 h %2 m</source>
-        <translation type="unfinished"/>
+        <translation>%1 h %2 m</translation>
     </message>
 </context>
 <context>
@@ -1540,7 +1548,7 @@ Address: %4
     </message>
     <message>
         <source>&amp;Message:</source>
-        <translation type="unfinished"/>
+        <translation>メッセージ (&amp;M):</translation>
     </message>
     <message>
         <source>Reuse one of the previously used receiving addresses. Reusing addresses has security and privacy issues. Do not use this unless re-generating a payment request made before.</source>
@@ -1604,7 +1612,7 @@ Address: %4
     </message>
     <message>
         <source>Copy message</source>
-        <translation type="unfinished"/>
+        <translation>メッセージをコピーする</translation>
     </message>
     <message>
         <source>Copy amount</source>
@@ -1619,11 +1627,11 @@ Address: %4
     </message>
     <message>
         <source>Copy &amp;URI</source>
-        <translation type="unfinished"/>
+        <translation>URI をコピーする (&amp;U)</translation>
     </message>
     <message>
         <source>Copy &amp;Address</source>
-        <translation type="unfinished"/>
+        <translation>アドレスをコピーする (&amp;A)</translation>
     </message>
     <message>
         <source>&amp;Save Image...</source>
@@ -1631,7 +1639,7 @@ Address: %4
     </message>
     <message>
         <source>Request payment to %1</source>
-        <translation type="unfinished"/>
+        <translation>%1 への支払いリクエストを行う</translation>
     </message>
     <message>
         <source>Payment information</source>
@@ -1639,7 +1647,7 @@ Address: %4
     </message>
     <message>
         <source>URI</source>
-        <translation type="unfinished"/>
+        <translation>URI</translation>
     </message>
     <message>
         <source>Address</source>
@@ -1705,27 +1713,27 @@ Address: %4
     </message>
     <message>
         <source>Coin Control Features</source>
-        <translation type="unfinished"/>
+        <translation>コインコントロール機能</translation>
     </message>
     <message>
         <source>Inputs...</source>
-        <translation type="unfinished"/>
+        <translation>入力...</translation>
     </message>
     <message>
         <source>automatically selected</source>
-        <translation type="unfinished"/>
+        <translation>自動選択</translation>
     </message>
     <message>
         <source>Insufficient funds!</source>
-        <translation type="unfinished"/>
+        <translation>残高不足です！</translation>
     </message>
     <message>
         <source>Quantity:</source>
-        <translation type="unfinished"/>
+        <translation>数量:</translation>
     </message>
     <message>
         <source>Bytes:</source>
-        <translation type="unfinished"/>
+        <translation>バイト:</translation>
     </message>
     <message>
         <source>Amount:</source>
@@ -1733,11 +1741,11 @@ Address: %4
     </message>
     <message>
         <source>Priority:</source>
-        <translation type="unfinished"/>
+        <translation>優先度:</translation>
     </message>
     <message>
         <source>Fee:</source>
-        <translation type="unfinished"/>
+        <translation>手数料:</translation>
     </message>
     <message>
         <source>Low Output:</source>
@@ -1745,7 +1753,7 @@ Address: %4
     </message>
     <message>
         <source>After Fee:</source>
-        <translation type="unfinished"/>
+        <translation>手数料差引後:</translation>
     </message>
     <message>
         <source>Change:</source>
@@ -1797,7 +1805,7 @@ Address: %4
     </message>
     <message>
         <source>Copy quantity</source>
-        <translation type="unfinished"/>
+        <translation>数量をコピーする</translation>
     </message>
     <message>
         <source>Copy amount</source>
@@ -1805,19 +1813,19 @@ Address: %4
     </message>
     <message>
         <source>Copy fee</source>
-        <translation type="unfinished"/>
+        <translation>手数料をコピーする</translation>
     </message>
     <message>
         <source>Copy after fee</source>
-        <translation type="unfinished"/>
+        <translation>手数料差引後の値をコピーする</translation>
     </message>
     <message>
         <source>Copy bytes</source>
-        <translation type="unfinished"/>
+        <translation>バイト数をコピーする</translation>
     </message>
     <message>
         <source>Copy priority</source>
-        <translation type="unfinished"/>
+        <translation>優先度をコピーする</translation>
     </message>
     <message>
         <source>Copy low output</source>
@@ -1956,7 +1964,7 @@ Address: %4
     </message>
     <message>
         <source>Pay To:</source>
-        <translation type="unfinished"/>
+        <translation>支払先:</translation>
     </message>
     <message>
         <source>Memo:</source>
@@ -2128,7 +2136,7 @@ Address: %4
     <name>TrafficGraphWidget</name>
     <message>
         <source>KB/s</source>
-        <translation type="unfinished"/>
+        <translation>KB/s</translation>
     </message>
 </context>
 <context>
@@ -2325,11 +2333,11 @@ Address: %4
     </message>
     <message>
         <source>Offline</source>
-        <translation type="unfinished"/>
+        <translation>オフライン</translation>
     </message>
     <message>
         <source>Unconfirmed</source>
-        <translation type="unfinished"/>
+        <translation>未検証</translation>
     </message>
     <message>
         <source>Confirming (%1 of %2 recommended confirmations)</source>
@@ -2468,19 +2476,19 @@ Address: %4
     </message>
     <message>
         <source>Export Transaction History</source>
-        <translation type="unfinished"/>
+        <translation>トランザクション履歴をエクスポートする</translation>
     </message>
     <message>
         <source>Exporting Failed</source>
-        <translation type="unfinished"/>
+        <translation>エクスポートに失敗しました</translation>
     </message>
     <message>
         <source>There was an error trying to save the transaction history to %1.</source>
-        <translation type="unfinished"/>
+        <translation>トランザクション履歴を %1 へ保存する際にエラーが発生しました。</translation>
     </message>
     <message>
         <source>Exporting Successful</source>
-        <translation type="unfinished"/>
+        <translation>エクスポートに成功しました</translation>
     </message>
     <message>
         <source>The transaction history was successfully saved to %1.</source>
@@ -2599,8 +2607,8 @@ Address: %4
         <translation>設定ファイルの指定 (初期値: dogecoin.conf)</translation>
     </message>
     <message>
-        <source>Specify pid file (default: bitcoind.pid)</source>
-        <translation>pid ファイルの指定 (初期値: bitcoind.pid)</translation>
+        <source>Specify pid file (default: dogecoind.pid)</source>
+        <translation>pid ファイルの指定 (初期値: dogecoind.pid)</translation>
     </message>
     <message>
         <source>Specify data directory</source>
@@ -2662,7 +2670,7 @@ Address: %4
         <source>%s, you must set a rpcpassword in the configuration file:
 %s
 It is recommended you use the following random password:
-rpcuser=bitcoinrpc
+rpcuser=dogecoinrpc
 rpcpassword=%s
 (you do not need to remember this password)
 The username and password MUST NOT be the same.
@@ -2673,7 +2681,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Dogecoin Alert&quot; admin@foo
         <translation>%s, rpcpassword を設定ファイルで設定してください:
 %s
 下記のランダムなパスワードの使用を推奨します:
-rpcuser=bitcoinrpc
+rpcuser=dogecoinrpc
 rpcpassword=%s
 (このパスワードを覚える必要はありません)
 ユーザー名とパスワードが同じであってはいけません。
@@ -2783,11 +2791,11 @@ rpcpassword=%s
     </message>
     <message>
         <source>(default: 1)</source>
-        <translation type="unfinished"/>
+        <translation>(デフォルト: 1)</translation>
     </message>
     <message>
         <source>(default: wallet.dat)</source>
-        <translation type="unfinished"/>
+        <translation>(デフォルト: wallet.dat)</translation>
     </message>
     <message>
         <source>&lt;category&gt; can be:</source>
@@ -2815,7 +2823,7 @@ rpcpassword=%s
     </message>
     <message>
         <source>Connect through SOCKS proxy</source>
-        <translation type="unfinished"/>
+        <translation>SOCKS プロキシ経由で接続する</translation>
     </message>
     <message>
         <source>Connect to JSON-RPC on &lt;port&gt; (default: 8332 or testnet: 18332)</source>
@@ -2832,7 +2840,7 @@ rpcpassword=%s
     </message>
     <message>
         <source>Debugging/Testing options:</source>
-        <translation type="unfinished"/>
+        <translation>デバッグ／テスト用オプション:</translation>
     </message>
     <message>
         <source>Disable safemode, override a real safe mode event (default: 0)</source>
@@ -2924,11 +2932,11 @@ rpcpassword=%s
     </message>
     <message>
         <source>Fee per kB to add to transactions you send</source>
-        <translation type="unfinished"/>
+        <translation>送信するトランザクションの1kBあたりの手数料</translation>
     </message>
     <message>
         <source>Fees smaller than this are considered zero fee (for relaying) (default:</source>
-        <translation type="unfinished"/>
+        <translation>この値未満の (中継) 手数料はゼロであるとみなす (デフォルト:</translation>
     </message>
     <message>
         <source>Find peers using DNS lookup (default: 1 unless -connect)</source>
@@ -2936,7 +2944,7 @@ rpcpassword=%s
     </message>
     <message>
         <source>Force safe mode (default: 0)</source>
-        <translation type="unfinished"/>
+        <translation>セーフモードを矯正する (デフォルト: 0)</translation>
     </message>
     <message>
         <source>Generate coins (default: 0)</source>
@@ -2948,7 +2956,7 @@ rpcpassword=%s
     </message>
     <message>
         <source>If &lt;category&gt; is not supplied, output all debugging information.</source>
-        <translation type="unfinished"/>
+        <translation>&lt;category&gt; が与えられなかった場合には、すべてのデバッグ情報が出力されます。</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -2972,7 +2980,7 @@ rpcpassword=%s
     </message>
     <message>
         <source>RPC client options:</source>
-        <translation type="unfinished"/>
+        <translation>RPC クライアントのオプション:</translation>
     </message>
     <message>
         <source>Rebuild block chain index from current blk000??.dat files</source>
@@ -3020,7 +3028,7 @@ rpcpassword=%s
     </message>
     <message>
         <source>Wait for RPC server to start</source>
-        <translation type="unfinished"/>
+        <translation>RPC サーバが開始するのを待つ</translation>
     </message>
     <message>
         <source>Wallet %s resides outside data directory %s</source>
@@ -3032,7 +3040,7 @@ rpcpassword=%s
     </message>
     <message>
         <source>Warning: Deprecated argument -debugnet ignored, use -debug=net</source>
-        <translation type="unfinished"/>
+        <translation>警告: 非推奨の引数 -debugnet は無視されました。-debug=net を使用してください</translation>
     </message>
     <message>
         <source>You need to rebuild the database using -reindex to change -txindex</source>
@@ -3072,11 +3080,11 @@ rpcpassword=%s
     </message>
     <message>
         <source>Limit size of signature cache to &lt;n&gt; entries (default: 50000)</source>
-        <translation type="unfinished"/>
+        <translation>署名キャッシュのサイズを &lt;n&gt; エントリーに制限する (デフォルト: 50000)</translation>
     </message>
     <message>
         <source>Log transaction priority and fee per kB when mining blocks (default: 0)</source>
-        <translation type="unfinished"/>
+        <translation>ブロックの採掘時にトランザクションの優先度と1kBあたりの手数料をログに残す (デフォルト: 0)</translation>
     </message>
     <message>
         <source>Maintain a full transaction index (default: 0)</source>
@@ -3108,11 +3116,11 @@ rpcpassword=%s
     </message>
     <message>
         <source>RPC SSL options: (see the Bitcoin Wiki for SSL setup instructions)</source>
-        <translation type="unfinished"/>
+        <translation>RPC SSL オプション: (SSLのセットアップ手順はビットコインWikiを参照してください)</translation>
     </message>
     <message>
         <source>RPC server options:</source>
-        <translation type="unfinished"/>
+        <translation>RPCサーバのオプション:</translation>
     </message>
     <message>
         <source>Randomly drop 1 of every &lt;n&gt; network messages</source>
