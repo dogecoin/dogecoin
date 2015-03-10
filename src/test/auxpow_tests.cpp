@@ -1,4 +1,4 @@
-// Copyright (c) 2014 Daniel Kraft
+// Copyright (c) 2014-2015 Daniel Kraft
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -7,17 +7,17 @@
 #include "coins.h"
 #include "main.h"
 #include "uint256.h"
-
 #include "primitives/block.h"
-
 #include "script/script.h"
+
+#include "test/test_bitcoin.h"
 
 #include <boost/test/unit_test.hpp>
 
 #include <algorithm>
 #include <vector>
 
-BOOST_AUTO_TEST_SUITE (auxpow_tests)
+BOOST_FIXTURE_TEST_SUITE (auxpow_tests, TestingSetup)
 
 /* ************************************************************************** */
 
