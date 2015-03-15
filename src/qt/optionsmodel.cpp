@@ -61,10 +61,6 @@ void OptionsModel::Init()
     if(!BitcoinUnits::valid(nDisplayUnit))
         nDisplayUnit = BitcoinUnits::DOGE;
 
-    if (!settings.contains("bDisplayAddresses"))
-        settings.setValue("bDisplayAddresses", false);
-    bDisplayAddresses = settings.value("bDisplayAddresses", false).toBool();
-
     if (!settings.contains("strThirdPartyTxUrls"))
         settings.setValue("strThirdPartyTxUrls", "https://dogechain.info/tx/%s|https://chain.so/tx/DOGE/%s");
     strThirdPartyTxUrls = settings.value("strThirdPartyTxUrls", "").toString();
@@ -202,8 +198,6 @@ QVariant OptionsModel::data(const QModelIndex & index, int role) const
 #endif
         case DisplayUnit:
             return nDisplayUnit;
-        case DisplayAddresses:
-            return bDisplayAddresses;
         case ThirdPartyTxUrls:
             return strThirdPartyTxUrls;
         case Language:
@@ -297,10 +291,6 @@ bool OptionsModel::setData(const QModelIndex & index, const QVariant & value, in
 #endif
         case DisplayUnit:
             setDisplayUnit(value);
-            break;
-        case DisplayAddresses:
-            bDisplayAddresses = value.toBool();
-            settings.setValue("bDisplayAddresses", bDisplayAddresses);
             break;
         case ThirdPartyTxUrls:
             if (strThirdPartyTxUrls != value.toString()) {
