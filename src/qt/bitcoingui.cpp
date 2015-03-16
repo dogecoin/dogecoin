@@ -288,7 +288,7 @@ void BitcoinGUI::createActions(bool fIsTestnet)
         aboutAction = new QAction(QIcon(":/icons/bitcoin"), tr("&About Dogecoin Core"), this);
     else
         aboutAction = new QAction(QIcon(":/icons/bitcoin_testnet"), tr("&About Dogecoin Core"), this);
-    aboutAction->setStatusTip(tr("Show information about Dogecoin"));
+    aboutAction->setStatusTip(tr("Show information about Dogecoin Core"));
     aboutAction->setMenuRole(QAction::AboutRole);
 #if QT_VERSION < 0x050000
     aboutQtAction = new QAction(QIcon(":/trolltech/qmessagebox/images/qtlogo-64.png"), tr("About &Qt"), this);
@@ -499,12 +499,12 @@ void BitcoinGUI::createTrayIcon(bool fIsTestnet)
 
     if (!fIsTestnet)
     {
-        trayIcon->setToolTip(tr("Dogecoin client"));
+        trayIcon->setToolTip(tr("Dogecoin Core client"));
         trayIcon->setIcon(QIcon(":/icons/toolbar"));
     }
     else
     {
-        trayIcon->setToolTip(tr("Dogecoin client") + " " + tr("[testnet]"));
+        trayIcon->setToolTip(tr("Dogecoin Core client") + " " + tr("[testnet]"));
         trayIcon->setIcon(QIcon(":/icons/toolbar_testnet"));
     }
 
