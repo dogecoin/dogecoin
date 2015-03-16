@@ -8,6 +8,7 @@
 #include "chainparams.h"
 
 #include "assert.h"
+#include "random.h"
 #include "util.h"
 
 #include <boost/assign/list_of.hpp>
