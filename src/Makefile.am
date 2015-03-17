@@ -98,7 +98,6 @@ BITCOIN_CORE_H = \
   rpcprotocol.h \
   rpcserver.h \
   script.h \
-  scrypt.h \
   serialize.h \
   sync.h \
   threadsafety.h \
@@ -112,7 +111,8 @@ BITCOIN_CORE_H = \
   version.h \
   walletdb.h \
   wallet.h \
-  compat/sanity.h
+  compat/sanity.h \
+  crypto/scrypt.h
 
 JSON_H = \
   json/json_spirit.h \
