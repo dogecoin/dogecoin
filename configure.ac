@@ -258,6 +258,9 @@ case $host in
 
      CPPFLAGS="$CPPFLAGS -DMAC_OSX"
      ;;
+   *linux*)
+     TARGET_OS=linux
+     ;;
    *)
      ;;
 esac
@@ -526,7 +529,7 @@ BITCOIN_QT_INIT
 
 if test x$use_pkgconfig = xyes; then
 
-  if test x$PKG_CONFIG == x; then
+  if test x"$PKG_CONFIG" == "x"; then
     AC_MSG_ERROR(pkg-config not found.)
   fi
 
