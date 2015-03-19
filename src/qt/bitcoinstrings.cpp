@@ -138,7 +138,7 @@ QT_TRANSLATE_NOOP("bitcoin-core", ""
 "or other nodes may need to upgrade."),
 QT_TRANSLATE_NOOP("bitcoin-core", ""
 "Warning: Please check that your computer's date and time are correct! If "
-"your clock is wrong Bitcoin will not work properly."),
+"your clock is wrong Dogecoin will not work properly."),
 QT_TRANSLATE_NOOP("bitcoin-core", ""
 "Warning: The network does not appear to fully agree! Some miners appear to "
 "be experiencing issues."),
@@ -256,6 +256,7 @@ QT_TRANSLATE_NOOP("bitcoin-core", "Randomly drop 1 of every <n> network messages
 QT_TRANSLATE_NOOP("bitcoin-core", "Randomly fuzz 1 of every <n> network messages"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Rebuild block chain index from current blk000??.dat files"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Relay and mine data carrier transactions (default: 1)"),
+QT_TRANSLATE_NOOP("bitcoin-core", "Relay non-P2SH multisig (default: 1)"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Rescan the block chain for missing wallet transactions"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Rescanning..."),
 QT_TRANSLATE_NOOP("bitcoin-core", "Run a thread to flush wallet periodically (default: 1)"),
