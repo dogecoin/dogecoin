@@ -81,7 +81,7 @@ class BitcoinTestFramework(object):
         if not self.options.nocleanup:
             print("Cleaning up")
             stop_nodes(nodes)
-            wait_bitcoinds()
+            wait_dogecoinds()
             shutil.rmtree(self.options.tmpdir)
 
         if success:
