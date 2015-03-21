@@ -112,7 +112,7 @@ def initialize_chain(test_dir):
 
         # Shut them down, and remove debug.logs:
         stop_nodes(rpcs)
-        wait_bitcoinds()
+        wait_dogecoinds()
         for i in range(4):
             os.remove(debug_log("cache", i))
 
@@ -180,7 +180,7 @@ def stop_nodes(nodes):
         nodes[i].stop()
     del nodes[:] # Emptying array closes connections as a side effect
 
-def wait_bitcoinds():
+def wait_dogecoinds():
     # Wait for all dogecoinds to cleanly exit
     for dogecoind in dogecoind_processes.values():
         dogecoind.wait()

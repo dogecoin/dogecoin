@@ -37,7 +37,7 @@ def run_bind_test(tmpdir, allow_ips, connect_to, addresses, expected):
         assert_equal(set(get_bind_addrs(pid)), set(expected))
     finally:
         stop_nodes(nodes)
-        wait_bitcoinds()
+        wait_dogecoinds()
 
 def run_allowip_test(tmpdir, allow_ips, rpchost, rpcport):
     '''
@@ -54,7 +54,7 @@ def run_allowip_test(tmpdir, allow_ips, rpchost, rpcport):
     finally:
         node = None # make sure connection will be garbage collected and closed
         stop_nodes(nodes)
-        wait_bitcoinds()
+        wait_dogecoinds()
 
 
 def run_test(tmpdir):
@@ -140,7 +140,7 @@ def main():
 
     if not options.nocleanup:
         print("Cleaning up")
-        wait_bitcoinds()
+        wait_dogecoinds()
         shutil.rmtree(options.tmpdir)
 
     if success:

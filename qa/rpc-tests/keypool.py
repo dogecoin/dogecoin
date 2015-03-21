@@ -44,7 +44,7 @@ def check_array_result(object_array, to_match, expected):
 def run_test(nodes, tmpdir):
     # Encrypt wallet and wait to terminate
     nodes[0].encryptwallet('test')
-    bitcoind_processes[0].wait()
+    dogecoind_processes[0].wait()
     # Restart node 0
     nodes[0] = start_node(0, tmpdir)
     # Keep creating keys
@@ -118,7 +118,7 @@ def main():
     if not options.nocleanup:
         print("Cleaning up")
         stop_nodes(nodes)
-        wait_bitcoinds()
+        wait_dogecoinds()
         shutil.rmtree(options.tmpdir)
 
     if success:
