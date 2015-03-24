@@ -5,6 +5,10 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
+#if defined(HAVE_CONFIG_H)
+#include "config/bitcoin-config.h"
+#endif
+
 #include "util.h"
 
 #include "chainparamsbase.h"
@@ -26,7 +30,6 @@
 #endif
 
 #define _POSIX_C_SOURCE 200112L
-#include <sys/prctl.h>
 
 #endif // __linux__
 
@@ -61,6 +64,10 @@
 
 #include <io.h> /* for _commit */
 #include <shlobj.h>
+#endif
+
+#ifdef HAVE_SYS_PRCTL_H
+#include <sys/prctl.h>
 #endif
 
 #include <boost/algorithm/string/case_conv.hpp> // for to_lower()
