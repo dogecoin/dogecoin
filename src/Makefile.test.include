@@ -76,7 +76,7 @@ if USE_LIBSECP256K1
   test_test_dogecoin_LDADD += secp256k1/libsecp256k1.la
 endif
 
-test_test_dogecoin_LDADD += $(BDB_LIBS)
+test_test_dogecoin_LDADD += $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS)
 
 nodist_test_test_dogecoin_SOURCES = $(GENERATED_TEST_FILES)
 
