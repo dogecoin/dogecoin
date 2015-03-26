@@ -887,11 +887,6 @@ public:
 
     std::string ToString() const; //moved code to main.cpp because new method required access to auxpow
 
-    void print() const
-    {
-        LogPrintf("%s\n", ToString());
-    }
-
     // Check whether this block index entry is valid up to the passed validity level.
     bool IsValid(enum BlockStatus nUpTo = BLOCK_VALID_TRANSACTIONS) const
     {
@@ -976,11 +971,6 @@ public:
     }
 
     std::string ToString() const; // moved code to main.cpp
-
-    void print() const
-    {
-        LogPrintf("%s\n", ToString());
-    }
 };
 
 /** Capture information about block/transaction validation */

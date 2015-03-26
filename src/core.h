@@ -70,7 +70,6 @@ public:
     }
 
     std::string ToString() const;
-    void print() const;
 };
 
 /** An inpoint - a combination of a transaction and an index n into its vin */
@@ -130,7 +129,6 @@ public:
     }
 
     std::string ToString() const;
-    void print() const;
 };
 
 
@@ -225,7 +223,6 @@ public:
     }
 
     std::string ToString() const;
-    void print() const;
 };
 
 
@@ -309,7 +306,6 @@ public:
     }
 
     std::string ToString() const;
-    void print() const;
 };
 
 /** A mutable version of CTransaction. */
@@ -547,7 +543,7 @@ public:
 
     std::vector<uint256> GetMerkleBranch(int nIndex) const;
     static uint256 CheckMerkleBranch(uint256 hash, const std::vector<uint256>& vMerkleBranch, int nIndex);
-    void print() const;
+    std::string ToString() const;
 };
 
 
