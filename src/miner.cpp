@@ -310,7 +310,7 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn)
 
         // Fill in header
         pblock->hashPrevBlock  = pindexPrev->GetBlockHash();
-        UpdateTime(*pblock, pindexPrev);
+        UpdateTime(pblock, pindexPrev);
         pblock->nBits          = GetNextWorkRequired(pindexPrev, pblock);
         pblock->nNonce         = 0;
         pblocktemplate->vTxSigOps[0] = GetLegacySigOpCount(pblock->vtx[0]);
@@ -573,7 +573,7 @@ void static DogecoinMiner(CWallet *pwallet)
                     break;
 
                 // Update nTime every few seconds
-                UpdateTime(*pblock, pindexPrev);
+                UpdateTime(pblock, pindexPrev);
                 if (Params().AllowMinDifficultyBlocks())
                 {
                     // Changing pblock->nTime can change work required on testnet:

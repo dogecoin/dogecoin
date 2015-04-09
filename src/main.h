@@ -17,6 +17,7 @@
 #include "coins.h"
 #include "core.h"
 #include "net.h"
+#include "pow.h"
 #include "script.h"
 #include "crypto/scrypt.h"
 #include "sync.h"
@@ -190,11 +191,8 @@ bool ActivateBestChain(CValidationState &state);
 int64_t GetBlockValue(int nHeight, int64_t nFees, uint256 prevHash);
 unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock);
 
-void UpdateTime(CBlockHeader& block, const CBlockIndex* pindexPrev);
-
 /** Determine whether the block version is modulated with auxpow logic */
 bool IsAuxPowVersion(int nVersion);
-
 /** Create a new block index entry for a given block hash */
 CBlockIndex * InsertBlockIndex(uint256 hash);
 /** Verify a signature */
@@ -848,17 +846,7 @@ public:
 
     uint256 GetBlockWork() const
     {
-        uint256 bnTarget;
-        bool fNegative;
-        bool fOverflow;
-        bnTarget.SetCompact(nBits, &fNegative, &fOverflow);
-        if (fNegative || fOverflow || bnTarget == 0)
-            return 0;
-        // We need to compute 2**256 / (bnTarget+1), but we can't represent 2**256
-        // as it's too large for a uint256. However, as 2**256 is at least as large
-        // as bnTarget+1, it is equal to ((2**256 - bnTarget - 1) / (bnTarget+1)) + 1,
-        // or ~bnTarget / (nTarget+1) + 1.
-        return (~bnTarget / (bnTarget + 1)) + 1;
+        return GetProofIncrement(nBits);
     }
 
     enum { nMedianTimeSpan=11 };

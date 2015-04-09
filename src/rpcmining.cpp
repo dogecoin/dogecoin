@@ -499,7 +499,7 @@ Value getblocktemplate(const Array& params, bool fHelp)
     CBlock* pblock = &pblocktemplate->block; // pointer for convenience
 
     // Update nTime
-    UpdateTime(*pblock, pindexPrev);
+    UpdateTime(pblock, pindexPrev);
     pblock->nNonce = 0;
 
     Array transactions;
