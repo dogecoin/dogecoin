@@ -26,6 +26,7 @@ output.
 
 Optional config file setting for linearize-data:
 * "netmagic": network magic number
+* "genesis_hash": Genesis hash of the used chain. Used for sanity check. (default mainnet genesis hash)
 * "max_out_sz": maximum output file size (default 1000*1000*1000)
 * "split_year": Split files when a new year is first seen, in addition to
 reaching a maximum file size.
