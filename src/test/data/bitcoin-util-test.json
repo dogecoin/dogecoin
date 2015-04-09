@@ -1,0 +1,9 @@
+[
+  { "exec": ["./dogecoin-tx", "-create"],
+    "output_cmp": "blanktx.hex"
+  },
+  { "exec": ["./dogecoin-tx", "-"],
+    "input": "blanktx.hex",
+    "output_cmp": "blanktx.hex"
+  }
+]
