@@ -143,7 +143,15 @@ QString BitcoinUnits::format(int unit, qint64 n, bool fPlus, bool fTrim, const Q
         quotient_str.insert(0, '-');
     else if (fPlus && n >= 0)
         quotient_str.insert(0, '+');
-    return quotient_str + locale.decimalPoint() + remainder_str;
+
+    // Dogecoin-specific: Handle cases where 0 decimals are valid/required (Koinu)
+    QString final_str;
+    if (num_decimals > 0 && remainder_str.size() > 0)
+        final_str = quotient_str + locale.decimalPoint() + remainder_str;
+    else
+        final_str = quotient_str;
+
+    return final_str;
 }
 
 QString BitcoinUnits::formatWithUnit(int unit, qint64 amount, bool plussign, bool trim, const QLocale &locale)
