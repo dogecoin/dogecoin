@@ -512,7 +512,7 @@ fi
 
 AC_ARG_WITH([utils],
   [AS_HELP_STRING([--with-utils],
-  [build bitcoin-cli dogecoin-tx (default=yes)])],
+  [build dogecoin-cli and dogecoin-tx (default=yes)])],
   [build_bitcoin_utils=$withval],
   [build_bitcoin_utils=yes])
 
@@ -562,7 +562,7 @@ AC_MSG_CHECKING([whether to build dogecoind])
 AM_CONDITIONAL([BUILD_BITCOIND], [test x$build_dogecoind = xyes])
 AC_MSG_RESULT($build_dogecoind)
 
-AC_MSG_CHECKING([whether to build utils (bitcoin-cli dogecoin-tx)])
+AC_MSG_CHECKING([whether to build utils (dogecoin-cli and dogecoin-tx)])
 AM_CONDITIONAL([BUILD_BITCOIN_UTILS], [test x$build_bitcoin_utils = xyes])
 AC_MSG_RESULT($build_bitcoin_utils)
 
