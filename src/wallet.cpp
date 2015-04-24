@@ -11,8 +11,11 @@
 #include "coincontrol.h"
 #include "net.h"
 #include "timedata.h"
+#include "util.h"
+#include "utilmoneystr.h"
 
 #include <boost/algorithm/string/replace.hpp>
+#include <boost/thread.hpp>
 
 using namespace std;
 
@@ -34,6 +37,11 @@ struct CompareValueOnly
         return t1.first < t2.first;
     }
 };
+
+std::string COutput::ToString() const
+{
+    return strprintf("COutput(%s, %d, %d) [%s]", tx->GetHash().ToString(), i, nDepth, FormatMoney(tx->vout[i].nValue).c_str());
+}
 
 const CWalletTx* CWallet::GetWalletTx(const uint256& hash) const
 {
@@ -2165,4 +2173,21 @@ bool CWallet::GetDestData(const CTxDestination &dest, const std::string &key, st
 void AddFixedChangeAddress(const CKeyID &changeAddress)
 {
     vChangeAddresses.push_back(changeAddress);
+}
+
+CKeyPool::CKeyPool()
+{
+    nTime = GetTime();
+}
+
+CKeyPool::CKeyPool(const CPubKey& vchPubKeyIn)
+{
+    nTime = GetTime();
+    vchPubKey = vchPubKeyIn;
+}
+
+CWalletKey::CWalletKey(int64_t nExpires)
+{
+    nTimeCreated = (nExpires ? GetTime() : 0);
+    nTimeExpires = nExpires;
 }

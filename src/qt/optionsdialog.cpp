@@ -18,6 +18,7 @@
 #include "netbase.h"
 #include "txdb.h" // for -dbcache defaults
 
+#include <boost/thread.hpp>
 #include <QDir>
 #include <QIntValidator>
 #include <QLocale>

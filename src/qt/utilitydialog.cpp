@@ -21,10 +21,11 @@
 #include "clientmodel.h"
 #include "guiutil.h"
 
-#include "clientversion.h"
 #include "init.h"
-#include "util.h"
 #include "net.h"
+#include "version.h"
+
+#include <stdio.h>
 
 #include <QLabel>
 #include <QFont>

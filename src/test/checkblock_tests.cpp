@@ -10,6 +10,7 @@
 
 #include "main.h"
 #include "auxpow.h"
+#include "utiltime.h"
 
 #include <cstdio>
 

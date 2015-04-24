@@ -8,6 +8,7 @@
 #include "main.h"
 #include "rpcserver.h"
 #include "sync.h"
+#include "util.h"
 
 #include <stdint.h>
 

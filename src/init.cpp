@@ -23,6 +23,7 @@
 #include "txdb.h"
 #include "ui_interface.h"
 #include "util.h"
+#include "utilmoneystr.h"
 #ifdef ENABLE_WALLET
 #include "db.h"
 #include "wallet.h"
@@ -42,6 +43,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/interprocess/sync/file_lock.hpp>
 #include <boost/lexical_cast.hpp>
+#include <boost/thread.hpp>
 #include <openssl/crypto.h>
 
 using namespace boost;
