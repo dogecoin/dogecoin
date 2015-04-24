@@ -97,10 +97,10 @@ void BitcoinUnitsTests::formatTests()
     QCOMPARE(BitcoinUnits::format(BitcoinUnits::DOGE, 0, false, true, locale1), QString("0.00"));
     QCOMPARE(BitcoinUnits::format(BitcoinUnits::kDOGE, 0, false, false, locale1), QString("0.00000000000"));
     QCOMPARE(BitcoinUnits::format(BitcoinUnits::MDOGE, 0, false, false, locale1), QString("0.00000000000000"));
-    QCOMPARE(BitcoinUnits::format(BitcoinUnits::Koinu, 0, false, false, locale1), QString("0.0"));
+    QCOMPARE(BitcoinUnits::format(BitcoinUnits::Koinu, 0, false, false, locale1), QString("0"));
     QCOMPARE(BitcoinUnits::format(BitcoinUnits::DOGE, 0, true, false, locale1), QString("+0.00000000"));
-    QCOMPARE(BitcoinUnits::format(BitcoinUnits::Koinu, 100000000, false, true, locale1), QString("100,000,000.0"));
-    QCOMPARE(BitcoinUnits::format(BitcoinUnits::Koinu, 100000000, true, true, locale1), QString("+100,000,000.0"));
+    QCOMPARE(BitcoinUnits::format(BitcoinUnits::Koinu, 100000000, false, true, locale1), QString("100,000,000"));
+    QCOMPARE(BitcoinUnits::format(BitcoinUnits::Koinu, 100000000, true, true, locale1), QString("+100,000,000"));
 
     QCOMPARE(BitcoinUnits::formatWithUnit(BitcoinUnits::DOGE, 100000000000000LL, false, true, locale1), QString("1,000,000.00 DOGE"));
     QCOMPARE(BitcoinUnits::formatWithUnit(BitcoinUnits::kDOGE, 100000000000000LL, false, true, locale1), QString("1,000.00 kDOGE"));

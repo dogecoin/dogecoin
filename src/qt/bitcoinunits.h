@@ -48,8 +48,6 @@ public:
     static qint64 factor(int unit);
     //! Max amount per unit
     static qint64 maxAmount(int unit);
-    //! Number of amount digits (to represent max number of coins)
-    static int amountDigits(int unit);
     //! Number of decimals left
     static int decimals(int unit);
     //! Format as string
@@ -73,6 +71,15 @@ public:
     int rowCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
     ///@}
+
+    static QString removeSpaces(QString text)
+    {
+        text.remove(' ');
+        return text;
+    }
+
+    //! Return maximum number of base units (Satoshis)
+    static qint64 maxMoney();
 
 private:
     QList<BitcoinUnits::Unit> unitlist;

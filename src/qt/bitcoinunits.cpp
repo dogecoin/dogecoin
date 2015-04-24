@@ -4,6 +4,8 @@
 
 #include "bitcoinunits.h"
 
+#include "core.h"
+
 #include <QStringList>
 #include <QLocale>
 
@@ -85,18 +87,6 @@ qint64 BitcoinUnits::maxAmount(int unit)
     }
 }
 
-int BitcoinUnits::amountDigits(int unit)
-{
-    switch(unit)
-    {
-    case MDOGE: return 6;  // 900,000 (# digits, without commas)
-    case kDOGE: return 9;  // 900,000,000
-    case DOGE:  return 12; // 900,000,000,000
-    case Koinu: return 19; // 9,000,000,000,000,000,000
-    default: return 0;
-    }
-}
-
 int BitcoinUnits::decimals(int unit)
 {
     switch(unit)
@@ -141,7 +131,15 @@ QString BitcoinUnits::format(int unit, qint64 n, bool fPlus, bool fTrim, const Q
         quotient_str.insert(0, '-');
     else if (fPlus && n >= 0)
         quotient_str.insert(0, '+');
-    return quotient_str + locale.decimalPoint() + remainder_str;
+
+    // Dogecoin-specific: Handle cases where 0 decimals are valid/required (Koinu)
+    QString final_str;
+    if (num_decimals > 0 && remainder_str.size() > 0)
+        final_str = quotient_str + locale.decimalPoint() + remainder_str;
+    else
+        final_str = quotient_str;
+
+    return final_str;
 }
 
 QString BitcoinUnits::formatWithUnit(int unit, qint64 amount, bool plussign, bool trim, const QLocale &locale)
@@ -230,4 +228,9 @@ QVariant BitcoinUnits::data(const QModelIndex &index, int role) const
         }
     }
     return QVariant();
+}
+
+qint64 BitcoinUnits::maxMoney()
+{
+    return MAX_MONEY;
 }
