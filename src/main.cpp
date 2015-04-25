@@ -891,23 +891,33 @@ int64_t GetMinRelayFee(const CTransaction& tx, unsigned int nBytes, bool fAllowF
             return 0;
     }
 
-    int64_t nMinFee = tx.minRelayTxFee.GetFee(nBytes);
+    size_t nFeeBytes = 1000 + (nBytes - (nBytes % 1000));
+    int64_t nMinFee = tx.minRelayTxFee.GetFee(nFeeBytes);
 
+    if (fAllowFree) {
         // There is a free transaction area in blocks created by most miners,
         // * If we are relaying we allow transactions up to DEFAULT_BLOCK_PRIORITY_SIZE - 1000
         //   to be considered to fall into this category. We don't want to encourage sending
         //   multiple transactions instead of one big transaction to avoid fees.
         if (nBytes < (DEFAULT_BLOCK_PRIORITY_SIZE - 1000))
             nMinFee = 0;
+    }
 
-    // Dogecoin
-    // To limit dust spam, add nBaseFee for each output less than DUST_SOFT_LIMIT
-    BOOST_FOREACH(const CTxOut& txout, tx.vout)
-        if (txout.nValue < DUST_SOFT_LIMIT)
-            nMinFee += tx.minRelayTxFee.GetFeePerK();
+    nMinFee += GetDustFee(tx.vout, tx.minRelayTxFee);
     if (!MoneyRange(nMinFee))
         nMinFee = MAX_MONEY;
     return nMinFee;
+}
+
+int64_t GetDustFee(const std::vector<CTxOut> &vout, CFeeRate &baseFeeRate) {
+    int64_t nFee = 0;
+
+    // To limit dust spam, add base fee for each output less than DUST_SOFT_LIMIT
+    BOOST_FOREACH(const CTxOut& txout, vout)
+        if (txout.nValue < DUST_SOFT_LIMIT)
+            nFee += baseFeeRate.GetFeePerK();
+
+    return nFee;
 }
 
 

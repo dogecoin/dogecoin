@@ -527,7 +527,7 @@ void CoinControlDialog::updateLabels(WalletModel *model, QDialog* dialog)
         int64_t nFee = payTxFee.GetFee(max((unsigned int)1000, nBytes));
 
         // Min Fee
-        nPayFee = CWallet::GetMinimumFee(nBytes, nTxConfirmTarget, mempool);
+        nPayFee = CWallet::GetMinimumFee(txDummy.vout, nBytes, nTxConfirmTarget, mempool);
 
         double dPriorityNeeded = mempool.estimatePriority(nTxConfirmTarget);
         if (dPriorityNeeded <= 0) // Not enough mempool history: never send free
@@ -543,12 +543,13 @@ void CoinControlDialog::updateLabels(WalletModel *model, QDialog* dialog)
             // Never create dust outputs; if we would, just add the dust to the fee.
             if (nChange > 0 && nChange < COIN)
             {
-                CTxOut txout(nChange, (CScript)vector<unsigned char>(24, 0));
-                if (txout.IsDust(CTransaction::minRelayTxFee))
-                {
+                // Dogecoin: Anything below 1 DOGE is considered dust
+                //CTxOut txout(nChange, (CScript)vector<unsigned char>(24, 0));
+                //if (txout.IsDust(CTransaction::minRelayTxFee))
+                //{
                     nPayFee += nChange;
                     nChange = 0;
-                }
+                //}
             }
 
             if (nChange == 0)

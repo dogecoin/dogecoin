@@ -282,7 +282,9 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += "  -disablewallet         " + _("Do not load the wallet and disable wallet RPC calls") + "\n";
     strUsage += "  -keypool=<n>           " + _("Set key pool size to <n> (default: 100)") + "\n";
     strUsage += "  -paytxfee=<amt>        " + strprintf(_("Fee (in DOGE/kB) to add to transactions you send (default: %s)"), FormatMoney(payTxFee.GetFeePerK())) + "\n";
-    strUsage += "  -txconfirmtarget=<n>   " + _("If paytxfee is not set, include enough fee so transactions are confirmed on average within n blocks (default: 1)") + "\n";
+    // Dogecoin: Disable TX confirm target as the dust prevention fees make
+    // the fee estimation code produce bizarre results.
+    // strUsage += "  -txconfirmtarget=<n>   " + _("If paytxfee is not set, include enough fee so transactions are confirmed on average within n blocks (default: 1)") + "\n";
     strUsage += "  -rescan                " + _("Rescan the block chain for missing wallet transactions") + " " + _("on startup") + "\n";
     strUsage += "  -salvagewallet         " + _("Attempt to recover private keys from a corrupt wallet.dat") + " " + _("on startup") + "\n";
     strUsage += "  -spendzeroconfchange   " + _("Spend unconfirmed change when sending transactions (default: 1)") + "\n";
@@ -719,8 +721,9 @@ bool AppInit2(boost::thread_group& threadGroup)
             AddFixedChangeAddress(keyID);
         }
     }
-    
-    nTxConfirmTarget = GetArg("-txconfirmtarget", 1);
+
+    // Dogecoin: Disable txconfirmtarget 
+    // nTxConfirmTarget = GetArg("-txconfirmtarget", 1);
     bSpendZeroConfChange = GetArg("-spendzeroconfchange", true);
 
     std::string strWalletFile = GetArg("-wallet", "wallet.dat");

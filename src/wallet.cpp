@@ -1460,7 +1460,7 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, int64_t> >& vecSend,
                 }
                 dPriority = wtxNew.ComputePriority(dPriority, nBytes);
 
-                int64_t nFeeNeeded = GetMinimumFee(nBytes, nTxConfirmTarget, mempool);
+                int64_t nFeeNeeded = GetMinimumFee(txNew.vout, nBytes, nTxConfirmTarget, mempool);
 
                 if (nFeeRet >= nFeeNeeded)
                     break; // Done, enough fee included.
@@ -1592,17 +1592,23 @@ string CWallet::SendMoneyToDestination(const CTxDestination& address, int64_t nV
     return SendMoney(scriptPubKey, nValue, wtxNew);
 }
 
-int64_t CWallet::GetMinimumFee(unsigned int nTxBytes, unsigned int nConfirmTarget, const CTxMemPool& pool)
+int64_t CWallet::GetMinimumFee(const std::vector<CTxOut> &vout, unsigned int nTxBytes, unsigned int nConfirmTarget, const CTxMemPool& pool)
 {
+    size_t nFeeBytes = 1000 + (nTxBytes - (nTxBytes % 1000));
+
     // payTxFee is user-set "I want to pay this much"
-    int64_t nFeeNeeded = payTxFee.GetFee(nTxBytes);
+    int64_t nFeeNeeded = payTxFee.GetFee(nFeeBytes);
     // User didn't set: use -txconfirmtarget to estimate...
-    if (nFeeNeeded == 0)
-        nFeeNeeded = pool.estimateFee(nConfirmTarget).GetFee(nTxBytes);
+    // Dogecoin: Disable txconfirmtarget
+    // if (nFeeNeeded == 0)
+    //     nFeeNeeded = pool.estimateFee(nConfirmTarget).GetFee(nTxBytes);
     // ... unless we don't have enough mempool data, in which case fall
     // back to a hard-coded fee
-    if (nFeeNeeded == 0)
-        nFeeNeeded = CTransaction::minTxFee.GetFee(nTxBytes);
+    if (nFeeNeeded == 0) {
+        nFeeNeeded = CTransaction::minTxFee.GetFee(nFeeBytes);
+        // Dogecoin: Add fee for dust outputs
+        nFeeNeeded += GetDustFee(vout, CTransaction::minTxFee);
+    }
     return nFeeNeeded;
 }
 

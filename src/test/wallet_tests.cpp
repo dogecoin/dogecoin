@@ -305,4 +305,20 @@ BOOST_AUTO_TEST_CASE(coin_selection_tests)
     empty_wallet();
 }
 
+BOOST_AUTO_TEST_CASE(GetMinimumFee_test)
+{
+    uint64_t value = 1000 * COIN; // 1,000 DOGE
+
+    CMutableTransaction tx;
+    CTxMemPool pool(payTxFee);
+    CTxOut txout1(value, (CScript)vector<unsigned char>(24, 0));
+    tx.vout.push_back(txout1);
+
+    int64_t nMinTxFee = COIN;
+
+    BOOST_CHECK(CWallet::GetMinimumFee(tx.vout, 250, 0, pool) == nMinTxFee);
+    BOOST_CHECK(CWallet::GetMinimumFee(tx.vout, 1000, 0, pool) == 2 * nMinTxFee);
+    BOOST_CHECK(CWallet::GetMinimumFee(tx.vout, 1999, 0, pool) == 2 * nMinTxFee);
+ }
+
 BOOST_AUTO_TEST_SUITE_END()
