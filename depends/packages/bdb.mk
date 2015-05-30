@@ -13,7 +13,8 @@ $(package)_config_opts_arm_linux=--with-pic
 endef
 
 define $(package)_preprocess_cmds
-  sed -i.old 's/__atomic_compare_exchange/__atomic_compare_exchange_db/' src/dbinc/atomic.h
+  sed -i.old 's/__atomic_compare_exchange/__atomic_compare_exchange_db/' src/dbinc/atomic.h && \
+  sed -i.old 's/WinIoCtl\.h/winioctl\.h/g' src/dbinc/win_db.h
 endef
 
 define $(package)_config_cmds
