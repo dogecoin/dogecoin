@@ -218,6 +218,19 @@ uint256 CBlockHeader::GetHash() const
     return Hash(BEGIN(nVersion), END(nNonce));
 }
 
+void CBlockHeader::SetAuxpow (CAuxPow* apow)
+{
+    if (apow)
+    {
+        auxpow.reset(apow);
+        //nVersion.SetAuxpow(true);
+    } else
+    {
+        auxpow.reset();
+        //nVersion.SetAuxpow(false);
+    }
+}
+
 uint256 CBlock::BuildMerkleTree() const
 {
     vMerkleTree.clear();

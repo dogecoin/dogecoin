@@ -1277,7 +1277,7 @@ void CBlockHeader::SetAuxPow(CAuxPow* pow)
 
 bool IsAuxPowVersion(int nVersion)
 {
-    return (nVersion == BLOCK_VERSION_AUXPOW_WITH_AUX || nVersion == BLOCK_VERSION_AUXPOW_WITHOUT_AUX);
+    return (nVersion & BLOCK_VERSION_AUXPOW) == BLOCK_VERSION_AUXPOW;
 }
 
 uint256 static GetOrphanRoot(const uint256& hash)
@@ -2366,12 +2366,12 @@ bool CBlockHeader::CheckProofOfWork(int nHeight) const
         // - this block must have our chain ID
         // - parent block must not have the same chain ID (see CAuxPow::Check)
         // - index of this chain in chain merkle tree must be pre-determined (see CAuxPow::Check)
-        if (!Params().AllowSelfAuxParent() && nHeight != INT_MAX && GetChainID() != AUXPOW_CHAIN_ID)
+        if (!Params().AllowSelfAuxParent() && nHeight != INT_MAX && GetChainID() != Params().AuxpowChainId ())
             return error("CheckProofOfWork() : block does not have our chain ID");
 
         if (auxpow.get() != NULL)
         {
-            if (!auxpow->Check(GetHash(), GetChainID()))
+            if (!auxpow->check(GetHash(), GetChainID(), Params()))
                 return error("CheckProofOfWork() : AUX POW is not valid");
             // Check proof of work matches claimed amount
             if (!::CheckProofOfWork(auxpow->GetParentBlockHash(), nBits))

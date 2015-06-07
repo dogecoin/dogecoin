@@ -408,7 +408,7 @@ bool CheckWork(CBlock* pblock, CWallet& wallet, CReserveKey& reservekey)
     CAuxPow *auxpow = pblock->auxpow.get();
 
     if (auxpow != NULL) {
-        if (!auxpow->Check(pblock->GetHash(), pblock->GetChainID()))
+        if (!auxpow->check(pblock->GetHash(), pblock->GetChainID(), Params()))
             return error("AUX POW is not valid");
 
         if (auxpow->GetParentBlockHash() > hashTarget)
