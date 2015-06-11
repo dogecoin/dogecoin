@@ -161,22 +161,11 @@ repackage gitian builds for release as stand-alone zip/tar/installer exe
 
 ###Next steps:
 
-* Code-sign Windows -setup.exe (in a Windows virtual machine using signtool)
- Note: only Gavin has the code-signing keys currently.
-
-* upload builds to SourceForge
-
 * create SHA256SUMS for builds, and PGP-sign it
 
 * update dogecoin.com version
   make sure all OS download links go to the right versions
   
-* update forum version
-
-* update wiki download links
-
-* update wiki changelog: [https://en.bitcoin.it/wiki/Changelog](https://en.bitcoin.it/wiki/Changelog)
-
 Commit your signature to gitian.sigs:
 
 	pushd gitian.sigs
@@ -191,14 +180,37 @@ Commit your signature to gitian.sigs:
 
 ### After 3 or more people have gitian-built and their results match:
 
-- Upload gitian zips to SourceForge
+- Perform code-signing.
 
-- Announce the release:
+    - Code-sign Windows -setup.exe (in a Windows virtual machine using signtool)
+
+    - Code-sign MacOSX .dmg
+
+  Note: only Max has the code-signing keys currently.
 
   - Add the release to dogecoin.com
+
+- Create `SHA256SUMS.asc` for builds, and PGP-sign it. This is done manually.
+  Include all the files to be uploaded. The file has `sha256sum` format with a
+  simple header at the top:
+
+```
+Hash: SHA256
+
+0060f7d38b98113ab912d4c184000291d7f026eaf77ca5830deec15059678f54  dogecoin-x.y.z-linux.tar.gz
+...
+```
+
+- Upload zips and installers, as well as `SHA256SUMS.asc` from last step, to the dogecoin.com Github repo
+
+- Update dogecoin.com version - Langerhans to do
+
+- Announce the release:
 
   - Announce on reddit /r/dogecoin, /r/dogecoindev
 
   - Release sticky on discuss dogecoin: https://discuss.dogecoin.com/categories/announcements
+
+  - Add release notes for the new version to the directory `doc/release-notes` in git master
 
 - Celebrate 
