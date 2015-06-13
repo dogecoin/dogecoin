@@ -10,6 +10,7 @@
 #include "coincontrol.h"
 #include "consensus/consensus.h"
 #include "consensus/validation.h"
+#include "dogecoin.h"
 #include "main.h"
 #include "net.h"
 #include "script/script.h"
@@ -40,7 +41,7 @@ bool fPayAtLeastCustomFee = true;
  * Fees smaller than this (in satoshi) are considered zero fee (for transaction creation)
  * Override with -mintxfee
  */
-CFeeRate CWallet::minTxFee = CFeeRate(1000);
+CFeeRate CWallet::minTxFee = CFeeRate(COIN);
 
 /** @defgroup mapWallet
  *
@@ -1935,7 +1936,7 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend,
                         break;
                 }
 
-                CAmount nFeeNeeded = GetMinimumFee(nBytes, nTxConfirmTarget, mempool);
+                CAmount nFeeNeeded = GetMinimumFee(txNew, nBytes, nTxConfirmTarget, mempool);
 
                 // If we made it here and we aren't even able to meet the relay fee on the next pass, give up
                 // because we must be at the maximum allowed fee.
@@ -2010,8 +2011,12 @@ bool CWallet::CommitTransaction(CWalletTx& wtxNew, CReserveKey& reservekey)
     return true;
 }
 
-CAmount CWallet::GetMinimumFee(unsigned int nTxBytes, unsigned int nConfirmTarget, const CTxMemPool& pool)
+CAmount CWallet::GetMinimumFee(const CMutableTransaction& tx, unsigned int nTxBytes,
+                               unsigned int nConfirmTarget, const CTxMemPool& pool)
 {
+    // Dogecoin: Round TX bytes up to the next 1,000 bytes
+    nTxBytes += 1000 - (nTxBytes % 1000);
+
     // payTxFee is user-set "I want to pay this much"
     CAmount nFeeNeeded = payTxFee.GetFee(nTxBytes);
     // user selected total at least (default=true)
@@ -2022,8 +2027,11 @@ CAmount CWallet::GetMinimumFee(unsigned int nTxBytes, unsigned int nConfirmTarge
         nFeeNeeded = pool.estimateFee(nConfirmTarget).GetFee(nTxBytes);
     // ... unless we don't have enough mempool data, in which case fall
     // back to a hard-coded fee
-    if (nFeeNeeded == 0)
+    if (nFeeNeeded == 0) {
         nFeeNeeded = minTxFee.GetFee(nTxBytes);
+        // Dogecoin: Add an increased fee for each dust output
+        nFeeNeeded += GetDogecoinDustFee(tx.vout, minTxFee);
+    }
     // prevent user from paying a non-sense fee (like 1 satoshi): 0 < fee < minRelayFee
     if (nFeeNeeded < ::minRelayTxFee.GetFee(nTxBytes))
         nFeeNeeded = ::minRelayTxFee.GetFee(nTxBytes);
@@ -2032,8 +2040,6 @@ CAmount CWallet::GetMinimumFee(unsigned int nTxBytes, unsigned int nConfirmTarge
         nFeeNeeded = maxTxFee;
     return nFeeNeeded;
 }
-
-
 
 
 DBErrors CWallet::LoadWallet(bool& fFirstRunRet)

@@ -7,6 +7,7 @@
 
 #include "arith_uint256.h"
 #include "dogecoin.h"
+#include "main.h"
 #include "util.h"
 
 int static generateMTRandom(unsigned int s, int range)
@@ -149,4 +150,16 @@ CAmount GetDogecoinBlockSubsidy(int nHeight, const Consensus::Params& consensusP
         // Constant inflation
         return 10000 * COIN;
     }
+}
+
+
+int64_t GetDogecoinDustFee(const std::vector<CTxOut> &vout, CFeeRate &baseFeeRate) {
+    int64_t nFee = 0;
+
+    // To limit dust spam, add base fee for each output less than DUST_SOFT_LIMIT
+    BOOST_FOREACH(const CTxOut& txout, vout)
+        if (txout.IsDust(::minRelayTxFee))
+            nFee += baseFeeRate.GetFeePerK();
+
+    return nFee;
 }

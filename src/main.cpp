@@ -66,7 +66,7 @@ uint64_t nPruneTarget = 0;
 bool fAlerts = DEFAULT_ALERTS;
 
 /** Fees smaller than this (in satoshi) are considered zero fee (for relaying and mining) */
-CFeeRate minRelayTxFee = CFeeRate(1000);
+CFeeRate minRelayTxFee = CFeeRate(COIN);
 
 CTxMemPool mempool(::minRelayTxFee);
 
@@ -867,8 +867,10 @@ CAmount GetMinRelayFee(const CTransaction& tx, unsigned int nBytes, bool fAllowF
     }
 
     CAmount nMinFee = ::minRelayTxFee.GetFee(nBytes);
+    nMinFee += GetDogecoinDustFee(tx.vout, ::minRelayTxFee);
 
-    if (fAllowFree)
+    // Dogecoin: Disable free transactions
+    /* if (fAllowFree)
     {
         // There is a free transaction area in blocks created by most miners,
         // * If we are relaying we allow transactions up to DEFAULT_BLOCK_PRIORITY_SIZE - 1000
@@ -876,7 +878,7 @@ CAmount GetMinRelayFee(const CTransaction& tx, unsigned int nBytes, bool fAllowF
         //   multiple transactions instead of one big transaction to avoid fees.
         if (nBytes < (DEFAULT_BLOCK_PRIORITY_SIZE - 1000))
             nMinFee = 0;
-    }
+    } */
 
     if (!MoneyRange(nMinFee))
         nMinFee = MAX_MONEY;
