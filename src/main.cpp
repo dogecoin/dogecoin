@@ -66,7 +66,7 @@ uint64_t nPruneTarget = 0;
 bool fAlerts = DEFAULT_ALERTS;
 
 /** Fees smaller than this (in satoshi) are considered zero fee (for relaying and mining) */
-CFeeRate minRelayTxFee = CFeeRate(5000);
+CFeeRate minRelayTxFee = CFeeRate(COIN);
 
 CTxMemPool mempool(::minRelayTxFee);
 
@@ -916,6 +916,7 @@ CAmount GetMinRelayFee(const CTransaction& tx, unsigned int nBytes, bool fAllowF
     }
 
     CAmount nMinFee = ::minRelayTxFee.GetFee(nBytes);
+    nMinFee += GetDogecoinDustFee(tx.vout, ::minRelayTxFee);
 
     if (fAllowFree)
     {
