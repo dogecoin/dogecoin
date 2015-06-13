@@ -526,12 +526,13 @@ void CoinControlDialog::updateLabels(WalletModel *model, QDialog* dialog)
         // Min Fee
         nPayFee = CWallet::GetMinimumFee(txDummy.vout, nBytes, nTxConfirmTarget, mempool);
 
-        double dPriorityNeeded = mempool.estimatePriority(nTxConfirmTarget);
-        if (dPriorityNeeded <= 0) // Not enough mempool history: never send free
-            dPriorityNeeded = std::numeric_limits<double>::max();
+        // Dogecoin: No free transactions
+	// double dPriorityNeeded = mempool.estimatePriority(nTxConfirmTarget);
+        // if (dPriorityNeeded <= 0) // Not enough mempool history: never send free
+        //    dPriorityNeeded = std::numeric_limits<double>::max();
 
-        if (nBytes <= MAX_FREE_TRANSACTION_CREATE_SIZE && dPriority >= dPriorityNeeded)
-            nPayFee = 0;
+        // if (nBytes <= MAX_FREE_TRANSACTION_CREATE_SIZE && dPriority >= dPriorityNeeded)
+        //    nPayFee = 0;
 
         if (nPayAmount > 0)
         {

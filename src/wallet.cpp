@@ -1468,24 +1468,7 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, int64_t> >& vecSend,
                 if (nFeeRet >= nFeeNeeded)
                     break; // Done, enough fee included.
 
-                // Too big to send for free? Include more fee and try again:
-                if (nBytes > MAX_FREE_TRANSACTION_CREATE_SIZE)
-                {
-                    nFeeRet = nFeeNeeded;
-                    continue;
-                }
-
-                // Not enough fee: enough priority?
-                double dPriorityNeeded = mempool.estimatePriority(nTxConfirmTarget);
-                // Not enough mempool history to estimate: use hard-coded AllowFree.
-                if (dPriorityNeeded <= 0 && AllowFree(dPriority))
-                    break;
-
-                // Small enough, and priority high enough, to send for free
-                if (dPriority >= dPriorityNeeded)
-                    break;
-
-                // Include more fee and try again.
+                // Dogecoin does not support free transactions, use minimum fee and try again
                 nFeeRet = nFeeNeeded;
                 continue;
             }
