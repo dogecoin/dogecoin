@@ -271,7 +271,7 @@ public:
         nToCheckBlockUpgradeMajority = 1000;
         nMinerThreads = 1;
         nTargetTimespan = 4 * 60 * 60;
-        nTargetSpacing = 60;
+        nTargetSpacing = 1; // regtest: 1 second blocks
         bnProofOfWorkLimit = ~uint256(0) >> 1;
         genesis.nTime = 1296688602;
         genesis.nBits = 0x207fffff;
@@ -291,10 +291,10 @@ public:
 
         // Dogecoin specific properties
         fSimplifiedRewards = true;
-        nAuxPowStartBlock = 5000;
+        nAuxPowStartBlock = 20; // auxpow starts at block 20
         fAllowSelfAuxParent = true;
-        nDigiShieldForkBlock = 145000; // digishield activates at block 145k
-        nDigiShieldTargetTimespan = 60; // digishield: 1 minute block retargeting
+        nDigiShieldForkBlock = 10; // digishield activates at block 10
+        nDigiShieldTargetTimespan = 1; // regtest: also retarget every second in digishield mode, for conformity
         nMinDifficultyAllowedStartBlock = 1;
     }
 };
