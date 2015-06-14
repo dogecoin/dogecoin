@@ -1275,9 +1275,11 @@ void CBlockHeader::SetAuxPow(CAuxPow* pow)
     auxpow.reset(pow);
 }
 
-bool IsAuxPowVersion(int nVersion)
+bool IsAuxPowVersion(const int nVersion, const CChainParams& params)
 {
-    return (nVersion & BLOCK_VERSION_AUXPOW) == BLOCK_VERSION_AUXPOW;
+    // Chain ID is held in the upper 16 bits of the block version
+    int nChainId = nVersion / BLOCK_VERSION_CHAIN_START;
+    return nChainId > 0;
 }
 
 uint256 static GetOrphanRoot(const uint256& hash)
@@ -2022,7 +2024,7 @@ void static UpdateTip(CBlockIndex *pindexNew) {
         const CBlockIndex* pindex = chainActive.Tip();
         for (int i = 0; i < 100 && pindex != NULL; i++)
         {
-            if (pindex->nVersion > CBlock::CURRENT_VERSION && !IsAuxPowVersion(pindex->nVersion))
+            if (pindex->nVersion > CBlock::CURRENT_VERSION && !IsAuxPowVersion(pindex->nVersion, Params()))
                 ++nUpgraded;
             pindex = pindex->pprev;
         }

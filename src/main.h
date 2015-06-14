@@ -183,8 +183,8 @@ bool ActivateBestChain(CValidationState &state, CBlock *pblock = NULL);
 int64_t GetBlockValue(int nHeight, int64_t nFees, uint256 prevHash);
 unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock);
 
-/** Determine whether the block version is modulated with auxpow logic */
-bool IsAuxPowVersion(int nVersion);
+/** Determine whether the block version includes an AuxPoW chain HD */
+bool IsAuxPowVersion(const int nVersion, const CChainParams& params);
 /** Create a new block index entry for a given block hash */
 CBlockIndex * InsertBlockIndex(uint256 hash);
 /** Verify a signature */

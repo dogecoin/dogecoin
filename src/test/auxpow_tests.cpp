@@ -454,4 +454,14 @@ BOOST_AUTO_TEST_CASE (auxpow_pow)
 
 /* ************************************************************************** */
 
+BOOST_AUTO_TEST_CASE (auxpow_pow_block_version)
+{
+  SelectParams (CBaseChainParams::REGTEST);
+  const CChainParams& params = Params();
+
+  BOOST_CHECK(!IsAuxPowVersion(1, params));
+  BOOST_CHECK(!IsAuxPowVersion(2, params));
+  BOOST_CHECK(IsAuxPowVersion(2 + (BLOCK_VERSION_CHAIN_START * params.AuxpowChainId()), params));
+}
+
 BOOST_AUTO_TEST_SUITE_END ()
