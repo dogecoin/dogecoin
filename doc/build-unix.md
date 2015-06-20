@@ -72,13 +72,9 @@ Build requirements:
 
 	sudo apt-get install build-essential pkg-config libtool autotools-dev autoconf automake libssl-dev
 
-for Ubuntu 12.04 and later:
+for Ubuntu 12.04, Debian 7 (Wheezy) and later:
 
 	sudo apt-get install libboost-all-dev libdb5.1-dev libdb5.1++-dev
-
-for Debian 7 (Wheezy) and later:
-
-	sudo apt-get install libdb5.1-dev libdb5.1++-dev
 
 	Note that if you have Berkeley DB 4.8 packages installed (i.e. for other
 	wallet software), they are incompatible with the packages for 5.1. You
