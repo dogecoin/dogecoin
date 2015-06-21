@@ -1789,7 +1789,6 @@ bool StopNode()
     if (semOutbound)
         for (int i=0; i<nMaxOutboundConnections; i++)
             semOutbound->post();
-    MilliSleep(50);
     DumpAddresses();
 
     return true;
