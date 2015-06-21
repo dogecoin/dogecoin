@@ -43,7 +43,7 @@ static const unsigned int MAX_BLOCK_SIZE = 1000000;
 static const unsigned int DEFAULT_BLOCK_MAX_SIZE = 500000;
 static const unsigned int DEFAULT_BLOCK_MIN_SIZE = 0;
 /** Default for -blockprioritysize, maximum space for zero/low-fee transactions **/
-static const unsigned int DEFAULT_BLOCK_PRIORITY_SIZE = 17000;
+static const unsigned int DEFAULT_BLOCK_PRIORITY_SIZE = 27000;
 /** The maximum size for transactions we're willing to relay/mine */
 static const unsigned int MAX_STANDARD_TX_SIZE = 100000;
 /** The maximum allowed number of signature check operations in a block (network rule) */
@@ -122,6 +122,7 @@ extern int nScriptCheckThreads;
 extern bool fTxIndex;
 extern bool fIsBareMultisigStd;
 extern unsigned int nCoinCacheSize;
+extern CFeeRate minRelayTxFee;
 
 // Minimum disk space required - used in CheckDiskSpace()
 static const uint64_t nMinDiskSpace = 52428800;
@@ -274,14 +275,13 @@ struct CDiskTxPos : public CDiskBlockPos
 };
 
 
-
-enum GetMinFee_mode
-{
-    GMF_RELAY,
-    GMF_SEND,
-};
-
-int64_t GetMinFee(const CTransaction& tx, unsigned int nBytes, bool fAllowFree, enum GetMinFee_mode mode);
+int64_t GetMinRelayFee(const CTransaction& tx, unsigned int nBytes, bool fAllowFree);
+/** Dogecoin: Calculate additional fee from outputs below "dust".
+    @param vout Vector of transaction outputs to check for dust.
+    @param baseFeeRate Fee rate to charge for dust outputs.
+    @return Fee expressed as Koinu.
+ */
+int64_t GetDustFee(const std::vector<CTxOut> &vout, CFeeRate &baseFeeRate);
 
 //
 // Check transaction inputs, and make sure any
@@ -440,7 +440,7 @@ public:
     int GetHeightInMainChain() const { CBlockIndex *pindexRet; return GetHeightInMainChain(pindexRet); }
     bool IsInMainChain() const { CBlockIndex *pindexRet; return GetDepthInMainChainINTERNAL(pindexRet) > 0; }
     int GetBlocksToMaturity() const;
-    bool AcceptToMemoryPool(bool fLimitFree=true);
+    bool AcceptToMemoryPool(bool fLimitFree=true, bool fRejectInsaneFee=true);
 };
 
 

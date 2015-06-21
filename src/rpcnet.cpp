@@ -374,7 +374,7 @@ Value getnetworkinfo(const Array& params, bool fHelp)
     obj.push_back(Pair("timeoffset",    GetTimeOffset()));
     obj.push_back(Pair("connections",   (int)vNodes.size()));
     obj.push_back(Pair("proxy",         (proxy.IsValid() ? proxy.ToStringIPPort() : string())));
-    obj.push_back(Pair("relayfee",      ValueFromAmount(CTransaction::minRelayTxFee.GetFeePerK())));
+    obj.push_back(Pair("relayfee",      ValueFromAmount(::minRelayTxFee.GetFeePerK())));
     Array localAddresses;
     {
         LOCK(cs_mapLocalHost);

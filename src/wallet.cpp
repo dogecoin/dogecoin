@@ -21,8 +21,12 @@ using namespace std;
 
 // Settings
 CFeeRate payTxFee(DEFAULT_TRANSACTION_FEE);
+unsigned int nTxConfirmTarget = 1;
 bool bSpendZeroConfChange = true;
 static std::vector<CKeyID> vChangeAddresses;
+
+/** Fees smaller than this (in satoshi) are considered zero fee (for transaction creation) */
+CFeeRate CWallet::minTxFee = CFeeRate(COIN);  // Override with -mintxfee
 
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -1331,6 +1335,7 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, int64_t> >& vecSend,
         return false;
     }
 
+    wtxNew.fTimeReceivedIsTxTime = true;
     wtxNew.BindWallet(this);
     CMutableTransaction txNew;
 
@@ -1350,7 +1355,7 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, int64_t> >& vecSend,
                 BOOST_FOREACH (const PAIRTYPE(CScript, int64_t)& s, vecSend)
                 {
                     CTxOut txout(s.second, s.first);
-                    if (txout.IsDust(CTransaction::minRelayTxFee))
+                    if (txout.IsDust(::minRelayTxFee))
                     {
                         strFailReason = _("Transaction amount too small");
                         return false;
@@ -1418,7 +1423,7 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, int64_t> >& vecSend,
 
                     // Never create dust outputs; if we would, just
                     // add the dust to the fee.
-                    if (newTxOut.IsDust(CTransaction::minRelayTxFee))
+                    if (newTxOut.IsDust(::minRelayTxFee))
                     {
                         nFeeRet += nChange;
                         reservekey.ReturnKey();
@@ -1458,19 +1463,14 @@ bool CWallet::CreateTransaction(const vector<pair<CScript, int64_t> >& vecSend,
                 }
                 dPriority = wtxNew.ComputePriority(dPriority, nBytes);
 
-                // Check that enough fee is included
-                int64_t nPayFee = payTxFee.GetFee(nBytes);
-                bool fAllowFree = AllowFree(dPriority);
-                int64_t nMinFee = GetMinFee(wtxNew, nBytes, fAllowFree, GMF_SEND);
-                if (nFeeRet < max(nPayFee, nMinFee))
-                {
-                    nFeeRet = max(nPayFee, nMinFee);
-                    continue;
-                }
+                int64_t nFeeNeeded = GetMinimumFee(txNew.vout, nBytes, nTxConfirmTarget, mempool);
 
-                wtxNew.fTimeReceivedIsTxTime = true;
+                if (nFeeRet >= nFeeNeeded)
+                    break; // Done, enough fee included.
 
-                break;
+                // Dogecoin does not support free transactions, use minimum fee and try again
+                nFeeRet = nFeeNeeded;
+                continue;
             }
         }
     }
@@ -1576,6 +1576,26 @@ string CWallet::SendMoneyToDestination(const CTxDestination& address, int64_t nV
     scriptPubKey.SetDestination(address);
 
     return SendMoney(scriptPubKey, nValue, wtxNew);
+}
+
+int64_t CWallet::GetMinimumFee(const std::vector<CTxOut> &vout, unsigned int nTxBytes, unsigned int nConfirmTarget, const CTxMemPool& pool)
+{
+    size_t nFeeBytes = 1000 + (nTxBytes - (nTxBytes % 1000));
+
+    // payTxFee is user-set "I want to pay this much"
+    int64_t nFeeNeeded = payTxFee.GetFee(nFeeBytes);
+    // User didn't set: use -txconfirmtarget to estimate...
+    // Dogecoin: Disable txconfirmtarget
+    // if (nFeeNeeded == 0)
+    //     nFeeNeeded = pool.estimateFee(nConfirmTarget).GetFee(nTxBytes);
+    // ... unless we don't have enough mempool data, in which case fall
+    // back to a hard-coded fee
+    if (nFeeNeeded == 0) {
+        nFeeNeeded = minTxFee.GetFee(nFeeBytes);
+        // Dogecoin: Add fee for dust outputs
+        nFeeNeeded += GetDustFee(vout, minTxFee);
+    }
+    return nFeeNeeded;
 }
 
 
