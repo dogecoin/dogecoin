@@ -186,6 +186,7 @@ public:
         // Dogecoin specific properties
         fSimplifiedRewards = false;
         nAuxPowStartBlock = 371337;
+	nAuxpowChainId = 0x0062; // 98 - Go Josh Wise!
         fAllowSelfAuxParent = false;
         nDigiShieldForkBlock = 145000; // digishield activates at block 145k
         nDigiShieldTargetTimespan = 60; // digishield: 1 minute block retargeting
@@ -245,6 +246,7 @@ public:
         // Dogecoin specific properties
         fSimplifiedRewards = false;
         nAuxPowStartBlock = 158100;
+        nAuxpowChainId = 0x0062; // 98 - Go Josh Wise!
         fAllowSelfAuxParent = true;
         nDigiShieldForkBlock = 145000; // digishield activates at block 145k
         nDigiShieldTargetTimespan = 60; // digishield: 1 minute block retargeting
@@ -292,6 +294,7 @@ public:
         // Dogecoin specific properties
         fSimplifiedRewards = true;
         nAuxPowStartBlock = 20; // auxpow starts at block 20
+        nAuxpowChainId = 0x0062; // 98 - Go Josh Wise!
         fAllowSelfAuxParent = true;
         nDigiShieldForkBlock = 10; // digishield activates at block 10
         nDigiShieldTargetTimespan = 1; // regtest: also retarget every second in digishield mode, for conformity

@@ -18,12 +18,12 @@ void RemoveMergedMiningHeader(vector<unsigned char>& vchAux)
     vchAux.erase(vchAux.begin(), vchAux.begin() + sizeof(pchMergedMiningHeader));
 }
 
-bool CAuxPow::Check(uint256 hashAuxBlock, int nChainID)
+bool CAuxPow::check(uint256 hashAuxBlock, int nChainID, const CChainParams& params)
 {
     if (nIndex != 0)
         return error("AuxPow is not a generate");
 
-    if (!Params().AllowSelfAuxParent() && parentBlockHeader.GetChainID() == nChainID)
+    if (!params.AllowSelfAuxParent() && parentBlockHeader.GetChainID() == nChainID)
         return error("Aux POW parent has our chain ID");
 
     if (vChainMerkleBranch.size() > 30)
@@ -70,12 +70,22 @@ bool CAuxPow::Check(uint256 hashAuxBlock, int nChainID)
 
     int nSize;
     memcpy(&nSize, &pc[0], 4);
-    if (nSize != (1 << vChainMerkleBranch.size()))
+    const unsigned merkleHeight = vChainMerkleBranch.size ();
+    if (nSize != (1 << merkleHeight))
         return error("Aux POW merkle branch size does not match parent coinbase");
 
     int nNonce;
     memcpy(&nNonce, &pc[4], 4);
 
+    if (nChainIndex != getExpectedIndex (nNonce, nChainID, merkleHeight))
+        return error("Aux POW wrong index");
+
+    return true;
+}
+
+int
+CAuxPow::getExpectedIndex (const int nNonce, const int nChainID, const unsigned merkleHeight)
+{
     // Choose a pseudo-random slot in the chain merkle tree
     // but have it be fixed for a size/nonce/chain combination.
     //
@@ -87,10 +97,7 @@ bool CAuxPow::Check(uint256 hashAuxBlock, int nChainID)
     rand += nChainID;
     rand = rand * 1103515245 + 12345;
 
-    if (nChainIndex != (rand % nSize))
-        return error("Aux POW wrong index");
-
-    return true;
+    return rand % (1 << merkleHeight);
 }
 
 CScript MakeCoinbaseWithAux(unsigned int nHeight, unsigned int nExtraNonce, vector<unsigned char>& vchAux)

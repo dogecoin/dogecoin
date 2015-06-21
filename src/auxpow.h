@@ -36,7 +36,18 @@ public:
         nSerSize += SerReadWrite(s, parentBlockHeader, nType, nVersion, ser_action);
     )
 
-    bool Check(uint256 hashAuxBlock, int nChainID);
+    bool check(uint256 hashAuxBlock, int nChainID, const CChainParams& params);
+
+    /**
+     * Calculate the expected index in the merkle tree.  This is also used
+     * for the test-suite.
+     * @param nNonce The coinbase's nonce value.
+     * @param nChainID The chain ID.
+     * @param merkleHeight The merkle block height.
+     * @return The expected index for the aux hash.
+     */
+    static int getExpectedIndex (const int nNonce, const int nChainID, const unsigned merkleHeight);
+
 
     uint256 GetParentBlockHash()
     {

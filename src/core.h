@@ -34,9 +34,6 @@ static const int BLOCK_VERSION_AUXPOW = (1 << 8);
 static const int BLOCK_VERSION_CHAIN_START = (1 << 16);
 static const int BLOCK_VERSION_CHAIN_END = (1 << 30);
 
-// DogeCoin aux chain ID = 0x0062 (98)
-static const int AUXPOW_CHAIN_ID = 0x0062;
-
 static const int64_t COIN = 100000000;
 static const int64_t CENT = 1000000;
 
@@ -465,7 +462,7 @@ public:
 
     void SetNull()
     {
-        nVersion = CBlockHeader::CURRENT_VERSION | (AUXPOW_CHAIN_ID * BLOCK_VERSION_CHAIN_START);
+        nVersion = 0;
         hashPrevBlock = 0;
         hashMerkleRoot = 0;
         nTime = 0;
@@ -493,6 +490,13 @@ public:
     }
 
     bool CheckProofOfWork(int nHeight) const;
+
+    /**
+     * Set the block's auxpow (or unset it).  This takes care of updating
+     * the version accordingly.
+     * @param apow Pointer to the auxpow to use or NULL.
+     */
+    void SetAuxpow (CAuxPow* apow);
 };
 
 

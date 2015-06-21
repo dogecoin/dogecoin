@@ -90,6 +90,8 @@ public:
     // AUXPOW
     /* The block number from where AuxPow starts */
     int GetAuxPowStartBlock() const { return nAuxPowStartBlock; }
+    /* Chain ID used to ensure AuxPoW work is not fed back into the same chain it was mined on */
+    int32_t AuxpowChainId () const { return nAuxpowChainId; }
     /* whether we allow ourself to be the auxpow parent chain */
     bool AllowSelfAuxParent() const { return fAllowSelfAuxParent; }
 
@@ -137,6 +139,8 @@ protected:
     // Dogecoin specific properties
     bool fSimplifiedRewards;
 
+    /** Auxpow parameters */
+    int32_t nAuxpowChainId;
     int nAuxPowStartBlock;
     bool fAllowSelfAuxParent;
 
@@ -144,7 +148,6 @@ protected:
     int64_t nDigiShieldTargetTimespan;
 
     int nMinDifficultyAllowedStartBlock;
-
 };
 
 /**
