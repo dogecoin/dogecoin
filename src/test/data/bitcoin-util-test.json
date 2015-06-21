@@ -34,5 +34,8 @@
       "outaddr=3.57927857:DHr4nExv2VgkgXHbzcMt6jzGUp9GevQdUm",
       "outaddr=170.28452330:D63Lk4HVjuSsDWfDB1KmmvBT14Bgc4ZNXR"],
     "output_cmp": "txcreate1.hex"
+  },
+  { "exec": ["./dogecoin-tx", "-create", "outscript=0:"],
+    "output_cmp": "txcreate2.hex"
   }
 ]
