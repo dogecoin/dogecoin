@@ -1,9 +1,14 @@
+// Copyright (c) 2009-2014 The Bitcoin developers
+// Distributed under the MIT software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
 #if defined(HAVE_CONFIG_H)
 #include "config/bitcoin-config.h"
 #endif
 
 #include "bitcoinunitstests.h"
 #include "uritests.h"
+
 //#ifdef ENABLE_WALLET
 //#include "paymentservertests.h"
 //#endif
