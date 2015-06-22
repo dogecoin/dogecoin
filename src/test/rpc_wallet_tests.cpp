@@ -80,11 +80,15 @@ BOOST_AUTO_TEST_CASE(rpc_wallet)
 		walletdb.WriteAccount(strAccount, account);
 	});
 
-
+    CPubKey setaccountDemoPubkey = pwalletMain->GenerateNewKey();
+        CBitcoinAddress setaccountDemoAddress = CBitcoinAddress(CTxDestination(setaccountDemoPubkey.GetID()));
+        
 	/*********************************
 	 * 			setaccount
 	 *********************************/
-	BOOST_CHECK_NO_THROW(CallRPC("setaccount DEaT9KZM6b6oDZMr8pj7pWTLZSdtYZFAx8 nullaccount"));
+	BOOST_CHECK_NO_THROW(CallRPC("setaccount " + setaccountDemoAddress.ToString() + " nullaccount"));
+	/* DEaT9KZM6b6oDZMr8pj7pWTLZSdtYZFAx8 is not owned by the test wallet. */
+	BOOST_CHECK_THROW(CallRPC("setaccount DEaT9KZM6b6oDZMr8pj7pWTLZSdtYZFAx8 nullaccount"), runtime_error);
 	BOOST_CHECK_THROW(CallRPC("setaccount"), runtime_error);
 	/* DEaT9KZM6b6oDZMr8pj7pWTLZSdtYZFAx (33 chars) is an illegal address (should be 34 chars) */
 	BOOST_CHECK_THROW(CallRPC("setaccount DEaT9KZM6b6oDZMr8pj7pWTLZSdtYZFAx nullaccount"), runtime_error);
