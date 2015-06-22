@@ -8,7 +8,7 @@
 
 #include "key.h"
 #include "sync.h"
-#include "script.h"     // for CNoDestination
+#include "scriptutils.h"     // for CNoDestination
 
 #include <boost/signals2/signal.hpp>
 #include <boost/variant.hpp>

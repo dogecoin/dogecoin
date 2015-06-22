@@ -187,7 +187,7 @@ HEADERS += \
     ../src/rpcclient.h \
     ../src/rpcprotocol.h \
     ../src/rpcserver.h \
-    ../src/script.h \
+    ../src/scriptutils.h \
     ../src/scrypt.h \
     ../src/serialize.h \
     ../src/sync.h \

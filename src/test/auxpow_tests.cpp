@@ -8,7 +8,7 @@
 #include "core.h"
 #include "main.h"
 #include "uint256.h"
-#include "script.h"
+#include "scriptutils.h"
 
 #include <boost/test/unit_test.hpp>
 
