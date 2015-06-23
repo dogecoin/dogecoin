@@ -5,6 +5,8 @@
 #ifndef TRANSACTIONTABLEMODEL_H
 #define TRANSACTIONTABLEMODEL_H
 
+#include "bitcoinunits.h"
+
 #include <QAbstractTableModel>
 #include <QStringList>
 
