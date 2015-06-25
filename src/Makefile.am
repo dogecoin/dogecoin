@@ -98,6 +98,8 @@ BITCOIN_CORE_H = \
   core_io.h \
   core_memusage.h \
   cuckoocache.h \
+  dogecoin.cpp \
+  dogecoin.h \
   httprpc.h \
   httpserver.h \
   indirectmap.h \
