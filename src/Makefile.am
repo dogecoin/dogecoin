@@ -105,6 +105,10 @@ BITCOIN_CORE_H = \
   consensus/validation.h \
   core_io.h \
   core_memusage.h \
+  dogecoin.cpp \
+  dogecoin.h \
+  eccryptoverify.h \
+  ecwrapper.h \
   hash.h \
   httprpc.h \
   httpserver.h \
