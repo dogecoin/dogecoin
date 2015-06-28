@@ -10,6 +10,7 @@
 #include "consensus/consensus.h"
 #include "consensus/validation.h"
 #include "crypto/scrypt.h"
+#include "dogecoin.h"
 #include "hash.h"
 #include "main.h"
 #include "net.h"
@@ -324,7 +325,7 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn)
         LogPrintf("CreateNewBlock(): total size %u\n", nBlockSize);
 
         // Compute final coinbase transaction.
-        txNew.vout[0].nValue = nFees + GetBlockSubsidy(nHeight, chainparams.GetConsensus());
+        txNew.vout[0].nValue = nFees + GetDogecoinBlockSubsidy(nHeight, chainparams.GetConsensus(), pindexPrev->GetBlockHash());
         txNew.vin[0].scriptSig = CScript() << nHeight << OP_0;
         pblock->vtx[0] = txNew;
         pblocktemplate->vTxFees[0] = -nFees;
