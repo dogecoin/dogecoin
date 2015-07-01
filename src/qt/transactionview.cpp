@@ -29,8 +29,11 @@
 #include <QUrl>
 
 TransactionView::TransactionView(QWidget *parent) :
-    QWidget(parent), model(0), transactionProxyModel(0),
-    transactionView(0)
+    QWidget(parent)
+  , model(0)
+  , transactionProxyModel(0)
+  , transactionView(0)
+  , contextMenu(0)
 {
     // Build filter row
     setContentsMargins(0,0,0,0);
@@ -121,26 +124,6 @@ TransactionView::TransactionView(QWidget *parent) :
 
     transactionView = view;
 
-    // Actions
-    QAction *copyAddressAction = new QAction(tr("Copy address"), this);
-    QAction *copyLabelAction = new QAction(tr("Copy label"), this);
-    QAction *copyAmountAction = new QAction(tr("Copy amount"), this);
-    QAction *copyTxIDAction = new QAction(tr("Copy transaction ID"), this);
-    QAction *editLabelAction = new QAction(tr("Edit label"), this);
-    QAction *showDetailsAction = new QAction(tr("Show transaction details"), this);
-    QAction *viewOnDogechain = new QAction(tr("Show transaction on Dogechain"), this);
-
-    contextMenu = new QMenu();
-    contextMenu->addAction(copyAddressAction);
-    contextMenu->addAction(copyLabelAction);
-    contextMenu->addAction(copyAmountAction);
-    contextMenu->addAction(copyTxIDAction);
-    contextMenu->addSeparator();
-    contextMenu->addAction(editLabelAction);
-    contextMenu->addAction(showDetailsAction);
-    contextMenu->addSeparator();
-    contextMenu->addAction(viewOnDogechain);
-
     // Connect actions
     connect(dateWidget, SIGNAL(activated(int)), this, SLOT(chooseDate(int)));
     connect(typeWidget, SIGNAL(activated(int)), this, SLOT(chooseType(int)));
@@ -149,14 +132,6 @@ TransactionView::TransactionView(QWidget *parent) :
 
     connect(view, SIGNAL(doubleClicked(QModelIndex)), this, SIGNAL(doubleClicked(QModelIndex)));
     connect(view, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(contextualMenu(QPoint)));
-
-    connect(copyAddressAction, SIGNAL(triggered()), this, SLOT(copyAddress()));
-    connect(copyLabelAction, SIGNAL(triggered()), this, SLOT(copyLabel()));
-    connect(copyAmountAction, SIGNAL(triggered()), this, SLOT(copyAmount()));
-    connect(copyTxIDAction, SIGNAL(triggered()), this, SLOT(copyTxID()));
-    connect(editLabelAction, SIGNAL(triggered()), this, SLOT(editLabel()));
-    connect(showDetailsAction, SIGNAL(triggered()), this, SLOT(showDetails()));
-    connect(viewOnDogechain, SIGNAL(triggered()), this, SLOT(viewOnDogechain()));
 }
 
 void TransactionView::setModel(WalletModel *model)
@@ -186,7 +161,8 @@ void TransactionView::setModel(WalletModel *model)
 #if QT_VERSION < 0x050000
         transactionView->horizontalHeader()->setResizeMode(TransactionTableModel::ToAddress, QHeaderView::Stretch);
 #else
-        transactionView->horizontalHeader()->setSectionResizeMode(TransactionTableModel::ToAddress, QHeaderView::Stretch);
+        transactionView->horizontalHeader()->setSectionResizeMode(TransactionTableModel::ToAddress, QHeaderView::Interactive);
+        transactionView->horizontalHeader()->setSectionResizeMode(TransactionTableModel::Amount, QHeaderView::Stretch);
 #endif
         transactionView->horizontalHeader()->resizeSection(TransactionTableModel::Amount, 100);
     }
@@ -302,9 +278,21 @@ void TransactionView::exportClicked()
 void TransactionView::contextualMenu(const QPoint &point)
 {
     QModelIndex index = transactionView->indexAt(point);
-    if(index.isValid())
+    if ( index.isValid() )
     {
+        contextMenu = new QMenu();
+        contextMenu->addAction(tr("Copy address"), this, SLOT(copyAddress()));
+        contextMenu->addAction(tr("Copy label"), this, SLOT(copyLabel()));
+        contextMenu->addAction(tr("Copy amount"), this, SLOT(copyAmount()));
+        contextMenu->addAction(tr("Copy transaction ID"), this, SLOT(copyTxID()));
+        contextMenu->addSeparator();
+        contextMenu->addAction(tr("Edit label"), this, SLOT(editLabel()));
+        contextMenu->addAction(tr("Show transaction details"), this, SLOT(showDetails()));
+        contextMenu->addSeparator();
+        contextMenu->addAction(tr("Show transaction on Dogechain"), this, SLOT(viewOnDogechain()));
+
         contextMenu->exec(QCursor::pos());
+        delete contextMenu;
     }
 }
 
