@@ -58,6 +58,10 @@ Instructions: Homebrew
 
         make check
 
+4.  (Optional) You can also install bitcoind to your path:
+
+        make install
+
 Creating a release build
 ------------------------
 You can ignore this section if you are building `dogecoind` for your own use.
