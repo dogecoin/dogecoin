@@ -56,6 +56,20 @@
        </widget>
       </item>
       <item>
+      <widget class="QToolButton" name="donateButton">
+       <property name="toolTip">
+        <string>Donate to the dev fund</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../bitcoin.qrc">
+         <normaloff>:/icons/heart</normaloff>:/icons/heart</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
        <widget class="QToolButton" name="addressBookButton">
         <property name="toolTip">
          <string>Choose previously used address</string>
