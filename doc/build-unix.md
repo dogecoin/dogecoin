@@ -33,6 +33,10 @@ Dependencies
       protobuf-2.5.0
       qrencode-3.4.3
 
+Suggested RAM: 4GB
+If you have lower RAM and compiling does not work for you, try to add swap. Here is a tutorial for Ubuntu.
+https://meta.discourse.org/t/create-a-swapfile-for-your-linux-server/13880
+
 [miniupnpc](http://miniupnp.free.fr/) may be used for UPnP port mapping.  It can be downloaded from [here](
 http://miniupnp.tuxfamily.org/files/).  UPnP support is compiled in and
 turned off by default.  See the configure options for upnp behavior desired:
