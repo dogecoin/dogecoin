@@ -1444,7 +1444,11 @@ bool CheckInputs(const CTransaction& tx, CValidationState &state, const CCoinsVi
 
             // If prev is coinbase, check that it's matured
             if (coins->IsCoinBase()) {
-                if (nSpendHeight - coins->nHeight < COINBASE_MATURITY)
+                // Dogecoin: Switch maturity at depth 145,000
+                int nCoinbaseMaturity = coins->nHeight < COINBASE_MATURITY_SWITCH
+                    ? COINBASE_MATURITY_OLD
+                    : COINBASE_MATURITY;
+                if (nSpendHeight - coins->nHeight < nCoinbaseMaturity)
                     return state.Invalid(
                         error("CheckInputs(): tried to spend coinbase at depth %d", nSpendHeight - coins->nHeight),
                         REJECT_INVALID, "bad-txns-premature-spend-of-coinbase");
@@ -2783,9 +2787,10 @@ bool ContextualCheckBlockHeader(const CBlockHeader& block, CValidationState& sta
     }
 
     // Reject block.nVersion=1 blocks when 95% (75% on testnet) of the network has upgraded:
-    if (block.nVersion < 2 && IsSuperMajority(2, pindexPrev, consensusParams.nMajorityRejectBlockOutdated, consensusParams))
-        return state.Invalid(error("%s: rejected nVersion=1 block", __func__),
-                             REJECT_OBSOLETE, "bad-version");
+    // Dogecoin: Version 2 enforcement was never used
+    //if (block.nVersion < 2 && IsSuperMajority(2, pindexPrev, consensusParams.nMajorityRejectBlockOutdated, consensusParams))
+    //    return state.Invalid(error("%s: rejected nVersion=1 block", __func__),
+    //                         REJECT_OBSOLETE, "bad-version");
 
     // Reject block.nVersion=2 blocks when 95% (75% on testnet) of the network has upgraded:
     if (block.nVersion < 3 && IsSuperMajority(3, pindexPrev, consensusParams.nMajorityRejectBlockOutdated, consensusParams))
