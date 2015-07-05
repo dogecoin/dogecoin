@@ -154,9 +154,9 @@ public:
    * @return The parent block hash.
    */
     inline uint256
-    getParentBlockHash() const
+    getParentBlockPoWHash() const
     {
-        return parentBlock.GetHash();
+        return parentBlock.GetPoWHash();
     }
 
     /**

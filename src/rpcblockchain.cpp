@@ -6,6 +6,7 @@
 #include "checkpoints.h"
 #include "consensus/validation.h"
 #include "core_io.h"
+#include "dogecoin.h"
 #include "main.h"
 #include "primitives/transaction.h"
 #include "rpcserver.h"
@@ -53,7 +54,7 @@ double GetDifficulty(const CBlockIndex* blockindex)
     return dDiff;
 }
 
-static Object AuxpowToJSON(const CAuxPow& auxpow)
+static Object auxpowToJSON(const CAuxPow& auxpow)
 {
     Object tx;
     tx.push_back(Pair("hex", EncodeHexTx(auxpow)));
@@ -65,12 +66,12 @@ static Object AuxpowToJSON(const CAuxPow& auxpow)
     result.push_back(Pair("chainindex", auxpow.nChainIndex));
 
     Array branch;
-    BOOST_FOREACH(const uint256& node, auxpow.vMerkleBranch)
+    BOOST_FOREACH (const uint256& node, auxpow.vMerkleBranch)
         branch.push_back(node.GetHex());
     result.push_back(Pair("merklebranch", branch));
 
     branch.clear();
-    BOOST_FOREACH(const uint256& node, auxpow.vChainMerkleBranch)
+    BOOST_FOREACH (const uint256& node, auxpow.vChainMerkleBranch)
         branch.push_back(node.GetHex());
     result.push_back(Pair("chainmerklebranch", branch));
 
@@ -115,7 +116,7 @@ Object blockToJSON(const CBlock& block, const CBlockIndex* blockindex, bool txDe
     result.push_back(Pair("chainwork", blockindex->nChainWork.GetHex()));
 
     if (block.auxpow)
-        result.push_back(Pair("auxpow", AuxpowToJSON(*block.auxpow)));
+        result.push_back(Pair("auxpow", auxpowToJSON(*block.auxpow)));
 
     if (blockindex->pprev)
         result.push_back(Pair("previousblockhash", blockindex->pprev->GetBlockHash().GetHex()));

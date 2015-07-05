@@ -39,10 +39,10 @@ public:
         consensus.nPowTargetTimespan = 4 * 60 * 60; // pre-digishield: 4 hours
         consensus.nPowTargetSpacing = 60; // 1 minute
         consensus.fPowAllowMinDifficultyBlocks = false;
-        consensus.nAuxpowChainId = 0x0001;
-        consensus.nAuxpowStartHeight = 19200;
+        consensus.nAuxpowChainId = 0x0062; // 98 - Josh Wise!
+        consensus.nAuxpowStartHeight = 371337;
         consensus.fStrictChainId = true;
-        consensus.nLegacyBlocksBefore = 19200;
+        consensus.nLegacyBlocksBefore = 371337;
         /** 
          * The message start string is designed to be unlikely to occur in normal data.
          * The characters are rarely used upper ASCII, not valid as UTF-8, and produce
@@ -152,9 +152,9 @@ public:
         consensus.nMajorityRejectBlockOutdated = 75;
         consensus.nMajorityWindow = 100;
         consensus.fPowAllowMinDifficultyBlocks = true;
-        consensus.nAuxpowStartHeight = 0;
+        consensus.nAuxpowStartHeight = 158100;
         consensus.fStrictChainId = false;
-        consensus.nLegacyBlocksBefore = -1;
+        consensus.nLegacyBlocksBefore = 158100;
 
         pchMessageStart[0] = 0xfc;
         pchMessageStart[1] = 0xc1;

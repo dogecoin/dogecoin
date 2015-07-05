@@ -5,6 +5,7 @@
 #include "auxpow.h"
 #include "chainparams.h"
 #include "coins.h"
+#include "dogecoin.h"
 #include "main.h"
 #include "uint256.h"
 #include "primitives/block.h"
@@ -110,7 +111,7 @@ public:
 CAuxpowBuilder::CAuxpowBuilder(int baseVersion, int chainId)
     : auxpowChainIndex(-1)
 {
-    parentBlock.nVersion.SetBaseVersion(baseVersion);
+    parentBlock.nVersion = baseVersion;
     parentBlock.nVersion.SetChainId(chainId);
 }
 
@@ -330,7 +331,7 @@ mineBlock(CBlockHeader& block, bool ok, int nBits = -1)
 
     block.nNonce = 0;
     while (true) {
-        const bool nowOk = (UintToArith256(block.GetHash()) <= target);
+        const bool nowOk = (UintToArith256(block.GetPoWHash()) <= target);
         if ((ok && nowOk) || (!ok && !nowOk))
             break;
 
@@ -338,9 +339,9 @@ mineBlock(CBlockHeader& block, bool ok, int nBits = -1)
     }
 
     if (ok)
-        BOOST_CHECK(CheckProofOfWork(block.GetHash(), nBits, Params().GetConsensus()));
+        BOOST_CHECK(CheckProofOfWork(block.GetPoWHash(), nBits, Params().GetConsensus()));
     else
-        BOOST_CHECK(!CheckProofOfWork(block.GetHash(), nBits, Params().GetConsensus()));
+        BOOST_CHECK(!CheckProofOfWork(block.GetPoWHash(), nBits, Params().GetConsensus()));
 }
 
 BOOST_AUTO_TEST_CASE(auxpow_pow)
@@ -357,20 +358,22 @@ BOOST_AUTO_TEST_CASE(auxpow_pow)
 
     block.nVersion.SetGenesisVersion(1);
     mineBlock(block, true);
-    BOOST_CHECK(CheckProofOfWork(block, params));
+    BOOST_CHECK(CheckAuxPowProofOfWork(block, params));
 
-    block.nVersion.SetGenesisVersion(2);
+    // Dogecoin block version 2 can be both AuxPoW and regular, so test 3
+
+    block.nVersion.SetGenesisVersion(3);
     mineBlock(block, true);
-    BOOST_CHECK(!CheckProofOfWork(block, params));
+    BOOST_CHECK(!CheckAuxPowProofOfWork(block, params));
 
-    block.nVersion.SetBaseVersion(2);
+    block.nVersion = 2;
     block.nVersion.SetChainId(params.nAuxpowChainId);
     mineBlock(block, true);
-    BOOST_CHECK(CheckProofOfWork(block, params));
+    BOOST_CHECK(CheckAuxPowProofOfWork(block, params));
 
     block.nVersion.SetChainId(params.nAuxpowChainId + 1);
     mineBlock(block, true);
-    BOOST_CHECK(!CheckProofOfWork(block, params));
+    BOOST_CHECK(!CheckAuxPowProofOfWork(block, params));
 
     /* Check the case when the block does not have auxpow (this is true
      right now).  */
@@ -378,13 +381,13 @@ BOOST_AUTO_TEST_CASE(auxpow_pow)
     block.nVersion.SetChainId(params.nAuxpowChainId);
     block.nVersion.SetAuxpow(true);
     mineBlock(block, true);
-    BOOST_CHECK(!CheckProofOfWork(block, params));
+    BOOST_CHECK(!CheckAuxPowProofOfWork(block, params));
 
     block.nVersion.SetAuxpow(false);
     mineBlock(block, true);
-    BOOST_CHECK(CheckProofOfWork(block, params));
+    BOOST_CHECK(CheckAuxPowProofOfWork(block, params));
     mineBlock(block, false);
-    BOOST_CHECK(!CheckProofOfWork(block, params));
+    BOOST_CHECK(!CheckAuxPowProofOfWork(block, params));
 
     /* ****************************************** */
     /* Check the case that the block has auxpow.  */
@@ -404,10 +407,10 @@ BOOST_AUTO_TEST_CASE(auxpow_pow)
     builder.setCoinbase(CScript() << data);
     mineBlock(builder.parentBlock, false, block.nBits);
     block.SetAuxpow(new CAuxPow(builder.get()));
-    BOOST_CHECK(!CheckProofOfWork(block, params));
+    BOOST_CHECK(!CheckAuxPowProofOfWork(block, params));
     mineBlock(builder.parentBlock, true, block.nBits);
     block.SetAuxpow(new CAuxPow(builder.get()));
-    BOOST_CHECK(CheckProofOfWork(block, params));
+    BOOST_CHECK(CheckAuxPowProofOfWork(block, params));
 
     /* Mismatch between auxpow being present and block.nVersion.  Note that
      block.SetAuxpow sets also the version and that we want to ensure
@@ -423,7 +426,7 @@ BOOST_AUTO_TEST_CASE(auxpow_pow)
     BOOST_CHECK(hashAux != block.GetHash());
     block.nVersion.SetAuxpow(false);
     BOOST_CHECK(hashAux == block.GetHash());
-    BOOST_CHECK(!CheckProofOfWork(block, params));
+    BOOST_CHECK(!CheckAuxPowProofOfWork(block, params));
 
     /* Modifying the block invalidates the PoW.  */
     block.nVersion.SetAuxpow(true);
@@ -432,9 +435,9 @@ BOOST_AUTO_TEST_CASE(auxpow_pow)
     builder.setCoinbase(CScript() << data);
     mineBlock(builder.parentBlock, true, block.nBits);
     block.SetAuxpow(new CAuxPow(builder.get()));
-    BOOST_CHECK(CheckProofOfWork(block, params));
+    BOOST_CHECK(CheckAuxPowProofOfWork(block, params));
     tamperWith(block.hashMerkleRoot);
-    BOOST_CHECK(!CheckProofOfWork(block, params));
+    BOOST_CHECK(!CheckAuxPowProofOfWork(block, params));
 }
 
 /* ************************************************************************** */
