@@ -575,7 +575,7 @@ Value getblockchaininfo(const Array& params, bool fHelp)
     obj.push_back(Pair("chainwork",             chainActive.Tip()->nChainWork.GetHex()));
     obj.push_back(Pair("pruned",                fPruneMode));
 
-    const Consensus::Params& consensusParams = Params().GetConsensus();
+    const Consensus::Params& consensusParams = Params().GetConsensus(0);
     CBlockIndex* tip = chainActive.Tip();
     Array softforks;
     softforks.push_back(SoftForkDesc("bip34", 2, tip, consensusParams));
