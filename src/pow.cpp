@@ -20,6 +20,15 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     if (pindexLast == NULL)
         return nProofOfWorkLimit;
 
+    // Dogecoin: Special rules for minimum difficulty blocks with Digishield
+    if (AllowDigishieldMinDifficultyForBlock(pindexLast, pblock, params))
+    {
+        // Special difficulty rule for testnet:
+        // If the new block's timestamp is more than 2* nTargetSpacing minutes
+        // then allow mining of a min-difficulty block.
+        return nProofOfWorkLimit;
+    }
+
     // Only change once per difficulty adjustment interval
     if ((pindexLast->nHeight+1) % params.DifficultyAdjustmentInterval() != 0)
     {
@@ -61,7 +70,6 @@ unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nF
 {
     // Limit adjustment step
     int64_t nActualTimespan = pindexLast->GetBlockTime() - nFirstBlockTime;
-    LogPrintf("  nActualTimespan = %d  before bounds\n", nActualTimespan);
     if (nActualTimespan < params.nPowTargetTimespan/4)
         nActualTimespan = params.nPowTargetTimespan/4;
     if (nActualTimespan > params.nPowTargetTimespan*4)

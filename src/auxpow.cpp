@@ -7,6 +7,7 @@
 
 #include "auxpow.h"
 
+#include "chainparams.h"
 #include "consensus/validation.h"
 #include "main.h"
 #include "script/script.h"
@@ -89,7 +90,8 @@ int CMerkleTx::GetBlocksToMaturity() const
 {
     if (!IsCoinBase())
         return 0;
-    return std::max(0, (COINBASE_MATURITY + 1) - GetDepthInMainChain());
+    int nCoinbaseMaturity = Params().GetConsensus(chainActive.Height()).nCoinbaseMaturity;
+    return std::max(0, (nCoinbaseMaturity + 1) - GetDepthInMainChain());
 }
 
 
