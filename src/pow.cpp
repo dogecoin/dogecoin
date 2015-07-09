@@ -12,6 +12,22 @@
 #include "uint256.h"
 #include "util.h"
 
+// Determine if the for the given block, a min difficulty setting applies
+bool AllowMinDifficultyForBlock(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params& params)
+{
+    // check if the chain allows minimum difficulty blocks
+    if (!params.fPowAllowMinDifficultyBlocks)
+        return false;
+
+    // Dogecoin: Magic number at which reset protocol switches
+    // check if we allow minimum difficulty at this block-height
+    if (pindexLast->nHeight < 157500)
+        return false;
+
+    // Allow for a minimum block time if the elapsed time > 2*nTargetSpacing
+    return (pblock->GetBlockTime() > pindexLast->GetBlockTime() + params.nPowTargetSpacing*2);
+}
+
 unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params& params)
 {
     unsigned int nProofOfWorkLimit = UintToArith256(params.powLimit).GetCompact();
@@ -19,6 +35,15 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     // Genesis block
     if (pindexLast == NULL)
         return nProofOfWorkLimit;
+
+    // Dogecoin: Special rules for minimum difficulty blocks with Digishield
+    if (AllowDigishieldMinDifficultyForBlock(pindexLast, pblock, params))
+    {
+        // Special difficulty rule for testnet:
+        // If the new block's timestamp is more than 2* nTargetSpacing minutes
+        // then allow mining of a min-difficulty block.
+        return nProofOfWorkLimit;
+    }
 
     // Only change once per difficulty adjustment interval
     if ((pindexLast->nHeight+1) % params.DifficultyAdjustmentInterval() != 0)
@@ -55,7 +80,6 @@ unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nF
 {
     // Limit adjustment step
     int64_t nActualTimespan = pindexLast->GetBlockTime() - nFirstBlockTime;
-    LogPrintf("  nActualTimespan = %d  before bounds\n", nActualTimespan);
     if (nActualTimespan < params.nPowTargetTimespan/4)
         nActualTimespan = params.nPowTargetTimespan/4;
     if (nActualTimespan > params.nPowTargetTimespan*4)
