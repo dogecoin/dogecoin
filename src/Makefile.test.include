@@ -36,6 +36,7 @@ BITCOIN_TESTS =\
   test/bignum.h \
   test/alert_tests.cpp \
   test/allocator_tests.cpp \
+  test/auxpow_tests.cpp \
   test/base32_tests.cpp \
   test/base58_tests.cpp \
   test/base64_tests.cpp \
