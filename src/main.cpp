@@ -2747,14 +2747,14 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
 bool ContextualCheckBlockHeader(const CBlockHeader& block, CValidationState& state, CBlockIndex * const pindexPrev)
 {
     const CChainParams& chainParams = Params();
-    const Consensus::Params& consensusParams = chainParams.GetConsensus(pindexPrev->nHeight + 1);
     uint256 hash = block.GetHash();
-    if (hash == consensusParams.hashGenesisBlock)
+    if (hash == chainParams.GetConsensus(0).hashGenesisBlock)
         return true;
 
     assert(pindexPrev);
 
     int nHeight = pindexPrev->nHeight+1;
+    const Consensus::Params& consensusParams = chainParams.GetConsensus(nHeight);
 
     // Disallow legacy blocks after merge-mining start.
     if (!consensusParams.fAllowLegacyBlocks
