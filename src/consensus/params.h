@@ -29,6 +29,7 @@ struct Params {
     /** Dogecoin-specific parameters */
     bool fDigishieldDifficultyCalculation;
     bool fPowAllowDigishieldMinDifficultyBlocks; // Allow minimum difficulty blocks where a retarget would normally occur
+    bool fSimplifiedRewards;
 
     /** Auxpow parameters */
     int16_t nAuxpowChainId;
