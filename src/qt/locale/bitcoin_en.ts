@@ -493,7 +493,7 @@
     <message>
         <location line="-311"/>
         <source>Bitcoin Core</source>
-        <translation type="unfinished">Bitcoin Core</translation>
+        <translation type="unfinished">Dogecoin Core</translation>
     </message>
     <message>
         <location line="+164"/>
@@ -503,12 +503,12 @@
     <message>
         <location line="+38"/>
         <source>&amp;About Bitcoin Core</source>
-        <translation type="unfinished"></translation>
+        <translation>About Dogecoin Core</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Modify configuration options for Bitcoin Core</source>
-        <translation type="unfinished"></translation>
+        <translation>Modify configuration options for Dogecoin Core</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -1075,7 +1075,7 @@
     <message>
         <location filename="../utilitydialog.cpp" line="+33"/>
         <source>Bitcoin Core</source>
-        <translation type="unfinished">Bitcoin Core</translation>
+        <translation type="unfinished">Dogecoin Core</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -1091,7 +1091,7 @@
     <message>
         <location line="+5"/>
         <source>About Bitcoin Core</source>
-        <translation type="unfinished"></translation>
+        <translation>About Dogecoin Core</translation>
     </message>
     <message>
         <location line="+19"/>
@@ -1144,7 +1144,7 @@
     <message>
         <location filename="../intro.cpp" line="+82"/>
         <source>Bitcoin Core</source>
-        <translation type="unfinished">Bitcoin Core</translation>
+        <translation type="unfinished">Dogecoin Core</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2948,7 +2948,7 @@
     <message>
         <location filename="../splashscreen.cpp" line="+41"/>
         <source>Bitcoin Core</source>
-        <translation type="unfinished">Bitcoin Core</translation>
+        <translation type="unfinished">Dogecoin Core</translation>
     </message>
     <message>
         <location line="+2"/>
