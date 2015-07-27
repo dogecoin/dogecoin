@@ -48,6 +48,7 @@
         <file alias="warning">res/icons/warning.png</file>
         <file alias="paper_wallet">res/icons/paper_wallet.png</file>
         <file alias="print">res/icons/print.png</file>
+        <file alias="wallet_bgcoin">res/icons/wallet_bgcoin.png</file>
     </qresource>
     <qresource prefix="/movies">
         <file alias="spinner-000">res/movies/spinner-000.png</file>
@@ -86,5 +87,13 @@
         <file alias="spinner-033">res/movies/spinner-033.png</file>
         <file alias="spinner-034">res/movies/spinner-034.png</file>
         <file alias="spinner-035">res/movies/spinner-035.png</file>
+    </qresource>
+    <qresource prefix="/fonts">
+        <file alias="ComicNeue-Bold">res/fonts/ComicNeue-Bold.ttf</file>
+        <file alias="ComicNeue-Bold-Oblique">res/fonts/ComicNeue-Bold-Oblique.ttf</file>
+        <file alias="ComicNeue-Light">res/fonts/ComicNeue-Light.ttf</file>
+        <file alias="ComicNeue-Light-Oblique">res/fonts/ComicNeue-Light-Oblique.ttf</file>
+        <file alias="ComicNeue-Regular">res/fonts/ComicNeue-Regular.ttf</file>
+        <file alias="ComicNeue-Regular-Oblique">res/fonts/ComicNeue-Regular-Oblique.ttf</file>
     </qresource>
 </RCC>
