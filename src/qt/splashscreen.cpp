@@ -47,7 +47,7 @@ SplashScreen::SplashScreen(Qt::WindowFlags f, const NetworkStyle *networkStyle) 
     QString copyrightText   = QString::fromUtf8(CopyrightHolders(strprintf("\xc2\xA9 %u-%u ", 2009, COPYRIGHT_YEAR)).c_str());
     QString titleAddText    = networkStyle->getTitleAddText();
 
-    QString font            = QApplication::font().toString();
+    QString font            = "Comic Sans MS";
 
     // create a bitmap according to device pixelratio
     QSize splashSize(480*devicePixelRatio,320*devicePixelRatio);
