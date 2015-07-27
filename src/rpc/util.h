@@ -30,8 +30,8 @@
 extern const std::string UNIX_EPOCH_TIME;
 
 /**
- * Example bech32 addresses for the RPCExamples help documentation. They are intentionally
- * invalid to prevent accidental transactions by users.
+ * Example pubkeyhash addresses for the RPCExamples help documentation.
+ * Dogecoin: Use pubkeyhash rather than BECH32 addresses.
  */
 extern const std::string EXAMPLE_ADDRESS[2];
 
