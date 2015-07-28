@@ -191,6 +191,7 @@ enum
     SCRIPT_VERIFY_LOW_S     = (1U << 2), // enforce low S values (<n/2) in signatures (depends on STRICTENC)
     SCRIPT_VERIFY_NOCACHE   = (1U << 3), // do not store results in signature cache (but do query it)
     SCRIPT_VERIFY_DERSIG    = (1U << 4), // enforce signature encodings as defined by BIP 66 (which is a softfork, while STRICTENC is not)
+    SCRIPT_VERIFY_NULLDUMMY = (1U << 5), // verify dummy stack item consumed by CHECKMULTISIG is of zero-length
 };
 
 // Mandatory script verification flags that all new blocks must comply with for
