@@ -114,6 +114,12 @@ public:
             || (nVersion == 2 && GetChainId() == 0);
     }
 
+    CBlockVersion& operator=(const CBlockVersion& other)
+    {
+        nVersion = other.nVersion;
+        return *this;
+    }
+
     CBlockVersion& operator=(const int nBaseVersion)
     {
         nVersion = (nBaseVersion & 0x000000ff) | (nVersion & 0xffffff00);

@@ -767,11 +767,11 @@ Value getauxblock(const Array& params, bool fHelp)
 
     if (vNodes.empty() && !Params().MineBlocksOnDemand())
         throw JSONRPCError(RPC_CLIENT_NOT_CONNECTED,
-                           "Namecoin is not connected!");
+                           "Dogecoin is not connected!");
 
     if (IsInitialBlockDownload() && !Params().MineBlocksOnDemand())
         throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD,
-                           "Namecoin is downloading blocks...");
+                           "Dogecoin is downloading blocks...");
     
     /* The variables below are used to keep track of created and not yet
        submitted auxpow blocks.  Lock them, just in case.  In principle
