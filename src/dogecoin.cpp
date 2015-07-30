@@ -113,12 +113,6 @@ bool CheckAuxPowProofOfWork(const CBlockHeader& block, const Consensus::Params& 
     if (!block.nVersion.IsAuxpow())
         return error("%s : auxpow on block with non-auxpow version", __func__);
 
-    /* Temporary check:  Disallow parent blocks with auxpow version.  This is
-       for compatibility with the old client.  */
-    /* FIXME: Remove this check with a hardfork later on.  */
-    if (block.auxpow->getParentBlock().nVersion.IsAuxpow())
-        return error("%s : auxpow parent block has auxpow version", __func__);
-
     if (!block.auxpow->check(block.GetHash(), block.nVersion.GetChainId(), params))
         return error("%s : AUX POW is not valid", __func__);
     if (!CheckProofOfWork(block.auxpow->getParentBlockPoWHash(), block.nBits, params))
