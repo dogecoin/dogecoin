@@ -1414,9 +1414,7 @@ bool CheckTxInputs(const CTransaction& tx, CValidationState& state, const CCoins
             // If prev is coinbase, check that it's matured
             if (coins->IsCoinBase()) {
                 // Dogecoin: Switch maturity at depth 145,000
-                int nCoinbaseMaturity = coins->nHeight < COINBASE_MATURITY_SWITCH
-                    ? COINBASE_MATURITY_OLD
-                    : COINBASE_MATURITY;
+                int nCoinbaseMaturity = Params().GetConsensus(coins->nHeight)->nCoinbaseMaturity;
                 if (nSpendHeight - coins->nHeight < nCoinbaseMaturity)
                     return state.Invalid(false,
                         REJECT_INVALID, "bad-txns-premature-spend-of-coinbase",
