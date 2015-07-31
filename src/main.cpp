@@ -1448,9 +1448,7 @@ bool CheckInputs(const CTransaction& tx, CValidationState &state, const CCoinsVi
             // If prev is coinbase, check that it's matured
             if (coins->IsCoinBase()) {
                 // Dogecoin: Switch maturity at depth 145,000
-                int nCoinbaseMaturity = coins->nHeight < COINBASE_MATURITY_SWITCH
-                    ? COINBASE_MATURITY_OLD
-                    : COINBASE_MATURITY;
+                int nCoinbaseMaturity = Params().GetConsensus(coins->nHeight).nCoinbaseMaturity;
                 if (nSpendHeight - coins->nHeight < nCoinbaseMaturity)
                     return state.Invalid(
                         error("CheckInputs(): tried to spend coinbase at depth %d", nSpendHeight - coins->nHeight),
