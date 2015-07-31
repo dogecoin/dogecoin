@@ -5,6 +5,7 @@
 
 #include "txmempool.h"
 
+#include "chainparams.h"
 #include "clientversion.h"
 #include "consensus/consensus.h"
 #include "consensus/validation.h"
@@ -166,7 +167,8 @@ void CTxMemPool::removeCoinbaseSpends(const CCoinsViewCache *pcoins, unsigned in
                 continue;
             const CCoins *coins = pcoins->AccessCoins(txin.prevout.hash);
             if (fSanityCheck) assert(coins);
-            if (!coins || (coins->IsCoinBase() && nMemPoolHeight - coins->nHeight < COINBASE_MATURITY)) {
+            int nCoinbaseMaturity = Params().GetConsensus(coins->nHeight).nCoinbaseMaturity;
+            if (!coins || (coins->IsCoinBase() && nMemPoolHeight - coins->nHeight < nCoinbaseMaturity)) {
                 transactionsToRemove.push_back(tx);
                 break;
             }
