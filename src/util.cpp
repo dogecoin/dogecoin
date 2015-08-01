@@ -99,8 +99,8 @@ namespace boost {
 
 using namespace std;
 
-const char * const BITCOIN_CONF_FILENAME = "bitcoin.conf";
-const char * const BITCOIN_PID_FILENAME = "bitcoind.pid";
+const char * const BITCOIN_CONF_FILENAME = "dogecoin.conf";
+const char * const BITCOIN_PID_FILENAME = "dogecoind.pid";
 
 CCriticalSection cs_args;
 map<string, string> mapArgs;
@@ -458,7 +458,7 @@ static std::string FormatException(const std::exception* pex, const char* pszThr
     char pszModule[MAX_PATH] = "";
     GetModuleFileNameA(NULL, pszModule, sizeof(pszModule));
 #else
-    const char* pszModule = "bitcoin";
+    const char* pszModule = "dogecoin";
 #endif
     if (pex)
         return strprintf(
@@ -484,7 +484,7 @@ boost::filesystem::path GetDefaultDataDir()
     // Unix: ~/.bitcoin
 #ifdef WIN32
     // Windows
-    return GetSpecialFolderPath(CSIDL_APPDATA) / "Bitcoin";
+    return GetSpecialFolderPath(CSIDL_APPDATA) / "Dogecoin";
 #else
     fs::path pathRet;
     char* pszHome = getenv("HOME");
@@ -494,10 +494,10 @@ boost::filesystem::path GetDefaultDataDir()
         pathRet = fs::path(pszHome);
 #ifdef MAC_OSX
     // Mac
-    return pathRet / "Library/Application Support/Bitcoin";
+    return pathRet / "Library/Application Support/Dogecoin";
 #else
     // Unix
-    return pathRet / ".bitcoin";
+    return pathRet / ".dogecoin";
 #endif
 #endif
 }
