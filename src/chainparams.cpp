@@ -287,6 +287,7 @@ public:
         consensus.fStrictChainId = true;
         consensus.fAllowLegacyBlocks = false; // Never allow legacy blocks on RegTest
         consensus.fSimplifiedRewards = true;
+        consensus.nCoinbaseMaturity = 60; // For easier testability in RPC tests
 
         // Reset links before we copy parameters
         consensus.pLeft = NULL;
