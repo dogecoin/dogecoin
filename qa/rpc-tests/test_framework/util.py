@@ -63,7 +63,7 @@ def initialize_datadir(dirname, n):
     datadir = os.path.join(dirname, "node"+str(n))
     if not os.path.isdir(datadir):
         os.makedirs(datadir)
-    with open(os.path.join(datadir, "bitcoin.conf"), 'w') as f:
+    with open(os.path.join(datadir, "dogecoin.conf"), 'w') as f:
         f.write("regtest=1\n");
         f.write("rpcuser=rt\n");
         f.write("rpcpassword=rt\n");
@@ -83,16 +83,16 @@ def initialize_chain(test_dir):
         # Create cache directories, run bitcoinds:
         for i in range(4):
             datadir=initialize_datadir("cache", i)
-            args = [ os.getenv("BITCOIND", "bitcoind"), "-keypool=1", "-datadir="+datadir, "-discover=0" ]
+            args = [ os.getenv("DOGECOIND", "dogecoind"), "-keypool=1", "-datadir="+datadir, "-discover=0" ]
             if i > 0:
                 args.append("-connect=127.0.0.1:"+str(p2p_port(0)))
             bitcoind_processes[i] = subprocess.Popen(args)
             if os.getenv("PYTHON_DEBUG", ""):
-                print "initialize_chain: bitcoind started, calling bitcoin-cli -rpcwait getblockcount"
-            subprocess.check_call([ os.getenv("BITCOINCLI", "bitcoin-cli"), "-datadir="+datadir,
+                print "initialize_chain: dogecoind started, calling dogecoin-cli -rpcwait getblockcount"
+            subprocess.check_call([ os.getenv("DOGECOINCLI", "dogecoin-cli"), "-datadir="+datadir,
                                     "-rpcwait", "getblockcount"], stdout=devnull)
             if os.getenv("PYTHON_DEBUG", ""):
-                print "initialize_chain: bitcoin-cli -rpcwait getblockcount completed"
+                print "initialize_chain: dogecoin-cli -rpcwait getblockcount completed"
         devnull.close()
         rpcs = []
         for i in range(4):
@@ -167,18 +167,18 @@ def start_node(i, dirname, extra_args=None, rpchost=None, timewait=None, binary=
     """
     datadir = os.path.join(dirname, "node"+str(i))
     if binary is None:
-        binary = os.getenv("BITCOIND", "bitcoind")
+        binary = os.getenv("DOGECOIND", "dogecoind")
     args = [ binary, "-datadir="+datadir, "-keypool=1", "-discover=0", "-rest" ]
     if extra_args is not None: args.extend(extra_args)
     bitcoind_processes[i] = subprocess.Popen(args)
     devnull = open("/dev/null", "w+")
     if os.getenv("PYTHON_DEBUG", ""):
-        print "start_node: bitcoind started, calling bitcoin-cli -rpcwait getblockcount"
-    subprocess.check_call([ os.getenv("BITCOINCLI", "bitcoin-cli"), "-datadir="+datadir] +
+        print "start_node: dogecoind started, calling dogecoin-cli -rpcwait getblockcount"
+    subprocess.check_call([ os.getenv("DOGECOINCLI", "dogecoin-cli"), "-datadir="+datadir] +
                           _rpchost_to_args(rpchost)  +
                           ["-rpcwait", "getblockcount"], stdout=devnull)
     if os.getenv("PYTHON_DEBUG", ""):
-        print "start_node: calling bitcoin-cli -rpcwait getblockcount returned"
+        print "start_node: calling dogecoin-cli -rpcwait getblockcount returned"
     devnull.close()
     url = "http://rt:rt@%s:%d" % (rpchost or '127.0.0.1', rpc_port(i))
     if timewait is not None:
