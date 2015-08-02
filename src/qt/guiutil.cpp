@@ -121,7 +121,7 @@ void setupAmountWidget(QLineEdit *widget, QWidget *parent)
 bool parseBitcoinURI(const QUrl &uri, SendCoinsRecipient *out)
 {
     // return if URI is not valid or is no bitcoin: URI
-    if(!uri.isValid() || uri.scheme() != QString("bitcoin"))
+    if(!uri.isValid() || uri.scheme() != QString("dogecoin"))
         return false;
 
     SendCoinsRecipient rv;
@@ -185,9 +185,9 @@ bool parseBitcoinURI(QString uri, SendCoinsRecipient *out)
     //
     //    Cannot handle this later, because bitcoin:// will cause Qt to see the part after // as host,
     //    which will lower-case it (and thus invalidate the address).
-    if(uri.startsWith("bitcoin://", Qt::CaseInsensitive))
+    if(uri.startsWith("dogecoin://", Qt::CaseInsensitive))
     {
-        uri.replace(0, 10, "bitcoin:");
+        uri.replace(0, 11, "dogecoin:");
     }
     QUrl uriInstance(uri);
     return parseBitcoinURI(uriInstance, out);
@@ -195,7 +195,7 @@ bool parseBitcoinURI(QString uri, SendCoinsRecipient *out)
 
 QString formatBitcoinURI(const SendCoinsRecipient &info)
 {
-    QString ret = QString("bitcoin:%1").arg(info.address);
+    QString ret = QString("dogecoin:%1").arg(info.address);
     int paramCount = 0;
 
     if (info.amount)
@@ -565,11 +565,11 @@ TableViewLastColumnResizingFixer::TableViewLastColumnResizingFixer(QTableView* t
 boost::filesystem::path static StartupShortcutPath()
 {
     if (GetBoolArg("-testnet", false))
-        return GetSpecialFolderPath(CSIDL_STARTUP) / "Bitcoin (testnet).lnk";
+        return GetSpecialFolderPath(CSIDL_STARTUP) / "Dogecoin (testnet).lnk";
     else if (GetBoolArg("-regtest", false))
-        return GetSpecialFolderPath(CSIDL_STARTUP) / "Bitcoin (regtest).lnk";
+        return GetSpecialFolderPath(CSIDL_STARTUP) / "Dogecoin (regtest).lnk";
 
-    return GetSpecialFolderPath(CSIDL_STARTUP) / "Bitcoin.lnk";
+    return GetSpecialFolderPath(CSIDL_STARTUP) / "Dogecoin.lnk";
 }
 
 bool GetStartOnSystemStartup()
@@ -664,7 +664,7 @@ boost::filesystem::path static GetAutostartDir()
 
 boost::filesystem::path static GetAutostartFilePath()
 {
-    return GetAutostartDir() / "bitcoin.desktop";
+    return GetAutostartDir() / "dogecoin.desktop";
 }
 
 bool GetStartOnSystemStartup()
@@ -706,11 +706,11 @@ bool SetStartOnSystemStartup(bool fAutoStart)
         optionFile << "[Desktop Entry]\n";
         optionFile << "Type=Application\n";
         if (GetBoolArg("-testnet", false))
-            optionFile << "Name=Bitcoin (testnet)\n";
+            optionFile << "Name=Dogecoin (testnet)\n";
         else if (GetBoolArg("-regtest", false))
-            optionFile << "Name=Bitcoin (regtest)\n";
+            optionFile << "Name=Dogecoin (regtest)\n";
         else
-            optionFile << "Name=Bitcoin\n";
+            optionFile << "Name=Dogecoin\n";
         optionFile << "Exec=" << pszExePath << strprintf(" -min -testnet=%d -regtest=%d\n", GetBoolArg("-testnet", false), GetBoolArg("-regtest", false));
         optionFile << "Terminal=false\n";
         optionFile << "Hidden=false\n";
