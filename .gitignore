@@ -1,13 +1,13 @@
 *.tar.gz
 
 *.exe
-src/bitcoin
-src/bitcoind
-src/bitcoin-cli
-src/bitcoin-tx
-src/test/test_bitcoin
-src/test/test_bitcoin_fuzzy
-src/qt/test/test_bitcoin-qt
+src/dogecoin
+src/dogecoind
+src/dogecoin-cli
+src/dogecoin-tx
+src/test/test_dogecoin
+src/test/test_dogecoin_fuzzy
+src/qt/test/test_dogecoin-qt
 
 # autoreconf
 Makefile.in
@@ -74,12 +74,12 @@ src/qt/test/moc*.cpp
 # Compilation and Qt preprocessor part
 *.qm
 Makefile
-bitcoin-qt
+dogecoin-qt
 Bitcoin-Qt.app
 
 # Unit-tests
 Makefile.test
-bitcoin-qt_test
+dogecoin-qt_test
 src/test/buildenv.py
 
 # Resources cpp
