@@ -66,7 +66,7 @@ bench_bench_dogecoin_LDADD = \
   $(EVENT_LIBS)
 
 if ENABLE_ZMQ
-bench_bench_dogecoin_LDADD += $(LIBBITCOIN_ZMQ) $(ZMQ_LIBS)
+bench_bench_dogecoin_LDADD += $(LIBDOGECOIN_ZMQ) $(ZMQ_LIBS)
 endif
 
 if ENABLE_WALLET
@@ -88,7 +88,7 @@ dogecoin_bench: $(BENCH_BINARY)
 bench: $(BENCH_BINARY) FORCE
 	$(BENCH_BINARY)
 
-bitcoin_bench_clean : FORCE
+dogecoin_bench_clean : FORCE
 	rm -f $(CLEAN_BITCOIN_BENCH) $(bench_bench_dogecoin_OBJECTS) $(BENCH_BINARY)
 
 %.raw.h: %.raw
