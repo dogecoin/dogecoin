@@ -232,7 +232,7 @@ class EstimateFeeTest(BitcoinTestFramework):
         print("Checking estimates for 1/2/3/6/15/25 blocks")
         print("Creating transactions and mining them with a huge block size")
         # Create transactions and mine 20 big blocks with node 0 such that the mempool is always emptied
-        self.transact_and_mine(30, self.nodes[0])
+        self.transact_and_mine(60, self.nodes[0])
         check_estimates(self.nodes[1], self.fees_per_kb, 1)
 
         print("Creating transactions and mining them with a block size that can't keep up")
