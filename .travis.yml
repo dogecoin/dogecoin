@@ -65,7 +65,7 @@ matrix:
             - mingw-w64-dev
             - wine
             - bc
-    - compiler: ": bitcoind"
+    - compiler: ": dogecoind"
       env: HOST=x86_64-unknown-linux-gnu DEP_OPTS="NO_QT=1 NO_UPNP=1 DEBUG=1" RUN_TESTS=true GOAL="install" BITCOIN_CONFIG="--enable-glibc-back-compat --enable-reduce-exports CPPFLAGS=-DDEBUG_LOCKORDER"
       addons:
         apt:
