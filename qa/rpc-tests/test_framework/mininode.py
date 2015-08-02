@@ -32,7 +32,7 @@ import logging
 import copy
 
 BIP0031_VERSION = 60000
-MY_VERSION = 60001  # past bip-31 for ping/pong
+MY_VERSION = 70003  # past bip-31 for ping/pong
 MY_SUBVERSION = "/python-mininode-tester:0.0.1/"
 
 MAX_INV_SZ = 50000

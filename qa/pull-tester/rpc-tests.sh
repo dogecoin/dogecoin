@@ -34,24 +34,22 @@ testScripts=(
     'walletbackup.py'
 );
 testScriptsExt=(
-    'bipdersig-p2p.py'
+##    'bipdersig-p2p.py'
     'bipdersig.py'
     'getblocktemplate_longpoll.py'
     'getblocktemplate_proposals.py'
-    'pruning.py'
+##    'pruning.py'
     'forknotify.py'
     'invalidateblock.py'
     'keypool.py'
     'receivedby.py'
     'reindex.py'
     'rpcbind_test.py'
-#   'script_test.py'
-    'smartfees.py'
+###   'script_test.py'
+##    'smartfees.py'
     'maxblocksinflight.py'
-    'invalidblockrequest.py'
-    'rawtransactions.py'
-#    'forknotify.py'
-    'p2p-acceptblock.py'
+##    'invalidblockrequest.py'
+##    'p2p-acceptblock.py'
 );
 
 extArg="-extended"

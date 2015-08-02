@@ -239,7 +239,7 @@ class PruneTest(BitcoinTestFramework):
             outputs = {}
             t = self.utxo.pop()
             inputs.append({ "txid" : t["txid"], "vout" : t["vout"]})
-            remchange = t["amount"] - Decimal("0.001000")
+            remchange = t["amount"] - 196
             outputs[address]=remchange
             # Create a basic transaction that will send change back to ourself after account for a fee
             # And then insert the 128 generated transaction outs in the middle rawtx[92] is where the #
