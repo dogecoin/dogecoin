@@ -38,15 +38,15 @@ class MempoolSpendCoinbaseTest(BitcoinTestFramework):
 
     def run_test(self):
         chain_height = self.nodes[0].getblockcount()
-        assert_equal(chain_height, 200)
+        assert_equal(chain_height, 120)
         node0_address = self.nodes[0].getnewaddress()
 
-        # Coinbase at height chain_height-100+1 ok in mempool, should
-        # get mined. Coinbase at height chain_height-100+2 is
+        # Coinbase at height chain_height-60+1 ok in mempool, should
+        # get mined. Coinbase at height chain_height-60+2 is
         # is too immature to spend.
-        b = [ self.nodes[0].getblockhash(n) for n in range(101, 103) ]
+        b = [ self.nodes[0].getblockhash(n) for n in range(61, 63) ]
         coinbase_txids = [ self.nodes[0].getblock(h)['tx'][0] for h in b ]
-        spends_raw = [ self.create_tx(txid, node0_address, 50) for txid in coinbase_txids ]
+        spends_raw = [ self.create_tx(txid, node0_address, 500000) for txid in coinbase_txids ]
 
         spend_101_id = self.nodes[0].sendrawtransaction(spends_raw[0])
 

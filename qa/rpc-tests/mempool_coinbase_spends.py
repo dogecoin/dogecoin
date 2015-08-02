@@ -52,11 +52,11 @@ class MempoolCoinbaseTest(BitcoinTestFramework):
         # 3. Indirect (coinbase and child both in chain) : spend_103 and spend_103_1
         # Use invalidatblock to make all of the above coinbase spends invalid (immature coinbase),
         # and make sure the mempool code behaves correctly.
-        b = [ self.nodes[0].getblockhash(n) for n in range(102, 105) ]
+        b = [ self.nodes[0].getblockhash(n) for n in range(62, 65) ]
         coinbase_txids = [ self.nodes[0].getblock(h)['tx'][0] for h in b ]
-        spend_101_raw = self.create_tx(coinbase_txids[0], node1_address, 50)
-        spend_102_raw = self.create_tx(coinbase_txids[1], node0_address, 50)
-        spend_103_raw = self.create_tx(coinbase_txids[2], node0_address, 50)
+        spend_101_raw = self.create_tx(coinbase_txids[0], node1_address, 499998)
+        spend_102_raw = self.create_tx(coinbase_txids[1], node0_address, 500000)
+        spend_103_raw = self.create_tx(coinbase_txids[2], node0_address, 499999)
 
         # Broadcast and mine spend_102 and 103:
         spend_102_id = self.nodes[0].sendrawtransaction(spend_102_raw)
@@ -64,8 +64,8 @@ class MempoolCoinbaseTest(BitcoinTestFramework):
         self.nodes[0].generate(1)
 
         # Create 102_1 and 103_1:
-        spend_102_1_raw = self.create_tx(spend_102_id, node1_address, 50)
-        spend_103_1_raw = self.create_tx(spend_103_id, node1_address, 50)
+        spend_102_1_raw = self.create_tx(spend_102_id, node1_address, 499999)
+        spend_103_1_raw = self.create_tx(spend_103_id, node1_address, 499998)
 
         # Broadcast and mine 103_1:
         spend_103_1_id = self.nodes[0].sendrawtransaction(spend_103_1_raw)
@@ -76,7 +76,6 @@ class MempoolCoinbaseTest(BitcoinTestFramework):
         spend_102_1_id = self.nodes[0].sendrawtransaction(spend_102_1_raw)
 
         self.sync_all()
-
         assert_equal(set(self.nodes[0].getrawmempool()), set([ spend_101_id, spend_102_1_id ]))
 
         # Use invalidateblock to re-org back and make all those coinbase spends
