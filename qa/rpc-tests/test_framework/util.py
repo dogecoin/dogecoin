@@ -278,7 +278,7 @@ def initialize_chain(test_dir, num_nodes, cachedir):
         block_time = get_mocktime() - (201 * 10 * 60)
         for i in range(2):
             for peer in range(4):
-                for j in range(25):
+                for j in range(15):
                     set_node_times(rpcs, block_time)
                     rpcs[peer].generate(1)
                     block_time += 10*60

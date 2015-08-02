@@ -70,15 +70,15 @@ class RESTTest (BitcoinTestFramework):
         self.nodes[2].generate(100)
         self.sync_all()
 
-        assert_equal(self.nodes[0].getbalance(), 50)
+        assert_equal(self.nodes[0].getbalance(), 500000)
 
-        txid = self.nodes[0].sendtoaddress(self.nodes[1].getnewaddress(), 0.1)
+        txid = self.nodes[0].sendtoaddress(self.nodes[1].getnewaddress(), 1)
         self.sync_all()
         self.nodes[2].generate(1)
         self.sync_all()
         bb_hash = self.nodes[0].getbestblockhash()
 
-        assert_equal(self.nodes[1].getbalance(), Decimal("0.1")) #balance now should be 0.1 on node 1
+        assert_equal(self.nodes[1].getbalance(), Decimal("1")) #balance now should be 1 on node 1
 
         # load the latest 0.1 tx over the REST API
         json_string = http_get_call(url.hostname, url.port, '/rest/tx/'+txid+self.FORMAT_SEPARATOR+"json")
@@ -87,7 +87,7 @@ class RESTTest (BitcoinTestFramework):
         # get n of 0.1 outpoint
         n = 0
         for vout in json_obj['vout']:
-            if vout['value'] == 0.1:
+            if vout['value'] == 1:
                 n = vout['n']
 
 
@@ -103,7 +103,7 @@ class RESTTest (BitcoinTestFramework):
 
         #make sure there is one utxo
         assert_equal(len(json_obj['utxos']), 1)
-        assert_equal(json_obj['utxos'][0]['value'], 0.1)
+        assert_equal(json_obj['utxos'][0]['value'], 1)
 
 
         ################################################
@@ -157,14 +157,14 @@ class RESTTest (BitcoinTestFramework):
         ############################
 
         # do a tx and don't sync
-        txid = self.nodes[0].sendtoaddress(self.nodes[1].getnewaddress(), 0.1)
+        txid = self.nodes[0].sendtoaddress(self.nodes[1].getnewaddress(), 1)
         json_string = http_get_call(url.hostname, url.port, '/rest/tx/'+txid+self.FORMAT_SEPARATOR+"json")
         json_obj = json.loads(json_string)
         vintx = json_obj['vin'][0]['txid'] # get the vin to later check for utxo (should be spent by then)
         # get n of 0.1 outpoint
         n = 0
         for vout in json_obj['vout']:
-            if vout['value'] == 0.1:
+            if vout['value'] == 1:
                 n = vout['n']
 
         json_request = '/'+txid+'-'+str(n)
@@ -223,7 +223,7 @@ class RESTTest (BitcoinTestFramework):
         response_header = http_get_call(url.hostname, url.port, '/rest/headers/1/'+bb_hash+self.FORMAT_SEPARATOR+"bin", True)
         assert_equal(response_header.status, 200)
         headerLen = int(response_header.getheader('content-length'))
-        assert_greater_than(headerLen, 80)
+        assert_equal(headerLen, 80)
         response_header_str = response_header.read()
         assert_equal(response_str[0:headerLen], response_header_str)
 
