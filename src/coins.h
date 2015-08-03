@@ -248,7 +248,7 @@ struct CCoinsStats
     uint64_t nTransactionOutputs;
     uint64_t nSerializedSize;
     uint256 hashSerialized;
-    int64_t nTotalAmount;
+    uint256 nTotalAmount;
 
     CCoinsStats() : nHeight(0), hashBlock(0), nTransactions(0), nTransactionOutputs(0), nSerializedSize(0), hashSerialized(0), nTotalAmount(0) {}
 };
