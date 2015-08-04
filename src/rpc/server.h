@@ -7,6 +7,7 @@
 #define BITCOIN_RPCSERVER_H
 
 #include "amount.h"
+#include "arith_uint256.h"
 #include "rpc/protocol.h"
 #include "uint256.h"
 
@@ -193,6 +194,7 @@ extern std::vector<unsigned char> ParseHexO(const UniValue& o, std::string strKe
 extern int64_t nWalletUnlockTime;
 extern CAmount AmountFromValue(const UniValue& value);
 extern UniValue ValueFromAmount(const CAmount& amount);
+extern UniValue ValueFromAmount(const arith_uint256& amount);
 extern double GetDifficulty(const CBlockIndex* blockindex = NULL);
 extern std::string HelpRequiringPassphrase();
 extern std::string HelpExampleCli(const std::string& methodname, const std::string& args);
