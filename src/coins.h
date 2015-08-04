@@ -10,6 +10,7 @@
 #include "memusage.h"
 #include "serialize.h"
 #include "uint256.h"
+#include "arith_uint256.h"
 
 #include <assert.h>
 #include <stdint.h>
@@ -305,7 +306,7 @@ struct CCoinsStats
     uint64_t nTransactionOutputs;
     uint64_t nSerializedSize;
     uint256 hashSerialized;
-    CAmount nTotalAmount;
+    arith_uint256 nTotalAmount;
 
     CCoinsStats() : nHeight(0), nTransactions(0), nTransactionOutputs(0), nSerializedSize(0), nTotalAmount(0) {}
 };

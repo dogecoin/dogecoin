@@ -140,6 +140,13 @@ Value ValueFromAmount(const CAmount& amount)
     return (double)amount / (double)COIN;
 }
 
+Value ValueFromAmount(const arith_uint256& amount)
+{
+    return amount.getdouble() / (double)COIN;
+}
+
+
+
 uint256 ParseHashV(const Value& v, string strName)
 {
     string strHex;
