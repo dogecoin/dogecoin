@@ -54,11 +54,11 @@
         <translation>انتخاب</translation>
     </message>
     <message>
-        <source>Sending addresses</source>
+        <source>Such sending addresses</source>
         <translation>ارسال آدرس ها</translation>
     </message>
     <message>
-        <source>Receiving addresses</source>
+        <source>Much receiving addresses</source>
         <translation>دریافت آدرس ها</translation>
     </message>
     <message>
@@ -251,8 +251,8 @@
         <translation>رمز مربوط به رمزگذاریِ wallet را تغییر دهید</translation>
     </message>
     <message>
-        <source>Bitcoin</source>
-        <translation>bitcoin</translation>
+        <source>Dogecoin</source>
+        <translation>dogecoin</translation>
     </message>
     <message>
         <source>Wallet</source>
@@ -385,8 +385,8 @@
         <translation>ویرایش حساب ارسال کننده</translation>
     </message>
     <message>
-        <source>The entered address "%1" is not a valid Bitcoin address.</source>
-        <translation>آدرس وارد شده "%1" یک آدرس صحیح برای bitcoin نسشت</translation>
+        <source>The entered address "%1" is not a valid Dogecoin address.</source>
+        <translation>آدرس وارد شده "%1" یک آدرس صحیح برای dogecoin نسشت</translation>
     </message>
     <message>
         <source>Could not unlock wallet.</source>
@@ -447,8 +447,8 @@
         <translation>فرم</translation>
     </message>
     <message>
-        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Bitcoin network after a connection is established, but this process has not completed yet.</source>
-        <translation>اطلاعات نمایش داده شده ممکن است روزآمد نباشد. wallet شما به صورت خودکار بعد از برقراری اتصال با شبکه bitcoin به روز می شود اما این فرایند هنوز تکمیل نشده است.</translation>
+        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Dogecoin network after a connection is established, but this process has not completed yet.</source>
+        <translation>اطلاعات نمایش داده شده ممکن است روزآمد نباشد. wallet شما به صورت خودکار بعد از برقراری اتصال با شبکه dogecoin به روز می شود اما این فرایند هنوز تکمیل نشده است.</translation>
     </message>
     </context>
 <context>
@@ -652,7 +652,7 @@
 <context>
     <name>ShutdownWindow</name>
     <message>
-        <source>Bitcoin Core is shutting down...</source>
+        <source>Dogecoin Core is shutting down...</source>
         <translation>هسته بیت کوین در حال خاموش شدن است...</translation>
     </message>
     <message>
