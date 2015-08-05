@@ -150,8 +150,8 @@
         <translation>Reindexando bloques en el disco...</translation>
     </message>
     <message>
-        <source>Send coins to a Bitcoin address</source>
-        <translation>Enviar monedas a una dirección Bitcoin</translation>
+        <source>Send coins to a Dogecoin address</source>
+        <translation>Enviar monedas a una dirección Dogecoin</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>

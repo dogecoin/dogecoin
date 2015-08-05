@@ -54,11 +54,11 @@
         <translation>선택 (&amp;H)</translation>
     </message>
     <message>
-        <source>Sending addresses</source>
+        <source>Such sending addresses</source>
         <translation>보내는 주소들</translation>
     </message>
     <message>
-        <source>Receiving addresses</source>
+        <source>Much receiving addresses</source>
         <translation>받은 주소들</translation>
     </message>
     <message>
@@ -66,8 +66,8 @@
         <translation>비트코인을 보내는 계좌 주소입니다. 코인을 보내기 전에 잔고와 받는 주소를 항상 확인하세요.</translation>
     </message>
     <message>
-        <source>These are your Bitcoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation>비트코인을 받을 수 있는 계좌 주소입니다. 매 거래마다 새로운 주소 사용을 권장합니다. </translation>
+        <source>These are your Dogecoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
+        <translation>지불액을 받기 위한 도지코인 주소들이 있습니다. 매 거래기록마다 새로운 주소 사용을 권장합니다.</translation>
     </message>
     <message>
         <source>&amp;Copy Address</source>
@@ -322,8 +322,8 @@
         <translation>디스크에서 블록 다시 색인중...</translation>
     </message>
     <message>
-        <source>Send coins to a Bitcoin address</source>
-        <translation>비트코인 주소로 코인 전송</translation>
+        <source>Send coins to a Dogecoin address</source>
+        <translation>도지코인 주소로 코인 보내기</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -346,8 +346,8 @@
         <translation>메시지 확인(&amp;V)...</translation>
     </message>
     <message>
-        <source>Bitcoin</source>
-        <translation>비트코인</translation>
+        <source>Dogecoin</source>
+        <translation>도지코인</translation>
     </message>
     <message>
         <source>Wallet</source>
@@ -374,12 +374,12 @@
         <translation>지갑에 포함된 개인키 암호화하기</translation>
     </message>
     <message>
-        <source>Sign messages with your Bitcoin addresses to prove you own them</source>
-        <translation>지갑 주소가 본인 소유인지 증명하기 위해 비트코인 주소에 서명할 수 있습니다.</translation>
+        <source>Sign messages with your Dogecoin addresses to prove you own them</source>
+        <translation>도지코인 주소에 메시지를 서명하여 그것을 가지고 있음을 증명하세요.</translation>
     </message>
     <message>
-        <source>Verify messages to ensure they were signed with specified Bitcoin addresses</source>
-        <translation>비트코인 주소의 전자 서명 확인을 위해 첨부된 메시지가 있을 경우 이를 검증할 수 있습니다.</translation>
+        <source>Verify messages to ensure they were signed with specified Dogecoin addresses</source>
+        <translation>메시지를 검증하여 지정된 도지코인 주소가 서명되었는지 확인하세요.</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -1198,8 +1198,8 @@
         <translation>지불 요청 오류</translation>
     </message>
     <message>
-        <source>Cannot start bitcoin: click-to-pay handler</source>
-        <translation>비트코인을 시작할 수 없습니다: 지급제어기를 클릭하시오</translation>
+        <source>Cannot start dogecoin: click-to-pay handler</source>
+        <translation>도지코인을 시작할 수 없습니다: click-to-pay handler</translation>
     </message>
     <message>
         <source>URI handling</source>
@@ -1908,8 +1908,8 @@
         <translation>사용된 주소 목록에 새 주소를 추가하기 위해 라벨 이름을 입력해 주세요. </translation>
     </message>
     <message>
-        <source>A message that was attached to the bitcoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Bitcoin network.</source>
-        <translation>비트코인에 첨부된 메시지: 참고용으로 거래와 함께 저장될 URI. 메모: 이 메시지는 비트코인 네트워크로 전송되지 않습니다.</translation>
+        <source>A message that was attached to the dogecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
+        <translation>도지코인 URI에 첨부된 메시지는 사용자 참고를 위해 거래기록과 함께 보관될 것입니다. 참고: 이 메시지는 도지코인 네트워크를 통해 보내지 않을 것입니다.</translation>
     </message>
     <message>
         <source>Pay To:</source>
@@ -1981,8 +1981,8 @@
         <translation>현재 서명을 시스템 클립보드에 복사</translation>
     </message>
     <message>
-        <source>Sign the message to prove you own this Bitcoin address</source>
-        <translation>여러분의 비트코인 주소를 증명하려면 메시지 서명하십시오</translation>
+        <source>Sign the message to prove you own this Dogecoin address</source>
+        <translation>이 도지코인 주소를 가지고 있다는 것을 증명하기 위해 메시지 서명하기</translation>
     </message>
     <message>
         <source>Sign &amp;Message</source>
