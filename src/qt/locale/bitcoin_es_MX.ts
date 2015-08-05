@@ -54,20 +54,20 @@
         <translation>Elegir</translation>
     </message>
     <message>
-        <source>Sending addresses</source>
+        <source>Such sending addresses</source>
         <translation>Enviando direcciones</translation>
     </message>
     <message>
-        <source>Receiving addresses</source>
+        <source>Much receiving addresses</source>
         <translation>Recibiendo direcciones</translation>
     </message>
     <message>
-        <source>These are your Bitcoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>Estas son tus direcciones de Bitcoin para enviar pagos. Siempre revise la cantidad y la dirección receptora antes de enviar monedas</translation>
+        <source>These are your Dogecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <translation>Estas son tus direcciones de Dogecoin para enviar pagos. Siempre revise la cantidad y la dirección receptora antes de enviar monedas</translation>
     </message>
     <message>
-        <source>These are your Bitcoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation>Estas son tus direcciones Bitcoin para recibir pagos. Es recomendado usar una nueva dirección receptora para cada transacción.</translation>
+        <source>These are your Dogecoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
+        <translation>Estas son tus direcciones Dogecoin para recibir pagos. Es recomendado usar una nueva dirección receptora para cada transacción.</translation>
     </message>
     <message>
         <source>Copy &amp;Label</source>
@@ -148,8 +148,8 @@
         <translation>Confirmar la encriptación de cartera</translation>
     </message>
     <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR BITCOINS&lt;/b&gt;!</source>
-        <translation>Advertencia: Si encripta su cartera y pierde su contraseña, &lt;b&gt;PERDERÁ TODOS SUS BITCOINS&lt;/b&gt;!</translation>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DOGECOINS&lt;/b&gt;!</source>
+        <translation>Advertencia: Si encripta su cartera y pierde su contraseña, &lt;b&gt;PERDERÁ TODOS SUS DOGECOINS&lt;/b&gt;!</translation>
     </message>
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
@@ -255,11 +255,11 @@
         <translation>&amp;Cambiar contraseña...</translation>
     </message>
     <message>
-        <source>&amp;Sending addresses...</source>
+        <source>Such &amp;sending addresses...</source>
         <translation>&amp;Enviando direcciones...</translation>
     </message>
     <message>
-        <source>&amp;Receiving addresses...</source>
+        <source>Much &amp;receiving addresses...</source>
         <translation>&amp;Recibiendo direcciones...</translation>
     </message>
     <message>
@@ -275,8 +275,8 @@
         <translation>Reindexando bloques en el disco...</translation>
     </message>
     <message>
-        <source>Send coins to a Bitcoin address</source>
-        <translation>Enviar monedas a una dirección Bitcoin</translation>
+        <source>Send coins to a Dogecoin address</source>
+        <translation>Enviar monedas a una dirección Dogecoin</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -315,16 +315,16 @@
         <translation>Pestañas</translation>
     </message>
     <message>
-        <source>Bitcoin Core</source>
-        <translation>nucleo Bitcoin</translation>
+        <source>Dogecoin Core</source>
+        <translation>nucleo Dogecoin</translation>
     </message>
     <message>
         <source>&amp;Command-line options</source>
         <translation>opciones de la &amp;Linea de comandos</translation>
     </message>
     <message>
-        <source>Show the Bitcoin Core help message to get a list with possible Bitcoin command-line options</source>
-        <translation>Mostrar mensaje de ayuda del nucleo de Bitcoin para optener una lista con los posibles comandos  de Bitcoin</translation>
+        <source>Show the Dogecoin Core help message to get a list with possible Dogecoin command-line options</source>
+        <translation>Mostrar mensaje de ayuda del nucleo de Dogecoin para optener una lista con los posibles comandos  de Dogecoin</translation>
     </message>
     <message>
         <source>Up to date</source>
@@ -474,8 +474,8 @@
 <context>
     <name>HelpMessageDialog</name>
     <message>
-        <source>Bitcoin Core</source>
-        <translation>nucleo Bitcoin</translation>
+        <source>Dogecoin Core</source>
+        <translation>nucleo Dogecoin</translation>
     </message>
     <message>
         <source>version</source>
@@ -486,8 +486,8 @@
         <translation>(%1-bit)</translation>
     </message>
     <message>
-        <source>About Bitcoin Core</source>
-        <translation>Acerca de Bitcoin Core</translation>
+        <source>About Dogecoin Core</source>
+        <translation>Acerca de Dogecoin Core</translation>
     </message>
     <message>
         <source>Usage:</source>
@@ -501,8 +501,8 @@
 <context>
     <name>Intro</name>
     <message>
-        <source>Bitcoin Core</source>
-        <translation>nucleo Bitcoin</translation>
+        <source>Dogecoin Core</source>
+        <translation>nucleo Dogecoin</translation>
     </message>
     </context>
 <context>
@@ -552,8 +552,8 @@
         <translation>&amp;Etiqueta</translation>
     </message>
     <message>
-        <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Bitcoin network.</source>
-        <translation>Mensaje opcional para agregar a la solicitud de pago, el cual será mostrado cuando la solicitud este abierta. Nota: El mensaje no se manda con el pago a travéz de la red de Bitcoin.</translation>
+        <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Dogecoin network.</source>
+        <translation>Mensaje opcional para agregar a la solicitud de pago, el cual será mostrado cuando la solicitud este abierta. Nota: El mensaje no se manda con el pago a travéz de la red de Dogecoin.</translation>
     </message>
     <message>
         <source>Use this form to request payments. All fields are &lt;b&gt;optional&lt;/b&gt;.</source>
@@ -693,8 +693,8 @@
         <translation>¡La transación fue rechazada! Esto puede ocurrir si algunas de tus monedas en tu cartera han sido gastadas, al igual que si usas una cartera copiada y la monedas fueron gastadas en la copia pero no se marcaron como gastadas.</translation>
     </message>
     <message>
-        <source>Warning: Invalid Bitcoin address</source>
-        <translation>Advertencia: Dirección de Bitcoin invalida</translation>
+        <source>Warning: Invalid Dogecoin address</source>
+        <translation>Advertencia: Dirección de Dogecoin invalida</translation>
     </message>
     <message>
         <source>(no label)</source>
@@ -755,8 +755,8 @@
 <context>
     <name>ShutdownWindow</name>
     <message>
-        <source>Bitcoin Core is shutting down...</source>
-        <translation>Apagando el nucleo de Bitcoin...</translation>
+        <source>Dogecoin Core is shutting down...</source>
+        <translation>Apagando el nucleo de Dogecoin...</translation>
     </message>
     <message>
         <source>Do not shut down the computer until this window disappears.</source>
@@ -781,12 +781,12 @@
 <context>
     <name>SplashScreen</name>
     <message>
-        <source>Bitcoin Core</source>
-        <translation>nucleo Bitcoin</translation>
+        <source>Dogecoin Core</source>
+        <translation>nucleo Dogecoin</translation>
     </message>
     <message>
-        <source>The Bitcoin Core developers</source>
-        <translation>Los desarrolladores de Bitcoin Core</translation>
+        <source>The Dogecoin Core developers</source>
+        <translation>Los desarrolladores de Dogecoin Core</translation>
     </message>
     </context>
 <context>
