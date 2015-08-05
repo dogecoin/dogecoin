@@ -54,20 +54,20 @@
         <translation>선택하기 (H)</translation>
     </message>
     <message>
-        <source>Sending addresses</source>
+        <source>Such sending addresses</source>
         <translation>보내는 주소들</translation>
     </message>
     <message>
-        <source>Receiving addresses</source>
+        <source>Much receiving addresses</source>
         <translation>받은 주소들</translation>
     </message>
     <message>
-        <source>These are your Bitcoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>비트코인을 받는 계좌 주소입니다. 코인을 보내기 전에 잔고와 받는 주소를 항상 확인하세요.</translation>
+        <source>These are your Dogecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <translation>지불액을 보내기 위한 도지코인 주소들이 있습니다. 코인을 보내기 전에 항상 보내는 주소와 액수를 확인하세요.</translation>
     </message>
     <message>
-        <source>These are your Bitcoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation>비트코인을 받을 수 있는 계좌 주소입니다. 매 거래마다 새로운 주소 사용을 권장합니다. </translation>
+        <source>These are your Dogecoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
+        <translation>지불액을 받기 위한 도지코인 주소들이 있습니다. 매 거래기록마다 새로운 주소 사용을 권장합니다.</translation>
     </message>
     <message>
         <source>Copy &amp;Label</source>
@@ -152,8 +152,8 @@
         <translation>지갑의 암호화를 확정</translation>
     </message>
     <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR BITCOINS&lt;/b&gt;!</source>
-        <translation>경고: 만약 암호화된 지갑의 비밀번호를 잃어버릴 경우, 모든 비트코인들을 잃어버릴 수 있습니다!</translation>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DOGECOINS&lt;/b&gt;!</source>
+        <translation>경고: 만약 지갑을 암호화 한 뒤 암호문을 잃어버리면, 모든 도지코인을 잃어버리게 됩니다!</translation>
     </message>
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
@@ -263,11 +263,11 @@
         <translation>암호문 변경&amp;...</translation>
     </message>
     <message>
-        <source>&amp;Sending addresses...</source>
+        <source>Such &amp;sending addresses...</source>
         <translation>&amp;주소 보내는 중</translation>
     </message>
     <message>
-        <source>&amp;Receiving addresses...</source>
+        <source>Much &amp;receiving addresses...</source>
         <translation>&amp; 주소 받는 중</translation>
     </message>
     <message>
@@ -275,7 +275,7 @@
         <translation>URI&amp;열기...</translation>
     </message>
     <message>
-        <source>Bitcoin Core client</source>
+        <source>Dogecoin Core client</source>
         <translation>비트코인 코어 클라이언트</translation>
     </message>
     <message>
@@ -287,8 +287,8 @@
         <translation>디스크에서 블록 다시 색인중...</translation>
     </message>
     <message>
-        <source>Send coins to a Bitcoin address</source>
-        <translation>비트코인 주소로 코인 전송</translation>
+        <source>Send coins to a Dogecoin address</source>
+        <translation>도지코인 주소로 코인 보내기</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -311,8 +311,8 @@
         <translation>메시지 확인&amp;...</translation>
     </message>
     <message>
-        <source>Bitcoin</source>
-        <translation>비트코인</translation>
+        <source>Dogecoin</source>
+        <translation>도지코인</translation>
     </message>
     <message>
         <source>Wallet</source>
@@ -327,7 +327,7 @@
         <translation>받기(&amp;R)</translation>
     </message>
     <message>
-        <source>Show information about Bitcoin Core</source>
+        <source>Show information about Dogecoin Core</source>
         <translation>비트코인 코어에 관한 정보입니다.</translation>
     </message>
     <message>
@@ -343,12 +343,12 @@
         <translation>소유 지갑 개인키 암호화</translation>
     </message>
     <message>
-        <source>Sign messages with your Bitcoin addresses to prove you own them</source>
-        <translation>지갑 주소가 본인 소유인지 증명하기 위해 비트코인 주소에 서명할 수 있습니다.</translation>
+        <source>Sign messages with your Dogecoin addresses to prove you own them</source>
+        <translation>도지코인 주소에 메시지를 서명하여 그것을 가지고 있음을 증명하세요.</translation>
     </message>
     <message>
-        <source>Verify messages to ensure they were signed with specified Bitcoin addresses</source>
-        <translation>비트코인 주소의 전자 서명 확인을 위해 첨부된 메시지가 있을 경우 이를 검증할 수 있습니다.</translation>
+        <source>Verify messages to ensure they were signed with specified Dogecoin addresses</source>
+        <translation>메시지를 검증하여 지정된 도지코인 주소가 서명되었는지 확인하세요.</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -367,16 +367,16 @@
         <translation>툴바 색인표</translation>
     </message>
     <message>
-        <source>Bitcoin Core</source>
-        <translation>비트코인 코어</translation>
+        <source>Dogecoin Core</source>
+        <translation>도지코인 코어</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and bitcoin: URIs)</source>
-        <translation>지불 요청하기 (QR코드와 비트코인이 생성됩니다: URIs)</translation>
+        <source>Request payments (generates QR codes and dogecoin: URIs)</source>
+        <translation>지불 요청하기 (QR코드와 도지코인 URI 생성)</translation>
     </message>
     <message>
-        <source>&amp;About Bitcoin Core</source>
-        <translation>&amp;비트코인 코어 소개</translation>
+        <source>&amp;About Dogecoin Core</source>
+        <translation>도지코인 코어 정보(&amp;A)</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -387,16 +387,16 @@
         <translation>한번 이상 사용된 받는 주소와 주소 제목의 목록을 보여줍니다.</translation>
     </message>
     <message>
-        <source>Open a bitcoin: URI or payment request</source>
-        <translation>비트코인: URI 또는 지불요청 열기</translation>
+        <source>Open a dogecoin: URI or payment request</source>
+        <translation>도지코인 URI 또는 지불 요청을 엽니다</translation>
     </message>
     <message>
         <source>&amp;Command-line options</source>
         <translation>명령어-라인 옵션</translation>
     </message>
     <message>
-        <source>Show the Bitcoin Core help message to get a list with possible Bitcoin command-line options</source>
-        <translation>사용할 수 있는 비트코인 명령어 옵션 목록을 가져오기 위해 Bitcoin-Qt 도움말 메시지를 표시합니다.</translation>
+        <source>Show the Dogecoin Core help message to get a list with possible Dogecoin command-line options</source>
+        <translation>사용할 수 있는 비트코인 명령어 옵션 목록을 가져오기 위해 Dogecoin-Qt 도움말 메시지를 표시합니다.</translation>
     </message>
     <message>
         <source>No block source available...</source>
@@ -692,8 +692,8 @@
         <translation>입력된 주소는"%1" 이미 주소록에 있습니다.</translation>
     </message>
     <message>
-        <source>The entered address "%1" is not a valid Bitcoin address.</source>
-        <translation>입력한 "%1" 주소는 올바른 비트코인 주소가 아닙니다.</translation>
+        <source>The entered address "%1" is not a valid Dogecoin address.</source>
+        <translation>입력한 주소 "%1"은(는) 올바른 도지코인 주소가 아닙니다.</translation>
     </message>
     <message>
         <source>Could not unlock wallet.</source>
@@ -730,8 +730,8 @@
 <context>
     <name>HelpMessageDialog</name>
     <message>
-        <source>Bitcoin Core</source>
-        <translation>비트코인 코어</translation>
+        <source>Dogecoin Core</source>
+        <translation>도지코인 코어</translation>
     </message>
     <message>
         <source>version</source>
@@ -742,8 +742,8 @@
         <translation>(%1-비트)</translation>
     </message>
     <message>
-        <source>About Bitcoin Core</source>
-        <translation>비트코인 코어 소개</translation>
+        <source>About Dogecoin Core</source>
+        <translation>도지코인 코어 정보</translation>
     </message>
     <message>
         <source>Command-line options</source>
@@ -765,16 +765,16 @@
         <translation>환영합니다</translation>
     </message>
     <message>
-        <source>Welcome to Bitcoin Core.</source>
-        <translation>비트코인 코어에 오신것을 환영합니.</translation>
+        <source>Welcome to Dogecoin Core.</source>
+        <translation>도지코인 코어에 오신 것을 환영합니다.</translation>
     </message>
     <message>
-        <source>As this is the first time the program is launched, you can choose where Bitcoin Core will store its data.</source>
-        <translation>프로그램이 처음으로 실행되고 있습니다. 비트코인 코어가 어디에 데이터를 저장할지 선택할 수 있습니다. </translation>
+        <source>As this is the first time the program is launched, you can choose where Dogecoin Core will store its data.</source>
+        <translation>프로그램이 처음으로 실행되었기 때문에, 도지코인 코어의 데이터를 어느 위치에 저장할지 선택할 수 있습니다.</translation>
     </message>
     <message>
-        <source>Bitcoin Core will download and store a copy of the Bitcoin block chain. At least %1GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
-        <translation>비트코인 코어가 블럭체인의 복사본을 다운로드 저장합니다. 적어도 %1GB의 데이터가 이 폴더에 저장되며 시간이 경과할수록 점차 증가합니다. 그리고 지갑 또한 이 폴더에 저장됩니다. </translation>
+        <source>Dogecoin Core will download and store a copy of the Dogecoin block chain. At least %1GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
+        <translation>도지코인 코어는 블록 체인의 복사본을 다운받아 저장할 것입니다. 적어도 %1GB의 데이터가 이 디렉토리에 저장되고, 시간이 흐르면 증가합니다. 사용자의 지갑 또한 이곳에 저장됩니다.</translation>
     </message>
     <message>
         <source>Use the default data directory</source>
@@ -785,8 +785,8 @@
         <translation>커스텀 데이터 폴더 사용:</translation>
     </message>
     <message>
-        <source>Bitcoin Core</source>
-        <translation>비트코인 코어</translation>
+        <source>Dogecoin Core</source>
+        <translation>도지코인 코어</translation>
     </message>
     <message>
         <source>Error</source>
@@ -887,8 +887,8 @@
         <translation>&amp;확인되지 않은 돈을 쓰다</translation>
     </message>
     <message>
-        <source>Automatically open the Bitcoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>라우터의 비트코인 클라이언트 포트를 자동으로 엽니다. 라우터에서 UPnP를 지원하고 활성화 했을 경우에만 동작합니다.</translation>
+        <source>Automatically open the Dogecoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <translation>라우터의 도지코인 클라이언트 포트를 자동으로 엽니다. 라우터에서 UPnP를 지원하고 활성화 했을 경우에만 동작합니다.</translation>
     </message>
     <message>
         <source>Map port using &amp;UPnP</source>
@@ -982,8 +982,8 @@
         <translation>유형</translation>
     </message>
     <message>
-        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Bitcoin network after a connection is established, but this process has not completed yet.</source>
-        <translation>표시한 정보가 오래된 것 같습니다. 비트코인 네트워크에 연결하고 난 다음에 지갑을 자동으로 동기화 하지만, 아직 과정이 끝나지는 않았습니다.</translation>
+        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Dogecoin network after a connection is established, but this process has not completed yet.</source>
+        <translation>표시된 정보는 오래된 것 같습니다. 지갑은 연결 상태가 된 후에 자동적으로 도지코인 네트워크와 동기화하지만, 이 과정은 아직 완료되지 않았습니다.</translation>
     </message>
     <message>
         <source>Watch-only:</source>
@@ -1045,8 +1045,8 @@
         <translation>지불 요청 애러</translation>
     </message>
     <message>
-        <source>Cannot start bitcoin: click-to-pay handler</source>
-        <translation>비트코인을 시작할 수 없습니다: 지급제어기를 클릭하시오</translation>
+        <source>Cannot start dogecoin: click-to-pay handler</source>
+        <translation>도지코인을 시작할 수 없습니다: click-to-pay handler</translation>
     </message>
     <message>
         <source>Payment request fetch URL is invalid: %1</source>
@@ -1529,8 +1529,8 @@
         <translation>거래가 거부되었습니다. 몇몇 코인들이 지갑에서 이미 사용된 경우, 예를 들어 코인을 이미 사용한  wallet.dat를 복사해서 사용한 경우 지금 지갑에 기록이 안되있어 이런 일이 생길 수 있습니다.</translation>
     </message>
     <message>
-        <source>Warning: Invalid Bitcoin address</source>
-        <translation>경고: 잘못된 비트코인주소입니다</translation>
+        <source>Warning: Invalid Dogecoin address</source>
+        <translation>경고: 잘못된 도지코인 주소</translation>
     </message>
     <message>
         <source>(no label)</source>
@@ -1600,8 +1600,8 @@
         <translation>사용된 주소 목록에 새 주소를 추가하기 위해 제목을 입력합니다. </translation>
     </message>
     <message>
-        <source>A message that was attached to the bitcoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Bitcoin network.</source>
-        <translation>비트코인에 첨부된 메시지: 참고용으로 거래와 함께 저장될 URI. 메모: 이 메시지는 비트코인 네트워크로 전송되지 않습니다.</translation>
+        <source>A message that was attached to the dogecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
+        <translation>도지코인 URI에 첨부된 메시지는 사용자 참고를 위해 거래기록과 함께 보관될 것입니다. 참고: 이 메시지는 도지코인 네트워크를 통해 보내지 않을 것입니다.</translation>
     </message>
     <message>
         <source>Pay To:</source>
@@ -1615,8 +1615,8 @@
 <context>
     <name>ShutdownWindow</name>
     <message>
-        <source>Bitcoin Core is shutting down...</source>
-        <translation>비트코인코어가 닫아지고 있습니다</translation>
+        <source>Dogecoin Core is shutting down...</source>
+        <translation>도지코인 코어를 종료하는 중입니다...</translation>
     </message>
     <message>
         <source>Do not shut down the computer until this window disappears.</source>
@@ -1662,8 +1662,8 @@
         <translation>현재 서명을 시스템 클립보드에 복사</translation>
     </message>
     <message>
-        <source>Sign the message to prove you own this Bitcoin address</source>
-        <translation>여러분의 비트코인 주소를 증명하려면 메시지 서명하십시오</translation>
+        <source>Sign the message to prove you own this Dogecoin address</source>
+        <translation>이 도지코인 주소를 가지고 있다는 것을 증명하기 위해 메시지 서명하기</translation>
     </message>
     <message>
         <source>Sign &amp;Message</source>
@@ -1682,8 +1682,8 @@
         <translation>메시지 검증(&amp;V)</translation>
     </message>
     <message>
-        <source>Verify the message to ensure it was signed with the specified Bitcoin address</source>
-        <translation>정확한 비트코인주소가 입력됬는지 메시지를 확인하시오</translation>
+        <source>Verify the message to ensure it was signed with the specified Dogecoin address</source>
+        <translation>지정된 도지코인 주소로 서명되었는지 확인하기 위해 메시지 검증하기</translation>
     </message>
     <message>
         <source>Verify &amp;Message</source>
@@ -1749,11 +1749,11 @@
 <context>
     <name>SplashScreen</name>
     <message>
-        <source>Bitcoin Core</source>
-        <translation>비트코인 코어</translation>
+        <source>Dogecoin Core</source>
+        <translation>도지코인 코어</translation>
     </message>
     <message>
-        <source>The Bitcoin Core developers</source>
+        <source>The Dogecoin Core developers</source>
         <translation>비트코인코어 개발자들</translation>
     </message>
     <message>
@@ -2367,8 +2367,8 @@
         <translation>외부 blk000??.dat 파일에서 블록을 가져옵니다.</translation>
     </message>
     <message>
-        <source>Cannot obtain a lock on data directory %s. Bitcoin Core is probably already running.</source>
-        <translation>데이터 디렉토리 %s에 락을 걸 수 없었습니다. 비트코인 코어가 이미 실행 중인 것으로 보입니다.</translation>
+        <source>Cannot obtain a lock on data directory %s. Dogecoin Core is probably already running.</source>
+        <translation>데이터 디렉토리 %s의 락을 얻을 수 없습니다. 도지코인 코어가 이미 실행 중인 것 같습니다.</translation>
     </message>
     <message>
         <source>Execute command when a relevant alert is received or we see a really long fork (%s in cmd is replaced by message)</source>
