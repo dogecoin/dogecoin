@@ -33,6 +33,7 @@ static const int BLOCK_VERSION_DEFAULT = (1 << 0);
 static const int BLOCK_VERSION_AUXPOW = (1 << 8);
 static const int BLOCK_VERSION_CHAIN_START = (1 << 16);
 static const int BLOCK_VERSION_CHAIN_END = (1 << 30);
+static const int BLOCK_VERSION_BASE_MASK = 0x000000ff;
 
 // DogeCoin aux chain ID = 0x0062 (98)
 static const int AUXPOW_CHAIN_ID = 0x0062;
@@ -394,6 +395,12 @@ public:
     int GetChainID() const
     {
         return nVersion / BLOCK_VERSION_CHAIN_START;
+    }
+
+    // base block version without auxpow chain
+    int GetBaseVersion() const
+    {
+        return nVersion & BLOCK_VERSION_BASE_MASK;
     }
 
     void SetAuxPow(CAuxPow* pow);

@@ -928,6 +928,12 @@ public:
         }
         return false;
     }
+
+    // base block version without auxpow chain
+    int GetBaseVersion() const
+    {
+        return nVersion & BLOCK_VERSION_BASE_MASK;
+    }
 };
 
 
