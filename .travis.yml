@@ -35,7 +35,7 @@ matrix:
           packages:
             - g++-arm-linux-gnueabihf
     - compiler: ": Win32"
-      env: HOST=i686-w64-mingw32 RUN_TESTS=true GOAL="deploy" BITCOIN_CONFIG="--enable-gui --enable-reduce-exports" MAKEJOBS="-j2"
+      env: HOST=i686-w64-mingw32 GOAL="deploy" BITCOIN_CONFIG="--enable-gui --enable-reduce-exports" MAKEJOBS="-j2"
       addons:
         apt:
           packages:
@@ -54,7 +54,7 @@ matrix:
             - g++-multilib
             - bc
     - compiler: ": Win64"
-      env: HOST=x86_64-w64-mingw32 RUN_TESTS=true GOAL="deploy" BITCOIN_CONFIG="--enable-gui --enable-reduce-exports" MAKEJOBS="-j2"
+      env: HOST=x86_64-w64-mingw32 GOAL="deploy" BITCOIN_CONFIG="--enable-gui --enable-reduce-exports" MAKEJOBS="-j2"
       addons:
         apt:
           packages:
