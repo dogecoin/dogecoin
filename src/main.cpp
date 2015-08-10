@@ -1967,8 +1967,8 @@ bool ConnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex, C
                          (fStrictPayToScriptHash ? SCRIPT_VERIFY_P2SH : SCRIPT_VERIFY_NONE);
 
     if (block.GetBaseVersion() >= 3 &&
-        ((!TestNet() && CBlockIndex::IsSuperMajority(3, pindex->pprev, 750, 1000)) ||
-            (TestNet() && CBlockIndex::IsSuperMajority(3, pindex->pprev, 51, 100)))) {
+        ((!TestNet() && CBlockIndex::IsSuperMajority(3, pindex->pprev, 1500, 2000)) ||
+            (TestNet() && CBlockIndex::IsSuperMajority(3, pindex->pprev, 501, 1000)))) {
         flags |= SCRIPT_VERIFY_DERSIG;
     }
 
@@ -2717,8 +2717,8 @@ bool AcceptBlockHeader(CBlockHeader& block, CValidationState& state, CBlockIndex
         //           was hard-disabled until now
         if (block.GetBaseVersion() < 2)
         {
-            if ((!TestNet() && CBlockIndex::IsSuperMajority(3, pindexPrev, 950, 1000)) ||
-                (TestNet() && CBlockIndex::IsSuperMajority(3, pindexPrev, 75, 100)))
+            if ((!TestNet() && CBlockIndex::IsSuperMajority(3, pindexPrev, 1900, 2000)) ||
+                (TestNet() && CBlockIndex::IsSuperMajority(3, pindexPrev, 750, 1000)))
             {
                 return state.Invalid(error("AcceptBlock() : rejected nVersion=1 block"),
                                      REJECT_OBSOLETE, "bad-version");
@@ -2766,8 +2766,8 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CBlockIndex** ppindex, 
     // Reject block.nVersion=2 blocks when 95% (75% on testnet) of the network has upgraded:
     if (block.GetBaseVersion() < 3)
     {
-        if ((!TestNet() && CBlockIndex::IsSuperMajority(3, pindex->pprev, 950, 1000)) ||
-            (TestNet() && CBlockIndex::IsSuperMajority(3, pindex->pprev, 75, 100)))
+        if ((!TestNet() && CBlockIndex::IsSuperMajority(3, pindex->pprev, 1900, 2000)) ||
+            (TestNet() && CBlockIndex::IsSuperMajority(3, pindex->pprev, 750, 1000)))
         {
             return state.Invalid(error("AcceptBlock() : rejected nVersion=2 block"),
                              REJECT_OBSOLETE, "bad-version");
@@ -2779,8 +2779,8 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CBlockIndex** ppindex, 
     if (block.GetBaseVersion() >= 2)
     {
         // if 750 of the last 1,000 blocks are version 2 or greater (51/100 if testnet):
-        if ((!TestNet() && CBlockIndex::IsSuperMajority(3, pindex->pprev, 750, 1000)) ||
-            (TestNet() && CBlockIndex::IsSuperMajority(3, pindex->pprev, 51, 100)))
+        if ((!TestNet() && CBlockIndex::IsSuperMajority(3, pindex->pprev, 1500, 2000)) ||
+            (TestNet() && CBlockIndex::IsSuperMajority(3, pindex->pprev, 501, 1000)))
         {
             CScript expect = CScript() << nHeight;
             if (block.vtx[0].vin[0].scriptSig.size() < expect.size() ||
