@@ -2793,7 +2793,7 @@ bool ContextualCheckBlockHeader(const CBlockHeader& block, CValidationState& sta
     }
 
     // Reject block.nVersion=1 blocks when 95% (75% on testnet) of the network has upgraded:
-    // Dogecoin: Version 2 enforcement was never used
+    // Dogecoin: Version 2 enforcement was never used, reject from v3 softfork
     //if (block.nVersion < 2 && IsSuperMajority(2, pindexPrev, consensusParams.nMajorityRejectBlockOutdated, consensusParams))
     //    return state.Invalid(error("%s: rejected nVersion=1 block", __func__),
     //                         REJECT_OBSOLETE, "bad-version");
@@ -2810,6 +2810,9 @@ bool ContextualCheckBlock(const CBlock& block, CValidationState& state, CBlockIn
 {
     const int nHeight = pindexPrev == NULL ? 0 : pindexPrev->nHeight + 1;
 
+    const CChainParams& chainParams = Params();
+    const Consensus::Params& consensusParams = chainParams.GetConsensus(nHeight);
+
     // Check that all transactions are finalized
     BOOST_FOREACH(const CTransaction& tx, block.vtx)
         if (!IsFinalTx(tx, nHeight, block.GetBlockTime())) {
@@ -2818,8 +2821,8 @@ bool ContextualCheckBlock(const CBlock& block, CValidationState& state, CBlockIn
 
     // Enforce block.nVersion=2 rule that the coinbase starts with serialized block height
     // if 750 of the last 1,000 blocks are version 2 or greater (51/100 if testnet):
-    // Dogecoin: Block v2 was never enforced
-    if (block.nVersion >= 3)
+    // Dogecoin: Block v2 was never enforced, so we trigger this against v3
+    if (block.nVersion >= 2 && IsSuperMajority(3, pindexPrev, consensusParams.nMajorityEnforceBlockUpgrade, consensusParams))
     {
         CScript expect = CScript() << nHeight;
         if (block.vtx[0].vin[0].scriptSig.size() < expect.size() ||
