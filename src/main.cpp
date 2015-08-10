@@ -2712,17 +2712,13 @@ bool AcceptBlockHeader(CBlockHeader& block, CValidationState& state, CBlockIndex
         if (pcheckpoint && nHeight < pcheckpoint->nHeight)
             return state.DoS(100, error("AcceptBlock() : forked chain older than last checkpoint (height %d)", nHeight));
 
-        // Reject block.nVersion=1 blocks when 95% (75% on testnet) of the network has upgraded:
-        // Dogecoin: reject ONLY if block.nVersion=3 has a supermajority because CBlockIndex::IsSuperMajority
-        //           was hard-disabled until now
-        if (block.GetBaseVersion() < 2)
-        {
+        // Reject block.nVersion<3 blocks when 95% (75% on testnet) of the network has upgraded
+        // Dogecoin: reject v2 and v1 blocks at the same time, only check once
+        if (block.GetBaseVersion() < 3) {
             if ((!TestNet() && CBlockIndex::IsSuperMajority(3, pindexPrev, 1900, 2000)) ||
                 (TestNet() && CBlockIndex::IsSuperMajority(3, pindexPrev, 750, 1000)))
-            {
-                return state.Invalid(error("AcceptBlock() : rejected nVersion=1 block"),
+                return state.Invalid(error("AcceptBlock() : rejected nVersion<3 block"),
                                      REJECT_OBSOLETE, "bad-version");
-            }
         }
     }
 
@@ -2763,16 +2759,6 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CBlockIndex** ppindex, 
                              REJECT_INVALID, "bad-txns-nonfinal");
         }
 
-    // Reject block.nVersion=2 blocks when 95% (75% on testnet) of the network has upgraded:
-    if (block.GetBaseVersion() < 3)
-    {
-        if ((!TestNet() && CBlockIndex::IsSuperMajority(3, pindex->pprev, 1900, 2000)) ||
-            (TestNet() && CBlockIndex::IsSuperMajority(3, pindex->pprev, 750, 1000)))
-        {
-            return state.Invalid(error("AcceptBlock() : rejected nVersion=2 block"),
-                             REJECT_OBSOLETE, "bad-version");
-        }
-    }
     // Enforce block.nVersion=2 rule that the coinbase starts with serialized block height
     // Dogecoin: reject ONLY if block.nVersion=3 has a supermajority because CBlockIndex::IsSuperMajority
     //           was hard-disabled until now
