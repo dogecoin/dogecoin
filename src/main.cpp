@@ -2424,7 +2424,7 @@ bool ActivateBestChain(CValidationState &state, CBlock *pblock) {
                         pnode->PushInventory(CInv(MSG_BLOCK, hashNewTip));
             }
             // Notify external listeners about the new tip.
-            uiInterface.NotifyBlockTip(hashNewTip);
+            uiInterface.NotifyBlockTip(hashNewTip, pindexNewTip->nHeight);
         }
     } while(pindexMostWork != chainActive.Tip());
     CheckBlockIndex();

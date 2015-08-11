@@ -44,6 +44,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/function.hpp>
 #include <boost/interprocess/sync/file_lock.hpp>
+#include <boost/lexical_cast.hpp>
 #include <boost/thread.hpp>
 #include <openssl/crypto.h>
 
@@ -452,11 +453,12 @@ std::string LicenseInfo()
            "\n";
 }
 
-static void BlockNotifyCallback(const uint256& hashNewTip)
+static void BlockNotifyCallback(const uint256& hashNewTip, const int nHeight)
 {
     std::string strCmd = GetArg("-blocknotify", "");
 
     boost::replace_all(strCmd, "%s", hashNewTip.GetHex());
+    boost::replace_all(strCmd, "%i", boost::lexical_cast<std::string>(chainActive.Height()));
     boost::thread t(runCommand, strCmd); // thread runs free
 }
 
