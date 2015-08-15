@@ -18,6 +18,6 @@ However, it downloads and stores the entire history of Dogecoin transactions;
 depending on the speed of your computer and network connection, the synchronization
 process can take anywhere from a few hours to a day or more.
 
-See the bitcoin wiki at:
-  https://en.bitcoin.it/wiki/Main_Page
+See the Dogecoin wiki at:
+  https://www.reddit.com/r/dogecoin/wiki/dogecoincoreguide
 for more help and information.
