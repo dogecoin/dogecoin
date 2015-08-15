@@ -1,0 +1,22 @@
+[Unit]
+Description=Dogecoin's distributed currency daemon
+After=network.target
+
+[Service]
+User=dogecoin
+Group=dogecoin
+
+Type=forking
+PIDFile=/var/lib/dogecoind/dogecoind.pid
+ExecStart=/usr/bin/dogecoind -daemon -pid=/var/lib/dogecoind/dogecoind.pid \
+-conf=/etc/dogecoin/dogecoin.conf -datadir=/var/lib/dogecoind -disablewallet
+
+Restart=always
+PrivateTmp=true
+TimeoutStopSec=60s
+TimeoutStartSec=2s
+StartLimitInterval=120s
+StartLimitBurst=5
+
+[Install]
+WantedBy=multi-user.target
