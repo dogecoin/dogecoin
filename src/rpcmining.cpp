@@ -765,6 +765,9 @@ Value getauxblock(const Array& params, bool fHelp)
     if (pwalletMain == NULL)
         throw JSONRPCError(RPC_METHOD_NOT_FOUND, "Method not found (disabled)");
 
+    if (1) // Disable until release candidate
+        throw JSONRPCError(RPC_METHOD_NOT_FOUND, "Method not found (AuxPoW mining disabled in beta)");
+
     if (vNodes.empty() && !Params().MineBlocksOnDemand())
         throw JSONRPCError(RPC_CLIENT_NOT_CONNECTED,
                            "Dogecoin is not connected!");
