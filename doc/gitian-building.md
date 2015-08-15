@@ -475,5 +475,5 @@ Uploading signatures
 ---------------------
 
 After building and signing you can push your signatures (both the `.assert` and `.assert.sig` files) to the
-[dogecoin-core/gitian.sigs](https://github.com/dogecoin/gitian.sigs/) repository, or if that's not possible create a pull
+[dogecoin/gitian.sigs](https://github.com/dogecoin/gitian.sigs/) repository, or if that's not possible create a pull
 request. You can also mail the files to Wladimir (laanwj@gmail.com) and he will commit them.
