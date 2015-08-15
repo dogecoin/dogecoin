@@ -1,0 +1,88 @@
+#!/sbin/runscript
+
+# backward compatibility for existing gentoo layout 
+#
+if [ -d "/var/lib/dogecoin/.dogecoin" ]; then
+	DOGECOIND_DEFAULT_DATADIR="/var/lib/dogecoin/.dogecoin"
+else
+	DOGECOIND_DEFAULT_DATADIR="/var/lib/dogecoind"
+fi
+
+DOGECOIND_CONFIGFILE=${DOGECOIND_CONFIGFILE:-/etc/dogecoin/dogecoin.conf}
+DOGECOIND_PIDDIR=${DOGECOIND_PIDDIR:-/var/run/dogecoind}
+DOGECOIND_PIDFILE=${DOGECOIND_PIDFILE:-${DOGECOIND_PIDDIR}/dogecoind.pid}
+DOGECOIND_DATADIR=${DOGECOIND_DATADIR:-${DOGECOIND_DEFAULT_DATADIR}}
+DOGECOIND_USER=${DOGECOIND_USER:-${DOGECOIN_USER:-dogecoin}}
+DOGECOIND_GROUP=${DOGECOIND_GROUP:-dogecoin}
+DOGECOIND_BIN=${DOGECOIND_BIN:-/usr/bin/dogecoind}
+DOGECOIND_NICE=${DOGECOIND_NICE:-${NICELEVEL:-0}}
+DOGECOIND_OPTS="${DOGECOIND_OPTS:-${DOGECOIN_OPTS}}"
+
+name="Dogecoin Core Daemon"
+description="Dogecoin cryptocurrency P2P network daemon"
+
+command="/usr/bin/dogecoind"
+command_args="-pid=\"${DOGECOIND_PIDFILE}\" \
+		-conf=\"${DOGECOIND_CONFIGFILE}\" \
+		-datadir=\"${DOGECOIND_DATADIR}\" \
+		-daemon \
+		${DOGECOIND_OPTS}"
+
+required_files="${DOGECOIND_CONFIGFILE}"
+start_stop_daemon_args="-u ${DOGECOIND_USER} \
+			-N ${DOGECOIND_NICE} -w 2000"
+pidfile="${DOGECOIND_PIDFILE}"
+retry=60
+
+depend() {
+	need localmount net
+}
+
+# verify
+# 1) that the datadir exists and is writable (or create it)
+# 2) that a directory for the pid exists and is writable
+# 3) ownership and permissions on the config file
+start_pre() {
+	checkpath \
+	-d \
+	--mode 0750 \
+	--owner "${DOGECOIND_USER}:${DOGECOIND_GROUP}" \
+	"${DOGECOIND_DATADIR}"
+
+	checkpath \
+	-d \
+	--mode 0755 \
+	--owner "${DOGECOIND_USER}:${DOGECOIND_GROUP}" \
+	"${DOGECOIND_PIDDIR}"
+
+	checkpath -f \
+	-o ${DOGECOIND_USER}:${DOGECOIND_GROUP} \
+	-m 0660 \
+	${DOGECOIND_CONFIGFILE}
+
+	checkconfig || return 1
+}
+
+checkconfig()
+{
+	if ! grep -qs '^rpcpassword=' "${DOGECOIND_CONFIGFILE}" ; then
+		eerror ""
+		eerror "ERROR: You must set a secure rpcpassword to run dogecoind."
+		eerror "The setting must appear in ${DOGECOIND_CONFIGFILE}"
+		eerror ""
+		eerror "This password is security critical to securing wallets "
+		eerror "and must not be the same as the rpcuser setting."
+		eerror "You can generate a suitable random password using the following"
+		eerror "command from the shell:"
+		eerror ""
+		eerror "bash -c 'tr -dc a-zA-Z0-9 < /dev/urandom | head -c32 && echo'"
+		eerror ""
+		eerror "It is also recommended that you also set alertnotify so you are "
+		eerror "notified of problems:"
+		eerror ""
+		eerror "ie: alertnotify=echo %%s | mail -s \"Dogecoin Alert\"" \
+			"admin@foo.com"
+		eerror ""
+		return 1
+	fi
+}
