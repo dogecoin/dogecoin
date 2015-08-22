@@ -1275,7 +1275,7 @@ int64_t GetBlockValue(int nHeight, int64_t nFees, uint256 prevHash)
     }
     else
     {
-        nSubsidy = 10000 * COIN;
+        nSubsidy = 1000 * COIN;
     }
 
     return nSubsidy + nFees;
