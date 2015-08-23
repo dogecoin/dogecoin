@@ -50,6 +50,7 @@ public:
         consensus.nAuxpowChainId = 0x0062; // 98 - Josh Wise!
         consensus.fStrictChainId = true;
         consensus.fAllowLegacyBlocks = true;
+        consensus.fAllowAuxPow = false;
         consensus.nHeightEffective = 0;
         consensus.fDigishieldDifficultyCalculation = false;
         consensus.nCoinbaseMaturity = 30;
@@ -66,6 +67,7 @@ public:
         auxpowConsensus = digishieldConsensus;
         auxpowConsensus.nHeightEffective = 371337;
         auxpowConsensus.fAllowLegacyBlocks = false;
+        auxpowConsensus.fAllowAuxPow = true;
 
         // Assemble the binary search tree of consensus parameters
         pConsensusRoot = &digishieldConsensus;
@@ -188,6 +190,7 @@ public:
         consensus.fStrictChainId = false;
         consensus.nHeightEffective = 0;
         consensus.fAllowLegacyBlocks = true;
+        consensus.fAllowAuxPow = false;
 
         // Reset links before we copy parameters
         consensus.pLeft = NULL;
@@ -213,6 +216,7 @@ public:
         auxpowConsensus.nHeightEffective = 158100;
         auxpowConsensus.fPowAllowDigishieldMinDifficultyBlocks = true;
         auxpowConsensus.fAllowLegacyBlocks = false;
+        auxpowConsensus.fAllowAuxPow = true;
 
         // Assemble the binary search tree of parameters
         pConsensusRoot = &digishieldConsensus;
@@ -286,7 +290,8 @@ public:
         consensus.nPowTargetSpacing = 1; // regtest: 1 second blocks
         consensus.powLimit = uint256S("0x7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~uint256(0) >> 1;
         consensus.fStrictChainId = true;
-        consensus.fAllowLegacyBlocks = false; // Never allow legacy blocks on RegTest
+        consensus.fAllowLegacyBlocks = true;
+        consensus.fAllowAuxPow = false;
         consensus.fSimplifiedRewards = true;
         consensus.nCoinbaseMaturity = 60; // For easier testability in RPC tests
 
@@ -300,6 +305,8 @@ public:
         digishieldConsensus.fDigishieldDifficultyCalculation = true;
 
         auxpowConsensus = digishieldConsensus;
+        auxpowConsensus.fAllowLegacyBlocks = false;
+        auxpowConsensus.fAllowAuxPow = true;
         auxpowConsensus.nHeightEffective = 20;
 
         // Assemble the binary search tree of parameters

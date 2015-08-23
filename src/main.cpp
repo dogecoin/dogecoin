@@ -2768,6 +2768,13 @@ bool ContextualCheckBlockHeader(const CBlockHeader& block, CValidationState& sta
                                     __func__, pindexPrev->nHeight + 1, consensusParams.nHeightEffective),
                          REJECT_INVALID, "late-legacy-block");
 
+    // Disallow AuxPow blocks before it is activated.
+    if (!consensusParams.fAllowAuxPow
+        && block.nVersion.IsAuxpow())
+        return state.DoS(100, error("%s : auxpow blocks are not allowed at height %d, parameters effective from %d",
+                                    __func__, pindexPrev->nHeight + 1, consensusParams.nHeightEffective),
+                         REJECT_INVALID, "early-auxpow-block");
+
     // Check proof of work
     if (block.nBits != GetNextWorkRequired(pindexPrev, &block, consensusParams))
         return state.DoS(100, error("%s: incorrect proof of work at height %d", __func__, nHeight),
