@@ -11,6 +11,7 @@ export BITCOIND=${REAL_BITCOIND}
 #Run the tests
 
 testScripts=(
+    'auxpow.py'
     'wallet.py'
     'listtransactions.py'
     'mempool_resurrect_test.py'
