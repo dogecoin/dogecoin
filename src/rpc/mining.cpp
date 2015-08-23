@@ -922,7 +922,7 @@ UniValue estimatesmartpriority(const JSONRPCRequest& request)
 /* ************************************************************************** */
 /* Merge mining.  */
 
-UniValue getauxblock(const JSONRPCRequest& request)
+UniValue getauxblockbip22(const JSONRPCRequest& request)
 {
     if (request.fHelp
           || (request.params.size() != 0 && request.params.size() != 2))
@@ -1086,6 +1086,18 @@ UniValue getauxblock(const JSONRPCRequest& request)
         coinbaseScript->KeepScript();
 
     return BIP22ValidationResult(sc.state);
+}
+
+UniValue getauxblock(const JSONRPCRequest& request)
+{
+    const UniValue response = getauxblockbip22(request);
+
+    // this is a request for a new blocktemplate: return response
+    if (request.params.size() == 0)
+        return response;
+
+    // this is a new block submission: return bool
+    return response.isNull();
 }
 
 /* ************************************************************************** */
