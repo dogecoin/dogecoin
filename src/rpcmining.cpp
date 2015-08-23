@@ -732,7 +732,7 @@ Value estimatepriority(const Array& params, bool fHelp)
 /* Merge mining.  */
 
 #ifdef ENABLE_WALLET
-Value getauxblock(const Array& params, bool fHelp)
+Value getauxblockbip22(const Array& params, bool fHelp)
 {
     if (fHelp || (params.size() != 0 && params.size() != 2))
         throw std::runtime_error(
@@ -903,5 +903,17 @@ Value getauxblock(const Array& params, bool fHelp)
         state = sc.state;
     }
     return BIP22ValidationResult(state);
+}
+
+Value getauxblock(const Array& params, bool fHelp)
+{
+    Value response = getauxblockbip22(params, fHelp);
+
+    // this is a request for a new blocktemplate: return response
+    if (params.size() == 0)
+        return response;
+
+    // this is a new block submission: return bool
+    return (response == Value::null);
 }
 #endif // ENABLE_WALLET
