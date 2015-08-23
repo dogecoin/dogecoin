@@ -108,6 +108,7 @@ testScripts = [
     'p2p-compactblocks.py',
     'segwit.py',
     # vv Tests less than 2m vv
+    'auxpow.py',
     'wallet.py',
     'wallet-accounts.py',
     'p2p-segwit.py',
