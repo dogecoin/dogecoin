@@ -58,9 +58,6 @@ class RESTTest (BitcoinTestFramework):
         self.sync_all()
 
     def run_test(self):
-        auxpow.mineAuxpowBlock(self.nodes[0])
-        self.sync_all()
-
         url = urlparse.urlparse(self.nodes[0].url)
         print "Mining blocks..."
 
