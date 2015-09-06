@@ -1167,6 +1167,7 @@
              </item>
             </layout>
            </item>
+           <!--
            <item>
             <layout class="QHBoxLayout" name="horizontalLayoutFee5" stretch="0,0,0">
              <property name="spacing">
@@ -1207,6 +1208,7 @@
              </item>
             </layout>
            </item>
+           -->
            <item>
             <spacer name="verticalSpacerFee2">
              <property name="orientation">
