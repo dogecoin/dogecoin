@@ -25,7 +25,7 @@ public:
     explicit AmountSpinBox(QWidget *parent):
         QAbstractSpinBox(parent),
         currentUnit(BitcoinUnits::BTC),
-        singleStep(100000000) // koinu
+        singleStep(COIN) // koinu
     {
         setAlignment(Qt::AlignRight);
 
@@ -48,7 +48,7 @@ public:
         CAmount val = parse(input, &valid);
         if(valid)
         {
-            input = BitcoinUnits::format(currentUnit, val, false, BitcoinUnits::separatorAlways);
+            input = BitcoinUnits::format(currentUnit, val, false, true);
             lineEdit()->setText(input);
         }
     }
@@ -60,7 +60,7 @@ public:
 
     void setValue(const CAmount& value)
     {
-        lineEdit()->setText(BitcoinUnits::format(currentUnit, value, false, BitcoinUnits::separatorAlways));
+        lineEdit()->setText(BitcoinUnits::format(currentUnit, value, false, true));
         emit valueChanged();
     }
 
@@ -195,7 +195,6 @@ BitcoinAmountField::BitcoinAmountField(QWidget *parent) :
     amount(0)
 {
     amount = new AmountSpinBox(this);
-    amount->setLocale(QLocale::c());
     amount->installEventFilter(this);
     amount->setMaximumWidth(170);
 
@@ -218,6 +217,14 @@ BitcoinAmountField::BitcoinAmountField(QWidget *parent) :
 
     // Set default based on configuration
     unitChanged(unit->currentIndex());
+}
+
+void BitcoinAmountField::setText(const QString &text)
+{
+    if (text.isEmpty())
+        amount->clear();
+    else
+        amount->setValue(QLocale().toDouble(text));
 }
 
 void BitcoinAmountField::clear()

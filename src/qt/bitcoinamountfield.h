@@ -15,6 +15,8 @@ QT_BEGIN_NAMESPACE
 class QValueComboBox;
 QT_END_NAMESPACE
 
+class AmountSpinBox;
+
 /** Widget for entering bitcoin amounts.
   */
 class BitcoinAmountField: public QWidget
@@ -67,6 +69,8 @@ private:
     AmountSpinBox *amount;
     QValueComboBox *unit;
 
+    void setText(const QString &text);
+    QString text() const;
 private slots:
     void unitChanged(int idx);
 
