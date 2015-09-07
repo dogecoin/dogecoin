@@ -161,7 +161,10 @@ bool parseBitcoinURI(const QUrl &uri, SendCoinsRecipient *out)
         {
             if(!i->second.isEmpty())
             {
-                if(!BitcoinUnits::parse(BitcoinUnits::BTC, i->second, &rv.amount))
+                // Parse amount in C locale with no number separators
+                QLocale locale(QLocale::c());
+                locale.setNumberOptions(QLocale::OmitGroupSeparator | QLocale::RejectGroupSeparator);
+                if(!BitcoinUnits::parse(BitcoinUnits::BTC, i->second, &rv.amount, locale))
                 {
                     return false;
                 }
