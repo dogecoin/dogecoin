@@ -121,6 +121,9 @@ static void initTranslations(QTranslator &qtTranslatorBase, QTranslator &qtTrans
     // 1) System default language
     QString lang_territory = GetLangTerritory();
 
+    // Set default locale for amount and date formatting according to the selected language
+    QLocale::setDefault(QLocale(lang_territory));
+
     // Convert to "de" only by truncating "_DE"
     QString lang = lang_territory;
     lang.truncate(lang_territory.lastIndexOf('_'));
