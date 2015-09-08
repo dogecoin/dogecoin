@@ -1186,7 +1186,8 @@ static bool ReadBlockOrHeader(T& block, const CDiskBlockPos& pos)
     }
 
     // Check the header
-    if (!CheckAuxPowProofOfWork(block, Params().GetConsensus(0))) // FIXME: Can we get height at all?
+    // Dogecoin: We don't necessarily have block height, so we depend on using the base parameters
+    if (!CheckAuxPowProofOfWork(block, Params().GetConsensus(0)))
         return error("ReadBlockFromDisk: Errors in block header at %s", pos.ToString());
 
     return true;
@@ -2676,7 +2677,10 @@ bool FindUndoPos(CValidationState &state, int nFile, CDiskBlockPos &pos, unsigne
 bool CheckBlockHeader(const CBlockHeader& block, CValidationState& state, bool fCheckPOW)
 {
     // Check proof of work matches claimed amount
-    if (fCheckPOW && !CheckAuxPowProofOfWork(block, Params().GetConsensus(0))) // FIXME: Get actual height
+    // We don't have block height as this is called without context (i.e. without
+    // knowing the previous block), but that's okay, as the checks done are permissive
+    // (i.e. doesn't check work limit or whether AuxPoW is enabled)
+    if (fCheckPOW && !CheckAuxPowProofOfWork(block, Params().GetConsensus(0)))
         return state.DoS(50, error("CheckBlockHeader(): proof of work failed"),
                          REJECT_INVALID, "high-hash");
 
