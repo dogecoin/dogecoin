@@ -1923,7 +1923,8 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend,
                 dPriority = wtxNew.ComputePriority(dPriority, nBytes);
 
                 // Can we complete this as a free transaction?
-                if (fSendFreeTransactions && nBytes <= MAX_FREE_TRANSACTION_CREATE_SIZE)
+                // Dogecoin: Disable free transactions
+                /* if (fSendFreeTransactions && nBytes <= MAX_FREE_TRANSACTION_CREATE_SIZE)
                 {
                     // Not enough fee: enough priority?
                     double dPriorityNeeded = mempool.estimatePriority(nTxConfirmTarget);
@@ -1934,7 +1935,7 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend,
                     // Small enough, and priority high enough, to send for free
                     if (dPriorityNeeded > 0 && dPriority >= dPriorityNeeded)
                         break;
-                }
+                } */
 
                 CAmount nFeeNeeded = GetMinimumFee(txNew, nBytes, nTxConfirmTarget, mempool);
 
@@ -2023,8 +2024,9 @@ CAmount CWallet::GetMinimumFee(const CMutableTransaction& tx, unsigned int nTxBy
     if (fPayAtLeastCustomFee && nFeeNeeded > 0 && nFeeNeeded < payTxFee.GetFeePerK())
         nFeeNeeded = payTxFee.GetFeePerK();
     // User didn't set: use -txconfirmtarget to estimate...
-    if (nFeeNeeded == 0)
-        nFeeNeeded = pool.estimateFee(nConfirmTarget).GetFee(nTxBytes);
+    // Dogecoin: Disable txconfirmtarget
+    //if (nFeeNeeded == 0)
+    //    nFeeNeeded = pool.estimateFee(nConfirmTarget).GetFee(nTxBytes);
     // ... unless we don't have enough mempool data, in which case fall
     // back to a hard-coded fee
     if (nFeeNeeded == 0) {
