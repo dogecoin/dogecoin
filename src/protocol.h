@@ -66,6 +66,7 @@ enum
 {
     NODE_NETWORK = (1 << 0),
     NODE_BLOOM = (1 << 1),
+    NODE_GETUTXO = (1 << 2), // not implemented, added for reference
 };
 
 /** A CService with information about it as peer */
