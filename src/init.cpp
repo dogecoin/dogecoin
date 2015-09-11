@@ -451,6 +451,8 @@ std::string LicenseInfo()
 {
     return FormatParagraph(strprintf(_("Copyright (C) 2009-%i The Bitcoin Core Developers"), COPYRIGHT_YEAR)) + "\n" +
            "\n" +
+           FormatParagraph(strprintf(_("Copyright (C) 2013-%i The Dogecoin Core Developers"), COPYRIGHT_YEAR)) + "\n" +
+           "\n" +
            FormatParagraph(_("This is experimental software.")) + "\n" +
            "\n" +
            FormatParagraph(_("Distributed under the MIT software license, see the accompanying file COPYING or <http://www.opensource.org/licenses/mit-license.php>.")) + "\n" +
