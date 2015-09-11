@@ -2731,6 +2731,10 @@
         <translation>Copyright (C) 2009-%i Els desenvolupadors del Bitcoin Core</translation>
     </message>
     <message>
+        <source>Copyright (C) 2013-%i The Dogecoin Core Developers</source>
+        <translation>Copyright (C) 2013-%i Els desenvolupadors del Dogecoin Core</translation>
+    </message>
+    <message>
         <source>Could not parse -rpcbind value %s as network address</source>
         <translation>No s'ha pogut analitzar el valor -rpcbind %s com una adreça de xarxa</translation>
     </message>

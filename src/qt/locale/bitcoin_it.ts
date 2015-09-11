@@ -3157,6 +3157,10 @@ Si raccomanda inoltre di configurare alertnotify in modo da ricevere notifiche d
         <translation>Copyright (C) 2009-%i Gli sviluppatori di Bitcoin Core</translation>
     </message>
     <message>
+        <source>Copyright (C) 2013-%i The Dogecoin Core Developers</source>
+        <translation>Copyright (C) 2013-%i Gli sviluppatori di Dogecoin Core</translation>
+    </message>
+    <message>
         <source>Could not parse -rpcbind value %s as network address</source>
         <translation>Non è stato possibile riconoscere il valore %s di -rpcbind come indirizzo di rete</translation>
     </message>

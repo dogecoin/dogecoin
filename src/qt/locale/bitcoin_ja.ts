@@ -3174,6 +3174,10 @@ rpcpassword=%s
         <translation>Copyright (C) 2009-%i Bitcoin Core 開発者</translation>
     </message>
     <message>
+        <source>Copyright (C) 2013-%i The Dogecoin Core Developers</source>
+        <translation>Copyright (C) 2013-%i Dogecoin Core 開発者</translation>
+    </message>
+    <message>
         <source>Could not parse -rpcbind value %s as network address</source>
         <translation>-rpcbind の値 %s をネットワークアドレスとして解釈できませんでした</translation>
     </message>
