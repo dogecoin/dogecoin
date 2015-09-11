@@ -3177,6 +3177,10 @@ for eksempel: alertnotify=echo %%s | mail -s "Dogecoin Alert" admin@foo.com
         <translation>Ophavsret © 2009-%i Udviklerne af Bitcoin Core</translation>
     </message>
     <message>
+        <source>Copyright (C) 2013-%i The Dogecoin Core Developers</source>
+        <translation>Ophavsret © 2013-%i Udviklerne af Dogecoin Core</translation>
+    </message>
+    <message>
         <source>Could not parse -rpcbind value %s as network address</source>
         <translation>Kunne ikke tolke -rpcbind-værdi %s som en netværksadresse</translation>
     </message>

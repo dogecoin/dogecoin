@@ -3187,6 +3187,10 @@ rpcpassword=%s
         <translation>版权所有 (C) 2009-%i Bitcoin Core 开发者</translation>
     </message>
     <message>
+        <source>Copyright (C) 2013-%i The Dogecoin Core Developers</source>
+        <translation>版权所有 (C) 2013-%i Dogecoin Core 开发者</translation>
+    </message>
+    <message>
         <source>Could not parse -rpcbind value %s as network address</source>
         <translation>无法解析 -rpcbind 的值 %s 为网络地址</translation>
     </message>
