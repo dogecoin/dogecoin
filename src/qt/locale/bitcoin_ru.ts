@@ -2915,6 +2915,10 @@ rpcpassword=%s
         <translation>Все права защищены © 2009-%i Разработчики Bitcoin Core</translation>
     </message>
     <message>
+        <source>Copyright (C) 2013-%i The Dogecoin Core Developers</source>
+        <translation>Все права защищены © 2013-%i Разработчики Dogecoin Core</translation>
+    </message>
+    <message>
         <source>Could not parse -rpcbind value %s as network address</source>
         <translation>Не удалось разобрать значение %s параметра -rpcbind как сетевой адрес</translation>
     </message>
