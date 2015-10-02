@@ -191,6 +191,8 @@ bool CBlockTreeDB::ReadAddrIndex(const uint160 &addrid, std::vector<CExtDiskTxPo
         }
         iter->Next();
     }
+
+    delete iter;
     return true;
 }
 
