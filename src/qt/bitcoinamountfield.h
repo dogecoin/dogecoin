@@ -33,6 +33,9 @@ public:
     CAmount value(bool *value=0) const;
     void setValue(const CAmount& value);
 
+    void setMinimum(const int min);
+    int minimum();
+
     /** Set single step in satoshis **/
     void setSingleStep(const CAmount& step);
 
