@@ -17,7 +17,7 @@ reference_datetime: "2013-06-01 00:00:00"
 remotes: []
 files:
 - "openssl-1.0.1l.tar.gz"
-- "miniupnpc-1.9.20140701.tar.gz"
+- "miniupnpc-1.9.20151008.tar.gz"
 - "qrencode-3.4.3.tar.bz2"
 - "protobuf-2.5.0.tar.bz2"
 - "db-5.1.29.NC.tar.gz"
@@ -31,7 +31,7 @@ script: |
   export LIBRARY_PATH="$STAGING/lib"
   # Integrity Check
   echo "b2cf4d48fe5d49f240c61c9e624193a6f232b5ed0baf010681e725963c40d1d4  openssl-1.0.1l.tar.gz"  | sha256sum -c
-  echo "26f3985bad7768b8483b793448ae49414cdc4451d0ec83e7c1944367e15f9f07  miniupnpc-1.9.20140701.tar.gz"   | sha256sum -c
+  echo "e444ac3b587ce82709c4d0cfca1fe71f44f9fc433e9f946b12b9e1bfe667a633  miniupnpc-1.9.20151008.tar.gz"   | sha256sum -c
   echo "dfd71487513c871bad485806bfd1fdb304dedc84d2b01a8fb8e0940b50597a98  qrencode-3.4.3.tar.bz2" | sha256sum -c
   echo "13bfc5ae543cf3aa180ac2485c0bc89495e3ae711fc6fab4f8ffe90dfb4bb677  protobuf-2.5.0.tar.bz2" | sha256sum -c
   echo "08238e59736d1aacdd47cfb8e68684c695516c37f4fbe1b8267dde58dc3a576c  db-5.1.29.NC.tar.gz"    | sha256sum -c
@@ -46,7 +46,7 @@ script: |
   make install_sw
   cd ..
   #
-  tar xzfm miniupnpc-1.9.20140701.tar.gz
+  tar xzfm miniupnpc-1.9.20151008.tar.gz
   cd miniupnpc-1.9.20140701
   #   miniupnpc is always built with -fPIC
   INSTALLPREFIX=$STAGING make $MAKEOPTS install
