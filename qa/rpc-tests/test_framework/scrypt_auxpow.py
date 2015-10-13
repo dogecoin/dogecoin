@@ -72,7 +72,7 @@ def mineScryptAux (node, chainid, ok):
   """
 
   auxblock = node.getauxblock ()
-  target = auxpow.reverseHex (auxblock['_target'])
+  target = auxpow.reverseHex (auxblock['target'])
 
   apow = computeAuxpowWithChainId (auxblock['hash'], target, chainid, ok)
   res = node.getauxblock (auxblock['hash'], apow)
