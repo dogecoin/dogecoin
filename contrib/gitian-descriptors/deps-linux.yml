@@ -47,7 +47,7 @@ script: |
   cd ..
   #
   tar xzfm miniupnpc-1.9.20151008.tar.gz
-  cd miniupnpc-1.9.20140701
+  cd miniupnpc-1.9.20151008
   #   miniupnpc is always built with -fPIC
   INSTALLPREFIX=$STAGING make $MAKEOPTS install
   rm -f $STAGING/lib/libminiupnpc.so* # no way to skip shared lib build
