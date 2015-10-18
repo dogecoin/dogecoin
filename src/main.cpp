@@ -1966,6 +1966,12 @@ bool ConnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex, C
     unsigned int flags = SCRIPT_VERIFY_NOCACHE |
                          (fStrictPayToScriptHash ? SCRIPT_VERIFY_P2SH : SCRIPT_VERIFY_NONE);
 
+    if (block.GetBaseVersion() >= 3 &&
+        ((!TestNet() && CBlockIndex::IsSuperMajority(3, pindex->pprev, 1500, 2000)) ||
+            (TestNet() && CBlockIndex::IsSuperMajority(3, pindex->pprev, 501, 1000)))) {
+        flags |= SCRIPT_VERIFY_DERSIG;
+    }
+
     CBlockUndo blockundo;
 
     CCheckQueueControl<CScriptCheck> control(fScriptChecks && nScriptCheckThreads ? &scriptcheckqueue : NULL);
@@ -2131,7 +2137,7 @@ void static UpdateTip(CBlockIndex *pindexNew) {
         const CBlockIndex* pindex = chainActive.Tip();
         for (int i = 0; i < 100 && pindex != NULL; i++)
         {
-            if (pindex->nVersion > CBlock::CURRENT_VERSION && !IsAuxPowVersion(pindex->nVersion))
+            if (pindex->GetBaseVersion() > CBlock::CURRENT_VERSION)
                 ++nUpgraded;
             pindex = pindex->pprev;
         }
@@ -2706,15 +2712,13 @@ bool AcceptBlockHeader(CBlockHeader& block, CValidationState& state, CBlockIndex
         if (pcheckpoint && nHeight < pcheckpoint->nHeight)
             return state.DoS(100, error("AcceptBlock() : forked chain older than last checkpoint (height %d)", nHeight));
 
-        // Reject block.nVersion=1 blocks when 95% (75% on testnet) of the network has upgraded:
-        if (block.nVersion < 2)
-        {
-            if ((!TestNet() && CBlockIndex::IsSuperMajority(2, pindexPrev, 950, 1000)) ||
-                (TestNet() && CBlockIndex::IsSuperMajority(2, pindexPrev, 75, 100)))
-            {
-                return state.Invalid(error("AcceptBlock() : rejected nVersion=1 block"),
+        // Reject block.nVersion<3 blocks when 95% (75% on testnet) of the network has upgraded
+        // Dogecoin: reject v2 and v1 blocks at the same time, only check once
+        if (block.GetBaseVersion() < 3) {
+            if ((!TestNet() && CBlockIndex::IsSuperMajority(3, pindexPrev, 1900, 2000)) ||
+                (TestNet() && CBlockIndex::IsSuperMajority(3, pindexPrev, 750, 1000)))
+                return state.Invalid(error("AcceptBlock() : rejected nVersion<3 block"),
                                      REJECT_OBSOLETE, "bad-version");
-            }
         }
     }
 
@@ -2756,11 +2760,13 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CBlockIndex** ppindex, 
         }
 
     // Enforce block.nVersion=2 rule that the coinbase starts with serialized block height
-    if (block.nVersion >= 2)
+    // Dogecoin: reject ONLY if block.nVersion=3 has a supermajority because CBlockIndex::IsSuperMajority
+    //           was hard-disabled until now
+    if (block.GetBaseVersion() >= 2)
     {
         // if 750 of the last 1,000 blocks are version 2 or greater (51/100 if testnet):
-        if ((!TestNet() && CBlockIndex::IsSuperMajority(2, pindex->pprev, 750, 1000)) ||
-            (TestNet() && CBlockIndex::IsSuperMajority(2, pindex->pprev, 51, 100)))
+        if ((!TestNet() && CBlockIndex::IsSuperMajority(3, pindex->pprev, 1500, 2000)) ||
+            (TestNet() && CBlockIndex::IsSuperMajority(3, pindex->pprev, 501, 1000)))
         {
             CScript expect = CScript() << nHeight;
             if (block.vtx[0].vin[0].scriptSig.size() < expect.size() ||
@@ -2804,13 +2810,11 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CBlockIndex** ppindex, 
 
 bool CBlockIndex::IsSuperMajority(int minVersion, const CBlockIndex* pstart, unsigned int nRequired, unsigned int nToCheck)
 {
-    // Dogecoin: temporarily disable v2 block lockin until we are ready for v2 transition
-    return false;
 
     unsigned int nFound = 0;
     for (unsigned int i = 0; i < nToCheck && nFound < nRequired && pstart != NULL; i++)
     {
-        if (pstart->nVersion >= minVersion)
+        if (pstart->GetBaseVersion() >= minVersion)
             ++nFound;
         pstart = pstart->pprev;
     }
