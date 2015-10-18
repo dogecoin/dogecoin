@@ -70,7 +70,7 @@ script: |
     cd ../..
     #
     tar xzf $INDIR/miniupnpc-1.9.20151008.tar.gz
-    cd miniupnpc-1.9.20140701
+    cd miniupnpc-1.9.20151008
     echo "
   --- miniupnpc-1.9/Makefile.mingw.orig   2013-09-29 18:52:51.014087958 -1000
   +++ miniupnpc-1.9/Makefile.mingw        2013-09-29 19:09:29.663318691 -1000
