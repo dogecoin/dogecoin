@@ -7,7 +7,7 @@ The following directions assume you have a Tor proxy running on port 9050. Many 
 configure Tor.
 
 
-1. Run dogecoin behind a Tor proxy
+1. Run Dogecoin behind a Tor proxy
 ---------------------------------
 
 The first step is running Dogecoin behind a Tor proxy. This will already make all
@@ -16,7 +16,7 @@ outgoing connections be anonymized, but more is possible.
 	-proxy=ip:port  Set the proxy server. If SOCKS5 is selected (default), this proxy
 	                server will be used to try to reach .onion addresses as well.
 
-	-onion=ip:port  Set the proxy server to use for tor hidden services. You do not
+	-onion=ip:port  Set the proxy server to use for Tor hidden services. You do not
 	                need to set this if it's the same as -proxy. You can use -noonion
 	                to explicitly disable access to hidden service.
 
@@ -34,7 +34,7 @@ In a typical situation, this suffices to run behind a Tor proxy:
 	./dogecoin -proxy=127.0.0.1:9050
 
 
-2. Run a dogecoin hidden server
+2. Run a Dogecoin hidden server
 ------------------------------
 
 If you configure your Tor system accordingly, it is possible to make your node also
@@ -48,7 +48,7 @@ config file):
 The directory can be different of course, but (both) port numbers should be equal to
 your dogecoind's P2P listen port (22556 by default).
 
-	-externalip=X   You can tell dogecoin about its publicly reachable address using
+	-externalip=X   You can tell Dogecoin about its publicly reachable address using
 	                this option, and this can be a .onion address. Given the above
 	                configuration, you can find your onion address in
 	                /var/lib/tor/dogecoin-service/hostname. Onion addresses are given
