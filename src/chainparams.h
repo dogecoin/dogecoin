@@ -45,7 +45,24 @@ public:
         MAX_BASE58_TYPES
     };
 
-    const Consensus::Params& GetConsensus() const { return consensus; }
+    const Consensus::Params& GetConsensus(uint32_t nTargetHeight) const {
+        return *GetConsensus(nTargetHeight, pConsensusRoot);
+    }
+
+    Consensus::Params *GetConsensus(uint32_t nTargetHeight, Consensus::Params *pRoot) const {
+        if (nTargetHeight < pRoot -> nHeightEffective && pRoot -> pLeft != NULL) {
+            return GetConsensus(nTargetHeight, pRoot -> pLeft);
+        } else if (nTargetHeight > pRoot -> nHeightEffective && pRoot -> pRight != NULL) {
+            Consensus::Params *pCandidate = GetConsensus(nTargetHeight, pRoot -> pRight);
+            if (pCandidate->nHeightEffective <= nTargetHeight) {
+                return pCandidate;
+            }
+        }
+
+        // No better match below the target height
+        return pRoot;
+    }
+
     const CMessageHeader::MessageStartChars& MessageStart() const { return pchMessageStart; }
     const std::vector<unsigned char>& AlertKey() const { return vAlertPubKey; }
     int GetDefaultPort() const { return nDefaultPort; }
@@ -72,10 +89,12 @@ public:
     const std::vector<unsigned char>& Base58Prefix(Base58Type type) const { return base58Prefixes[type]; }
     const std::vector<SeedSpec6>& FixedSeeds() const { return vFixedSeeds; }
     const Checkpoints::CCheckpointData& Checkpoints() const { return checkpointData; }
+
 protected:
     CChainParams() {}
 
     Consensus::Params consensus;
+    Consensus::Params *pConsensusRoot; // Binary search tree root
     CMessageHeader::MessageStartChars pchMessageStart;
     //! Raw pub key bytes for the broadcast alert signing key.
     std::vector<unsigned char> vAlertPubKey;

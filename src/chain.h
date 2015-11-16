@@ -111,6 +111,9 @@ public:
     //! pointer to the index of some further predecessor of this block
     CBlockIndex* pskip;
 
+    //! pointer to the AuxPoW header, if this block has one
+    boost::shared_ptr<CAuxPow> pauxpow;
+
     //! height of the entry in the chain. The genesis block has height 0
     int nHeight;
 
@@ -139,11 +142,14 @@ public:
     unsigned int nStatus;
 
     //! block header
-    int nVersion;
+    CBlockVersion nVersion;
     uint256 hashMerkleRoot;
     unsigned int nTime;
     unsigned int nBits;
     unsigned int nNonce;
+
+    // Dogecoin: Keep the Scrypt hash as well as SHA256
+    uint256 hashBlockPoW;
 
     //! (memory only) Sequential id assigned to distinguish order in which blocks are received.
     uint32_t nSequenceId;
@@ -153,6 +159,7 @@ public:
         phashBlock = NULL;
         pprev = NULL;
         pskip = NULL;
+        pauxpow.reset();
         nHeight = 0;
         nFile = 0;
         nDataPos = 0;
@@ -163,11 +170,12 @@ public:
         nStatus = 0;
         nSequenceId = 0;
 
-        nVersion       = 0;
+        nVersion.SetNull();
         hashMerkleRoot = uint256();
         nTime          = 0;
         nBits          = 0;
         nNonce         = 0;
+        hashBlockPoW   = uint256();
     }
 
     CBlockIndex()
@@ -184,6 +192,7 @@ public:
         nTime          = block.nTime;
         nBits          = block.nBits;
         nNonce         = block.nNonce;
+        hashBlockPoW   = block.GetPoWHash();
     }
 
     CDiskBlockPos GetBlockPos() const {
@@ -204,18 +213,7 @@ public:
         return ret;
     }
 
-    CBlockHeader GetBlockHeader() const
-    {
-        CBlockHeader block;
-        block.nVersion       = nVersion;
-        if (pprev)
-            block.hashPrevBlock = pprev->GetBlockHash();
-        block.hashMerkleRoot = hashMerkleRoot;
-        block.nTime          = nTime;
-        block.nBits          = nBits;
-        block.nNonce         = nNonce;
-        return block;
-    }
+    CBlockHeader GetBlockHeader() const;
 
     uint256 GetBlockHash() const
     {
@@ -320,6 +318,14 @@ public:
         READWRITE(nTime);
         READWRITE(nBits);
         READWRITE(nNonce);
+        READWRITE(hashBlockPoW);
+        if (this->nVersion.IsAuxpow()) {
+            if (ser_action.ForRead())
+                pauxpow.reset(new CAuxPow());
+            assert(pauxpow);
+            READWRITE(*pauxpow);
+        } else if (ser_action.ForRead())
+            pauxpow.reset();
     }
 
     uint256 GetBlockHash() const
