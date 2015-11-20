@@ -55,7 +55,7 @@ private:
     Ui::HelpMessageDialog *ui;
     QString text;
 
-private slots:
+private Q_SLOTS:
     void on_okButton_accepted();
 };
 
