@@ -32,6 +32,7 @@ class CMainParams : public CChainParams {
 protected:
     Consensus::Params digishieldConsensus;
     Consensus::Params auxpowConsensus;
+    Consensus::Params dersigConsensus;
 public:
     CMainParams() {
         strNetworkID = "main";
@@ -54,6 +55,9 @@ public:
         consensus.nHeightEffective = 0;
         consensus.fDigishieldDifficultyCalculation = false;
         consensus.nCoinbaseMaturity = 30;
+        consensus.nMinBlockVersion = 1;
+        consensus.fEnforceDERSigs = false;
+        consensus.fEnforceSerializedHeight = false;
 
         // Blocks 145000 - 371336 are Digishield without AuxPoW
         digishieldConsensus = consensus;
@@ -69,10 +73,19 @@ public:
         auxpowConsensus.fAllowLegacyBlocks = false;
         auxpowConsensus.fAllowAuxPow = true;
 
+        // Block 1032512 softforked to enforce DER signatures
+        // and block height in coinbase
+        dersigConsensus = auxpowConsensus;
+        dersigConsensus.nHeightEffective = 1032512;
+        dersigConsensus.nMinBlockVersion = 3;
+        dersigConsensus.fEnforceDERSigs = true;
+        dersigConsensus.fEnforceSerializedHeight = true;
+
         // Assemble the binary search tree of consensus parameters
         pConsensusRoot = &digishieldConsensus;
         digishieldConsensus.pLeft = &consensus;
         digishieldConsensus.pRight = &auxpowConsensus;
+        auxpowConsensus.pRight = &dersigConsensus;
 
         /** 
          * The message start string is designed to be unlikely to occur in normal data.
@@ -191,6 +204,9 @@ public:
         consensus.nHeightEffective = 0;
         consensus.fAllowLegacyBlocks = true;
         consensus.fAllowAuxPow = false;
+        consensus.nMinBlockVersion = 1;
+        consensus.fEnforceDERSigs = false;
+        consensus.fEnforceSerializedHeight = false;
 
         // Reset links before we copy parameters
         consensus.pLeft = NULL;
@@ -218,11 +234,19 @@ public:
         auxpowConsensus.fAllowLegacyBlocks = false;
         auxpowConsensus.fAllowAuxPow = true;
 
+        // enforce DERSIG and block height in coinbase at 708121
+        dersigConsensus = auxpowConsensus;
+        dersigConsensus.nHeightEffective = 708121;
+        dersigConsensus.nMinBlockVersion = 3;
+        dersigConsensus.fEnforceDERSigs = true;
+        dersigConsensus.fEnforceSerializedHeight = true;
+
         // Assemble the binary search tree of parameters
         pConsensusRoot = &digishieldConsensus;
         digishieldConsensus.pLeft = &consensus;
         digishieldConsensus.pRight = &minDifficultyConsensus;
         minDifficultyConsensus.pRight = &auxpowConsensus;
+        auxpowConsensus.pRight = &dersigConsensus;
 
         pchMessageStart[0] = 0xfc;
         pchMessageStart[1] = 0xc1;
@@ -297,6 +321,9 @@ public:
         consensus.fAllowAuxPow = false;
         consensus.fSimplifiedRewards = true;
         consensus.nCoinbaseMaturity = 60; // For easier testability in RPC tests
+        consensus.nMinBlockVersion = 1;
+        consensus.fEnforceDERSigs = false;
+        consensus.fEnforceSerializedHeight = false;
 
         // Reset links before we copy parameters
         consensus.pLeft = NULL;
@@ -312,9 +339,16 @@ public:
         auxpowConsensus.fAllowAuxPow = true;
         auxpowConsensus.nHeightEffective = 20;
 
+        dersigConsensus = auxpowConsensus;
+        dersigConsensus.nHeightEffective = 30;
+        dersigConsensus.nMinBlockVersion = 3;
+        dersigConsensus.fEnforceDERSigs = true;
+        dersigConsensus.fEnforceSerializedHeight = true;
+
         // Assemble the binary search tree of parameters
         digishieldConsensus.pLeft = &consensus;
         digishieldConsensus.pRight = &auxpowConsensus;
+        auxpowConsensus.pRight = &dersigConsensus;
         pConsensusRoot = &digishieldConsensus;
 
         pchMessageStart[0] = 0xfa;

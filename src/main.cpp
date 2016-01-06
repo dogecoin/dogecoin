@@ -1855,8 +1855,8 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     // Dogecoin: BIP16 has been active since inception
     unsigned int flags = SCRIPT_VERIFY_P2SH;
 
-    // Start enforcing the DERSIG (BIP66) rules, for block.nVersion=3 blocks, when 75% of the network has upgraded:
-    if (block.nVersion >= 3 && IsSuperMajority(3, pindex->pprev, consensus.nMajorityEnforceBlockUpgrade, consensus)) {
+    // Enforce the DERSIG (BIP66) rules
+    if (consensus.fEnforceDERSigs) {
         flags |= SCRIPT_VERIFY_DERSIG;
     }
 
@@ -2801,15 +2801,9 @@ bool ContextualCheckBlockHeader(const CBlockHeader& block, CValidationState& sta
             return state.DoS(100, error("%s: forked chain older than last checkpoint (height %d)", __func__, nHeight));
     }
 
-    // Reject block.nVersion=1 blocks when 95% (75% on testnet) of the network has upgraded:
-    // Dogecoin: Version 2 enforcement was never used, reject from v3 softfork
-    //if (block.nVersion < 2 && IsSuperMajority(2, pindexPrev, consensusParams.nMajorityRejectBlockOutdated, consensusParams))
-    //    return state.Invalid(error("%s: rejected nVersion=1 block", __func__),
-    //                         REJECT_OBSOLETE, "bad-version");
-
-    // Reject block.nVersion=2 blocks when 95% (75% on testnet) of the network has upgraded:
-    if (block.nVersion < 3 && IsSuperMajority(3, pindexPrev, consensusParams.nMajorityRejectBlockOutdated, consensusParams))
-        return state.Invalid(error("%s : rejected nVersion=2 block", __func__),
+    // Reject block version if it is lower than consensusParams.nMinBlockVersion
+    if (block.nVersion < consensusParams.nMinBlockVersion)
+        return state.Invalid(error("%s : rejected nVersion=%d block", __func__, block.nVersion.GetFullVersion() & 0x000000ff),
                              REJECT_OBSOLETE, "bad-version");
 
     return true;
@@ -2828,10 +2822,8 @@ bool ContextualCheckBlock(const CBlock& block, CValidationState& state, CBlockIn
             return state.DoS(10, error("%s: contains a non-final transaction", __func__), REJECT_INVALID, "bad-txns-nonfinal");
         }
 
-    // Enforce block.nVersion=2 rule that the coinbase starts with serialized block height
-    // if 750 of the last 1,000 blocks are version 2 or greater (51/100 if testnet):
-    // Dogecoin: Block v2 was never enforced, so we trigger this against v3
-    if (block.nVersion >= 2 && IsSuperMajority(3, pindexPrev, consensusParams.nMajorityEnforceBlockUpgrade, consensusParams))
+    // Enforce rule that the coinbase starts with serialized block height
+    if (consensusParams.fEnforceSerializedHeight)
     {
         CScript expect = CScript() << nHeight;
         if (block.vtx[0].vin[0].scriptSig.size() < expect.size() ||

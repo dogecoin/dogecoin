@@ -39,6 +39,11 @@ struct Params {
     bool fStrictChainId;
     bool fAllowLegacyBlocks;
 
+    /** Successful Softforks */
+    int nMinBlockVersion;             // defines the minimum block version
+    bool fEnforceDERSigs;             // version 3 block constraint: enforce SCRIPT_VERIFY_DERSIG
+    bool fEnforceSerializedHeight;    // enforce that the coinbase starts with serialized block height
+
     /** Height-aware consensus parameters */
     uint32_t nHeightEffective; // When these parameters come into use
     struct Params *pLeft;      // Left hand branch
