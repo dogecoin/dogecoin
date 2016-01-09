@@ -70,7 +70,7 @@ BOOST_AUTO_TEST_CASE(CreateNewBlock_validity)
     {
 
         CBlock *pblock = &pblocktemplate->block; // pointer for convenience
-        pblock->nVersion.SetGenesisVersion(1);
+        pblock->nVersion = 1;
 
         // Replaced chainActive.Tip()->GetMedianTimePast()+1 with an actual 60 second block
         // interval because median([1,2,2,3,3,3,4,4,4,4]) will eventually be problematic re:

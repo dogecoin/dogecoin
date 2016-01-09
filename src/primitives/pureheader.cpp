@@ -21,3 +21,10 @@ uint256 CPureBlockHeader::GetPoWHash() const
     scrypt_1024_1_1_256(BEGIN(nVersion), BEGIN(thash));
     return thash;
 }
+
+void CPureBlockHeader::SetBaseVersion(int32_t nBaseVersion, int32_t nChainId)
+{
+    assert(nBaseVersion >= 1 && nBaseVersion < VERSION_AUXPOW);
+    assert(!IsAuxpow());
+    nVersion = nBaseVersion | (nChainId * VERSION_CHAIN_START);
+}
