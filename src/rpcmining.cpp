@@ -318,6 +318,11 @@ static Value BIP22ValidationResult(const CValidationState& state)
     return "valid?";
 }
 
+#if 0
+// getblocktemplate is disabled for merge-mining, since getauxblock should
+// be used instead.  All blocks are required to be merge-mined, thus GBT
+// makes no sense.
+
 Value getblocktemplate(const Array& params, bool fHelp)
 {
     if (fHelp || params.size() > 1)
@@ -588,6 +593,7 @@ Value getblocktemplate(const Array& params, bool fHelp)
 
     return result;
 }
+#endif // Disabled getblocktemplate
 
 class submitblock_StateCatcher : public CValidationInterface
 {
