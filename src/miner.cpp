@@ -381,7 +381,7 @@ void IncrementExtraNonce(CBlock* pblock, const CBlockIndex* pindexPrev, unsigned
 // nonce is 0xffff0000 or above, the block is rebuilt and nNonce starts over at
 // zero.
 //
-bool static ScanHash(CBlockHeader *pblock, uint32_t& nNonce, uint256 *phash, char *pscratchpad)
+bool static ScanHash(CPureBlockHeader *pblock, uint32_t& nNonce, uint256 *phash, char *pscratchpad)
 {
     // Write the first 76 bytes of the block header to a double-SHA256 state.
     //CHash256 hasher;
@@ -494,6 +494,7 @@ void static BitcoinMiner(CWallet *pwallet)
             }
             CBlock *pblock = &pblocktemplate->block;
             IncrementExtraNonce(pblock, pindexPrev, nExtraNonce);
+            CAuxPow::initAuxPow(*pblock);
 
             LogPrintf("Running DogecoinMiner with %u transactions in block (%u bytes)\n", pblock->vtx.size(),
                 ::GetSerializeSize(*pblock, SER_NETWORK, PROTOCOL_VERSION));
@@ -508,13 +509,13 @@ void static BitcoinMiner(CWallet *pwallet)
             char scratchpad[SCRYPT_SCRATCHPAD_SIZE];
             while (true) {
                 // Check if something found
-                if (ScanHash(pblock, nNonce, &hash, scratchpad))
+                if (ScanHash(&pblock->auxpow->parentBlock, nNonce, &hash, scratchpad))
                 {
                     if (UintToArith256(hash) <= hashTarget)
                     {
                         // Found a solution
-                        pblock->nNonce = nNonce;
-                        assert(hash == pblock->GetPoWHash());
+                        pblock->auxpow->parentBlock.nNonce = nNonce;
+                        assert(hash == pblock->auxpow->getParentBlockPoWHash());
 
                         SetThreadPriority(THREAD_PRIORITY_NORMAL);
                         LogPrintf("DogecoinMiner:\n");
@@ -549,6 +550,10 @@ void static BitcoinMiner(CWallet *pwallet)
                     // Changing pblock->nTime can change work required on testnet:
                     hashTarget.SetCompact(pblock->nBits);
                 }
+
+                /* If we updated the block above, we also have to update
+                   the auxpow object to match the new block hash.  */
+                CAuxPow::initAuxPow(*pblock);
             }
         }
     }

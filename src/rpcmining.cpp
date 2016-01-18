@@ -159,10 +159,13 @@ Value generate(const Array& params, bool fHelp)
             LOCK(cs_main);
             IncrementExtraNonce(pblock, chainActive.Tip(), nExtraNonce);
         }
-        while (!CheckProofOfWork(pblock->GetPoWHash(), pblock->nBits, Params().GetConsensus(nHeight))) {
+
+        CAuxPow::initAuxPow(*pblock);
+        CPureBlockHeader& miningHeader = pblock->auxpow->parentBlock;
+        while (!CheckProofOfWork(miningHeader.GetPoWHash(), pblock->nBits, Params().GetConsensus(nHeight))) {
             // Yes, there is a chance every nonce could fail to satisfy the -regtest
             // target -- 1 in 2^(2^32). That ain't gonna happen.
-            ++pblock->nNonce;
+            ++miningHeader.nNonce;
         }
         CValidationState state;
         if (!ProcessNewBlock(state, NULL, pblock, true, NULL))

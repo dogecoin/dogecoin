@@ -1,8 +1,8 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2011 Vince Durham
 // Copyright (c) 2009-2014 The Bitcoin developers
-// Copyright (c) 2014-2015 Daniel Kraft
-// Copyright (c) 2014-2015 The Dogecoin Core developers
+// Copyright (c) 2014-2016 Daniel Kraft
+// Copyright (c) 2014-2016 The Dogecoin Core developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file license.txt or http://www.opensource.org/licenses/mit-license.php.
 
@@ -192,4 +192,41 @@ CAuxPow::getExpectedIndex(int nNonce, int nChainId, unsigned h)
     rand = rand * 1103515245 + 12345;
 
     return rand % (1 << h);
+}
+
+void
+CAuxPow::initAuxPow(CBlockHeader& header)
+{
+  /* Set auxpow flag right now, since we take the block hash below.  */
+  header.SetAuxpowVersion(true);
+
+  /* Build a minimal coinbase script input for merge-mining.  */
+  const uint256 blockHash = header.GetHash();
+  std::vector<unsigned char> inputData(blockHash.begin(), blockHash.end());
+  std::reverse(inputData.begin(), inputData.end());
+  inputData.push_back(1);
+  inputData.insert(inputData.end(), 7, 0);
+
+  /* Fake a parent-block coinbase with just the required input
+     script and no outputs.  */
+  CMutableTransaction coinbase;
+  coinbase.vin.resize(1);
+  coinbase.vin[0].prevout.SetNull();
+  coinbase.vin[0].scriptSig = (CScript() << inputData);
+  assert(coinbase.vout.empty());
+
+  /* Build a fake parent block with the coinbase.  */
+  CBlock parent;
+  parent.nVersion = 1;
+  parent.vtx.resize(1);
+  parent.vtx[0] = coinbase;
+  parent.hashMerkleRoot = parent.BuildMerkleTree();(parent);
+
+  /* Construct the auxpow object.  */
+  header.SetAuxpow(new CAuxPow(coinbase));
+  assert(header.auxpow->vChainMerkleBranch.empty());
+  header.auxpow->nChainIndex = 0;
+  assert(header.auxpow->vMerkleBranch.empty());
+  header.auxpow->nIndex = 0;
+  header.auxpow->parentBlock = parent;
 }
