@@ -112,4 +112,4 @@ qa/pull-tester/test.*/*
 
 /doc/doxygen/
 
-libbitcoinconsensus.pc
+libdogecoinconsensus.pc
