@@ -13,6 +13,7 @@
 #include "consensus/merkle.h"
 #include "consensus/validation.h"
 #include "crypto/scrypt.h"
+#include "dogecoin.h"
 #include "hash.h"
 #include "main.h"
 #include "net.h"
@@ -80,6 +81,10 @@ CBlockTemplate* CreateNewBlock(const CChainParams& chainparams, const CScript& s
     if(!pblocktemplate.get())
         return NULL;
     CBlock *pblock = &pblocktemplate->block; // pointer for convenience
+
+    /* Initialise the block version.  */
+    pblock->nVersion = CBlockHeader::CURRENT_VERSION;
+    pblock->nVersion.SetChainId(chainparams.GetConsensus().nAuxpowChainId);
 
     // -regtest only: allow overriding block.nVersion with
     // -blockversion=N to test forking scenarios
@@ -278,7 +283,7 @@ CBlockTemplate* CreateNewBlock(const CChainParams& chainparams, const CScript& s
         LogPrintf("CreateNewBlock(): total size %u txs: %u fees: %ld sigops %d\n", nBlockSize, nBlockTx, nFees, nBlockSigOps);
 
         // Compute final coinbase transaction.
-        txNew.vout[0].nValue = nFees + GetBlockSubsidy(nHeight, chainparams.GetConsensus());
+        txNew.vout[0].nValue = nFees + GetDogecoinBlockSubsidy(nHeight, chainparams.GetConsensus(), pindexPrev->GetBlockHash());
         txNew.vin[0].scriptSig = CScript() << nHeight << OP_0;
         pblock->vtx[0] = txNew;
         pblocktemplate->vTxFees[0] = -nFees;
