@@ -189,7 +189,7 @@ PaperWalletDialog::PaperWalletDialog(QWidget *parent) :
     ui->privateKeyText->setAlignment(Qt::AlignJustify);
 
     if (vNodes.size() > 0) {
-        QMessageBox::critical(this, "Warning: Network Activity Detected", tr("It is recommended to disconnect from the internet before printing paper wallets. Even though paper wallets are generated on your local computer, it is still possible to unknowingly have malware that transmits your screen to a remote location. It is also recommended to print to a local printer vs a network printer since that network traffic can be monitored. Some advanced printers also store copies of each printed document. Proceed with caution relative to the amount of value you plan to store on each address."), QMessageBox::Ok, QMessageBox::Ok);
+        QMessageBox::critical(this, "Warning: Network Activity Detected", tr("You must print or save the generated file, if you close the following dialog without saving or printing you will lose the private keys and access to any coins you send to the paper wallet address(es) forever.  It is recommended to disconnect from the internet before printing paper wallets. Even though paper wallets are generated on your local computer, it is still possible to unknowingly have malware that transmits your screen to a remote location. It is also recommended to print to a local printer vs a network printer since that network traffic can be monitored. Some advanced printers also store copies of each printed document. Proceed with caution relative to the amount of value you plan to store on each address."), QMessageBox::Ok, QMessageBox::Ok);
     }
 }
 
