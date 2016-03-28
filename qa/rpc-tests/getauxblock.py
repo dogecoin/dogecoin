@@ -7,8 +7,12 @@
 
 from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import *
+from test_framework.script import CScriptNum
 
 from test_framework import auxpow
+from test_framework import scrypt_auxpow
+
+import binascii
 
 class GetAuxBlockTest (BitcoinTestFramework):
 
@@ -27,12 +31,12 @@ class GetAuxBlockTest (BitcoinTestFramework):
     assert_equal (auxblock['previousblockhash'], blocktemplate['previousblockhash'])
 
     # Compare target and take byte order into account.
-    target = auxblock['_target']
+    target = auxblock['target']
     reversedTarget = auxpow.reverseHex (target)
     assert_equal (reversedTarget, blocktemplate['target'])
 
     # Verify data that can be found in another way.
-    assert_equal (auxblock['chainid'], 1)
+    assert_equal (auxblock['chainid'], 98)
     assert_equal (auxblock['height'], self.nodes[0].getblockcount () + 1)
     assert_equal (auxblock['previousblockhash'], self.nodes[0].getblockhash (auxblock['height'] - 1))
 
@@ -71,14 +75,14 @@ class GetAuxBlockTest (BitcoinTestFramework):
     target = blocktemplate['target']
 
     # Compute invalid auxpow.
-    apow = auxpow.computeAuxpow (auxblock['hash'], target, False)
+    apow = scrypt_auxpow.computeAuxpowWithChainId (auxblock['hash'], target, "01", False)
     res = self.nodes[0].getauxblock (auxblock['hash'], apow)
-    assert not res
+    assert res is False
 
     # Compute and submit valid auxpow.
-    apow = auxpow.computeAuxpow (auxblock['hash'], target, True)
+    apow = scrypt_auxpow.computeAuxpowWithChainId (auxblock['hash'], target, "01", True)
     res = self.nodes[0].getauxblock (auxblock['hash'], apow)
-    assert res
+    assert res is True
 
     # Make sure that the block is indeed accepted.
     self.sync_all ()
@@ -110,14 +114,12 @@ class GetAuxBlockTest (BitcoinTestFramework):
     assert_equal (t['confirmations'], 1)
 
     # Verify the coinbase script.  Ensure that it includes the block height
-    # to make the coinbase tx unique.  The expected block height is around
-    # 200, so that the serialisation of the CScriptNum ends in an extra 00.
-    # The vector has length 2, which makes up for 02XX00 as the serialised
-    # height.  Check this.
+    # to make the coinbase tx unique.
     blk = self.nodes[1].getblock (auxblock['hash'])
     tx = self.nodes[1].getrawtransaction (blk['tx'][0], 1)
     coinbase = tx['vin'][0]['coinbase']
-    assert_equal ("02%02x00" % auxblock['height'], coinbase[0 : 6])
+    blockHeightHex = binascii.hexlify(CScriptNum.encode(CScriptNum(auxblock['height'])))
+    assert_equal (blockHeightHex, coinbase[0 : len(blockHeightHex)])
 
 if __name__ == '__main__':
   GetAuxBlockTest ().main ()
