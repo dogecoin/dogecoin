@@ -17,6 +17,7 @@ fi
 
 testScripts=(
     'auxpow.py'
+    'getauxblock.py'
     'wallet.py'
     'listtransactions.py'
     'mempool_resurrect_test.py'
