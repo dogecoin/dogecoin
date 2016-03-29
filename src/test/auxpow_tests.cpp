@@ -111,8 +111,7 @@ public:
 CAuxpowBuilder::CAuxpowBuilder(int baseVersion, int chainId)
     : auxpowChainIndex(-1)
 {
-    parentBlock.nVersion = baseVersion;
-    parentBlock.nVersion.SetChainId(chainId);
+    parentBlock.SetBaseVersion(baseVersion, chainId);
 }
 
 void
@@ -222,9 +221,9 @@ BOOST_AUTO_TEST_CASE(check_auxpow)
 
     /* The parent chain can't have the same chain ID.  */
     CAuxpowBuilder builder2(builder);
-    builder2.parentBlock.nVersion.SetChainId(100);
+    builder2.parentBlock.SetChainId(100);
     BOOST_CHECK(builder2.get().check(hashAux, ourChainId, params));
-    builder2.parentBlock.nVersion.SetChainId(ourChainId);
+    builder2.parentBlock.SetChainId(ourChainId);
     BOOST_CHECK(!builder2.get().check(hashAux, ourChainId, params));
 
     /* Disallow too long merkle branches.  */
@@ -356,34 +355,33 @@ BOOST_AUTO_TEST_CASE(auxpow_pow)
 
     /* Verify the block version checks.  */
 
-    block.nVersion.SetGenesisVersion(1);
+    block.nVersion = 1;
     mineBlock(block, true);
     BOOST_CHECK(CheckAuxPowProofOfWork(block, params));
 
     // Dogecoin block version 2 can be both AuxPoW and regular, so test 3
 
-    block.nVersion.SetGenesisVersion(3);
+    block.nVersion = 3;
     mineBlock(block, true);
     BOOST_CHECK(!CheckAuxPowProofOfWork(block, params));
 
-    block.nVersion = 2;
-    block.nVersion.SetChainId(params.nAuxpowChainId);
+    block.SetBaseVersion (2, params.nAuxpowChainId);
     mineBlock(block, true);
     BOOST_CHECK(CheckAuxPowProofOfWork(block, params));
 
-    block.nVersion.SetChainId(params.nAuxpowChainId + 1);
+    block.SetChainId(params.nAuxpowChainId + 1);
     mineBlock(block, true);
     BOOST_CHECK(!CheckAuxPowProofOfWork(block, params));
 
     /* Check the case when the block does not have auxpow (this is true
      right now).  */
 
-    block.nVersion.SetChainId(params.nAuxpowChainId);
-    block.nVersion.SetAuxpow(true);
+    block.SetChainId(params.nAuxpowChainId);
+    block.SetAuxpowVersion(true);
     mineBlock(block, true);
     BOOST_CHECK(!CheckAuxPowProofOfWork(block, params));
 
-    block.nVersion.SetAuxpow(false);
+    block.SetAuxpowVersion(false);
     mineBlock(block, true);
     BOOST_CHECK(CheckAuxPowProofOfWork(block, params));
     mineBlock(block, false);
@@ -401,7 +399,7 @@ BOOST_AUTO_TEST_CASE(auxpow_pow)
     std::vector<unsigned char> auxRoot, data;
 
     /* Valid auxpow, PoW check of parent block.  */
-    block.nVersion.SetAuxpow(true);
+    block.SetAuxpowVersion(true);
     auxRoot = builder.buildAuxpowChain(block.GetHash(), height, index);
     data = CAuxpowBuilder::buildCoinbaseData(true, auxRoot, height, nonce);
     builder.setCoinbase(CScript() << data);
@@ -416,7 +414,7 @@ BOOST_AUTO_TEST_CASE(auxpow_pow)
      block.SetAuxpow sets also the version and that we want to ensure
      that the block hash itself doesn't change due to version changes.
      This requires some work arounds.  */
-    block.nVersion.SetAuxpow(false);
+    block.SetAuxpowVersion(false);
     const uint256 hashAux = block.GetHash();
     auxRoot = builder.buildAuxpowChain(hashAux, height, index);
     data = CAuxpowBuilder::buildCoinbaseData(true, auxRoot, height, nonce);
@@ -424,12 +422,12 @@ BOOST_AUTO_TEST_CASE(auxpow_pow)
     mineBlock(builder.parentBlock, true, block.nBits);
     block.SetAuxpow(new CAuxPow(builder.get()));
     BOOST_CHECK(hashAux != block.GetHash());
-    block.nVersion.SetAuxpow(false);
+    block.SetAuxpowVersion(false);
     BOOST_CHECK(hashAux == block.GetHash());
     BOOST_CHECK(!CheckAuxPowProofOfWork(block, params));
 
     /* Modifying the block invalidates the PoW.  */
-    block.nVersion.SetAuxpow(true);
+    block.SetAuxpowVersion(true);
     auxRoot = builder.buildAuxpowChain(block.GetHash(), height, index);
     data = CAuxpowBuilder::buildCoinbaseData(true, auxRoot, height, nonce);
     builder.setCoinbase(CScript() << data);

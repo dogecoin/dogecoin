@@ -2117,7 +2117,7 @@ void static UpdateTip(CBlockIndex *pindexNew) {
         const CBlockIndex* pindex = chainActive.Tip();
         for (int i = 0; i < 100 && pindex != NULL; i++)
         {
-            if (pindex->nVersion > CBlock::CURRENT_VERSION)
+            if (pindex->GetBaseVersion() > CBlock::CURRENT_VERSION)
                 ++nUpgraded;
             pindex = pindex->pprev;
         }
@@ -2761,14 +2761,14 @@ bool ContextualCheckBlockHeader(const CBlockHeader& block, CValidationState& sta
 
     // Disallow legacy blocks after merge-mining start.
     if (!consensusParams.fAllowLegacyBlocks
-        && block.nVersion.IsLegacy())
+        && block.IsLegacy())
         return state.DoS(100, error("%s : legacy block after auxpow start at height %d, parameters effective from %d",
                                     __func__, pindexPrev->nHeight + 1, consensusParams.nHeightEffective),
                          REJECT_INVALID, "late-legacy-block");
 
     // Disallow AuxPow blocks before it is activated.
     if (!consensusParams.fAllowAuxPow
-        && block.nVersion.IsAuxpow())
+        && block.IsAuxpow())
         return state.DoS(100, error("%s : auxpow blocks are not allowed at height %d, parameters effective from %d",
                                     __func__, pindexPrev->nHeight + 1, consensusParams.nHeightEffective),
                          REJECT_INVALID, "early-auxpow-block");
@@ -2798,7 +2798,7 @@ bool ContextualCheckBlockHeader(const CBlockHeader& block, CValidationState& sta
 
     // Reject block version if it is lower than consensusParams.nMinBlockVersion
     if (block.nVersion < consensusParams.nMinBlockVersion)
-        return state.Invalid(error("%s : rejected nVersion=%d block", __func__, block.nVersion.GetFullVersion() & 0x000000ff),
+        return state.Invalid(error("%s : rejected nVersion=%d block", __func__, block.GetBaseVersion()),
                              REJECT_OBSOLETE, "bad-version");
 
     return true;
@@ -2936,7 +2936,7 @@ static bool IsSuperMajority(int minVersion, const CBlockIndex* pstart, unsigned 
     unsigned int nFound = 0;
     for (int i = 0; i < consensusParams.nMajorityWindow && nFound < nRequired && pstart != NULL; i++)
     {
-        if (pstart->nVersion >= minVersion)
+        if (pstart->GetBaseVersion() >= minVersion)
             ++nFound;
         pstart = pstart->pprev;
     }
