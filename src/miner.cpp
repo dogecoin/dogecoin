@@ -485,6 +485,7 @@ void static BitcoinMiner(CWallet *pwallet)
             unsigned int nTransactionsUpdatedLast = mempool.GetTransactionsUpdated();
             CBlockIndex* pindexPrev = chainActive.Tip();
             const Consensus::Params &consensus = Params().GetConsensus(pindexPrev -> nHeight + 1);
+            const bool fMineAuxpow = (consensus.nAuxPowVersion > 0);
 
             auto_ptr<CBlockTemplate> pblocktemplate(CreateNewBlockWithKey(reservekey));
             if (!pblocktemplate.get())
@@ -492,35 +493,36 @@ void static BitcoinMiner(CWallet *pwallet)
                 LogPrintf("Error in DogecoinMiner: Keypool ran out, please call keypoolrefill before restarting the mining thread\n");
                 return;
             }
-            CBlock *pblock = &pblocktemplate->block;
-            IncrementExtraNonce(pblock, pindexPrev, nExtraNonce);
-            CAuxPow::initAuxPow(*pblock);
+            CVersionedAuxBlock versionedBlock = CVersionedAuxBlock(consensus.nAuxPowVersion, &pblocktemplate->block);
+            IncrementExtraNonce(versionedBlock.GetBlock(), pindexPrev, nExtraNonce);
+            versionedBlock.InitAuxPow();
 
-            LogPrintf("Running DogecoinMiner with %u transactions in block (%u bytes)\n", pblock->vtx.size(),
-                ::GetSerializeSize(*pblock, SER_NETWORK, PROTOCOL_VERSION));
+            LogPrintf("Running DogecoinMiner with %u transactions in block (%u bytes)\n", versionedBlock.GetBlock()->vtx.size(),
+                ::GetSerializeSize(*versionedBlock.GetBlock(), SER_NETWORK, PROTOCOL_VERSION));
 
             //
             // Search
             //
             int64_t nStart = GetTime();
-            arith_uint256 hashTarget = arith_uint256().SetCompact(pblock->nBits);
+            arith_uint256 hashTarget = arith_uint256().SetCompact(versionedBlock.GetBlock()->nBits);
             uint256 hash;
+            uint256 checkedHash;
             uint32_t nNonce = 0;
             char scratchpad[SCRYPT_SCRATCHPAD_SIZE];
             while (true) {
                 // Check if something found
-                if (ScanHash(&pblock->auxpow->parentBlock, nNonce, &hash, scratchpad))
+                if (ScanHash(versionedBlock.GetHeaderToMine(), nNonce, &hash, scratchpad))
                 {
                     if (UintToArith256(hash) <= hashTarget)
                     {
                         // Found a solution
-                        pblock->auxpow->parentBlock.nNonce = nNonce;
-                        assert(hash == pblock->auxpow->getParentBlockPoWHash());
+                        versionedBlock.SetNonce(nNonce);
+                        assert(hash == versionedBlock.GetMinedPoW());
 
                         SetThreadPriority(THREAD_PRIORITY_NORMAL);
                         LogPrintf("DogecoinMiner:\n");
                         LogPrintf("proof-of-work found  \n  hash: %s  \ntarget: %s\n", hash.GetHex(), hashTarget.GetHex());
-                        ProcessBlockFound(pblock, *pwallet, reservekey);
+                        ProcessBlockFound(versionedBlock.GetBlock(), *pwallet, reservekey);
                         SetThreadPriority(THREAD_PRIORITY_LOWEST);
 
                         // In regression test mode, stop mining after a block is found.
@@ -544,16 +546,16 @@ void static BitcoinMiner(CWallet *pwallet)
                     break;
 
                 // Update nTime every few seconds
-                UpdateTime(pblock, consensus, pindexPrev);
+                UpdateTime(versionedBlock.GetBlock(), consensus, pindexPrev);
                 if (consensus.fPowAllowMinDifficultyBlocks)
                 {
                     // Changing pblock->nTime can change work required on testnet:
-                    hashTarget.SetCompact(pblock->nBits);
+                    hashTarget.SetCompact(versionedBlock.GetBlock()->nBits);
                 }
 
                 /* If we updated the block above, we also have to update
                    the auxpow object to match the new block hash.  */
-                CAuxPow::initAuxPow(*pblock);
+                versionedBlock.InitAuxPow();
             }
         }
     }

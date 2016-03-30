@@ -130,9 +130,11 @@ Value generate(const Array& params, bool fHelp)
             + HelpExampleCli("generate", "11")
         );
 
+    const CChainParams& chainparams = Params();
+
     if (pwalletMain == NULL)
         throw JSONRPCError(RPC_METHOD_NOT_FOUND, "Method not found (disabled)");
-    if (!Params().MineBlocksOnDemand())
+    if (!chainparams.MineBlocksOnDemand())
         throw JSONRPCError(RPC_METHOD_NOT_FOUND, "This method can only be used on regtest");
 
     int nHeightStart = 0;
@@ -151,27 +153,27 @@ Value generate(const Array& params, bool fHelp)
     Array blockHashes;
     while (nHeight < nHeightEnd)
     {
+        Consensus::Params consensus = chainparams.GetConsensus(nHeight);
         auto_ptr<CBlockTemplate> pblocktemplate(CreateNewBlockWithKey(reservekey));
         if (!pblocktemplate.get())
             throw JSONRPCError(RPC_INTERNAL_ERROR, "Wallet keypool empty");
-        CBlock *pblock = &pblocktemplate->block;
+        CVersionedAuxBlock versionedBlock = CVersionedAuxBlock(consensus.nAuxPowVersion, &pblocktemplate->block);
         {
             LOCK(cs_main);
-            IncrementExtraNonce(pblock, chainActive.Tip(), nExtraNonce);
+            IncrementExtraNonce(versionedBlock.GetBlock(), chainActive.Tip(), nExtraNonce);
         }
 
-        CAuxPow::initAuxPow(*pblock);
-        CPureBlockHeader& miningHeader = pblock->auxpow->parentBlock;
-        while (!CheckProofOfWork(miningHeader.GetPoWHash(), pblock->nBits, Params().GetConsensus(nHeight))) {
+        versionedBlock.InitAuxPow();
+        while (!CheckProofOfWork(versionedBlock.GetMinedPoW(), versionedBlock.GetBlock()->nBits, consensus)) {
             // Yes, there is a chance every nonce could fail to satisfy the -regtest
             // target -- 1 in 2^(2^32). That ain't gonna happen.
-            ++miningHeader.nNonce;
+            versionedBlock.IncrementNonce();
         }
         CValidationState state;
-        if (!ProcessNewBlock(state, NULL, pblock, true, NULL))
+        if (!ProcessNewBlock(state, NULL, versionedBlock.GetBlock(), true, NULL))
             throw JSONRPCError(RPC_INTERNAL_ERROR, "ProcessNewBlock, block not accepted");
         ++nHeight;
-        blockHashes.push_back(pblock->GetHash().GetHex());
+        blockHashes.push_back(versionedBlock.GetBlock()->GetHash().GetHex());
     }
     return blockHashes;
 }
