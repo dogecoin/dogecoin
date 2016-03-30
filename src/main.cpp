@@ -2767,7 +2767,7 @@ bool ContextualCheckBlockHeader(const CBlockHeader& block, CValidationState& sta
                          REJECT_INVALID, "late-legacy-block");
 
     // Disallow AuxPow blocks before it is activated.
-    if (!consensusParams.fAllowAuxPow
+    if (consensusParams.nAuxPowVersion < 1
         && block.IsAuxpow())
         return state.DoS(100, error("%s : auxpow blocks are not allowed at height %d, parameters effective from %d",
                                     __func__, pindexPrev->nHeight + 1, consensusParams.nHeightEffective),

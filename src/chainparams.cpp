@@ -51,7 +51,7 @@ public:
         consensus.nAuxpowChainId = 0x0062; // 98 - Josh Wise!
         consensus.fStrictChainId = true;
         consensus.fAllowLegacyBlocks = true;
-        consensus.fAllowAuxPow = false;
+        consensus.nAuxPowVersion = 0;
         consensus.nHeightEffective = 0;
         consensus.fDigishieldDifficultyCalculation = false;
         consensus.nCoinbaseMaturity = 30;
@@ -71,7 +71,7 @@ public:
         auxpowConsensus = digishieldConsensus;
         auxpowConsensus.nHeightEffective = 371337;
         auxpowConsensus.fAllowLegacyBlocks = false;
-        auxpowConsensus.fAllowAuxPow = true;
+        auxpowConsensus.nAuxPowVersion = 1;
 
         // Block 1032512 softforked to enforce DER signatures
         // and block height in coinbase
@@ -204,7 +204,7 @@ public:
         consensus.fStrictChainId = false;
         consensus.nHeightEffective = 0;
         consensus.fAllowLegacyBlocks = true;
-        consensus.fAllowAuxPow = false;
+        consensus.nAuxPowVersion = 0;
         consensus.nMinBlockVersion = 1;
         consensus.fEnforceDERSigs = false;
         consensus.fEnforceSerializedHeight = false;
@@ -233,7 +233,7 @@ public:
         auxpowConsensus.nHeightEffective = 158100;
         auxpowConsensus.fPowAllowDigishieldMinDifficultyBlocks = true;
         auxpowConsensus.fAllowLegacyBlocks = false;
-        auxpowConsensus.fAllowAuxPow = true;
+        auxpowConsensus.nAuxPowVersion = 1;
 
         // enforce DERSIG and block height in coinbase at 708121
         dersigConsensus = auxpowConsensus;
@@ -321,7 +321,7 @@ public:
         consensus.powLimit = uint256S("0x7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~uint256(0) >> 1;
         consensus.fStrictChainId = true;
         consensus.fAllowLegacyBlocks = true;
-        consensus.fAllowAuxPow = false;
+        consensus.nAuxPowVersion = 0;
         consensus.fSimplifiedRewards = true;
         consensus.nCoinbaseMaturity = 60; // For easier testability in RPC tests
         consensus.nMinBlockVersion = 1;
@@ -339,7 +339,7 @@ public:
 
         auxpowConsensus = digishieldConsensus;
         auxpowConsensus.fAllowLegacyBlocks = false;
-        auxpowConsensus.fAllowAuxPow = true;
+        auxpowConsensus.nAuxPowVersion = 1;
         auxpowConsensus.nHeightEffective = 20;
 
         dersigConsensus = auxpowConsensus;
