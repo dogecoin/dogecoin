@@ -3987,12 +3987,16 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
         CAddress addrFrom;
         uint64_t nNonce = 1;
         vRecv >> pfrom->nVersion >> pfrom->nServices >> nTime >> addrMe;
-        if (pfrom->nVersion < MIN_PEER_PROTO_VERSION)
+
+        int nMinProtoVersion = GetBoolArg("-strictprotoversion", false) ?
+            PROTOCOL_VERSION : MIN_PEER_PROTO_VERSION;
+
+        if (pfrom->nVersion < nMinProtoVersion)
         {
             // disconnect from peers older than this proto version
             LogPrintf("peer=%d using obsolete version %i; disconnecting\n", pfrom->id, pfrom->nVersion);
             pfrom->PushMessage("reject", strCommand, REJECT_OBSOLETE,
-                               strprintf("Version must be %d or greater", MIN_PEER_PROTO_VERSION));
+                               strprintf("Version must be %d or greater", nMinProtoVersion));
             pfrom->fDisconnect = true;
             return false;
         }
