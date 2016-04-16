@@ -154,6 +154,7 @@ public:
         fRequireStandard = true;
         fMineBlocksOnDemand = false;
         fTestnetToBeDeprecatedFieldRPC = false;
+        nNetBlockTimeout = 500000 * 60; // half the block target (30 seconds)
 
         checkpointData = (Checkpoints::CCheckpointData) {
             boost::assign::map_list_of
@@ -286,6 +287,7 @@ public:
         fRequireStandard = false;
         fMineBlocksOnDemand = false;
         fTestnetToBeDeprecatedFieldRPC = true;
+        nNetBlockTimeout = 500000 * 60; // half the block target (30 seconds)
 
         checkpointData = (Checkpoints::CCheckpointData) {
             boost::assign::map_list_of
@@ -378,6 +380,7 @@ public:
         fRequireStandard = false;
         fMineBlocksOnDemand = true;
         fTestnetToBeDeprecatedFieldRPC = false;
+        nNetBlockTimeout = 500000 * 60; // half the mainnet block target (30 seconds)
 
         checkpointData = (Checkpoints::CCheckpointData){
             boost::assign::map_list_of
