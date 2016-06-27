@@ -1027,7 +1027,7 @@ Value addmultisigaddress(const Array& params, bool fHelp)
 {
     if (!EnsureWalletIsAvailable(fHelp))
         return Value::null;
-    
+
     if (fHelp || params.size() < 2 || params.size() > 3)
     {
         string msg = "addmultisigaddress nrequired [\"key\",...] ( \"account\" )\n"

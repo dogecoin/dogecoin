@@ -62,9 +62,11 @@ private:
 
     void copyColumnToClipboard(int column);
     virtual void resizeEvent(QResizeEvent *event);
+    void receiveOrMultisig(bool multisig);
 
 private slots:
     void on_receiveButton_clicked();
+    void on_multisigButton_clicked();
     void on_showRequestButton_clicked();
     void on_removeRequestButton_clicked();
     void on_recentRequestsView_doubleClicked(const QModelIndex &index);
