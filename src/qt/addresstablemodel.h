@@ -74,6 +74,8 @@ public:
 
     EditStatus getEditStatus() const { return editStatus; }
 
+    QString getRawPubKey();
+
 private:
     WalletModel *walletModel;
     CWallet *wallet;
