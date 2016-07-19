@@ -403,6 +403,27 @@ QString AddressTableModel::addRow(const QString &type, const QString &label, con
     return QString::fromStdString(strAddress);
 }
 
+void AddressTableModel::saveReceiveScript(CScript script, CScriptID scriptID, QString label) {
+    editStatus = OK;
+
+    // Check for duplicate addresses
+    {
+        LOCK(wallet->cs_wallet);
+        if(wallet->mapAddressBook.count(scriptID))
+        {
+            editStatus = DUPLICATE_ADDRESS;
+            return;
+        }
+    }
+
+    // Add entry
+    {
+        LOCK(wallet->cs_wallet);
+        wallet->AddCScript(script);
+        wallet->SetAddressBook(scriptID, label.toStdString(), "receive");
+    }
+}
+
 bool AddressTableModel::removeRows(int row, int count, const QModelIndex &parent)
 {
     Q_UNUSED(parent);

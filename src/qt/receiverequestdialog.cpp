@@ -149,6 +149,8 @@ void ReceiveRequestDialog::update()
         html += "<b>"+tr("Label")+"</b>: " + GUIUtil::HtmlEscape(info.label) + "<br>";
     if(!info.message.isEmpty())
         html += "<b>"+tr("Message")+"</b>: " + GUIUtil::HtmlEscape(info.message) + "<br>";
+    if(!info.redeemScript.isEmpty())
+        html += "<b>"+tr("Redeem script")+"</b>: " + GUIUtil::HtmlEscape(info.redeemScript) + "<br>";
     ui->outUri->setText(html);
 
 #ifdef USE_QRCODE

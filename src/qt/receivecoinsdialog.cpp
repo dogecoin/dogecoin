@@ -148,17 +148,20 @@ void ReceiveCoinsDialog::receiveOrMultisig(bool multisig)
 
     QString address;
     QString label = ui->reqLabel->text();
+    QString redeemScript;
     if(multisig)
     {
         AskMultisigDialog dlg(this);
         dlg.setModel(model->getAddressTableModel());
         if(dlg.exec())
         {
-            address = dlg.generateAddress();
+            address = dlg.generateAddress(label);
+            if(address.isEmpty()) return; /* empty address = dialog's displayed error message */
             if(label.isEmpty()) /* If no label provided, generate generic one */
             {
                 label = dlg.getLabel();
             }
+            redeemScript = dlg.getRedeemScript();
         } else {
             return;
         }
@@ -182,8 +185,8 @@ void ReceiveCoinsDialog::receiveOrMultisig(bool multisig)
         /* Generate new receiving address */
         address = model->getAddressTableModel()->addRow(AddressTableModel::Receive, label, "");
     }
-    SendCoinsRecipient info(address, label,
-        ui->reqAmount->value(), ui->reqMessage->text());
+    SendCoinsRecipient info(address, label, ui->reqAmount->value(), ui->reqMessage->text());
+    if(multisig) info.redeemScript = redeemScript;
     ReceiveRequestDialog *dialog = new ReceiveRequestDialog(this);
     dialog->setAttribute(Qt::WA_DeleteOnClose);
     dialog->setModel(model->getOptionsModel());
