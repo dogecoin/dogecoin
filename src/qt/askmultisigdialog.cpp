@@ -96,50 +96,67 @@ QString AskMultisigDialog::generateAddress(QString label)
     int nTotal = 3, nRequired = 2;
     QStringList addresses;
     try {
-        if(idx > 1)
-            throw std::runtime_error("Not implemented");
-        if(idx == 1) {
-            nTotal = ui->totalAdressesSpinBox->value();
-            nRequired = ui->signaturesRequiredSpinBox->value();
-            if (nRequired > nTotal)
-                throw std::runtime_error("Number of requires signatures must not exceed number of total pubkeys.");
-            addresses = ui->foreignAdressesEdit->toPlainText().split(QRegExp("\\W+"), QString::SkipEmptyParts);
-            if (addresses.count() > nTotal)
-                throw std::runtime_error("Number of provided pubkeys exceeds number of requested total pubkeys.");
+        CScript script;
+        if (idx > 1) {
+            QString scriptText = ui->importRedeemScriptEdit->toPlainText().trimmed();
+            std::vector<unsigned char> vScript = ParseHex(scriptText.toLatin1().data());
+            script = CScript(vScript.begin(), vScript.end());
+
+            _label = label.isEmpty() ? QString("Imported multisig") : label;
         } else {
-            QString counterpartyAddress = ui->counterpartyAddressLineEdit->text().trimmed();
-            if(counterpartyAddress.isEmpty())
-                throw std::runtime_error("Counterparty pubkey is required.");
-            addresses << counterpartyAddress;
-            QString escrowAddress = ui->escrowAddressLineEdit->text().trimmed();
-            if(!escrowAddress.isEmpty())
-                addresses << escrowAddress;
-            nTotal = addresses.size() + 1;
+            if (idx == 1) {
+                nTotal = ui->totalAdressesSpinBox->value();
+                nRequired = ui->signaturesRequiredSpinBox->value();
+                if (nRequired > nTotal)
+                    throw std::runtime_error("Number of requires signatures must not exceed number of total pubkeys.");
+                addresses = ui->foreignAdressesEdit->toPlainText().split(QRegExp("\\W+"), QString::SkipEmptyParts);
+                if (addresses.count() > nTotal)
+                    throw std::runtime_error("Number of provided pubkeys exceeds number of requested total pubkeys.");
+            } else {
+                QString counterpartyAddress = ui->counterpartyAddressLineEdit->text().trimmed();
+                if (counterpartyAddress.isEmpty())
+                    throw std::runtime_error("Counterparty pubkey is required.");
+                addresses << counterpartyAddress;
+                QString escrowAddress = ui->escrowAddressLineEdit->text().trimmed();
+                if (!escrowAddress.isEmpty())
+                    addresses << escrowAddress;
+                nTotal = addresses.size() + 1;
+            }
+
+            std::vector <CPubKey> pubkeys;
+            pubkeys.resize(nTotal);
+            int i = 0;
+
+            // Validate addresses
+            for (QStringList::iterator it = addresses.begin(); it != addresses.end(); ++it) {
+                std::string ks = it->toStdString();
+                if (!IsHex(ks))
+                    throw std::runtime_error("Invalid public key: " + ks);
+
+                CPubKey vchPubKey(ParseHex(ks));
+                if (!vchPubKey.IsFullyValid())
+                    throw std::runtime_error("Invalid public key: " + ks);
+
+                pubkeys[i++] = vchPubKey;
+            }
+
+            // Generate any missing addresses
+            for (; i < nTotal; ++i)
+                pubkeys[i] = model->getRawPubKey();
+
+            // Save label
+            if (label.isEmpty()) {
+                _label = QString();
+                QTextStream(&_label) << nRequired << '/' << nTotal << " multisig";
+            } else {
+                _label = label;
+            }
+
+            // Generate multisig script
+            script = GetScriptForMultisig(nRequired, pubkeys);
         }
 
-        std::vector<CPubKey> pubkeys;
-        pubkeys.resize(nTotal);
-        int i = 0;
-
-        // Validate addresses
-        for (QStringList::iterator it = addresses.begin(); it != addresses.end(); ++it) {
-            std::string ks = it->toStdString();
-            if (!IsHex(ks))
-                throw std::runtime_error("Invalid public key: " + ks);
-
-            CPubKey vchPubKey(ParseHex(ks));
-            if (!vchPubKey.IsFullyValid())
-                throw std::runtime_error("Invalid public key: " + ks);
-
-            pubkeys[i++] = vchPubKey;
-        }
-
-        // Generate any missing addresses
-        for (; i < nTotal; ++i)
-            pubkeys[i] = model->getRawPubKey();
-
-        // Generate multisig script
-        CScript script = GetScriptForMultisig(nRequired, pubkeys);
+        // Generate address from script
         if (script.size() > MAX_SCRIPT_ELEMENT_SIZE)
             throw std::runtime_error(
                     strprintf("redeemScript exceeds size limit: %d > %d", script.size(), MAX_SCRIPT_ELEMENT_SIZE)
@@ -147,17 +164,12 @@ QString AskMultisigDialog::generateAddress(QString label)
         CScriptID scriptID(script);
         CBitcoinAddress address(scriptID);
         _redeemScript = QString::fromStdString(HexStr(script.begin(), script.end()));
+        if(_redeemScript.isEmpty())
+            throw std::runtime_error("Invalid redeem script.");
 
-        if(label.isEmpty()) {
-            _label = QString();
-            QTextStream(&_label) << nRequired << '/' << nTotal << " multisig";
-        } else {
-            _label = label;
-        }
-
+        // Save
         model->saveReceiveScript(script, scriptID, _label);
         return QString::fromStdString(address.ToString());
-
     } catch (std::runtime_error err) {
         QMessageBox::critical(this, QString("Error generating multisig"), QString(err.what()));
 
