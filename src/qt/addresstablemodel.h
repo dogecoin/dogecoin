@@ -5,6 +5,8 @@
 #ifndef BITCOIN_QT_ADDRESSTABLEMODEL_H
 #define BITCOIN_QT_ADDRESSTABLEMODEL_H
 
+#include "pubkey.h"
+
 #include <QAbstractTableModel>
 #include <QStringList>
 
@@ -74,7 +76,8 @@ public:
 
     EditStatus getEditStatus() const { return editStatus; }
 
-    QString getRawPubKey();
+    CPubKey getRawPubKey();
+    QString getRawPubKeyString();
 
 private:
     WalletModel *walletModel;

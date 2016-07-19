@@ -151,7 +151,7 @@ void ReceiveCoinsDialog::receiveOrMultisig(bool multisig)
     if(multisig)
     {
         AskMultisigDialog dlg(this);
-        // dlg.setModel(model->getAddressTableModel());
+        dlg.setModel(model->getAddressTableModel());
         if(dlg.exec())
         {
             address = dlg.generateAddress();

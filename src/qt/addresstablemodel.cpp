@@ -15,6 +15,7 @@
 
 #include <QFont>
 #include <QDebug>
+#include <stdexcept>
 
 const QString AddressTableModel::Send = "S";
 const QString AddressTableModel::Receive = "R";
@@ -454,15 +455,23 @@ void AddressTableModel::emitDataChanged(int idx)
     Q_EMIT dataChanged(index(idx, 0, QModelIndex()), index(idx, columns.length()-1, QModelIndex()));
 }
 
-QString AddressTableModel::getRawPubKey()
+CPubKey AddressTableModel::getRawPubKey()
 {
     CPubKey newKey;
     if(!wallet->GetKeyFromPool(newKey))
     {
         WalletModel::UnlockContext ctx(walletModel->requestUnlock());
         if(!ctx.isValid() || !wallet->GetKeyFromPool(newKey))
-            return QString();
+            throw std::runtime_error("Unable to get a new key from keypool.");
     }
+    return newKey;
+}
 
-    return QString::fromStdString(HexStr(newKey));
+QString AddressTableModel::getRawPubKeyString()
+{
+    try {
+        return QString::fromStdString(HexStr(getRawPubKey()));
+    } catch(std::runtime_error) {
+        return QString();
+    }
 }
