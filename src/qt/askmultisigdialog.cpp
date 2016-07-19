@@ -3,12 +3,14 @@
 #include "ui_askmultisigdialog.h"
 #include "addresstablemodel.h"
 #include "utilstrencodings.h"
+#include "base58.h"
 #include "pubkey.h"
 #include "script/standard.h"
 #include "util.h"
 
 #include <QPushButton>
 #include <QMessageBox>
+#include <QTextStream>
 
 #include <stdexcept>
 #include <assert.h>
@@ -24,6 +26,7 @@ AskMultisigDialog::AskMultisigDialog(QWidget *parent) :
         QString("&Generate new pubkey"),
         QDialogButtonBox::ActionRole
     ), SIGNAL(clicked()), this, SLOT(generatePubKey()));
+//    QObject::connect(ui->buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(validate()));
     ui->buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
 }
 
@@ -46,18 +49,60 @@ void AskMultisigDialog::generatePubKey()
     }
 }
 
-QString AskMultisigDialog::generateAddress()
+//void AskMultisigDialog::validate()
+//{
+//    QStringList addresses, errors;
+//    int idx = ui->toolBox->currentIndex();
+//
+//    if(idx > 1) {
+//        errors << QString("Not implemented");
+//    } else {
+//        if(idx == 1) {
+//            int nTotal = ui->totalAdressesSpinBox->value();
+//            int nRequired = ui->signaturesRequiredSpinBox->value();
+//            if (nRequired > nTotal)
+//                errors << QString("Number of requires signatures must not exceed number of total pubkeys.");
+//            addresses = ui->foreignAdressesEdit->toPlainText().split(QRegExp("\\W+"), QString::SkipEmptyParts);
+//            if (addresses.count() > nTotal)
+//                errors << QString("Number of provided pubkeys exceeds number of requested total pubkeys.");
+//        } else {
+//            QString counterpartyAddress = ui->counterpartyAddressLineEdit->text().trimmed();
+//            if(counterpartyAddress.isEmpty())
+//                errors << QString("Counterparty pubkey is required.");
+//            else
+//                addresses << counterpartyAddress;
+//        }
+//    }
+//
+//    // Validate addresses
+//    for (QStringList::iterator it = addresses.begin(); it != addresses.end(); ++it) {
+//        std::string ks = it->toStdString();
+//        if (IsHex(ks)) {
+//            CPubKey vchPubKey(ParseHex(ks));
+//            if (vchPubKey.IsFullyValid()) continue;
+//        }
+//        errors << (QString("Invalid public key: ") + *it);
+//    }
+//
+//    if(errors.count() > 0) {
+//        QMessageBox::critical(this, QString("Error generating multisig"), errors.join("\n"));
+//    }
+//}
+
+QString AskMultisigDialog::generateAddress(QString label)
 {
     int idx = ui->toolBox->currentIndex();
-    if(idx > 1)
-        return QString();
 
     int nTotal = 3, nRequired = 2;
     QStringList addresses;
     try {
+        if(idx > 1)
+            throw std::runtime_error("Not implemented");
         if(idx == 1) {
             nTotal = ui->totalAdressesSpinBox->value();
             nRequired = ui->signaturesRequiredSpinBox->value();
+            if (nRequired > nTotal)
+                throw std::runtime_error("Number of requires signatures must not exceed number of total pubkeys.");
             addresses = ui->foreignAdressesEdit->toPlainText().split(QRegExp("\\W+"), QString::SkipEmptyParts);
             if (addresses.count() > nTotal)
                 throw std::runtime_error("Number of provided pubkeys exceeds number of requested total pubkeys.");
@@ -93,6 +138,7 @@ QString AskMultisigDialog::generateAddress()
         for (; i < nTotal; ++i)
             pubkeys[i] = model->getRawPubKey();
 
+        // Generate multisig script
         CScript script = GetScriptForMultisig(nRequired, pubkeys);
         if (script.size() > MAX_SCRIPT_ELEMENT_SIZE)
             throw std::runtime_error(
@@ -100,25 +146,21 @@ QString AskMultisigDialog::generateAddress()
             );
         CScriptID scriptID(script);
         CBitcoinAddress address(scriptID);
+        _redeemScript = QString::fromStdString(HexStr(script.begin(), script.end()));
 
-        Object result;
-        result.push_back(Pair("address", address.ToString()));
-        result.push_back(Pair("redeemScript", HexStr(inner.begin(), inner.end())));
+        if(label.isEmpty()) {
+            _label = QString();
+            QTextStream(&_label) << nRequired << '/' << nTotal << " multisig";
+        } else {
+            _label = label;
+        }
 
-//     CScript inner = _createmultisig_redeemScript(params);
-//     CScriptID innerID(inner);
-//     pwalletMain->AddCScript(inner);
-//
-//     pwalletMain->SetAddressBook(innerID, strAccount, "send");
-//     return CBitcoinAddress(innerID).ToString();
+        model->saveReceiveScript(script, scriptID, _label);
+        return QString::fromStdString(address.ToString());
+
     } catch (std::runtime_error err) {
         QMessageBox::critical(this, QString("Error generating multisig"), QString(err.what()));
+
+        return QString();
     }
-
-    return QString("2NC5eUtoz2a1oQF2VeF6A2TVK1FEmkgCRRM");
-}
-
-QString AskMultisigDialog::getLabel()
-{
-    return QString("Multisig");
 }
