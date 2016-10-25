@@ -71,7 +71,9 @@ UniValue getinfo(const JSONRPCRequest& request)
         );
 
 #ifdef ENABLE_WALLET
-    LOCK2(cs_main, pwalletMain ? &pwalletMain->cs_wallet : NULL);
+    CWallet * const pwallet = GetWalletForJSONRPCRequest(request);
+
+    LOCK2(cs_main, pwallet ? &pwallet->cs_wallet : NULL);
 #else
     LOCK(cs_main);
 #endif
@@ -84,8 +86,8 @@ UniValue getinfo(const JSONRPCRequest& request)
     obj.pushKV("protocolversion", PROTOCOL_VERSION);
 #ifdef ENABLE_WALLET
     if (pwalletMain) {
-        obj.pushKV("walletversion", pwalletMain->GetVersion());
-        obj.pushKV("balance",       ValueFromAmount(pwalletMain->GetBalance()));
+        obj.pushKV("walletversion", pwallet->GetVersion());
+        obj.pushKV("balance",       ValueFromAmount(pwallet->GetBalance()));
     }
 #endif
     obj.pushKV("blocks",        (int)chainActive.Height());
@@ -96,11 +98,11 @@ UniValue getinfo(const JSONRPCRequest& request)
     obj.pushKV("difficulty",    (double)GetDifficulty());
     obj.pushKV("testnet",       Params().NetworkIDString() == CBaseChainParams::TESTNET);
 #ifdef ENABLE_WALLET
-    if (pwalletMain) {
-        obj.pushKV("keypoololdest", pwalletMain->GetOldestKeyPoolTime());
-        obj.pushKV("keypoolsize",   (int)pwalletMain->GetKeyPoolSize());
+    if (pwallet) {
+        obj.pushKV("keypoololdest", pwallet->GetOldestKeyPoolTime());
+        obj.pushKV("keypoolsize",   (int)pwallet->GetKeyPoolSize());
     }
-    if (pwalletMain && pwalletMain->IsCrypted())
+    if (pwallet && pwallet->IsCrypted())
         obj.pushKV("unlocked_until", nWalletUnlockTime);
     obj.pushKV("paytxfee",      ValueFromAmount(payTxFee.GetFeePerK()));
 #endif
@@ -182,7 +184,9 @@ UniValue validateaddress(const JSONRPCRequest& request)
         );
 
 #ifdef ENABLE_WALLET
-    LOCK2(cs_main, pwalletMain ? &pwalletMain->cs_wallet : NULL);
+    CWallet * const pwallet = GetWalletForJSONRPCRequest(request);
+
+    LOCK2(cs_main, pwallet ? &pwallet->cs_wallet : NULL);
 #else
     LOCK(cs_main);
 #endif
@@ -202,16 +206,16 @@ UniValue validateaddress(const JSONRPCRequest& request)
         ret.pushKV("scriptPubKey", HexStr(scriptPubKey.begin(), scriptPubKey.end()));
 
 #ifdef ENABLE_WALLET
-        isminetype mine = pwalletMain ? IsMine(*pwalletMain, dest) : ISMINE_NO;
+        isminetype mine = pwallet ? IsMine(*pwallet, dest) : ISMINE_NO;
         ret.pushKV("ismine", (mine & ISMINE_SPENDABLE) ? true : false);
         ret.pushKV("iswatchonly", (mine & ISMINE_WATCH_ONLY) ? true: false);
-        UniValue detail = boost::apply_visitor(DescribeAddressVisitor(pwalletMain), dest);
+        UniValue detail = boost::apply_visitor(DescribeAddressVisitor(pwallet), dest);
         ret.pushKVs(detail);
-        if (pwalletMain && pwalletMain->mapAddressBook.count(dest))
-            ret.pushKV("account", pwalletMain->mapAddressBook[dest].name);
+        if (pwallet && pwallet->mapAddressBook.count(dest))
+            ret.pushKV("account", pwallet->mapAddressBook[dest].name);
         CKeyID keyID;
-        if (pwalletMain) {
-            const auto& meta = pwalletMain->mapKeyMetadata;
+        if (pwallet) {
+            const auto& meta = pwallet->mapKeyMetadata;
             auto it = address.GetKeyID(keyID) ? meta.find(keyID) : meta.end();
             if (it == meta.end()) {
                 it = meta.find(CScriptID(scriptPubKey));
@@ -295,6 +299,12 @@ CScript _createmultisig_redeemScript(CWallet * const pwallet, const UniValue& pa
 
 UniValue createmultisig(const JSONRPCRequest& request)
 {
+#ifdef ENABLE_WALLET
+    CWallet * const pwallet = GetWalletForJSONRPCRequest(request);
+#else
+    CWallet * const pwallet = NULL;
+#endif
+
     if (request.fHelp || request.params.size() < 2 || request.params.size() > 2)
     {
         string msg = "createmultisig nrequired [\"key\",...]\n"
@@ -325,7 +335,7 @@ UniValue createmultisig(const JSONRPCRequest& request)
     }
 
     // Construct using pay-to-script-hash:
-    CScript inner = _createmultisig_redeemScript(pwalletMain, request.params);
+    CScript inner = _createmultisig_redeemScript(pwallet, request.params);
     CScriptID innerID(inner);
     CBitcoinAddress address(innerID);
 

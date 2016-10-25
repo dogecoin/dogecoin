@@ -206,6 +206,7 @@ class CWallet;
 
 #ifdef ENABLE_WALLET
 // New code should accessing the wallet should be under the ../wallet/ directory
+CWallet *GetWalletForJSONRPCRequest(const JSONRPCRequest&);
 std::string HelpRequiringPassphrase(CWallet *);
 void EnsureWalletIsUnlocked(CWallet *);
 bool EnsureWalletIsAvailable(CWallet *, bool avoidException);
