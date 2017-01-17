@@ -190,6 +190,13 @@ void AssertLockHeldInternal(const char* pszName, const char* pszFile, int nLine,
     abort();
 }
 
+void AssertLockNotHeldInternal(const char* pszName, const char* pszFile, int nLine, void* cs)
+{
+    if (!LockHeld(cs)) return;
+    fprintf(stderr, "Assertion failed: lock %s held in %s:%i; locks held:\n%s", pszName, pszFile, nLine, LocksHeld().c_str());
+    abort();
+}
+
 void DeleteLock(void* cs)
 {
     LockData& lockdata = GetLockData();
