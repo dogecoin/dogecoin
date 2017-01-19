@@ -264,6 +264,7 @@ void Shutdown()
     }
 #endif
     UnregisterAllValidationInterfaces();
+    GetMainSignals().UnregisterBackgroundSignalScheduler();
 #ifdef ENABLE_WALLET
     delete pwalletMain;
     pwalletMain = NULL;
@@ -1243,6 +1244,8 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
     // Start the lightweight task scheduler thread
     CScheduler::Function serviceLoop = boost::bind(&CScheduler::serviceQueue, &scheduler);
     threadGroup.create_thread(boost::bind(&TraceThread<CScheduler::Function>, "scheduler", serviceLoop));
+
+    GetMainSignals().RegisterBackgroundSignalScheduler(scheduler);
 
     /* Start the RPC server already.  It will be started in "warmup" mode
      * and not really process calls already (but it will signify connections
