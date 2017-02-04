@@ -30,6 +30,7 @@ parts:
     build-packages:
       - autoconf
       - autotools-dev
+      - bsdmainutils
       - build-essential
       - libboost-all-dev                                                       
       - libdb++-dev
