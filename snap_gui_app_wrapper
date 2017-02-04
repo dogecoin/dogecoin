@@ -1,0 +1,3 @@
+#!/bin/sh
+
+$SNAP/bin/dogecoin-qt -datadir=$SNAP_USER_COMMON "$@"

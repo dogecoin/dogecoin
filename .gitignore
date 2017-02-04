@@ -113,3 +113,8 @@ qa/pull-tester/test.*/*
 /doc/doxygen/
 
 libbitcoinconsensus.pc
+
+parts/
+prime/
+stage/
+*.snap
