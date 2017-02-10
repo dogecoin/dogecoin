@@ -3,13 +3,14 @@ version: "1.10"
 summary: Dogecoin Core
 description: Dogecoin Core is the reference Dogecoin client and it builds the backbone of the network. However, it downloads and stores the entire history of Dogecoin transactions (which is currently several GBs); depending on the speed of your computer and network connection, the synchronization process can take anywhere from a few hours to a day or more.
 confinement: strict
-grade: devel
+grade: stable
+type: app
 icon: src/qt/res/src/bitcoin.svg
-#icon: meta/gui/icon.svg
 
 apps:
   dogecoin-qt:
     command: qt4-launch bin/dogecoin-qt.wrapper
+    desktop: usr/share/applications/dogecoin-qt.desktop
     plugs: [network, network-bind, unity7, home, process-control]
   dogecoin-cli:
     command: bin/dogecoin-cli.wrapper
@@ -45,18 +46,10 @@ parts:
       - libqtgui4
     after: [qt4conf]
   fold-ins:
+    after: [dogecoin]
     plugin: dump
     source: .
     organize:
       snap_cli_app_wrapper: bin/dogecoin-cli.wrapper
       snap_gui_app_wrapper: bin/dogecoin-qt.wrapper
-      src/qt/res/src/bitcoin.svg: meta/gui/icon.svg
-      contrib/debian/dogecoin-qt.desktop: meta/gui/dogecoin.desktop
-    stage:
-      - bin/dogecoin-cli.wrapper
-      - bin/dogecoin-qt.wrapper
-      - meta/gui/dogecoin.desktop
-    prime:
-      - bin/dogecoin-cli.wrapper
-      - bin/dogecoin-qt.wrapper
-      - meta/gui/dogecoin.desktop
+      contrib/debian/dogecoin-qt.desktop: usr/share/applications/dogecoin-qt.desktop
