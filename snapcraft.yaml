@@ -12,12 +12,6 @@ apps:
     command: qt4-launch bin/dogecoin-qt.wrapper
     desktop: usr/share/applications/dogecoin-qt.desktop
     plugs: [network, network-bind, unity7, home, process-control]
-  dogecoin-cli:
-    command: bin/dogecoin-cli.wrapper
-    plugs:
-      - network
-  dogecoin-tx:
-    command: bin/dogecoin-tx
 
 parts:
   dogecoin:
@@ -51,14 +45,11 @@ parts:
     prepare: |
       sed 's|Icon=dogecoin128|Icon=/snap/dogecoin-core/current/meta/gui/icon.png|' -i contrib/debian/dogecoin-qt.desktop
     organize:
-      snap_cli_app_wrapper: bin/dogecoin-cli.wrapper
       snap_gui_app_wrapper: bin/dogecoin-qt.wrapper
       contrib/debian/dogecoin-qt.desktop: usr/share/applications/dogecoin-qt.desktop
     stage:
-      - bin/dogecoin-cli.wrapper
       - bin/dogecoin-qt.wrapper
       - usr/share/applications/dogecoin-qt.desktop
     prime:
-      - bin/dogecoin-cli.wrapper
       - bin/dogecoin-qt.wrapper
       - usr/share/applications/dogecoin-qt.desktop
