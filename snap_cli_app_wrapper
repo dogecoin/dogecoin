@@ -1,3 +1,0 @@
-#!/bin/sh
-
-$SNAP/bin/dogecoin-cli -datadir=$SNAP_USER_COMMON "$@"
