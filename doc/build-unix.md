@@ -222,23 +222,21 @@ In this case there is no dependency on Berkeley DB 4.8.
 Mining is also possible in disable-wallet mode, but only using the `getblocktemplate` RPC
 call, not `getwork`.
 
-Snap
+Snapcraft
 ====
 
-Dogecoin is now also available as a [Snap](https://www.ubuntu.com/desktop/snappy). On compatible systems, install via:
+You can also build Dogecoin Core with [Snapcraft](https://snapcraft.io/) on supported systems by pulling the source repo, and running 'snapcraft' within the root of the master branch.
 
-    sudo snap install dogecoin-core
+The resulting .snap file can then be installed locally via:
 
-The GUI for the Snap version is built with QT4, and requires the process-control plug to be manually enabled:
+    sudo snap install --dangerous <filename>
+
+The GUI for the Snap version will be built with QT4, and requires the process-control plug to be manually enabled:
 
     sudo snap connect dogecoin-core:process-control core:process-control
 
-The Snap is built with Berkeley DB, protobuf and libqrencode, but without miniupnp due to compatibility issues.
+It's built with Berkeley DB, protobuf and libqrencode, but without miniupnp due to compatibility issues.
 
 All user data files are stored in the $SNAP_USER_COMMON directory, normally $HOME/snap/dogecoin-core/common, rather than the versioned SNAP_USER_DATA directories in order to avoid duplication of potentially ~20GB+ of blockchain data on every upgrade.
 
-Be aware that uninstalling the Snap will automatically remove its data, including the wallet file!  The Snap can write to home directories in order to facilitate wallet exports, but this requires the home plug to be manually enabled:
-
-    sudo snap connect dogecoin-core:home core:home
-
-You can build the Snap yourself with [Snapcraft](https://snapcraft.io/) by pulling the source repo, and running 'snapcraft' within the root of the master branch.
+Be aware that uninstalling the Snap will automatically remove its data, including the wallet file!
