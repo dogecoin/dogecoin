@@ -11,7 +11,7 @@ apps:
   dogecoin-qt:
     command: qt4-launch bin/dogecoin-qt.wrapper
     desktop: usr/share/applications/dogecoin-qt.desktop
-    plugs: [network, network-bind, unity7, process-control]
+    plugs: [network, network-bind, unity7, home, process-control]
   dogecoin-cli:
     command: bin/dogecoin-cli.wrapper
     plugs:

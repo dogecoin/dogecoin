@@ -222,3 +222,13 @@ In this case there is no dependency on Berkeley DB 4.8.
 Mining is also possible in disable-wallet mode, but only using the `getblocktemplate` RPC
 call, not `getwork`.
 
+Snap
+====
+
+Dogecoin is now also available as a Snap, via the Snap Store. On a system with snapd installed, install via:
+
+    sudo snap install dogecoin-core
+
+The GUI for the Snap version is built with QT4, and requires the process-control plug to be manually enabled:
+
+    sudo snap connect dogecoin-core:process-control core:process-control
