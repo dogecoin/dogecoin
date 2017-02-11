@@ -5,7 +5,7 @@ description: Dogecoin Core is the reference Dogecoin client and it builds the ba
 confinement: strict
 grade: stable
 type: app
-icon: src/qt/res/src/bitcoin.svg
+icon: src/qt/res/icons/bitcoin.png
 
 apps:
   dogecoin-qt:
@@ -49,7 +49,7 @@ parts:
     plugin: dump
     source: .
     prepare: |
-      sed 's|Icon=dogecoin128|Icon=/snap/dogecoin-core/current/meta/gui/icon.svg|' -i contrib/debian/dogecoin-qt.desktop
+      sed 's|Icon=dogecoin128|Icon=/snap/dogecoin-core/current/meta/gui/icon.png|' -i contrib/debian/dogecoin-qt.desktop
     organize:
       snap_cli_app_wrapper: bin/dogecoin-cli.wrapper
       snap_gui_app_wrapper: bin/dogecoin-qt.wrapper
