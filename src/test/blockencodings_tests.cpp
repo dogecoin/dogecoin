@@ -141,7 +141,7 @@ public:
         READWRITE(header);
         READWRITE(nonce);
         size_t shorttxids_size = shorttxids.size();
-        READWRITE(VARINT(shorttxids_size));
+        READWRITE(VARINT(shorttxids_size, VarIntMode::DEFAULT));
         shorttxids.resize(shorttxids_size);
         for (size_t i = 0; i < shorttxids.size(); i++) {
             uint32_t lsb = shorttxids[i] & 0xffffffff;

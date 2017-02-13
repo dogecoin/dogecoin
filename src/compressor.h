@@ -63,14 +63,14 @@ public:
             return;
         }
         unsigned int nSize = script.size() + nSpecialScripts;
-        s << VARINT(nSize);
+        s << VARINT(nSize, VarIntMode::DEFAULT);
         s << CFlatData(script);
     }
 
     template<typename Stream>
     void Unserialize(Stream &s) {
         unsigned int nSize = 0;
-        s >> VARINT(nSize);
+        s >> VARINT(nSize, VarIntMode::DEFAULT);
         if (nSize < nSpecialScripts) {
             std::vector<unsigned char> vch(GetSpecialSize(nSize), 0x00);
             s >> CFlatData(vch);
@@ -107,10 +107,10 @@ public:
     inline void SerializationOp(Stream& s, Operation ser_action) {
         if (!ser_action.ForRead()) {
             uint64_t nVal = CompressAmount(txout.nValue);
-            READWRITE(VARINT(nVal));
+            READWRITE(VARINT(nVal, VarIntMode::DEFAULT));
         } else {
             uint64_t nVal = 0;
-            READWRITE(VARINT(nVal));
+            READWRITE(VARINT(nVal, VarIntMode::DEFAULT));
             txout.nValue = DecompressAmount(nVal);
         }
         CScriptCompressor cscript(REF(txout.scriptPubKey));

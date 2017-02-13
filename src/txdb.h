@@ -51,7 +51,7 @@ struct CDiskTxPos : public CDiskBlockPos
     template <typename Stream, typename Operation>
     inline void SerializationOp(Stream& s, Operation ser_action) {
         READWRITEAS(CDiskBlockPos, *this);
-        READWRITE(VARINT(nTxOffset));
+        READWRITE(VARINT(nTxOffset, VarIntMode::DEFAULT));
     }
 
     CDiskTxPos(const CDiskBlockPos &blockIn, unsigned int nTxOffsetIn) : CDiskBlockPos(blockIn.nFile, blockIn.nPos), nTxOffset(nTxOffsetIn) {

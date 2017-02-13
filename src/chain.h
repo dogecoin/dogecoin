@@ -31,13 +31,13 @@ public:
 
     template <typename Stream, typename Operation>
     inline void SerializationOp(Stream& s, Operation ser_action) {
-        READWRITE(VARINT(nBlocks));
-        READWRITE(VARINT(nSize));
-        READWRITE(VARINT(nUndoSize));
-        READWRITE(VARINT(nHeightFirst));
-        READWRITE(VARINT(nHeightLast));
-        READWRITE(VARINT(nTimeFirst));
-        READWRITE(VARINT(nTimeLast));
+        READWRITE(VARINT(nBlocks, VarIntMode::DEFAULT));
+        READWRITE(VARINT(nSize, VarIntMode::DEFAULT));
+        READWRITE(VARINT(nUndoSize, VarIntMode::DEFAULT));
+        READWRITE(VARINT(nHeightFirst, VarIntMode::DEFAULT));
+        READWRITE(VARINT(nHeightLast, VarIntMode::DEFAULT));
+        READWRITE(VARINT(nTimeFirst, VarIntMode::DEFAULT));
+        READWRITE(VARINT(nTimeLast, VarIntMode::DEFAULT));
     }
 
      void SetNull() {
@@ -79,8 +79,8 @@ struct CDiskBlockPos
 
     template <typename Stream, typename Operation>
     inline void SerializationOp(Stream& s, Operation ser_action) {
-        READWRITE(VARINT(nFile));
-        READWRITE(VARINT(nPos));
+        READWRITE(VARINT(nFile, VarIntMode::NONNEGATIVE_SIGNED));
+        READWRITE(VARINT(nPos, VarIntMode::DEFAULT));
     }
 
     CDiskBlockPos() {
@@ -384,17 +384,17 @@ public:
     inline void SerializationOp(Stream& s, Operation ser_action) {
         int nVersion = s.GetVersion();
         if (!(s.GetType() & SER_GETHASH))
-            READWRITE(VARINT(nVersion));
+            READWRITE(VARINT(nVersion, VarIntMode::NONNEGATIVE_SIGNED));
 
-        READWRITE(VARINT(nHeight));
+        READWRITE(VARINT(nHeight, VarIntMode::NONNEGATIVE_SIGNED));
         READWRITE(VARINT(nStatus));
         READWRITE(VARINT(nTx));
         if (nStatus & (BLOCK_HAVE_DATA | BLOCK_HAVE_UNDO))
-            READWRITE(VARINT(nFile));
+            READWRITE(VARINT(nFile, VarIntMode::NONNEGATIVE_SIGNED));
         if (nStatus & BLOCK_HAVE_DATA)
-            READWRITE(VARINT(nDataPos));
+            READWRITE(VARINT(nDataPos, VarIntMode::DEFAULT));
         if (nStatus & BLOCK_HAVE_UNDO)
-            READWRITE(VARINT(nUndoPos));
+            READWRITE(VARINT(nUndoPos, VarIntMode::DEFAULT));
 
         // block header
         READWRITE(this->nVersion);

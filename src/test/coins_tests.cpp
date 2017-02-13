@@ -487,7 +487,7 @@ BOOST_AUTO_TEST_CASE(ccoins_serialization)
     // Very large scriptPubKey (3*10^9 bytes) past the end of the stream
     CDataStream tmp(SER_DISK, CLIENT_VERSION);
     uint64_t x = 3000000000ULL;
-    tmp << VARINT(x);
+    tmp << VARINT(x, VarIntMode::DEFAULT);
     BOOST_CHECK_EQUAL(HexStr(tmp.begin(), tmp.end()), "8a95c0bb00");
     CDataStream ss5(ParseHex("0002008a95c0bb0000"), SER_DISK, CLIENT_VERSION);
     try {
