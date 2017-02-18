@@ -49,6 +49,10 @@ public:
         return (Rw << 16) + Rz;
     }
 
+    bool randbool() {
+        return rand32() & 1;
+    }
+
     uint32_t Rz;
     uint32_t Rw;
 };
