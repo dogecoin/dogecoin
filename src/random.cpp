@@ -103,6 +103,28 @@ static void RandAddSeedPerfmon()
 #endif
 }
 
+#ifndef WIN32
+/** Fallback: get 32 bytes of system entropy from /dev/urandom. The most
+ * compatible way to get cryptographic randomness on UNIX-ish platforms.
+ */
+void GetDevURandom(unsigned char *ent32)
+{
+    int f = open("/dev/urandom", O_RDONLY);
+    if (f == -1) {
+        RandFailure();
+    }
+    int have = 0;
+    do {
+        ssize_t n = read(f, ent32 + have, NUM_OS_RANDOM_BYTES - have);
+        if (n <= 0 || n + have > NUM_OS_RANDOM_BYTES) {
+            RandFailure();
+        }
+        have += n;
+    } while (have < NUM_OS_RANDOM_BYTES);
+    close(f);
+}
+#endif
+
 /** Get 32 bytes of system entropy. */
 void GetOSRand(unsigned char *ent32)
 {
@@ -123,8 +145,17 @@ void GetOSRand(unsigned char *ent32)
      * will always return as many bytes as requested and will not be
      * interrupted by signals."
      */
-    if (syscall(SYS_getrandom, ent32, NUM_OS_RANDOM_BYTES, 0) != NUM_OS_RANDOM_BYTES) {
-        RandFailure();
+    int rv = syscall(SYS_getrandom, ent32, NUM_OS_RANDOM_BYTES, 0);
+    if (rv != NUM_OS_RANDOM_BYTES) {
+        if (rv < 0 && errno == ENOSYS) {
+            /* Fallback for kernel <3.17: the return value will be -1 and errno
+             * ENOSYS if the syscall is not available, in that case fall back
+             * to /dev/urandom.
+             */
+            GetDevURandom(ent32);
+        } else {
+            RandFailure();
+        }
     }
 #elif defined(HAVE_GETENTROPY)
     /* On OpenBSD this can return up to 256 bytes of entropy, will return an
@@ -151,19 +182,7 @@ void GetOSRand(unsigned char *ent32)
     /* Fall back to /dev/urandom if there is no specific method implemented to
      * get system entropy for this OS.
      */
-    int f = open("/dev/urandom", O_RDONLY);
-    if (f == -1) {
-        RandFailure();
-    }
-    int have = 0;
-    do {
-        ssize_t n = read(f, ent32 + have, NUM_OS_RANDOM_BYTES - have);
-        if (n <= 0 || n + have > NUM_OS_RANDOM_BYTES) {
-            RandFailure();
-        }
-        have += n;
-    } while (have < NUM_OS_RANDOM_BYTES);
-    close(f);
+    GetDevURandom(ent32);
 #endif
 }
 
