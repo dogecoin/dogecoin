@@ -15,6 +15,7 @@
 #include "chain.h"
 #include "coins.h"
 #include "policy/policy.h" // For RECOMMENDED_MIN_TX_FEE
+#include "fs.h"
 #include "protocol.h" // For CMessageHeader::MessageStartChars
 #include "script/script_error.h"
 #include "sync.h"
@@ -32,7 +33,6 @@
 #include <atomic>
 
 #include <boost/unordered_map.hpp>
-#include <boost/filesystem/path.hpp>
 
 class CBlockIndex;
 class CBlockTreeDB;
