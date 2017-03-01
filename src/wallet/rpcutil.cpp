@@ -2,15 +2,16 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
+#include "fs.h"
 #include "wallet/rpcutil.h"
 
-boost::filesystem::path GetBackupDirFromInput(std::string strUserFilename)
+fs::path GetBackupDirFromInput(std::string strUserFilename)
 {
-    const boost::filesystem::path backupDir = GetBackupDir();
+    const fs::path backupDir = GetBackupDir();
 
     if (strUserFilename != "") {
-        boost::filesystem::path p(strUserFilename);
-        boost::filesystem::path filename = p.filename();
+        fs::path p(strUserFilename);
+        fs::path filename = p.filename();
 
         if (!filename.empty())
             return backupDir / filename;

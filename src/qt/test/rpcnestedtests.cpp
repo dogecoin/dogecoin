@@ -152,5 +152,5 @@ void RPCNestedTests::rpcNestedTests()
     delete pcoinsdbview;
     delete pblocktree;
 
-    boost::filesystem::remove_all(boost::filesystem::path(path));
+    fs::remove_all(fs::path(path));
 }

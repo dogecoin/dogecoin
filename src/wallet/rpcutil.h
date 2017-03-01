@@ -10,6 +10,6 @@
 #include "fs.h"
 #include "util.h"
 
-boost::filesystem::path GetBackupDirFromInput(std::string strUserFilename);
+fs::path GetBackupDirFromInput(std::string strUserFilename);
 
 #endif // DOGECOIN_WALLET_UTIL_H
