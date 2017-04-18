@@ -5,8 +5,16 @@
 """Test basic signet functionality"""
 
 from decimal import Decimal
+import io
 
+from test_framework.messages import (
+    CBlock,
+    uint256_from_compact,
+)
 from test_framework.test_framework import BitcoinTestFramework
+from test_framework.util import (
+    hex_str_to_bytes,
+)
 from test_framework.util import assert_equal
 
 signet_blocks = [
@@ -56,8 +64,27 @@ class SignetBasicTest(BitcoinTestFramework):
         self.log.info("pregenerated signet blocks check")
 
         height = 0
+        prevHash = int('f21a2c00a3b58b3f1b245de5e30955c00784040a3e7042edb0d2eedd1fd085a5', 16)
         for block in signet_blocks:
-            assert_equal(self.nodes[2].submitblock(block), None)
+            cblock = CBlock()
+            cblock.deserialize(io.BytesIO(hex_str_to_bytes(block)))
+            cblock.hashPrevBlock = prevHash
+            cblock.nBits = int('1f00f77a', 16)
+            cblock.rehash()
+            target = uint256_from_compact(cblock.nBits)
+            if cblock.scrypt256 > target:
+                self.log.info("Starting to mine block " + str(height))
+                cblock.nNonce = 1
+                cblock.rehash()
+                while cblock.scrypt256 > target:
+                    cblock.nNonce += 1
+                    cblock.rehash()
+                self.log.info("Height: " + str(height))
+                self.log.info(cblock.serialize().hex())
+
+            self.log.info("Submitting block " + str(height))
+            prevHash = cblock.sha256
+            assert_equal(self.nodes[2].submitblock(cblock.serialize().hex()), None)
             height += 1
             assert_equal(self.nodes[2].getblockcount(), height)
 

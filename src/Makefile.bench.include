@@ -7,7 +7,7 @@ BENCH_SRCDIR = bench
 BENCH_BINARY = bench/bench_dogecoin$(EXEEXT)
 
 RAW_BENCH_FILES = \
-  bench/data/block413567.raw
+  bench/data/block41385.raw
 GENERATED_BENCH_FILES = $(RAW_BENCH_FILES:.raw=.raw.h)
 
 bench_bench_dogecoin_SOURCES = \
@@ -81,7 +81,7 @@ CLEAN_BITCOIN_BENCH = bench/*.gcda bench/*.gcno $(GENERATED_BENCH_FILES)
 
 CLEANFILES += $(CLEAN_BITCOIN_BENCH)
 
-bench/data.cpp: bench/data/block413567.raw.h
+bench/data.cpp: bench/data/block41385.raw.h
 
 dogecoin_bench: $(BENCH_BINARY)
 
