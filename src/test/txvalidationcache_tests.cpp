@@ -26,7 +26,7 @@ ToMemPool(CMutableTransaction& tx)
     return AcceptToMemoryPool(mempool, state, MakeTransactionRef(tx), false, NULL, NULL, true, 0);
 }
 
-BOOST_FIXTURE_TEST_CASE(tx_mempool_block_doublespend, TestChain100Setup)
+BOOST_FIXTURE_TEST_CASE(tx_mempool_block_doublespend, TestChain240Setup)
 {
     // Make sure skipping validation of transctions that were
     // validated going into the memory pool does not allow
