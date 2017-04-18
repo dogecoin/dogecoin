@@ -34,7 +34,7 @@ static void AddKey(CWallet& wallet, const CKey& key)
     wallet.AddKeyPubKey(key, key.GetPubKey());
 }
 
-BOOST_FIXTURE_TEST_CASE(scan_for_wallet_transactions, TestChain100Setup)
+BOOST_FIXTURE_TEST_CASE(scan_for_wallet_transactions, TestChain240Setup)
 {
     auto chain = interfaces::MakeChain();
 
@@ -73,7 +73,7 @@ BOOST_FIXTURE_TEST_CASE(scan_for_wallet_transactions, TestChain100Setup)
         BOOST_CHECK(result.last_failed_block.IsNull());
         BOOST_CHECK_EQUAL(result.last_scanned_block, newTip->GetBlockHash());
         BOOST_CHECK_EQUAL(*result.last_scanned_height, newTip->nHeight);
-        BOOST_CHECK_EQUAL(wallet.GetImmatureBalance(), 100 * COIN);
+        BOOST_CHECK_EQUAL(wallet.GetImmatureBalance(), 240000000 * COIN);
     }
 
     // Prune the older block file.
@@ -92,7 +92,7 @@ BOOST_FIXTURE_TEST_CASE(scan_for_wallet_transactions, TestChain100Setup)
         BOOST_CHECK_EQUAL(result.last_failed_block, oldTip->GetBlockHash());
         BOOST_CHECK_EQUAL(result.last_scanned_block, newTip->GetBlockHash());
         BOOST_CHECK_EQUAL(*result.last_scanned_height, newTip->nHeight);
-        BOOST_CHECK_EQUAL(wallet.GetImmatureBalance(), 50 * COIN);
+        BOOST_CHECK_EQUAL(wallet.GetImmatureBalance(), 120000000 * COIN);
     }
 
     // Prune the remaining block file.
@@ -114,7 +114,7 @@ BOOST_FIXTURE_TEST_CASE(scan_for_wallet_transactions, TestChain100Setup)
     }
 }
 
-BOOST_FIXTURE_TEST_CASE(importmulti_rescan, TestChain100Setup)
+BOOST_FIXTURE_TEST_CASE(importmulti_rescan, TestChain240Setup)
 {
     auto chain = interfaces::MakeChain();
 
@@ -175,7 +175,7 @@ BOOST_FIXTURE_TEST_CASE(importmulti_rescan, TestChain100Setup)
 // greater or equal than key birthday. Previously there was a bug where
 // importwallet RPC would start the scan at the latest block with timestamp less
 // than or equal to key birthday.
-BOOST_FIXTURE_TEST_CASE(importwallet_rescan, TestChain100Setup)
+BOOST_FIXTURE_TEST_CASE(importwallet_rescan, TestChain240Setup)
 {
     auto chain = interfaces::MakeChain();
 
@@ -242,7 +242,7 @@ BOOST_FIXTURE_TEST_CASE(importwallet_rescan, TestChain100Setup)
 // This is a regression test written to verify a bugfix for the immature credit
 // function. Similar tests probably should be written for the other credit and
 // debit functions.
-BOOST_FIXTURE_TEST_CASE(coin_mark_dirty_immature_credit, TestChain100Setup)
+BOOST_FIXTURE_TEST_CASE(coin_mark_dirty_immature_credit, TestChain240Setup)
 {
     auto chain = interfaces::MakeChain();
     CWallet wallet(*chain, WalletLocation(), WalletDatabase::CreateDummy());
@@ -334,7 +334,7 @@ BOOST_AUTO_TEST_CASE(LoadReceiveRequests)
     BOOST_CHECK_EQUAL(values[1], "val_rr1");
 }
 
-class ListCoinsTestingSetup : public TestChain100Setup
+class ListCoinsTestingSetup : public TestChain240Setup
 {
 public:
     ListCoinsTestingSetup()
@@ -403,7 +403,7 @@ BOOST_FIXTURE_TEST_CASE(ListCoins, ListCoinsTestingSetup)
     BOOST_CHECK_EQUAL(list.begin()->second.size(), 1U);
 
     // Check initial balance from one mature coinbase transaction.
-    BOOST_CHECK_EQUAL(50 * COIN, wallet->GetAvailableBalance());
+    BOOST_CHECK_EQUAL(120000000 * COIN, wallet->GetAvailableBalance());
 
     // Add a transaction creating a change address, and confirm ListCoins still
     // returns the coin associated with the change address underneath the
@@ -448,7 +448,7 @@ BOOST_FIXTURE_TEST_CASE(ListCoins, ListCoinsTestingSetup)
     BOOST_CHECK_EQUAL(list.begin()->second.size(), 2U);
 }
 
-BOOST_FIXTURE_TEST_CASE(wallet_disableprivkeys, TestChain100Setup)
+BOOST_FIXTURE_TEST_CASE(wallet_disableprivkeys, TestChain240Setup)
 {
     auto chain = interfaces::MakeChain();
     std::shared_ptr<CWallet> wallet = std::make_shared<CWallet>(*chain, WalletLocation(), WalletDatabase::CreateDummy());
@@ -496,7 +496,7 @@ static size_t CalculateNestedKeyhashInputSize(bool use_max_sig)
     return (size_t)GetVirtualTransactionInputSize(tx_in);
 }
 
-BOOST_FIXTURE_TEST_CASE(dummy_input_size_test, TestChain100Setup)
+BOOST_FIXTURE_TEST_CASE(dummy_input_size_test, TestChain240Setup)
 {
     BOOST_CHECK_EQUAL(CalculateNestedKeyhashInputSize(false), DUMMY_NESTED_P2WPKH_INPUT_SIZE);
     BOOST_CHECK_EQUAL(CalculateNestedKeyhashInputSize(true), DUMMY_NESTED_P2WPKH_INPUT_SIZE);
