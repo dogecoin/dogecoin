@@ -42,7 +42,7 @@ Optional dependencies:
  Library     | Purpose          | Description
  ------------|------------------|----------------------
  miniupnpc   | UPnP Support     | Firewall-jumping support
- libdb4.8    | Berkeley DB      | Wallet storage (only needed when wallet enabled)
+ libdb5.1    | Berkeley DB      | Wallet storage (only needed when wallet enabled)
  qt          | GUI              | GUI toolkit (only needed when GUI enabled)
  protobuf    | Payments in GUI  | Data interchange format used for payment protocol (only needed when GUI enabled)
  libqrencode | QR codes in GUI  | Optional for generating QR codes (only needed when GUI enabled)
@@ -74,18 +74,15 @@ Build requirements:
 
 BerkeleyDB is required for the wallet.
 
-**For Ubuntu only:** db4.8 packages are available [here](https://launchpad.net/~bitcoin/+archive/bitcoin).
-You can add the repository and install using the following commands:
+    sudo apt-get install libdb5.1-dev libdb5.1++-dev
 
-    sudo apt-get install software-properties-common
-    sudo add-apt-repository ppa:bitcoin/bitcoin
-    sudo apt-get update
-    sudo apt-get install libdb4.8-dev libdb4.8++-dev
+       Note that if you have Berkeley DB 4.8 packages installed (i.e. for other
+       wallet software), they are incompatible with the packages for 5.1. You
+       will have to manually download 5.1 from
+       http://download.oracle.com/berkeley-db/db-5.1.29.NC.tar.gz and compile
+       it, install it to /usr/local where the configure script should locate it
+       automatically.
 
-Ubuntu and Debian have their own libdb-dev and libdb++-dev packages, but these will install
-BerkeleyDB 5.1 or later, which break binary wallet compatibility with the distributed executables which
-are based on BerkeleyDB 4.8. If you do not care about wallet compatibility,
-pass `--with-incompatible-bdb` to configure.
 
 See the section "Disable-wallet mode" to build Bitcoin Core without wallet.
 
@@ -155,12 +152,31 @@ turned off by default.  See the configure options for upnp behavior desired:
 
 Berkeley DB
 -----------
-It is recommended to use Berkeley DB 4.8. If you have to build it yourself,
-you can use [the installation script included in contrib/](/contrib/install_db4.sh)
-like so
+It is recommended to use Berkeley DB 5.1. If you have to build it yourself:
 
 ```shell
-./contrib/install_db4.sh `pwd`
+BITCOIN_ROOT=$(pwd)
+
+# Pick some path to install BDB to, here we create a directory within the bitcoin directory
+BDB_PREFIX="${BITCOIN_ROOT}/db5"
+mkdir -p $BDB_PREFIX
+
+# Fetch the source and verify that it is not tampered with
+wget 'http://download.oracle.com/berkeley-db/db-5.1.29.NC.tar.gz'
+echo '08238e59736d1aacdd47cfb8e68684c695516c37f4fbe1b8267dde58dc3a576c db-5.1.29.NC.tar.gz' | sha256sum -c
+# -> db-5.1.29.NC.tar.gz: OK
+tar -xzvf db-5.1.29.NC.tar.gz
+
+# Build the library and install to our prefix
+cd db-5.1.29.NC/build_unix/
+#  Note: Do a static build so that it can be embedded into the executable, instead of having to find a .so at runtime
+../dist/configure --enable-cxx --disable-shared --with-pic --prefix=$BDB_PREFIX
+make install
+
+# Configure Bitcoin Core to use our own-built instance of BDB
+cd $BITCOIN_ROOT
+./autogen.sh
+./configure LDFLAGS="-L${BDB_PREFIX}/lib/" CPPFLAGS="-I${BDB_PREFIX}/include/" # (other args...)
 ```
 
 from the root of the repository.

@@ -17,6 +17,7 @@ Dependencies
 ----------------------
 
     brew install automake berkeley-db4 libtool boost miniupnpc openssl pkg-config protobuf python qt libevent qrencode
+    brew install berkeley-db # You need to make sure you install a version >= 5.1.29, but as close to 5.1.29 as possible. Check the homebrew docs to find out how to install older versions.
 
 See [dependencies.md](dependencies.md) for a complete overview.
 
