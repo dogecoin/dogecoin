@@ -41,7 +41,7 @@ Optional dependencies:
  Library     | Purpose          | Description
  ------------|------------------|----------------------
  miniupnpc   | UPnP Support     | Firewall-jumping support
- libdb4.8    | Berkeley DB      | Wallet storage (only needed when wallet enabled)
+ libdb5.1    | Berkeley DB      | Wallet storage (only needed when wallet enabled)
  qt          | GUI              | GUI toolkit (only needed when GUI enabled)
  libqrencode | QR codes in GUI  | Optional for generating QR codes (only needed when GUI enabled)
  univalue    | Utility          | JSON parsing and encoding (bundled version will be used unless --with-system-univalue passed to configure)
@@ -85,10 +85,14 @@ Now, you can either build from self-compiled [depends](/depends/README.md) or in
 
 BerkeleyDB is required for the wallet.
 
-Ubuntu and Debian have their own `libdb-dev` and `libdb++-dev` packages, but these will install
-BerkeleyDB 5.1 or later. This will break binary wallet compatibility with the distributed executables, which
-are based on BerkeleyDB 4.8. If you do not care about wallet compatibility,
-pass `--with-incompatible-bdb` to configure.
+       Note that if you have Berkeley DB 4.8 packages installed (i.e. for other
+       wallet software), they are incompatible with the packages for 5.1. You
+       will have to manually download 5.1 from
+       http://download.oracle.com/berkeley-db/db-5.1.29.NC.tar.gz and compile
+       it, install it to /usr/local where the configure script should locate it
+       automatically.
+
+If you do not care about wallet compatibility, pass `--with-incompatible-bdb` to configure.
 
 Otherwise, you can build from self-compiled `depends` (see above).
 
@@ -173,12 +177,12 @@ turned off by default.  See the configure options for upnp behavior desired:
 
 Berkeley DB
 -----------
-It is recommended to use Berkeley DB 4.8. If you have to build it yourself,
+It is recommended to use Berkeley DB 5.1. If you have to build it yourself,
 you can use [the installation script included in contrib/](/contrib/install_db4.sh)
 like so:
 
 ```shell
-./contrib/install_db4.sh `pwd`
+./contrib/install_db5.sh `pwd`
 ```
 
 from the root of the repository.
