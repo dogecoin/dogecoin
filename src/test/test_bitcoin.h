@@ -76,15 +76,15 @@ class CScript;
 // Testing fixture that pre-creates a
 // 100-block REGTEST-mode block chain
 //
-struct TestChain100Setup : public TestingSetup {
-    TestChain100Setup();
+struct TestChain240Setup : public TestingSetup {
+    TestChain240Setup();
 
     // Create a new block with just given transactions, coinbase paying to
     // scriptPubKey, and try to add it to the current chain.
     CBlock CreateAndProcessBlock(const std::vector<CMutableTransaction>& txns,
                                  const CScript& scriptPubKey);
 
-    ~TestChain100Setup();
+    ~TestChain240Setup();
 
     std::vector<CTransaction> coinbaseTxns; // For convenience, coinbase transactions
     CKey coinbaseKey; // private/public key needed to spend coinbase transactions
