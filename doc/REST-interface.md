@@ -76,8 +76,7 @@ $ curl localhost:18332/rest/getutxos/checkmempool/b2cdfd7b89def827ff8af7cd9bff76
             "asm" : "OP_DUP OP_HASH160 1c7cebb529b86a04c683dfa87be49de35bcf589e OP_EQUALVERIFY OP_CHECKSIG"
          },
          "value" : 8.8687,
-         "height" : 2147483647,
-         "txvers" : 1
+         "height" : 2147483647
       }
    ],
    "bitmap" : "1"
