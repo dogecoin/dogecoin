@@ -91,8 +91,25 @@ public:
         }
     }
 
+    /** Generate a random integer in the range [0..range). */
+    uint64_t randrange(uint64_t range)
+    {
+        --range;
+        int bits = CountBits(range);
+        while (true) {
+            uint64_t ret = randbits(bits);
+            if (ret <= range) return ret;
+        }
+    }
+
+    /** Generate random bytes. */
+    std::vector<unsigned char> randbytes(size_t len);
+
     /** Generate a random 32-bit integer. */
     uint32_t rand32() { return randbits(32); }
+
+    /** generate a random uint256. */
+    uint256 rand256();
 
     /** Generate a random boolean. */
     bool randbool() { return randbits(1); }
@@ -104,5 +121,10 @@ public:
  * (many cap out at 256 bytes).
  */
 static const ssize_t NUM_OS_RANDOM_BYTES = 32;
+
+/** Check that OS randomness is available and returning the requested number
+ * of bytes.
+ */
+bool Random_SanityCheck();
 
 #endif // BITCOIN_RANDOM_H
