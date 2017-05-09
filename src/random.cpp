@@ -37,6 +37,10 @@
 #include <sys/sysctl.h>
 #endif
 
+#if defined(__x86_64__) || defined(__amd64__) || defined(__i386__)
+#include <cpuid.h>
+#endif
+
 #include <openssl/err.h>
 #include <openssl/rand.h>
 
@@ -64,6 +68,61 @@ static inline int64_t GetPerformanceCounter()
     // Fall back to using C++11 clock (usually microsecond or nanosecond precision)
     return std::chrono::high_resolution_clock::now().time_since_epoch().count();
 #endif
+}
+
+
+#if defined(__x86_64__) || defined(__amd64__) || defined(__i386__)
+static std::atomic<bool> hwrand_initialized{false};
+static bool rdrand_supported = false;
+static constexpr uint32_t CPUID_F1_ECX_RDRAND = 0x40000000;
+static void RDRandInit()
+{
+    uint32_t eax, ebx, ecx, edx;
+    if (__get_cpuid(1, &eax, &ebx, &ecx, &edx) && (ecx & CPUID_F1_ECX_RDRAND)) {
+        LogPrintf("Using RdRand as an additional entropy source\n");
+        rdrand_supported = true;
+    }
+    hwrand_initialized.store(true);
+}
+#else
+static void RDRandInit() {}
+#endif
+
+static bool GetHWRand(unsigned char* ent32) {
+#if defined(__x86_64__) || defined(__amd64__) || defined(__i386__)
+    assert(hwrand_initialized.load(std::memory_order_relaxed));
+    if (rdrand_supported) {
+        uint8_t ok;
+        // Not all assemblers support the rdrand instruction, write it in hex.
+#ifdef __i386__
+        for (int iter = 0; iter < 4; ++iter) {
+            uint32_t r1, r2;
+            __asm__ volatile (".byte 0x0f, 0xc7, 0xf0;" // rdrand %eax
+                              ".byte 0x0f, 0xc7, 0xf2;" // rdrand %edx
+                              "setc %2" :
+                              "=a"(r1), "=d"(r2), "=q"(ok) :: "cc");
+            if (!ok) return false;
+            WriteLE32(ent32 + 8 * iter, r1);
+            WriteLE32(ent32 + 8 * iter + 4, r2);
+        }
+#else
+        uint64_t r1, r2, r3, r4;
+        __asm__ volatile (".byte 0x48, 0x0f, 0xc7, 0xf0, " // rdrand %rax
+                                "0x48, 0x0f, 0xc7, 0xf3, " // rdrand %rbx
+                                "0x48, 0x0f, 0xc7, 0xf1, " // rdrand %rcx
+                                "0x48, 0x0f, 0xc7, 0xf2; " // rdrand %rdx
+                          "setc %4" :
+                          "=a"(r1), "=b"(r2), "=c"(r3), "=d"(r4), "=q"(ok) :: "cc");
+        if (!ok) return false;
+        WriteLE64(ent32, r1);
+        WriteLE64(ent32 + 8, r2);
+        WriteLE64(ent32 + 16, r3);
+        WriteLE64(ent32 + 24, r4);
+#endif
+        return true;
+    }
+#endif
+    return false;
 }
 
 void RandAddSeed()
@@ -228,6 +287,11 @@ void GetStrongRandBytes(unsigned char* out, int num)
     GetOSRand(buf);
     hasher.Write(buf, 32);
 
+    // Third source: HW RNG, if available.
+    if (GetHWRand(buf)) {
+        hasher.Write(buf, 32);
+    }
+
     // Produce output
     hasher.Finalize(buf);
     memcpy(out, buf, num);
@@ -344,4 +408,9 @@ FastRandomContext::FastRandomContext(bool fDeterministic) : requires_seed(!fDete
     }
     uint256 seed;
     rng.SetKey(seed.begin(), 32);
+}
+
+void RandomInit()
+{
+    RDRandInit();
 }
