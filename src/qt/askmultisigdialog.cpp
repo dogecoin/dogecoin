@@ -26,7 +26,6 @@ AskMultisigDialog::AskMultisigDialog(QWidget *parent) :
         QString("&Generate new pubkey"),
         QDialogButtonBox::ActionRole
     ), SIGNAL(clicked()), this, SLOT(generatePubKey()));
-//    QObject::connect(ui->buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(validate()));
     ui->buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
 }
 
@@ -48,46 +47,6 @@ void AskMultisigDialog::generatePubKey()
         dlg.exec();
     }
 }
-
-//void AskMultisigDialog::validate()
-//{
-//    QStringList addresses, errors;
-//    int idx = ui->toolBox->currentIndex();
-//
-//    if(idx > 1) {
-//        errors << QString("Not implemented");
-//    } else {
-//        if(idx == 1) {
-//            int nTotal = ui->totalAdressesSpinBox->value();
-//            int nRequired = ui->signaturesRequiredSpinBox->value();
-//            if (nRequired > nTotal)
-//                errors << QString("Number of requires signatures must not exceed number of total pubkeys.");
-//            addresses = ui->foreignAdressesEdit->toPlainText().split(QRegExp("\\W+"), QString::SkipEmptyParts);
-//            if (addresses.count() > nTotal)
-//                errors << QString("Number of provided pubkeys exceeds number of requested total pubkeys.");
-//        } else {
-//            QString counterpartyAddress = ui->counterpartyAddressLineEdit->text().trimmed();
-//            if(counterpartyAddress.isEmpty())
-//                errors << QString("Counterparty pubkey is required.");
-//            else
-//                addresses << counterpartyAddress;
-//        }
-//    }
-//
-//    // Validate addresses
-//    for (QStringList::iterator it = addresses.begin(); it != addresses.end(); ++it) {
-//        std::string ks = it->toStdString();
-//        if (IsHex(ks)) {
-//            CPubKey vchPubKey(ParseHex(ks));
-//            if (vchPubKey.IsFullyValid()) continue;
-//        }
-//        errors << (QString("Invalid public key: ") + *it);
-//    }
-//
-//    if(errors.count() > 0) {
-//        QMessageBox::critical(this, QString("Error generating multisig"), errors.join("\n"));
-//    }
-//}
 
 QString AskMultisigDialog::generateAddress(QString label)
 {
