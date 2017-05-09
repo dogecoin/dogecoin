@@ -32,7 +32,6 @@ private:
 
 private slots:
     void generatePubKey();
-//    void validate();
 };
 
 #endif // ASKMULTISIGDIALOG_H
