@@ -108,6 +108,9 @@ class BlockchainTest(BitcoinTestFramework):
         assert_equal(res['transactions'], 120)
         assert_equal(res['height'], 120)
         assert_equal(res['txouts'], 120)
+        size = res['disk_size']
+        assert size > 5000
+        assert size < 64000
         assert_equal(len(res['bestblock']), 64)
         assert_equal(len(res['hash_serialized_2']), 64)
 
