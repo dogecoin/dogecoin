@@ -179,6 +179,7 @@ testScripts = [
     'getblockstats.py',
     'addnode.py',
     'getmocktime.py',
+    'uptime.py',
 ]
 if ENABLE_ZMQ:
     testScripts.append('zmq_test.py')
