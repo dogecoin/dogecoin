@@ -16,6 +16,8 @@
 
 #include <stdlib.h>
 #include <limits>
+#include <chrono>
+#include <thread>
 
 #ifndef WIN32
 #include <sys/time.h>
@@ -193,6 +195,23 @@ void GetRandBytes(unsigned char* buf, int num)
         RandFailure();
     }
 }
+
+static void AddDataToRng(void* data, size_t len);
+
+void RandAddSeedSleep()
+{
+    int64_t nPerfCounter1 = GetPerformanceCounter();
+    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    int64_t nPerfCounter2 = GetPerformanceCounter();
+
+    // Combine with and update state
+    AddDataToRng(&nPerfCounter1, sizeof(nPerfCounter1));
+    AddDataToRng(&nPerfCounter2, sizeof(nPerfCounter2));
+
+    memory_cleanse(&nPerfCounter1, sizeof(nPerfCounter1));
+    memory_cleanse(&nPerfCounter2, sizeof(nPerfCounter2));
+}
+
 
 static std::mutex cs_rng_state;
 static unsigned char rng_state[32] = {0};
