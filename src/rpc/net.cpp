@@ -111,7 +111,8 @@ UniValue getpeerinfo(const JSONRPCRequest& request)
             "  {\n"
             "    \"id\": n,                   (numeric) Peer index\n"
             "    \"addr\":\"host:port\",      (string) The ip address and port of the peer\n"
-            "    \"addrlocal\":\"ip:port\",   (string) local address\n"
+            "    \"addrbind\":\"ip:port\",    (string) Bind address of the connection to the peer\n"
+            "    \"addrlocal\":\"ip:port\",   (string) Local address as reported by the peer\n"
             "    \"services\":\"xxxxxxxxxxxxxxxx\",   (string) The services offered\n"
             "    \"relaytxes\":true|false,    (boolean) Whether peer has asked us to relay transactions to it\n"
             "    \"lastsend\": ttt,           (numeric) The time in seconds since epoch (Jan 1 1970 GMT) of the last send\n"
@@ -170,7 +171,9 @@ UniValue getpeerinfo(const JSONRPCRequest& request)
         obj.pushKV("id", stats.nodeid);
         obj.pushKV("addr", stats.addrName);
         if (!(stats.addrLocal.empty()))
-            obj.pushKV("addrlocal", stats.addrLocal);
+        obj.pushKV("addrlocal", stats.addrLocal);
+        if (stats.addrBind.IsValid())
+            obj.pushKV("addrbind", stats.addrBind.ToString());
         obj.pushKV("services", strprintf("%016x", stats.nServices));
         obj.pushKV("relaytxes", stats.fRelayTxes);
         obj.pushKV("lastsend", stats.nLastSend);
