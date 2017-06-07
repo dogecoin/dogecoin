@@ -33,7 +33,7 @@ BOOST_AUTO_TEST_CASE(dbwrapper)
         fs::path ph = fs::temp_directory_path() / fs::unique_path();
         CDBWrapper dbw(ph, (1 << 20), true, false, obfuscate);
         char key = 'k';
-        uint256 in = insecure_rand256();
+        uint256 in = InsecureRand256();
         uint256 res;
 
         // Ensure that we're doing real obfuscation when obfuscate=true
@@ -55,11 +55,11 @@ BOOST_AUTO_TEST_CASE(dbwrapper_batch)
         CDBWrapper dbw(ph, (1 << 20), true, false, obfuscate);
 
         char key = 'i';
-        uint256 in = insecure_rand256();
+        uint256 in = InsecureRand256();
         char key2 = 'j';
-        uint256 in2 = insecure_rand256();
+        uint256 in2 = InsecureRand256();
         char key3 = 'k';
-        uint256 in3 = insecure_rand256();
+        uint256 in3 = InsecureRand256();
 
         uint256 res;
         CDBBatch batch(dbw);
@@ -93,10 +93,10 @@ BOOST_AUTO_TEST_CASE(dbwrapper_iterator)
 
         // The two keys are intentionally chosen for ordering
         char key = 'j';
-        uint256 in = insecure_rand256();
+        uint256 in = InsecureRand256();
         BOOST_CHECK(dbw.Write(key, in));
         char key2 = 'k';
-        uint256 in2 = insecure_rand256();
+        uint256 in2 = InsecureRand256();
         BOOST_CHECK(dbw.Write(key2, in2));
 
         std::unique_ptr<CDBIterator> it(const_cast<CDBWrapper*>(&dbw)->NewIterator());
@@ -134,7 +134,7 @@ BOOST_AUTO_TEST_CASE(existing_data_no_obfuscate)
     // Set up a non-obfuscated wrapper to write some initial data.
     CDBWrapper* dbw = new CDBWrapper(ph, (1 << 10), false, false, false);
     char key = 'k';
-    uint256 in = insecure_rand256();
+    uint256 in = InsecureRand256();
     uint256 res;
 
     BOOST_CHECK(dbw->Write(key, in));
@@ -156,7 +156,7 @@ BOOST_AUTO_TEST_CASE(existing_data_no_obfuscate)
     BOOST_CHECK(!odbw.IsEmpty()); // There should be existing data
     BOOST_CHECK(is_null_key(dbwrapper_private::GetObfuscateKey(odbw))); // The key should be an empty string
 
-    uint256 in2 = insecure_rand256();
+    uint256 in2 = InsecureRand256();
     uint256 res3;
  
     // Check that we can write successfully
@@ -175,7 +175,7 @@ BOOST_AUTO_TEST_CASE(existing_data_reindex)
     // Set up a non-obfuscated wrapper to write some initial data.
     CDBWrapper* dbw = new CDBWrapper(ph, (1 << 10), false, false, false);
     char key = 'k';
-    uint256 in = insecure_rand256();
+    uint256 in = InsecureRand256();
     uint256 res;
 
     BOOST_CHECK(dbw->Write(key, in));
@@ -193,7 +193,7 @@ BOOST_AUTO_TEST_CASE(existing_data_reindex)
     BOOST_CHECK(!odbw.Read(key, res2));
     BOOST_CHECK(!is_null_key(dbwrapper_private::GetObfuscateKey(odbw)));
 
-    uint256 in2 = insecure_rand256();
+    uint256 in2 = InsecureRand256();
     uint256 res3;
  
     // Check that we can write successfully
