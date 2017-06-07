@@ -135,7 +135,7 @@ BOOST_AUTO_TEST_CASE(coins_cache_simulation_test)
             CCoins& coins = result[txid];
             CCoinsModifier entry = stack.back()->ModifyCoins(txid);
             BOOST_CHECK(coins == *entry);
-            if (insecure_randrange(5) == 0 || coins.IsPruned()) {
+            if (insecure_randrange(500) == 0 || coins.IsPruned()) {
                 if (coins.IsPruned()) {
                     added_an_entry = true;
                 } else {
