@@ -131,7 +131,7 @@ BOOST_AUTO_TEST_CASE(coins_cache_simulation_test)
     for (unsigned int i = 0; i < NUM_SIMULATION_ITERATIONS; i++) {
         // Do a random modification.
         {
-            uint256 txid = txids[insecure_rand() % txids.size()]; // txid we're going to modify in this iteration.
+            uint256 txid = txids[insecure_randrange(500) % txids.size()]; // txid we're going to modify in this iteration.
             CCoins& coins = result[txid];
             CCoinsModifier entry = stack.back()->ModifyCoins(txid);
             BOOST_CHECK(coins == *entry);
@@ -172,7 +172,7 @@ BOOST_AUTO_TEST_CASE(coins_cache_simulation_test)
         if (insecure_randrange(100) == 0) {
             // Every 100 iterations, flush an intermediate cache
             if (stack.size() > 1 && insecure_randrange(2) == 0) {
-                unsigned int flushIndex = insecure_rand() % (stack.size() - 1);
+                unsigned int flushIndex = insecure_randrange(stack.size() - 1);
                 stack[flushIndex]->Flush();
             }
         }
@@ -398,7 +398,7 @@ BOOST_AUTO_TEST_CASE(updatecoins_simulation_test)
         if (insecure_randrange(100) == 0) {
             // Every 100 iterations, flush an intermediate cache
             if (stack.size() > 1 && insecure_randrange(2) == 0) {
-                unsigned int flushIndex = insecure_rand() % (stack.size() - 1);
+                unsigned int flushIndex = insecure_randrange(stack.size() - 1);
                 stack[flushIndex]->Flush();
             }
         }
