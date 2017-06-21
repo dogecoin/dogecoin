@@ -12,6 +12,7 @@
 #include "init.h"
 #include "keystore.h"
 #include "validation.h"
+#include "validationinterface.h"
 #include "merkleblock.h"
 #include "net.h"
 #include "policy/policy.h"
@@ -28,6 +29,7 @@
 #include "wallet/wallet.h"
 #endif
 
+#include <future>
 #include <stdint.h>
 
 #include <boost/assign/list_of.hpp>
@@ -885,6 +887,9 @@ UniValue sendrawtransaction(const JSONRPCRequest& request)
         );
 
     LOCK(cs_main);
+
+    std::promise<void> promise;
+
     RPCTypeCheck(request.params, boost::assign::list_of(UniValue::VSTR)(UniValue::VBOOL));
 
     // parse hex string from parameter
@@ -899,6 +904,8 @@ UniValue sendrawtransaction(const JSONRPCRequest& request)
     if (request.params.size() > 1 && request.params[1].get_bool())
         nMaxRawTxFee = 0;
 
+    { // cs_main scope
+    LOCK(cs_main);
     CCoinsViewCache &view = *pcoinsTip;
     bool fHaveChain = false;
     for (size_t o = 0; !fHaveChain && o < tx->vout.size(); o++) {
@@ -919,10 +926,24 @@ UniValue sendrawtransaction(const JSONRPCRequest& request)
                 }
                 throw JSONRPCError(RPC_TRANSACTION_ERROR, state.GetRejectReason());
             }
+        } else {
+            // If wallet is enabled, ensure that the wallet has been made aware
+            // of the new transaction prior to returning. This prevents a race
+            // where a user might call sendrawtransaction with a transaction
+            // to/from their wallet, immediately call some wallet RPC, and get
+            // a stale result because callbacks have not yet been processed.
+            CallFunctionInValidationInterfaceQueue([&promise] {
+                promise.set_value();
+            });
         }
     } else if (fHaveChain) {
         throw JSONRPCError(RPC_TRANSACTION_ALREADY_IN_CHAIN, "transaction already in block chain");
     }
+
+    } // cs_main
+
+    promise.get_future().wait();
+
     if(!g_connman)
         throw JSONRPCError(RPC_CLIENT_P2P_DISABLED, "Error: Peer-to-peer functionality missing or disabled");
 
@@ -931,6 +952,7 @@ UniValue sendrawtransaction(const JSONRPCRequest& request)
     {
         pnode->PushInventory(inv);
     });
+
     return hashTx.GetHex();
 }
 
