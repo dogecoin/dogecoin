@@ -117,23 +117,23 @@ bool CWalletDB::WriteMasterKey(unsigned int nID, const CMasterKey& kMasterKey)
 bool CWalletDB::WriteCScript(const uint160& hash, const CScript& redeemScript)
 {
     nWalletDBUpdateCounter++;
-    return Write(std::make_pair(std::string("cscript"), hash), *(const CScriptBase*)(&redeemScript), false);
+    return Write(std::make_pair(std::string("cscript"), hash), (const CScriptBase&)(redeemScript), false);
 }
 
 bool CWalletDB::WriteWatchOnly(const CScript &dest, const CKeyMetadata& keyMeta)
 {
     nWalletDBUpdateCounter++;
-    if (!Write(std::make_pair(std::string("watchmeta"), *(const CScriptBase*)(&dest)), keyMeta))
+    if (!Write(std::make_pair(std::string("watchmeta"), (const CScriptBase&)(dest)), keyMeta))
         return false;
-    return Write(std::make_pair(std::string("watchs"), *(const CScriptBase*)(&dest)), '1');
+    return Write(std::make_pair(std::string("watchs"), (const CScriptBase&)(dest)), '1');
 }
 
 bool CWalletDB::EraseWatchOnly(const CScript &dest)
 {
     nWalletDBUpdateCounter++;
-    if (!Erase(std::make_pair(std::string("watchmeta"), *(const CScriptBase*)(&dest))))
+    if (!Erase(std::make_pair(std::string("watchmeta"), (const CScriptBase&)(dest))))
         return false;
-    return Erase(std::make_pair(std::string("watchs"), *(const CScriptBase*)(&dest)));
+    return Erase(std::make_pair(std::string("watchs"), (const CScriptBase&)(dest)));
 }
 
 bool CWalletDB::WriteBestBlock(const CBlockLocator& locator)
@@ -355,7 +355,7 @@ ReadKeyValue(CWallet* pwallet, CDataStream& ssKey, CDataStream& ssValue,
         {
             wss.nWatchKeys++;
             CScript script;
-            ssKey >> *(CScriptBase*)(&script);
+            ssKey >> script;
             char fYes;
             ssValue >> fYes;
             if (fYes == '1')
@@ -472,7 +472,7 @@ ReadKeyValue(CWallet* pwallet, CDataStream& ssKey, CDataStream& ssValue,
             else if (strType == "watchmeta")
             {
               CScript script;
-              ssKey >> *(CScriptBase*)(&script);
+              ssKey >> script;
               keyID = CScriptID(script);
             }
 
@@ -506,7 +506,7 @@ ReadKeyValue(CWallet* pwallet, CDataStream& ssKey, CDataStream& ssValue,
             uint160 hash;
             ssKey >> hash;
             CScript script;
-            ssValue >> *(CScriptBase*)(&script);
+            ssValue >> script;
             if (!pwallet->LoadCScript(script))
             {
                 strErr = "Error reading wallet database: LoadCScript failed";
