@@ -43,7 +43,7 @@ public:
         fCoinBase = nCode & 1;
         if (nHeight > 0)
             ::Unserialize(s, VARINT(this->nVersion));
-        ::Unserialize(s, REF(CTxOutCompressor(REF(txout))));
+        ::Unserialize(s, CTxOutCompressor(REF(txout)));
     }
 };
 
