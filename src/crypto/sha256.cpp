@@ -4,12 +4,10 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "crypto/sha256.h"
-
 #include "crypto/common.h"
 #include "support/experimental.h"
 
 #include <string.h>
-
 #include <atomic>
 
 #if (defined(__ia64__) || defined(__x86_64__)) && \
@@ -52,6 +50,14 @@ static const uint32_t K[] =
     0x748F82EE, 0x78A5636F, 0x84C87814, 0x8CC70208,
     0x90BEFFFA, 0xA4506CEB, 0xBEF9A3F7, 0xC67178F2,
 };
+
+#if defined(__x86_64__) || defined(__amd64__)
+#include <cpuid.h>
+namespace sha256_sse4
+{
+void Transform(uint32_t* s, const unsigned char* chunk, size_t blocks);
+}
+#endif
 
 // Internal implementation code.
 namespace
@@ -348,6 +354,14 @@ void (*Transform)(uint32_t*, const unsigned char*, size_t) = sha256::Transform;
 
 std::string SHA256AutoDetect()
 {
+#if defined(__x86_64__) || defined(__amd64__)
+    uint32_t eax, ebx, ecx, edx;
+    if (__get_cpuid(1, &eax, &ebx, &ecx, &edx) && (ecx >> 19) & 1) {
+        Transform = sha256_sse4::Transform;
+        return "sse4";
+    }
+#endif
+
     return "standard";
 }
 
