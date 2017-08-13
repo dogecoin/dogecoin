@@ -5,6 +5,7 @@
 
 #include "pow.h"
 
+#include "auxpow.h"
 #include "arith_uint256.h"
 #include "chain.h"
 #include "dogecoin.h"

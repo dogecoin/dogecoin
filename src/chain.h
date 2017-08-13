@@ -8,6 +8,7 @@
 
 #include "arith_uint256.h"
 #include "primitives/block.h"
+#include "primitives/pureheader.h"
 #include "pow.h"
 #include "tinyformat.h"
 #include "uint256.h"
@@ -199,9 +200,6 @@ public:
     unsigned int nBits;
     unsigned int nNonce;
 
-    // Dogecoin: Keep the Scrypt hash as well as SHA256
-    uint256 hashBlockPoW;
-
     //! (memory only) Sequential id assigned to distinguish order in which blocks are received.
     int32_t nSequenceId;
 
@@ -224,12 +222,11 @@ public:
         nSequenceId = 0;
         nTimeMax = 0;
 
-        nVersion       = 0;
+        nVersion = 0;
         hashMerkleRoot = uint256();
         nTime          = 0;
         nBits          = 0;
         nNonce         = 0;
-        hashBlockPoW   = uint256();
     }
 
     CBlockIndex()
@@ -246,7 +243,6 @@ public:
         nTime          = block.nTime;
         nBits          = block.nBits;
         nNonce         = block.nNonce;
-        hashBlockPoW   = block.GetPoWHash();
     }
 
     CDiskBlockPos GetBlockPos() const {
@@ -267,27 +263,11 @@ public:
         return ret;
     }
 
-    CBlockHeader GetBlockHeader() const
-    {
-        CBlockHeader block;
-        block.nVersion       = nVersion;
-        if (pprev)
-            block.hashPrevBlock = pprev->GetBlockHash();
-        block.hashMerkleRoot = hashMerkleRoot;
-        block.nTime          = nTime;
-        block.nBits          = nBits;
-        block.nNonce         = nNonce;
-        return block;
-    }
+    CBlockHeader GetBlockHeader(const Consensus::Params& consensusParams) const;
 
     uint256 GetBlockHash() const
     {
         return *phashBlock;
-    }
-
-    uint256 GetBlockPoWHash() const
-    {
-        return hashBlockPoW;
     }
 
     int64_t GetBlockTime() const
@@ -353,6 +333,24 @@ public:
     //! Efficiently find an ancestor of this block.
     CBlockIndex* GetAncestor(int height);
     const CBlockIndex* GetAncestor(int height) const;
+
+    /**
+     * Extract the chain ID.
+     * @return The chain ID encoded in the version.
+     */
+    inline int32_t GetChainId() const
+    {
+        return nVersion >> 16;
+    }
+
+    /**
+     * Check if the auxpow flag is set in the version.
+     * @return True if this block version is marked as auxpow.
+     */
+    inline bool IsAuxpow() const
+    {
+        return nVersion & CPureBlockHeader::VERSION_AUXPOW;
+    }
 };
 
 arith_uint256 GetBlockProof(const CBlockIndex& block);
@@ -398,7 +396,6 @@ public:
         READWRITE(nTime);
         READWRITE(nBits);
         READWRITE(nNonce);
-        READWRITE(hashBlockPoW);
     }
 
     uint256 GetBlockHash() const
