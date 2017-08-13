@@ -111,7 +111,11 @@ public:
         // By default assume that the signatures in ancestors of this block are valid.
         consensus.defaultAssumeValid = uint256S("0x0000000000000000005214481d2d96f898e3d5416e43359c145944a909d242e0"); //506067
 
-        /**
+        consensus.nAuxpowChainId = 0x0062; // 98 - Josh Wise!
+        consensus.nAuxpowStartHeight = 371337;
+        consensus.fStrictChainId = true;
+        consensus.nLegacyBlocksBefore = 371337;
+        /** 
          * The message start string is designed to be unlikely to occur in normal data.
          * The characters are rarely used upper ASCII, not valid as UTF-8, and produce
          * a large 32-bit integer with any alignment.
@@ -124,6 +128,7 @@ public:
         nPruneAfterHeight = 100000;
 
         genesis = CreateGenesisBlock(1386325540, 99943, 0x1e0ffff0, 1, 88 * COIN);
+
         consensus.hashGenesisBlock = genesis.GetHash();
         assert(consensus.hashGenesisBlock == uint256S("0x1a91e3dace36e2be3bf030a65679fe821aa1d6ef92e7c9902eb318182c355691"));
         assert(genesis.hashMerkleRoot == uint256S("0x5b2a3f53f605d62c53e62932dac6925e3d74afa5a4b459745c36d42d0ed26a69"));
@@ -223,6 +228,10 @@ public:
         // By default assume that the signatures in ancestors of this block are valid.
         consensus.defaultAssumeValid = uint256S("0x0000000002e9e7b00e1f6dc5123a04aad68dd0f0968d8c7aa45f6640795c37b1"); //1135275
 
+        consensus.nAuxpowStartHeight = 158100;
+        consensus.fStrictChainId = false;
+        consensus.nLegacyBlocksBefore = -1;
+
         pchMessageStart[0] = 0xfc;
         pchMessageStart[1] = 0xc1;
         pchMessageStart[2] = 0xb7;
@@ -311,6 +320,8 @@ public:
         // By default assume that the signatures in ancestors of this block are valid.
         consensus.defaultAssumeValid = uint256S("0x00");
 
+        consensus.fStrictChainId = true;
+        consensus.nLegacyBlocksBefore = 0;
         pchMessageStart[0] = 0xfa;
         pchMessageStart[1] = 0xbf;
         pchMessageStart[2] = 0xb5;

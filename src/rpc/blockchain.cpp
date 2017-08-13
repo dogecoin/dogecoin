@@ -85,6 +85,42 @@ double GetDifficulty(const CBlockIndex* blockindex)
     return GetDifficulty(chainActive, blockindex);
 }
 
+static UniValue AuxpowToJSON(const CAuxPow& auxpow)
+{
+    UniValue result(UniValue::VOBJ);
+
+    {
+        UniValue tx(UniValue::VOBJ);
+        tx.push_back(Pair("hex", EncodeHexTx(*auxpow.tx)));
+        TxToJSON(*auxpow.tx, auxpow.parentBlock.GetHash(), tx);
+        result.push_back(Pair("tx", tx));
+    }
+
+    result.push_back(Pair("index", auxpow.nIndex));
+    result.push_back(Pair("chainindex", auxpow.nChainIndex));
+
+    {
+        UniValue branch(UniValue::VARR);
+        for (const auto& node : auxpow.vMerkleBranch)
+            branch.push_back(node.GetHex());
+        result.push_back(Pair("merklebranch", branch));
+    }
+
+    {
+        UniValue branch(UniValue::VARR);
+        for (const auto& node : auxpow.vChainMerkleBranch)
+            branch.push_back(node.GetHex());
+        result.push_back(Pair("chainmerklebranch", branch));
+    }
+
+    CDataStream ssParent(SER_NETWORK, PROTOCOL_VERSION);
+    ssParent << auxpow.parentBlock;
+    const std::string strHex = HexStr(ssParent.begin(), ssParent.end());
+    result.push_back(Pair("parentblock", strHex));
+
+    return result;
+}
+
 UniValue blockheaderToJSON(const CBlockIndex* blockindex)
 {
     AssertLockHeld(cs_main);
@@ -152,6 +188,9 @@ UniValue blockToJSON(const CBlock& block, const CBlockIndex* blockindex, bool tx
     result.push_back(Pair("difficulty", GetDifficulty(blockindex)));
     result.push_back(Pair("chainwork", blockindex->nChainWork.GetHex()));
     result.push_back(Pair("nTx", (uint64_t)blockindex->nTx));
+
+    if (block.auxpow)
+        result.push_back(Pair("auxpow", AuxpowToJSON(*block.auxpow)));
 
     if (blockindex->pprev)
         result.push_back(Pair("previousblockhash", blockindex->pprev->GetBlockHash().GetHex()));
@@ -709,7 +748,7 @@ UniValue getblockheader(const JSONRPCRequest& request)
     if (!fVerbose)
     {
         CDataStream ssBlock(SER_NETWORK, PROTOCOL_VERSION);
-        ssBlock << pblockindex->GetBlockHeader();
+        ssBlock << pblockindex->GetBlockHeader(Params().GetConsensus());
         std::string strHex = HexStr(ssBlock.begin(), ssBlock.end());
         return strHex;
     }
