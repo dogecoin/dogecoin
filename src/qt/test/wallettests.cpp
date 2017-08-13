@@ -142,7 +142,7 @@ void BumpFee(TransactionView& view, const uint256& txid, bool expectDisabled, st
 //     src/qt/test/test_bitcoin-qt -platform cocoa    # macOS
 void TestSendCoins()
 {
-    // Set up wallet and chain with 105 blocks (5 mature blocks for spending).
+    // Set up wallet and chain with 245 blocks (5 mature blocks for spending).
     TestChain240Setup test;
     for (int i = 0; i < 5; ++i) {
         test.CreateAndProcessBlock({}, GetScriptForRawPubKey(test.coinbaseKey.GetPubKey()));

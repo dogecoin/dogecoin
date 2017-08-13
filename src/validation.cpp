@@ -1005,7 +1005,11 @@ static bool WriteBlockToDisk(const CBlock& block, CDiskBlockPos& pos, const CMes
     return true;
 }
 
-bool ReadBlockFromDisk(CBlock& block, const CDiskBlockPos& pos, const Consensus::Params& consensusParams)
+/* Generic implementation of block reading that can handle
+   both a block and its header.  */
+
+template<typename T>
+static bool ReadBlockOrHeader(T& block, const CDiskBlockPos& pos, const Consensus::Params& consensusParams)
 {
     block.SetNull();
 
@@ -1023,20 +1027,36 @@ bool ReadBlockFromDisk(CBlock& block, const CDiskBlockPos& pos, const Consensus:
     }
 
     // Check the header
-    if (!CheckProofOfWork(block.GetPoWHash(), block.nBits, consensusParams))
+    if (!CheckAuxPowProofOfWork(block, consensusParams))
         return error("ReadBlockFromDisk: Errors in block header at %s", pos.ToString());
 
     return true;
 }
 
-bool ReadBlockFromDisk(CBlock& block, const CBlockIndex* pindex, const Consensus::Params& consensusParams)
+template<typename T>
+static bool ReadBlockOrHeader(T& block, const CBlockIndex* pindex, const Consensus::Params& consensusParams)
 {
-    if (!ReadBlockFromDisk(block, pindex->GetBlockPos(), consensusParams))
+    if (!ReadBlockOrHeader(block, pindex->GetBlockPos(), consensusParams))
         return false;
     if (block.GetHash() != pindex->GetBlockHash())
-        return error("ReadBlockFromDisk(CBlock&, CBlockIndex*): GetHash() doesn't match index for %s at %s",
+        return error("ReadBlockOrHeader(CBlock&, CBlockIndex*): GetHash() doesn't match index for %s at %s",
                 pindex->ToString(), pindex->GetBlockPos().ToString());
     return true;
+}
+
+bool ReadBlockFromDisk(CBlock& block, const CDiskBlockPos& pos, const Consensus::Params& consensusParams)
+{
+    return ReadBlockOrHeader(block, pos, consensusParams);
+}
+
+bool ReadBlockFromDisk(CBlock& block, const CBlockIndex* pindex, const Consensus::Params& consensusParams)
+{
+    return ReadBlockOrHeader(block, pindex, consensusParams);
+}
+
+bool ReadBlockHeaderFromDisk(CBlockHeader& block, const CBlockIndex* pindex, const Consensus::Params& consensusParams)
+{
+    return ReadBlockOrHeader(block, pindex, consensusParams);
 }
 
 CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
@@ -2943,6 +2963,13 @@ static bool ContextualCheckBlockHeader(const CBlockHeader& block, CValidationSta
     assert(pindexPrev != nullptr);
     const int nHeight = pindexPrev->nHeight + 1;
 
+    // Disallow legacy blocks after merge-mining start.
+    if (!Params().GetConsensus().AllowLegacyBlocks(nHeight)
+        && block.IsLegacy())
+        return state.DoS(100, error("%s : legacy block after auxpow start",
+                                    __func__),
+                         REJECT_INVALID, "late-legacy-block");
+
     // Check proof of work
     const Consensus::Params& consensusParams = params.GetConsensus();
     if (block.nBits != GetNextWorkRequired(pindexPrev, &block, consensusParams))
@@ -2969,10 +2996,10 @@ static bool ContextualCheckBlockHeader(const CBlockHeader& block, CValidationSta
     // Reject outdated version blocks when 95% (75% on testnet) of the network has upgraded:
     // check for version 2, 3 and 4 upgrades
     // Dogecoin: Version 2 enforcement was never used
-    if((block.nVersion < 3 && nHeight >= consensusParams.BIP66Height) ||
-       (block.nVersion < 4 && nHeight >= consensusParams.BIP65Height))
-            return state.Invalid(false, REJECT_OBSOLETE, strprintf("bad-version(0x%08x)", block.nVersion),
-                                 strprintf("rejected nVersion=0x%08x block", block.nVersion));
+    if((block.GetBaseVersion() < 3 && nHeight >= consensusParams.BIP66Height) ||
+       (block.GetBaseVersion() < 4 && nHeight >= consensusParams.BIP65Height))
+            return state.Invalid(false, REJECT_OBSOLETE, strprintf("bad-version(0x%08x)", block.GetBaseVersion()),
+                                 strprintf("rejected nVersion=0x%08x block", block.GetBaseVersion()));
 
     return true;
 }

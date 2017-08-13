@@ -7,6 +7,7 @@
 #define BITCOIN_CHAIN_H
 
 #include "arith_uint256.h"
+#include "consensus/params.h"
 #include "primitives/block.h"
 #include "pow.h"
 #include "tinyformat.h"
@@ -213,9 +214,6 @@ public:
     unsigned int nBits;
     unsigned int nNonce;
 
-    // Dogecoin: Keep the Scrypt hash as well as SHA256
-    uint256 hashBlockPoW;
-
     //! (memory only) Sequential id assigned to distinguish order in which blocks are received.
     int32_t nSequenceId;
 
@@ -243,7 +241,6 @@ public:
         nTime          = 0;
         nBits          = 0;
         nNonce         = 0;
-        hashBlockPoW   = uint256();
     }
 
     CBlockIndex()
@@ -260,7 +257,6 @@ public:
         nTime          = block.nTime;
         nBits          = block.nBits;
         nNonce         = block.nNonce;
-        hashBlockPoW   = block.GetPoWHash();
     }
 
     CDiskBlockPos GetBlockPos() const {
@@ -281,27 +277,11 @@ public:
         return ret;
     }
 
-    CBlockHeader GetBlockHeader() const
-    {
-        CBlockHeader block;
-        block.nVersion       = nVersion;
-        if (pprev)
-            block.hashPrevBlock = pprev->GetBlockHash();
-        block.hashMerkleRoot = hashMerkleRoot;
-        block.nTime          = nTime;
-        block.nBits          = nBits;
-        block.nNonce         = nNonce;
-        return block;
-    }
+    CBlockHeader GetBlockHeader(const Consensus::Params& consensusParams) const;
 
     uint256 GetBlockHash() const
     {
         return *phashBlock;
-    }
-
-    uint256 GetBlockPoWHash() const
-    {
-        return hashBlockPoW;
     }
 
     int64_t GetBlockTime() const
@@ -367,6 +347,13 @@ public:
     //! Efficiently find an ancestor of this block.
     CBlockIndex* GetAncestor(int height);
     const CBlockIndex* GetAncestor(int height) const;
+
+    /* Analyse the block version.  */
+    inline int GetBaseVersion() const
+    {
+        return CPureBlockHeader::GetBaseVersion(nVersion);
+    }
+
 };
 
 arith_uint256 GetBlockProof(const CBlockIndex& block);
@@ -415,7 +402,6 @@ public:
         READWRITE(nTime);
         READWRITE(nBits);
         READWRITE(nNonce);
-        READWRITE(hashBlockPoW);
     }
 
     uint256 GetBlockHash() const
