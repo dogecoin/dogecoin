@@ -30,8 +30,8 @@ config.log
 config.status
 configure
 libtool
-src/config/bitcoin-config.h
-src/config/bitcoin-config.h.in
+src/config/dogecoin-config.h
+src/config/dogecoin-config.h.in
 src/config/stamp-h1
 share/setup.nsi
 share/qt/Info.plist
@@ -93,7 +93,7 @@ build
 *.gcno
 *.gcda
 /*.info
-test_bitcoin.coverage/
+test_dogecoin.coverage/
 total.coverage/
 coverage_percent.txt
 
@@ -108,5 +108,5 @@ qa/cache/*
 
 /doc/doxygen/
 
-libbitcoinconsensus.pc
+libdogecoinconsensus.pc
 contrib/devtools/split-debug.sh

@@ -132,6 +132,8 @@ AC_DEFUN([BITCOIN_QT_CONFIGURE],[
       fi
       if test x$TARGET_OS = xwindows; then
         _BITCOIN_QT_CHECK_STATIC_PLUGINS([Q_IMPORT_PLUGIN(QWindowsIntegrationPlugin)],[-lqwindows])
+        _BITCOIN_QT_CHECK_STATIC_PLUGINS([Q_IMPORT_PLUGIN(QMinimalIntegrationPlugin)],[-lqminimal])
+        _BITCOIN_QT_CHECK_STATIC_PLUGINS([Q_IMPORT_PLUGIN(QWindowsPrinterSupportPlugin)],[-lwindowsprintersupport])
         AC_DEFINE(QT_QPA_PLATFORM_WINDOWS, 1, [Define this symbol if the qt platform is windows])
       elif test x$TARGET_OS = xlinux; then
         _BITCOIN_QT_CHECK_STATIC_PLUGINS([Q_IMPORT_PLUGIN(QXcbIntegrationPlugin)],[-lqxcb -lxcb-static])
@@ -334,6 +336,7 @@ AC_DEFUN([_BITCOIN_QT_FIND_STATIC_PLUGINS],[
         if test -d "$qt_plugin_path/accessible"; then
           QT_LIBS="$QT_LIBS -L$qt_plugin_path/accessible"
         fi
+        QT_LIBS="$QT_LIBS -L$qt_plugin_path/printsupport"
       fi
      if test x$use_pkgconfig = xyes; then
      : dnl
@@ -393,7 +396,7 @@ AC_DEFUN([_BITCOIN_QT_FIND_LIBS_WITH_PKGCONFIG],[
       QT_LIB_PREFIX=Qt
       bitcoin_qt_got_major_vers=4
     fi
-    qt5_modules="Qt5Core Qt5Gui Qt5Network Qt5Widgets"
+    qt5_modules="Qt5Core Qt5Gui Qt5Network Qt5Widgets Qt5PrintSupport"
     qt4_modules="QtCore QtGui QtNetwork"
     BITCOIN_QT_CHECK([
       if test x$bitcoin_qt_want_version = xqt5 || ( test x$bitcoin_qt_want_version = xauto && test x$auto_priority_version = xqt5 ); then
@@ -439,7 +442,7 @@ AC_DEFUN([_BITCOIN_QT_FIND_LIBS_WITHOUT_PKGCONFIG],[
   TEMP_LIBS="$LIBS"
   BITCOIN_QT_CHECK([
     if test x$qt_include_path != x; then
-      QT_INCLUDES="-I$qt_include_path -I$qt_include_path/QtCore -I$qt_include_path/QtGui -I$qt_include_path/QtWidgets -I$qt_include_path/QtNetwork -I$qt_include_path/QtTest -I$qt_include_path/QtDBus"
+      QT_INCLUDES="-I$qt_include_path -I$qt_include_path/QtCore -I$qt_include_path/QtGui -I$qt_include_path/QtWidgets -I$qt_include_path/QtNetwork -I$qt_include_path/QtTest -I$qt_include_path/QtDBus -I$qt_include_path/QtPrintSupport"
       CPPFLAGS="$QT_INCLUDES $CPPFLAGS"
     fi
   ])
@@ -482,6 +485,7 @@ AC_DEFUN([_BITCOIN_QT_FIND_LIBS_WITHOUT_PKGCONFIG],[
   BITCOIN_QT_CHECK(AC_CHECK_LIB([${QT_LIB_PREFIX}Network],[main],,BITCOIN_QT_FAIL(lib$QT_LIB_PREFIXNetwork not found)))
   if test x$bitcoin_qt_got_major_vers = x5; then
     BITCOIN_QT_CHECK(AC_CHECK_LIB([${QT_LIB_PREFIX}Widgets],[main],,BITCOIN_QT_FAIL(lib$QT_LIB_PREFIXWidgets not found)))
+    BITCOIN_QT_CHECK(AC_CHECK_LIB([${QT_LIB_PREFIX}PrintSupport],[main],,BITCOIN_QT_FAIL(lib$QT_LIB_PREFIXPrintSupport not found)))
   fi
   QT_LIBS="$LIBS"
   LIBS="$TEMP_LIBS"

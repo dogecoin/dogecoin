@@ -11,9 +11,17 @@
 #include "utilstrencodings.h"
 #include "crypto/common.h"
 
-uint256 CBlockHeader::GetHash() const
+void CBlockHeader::SetAuxpow (CAuxPow* apow)
 {
-    return SerializeHash(*this);
+    if (apow)
+    {
+        auxpow.reset(apow);
+        SetAuxpowFlag(true);
+    } else
+    {
+        auxpow.reset();
+        SetAuxpowFlag(false);
+    }
 }
 
 uint256 CBlockHeader::GetPoWHash() const

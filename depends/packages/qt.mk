@@ -7,7 +7,7 @@ $(package)_sha256_hash=95f83e532d23b3ddbde7973f380ecae1bac13230340557276f75f2e37
 $(package)_dependencies=openssl zlib
 $(package)_linux_dependencies=freetype fontconfig libxcb libX11 xproto libXext
 $(package)_build_subdir=qtbase
-$(package)_qt_libs=corelib network widgets gui plugins testlib
+$(package)_qt_libs=corelib network widgets gui plugins testlib printsupport
 $(package)_patches=mac-qmake.conf mingw-uuidof.patch pidlist_absolute.patch fix-xcb-include-order.patch fix_qt_pkgconfig.patch
 
 $(package)_qttranslations_file_name=qttranslations-$($(package)_suffix)

@@ -198,8 +198,12 @@ bool CBlockTreeDB::LoadBlockIndexGuts(boost::function<CBlockIndex*(const uint256
                 pindexNew->nTx            = diskindex.nTx;
                 pindexNew->hashBlockPoW   = diskindex.hashBlockPoW;
 
-                if (!CheckProofOfWork(pindexNew->GetBlockPoWHash(), pindexNew->nBits, Params().GetConsensus()))
-                    return error("LoadBlockIndex(): CheckProofOfWork failed: %s", pindexNew->ToString());
+                //if (!CheckProofOfWork(pindexNew->GetBlockPoWHash(), pindexNew->nBits, Params().GetConsensus()))
+                //    return error("LoadBlockIndex(): CheckProofOfWork failed: %s", pindexNew->ToString());
+                /* Bitcoin checks the PoW here.  We don't do this because
+                   the CDiskBlockIndex does not contain the auxpow.
+                   This check isn't important, since the data on disk should
+                   already be valid and can be trusted.  */
 
                 pcursor->Next();
             } else {
