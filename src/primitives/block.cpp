@@ -6,6 +6,7 @@
 #include "primitives/block.h"
 
 #include "hash.h"
+#include "crypto/scrypt.h"
 #include "tinyformat.h"
 #include "utilstrencodings.h"
 #include "crypto/common.h"
@@ -21,6 +22,13 @@ void CBlockHeader::SetAuxpow (CAuxPow* apow)
         auxpow.reset();
         SetAuxpowFlag(false);
     }
+}
+
+uint256 CBlockHeader::GetPoWHash() const
+{
+    uint256 thash;
+    scrypt_1024_1_1_256(BEGIN(nVersion), BEGIN(thash));
+    return thash;
 }
 
 std::string CBlock::ToString() const

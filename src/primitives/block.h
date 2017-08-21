@@ -54,6 +54,7 @@ public:
         auxpow.reset();
     }
 
+
     /**
      * Set the block's auxpow (or unset it).  This takes care of updating
      * the version accordingly.

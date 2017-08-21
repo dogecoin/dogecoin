@@ -210,6 +210,10 @@ BOOST_AUTO_TEST_CASE(CreateNewBlock_validity)
 
         CBlock *pblock = &pblocktemplate->block; // pointer for convenience
         pblock->nVersion = 1;
+        // Replaced chainActive.Tip()->GetMedianTimePast()+1 with an actual 60 second block
+        // interval because median([1,2,2,3,3,3,4,4,4,4]) will eventually be problematic re:
+        // block timing. Tests should be more stable than that.
+
         pblock->nTime = chainActive.Tip()->GetBlockTime() + 60;
         CMutableTransaction txCoinbase(*pblock->vtx[0]);
         txCoinbase.nVersion = 1;
