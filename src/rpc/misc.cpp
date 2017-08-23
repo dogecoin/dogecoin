@@ -145,7 +145,7 @@ public:
             obj.pushKV("hex", HexStr(subscript.begin(), subscript.end()));
             UniValue a(UniValue::VARR);
             BOOST_FOREACH(const CTxDestination& addr, addresses)
-                a.push_back(CBitcoinAddress(addr).ToString());
+                a.push_back(EncodeDestination(addr));
             obj.pushKV("addresses", a);
             if (whichType == TX_MULTISIG)
                 obj.pushKV("sigsrequired", nRequired);
@@ -191,15 +191,14 @@ UniValue validateaddress(const JSONRPCRequest& request)
     LOCK(cs_main);
 #endif
 
-    CBitcoinAddress address(request.params[0].get_str());
-    bool isValid = address.IsValid();
+    CTxDestination dest = DecodeDestination(request.params[0].get_str());
+    bool isValid = IsValidDestination(dest);
 
     UniValue ret(UniValue::VOBJ);
     ret.pushKV("isvalid", isValid);
     if (isValid)
     {
-        CTxDestination dest = address.Get();
-        string currentAddress = address.ToString();
+        string currentAddress = EncodeDestination(dest);
         ret.pushKV("address", currentAddress);
 
         CScript scriptPubKey = GetScriptForDestination(dest);
@@ -213,10 +212,10 @@ UniValue validateaddress(const JSONRPCRequest& request)
         ret.pushKVs(detail);
         if (pwallet && pwallet->mapAddressBook.count(dest))
             ret.pushKV("account", pwallet->mapAddressBook[dest].name);
-        CKeyID keyID;
         if (pwallet) {
             const auto& meta = pwallet->mapKeyMetadata;
-            auto it = address.GetKeyID(keyID) ? meta.find(keyID) : meta.end();
+            const CKeyID *keyID = boost::get<CKeyID>(&dest);
+            auto it = keyID ? meta.find(*keyID) : meta.end();
             if (it == meta.end()) {
                 it = meta.find(CScriptID(scriptPubKey));
             }
@@ -257,15 +256,15 @@ CScript _createmultisig_redeemScript(CWallet * const pwallet, const UniValue& pa
         const std::string& ks = keys[i].get_str();
 #ifdef ENABLE_WALLET
         // Case 1: Bitcoin address and we have full public key:
-        CBitcoinAddress address(ks);
-        if (pwallet && address.IsValid())
+        CTxDestination dest = DecodeDestination(ks);
+        if (pwallet && IsValidDestination(dest))
         {
-            CKeyID keyID;
-            if (!address.GetKeyID(keyID))
+            const CKeyID *keyID = boost::get<CKeyID>(&dest);
+            if (!keyID)
                 throw runtime_error(
                     strprintf("%s does not refer to a key",ks));
             CPubKey vchPubKey;
-            if (!pwallet->GetPubKey(keyID, vchPubKey))
+            if (!pwallet->GetPubKey(*keyID, vchPubKey))
                 throw runtime_error(
                     strprintf("no full public key for address %s",ks));
             if (!vchPubKey.IsFullyValid())
@@ -337,10 +336,9 @@ UniValue createmultisig(const JSONRPCRequest& request)
     // Construct using pay-to-script-hash:
     CScript inner = _createmultisig_redeemScript(pwallet, request.params);
     CScriptID innerID(inner);
-    CBitcoinAddress address(innerID);
 
     UniValue result(UniValue::VOBJ);
-    result.pushKV("address", address.ToString());
+    result.pushKV("address", EncodeDestination(innerID));
     result.pushKV("redeemScript", HexStr(inner.begin(), inner.end()));
 
     return result;
@@ -375,13 +373,15 @@ UniValue verifymessage(const JSONRPCRequest& request)
     string strSign     = request.params[1].get_str();
     string strMessage  = request.params[2].get_str();
 
-    CBitcoinAddress addr(strAddress);
-    if (!addr.IsValid())
+    CTxDestination destination = DecodeDestination(strAddress);
+    if (!IsValidDestination(destination)) {
         throw JSONRPCError(RPC_TYPE_ERROR, "Invalid address");
+    }
 
-    CKeyID keyID;
-    if (!addr.GetKeyID(keyID))
+    const CKeyID *keyID = boost::get<CKeyID>(&destination);
+    if (!keyID) {
         throw JSONRPCError(RPC_TYPE_ERROR, "Address does not refer to key");
+    }
 
     bool fInvalid = false;
     vector<unsigned char> vchSig = DecodeBase64(strSign.c_str(), &fInvalid);
@@ -397,7 +397,7 @@ UniValue verifymessage(const JSONRPCRequest& request)
     if (!pubkey.RecoverCompact(ss.GetHash(), vchSig))
         return false;
 
-    return (pubkey.GetID() == keyID);
+    return (pubkey.GetID() == *keyID);
 }
 
 UniValue signmessagewithprivkey(const JSONRPCRequest& request)
