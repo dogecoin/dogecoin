@@ -44,7 +44,6 @@ public:
     explicit CFeeRate(const CAmount& _nSatoshisPerK): nSatoshisPerK(_nSatoshisPerK) { }
     /** Constructor for a fee rate in satoshis per kB. The size in bytes must not exceed (2^63 - 1)*/
     CFeeRate(const CAmount& nFeePaid, size_t nBytes);
-    CFeeRate(const CFeeRate& other) { nSatoshisPerK = other.nSatoshisPerK; }
     /**
      * Return the wallet fee in koinus for the given size in bytes.
      */
