@@ -53,7 +53,7 @@ static const uint32_t K[] =
 };
 
 #if defined(__x86_64__) || defined(__amd64__)
-#if defined(EXPERIMENTAL_ASM)
+#if defined(USE_ASM)
 #include <cpuid.h>
 namespace sha256_sse4
 {
@@ -678,7 +678,7 @@ TransformD64Type TransformD64 = sha256::TransformD64;
 
 std::string SHA256AutoDetect()
 {
-#if defined(EXPERIMENTAL_ASM) && (defined(__x86_64__) || defined(__amd64__))
+#if defined(USE_ASM) && (defined(__x86_64__) || defined(__amd64__))
     uint32_t eax, ebx, ecx, edx;
     if (__get_cpuid(1, &eax, &ebx, &ecx, &edx) && (ecx >> 19) & 1) {
         Transform = sha256_sse4::Transform;
