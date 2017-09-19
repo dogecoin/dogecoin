@@ -89,17 +89,8 @@ bool ImportKeysDialog::importKey()
 
     resetDialogValues();
 
-    CBitcoinSecret vchSecret;
-    bool fGood = vchSecret.SetString(privateKey.toStdString());
-    if (!fGood) {
-        vchSecret.SetString("");
-        ui->privateKeyImportTextMessage->setText(tr("Invalid private key; please check and try again!"));
-        return false;
-    }
-
-    CKey key = vchSecret.GetKey();
+    CKey key = DecodeSecret(privateKey.toStdString());
     if (!key.IsValid()) {
-        vchSecret.SetString("");
         ui->privateKeyImportTextMessage->setText(tr("Invalid private key; please check and try again!"));
         return false;
     }
@@ -112,7 +103,6 @@ bool ImportKeysDialog::importKey()
     pwalletMain->SetAddressBook(vchAddress, privateKeyLabel.toStdString(), "receive");
 
     if (pwalletMain->HaveKey(vchAddress)) {
-        vchSecret.SetString("");
         ui->privateKeyImportTextMessage->setText(
             tr("Invalid address generated from private key; please check and try again!"
         ));
@@ -122,7 +112,6 @@ bool ImportKeysDialog::importKey()
     pwalletMain->mapKeyMetadata[vchAddress].nCreateTime = 1;
 
     if (!pwalletMain->AddKeyPubKey(key, pubkey)) {
-        vchSecret.SetString("");
         ui->privateKeyImportTextMessage->setText(tr("Failed to add private key."));
         return false;
     }
@@ -147,7 +136,6 @@ bool ImportKeysDialog::importKey()
         Q_EMIT rescanWallet(pwalletMain, chainActive.Genesis());
     }
 
-    vchSecret.SetString("");
     return true;
 }
 

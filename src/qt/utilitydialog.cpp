@@ -244,7 +244,7 @@ void PaperWalletDialog::on_getNewAddress_clicked()
     CPubKey pubkey = privKey.GetPubKey();
 
     // Create String versions of each
-    std::string myPrivKey = CBitcoinSecret(privKey).ToString();
+    std::string myPrivKey = EncodeSecret(privKey);
     std::string myPubKey = HexStr(pubkey.begin(), pubkey.end());
     std::string myAddress = EncodeDestination(pubkey.GetID());
 
