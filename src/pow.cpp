@@ -18,8 +18,21 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     assert(pindexLast != nullptr);
     unsigned int nProofOfWorkLimit = UintToArith256(params.powLimit).GetCompact();
 
+    // Dogecoin: Special rules for minimum difficulty blocks with Digishield
+    if (AllowDigishieldMinDifficultyForBlock(pindexLast, pblock, params))
+    {
+        // Special difficulty rule for testnet:
+        // If the new block's timestamp is more than 2* nTargetSpacing minutes
+        // then allow mining of a min-difficulty block.
+        return nProofOfWorkLimit;
+    }
+
     // Only change once per difficulty adjustment interval
-    if ((pindexLast->nHeight+1) % params.DifficultyAdjustmentInterval() != 0)
+    bool fNewDifficultyProtocol = (pindexLast->nHeight >= 145000);
+    const int64_t difficultyAdjustmentInterval = fNewDifficultyProtocol
+                                                 ? 1
+                                                 : params.DifficultyAdjustmentInterval();
+    if ((pindexLast->nHeight+1) % difficultyAdjustmentInterval != 0)
     {
         if (params.fPowAllowMinDifficultyBlocks)
         {
