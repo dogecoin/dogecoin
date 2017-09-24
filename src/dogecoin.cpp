@@ -16,6 +16,24 @@ int static generateMTRandom(unsigned int s, int range)
     return dist(gen);
 }
 
+// Dogecoin: Normally minimum difficulty blocks can only occur in between
+// retarget blocks. However, once we introduce Digishield every block is
+// a retarget, so we need to handle minimum difficulty on all blocks.
+bool AllowDigishieldMinDifficultyForBlock(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params& params)
+{
+    // check if the chain allows minimum difficulty blocks
+    if (!params.fPowAllowMinDifficultyBlocks)
+        return false;
+
+    // check if the chain allows minimum difficulty blocks on recalc blocks
+    if (pindexLast->nHeight < 157500)
+    // if (!params.fPowAllowDigishieldMinDifficultyBlocks)
+        return false;
+
+    // Allow for a minimum block time if the elapsed time > 2*nTargetSpacing
+    return (pblock->GetBlockTime() > pindexLast->GetBlockTime() + params.nPowTargetSpacing*2);
+}
+
 unsigned int CalculateDogecoinNextWorkRequired(const CBlockIndex* pindexLast, int64_t nFirstBlockTime, const Consensus::Params& params)
 {
     int nHeight = pindexLast->nHeight + 1;
@@ -88,8 +106,7 @@ bool CheckAuxPowProofOfWork(const CBlockHeader& block, const Consensus::Params& 
                      params.nAuxpowChainId, block.nVersion);
 
     /* If there is no auxpow, just check the block hash.  */
-    if (!block.auxpow)
-    {
+    if (!block.auxpow) {
         if (block.IsAuxpow())
             return error("%s : no auxpow on block with auxpow version",
                          __func__);
