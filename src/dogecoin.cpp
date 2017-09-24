@@ -136,8 +136,7 @@ bool CheckAuxPowProofOfWork(const CBlockHeader& block, const Consensus::Params& 
                      params.nAuxpowChainId, block.nVersion);
 
     /* If there is no auxpow, just check the block hash.  */
-    if (!block.auxpow)
-    {
+    if (!block.auxpow) {
         if (block.IsAuxpow())
             return error("%s : no auxpow on block with auxpow version",
                          __func__);

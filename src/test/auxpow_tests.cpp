@@ -430,7 +430,7 @@ BOOST_FIXTURE_TEST_CASE(auxpow_pow, BasicTestingSetup)
   mineBlock(block, true);
   BOOST_CHECK(CheckAuxPowProofOfWork(block, params));
 
-  block.nVersion = 2;
+  block.nVersion = 3;
   mineBlock(block, true);
   BOOST_CHECK(!CheckAuxPowProofOfWork(block, params));
 
