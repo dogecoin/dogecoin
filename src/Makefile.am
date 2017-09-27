@@ -31,6 +31,7 @@ LIBDOGECOIN_CLI=libdogecoin_cli.a
 LIBDOGECOIN_UTIL=libdogecoin_util.a
 LIBDOGECOIN_CRYPTO=crypto/libdogecoin_crypto.a
 LIBDOGECOIN_CRYPTO_SSE41=crypto/libdogecoin_crypto_sse41.a
+LIBDOGECOIN_CRYPTO_AVX2=crypto/libdogecoin_crypto_avx2.a
 LIBDOGECOINQT=qt/libdogecoinqt.a
 LIBSECP256K1=secp256k1/libsecp256k1.la
 
@@ -52,6 +53,7 @@ $(LIBSECP256K1): $(wildcard secp256k1/src/*) $(wildcard secp256k1/include/*)
 EXTRA_LIBRARIES += \
   $(LIBDOGECOIN_CRYPTO) \
   $(LIBDOGECOIN_CRYPTO_SSE41) \
+  $(LIBDOGECOIN_CRYPTO_AVX2) \
   $(LIBDOGECOIN_UTIL) \
   $(LIBDOGECOIN_COMMON) \
   $(LIBDOGECOIN_CONSENSUS) \
@@ -299,6 +301,14 @@ crypto_libdogecoin_crypto_sse41_a_CPPFLAGS += -DENABLE_SSE41
 endif
 crypto_libdogecoin_crypto_sse41_a_SOURCES = crypto/sha256_sse41.cpp
 
+crypto_libdogecoin_crypto_avx2_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+crypto_libdogecoin_crypto_avx2_a_CPPFLAGS = $(AM_CPPFLAGS)
+if ENABLE_AVX2
+crypto_libdogecoin_crypto_avx2_a_CXXFLAGS += $(AVX2_CXXFLAGS)
+crypto_libdogecoin_crypto_avx2_a_CPPFLAGS += -DENABLE_AVX2
+endif
+crypto_libdogecoin_crypto_avx2_a_SOURCES = crypto/sha256_avx2.cpp
+
 # consensus: shared between all executables that validate any consensus rules.
 libdogecoin_consensus_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
 libdogecoin_consensus_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
@@ -424,6 +434,7 @@ dogecoind_LDADD = \
   $(LIBDOGECOIN_CONSENSUS) \
   $(LIBDOGECOIN_CRYPTO) \
   $(LIBDOGECOIN_CRYPTO_SSE41) \
+  $(LIBDOGECOIN_CRYPTO_AVX2) \
   $(LIBLEVELDB) \
   $(LIBMEMENV) \
   $(LIBSECP256K1)
@@ -445,7 +456,8 @@ dogecoin_cli_LDADD = \
   $(LIBUNIVALUE) \
   $(LIBDOGECOIN_UTIL) \
   $(LIBDOGECOIN_CRYPTO) \
-  $(LIBDOGECOIN_CRYPTO_SSE41)
+  $(LIBDOGECOIN_CRYPTO_SSE41) \
+  $(LIBDOGECOIN_CRYPTO_AVX2)
 
 dogecoin_cli_LDADD += $(BOOST_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(EVENT_LIBS)
 #
@@ -467,6 +479,7 @@ dogecoin_tx_LDADD = \
   $(LIBDOGECOIN_CONSENSUS) \
   $(LIBDOGECOIN_CRYPTO) \
   $(LIBDOGECOIN_CRYPTO_SSE41) \
+  $(LIBDOGECOIN_CRYPTO_AVX2) \
   $(LIBSECP256K1)
 
 dogecoin_tx_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS)
