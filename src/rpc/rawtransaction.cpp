@@ -886,9 +886,8 @@ UniValue sendrawtransaction(const JSONRPCRequest& request)
             + HelpExampleRpc("sendrawtransaction", "\"signedhex\"")
         );
 
-    LOCK(cs_main);
-
     std::promise<void> promise;
+    bool queued_callback = false;
 
     RPCTypeCheck(request.params, boost::assign::list_of(UniValue::VSTR)(UniValue::VBOOL));
 
@@ -935,6 +934,7 @@ UniValue sendrawtransaction(const JSONRPCRequest& request)
             CallFunctionInValidationInterfaceQueue([&promise] {
                 promise.set_value();
             });
+            queued_callback = true;
         }
     } else if (fHaveChain) {
         throw JSONRPCError(RPC_TRANSACTION_ALREADY_IN_CHAIN, "transaction already in block chain");
@@ -942,7 +942,9 @@ UniValue sendrawtransaction(const JSONRPCRequest& request)
 
     } // cs_main
 
-    promise.get_future().wait();
+    if (queued_callback) {
+        promise.get_future().wait();
+    }
 
     if(!g_connman)
         throw JSONRPCError(RPC_CLIENT_P2P_DISABLED, "Error: Peer-to-peer functionality missing or disabled");

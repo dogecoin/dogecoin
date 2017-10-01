@@ -3853,9 +3853,10 @@ CWallet* CWallet::CreateWalletFromFile(const std::string walletFile)
     {
         CWalletDB walletdb(walletFile);
         CBlockLocator locator;
-        if (walletdb.ReadBestBlock(locator))
+        if (walletdb.ReadBestBlock(locator)) {
+            LOCK(cs_main);
             pindexRescan = FindForkInGlobalIndex(chainActive, locator);
-        else
+        } else
             pindexRescan = chainActive.Genesis();
     }
 
