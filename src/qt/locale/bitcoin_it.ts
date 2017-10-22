@@ -83,7 +83,7 @@
     </message>
     <message>
         <source>Export Address List</source>
-        <translation>Esporta Lista Indirizzi</translation>
+        <translation>Esporta la Lista degli Indirizzi</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
