@@ -75,6 +75,12 @@ typedef u_int SOCKET;
 #define MAX_PATH            1024
 #endif
 
+// ssize_t is POSIX, and not present when using MSVC.
+#ifdef _MSC_VER
+#include <BaseTsd.h>
+typedef SSIZE_T ssize_t;
+#endif
+
 // As Solaris does not have the MSG_NOSIGNAL flag for send(2) syscall, it is defined as 0
 #if !defined(HAVE_MSG_NOSIGNAL) && !defined(MSG_NOSIGNAL)
 #define MSG_NOSIGNAL 0
