@@ -32,6 +32,7 @@
 #include <mswsock.h>
 #include <windows.h>
 #include <ws2tcpip.h>
+#include <stdint.h>
 #else
 #include <sys/fcntl.h>
 #include <sys/mman.h>
@@ -73,6 +74,15 @@ typedef u_int SOCKET;
 #endif
 #else
 #define MAX_PATH            1024
+#endif
+#ifdef _MSC_VER
+#if !defined(ssize_t)
+#ifdef _WIN64
+typedef int64_t ssize_t;
+#else
+typedef int32_t ssize_t;
+#endif
+#endif
 #endif
 
 // As Solaris does not have the MSG_NOSIGNAL flag for send(2) syscall, it is defined as 0
