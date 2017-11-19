@@ -362,7 +362,9 @@ BOOST_AUTO_TEST_CASE(auxpow_pow)
     mineBlock(block, true);
     BOOST_CHECK(CheckAuxPowProofOfWork(block, params));
 
-    block.nVersion = 2;
+    // Dogecoin block version 2 can be both AuxPoW and regular, so test 3
+
+    block.nVersion = 3;
     mineBlock(block, true);
     BOOST_CHECK(!CheckAuxPowProofOfWork(block, params));
 
