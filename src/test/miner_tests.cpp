@@ -196,7 +196,6 @@ BOOST_AUTO_TEST_CASE(CreateNewBlock_validity)
     entry.dPriority = 111.0;
     entry.nHeight = 11;
 
-    LOCK(cs_main);
     fCheckpointsEnabled = false;
 
     // Simple block creation, nothing special yet:
