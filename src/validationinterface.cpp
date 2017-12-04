@@ -55,6 +55,11 @@ void CMainSignals::FlushBackgroundCallbacks() {
     m_internals->m_schedulerClient.EmptyQueue();
 }
 
+size_t CMainSignals::CallbacksPending() {
+    if (!m_internals) return 0;
+    return m_internals->m_schedulerClient.CallbacksPending();
+}
+
 void CMainSignals::RegisterWithMempoolSignals(CTxMemPool& pool) {
     pool.NotifyEntryRemoved.connect(boost::bind(&CMainSignals::MempoolEntryRemoved, this, boost::placeholders::_1, boost::placeholders::_2));
 }
