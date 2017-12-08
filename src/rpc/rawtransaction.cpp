@@ -199,8 +199,6 @@ UniValue getrawtransaction(const JSONRPCRequest& request)
             + HelpExampleRpc("getrawtransaction", "\"mytxid\", true")
         );
 
-    LOCK(cs_main);
-
     uint256 hash = ParseHashV(request.params[0], "parameter 1");
 
     // Accept either a bool (true) or a num (>=1) to indicate verbose output.
@@ -221,13 +219,20 @@ UniValue getrawtransaction(const JSONRPCRequest& request)
         }
     }
 
+    bool f_txindex_ready = false;
+    if (g_txindex) {
+        f_txindex_ready = g_txindex->BlockUntilSyncedToCurrentChain();
+    }
+
     CTransactionRef tx;
     uint256 hashBlock;
     // Dogecoin: Is this the best value for consensus height?
     if (!GetTransaction(hash, tx, Params().GetConsensus(0), hashBlock, true)) {
-        const std::string errmsg = g_txindex
-            ? "No such mempool or blockchain transaction"
-            : "No such mempool transaction. Use -txindex to enable blockchain transaction queries";
+        const std::string errmsg = !g_txindex
+            ? "No such mempool transaction. Use -txindex to enable blockchain transaction queries"
+            : (f_txindex_ready
+                ? "No such mempool or blockchain transaction"
+                : "No such mempool transaction. Blockchain transactions are still in the process of being indexed");
         throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, errmsg + ". Use gettransaction for wallet transactions.");
     }
 
@@ -277,23 +282,28 @@ UniValue gettxoutproof(const JSONRPCRequest& request)
        oneTxid = hash;
     }
 
-    LOCK(cs_main);
-
     CBlockIndex* pblockindex = NULL;
 
     uint256 hashBlock;
-    if (request.params.size() > 1)
-    {
+    if (request.params.size() > 1) {
+        LOCK(cs_main);
         hashBlock = uint256S(request.params[1].get_str());
         pblockindex = LookupBlockIndex(hashBlock);
         if (!pblockindex)
             throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Block not found");
     } else {
+        LOCK(cs_main);
         const Coin& coin = AccessByTxid(*pcoinsTip, oneTxid);
         if (!coin.IsSpent() && coin.nHeight > 0 && coin.nHeight <= chainActive.Height()) {
             pblockindex = chainActive[coin.nHeight];
         }
     }
+
+    if (g_txindex && !pblockindex) {
+        g_txindex->BlockUntilSyncedToCurrentChain();
+    }
+
+    LOCK(cs_main);
 
     if (pblockindex == NULL)
     {
