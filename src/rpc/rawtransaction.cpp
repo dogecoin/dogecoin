@@ -9,6 +9,7 @@
 #include "coins.h"
 #include "consensus/validation.h"
 #include "core_io.h"
+#include "index/txindex.h"
 #include "init.h"
 #include "keystore.h"
 #include "validation.h"
@@ -223,10 +224,12 @@ UniValue getrawtransaction(const JSONRPCRequest& request)
     CTransactionRef tx;
     uint256 hashBlock;
     // Dogecoin: Is this the best value for consensus height?
-    if (!GetTransaction(hash, tx, Params().GetConsensus(0), hashBlock, true))
-        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, std::string(fTxIndex ? "No such mempool or blockchain transaction"
-            : "No such mempool transaction. Use -txindex to enable blockchain transaction queries") +
-            ". Use gettransaction for wallet transactions.");
+    if (!GetTransaction(hash, tx, Params().GetConsensus(0), hashBlock, true)) {
+        const std::string errmsg = g_txindex
+            ? "No such mempool or blockchain transaction"
+            : "No such mempool transaction. Use -txindex to enable blockchain transaction queries";
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, errmsg + ". Use gettransaction for wallet transactions.");
+    }
 
     string strHex = EncodeHexTx(*tx, RPCSerializationFlags());
 
