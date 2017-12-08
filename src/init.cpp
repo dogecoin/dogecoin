@@ -21,6 +21,7 @@
 #include "fs.h"
 #include "httpserver.h"
 #include "httprpc.h"
+#include "index/txindex.h"
 #include "key.h"
 #include "validation.h"
 #include "miner.h"
@@ -181,6 +182,9 @@ void Interrupt(boost::thread_group& threadGroup)
     InterruptTorControl();
     if (g_connman)
         g_connman->Interrupt();
+    if (g_txindex) {
+        g_txindex->Interrupt();
+    }
     threadGroup.interrupt_all();
 }
 
@@ -212,6 +216,9 @@ void Shutdown()
     UnregisterValidationInterface(peerLogic.get());
     peerLogic.reset();
     g_connman.reset();
+    if (g_txindex) {
+        g_txindex.reset();
+    }
 
     StopTorControl();
     UnregisterNodeSignals(GetNodeSignals());
@@ -1480,9 +1487,10 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
     int64_t nTotalCache = (GetArg("-dbcache", nDefaultDbCache) << 20);
     nTotalCache = std::max(nTotalCache, nMinDbCache << 20); // total cache cannot be less than nMinDbCache
     nTotalCache = std::min(nTotalCache, nMaxDbCache << 20); // total cache cannot be greater than nMaxDbcache
-    int64_t nBlockTreeDBCache = nTotalCache / 8;
-    nBlockTreeDBCache = std::min(nBlockTreeDBCache, (GetBoolArg("-txindex", DEFAULT_TXINDEX) ? nMaxBlockDBAndTxIndexCache : nMaxBlockDBCache) << 20);
+    int64_t nBlockTreeDBCache = std::min(nTotalCache / 8, nMaxBlockDBCache << 20);
     nTotalCache -= nBlockTreeDBCache;
+    int64_t nTxIndexCache = std::min(nTotalCache / 8, GetBoolArg("-txindex", DEFAULT_TXINDEX) ? nMaxTxIndexCache << 20 : 0);
+    nTotalCache -= nTxIndexCache;
     int64_t nCoinDBCache = std::min(nTotalCache / 2, (nTotalCache / 4) + (1 << 23)); // use 25%-50% of the remainder for disk cache
     nCoinDBCache = std::min(nCoinDBCache, nMaxCoinsDBCache << 20); // cap total coins db cache
     nTotalCache -= nCoinDBCache;
@@ -1490,6 +1498,9 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
     int64_t nMempoolSizeMax = GetArg("-maxmempool", DEFAULT_MAX_MEMPOOL_SIZE) * 1000000;
     LogPrintf("Cache configuration:\n");
     LogPrintf("* Using %.1fMiB for block index database\n", nBlockTreeDBCache * (1.0 / 1024 / 1024));
+    if (GetBoolArg("-txindex", DEFAULT_TXINDEX)) {
+        LogPrintf("* Using %.1fMiB for transaction index database\n", nTxIndexCache * (1.0 / 1024 / 1024));
+    }
     LogPrintf("* Using %.1fMiB for chain state database\n", nCoinDBCache * (1.0 / 1024 / 1024));
     LogPrintf("* Using %.1fMiB for in-memory UTXO set (plus up to %.1fMiB of unused mempool space)\n", nCoinCacheUsage * (1.0 / 1024 / 1024), nMempoolSizeMax * (1.0 / 1024 / 1024));
 
@@ -1529,6 +1540,12 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
                     }
                 }
 
+                if (fRequestShutdown) break;
+
+                // LoadBlockIndex will load fHavePruned if we've ever removed a
+                // block file from disk.
+                // Note that it also sets fReindex based on the disk flag!
+                // From here on out fReindex and fReset mean something different!
                 if (!LoadBlockIndex(chainparams)) {
                     strLoadError = _("Error loading block database");
                     break;
@@ -1635,7 +1652,15 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
         mempool.ReadFeeEstimates(est_filein);
     fFeeEstimatesInitialized = true;
 
-    // ********************************************************* Step 8: load wallet
+    // ********************************************************* Step 8: start indexers
+    if (GetBoolArg("-txindex", DEFAULT_TXINDEX)) {
+        fs::create_directories(GetDataDir() / "indexes");
+        std::unique_ptr<TxIndexDB> txindex_db(new TxIndexDB(nTxIndexCache, false, fReindex));
+        g_txindex.reset(new TxIndex(std::move(txindex_db)));
+        g_txindex->Start();
+    }
+
+    // ********************************************************* Step 9: load wallet
 #ifdef ENABLE_WALLET
     if (!CWallet::InitLoadWallet())
         return false;
@@ -1643,7 +1668,7 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
     LogPrintf("No wallet support compiled in!\n");
 #endif
 
-    // ********************************************************* Step 9: data directory maintenance
+    // ********************************************************* Step 10: data directory maintenance
 
     // if pruning, unset the service bit and perform the initial blockstore prune
     // after any wallet rescanning has taken place.
@@ -1668,7 +1693,7 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
         nRelevantServices = ServiceFlags(nRelevantServices | NODE_WITNESS);
     }
 
-    // ********************************************************* Step 10: import blocks
+    // ********************************************************* Step 11: import blocks
 
     if (!CheckDiskSpace())
         return false;
@@ -1702,7 +1727,7 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
         uiInterface.NotifyBlockTip.disconnect(&BlockNotifyGenesisWait);
     }
 
-    // ********************************************************* Step 11: start node
+    // ********************************************************* Step 12: start node
 
     //// debug print
     LogPrintf("mapBlockIndex.size() = %u\n",   mapBlockIndex.size());
@@ -1735,7 +1760,7 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
     if (!connman.Start(scheduler, strNodeError, connOptions))
         return InitError(strNodeError);
 
-    // ********************************************************* Step 12: finished
+    // ********************************************************* Step 13: finished
 
     // Dogecoin: Do we need to do any RPC mining init here?
 
