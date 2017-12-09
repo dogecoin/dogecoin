@@ -128,6 +128,11 @@ CAmount AmountFromValue(const UniValue& value)
     CAmount amount;
     if (!ParseFixedPoint(value.getValStr(), 8, &amount))
         throw JSONRPCError(RPC_TYPE_ERROR, "Invalid amount");
+    double dAmount = value.get_real();
+    double dMaxAmount = MAX_MONEY / COIN;
+    if (dAmount <= 0.0 || dAmount > dMaxAmount)
+        throw JSONRPCError(RPC_TYPE_ERROR, "Invalid amount");
+    amount = roundint64(dAmount * COIN);
     if (!MoneyRange(amount))
         throw JSONRPCError(RPC_TYPE_ERROR, "Amount out of range");
     return amount;
