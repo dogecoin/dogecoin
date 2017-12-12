@@ -9,6 +9,7 @@
 #include "coins.h"
 #include "dbwrapper.h"
 #include "chain.h"
+#include <primitives/block.h>
 
 #include <map>
 #include <string>
@@ -109,11 +110,7 @@ private:
 class CBlockTreeDB : public CDBWrapper
 {
 public:
-    CBlockTreeDB(size_t nCacheSize, bool fMemory = false, bool fWipe = false);
-private:
-    CBlockTreeDB(const CBlockTreeDB&);
-    void operator=(const CBlockTreeDB&);
-public:
+    explicit CBlockTreeDB(size_t nCacheSize, bool fMemory = false, bool fWipe = false);
     bool WriteBatchSync(const std::vector<std::pair<int, const CBlockFileInfo*> >& fileInfo, int nLastFile, const std::vector<const CBlockIndex*>& blockinfo);
     bool ReadBlockFileInfo(int nFile, CBlockFileInfo &fileinfo);
     bool ReadLastBlockFile(int &nFile);
@@ -124,6 +121,34 @@ public:
     bool WriteFlag(const std::string &name, bool fValue);
     bool ReadFlag(const std::string &name, bool &fValue);
     bool LoadBlockIndexGuts(std::function<CBlockIndex*(const uint256&)> insertBlockIndex);
+};
+
+/**
+ * Access to the txindex database (indexes/txindex/)
+ *
+ * The database stores a block locator of the chain the database is synced to
+ * so that the TxIndex can efficiently determine the point it last stopped at.
+ * A locator is used instead of a simple hash of the chain tip because blocks
+ * and block index entries may not be flushed to disk until after this database
+ * is updated.
+ */
+class TxIndexDB : public CDBWrapper
+{
+public:
+    explicit TxIndexDB(size_t n_cache_size, bool f_memory = false, bool f_wipe = false);
+
+    /// Read the disk location of the transaction data with the given hash. Returns false if the
+    /// transaction hash is not indexed.
+    bool ReadTxPos(const uint256& txid, CDiskTxPos& pos) const;
+
+    /// Write a batch of transaction positions to the DB.
+    bool WriteTxs(const std::vector<std::pair<uint256, CDiskTxPos>>& v_pos);
+
+    /// Read block locator of the chain that the txindex is in sync with.
+    bool ReadBestBlock(CBlockLocator& locator) const;
+
+    /// Write block locator of the chain that the txindex is in sync with.
+    bool WriteBestBlock(const CBlockLocator& locator);
 };
 
 #endif // BITCOIN_TXDB_H
