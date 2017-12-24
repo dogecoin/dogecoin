@@ -230,6 +230,8 @@ BOOST_AUTO_TEST_CASE(CreateNewBlock_validity)
         pblock->hashPrevBlock = pblock->GetHash();
     }
 
+    LOCK(cs_main);
+
     // Just to make sure we can still make simple blocks
     BOOST_CHECK(pblocktemplate = BlockAssembler(chainparams).CreateNewBlock(scriptPubKey, true));
 
