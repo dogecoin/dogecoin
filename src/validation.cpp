@@ -2558,11 +2558,7 @@ bool ActivateBestChain(CValidationState &state, const CChainParams& chainparams,
             // Block until the validation queue drains. This should largely
             // never happen in normal operation, however may happen during
             // reindex, causing memory blowup  if we run too far ahead.
-            std::promise<void> promise;
-            CallFunctionInValidationInterfaceQueue([&promise] {
-                promise.set_value();
-            });
-            promise.get_future().wait();
+            SyncWithValidationInterfaceQueue();
         }
 
         if (ShutdownRequested())
