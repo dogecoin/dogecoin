@@ -1858,11 +1858,11 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
         flags |= SCRIPT_VERIFY_DERSIG;
     }
 
-    // Start enforcing CHECKLOCKTIMEVERIFY (BIP65) rule
-    // Dogecoin: This needs to be supermajority based
-    // if (pindex->nHeight >= chainparams.GetConsensus().BIP65Height) {
-    //     flags |= SCRIPT_VERIFY_CHECKLOCKTIMEVERIFY;
-    // }
+    // Start enforcing CHECKLOCKTIMEVERIFY, (BIP65) for block.nVersion=4
+    // blocks, when 75% of the network has upgraded:
+    if (block.nVersion >= 4 && IsSuperMajority(4, pindex->pprev, chainparams.GetConsensus().nMajorityEnforceBlockUpgrade, chainparams.GetConsensus())) {
+        flags |= SCRIPT_VERIFY_CHECKLOCKTIMEVERIFY;
+    }
 
     // Start enforcing BIP68 (sequence locks) and BIP112 (CHECKSEQUENCEVERIFY) using versionbits logic.
     int nLockTimeFlags = 0;
@@ -3028,6 +3028,9 @@ bool ContextualCheckBlockHeader(const CBlockHeader& block, CValidationState& sta
                                  strprintf("rejected nVersion=0x%08x block", block.GetBaseVersion()));
 
     // Dogecoin: Introduce supermajority rules for v4 blocks
+    if (block.nVersion < 4 && IsSuperMajority(4, pindexPrev, consensusParams.nMajorityRejectBlockOutdated, consensusParams))
+        return state.Invalid(error("%s : rejected nVersion=3 block", __func__),
+                             REJECT_OBSOLETE, "bad-version");
 
     return true;
 }
