@@ -72,10 +72,10 @@ public:
         strNetworkID = "main";
         consensus.nSubsidyHalvingInterval = 100000;
         // XXX: BIP heights and hashes all need to be updated to Dogecoin values
-        consensus.BIP34Height = 227931;
-        consensus.BIP34Hash = uint256S("0x000000000000024b89b42a942fe0d9fea3bb44ab7bd1b19115dd6a759c0808b8");
-        consensus.BIP65Height = 388381; // 000000000000000004c2b624ed5d7756c508d90fd0da2c7c679febfa6c4735f0
-        consensus.BIP66Height = 363725; // 00000000000000000379eaa19dce8c9b722d46ae6a57c2f1a988119488b50931
+        consensus.BIP34Height = 139314;
+        consensus.BIP34Hash = uint256S("0x2c23095473d1afabfb630d41a395364e69da264a73c04dbcb4756c7d36c9b994");
+        consensus.BIP65Height = 1032483; // I have no idea, this is a wild guess
+        consensus.BIP66Height = 1032483; // 80d1364201e5df97e696c03bdd24dc885e8617b9de51e453c10a4f629b1e797a - this is the v3 block after the last v2 block, may be too low
         consensus.powLimit = uint256S("0x00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~uint256(0) >> 20;
         consensus.nPowTargetTimespan = 4 * 60 * 60; // pre-digishield: 4 hours
         consensus.nPowTargetSpacing = 60; // 1 minute
