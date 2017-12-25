@@ -71,7 +71,9 @@ public:
     CMainParams() {
         strNetworkID = "main";
         consensus.nSubsidyHalvingInterval = 100000;
-        // XXX: BIP heights and hashes all need to be updated to Dogecoin values
+        consensus.nMajorityEnforceBlockUpgrade = 1500;
+        consensus.nMajorityRejectBlockOutdated = 1900;
+        consensus.nMajorityWindow = 2000;
         consensus.BIP34Height = 139314;
         consensus.BIP34Hash = uint256S("0x2c23095473d1afabfb630d41a395364e69da264a73c04dbcb4756c7d36c9b994");
         // consensus.BIP65Height = 1032483; // Not enabled in Doge yet
@@ -182,6 +184,9 @@ public:
     CTestNetParams() {
         strNetworkID = "test";
         consensus.nSubsidyHalvingInterval = 100000;
+        consensus.nMajorityEnforceBlockUpgrade = 1500;
+        consensus.nMajorityRejectBlockOutdated = 1900;
+        consensus.nMajorityWindow = 2000;
         // XXX: BIP heights and hashes all need to be updated to Dogecoin values
         consensus.BIP34Height = 21111;
         consensus.BIP34Hash = uint256S("0x0000000023b3a96d3484e5abb3755c413e7d41500f8e2a5c3f0dd01299cd8ef8");
@@ -280,6 +285,9 @@ public:
     CRegTestParams() {
         strNetworkID = "regtest";
         consensus.nSubsidyHalvingInterval = 150;
+        consensus.nMajorityEnforceBlockUpgrade = 750;
+        consensus.nMajorityRejectBlockOutdated = 950;
+        consensus.nMajorityWindow = 1000;
         consensus.BIP34Height = 100000000; // BIP34 has not activated on regtest (far in the future so block v1 are not rejected in tests)
         consensus.BIP34Hash = uint256();
         // consensus.BIP65Height = 1351; // BIP65 activated on regtest (Used in rpc activation tests)
