@@ -19,6 +19,7 @@
 #include "policy/policy.h"
 #include "pow.h"
 #include "primitives/block.h"
+#include "primitives/pureheader.h"
 #include "primitives/transaction.h"
 #include "random.h"
 #include "script/script.h"
@@ -3284,7 +3285,7 @@ static bool IsSuperMajority(int minVersion, const CBlockIndex* pstart, unsigned 
     unsigned int nFound = 0;
     for (int i = 0; i < consensusParams.nMajorityWindow && nFound < nRequired && pstart != NULL; i++)
     {
-        if (pstart->nVersion >= minVersion)
+        if ((pstart->nVersion % CPureBlockHeader::VERSION_AUXPOW) >= minVersion)
             ++nFound;
         pstart = pstart->pprev;
     }
