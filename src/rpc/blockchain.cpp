@@ -1071,7 +1071,20 @@ static UniValue SoftForkMajorityDesc(int version, CBlockIndex* pindex, const Con
             activated = pindex->nHeight >= consensusParams.BIP66Height;
             break;
         case 4:
-            activated = pindex->nHeight >= consensusParams.BIP65Height;
+            int nFound = 0;
+            int nRequired = consensusParams.nMajorityRejectBlockOutdated;
+            CBlockIndex* pstart = pindex;
+            for (int i = 0; i < consensusParams.nMajorityWindow && pstart != NULL; i++)
+            {
+                if (pstart->nVersion >= version)
+                    ++nFound;
+                pstart = pstart->pprev;
+            }
+
+            activated = nFound >= nRequired;
+            rv.push_back(Pair("found", nFound));
+            rv.push_back(Pair("required", nRequired));
+            rv.push_back(Pair("window", consensusParams.nMajorityWindow));
             break;
     }
     rv.push_back(Pair("status", activated));
