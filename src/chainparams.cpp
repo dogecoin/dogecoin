@@ -185,9 +185,9 @@ public:
     CTestNetParams() {
         strNetworkID = "test";
         consensus.nSubsidyHalvingInterval = 100000;
-        consensus.nMajorityEnforceBlockUpgrade = 1500;
-        consensus.nMajorityRejectBlockOutdated = 1900;
-        consensus.nMajorityWindow = 2000;
+        consensus.nMajorityEnforceBlockUpgrade = 501;
+        consensus.nMajorityRejectBlockOutdated = 750;
+        consensus.nMajorityWindow = 1000;
         // BIP34 is never enforced in Dogecoin v2 blocks, so we enforce from v3
         consensus.BIP34Height = 708658;
         consensus.BIP34Hash = uint256S("0x21b8b97dcdb94caa67c7f8f6dbf22e61e0cfe0e46e1fff3528b22864659e9b38");
