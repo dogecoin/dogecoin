@@ -267,7 +267,9 @@ public:
         digishieldConsensus.nHeightEffective = 145000;
         digishieldConsensus.nPowTargetTimespan = 60; // post-digishield: 1 minute
         digishieldConsensus.fDigishieldDifficultyCalculation = true;
+        digishieldConsensus.fSimplifiedRewards = true;
         digishieldConsensus.fPowAllowMinDifficultyBlocks = false;
+        digishieldConsensus.nCoinbaseMaturity = 240;
 
         // Blocks 157500 - 158099 are Digishield with minimum difficulty on all blocks
         minDifficultyConsensus = digishieldConsensus;
@@ -280,6 +282,7 @@ public:
         auxpowConsensus.nHeightEffective = 158100;
         auxpowConsensus.fPowAllowDigishieldMinDifficultyBlocks = true;
         auxpowConsensus.fAllowLegacyBlocks = false;
+        // FIXME: auxpowConsensus.fAllowAuxPow = true;
 
         // Assemble the binary search tree of parameters
         pConsensusRoot = &digishieldConsensus;
