@@ -71,9 +71,14 @@ void CChainParams::UpdateVersionBitsParameters(Consensus::DeploymentPos d, int64
  */
 
 class CMainParams : public CChainParams {
+private:
+    Consensus::Params digishieldConsensus;
+    Consensus::Params auxpowConsensus;
 public:
     CMainParams() {
         strNetworkID = "main";
+
+        // Blocks 0 - 144999 are conventional difficulty calculation
         consensus.nSubsidyHalvingInterval = 100000;
         consensus.nMajorityEnforceBlockUpgrade = 1500;
         consensus.nMajorityRejectBlockOutdated = 1900;
@@ -86,7 +91,9 @@ public:
         consensus.powLimit = uint256S("0x00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~uint256(0) >> 20;
         consensus.nPowTargetTimespan = 4 * 60 * 60; // pre-digishield: 4 hours
         consensus.nPowTargetSpacing = 60; // 1 minute
+        consensus.fDigishieldDifficultyCalculation = false;
         consensus.fPowAllowMinDifficultyBlocks = false;
+        consensus.fPowAllowDigishieldMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
         consensus.nRuleChangeActivationThreshold = 1916; // 95% of 2016
         consensus.nMinerConfirmationWindow = 2016; // nPowTargetTimespan / nPowTargetSpacing
@@ -112,10 +119,30 @@ public:
         // By default assume that the signatures in ancestors of this block are valid.
         consensus.defaultAssumeValid = uint256S("0x0000000000000000003b9ce759c2a087d52abc4266f8f4ebd6d768b89defa50a"); //477890
 
+        // AuxPoW parameters
         consensus.nAuxpowChainId = 0x0062; // 98 - Josh Wise!
-        consensus.nAuxpowStartHeight = 371337;
         consensus.fStrictChainId = true;
-        consensus.nLegacyBlocksBefore = 371337;
+        consensus.fAllowLegacyBlocks = true;
+        consensus.nHeightEffective = 0;
+
+        // Blocks 145000 - 371336 are Digishield without AuxPoW
+        digishieldConsensus = consensus;
+        digishieldConsensus.nHeightEffective = 145000;
+        digishieldConsensus.fSimplifiedRewards = true;
+        digishieldConsensus.fDigishieldDifficultyCalculation = true;
+        digishieldConsensus.nPowTargetTimespan = 60; // post-digishield: 1 minute
+        digishieldConsensus.nCoinbaseMaturity = 240;
+
+        // Blocks 371337+ are AuxPoW
+        auxpowConsensus = digishieldConsensus;
+        auxpowConsensus.nHeightEffective = 371337;
+        auxpowConsensus.fAllowLegacyBlocks = false;
+
+        // Assemble the binary search tree of consensus parameters
+        pConsensusRoot = &digishieldConsensus;
+        digishieldConsensus.pLeft = &consensus;
+        digishieldConsensus.pRight = &auxpowConsensus;
+
         /** 
          * The message start string is designed to be unlikely to occur in normal data.
          * The characters are rarely used upper ASCII, not valid as UTF-8, and produce
@@ -131,6 +158,8 @@ public:
         genesis = CreateGenesisBlock(1386325540, 99943, 0x1e0ffff0, 1, 88 * COIN);
 
         consensus.hashGenesisBlock = genesis.GetHash();
+        digishieldConsensus.hashGenesisBlock = consensus.hashGenesisBlock;
+        auxpowConsensus.hashGenesisBlock = consensus.hashGenesisBlock;
         assert(consensus.hashGenesisBlock == uint256S("0x1a91e3dace36e2be3bf030a65679fe821aa1d6ef92e7c9902eb318182c355691"));
         assert(genesis.hashMerkleRoot == uint256S("0x5b2a3f53f605d62c53e62932dac6925e3d74afa5a4b459745c36d42d0ed26a69"));
 
@@ -184,9 +213,20 @@ public:
  * Testnet (v3)
  */
 class CTestNetParams : public CChainParams {
+private:
+    Consensus::Params digishieldConsensus;
+    Consensus::Params auxpowConsensus;
+    Consensus::Params minDifficultyConsensus;
 public:
     CTestNetParams() {
         strNetworkID = "test";
+
+        // Blocks 0 - 144999 are pre-Digishield
+        consensus.nHeightEffective = 0;
+        consensus.nPowTargetTimespan = 4 * 60 * 60; // pre-digishield: 4 hours
+        consensus.fDigishieldDifficultyCalculation = false;
+        consensus.fPowAllowMinDifficultyBlocks = true;
+        consensus.fPowAllowDigishieldMinDifficultyBlocks = false;
         consensus.nSubsidyHalvingInterval = 100000;
         consensus.nMajorityEnforceBlockUpgrade = 501;
         consensus.nMajorityRejectBlockOutdated = 750;
@@ -199,7 +239,6 @@ public:
         consensus.powLimit = uint256S("0x00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~uint256(0) >> 20;
         consensus.nPowTargetTimespan = 4 * 60 * 60; // pre-digishield: 4 hours
         consensus.nPowTargetSpacing = 60; // 1 minute
-        consensus.fPowAllowMinDifficultyBlocks = true;
         consensus.fPowNoRetargeting = false;
         consensus.nRuleChangeActivationThreshold = 1512; // 75% for testchains
         consensus.nMinerConfirmationWindow = 240; // nPowTargetTimespan / nPowTargetSpacing
@@ -225,9 +264,38 @@ public:
         // By default assume that the signatures in ancestors of this block are valid.
         consensus.defaultAssumeValid = uint256S("0x0000000002e9e7b00e1f6dc5123a04aad68dd0f0968d8c7aa45f6640795c37b1"); //1135275
 
-        consensus.nAuxpowStartHeight = 158100;
+        // AuxPoW parameters
+        consensus.nAuxpowChainId = 0x0062; // 98 - Josh Wise!
         consensus.fStrictChainId = false;
-        consensus.nLegacyBlocksBefore = -1;
+        consensus.nHeightEffective = 0;
+        consensus.fAllowLegacyBlocks = true;
+
+        // Blocks 145000 - 157499 are Digishield without minimum difficulty on all blocks
+        digishieldConsensus = consensus;
+        digishieldConsensus.nHeightEffective = 145000;
+        digishieldConsensus.nPowTargetTimespan = 60; // post-digishield: 1 minute
+        digishieldConsensus.fDigishieldDifficultyCalculation = true;
+        digishieldConsensus.fSimplifiedRewards = true;
+        digishieldConsensus.fPowAllowMinDifficultyBlocks = false;
+        digishieldConsensus.nCoinbaseMaturity = 240;
+
+        // Blocks 157500 - 158099 are Digishield with minimum difficulty on all blocks
+        minDifficultyConsensus = digishieldConsensus;
+        minDifficultyConsensus.nHeightEffective = 157500;
+        minDifficultyConsensus.fPowAllowDigishieldMinDifficultyBlocks = true;
+        minDifficultyConsensus.fPowAllowMinDifficultyBlocks = true;
+
+        // Enable AuxPoW at 158100
+        auxpowConsensus = minDifficultyConsensus;
+        auxpowConsensus.nHeightEffective = 158100;
+        auxpowConsensus.fPowAllowDigishieldMinDifficultyBlocks = true;
+        auxpowConsensus.fAllowLegacyBlocks = false;
+
+        // Assemble the binary search tree of parameters
+        pConsensusRoot = &digishieldConsensus;
+        digishieldConsensus.pLeft = &consensus;
+        digishieldConsensus.pRight = &minDifficultyConsensus;
+        minDifficultyConsensus.pRight = &auxpowConsensus;
 
         pchMessageStart[0] = 0xfc;
         pchMessageStart[1] = 0xc1;
@@ -238,6 +306,9 @@ public:
 
         genesis = CreateGenesisBlock(1391503289, 997879, 0x1e0ffff0, 1, 88 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
+        digishieldConsensus.hashGenesisBlock = consensus.hashGenesisBlock;
+        minDifficultyConsensus.hashGenesisBlock = consensus.hashGenesisBlock;
+        auxpowConsensus.hashGenesisBlock = consensus.hashGenesisBlock;
         assert(consensus.hashGenesisBlock == uint256S("0xbb0a78264637406b6360aad926284d544d7049f45189db5664f3c4d07350559e"));
         assert(genesis.hashMerkleRoot == uint256S("0x5b2a3f53f605d62c53e62932dac6925e3d74afa5a4b459745c36d42d0ed26a69"));
 
@@ -258,7 +329,6 @@ public:
         fDefaultConsistencyChecks = false;
         fRequireStandard = false;
         fMineBlocksOnDemand = false;
-
 
         checkpointData = (CCheckpointData) {
             {
@@ -283,6 +353,9 @@ public:
  * Regression test
  */
 class CRegTestParams : public CChainParams {
+private:
+    Consensus::Params digishieldConsensus;
+    Consensus::Params auxpowConsensus;
 public:
     CRegTestParams() {
         strNetworkID = "regtest";
@@ -295,8 +368,8 @@ public:
         // consensus.BIP65Height = 1351; // BIP65 activated on regtest (Used in rpc activation tests)
         consensus.BIP66Height = 1251; // BIP66 activated on regtest (Used in rpc activation tests)
         consensus.powLimit = uint256S("0x7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~uint256(0) >> 1;
-        consensus.nPowTargetTimespan = 14 * 24 * 60 * 60; // two weeks
-        consensus.nPowTargetSpacing = 10 * 60;
+        consensus.nPowTargetTimespan = 4 * 60 * 60; // pre-digishield: 4 hours
+        consensus.nPowTargetSpacing = 1; // regtest: 1 second blocks
         consensus.fPowAllowMinDifficultyBlocks = true;
         consensus.fPowNoRetargeting = true;
         consensus.nRuleChangeActivationThreshold = 108; // 75% for testchains
@@ -317,8 +390,29 @@ public:
         // By default assume that the signatures in ancestors of this block are valid.
         consensus.defaultAssumeValid = uint256S("0x00");
 
+        // AuxPow parameters
+        consensus.nAuxpowChainId = 0x0062; // 98 - Josh Wise!
         consensus.fStrictChainId = true;
-        consensus.nLegacyBlocksBefore = 0;
+        consensus.fAllowLegacyBlocks = true;
+
+        // Dogecoin parameters
+        consensus.fSimplifiedRewards = true;
+        consensus.nCoinbaseMaturity = 60; // For easier testability in RPC tests
+
+        digishieldConsensus = consensus;
+        digishieldConsensus.nHeightEffective = 10;
+        digishieldConsensus.nPowTargetTimespan = 1; // regtest: also retarget every second in digishield mode, for conformity
+        digishieldConsensus.fDigishieldDifficultyCalculation = true;
+
+        auxpowConsensus = digishieldConsensus;
+        auxpowConsensus.fAllowLegacyBlocks = false;
+        auxpowConsensus.nHeightEffective = 20;
+
+        // Assemble the binary search tree of parameters
+        digishieldConsensus.pLeft = &consensus;
+        digishieldConsensus.pRight = &auxpowConsensus;
+        pConsensusRoot = &digishieldConsensus;
+
         pchMessageStart[0] = 0xfa;
         pchMessageStart[1] = 0xbf;
         pchMessageStart[2] = 0xb5;
@@ -328,6 +422,8 @@ public:
 
         genesis = CreateGenesisBlock(1296688602, 2, 0x207fffff, 1, 88 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
+        digishieldConsensus.hashGenesisBlock = consensus.hashGenesisBlock;
+        auxpowConsensus.hashGenesisBlock = consensus.hashGenesisBlock;
         assert(consensus.hashGenesisBlock == uint256S("0x3d2160a3b5dc4a9d62e7e66a295f70313ac808440ef7400d6c0772171ce973a5"));
         // XXX: Fix for Dogecoin
         // assert(genesis.hashMerkleRoot == uint256S("0x4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b"));
