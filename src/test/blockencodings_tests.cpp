@@ -29,9 +29,8 @@ static CBlock BuildBlockTestCase() {
 
     block.vtx.resize(3);
     block.vtx[0] = MakeTransactionRef(tx);
-    block.nVersion = 42;
+    block.nVersion = 1;
     block.hashPrevBlock = InsecureRand256();
-    block.nBits = 0x207fffff;
 
     tx.vin[0].prevout.hash = InsecureRand256();
     tx.vin[0].prevout.n = 0;
@@ -103,7 +102,6 @@ BOOST_AUTO_TEST_CASE(SimpleRoundTripTest)
         BOOST_CHECK(block.hashMerkleRoot != BlockMerkleRoot(block2, &mutated));
 
         CBlock block3;
-        // FIXME: Somehow this seems to be broken by adding chain ID to RegTest
         BOOST_CHECK(partialBlock.FillBlock(block3, {block.vtx[1]}) == READ_STATUS_OK);
         BOOST_CHECK_EQUAL(block.GetHash().ToString(), block3.GetHash().ToString());
         BOOST_CHECK_EQUAL(block.hashMerkleRoot.ToString(), BlockMerkleRoot(block3, &mutated).ToString());
@@ -207,7 +205,6 @@ BOOST_AUTO_TEST_CASE(NonCoinbasePreforwardRTTest)
 
         CBlock block3;
         PartiallyDownloadedBlock partialBlockCopy = partialBlock;
-        // FIXME: Somehow this seems to be broken by adding chain ID to RegTest
         BOOST_CHECK(partialBlock.FillBlock(block3, {block.vtx[0]}) == READ_STATUS_OK);
         BOOST_CHECK_EQUAL(block.GetHash().ToString(), block3.GetHash().ToString());
         BOOST_CHECK_EQUAL(block.hashMerkleRoot.ToString(), BlockMerkleRoot(block3, &mutated).ToString());
@@ -258,7 +255,6 @@ BOOST_AUTO_TEST_CASE(SufficientPreforwardRTTest)
 
         CBlock block2;
         PartiallyDownloadedBlock partialBlockCopy = partialBlock;
-        // FIXME: Somehow this seems to be broken by adding chain ID to RegTest
         BOOST_CHECK(partialBlock.FillBlock(block2, {}) == READ_STATUS_OK);
         BOOST_CHECK_EQUAL(block.GetHash().ToString(), block2.GetHash().ToString());
         bool mutated;
@@ -285,7 +281,7 @@ BOOST_AUTO_TEST_CASE(EmptyBlockRoundTripTest)
     CBlock block;
     block.vtx.resize(1);
     block.vtx[0] = MakeTransactionRef(std::move(coinbase));
-    block.nVersion = 42;
+    block.nVersion = 1;
     block.hashPrevBlock = InsecureRand256();
     block.nBits = 0x207fffff;
 
@@ -310,7 +306,6 @@ BOOST_AUTO_TEST_CASE(EmptyBlockRoundTripTest)
 
         CBlock block2;
         std::vector<CTransactionRef> vtx_missing;
-        // FIXME: Somehow this seems to be broken by adding chain ID to RegTest
         BOOST_CHECK(partialBlock.FillBlock(block2, vtx_missing) == READ_STATUS_OK);
         BOOST_CHECK_EQUAL(block.GetHash().ToString(), block2.GetHash().ToString());
         BOOST_CHECK_EQUAL(block.hashMerkleRoot.ToString(), BlockMerkleRoot(block2, &mutated).ToString());
