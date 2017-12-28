@@ -48,7 +48,8 @@ UniValue GetNetworkHashPS(int lookup, int height) {
 
     // If lookup is -1, then use blocks since last difficulty change.
     if (lookup <= 0)
-        lookup = pb->nHeight % Params().GetConsensus().DifficultyAdjustmentInterval() + 1;
+        lookup = pb->nHeight % Params().GetConsensus(pb->nHeight).DifficultyAdjustmentInterval() + 1;
+    // 
 
     // If lookup is larger than chain, then set it to chain length.
     if (lookup > pb->nHeight)
@@ -125,7 +126,7 @@ UniValue generateBlocks(boost::shared_ptr<CReserveScript> coinbaseScript, int nG
         }
         CAuxPow::initAuxPow(*pblock);
         CPureBlockHeader& miningHeader = pblock->auxpow->parentBlock;
-        while (nMaxTries > 0 && miningHeader.nNonce < nInnerLoopCount && !CheckProofOfWork(miningHeader.GetHash(), pblock->nBits, Params().GetConsensus())) {
+        while (nMaxTries > 0 && miningHeader.nNonce < nInnerLoopCount && !CheckProofOfWork(miningHeader.GetHash(), pblock->nBits, Params().GetConsensus(nHeight))) {
             ++miningHeader.nNonce;
             --nMaxTries;
         }
@@ -561,7 +562,7 @@ UniValue getblocktemplate(const JSONRPCRequest& request)
         pindexPrev = pindexPrevNew;
     }
     CBlock* pblock = &pblocktemplate->block; // pointer for convenience
-    const Consensus::Params& consensusParams = Params().GetConsensus();
+    const Consensus::Params& consensusParams = Params().GetConsensus(pindexPrev->nHeight + 1);
 
     // Update nTime
     UpdateTime(pblock, consensusParams, pindexPrev);
@@ -778,7 +779,8 @@ UniValue submitblock(const JSONRPCRequest& request)
         LOCK(cs_main);
         BlockMap::iterator mi = mapBlockIndex.find(block.hashPrevBlock);
         if (mi != mapBlockIndex.end()) {
-            UpdateUncommittedBlockStructures(block, mi->second, Params().GetConsensus());
+            int nHeight = chainActive.Height() + 1;
+            UpdateUncommittedBlockStructures(block, mi->second, Params().GetConsensus(nHeight));
         }
     }
 
@@ -990,7 +992,7 @@ UniValue getauxblock(const JSONRPCRequest& request)
        past the point of merge-mining start.  Check nevertheless.  */
     {
         LOCK(cs_main);
-        if (chainActive.Height() + 1 < Params().GetConsensus().nAuxpowStartHeight)
+        if (Params().GetConsensus(chainActive.Height() + 1).fAllowLegacyBlocks)
             throw std::runtime_error("getauxblock method is not yet available");
     }
 
