@@ -845,7 +845,7 @@ static bool AcceptToMemoryPoolWorker(const CChainParams& chainparams, CTxMemPool
         // There is a similar check in CreateNewBlock() to prevent creating
         // invalid blocks (using TestBlockValidity), however allowing such
         // transactions into the mempool can be exploited as a DoS attack.
-        unsigned int currentBlockScriptVerifyFlags = GetBlockScriptFlags(chainActive.Tip(), Params().GetConsensus());
+        unsigned int currentBlockScriptVerifyFlags = GetBlockScriptFlags(chainActive.Tip(), Params().GetConsensus(chainActive.Height()));
         if (!CheckInputsFromMempoolAndCache(tx, state, view, pool, currentBlockScriptVerifyFlags, true, txdata))
         {
             // If we're using promiscuousmempoolflags, we may hit this normally
@@ -1637,20 +1637,14 @@ static unsigned int GetBlockScriptFlags(const CBlockIndex* pindex, const Consens
 
     unsigned int flags = fStrictPayToScriptHash ? SCRIPT_VERIFY_P2SH : SCRIPT_VERIFY_NONE;
 
-    // BIP16 didn't become active until Apr 1 2012
-    int64_t nBIP16SwitchTime = 1333238400;
-    bool fStrictPayToScriptHash = (pindex->GetBlockTime() >= nBIP16SwitchTime);
-
-    unsigned int flags = fStrictPayToScriptHash ? SCRIPT_VERIFY_P2SH : SCRIPT_VERIFY_NONE;
-
     // Start enforcing the DERSIG (BIP66) rule
-    if (pindex->nHeight >= chainparams.GetConsensus(0).BIP66Height) {
+    if (pindex->nHeight >= consensusparams.BIP66Height) {
         flags |= SCRIPT_VERIFY_DERSIG;
     }
 
     // Start enforcing CHECKLOCKTIMEVERIFY, (BIP65) for block.nVersion=4
     // blocks, when 75% of the network has upgraded:
-    if (block.GetBaseVersion() >= 4 && IsSuperMajority(4, pindex->pprev, chainparams.GetConsensus(0).nMajorityEnforceBlockUpgrade, chainparams.GetConsensus(0))) {
+    if (pindex->GetBaseVersion() >= 4 && IsSuperMajority(4, pindex->pprev, consensusparams.nMajorityEnforceBlockUpgrade, consensusparams)) {
         flags |= SCRIPT_VERIFY_CHECKLOCKTIMEVERIFY;
     }
 
@@ -1777,12 +1771,12 @@ static bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockInd
 
     // Start enforcing BIP68 (sequence locks) and BIP112 (CHECKSEQUENCEVERIFY) using versionbits logic.
     int nLockTimeFlags = 0;
-    if (VersionBitsState(pindex->pprev, chainparams.GetConsensus(), Consensus::DEPLOYMENT_CSV, versionbitscache) == THRESHOLD_ACTIVE) {
+    if (VersionBitsState(pindex->pprev, chainparams.GetConsensus(chainActive.Height()), Consensus::DEPLOYMENT_CSV, versionbitscache) == THRESHOLD_ACTIVE) {
         nLockTimeFlags |= LOCKTIME_VERIFY_SEQUENCE;
     }
 
     // Get the script flags for this block
-    unsigned int flags = GetBlockScriptFlags(pindex, chainparams.GetConsensus());
+    unsigned int flags = GetBlockScriptFlags(pindex, chainparams.GetConsensus(chainActive.Height()));
 
     int64_t nTime2 = GetTimeMicros(); nTimeForks += nTime2 - nTime1;
     LogPrint(BCLog::BENCH, "    - Fork checks: %.2fms [%.2fs]\n", 0.001 * (nTime2 - nTime1), nTimeForks * 0.000001);
@@ -3001,7 +2995,6 @@ static bool ContextualCheckBlockHeader(const CBlockHeader& block, CValidationSta
                          REJECT_INVALID, "early-auxpow-block");
 
     // Check proof of work
-    const Consensus::Params& consensusParams = params.GetConsensus();
     if (block.nBits != GetNextWorkRequired(pindexPrev, &block, consensusParams))
         return state.DoS(100, false, REJECT_INVALID, "bad-diffbits", false, "incorrect proof of work");
 
@@ -3276,7 +3269,7 @@ static bool AcceptBlock(const std::shared_ptr<const CBlock>& pblock, CValidation
         if (dbp == nullptr)
             if (!WriteBlockToDisk(block, blockPos, chainparams.MessageStart()))
                 AbortNode(state, "Failed to write block");
-        if (!ReceivedBlockTransactions(block, state, pindex, blockPos, chainparams.GetConsensus()))
+        if (!ReceivedBlockTransactions(block, state, pindex, blockPos, chainparams.GetConsensus(chainActive.Height())))
             return error("AcceptBlock(): ReceivedBlockTransactions failed");
     } catch (const std::runtime_error& e) {
         return AbortNode(state, std::string("System error: ") + e.what());
@@ -3342,7 +3335,7 @@ bool TestBlockValidity(CValidationState& state, const CChainParams& chainparams,
     indexDummy.nHeight = pindexPrev->nHeight + 1;
 
     // NOTE: CheckBlockHeader is called by CheckBlock
-    if (!ContextualCheckBlockHeader(block, state,  pindexPrev, GetAdjustedTime()))
+    if (!ContextualCheckBlockHeader(block, state, chainparams, pindexPrev, GetAdjustedTime()))
         return error("%s: Consensus::ContextualCheckBlockHeader: %s", __func__, FormatStateMessage(state));
     if (!CheckBlock(block, state, fCheckPOW, fCheckMerkleRoot))
         return error("%s: Consensus::CheckBlock: %s", __func__, FormatStateMessage(state));
@@ -3574,7 +3567,7 @@ CBlockIndex * InsertBlockIndex(uint256 hash)
 
 bool static LoadBlockIndexDB(const CChainParams& chainparams)
 {
-    if (!pblocktree->LoadBlockIndexGuts(chainparams.GetConsensus(), InsertBlockIndex))
+    if (!pblocktree->LoadBlockIndexGuts(chainparams.GetConsensus(chainActive.Height()), InsertBlockIndex))
         return false;
 
     boost::this_thread::interruption_point();
@@ -3811,7 +3804,7 @@ static bool RollforwardBlock(const CBlockIndex* pindex, CCoinsViewCache& inputs,
 {
     // TODO: merge with ConnectBlock
     CBlock block;
-    if (!ReadBlockFromDisk(block, pindex, params.GetConsensus())) {
+    if (!ReadBlockFromDisk(block, pindex, params.GetConsensus(chainActive.Height()))) {
         return error("ReplayBlock(): ReadBlockFromDisk failed at %d, hash=%s", pindex->nHeight, pindex->GetBlockHash().ToString());
     }
 
@@ -3862,7 +3855,7 @@ bool ReplayBlocks(const CChainParams& params, CCoinsView* view)
     while (pindexOld != pindexFork) {
         if (pindexOld->nHeight > 0) { // Never disconnect the genesis block.
             CBlock block;
-            if (!ReadBlockFromDisk(block, pindexOld, params.GetConsensus())) {
+            if (!ReadBlockFromDisk(block, pindexOld, params.GetConsensus(chainActive.Height()))) {
                 return error("RollbackBlock(): ReadBlockFromDisk() failed at %d, hash=%s", pindexOld->nHeight, pindexOld->GetBlockHash().ToString());
             }
             LogPrintf("Rolling back %s (%i)\n", pindexOld->GetBlockHash().ToString(), pindexOld->nHeight);
@@ -4062,7 +4055,7 @@ bool LoadGenesisBlock(const CChainParams& chainparams)
         if (!WriteBlockToDisk(block, blockPos, chainparams.MessageStart()))
             return error("%s: writing genesis block to disk failed", __func__);
         CBlockIndex *pindex = AddToBlockIndex(block);
-        if (!ReceivedBlockTransactions(block, state, pindex, blockPos, chainparams.GetConsensus()))
+        if (!ReceivedBlockTransactions(block, state, pindex, blockPos, chainparams.GetConsensus(chainActive.Height())))
             return error("%s: genesis block not accepted", __func__);
     } catch (const std::runtime_error& e) {
         return error("%s: failed to write genesis block: %s", __func__, e.what());
