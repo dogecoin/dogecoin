@@ -87,6 +87,7 @@ public:
         consensus.powLimit = uint256S("0x00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~uint256(0) >> 20;
         consensus.nPowTargetTimespan = 4 * 60 * 60; // pre-digishield: 4 hours
         consensus.nPowTargetSpacing = 60; // 1 minute
+        consensus.fDigishieldDifficultyCalculation = false;
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowAllowDigishieldMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
@@ -114,11 +115,11 @@ public:
         // By default assume that the signatures in ancestors of this block are valid.
         consensus.defaultAssumeValid = uint256S("0xca5eb72f1e0d160f1481f74d56d7cc4a27d91aa585ba012da8018a5fe934d61b"); // 1,600,000
 
+        // AuxPoW parameters
         consensus.nAuxpowChainId = 0x0062; // 98 - Josh Wise!
         consensus.fStrictChainId = true;
         consensus.fAllowLegacyBlocks = true;
         consensus.nHeightEffective = 0;
-        consensus.fDigishieldDifficultyCalculation = false;
 
         // Blocks 145000 - 371336 are Digishield without AuxPoW
         digishieldConsensus = consensus;
@@ -132,7 +133,6 @@ public:
         auxpowConsensus = digishieldConsensus;
         auxpowConsensus.nHeightEffective = 371337;
         auxpowConsensus.fAllowLegacyBlocks = false;
-        // auxpowConsensus.fAllowAuxPow = true;
 
         // Assemble the binary search tree of consensus parameters
         pConsensusRoot = &digishieldConsensus;
@@ -261,6 +261,7 @@ public:
         // By default assume that the signatures in ancestors of this block are valid.
         consensus.defaultAssumeValid = uint256S("0x6943eaeaba98dc7d09f7e73398daccb4abcabb18b66c8c875e52b07638d93951"); // 900,000
 
+        // AuxPoW parameters
         consensus.fStrictChainId = false;
         consensus.nHeightEffective = 0;
         consensus.fAllowLegacyBlocks = true;
@@ -285,7 +286,6 @@ public:
         auxpowConsensus.nHeightEffective = 158100;
         auxpowConsensus.fPowAllowDigishieldMinDifficultyBlocks = true;
         auxpowConsensus.fAllowLegacyBlocks = false;
-        // FIXME: auxpowConsensus.fAllowAuxPow = true;
 
         // Assemble the binary search tree of parameters
         pConsensusRoot = &digishieldConsensus;
@@ -390,7 +390,6 @@ public:
 
         consensus.fStrictChainId = true;
         consensus.fAllowLegacyBlocks = true;
-        // consensus.fAllowAuxPow = false;
         consensus.fSimplifiedRewards = true;
         consensus.nCoinbaseMaturity = 60; // For easier testability in RPC tests
 
@@ -401,7 +400,6 @@ public:
 
         auxpowConsensus = digishieldConsensus;
         auxpowConsensus.fAllowLegacyBlocks = false;
-        // auxpowConsensus.fAllowAuxPow = true;
         auxpowConsensus.nHeightEffective = 20;
 
         // Assemble the binary search tree of parameters
