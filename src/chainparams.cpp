@@ -421,6 +421,8 @@ public:
 
         genesis = CreateGenesisBlock(1296688602, 2, 0x207fffff, 1, 88 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
+        digishieldConsensus.hashGenesisBlock = consensus.hashGenesisBlock;
+        auxpowConsensus.hashGenesisBlock = consensus.hashGenesisBlock;
         assert(consensus.hashGenesisBlock == uint256S("0x3d2160a3b5dc4a9d62e7e66a295f70313ac808440ef7400d6c0772171ce973a5"));
         // XXX: Fix for Dogecoin
         // assert(genesis.hashMerkleRoot == uint256S("0x4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b"));
