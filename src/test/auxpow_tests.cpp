@@ -333,7 +333,7 @@ mineBlock(CBlockHeader& block, bool ok, int nBits = -1)
 
     block.nNonce = 0;
     while (true) {
-        const bool nowOk = (UintToArith256(block.GetHash()) <= target);
+        const bool nowOk = (UintToArith256(block.GetPoWHash()) <= target);
         if ((ok && nowOk) || (!ok && !nowOk))
             break;
 
@@ -341,9 +341,9 @@ mineBlock(CBlockHeader& block, bool ok, int nBits = -1)
     }
 
     if (ok)
-        BOOST_CHECK(CheckProofOfWork(block.GetHash(), nBits, Params().GetConsensus(0)));
+        BOOST_CHECK(CheckProofOfWork(block.GetPoWHash(), nBits, Params().GetConsensus(0)));
     else
-        BOOST_CHECK(!CheckProofOfWork(block.GetHash(), nBits, Params().GetConsensus(0)));
+        BOOST_CHECK(!CheckProofOfWork(block.GetPoWHash(), nBits, Params().GetConsensus(0)));
 }
 
 BOOST_AUTO_TEST_CASE(auxpow_pow)
