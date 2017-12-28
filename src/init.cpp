@@ -346,7 +346,7 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += HelpMessageOpt("-blocknotify=<cmd>", _("Execute command when the best block changes (%s in cmd is replaced by block hash)"));
     if (showDebug)
         strUsage += HelpMessageOpt("-blocksonly", strprintf(_("Whether to operate in a blocks only mode (default: %u)"), DEFAULT_BLOCKSONLY));
-    strUsage +=HelpMessageOpt("-assumevalid=<hex>", strprintf(_("If this block is in the chain assume that it and its ancestors are valid and potentially skip their script verification (0 to verify all, default: %s, testnet: %s)"), defaultChainParams->GetConsensus().defaultAssumeValid.GetHex(), testnetChainParams->GetConsensus().defaultAssumeValid.GetHex()));
+    strUsage +=HelpMessageOpt("-assumevalid=<hex>", strprintf(_("If this block is in the chain assume that it and its ancestors are valid and potentially skip their script verification (0 to verify all, default: %s, testnet: %s)"), defaultChainParams->GetConsensus(0).defaultAssumeValid.GetHex(), testnetChainParams->GetConsensus(0).defaultAssumeValid.GetHex()));
     strUsage += HelpMessageOpt("-conf=<file>", strprintf(_("Specify configuration file (default: %s)"), BITCOIN_CONF_FILENAME));
     if (mode == HMM_BITCOIND)
     {
@@ -366,7 +366,7 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += HelpMessageOpt("-maxmempool=<n>", strprintf(_("Keep the transaction memory pool below <n> megabytes (default: %u)"), DEFAULT_MAX_MEMPOOL_SIZE));
     strUsage += HelpMessageOpt("-mempoolexpiry=<n>", strprintf(_("Do not keep transactions in the mempool longer than <n> hours (default: %u)"), DEFAULT_MEMPOOL_EXPIRY));
     if (showDebug) {
-        strUsage += HelpMessageOpt("-minimumchainwork=<hex>", strprintf("Minimum work assumed to exist on a valid chain in hex (default: %s, testnet: %s)", defaultChainParams->GetConsensus().nMinimumChainWork.GetHex(), testnetChainParams->GetConsensus().nMinimumChainWork.GetHex()));
+        strUsage += HelpMessageOpt("-minimumchainwork=<hex>", strprintf("Minimum work assumed to exist on a valid chain in hex (default: %s, testnet: %s)", defaultChainParams->GetConsensus(0).nMinimumChainWork.GetHex(), testnetChainParams->GetConsensus(0).nMinimumChainWork.GetHex()));
     }
     strUsage += HelpMessageOpt("-persistmempool", strprintf(_("Whether to save the mempool on shutdown and load on restart (default: %u)"), DEFAULT_PERSIST_MEMPOOL));
     strUsage += HelpMessageOpt("-blockreconstructionextratxn=<n>", strprintf(_("Extra transactions to keep in memory for compact block reconstructions (default: %u)"), DEFAULT_BLOCK_RECONSTRUCTION_EXTRA_TXN));
@@ -988,7 +988,7 @@ bool AppInitParameterInteraction()
     fCheckBlockIndex = gArgs.GetBoolArg("-checkblockindex", chainparams.DefaultConsistencyChecks());
     fCheckpointsEnabled = gArgs.GetBoolArg("-checkpoints", DEFAULT_CHECKPOINTS_ENABLED);
 
-    hashAssumeValid = uint256S(gArgs.GetArg("-assumevalid", chainparams.GetConsensus().defaultAssumeValid.GetHex()));
+    hashAssumeValid = uint256S(gArgs.GetArg("-assumevalid", chainparams.GetConsensus(0).defaultAssumeValid.GetHex()));
     if (!hashAssumeValid.IsNull())
         LogPrintf("Assuming ancestors of block %s have valid signatures.\n", hashAssumeValid.GetHex());
     else
@@ -1001,11 +1001,11 @@ bool AppInitParameterInteraction()
         }
         nMinimumChainWork = UintToArith256(uint256S(minChainWorkStr));
     } else {
-        nMinimumChainWork = UintToArith256(chainparams.GetConsensus().nMinimumChainWork);
+        nMinimumChainWork = UintToArith256(chainparams.GetConsensus(0).nMinimumChainWork);
     }
     LogPrintf("Setting nMinimumChainWork=%s\n", nMinimumChainWork.GetHex());
-    if (nMinimumChainWork < UintToArith256(chainparams.GetConsensus().nMinimumChainWork)) {
-        LogPrintf("Warning: nMinimumChainWork set below default value of %s\n", chainparams.GetConsensus().nMinimumChainWork.GetHex());
+    if (nMinimumChainWork < UintToArith256(chainparams.GetConsensus(0).nMinimumChainWork)) {
+        LogPrintf("Warning: nMinimumChainWork set below default value of %s\n", chainparams.GetConsensus(0).nMinimumChainWork.GetHex());
     }
 
     // mempool limits
@@ -1455,7 +1455,7 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
 
                 // If the loaded chain has a wrong genesis, bail out immediately
                 // (we're likely using a testnet datadir, or the other way around).
-                if (!mapBlockIndex.empty() && mapBlockIndex.count(chainparams.GetConsensus().hashGenesisBlock) == 0)
+                if (!mapBlockIndex.empty() && mapBlockIndex.count(chainparams.GetConsensus(0).hashGenesisBlock) == 0)
                     return InitError(_("Incorrect or no genesis block found. Wrong datadir for network?"));
 
                 // Check for changed -txindex state
@@ -1617,7 +1617,7 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
         }
     }
 
-    if (chainparams.GetConsensus().vDeployments[Consensus::DEPLOYMENT_SEGWIT].nTimeout != 0) {
+    if (chainparams.GetConsensus(0).vDeployments[Consensus::DEPLOYMENT_SEGWIT].nTimeout != 0) {
         // Only advertise witness capabilities if they have a reasonable start time.
         // This allows us to have the code merged without a defined softfork, by setting its
         // end time to 0.

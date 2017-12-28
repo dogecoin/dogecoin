@@ -717,7 +717,7 @@ UniValue getblockheader(const JSONRPCRequest& request)
     if (!fVerbose)
     {
         CDataStream ssBlock(SER_NETWORK, PROTOCOL_VERSION);
-        ssBlock << pblockindex->GetBlockHeader(Params().GetConsensus());
+        ssBlock << pblockindex->GetBlockHeader(Params().GetConsensus(pblockindex->nHeight));
         std::string strHex = HexStr(ssBlock.begin(), ssBlock.end());
         return strHex;
     }
@@ -797,7 +797,7 @@ UniValue getblock(const JSONRPCRequest& request)
     if (fHavePruned && !(pblockindex->nStatus & BLOCK_HAVE_DATA) && pblockindex->nTx > 0)
         throw JSONRPCError(RPC_MISC_ERROR, "Block not available (pruned data)");
 
-    if (!ReadBlockFromDisk(block, pblockindex, Params().GetConsensus()))
+    if (!ReadBlockFromDisk(block, pblockindex, Params().GetConsensus(pblockindex->nHeight)))
         // Block not found on disk. This could be because we have the block
         // header in our index but don't have the block (for example if a
         // non-whitelisted node sends us an unrequested long chain of valid
@@ -1231,7 +1231,7 @@ UniValue getblockchaininfo(const JSONRPCRequest& request)
     obj.push_back(Pair("chainwork",             chainActive.Tip()->nChainWork.GetHex()));
     obj.push_back(Pair("pruned",                fPruneMode));
 
-    const Consensus::Params& consensusParams = Params().GetConsensus();
+    const Consensus::Params& consensusParams = Params().GetConsensus(0);
     CBlockIndex* tip = chainActive.Tip();
     UniValue softforks(UniValue::VARR);
     UniValue bip9_softforks(UniValue::VOBJ);
@@ -1541,7 +1541,7 @@ UniValue getchaintxstats(const JSONRPCRequest& request)
         );
 
     const CBlockIndex* pindex;
-    int blockcount = 30 * 24 * 60 * 60 / Params().GetConsensus().nPowTargetSpacing; // By default: 1 month
+    int blockcount = 30 * 24 * 60 * 60 / Params().GetConsensus(0).nPowTargetSpacing; // By default: 1 month
 
     if (request.params.size() > 0 && !request.params[0].isNull()) {
         blockcount = request.params[0].get_int();
