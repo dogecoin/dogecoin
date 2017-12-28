@@ -350,7 +350,7 @@ BOOST_AUTO_TEST_CASE(auxpow_pow)
 {
     /* Use regtest parameters to allow mining with easy difficulty.  */
     SelectParams(CBaseChainParams::REGTEST);
-    const Consensus::Params& params = Params().GetConsensus(0);
+    const Consensus::Params& params = Params().GetConsensus(371337);
 
     const arith_uint256 target = (~arith_uint256(0) >> 1);
     CBlockHeader block;
@@ -369,6 +369,7 @@ BOOST_AUTO_TEST_CASE(auxpow_pow)
     BOOST_CHECK(!CheckAuxPowProofOfWork(block, params));
 
     block.SetBaseVersion(2, params.nAuxpowChainId);
+    block.SetChainId(params.nAuxpowChainId);
     mineBlock(block, true);
     BOOST_CHECK(CheckAuxPowProofOfWork(block, params));
 

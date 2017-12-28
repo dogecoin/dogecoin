@@ -367,7 +367,7 @@ public:
         consensus.BIP66Height = 1251; // BIP66 activated on regtest (Used in rpc activation tests)
         consensus.powLimit = uint256S("0x7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~uint256(0) >> 1;
         consensus.nPowTargetTimespan = 4 * 60 * 60; // pre-digishield: 4 hours
-        consensus.nPowTargetSpacing = 10 * 60;
+        consensus.nPowTargetSpacing = 1; // regtest: 1 second blocks
         consensus.fPowAllowMinDifficultyBlocks = true;
         consensus.fPowNoRetargeting = true;
         consensus.nRuleChangeActivationThreshold = 108; // 75% for testchains
@@ -389,13 +389,19 @@ public:
         consensus.defaultAssumeValid = uint256S("0x00");
 
         consensus.fStrictChainId = true;
+        consensus.fAllowLegacyBlocks = true;
+        // consensus.fAllowAuxPow = false;
+        consensus.fSimplifiedRewards = true;
+        consensus.nCoinbaseMaturity = 60; // For easier testability in RPC tests
 
         digishieldConsensus = consensus;
         digishieldConsensus.nHeightEffective = 10;
-        digishieldConsensus.nPowTargetTimespan = 60; // post-digishield: 1 minute
+        digishieldConsensus.nPowTargetTimespan = 1; // regtest: also retarget every second in digishield mode, for conformity
         digishieldConsensus.fDigishieldDifficultyCalculation = true;
 
         auxpowConsensus = digishieldConsensus;
+        auxpowConsensus.fAllowLegacyBlocks = false;
+        // auxpowConsensus.fAllowAuxPow = true;
         auxpowConsensus.nHeightEffective = 20;
 
         // Assemble the binary search tree of parameters
