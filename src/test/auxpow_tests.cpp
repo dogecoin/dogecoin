@@ -369,7 +369,6 @@ BOOST_AUTO_TEST_CASE(auxpow_pow)
     BOOST_CHECK(!CheckAuxPowProofOfWork(block, params));
 
     block.SetBaseVersion(2, params.nAuxpowChainId);
-    block.SetChainId(params.nAuxpowChainId);
     mineBlock(block, true);
     BOOST_CHECK(CheckAuxPowProofOfWork(block, params));
 
