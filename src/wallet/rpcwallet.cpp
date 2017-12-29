@@ -2829,7 +2829,7 @@ UniValue bumpfee(const JSONRPCRequest& request)
             }
         } else if (options.exists("totalFee")) {
             totalFee = options["totalFee"].get_int64();
-            CAmount requiredFee = CWallet::GetRequiredFee(maxNewTxSize);
+            CAmount requiredFee = CWallet::GetRequiredFee(*wtx.tx, maxNewTxSize);
             if (totalFee < requiredFee ) {
                 throw JSONRPCError(RPC_INVALID_PARAMETER,
                                    strprintf("Insufficient totalFee (cannot be less than required fee %s)",
@@ -2866,11 +2866,11 @@ UniValue bumpfee(const JSONRPCRequest& request)
     } else {
         // if user specified a confirm target then don't consider any global payTxFee
         if (specifiedConfirmTarget) {
-            nNewFee = CWallet::GetMinimumFee(maxNewTxSize, newConfirmTarget, mempool, CAmount(0));
+            nNewFee = CWallet::GetMinimumFee(*wtx.tx, maxNewTxSize, newConfirmTarget, mempool, CAmount(0));
         }
         // otherwise use the regular wallet logic to select payTxFee or default confirm target
         else {
-            nNewFee = CWallet::GetMinimumFee(maxNewTxSize, newConfirmTarget, mempool);
+            nNewFee = CWallet::GetMinimumFee(*wtx.tx, maxNewTxSize, newConfirmTarget, mempool);
         }
 
         nNewFeeRate = CFeeRate(nNewFee, maxNewTxSize);
