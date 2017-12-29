@@ -1784,7 +1784,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
 
     // Special case for the genesis block, skipping connection of its transactions
     // (its coinbase is unspendable)
-    if (block.GetHash() == consensus.hashGenesisBlock) {
+    if (block.GetHash() == Params().GetConsensus(0).hashGenesisBlock) {
         if (!fJustCheck)
             view.SetBestBlock(pindex->GetBlockHash());
         return true;
@@ -2935,7 +2935,7 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
 
 static bool CheckIndexAgainstCheckpoint(const CBlockIndex* pindexPrev, CValidationState& state, const CChainParams& chainparams, const uint256& hash)
 {
-    if (*pindexPrev->phashBlock == chainparams.GetConsensus(pindexPrev->nHeight + 1).hashGenesisBlock)
+    if (*pindexPrev->phashBlock == chainparams.GetConsensus(0).hashGenesisBlock)
         return true;
 
     int nHeight = pindexPrev->nHeight+1;
