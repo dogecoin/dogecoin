@@ -1085,7 +1085,7 @@ UniValue getauxblock(const JSONRPCRequest& request)
     if (fAccepted)
         coinbaseScript->KeepScript();
 
-    return fAccepted;
+    return BIP22ValidationResult(sc.state);
 }
 
 /* ************************************************************************** */
