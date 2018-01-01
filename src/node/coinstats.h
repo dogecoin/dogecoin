@@ -7,6 +7,7 @@
 #define BITCOIN_NODE_COINSTATS_H
 
 #include <amount.h>
+#include <arith_uint256.h>
 #include <uint256.h>
 
 #include <cstdint>
@@ -28,7 +29,7 @@ struct CCoinsStats
     uint64_t nBogoSize{0};
     uint256 hashSerialized{};
     uint64_t nDiskSize{0};
-    CAmount nTotalAmount{0};
+    arith_uint256 nTotalAmount{0};
 
     //! The number of coins contained.
     uint64_t coins_count{0};

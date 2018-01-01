@@ -176,6 +176,21 @@ BOOST_AUTO_TEST_CASE(rpc_format_monetary_values)
     BOOST_CHECK_EQUAL(ValueFromAmount(COIN/100000000).write(), "0.00000001");
 }
 
+// Dogecoin: Test the uint256 amount formatting
+BOOST_AUTO_TEST_CASE(rpc_format_monetary_values_uint256)
+{
+    // Verify the simple zero case
+    const arith_uint256 zero = UintToArith256(uint256S("0x0000000000000000000000000000000000000000000000000000000000000000"));
+    BOOST_CHECK_EQUAL(ValueFromAmount(zero).write(), "0.00000000");
+    // Verify a number greater than 2^64 to prove that works. This is (2 ^ 72) - 1 Koinu (as in, 1*10^-8)
+    const arith_uint256 largeQuantity = UintToArith256(uint256S("0x0000000000000000000000000000000000000000000000ffffffffffffffffff"));
+    BOOST_CHECK_EQUAL(ValueFromAmount(largeQuantity).write(), "47223664828696.45213695");
+
+    // Verify that if we calculate a negative number and store it in a uint type, we get a positive back.
+    const arith_uint256 negativeQuantity = zero - largeQuantity;
+    BOOST_CHECK_EQUAL(ValueFromAmount(negativeQuantity).write(), "6366458373880712194.84426241");
+}
+
 static UniValue ValueFromString(const std::string &str)
 {
     UniValue value;
