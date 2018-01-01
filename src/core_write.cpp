@@ -6,6 +6,7 @@
 
 #include <consensus/consensus.h>
 #include <consensus/validation.h>
+#include <arith_uint256.h>
 #include <key_io.h>
 #include <script/script.h>
 #include <script/standard.h>
@@ -24,6 +25,16 @@ UniValue ValueFromAmount(const CAmount& amount)
     int64_t remainder = n_abs % COIN;
     return UniValue(UniValue::VNUM,
             strprintf("%s%d.%08d", sign ? "-" : "", quotient, remainder));
+}
+
+UniValue ValueFromAmount(const arith_uint256& amount)
+{
+    bool sign = amount < 0;
+    arith_uint256 n_abs = (sign ? -amount : amount);
+    arith_uint256 quotient = n_abs / COIN;
+    arith_uint256 remainder = n_abs - (quotient * COIN);
+    return UniValue(UniValue::VNUM,
+            strprintf("%s%d.%08d", sign ? "-" : "", (int64_t)quotient.getdouble(), (int64_t)remainder.getdouble()));
 }
 
 std::string FormatScript(const CScript& script)
