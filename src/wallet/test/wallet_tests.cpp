@@ -2,6 +2,7 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
+#include "txmempool.h"
 #include "wallet/wallet.h"
 
 #include <set>
@@ -677,6 +678,47 @@ BOOST_FIXTURE_TEST_CASE(ListCoins, ListCoinsTestingSetup)
     BOOST_CHECK_EQUAL(list.size(), 1);
     BOOST_CHECK_EQUAL(boost::get<CKeyID>(list.begin()->first).ToString(), coinbaseAddress);
     BOOST_CHECK_EQUAL(list.begin()->second.size(), 2);
+}
+
+BOOST_AUTO_TEST_CASE(GetMinimumFee_test)
+{
+    CBlockPolicyEstimator feeEstimator;
+    const CCoinControl coin_control;
+    FeeCalculation calculation;
+    uint64_t value = 1000 * COIN; // 1,000 DOGE
+
+    CMutableTransaction tx;
+    const CTxMemPool pool(&feeEstimator);
+    CTxOut txout1(value, CScript() << OP_1);
+    tx.vout.push_back(txout1);
+
+    int64_t nMinTxFee = COIN;
+
+    BOOST_CHECK_EQUAL(CWallet::GetMinimumFee(tx, 250U, coin_control, pool, feeEstimator, &calculation), nMinTxFee);
+    BOOST_CHECK_EQUAL(CWallet::GetMinimumFee(tx, 1000U, coin_control, pool, feeEstimator, &calculation), nMinTxFee);
+    BOOST_CHECK_EQUAL(CWallet::GetMinimumFee(tx, 1999U, coin_control, pool, feeEstimator, &calculation), 2 * nMinTxFee);
+}
+
+BOOST_AUTO_TEST_CASE(GetMinimumFee_dust_test)
+{
+    // Derived from main net TX 3d6ec3ae2aca3ae0a6c65074fd8ee888cd7ed262f2cbaa25d33861989324a14e
+    CMutableTransaction tx;
+    CBlockPolicyEstimator feeEstimator;
+    const CCoinControl coin_control;
+    FeeCalculation calculation;
+    const CTxMemPool pool(&feeEstimator);
+    CTxOut txout1(139496846, CScript() << OP_1); // Regular output
+    CTxOut txout2(15499649, CScript() << OP_1); // Dust output
+    tx.vout.push_back(txout1);
+    tx.vout.push_back(txout2);
+
+    int64_t nMinTxFee = COIN;
+
+    // Confirm dust penalty fees are added on
+
+    BOOST_CHECK_EQUAL(CWallet::GetMinimumFee(tx, 963U, coin_control, pool, feeEstimator, &calculation), 2 * nMinTxFee);
+    BOOST_CHECK_EQUAL(CWallet::GetMinimumFee(tx, 1000U, coin_control, pool, feeEstimator, &calculation), 2 * nMinTxFee);
+    BOOST_CHECK_EQUAL(CWallet::GetMinimumFee(tx, 1999U, coin_control, pool, feeEstimator, &calculation), 3 * nMinTxFee);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

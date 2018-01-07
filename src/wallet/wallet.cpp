@@ -8,6 +8,7 @@
 #include "base58.h"
 #include "checkpoints.h"
 #include "chain.h"
+#include "dogecoin.h"
 #include "wallet/coincontrol.h"
 #include "consensus/consensus.h"
 #include "consensus/validation.h"
@@ -2839,7 +2840,7 @@ bool CWallet::CreateTransaction(const std::vector<CRecipient>& vecSend, CWalletT
                     vin.scriptWitness.SetNull();
                 }
 
-                nFeeNeeded = GetMinimumFee(nBytes, coin_control, ::mempool, ::feeEstimator, &feeCalc);
+                nFeeNeeded = GetMinimumFee(txNew, nBytes, coin_control, ::mempool, ::feeEstimator, &feeCalc);
 
                 // If we made it here and we aren't even able to meet the relay fee on the next pass, give up
                 // because we must be at the maximum allowed fee.
@@ -2862,7 +2863,7 @@ bool CWallet::CreateTransaction(const std::vector<CRecipient>& vecSend, CWalletT
                     // change output. Only try this once.
                     if (nChangePosInOut == -1 && nSubtractFeeFromAmount == 0 && pick_new_inputs) {
                         unsigned int tx_size_with_change = nBytes + change_prototype_size + 2; // Add 2 as a buffer in case increasing # of outputs changes compact size
-                        CAmount fee_needed_with_change = GetMinimumFee(tx_size_with_change, coin_control, ::mempool, ::feeEstimator, nullptr);
+                        CAmount fee_needed_with_change = GetMinimumFee(txNew, tx_size_with_change, coin_control, ::mempool, ::feeEstimator, nullptr);
                         CAmount minimum_value_for_change = GetDustThreshold(change_prototype_txout, discard_rate);
                         if (nFeeRet >= fee_needed_with_change + minimum_value_for_change) {
                             pick_new_inputs = false;
@@ -3041,12 +3042,24 @@ bool CWallet::AddAccountingEntry(const CAccountingEntry& acentry, CWalletDB *pwa
     return true;
 }
 
+CAmount CWallet::GetRequiredFee(const CMutableTransaction& tx, unsigned int nTxBytes)
+{
+    // Dogecoin: Round TX bytes up to the next 1,000 bytes
+    nTxBytes = GetDogecoinTxSize(nTxBytes);
+
+    // Dogecoin: Add an increased fee for each dust output
+    return std::max(minTxFee.GetFee(nTxBytes) + GetDogecoinDustFee(tx.vout, minTxFee), ::minRelayTxFee.GetFee(nTxBytes));
+}
+
 CAmount CWallet::GetRequiredFee(unsigned int nTxBytes)
 {
+    // Dogecoin: Round TX bytes up to the next 1,000 bytes
+    nTxBytes = GetDogecoinTxSize(nTxBytes);
+
     return std::max(minTxFee.GetFee(nTxBytes), ::minRelayTxFee.GetFee(nTxBytes));
 }
 
-CAmount CWallet::GetMinimumFee(unsigned int nTxBytes, const CCoinControl& coin_control, const CTxMemPool& pool, const CBlockPolicyEstimator& estimator, FeeCalculation *feeCalc)
+CAmount CWallet::GetMinimumFee(const CMutableTransaction& tx, unsigned int nTxBytes, const CCoinControl& coin_control, const CTxMemPool& pool, const CBlockPolicyEstimator& estimator, FeeCalculation *feeCalc)
 {
     /* User control of how to calculate fee uses the following parameter precedence:
        1. coin_control.m_feerate
@@ -3090,7 +3103,7 @@ CAmount CWallet::GetMinimumFee(unsigned int nTxBytes, const CCoinControl& coin_c
     }
 
     // prevent user from paying a fee below minRelayTxFee or minTxFee
-    CAmount required_fee = GetRequiredFee(nTxBytes);
+    CAmount required_fee = GetRequiredFee(tx, nTxBytes);
     if (required_fee > fee_needed) {
         fee_needed = required_fee;
         if (feeCalc) feeCalc->reason = FeeReason::REQUIRED;
@@ -3102,8 +3115,6 @@ CAmount CWallet::GetMinimumFee(unsigned int nTxBytes, const CCoinControl& coin_c
     }
     return fee_needed;
 }
-
-
 
 
 DBErrors CWallet::LoadWallet(bool& fFirstRunRet)
