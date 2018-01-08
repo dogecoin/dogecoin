@@ -229,7 +229,7 @@ public:
 
         consensus.nAuxpowStartHeight = 158100;
         consensus.fStrictChainId = false;
-        consensus.nLegacyBlocksBefore = -1;
+        consensus.nLegacyBlocksBefore = 158100;
 
         pchMessageStart[0] = 0xfc;
         pchMessageStart[1] = 0xc1;
