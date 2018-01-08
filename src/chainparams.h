@@ -58,21 +58,7 @@ public:
     };
 
     const Consensus::Params& GetConsensus(uint32_t nTargetHeight) const {
-        return *GetConsensus(nTargetHeight, pConsensusRoot);
-    }
-
-    Consensus::Params *GetConsensus(uint32_t nTargetHeight, Consensus::Params *pRoot) const {
-        if (nTargetHeight < pRoot -> nHeightEffective && pRoot -> pLeft != NULL) {
-            return GetConsensus(nTargetHeight, pRoot -> pLeft);
-        } else if (nTargetHeight > pRoot -> nHeightEffective && pRoot -> pRight != NULL) {
-            Consensus::Params *pCandidate = GetConsensus(nTargetHeight, pRoot -> pRight);
-            if (pCandidate->nHeightEffective <= nTargetHeight) {
-                return pCandidate;
-            }
-        }
-
-        // No better match below the target height
-        return pRoot;
+        return *(pConsensusRoot -> GetConsensus(nTargetHeight));
     }
 
     const CMessageHeader::MessageStartChars& MessageStart() const { return pchMessageStart; }

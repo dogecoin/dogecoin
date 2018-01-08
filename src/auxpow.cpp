@@ -7,6 +7,7 @@
 
 #include "auxpow.h"
 
+#include "chainparams.h"
 #include "compat/endian.h"
 #include "consensus/consensus.h"
 #include "consensus/merkle.h"
@@ -64,7 +65,8 @@ int CMerkleTx::GetBlocksToMaturity() const
 {
     if (!IsCoinBase())
         return 0;
-    return std::max(0, (COINBASE_MATURITY+1) - GetDepthInMainChain());
+    int nCoinbaseMaturity = Params().GetConsensus(chainActive.Height()).nCoinbaseMaturity;
+    return std::max(0, (nCoinbaseMaturity + 1) - GetDepthInMainChain());
 }
 
 bool CMerkleTx::AcceptToMemoryPool(const CAmount& nAbsurdFee, CValidationState& state)
