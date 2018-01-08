@@ -43,7 +43,6 @@ struct Params {
     int nMajorityEnforceBlockUpgrade;
     int nMajorityRejectBlockOutdated;
     int nMajorityWindow;
-    int nCoinbaseMaturity;
     /** Block height and hash at which BIP34 becomes active */
     int BIP34Height;
     uint256 BIP34Hash;
@@ -59,6 +58,7 @@ struct Params {
     uint32_t nRuleChangeActivationThreshold;
     uint32_t nMinerConfirmationWindow;
     BIP9Deployment vDeployments[MAX_VERSION_BITS_DEPLOYMENTS];
+    uint32_t nCoinbaseMaturity;
     /** Proof of work parameters */
     uint256 powLimit;
     bool fPowAllowMinDifficultyBlocks;
@@ -84,6 +84,7 @@ struct Params {
     uint32_t nHeightEffective; // When these parameters come into use
     struct Params *pLeft;      // Left hand branch
     struct Params *pRight;     // Right hand branch
+    const Consensus::Params *GetConsensus(uint32_t nTargetHeight) const;
 };
 } // namespace Consensus
 

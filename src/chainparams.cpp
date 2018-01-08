@@ -88,6 +88,7 @@ public:
         consensus.nPowTargetTimespan = 4 * 60 * 60; // pre-digishield: 4 hours
         consensus.nPowTargetSpacing = 60; // 1 minute
         consensus.fDigishieldDifficultyCalculation = false;
+        consensus.nCoinbaseMaturity = 30;
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowAllowDigishieldMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
@@ -465,6 +466,20 @@ static CChainParams *pCurrentParams = 0;
 const CChainParams &Params() {
     assert(pCurrentParams);
     return *pCurrentParams;
+}
+
+const Consensus::Params *Consensus::Params::GetConsensus(uint32_t nTargetHeight) const {
+    if (nTargetHeight < this -> nHeightEffective && this -> pLeft != NULL) {
+        return this -> pLeft -> GetConsensus(nTargetHeight);
+    } else if (nTargetHeight > this -> nHeightEffective && this -> pRight != NULL) {
+        const Consensus::Params *pCandidate = this -> pRight -> GetConsensus(nTargetHeight);
+        if (pCandidate->nHeightEffective <= nTargetHeight) {
+            return pCandidate;
+        }
+    }
+
+    // No better match below the target height
+    return this;
 }
 
 CChainParams& Params(const std::string& chain)
