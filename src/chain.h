@@ -347,12 +347,20 @@ public:
     CBlockIndex* GetAncestor(int height);
     const CBlockIndex* GetAncestor(int height) const;
 
+    /**
+     * Check if the auxpow flag is set in the version.
+     * @return True if this block version is marked as auxpow.
+     */
+    inline bool IsAuxpow() const
+    {
+        return nVersion & CPureBlockHeader::VERSION_AUXPOW;
+    }
+
     /* Analyse the block version.  */
     inline int GetBaseVersion() const
     {
         return CPureBlockHeader::GetBaseVersion(nVersion);
     }
-
 };
 
 arith_uint256 GetBlockProof(const CBlockIndex& block);
