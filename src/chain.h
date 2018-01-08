@@ -351,6 +351,12 @@ public:
     {
         return nVersion & CPureBlockHeader::VERSION_AUXPOW;
     }
+
+    /* Analyse the block version.  */
+    inline int GetBaseVersion() const
+    {
+        return CPureBlockHeader::GetBaseVersion(nVersion);
+    }
 };
 
 arith_uint256 GetBlockProof(const CBlockIndex& block);
