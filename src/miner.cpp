@@ -124,7 +124,7 @@ std::unique_ptr<CBlockTemplate> BlockAssembler::CreateNewBlock(const CScript& sc
     const int32_t nChainId = chainparams.GetConsensus ().nAuxpowChainId;
     // FIXME: Active version bits after the always-auxpow fork!
     //const int32_t nVersion = ComputeBlockVersion(pindexPrev, chainparams.GetConsensus());
-    const int32_t nVersion = 4;
+    const int32_t nVersion = VERSIONBITS_LAST_OLD_BLOCK_VERSION;
     pblock->SetBaseVersion(nVersion, nChainId);
     // -regtest only: allow overriding block.nVersion with
     // -blockversion=N to test forking scenarios
