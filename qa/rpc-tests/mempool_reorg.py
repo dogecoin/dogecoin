@@ -44,7 +44,7 @@ class MempoolCoinbaseTest(BitcoinTestFramework):
         # 1. Direct coinbase spend  :  spend_101
         # 2. Indirect (coinbase spend in chain, child in mempool) : spend_102 and spend_102_1
         # 3. Indirect (coinbase and child both in chain) : spend_103 and spend_103_1
-        # Use invalidatblock to make all of the above coinbase spends invalid (immature coinbase),
+        # Use invalidateblock to make all of the above coinbase spends invalid (immature coinbase),
         # and make sure the mempool code behaves correctly.
         b = [ self.nodes[0].getblockhash(n) for n in range(62, 65) ]
         coinbase_txids = [ self.nodes[0].getblock(h)['tx'][0] for h in b ]
