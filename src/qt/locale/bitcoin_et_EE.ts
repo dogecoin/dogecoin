@@ -106,7 +106,7 @@
         <translation>Võrguga sünkroniseerimine...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>&amp;Ülevaade</translation>
     </message>
     <message>

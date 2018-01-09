@@ -54,11 +54,11 @@
         <translation>Escol&amp;her</translation>
     </message>
     <message>
-        <source>Sending addresses</source>
+        <source>Such sending addresses</source>
         <translation>A enviar endereços</translation>
     </message>
     <message>
-        <source>Receiving addresses</source>
+        <source>Much receiving addresses</source>
         <translation>A receber endereços</translation>
     </message>
     <message>
@@ -218,7 +218,7 @@
         <translation>A sincronizar com a rede...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>&amp;Resumo</translation>
     </message>
     <message>
@@ -282,11 +282,11 @@
         <translation>Alterar &amp;Frase de Segurança...</translation>
     </message>
     <message>
-        <source>&amp;Sending addresses...</source>
+        <source>&amp;Such sending addresses...</source>
         <translation>A &amp;enviar os endereços...</translation>
     </message>
     <message>
-        <source>&amp;Receiving addresses...</source>
+        <source>&amp;Much receiving addresses...</source>
         <translation>A &amp;receber os endereços...</translation>
     </message>
     <message>
@@ -342,11 +342,11 @@
         <translation>Carteira</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
+        <source>&amp;Such Send</source>
         <translation>&amp;Enviar</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>&amp;Receber</translation>
     </message>
     <message>

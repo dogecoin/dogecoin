@@ -54,11 +54,11 @@
         <translation>&amp;Tria</translation>
     </message>
     <message>
-        <source>Sending addresses</source>
+        <source>Such sending addresses</source>
         <translation>Adreces d'enviament</translation>
     </message>
     <message>
-        <source>Receiving addresses</source>
+        <source>Much receiving addresses</source>
         <translation>Adreces de recepció</translation>
     </message>
     <message>
@@ -242,7 +242,7 @@
         <translation>S'està sincronitzant amb la xarxa ...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>&amp;Panorama general</translation>
     </message>
     <message>
@@ -310,7 +310,7 @@
         <translation>Adreces d'e&amp;nviament...</translation>
     </message>
     <message>
-        <source>&amp;Receiving addresses...</source>
+        <source>&amp;Much receiving addresses...</source>
         <translation>Adreces de &amp;recepció...</translation>
     </message>
     <message>
@@ -366,11 +366,11 @@
         <translation>Moneder</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
+        <source>&amp;Such Send</source>
         <translation>&amp;Envia</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>&amp;Rep</translation>
     </message>
     <message>

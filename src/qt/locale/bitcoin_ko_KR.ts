@@ -242,7 +242,7 @@
         <translation>네트워크와 동기화중...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>개요(&amp;O)</translation>
     </message>
     <message>
@@ -306,11 +306,11 @@
         <translation>암호문 변경(&amp;C)...</translation>
     </message>
     <message>
-        <source>&amp;Sending addresses...</source>
+        <source>&amp;Such sending addresses...</source>
         <translation>보내는 주소(&amp;S)</translation>
     </message>
     <message>
-        <source>&amp;Receiving addresses...</source>
+        <source>&amp;Much receiving addresses...</source>
         <translation>받는 주소(&amp;R)</translation>
     </message>
     <message>
@@ -354,11 +354,11 @@
         <translation>지갑</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
+        <source>&amp;Such Send</source>
         <translation>보내기(&amp;S)</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>받기(&amp;R)</translation>
     </message>
     <message>

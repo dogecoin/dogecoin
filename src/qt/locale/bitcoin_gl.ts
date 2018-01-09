@@ -74,7 +74,7 @@
         <translation>Sincronizando coa rede...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>&amp;Vista xeral</translation>
     </message>
     <message>
@@ -122,7 +122,7 @@
         <translation>&amp;Cambiar contrasinal...</translation>
     </message>
     <message>
-        <source>&amp;Receiving addresses...</source>
+        <source>&amp;Much receiving addresses...</source>
         <translation>Direccións para recibir</translation>
     </message>
     <message>
@@ -162,11 +162,11 @@
         <translation>Moedeiro</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
+        <source>&amp;Such Send</source>
         <translation>&amp;Enviar</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>&amp;Recibir</translation>
     </message>
     <message>

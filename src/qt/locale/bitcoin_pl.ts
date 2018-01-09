@@ -54,11 +54,11 @@
         <translation>W&amp;ybierz</translation>
     </message>
     <message>
-        <source>Sending addresses</source>
+        <source>Such sending addresses</source>
         <translation>Adresy wysyłania</translation>
     </message>
     <message>
-        <source>Receiving addresses</source>
+        <source>Much receiving addresses</source>
         <translation>Adresy odbioru</translation>
     </message>
     <message>
@@ -242,7 +242,7 @@
         <translation>Synchronizacja z siecią...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>P&amp;odsumowanie</translation>
     </message>
     <message>
@@ -354,11 +354,11 @@
         <translation>Portfel</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
+        <source>&amp;Such Send</source>
         <translation>Wyślij</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>Odbie&amp;rz</translation>
     </message>
     <message>

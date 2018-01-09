@@ -54,11 +54,11 @@
         <translation>&amp;Aukeratu</translation>
     </message>
     <message>
-        <source>Sending addresses</source>
+        <source>Such sending addresses</source>
         <translation>Helbideak bidaltzen</translation>
     </message>
     <message>
-        <source>Receiving addresses</source>
+        <source>Much receiving addresses</source>
         <translation>Helbideak jasotzen</translation>
     </message>
     <message>
@@ -210,7 +210,7 @@
         <translation>Sarearekin sinkronizatzen...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>&amp;Gainbegiratu</translation>
     </message>
     <message>
@@ -246,7 +246,7 @@
         <translation>&amp;Aukerak...</translation>
     </message>
     <message>
-        <source>&amp;Receiving addresses...</source>
+        <source>&amp;Much receiving addresses...</source>
         <translation>Helbideak jasotzen</translation>
     </message>
     <message>

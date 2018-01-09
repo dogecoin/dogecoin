@@ -114,7 +114,7 @@
         <translation>&amp;Нууц Үгийг Солих...</translation>
     </message>
     <message>
-        <source>&amp;Receiving addresses...</source>
+        <source>&amp;Much receiving addresses...</source>
         <translation>Хүлээн авах хаяг</translation>
     </message>
     <message>

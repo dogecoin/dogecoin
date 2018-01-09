@@ -86,7 +86,7 @@
         <translation>Se sincronizează cu reţeaua...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>&amp;Imagine de ansamblu</translation>
     </message>
     <message>
@@ -186,11 +186,11 @@
         <translation>Portofel</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
+        <source>&amp;Such Send</source>
         <translation>Trimite</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>P&amp;rimeşte</translation>
     </message>
     <message>

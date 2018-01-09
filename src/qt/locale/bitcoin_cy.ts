@@ -58,7 +58,7 @@
         <translation>Cysoni â'r rhwydwaith...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>&amp;Trosolwg</translation>
     </message>
     <message>
@@ -98,11 +98,11 @@
         <translation>&amp;Newid cyfrinymadrodd...</translation>
     </message>
     <message>
-        <source>&amp;Sending addresses...</source>
+        <source>&amp;Such sending addresses...</source>
         <translation>&amp;Cyfeiriadau anfon...</translation>
     </message>
     <message>
-        <source>&amp;Receiving addresses...</source>
+        <source>&amp;Much receiving addresses...</source>
         <translation>&amp;Cyfeiriadau derbyn...</translation>
     </message>
     <message>
@@ -122,11 +122,11 @@
         <translation>Waled</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
+        <source>&amp;Such Send</source>
         <translation>&amp;Anfon</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>&amp;Derbyn</translation>
     </message>
     <message>

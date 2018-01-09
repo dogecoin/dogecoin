@@ -86,7 +86,7 @@
         <translation>Đồng bộ hóa với mạng</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>&amp;Tổng quan</translation>
     </message>
     <message>
@@ -150,11 +150,11 @@
         <translation>&amp;Thay đổi mật khẩu...</translation>
     </message>
     <message>
-        <source>&amp;Sending addresses...</source>
+        <source>&amp;Such sending addresses...</source>
         <translation>&amp;Địa chỉ gửi</translation>
     </message>
     <message>
-        <source>&amp;Receiving addresses...</source>
+        <source>&amp;Much receiving addresses...</source>
         <translation>Địa chỉ nhận</translation>
     </message>
     <message>
@@ -194,11 +194,11 @@
         <translation>Ví</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
+        <source>&amp;Such Send</source>
         <translation>&amp;Gửi</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>&amp;Nhận</translation>
     </message>
     <message>

@@ -78,7 +78,7 @@
         <translation>Sinkronigante kun reto...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>&amp;Superrigardo</translation>
     </message>
     <message>
@@ -131,7 +131,7 @@
     </message>
     <message>
         <source>Such &amp;sending addresses...</source>
-        <translation>&amp;Sendaj adresoj...</translation>
+        <translation>&amp;Such Sendaj adresoj...</translation>
     </message>
     <message>
         <source>Much &amp;receiving addresses...</source>
@@ -178,11 +178,11 @@
         <translation>Monujo</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Sendi</translation>
+        <source>&amp;Such Send</source>
+        <translation>&amp;Such Sendi</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>&amp;Ricevi</translation>
     </message>
     <message>

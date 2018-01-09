@@ -42,11 +42,11 @@
         <translation>K&amp;ies</translation>
     </message>
     <message>
-        <source>Sending addresses</source>
+        <source>Such sending addresses</source>
         <translation>Stuur adresse</translation>
     </message>
     <message>
-        <source>Receiving addresses</source>
+        <source>Much receiving addresses</source>
         <translation>Ontvang adresse</translation>
     </message>
     <message>
@@ -182,7 +182,7 @@
         <translation>Sinchroniseer met die netwerk ...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>&amp;Oorsig</translation>
     </message>
     <message>

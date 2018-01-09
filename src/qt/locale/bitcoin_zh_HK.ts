@@ -54,11 +54,11 @@
         <translation>選擇 &amp;h</translation>
     </message>
     <message>
-        <source>Sending addresses</source>
+        <source>Such sending addresses</source>
         <translation>付款地址</translation>
     </message>
     <message>
-        <source>Receiving addresses</source>
+        <source>Much receiving addresses</source>
         <translation>收款地址</translation>
     </message>
     <message>
@@ -230,7 +230,7 @@
         <translation>與網絡同步中...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>總覽 &amp;O</translation>
     </message>
     <message>
@@ -294,11 +294,11 @@
         <translation>改變密碼... &amp;C</translation>
     </message>
     <message>
-        <source>&amp;Sending addresses...</source>
+        <source>&amp;Such sending addresses...</source>
         <translation>付款位址... &amp;S</translation>
     </message>
     <message>
-        <source>&amp;Receiving addresses...</source>
+        <source>&amp;Much receiving addresses...</source>
         <translation>收款位址... &amp;R</translation>
     </message>
     <message>
@@ -342,11 +342,11 @@
         <translation>錢包</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
+        <source>&amp;Such Send</source>
         <translation>付款 &amp;S</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>收款 &amp;R</translation>
     </message>
     <message>

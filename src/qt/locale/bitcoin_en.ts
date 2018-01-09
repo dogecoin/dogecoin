@@ -310,8 +310,8 @@
     </message>
     <message>
         <location line="+158"/>
-        <source>&amp;Overview</source>
-        <translation type="unfinished">&amp;Overview</translation>
+        <source>&amp;Wow</source>
+        <translation type="unfinished">&amp;Wow</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -320,8 +320,8 @@
     </message>
     <message>
         <location line="+6"/>
-        <source>&amp;Send</source>
-        <translation type="unfinished">&amp;Send</translation>
+        <source>&amp;Such Send</source>
+        <translation type="unfinished">&amp;Such Send</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -330,8 +330,8 @@
     </message>
     <message>
         <location line="+10"/>
-        <source>&amp;Receive</source>
-        <translation type="unfinished">&amp;Receive</translation>
+        <source>&amp;Much Receive</source>
+        <translation type="unfinished">&amp;Much Receive</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -460,7 +460,7 @@
     </message>
     <message>
         <location line="+4"/>
-        <source>&amp;Sending addresses...</source>
+        <source>&amp;Such sending addresses...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -470,7 +470,7 @@
     </message>
     <message>
         <location line="+1"/>
-        <source>&amp;Receiving addresses...</source>
+        <source>&amp;Much receiving addresses...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

@@ -86,7 +86,7 @@
         <translation>नेटवर्कमा समिकरण हुँदै...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>शारांश</translation>
     </message>
     <message>
@@ -150,11 +150,11 @@
         <translation>&amp;amp;पासफ्रेज परिवर्तन गर्नुहोस्...</translation>
     </message>
     <message>
-        <source>&amp;Sending addresses...</source>
+        <source>&amp;Such sending addresses...</source>
         <translation>&amp;amp;पठाउने ठेगानाहरू...</translation>
     </message>
     <message>
-        <source>&amp;Receiving addresses...</source>
+        <source>&amp;Much receiving addresses...</source>
         <translation>&amp;amp;प्राप्त गर्ने ठेगानाहरू...</translation>
     </message>
     <message>

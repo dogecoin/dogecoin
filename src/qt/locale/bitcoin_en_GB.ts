@@ -54,12 +54,12 @@
         <translation>C&amp;hoose</translation>
     </message>
     <message>
-        <source>Sending addresses</source>
-        <translation>Sending addresses</translation>
+        <source>Such sending addresses</source>
+        <translation>Such sending addresses</translation>
     </message>
     <message>
-        <source>Receiving addresses</source>
-        <translation>Receiving addresses</translation>
+        <source>Much receiving addresses</source>
+        <translation>Much receiving addresses</translation>
     </message>
     <message>
         <source>&amp;Copy Address</source>
@@ -146,8 +146,8 @@
         <translation>Synchronising with network...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Overview</translation>
+        <source>&amp;Wow</source>
+        <translation>&amp;Wow</translation>
     </message>
     <message>
         <source>Node</source>
@@ -210,12 +210,12 @@
         <translation>&amp;Change Passphrase...</translation>
     </message>
     <message>
-        <source>&amp;Sending addresses...</source>
-        <translation>&amp;Sending addresses...</translation>
+        <source>&amp;Such sending addresses...</source>
+        <translation>&amp;Such sending addresses...</translation>
     </message>
     <message>
-        <source>&amp;Receiving addresses...</source>
-        <translation>&amp;Receiving addresses...</translation>
+        <source>&amp;Much receiving addresses...</source>
+        <translation>&amp;Much receiving addresses...</translation>
     </message>
     <message>
         <source>Open &amp;URI...</source>
@@ -258,12 +258,12 @@
         <translation>Wallet</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Send</translation>
+        <source>&amp;Such Send</source>
+        <translation>&amp;Such Send</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;Receive</translation>
+        <source>&amp;Much Receive</source>
+        <translation>&amp;Much Receive</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>

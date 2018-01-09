@@ -82,7 +82,7 @@
         <translation>Sinchronizavimas su tinklu ...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>&amp;Apžvalga</translation>
     </message>
     <message>
@@ -186,11 +186,11 @@
         <translation>Piniginė</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
+        <source>&amp;Such Send</source>
         <translation>&amp;Siųsti</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>&amp;Gauti</translation>
     </message>
     <message>

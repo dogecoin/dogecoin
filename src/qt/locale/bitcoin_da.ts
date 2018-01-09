@@ -242,7 +242,7 @@
         <translation>Synkroniserer med netværk…</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>&amp;Oversigt</translation>
     </message>
     <message>
@@ -306,11 +306,11 @@
         <translation>&amp;Skift adgangskode…</translation>
     </message>
     <message>
-        <source>&amp;Sending addresses...</source>
+        <source>&amp;Such sending addresses...</source>
         <translation>&amp;Afsendelsesadresser…</translation>
     </message>
     <message>
-        <source>&amp;Receiving addresses...</source>
+        <source>&amp;Much receiving addresses...</source>
         <translation>&amp;Modtagelsesadresser…</translation>
     </message>
     <message>
@@ -370,11 +370,11 @@
         <translation>Tegnebog</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Send</translation>
+        <source>&amp;Such Send</source>
+        <translation>&amp;Such Send</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>&amp;Modtag</translation>
     </message>
     <message>

@@ -54,11 +54,11 @@
         <translation>選択 (&amp;C)</translation>
     </message>
     <message>
-        <source>Sending addresses</source>
+        <source>Such sending addresses</source>
         <translation>送金用</translation>
     </message>
     <message>
-        <source>Receiving addresses</source>
+        <source>Much receiving addresses</source>
         <translation>受け取りアドレス</translation>
     </message>
     <message>
@@ -242,7 +242,7 @@
         <translation>ネットワークに同期中……</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>概要(&amp;O)</translation>
     </message>
     <message>
@@ -370,11 +370,11 @@
         <translation>ウォレット</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
+        <source>&amp;Such Send</source>
         <translation>送金 (&amp;S)</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>入金 (&amp;R)</translation>
     </message>
     <message>

@@ -242,7 +242,7 @@
         <translation>Synchronisiere mit Netzwerk...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>&amp;Übersicht</translation>
     </message>
     <message>
@@ -370,11 +370,11 @@
         <translation>Wallet</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
+        <source>&amp;Such Send</source>
         <translation>&amp;Überweisen</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>&amp;Empfangen</translation>
     </message>
     <message>

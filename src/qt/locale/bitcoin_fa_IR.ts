@@ -74,7 +74,7 @@
         <translation>به روز رسانی با شبکه...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>و بازبینی</translation>
     </message>
     <message>
@@ -122,7 +122,7 @@
         <translation>تغییر رمز/پَس فرِیز</translation>
     </message>
     <message>
-        <source>&amp;Receiving addresses...</source>
+        <source>&amp;Much receiving addresses...</source>
         <translation>دریافت آدرس ها</translation>
     </message>
     <message>
@@ -142,7 +142,7 @@
         <translation>کیف پول</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
+        <source>&amp;Such Send</source>
         <translation>و ارسال</translation>
     </message>
     <message>

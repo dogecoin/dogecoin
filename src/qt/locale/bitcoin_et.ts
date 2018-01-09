@@ -54,11 +54,11 @@
         <translation>V&amp;ali</translation>
     </message>
     <message>
-        <source>Sending addresses</source>
+        <source>Such sending addresses</source>
         <translation>Saatvad aadressid</translation>
     </message>
     <message>
-        <source>Receiving addresses</source>
+        <source>Much receiving addresses</source>
         <translation>Vastuvõtvad aadressid</translation>
     </message>
     <message>
@@ -230,7 +230,7 @@
         <translation>Võrgusünkimine...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>&amp;Ülevaade</translation>
     </message>
     <message>
@@ -322,11 +322,11 @@
         <translation>Rahakott</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
+        <source>&amp;Such Send</source>
         <translation>&amp;Saada</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>&amp;Võta vastu</translation>
     </message>
     <message>

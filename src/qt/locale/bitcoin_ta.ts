@@ -26,11 +26,11 @@
         <translation>&amp;அழி</translation>
     </message>
     <message>
-        <source>Sending addresses</source>
+        <source>Such sending addresses</source>
         <translation>முகவரிகள் அனுப்பப்படுகின்றன</translation>
     </message>
     <message>
-        <source>Receiving addresses</source>
+        <source>Much receiving addresses</source>
         <translation>முகவரிகள் பெறப்படுகின்றன</translation>
     </message>
     </context>
@@ -54,7 +54,7 @@
 <context>
     <name>DogecoinGUI</name>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>&amp;கண்ணோட்டம்</translation>
     </message>
     <message>
@@ -98,11 +98,11 @@
         <translation>பணப்பை</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
+        <source>&amp;Such Send</source>
         <translation>&amp;அனுப்பு</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>&amp;பெறு</translation>
     </message>
     <message>

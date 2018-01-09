@@ -74,7 +74,7 @@
         <translation>Синхронизација со мрежата...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>&amp;Преглед</translation>
     </message>
     <message>
@@ -122,11 +122,11 @@
         <translation>&amp;Измени Тајна Фраза...</translation>
     </message>
     <message>
-        <source>&amp;Sending addresses...</source>
+        <source>&amp;Such sending addresses...</source>
         <translation>&amp;Адреси за Испраќање...</translation>
     </message>
     <message>
-        <source>&amp;Receiving addresses...</source>
+        <source>&amp;Much receiving addresses...</source>
         <translation>&amp;Адреси за Примање...</translation>
     </message>
     <message>
@@ -154,11 +154,11 @@
         <translation>Паричник</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
+        <source>&amp;Such Send</source>
         <translation>&amp;Испрати</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>&amp;Прими</translation>
     </message>
     <message>

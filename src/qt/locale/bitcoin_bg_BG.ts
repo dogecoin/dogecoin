@@ -54,11 +54,11 @@
         <translation>Избери</translation>
     </message>
     <message>
-        <source>Sending addresses</source>
+        <source>Such sending addresses</source>
         <translation>Адрес за пращане</translation>
     </message>
     <message>
-        <source>Receiving addresses</source>
+        <source>Much receiving addresses</source>
         <translation>Адрес за получаване</translation>
     </message>
     <message>
@@ -182,7 +182,7 @@
         <translation>Синхронизиране с мрежата...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>Преглед</translation>
     </message>
     <message>
@@ -246,11 +246,11 @@
         <translation>Промени паролата...</translation>
     </message>
     <message>
-        <source>&amp;Sending addresses...</source>
+        <source>&amp;Such sending addresses...</source>
         <translation>Адреси за пращане...</translation>
     </message>
     <message>
-        <source>&amp;Receiving addresses...</source>
+        <source>&amp;Much receiving addresses...</source>
         <translation>Адреси за получаване...</translation>
     </message>
     <message>

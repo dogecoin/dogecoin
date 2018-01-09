@@ -238,7 +238,7 @@
         <translation>مزامنة مع الشبكة ...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>&amp;نظرة عامة</translation>
     </message>
     <message>
@@ -350,11 +350,11 @@
         <translation>محفظة</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
+        <source>&amp;Such Send</source>
         <translation>&amp;ارسل</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>&amp;استقبل</translation>
     </message>
     <message>

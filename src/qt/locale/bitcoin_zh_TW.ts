@@ -242,7 +242,7 @@
         <translation>正在跟網路進行同步...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>總覽</translation>
     </message>
     <message>
@@ -370,11 +370,11 @@
         <translation>錢包</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
+        <source>&amp;Such Send</source>
         <translation>付款</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>收款</translation>
     </message>
     <message>

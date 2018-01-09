@@ -54,11 +54,11 @@
         <translation>选择</translation>
     </message>
     <message>
-        <source>Sending addresses</source>
+        <source>Such sending addresses</source>
         <translation>付款地址</translation>
     </message>
     <message>
-        <source>Receiving addresses</source>
+        <source>Much receiving addresses</source>
         <translation>收款地址</translation>
     </message>
     <message>
@@ -242,7 +242,7 @@
         <translation>正在与网络同步...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>概况(&amp;O)</translation>
     </message>
     <message>
@@ -366,11 +366,11 @@
         <translation>钱包</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
+        <source>&amp;Such Send</source>
         <translation>发送(&amp;S)</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>接收(&amp;R)</translation>
     </message>
     <message>

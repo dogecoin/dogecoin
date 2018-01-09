@@ -54,11 +54,11 @@
         <translation>K&amp;ies</translation>
     </message>
     <message>
-        <source>Sending addresses</source>
+        <source>Such sending addresses</source>
         <translation>Stuurders adresse</translation>
     </message>
     <message>
-        <source>Receiving addresses</source>
+        <source>Much receiving addresses</source>
         <translation>Ontvanger adresse</translation>
     </message>
     <message>
@@ -218,7 +218,7 @@
         <translation>Netwerk-sinkronisasie...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>&amp;Oorsig</translation>
     </message>
     <message>
@@ -282,11 +282,11 @@
         <translation>&amp;Verander Wagwoord</translation>
     </message>
     <message>
-        <source>&amp;Sending addresses...</source>
+        <source>&amp;Such sending addresses...</source>
         <translation>&amp;Versending adresse...</translation>
     </message>
     <message>
-        <source>&amp;Receiving addresses...</source>
+        <source>&amp;Much receiving addresses...</source>
         <translation>&amp;Ontvanger adresse</translation>
     </message>
     <message>
@@ -318,11 +318,11 @@
         <translation>Beursie</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
+        <source>&amp;Such Send</source>
         <translation>&amp;Stuur</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>&amp;Ontvang</translation>
     </message>
     <message>

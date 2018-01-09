@@ -78,7 +78,7 @@
         <translation>Тармоқ билан синхронланмоқда...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>&amp;Кўриб чиқиш</translation>
     </message>
     <message>
@@ -178,11 +178,11 @@
         <translation>Ҳамён</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
+        <source>&amp;Such Send</source>
         <translation>&amp;Жўнатиш</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>&amp;Қабул қилиш</translation>
     </message>
     <message>

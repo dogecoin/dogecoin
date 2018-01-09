@@ -86,7 +86,7 @@
         <translation>Synkroniserer med nettverk...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>&amp;Oversikt</translation>
     </message>
     <message>
@@ -198,11 +198,11 @@
         <translation>Lommebok</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Send</translation>
+        <source>&amp;Such Send</source>
+        <translation>&amp;Such Send</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>&amp;Motta</translation>
     </message>
     <message>

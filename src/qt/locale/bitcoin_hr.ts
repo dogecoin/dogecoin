@@ -102,7 +102,7 @@
         <translation>Usklađivanje s mrežom ...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>&amp;Pregled</translation>
     </message>
     <message>
@@ -206,11 +206,11 @@
         <translation>Novčanik</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
+        <source>&amp;Such Send</source>
         <translation>&amp;Pošalji</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>Pri&amp;mi</translation>
     </message>
     <message>

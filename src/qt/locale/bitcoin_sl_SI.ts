@@ -86,7 +86,7 @@
         <translation>Dohitevam omrežje ...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>Pre&amp;gled</translation>
     </message>
     <message>
@@ -186,11 +186,11 @@
         <translation>Denarnica</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
+        <source>&amp;Such Send</source>
         <translation>&amp;Pošlji</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>P&amp;rejmi</translation>
     </message>
     <message>

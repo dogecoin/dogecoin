@@ -54,7 +54,7 @@
 <context>
     <name>DogecoinGUI</name>
     <message>
-        <source>&amp;Receiving addresses...</source>
+        <source>&amp;Much receiving addresses...</source>
         <translation>Alış adresleri</translation>
     </message>
     </context>

@@ -54,7 +54,7 @@
         <translation>Escol&amp;ha</translation>
     </message>
     <message>
-        <source>Sending addresses</source>
+        <source>Such sending addresses</source>
         <translation>Endereços de envio</translation>
     </message>
     <message>
@@ -238,7 +238,7 @@
         <translation>Sincronizando com a rede...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>&amp;Visão geral</translation>
     </message>
     <message>
@@ -366,11 +366,11 @@
         <translation>Carteira</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
+        <source>&amp;Such Send</source>
         <translation>&amp;Enviar</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>&amp;Receber</translation>
     </message>
     <message>

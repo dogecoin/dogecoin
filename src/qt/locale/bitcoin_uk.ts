@@ -86,7 +86,7 @@
         <translation>Синхронізація з мережею...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>&amp;Огляд</translation>
     </message>
     <message>
@@ -190,11 +190,11 @@
         <translation>Гаманець</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
+        <source>&amp;Such Send</source>
         <translation>&amp;Відправити</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>&amp;Отримати</translation>
     </message>
     <message>

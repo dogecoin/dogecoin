@@ -46,11 +46,11 @@
         <translation>Izbirajte adresu za primanje</translation>
     </message>
     <message>
-        <source>Sending addresses</source>
+        <source>Such sending addresses</source>
         <translation>Adresa za slanje</translation>
     </message>
     <message>
-        <source>Receiving addresses</source>
+        <source>Much receiving addresses</source>
         <translation>Adresa za primanje</translation>
     </message>
     </context>
@@ -82,7 +82,7 @@
         <translation>Синхронизација са мрежом у току...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>&amp;Општи преглед</translation>
     </message>
     <message>
@@ -142,7 +142,7 @@
         <translation>новчаник</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
+        <source>&amp;Such Send</source>
         <translation>&amp;Пошаљи</translation>
     </message>
     <message>

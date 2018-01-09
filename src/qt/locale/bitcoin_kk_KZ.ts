@@ -78,11 +78,11 @@
         <translation>Әмиян</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
+        <source>&amp;Such Send</source>
         <translation>Жіберу</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>Алу</translation>
     </message>
     <message>

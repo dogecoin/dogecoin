@@ -242,7 +242,7 @@
         <translation>Synchronizuji se se sítí...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>&amp;Přehled</translation>
     </message>
     <message>
@@ -370,11 +370,11 @@
         <translation>Peněženka</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
+        <source>&amp;Such Send</source>
         <translation>P&amp;ošli</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>Při&amp;jmi</translation>
     </message>
     <message>

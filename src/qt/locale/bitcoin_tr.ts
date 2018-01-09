@@ -54,7 +54,7 @@
         <translation>S&amp;eçiniz</translation>
     </message>
     <message>
-        <source>Sending addresses</source>
+        <source>Such sending addresses</source>
         <translation>Gönderilen adresler</translation>
     </message>
     <message>
@@ -242,7 +242,7 @@
         <translation>Ağ ile senkronize ediliyor...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>&amp;Genel bakış</translation>
     </message>
     <message>
@@ -370,11 +370,11 @@
         <translation>Cüzdan</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
+        <source>&amp;Such Send</source>
         <translation>&amp;Gönder</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>&amp;Al</translation>
     </message>
     <message>

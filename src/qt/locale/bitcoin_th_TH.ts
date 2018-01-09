@@ -50,7 +50,7 @@
         <translation>เลือกที่อยู่เพื่อส่งเหรียญไปไว้</translation>
     </message>
     <message>
-        <source>Sending addresses</source>
+        <source>Such sending addresses</source>
         <translation>ส่งที่อยู่</translation>
     </message>
     </context>
@@ -98,7 +98,7 @@
         <translation>กำลังทำข้อมูลให้ตรงกันกับเครือข่าย ...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>&amp;ภาพรวม</translation>
     </message>
     <message>
@@ -162,11 +162,11 @@
         <translation>&amp;เปลี่ยนรหัสผ่าน...</translation>
     </message>
     <message>
-        <source>&amp;Sending addresses...</source>
+        <source>&amp;Such sending addresses...</source>
         <translation>&amp;ที่เก็บเงิน ที่จะส่ง dogecoin</translation>
     </message>
     <message>
-        <source>&amp;Receiving addresses...</source>
+        <source>&amp;Much receiving addresses...</source>
         <translation>&amp;ที่เก็บเงิน ที่จะรับ dogecoin</translation>
     </message>
     <message>
@@ -210,11 +210,11 @@
         <translation>กระเป๋าเงิน</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
+        <source>&amp;Such Send</source>
         <translation>&amp;ส่ง</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>&amp;รับ</translation>
     </message>
     <message>

@@ -243,7 +243,7 @@ Var vänlig och försök igen.</translation>
         <translation>Synkroniserar med nätverk...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>&amp;Översikt</translation>
     </message>
     <message>
@@ -371,11 +371,11 @@ Var vänlig och försök igen.</translation>
         <translation>Plånbok</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
+        <source>&amp;Such Send</source>
         <translation>&amp;Skicka</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>&amp;Ta emot</translation>
     </message>
     <message>

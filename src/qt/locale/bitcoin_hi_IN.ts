@@ -42,7 +42,7 @@
         <translation>नेटवर्क से समकालिक (मिल) रहा है ...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>&amp;विवरण</translation>
     </message>
     <message>

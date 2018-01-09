@@ -182,7 +182,7 @@
         <translation>Duke u sinkronizuar me rrjetin...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>&amp;Përmbledhje</translation>
     </message>
     <message>
@@ -206,7 +206,7 @@
         <translation>&amp;Opsione</translation>
     </message>
     <message>
-        <source>&amp;Receiving addresses...</source>
+        <source>&amp;Much receiving addresses...</source>
         <translation>Duke marr adresen</translation>
     </message>
     <message>
@@ -222,11 +222,11 @@
         <translation>Portofol</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
+        <source>&amp;Such Send</source>
         <translation>&amp;Dergo</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>&amp;Merr</translation>
     </message>
     <message>

@@ -86,7 +86,7 @@
         <translation>Sinkronisasi dengan jaringan...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>&amp;Kilasan</translation>
     </message>
     <message>
@@ -138,11 +138,11 @@
         <translation>&amp;Ubah Kata Kunci...</translation>
     </message>
     <message>
-        <source>&amp;Sending addresses...</source>
+        <source>&amp;Such sending addresses...</source>
         <translation>&amp;Alamat-alamat untuk mengirim...</translation>
     </message>
     <message>
-        <source>&amp;Receiving addresses...</source>
+        <source>&amp;Much receiving addresses...</source>
         <translation>&amp;Alamat-alamat untuk menerima...</translation>
     </message>
     <message>
@@ -186,11 +186,11 @@
         <translation>Dompet</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
+        <source>&amp;Such Send</source>
         <translation>&amp;Kirim</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>&amp;Menerima</translation>
     </message>
     <message>

@@ -54,11 +54,11 @@
         <translation>انتخاب</translation>
     </message>
     <message>
-        <source>Sending addresses</source>
+        <source>Such sending addresses</source>
         <translation>آدرس های فرستنده</translation>
     </message>
     <message>
-        <source>Receiving addresses</source>
+        <source>Much receiving addresses</source>
         <translation>آدرس های گیرنده</translation>
     </message>
     <message>
@@ -174,7 +174,7 @@
         <translation>همگام‌سازی با شبکه...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>&amp;بررسی اجمالی</translation>
     </message>
     <message>
@@ -238,11 +238,11 @@
         <translation>&amp;تغییر گذرواژه...</translation>
     </message>
     <message>
-        <source>&amp;Sending addresses...</source>
+        <source>&amp;Such sending addresses...</source>
         <translation>&amp;در حال ارسال آدرس ها...</translation>
     </message>
     <message>
-        <source>&amp;Receiving addresses...</source>
+        <source>&amp;Much receiving addresses...</source>
         <translation>&amp;در حال دریافت آدرس ها...</translation>
     </message>
     <message>
@@ -286,11 +286,11 @@
         <translation>کیف پول</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
+        <source>&amp;Such Send</source>
         <translation>&amp;ارسال</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>&amp;دریافت</translation>
     </message>
     <message>

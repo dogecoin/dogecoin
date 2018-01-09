@@ -54,11 +54,11 @@
         <translation>בחר</translation>
     </message>
     <message>
-        <source>Sending addresses</source>
+        <source>Such sending addresses</source>
         <translation>כתובת לשליחה</translation>
     </message>
     <message>
-        <source>Receiving addresses</source>
+        <source>Much receiving addresses</source>
         <translation>מקבל כתובות</translation>
     </message>
     <message>
@@ -142,7 +142,7 @@
         <translation>בסנכרון עם הרשת…</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>&amp;סקירה</translation>
     </message>
     <message>
@@ -250,11 +250,11 @@
         <translation>ארנק</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
+        <source>&amp;Such Send</source>
         <translation>&amp;שליחה</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>&amp;קבלה</translation>
     </message>
     <message>
