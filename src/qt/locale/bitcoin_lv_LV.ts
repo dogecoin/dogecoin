@@ -143,7 +143,7 @@
     </message>
     <message>
         <source>Send coins to a Dogecoin address</source>
-        <translation>Nosūtīt bitkoinus uz Dogecoin adresi</translation>
+        <translation>Nosūtīt bitkoinu uz Dogecoin adresi</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -555,7 +555,7 @@
     </message>
     <message>
         <source>Choose the default subdivision unit to show in the interface and when sending coins.</source>
-        <translation>Izvēlēties dalījuma vienību pēc noklusēšanas, ko izmantot interfeisā un nosūtot bitkoinus.</translation>
+        <translation>Izvēlēties dalījuma vienību pēc noklusēšanas, ko izmantot interfeisā un nosūtot bitkoinu.</translation>
     </message>
     <message>
         <source>Whether to show coin control features or not.</source>
@@ -848,7 +848,7 @@
     <name>SendCoinsDialog</name>
     <message>
         <source>Send Coins</source>
-        <translation>Sūtīt Dogekoinus</translation>
+        <translation>Sūtīt Dogekoinu</translation>
     </message>
     <message>
         <source>Coin Control Features</source>

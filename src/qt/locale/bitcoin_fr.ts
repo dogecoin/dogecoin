@@ -687,8 +687,8 @@
         <translation>Cette étiquette devient rouge si un destinataire reçoit un montant inférieur au seuil actuel de poussière.</translation>
     </message>
     <message>
-        <source>Can vary +/- %1 satoshi(s) per input.</source>
-        <translation>Peut varier +/- %1 satoshi(s) par entrée.</translation>
+        <source>Can vary +/- %1 koinu(s) per input.</source>
+        <translation>Peut varier +/- %1 koinu(s) par entrée.</translation>
     </message>
     <message>
         <source>(no label)</source>
@@ -2025,8 +2025,8 @@
         <translation>par kilo-octet</translation>
     </message>
     <message>
-        <source>If the custom fee is set to 1000 satoshis and the transaction is only 250 bytes, then "per kilobyte" only pays 250 satoshis in fee, while "total at least" pays 1000 satoshis. For transactions bigger than a kilobyte both pay by kilobyte.</source>
-        <translation>Si les frais personnalisés sont définis à 1 000 satoshis et que la transaction est seulement de 250 octets, donc le « par kilo-octet » ne paiera que 250 satoshis de frais, alors que le « total au moins » paiera 1 000 satoshis. Pour des transactions supérieures à un kilo-octet, les deux paieront par kilo-octets.</translation>
+        <source>If the custom fee is set to 1000 koinu and the transaction is only 250 bytes, then "per kilobyte" only pays 250 koinu in fee, while "total at least" pays 1000 koinu. For transactions bigger than a kilobyte both pay by kilobyte.</source>
+        <translation>Si les frais personnalisés sont définis à 1 000 koinu et que la transaction est seulement de 250 octets, donc le « par kilo-octet » ne paiera que 250 koinu de frais, alors que le « total au moins » paiera 1 000 koinu. Pour des transactions supérieures à un kilo-octet, les deux paieront par kilo-octets.</translation>
     </message>
     <message>
         <source>Hide</source>
