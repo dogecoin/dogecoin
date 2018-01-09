@@ -206,8 +206,8 @@
         <translation>Barra de pestañas</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and bitcoin: URIs)</source>
-        <translation>Pide pagos (genera codigos QR and bitcoin: URls)</translation>
+        <source>Request payments (generates QR codes and dogecoin: URIs)</source>
+        <translation>Pide pagos (genera codigos QR and dogecoin: URls)</translation>
     </message>
     <message>
         <source>Error</source>
@@ -750,7 +750,7 @@
     <name>WalletView</name>
     </context>
 <context>
-    <name>bitcoin-core</name>
+    <name>dogecoin-core</name>
     <message>
         <source>Options:</source>
         <translation>Opciones:
@@ -773,7 +773,7 @@
     </message>
     <message>
         <source>Dogecoin Core</source>
-        <translation>bitcoin core</translation>
+        <translation>dogecoin core</translation>
     </message>
     <message>
         <source>Error loading block database</source>

@@ -706,7 +706,7 @@
     <name>WalletView</name>
     </context>
 <context>
-    <name>bitcoin-core</name>
+    <name>dogecoin-core</name>
     <message>
         <source>Dogecoin Core</source>
         <translation>Dogecoin மையம்</translation>
