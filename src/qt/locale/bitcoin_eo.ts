@@ -147,7 +147,7 @@
     </message>
     <message>
         <source>Send coins to a Dogecoin address</source>
-        <translation>Sendi monon al Bitmon-adreso</translation>
+        <translation>Sendi monon al Dogemon-adreso</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -171,7 +171,7 @@
     </message>
     <message>
         <source>Dogecoin</source>
-        <translation>Bitmono</translation>
+        <translation>Dogemono</translation>
     </message>
     <message>
         <source>Wallet</source>
@@ -199,11 +199,11 @@
     </message>
     <message>
         <source>Sign messages with your Dogecoin addresses to prove you own them</source>
-        <translation>Subskribi mesaĝojn per via Bitmon-adresoj por pravigi, ke vi estas la posedanto</translation>
+        <translation>Subskribi mesaĝojn per via Dogemon-adresoj por pravigi, ke vi estas la posedanto</translation>
     </message>
     <message>
         <source>Verify messages to ensure they were signed with specified Dogecoin addresses</source>
-        <translation>Kontroli mesaĝojn por kontroli ĉu ili estas subskribitaj per specifaj Bitmon-adresoj</translation>
+        <translation>Kontroli mesaĝojn por kontroli ĉu ili estas subskribitaj per specifaj Dogemon-adresoj</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -557,7 +557,7 @@
     </message>
     <message>
         <source>Automatically open the Dogecoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Aŭtomate malfermi la kursilan pordon por Bitmono. Tio funkcias nur se via kursilo havas la UPnP-funkcion, kaj se tiu ĉi estas ŝaltita.</translation>
+        <translation>Aŭtomate malfermi la kursilan pordon por Dogemono. Tio funkcias nur se via kursilo havas la UPnP-funkcion, kaj se tiu ĉi estas ŝaltita.</translation>
     </message>
     <message>
         <source>Map port using &amp;UPnP</source>
@@ -942,7 +942,7 @@
     <name>SendCoinsDialog</name>
     <message>
         <source>Send Coins</source>
-        <translation>Sendi Bitmonon</translation>
+        <translation>Sendi Dogemonon</translation>
     </message>
     <message>
         <source>Coin Control Features</source>
@@ -1122,7 +1122,7 @@
     </message>
     <message>
         <source>Sign the message to prove you own this Dogecoin address</source>
-        <translation>Subskribi la mesaĝon por pravigi, ke vi estas la posedanto de tiu Bitmon-adreso</translation>
+        <translation>Subskribi la mesaĝon por pravigi, ke vi estas la posedanto de tiu Dogemon-adreso</translation>
     </message>
     <message>
         <source>Sign &amp;Message</source>
@@ -1142,7 +1142,7 @@
     </message>
     <message>
         <source>Verify the message to ensure it was signed with the specified Dogecoin address</source>
-        <translation>Kontroli la mesaĝon por pravigi, ke ĝi ja estas subskribita per la specifa Bitmon-adreso</translation>
+        <translation>Kontroli la mesaĝon por pravigi, ke ĝi ja estas subskribita per la specifa Dogemon-adreso</translation>
     </message>
     <message>
         <source>Verify &amp;Message</source>
@@ -1223,7 +1223,7 @@
     </message>
     <message>
         <source>Dogecoin Core</source>
-        <translation>Kerno de Bitmono</translation>
+        <translation>Kerno de Dogemono</translation>
     </message>
     <message>
         <source>Bind to given address and always listen on it. Use [host]:port notation for IPv6</source>
