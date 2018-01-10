@@ -1,6 +1,6 @@
 //
 // Simple Dogecoin Payment Protocol messages
-// Derived fromthe Bitcoin Payment Protocol
+// Derived from the Bitcoin Payment Protocol
 //
 // Use fields 100+ for extensions;
 // to avoid conflicts, register extensions via pull-req at:
