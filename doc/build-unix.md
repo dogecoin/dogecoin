@@ -54,30 +54,17 @@ For the versions used in the release, see [release-process.md](release-process.m
 Memory Requirements
 --------------------
 
-<<<<<<< HEAD
 C++ compilers are memory-hungry. It is recommended to have at least 1.5 GB of
 memory available when compiling Dogecoin Core. On systems with less, gcc can be
 tuned to conserve memory with additional CXXFLAGS:
 
-
     ./configure CXXFLAGS="--param ggc-min-expand=1 --param ggc-min-heapsize=32768"
-=======
-C++ compilers are memory-hungry. It is recommended to have at least 1 GB of
-memory available when compiling Dogecoin Core. With 512MB of memory or less,
-compilation will take much longer due to swap thrashing.
->>>>>>> bb4b082... Minor changes
 
 Dependency Build Instructions: Ubuntu & Debian
 ----------------------------------------------
 Build requirements:
 
-<<<<<<< HEAD
     sudo apt-get install build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils
-=======
-	sudo apt-get install build-essential libtool autotools-dev autoconf pkg-config libssl-dev
-	
-for Ubuntu 12.04 and later or Debian 7 and later, libboost-all-dev has to be installed:
->>>>>>> bb4b082... Minor changes
 
 Options when installing required Boost library files:
 
@@ -121,19 +108,11 @@ are installed. Either Qt 5 or Qt 4 are necessary to build the GUI.
 If both Qt 4 and Qt 5 are installed, Qt 5 will be used. Pass `--with-gui=qt4` to configure to choose Qt4.
 To build without GUI pass `--without-gui`.
 
-<<<<<<< HEAD
 To build with Qt 5 (recommended) you need the following:
-=======
-To build with Qt 4, you need the following:
->>>>>>> bb4b082... Minor changes
 
     sudo apt-get install libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler
 
-<<<<<<< HEAD
 Alternatively, to build with Qt 4 you need the following:
-=======
-For Qt 5, you need the following:
->>>>>>> bb4b082... Minor changes
 
     sudo apt-get install libqt4-dev libprotobuf-dev protobuf-compiler
 
@@ -246,7 +225,7 @@ Hardening enables the following features:
 
     To test that you have built PIE executable, install scanelf, part of paxutils, and use:
 
-    	scanelf -e ./dogecoin
+	scanelf -e ./dogecoin
 
     The output should contain:
 

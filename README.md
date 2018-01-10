@@ -58,7 +58,7 @@ Originally, a different payout scheme was envisioned with block rewards being de
 
 The current block reward schedule:
 
-1–99,999: 0–1,000,000 Dogecoin 
+1–99,999: 0–1,000,000 Dogecoin
 
 100,000–144,999: 0–500,000 Dogecoin
 
@@ -76,7 +76,7 @@ The current block reward schedule:
 
 The original block reward schedule, with one-minute block targets and four-hour difficulty readjustment:
 
-1–99,999: 0–1,000,000 Dogecoin 
+1–99,999: 0–1,000,000 Dogecoin
 
 100,000–199,999: 0–500,000 Dogecoin
 

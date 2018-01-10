@@ -65,4 +65,3 @@ Other
     src/qt/res/src/qt.svg
     src/qt/res/src/tx*.svg,
     src/qt/res/src/verify.svg
-
