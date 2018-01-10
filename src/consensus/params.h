@@ -39,11 +39,16 @@ struct BIP9Deployment {
 struct Params {
     uint256 hashGenesisBlock;
     int nSubsidyHalvingInterval;
+    /** Used to check majorities for block version upgrade */
+    int nMajorityEnforceBlockUpgrade;
+    int nMajorityRejectBlockOutdated;
+    int nMajorityWindow;
+    int nCoinbaseMaturity;
     /** Block height and hash at which BIP34 becomes active */
     int BIP34Height;
     uint256 BIP34Hash;
     /** Block height at which BIP65 becomes active */
-    int BIP65Height;
+    // int BIP65Height;
     /** Block height at which BIP66 becomes active */
     int BIP66Height;
     /**
@@ -61,8 +66,24 @@ struct Params {
     int64_t nPowTargetSpacing;
     int64_t nPowTargetTimespan;
     int64_t DifficultyAdjustmentInterval() const { return nPowTargetTimespan / nPowTargetSpacing; }
+
+    /** Dogecoin-specific parameters */
+    bool fDigishieldDifficultyCalculation;
+    bool fPowAllowDigishieldMinDifficultyBlocks; // Allow minimum difficulty blocks where a retarget would normally occur
+    bool fSimplifiedRewards; // Use block height derived rewards rather than previous block hash derived
+
     uint256 nMinimumChainWork;
     uint256 defaultAssumeValid;
+
+    /** Auxpow parameters */
+    int32_t nAuxpowChainId;
+    bool fStrictChainId;
+    bool fAllowLegacyBlocks;
+
+    /** Height-aware consensus parameters */
+    uint32_t nHeightEffective; // When these parameters come into use
+    struct Params *pLeft = nullptr;      // Left hand branch
+    struct Params *pRight = nullptr;     // Right hand branch
 };
 } // namespace Consensus
 

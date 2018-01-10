@@ -105,7 +105,7 @@ void AddRandomOutboundPeer(std::vector<CNode *> &vNodes, PeerLogicValidation &pe
 
 BOOST_AUTO_TEST_CASE(stale_tip_peer_management)
 {
-    const Consensus::Params& consensusParams = Params().GetConsensus();
+    const Consensus::Params& consensusParams = Params().GetConsensus(0);
     constexpr int nMaxOutbound = 8;
     CConnman::Options options;
     options.nMaxConnections = 125;
