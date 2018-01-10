@@ -2808,18 +2808,14 @@ bool CWallet::AddAccountingEntry(const CAccountingEntry& acentry, CWalletDB *pwa
 
 CAmount CWallet::GetRequiredFee(const CMutableTransaction& tx, unsigned int nTxBytes)
 {
-    // Dogecoin: Round TX bytes up to the next 1,000 bytes
-    nTxBytes += 1000 - (nTxBytes % 1000);
-
+    nTxBytes = GetDogecoinTxSize(nTxBytes);
     // Dogecoin: Add an increased fee for each dust output
     return std::max(minTxFee.GetFee(nTxBytes) + GetDogecoinDustFee(tx.vout, minTxFee), ::minRelayTxFee.GetFee(nTxBytes));
 }
 
 CAmount CWallet::GetRequiredFee(unsigned int nTxBytes)
 {
-    // Dogecoin: Round TX bytes up to the next 1,000 bytes
-    nTxBytes += 1000 - (nTxBytes % 1000);
-
+    nTxBytes = GetDogecoinTxSize(nTxBytes);
     return std::max(minTxFee.GetFee(nTxBytes), ::minRelayTxFee.GetFee(nTxBytes));
 }
 
