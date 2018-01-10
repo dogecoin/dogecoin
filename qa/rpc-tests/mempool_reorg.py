@@ -46,14 +46,14 @@ class MempoolCoinbaseTest(BitcoinTestFramework):
         # 3. Indirect (coinbase and child both in chain) : spend_103 and spend_103_1
         # Use invalidateblock to make all of the above coinbase spends invalid (immature coinbase),
         # and make sure the mempool code behaves correctly.
-        b = [ self.nodes[0].getblockhash(n) for n in range(62, 65) ]
+        b = [ self.nodes[0].getblockhash(n) for n in range(61, 65) ]
         coinbase_txids = [ self.nodes[0].getblock(h)['tx'][0] for h in b ]
         spend_101_raw = create_tx(self.nodes[0], coinbase_txids[1], node1_address, 499998)
         spend_102_raw = create_tx(self.nodes[0], coinbase_txids[2], node0_address, 500000)
         spend_103_raw = create_tx(self.nodes[0], coinbase_txids[3], node0_address, 499999)
 
         # Create a block-height-locked transaction which will be invalid after reorg
-        timelock_tx = self.nodes[0].createrawtransaction([{"txid": coinbase_txids[0], "vout": 0}], {node0_address: 49.99})
+        timelock_tx = self.nodes[0].createrawtransaction([{"txid": coinbase_txids[0], "vout": 0}], {node0_address: 499999})
         # Set the time lock
         timelock_tx = timelock_tx.replace("ffffffff", "11111191", 1)
         timelock_tx = timelock_tx[:-8] + hex(self.nodes[0].getblockcount() + 2)[2:] + "000000"
@@ -85,7 +85,7 @@ class MempoolCoinbaseTest(BitcoinTestFramework):
 
         for node in self.nodes:
             node.invalidateblock(last_block[0])
-        assert_equal(set(self.nodes[0].getrawmempool()), {spend_101_id, spend_102_1_id})
+        assert_equal(set(self.nodes[0].getrawmempool()), {spend_101_id, spend_102_1_id, spend_103_1_id})
 
         # Use invalidateblock to re-org back and make all those coinbase spends
         # immature/invalid:

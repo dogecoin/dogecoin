@@ -33,7 +33,7 @@ class ListTransactionsTest(BitcoinTestFramework):
         self.sync_all()
         assert_array_result(self.nodes[0].listtransactions(),
                            {"txid":txid},
-                           {"category":"send","account":"","amount":Decimal(100),"confirmations":0})
+                           {"category":"send","account":"","amount":Decimal(-100),"confirmations":0})
         assert_array_result(self.nodes[1].listtransactions(),
                            {"txid":txid},
                            {"category":"receive","account":"","amount":100,"confirmations":0})
@@ -42,7 +42,7 @@ class ListTransactionsTest(BitcoinTestFramework):
         self.sync_all()
         assert_array_result(self.nodes[0].listtransactions(),
                            {"txid":txid},
-                           {"category":"send","account":"","amount":Decimal(100),"confirmations":1})
+                           {"category":"send","account":"","amount":Decimal(-100),"confirmations":1})
         assert_array_result(self.nodes[1].listtransactions(),
                            {"txid":txid},
                            {"category":"receive","account":"","amount":100,"confirmations":1})
@@ -120,7 +120,7 @@ class ListTransactionsTest(BitcoinTestFramework):
             return None
 
         # 1. Chain a few transactions that don't opt-in.
-        txid_1 = self.nodes[0].sendtoaddress(self.nodes[1].getnewaddress(), 1)
+        txid_1 = self.nodes[0].sendtoaddress(self.nodes[1].getnewaddress(), 100)
         assert(not is_opt_in(self.nodes[0], txid_1))
         assert_array_result(self.nodes[0].listtransactions(), {"txid": txid_1}, {"bip125-replaceable":"no"})
         sync_mempools(self.nodes)
@@ -131,7 +131,7 @@ class ListTransactionsTest(BitcoinTestFramework):
 
         # Create tx2 using createrawtransaction
         inputs = [{"txid":utxo_to_use["txid"], "vout":utxo_to_use["vout"]}]
-        outputs = {self.nodes[0].getnewaddress(): 0.999}
+        outputs = {self.nodes[0].getnewaddress(): 99}
         tx2 = self.nodes[1].createrawtransaction(inputs, outputs)
         tx2_signed = self.nodes[1].signrawtransaction(tx2)["hex"]
         txid_2 = self.nodes[1].sendrawtransaction(tx2_signed)
@@ -145,7 +145,7 @@ class ListTransactionsTest(BitcoinTestFramework):
         # Tx3 will opt-in to RBF
         utxo_to_use = get_unconfirmed_utxo_entry(self.nodes[0], txid_2)
         inputs = [{"txid": txid_2, "vout":utxo_to_use["vout"]}]
-        outputs = {self.nodes[1].getnewaddress(): 0.998}
+        outputs = {self.nodes[1].getnewaddress(): 98}
         tx3 = self.nodes[0].createrawtransaction(inputs, outputs)
         tx3_modified = txFromHex(tx3)
         tx3_modified.vin[0].nSequence = 0
@@ -162,7 +162,7 @@ class ListTransactionsTest(BitcoinTestFramework):
         # that does.
         utxo_to_use = get_unconfirmed_utxo_entry(self.nodes[1], txid_3)
         inputs = [{"txid": txid_3, "vout":utxo_to_use["vout"]}]
-        outputs = {self.nodes[0].getnewaddress(): 0.997}
+        outputs = {self.nodes[0].getnewaddress(): 97}
         tx4 = self.nodes[1].createrawtransaction(inputs, outputs)
         tx4_signed = self.nodes[1].signrawtransaction(tx4)["hex"]
         txid_4 = self.nodes[1].sendrawtransaction(tx4_signed)
@@ -174,7 +174,7 @@ class ListTransactionsTest(BitcoinTestFramework):
 
         # Replace tx3, and check that tx4 becomes unknown
         tx3_b = tx3_modified
-        tx3_b.vout[0].nValue -= int(Decimal("0.004") * COIN) # bump the fee
+        tx3_b.vout[0].nValue -= int(Decimal("4") * COIN) # bump the fee
         tx3_b = bytes_to_hex_str(tx3_b.serialize())
         tx3_b_signed = self.nodes[0].signrawtransaction(tx3_b)['hex']
         txid_3b = self.nodes[0].sendrawtransaction(tx3_b_signed, True)

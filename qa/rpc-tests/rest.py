@@ -8,7 +8,7 @@
 #
 
 
-from test_framework import auxpow
+from test_framework import scrypt_auxpow as auxpow
 from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import *
 from struct import *
@@ -205,7 +205,7 @@ class RESTTest (BitcoinTestFramework):
         assert_equal(response.status, 200) #must be a 200 because we are within the limits
 
         # Generate a block to not affect upcoming tests.
-        auxpow.mineAuxpowBlock(self.nodes[0]) #generate
+        auxpow.mineScryptAux(self.nodes[0], "98", True) #generate
         self.sync_all()
         bb_hash = self.nodes[0].getbestblockhash()
 
@@ -223,7 +223,7 @@ class RESTTest (BitcoinTestFramework):
         response_header = http_get_call(url.hostname, url.port, '/rest/headers/1/'+bb_hash+self.FORMAT_SEPARATOR+"bin", True)
         assert_equal(response_header.status, 200)
         headerLen = int(response_header.getheader('content-length'))
-        assert_equal(headerLen, 80)
+        assert_equal(headerLen, 297) # DOGE: AuxPoW makes headers longer
         response_header_str = response_header.read()
         assert_equal(response_str[0:headerLen], response_header_str)
 

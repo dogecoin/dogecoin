@@ -12,9 +12,7 @@
 # package, which can be downloaded from:
 # https://pypi.python.org/packages/source/l/ltc_scrypt/ltc_scrypt-1.0.tar.gz
 
-import binascii
-import hashlib
-import auxpow
+from .auxpow import *
 import ltc_scrypt
 
 def computeAuxpowWithChainId (block, target, chainid, ok):
@@ -25,26 +23,26 @@ def computeAuxpowWithChainId (block, target, chainid, ok):
 
   # Start by building the merge-mining coinbase.  The merkle tree
   # consists only of the block hash as root.
-  coinbase = "fabe" + binascii.hexlify ("m" * 2)
+  coinbase = "fabe" + (b"m" * 2).hex()
   coinbase += block
   coinbase += "01000000" + ("00" * 4)
 
   # Construct "vector" of transaction inputs.
   vin = "01"
   vin += ("00" * 32) + ("ff" * 4)
-  vin += ("%02x" % (len (coinbase) / 2)) + coinbase
+  vin += ("%02x" % int(len (coinbase) / 2)) + coinbase
   vin += ("ff" * 4)
 
   # Build up the full coinbase transaction.  It consists only
   # of the input and has no outputs.
   tx = "01000000" + vin + "00" + ("00" * 4)
-  txHash = auxpow.doubleHashHex (tx)
+  txHash = doubleHashHex (tx)
 
   # Construct the parent block header.  It need not be valid, just good
   # enough for auxpow purposes.
   header = "0100" + chainid + "00"
   header += "00" * 32
-  header += auxpow.reverseHex (txHash)
+  header += reverseHex (txHash)
   header += "00" * 4
   header += "00" * 4
   header += "00" * 4
@@ -72,10 +70,11 @@ def mineScryptAux (node, chainid, ok):
   """
 
   auxblock = node.getauxblock ()
-  target = auxpow.reverseHex (auxblock['_target'])
+  target = reverseHex (auxblock['_target'])
 
   apow = computeAuxpowWithChainId (auxblock['hash'], target, chainid, ok)
   res = node.getauxblock (auxblock['hash'], apow)
+  return res
 
 def mineScryptBlock (header, target, ok):
   """
@@ -83,17 +82,17 @@ def mineScryptBlock (header, target, ok):
   for the given target.
   """
 
-  data = bytearray (binascii.unhexlify (header))
+  data = bytearray (bytes.fromhex(header))
   while True:
     assert data[79] < 255
     data[79] += 1
-    hexData = binascii.hexlify (data)
+    hexData = data.hex()
 
     scrypt = getScryptPoW(hexData)
     if (ok and scrypt < target) or ((not ok) and scrypt > target):
       break
 
-  blockhash = auxpow.doubleHashHex (hexData)
+  blockhash = doubleHashHex (hexData)
   return (hexData, blockhash)
 
 def getScryptPoW(hexData):
@@ -101,5 +100,5 @@ def getScryptPoW(hexData):
   Actual scrypt pow calculation
   """
 
-  data = binascii.unhexlify(hexData)
-  return auxpow.reverseHex(binascii.hexlify(ltc_scrypt.getPoWHash(data)))
+  data = bytes.fromhex(hexData)
+  return reverseHex(ltc_scrypt.getPoWHash(data).hex())

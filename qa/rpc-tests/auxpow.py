@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # Copyright (c) 2015-2018 The Dogecoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
@@ -9,10 +9,6 @@
 
 from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import *
-from struct import *
-import binascii
-import json
-import StringIO
 from test_framework import scrypt_auxpow
 
 class AuxPOWTest (BitcoinTestFramework):
@@ -33,10 +29,16 @@ class AuxPOWTest (BitcoinTestFramework):
         self.sync_all()
 
     def run_test(self):
-        print "Mining blocks..."
+        print("Mining blocks...")
 
         # 1. mine an auxpow block before auxpow is allowed, expect: fail
-        scrypt_auxpow.mineScryptAux(self.nodes[0], "00", True)
+        try:
+            scrypt_auxpow.mineScryptAux(self.nodes[0], "00", True)
+        except JSONRPCException as ex:
+            if ex.error['message'] == "getauxblock method is not yet available":
+                pass
+            else:
+                raise ex
         self.sync_all()
 
         # 2. mine a non-auxpow block, just to ensure that this node
@@ -50,7 +52,13 @@ class AuxPOWTest (BitcoinTestFramework):
 
         # 4. mine an auxpow block before auxpow is allowed, attempt 2
         # expect: fail
-        scrypt_auxpow.mineScryptAux(self.nodes[0], "00", True)
+        try:
+            scrypt_auxpow.mineScryptAux(self.nodes[0], "00", True)
+        except JSONRPCException as ex:
+            if ex.error['message'] == "getauxblock method is not yet available":
+                pass
+            else:
+                raise ex
         self.sync_all()
 
         # 5. mine blocks until we're in in auxpow era
@@ -58,14 +66,14 @@ class AuxPOWTest (BitcoinTestFramework):
         self.sync_all()
 
         # 6. mine a valid auxpow block, expect: success
-        scrypt_auxpow.mineScryptAux(self.nodes[0], "00", True)
+        assert scrypt_auxpow.mineScryptAux(self.nodes[0], "00", True) is True
 
         # 7. mine an auxpow block with high pow, expect: fail
-        scrypt_auxpow.mineScryptAux(self.nodes[0], "00", False)
+        assert scrypt_auxpow.mineScryptAux(self.nodes[0], "00", False) is False
 
         # 8. mine a valid auxpow block with the parent chain being us
         # expect: fail
-        scrypt_auxpow.mineScryptAux(self.nodes[0], self.CHAIN_ID, True)
+        assert scrypt_auxpow.mineScryptAux(self.nodes[0], self.CHAIN_ID, True) is False
         self.sync_all()
 
         # 9. mine enough blocks to mature all node 0 rewards
