@@ -146,6 +146,17 @@ CAmount GetDogecoinBlockSubsidy(int nHeight, const Consensus::Params& consensusP
     }
 }
 
+unsigned int GetDogecoinTxSize(const unsigned int nTxBytes)
+{
+    // Dogecoin: Round TX bytes up to the next 1,000 bytes
+    unsigned int nMod = nTxBytes % 1000;
+    if (nMod > 0) {
+        return nTxBytes + 1000 - nMod;
+    } else {
+        return nTxBytes;
+    }
+}
+
 CAmount GetDogecoinMinRelayFee(const CTransaction& tx, unsigned int nBytes, bool fAllowFree)
 {
     {
@@ -179,9 +190,10 @@ CAmount GetDogecoinMinRelayFee(const CTransaction& tx, unsigned int nBytes, bool
 CAmount GetDogecoinDustFee(const std::vector<CTxOut> &vout, CFeeRate &baseFeeRate) {
     CAmount nFee = 0;
 
-    // To limit dust spam, add base fee for each output less than DUST_SOFT_LIMIT
+    // To limit dust spam, add base fee for each output less than a COIN
     BOOST_FOREACH(const CTxOut& txout, vout)
-        if (txout.IsDust(::minRelayTxFee))
+        // if (txout.IsDust(::minRelayTxFee))
+        if (txout.nValue < COIN)
             nFee += baseFeeRate.GetFeePerK();
 
     return nFee;
