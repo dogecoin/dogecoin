@@ -46,6 +46,7 @@ static const unsigned int DEFAULT_KEYPOOL_SIZE = 1000;
 static const CAmount DEFAULT_TRANSACTION_FEE = 0;
 //! -fallbackfee default
 static const CAmount DEFAULT_FALLBACK_FEE = COIN;
+//Dogecoin-TODO: Update this
 //! -m_discard_rate default
 static const CAmount DEFAULT_DISCARD_FEE = COIN / 2;
 //! -mintxfee default

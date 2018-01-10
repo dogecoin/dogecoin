@@ -171,6 +171,7 @@ CAmount GetDogecoinDustFee(const std::vector<CTxOut> &vout, CFeeRate &baseFeeRat
 
     // To limit dust spam, add base fee for each output less than a COIN
     for (const CTxOut& txout: vout)
+        // if (txout.IsDust(::minRelayTxFee))
         if (txout.nValue < COIN)
             nFee += baseFeeRate.GetFeePerK();
 
