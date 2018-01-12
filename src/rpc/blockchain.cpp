@@ -719,10 +719,9 @@ UniValue getblockheader(const JSONRPCRequest& request)
     if (request.params.size() > 1)
         fVerbose = request.params[1].get_bool();
 
-    if (mapBlockIndex.count(hash) == 0)
+    CBlockIndex* pblockindex = LookupBlockIndex(hash);
+    if (!pblockindex)
         throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Block not found");
-
-    CBlockIndex* pblockindex = mapBlockIndex[hash];
 
     if (!fVerbose)
     {
@@ -843,10 +842,9 @@ UniValue getblock(const JSONRPCRequest& request)
     {
         LOCK(cs_main);
 
-        if (mapBlockIndex.count(hash) == 0)
+        pblockindex = LookupBlockIndex(hash);
+        if (!pblockindex)
             throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Block not found");
-
-        pblockindex = mapBlockIndex[hash];
 
         block = GetBlockChecked(pblockindex);
     }
@@ -900,7 +898,8 @@ static bool GetUTXOStats(CCoinsView *view, CCoinsStats &stats)
     stats.hashBlock = pcursor->GetBestBlock();
     {
         LOCK(cs_main);
-        stats.nHeight = mapBlockIndex.find(stats.hashBlock)->second->nHeight;
+        CBlockIndex* pindex = LookupBlockIndex(stats.hashBlock);
+        stats.nHeight = pindex->nHeight;
     }
     ss << stats.hashBlock;
     uint256 prevkey;
@@ -1080,8 +1079,7 @@ UniValue gettxout(const JSONRPCRequest& request)
         }
     }
 
-    BlockMap::iterator it = mapBlockIndex.find(pcoinsTip->GetBestBlock());
-    CBlockIndex *pindex = it->second;
+    CBlockIndex *pindex = LookupBlockIndex(pcoinsTip->GetBestBlock());
     ret.pushKV("bestblock", pindex->GetBlockHash().GetHex());
     if ((unsigned int)coin.nHeight == MEMPOOL_HEIGHT)
         ret.pushKV("confirmations", 0);
@@ -1456,10 +1454,9 @@ UniValue preciousblock(const JSONRPCRequest& request)
 
     {
         LOCK(cs_main);
-        if (mapBlockIndex.count(hash) == 0)
+        pblockindex = LookupBlockIndex(hash);
+        if (!pblockindex)
             throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Block not found");
-
-        pblockindex = mapBlockIndex[hash];
     }
 
     CValidationState state;
@@ -1492,10 +1489,9 @@ UniValue invalidateblock(const JSONRPCRequest& request)
 
     {
         LOCK(cs_main);
-        if (mapBlockIndex.count(hash) == 0)
+        CBlockIndex* pblockindex = LookupBlockIndex(hash);
+        if (!pblockindex)
             throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Block not found");
-
-        CBlockIndex* pblockindex = mapBlockIndex[hash];
         InvalidateBlock(state, Params(), pblockindex);
     }
 
@@ -1530,10 +1526,9 @@ UniValue reconsiderblock(const JSONRPCRequest& request)
 
     {
         LOCK(cs_main);
-        if (mapBlockIndex.count(hash) == 0)
+        CBlockIndex* pblockindex = LookupBlockIndex(hash);
+        if (!pblockindex)
             throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Block not found");
-
-        CBlockIndex* pblockindex = mapBlockIndex[hash];
         ResetBlockFailureFlags(pblockindex);
     }
 
@@ -1664,12 +1659,10 @@ static UniValue getblockstats(const JSONRPCRequest& request)
 
     LOCK(cs_main);
 
-    CBlockIndex* pindex;
     const uint256 hash = ParseHashV(request.params[0], "hash");
-
-    if (mapBlockIndex.count(hash) == 0)
+    CBlockIndex* pindex = LookupBlockIndex(hash);
+    if (!pindex)
         throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Block not found");
-    pindex = mapBlockIndex[hash];
 
     if (!chainActive.Contains(pindex)) {
         throw JSONRPCError(RPC_INVALID_PARAMETER, strprintf("Block is not in chain %s", Params().NetworkIDString()));

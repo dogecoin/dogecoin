@@ -1947,10 +1947,9 @@ UniValue listsinceblock(const JSONRPCRequest& request)
         uint256 blockId;
 
         blockId.SetHex(request.params[0].get_str());
-        BlockMap::iterator it = mapBlockIndex.find(blockId);
-        if (it != mapBlockIndex.end())
+        pindex = LookupBlockIndex(blockId);
+        if (pindex)
         {
-            pindex = it->second;
             if (chainActive[pindex->nHeight] != pindex)
             {
                 // the block being asked for is a part of a deactivated chain;
