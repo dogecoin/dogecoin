@@ -239,11 +239,11 @@ void PaymentServer::ipcParseCommandLine(int argc, char* argv[])
             PaymentRequestPlus request;
             if (readPaymentRequestFromFile(arg, request))
             {
-                if (request.getDetails().network() == "main")
+                if (request.getDetails().genesis() == "1a91e3dace36e2be3bf030a65679fe821aa1d6ef92e7c9902eb318182c355691")
                 {
                     SelectParams(CBaseChainParams::MAIN);
                 }
-                else if (request.getDetails().network() == "test")
+                else if (request.getDetails().genesis() == "bb0a78264637406b6360aad926284d544d7049f45189db5664f3c4d07350559e")
                 {
                     SelectParams(CBaseChainParams::TESTNET);
                 }
@@ -762,12 +762,13 @@ void PaymentServer::handlePaymentACK(const QString& paymentACKMsg)
 
 bool PaymentServer::verifyNetwork(const payments::PaymentDetails& requestDetails)
 {
-    bool fVerified = requestDetails.network() == Params().NetworkIDString();
+    Consensus::Params consensus = Params().GetConsensus(0);
+    bool fVerified = requestDetails.genesis() == consensus.hashGenesisBlock.GetHex();
     if (!fVerified) {
         qWarning() << QString("PaymentServer::%1: Payment request network \"%2\" doesn't match client network \"%3\".")
             .arg(__func__)
-            .arg(QString::fromStdString(requestDetails.network()))
-            .arg(QString::fromStdString(Params().NetworkIDString()));
+            .arg(QString::fromStdString(requestDetails.genesis()))
+            .arg(QString::fromStdString(consensus.hashGenesisBlock.GetHex()));
     }
     return fVerified;
 }
