@@ -10,6 +10,8 @@ from .script import CScript, OP_TRUE, OP_CHECKSIG, OP_RETURN
 # Create a block (with regtest difficulty)
 def create_block(hashprev, coinbase, nTime=None):
     block = CBlock()
+    # Dogecoin: Create a non-AuxPoW block but include chain ID
+    block.nVersion = 0x620003
     if nTime is None:
         import time
         block.nTime = int(time.time()+600)
@@ -73,7 +75,7 @@ def create_coinbase(height, pubkey = None):
     coinbase.vin.append(CTxIn(COutPoint(0, 0xffffffff), 
                 ser_string(serialize_script_num(height)), 0xffffffff))
     coinbaseoutput = CTxOut()
-    coinbaseoutput.nValue = 50 * COIN
+    coinbaseoutput.nValue = 500000 * COIN
     halvings = int(height/150) # regtest
     coinbaseoutput.nValue >>= halvings
     if (pubkey != None):

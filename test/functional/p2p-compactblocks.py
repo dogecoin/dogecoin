@@ -113,7 +113,7 @@ class CompactBlocksTest(BitcoinTestFramework):
         block = self.build_block_on_tip(self.nodes[0])
         self.test_node.send_and_ping(msg_block(block))
         assert(int(self.nodes[0].getbestblockhash(), 16) == block.sha256)
-        self.nodes[0].generate(100)
+        self.nodes[0].generate(60)
 
         total_value = block.vtx[0].vout[0].nValue
         out_value = total_value // 10
@@ -234,7 +234,7 @@ class CompactBlocksTest(BitcoinTestFramework):
 
     # This test actually causes bitcoind to (reasonably!) disconnect us, so do this last.
     def test_invalid_cmpctblock_message(self):
-        self.nodes[0].generate(101)
+        self.nodes[0].generate(61)
         block = self.build_block_on_tip(self.nodes[0])
 
         cmpct_block = P2PHeaderAndShortIDs()
@@ -250,7 +250,7 @@ class CompactBlocksTest(BitcoinTestFramework):
     # bitcoind's choice of nonce.
     def test_compactblock_construction(self, node, test_node, version, use_witness_address):
         # Generate a bunch of transactions.
-        node.generate(101)
+        node.generate(61)
         num_transactions = 25
         address = node.getnewaddress()
         if use_witness_address:

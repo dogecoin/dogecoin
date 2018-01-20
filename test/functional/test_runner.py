@@ -60,11 +60,13 @@ BASE_SCRIPTS= [
     'p2p-fullblocktest.py',
     'fundrawtransaction.py',
     'p2p-compactblocks.py',
-    'segwit.py',
+    # 'segwit.py',
     # vv Tests less than 2m vv
+    'auxpow.py',
+    'getauxblock.py',
     'wallet.py',
     'wallet-accounts.py',
-    'p2p-segwit.py',
+    # 'p2p-segwit.py',
     'wallet-dump.py',
     'listtransactions.py',
     # vv Tests less than 60s vv
@@ -75,7 +77,7 @@ BASE_SCRIPTS= [
     'merkle_blocks.py',
     'receivedby.py',
     'abandonconflict.py',
-    'bip68-112-113-p2p.py',
+    # 'bip68-112-113-p2p.py',
     'rawtransactions.py',
     'reindex.py',
     # vv Tests less than 30s vv

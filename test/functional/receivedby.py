@@ -33,7 +33,7 @@ class ReceivedByTest(BitcoinTestFramework):
         '''
         # Send from node 0 to 1
         addr = self.nodes[1].getnewaddress()
-        txid = self.nodes[0].sendtoaddress(addr, 0.1)
+        txid = self.nodes[0].sendtoaddress(addr, 1)
         self.sync_all()
 
         #Check not listed in listreceivedbyaddress because has 0 confirmations
@@ -46,11 +46,11 @@ class ReceivedByTest(BitcoinTestFramework):
         self.sync_all()
         assert_array_result(self.nodes[1].listreceivedbyaddress(),
                            {"address":addr},
-                           {"address":addr, "account":"", "amount":Decimal("0.1"), "confirmations":10, "txids":[txid,]})
+                           {"address":addr, "account":"", "amount":Decimal("1.0"), "confirmations":10, "txids":[txid,]})
         #With min confidence < 10
         assert_array_result(self.nodes[1].listreceivedbyaddress(5),
                            {"address":addr},
-                           {"address":addr, "account":"", "amount":Decimal("0.1"), "confirmations":10, "txids":[txid,]})
+                           {"address":addr, "account":"", "amount":Decimal("1.0"), "confirmations":10, "txids":[txid,]})
         #With min confidence > 10, should not find Tx
         assert_array_result(self.nodes[1].listreceivedbyaddress(11),{"address":addr},{ },True)
 
@@ -65,7 +65,7 @@ class ReceivedByTest(BitcoinTestFramework):
         '''
         # Send from node 0 to 1
         addr = self.nodes[1].getnewaddress()
-        txid = self.nodes[0].sendtoaddress(addr, 0.1)
+        txid = self.nodes[0].sendtoaddress(addr, 1)
         self.sync_all()
 
         #Check balance is 0 because of 0 confirmations
@@ -75,14 +75,14 @@ class ReceivedByTest(BitcoinTestFramework):
 
         #Check balance is 0.1
         balance = self.nodes[1].getreceivedbyaddress(addr,0)
-        if balance != Decimal("0.1"):
+        if balance != Decimal("1.0"):
             raise AssertionError("Wrong balance returned by getreceivedbyaddress, %0.2f"%(balance))
 
         #Bury Tx under 10 block so it will be returned by the default getreceivedbyaddress
         self.nodes[1].generate(10)
         self.sync_all()
         balance = self.nodes[1].getreceivedbyaddress(addr)
-        if balance != Decimal("0.1"):
+        if balance != Decimal("1.0"):
             raise AssertionError("Wrong balance returned by getreceivedbyaddress, %0.2f"%(balance))
 
         '''
@@ -96,7 +96,7 @@ class ReceivedByTest(BitcoinTestFramework):
             raise AssertionError("No accounts found in node")
         balance_by_account = self.nodes[1].getreceivedbyaccount(account)
 
-        txid = self.nodes[0].sendtoaddress(addr, 0.1)
+        txid = self.nodes[0].sendtoaddress(addr, 1)
         self.sync_all()
 
         # listreceivedbyaccount should return received_by_account_json because of 0 confirmations
@@ -114,11 +114,11 @@ class ReceivedByTest(BitcoinTestFramework):
         # listreceivedbyaccount should return updated account balance
         assert_array_result(self.nodes[1].listreceivedbyaccount(),
                            {"account":account},
-                           {"account":received_by_account_json["account"], "amount":(received_by_account_json["amount"] + Decimal("0.1"))})
+                           {"account":received_by_account_json["account"], "amount":(received_by_account_json["amount"] + Decimal("1.0"))})
 
         # getreceivedbyaddress should return updates balance
         balance = self.nodes[1].getreceivedbyaccount(account)
-        if balance != balance_by_account + Decimal("0.1"):
+        if balance != balance_by_account + Decimal("1.0"):
             raise AssertionError("Wrong balance returned by getreceivedbyaccount, %0.2f"%(balance))
 
         #Create a new account named "mynewaccount" that has a 0 balance

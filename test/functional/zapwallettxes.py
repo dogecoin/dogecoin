@@ -30,7 +30,7 @@ class ZapWalletTXesTest (BitcoinTestFramework):
         self.log.info("Mining blocks...")
         self.nodes[0].generate(1)
         self.sync_all()
-        self.nodes[1].generate(100)
+        self.nodes[1].generate(60)
         self.sync_all()
 
         # This transaction will be confirmed

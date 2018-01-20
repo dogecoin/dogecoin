@@ -332,8 +332,8 @@ class BitcoinTestFramework(object):
 
         For backwared compatibility of the python scripts with previous
         versions of the cache, this helper function sets mocktime to Jan 1,
-        2014 + (201 * 10 * 60)"""
-        self.mocktime = 1388534400 + (201 * 10 * 60)
+        2014 + (121 * 60)"""
+        self.mocktime = 1388534400 + (121 * 60)
 
     def disable_mocktime(self):
         self.mocktime = 0
@@ -371,7 +371,7 @@ class BitcoinTestFramework(object):
     def _initialize_chain(self):
         """Initialize a pre-mined blockchain for use by the test.
 
-        Create a cache of a 200-block-long chain (with wallet) for MAX_NODES
+        Create a cache of a 120-block-long chain (with wallet) for MAX_NODES
         Afterward, create num_nodes copies from the cache."""
 
         assert self.num_nodes <= MAX_NODES
@@ -403,21 +403,21 @@ class BitcoinTestFramework(object):
             for node in self.nodes:
                 node.wait_for_rpc_connection()
 
-            # Create a 200-block-long chain; each of the 4 first nodes
-            # gets 25 mature blocks and 25 immature.
+            # Create a 120-block-long chain; each of the 4 first nodes
+            # gets 15 mature blocks and 15 immature.
             # Note: To preserve compatibility with older versions of
             # initialize_chain, only 4 nodes will generate coins.
             #
-            # blocks are created with timestamps 10 minutes apart
-            # starting from 2010 minutes in the past
+            # blocks are created with timestamps 1 minute apart
+            # starting from 121 minutes in the past
             self.enable_mocktime()
-            block_time = self.mocktime - (201 * 10 * 60)
+            block_time = self.mocktime - (121 * 60)
             for i in range(2):
                 for peer in range(4):
-                    for j in range(25):
+                    for j in range(15):
                         set_node_times(self.nodes, block_time)
                         self.nodes[peer].generate(1)
-                        block_time += 10 * 60
+                        block_time += 60
                     # Must sync before next peer starts generating blocks
                     sync_blocks(self.nodes)
 

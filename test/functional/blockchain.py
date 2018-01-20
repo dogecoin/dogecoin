@@ -33,7 +33,7 @@ from test_framework.util import (
 class BlockchainTest(BitcoinTestFramework):
     def set_test_params(self):
         self.num_nodes = 1
-        self.extra_args = [['-stopatheight=207']]
+        self.extra_args = [['-stopatheight=127']]
 
     def run_test(self):
         self._test_getchaintxstats()
@@ -46,25 +46,26 @@ class BlockchainTest(BitcoinTestFramework):
 
     def _test_getchaintxstats(self):
         chaintxstats = self.nodes[0].getchaintxstats(1)
-        # 200 txs plus genesis tx
-        assert_equal(chaintxstats['txcount'], 201)
-        # tx rate should be 1 per 10 minutes, or 1/600
+        # 120 txs plus genesis tx
+        assert_equal(chaintxstats['txcount'], 121)
+        # tx rate should be 1 per minute, or 10/600
         # we have to round because of binary math
-        assert_equal(round(chaintxstats['txrate'] * 600, 10), Decimal(1))
+        assert_equal(round(chaintxstats['txrate'] * 600, 10), Decimal(10))
 
     def _test_gettxoutsetinfo(self):
         node = self.nodes[0]
         res = node.gettxoutsetinfo()
 
-        assert_equal(res['total_amount'], Decimal('8725.00000000'))
-        assert_equal(res['transactions'], 200)
-        assert_equal(res['height'], 200)
-        assert_equal(res['txouts'], 200)
-        assert_equal(res['bogosize'], 17000),
-        assert_equal(res['bestblock'], node.getblockhash(200))
+        assert_equal(res['total_amount'], Decimal('60000000.00000000'))
+        assert_equal(res['transactions'], 120)
+        assert_equal(res['height'], 120)
+        assert_equal(res['txouts'], 120)
+        assert_equal(res['bogosize'], 10200),
+        assert_equal(res['bestblock'], node.getblockhash(120))
+
         size = res['disk_size']
-        assert size > 6400
-        assert size < 64000
+        assert size > 4800
+        assert size < 48000
         assert_equal(len(res['bestblock']), 64)
         assert_equal(len(res['hash_serialized_2']), 64)
 
@@ -100,11 +101,11 @@ class BlockchainTest(BitcoinTestFramework):
                               node.getblockheader, "nonsense")
 
         besthash = node.getbestblockhash()
-        secondbesthash = node.getblockhash(199)
+        secondbesthash = node.getblockhash(119)
         header = node.getblockheader(besthash)
 
         assert_equal(header['hash'], besthash)
-        assert_equal(header['height'], 200)
+        assert_equal(header['height'], 120)
         assert_equal(header['confirmations'], 1)
         assert_equal(header['previousblockhash'], secondbesthash)
         assert_is_hex_string(header['chainwork'])
@@ -127,8 +128,8 @@ class BlockchainTest(BitcoinTestFramework):
 
     def _test_getnetworkhashps(self):
         hashes_per_second = self.nodes[0].getnetworkhashps()
-        # This should be 2 hashes every 10 minutes or 1/300
-        assert abs(hashes_per_second * 300 - 1) < 0.0001
+        # This should be 2 hashes every 1 minute or 1/30
+        assert abs(hashes_per_second * 30 - 1) < 0.0001
 
     def _test_stopatheight(self):
         assert_equal(self.nodes[0].getblockcount(), 200)

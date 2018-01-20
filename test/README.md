@@ -23,6 +23,12 @@ Build for your system first. Be sure to enable wallet, utils and daemon when you
 
 #### Dependencies
 
+Several tests require the `litecoin_scrypt` library. To install it run:
+
+```
+pip3 install litecoin_scrypt
+```
+
 The ZMQ functional test requires a python ZMQ library. To install it:
 
 - on Unix, run `sudo apt-get install python3-zmq`
