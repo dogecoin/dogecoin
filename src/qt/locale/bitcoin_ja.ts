@@ -254,7 +254,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
     </message>
 </context>
 <context>
-    <name>BitcoinGUI</name>
+    <name>DogecoinGUI</name>
     <message>
         <source>Sign &amp;message...</source>
         <translation>メッセージの署名...(&amp;m)</translation>
@@ -264,7 +264,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation>ネットワークに同期中...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>概要(&amp;O)</translation>
     </message>
     <message>
@@ -364,8 +364,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation>プロキシは&lt;b&gt;有効&lt;/b&gt;: %1</translation>
     </message>
     <message>
-        <source>Send coins to a Bitcoin address</source>
-        <translation>Bitcoin アドレスにコインを送る</translation>
+        <source>Send coins to a Dogecoin address</source>
+        <translation>Dogecoin アドレスにコインを送る</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -896,8 +896,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation>送金先アドレスを編集</translation>
     </message>
     <message>
-        <source>The entered address "%1" is not a valid Bitcoin address.</source>
-        <translation>入力されたアドレス "%1" は無効な Bitcoin アドレスです。</translation>
+        <source>The entered address "%1" is not a valid Dogecoin address.</source>
+        <translation>入力されたアドレス "%1" は無効な Dogecoin アドレスです。</translation>
     </message>
     <message>
         <source>Address "%1" already exists as a receiving address with label "%2" and so cannot be added as a sending address.</source>

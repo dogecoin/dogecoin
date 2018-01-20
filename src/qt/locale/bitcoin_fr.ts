@@ -62,7 +62,7 @@
         <translation>Adresses d’envoi</translation>
     </message>
     <message>
-        <source>Receiving addresses</source>
+        <source>Much receiving addresses</source>
         <translation>Adresses de réception</translation>
     </message>
     <message>
@@ -254,7 +254,7 @@ Il n’est possible de signer qu’avec les adresses de type « legacy ».</tr
     </message>
 </context>
 <context>
-    <name>BitcoinGUI</name>
+    <name>DogecoinGUI</name>
     <message>
         <source>Sign &amp;message...</source>
         <translation>Signer un &amp;message…</translation>
@@ -380,11 +380,11 @@ Il n’est possible de signer qu’avec les adresses de type « legacy ».</tr
         <translation>&amp;Vérifier un message…</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
+        <source>&amp;Such Send</source>
         <translation>&amp;Envoyer</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>&amp;Recevoir</translation>
     </message>
     <message>
@@ -424,8 +424,8 @@ Il n’est possible de signer qu’avec les adresses de type « legacy ».</tr
         <translation>Barre d’outils des onglets</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and bitcoin: URIs)</source>
-        <translation>Demander des paiements (génère des codes QR et des URI bitcoin:)</translation>
+        <source>Request payments (generates QR codes and dogecoin: URIs)</source>
+        <translation>Demander des paiements (génère des codes QR et des URI dogecoin:)</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -807,8 +807,8 @@ Il n’est possible de signer qu’avec les adresses de type « legacy ».</tr
         <translation>Cette étiquette devient rouge si un destinataire reçoit un montant inférieur au seuil actuel de poussière.</translation>
     </message>
     <message>
-        <source>Can vary +/- %1 satoshi(s) per input.</source>
-        <translation>Peut varier +/- %1 satoshi(s) par entrée.</translation>
+        <source>Can vary +/- %1 koinu(s) per input.</source>
+        <translation>Peut varier +/- %1 koinu(s) par entrée.</translation>
     </message>
     <message>
         <source>(no label)</source>
@@ -1076,8 +1076,8 @@ Il n’est possible de signer qu’avec les adresses de type « legacy ».</tr
         <translation>Les transactions récentes ne sont peut-être pas encore visibles et par conséquent le solde de votre porte-monnaie est peut-être erroné. Ces renseignements seront justes quand votre porte-monnaie aura fini de se synchroniser avec le réseau Bitcoin, comme décrit ci-dessous.</translation>
     </message>
     <message>
-        <source>Attempting to spend bitcoins that are affected by not-yet-displayed transactions will not be accepted by the network.</source>
-        <translation>Toute tentative de dépense de bitcoins affectés par des transactions qui ne sont pas encore affichées ne sera pas acceptée par le réseau.</translation>
+        <source>Attempting to spend dogecoins that are affected by not-yet-displayed transactions will not be accepted by the network.</source>
+        <translation>Toute tentative de dépense de dogecoins affectés par des transactions qui ne sont pas encore affichées ne sera pas acceptée par le réseau.</translation>
     </message>
     <message>
         <source>Number of blocks left</source>

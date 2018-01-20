@@ -228,7 +228,7 @@
     </message>
 </context>
 <context>
-    <name>BitcoinGUI</name>
+    <name>DogecoinGUI</name>
     <message>
         <source>Sign &amp;message...</source>
         <translation>Pasirašyti ži&amp;nutę...</translation>
@@ -238,7 +238,7 @@
         <translation>Sinchronizavimas su tinklu ...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>&amp;Apžvalga</translation>
     </message>
     <message>
@@ -358,7 +358,7 @@
         <translation>&amp;Siųsti</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>&amp;Gauti</translation>
     </message>
     <message>
