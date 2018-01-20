@@ -60,7 +60,7 @@ class WalletBackupTest(BitcoinTestFramework):
 
     def one_send(self, from_node, to_address):
         if (randint(1,2) == 1):
-            amount = Decimal(randint(1,10)) / Decimal(10)
+            amount = Decimal(randint(1,10))
             self.nodes[from_node].sendtoaddress(to_address, amount)
 
     def do_one_round(self):
@@ -109,12 +109,12 @@ class WalletBackupTest(BitcoinTestFramework):
         sync_blocks(self.nodes)
         self.nodes[2].generate(1)
         sync_blocks(self.nodes)
-        self.nodes[3].generate(100)
+        self.nodes[3].generate(60)
         sync_blocks(self.nodes)
 
-        assert_equal(self.nodes[0].getbalance(), 50)
-        assert_equal(self.nodes[1].getbalance(), 50)
-        assert_equal(self.nodes[2].getbalance(), 50)
+        assert_equal(self.nodes[0].getbalance(), 500000)
+        assert_equal(self.nodes[1].getbalance(), 500000)
+        assert_equal(self.nodes[2].getbalance(), 500000)
         assert_equal(self.nodes[3].getbalance(), 0)
 
         logging.info("Creating transactions")
@@ -135,8 +135,8 @@ class WalletBackupTest(BitcoinTestFramework):
         for i in range(5):
             self.do_one_round()
 
-        # Generate 101 more blocks, so any fees paid mature
-        self.nodes[3].generate(101)
+        # Generate 61 more blocks, so any fees paid mature
+        self.nodes[3].generate(61)
         self.sync_all()
 
         balance0 = self.nodes[0].getbalance()
@@ -145,9 +145,9 @@ class WalletBackupTest(BitcoinTestFramework):
         balance3 = self.nodes[3].getbalance()
         total = balance0 + balance1 + balance2 + balance3
 
-        # At this point, there are 214 blocks (103 for setup, then 10 rounds, then 101.)
-        # 114 are mature, so the sum of all wallets should be 114 * 50 = 5700.
-        assert_equal(total, 5700)
+        # At this point, there are 134 blocks (63 for setup, then 10 rounds, then 61.)
+        # 74 are mature, so the sum of all wallets should be 74 * 500000 = 37000000.
+        assert_equal(total, 37000000)
 
         ##
         # Test restoring spender wallets from backups
