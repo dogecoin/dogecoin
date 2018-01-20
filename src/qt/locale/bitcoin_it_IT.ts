@@ -76,7 +76,7 @@
     </message>
 </context>
 <context>
-    <name>BitcoinGUI</name>
+    <name>DogecoinGUI</name>
     <message>
         <source>&amp;Transactions</source>
         <translation>Transazioni</translation>
@@ -182,6 +182,6 @@
     <name>WalletView</name>
     </context>
 <context>
-    <name>bitcoin-core</name>
+    <name>dogecoin-core</name>
     </context>
 </TS>

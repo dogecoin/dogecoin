@@ -52,13 +52,13 @@
     <name>BanTableModel</name>
     </context>
 <context>
-    <name>BitcoinGUI</name>
+    <name>DogecoinGUI</name>
     <message>
         <source>Synchronizing with network...</source>
         <translation>Cysoni â'r rhwydwaith...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>&amp;Trosolwg</translation>
     </message>
     <message>
@@ -98,11 +98,11 @@
         <translation>&amp;Newid cyfrinymadrodd...</translation>
     </message>
     <message>
-        <source>&amp;Sending addresses...</source>
+        <source>&amp;Such sending addresses...</source>
         <translation>&amp;Cyfeiriadau anfon...</translation>
     </message>
     <message>
-        <source>&amp;Receiving addresses...</source>
+        <source>&amp;Much receiving addresses...</source>
         <translation>&amp;Cyfeiriadau derbyn...</translation>
     </message>
     <message>
@@ -114,19 +114,19 @@
         <translation>Newid y cyfrinymadrodd a ddefnyddiwyd ar gyfer amgryptio'r waled</translation>
     </message>
     <message>
-        <source>Bitcoin</source>
-        <translation>Bitcoin</translation>
+        <source>Dogecoin</source>
+        <translation>Dogecoin</translation>
     </message>
     <message>
         <source>Wallet</source>
         <translation>Waled</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
+        <source>&amp;Such Send</source>
         <translation>&amp;Anfon</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>&amp;Derbyn</translation>
     </message>
     <message>
@@ -478,14 +478,14 @@
     <name>WalletView</name>
     </context>
 <context>
-    <name>bitcoin-core</name>
+    <name>dogecoin-core</name>
     <message>
         <source>Options:</source>
         <translation>Opsiynau:</translation>
     </message>
     <message>
-        <source>Bitcoin Core</source>
-        <translation>Craidd Bitcoin</translation>
+        <source>Dogecoin Core</source>
+        <translation>Craidd Dogecoin</translation>
     </message>
     <message>
         <source>Information</source>
