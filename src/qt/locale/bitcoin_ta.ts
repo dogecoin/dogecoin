@@ -26,11 +26,11 @@
         <translation>&amp;அழி</translation>
     </message>
     <message>
-        <source>Sending addresses</source>
+        <source>Such sending addresses</source>
         <translation>முகவரிகள் அனுப்பப்படுகின்றன</translation>
     </message>
     <message>
-        <source>Receiving addresses</source>
+        <source>Much receiving addresses</source>
         <translation>முகவரிகள் பெறப்படுகின்றன</translation>
     </message>
     </context>
@@ -52,9 +52,9 @@
     </message>
     </context>
 <context>
-    <name>BitcoinGUI</name>
+    <name>DogecoinGUI</name>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>&amp;கண்ணோட்டம்</translation>
     </message>
     <message>
@@ -90,19 +90,19 @@
         <translation>&amp;செய்தியை சரிசெய்...</translation>
     </message>
     <message>
-        <source>Bitcoin</source>
-        <translation>Bitcoin</translation>
+        <source>Dogecoin</source>
+        <translation>Dogecoin</translation>
     </message>
     <message>
         <source>Wallet</source>
         <translation>பணப்பை</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
+        <source>&amp;Such Send</source>
         <translation>&amp;அனுப்பு</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>&amp;பெறு</translation>
     </message>
     <message>
@@ -706,10 +706,10 @@
     <name>WalletView</name>
     </context>
 <context>
-    <name>bitcoin-core</name>
+    <name>dogecoin-core</name>
     <message>
-        <source>Bitcoin Core</source>
-        <translation>Bitcoin மையம்</translation>
+        <source>Dogecoin Core</source>
+        <translation>Dogecoin மையம்</translation>
     </message>
     <message>
         <source>(default: %u)</source>
