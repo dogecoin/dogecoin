@@ -47,14 +47,14 @@ class BumpFeeTest(BitcoinTestFramework):
 
         # fund rbf node with 10 coins of 0.001 btc (100,000 satoshis)
         print("Mining blocks...")
-        peer_node.generate(110)
+        peer_node.generate(70)
         self.sync_all()
         for i in range(25):
-            peer_node.sendtoaddress(rbf_node_address, 0.001)
+            peer_node.sendtoaddress(rbf_node_address, 1)
         self.sync_all()
         peer_node.generate(1)
         self.sync_all()
-        assert_equal(rbf_node.getbalance(), Decimal("0.025"))
+        assert_equal(rbf_node.getbalance(), Decimal("25"))
 
         print("Running tests")
         dest_address = peer_node.getnewaddress()
