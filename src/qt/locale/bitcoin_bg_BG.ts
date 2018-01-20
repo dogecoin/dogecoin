@@ -54,19 +54,19 @@
         <translation>Избери</translation>
     </message>
     <message>
-        <source>Sending addresses</source>
+        <source>Such sending addresses</source>
         <translation>Адрес за пращане</translation>
     </message>
     <message>
-        <source>Receiving addresses</source>
+        <source>Much receiving addresses</source>
         <translation>Адрес за получаване</translation>
     </message>
     <message>
-        <source>These are your Bitcoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <source>These are your Dogecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
         <translation>Тези са вашите Биткойн адреси за изпращане на монети. Винаги проверявайте количеството и получаващия адрес преди изпращане. </translation>
     </message>
     <message>
-        <source>These are your Bitcoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
+        <source>These are your Dogecoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
         <translation>Това са вашите Биткойн адреси за получаване на монети. Препоръчително е да ползвате нов адрес на всяка транзакция.</translation>
     </message>
     <message>
@@ -172,7 +172,7 @@
     </message>
 </context>
 <context>
-    <name>BitcoinGUI</name>
+    <name>DogecoinGUI</name>
     <message>
         <source>Sign &amp;message...</source>
         <translation>Подпиши съобщение...</translation>
@@ -182,7 +182,7 @@
         <translation>Синхронизиране с мрежата...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>Преглед</translation>
     </message>
     <message>
@@ -246,11 +246,11 @@
         <translation>Промени паролата...</translation>
     </message>
     <message>
-        <source>&amp;Sending addresses...</source>
+        <source>&amp;Such sending addresses...</source>
         <translation>Адреси за пращане...</translation>
     </message>
     <message>
-        <source>&amp;Receiving addresses...</source>
+        <source>&amp;Much receiving addresses...</source>
         <translation>Адреси за получаване...</translation>
     </message>
     <message>
@@ -418,9 +418,9 @@
     </message>
     </context>
 <context>
-    <name>bitcoin-core</name>
+    <name>dogecoin-core</name>
     <message>
-        <source>Bitcoin Core</source>
+        <source>Dogecoin Core</source>
         <translation>Биткойн ядро</translation>
     </message>
     </context>

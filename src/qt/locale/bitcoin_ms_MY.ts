@@ -45,7 +45,7 @@ Alihkan fail data ke dalam tab semasa</translation>
     <name>BanTableModel</name>
     </context>
 <context>
-    <name>BitcoinGUI</name>
+    <name>DogecoinGUI</name>
     <message>
         <source>&amp;Options...</source>
         <translation>Pilihan</translation>
@@ -172,6 +172,6 @@ Alihkan fail data ke dalam tab semasa</translation>
     </message>
     </context>
 <context>
-    <name>bitcoin-core</name>
+    <name>dogecoin-core</name>
     </context>
 </TS>
