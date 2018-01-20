@@ -187,7 +187,7 @@ class FullBlockTest(ComparisonTestFramework):
 
         # Now we need that block to mature so we can spend the coinbase.
         test = TestInstance(sync_every_block=False)
-        for i in range(99):
+        for i in range(59):
             block(5000 + i)
             test.blocks_and_transactions.append([self.tip, True])
             save_spendable_output()
@@ -662,7 +662,7 @@ class FullBlockTest(ComparisonTestFramework):
         tip(44)
         b47 = block(47, solve=False)
         target = uint256_from_compact(b47.nBits)
-        while b47.sha256 < target: #changed > to <
+        while b47.scrypt256 < target: #changed > to <
             b47.nNonce += 1
             b47.rehash()
         yield rejected(RejectResult(16, b'high-hash'))
