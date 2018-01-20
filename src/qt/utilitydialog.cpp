@@ -208,6 +208,7 @@ PaperWalletDialog::PaperWalletDialog(QWidget *parent) :
     ui->privateKeyText->setFont(font);
     ui->addressText->setAlignment(Qt::AlignJustify);
     ui->privateKeyText->setAlignment(Qt::AlignJustify);
+    setFixedSize(size());
 }
 
 void PaperWalletDialog::setClientModel(ClientModel *_clientModel)
