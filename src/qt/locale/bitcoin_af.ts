@@ -54,20 +54,20 @@
         <translation>K&amp;ies</translation>
     </message>
     <message>
-        <source>Sending addresses</source>
+        <source>Such sending addresses</source>
         <translation>Stuurders adresse</translation>
     </message>
     <message>
-        <source>Receiving addresses</source>
+        <source>Much receiving addresses</source>
         <translation>Ontvanger adresse</translation>
     </message>
     <message>
-        <source>These are your Bitcoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>Hierdie is die adresse vanwaar u Bitcoin betalings stuur. U moet altyd die bedrag en die adres van die ontvanger nagaan voordat u enige munte stuur.</translation>
+        <source>These are your Dogecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <translation>Hierdie is die adresse vanwaar u Dogecoin betalings stuur. U moet altyd die bedrag en die adres van die ontvanger nagaan voordat u enige munte stuur.</translation>
     </message>
     <message>
-        <source>These are your Bitcoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation>Hierdie is die adresse waar u Bitcoins sal ontvang. Ons beveel aan dat u 'n nuwe adres kies vir elke transaksie</translation>
+        <source>These are your Dogecoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
+        <translation>Hierdie is die adresse waar u Dogecoins sal ontvang. Ons beveel aan dat u 'n nuwe adres kies vir elke transaksie</translation>
     </message>
     <message>
         <source>&amp;Copy Address</source>
@@ -172,8 +172,8 @@
         <translation>Bevestig dat die beursie gekodifiseer is</translation>
     </message>
     <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR BITCOINS&lt;/b&gt;!</source>
-        <translation>Waarskuwing: Indien u die beursie kodifiseer en u vergeet u wagwoord &lt;b&gt;VERLOOR U AL U BITCOINS&lt;/b&gt;!</translation>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DOGECOINS&lt;/b&gt;!</source>
+        <translation>Waarskuwing: Indien u die beursie kodifiseer en u vergeet u wagwoord &lt;b&gt;VERLOOR U AL U DOGECOINS&lt;/b&gt;!</translation>
     </message>
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
@@ -242,7 +242,7 @@
         <translation>Netwerk-sinkronisasie...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>&amp;Oorsig</translation>
     </message>
     <message>
@@ -306,11 +306,11 @@
         <translation>&amp;Verander Wagwoord</translation>
     </message>
     <message>
-        <source>&amp;Sending addresses...</source>
+        <source>&amp;Such sending addresses...</source>
         <translation>&amp;Versending adresse...</translation>
     </message>
     <message>
-        <source>&amp;Receiving addresses...</source>
+        <source>&amp;Much receiving addresses...</source>
         <translation>&amp;Ontvanger adresse</translation>
     </message>
     <message>
@@ -334,8 +334,8 @@
         <translation>Besig met herindeksering van blokke op hardeskyf...</translation>
     </message>
     <message>
-        <source>Send coins to a Bitcoin address</source>
-        <translation>Stuur munte na 'n Bitcoin adres</translation>
+        <source>Send coins to a Dogecoin address</source>
+        <translation>Stuur munte na 'n Dogecoin adres</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -358,19 +358,19 @@
         <translation>&amp;Verifieer boodskap...</translation>
     </message>
     <message>
-        <source>Bitcoin</source>
-        <translation>Bitcoin</translation>
+        <source>Dogecoin</source>
+        <translation>Dogecoin</translation>
     </message>
     <message>
         <source>Wallet</source>
         <translation>Beursie</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
+        <source>&amp;Such Send</source>
         <translation>&amp;Stuur</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>&amp;Ontvang</translation>
     </message>
     <message>
@@ -386,12 +386,12 @@
         <translation>Kodifiseer die private sleutes wat aan jou beursie gekoppel is.</translation>
     </message>
     <message>
-        <source>Sign messages with your Bitcoin addresses to prove you own them</source>
-        <translation>Onderteken boodskappe met u Bitcoin adresse om u eienaarskap te bewys</translation>
+        <source>Sign messages with your Dogecoin addresses to prove you own them</source>
+        <translation>Onderteken boodskappe met u Dogecoin adresse om u eienaarskap te bewys</translation>
     </message>
     <message>
-        <source>Verify messages to ensure they were signed with specified Bitcoin addresses</source>
-        <translation>Verifieër boodskappe om seker te maak dat dit met die gespesifiseerde Bitcoin adresse</translation>
+        <source>Verify messages to ensure they were signed with specified Dogecoin addresses</source>
+        <translation>Verifieër boodskappe om seker te maak dat dit met die gespesifiseerde Dogecoin adresse</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -410,8 +410,8 @@
         <translation>Orebalk</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and bitcoin: URIs)</source>
-        <translation>Versoek betalings (genereer QR-kodes en bitcoin: URI's)</translation>
+        <source>Request payments (generates QR codes and dogecoin: URIs)</source>
+        <translation>Versoek betalings (genereer QR-kodes en dogecoin: URI's)</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -422,8 +422,8 @@
         <translation>Vertoon die lys van gebruikte ontvangers-adresse en etikette</translation>
     </message>
     <message>
-        <source>Open a bitcoin: URI or payment request</source>
-        <translation>Skep 'n bitcoin: URI of betalingsversoek</translation>
+        <source>Open a dogecoin: URI or payment request</source>
+        <translation>Skep 'n dogecoin: URI of betalingsversoek</translation>
     </message>
     <message>
         <source>&amp;Command-line options</source>
@@ -516,8 +516,8 @@
         <translation>Inkomende transaksie</translation>
     </message>
     <message>
-        <source>A fatal error occurred. Bitcoin can no longer continue safely and will quit.</source>
-        <translation>'N fatale fout het voorgekom. Bitcoin kan nie meer veilig voortgaan nie en sal nou toemaak.</translation>
+        <source>A fatal error occurred. Dogecoin can no longer continue safely and will quit.</source>
+        <translation>'N fatale fout het voorgekom. Dogecoin kan nie meer veilig voortgaan nie en sal nou toemaak.</translation>
     </message>
 </context>
 <context>
@@ -706,8 +706,8 @@
         <translation>Wysig stuur adres</translation>
     </message>
     <message>
-        <source>The entered address "%1" is not a valid Bitcoin address.</source>
-        <translation>Die ingevoerde adres "%1" is nie 'n geldige Bitcoin adres nie.</translation>
+        <source>The entered address "%1" is not a valid Dogecoin address.</source>
+        <translation>Die ingevoerde adres "%1" is nie 'n geldige Dogecoin adres nie.</translation>
     </message>
     <message>
         <source>Could not unlock wallet.</source>
@@ -779,8 +779,8 @@
         <translation>Gebruik 'n persoonlike data gids:</translation>
     </message>
     <message>
-        <source>Bitcoin</source>
-        <translation>Bitcoin</translation>
+        <source>Dogecoin</source>
+        <translation>Dogecoin</translation>
     </message>
     <message>
         <source>The wallet will also be stored in this directory.</source>
@@ -1144,8 +1144,8 @@
         <translation>Bedrag</translation>
     </message>
     <message>
-        <source>Enter a Bitcoin address (e.g. %1)</source>
-        <translation>Voer in 'n Bitcoin adres (bv. %1)</translation>
+        <source>Enter a Dogecoin address (e.g. %1)</source>
+        <translation>Voer in 'n Dogecoin adres (bv. %1)</translation>
     </message>
     <message>
         <source>%1 d</source>
@@ -1876,10 +1876,10 @@
     </message>
     </context>
 <context>
-    <name>bitcoin-core</name>
+    <name>dogecoin-core</name>
     <message>
-        <source>Bitcoin Core</source>
-        <translation>Bitcoin Kern</translation>
+        <source>Dogecoin Core</source>
+        <translation>Dogecoin Kern</translation>
     </message>
     <message>
         <source>Error loading %s</source>

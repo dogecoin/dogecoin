@@ -75,22 +75,22 @@
     </message>
     <message>
         <location line="+6"/>
-        <source>Sending addresses</source>
+        <source>Such sending addresses</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Receiving addresses</source>
+        <source>Much receiving addresses</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>These are your Bitcoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <source>These are your Dogecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>These are your Bitcoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
+        <source>These are your Dogecoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -221,7 +221,7 @@
     </message>
     <message>
         <location line="+1"/>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR BITCOINS&lt;/b&gt;!</source>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DOGECOINS&lt;/b&gt;!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -237,7 +237,7 @@
     </message>
     <message>
         <location line="-56"/>
-        <source>%1 will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your bitcoins from being stolen by malware infecting your computer.</source>
+        <source>%1 will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your dogecoins from being stolen by malware infecting your computer.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -309,7 +309,7 @@
 <context>
     <name>BitcoinGUI</name>
     <message>
-        <location filename="../bitcoingui.cpp" line="+307"/>
+        <location filename="../dogecoingui.cpp" line="+307"/>
         <source>Sign &amp;message...</source>
         <translation>Sign &amp;message...</translation>
     </message>
@@ -334,24 +334,29 @@
         <translation>Show general overview of wallet</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+1"/>
+        <source>Request payments (generates QR codes and dogecoin: URIs)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
         <source>&amp;Transactions</source>
-        <translation>&amp;Transactions</translation>
+        <translation type="unfinished">&amp;Transactions</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Browse transaction history</source>
-        <translation>Browse transaction history</translation>
+        <translation type="unfinished">Browse transaction history</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>E&amp;xit</source>
-        <translation>E&amp;xit</translation>
+        <translation type="unfinished">E&amp;xit</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Quit application</source>
-        <translation>Quit application</translation>
+        <translation type="unfinished">Quit application</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -366,17 +371,17 @@
     <message>
         <location line="+3"/>
         <source>About &amp;Qt</source>
-        <translation>About &amp;Qt</translation>
+        <translation type="unfinished">About &amp;Qt</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Show information about Qt</source>
-        <translation>Show information about Qt</translation>
+        <translation type="unfinished">Show information about Qt</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>&amp;Options...</source>
-        <translation>&amp;Options...</translation>
+        <translation type="unfinished">&amp;Options...</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -384,34 +389,29 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+3"/>
+        <source>&amp;Show / Hide</source>
+        <translation type="unfinished">&amp;Show / Hide</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show or hide the main Window</source>
+        <translation type="unfinished">Show or hide the main Window</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>&amp;Encrypt Wallet...</source>
-        <translation>&amp;Encrypt Wallet...</translation>
+        <translation type="unfinished">&amp;Encrypt Wallet...</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+1"/>
+        <source>Encrypt the private keys that belong to your wallet</source>
+        <translation type="unfinished">Encrypt the private keys that belong to your wallet</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>&amp;Backup Wallet...</source>
-        <translation>&amp;Backup Wallet...</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>&amp;Change Passphrase...</source>
-        <translation>&amp;Change Passphrase...</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>&amp;Sending addresses...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>&amp;Receiving addresses...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Open &amp;URI...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Backup Wallet...</translation>
     </message>
     <message>
         <location line="+104"/>
@@ -425,6 +425,129 @@
     </message>
     <message>
         <location line="+226"/>
+        <source>Click to disable network activity.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&amp;Change Passphrase...</source>
+        <translation type="unfinished">&amp;Change Passphrase...</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Change the passphrase used for wallet encryption</source>
+        <translation type="unfinished">Change the passphrase used for wallet encryption</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Sign &amp;message...</source>
+        <translation type="unfinished">Sign &amp;message...</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Sign messages with your Dogecoin addresses to prove you own them</source>
+        <translation type="unfinished">Sign messages with your Dogecoin addresses to prove you own them</translation>
+    </message>
+    <message>
+        <location line="+316"/>
+        <source>Proxy is &lt;b&gt;enabled&lt;/b&gt;: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-880"/>
+        <source>Send coins to a Dogecoin address</source>
+        <translation>Send coins to a Dogecoin address</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Verify messages to ensure they were signed with specified Dogecoin addresses</source>
+        <translation type="unfinished">Verify messages to ensure they were signed with specified Dogecoin addresses</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>&amp;Debug window</source>
+        <translation type="unfinished">&amp;Debug window</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Open debugging and diagnostic console</source>
+        <translation type="unfinished">Open debugging and diagnostic console</translation>
+    </message>
+    <message>
+        <location line="+570"/>
+        <source>Dogecoin</source>
+        <translation>Dogecoin</translation>
+    </message>
+    <message>
+        <location line="-792"/>
+        <source>Wallet</source>
+        <translation>Wallet</translation>
+    </message>
+    <message>
+        <location line="+149"/>
+        <source>&amp;Send</source>
+        <translation>&amp;Send</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show the list of used receiving addresses and labels</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Open &amp;URI...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Open a dogecoin: URI or payment request</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>&amp;Command-line options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Show the %1 help message to get a list with possible Dogecoin command-line options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+41"/>
+        <source>&amp;File</source>
+        <translation type="unfinished">&amp;File</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>&amp;Settings</source>
+        <translation type="unfinished">&amp;Settings</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>&amp;Help</source>
+        <translation type="unfinished">&amp;Help</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Tabs toolbar</source>
+        <translation type="unfinished">Tabs toolbar</translation>
+    </message>
+    <message>
+        <location line="+121"/>
+        <source>%1 client</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <location line="+155"/>
+        <source>%n active connection(s) to Dogecoin network</source>
+        <translation type="unfinished">
+            <numerusform>%n active connection to Dogecoin network</numerusform>
+            <numerusform>%n active connections to Dogecoin network</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location line="+0"/>
         <source>Click to disable network activity.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -443,146 +566,16 @@
         <source>Syncing Headers (%1%)...</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <location line="+37"/>
-        <source>Reindexing blocks on disk...</source>
-        <translation>Reindexing blocks on disk...</translation>
-    </message>
-    <message>
-        <location line="+316"/>
-        <source>Proxy is &lt;b&gt;enabled&lt;/b&gt;: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="-880"/>
-        <source>Send coins to a Bitcoin address</source>
-        <translation>Send coins to a Dogecoin address</translation>
-    </message>
-    <message>
-        <location line="+67"/>
-        <source>Backup wallet to another location</source>
-        <translation>Backup wallet to another location</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Change the passphrase used for wallet encryption</source>
-        <translation>Change the passphrase used for wallet encryption</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>&amp;Debug window</source>
-        <translation>&amp;Debug window</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Open debugging and diagnostic console</source>
-        <translation>Open debugging and diagnostic console</translation>
-    </message>
-    <message>
-        <location line="-4"/>
-        <source>&amp;Verify message...</source>
-        <translation>&amp;Verify message...</translation>
-    </message>
-    <message>
-        <location line="+570"/>
-        <source>Bitcoin</source>
-        <translation>Dogecoin</translation>
-    </message>
-    <message>
-        <location line="-792"/>
-        <source>Wallet</source>
-        <translation>Wallet</translation>
-    </message>
-    <message>
-        <location line="+149"/>
-        <source>&amp;Send</source>
-        <translation>&amp;Send</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>&amp;Receive</source>
-        <translation>&amp;Receive</translation>
-    </message>
-    <message>
-        <location line="+50"/>
-        <source>&amp;Show / Hide</source>
-        <translation>&amp;Show / Hide</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Show or hide the main Window</source>
-        <translation>Show or hide the main Window</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Encrypt the private keys that belong to your wallet</source>
-        <translation>Encrypt the private keys that belong to your wallet</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Sign messages with your Bitcoin addresses to prove you own them</source>
-        <translation>Sign messages with your Dogecoin addresses to prove you own them</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Verify messages to ensure they were signed with specified Bitcoin addresses</source>
-        <translation>Verify messages to ensure they were signed with specified Dogecoin addresses</translation>
-    </message>
-    <message>
-        <location line="+58"/>
-        <source>&amp;File</source>
-        <translation>&amp;File</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>&amp;Settings</source>
-        <translation>&amp;Settings</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>&amp;Help</source>
-        <translation>&amp;Help</translation>
-    </message>
-    <message>
-        <location line="+15"/>
-        <source>Tabs toolbar</source>
-        <translation>Tabs toolbar</translation>
-    </message>
-    <message>
-        <location line="-158"/>
-        <source>Request payments (generates QR codes and bitcoin: URIs)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+70"/>
-        <source>Show the list of used sending addresses and labels</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Show the list of used receiving addresses and labels</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Open a bitcoin: URI or payment request</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>&amp;Command-line options</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message numerus="yes">
         <location line="+410"/>
-        <source>%n active connection(s) to Bitcoin network</source>
+        <source>%n active connection(s) to Dogecoin network</source>
         <translation>
             <numerusform>%n active connection to Dogecoin network</numerusform>
             <numerusform>%n active connections to Dogecoin network</numerusform>
         </translation>
     </message>
     <message>
-        <location line="+60"/>
+        <location line="+5"/>
         <source>Indexing blocks on disk...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -591,38 +584,63 @@
         <source>Processing blocks on disk...</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location line="+4"/>
+        <source>Reindexing blocks on disk...</source>
+        <translation type="unfinished">Reindexing blocks on disk...</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Connecting to peers...</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message numerus="yes">
-        <location line="+19"/>
+        <location line="+9"/>
         <source>Processed %n block(s) of transaction history.</source>
-        <translation>
+        <translation type="unfinished">
             <numerusform>Processed %n block of transaction history.</numerusform>
             <numerusform>Processed %n blocks of transaction history.</numerusform>
         </translation>
     </message>
     <message>
-        <location line="+24"/>
-        <source>%1 behind</source>
-        <translation>%1 behind</translation>
+        <location line="+5"/>
+        <source>Up to date</source>
+        <translation type="unfinished">Up to date</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+19"/>
+        <source>%1 behind</source>
+        <translation type="unfinished">%1 behind</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Catching up...</source>
+        <translation type="unfinished">Catching up...</translation>
+    </message>
+    <message>
+        <location line="+19"/>
         <source>Last received block was generated %1 ago.</source>
-        <translation>Last received block was generated %1 ago.</translation>
+        <translation type="unfinished">Last received block was generated %1 ago.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Transactions after this will not yet be visible.</source>
-        <translation>Transactions after this will not yet be visible.</translation>
+        <translation type="unfinished">Transactions after this will not yet be visible.</translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+13"/>
+        <source>Dogecoin</source>
+        <translation type="unfinished">Dogecoin</translation>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>Error</source>
-        <translation>Error</translation>
+        <translation type="unfinished">Error</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Warning</source>
-        <translation>Warning</translation>
+        <translation type="unfinished">Warning</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -636,7 +654,7 @@
     </message>
     <message>
         <location line="-494"/>
-        <source>Show the %1 help message to get a list with possible Bitcoin command-line options</source>
+        <source>Show the %1 help message to get a list with possible Dogecoin command-line options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -693,12 +711,12 @@
     <message>
         <location line="+1"/>
         <source>Sent transaction</source>
-        <translation>Sent transaction</translation>
+        <translation type="unfinished">Sent transaction</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Incoming transaction</source>
-        <translation>Incoming transaction</translation>
+        <translation type="unfinished">Incoming transaction</translation>
     </message>
     <message>
         <location line="+52"/>
@@ -713,16 +731,16 @@
     <message>
         <location line="+19"/>
         <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt;</source>
-        <translation>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt;</translation>
+        <translation type="unfinished">Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt;</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;locked&lt;/b&gt;</source>
-        <translation>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;locked&lt;/b&gt;</translation>
+        <translation type="unfinished">Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;locked&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../bitcoin.cpp" line="+529"/>
-        <source>A fatal error occurred. Bitcoin can no longer continue safely and will quit.</source>
+        <location filename="../dogecoin.cpp" line="+529"/>
+        <source>A fatal error occurred. Dogecoin can no longer continue safely and will quit.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -960,7 +978,7 @@
     </message>
     <message>
         <location line="+75"/>
-        <source>The entered address &quot;%1&quot; is not a valid Bitcoin address.</source>
+        <source>The entered address &quot;%1&quot; is not a valid Dogecoin address.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1080,8 +1098,8 @@
     </message>
     <message>
         <location filename="../intro.cpp" line="+20"/>
-        <source>Bitcoin</source>
-        <translation type="unfinished">Bitcoin</translation>
+        <source>Dogecoin</source>
+        <translation type="unfinished">Dogecoin</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -1095,7 +1113,7 @@
     </message>
     <message>
         <location line="+8"/>
-        <source>%1 will download and store a copy of the Bitcoin block chain.</source>
+        <source>%1 will download and store a copy of the Dogecoin block chain.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1139,12 +1157,12 @@
     </message>
     <message>
         <location line="+119"/>
-        <source>Recent transactions may not yet be visible, and therefore your wallet&apos;s balance might be incorrect. This information will be correct once your wallet has finished synchronizing with the bitcoin network, as detailed below.</source>
+        <source>Recent transactions may not yet be visible, and therefore your wallet&apos;s balance might be incorrect. This information will be correct once your wallet has finished synchronizing with the dogecoin network, as detailed below.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+19"/>
-        <source>Attempting to spend bitcoins that are affected by not-yet-displayed transactions will not be accepted by the network.</source>
+        <source>Attempting to spend dogecoins that are affected by not-yet-displayed transactions will not be accepted by the network.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1382,8 +1400,8 @@
     </message>
     <message>
         <location line="+30"/>
-        <source>Automatically open the Bitcoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Automatically open the Dogecoin client port on the router. This only works when your router supports UPnP and it is enabled.</translation>
+        <source>Automatically open the Dogecoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1402,7 +1420,7 @@
     </message>
     <message>
         <location line="+7"/>
-        <source>Connect to the Bitcoin network through a SOCKS5 proxy.</source>
+        <source>Connect to the Dogecoin network through a SOCKS5 proxy.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1450,7 +1468,7 @@
     </message>
     <message>
         <location line="+25"/>
-        <source>Connect to the Bitcoin network through a separate SOCKS5 proxy for Tor hidden services.</source>
+        <source>Connect to the Dogecoin network through a separate SOCKS5 proxy for Tor hidden services.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1584,12 +1602,12 @@
     </message>
     <message>
         <location line="+62"/>
-        <location line="+386"/>
-        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Bitcoin network after a connection is established, but this process has not completed yet.</source>
-        <translation>The displayed information may be out of date. Your wallet automatically synchronizes with the Dogecoin network after a connection is established, but this process has not completed yet.</translation>
+        <location line="+405"/>
+        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Dogecoin network after a connection is established, but this process has not completed yet.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-139"/>
+        <location line="-158"/>
         <source>Watch-only:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1649,12 +1667,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+49"/>
+        <location line="+68"/>
         <source>Recent transactions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-317"/>
+        <location line="-336"/>
         <source>Unconfirmed transactions to watch-only addresses</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1683,7 +1701,7 @@
     </message>
     <message>
         <location line="-398"/>
-        <source>Cannot start bitcoin: click-to-pay handler</source>
+        <source>Cannot start dogecoin: click-to-pay handler</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1696,7 +1714,7 @@
     </message>
     <message>
         <location line="-41"/>
-        <source>&apos;bitcoin://&apos; is not a valid URI. Use &apos;bitcoin:&apos; instead.</source>
+        <source>&apos;dogecoin://&apos; is not a valid URI. Use &apos;dogecoin:&apos; instead.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1711,7 +1729,7 @@
     </message>
     <message>
         <location line="+8"/>
-        <source>URI cannot be parsed! This can be caused by an invalid Bitcoin address or malformed URI parameters.</source>
+        <source>URI cannot be parsed! This can be caused by an invalid Dogecoin address or malformed URI parameters.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1837,13 +1855,13 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../bitcoinunits.cpp" line="+197"/>
+        <location filename="../dogecoinunits.cpp" line="+197"/>
         <source>Amount</source>
         <translation type="unfinished">Amount</translation>
     </message>
     <message>
         <location filename="../guiutil.cpp" line="+115"/>
-        <source>Enter a Bitcoin address (e.g. %1)</source>
+        <source>Enter a Dogecoin address (e.g. %1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1957,7 +1975,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../bitcoin.cpp" line="+192"/>
+        <location filename="../dogecoin.cpp" line="+192"/>
         <source>%1 didn&apos;t yet exit safely...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1970,7 +1988,7 @@
 <context>
     <name>QObject::QObject</name>
     <message>
-        <location filename="../bitcoin.cpp" line="-117"/>
+        <location filename="../dogecoin.cpp" line="-117"/>
         <source>Error parsing command line arguments: %1.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2459,7 +2477,7 @@
     <message>
         <location line="-3"/>
         <location line="+46"/>
-        <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Bitcoin network.</source>
+        <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Dogecoin network.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2774,7 +2792,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     <message>
         <location line="+80"/>
         <location line="+13"/>
-        <source>Paying only the minimum fee is just fine as long as there is less transaction volume than space in the blocks. But be aware that this can end up in a never confirming transaction once there is more demand for bitcoin transactions than the network can process.</source>
+        <source>Paying only the minimum fee is just fine as long as there is less transaction volume than space in the blocks. But be aware that this can end up in a never confirming transaction once there is more demand for dogecoin transactions than the network can process.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3005,7 +3023,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     </message>
     <message>
         <location line="+101"/>
-        <source>Warning: Invalid Bitcoin address</source>
+        <source>Warning: Invalid Dogecoin address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3060,7 +3078,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     </message>
     <message>
         <location line="+39"/>
-        <source>The Bitcoin address to send the payment to</source>
+        <source>The Dogecoin address to send the payment to</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3087,7 +3105,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     </message>
     <message>
         <location line="-1028"/>
-        <source>The fee will be deducted from the amount being sent. The recipient will receive less bitcoins than you enter in the amount field. If multiple recipients are selected, the fee is split equally.</source>
+        <source>The fee will be deducted from the amount being sent. The recipient will receive less dogecoins than you enter in the amount field. If multiple recipients are selected, the fee is split equally.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3122,7 +3140,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     </message>
     <message>
         <location line="+54"/>
-        <source>A message that was attached to the bitcoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Bitcoin network.</source>
+        <source>A message that was attached to the dogecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3179,12 +3197,12 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     </message>
     <message>
         <location line="+6"/>
-        <source>You can sign messages/agreements with your addresses to prove you can receive bitcoins sent to them. Be careful not to sign anything vague or random, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</source>
+        <source>You can sign messages/agreements with your addresses to prove you can receive dogecoins sent to them. Be careful not to sign anything vague or random, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+18"/>
-        <source>The Bitcoin address to sign the message with</source>
+        <source>The Dogecoin address to sign the message with</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3226,8 +3244,8 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     </message>
     <message>
         <location line="+21"/>
-        <source>Sign the message to prove you own this Bitcoin address</source>
-        <translation>Sign the message to prove you own this Dogecoin address</translation>
+        <source>Sign the message to prove you own this Dogecoin address</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3257,13 +3275,13 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     </message>
     <message>
         <location line="+21"/>
-        <source>The Bitcoin address the message was signed with</source>
+        <source>The Dogecoin address the message was signed with</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+37"/>
-        <source>Verify the message to ensure it was signed with the specified Bitcoin address</source>
-        <translation>Verify the message to ensure it was signed with the specified Dogecoin address</translation>
+        <source>Verify the message to ensure it was signed with the specified Dogecoin address</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3942,7 +3960,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
 <context>
     <name>UnitDisplayStatusBarControl</name>
     <message>
-        <location filename="../bitcoingui.cpp" line="+159"/>
+        <location filename="../dogecoingui.cpp" line="+159"/>
         <source>Unit to show amounts in. Click to select another unit.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4059,9 +4077,9 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     </message>
 </context>
 <context>
-    <name>bitcoin-core</name>
+    <name>dogecoin-core</name>
     <message>
-        <location filename="../bitcoinstrings.cpp" line="+29"/>
+        <location filename="../dogecoinstrings.cpp" line="+29"/>
         <source>Distributed under the MIT software license, see the accompanying file %s or %s</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4071,8 +4089,8 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+2"/>
-        <source>Prune: last wallet synchronisation goes beyond pruned data. You need to -reindex (download the whole blockchain again in case of pruned node)</source>
+        <location line="+4"/>
+        <source>Cannot obtain a lock on data directory %s. %s is probably already running.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4097,12 +4115,12 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     </message>
     <message>
         <location line="-184"/>
-        <source>Bitcoin Core</source>
+        <source>Dogecoin Core</source>
         <translation type="unfinished">Dogecoin Core</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>The %s developers</source>
+        <location line="+2"/>
+        <source>Error loading %s: You can&apos;t enable HD on a already existing non-HD wallet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4132,7 +4150,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     </message>
     <message>
         <location line="+3"/>
-        <source>Please contribute if you find %s useful. Visit %s for further information about the software.</source>
+        <source>If paytxfee is not set, include enough fee so transactions begin confirmation on average within n blocks (default: %u)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4141,8 +4159,8 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>This is a pre-release test build - use at your own risk - do not use for mining or merchant applications</source>
+        <location line="+4"/>
+        <source>Maximum size of data in data carrier transactions we relay and mine (default: %u)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4186,8 +4204,8 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+2"/>
-        <source>Cannot resolve -%s address: &apos;%s&apos;</source>
+        <location line="+3"/>
+        <source>Set maximum size of high-priority/low-fee transactions in bytes (default: %d)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4201,9 +4219,9 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Corrupted block database detected</source>
-        <translation>Corrupted block database detected</translation>
+        <location line="+5"/>
+        <source>The transaction amount is too small to send after the fee has been deducted</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
@@ -4216,18 +4234,18 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Error initializing block database</source>
-        <translation>Error initializing block database</translation>
+        <location line="+3"/>
+        <source>Use UPnP to map the listening port (default: 1 when listening and no -proxy)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Error initializing wallet database environment %s!</source>
-        <translation>Error initializing wallet database environment %s!</translation>
+        <location line="+2"/>
+        <source>Use hierarchical deterministic key generation (HD) after BIP32. Only has effect during wallet creation/first start</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Error loading %s</source>
+        <location line="+3"/>
+        <source>Use separate SOCKS5 proxy to reach peers via Tor hidden services (default: %s)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4261,9 +4279,9 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation>Error: Disk space is low!</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Failed to listen on any port. Use -listen=0 if you want this.</source>
-        <translation>Failed to listen on any port. Use -listen=0 if you want this.</translation>
+        <location line="+3"/>
+        <source>Whitelist peers connecting from the given IP address (e.g. 1.2.3.4) or CIDR notated network (e.g. 1.2.3.0/24). Can be specified multiple times.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
@@ -4281,8 +4299,8 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation>Incorrect or no genesis block found. Wrong datadir for network?</translation>
     </message>
     <message>
-        <location line="+2"/>
-        <source>Initialization sanity check failed. %s is shutting down.</source>
+        <location line="+3"/>
+        <source>You need to rebuild the database using -reindex-chainstate to change -txindex</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4297,7 +4315,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     </message>
     <message>
         <location line="+1"/>
-        <source>Invalid amount for -fallbackfee=&lt;amount&gt;: &apos;%s&apos;</source>
+        <source>(default: %s)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4332,7 +4350,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     </message>
     <message>
         <location line="+1"/>
-        <source>Prune mode is incompatible with -txindex.</source>
+        <source>Append comment to the user agent string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4366,18 +4384,18 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Unsupported argument -benchmark ignored, use -debug=bench.</source>
+        <location line="+1"/>
+        <source>Connect through SOCKS5 proxy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Unsupported argument -debugnet ignored, use -debug=net.</source>
-        <translation type="unfinished"></translation>
+        <source>Connect to a node to retrieve peer addresses, and disconnect</source>
+        <translation type="unfinished">Connect to a node to retrieve peer addresses, and disconnect</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Unsupported argument -tor found, use -onion.</source>
+        <source>Connection options:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4501,8 +4519,8 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+2"/>
-        <source>This is experimental software.</source>
+        <location line="+1"/>
+        <source>Maintain at most &lt;n&gt; connections to peers (default: %u)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4517,13 +4535,13 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     </message>
     <message>
         <location line="+1"/>
-        <source>Transaction too large</source>
-        <translation>Transaction too large</translation>
+        <source>Node relay options:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Unable to bind to %s on this computer (bind returned error %s)</source>
-        <translation type="unfinished"></translation>
+        <source>Not enough file descriptors available.</source>
+        <translation type="unfinished">Not enough file descriptors available.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -4571,13 +4589,13 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+2"/>
-        <source>This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit %s and cryptographic software written by Eric Young and UPnP software written by Thomas Bernard.</source>
+        <location line="+1"/>
+        <source>Set key pool size to &lt;n&gt; (default: %u)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+4"/>
-        <source>Total length of network version string (%i) exceeds maximum length (%i). Reduce the number or size of uacomments.</source>
+        <location line="+1"/>
+        <source>Set maximum BIP141 block weight (default: %d)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4586,8 +4604,8 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Unsupported argument -whitelistalwaysrelay ignored, use -whitelistrelay and/or -whitelistforcerelay.</source>
+        <location line="+1"/>
+        <source>Show all debugging options (usage: --help -help-debug)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4596,8 +4614,8 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Warning: Wallet file corrupt, data salvaged! Original %s saved as %s in %s; if your balance or transactions are incorrect you should restore from a backup.</source>
+        <location line="+1"/>
+        <source>Specify configuration file (default: %s)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

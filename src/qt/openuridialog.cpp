@@ -46,5 +46,5 @@ void OpenURIDialog::on_selectFileButton_clicked()
     if(filename.isEmpty())
         return;
     QUrl fileUri = QUrl::fromLocalFile(filename);
-    ui->uriEdit->setText("bitcoin:?r=" + QUrl::toPercentEncoding(fileUri.toString()));
+    ui->uriEdit->setText("dogecoin:?r=" + QUrl::toPercentEncoding(fileUri.toString()));
 }

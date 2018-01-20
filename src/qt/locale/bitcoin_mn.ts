@@ -118,7 +118,7 @@
         <translation>&amp;Нууц Үгийг Солих...</translation>
     </message>
     <message>
-        <source>&amp;Receiving addresses...</source>
+        <source>&amp;Much receiving addresses...</source>
         <translation>Хүлээн авах хаяг</translation>
     </message>
     <message>
@@ -130,7 +130,7 @@
         <translation>Оношилгоо ба засварын консолыг онгойлго</translation>
     </message>
     <message>
-        <source>Bitcoin</source>
+        <source>Dogecoin</source>
         <translation>Биткойн</translation>
     </message>
     <message>
@@ -233,7 +233,7 @@
 <context>
     <name>Intro</name>
     <message>
-        <source>Bitcoin</source>
+        <source>Dogecoin</source>
         <translation>Биткойн</translation>
     </message>
     <message>
@@ -562,7 +562,7 @@
     <name>WalletView</name>
     </context>
 <context>
-    <name>bitcoin-core</name>
+    <name>dogecoin-core</name>
     <message>
         <source>Information</source>
         <translation>Мэдээллэл</translation>

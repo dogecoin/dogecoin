@@ -42,7 +42,7 @@
 <context>
     <name>BitcoinGUI</name>
     <message>
-        <source>&amp;Send</source>
+        <source>&amp;Such Send</source>
         <translation>&amp;ناردن</translation>
     </message>
     <message>
@@ -374,7 +374,7 @@
     </message>
     </context>
 <context>
-    <name>bitcoin-core</name>
+    <name>dogecoin-core</name>
     <message>
         <source>Information</source>
         <translation>زانیاری</translation>

@@ -47,11 +47,11 @@
     </message>
     <message>
         <source>Choose the address to send coins to</source>
-        <translation>Choisissez une adresse où envoyer les bitcoins</translation>
+        <translation>Choisissez une adresse où envoyer les dogecoins</translation>
     </message>
     <message>
         <source>Choose the address to receive coins with</source>
-        <translation>Choisissez une adresse où recevoir les bitcoins</translation>
+        <translation>Choisissez une adresse où recevoir les dogecoins</translation>
     </message>
     <message>
         <source>C&amp;hoose</source>
@@ -66,12 +66,12 @@
         <translation>Adresses de réception</translation>
     </message>
     <message>
-        <source>These are your Bitcoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>Ceci sont vos addresses Bitcoin pour envoyer vos paiements. Il faut toujours verifier les montants et l'addresse de reception avant de valider la transaction.</translation>
+        <source>These are your Dogecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <translation>Ceci sont vos addresses Dogecoin pour envoyer vos paiements. Il faut toujours verifier les montants et l'addresse de reception avant de valider la transaction.</translation>
     </message>
     <message>
-        <source>These are your Bitcoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation>Ceci sont vos addresses Bitcoin pour recevoir vos paiements. Il est recommandé d'utiliser une nouvelle adresse de recepetion pour chaque transaction</translation>
+        <source>These are your Dogecoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
+        <translation>Ceci sont vos addresses Dogecoin pour recevoir vos paiements. Il est recommandé d'utiliser une nouvelle adresse de recepetion pour chaque transaction</translation>
     </message>
     <message>
         <source>&amp;Copy Address</source>
@@ -176,8 +176,8 @@
         <translation>Confirmer le chiffrement du porte-monnaie</translation>
     </message>
     <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR BITCOINS&lt;/b&gt;!</source>
-        <translation>Attention : Si vous chiffrez votre portefeuille et que vous perdez votre mot de passe vous &lt;b&gt; PERDREZ TOUS VOS BITCOINS&lt;/b&gt; !</translation>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DOGECOINS&lt;/b&gt;!</source>
+        <translation>Attention : Si vous chiffrez votre portefeuille et que vous perdez votre mot de passe vous &lt;b&gt; PERDREZ TOUS VOS DOGECOINS&lt;/b&gt; !</translation>
     </message>
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
@@ -188,7 +188,7 @@
         <translation>Portefeuille chiffré</translation>
     </message>
     <message>
-        <source>%1 will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your bitcoins from being stolen by malware infecting your computer.</source>
+        <source>%1 will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your dogecoins from being stolen by malware infecting your computer.</source>
         <translation>%1 va à présent se fermer pour terminer la procédure de cryptage. N'oubliez pas que le chiffrement de votre porte-monnaie ne peut pas fournir une protection totale contre le vol par des logiciels malveillants qui infecteraient votre ordinateur.</translation>
     </message>
     <message>
@@ -250,7 +250,7 @@
         <translation>Synchronisation avec le réseau...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>&amp;Vue d'ensemble</translation>
     </message>
     <message>
@@ -314,11 +314,11 @@
         <translation>&amp;Modifier le mot de passe</translation>
     </message>
     <message>
-        <source>&amp;Sending addresses...</source>
+        <source>&amp;Such sending addresses...</source>
         <translation>&amp;Adresses d'envoi</translation>
     </message>
     <message>
-        <source>&amp;Receiving addresses...</source>
+        <source>&amp;Much receiving addresses...</source>
         <translation>&amp;Adresses de réception</translation>
     </message>
     <message>
@@ -346,8 +346,8 @@
         <translation>Réindexer les blocs sur le disque...</translation>
     </message>
     <message>
-        <source>Send coins to a Bitcoin address</source>
-        <translation>Envoyer des pièces à une adresse Bitcoin</translation>
+        <source>Send coins to a Dogecoin address</source>
+        <translation>Envoyer des pièces à une adresse Dogecoin</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -370,19 +370,19 @@
         <translation>&amp;Vérification du message</translation>
     </message>
     <message>
-        <source>Bitcoin</source>
-        <translation>Bitcoin</translation>
+        <source>Dogecoin</source>
+        <translation>Dogecoin</translation>
     </message>
     <message>
         <source>Wallet</source>
         <translation>Portefeuille</translation>
     </message>
     <message>
-        <source>&amp;Send</source>
+        <source>&amp;Such Send</source>
         <translation>&amp;Envoyer</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>&amp;Réception</translation>
     </message>
     <message>
@@ -398,12 +398,12 @@
         <translation>Crypter les clé privées qui appartiennent votre portefeuille</translation>
     </message>
     <message>
-        <source>Sign messages with your Bitcoin addresses to prove you own them</source>
-        <translation>Signer vos messages avec vos adresses Bitcoin pour prouver que vous les détenez</translation>
+        <source>Sign messages with your Dogecoin addresses to prove you own them</source>
+        <translation>Signer vos messages avec vos adresses Dogecoin pour prouver que vous les détenez</translation>
     </message>
     <message>
-        <source>Verify messages to ensure they were signed with specified Bitcoin addresses</source>
-        <translation>Vérifier les messages pour s'assurer qu'ils soient signés avec les adresses Bitcoin spécifiées</translation>
+        <source>Verify messages to ensure they were signed with specified Dogecoin addresses</source>
+        <translation>Vérifier les messages pour s'assurer qu'ils soient signés avec les adresses Dogecoin spécifiées</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -422,8 +422,8 @@
         <translation>Barre d'outils des onglets</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and bitcoin: URIs)</source>
-        <translation>Demander des paiements (générer QR codes et bitcoin: URIs)</translation>
+        <source>Request payments (generates QR codes and dogecoin: URIs)</source>
+        <translation>Demander des paiements (générer QR codes et dogecoin: URIs)</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -434,16 +434,16 @@
         <translation>Afficher la liste des labels et adresses de réception utilisées</translation>
     </message>
     <message>
-        <source>Open a bitcoin: URI or payment request</source>
-        <translation>Ouvrir un bitcoin: URI ou demande de paiement</translation>
+        <source>Open a dogecoin: URI or payment request</source>
+        <translation>Ouvrir un dogecoin: URI ou demande de paiement</translation>
     </message>
     <message>
         <source>&amp;Command-line options</source>
         <translation>&amp;Options de ligne de commande</translation>
     </message>
     <message numerus="yes">
-        <source>%n active connection(s) to Bitcoin network</source>
-        <translation><numerusform>%n connexion active avec le réseau Bitcoin</numerusform><numerusform>%n connexions actives avec le réseau Bitcoin</numerusform></translation>
+        <source>%n active connection(s) to Dogecoin network</source>
+        <translation><numerusform>%n connexion active avec le réseau Dogecoin</numerusform><numerusform>%n connexions actives avec le réseau Dogecoin</numerusform></translation>
     </message>
     <message>
         <source>Indexing blocks on disk...</source>
@@ -482,8 +482,8 @@
         <translation>À jour</translation>
     </message>
     <message>
-        <source>Show the %1 help message to get a list with possible Bitcoin command-line options</source>
-        <translation>Afficher le %1 message d'aide pour récupérer une liste des options de ligne de commande Bitcoin</translation>
+        <source>Show the %1 help message to get a list with possible Dogecoin command-line options</source>
+        <translation>Afficher le %1 message d'aide pour récupérer une liste des options de ligne de commande Dogecoin</translation>
     </message>
     <message>
         <source>%1 client</source>
@@ -552,8 +552,8 @@
         <translation>Le porte-monnaie est &lt;b&gt;chiffré&lt;/b&gt; et est actuellement &lt;b&gt;verrouillé&lt;/b&gt;</translation>
     </message>
     <message>
-        <source>A fatal error occurred. Bitcoin can no longer continue safely and will quit.</source>
-        <translation>Une erreur fatale a eu lieu. Bitcoin ne peut plus continuer en toute sécurité et va s'éteindre</translation>
+        <source>A fatal error occurred. Dogecoin can no longer continue safely and will quit.</source>
+        <translation>Une erreur fatale a eu lieu. Dogecoin ne peut plus continuer en toute sécurité et va s'éteindre</translation>
     </message>
 </context>
 <context>
@@ -742,8 +742,8 @@
         <translation>Éditer l'adresse d'envoi</translation>
     </message>
     <message>
-        <source>The entered address "%1" is not a valid Bitcoin address.</source>
-        <translation>L'adresse entrée "%1" n'est pas une adresse Bitcoin valide.</translation>
+        <source>The entered address "%1" is not a valid Dogecoin address.</source>
+        <translation>L'adresse entrée "%1" n'est pas une adresse Dogecoin valide.</translation>
     </message>
     <message>
         <source>Could not unlock wallet.</source>
@@ -815,8 +815,8 @@
         <translation>Utiliser votre propre répertoire</translation>
     </message>
     <message>
-        <source>Bitcoin</source>
-        <translation>Bitcoin</translation>
+        <source>Dogecoin</source>
+        <translation>Dogecoin</translation>
     </message>
     <message>
         <source>At least %1 GB of data will be stored in this directory, and it will grow over time.</source>
@@ -912,8 +912,8 @@
         <translation>Expert</translation>
     </message>
     <message>
-        <source>Automatically open the Bitcoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Ouvrir le port du client Bitcoin automatiquement sur le routeur. Cela ne fonctionne que si votre routeur supporte l'UPnP et si la fonctionnalité est activée.</translation>
+        <source>Automatically open the Dogecoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <translation>Ouvrir le port du client Dogecoin automatiquement sur le routeur. Cela ne fonctionne que si votre routeur supporte l'UPnP et si la fonctionnalité est activée.</translation>
     </message>
     <message>
         <source>Map port using &amp;UPnP</source>
@@ -1112,8 +1112,8 @@
         <translation>Montant</translation>
     </message>
     <message>
-        <source>Enter a Bitcoin address (e.g. %1)</source>
-        <translation>Entrer une adresse Bitcoin (e.g. %1)</translation>
+        <source>Enter a Dogecoin address (e.g. %1)</source>
+        <translation>Entrer une adresse Dogecoin (e.g. %1)</translation>
     </message>
     <message>
         <source>%1 d</source>
@@ -1677,8 +1677,8 @@
         <translation>Payer seulement les frais obligatoire de %1</translation>
     </message>
     <message>
-        <source>Warning: Invalid Bitcoin address</source>
-        <translation>Attention: Adresse Bitcoin Invalide</translation>
+        <source>Warning: Invalid Dogecoin address</source>
+        <translation>Attention: Adresse Dogecoin Invalide</translation>
     </message>
     <message>
         <source>(no label)</source>
@@ -2228,14 +2228,14 @@
     </message>
     </context>
 <context>
-    <name>bitcoin-core</name>
+    <name>dogecoin-core</name>
     <message>
         <source>Unable to start HTTP server. See debug log for details.</source>
         <translation>Impossible de démarrer le serveur HTTP. Voir le journal de débogage pour plus de détails.</translation>
     </message>
     <message>
-        <source>Bitcoin Core</source>
-        <translation>Bitcoin Core</translation>
+        <source>Dogecoin Core</source>
+        <translation>Dogecoin Core</translation>
     </message>
     <message>
         <source>Importing...</source>
