@@ -228,11 +228,11 @@ void PaymentServer::ipcParseCommandLine(interfaces::Node& node, int argc, char* 
             PaymentRequestPlus request;
             if (readPaymentRequestFromFile(arg, request))
             {
-                if (request.getDetails().network() == "main")
+                if (request.getDetails().genesis() == "1a91e3dace36e2be3bf030a65679fe821aa1d6ef92e7c9902eb318182c355691")
                 {
                     node.selectParams(CBaseChainParams::MAIN);
                 }
-                else if (request.getDetails().network() == "test")
+                else if (request.getDetails().genesis() == "bb0a78264637406b6360aad926284d544d7049f45189db5664f3c4d07350559e")
                 {
                     node.selectParams(CBaseChainParams::TESTNET);
                 }
@@ -747,11 +747,11 @@ void PaymentServer::handlePaymentACK(const QString& paymentACKMsg)
 
 bool PaymentServer::verifyNetwork(interfaces::Node& node, const payments::PaymentDetails& requestDetails)
 {
-    bool fVerified = requestDetails.network() == node.getNetwork();
+    bool fVerified = requestDetails.genesis() == node.getNetwork();
     if (!fVerified) {
         qWarning() << QString("PaymentServer::%1: Payment request network \"%2\" doesn't match client network \"%3\".")
             .arg(__func__)
-            .arg(QString::fromStdString(requestDetails.network()))
+            .arg(QString::fromStdString(requestDetails.genesis()))
             .arg(QString::fromStdString(node.getNetwork()));
     }
     return fVerified;

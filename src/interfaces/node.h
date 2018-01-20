@@ -55,6 +55,9 @@ public:
     //! Get network name.
     virtual std::string getNetwork() = 0;
 
+    //! Get genesis block hash.
+    virtual std::string getGenesis() = 0;
+
     //! Init logging.
     virtual void initLogging() = 0;
 
