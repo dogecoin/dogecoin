@@ -55,7 +55,7 @@ Alihkan fail data ke dalam tab semasa</translation>
         <translation>&amp;Pilih</translation>
     </message>
     <message>
-        <source>Sending addresses</source>
+        <source>Such sending addresses</source>
         <translation>alamat-alamat penghantaran</translation>
     </message>
     <message>
@@ -233,7 +233,7 @@ Alihkan fail data ke dalam tab semasa</translation>
     </message>
 </context>
 <context>
-    <name>BitcoinGUI</name>
+    <name>DogecoinGUI</name>
     <message>
         <source>Sign &amp;message...</source>
         <translation>Tandatangan &amp; mesej...</translation>
@@ -307,7 +307,7 @@ Alihkan fail data ke dalam tab semasa</translation>
         <translation>&amp;Menukar frasa-laluan</translation>
     </message>
     <message>
-        <source>&amp;Sending addresses...</source>
+        <source>&amp;Such sending addresses...</source>
         <translation>&amp;Menghantar frasa-laluan</translation>
     </message>
     <message>
@@ -500,6 +500,6 @@ Alihkan fail data ke dalam tab semasa</translation>
     </message>
     </context>
 <context>
-    <name>bitcoin-core</name>
+    <name>dogecoin-core</name>
     </context>
 </TS>
