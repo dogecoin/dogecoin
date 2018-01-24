@@ -3,7 +3,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <blockfilter.h>
-#include <hash.h>
+#include <crypto/siphash.h>
 #include <streams.h>
 
 /// SerType used to serialize parameters in GCS filter encoding.
