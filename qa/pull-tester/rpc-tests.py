@@ -145,7 +145,7 @@ testScripts = [
     'keypool.py',
     'p2p-mempool.py',
     'prioritise_transaction.py',
-    # 'invalidblockrequest.py',
+    'invalidblockrequest.py',
     # 'invalidtxrequest.py',
     # 'p2p-versionbits-warning.py',
     'preciousblock.py',
