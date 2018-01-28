@@ -281,7 +281,7 @@ class RPCTestHandler:
             log_stderr = tempfile.SpooledTemporaryFile(max_size=2**16)
             self.jobs.append((t,
                               time.time(),
-                              subprocess.Popen(['python3.6']+(RPC_TESTS_DIR + t).split() + self.flags + port_seed,
+                              subprocess.Popen(['python3.5']+(RPC_TESTS_DIR + t).split() + self.flags + port_seed,
                                                universal_newlines=True,
                                                stdout=log_stdout,
                                                stderr=log_stderr),
