@@ -55,6 +55,8 @@
         <file alias="network_disabled">res/icons/network_disabled.png</file>
         <file alias="proxy">res/icons/proxy.png</file>
         <file alias="wallet_bgcoin">res/icons/wallet_bgcoin.png</file>
+        <file alias="paper_wallet">res/icons/paper_wallet.png</file>
+        <file alias="print">res/icons/print.png</file>
     </qresource>
     <qresource prefix="/movies">
         <file alias="spinner-000">res/movies/spinner-000.png</file>
