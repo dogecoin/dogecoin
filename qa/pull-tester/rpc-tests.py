@@ -123,6 +123,7 @@ testScripts = [
     'merkle_blocks.py',
     'receivedby.py',
     'abandonconflict.py',
+    # Dogecoin: Disable version bit soft fork tests as we use these bits for AuxPoW
     # 'bip68-112-113-p2p.py',
     'rawtransactions.py',
     'reindex.py',
@@ -145,8 +146,8 @@ testScripts = [
     'keypool.py',
     'p2p-mempool.py',
     'prioritise_transaction.py',
-    # 'invalidblockrequest.py',
-    # 'invalidtxrequest.py',
+    'invalidblockrequest.py',
+    'invalidtxrequest.py',
     # 'p2p-versionbits-warning.py',
     'preciousblock.py',
     'importprunedfunds.py',
