@@ -103,7 +103,7 @@ testScripts = [
     'wallet-hd.py',
     'walletbackup.py',
     # vv Tests less than 5m vv
-    # 'p2p-fullblocktest.py',
+    'p2p-fullblocktest.py',
     'fundrawtransaction.py',
     #'p2p-compactblocks.py',
     # 'segwit.py',
