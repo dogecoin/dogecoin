@@ -1,24 +1,37 @@
-Bitcoin Core version 0.17.1 is now available from:
+Dogecoin Core version 1.17.0 is now available from:
 
-  <https://bitcoincore.org/bin/bitcoin-core-0.17.1/>
+  <https://github.com/dogecoin/dogecoin/releases/tag/v1.17.0/>
 
 This is a new major version release, including new features, various bugfixes
 and performance improvements, as well as updated translations.
 
 Please report bugs using the issue tracker at GitHub:
 
-  <https://github.com/bitcoin/bitcoin/issues>
+  <https://github.com/dogecoin/dogecoin/issues>
 
-To receive security and update notifications, please subscribe to:
+To receive security and update notifications, please watch reddit or Twitter:
 
-  <https://bitcoincore.org/en/list/announcements/join/>
+  * https://www.reddit.com/r/dogecoin/
+  * @Dogecoin on Twitter for high priority announcements
+  * @dogecoin\_devs on Twitter for updates on development work
+
+The developers also maintain personal Twitter accounts:
+
+  * @langer\_hans
+  * @JRossNicoll
+
+Lastly the founders are on Twitter, although as of the time of writing not involved in
+maintaining Dogecoin:
+
+  * @ummjackson
+  * @BillyM2k
 
 How to Upgrade
 ==============
 
 If you are running an older version, shut it down. Wait until it has completely
 shut down (which might take a few minutes for older versions), then run the
-installer (on Windows) or just copy over `/Applications/Bitcoin-Qt` (on Mac)
+installer (on Windows) or just copy over `/Applications/Dogecoin-Qt` (on Mac)
 or `bitcoind`/`bitcoin-qt` (on Linux).
 
 If your node has a txindex, the txindex db will be migrated the first time you run 0.17.0 or newer, which may take up to a few hours. Your node will not be functional until this migration completes.
@@ -46,10 +59,14 @@ processing the entire blockchain.
 Compatibility
 ==============
 
-Bitcoin Core is extensively tested on multiple operating systems using
-the Linux kernel, macOS 10.10+, and Windows 7 and newer (Windows XP is not supported).
+Dogecoin Core is extensively tested on Ubuntu Server LTS, Mac OS X and Windows 10.
 
-Bitcoin Core should also work on most other Unix-like systems but is not
+Microsoft ended support for Windows XP on [April 8th, 2014](https://www.microsoft.com/en-us/WindowsForBusiness/end-of-xp-support),
+No attempt is made to prevent installing or running the software on Windows XP, you
+can still do so at your own risk but be aware that there are known instabilities and issues.
+Please do not report issues about Windows XP to the issue tracker.
+
+Dogecoin Core should also work on most other Unix-like systems but is not
 frequently tested on them.
 
 From 0.17.0 onwards macOS <10.10 is no longer supported. 0.17.0 is built using Qt 5.9.x, which doesn't
@@ -154,6 +171,8 @@ Thanks to everyone who directly contributed to this release:
 - MeshCollider
 - Pieter Wuille
 - practicalswift
+- Max Keller
+- Ross Nicoll
 - Russell Yanofsky
 - Sjors Provoost
 - Suhas Daftuar
