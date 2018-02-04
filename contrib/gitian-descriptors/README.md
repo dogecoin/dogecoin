@@ -1,4 +1,4 @@
-### Gavin's notes on getting gitian builds up and running using KVM
+### Based on Gavin's notes on getting gitian builds up and running using KVM:
 
 These instructions distilled from
 [https://help.ubuntu.com/community/KVM/Installation](https://help.ubuntu.com/community/KVM/Installation).
@@ -19,7 +19,7 @@ Sanity checks:
 
 Once you've got the right hardware and software:
 
-    git clone git://github.com/bitcoin/bitcoin.git
+    git clone git://github.com/dogecoin/dogecoin.git
     git clone git://github.com/devrandom/gitian-builder.git
     mkdir gitian-builder/inputs
     cd gitian-builder/inputs
@@ -61,5 +61,5 @@ Here's a description of Gavin's setup on OSX 10.6:
 5. Still inside Ubuntu, tell gitian-builder to use LXC, then follow the "Once you've got the right hardware and software" instructions above:
 
 	export USE_LXC=1
-	git clone git://github.com/bitcoin/bitcoin.git
+	git clone git://github.com/dogecoin/dogecoin.git
 	... etc
