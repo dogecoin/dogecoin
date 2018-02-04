@@ -30,15 +30,15 @@ class TxnMallTest(BitcoinTestFramework):
         
         # Assign coins to foo and bar accounts:
         node0_address_foo = self.nodes[0].getnewaddress("foo")
-        fund_foo_txid = self.nodes[0].sendfrom("", node0_address_foo, 7499970)
+        fund_foo_txid = self.nodes[0].sendfrom("", node0_address_foo, 7499969)
         fund_foo_tx = self.nodes[0].gettransaction(fund_foo_txid)
 
         node0_address_bar = self.nodes[0].getnewaddress("bar")
-        fund_bar_txid = self.nodes[0].sendfrom("", node0_address_bar, 30)
+        fund_bar_txid = self.nodes[0].sendfrom("", node0_address_bar, 29)
         fund_bar_tx = self.nodes[0].gettransaction(fund_bar_txid)
 
         assert_equal(self.nodes[0].getbalance(""),
-                     starting_balance - 1219 - 29 + fund_foo_tx["fee"] + fund_bar_tx["fee"])
+                     starting_balance - 7499969 - 29 + fund_foo_tx["fee"] + fund_bar_tx["fee"])
 
         # Coins are sent to node1_address
         node1_address = self.nodes[1].getnewaddress("from0")
@@ -48,7 +48,7 @@ class TxnMallTest(BitcoinTestFramework):
         doublespend_fee = Decimal('-2')
         rawtx_input_0 = {}
         rawtx_input_0["txid"] = fund_foo_txid
-        rawtx_input_0["vout"] = find_output(self.nodes[0], fund_foo_txid, 1219)
+        rawtx_input_0["vout"] = find_output(self.nodes[0], fund_foo_txid, 7499969)
         rawtx_input_1 = {}
         rawtx_input_1["txid"] = fund_bar_txid
         rawtx_input_1["vout"] = find_output(self.nodes[0], fund_bar_txid, 29)
@@ -56,7 +56,7 @@ class TxnMallTest(BitcoinTestFramework):
         change_address = self.nodes[0].getnewaddress()
         outputs = {}
         outputs[node1_address] = 7499960
-        outputs[change_address] = 7499998 - 1219 + doublespend_fee
+        outputs[change_address] = 7499998 - 7499969 + doublespend_fee
         rawtx = self.nodes[0].createrawtransaction(inputs, outputs)
         doublespend = self.nodes[0].signrawtransaction(rawtx)
         assert_equal(doublespend["complete"], True)
@@ -82,8 +82,8 @@ class TxnMallTest(BitcoinTestFramework):
         assert_equal(self.nodes[0].getbalance(), expected)
 
         # foo and bar accounts should be debited:
-        assert_equal(self.nodes[0].getbalance("foo", 0), 7499970+tx1["amount"]+tx1["fee"])
-        assert_equal(self.nodes[0].getbalance("bar", 0), 30+tx2["amount"]+tx2["fee"])
+        assert_equal(self.nodes[0].getbalance("foo", 0), 7499969+tx1["amount"]+tx1["fee"])
+        assert_equal(self.nodes[0].getbalance("bar", 0), 29+tx2["amount"]+tx2["fee"])
 
         if self.options.mine_block:
             assert_equal(tx1["confirmations"], 1)
@@ -127,7 +127,7 @@ class TxnMallTest(BitcoinTestFramework):
         assert_equal(self.nodes[0].getbalance("foo"), 7499970-7499960)
         assert_equal(self.nodes[0].getbalance("bar"), 30)
         assert_equal(self.nodes[0].getbalance(""), starting_balance
-                                                              -1219
+                                                              -7499969
                                                               -  29
                                                               -1240
                                                               + 100
