@@ -18,9 +18,11 @@ QList<BitcoinUnits::Unit> BitcoinUnits::availableUnits()
 {
     QList<BitcoinUnits::Unit> unitlist;
     unitlist.append(BTC);
-    unitlist.append(mBTC);
-    unitlist.append(uBTC);
-    unitlist.append(SAT);
+    unitlist.append(kBTC);
+    unitlist.append(MBTC);
+    // unitlist.append(mBTC);
+    // unitlist.append(uBTC);
+    // unitlist.append(SAT);
     return unitlist;
 }
 
@@ -28,11 +30,14 @@ bool BitcoinUnits::valid(int unit)
 {
     switch(unit)
     {
+    case MBTC:
+    case kBTC:
     case BTC:
-    case mBTC:
-    case uBTC:
-    case SAT:
         return true;
+    // case mBTC:
+    // case uBTC:
+    // case SAT:
+    //     return true;
     default:
         return false;
     }
@@ -42,6 +47,8 @@ QString BitcoinUnits::longName(int unit)
 {
     switch(unit)
     {
+    case MBTC: return QString("MDOGE");
+    case kBTC: return QString("kDOGE");
     case BTC: return QString("DOGE");
     case mBTC: return QString("mDOGE");
     case uBTC: return QString::fromUtf8("µDOGE");
@@ -64,6 +71,8 @@ QString BitcoinUnits::description(int unit)
 {
     switch(unit)
     {
+    case MBTC: return QString("Mega-Dogecoins (1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+    case kBTC: return QString("Kilo-Dogecoins (1" THIN_SP_UTF8 "000)");
     case BTC: return QString("Dogecoins");
     case mBTC: return QString("Milli-Dogecoins (1 / 1" THIN_SP_UTF8 "000)");
     case uBTC: return QString("Micro-Dogecoins (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
@@ -76,6 +85,8 @@ qint64 BitcoinUnits::factor(int unit)
 {
     switch(unit)
     {
+    case MBTC: return 100000000000000;
+    case kBTC: return 100000000000;
     case BTC: return 100000000;
     case mBTC: return 100000;
     case uBTC: return 100;
@@ -88,6 +99,8 @@ int BitcoinUnits::decimals(int unit)
 {
     switch(unit)
     {
+    case MBTC: return 14;
+    case kBTC: return 11;
     case BTC: return 8;
     case mBTC: return 5;
     case uBTC: return 2;
