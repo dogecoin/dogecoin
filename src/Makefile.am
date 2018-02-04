@@ -279,6 +279,8 @@ libdogecoin_consensus_a_SOURCES = \
   prevector.h \
   primitives/block.cpp \
   primitives/block.h \
+  primitives/pureheader.cpp \
+  primitives/pureheader.h \
   primitives/transaction.cpp \
   primitives/transaction.h \
   pubkey.cpp \
