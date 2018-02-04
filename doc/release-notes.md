@@ -1,9 +1,9 @@
 (note: this is a temporary file, to be added-to by anybody, and moved to
 release-notes at release time)
 
-Dogecoin Core version 0.14.0 is now available from:
+Dogecoin Core version 1.14.0 is now available from:
 
-  <https://dogecoin.com/bin/dogecoin-core-0.14.0/>
+  <https://github.com/dogecoin/dogecoin/releases/tag/v1.14.0/>
 
 This is a new major version release, including new features, various bugfixes
 and performance improvements, as well as updated translations.
