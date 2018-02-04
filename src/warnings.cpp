@@ -43,8 +43,14 @@ bool GetfLargeWorkInvalidChainFound()
     return fLargeWorkInvalidChainFound;
 }
 
+//////////////////////////////////////////////////////////////////////////////
+//
+// CAlert
+//
+
 std::string GetWarnings(const std::string& strFor)
 {
+    int nPriority = 0;
     std::string strStatusBar;
     std::string strRPC;
     std::string strGUI;
@@ -63,19 +69,36 @@ std::string GetWarnings(const std::string& strFor)
     // Misc warnings like out of disk space and clock is wrong
     if (strMiscWarning != "")
     {
+        nPriority = 1000;
         strStatusBar = strMiscWarning;
         strGUI += (strGUI.empty() ? "" : uiAlertSeperator) + strMiscWarning;
     }
 
     if (fLargeWorkForkFound)
     {
+        nPriority = 2000;
         strStatusBar = strRPC = "Warning: The network does not appear to fully agree! Some miners appear to be experiencing issues.";
         strGUI += (strGUI.empty() ? "" : uiAlertSeperator) + _("Warning: The network does not appear to fully agree! Some miners appear to be experiencing issues.");
     }
     else if (fLargeWorkInvalidChainFound)
     {
+        nPriority = 2000;
         strStatusBar = strRPC = "Warning: We do not appear to fully agree with our peers! You may need to upgrade, or other nodes may need to upgrade.";
         strGUI += (strGUI.empty() ? "" : uiAlertSeperator) + _("Warning: We do not appear to fully agree with our peers! You may need to upgrade, or other nodes may need to upgrade.");
+    }
+ 
+    // Alerts
+    {
+        LOCK(cs_mapAlerts);
+        BOOST_FOREACH(PAIRTYPE(const uint256, CAlert)& item, mapAlerts)
+        {
+            const CAlert& alert = item.second;
+            if (alert.AppliesToMe() && alert.nPriority > nPriority)
+            {
+                nPriority = alert.nPriority;
+                strStatusBar = strGUI = alert.strStatusBar;
+            }
+        }
     }
 
     if (strFor == "gui")
