@@ -544,10 +544,12 @@ static void BlockNotifyCallback(bool initialSync, const CBlockIndex *pBlockIndex
         return;
 
     std::string strCmd = GetArg("-blocknotify", "");
-
-    boost::replace_all(strCmd, "%s", pBlockIndex->GetBlockHash().GetHex());
-    boost::replace_all(strCmd, "%i", boost::lexical_cast<std::string>(pBlockIndex->nHeight));
-    boost::thread t(runCommand, strCmd); // thread runs free
+    if (!strCmd.empty()) {
+        boost::replace_all(strCmd, "%s", pBlockIndex->GetBlockHash().GetHex());
+        boost::replace_all(strCmd, "%i", boost::lexical_cast<std::string>(pBlockIndex->nHeight));
+        std::thread t(runCommand, strCmd);
+        t.detach(); // thread runs free
+    }
 }
 
 static bool fHaveGenesis = false;
