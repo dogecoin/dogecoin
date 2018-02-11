@@ -145,17 +145,6 @@ CAmount GetDogecoinBlockSubsidy(int nHeight, const Consensus::Params& consensusP
         return 10000 * COIN;
     }
 }
-
-unsigned int GetDogecoinTxSize(const unsigned int nTxBytes)
-{
-    // Dogecoin: Round TX bytes up to the next 1,000 bytes
-    unsigned int nMod = nTxBytes % 1000;
-    if (nMod > 0) {
-        return nTxBytes + 1000 - nMod;
-    } else {
-        return nTxBytes;
-    }
-}
  
 CAmount GetDogecoinMinRelayFee(const CTransaction& tx, unsigned int nSize)
 {

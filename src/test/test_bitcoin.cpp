@@ -42,6 +42,9 @@ FastRandomContext insecure_rand_ctx(insecure_rand_seed);
 extern bool fPrintToConsole;
 extern void noui_connect();
 
+/** Coinbase transaction outputs can only be spent after this number of new blocks (network rule) */
+static const int COINBASE_MATURITY = 60*4; // 4 hours of blocks
+
 BasicTestingSetup::BasicTestingSetup(const std::string& chainName)
 {
         SHA256AutoDetect();

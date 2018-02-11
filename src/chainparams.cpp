@@ -225,6 +225,7 @@ public:
         consensus.nHeightEffective = 0;
         consensus.nPowTargetTimespan = 4 * 60 * 60; // pre-digishield: 4 hours
         consensus.fDigishieldDifficultyCalculation = false;
+        consensus.nCoinbaseMaturity = 30;
         consensus.fPowAllowMinDifficultyBlocks = true;
         consensus.fPowAllowDigishieldMinDifficultyBlocks = false;
         consensus.nSubsidyHalvingInterval = 100000;

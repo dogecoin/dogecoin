@@ -205,7 +205,7 @@ bool CheckTransaction(const CTransaction& tx, CValidationState &state, bool fChe
     return true;
 }
 
-bool Consensus::CheckTxInputs(const CTransaction& tx, CValidationState& state, const CCoinsViewCache& inputs, int nSpendHeight)
+bool Consensus::CheckTxInputs(const CChainParams& params, const CTransaction& tx, CValidationState& state, const CCoinsViewCache& inputs, int nSpendHeight)
 {
         // This doesn't trigger the DoS code on purpose; if it did, it would make it easier
         // for an attacker to attempt to split the network.
@@ -223,7 +223,7 @@ bool Consensus::CheckTxInputs(const CTransaction& tx, CValidationState& state, c
             // If prev is coinbase, check that it's matured
             if (coin.IsCoinBase()) {
                 // Dogecoin: Switch maturity at depth 145,000
-                int nCoinbaseMaturity = Params().GetConsensus(coin.nHeight)->nCoinbaseMaturity;
+                int nCoinbaseMaturity = params.GetConsensus(coin.nHeight)->nCoinbaseMaturity;
                 if (nSpendHeight - coin.nHeight < nCoinbaseMaturity)
                     return state.Invalid(false,
                         REJECT_INVALID, "bad-txns-premature-spend-of-coinbase",
