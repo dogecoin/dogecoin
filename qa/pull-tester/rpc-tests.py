@@ -103,7 +103,7 @@ testScripts = [
     'wallet-hd.py',
     'walletbackup.py',
     # vv Tests less than 5m vv
-    # 'p2p-fullblocktest.py',
+    'p2p-fullblocktest.py',
     'fundrawtransaction.py',
     #'p2p-compactblocks.py',
     # 'segwit.py',
@@ -145,7 +145,7 @@ testScripts = [
     'keypool.py',
     'p2p-mempool.py',
     'prioritise_transaction.py',
-    # 'invalidblockrequest.py',
+    'invalidblockrequest.py',
     # 'invalidtxrequest.py',
     # 'p2p-versionbits-warning.py',
     'preciousblock.py',
