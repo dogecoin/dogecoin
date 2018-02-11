@@ -616,6 +616,7 @@ class FullBlockTest(ComparisonTestFramework):
         height = self.block_heights[self.tip.sha256] + 1
         coinbase = create_coinbase(height, self.coinbase_pubkey)
         b44 = CBlock()
+        b44.nVersion = 0x620004
         b44.nTime = self.tip.nTime + 1
         b44.hashPrevBlock = self.tip.sha256
         b44.nBits = 0x207fffff
@@ -630,6 +631,7 @@ class FullBlockTest(ComparisonTestFramework):
         # A block with a non-coinbase as the first tx
         non_coinbase = create_tx(out[15].tx, out[15].n, 1)
         b45 = CBlock()
+        b44.nVersion = 0x620004
         b45.nTime = self.tip.nTime + 1
         b45.hashPrevBlock = self.tip.sha256
         b45.nBits = 0x207fffff
@@ -645,6 +647,7 @@ class FullBlockTest(ComparisonTestFramework):
         # A block with no txns
         tip(44)
         b46 = CBlock()
+        b44.nVersion = 0x620004
         b46.nTime = b44.nTime+1
         b46.hashPrevBlock = b44.sha256
         b46.nBits = 0x207fffff
