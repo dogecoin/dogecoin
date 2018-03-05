@@ -791,6 +791,14 @@ public:
     bool AddAccountingEntry(const CAccountingEntry&, CWalletDB *pwalletdb);
     template <typename ContainerType>
     bool DummySignTx(CMutableTransaction &txNew, const ContainerType &coins);
+    bool DummySignTx(CMutableTransaction &txNew, const std::set<CTxOut> &txouts) const
+    {
+        std::vector<CTxOut> v_txouts(txouts.size());
+        std::copy(txouts.begin(), txouts.end(), v_txouts.begin());
+        return DummySignTx(txNew, v_txouts);
+    }
+    bool DummySignTx(CMutableTransaction &txNew, const std::vector<CTxOut> &txouts) const;
+    bool DummySignInput(CTxIn &tx_in, const CTxOut &txout) const;
 
     static CFeeRate minTxFee;
     static CFeeRate fallbackFee;

@@ -1391,8 +1391,40 @@ int64_t CWalletTx::GetTxTime() const
     return n ? n : nTimeReceived;
 }
 
-void CWalletTx::GetAmounts(list<COutputEntry>& listReceived,
-                           list<COutputEntry>& listSent, CAmount& nFee, string& strSentAccount, const isminefilter& filter) const
+// Helper for producing a max-sized low-S signature (eg 72 bytes)
+bool CWallet::DummySignInput(CTxIn &tx_in, const CTxOut &txout) const
+{
+    // Fill in dummy signatures for fee calculation.
+    const CScript& scriptPubKey = txout.scriptPubKey;
+    SignatureData sigdata;
+
+    if (!ProduceSignature(DummySignatureCreator(this), scriptPubKey, sigdata))
+    {
+        return false;
+    } else {
+        UpdateInput(tx_in, sigdata);
+    }
+    return true;
+}
+
+// Helper for producing a bunch of max-sized low-S signatures (eg 72 bytes)
+bool CWallet::DummySignTx(CMutableTransaction &txNew, const std::vector<CTxOut> &txouts) const
+{
+    // Fill in dummy signatures for fee calculation.
+    int nIn = 0;
+    for (const auto& txout : txouts)
+    {
+        if (!DummySignInput(txNew.vin[nIn], txout)) {
+            return false;
+        }
+
+        nIn++;
+    }
+    return true;
+}
+
+void CWalletTx::GetAmounts(std::list<COutputEntry>& listReceived,
+                           std::list<COutputEntry>& listSent, CAmount& nFee, std::string& strSentAccount, const isminefilter& filter) const
 {
     nFee = 0;
     listReceived.clear();
