@@ -1674,7 +1674,8 @@ void CConnman::ThreadDNSAddressSeed()
             std::vector<CNetAddr> vIPs;
             std::vector<CAddress> vAdd;
             ServiceFlags requiredServiceBits = nRelevantServices;
-            if (LookupHost(GetDNSHost(seed, &requiredServiceBits), vIPs, 0, true))
+            unsigned int nMaxIPs = 256; // Limits number of IPs learned from a DNS seed
+            if (LookupHost(GetDNSHost(seed, &requiredServiceBits), vIPs, nMaxIPs, true))
             {
                 BOOST_FOREACH(const CNetAddr& ip, vIPs)
                 {
