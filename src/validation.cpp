@@ -5,6 +5,7 @@
 
 #include "validation.h"
 
+#include "alert.h"
 #include "arith_uint256.h"
 #include "chainparams.h"
 #include "checkpoints.h"
@@ -1233,7 +1234,6 @@ CBlockIndex *pindexBestForkTip = NULL, *pindexBestForkBase = NULL;
 
 static void AlertNotify(const std::string& strMessage)
 {
-    uiInterface.NotifyAlertChanged();
     CAlert::Notify(strMessage);
 }
 

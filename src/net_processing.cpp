@@ -6,6 +6,7 @@
 #include "net_processing.h"
 
 #include "addrman.h"
+#include "alert.h"
 #include "arith_uint256.h"
 #include "blockencodings.h"
 #include "chainparams.h"
@@ -1370,7 +1371,7 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
         {
             LOCK(cs_mapAlerts);
             BOOST_FOREACH(PAIRTYPE(const uint256, CAlert)& item, mapAlerts)
-                item.second.RelayTo(pfrom);
+                pfrom->PushAlert(item.second);
         }
 
         // Feeler connections exist only to verify if address is online.
@@ -2535,9 +2536,11 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
                 // Relay
                 pfrom->setKnown.insert(alertHash);
                 {
-                    LOCK(cs_vNodes);
-                    BOOST_FOREACH(CNode* pnode, vNodes)
-                        alert.RelayTo(pnode);
+                    
+                    connman.ForEachNode([&alert](CNode* pnode)
+                    {
+                        pnode->PushAlert(alert);
+                    });
                 }
             }
             else {
@@ -3296,6 +3299,25 @@ bool SendMessages(CNode* pto, CConnman& connman, const std::atomic<bool>& interr
                 pto->nextSendTimeFeeFilter = timeNow + GetRandInt(MAX_FEEFILTER_CHANGE_DELAY) * 1000000;
             }
         }
+
+        //
+        // Message: alert
+        //
+        BOOST_FOREACH(const CAlert &alert, pto->vAlertToSend) {
+            // returns true if wasn't already contained in the set
+            if (pto->setKnown.insert(alert.GetHash()).second)
+            {
+                if (alert.AppliesTo(pto->nVersion, pto->strSubVer) ||
+                    alert.AppliesToMe() ||
+                    GetAdjustedTime() < alert.nRelayUntil)
+                {
+                    connman.PushMessage(pto, msgMaker.Make(NetMsgType::ALERT, alert));
+                    return true;
+                }
+            }
+        }
+        pto->vAlertToSend.clear();
+
     }
     return true;
 }

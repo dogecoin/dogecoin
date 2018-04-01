@@ -99,7 +99,6 @@ public:
     bool Cancels(const CAlert& alert) const;
     bool AppliesTo(int nVersion, const std::string& strSubVerIn) const;
     bool AppliesToMe() const;
-    bool RelayTo(CNode* pnode) const;
     bool CheckSignature(const std::vector<unsigned char>& alertKey) const;
     bool ProcessAlert(const std::vector<unsigned char>& alertKey);
     static void Notify(const std::string& strMessage);

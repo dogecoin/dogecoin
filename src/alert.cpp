@@ -7,6 +7,7 @@
 
 #include "clientversion.h"
 #include "net.h"
+#include "netmessagemaker.h"
 #include "pubkey.h"
 #include "timedata.h"
 #include "ui_interface.h"
@@ -122,27 +123,6 @@ bool CAlert::AppliesTo(int nVersion, const std::string& strSubVerIn) const
 bool CAlert::AppliesToMe() const
 {
     return AppliesTo(PROTOCOL_VERSION, FormatSubVersion(CLIENT_NAME, CLIENT_VERSION, std::vector<std::string>()));
-}
-
-bool CAlert::RelayTo(CNode* pnode) const
-{
-    if (!IsInEffect())
-        return false;
-    // don't relay to nodes which haven't sent their version message
-    if (pnode->nVersion == 0)
-        return false;
-    // returns true if wasn't already contained in the set
-    if (pnode->setKnown.insert(GetHash()).second)
-    {
-        if (AppliesTo(pnode->nVersion, pnode->strSubVer) ||
-            AppliesToMe() ||
-            GetAdjustedTime() < nRelayUntil)
-        {
-            pnode->PushMessage(NetMsgType::ALERT, *this);
-            return true;
-        }
-    }
-    return false;
 }
 
 bool CAlert::CheckSignature(const std::vector<unsigned char>& alertKey) const
