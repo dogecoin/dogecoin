@@ -100,8 +100,8 @@ public:
     bool AppliesTo(int nVersion, const std::string& strSubVerIn) const;
     bool AppliesToMe() const;
     bool CheckSignature(const std::vector<unsigned char>& alertKey) const;
-    bool ProcessAlert(const std::vector<unsigned char>& alertKey);
-    static void Notify(const std::string& strMessage);
+    bool ProcessAlert(const std::vector<unsigned char>& alertKey, bool fThread = true);
+    static void Notify(const std::string& strMessage, bool fThread = true);
 
     /*
      * Get copy of (active) alert object by hash. Returns a null alert if it is not found.

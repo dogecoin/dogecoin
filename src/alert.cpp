@@ -149,7 +149,7 @@ CAlert CAlert::getAlertByHash(const uint256 &hash)
     return retval;
 }
 
-bool CAlert::ProcessAlert(const std::vector<unsigned char>& alertKey)
+bool CAlert::ProcessAlert(const std::vector<unsigned char>& alertKey, bool fThread)
 {
     if (!CheckSignature(alertKey))
         return false;
@@ -217,7 +217,7 @@ bool CAlert::ProcessAlert(const std::vector<unsigned char>& alertKey)
         if(AppliesToMe())
         {
             uiInterface.NotifyAlertChanged(GetHash(), CT_NEW);
-            Notify(strStatusBar);
+            Notify(strStatusBar, fThread);
         }
     }
 
@@ -226,7 +226,7 @@ bool CAlert::ProcessAlert(const std::vector<unsigned char>& alertKey)
 }
 
 void
-CAlert::Notify(const std::string& strMessage)
+CAlert::Notify(const std::string& strMessage, bool fThread)
 {
     std::string strCmd = GetArg("-alertnotify", "");
     if (strCmd.empty()) return;
@@ -239,5 +239,8 @@ CAlert::Notify(const std::string& strMessage)
     safeStatus = singleQuote+safeStatus+singleQuote;
     boost::replace_all(strCmd, "%s", safeStatus);
 
-    boost::thread t(runCommand, strCmd); // thread runs free
+    if (fThread)
+        boost::thread t(runCommand, strCmd); // thread runs free
+    else
+        runCommand(strCmd);
 }
