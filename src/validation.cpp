@@ -1234,18 +1234,7 @@ CBlockIndex *pindexBestForkTip = NULL, *pindexBestForkBase = NULL;
 static void AlertNotify(const std::string& strMessage)
 {
     uiInterface.NotifyAlertChanged();
-    std::string strCmd = GetArg("-alertnotify", "");
-    if (strCmd.empty()) return;
-
-    // Alert text should be plain ascii coming from a trusted source, but to
-    // be safe we first strip anything not in safeChars, then add single quotes around
-    // the whole string before passing it to the shell:
-    std::string singleQuote("'");
-    std::string safeStatus = SanitizeString(strMessage);
-    safeStatus = singleQuote+safeStatus+singleQuote;
-    boost::replace_all(strCmd, "%s", safeStatus);
-
-    boost::thread t(runCommand, strCmd); // thread runs free
+    CAlert::Notify(strMessage);
 }
 
 void CheckForkWarningConditions()
