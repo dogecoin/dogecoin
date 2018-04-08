@@ -13,6 +13,8 @@
 # https://pypi.python.org/packages/source/l/ltc_scrypt/ltc_scrypt-1.0.tar.gz
 
 from .auxpow import *
+from .mininode import hash256
+from .util import bytes_to_hex_str, hex_str_to_bytes
 import ltc_scrypt
 
 def computeAuxpowWithChainId (block, target, chainid, ok):
@@ -36,13 +38,13 @@ def computeAuxpowWithChainId (block, target, chainid, ok):
   # Build up the full coinbase transaction.  It consists only
   # of the input and has no outputs.
   tx = "01000000" + vin + "00" + ("00" * 4)
-  txHash = doubleHashHex (tx)
+  txHash = hash256 (hex_str_to_bytes(tx))
 
   # Construct the parent block header.  It need not be valid, just good
   # enough for auxpow purposes.
   header = "0100" + chainid + "00"
   header += "00" * 32
-  header += reverseHex (txHash)
+  header += bytes_to_hex_str(txHash)
   header += "00" * 4
   header += "00" * 4
   header += "00" * 4
@@ -52,7 +54,7 @@ def computeAuxpowWithChainId (block, target, chainid, ok):
 
   # Build the MerkleTx part of the auxpow.
   output = tx
-  output += blockhash
+  output += bytes_to_hex_str(blockhash)
   output += "00"
   output += "00" * 4
 
@@ -93,8 +95,8 @@ def mineScryptBlock (header, target, ok):
     if (ok and scrypt < target) or ((not ok) and scrypt > target):
       break
 
-  blockhash = doubleHashHex (hexData)
-  return (hexData, blockhash)
+  blockhash = hash256 (hex_str_to_bytes(hexData))
+  return (hexData, blockhash[::-1])
 
 def getScryptPoW(hexData):
   """
