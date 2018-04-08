@@ -7,6 +7,7 @@
 #include "consensus.h"
 #include "primitives/transaction.h"
 #include "script/interpreter.h"
+#include "chainparams.h"
 #include "validation.h"
 
 // TODO remove the following dependencies
@@ -223,7 +224,7 @@ bool Consensus::CheckTxInputs(const CChainParams& params, const CTransaction& tx
             // If prev is coinbase, check that it's matured
             if (coin.IsCoinBase()) {
                 // Dogecoin: Switch maturity at depth 145,000
-                int nCoinbaseMaturity = params.GetConsensus(coin.nHeight)->nCoinbaseMaturity;
+                int nCoinbaseMaturity = params.GetConsensus(coin.nHeight).nCoinbaseMaturity;
                 if (nSpendHeight - coin.nHeight < nCoinbaseMaturity)
                     return state.Invalid(false,
                         REJECT_INVALID, "bad-txns-premature-spend-of-coinbase",

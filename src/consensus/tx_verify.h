@@ -9,6 +9,7 @@
 #include <vector>
 
 class CBlockIndex;
+class CChainParams;
 class CCoinsViewCache;
 class CTransaction;
 class CValidationState;
