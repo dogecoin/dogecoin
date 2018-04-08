@@ -26,7 +26,7 @@ def computeAuxpow (block, target, ok):
   # Construct "vector" of transaction inputs.
   vin = b"01"
   vin += (b"00" * 32) + (b"ff" * 4)
-  vin += bytes ("%02x" % int(len (coinbase) / 2), "ascii") + coinbase
+  vin += bytes ("%02x" % (len (coinbase) / 2), "ascii") + coinbase
   vin += (b"ff" * 4)
 
   # Build up the full coinbase transaction.  It consists only

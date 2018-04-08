@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 # Copyright (c) 2014-2017 Daniel Kraft
-# Copyright (c) 2018 Dogecoin Developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -21,18 +20,11 @@ class AuxpowMiningTest (BitcoinTestFramework):
     # Enable mock time to be out of IBD.
     self.enable_mocktime ()
 
-    # Check for errors with wrong parameters.
-    assert_raises_rpc_error(-1, None, self.nodes[0].createauxblock)
-    assert_raises_rpc_error(-8, "Invalid coinbase payout address",
-                            self.nodes[0].createauxblock,
-                            "this_an_invalid_address")
+    # Test with getauxblock and createauxblock/submitauxblock.
+    self.test_getauxblock ()
+    self.test_create_submit_auxblock ()
 
-    # Fix a coinbase address and construct methods for it.
-    coinbaseAddr = self.nodes[0].getnewaddress ()
-    def create ():
-      return self.nodes[0].createauxblock (coinbaseAddr)
-    submit = self.nodes[0].submitauxblock
-
+  def test_common (self, create, submit):
     """
     Common test code that is shared between the tests for getauxblock and the
     createauxblock / submitauxblock method pair.
@@ -55,12 +47,12 @@ class AuxpowMiningTest (BitcoinTestFramework):
     self.sync_all ()
     auxblock2 = create ()
     assert auxblock['hash'] != auxblock2['hash']
-    assert_raises_rpc_error(-8, 'block hash unknown', submit,
-                            auxblock['hash'], "x")
+    assert_raises_jsonrpc (-8, 'block hash unknown', submit,
+                           auxblock['hash'], "x")
 
     # Invalid format for auxpow.
-    assert_raises_rpc_error(-1, None, submit,
-                            auxblock2['hash'], "x")
+    assert_raises_jsonrpc (-1, None, submit,
+                           auxblock2['hash'], "x")
 
     # Invalidate the block again, send a transaction and query for the
     # auxblock to solve that contains the transaction.
@@ -124,6 +116,47 @@ class AuxpowMiningTest (BitcoinTestFramework):
     tx = self.nodes[1].getrawtransaction (blk['tx'][0], 1)
     coinbase = tx['vin'][0]['coinbase']
     assert_equal ("02%02x00" % auxblock['height'], coinbase[0 : 6])
+
+  def test_getauxblock (self):
+    """
+    Test the getauxblock method.
+    """
+
+    create = self.nodes[0].getauxblock
+    submit = self.nodes[0].getauxblock
+    self.test_common (create, submit)
+
+    # Ensure that the payout address is changed from one block to the next.
+    hash1 = auxpow.mineAuxpowBlockWithMethods (create, submit)
+    hash2 = auxpow.mineAuxpowBlockWithMethods (create, submit)
+    self.sync_all ()
+    addr1 = auxpow.getCoinbaseAddr (self.nodes[1], hash1)
+    addr2 = auxpow.getCoinbaseAddr (self.nodes[1], hash2)
+    assert addr1 != addr2
+    valid = self.nodes[0].validateaddress (addr1)
+    assert valid['ismine']
+    valid = self.nodes[0].validateaddress (addr2)
+    assert valid['ismine']
+
+  def test_create_submit_auxblock (self):
+    """
+    Test the createauxblock / submitauxblock method pair.
+    """
+
+    # Check for errors with wrong parameters.
+    assert_raises_jsonrpc (-1, None, self.nodes[0].createauxblock)
+    assert_raises_jsonrpc (-8, "Invalid coinbase payout address",
+                           self.nodes[0].createauxblock,
+                           "this_an_invalid_address")
+
+    # Fix a coinbase address and construct methods for it.
+    coinbaseAddr = self.nodes[0].getnewaddress ()
+    def create ():
+      return self.nodes[0].createauxblock (coinbaseAddr)
+    submit = self.nodes[0].submitauxblock
+
+    # Run common tests.
+    self.test_common (create, submit)
 
     # Ensure that the payout address is the one which we specify
     hash1 = auxpow.mineAuxpowBlockWithMethods (create, submit)
