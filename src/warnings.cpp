@@ -3,8 +3,10 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
+#include <alert.h>
 #include <sync.h>
 #include <clientversion.h>
+#include <uint256.h>
 #include <util.h>
 #include <warnings.h>
 
@@ -39,6 +41,7 @@ void SetfLargeWorkInvalidChainFound(bool flag)
 
 std::string GetWarnings(const std::string& strFor)
 {
+    int nPriority = 0;
     std::string strStatusBar;
     std::string strGUI;
     const std::string uiAlertSeperator = "<hr />";
@@ -53,19 +56,36 @@ std::string GetWarnings(const std::string& strFor)
     // Misc warnings like out of disk space and clock is wrong
     if (strMiscWarning != "")
     {
+        nPriority = 1000;
         strStatusBar = strMiscWarning;
         strGUI += (strGUI.empty() ? "" : uiAlertSeperator) + strMiscWarning;
     }
 
     if (fLargeWorkForkFound)
     {
+        nPriority = 2000;
         strStatusBar = "Warning: The network does not appear to fully agree! Some miners appear to be experiencing issues.";
         strGUI += (strGUI.empty() ? "" : uiAlertSeperator) + _("Warning: The network does not appear to fully agree! Some miners appear to be experiencing issues.");
     }
     else if (fLargeWorkInvalidChainFound)
     {
+        nPriority = 2000;
         strStatusBar = "Warning: We do not appear to fully agree with our peers! You may need to upgrade, or other nodes may need to upgrade.";
         strGUI += (strGUI.empty() ? "" : uiAlertSeperator) + _("Warning: We do not appear to fully agree with our peers! You may need to upgrade, or other nodes may need to upgrade.");
+    }
+
+    // Alerts
+    {
+        LOCK(cs_mapAlerts);
+        for (std::pair<const uint256, CAlert>& item: mapAlerts)
+        {
+            const CAlert& alert = item.second;
+            if (alert.AppliesToMe() && alert.nPriority > nPriority)
+            {
+                nPriority = alert.nPriority;
+                strStatusBar = strGUI = alert.strStatusBar;
+            }
+        }
     }
 
     if (strFor == "gui")
