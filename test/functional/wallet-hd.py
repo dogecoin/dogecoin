@@ -92,13 +92,15 @@ class WalletHDTest(BitcoinTestFramework):
         assert_equal(self.nodes[1].getbalance(), num_hd_adds + 1)
 
         # send a tx and make sure its using the internal chain for the changeoutput
-        txid = self.nodes[1].sendtoaddress(self.nodes[0].getnewaddress(), 1)
+        signal_amount = 1.5
+        txid = self.nodes[1].sendtoaddress(self.nodes[0].getnewaddress(), signal_amount)
         outs = self.nodes[1].decoderawtransaction(self.nodes[1].gettransaction(txid)['hex'])['vout']
+        assert_equal(len(outs), 2) # one payment and one change tx
         keypath = ""
         for out in outs:
-            if out['value'] != 1:
+            if out['value'] != signal_amount:
                 keypath = self.nodes[1].validateaddress(out['scriptPubKey']['addresses'][0])['hdkeypath']
-        
+
         assert_equal(keypath[0:7], "m/0'/1'")
 
 if __name__ == '__main__':
