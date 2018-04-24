@@ -26,6 +26,8 @@ logger = logging.getLogger("TestFramework.utils")
 
 def assert_fee_amount(fee, tx_size, fee_per_kB):
     """Assert the fee was in range"""
+    # dogecoin: tx_size <1000 is rounded up to 1000
+    tx_size = tx_size if tx_size >= 1000 else 1000
     target_fee = tx_size * fee_per_kB / 1000
     if fee < target_fee:
         raise AssertionError("Fee of %s BTC too low! (Should be %s BTC)" % (str(fee), str(target_fee)))

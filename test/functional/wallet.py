@@ -147,7 +147,7 @@ class WalletTest(BitcoinTestFramework):
 
         # Send 100000 DOGE normal
         address = self.nodes[0].getnewaddress("test")
-        fee_per_byte = Decimal('1')
+        fee_per_byte = Decimal('0.001')
         self.nodes[2].settxfee(fee_per_byte * 1000)
         txid = self.nodes[2].sendtoaddress(address, 100000, "", "", False)
         self.nodes[2].generate(1)
