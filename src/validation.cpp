@@ -2746,6 +2746,7 @@ bool ResetBlockFailureFlags(CBlockIndex *pindex) {
         if (pindex->nStatus & BLOCK_FAILED_MASK) {
             pindex->nStatus &= ~BLOCK_FAILED_MASK;
             setDirtyBlockIndex.insert(pindex);
+            gFailedBlocks.erase(pindex);
         }
         pindex = pindex->pprev;
     }
