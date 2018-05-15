@@ -105,7 +105,8 @@ void BaseIndex::ThreadSync()
 
             int64_t current_time = GetTime();
             if (last_log_time + SYNC_LOG_INTERVAL < current_time) {
-                LogPrintf("Syncing txindex with block chain from height %d\n", pindex->nHeight);
+                LogPrintf("Syncing %s with block chain from height %d\n",
+                          GetName(), pindex->nHeight);
                 last_log_time = current_time;
             }
 
@@ -122,7 +123,7 @@ void BaseIndex::ThreadSync()
                 return;
             }
             if (!WriteBlock(block, pindex)) {
-                FatalError("%s: Failed to write block %s to tx index database",
+                FatalError("%s: Failed to write block %s to index database",
                            __func__, pindex->GetBlockHash().ToString());
                 return;
             }
@@ -130,9 +131,9 @@ void BaseIndex::ThreadSync()
     }
 
     if (pindex) {
-        LogPrintf("txindex is enabled at height %d\n", pindex->nHeight);
+        LogPrintf("%s is enabled at height %d\n", GetName(), pindex->nHeight);
     } else {
-        LogPrintf("txindex is enabled\n");
+        LogPrintf("%s is enabled\n", GetName());
     }
 }
 
@@ -181,7 +182,7 @@ void BaseIndex::BlockConnected(const std::shared_ptr<const CBlock>& block, const
         // new chain tip. In this unlikely event, log a warning and let the queue clear.
         if (best_block_index->GetAncestor(pindex->nHeight - 1) != pindex->pprev) {
             LogPrintf("%s: WARNING: Block %s does not connect to an ancestor of " /* Continued */
-                      "known best chain (tip=%s); not updating txindex\n",
+                      "known best chain (tip=%s); not updating index\n",
                       __func__, pindex->GetBlockHash().ToString(),
                       best_block_index->GetBlockHash().ToString());
             return;
@@ -191,7 +192,7 @@ void BaseIndex::BlockConnected(const std::shared_ptr<const CBlock>& block, const
     if (WriteBlock(*block, pindex)) {
         m_best_block_index = pindex;
     } else {
-        FatalError("%s: Failed to write block %s to txindex",
+        FatalError("%s: Failed to write block %s to index",
                    __func__, pindex->GetBlockHash().ToString());
         return;
     }
@@ -224,7 +225,7 @@ void BaseIndex::SetBestChain(const CBlockLocator& locator)
     const CBlockIndex* best_block_index = m_best_block_index.load();
     if (best_block_index->GetAncestor(locator_tip_index->nHeight) != locator_tip_index) {
         LogPrintf("%s: WARNING: Locator contains block (hash=%s) not on known best " /* Continued */
-                  "chain (tip=%s); not writing txindex locator\n",
+                  "chain (tip=%s); not writing index locator\n",
                   __func__, locator_tip_hash.ToString(),
                   best_block_index->GetBlockHash().ToString());
         return;
@@ -254,7 +255,7 @@ bool BaseIndex::BlockUntilSyncedToCurrentChain()
         }
     }
 
-    LogPrintf("%s: txindex is catching up on block notifications\n", __func__);
+    LogPrintf("%s: %s is catching up on block notifications\n", __func__, GetName());
     SyncWithValidationInterfaceQueue();
     return true;
 }
@@ -296,11 +297,11 @@ void BaseIndex::Start()
     // callbacks are not missed if Init sets m_synced to true.
     RegisterValidationInterface(this);
     if (!Init()) {
-        FatalError("%s: txindex failed to initialize", __func__);
+        FatalError("%s: %s failed to initialize", __func__, GetName());
         return;
     }
 
-    m_thread_sync = std::thread(&TraceThread<std::function<void()>>, "txindex",
+    m_thread_sync = std::thread(&TraceThread<std::function<void()>>, GetName(),
                                 std::bind(&BaseIndex::ThreadSync, this));
 }
 
