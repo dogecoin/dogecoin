@@ -1649,8 +1649,7 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
     // ********************************************************* Step 8: start indexers
     if (GetBoolArg("-txindex", DEFAULT_TXINDEX)) {
         fs::create_directories(GetDataDir() / "indexes");
-        std::unique_ptr<TxIndexDB> txindex_db(new TxIndexDB(nTxIndexCache, false, fReindex));
-        g_txindex.reset(new TxIndex(std::move(txindex_db)));
+        g_txindex.reset(new TxIndex(nTxIndexCache, false, fReindex));
         g_txindex->Start();
     }
 
