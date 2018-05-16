@@ -5,11 +5,11 @@
 #ifndef BITCOIN_INDEX_BASE_H
 #define BITCOIN_INDEX_BASE_H
 
+#include <dbwrapper.h>
 #include <primitives/block.h>
 #include <primitives/transaction.h>
 #include <thread>
 #include <threadinterrupt.h>
-#include <txdb.h>
 #include <uint256.h>
 #include <validationinterface.h>
 
@@ -22,6 +22,20 @@ class CBlockIndex;
  */
 class BaseIndex : public CValidationInterface
 {
+protected:
+    class DB : public CDBWrapper
+    {
+    public:
+        DB(const fs::path& path, size_t n_cache_size,
+           bool f_memory = false, bool f_wipe = false, bool f_obfuscate = false);
+
+        /// Read block locator of the chain that the txindex is in sync with.
+        bool ReadBestBlock(CBlockLocator& locator) const;
+
+        /// Write block locator of the chain that the txindex is in sync with.
+        bool WriteBestBlock(const CBlockLocator& locator);
+    };
+
 private:
     /// Whether the index is in sync with the main chain. The flag is flipped
     /// from false to true once, after which point this starts processing
@@ -56,7 +70,7 @@ protected:
     /// Write update index entries for a newly connected block.
     virtual bool WriteBlock(const CBlock& block, const CBlockIndex* pindex) { return true; }
 
-    virtual BaseIndexDB& GetDB() const = 0;
+    virtual DB& GetDB() const = 0;
 
     /// Get the name of the index for display in logs.
     virtual const char* GetName() const = 0;
