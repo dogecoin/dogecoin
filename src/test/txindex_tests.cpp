@@ -15,8 +15,7 @@ BOOST_AUTO_TEST_SUITE(txindex_tests)
 
 BOOST_FIXTURE_TEST_CASE(txindex_initial_sync, TestChain240Setup)
 {
-    std::unique_ptr<TxIndexDB> txindex_db(new TxIndexDB(1 << 20, true));
-    TxIndex txindex(std::move(txindex_db));
+    TxIndex txindex(1 << 20, true);
 
     CTransactionRef tx_disk;
     uint256 block_hash;
