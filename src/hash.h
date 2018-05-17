@@ -6,12 +6,13 @@
 #ifndef BITCOIN_HASH_H
 #define BITCOIN_HASH_H
 
-#include "crypto/ripemd160.h"
-#include "crypto/sha256.h"
-#include "prevector.h"
-#include "serialize.h"
-#include "uint256.h"
-#include "version.h"
+#include <crypto/common.h>
+#include <crypto/ripemd160.h>
+#include <crypto/sha256.h>
+#include <prevector.h>
+#include <serialize.h>
+#include <uint256.h>
+#include <version.h>
 
 #include <vector>
 
@@ -150,6 +151,15 @@ public:
         uint256 result;
         ctx.Finalize((unsigned char*)&result);
         return result;
+    }
+
+    /**
+     * Returns the first 64 bits from the resulting hash.
+     */
+    inline uint64_t GetCheapHash() {
+        unsigned char result[CHash256::OUTPUT_SIZE];
+        ctx.Finalize(result);
+        return ReadLE64(result);
     }
 
     template<typename T>
