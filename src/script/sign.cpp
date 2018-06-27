@@ -59,6 +59,44 @@ static bool SignN(const vector<valtype>& multisigdata, const BaseSignatureCreato
     return nSigned==nRequired;
 }
 
+static bool GetPubKey(const SigningProvider& provider, SignatureData& sigdata, const CKeyID& address, CPubKey& pubkey)
+{
+    if (provider.GetPubKey(address, pubkey)) {
+        sigdata.misc_pubkeys.emplace(pubkey.GetID(), pubkey);
+        return true;
+    }
+    // Look for pubkey in all partial sigs
+    const auto it = sigdata.signatures.find(address);
+    if (it != sigdata.signatures.end()) {
+        pubkey = it->second.first;
+        return true;
+    }
+    // Look for pubkey in pubkey list
+    const auto& pk_it = sigdata.misc_pubkeys.find(address);
+    if (pk_it != sigdata.misc_pubkeys.end()) {
+        pubkey = pk_it->second;
+        return true;
+    }
+    return false;
+}
+
+static bool CreateSig(const BaseSignatureCreator& creator, SignatureData& sigdata, const SigningProvider& provider, std::vector<unsigned char>& sig_out, const CKeyID& keyid, const CScript& scriptcode, SigVersion sigversion)
+{
+    const auto it = sigdata.signatures.find(keyid);
+    if (it != sigdata.signatures.end()) {
+        sig_out = it->second.second;
+        return true;
+    }
+    CPubKey pubkey;
+    GetPubKey(provider, sigdata, keyid, pubkey);
+    if (creator.CreateSig(sig_out, keyid, scriptcode, sigversion)) {
+        auto i = sigdata.signatures.emplace(keyid, SigPair(pubkey, sig_out));
+        assert(i.second);
+        return true;
+    }
+    return false;
+}
+
 /**
  * Sign scriptPubKey using signature made with creator.
  * Signatures are returned in scriptSigRet (or returns false if scriptPubKey can't be signed),
@@ -167,6 +205,7 @@ bool ProduceSignature(const BaseSignatureCreator& creator, const CScript& fromPu
         txnouttype subType;
         solved = solved && SignStep(creator, witnessscript, result, subType, SIGVERSION_WITNESS_V0);
         sigdata.scriptWitness.stack = result;
+        sigdata.witness = true;
         result.clear();
     }
     else if (solved && whichType == TX_WITNESS_V0_SCRIPTHASH)
@@ -176,6 +215,7 @@ bool ProduceSignature(const BaseSignatureCreator& creator, const CScript& fromPu
         solved = solved && SignStep(creator, witnessscript, result, subType, SIGVERSION_WITNESS_V0) && subType != TX_SCRIPTHASH && subType != TX_WITNESS_V0_SCRIPTHASH && subType != TX_WITNESS_V0_KEYHASH;
         result.push_back(std::vector<unsigned char>(witnessscript.begin(), witnessscript.end()));
         sigdata.scriptWitness.stack = result;
+        sigdata.witness = true;
         result.clear();
     }
 
