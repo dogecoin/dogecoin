@@ -156,7 +156,7 @@ template<typename Stream>
 void DeserializeHDKeypaths(Stream& s, const std::vector<unsigned char>& key, std::map<CPubKey, std::vector<uint32_t>>& hd_keypaths)
 {
     // Make sure that the key is the size of pubkey + 1
-    if (key.size() != CPubKey::PUBLIC_KEY_SIZE + 1 && key.size() != CPubKey::COMPRESSED_PUBLIC_KEY_SIZE + 1) {
+    if (key.size() != CPubKey::SIZE + 1 && key.size() != CPubKey::COMPRESSED_SIZE + 1) {
         throw std::ios_base::failure("Size of key was not the expected size for the type BIP32 keypath");
     }
     // Read in the pubkey from key
@@ -209,6 +209,10 @@ struct PSBTInput
     int sighash_type = 0;
 
     bool IsNull() const;
+    void FillSignatureData(SignatureData& sigdata) const;
+    void FromSignatureData(const SignatureData& sigdata);
+    void Merge(const PSBTInput& input);
+    bool IsSane() const;
     PSBTInput() {}
 
     template <typename Stream>
@@ -305,7 +309,7 @@ struct PSBTInput
                 case PSBT_IN_PARTIAL_SIG:
                 {
                     // Make sure that the key is the size of pubkey + 1
-                    if (key.size() != CPubKey::PUBLIC_KEY_SIZE + 1 && key.size() != CPubKey::COMPRESSED_PUBLIC_KEY_SIZE + 1) {
+                    if (key.size() != CPubKey::SIZE + 1 && key.size() != CPubKey::COMPRESSED_SIZE + 1) {
                         throw std::ios_base::failure("Size of key was not the expected size for the type partial signature pubkey");
                     }
                     // Read in the pubkey from key
@@ -397,6 +401,10 @@ struct PSBTOutput
     std::map<std::vector<unsigned char>, std::vector<unsigned char>> unknown;
 
     bool IsNull() const;
+    void FillSignatureData(SignatureData& sigdata) const;
+    void FromSignatureData(const SignatureData& sigdata);
+    void Merge(const PSBTOutput& output);
+    bool IsSane() const;
     PSBTOutput() {}
 
     template <typename Stream>
@@ -494,6 +502,8 @@ struct PartiallySignedTransaction
     std::map<std::vector<unsigned char>, std::vector<unsigned char>> unknown;
 
     bool IsNull() const;
+    void Merge(const PartiallySignedTransaction& psbt);
+    bool IsSane() const;
     PartiallySignedTransaction() {}
     PartiallySignedTransaction(const PartiallySignedTransaction& psbt_in) : tx(psbt_in.tx), inputs(psbt_in.inputs), outputs(psbt_in.outputs), unknown(psbt_in.unknown) {}
 
@@ -626,6 +636,10 @@ struct PartiallySignedTransaction
         // Make sure that the number of outputs matches the number of outputs in the transaction
         if (outputs.size() != tx->vout.size()) {
             throw std::ios_base::failure("Outputs provided does not match the number of outputs in transaction.");
+        }
+        // Sanity check
+        if (!IsSane()) {
+            throw std::ios_base::failure("PSBT is not sane.");
         }
     }
 
