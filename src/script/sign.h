@@ -26,7 +26,18 @@ public:
     virtual bool GetKey(const CKeyID &address, CKey& key) const =0;
 };
 
-/** Virtual base class for signature creators. */
+class PublicOnlySigningProvider : public SigningProvider
+{
+private:
+    const SigningProvider* m_provider;
+
+public:
+    PublicOnlySigningProvider(const SigningProvider* provider) : m_provider(provider) {}
+    bool GetCScript(const CScriptID &scriptid, CScript& script) const;
+    bool GetPubKey(const CKeyID &address, CPubKey& pubkey) const;
+};
+
+/** Interface for signature creators. */
 class BaseSignatureCreator {
 protected:
     const SigningProvider* m_provider;
