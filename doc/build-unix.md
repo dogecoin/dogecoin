@@ -80,7 +80,12 @@ install necessary parts of boost:
 
 BerkeleyDB is required for the wallet.
 
-    sudo apt-get install libdb5.3-dev libdb5.3++-dev libevent-dev
+	sudo apt-get install libdb5.1-dev libdb5.1++-dev
+
+For Ubuntu 16.04 and later, you can install 5.3 :
+
+
+	sudo apt-get install libdb5.3-dev libdb5.3++-dev libevent-dev
 
 
 Dogecoin is compatible with the latest BerkeleyDB available on Ubuntu. However you will get a warning message because it wants 5.1 you can get around it by adding `--with-incompatible-bdb`. It avoid having to recompile BerkeleyDB 5.1 and still allow you to use the wallet.
