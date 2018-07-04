@@ -7,9 +7,12 @@
 #if defined(HAVE_CONSENSUS_LIB)
 #include "script/bitcoinconsensus.h"
 #endif
-#include "script/script.h"
-#include "script/sign.h"
-#include "streams.h"
+#include <script/script.h>
+#include <script/sign.h>
+#include <script/standard.h>
+#include <streams.h>
+
+#include <array>
 
 // FIXME: Dedup with BuildCreditingTransaction in test/script_tests.cpp.
 static CMutableTransaction BuildCreditingTransaction(const CScript& scriptPubKey)

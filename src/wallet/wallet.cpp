@@ -2776,7 +2776,7 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
                     strFailReason = _("Signing transaction failed");
                     return false;
                 } else {
-                    UpdateTransaction(txNew, nIn, sigdata);
+                    UpdateInput(txNew.vin[nIn], sigdata);
                 }
 
                 nIn++;

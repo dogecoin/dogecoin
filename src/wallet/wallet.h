@@ -1053,7 +1053,7 @@ bool CWallet::DummySignTx(CMutableTransaction &txNew, const ContainerType &coins
         {
             return false;
         } else {
-            UpdateTransaction(txNew, nIn, sigdata);
+            UpdateInput(txNew.vin[nIn], sigdata);
         }
 
         nIn++;

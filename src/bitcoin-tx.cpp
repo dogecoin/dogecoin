@@ -526,6 +526,7 @@ static void MutateTxSign(CMutableTransaction& tx, const std::string& flagStr)
     // mergedTx will end up with all the signatures; it
     // starts as a clone of the raw tx:
     CMutableTransaction mergedTx(txVariants[0]);
+    const CMutableTransaction txv{tx};
     bool fComplete = true;
     CCoinsView viewDummy;
     CCoinsViewCache view(&viewDummy);
@@ -612,23 +613,14 @@ static void MutateTxSign(CMutableTransaction& tx, const std::string& flagStr)
         const CScript& prevPubKey = coins->vout[txin.prevout.n].scriptPubKey;
         const CAmount& amount = coins->vout[txin.prevout.n].nValue;
 
-        SignatureData sigdata;
+        SignatureData sigdata = DataFromTransaction(mergedTx, i, coins->vout[txin.prevout.n]);
         // Only sign SIGHASH_SINGLE if there's a corresponding output:
         if (!fHashSingle || (i < mergedTx.vout.size()))
             ProduceSignature(keystore, MutableTransactionSignatureCreator(&mergedTx, i, amount, nHashType), prevPubKey, sigdata);
 
         // ... and merge in other signatures:
-        BOOST_FOREACH(const CTransaction& txv, txVariants)
-            sigdata = CombineSignatures(prevPubKey, MutableTransactionSignatureChecker(&mergedTx, i, amount), sigdata, DataFromTransaction(txv, i));
-        UpdateTransaction(mergedTx, i, sigdata);
-
-        if (!VerifyScript(txin.scriptSig, prevPubKey, &txin.scriptWitness, STANDARD_SCRIPT_VERIFY_FLAGS, MutableTransactionSignatureChecker(&mergedTx, i, amount)))
-            fComplete = false;
-    }
-
-    if (fComplete) {
-        // do nothing... for now
-        // perhaps store this for later optional JSON output
+        sigdata = CombineSignatures(prevPubKey, MutableTransactionSignatureChecker(&mergedTx, i, amount), sigdata, DataFromTransaction(txv, i, coins->vout[txin.prevout.n]));
+        UpdateInput(txin, sigdata);
     }
 
     tx = mergedTx;

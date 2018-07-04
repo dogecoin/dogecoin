@@ -3249,7 +3249,7 @@ UniValue bumpfee(const JSONRPCRequest& request)
         if (!ProduceSignature(*pwallet, TransactionSignatureCreator(&txNewConst, nIn, amount, SIGHASH_ALL), scriptPubKey, sigdata)) {
             throw JSONRPCError(RPC_WALLET_ERROR, "Can't sign transaction.");
         }
-        UpdateTransaction(tx, nIn, sigdata);
+        UpdateInput(tx.vin[nIn], sigdata);
         nIn++;
     }
 
