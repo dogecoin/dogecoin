@@ -128,6 +128,7 @@ testScripts = [
     'rawtransactions.py',
     'reindex.py',
     # vv Tests less than 30s vv
+    'p2p_invalid_locator.py',
     'mempool_resurrect_test.py',
     'txn_doublespend.py --mineblock',
     'txn_clone.py',
