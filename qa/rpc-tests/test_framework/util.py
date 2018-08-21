@@ -8,6 +8,7 @@
 # Helpful routines for regression testing
 #
 
+import contextlib
 import math
 import os
 import sys
@@ -379,6 +380,23 @@ def stop_node(node, i):
     return_code = bitcoind_processes[i].wait(timeout=BITCOIND_PROC_WAIT_TIMEOUT)
     assert_equal(return_code, 0)
     del bitcoind_processes[i]
+
+@contextlib.contextmanager
+def assert_debug_log(self, num_node, expected_msgs):
+    debug_log = os.path.join(datadir = log_filename(dirname, num_node, "debug.log"))
+    with open(debug_log, encoding='utf-8') as dl:
+        dl.seek(0, 2)
+        prev_size = dl.tell()
+    try:
+        yield
+    finally:
+        with open(debug_log, encoding='utf-8') as dl:
+            dl.seek(prev_size)
+            log = dl.read()
+        print_log = " - " + "\n - ".join(log.splitlines())
+        for expected_msg in expected_msgs:
+            if re.search(re.escape(expected_msg), log, flags=re.MULTILINE) is None:
+                self._raise_assertion_error('Expected message "{}" does not partially match log:\n\n{}\n\n'.format(expected_msg, print_log))
 
 def stop_nodes(nodes):
     for i, node in enumerate(nodes):
