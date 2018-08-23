@@ -1,0 +1,11 @@
+[Protocol]
+exec=dogecoin-qt '%u'
+protocol=dogecoin
+input=none
+output=none
+helper=true
+listing=
+reading=false
+writing=false
+makedir=false
+deleting=false

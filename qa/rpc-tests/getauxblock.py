@@ -8,13 +8,11 @@
 from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import *
 
-from test_framework import auxpow
+from test_framework import scrypt_auxpow as auxpow
 
 class GetAuxBlockTest (BitcoinTestFramework):
 
   def run_test (self):
-    BitcoinTestFramework.run_test (self)
-
     # Generate a block so that we are not "downloading blocks".
     self.nodes[0].generate (1)
 
@@ -32,7 +30,7 @@ class GetAuxBlockTest (BitcoinTestFramework):
     assert_equal (reversedTarget, blocktemplate['target'])
 
     # Verify data that can be found in another way.
-    assert_equal (auxblock['chainid'], 1)
+    assert_equal (auxblock['chainid'], 98)
     assert_equal (auxblock['height'], self.nodes[0].getblockcount () + 1)
     assert_equal (auxblock['previousblockhash'], self.nodes[0].getblockhash (auxblock['height'] - 1))
 
@@ -71,12 +69,12 @@ class GetAuxBlockTest (BitcoinTestFramework):
     target = blocktemplate['target']
 
     # Compute invalid auxpow.
-    apow = auxpow.computeAuxpow (auxblock['hash'], target, False)
+    apow = auxpow.computeAuxpowWithChainId (auxblock['hash'], target, "98", False)
     res = self.nodes[0].getauxblock (auxblock['hash'], apow)
     assert not res
 
     # Compute and submit valid auxpow.
-    apow = auxpow.computeAuxpow (auxblock['hash'], target, True)
+    apow = auxpow.computeAuxpowWithChainId (auxblock['hash'], target, "98", True)
     res = self.nodes[0].getauxblock (auxblock['hash'], apow)
     assert res
 
@@ -106,7 +104,7 @@ class GetAuxBlockTest (BitcoinTestFramework):
     assert_equal (t['category'], "immature")
     assert_equal (t['blockhash'], auxblock['hash'])
     assert t['generated']
-    assert t['amount'] >= Decimal ("25")
+    assert t['amount'] >= Decimal ("500000")
     assert_equal (t['confirmations'], 1)
 
     # Verify the coinbase script.  Ensure that it includes the block height
@@ -117,7 +115,7 @@ class GetAuxBlockTest (BitcoinTestFramework):
     blk = self.nodes[1].getblock (auxblock['hash'])
     tx = self.nodes[1].getrawtransaction (blk['tx'][0], 1)
     coinbase = tx['vin'][0]['coinbase']
-    assert_equal ("02%02x00" % auxblock['height'], coinbase[0 : 6])
+    assert_equal ("01%02x01" % auxblock['height'], coinbase[0 : 6]) # DOGE: We mine less blocks in these tests
 
 if __name__ == '__main__':
   GetAuxBlockTest ().main ()

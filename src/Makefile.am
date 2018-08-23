@@ -78,6 +78,7 @@ endif
 BITCOIN_CORE_H = \
   addrdb.h \
   addrman.h \
+  alert.h \
   auxpow.h \
   base58.h \
   bloom.h \
@@ -182,6 +183,7 @@ libdogecoin_server_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libdogecoin_server_a_SOURCES = \
   addrman.cpp \
   addrdb.cpp \
+  alert.cpp \
   bloom.cpp \
   blockencodings.cpp \
   chain.cpp \
@@ -279,6 +281,8 @@ libdogecoin_consensus_a_SOURCES = \
   prevector.h \
   primitives/block.cpp \
   primitives/block.h \
+  primitives/pureheader.cpp \
+  primitives/pureheader.h \
   primitives/transaction.cpp \
   primitives/transaction.h \
   pubkey.cpp \
@@ -302,6 +306,7 @@ libdogecoin_consensus_a_SOURCES = \
 libdogecoin_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
 libdogecoin_common_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libdogecoin_common_a_SOURCES = \
+  alert.cpp \
   amount.cpp \
   arith_uint256.cpp \
   auxpow.cpp \

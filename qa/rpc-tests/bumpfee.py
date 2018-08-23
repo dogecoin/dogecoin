@@ -47,14 +47,14 @@ class BumpFeeTest(BitcoinTestFramework):
 
         # fund rbf node with 10 coins of 0.001 btc (100,000 satoshis)
         print("Mining blocks...")
-        peer_node.generate(110)
+        peer_node.generate(70)
         self.sync_all()
         for i in range(25):
-            peer_node.sendtoaddress(rbf_node_address, 0.001)
+            peer_node.sendtoaddress(rbf_node_address, 1.0000)
         self.sync_all()
         peer_node.generate(1)
         self.sync_all()
-        assert_equal(rbf_node.getbalance(), Decimal("0.025"))
+        assert_equal(rbf_node.getbalance(), Decimal("25"))
 
         print("Running tests")
         dest_address = peer_node.getnewaddress()
@@ -75,7 +75,7 @@ class BumpFeeTest(BitcoinTestFramework):
 
 
 def test_simple_bumpfee_succeeds(rbf_node, peer_node, dest_address):
-    rbfid = create_fund_sign_send(rbf_node, {dest_address: 0.00090000})
+    rbfid = create_fund_sign_send(rbf_node, {dest_address: 0.90000000})
     rbftx = rbf_node.gettransaction(rbfid)
     sync_mempools((rbf_node, peer_node))
     assert rbfid in rbf_node.getrawmempool() and rbfid in peer_node.getrawmempool()
@@ -128,7 +128,7 @@ def test_segwit_bumpfee_succeeds(rbf_node, dest_address):
 
 def test_nonrbf_bumpfee_fails(peer_node, dest_address):
     # cannot replace a non RBF transaction (from node which did not enable RBF)
-    not_rbfid = create_fund_sign_send(peer_node, {dest_address: 0.00090000})
+    not_rbfid = create_fund_sign_send(peer_node, {dest_address: 0.90000000})
     assert_raises_message(JSONRPCException, "not BIP 125 replaceable", peer_node.bumpfee, not_rbfid)
 
 
@@ -166,27 +166,27 @@ def test_bumpfee_with_descendant_fails(rbf_node, rbf_node_address, dest_address)
 def test_small_output_fails(rbf_node, dest_address):
     # cannot bump fee with a too-small output
     rbfid = spend_one_input(rbf_node,
-                            Decimal("0.00100000"),
-                            {dest_address: 0.00080000,
-                             get_change_address(rbf_node): Decimal("0.00010000")})
-    rbf_node.bumpfee(rbfid, {"totalFee": 20000})
+                            Decimal("1.00000000"),
+                            {dest_address: 0.80000000,
+                             get_change_address(rbf_node): Decimal("0.10000000")})
+    rbf_node.bumpfee(rbfid, {"totalFee": 200000000})
 
     rbfid = spend_one_input(rbf_node,
-                            Decimal("0.00100000"),
-                            {dest_address: 0.00080000,
-                             get_change_address(rbf_node): Decimal("0.00010000")})
-    assert_raises_message(JSONRPCException, "Change output is too small", rbf_node.bumpfee, rbfid, {"totalFee": 20001})
+                            Decimal("1.00000000"),
+                            {dest_address: 0.80000000,
+                             get_change_address(rbf_node): Decimal("1.00000000")})
+    assert_raises_message(JSONRPCException, "Change output is too small", rbf_node.bumpfee, rbfid, {"totalFee": 200000001})
 
 
 def test_dust_to_fee(rbf_node, dest_address):
     # check that if output is reduced to dust, it will be converted to fee
     # the bumped tx sets fee=9900, but it converts to 10,000
     rbfid = spend_one_input(rbf_node,
-                            Decimal("0.00100000"),
-                            {dest_address: 0.00080000,
-                             get_change_address(rbf_node): Decimal("0.00010000")})
+                            Decimal("1.00000000"),
+                            {dest_address: 0.80000000,
+                             get_change_address(rbf_node): Decimal("0.10000000")})
     fulltx = rbf_node.getrawtransaction(rbfid, 1)
-    bumped_tx = rbf_node.bumpfee(rbfid, {"totalFee": 19900})
+    bumped_tx = rbf_node.bumpfee(rbfid, {"totalFee": 19900000})
     full_bumped_tx = rbf_node.getrawtransaction(bumped_tx["txid"], 1)
     assert_equal(bumped_tx["fee"], Decimal("0.00020000"))
     assert_equal(len(fulltx["vout"]), 2)
@@ -196,8 +196,8 @@ def test_dust_to_fee(rbf_node, dest_address):
 def test_settxfee(rbf_node, dest_address):
     # check that bumpfee reacts correctly to the use of settxfee (paytxfee)
     # increase feerate by 2.5x, test that fee increased at least 2x
-    rbf_node.settxfee(Decimal("0.00001000"))
-    rbfid = create_fund_sign_send(rbf_node, {dest_address: 0.00090000})
+    rbf_node.settxfee(Decimal("0.01000000"))
+    rbfid = create_fund_sign_send(rbf_node, {dest_address: 0.90000000})
     rbftx = rbf_node.gettransaction(rbfid)
     rbf_node.settxfee(Decimal("0.00002500"))
     bumped_tx = rbf_node.bumpfee(rbfid)
@@ -207,24 +207,24 @@ def test_settxfee(rbf_node, dest_address):
 
 def test_rebumping(rbf_node, dest_address):
     # check that re-bumping the original tx fails, but bumping the bumper succeeds
-    rbf_node.settxfee(Decimal("0.00001000"))
-    rbfid = create_fund_sign_send(rbf_node, {dest_address: 0.00090000})
-    bumped = rbf_node.bumpfee(rbfid, {"totalFee": 1000})
+    rbf_node.settxfee(Decimal("0.01000000"))
+    rbfid = create_fund_sign_send(rbf_node, {dest_address: 0.90000000})
+    bumped = rbf_node.bumpfee(rbfid, {"totalFee": 1000000})
     assert_raises_message(JSONRPCException, "already bumped", rbf_node.bumpfee, rbfid, {"totalFee": 2000})
-    rbf_node.bumpfee(bumped["txid"], {"totalFee": 2000})
+    rbf_node.bumpfee(bumped["txid"], {"totalFee": 2000000})
 
 
 def test_rebumping_not_replaceable(rbf_node, dest_address):
     # check that re-bumping a non-replaceable bump tx fails
-    rbfid = create_fund_sign_send(rbf_node, {dest_address: 0.00090000})
-    bumped = rbf_node.bumpfee(rbfid, {"totalFee": 10000, "replaceable": False})
+    rbfid = create_fund_sign_send(rbf_node, {dest_address: 0.90000000})
+    bumped = rbf_node.bumpfee(rbfid, {"totalFee": 10000000, "replaceable": False})
     assert_raises_message(JSONRPCException, "Transaction is not BIP 125 replaceable", rbf_node.bumpfee, bumped["txid"],
-                          {"totalFee": 20000})
+                          {"totalFee": 20000000})
 
 
 def test_unconfirmed_not_spendable(rbf_node, rbf_node_address):
     # check that unconfirmed outputs from bumped transactions are not spendable
-    rbfid = create_fund_sign_send(rbf_node, {rbf_node_address: 0.00090000})
+    rbfid = create_fund_sign_send(rbf_node, {rbf_node_address: 0.90000000})
     rbftx = rbf_node.gettransaction(rbfid)["hex"]
     assert rbfid in rbf_node.getrawmempool()
     bumpid = rbf_node.bumpfee(rbfid)["txid"]
@@ -259,7 +259,7 @@ def test_unconfirmed_not_spendable(rbf_node, rbf_node_address):
 
 
 def test_bumpfee_metadata(rbf_node, dest_address):
-    rbfid = rbf_node.sendtoaddress(dest_address, 0.00090000, "comment value", "to value")
+    rbfid = rbf_node.sendtoaddress(dest_address, 0.90000000, "comment value", "to value")
     bumped_tx = rbf_node.bumpfee(rbfid)
     bumped_wtx = rbf_node.gettransaction(bumped_tx["txid"])
     assert_equal(bumped_wtx["comment"], "comment value")
@@ -267,7 +267,7 @@ def test_bumpfee_metadata(rbf_node, dest_address):
 
 
 def test_locked_wallet_fails(rbf_node, dest_address):
-    rbfid = create_fund_sign_send(rbf_node, {dest_address: 0.00090000})
+    rbfid = create_fund_sign_send(rbf_node, {dest_address: 0.90000000})
     rbf_node.walletlock()
     assert_raises_message(JSONRPCException, "Please enter the wallet passphrase with walletpassphrase first.",
                           rbf_node.bumpfee, rbfid)

@@ -8,6 +8,7 @@
 # Helpful routines for regression testing
 #
 
+import math
 import os
 import sys
 
@@ -228,7 +229,7 @@ def wait_for_bitcoind_start(process, url, i):
 
 def initialize_chain(test_dir, num_nodes, cachedir):
     """
-    Create a cache of a 200-block-long chain (with wallet) for MAX_NODES
+    Create a cache of a 120-block-long chain (with wallet) for MAX_NODES
     Afterward, create num_nodes copies from the cache
     """
 
@@ -267,21 +268,21 @@ def initialize_chain(test_dir, num_nodes, cachedir):
                 sys.stderr.write("Error connecting to "+url+"\n")
                 sys.exit(1)
 
-        # Create a 200-block-long chain; each of the 4 first nodes
-        # gets 25 mature blocks and 25 immature.
+        # Create a 120-block-long chain; each of the 4 first nodes
+        # gets 15 mature blocks and 15 immature.
         # Note: To preserve compatibility with older versions of
         # initialize_chain, only 4 nodes will generate coins.
         #
-        # blocks are created with timestamps 10 minutes apart
+        # blocks are created with timestamps 1 minute apart
         # starting from 2010 minutes in the past
         enable_mocktime()
-        block_time = get_mocktime() - (201 * 10 * 60)
+        block_time = get_mocktime() - (121 * 60)
         for i in range(2):
             for peer in range(4):
-                for j in range(25):
+                for j in range(15):
                     set_node_times(rpcs, block_time)
                     rpcs[peer].generate(1)
-                    block_time += 10*60
+                    block_time += 60
                 # Must sync before next peer starts generating blocks
                 sync_blocks(rpcs)
 
@@ -508,12 +509,15 @@ def random_transaction(nodes, amount, min_fee, fee_increment, fee_variants):
 
 def assert_fee_amount(fee, tx_size, fee_per_kB):
     """Assert the fee was in range"""
-    target_fee = tx_size * fee_per_kB / 1000
+    target_fee = round_tx_size(tx_size) * fee_per_kB / 1000
     if fee < target_fee:
         raise AssertionError("Fee of %s BTC too low! (Should be %s BTC)"%(str(fee), str(target_fee)))
     # allow the wallet's estimation to be at most 2 bytes off
-    if fee > (tx_size + 2) * fee_per_kB / 1000:
+    if fee > round_tx_size(tx_size + 2) * fee_per_kB / 1000:
         raise AssertionError("Fee of %s BTC too high! (Should be %s BTC)"%(str(fee), str(target_fee)))
+
+def round_tx_size(tx_size):
+    return int(math.ceil(tx_size / 1000.0)) * 1000
 
 def assert_equal(thing1, thing2, *args):
     if thing1 != thing2 or any(thing1 != arg for arg in args):
@@ -622,7 +626,7 @@ def satoshi_round(amount):
 # Helper to create at least "count" utxos
 # Pass in a fee that is sufficient for relay and mining new transactions.
 def create_confirmed_utxos(fee, node, count):
-    node.generate(int(0.5*count)+101)
+    node.generate(int(0.5*count)+61)
     utxos = node.listunspent()
     iterations = count - len(utxos)
     addr1 = node.getnewaddress()

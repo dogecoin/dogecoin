@@ -128,7 +128,7 @@ class RawTransactionsTest(BitcoinTestFramework):
 
         bal = self.nodes[0].getbalance()
         inputs = [{ "txid" : txId, "vout" : vout['n'], "scriptPubKey" : vout['scriptPubKey']['hex']}]
-        outputs = { self.nodes[0].getnewaddress() : 2.19 }
+        outputs = { self.nodes[0].getnewaddress() : 1.2 }
         rawTx = self.nodes[2].createrawtransaction(inputs, outputs)
         rawTxPartialSigned = self.nodes[1].signrawtransaction(rawTx, inputs)
         assert_equal(rawTxPartialSigned['complete'], False) #node1 only has one key, can't comp. sign the tx
@@ -140,7 +140,7 @@ class RawTransactionsTest(BitcoinTestFramework):
         self.sync_all()
         self.nodes[0].generate(1)
         self.sync_all()
-        assert_equal(self.nodes[0].getbalance(), bal+Decimal('50.00000000')+Decimal('2.19000000')) #block reward + tx
+        assert_equal(self.nodes[0].getbalance(), bal+Decimal('500000.00000000')+Decimal('1.20000000')) #block reward + tx
 
         # getrawtransaction tests
         # 1. valid parameters - only supply txid

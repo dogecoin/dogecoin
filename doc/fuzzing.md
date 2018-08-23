@@ -1,7 +1,7 @@
-Fuzz-testing Bitcoin Core
+Fuzz-testing Dogecoin Core
 ==========================
 
-A special test harness `test_bitcoin_fuzzy` is provided to provide an easy
+A special test harness `test_dogecoin_fuzzy` is provided to provide an easy
 entry point for fuzzers and the like. In this document we'll describe how to
 use it with AFL.
 
@@ -20,13 +20,13 @@ export AFLPATH=$PWD
 Instrumentation
 ----------------
 
-To build Bitcoin Core using AFL instrumentation (this assumes that the
+To build Dogecoin Core using AFL instrumentation (this assumes that the
 `AFLPATH` was set as above):
 ```
 ./configure --disable-ccache --disable-shared --enable-tests CC=${AFLPATH}/afl-gcc CXX=${AFLPATH}/afl-g++
 export AFL_HARDEN=1
 cd src/
-make test/test_bitcoin_fuzzy
+make test/test_dogecoin_fuzzy
 ```
 We disable ccache because we don't want to pollute the ccache with instrumented
 objects, and similarly don't want to use non-instrumented cached objects linked
@@ -46,12 +46,12 @@ mkdir outputs
 AFLOUT=$PWD/outputs
 ```
 
-Example inputs are available from:
+Example inputs for Bitcoin Core are available from:
 
 - https://download.visucore.com/bitcoin/bitcoin_fuzzy_in.tar.xz
 - http://strateman.ninja/fuzzing.tar.xz
 
-Extract these (or other starting inputs) into the `inputs` directory before starting fuzzing.
+Extract these (or other starting inputs) into the `inputs` directory before starting fuzzing. These will need adapting to Dogecoin before use.
 
 Fuzzing
 --------
