@@ -101,6 +101,8 @@ namespace BCLog {
         COINDB      = (1 << 18),
         QT          = (1 << 19),
         LEVELDB     = (1 << 20),
+        // Dogecoin: Re-enable alert system so we need a log category for it
+        ALERT       = (1 << 21),
         ALL         = ~(uint32_t)0,
     };
 }
