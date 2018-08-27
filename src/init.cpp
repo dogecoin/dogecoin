@@ -1293,6 +1293,10 @@ bool AppInitMain()
             return InitError(_("Unable to start HTTP server. See debug log for details."));
     }
 
+#if defined(USE_SSE2)
+    scrypt_detect_sse2();
+#endif
+
     // ********************************************************* Step 5: verify wallet database integrity
     if (!g_wallet_init_interface.Verify()) return false;
 
