@@ -80,7 +80,7 @@ size_t FlatFileSeq::Allocate(const CDiskBlockPos& pos, size_t add_size, bool& ou
 
 bool FlatFileSeq::Flush(const CDiskBlockPos& pos, bool finalize)
 {
-    FILE* file = Open(FlatFilePos(pos.nFile, 0)); // Avoid fseek to nPos
+    FILE* file = Open(CDiskBlockPos(pos.nFile, 0)); // Avoid fseek to nPos
     if (!file) {
         return error("%s: failed to open file %d", __func__, pos.nFile);
     }
@@ -88,10 +88,7 @@ bool FlatFileSeq::Flush(const CDiskBlockPos& pos, bool finalize)
         fclose(file);
         return error("%s: failed to truncate file %d", __func__, pos.nFile);
     }
-    if (!FileCommit(file)) {
-        fclose(file);
-        return error("%s: failed to commit file %d", __func__, pos.nFile);
-    }
+    FileCommit(file);
 
     fclose(file);
     return true;

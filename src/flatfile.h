@@ -20,7 +20,7 @@ struct CDiskBlockPos
 
     template <typename Stream, typename Operation>
     inline void SerializationOp(Stream& s, Operation ser_action) {
-        READWRITE(VARINT(nFile, VarIntMode::NONNEGATIVE_SIGNED));
+        READWRITE(VARINT(nFile));
         READWRITE(VARINT(nPos));
     }
 
@@ -71,8 +71,6 @@ public:
     /** Get the name of the file at the given position. */
     fs::path FileName(const CDiskBlockPos& pos) const;
 
-        /** Open a handle to the file at the given position. */
-        FILE* Open(const CDiskBlockPos& pos, bool fReadOnly = false);
 
     /** Open a handle to the file at the given position. */
     FILE* Open(const CDiskBlockPos& pos, bool fReadOnly = false);
