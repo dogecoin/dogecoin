@@ -7,6 +7,7 @@
 
 #include <set>
 #include <stdint.h>
+#include <string>
 #include <vector>
 
 #include <primitives/block.h>
@@ -81,6 +82,12 @@ enum BlockFilterType : uint8_t
     BASIC = 0,
     INVALID = 255,
 };
+
+/** Get the human-readable name for a filter type. Returns empty string for unknown types. */
+const std::string& BlockFilterTypeName(BlockFilterType filter_type);
+
+/** Find a filter type by its human-readable name. */
+bool BlockFilterTypeByName(const std::string& name, BlockFilterType& filter_type);
 
 /**
  * Complete block filter struct as defined in BIP 157. Serialization matches
