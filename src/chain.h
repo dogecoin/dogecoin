@@ -213,6 +213,9 @@ public:
     uint32_t nBits;
     uint32_t nNonce;
 
+    // Dogecoin: Keep the Scrypt hash as well as SHA256
+    uint256 hashBlockPoW;
+
     //! (memory only) Sequential id assigned to distinguish order in which blocks are received.
     int32_t nSequenceId;
 
@@ -240,6 +243,7 @@ public:
         nTime          = 0;
         nBits          = 0;
         nNonce         = 0;
+        hashBlockPoW   = uint256();
     }
 
     CBlockIndex()
@@ -256,6 +260,7 @@ public:
         nTime          = block.nTime;
         nBits          = block.nBits;
         nNonce         = block.nNonce;
+        hashBlockPoW   = block.GetPoWHash();
     }
 
     CDiskBlockPos GetBlockPos() const {
@@ -292,6 +297,11 @@ public:
     uint256 GetBlockHash() const
     {
         return *phashBlock;
+    }
+
+    uint256 GetBlockPoWHash() const
+    {
+        return hashBlockPoW;
     }
 
     int64_t GetBlockTime() const
@@ -405,6 +415,7 @@ public:
         READWRITE(nTime);
         READWRITE(nBits);
         READWRITE(nNonce);
+        READWRITE(hashBlockPoW);
     }
 
     uint256 GetBlockHash() const
