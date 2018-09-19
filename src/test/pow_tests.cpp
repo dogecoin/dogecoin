@@ -14,42 +14,39 @@
 BOOST_FIXTURE_TEST_SUITE(pow_tests, BasicTestingSetup)
 
 /* Test calculation of next difficulty target with no constraints applying */
-// Replaced by Dogecoin-specific PoW test
-/* BOOST_AUTO_TEST_CASE(get_next_work)
+BOOST_AUTO_TEST_CASE(get_next_work)
 {
     const auto chainParams = CreateChainParams(CBaseChainParams::MAIN);
-    int64_t nLastRetargetTime = 1261130161; // Block #30240
+    int64_t nLastRetargetTime = 1388149872; // Block #30240
     CBlockIndex pindexLast;
-    pindexLast.nHeight = 32255;
-    pindexLast.nTime = 1262152739;  // Block #32255
-    pindexLast.nBits = 0x1d00ffff;
-    BOOST_CHECK_EQUAL(CalculateNextWorkRequired(&pindexLast, nLastRetargetTime, chainParams->GetConsensus(0)), 0x1d00d86a);
-} */
+    pindexLast.nHeight = 30479;
+    pindexLast.nTime = 1388163922; // Block #30479
+    pindexLast.nBits = 0x1c00974f;
+    BOOST_CHECK_EQUAL(CalculateNextWorkRequired(&pindexLast, nLastRetargetTime, chainParams->GetConsensus(0)), 0x1c0093a1);
+}
 
 /* Test the constraint on the upper bound for next work */
-// Replaced by Dogecoin-specific PoW test
-/* BOOST_AUTO_TEST_CASE(get_next_work_pow_limit)
+BOOST_AUTO_TEST_CASE(get_next_work_pow_limit)
 {
     const auto chainParams = CreateChainParams(CBaseChainParams::MAIN);
     CBlockIndex pindexLast;
     pindexLast.nHeight = 2015;
     pindexLast.nTime = 1233061996;  // Block #2015
     pindexLast.nBits = 0x1d00ffff;
-    BOOST_CHECK_EQUAL(CalculateNextWorkRequired(&pindexLast, nLastRetargetTime, chainParams->GetConsensus(0)), 0x1d00ffff);
-} */
+    BOOST_CHECK_EQUAL(CalculateNextWorkRequired(&pindexLast, nLastRetargetTime, chainParams->GetConsensus(0)), 0x1d03fffc);
+}
 
 /* Test the constraint on the lower bound for actual time taken */
-// Replaced by Dogecoin-specific PoW test
-/* BOOST_AUTO_TEST_CASE(get_next_work_lower_limit_actual)
+BOOST_AUTO_TEST_CASE(get_next_work_lower_limit_actual)
 {
     const auto chainParams = CreateChainParams(CBaseChainParams::MAIN);
     int64_t nLastRetargetTime = 1279008237; // Block #66528
     CBlockIndex pindexLast;
-    pindexLast.nHeight = 68543;
-    pindexLast.nTime = 1279297671;  // Block #68543
+    pindexLast.nHeight = 66767;
+    pindexLast.nTime = 1279008237 + (239 * 60 / 4 - 1); // Bitcoin Block #66528 + less than a quarter of the target timespan
     pindexLast.nBits = 0x1c05a3f4;
     BOOST_CHECK_EQUAL(CalculateNextWorkRequired(&pindexLast, nLastRetargetTime, chainParams->GetConsensus(0)), 0x1c0168fd);
-} */
+}
 
 /* Test the constraint on the upper bound for actual time taken */
 // Replaced by Dogecoin-specific PoW test
