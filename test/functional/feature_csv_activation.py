@@ -128,6 +128,7 @@ class BIP68_112_113Test(ComparisonTestFramework):
         for i in range(number):
             block = self.create_test_block([], version)
             test_blocks.append([block, True])
+            # Dogecoin: We keep this at Bitcoin values so that time tests pass without significant rework
             self.last_block_time += 600
             self.tip = block.sha256
             self.tipheight += 1

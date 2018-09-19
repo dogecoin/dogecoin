@@ -297,7 +297,7 @@ BOOST_AUTO_TEST_CASE(versionbits_computeblockversion)
     BOOST_CHECK_EQUAL(ComputeBlockVersion(lastBlock, mainnetParams) & VERSIONBITS_TOP_MASK, VERSIONBITS_TOP_BITS);
 
     // Check that ComputeBlockVersion will set the bit until nTimeout
-    nTime += 600;
+    nTime += 60;
     int blocksToMine = 4032; // test blocks for up to 2 time periods
     int nHeight = 6048;
     // These blocks are all before nTimeout is reached.
@@ -306,7 +306,7 @@ BOOST_AUTO_TEST_CASE(versionbits_computeblockversion)
         BOOST_CHECK((ComputeBlockVersion(lastBlock, mainnetParams) & (1<<bit)) != 0);
         BOOST_CHECK_EQUAL(ComputeBlockVersion(lastBlock, mainnetParams) & VERSIONBITS_TOP_MASK, VERSIONBITS_TOP_BITS);
         blocksToMine--;
-        nTime += 600;
+        nTime += 60;
         nHeight += 1;
     }
 

@@ -242,9 +242,9 @@ class BIP68Test(BitcoinTestFramework):
         self.nodes[0].prioritisetransaction(txid=tx2.hash, fee_delta=int(-self.relayfee*COIN))
         cur_time = int(time.time())
         for i in range(10):
-            self.nodes[0].setmocktime(cur_time + 600)
+            self.nodes[0].setmocktime(cur_time + 60)
             self.nodes[0].generate(1)
-            cur_time += 600
+            cur_time += 60
 
         assert(tx2.hash in self.nodes[0].getrawmempool())
 
@@ -255,7 +255,7 @@ class BIP68Test(BitcoinTestFramework):
         self.nodes[0].prioritisetransaction(txid=tx2.hash, fee_delta=int(self.relayfee*COIN))
 
         # Advance the time on the node so that we can test timelocks
-        self.nodes[0].setmocktime(cur_time+600)
+        self.nodes[0].setmocktime(cur_time+60)
         self.nodes[0].generate(1)
         assert(tx2.hash not in self.nodes[0].getrawmempool())
 
