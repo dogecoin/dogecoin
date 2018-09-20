@@ -1,4 +1,4 @@
-# Dogecoin Core [DOGE, Ð]
+# Dogecoin Core [DOGE, Dogecoin, Ð]
 ==========================
 
 ![Dogecoin](http://static.tumblr.com/ppdj5y9/Ae9mxmxtp/300coin.png)
@@ -28,6 +28,16 @@ There are 3 types of branches in this repository:
 - **development:** Unstable, contains new code for planned releases. Format: ```<version>-dev```
 
 *Master and maintenance branches are exclusively mutable by release. Planned releases will always have a development branch and pull requests should be submitted against those. Maintenance branches are there for* ***bug fixes only,*** *please submit new features against the development branch with the highest version.*
+
+## Fast Facts
+
+### Dogecoin was released on December 6, 2013.
+
+### Dogecoin supports Microsoft Windows, GNU/Linux, IOS, and Android
+
+### The block time of dogecoin is 1 minute.
+
+### Dogecoin is often used for "tipping" online.
 
 ## Very Much Frequently Asked Questions
 
