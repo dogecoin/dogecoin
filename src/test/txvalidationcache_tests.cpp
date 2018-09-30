@@ -33,7 +33,7 @@ ToMemPool(const CMutableTransaction& tx)
                               nullptr /* plTxnReplaced */, true /* bypass_limits */, 0 /* nAbsurdFee */);
 }
 
-BOOST_FIXTURE_TEST_CASE(tx_mempool_block_doublespend, TestChain100Setup)
+BOOST_FIXTURE_TEST_CASE(tx_mempool_block_doublespend, TestChain240Setup)
 {
     // Make sure skipping validation of transactions that were
     // validated going into the memory pool does not allow
@@ -141,7 +141,7 @@ static void ValidateCheckInputsForAllFlags(const CTransaction &tx, uint32_t fail
     }
 }
 
-BOOST_FIXTURE_TEST_CASE(checkinputs_test, TestChain100Setup)
+BOOST_FIXTURE_TEST_CASE(checkinputs_test, TestChain240Setup)
 {
     // Test that passing CheckInputs with one set of script flags doesn't imply
     // that we would pass again with a different set of flags.

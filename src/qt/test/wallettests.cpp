@@ -129,7 +129,7 @@ void BumpFee(TransactionView& view, const uint256& txid, bool expectDisabled, st
 void TestGUI()
 {
     // Set up wallet and chain with 105 blocks (5 mature blocks for spending).
-    TestChain100Setup test;
+    TestChain240Setup test;
     for (int i = 0; i < 5; ++i) {
         test.CreateAndProcessBlock({}, GetScriptForRawPubKey(test.coinbaseKey.GetPubKey()));
     }
