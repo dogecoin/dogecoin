@@ -14,6 +14,7 @@ from struct import pack, unpack
 import http.client
 import urllib.parse
 
+from test_framework import auxpow
 from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import (
     assert_equal,
@@ -175,7 +176,13 @@ class RESTTest (BitcoinTestFramework):
         assert_equal(len(json_obj['utxos']), 0)
 
         self.nodes[0].generate(1)
+
+        json_request = json_request.rstrip("/")
+        response = http_post_call(url.hostname, url.port, '/rest/getutxos'+json_request+self.FORMAT_SEPARATOR+'json', '', True)
+        assert_equal(response.status, 200) #must be a 200 because we are within the limits
+
         self.sync_all()
+        bb_hash = self.nodes[0].getbestblockhash()
 
         json_obj = self.test_rest_request("/getutxos/{}-{}".format(*spending))
         assert_equal(len(json_obj['utxos']), 1)
@@ -195,7 +202,7 @@ class RESTTest (BitcoinTestFramework):
         long_uri = '/'.join(['{}-{}'.format(txid, n_) for n_ in range(15)])
         self.test_rest_request("/getutxos/checkmempool/{}".format(long_uri), http_method='POST', status=200)
 
-        self.nodes[0].generate(1)  # generate block to not affect upcoming tests
+        mineAuxpowBlock(self.nodes[0])  # generate block to not affect upcoming tests
         self.sync_all()
 
         self.log.info("Test the /block and /headers URIs")
@@ -208,9 +215,10 @@ class RESTTest (BitcoinTestFramework):
 
         # Compare with block header
         response_header = self.test_rest_request("/headers/1/{}".format(bb_hash), req_type=ReqType.BIN, ret_type=RetType.OBJ)
-        assert_equal(int(response_header.getheader('content-length')), 80)
+        headerLen = int(response_header.getheader('content-length'))
+        assert_greater_than(headerLen, 80)
         response_header_bytes = response_header.read()
-        assert_equal(response_bytes[:80], response_header_bytes)
+        assert_equal(response_bytes[:headerLen], response_header_bytes)
 
         # Check block hex format
         response_hex = self.test_rest_request("/block/{}".format(bb_hash), req_type=ReqType.HEX, ret_type=RetType.OBJ)
@@ -221,8 +229,10 @@ class RESTTest (BitcoinTestFramework):
         # Compare with hex block header
         response_header_hex = self.test_rest_request("/headers/1/{}".format(bb_hash), req_type=ReqType.HEX, ret_type=RetType.OBJ)
         assert_greater_than(int(response_header_hex.getheader('content-length')), 160)
-        response_header_hex_bytes = response_header_hex.read(160)
-        assert_equal(binascii.hexlify(response_bytes[:80]), response_header_hex_bytes)
+        response_header_hex_bytes = response_header_hex.read().strip()
+        headerLen = len (response_header_hex_bytes)
+        assert_equal(binascii.hexlify(response_bytes[:headerLen]), response_header_hex_bytes)
+        assert_equal(encode(response_header_bytes, "hex_codec"), response_header_hex_bytes)
 
         # Check json format
         block_json_obj = self.test_rest_request("/block/{}".format(bb_hash))

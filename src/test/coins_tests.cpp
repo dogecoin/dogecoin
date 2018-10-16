@@ -21,15 +21,6 @@ void UpdateCoins(const CTransaction& tx, CCoinsViewCache& inputs, CTxUndo &txund
 
 namespace
 {
-//! equality test
-bool operator==(const Coin &a, const Coin &b) {
-    // Empty Coin objects are always equal.
-    if (a.IsSpent() && b.IsSpent()) return true;
-    return a.fCoinBase == b.fCoinBase &&
-           a.nHeight == b.nHeight &&
-           a.out == b.out;
-}
-
 class CCoinsViewTest : public CCoinsView
 {
     uint256 hashBestBlock_;
