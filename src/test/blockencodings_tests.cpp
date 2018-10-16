@@ -18,7 +18,8 @@ std::vector<std::pair<uint256, CTransactionRef>> extra_txn;
 BOOST_FIXTURE_TEST_SUITE(blockencodings_tests, RegTestingSetup)
 
 static void SetBlockVersion(CPureBlockHeader& header, int32_t baseVersion) {
-  header.SetBaseVersion(baseVersion);
+  const int32_t nChainId = Params().GetConsensus().nAuxpowChainId;
+  header.SetBaseVersion(baseVersion, nChainId);
 }
 
 static CBlock BuildBlockTestCase() {

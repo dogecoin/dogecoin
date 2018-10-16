@@ -218,7 +218,7 @@ public:
         return ret;
     }
 
-    CBlockHeader GetBlockHeader(const Consensus::Params& consensusParams, bool fCheckPOW = true) const;
+    CBlockHeader GetBlockHeader(const Consensus::Params& consensusParams, const bool fCheckPOW = true) const;
 
     uint256 GetBlockHash() const
     {

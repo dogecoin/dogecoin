@@ -26,6 +26,7 @@ struct NodeContext;
 //! behavior.
 struct WalletContext {
     interfaces::Chain* chain{nullptr};
+    NodeContext* nodeContext{nullptr};
     ArgsManager* args{nullptr};
 
     //! Declare default constructor and destructor that are not inline, so code

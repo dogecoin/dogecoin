@@ -15,6 +15,7 @@
 #include <policy/fees.h>
 #include <policy/policy.h>
 #include <policy/rbf.h>
+#include <rpc/auxpow_miner.h>
 #include <rpc/blockchain.h>
 #include <rpc/rawtransaction_util.h>
 #include <rpc/server.h>
@@ -4639,6 +4640,75 @@ ReservedKeysForMining g_mining_keys;
 
 } // anonymous namespace
 
+static UniValue getauxblock(const JSONRPCRequest& request)
+{
+    /* RPCHelpMan::Check is not applicable here since we have the
+       custom check for exactly zero or two arguments.  */
+    if (request.fHelp
+          || (request.params.size() != 0 && request.params.size() != 2))
+        throw std::runtime_error(
+            RPCHelpMan{"getauxblock",
+                "\nCreate or submits a merge-mined block.\n"
+                "\nWithout arguments, creates a new block and returns information\n"
+                "required to merge-mine it.  With arguments, submits a solved\n"
+                "auxpow for a previously returned block.\n",
+                {
+                    {"hash", RPCArg::Type::STR_HEX, RPCArg::Optional::OMITTED_NAMED_ARG, "Hash of the block to submit"},
+                    {"auxpow", RPCArg::Type::STR_HEX, RPCArg::Optional::OMITTED_NAMED_ARG, "Serialised auxpow found"},
+                },
+                {
+                  RPCResult{"without arguments",
+                      RPCResult::Type::OBJ, "", "",
+                      {
+                          {RPCResult::Type::STR_HEX, "hash", "hash of the created block"},
+                          {RPCResult::Type::NUM, "chainid", "chain ID for this block"},
+                          {RPCResult::Type::STR_HEX, "previousblockhash", "hash of the previous block"},
+                          {RPCResult::Type::NUM, "coinbasevalue", "value of the block's coinbase"},
+                          {RPCResult::Type::STR_HEX, "bits", "compressed target of the block"},
+                          {RPCResult::Type::NUM, "height", "height of the block"},
+                          {RPCResult::Type::STR_HEX, "target", "target in reversed byte order"},
+                      },
+                  },
+                  {"with arguments",
+                      RPCResult::Type::BOOL, "", "whether the submitted block was correct"
+                  },
+                },
+                RPCExamples{
+                    HelpExampleCli("getauxblock", "")
+                    + HelpExampleCli("getauxblock", "\"hash\" \"serialised auxpow\"")
+                    + HelpExampleRpc("getauxblock", "")
+                },
+            }.ToString());
+
+    std::shared_ptr<CWallet> const wallet = GetWalletForJSONRPCRequest(request);
+    if (!wallet) return NullUniValue;
+    CWallet* const pwallet = wallet.get();
+
+    if (pwallet->IsWalletFlagSet(WALLET_FLAG_DISABLE_PRIVATE_KEYS)) {
+        throw JSONRPCError(RPC_WALLET_ERROR, "Error: Private keys are disabled for this wallet");
+    }
+
+    /* Create a new block */
+    if (request.params.size() == 0)
+    {
+        const CScript coinbaseScript = g_mining_keys.GetCoinbaseScript(pwallet);
+        const UniValue res = AuxpowMiner::get().createAuxBlock(request, coinbaseScript);
+        g_mining_keys.AddBlockHash(pwallet, res["hash"].get_str ());
+        return res;
+    }
+
+    /* Submit a block instead.  */
+    CHECK_NONFATAL(request.params.size() == 2);
+    const std::string& hash = request.params[0].get_str();
+
+    const bool fAccepted
+        = AuxpowMiner::get().submitAuxBlock(request, hash, request.params[1].get_str());
+    if (fAccepted)
+        g_mining_keys.MarkBlockSubmitted(pwallet, hash);
+
+    return fAccepted;
+}
+
 RPCHelpMan abortrescan();
 RPCHelpMan dumpprivkey();
 RPCHelpMan importprivkey();
@@ -4670,6 +4740,7 @@ static const CRPCCommand commands[] =
     { "wallet",             "encryptwallet",                    &encryptwallet,                 {"passphrase"} },
     { "wallet",             "getaddressesbylabel",              &getaddressesbylabel,           {"label"} },
     { "wallet",             "getaddressinfo",                   &getaddressinfo,                {"address"} },
+    { "mining",             "getauxblock",                      &getauxblock,                   {"hash", "auxpow"} },
     { "wallet",             "getbalance",                       &getbalance,                    {"dummy","minconf","include_watchonly","avoid_reuse"} },
     { "wallet",             "getnewaddress",                    &getnewaddress,                 {"label","address_type"} },
     { "wallet",             "getrawchangeaddress",              &getrawchangeaddress,           {"address_type"} },

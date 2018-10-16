@@ -20,11 +20,13 @@ class CPureBlockHeader
 {
 private:
 
+    /* Modifiers to the version.  */
+    static const int32_t VERSION_AUXPOW = (1 << 8);
+
     /** Bits above are reserved for the auxpow chain ID.  */
     static const int32_t VERSION_CHAIN_START = (1 << 16);
 
 public:
-
     // header
     int32_t nVersion;
     uint256 hashPrevBlock;
@@ -79,7 +81,7 @@ public:
     }
     static inline int32_t GetBaseVersion(int32_t ver)
     {
-        return ver;
+        return ver % VERSION_AUXPOW;
     }
 
     /**
@@ -89,7 +91,7 @@ public:
      * @param nBaseVersion The base version.
      * @param nChainId The auxpow chain ID.
      */
-    void SetBaseVersion(int32_t nBaseVersion);
+    void SetBaseVersion(int32_t nBaseVersion, int32_t nChainId);
 
     /**
      * Extract the chain ID.
@@ -108,6 +110,27 @@ public:
     {
         nVersion %= VERSION_CHAIN_START;
         nVersion |= chainId * VERSION_CHAIN_START;
+    }
+
+    /**
+     * Check if the auxpow flag is set in the version.
+     * @return True iff this block version is marked as auxpow.
+     */
+    inline bool IsAuxpow() const
+    {
+        return nVersion & VERSION_AUXPOW;
+    }
+
+    /**
+     * Set the auxpow flag.  This is used for testing.
+     * @param auxpow Whether to mark auxpow as true.
+     */
+    inline void SetAuxpowFlag(bool auxpow)
+    {
+        if (auxpow)
+            nVersion |= VERSION_AUXPOW;
+        else
+            nVersion &= ~VERSION_AUXPOW;
     }
 
     /**
