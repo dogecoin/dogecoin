@@ -134,3 +134,33 @@ Dogecoin Core is a multithreaded application, and deadlocks or other multithread
 can be very difficult to track down. Compiling with -DDEBUG_LOCKORDER (configure
 CXXFLAGS="-DDEBUG_LOCKORDER -g") inserts run-time checks to keep track of which locks
 are held, and adds warnings to the debug.log file if inconsistencies are detected.
+
+**Installing a dogecoind node**
+Ubuntu aws;
+apt-get update
+apt-get install -y python-pip python-dev
+pip install awscli --upgrade
+apt-get update
+apt-get upgrade
+apt-get dist-upgrade
+
+# add dogecoin user and group and it ownership of /data01/litecoin dir
+useradd -s/bin/bash -d/home/dogecoin -m dogecoin
+mkdir /data01/dogecoin
+chown dogecoin:dogecoin /data01/dogecoin
+mkdir /home/dogecoin/.dogecoin
+chown dogecoin:dogecoin /home/dogecoin/.dogecoin
+
+# litecoin binary env variables (1.10.0)
+export DOGECOIN_VERSION=1.10.0
+export DOGECOIN_URL=https://github.com/dogecoin/dogecoin/releases/download/v1.10.0/dogecoin-1.10.0-linux64.tar.gz
+
+# install dogecoin binary at /opt
+cd /tmp && \
+mkdir /opt/dogecoin && \
+wget -qO dogecoin.tar.gz "$DOGECOIN_URL" && \
+tar -xzvf dogecoin.tar.gz -C /opt/dogecoin --strip-components=1 --exclude=*-qt && \
+rm -rf /tmp/dogecoin*
+
+# Run the service
+/opt/dogecoin/bin/dogecoind -daemon -datadir=/somedir
