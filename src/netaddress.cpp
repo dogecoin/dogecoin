@@ -18,7 +18,6 @@ static const unsigned char pchOnionCat[] = {0xFD,0x87,0xD8,0x7E,0xEB,0x43};
 void CNetAddr::Init()
 {
     memset(ip, 0, sizeof(ip));
-    scopeId = 0;
 }
 
 void CNetAddr::SetIP(const CNetAddr& ipIn)
