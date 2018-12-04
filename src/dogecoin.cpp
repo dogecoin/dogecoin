@@ -17,9 +17,8 @@ int static generateMTRandom(unsigned int s, int range)
     return dist(gen);
 }
 
-// Dogecoin: Normally minimum difficulty blocks can only occur in between
-// retarget blocks. However, once we introduce Digishield every block is
-// a retarget, so we need to handle minimum difficulty on all blocks.
+// Dogecoin: Very normal. Quite difficulty. Many retarget blocks.
+// Gasp DigiShield! Such Retarget. Many mini blocks.
 bool AllowDigishieldMinDifficultyForBlock(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params& params)
 {
     // check if the chain allows minimum difficulty blocks
