@@ -71,7 +71,6 @@ static inline int64_t GetPerformanceCounter()
 #endif
 }
 
-
 #if defined(__x86_64__) || defined(__amd64__) || defined(__i386__)
 static std::atomic<bool> hwrand_initialized{false};
 static bool rdrand_supported = false;
@@ -80,13 +79,24 @@ static void RDRandInit()
 {
     uint32_t eax, ebx, ecx, edx;
     if (__get_cpuid(1, &eax, &ebx, &ecx, &edx) && (ecx & CPUID_F1_ECX_RDRAND)) {
-        LogPrintf("Using RdRand as an additional entropy source\n");
         rdrand_supported = true;
     }
     hwrand_initialized.store(true);
 }
+
+static void RDRandReport()
+{
+    assert(hwrand_initialized.load(std::memory_order_relaxed));
+    if (rdrand_supported) {
+        // This must be done in a separate function, as HWRandInit() may be indirectly called
+        // from global constructors, before logging is initialized.
+        LogPrintf("Using RdRand as an additional entropy source\n");
+    }
+}
+
 #else
 static void RDRandInit() {}
+static void RDRandReport() {}
 #endif
 
 static bool GetHWRand(unsigned char* ent32) {
@@ -274,8 +284,64 @@ void GetRandBytes(unsigned char* buf, int num)
     }
 }
 
+namespace {
+struct RNGState {
+    Mutex m_mutex;
+    unsigned char m_state[32] = {0};
+    uint64_t m_counter = 0;
+
+    explicit RNGState() {
+        RDRandInit();
+    }
+};
+
+RNGState& GetRNGState()
+{
+    // This C++11 idiom relies on the guarantee that static variable are initialized
+    // on first call, even when multiple parallel calls are permitted.
+    static std::unique_ptr<RNGState> g_rng{new RNGState()};
+    return *g_rng;
+}
+}
+
+static void AddDataToRng(void* data, size_t len);
+
+void RandAddSeedSleep()
+{
+    int64_t nPerfCounter1 = GetPerformanceCounter();
+    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    int64_t nPerfCounter2 = GetPerformanceCounter();
+
+    // Combine with and update state
+    AddDataToRng(&nPerfCounter1, sizeof(nPerfCounter1));
+    AddDataToRng(&nPerfCounter2, sizeof(nPerfCounter2));
+
+    memory_cleanse(&nPerfCounter1, sizeof(nPerfCounter1));
+    memory_cleanse(&nPerfCounter2, sizeof(nPerfCounter2));
+}
+
+static void AddDataToRng(void* data, size_t len) {
+    RNGState& rng = GetRNGState();
+
+    CSHA512 hasher;
+    hasher.Write((const unsigned char*)&len, sizeof(len));
+    hasher.Write((const unsigned char*)data, len);
+    unsigned char buf[64];
+    {
+        std::unique_lock<Mutex> lock(rng.m_mutex);
+        hasher.Write(rng.m_state, sizeof(rng.m_state));
+        hasher.Write((const unsigned char*)&rng.m_counter, sizeof(rng.m_counter));
+        ++rng.m_counter;
+        hasher.Finalize(buf);
+        memcpy(rng.m_state, buf + 32, 32);
+    }
+    memory_cleanse(buf, 64);
+}
+
 void GetStrongRandBytes(unsigned char* out, int num)
 {
+    RNGState& rng = GetRNGState();
+
     assert(num <= 32);
     CSHA512 hasher;
     unsigned char buf[64];
@@ -292,6 +358,16 @@ void GetStrongRandBytes(unsigned char* out, int num)
     // Third source: HW RNG, if available.
     if (GetHWRand(buf)) {
         hasher.Write(buf, 32);
+    }
+
+    // Combine with and update state
+    {
+        std::unique_lock<Mutex> lock(rng.m_mutex);
+        hasher.Write(rng.m_state, sizeof(rng.m_state));
+        hasher.Write((const unsigned char*)&rng.m_counter, sizeof(rng.m_counter));
+        ++rng.m_counter;
+        hasher.Finalize(buf);
+        memcpy(rng.m_state, buf + 32, 32);
     }
 
     // Produce output
@@ -414,5 +490,8 @@ FastRandomContext::FastRandomContext(bool fDeterministic) : requires_seed(!fDete
 
 void RandomInit()
 {
-    RDRandInit();
+    // Invoke RNG code to trigger initialization (if not already performed)
+    GetRNGState();
+
+    RDRandReport();
 }
