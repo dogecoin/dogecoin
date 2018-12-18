@@ -292,10 +292,11 @@ void GetRandBytes(unsigned char* buf, int num)
 namespace {
 struct RNGState {
     Mutex m_mutex;
-    unsigned char m_state[32] = {0};
-    uint64_t m_counter = 0;
+    unsigned char m_state[32] GUARDED_BY(m_mutex) = {0};
+    uint64_t m_counter GUARDED_BY(m_mutex) = 0;
 
-    explicit RNGState() {
+    RNGState()
+    {
         InitHardwareRand();
     }
 };
@@ -333,7 +334,7 @@ static void AddDataToRng(void* data, size_t len) {
     hasher.Write((const unsigned char*)data, len);
     unsigned char buf[64];
     {
-        std::unique_lock<Mutex> lock(rng.m_mutex);
+        LOCK(rng.m_mutex);
         hasher.Write(rng.m_state, sizeof(rng.m_state));
         hasher.Write((const unsigned char*)&rng.m_counter, sizeof(rng.m_counter));
         ++rng.m_counter;
@@ -367,7 +368,7 @@ void GetStrongRandBytes(unsigned char* out, int num)
 
     // Combine with and update state
     {
-        std::unique_lock<Mutex> lock(rng.m_mutex);
+        LOCK(rng.m_mutex);
         hasher.Write(rng.m_state, sizeof(rng.m_state));
         hasher.Write((const unsigned char*)&rng.m_counter, sizeof(rng.m_counter));
         ++rng.m_counter;
