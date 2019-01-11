@@ -18,6 +18,8 @@
 #include <stdlib.h>
 #include <limits>
 
+#include <support/allocators/secure.h>
+
 #ifndef WIN32
 #include <sys/time.h>
 #endif
@@ -348,8 +350,8 @@ RNGState& GetRNGState() noexcept
 {
     // This C++11 idiom relies on the guarantee that static variable are initialized
     // on first call, even when multiple parallel calls are permitted.
-    static std::unique_ptr<RNGState> g_rng{new RNGState()};
-    return *g_rng;
+    static std::vector<RNGState, secure_allocator<RNGState>> g_rng(1);
+    return g_rng[0];
 }
 }
 
