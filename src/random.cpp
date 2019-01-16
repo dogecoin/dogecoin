@@ -75,7 +75,7 @@ static inline int64_t GetPerformanceCounter()
 static std::atomic<bool> hwrand_initialized{false};
 static bool rdrand_supported = false;
 static constexpr uint32_t CPUID_F1_ECX_RDRAND = 0x40000000;
-static void RDRandInit()
+static void InitHardwareRand()
 {
     uint32_t eax, ebx, ecx, edx;
     if (__get_cpuid(1, &eax, &ebx, &ecx, &edx) && (ecx & CPUID_F1_ECX_RDRAND)) {
@@ -84,7 +84,7 @@ static void RDRandInit()
     hwrand_initialized.store(true);
 }
 
-static void RDRandReport()
+static void ReportHardwareRand()
 {
     assert(hwrand_initialized.load(std::memory_order_relaxed));
     if (rdrand_supported) {
@@ -95,11 +95,16 @@ static void RDRandReport()
 }
 
 #else
-static void RDRandInit() {}
-static void RDRandReport() {}
+/* Access to other hardware random number generators could be added here later,
+ * assuming it is sufficiently fast (in the order of a few hundred CPU cycles).
+ * Slower sources should probably be invoked separately, and/or only from
+ * RandAddSeedSleep (which is called during idle background operation).
+ */
+static void InitHardwareRand() {}
+static void ReportHardwareRand() {}
 #endif
 
-static bool GetHWRand(unsigned char* ent32) {
+static bool GetHardwareRand(unsigned char* ent32) {
 #if defined(__x86_64__) || defined(__amd64__) || defined(__i386__)
     assert(hwrand_initialized.load(std::memory_order_relaxed));
     if (rdrand_supported) {
@@ -291,7 +296,7 @@ struct RNGState {
     uint64_t m_counter = 0;
 
     explicit RNGState() {
-        RDRandInit();
+        InitHardwareRand();
     }
 };
 
@@ -356,7 +361,7 @@ void GetStrongRandBytes(unsigned char* out, int num)
     hasher.Write(buf, 32);
 
     // Third source: HW RNG, if available.
-    if (GetHWRand(buf)) {
+    if (GetHardwareRand(buf)) {
         hasher.Write(buf, 32);
     }
 
@@ -493,5 +498,5 @@ void RandomInit()
     // Invoke RNG code to trigger initialization (if not already performed)
     GetRNGState();
 
-    RDRandReport();
+    ReportHardwareRand();
 }
