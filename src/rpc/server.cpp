@@ -136,21 +136,19 @@ CAmount AmountFromValue(const UniValue& value)
 UniValue ValueFromAmount(const CAmount& amount)
 {
     bool sign = amount < 0;
-    int64_t n_abs = (sign ? -amount : amount);
-    int64_t quotient = n_abs / COIN;
-    int64_t remainder = n_abs % COIN;
-    return UniValue(UniValue::VNUM,
-            strprintf("%s%d.%08d", sign ? "-" : "", quotient, remainder));
-}
-
-UniValue ValueFromAmount(const arith_uint256& amount)
-{
-    bool sign = amount < 0;
-    arith_uint256 n_abs = (sign ? -amount : amount);
-    arith_uint256 quotient = n_abs / COIN;
-    arith_uint256 remainder = n_abs - (quotient * COIN);
-    return UniValue(UniValue::VNUM,
-            strprintf("%s%d.%08d", sign ? "-" : "", (int64_t)quotient.getdouble(), (int64_t)remainder.getdouble()));
+    if (!GetBoolArg("-rpcintegers", false))
+    {
+        arith_uint256 amount;
+        arith_uint256 n_abs = (sign ? -amount : amount);
+        arith_uint256 quotient = n_abs / COIN;
+        arith_uint256 remainder = n_abs - (quotient * COIN);
+        return UniValue(UniValue::VNUM,
+                        strprintf("%s%d.%08d", sign ? "-" : "", (int64_t)quotient.getdouble(), (int64_t)remainder.getdouble()));
+    }
+    else {
+        uint64_t n_abs = (sign ? -amount : amount);
+        return n_abs;
+    }
 }
 
 uint256 ParseHashV(const UniValue& v, string strName)
