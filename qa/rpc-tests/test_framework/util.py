@@ -193,6 +193,9 @@ def initialize_datadir(dirname, n):
         f.write("listenonion=0\n")
     return datadir
 
+def get_datadir_path(dirname, n):
+    return os.path.join(dirname, "node" + str(n))
+
 def rpc_auth_pair(n):
     return 'rpcuser💻' + str(n), 'rpcpass🔑' + str(n)
 
@@ -382,8 +385,8 @@ def stop_node(node, i):
     del bitcoind_processes[i]
 
 @contextlib.contextmanager
-def assert_debug_log(self, num_node, expected_msgs):
-    debug_log = os.path.join(datadir = log_filename(dirname, num_node, "debug.log"))
+def assert_debug_log(dirname, num_node, expected_msgs):
+    debug_log = log_filename(dirname, num_node, "debug.log")
     with open(debug_log, encoding='utf-8') as dl:
         dl.seek(0, 2)
         prev_size = dl.tell()

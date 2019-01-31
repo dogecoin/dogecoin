@@ -25,6 +25,7 @@ from .util import (
     check_json_precision,
     initialize_chain_clean,
     PortSeed,
+    assert_debug_log,
 )
 from .authproxy import JSONRPCException
 
@@ -51,6 +52,9 @@ class BitcoinTestFramework(object):
 
     def stop_node(self, num_node):
         stop_node(self.nodes[num_node], num_node)
+
+    def assert_debug_msg(self, num_node, expected_msgs):
+        assert_debug_log(self.options.tmpdir, num_node, expected_msgs)
 
     def setup_nodes(self):
         return start_nodes(self.num_nodes, self.options.tmpdir)
