@@ -176,6 +176,7 @@ bool PartiallyDownloadedBlock::IsTxAvailable(size_t index) const {
 }
 
 ReadStatus PartiallyDownloadedBlock::FillBlock(CBlock& block, const std::vector<CTransactionRef>& vtx_missing) {
+    const Consensus::Params& params = Params().GetConsensus(0);
     assert(!header.IsNull());
     uint256 hash = header.GetHash();
     block = header;
@@ -200,7 +201,7 @@ ReadStatus PartiallyDownloadedBlock::FillBlock(CBlock& block, const std::vector<
 
     CValidationState state;
     // TODO: Make sure lack of block height doesn't cause verification problems
-    if (!CheckBlock(block, state)) {
+    if (!CheckBlock(block, state, params)) {
         // TODO: We really want to just check merkle tree manually here,
         // but that is expensive, and CheckBlock caches a block's
         // "checked-status" (in the CBlock?). CBlock should be able to

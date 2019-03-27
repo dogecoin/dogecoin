@@ -149,6 +149,17 @@ bool CWalletDB::ReadBestBlock(CBlockLocator& locator)
     return Read(std::string("bestblock_nomerkle"), locator);
 }
 
+bool CWalletDB::WriteNonValidationBestBlock(const CBlockLocator& locator)
+{
+    nWalletDBUpdateCounter++;
+    return Write(std::string("nonvalidationbestblock"), locator);
+}
+
+bool CWalletDB::ReadNonValidationBestBlock(CBlockLocator& locator)
+{
+    return Read(std::string("nonvalidationbestblock"), locator);
+}
+
 bool CWalletDB::WriteOrderPosNext(int64_t nOrderPosNext)
 {
     nWalletDBUpdateCounter++;
@@ -462,25 +473,18 @@ ReadKeyValue(CWallet* pwallet, CDataStream& ssKey, CDataStream& ssValue,
         }
         else if (strType == "keymeta" || strType == "watchmeta")
         {
-            CTxDestination keyID;
-            if (strType == "keymeta")
-            {
-              CPubKey vchPubKey;
-              ssKey >> vchPubKey;
-              keyID = vchPubKey.GetID();
-            }
-            else if (strType == "watchmeta")
-            {
-              CScript script;
-              ssKey >> *(CScriptBase*)(&script);
-              keyID = CScriptID(script);
-            }
-
+            CPubKey vchPubKey;
+            ssKey >> vchPubKey;
             CKeyMetadata keyMeta;
             ssValue >> keyMeta;
             wss.nKeyMeta++;
 
-            pwallet->LoadKeyMetadata(keyID, keyMeta);
+            pwallet->LoadKeyMetadata(vchPubKey, keyMeta);
+
+            // find earliest key creation time, as wallet birthday
+            if (!pwallet->nTimeFirstKey ||
+                (keyMeta.nCreateTime < pwallet->nTimeFirstKey))
+                pwallet->nTimeFirstKey = keyMeta.nCreateTime;
         }
         else if (strType == "defaultkey")
         {

@@ -33,7 +33,9 @@ void UnregisterAllValidationInterfaces();
 class CValidationInterface {
 protected:
     virtual void UpdatedBlockTip(const CBlockIndex *pindexNew, const CBlockIndex *pindexFork, bool fInitialDownload) {}
-    virtual void SyncTransaction(const CTransaction &tx, const CBlockIndex *pindex, int posInBlock) {}
+    virtual void UpdatedBlockHeaderTip(bool fInitialDownload, const CBlockIndex *pindexNew) {}
+    virtual void SyncTransaction(const CTransaction &tx, const CBlockIndex *pindex, int posInBlock, bool validated = true) {}
+    virtual void GetNonMempoolTransaction(const uint256 &hash,  std::shared_ptr<const CTransaction> &txsp) {}
     virtual void SetBestChain(const CBlockLocator &locator) {}
     virtual void UpdatedTransaction(const uint256 &hash) {}
     virtual void Inventory(const uint256 &hash) {}
@@ -60,7 +62,9 @@ struct CMainSignals {
      * transaction was accepted to mempool, removed from mempool (only when
      * removal was due to conflict from connected block), or appeared in a
      * disconnected block.*/
-    boost::signals2::signal<void (const CTransaction &, const CBlockIndex *pindex, int posInBlock)> SyncTransaction;
+    boost::signals2::signal<void (const CTransaction &, const CBlockIndex *pindex, int posInBlock, bool validated)> SyncTransaction;
+    /** Signal used to find transactions if the node has the inv-hash but not the transaction in its mempool (non-validation mode) */
+    boost::signals2::signal<void (const uint256 &, std::shared_ptr<const CTransaction> &)> FindTransaction;
     /** Notifies listeners of an updated transaction without new data (for now: a coinbase potentially becoming visible). */
     boost::signals2::signal<void (const uint256 &)> UpdatedTransaction;
     /** Notifies listeners of a new active block chain. */
@@ -79,6 +83,8 @@ struct CMainSignals {
      * Notifies listeners that a block which builds directly on our current tip
      * has been received and connected to the headers tree, though not validated yet */
     boost::signals2::signal<void (const CBlockIndex *, const std::shared_ptr<const CBlock>&)> NewPoWValidBlock;
+    /** Best header has changed */
+    boost::signals2::signal<void (bool, const CBlockIndex *)> UpdatedBlockHeaderTip;
 };
 
 CMainSignals& GetMainSignals();

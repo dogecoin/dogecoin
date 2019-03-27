@@ -108,6 +108,9 @@ public:
 
     /** Banlist did change. */
     boost::signals2::signal<void (void)> BannedListChanged;
+
+    /** Auxiliary Block Request (SPV) progress did change */
+    boost::signals2::signal<void (int64_t, size_t, size_t, size_t)> NotifyAuxiliaryBlockRequestProgress;
 };
 
 /** Show warning message **/

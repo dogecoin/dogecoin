@@ -34,6 +34,7 @@ static void DeserializeBlockTest(benchmark::State& state)
 
 static void DeserializeAndCheckBlockTest(benchmark::State& state)
 {
+    const Consensus::Params& params = Params().GetConsensus(0);
     CDataStream stream((const char*)block_bench::block413567,
             (const char*)&block_bench::block413567[sizeof(block_bench::block413567)],
             SER_NETWORK, PROTOCOL_VERSION);
@@ -46,7 +47,7 @@ static void DeserializeAndCheckBlockTest(benchmark::State& state)
         assert(stream.Rewind(sizeof(block_bench::block413567)));
 
         CValidationState validationState;
-        assert(CheckBlock(block, validationState));
+        assert(CheckBlock(block, validationState, params));
     }
 }
 

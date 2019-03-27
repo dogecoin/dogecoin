@@ -56,6 +56,8 @@
         <file alias="wallet_bgcoin">res/icons/wallet_bgcoin.png</file>
         <file alias="paper_wallet">res/icons/paper_wallet.png</file>
         <file alias="print">res/icons/print.png</file>
+        <file alias="spv_enabled">res/icons/spv_enabled.png</file>
+        <file alias="spv_disabled">res/icons/spv_disabled.png</file>
     </qresource>
     <qresource prefix="/movies">
         <file alias="spinner-000">res/movies/spinner-000.png</file>

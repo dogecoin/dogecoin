@@ -103,6 +103,9 @@ void WalletView::setBitcoinGUI(BitcoinGUI *gui)
 
         // Connect HD enabled state signal 
         connect(this, SIGNAL(hdEnabledStatusChanged(int)), gui, SLOT(setHDStatus(int)));
+
+        // Connect SPV enabled state signal
+        connect(this, SIGNAL(spvEnabledStatusChanged(int)), gui, SLOT(setSPVStatus(int)));
     }
 }
 
@@ -137,6 +140,10 @@ void WalletView::setWalletModel(WalletModel *_walletModel)
 
         // update HD status
         Q_EMIT hdEnabledStatusChanged(_walletModel->hdEnabled());
+
+        // update SPV status
+        connect(_walletModel, SIGNAL(spvEnabledStatusChanged(int)), this, SLOT(updateSPVStatus()));
+        updateSPVStatus();
 
         // Balloon pop-up for new transaction
         connect(_walletModel->getTransactionTableModel(), SIGNAL(rowsInserted(QModelIndex,int,int)),
@@ -339,4 +346,25 @@ void WalletView::printPaperWallets()
     dlg.setModel(walletModel);
     dlg.setClientModel(clientModel);
     dlg.exec();
+}
+
+void WalletView::setSPVMode(bool state)
+{
+    if(!walletModel)
+        return;
+
+    walletModel->setSpvEnabled(state);
+}
+
+bool WalletView::getSPVMode()
+{
+    if(!walletModel)
+        return false;
+
+    return walletModel->spvEnabled();
+}
+
+void WalletView::updateSPVStatus()
+{
+    Q_EMIT spvEnabledStatusChanged(walletModel->spvEnabled());
 }

@@ -46,6 +46,7 @@ public:
      * compatibility.
      */
     int nIndex;
+    bool fValidated;
 
     CMerkleTx()
     {

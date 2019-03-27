@@ -72,7 +72,8 @@ static const bool DEFAULT_WALLETBROADCAST = true;
 static const bool DEFAULT_DISABLE_WALLET = false;
 //! if set, all keys will be derived by using BIP32
 static const bool DEFAULT_USE_HD_WALLET = true;
-
+//! if set, the wallet does a full-block spv sync before continue validating the chain
+static const bool DEFAULT_USE_SPV = false;
 extern const char * DEFAULT_WALLET_DAT;
 
 class CBlockIndex;
@@ -252,6 +253,7 @@ public:
         nImmatureWatchCreditCached = 0;
         nChangeCached = 0;
         nOrderPos = -1;
+        fValidated = false;
     }
 
     ADD_SERIALIZE_METHODS;
@@ -270,6 +272,9 @@ public:
 
             if (nTimeSmart)
                 mapValue["timesmart"] = strprintf("%u", nTimeSmart);
+
+            if (fValidated)
+                mapValue["validated"] = "yes";
         }
 
         READWRITE(*(CMerkleTx*)this);
@@ -289,6 +294,7 @@ public:
             ReadOrderPos(nOrderPos, mapValue);
 
             nTimeSmart = mapValue.count("timesmart") ? (unsigned int)atoi64(mapValue["timesmart"]) : 0;
+            fValidated = (mapValue.count("validated") && mapValue["validated"] == "yes") ? true : false;
         }
 
         mapValue.erase("fromaccount");
@@ -296,6 +302,7 @@ public:
         mapValue.erase("spent");
         mapValue.erase("n");
         mapValue.erase("timesmart");
+        mapValue.erase("validated");
     }
 
     //! make sure balances are recalculated
@@ -534,8 +541,7 @@ private:
     bool fFileBacked;
 
     std::set<int64_t> setKeyPool;
-
-    int64_t nTimeFirstKey;
+    std::atomic<bool> spvEnabled;
 
     /**
      * Private version of AddWatchOnly method which does not accept a
@@ -574,7 +580,7 @@ public:
 
     // Map from Key ID (for regular keys) or Script ID (for watch-only keys) to
     // key metadata.
-    std::map<CTxDestination, CKeyMetadata> mapKeyMetadata;
+    std::map<CKeyID, CKeyMetadata> mapKeyMetadata;
 
     typedef std::map<unsigned int, CMasterKey> MasterKeyMap;
     MasterKeyMap mapMasterKeys;
@@ -609,6 +615,9 @@ public:
         nLastResend = 0;
         nTimeFirstKey = 0;
         fBroadcastTransactions = false;
+        pNVSLastKnownBestHeader = NULL;
+        pNVSBestBlock = NULL;
+        spvEnabled = false;
     }
 
     std::map<uint256, CWalletTx> mapWallet;
@@ -626,6 +635,13 @@ public:
     CPubKey vchDefaultKey;
 
     std::set<COutPoint> setLockedCoins;
+
+    int64_t nTimeFirstKey;
+
+    //! last known best header, required to check for forks
+    CBlockIndex *pNVSLastKnownBestHeader;
+    //! wallet did non-validation scan up to this block
+    CBlockIndex *pNVSBestBlock;
 
     const CWalletTx* GetWalletTx(const uint256& hash) const;
 
@@ -664,7 +680,7 @@ public:
     //! Adds a key to the store, without saving it to disk (used by LoadWallet)
     bool LoadKey(const CKey& key, const CPubKey &pubkey) { return CCryptoKeyStore::AddKeyPubKey(key, pubkey); }
     //! Load metadata (used by LoadWallet)
-    bool LoadKeyMetadata(const CTxDestination& pubKey, const CKeyMetadata &metadata);
+    bool LoadKeyMetadata(const CPubKey &pubkey, const CKeyMetadata &metadata);
 
     bool LoadMinVersion(int nVersion) { AssertLockHeld(cs_wallet); nWalletVersion = nVersion; nWalletMaxVersion = std::max(nWalletMaxVersion, nVersion); return true; }
     void UpdateTimeFirstKey(int64_t nCreateTime);
@@ -695,7 +711,7 @@ public:
     bool ChangeWalletPassphrase(const SecureString& strOldWalletPassphrase, const SecureString& strNewWalletPassphrase);
     bool EncryptWallet(const SecureString& strWalletPassphrase);
 
-    void GetKeyBirthTimes(std::map<CTxDestination, int64_t> &mapKeyBirth) const;
+    void GetKeyBirthTimes(std::map<CKeyID, int64_t> &mapKeyBirth) const;
 
     /** 
      * Increment the next transaction order id
@@ -709,8 +725,10 @@ public:
     void MarkDirty();
     bool AddToWallet(const CWalletTx& wtxIn, bool fFlushOnClose=true);
     bool LoadToWallet(const CWalletTx& wtxIn);
-    void SyncTransaction(const CTransaction& tx, const CBlockIndex *pindex, int posInBlock) override;
-    bool AddToWalletIfInvolvingMe(const CTransaction& tx, const CBlockIndex* pIndex, int posInBlock, bool fUpdate);
+    bool AddToWalletIfInvolvingMe(const CTransaction& tx, const CBlockIndex* pIndex, int posInBlock, bool fUpdate, bool fValidated);
+    void SyncTransaction(const CTransaction& tx, const CBlockIndex *pindex, int posInBlock, bool validated);
+    void UpdatedBlockHeaderTip(bool fInitialDownload, const CBlockIndex *pindexNew);
+    void GetNonMempoolTransaction(const uint256 &hash, CTransactionRef &txsp);    
     CBlockIndex* ScanForWalletTransactions(CBlockIndex* pindexStart, bool fUpdate = false);
     void ReacceptWalletTransactions();
     void ResendWalletTransactions(int64_t nBestBlockTime, CConnman* connman) override;
@@ -880,6 +898,9 @@ public:
     /** Watch-only address added */
     boost::signals2::signal<void (bool fHaveWatchOnly)> NotifyWatchonlyChanged;
 
+    /** SPV Mode changed */
+    boost::signals2::signal<void (bool fSPVEnabled)> NotifySPVModeChanged;
+
     /** Inquire whether this wallet broadcasts transactions. */
     bool GetBroadcastTransactions() const { return fBroadcastTransactions; }
     /** Set whether this wallet broadcasts transactions. */
@@ -907,6 +928,9 @@ public:
     /* Wallets parameter interaction */
     static bool ParameterInteraction();
 
+    void RequestSPVScan(int64_t optional_timestamp = 0);
+    void setSPVEnabled(bool status);
+    bool IsSPVEnabled();
     bool BackupWallet(const std::string& strDest);
 
     /* Set the HD chain model (chain child index counters) */

@@ -78,6 +78,7 @@ endif
 BITCOIN_CORE_H = \
   addrdb.h \
   addrman.h \
+  auxiliaryblockrequest.h \
   alert.h \
   auxpow.h \
   base58.h \
@@ -183,6 +184,7 @@ libdogecoin_server_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libdogecoin_server_a_SOURCES = \
   addrman.cpp \
   addrdb.cpp \
+  auxiliaryblockrequest.cpp \
   alert.cpp \
   bloom.cpp \
   blockencodings.cpp \
