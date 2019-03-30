@@ -73,7 +73,7 @@ static const bool DEFAULT_DISABLE_WALLET = false;
 //! if set, all keys will be derived by using BIP32
 static const bool DEFAULT_USE_HD_WALLET = true;
 //! if set, the wallet does a full-block spv sync before continue validating the chain
-static const bool DEFAULT_USE_SPV = false;
+static const bool DEFAULT_USE_SPV = true;
 extern const char * DEFAULT_WALLET_DAT;
 
 class CBlockIndex;
