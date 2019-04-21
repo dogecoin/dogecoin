@@ -5,6 +5,7 @@
 #include "amount.h"
 #include "chain.h"
 #include "chainparams.h"
+#include "policy/feerate.h"
 
 bool AllowDigishieldMinDifficultyForBlock(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params& params);
 CAmount GetDogecoinBlockSubsidy(int nHeight, const Consensus::Params& consensusParams, uint256 prevHash);
@@ -17,3 +18,7 @@ unsigned int CalculateDogecoinNextWorkRequired(const CBlockIndex* pindexLast, in
  * @return True iff the PoW is correct.
  */
 bool CheckAuxPowProofOfWork(const CBlockHeader& block, const Consensus::Params& params);
+
+unsigned int GetDogecoinTxSize(const unsigned int nTxBytes);
+CAmount GetDogecoinMinRelayFee(const CTransaction& tx, unsigned int nSize);
+CAmount GetDogecoinDustFee(const std::vector<CTxOut> &vout, const CFeeRate &baseFeeRate);

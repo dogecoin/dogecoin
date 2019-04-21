@@ -221,11 +221,15 @@ public:
     //! Return wallet transaction output information.
     virtual std::vector<WalletTxOut> getCoins(const std::vector<COutPoint>& outputs) = 0;
 
-    //! Get required fee.
+    //! Get required fee without taking into account dust charges
     virtual CAmount getRequiredFee(unsigned int tx_bytes) = 0;
 
+    //! Get required fee.
+    virtual CAmount getRequiredFee(const CTransaction& tx, unsigned int tx_bytes) = 0;
+
     //! Get minimum fee.
-    virtual CAmount getMinimumFee(unsigned int tx_bytes,
+    virtual CAmount getMinimumFee(const CTransaction& tx,
+        unsigned int tx_bytes,
         const CCoinControl& coin_control,
         int* returned_target,
         FeeReason* reason) = 0;

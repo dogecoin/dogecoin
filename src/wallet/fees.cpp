@@ -6,22 +6,38 @@
 #include <wallet/fees.h>
 
 #include <policy/policy.h>
+#include <dogecoin.h>
 #include <txmempool.h>
 #include <util.h>
 #include <validation.h>
 #include <wallet/coincontrol.h>
 #include <wallet/wallet.h>
 
-
 CAmount GetRequiredFee(const CWallet& wallet, unsigned int nTxBytes)
 {
+    // Dogecoin: Round TX bytes up to the next 1,000 bytes
+    nTxBytes = GetDogecoinTxSize(nTxBytes);
+
+    // Dogecoin: We don't take into account dust fees here, so this is only useful for estimates
     return GetRequiredFeeRate(wallet).GetFee(nTxBytes);
 }
 
-
-CAmount GetMinimumFee(const CWallet& wallet, unsigned int nTxBytes, const CCoinControl& coin_control, const CTxMemPool& pool, const CBlockPolicyEstimator& estimator, FeeCalculation* feeCalc)
+CAmount GetRequiredFee(const CWallet& wallet, const CTransaction& tx, unsigned int nTxBytes)
 {
-    CAmount fee_needed = GetMinimumFeeRate(wallet, coin_control, pool, estimator, feeCalc).GetFee(nTxBytes);
+    // Dogecoin: Round TX bytes up to the next 1,000 bytes
+    nTxBytes = GetDogecoinTxSize(nTxBytes);
+
+    // Dogecoin: Add an increased fee for each dust output
+    return GetRequiredFeeRate(wallet).GetFee(nTxBytes) + GetDogecoinDustFee(tx.vout, wallet.m_min_fee);
+}
+
+
+CAmount GetMinimumFee(const CWallet& wallet, const CTransaction& tx, unsigned int nTxBytes, const CCoinControl& coin_control, const CTxMemPool& pool, const CBlockPolicyEstimator& estimator, FeeCalculation* feeCalc)
+{
+    // Dogecoin: Round TX bytes up to the next 1,000 bytes
+    nTxBytes = GetDogecoinTxSize(nTxBytes);
+
+    CAmount fee_needed = GetMinimumFeeRate(wallet, coin_control, pool, estimator, feeCalc).GetFee(nTxBytes) + GetDogecoinDustFee(tx.vout, wallet.m_min_fee);
     // Always obey the maximum
     if (fee_needed > maxTxFee) {
         fee_needed = maxTxFee;
