@@ -109,6 +109,10 @@ public:
         // By default assume that the signatures in ancestors of this block are valid.
         consensus.defaultAssumeValid = uint256S("0x0000000000000000002e63058c023a9a1de233554f28c7b21380b6c9003f36a8"); //534292
 
+        consensus.nDigiShieldStartHeight = 145000;
+        consensus.nDigishieldMinDifficultyHeight = 0;
+        consensus.nDigiShieldTargetTimespan = 60;
+
         consensus.nAuxpowChainId = 0x0062; // 98 - Josh Wise!
         consensus.nAuxpowStartHeight = 371337;
         consensus.fStrictChainId = true;
@@ -227,6 +231,10 @@ public:
         // By default assume that the signatures in ancestors of this block are valid.
         consensus.defaultAssumeValid = uint256S("0x0000000000000037a8cd3e06cd5edbfe9dd1dbcc5dacab279376ef7cfc2b4c75"); //1354312
 
+        consensus.nDigiShieldStartHeight = 145000;
+        consensus.nDigishieldMinDifficultyHeight = 157500; // Testnet enables target reset at block 157500
+        consensus.nDigiShieldTargetTimespan = 60;
+
         consensus.nAuxpowStartHeight = 158100;
         consensus.fStrictChainId = false;
         consensus.nLegacyBlocksBefore = 158100;
@@ -321,8 +329,13 @@ public:
         // By default assume that the signatures in ancestors of this block are valid.
         consensus.defaultAssumeValid = uint256S("0x00");
 
+        consensus.nDigiShieldStartHeight = 145000;
+        consensus.nDigishieldMinDifficultyHeight = 0;
+        consensus.nDigiShieldTargetTimespan = 60;
+
         consensus.fStrictChainId = true;
         consensus.nLegacyBlocksBefore = 0;
+
         pchMessageStart[0] = 0xfa;
         pchMessageStart[1] = 0xbf;
         pchMessageStart[2] = 0xb5;

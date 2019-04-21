@@ -28,8 +28,7 @@ bool AllowDigishieldMinDifficultyForBlock(const CBlockIndex* pindexLast, const C
         return false;
 
     // check if the chain allows minimum difficulty blocks on recalc blocks
-    if (pindexLast->nHeight < 157500)
-    // if (!params.fPowAllowDigishieldMinDifficultyBlocks)
+    if (pindexLast->nHeight < params.nDigishieldMinDifficultyHeight)
         return false;
 
     // Allow for a minimum block time if the elapsed time > 2*nTargetSpacing
@@ -39,9 +38,8 @@ bool AllowDigishieldMinDifficultyForBlock(const CBlockIndex* pindexLast, const C
 unsigned int CalculateDogecoinNextWorkRequired(const CBlockIndex* pindexLast, int64_t nFirstBlockTime, const Consensus::Params& params)
 {
     int nHeight = pindexLast->nHeight + 1;
-    bool fNewDifficultyProtocol = (nHeight >= 145000);
-    // bool fNewDifficultyProtocol = (nHeight >= params.GetDigiShieldForkBlock());
-    const int64_t retargetTimespan = fNewDifficultyProtocol ? 60 // params.DigiShieldTargetTimespan()
+    bool fNewDifficultyProtocol = (nHeight >= params.nDigiShieldStartHeight);
+    const int64_t retargetTimespan = fNewDifficultyProtocol ? params.nDigiShieldTargetTimespan
                                                               :
                                                               params.nPowTargetTimespan;
 
