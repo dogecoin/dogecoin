@@ -2901,12 +2901,14 @@ bool CWallet::CreateTransaction(const std::vector<CRecipient>& vecSend, CTransac
                     return false;
                 }
 
-                nFeeNeeded = GetMinimumFee(*this, nBytes, coin_control, ::mempool, ::feeEstimator, &feeCalc);
+                nFeeNeeded = GetMinimumFee(*this, txNew, nBytes, coin_control, ::mempool, ::feeEstimator, &feeCalc);
                 if (feeCalc.reason == FeeReason::FALLBACK && !m_allow_fallback_fee) {
                     // eventually allow a fallback fee
                     strFailReason = _("Fee estimation failed. Fallbackfee is disabled. Wait a few blocks or enable -fallbackfee.");
                     return false;
                 }
+
+                nFeeNeeded = GetMinimumFee(*this, txNew, nBytes, coin_control, ::mempool, ::feeEstimator, &feeCalc);
 
                 // If we made it here and we aren't even able to meet the relay fee on the next pass, give up
                 // because we must be at the maximum allowed fee.
@@ -2929,7 +2931,7 @@ bool CWallet::CreateTransaction(const std::vector<CRecipient>& vecSend, CTransac
                     // change output. Only try this once.
                     if (nChangePosInOut == -1 && nSubtractFeeFromAmount == 0 && pick_new_inputs) {
                         unsigned int tx_size_with_change = nBytes + coin_selection_params.change_output_size + 2; // Add 2 as a buffer in case increasing # of outputs changes compact size
-                        CAmount fee_needed_with_change = GetMinimumFee(*this, tx_size_with_change, coin_control, ::mempool, ::feeEstimator, nullptr);
+                        CAmount fee_needed_with_change = GetMinimumFee(*this, txNew, tx_size_with_change, coin_control, ::mempool, ::feeEstimator, nullptr);
                         CAmount minimum_value_for_change = GetDustThreshold(change_prototype_txout, discard_rate);
                         if (nFeeRet >= fee_needed_with_change + minimum_value_for_change) {
                             pick_new_inputs = false;

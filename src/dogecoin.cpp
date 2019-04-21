@@ -9,6 +9,7 @@
 #include <dogecoin.h>
 #include <pow.h>
 #include <util.h>
+#include <validation.h>
 
 int static generateMTRandom(unsigned int s, int range)
 {
@@ -148,4 +149,35 @@ CAmount GetDogecoinBlockSubsidy(int nHeight, const Consensus::Params& consensusP
         // Constant inflation
         return 10000 * COIN;
     }
+}
+
+unsigned int GetDogecoinTxSize(const unsigned int nTxBytes)
+{
+    // Dogecoin: Round TX bytes up to the next 1,000 bytes
+    unsigned int nMod = nTxBytes % 1000;
+    if (nMod > 0) {
+        return nTxBytes + 1000 - nMod;
+    } else {
+        return nTxBytes;
+    }
+}
+
+CAmount GetDogecoinMinRelayFee(const CTransaction& tx, unsigned int nSize)
+{
+    CAmount nMinFee = ::minRelayTxFee.GetFee(nSize);
+    nMinFee += GetDogecoinDustFee(tx.vout, ::minRelayTxFee);
+    if (!MoneyRange(nMinFee))
+        nMinFee = MAX_MONEY;
+    return nMinFee;
+}
+
+CAmount GetDogecoinDustFee(const std::vector<CTxOut> &vout, const CFeeRate &baseFeeRate) {
+    CAmount nFee = 0;
+
+    // To limit dust spam, add base fee for each output less than a COIN
+    for (const CTxOut& txout: vout)
+        if (txout.nValue < COIN)
+            nFee += baseFeeRate.GetFeePerK();
+
+    return nFee;
 }

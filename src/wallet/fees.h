@@ -6,6 +6,7 @@
 #ifndef BITCOIN_WALLET_FEES_H
 #define BITCOIN_WALLET_FEES_H
 
+#include <primitives/transaction.h>
 #include <amount.h>
 
 class CBlockPolicyEstimator;
@@ -17,15 +18,21 @@ struct FeeCalculation;
 
 /**
  * Return the minimum required absolute fee for this size
- * based on the required fee rate
+ * based on the required fee rate, without taking into account dust fees
  */
 CAmount GetRequiredFee(const CWallet& wallet, unsigned int nTxBytes);
+
+/**
+ * Return the minimum required absolute fee for this size
+ * based on the required fee rate
+ */
+CAmount GetRequiredFee(const CWallet& wallet, const CTransaction& tx, unsigned int nTxBytes);
 
 /**
  * Estimate the minimum fee considering user set parameters
  * and the required fee
  */
-CAmount GetMinimumFee(const CWallet& wallet, unsigned int nTxBytes, const CCoinControl& coin_control, const CTxMemPool& pool, const CBlockPolicyEstimator& estimator, FeeCalculation* feeCalc);
+CAmount GetMinimumFee(const CWallet& wallet, const CTransaction& tx, unsigned int nTxBytes, const CCoinControl& coin_control, const CTxMemPool& pool, const CBlockPolicyEstimator& estimator, FeeCalculation* feeCalc);
 
 /**
  * Return the minimum required feerate taking into account the
