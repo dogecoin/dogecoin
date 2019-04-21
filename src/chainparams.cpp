@@ -174,13 +174,14 @@ public:
                 {1750000, uint256S("5c8e7327984f0d6f59447d89d143e5f6eafc524c82ad95d176c5cec082ae2001")},
                 {2000000, uint256S("9914f0e82e39bbf21950792e8816620d71b9965bdbbc14e72a95e3ab9618fea8")},
                 {2031142, uint256S("893297d89afb7599a3c571ca31a3b80e8353f4cf39872400ad0f57d26c4c5d42")},
+                {2691755, uint256S("658a69f81e264291b5d58cb4c51a5aa1778d3d3d52359e53c48a0ea0820aa5de")},
             }
         };
 
         chainTxData = ChainTxData{
             // Data from rpc: getchaintxstats 4096 0000000000000000002e63058c023a9a1de233554f28c7b21380b6c9003f36a8
-            /* nTime    */ 1514549787,
-            /* nTxCount */ 32796624,
+            /* nTime    */ 1555823202,
+            /* nTxCount */ 46882258,
             /* dTxRate  */ 0.04
         };
 
@@ -278,14 +279,17 @@ public:
                 {591117, uint256S("5f6b93b2c28cedf32467d900369b8be6700f0649388a7dbfd3ebd4a01b1ffad8")},
                 {658924, uint256S("ed6c8324d9a77195ee080f225a0fca6346495e08ded99bcda47a8eea5a8a620b")},
                 {703635, uint256S("839fa54617adcd582d53030a37455c14a87a806f6615aa8213f13e196230ff7f")},
+                {1000000, uint256S("1fe4d44ea4d1edb031f52f0d7c635db8190dc871a190654c41d2450086b8ef0e")},
+                {1202214, uint256S("a2179767a87ee4e95944703976fee63578ec04fa3ac2fc1c9c2c83587d096977")},
+                {1855459, uint256S("8f66489d4531ee118ee7e6d28750d5e136301836b32ed4d7854e0fa71f8b57f9")},
             }
         };
 
         chainTxData = ChainTxData{
-            // Data from rpc: getchaintxstats 4096 0000000000000037a8cd3e06cd5edbfe9dd1dbcc5dacab279376ef7cfc2b4c75
-            /* nTime    */ 1440601451,
-            /* nTxCount */ 1119061,
-            /* dTxRate  */ 0.01
+            // Data from rpc: getchaintxstats 4096 8f66489d4531ee118ee7e6d28750d5e136301836b32ed4d7854e0fa71f8b57f9
+            /* nTime    */ 1550901172,
+            /* nTxCount */ 2860626,
+            /* dTxRate  */ 0.025
         };
 
         /* enable fallback fee on testnet */
