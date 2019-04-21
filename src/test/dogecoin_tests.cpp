@@ -95,7 +95,7 @@ BOOST_AUTO_TEST_CASE(subsidy_limit_test)
     BOOST_CHECK(nSum >= lowerlimit);
 
     // Test reward at 600k+ is constant
-    CAmount nConstantSubsidy = GetDogecoinBlockSubsidy(600000, params, prevHash);
+    CAmount nConstantSubsidy = GetDogecoinBlockSubsidy(nHeight, params, prevHash);
     BOOST_CHECK_EQUAL(nConstantSubsidy, 10000 * COIN);
 
     nConstantSubsidy = GetDogecoinBlockSubsidy(700000, params, prevHash);

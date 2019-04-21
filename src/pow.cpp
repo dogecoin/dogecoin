@@ -13,6 +13,22 @@
 #include <uint256.h>
 #include <util.h>
 
+// Determine if the for the given block, a min difficulty setting applies
+bool AllowMinDifficultyForBlock(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params& params)
+{
+    // check if the chain allows minimum difficulty blocks
+    if (!params.fPowAllowMinDifficultyBlocks)
+        return false;
+
+    // Dogecoin: Magic number at which reset protocol switches
+    // check if we allow minimum difficulty at this block-height
+    if (pindexLast->nHeight < 157500)
+        return false;
+
+    // Allow for a minimum block time if the elapsed time > 2*nTargetSpacing
+    return (pblock->GetBlockTime() > pindexLast->GetBlockTime() + params.nPowTargetSpacing*2);
+}
+
 unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params& params)
 {
     assert(pindexLast != nullptr);

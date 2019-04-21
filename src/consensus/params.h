@@ -76,6 +76,11 @@ struct Params {
     uint256 nMinimumChainWork;
     uint256 defaultAssumeValid;
 
+    /** DigiShield parameters */
+    int nDigiShieldStartHeight;
+    int nDigishieldMinDifficultyHeight;
+    int64_t nDigiShieldTargetTimespan;
+
     /** Auxpow parameters */
     int32_t nAuxpowChainId;
     int nAuxpowStartHeight;
