@@ -174,13 +174,14 @@ public:
                 {1750000, uint256S("5c8e7327984f0d6f59447d89d143e5f6eafc524c82ad95d176c5cec082ae2001")},
                 {2000000, uint256S("9914f0e82e39bbf21950792e8816620d71b9965bdbbc14e72a95e3ab9618fea8")},
                 {2031142, uint256S("893297d89afb7599a3c571ca31a3b80e8353f4cf39872400ad0f57d26c4c5d42")},
+                {2691755, uint256S("658a69f81e264291b5d58cb4c51a5aa1778d3d3d52359e53c48a0ea0820aa5de")},
             }
         };
 
         chainTxData = ChainTxData{
             // Data from rpc: getchaintxstats 4096 0000000000000000002e63058c023a9a1de233554f28c7b21380b6c9003f36a8
-            /* nTime    */ 1514549787,
-            /* nTxCount */ 32796624,
+            /* nTime    */ 1555823202,
+            /* nTxCount */ 46882258,
             /* dTxRate  */ 0.04
         };
 
@@ -201,7 +202,7 @@ public:
         // BIP34 is never enforced in Dogecoin v2 blocks, so we enforce from v3
         consensus.BIP34Height = 708658;
         consensus.BIP34Hash = uint256S("0x21b8b97dcdb94caa67c7f8f6dbf22e61e0cfe0e46e1fff3528b22864659e9b38");
-        consensus.BIP65Height = 5000000; // Dogecoin: Use a stupidly high value as a placeholder until 1.14 locks this in
+        consensus.BIP65Height = 1854705; // 955bd496d23790aba1ecfacb722b089a6ae7ddabaedf7d8fb0878f48308a71f9 - first v4 block after the last v3 block
         consensus.BIP66Height = 708658; // 21b8b97dcdb94caa67c7f8f6dbf22e61e0cfe0e46e1fff3528b22864659e9b38 - this is the last block that could be v2, 1900 blocks past the last v2 block
         consensus.powLimit = uint256S("0x00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~uint256(0) >> 20;
         consensus.nPowTargetTimespan = 4 * 60 * 60; // pre-digishield: 4 hours
@@ -278,13 +279,17 @@ public:
                 {591117, uint256S("5f6b93b2c28cedf32467d900369b8be6700f0649388a7dbfd3ebd4a01b1ffad8")},
                 {658924, uint256S("ed6c8324d9a77195ee080f225a0fca6346495e08ded99bcda47a8eea5a8a620b")},
                 {703635, uint256S("839fa54617adcd582d53030a37455c14a87a806f6615aa8213f13e196230ff7f")},
+                {1000000, uint256S("1fe4d44ea4d1edb031f52f0d7c635db8190dc871a190654c41d2450086b8ef0e")},
+                {1202214, uint256S("a2179767a87ee4e95944703976fee63578ec04fa3ac2fc1c9c2c83587d096977")},
+                {1854705, uint256S("955bd496d23790aba1ecfacb722b089a6ae7ddabaedf7d8fb0878f48308a71f9")},
+                {1985111, uint256S("c0ef7d7277740c52263e0a379b6818c6fa90981cfeea893ec6815ca6b6a0f294")},
             }
         };
 
         chainTxData = ChainTxData{
-            // Data from rpc: getchaintxstats 4096 0000000000000037a8cd3e06cd5edbfe9dd1dbcc5dacab279376ef7cfc2b4c75
-            /* nTime    */ 1440601451,
-            /* nTxCount */ 1119061,
+            // Data from rpc: getchaintxstats 4096 c0ef7d7277740c52263e0a379b6818c6fa90981cfeea893ec6815ca6b6a0f294
+            /* nTime    */ 1563054279,
+            /* nTxCount */ 2990413,
             /* dTxRate  */ 0.01
         };
 
