@@ -38,7 +38,7 @@ class AuxpowMiningTest(BitcoinTestFramework):
   def run_test(self):
     # 1. mine an auxpow block before auxpow is allowed, expect: fail
     try:
-        create()
+        self.nodes[0].getauxblock()
     except JSONRPCException as ex:
         if ex.error['message'] == "getauxblock method is not yet available":
             pass
