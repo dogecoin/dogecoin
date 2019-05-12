@@ -14,6 +14,11 @@ CFeeRate::CFeeRate(const CAmount& nFeePaid, size_t nBytes_)
     assert(nBytes_ <= uint64_t(std::numeric_limits<int64_t>::max()));
     int64_t nSize = int64_t(nBytes_);
 
+    // Dogecoin: Round up to the nearest 1000 bytes so we get round tx fees
+    if (nSize % 1000 > 0) {
+        nSize = nSize + 1000 - (nSize % 1000);
+    }
+
     if (nSize > 0)
         nSatoshisPerK = nFeePaid * 1000 / nSize;
     else
@@ -24,6 +29,11 @@ CAmount CFeeRate::GetFee(size_t nBytes_) const
 {
     assert(nBytes_ <= uint64_t(std::numeric_limits<int64_t>::max()));
     int64_t nSize = int64_t(nBytes_);
+
+    // Dogecoin: Round up to the nearest 1000 bytes so we get round tx fees
+    if (nSize % 1000 > 0) {
+        nSize = nSize + 1000 - (nSize % 1000);
+    }
 
     CAmount nFee = nSatoshisPerK * nSize / 1000;
 

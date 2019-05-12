@@ -534,6 +534,7 @@ class FullBlockTest(BitcoinTestFramework):
         height = self.block_heights[self.tip.sha256] + 1
         coinbase = create_coinbase(height, self.coinbase_pubkey)
         b44 = CBlock()
+        b44.nVersion = 0x620004
         b44.nTime = self.tip.nTime + 1
         b44.hashPrevBlock = self.tip.sha256
         b44.nBits = 0x207fffff
@@ -548,6 +549,7 @@ class FullBlockTest(BitcoinTestFramework):
         self.log.info("Reject a block with a non-coinbase as the first tx")
         non_coinbase = self.create_tx(out[15], 0, 1)
         b45 = CBlock()
+        b45.nVersion = 0x620004
         b45.nTime = self.tip.nTime + 1
         b45.hashPrevBlock = self.tip.sha256
         b45.nBits = 0x207fffff
@@ -563,6 +565,7 @@ class FullBlockTest(BitcoinTestFramework):
         self.log.info("Reject a block with no transactions")
         self.move_tip(44)
         b46 = CBlock()
+        b46.nVersion = 0x620004
         b46.nTime = b44.nTime + 1
         b46.hashPrevBlock = b44.sha256
         b46.nBits = 0x207fffff
@@ -736,7 +739,7 @@ class FullBlockTest(BitcoinTestFramework):
         self.log.info("Reject a block with a transaction with outputs > inputs")
         self.move_tip(57)
         b59 = self.next_block(59)
-        tx = self.create_and_sign_transaction(out[17], 51 * COIN)
+        tx = self.create_and_sign_transaction(out[17], 5000001 * COIN)
         b59 = self.update_block(59, [tx])
         self.sync_blocks([b59], success=False, reject_code=16, reject_reason=b'bad-txns-in-belowout', reconnect=True)
 
@@ -1167,6 +1170,8 @@ class FullBlockTest(BitcoinTestFramework):
 
         self.log.info("Test a re-org of one week's worth of blocks (1088 blocks)")
 
+        # Dogecoin: Currently this causes a node disconnect, and I'm not even sure that's wrong.
+        # TODO: Investigate if this fails correctly, or needs fixing
         self.move_tip(88)
         LARGE_REORG_SIZE = 1088
         blocks = []

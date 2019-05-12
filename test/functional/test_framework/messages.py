@@ -18,6 +18,7 @@ from codecs import encode
 import copy
 import hashlib
 from io import BytesIO
+import litecoin_scrypt
 import random
 import socket
 import struct
@@ -509,6 +510,7 @@ class CBlockHeader():
             self.nNonce = header.nNonce
             self.sha256 = header.sha256
             self.hash = header.hash
+            self.scrypt256 = header.scrypt256
             self.calc_sha256()
 
     def set_null(self):
@@ -520,6 +522,7 @@ class CBlockHeader():
         self.nNonce = 0
         self.sha256 = None
         self.hash = None
+        self.scrypt256 = None
 
     def deserialize(self, f):
         self.nVersion = struct.unpack("<i", f.read(4))[0]
@@ -530,6 +533,7 @@ class CBlockHeader():
         self.nNonce = struct.unpack("<I", f.read(4))[0]
         self.sha256 = None
         self.hash = None
+        self.scrypt256 = None
 
     def serialize(self):
         r = b""
@@ -552,9 +556,11 @@ class CBlockHeader():
             r += struct.pack("<I", self.nNonce)
             self.sha256 = uint256_from_str(hash256(r))
             self.hash = encode(hash256(r)[::-1], 'hex_codec').decode('ascii')
+            self.scrypt256 = uint256_from_str(litecoin_scrypt.getPoWHash(r))
 
     def rehash(self):
         self.sha256 = None
+        self.scrypt256 = None
         self.calc_sha256()
         return self.sha256
 
@@ -614,7 +620,7 @@ class CBlock(CBlockHeader):
     def is_valid(self):
         self.calc_sha256()
         target = uint256_from_compact(self.nBits)
-        if self.sha256 > target:
+        if self.scrypt256 > target:
             return False
         for tx in self.vtx:
             if not tx.is_valid():
@@ -626,7 +632,7 @@ class CBlock(CBlockHeader):
     def solve(self):
         self.rehash()
         target = uint256_from_compact(self.nBits)
-        while self.sha256 > target:
+        while self.scrypt256 > target:
             self.nNonce += 1
             self.rehash()
 

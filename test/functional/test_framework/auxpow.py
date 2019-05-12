@@ -85,7 +85,7 @@ def reverseHex (data):
   Flip byte order in the given data (hex string).
   """
 
-  b = bytearray (binascii.unhexlify (data))
+  b = bytearray (bytes.fromhex(data))
   b.reverse ()
 
   return binascii.hexlify (b)

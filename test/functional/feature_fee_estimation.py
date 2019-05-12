@@ -146,14 +146,14 @@ class EstimateFeeTest(BitcoinTestFramework):
         # produces too small blocks (room for only 55 or so transactions)
 
     def transact_and_mine(self, numblocks, mining_node):
-        min_fee = Decimal("0.00001")
+        min_fee = Decimal("1")
         # We will now mine numblocks blocks generating on average 100 transactions between each block
         # We shuffle our confirmed txout set before each set of transactions
         # small_txpuzzle_randfee will use the transactions that have inputs already in the chain when possible
         # resorting to tx's that depend on the mempool when those run out
         for i in range(numblocks):
             random.shuffle(self.confutxo)
-            for j in range(random.randrange(100 - 50, 100 + 50)):
+            for j in range(random.randrange(60 - 30, 60 + 30)):
                 from_index = random.randint(1, 2)
                 (txhex, fee) = small_txpuzzle_randfee(self.nodes[from_index], self.confutxo,
                                                       self.memutxo, Decimal("0.005"), min_fee, min_fee)

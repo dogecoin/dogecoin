@@ -24,9 +24,6 @@ CAmount GetRequiredFee(const CWallet& wallet, unsigned int nTxBytes)
 
 CAmount GetRequiredFee(const CWallet& wallet, const CTransaction& tx, unsigned int nTxBytes)
 {
-    // Dogecoin: Round TX bytes up to the next 1,000 bytes
-    nTxBytes = GetDogecoinTxSize(nTxBytes);
-
     // Dogecoin: Add an increased fee for each dust output
     return GetRequiredFeeRate(wallet).GetFee(nTxBytes) + GetDogecoinDustFee(tx.vout, wallet.m_min_fee);
 }
