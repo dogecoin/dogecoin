@@ -1,13 +1,13 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: Bitcoin
-Upstream-Contact: Satoshi Nakamoto <satoshin@gmx.com>
- irc://#bitcoin@freenode.net
+Upstream-Name: Dogecoin
+Upstream-Contact: Ross Nicoll <jrn@jrn.me.uk>
+ irc://#dogecoin@freenode.net
 Source: https://github.com/bitcoin/bitcoin
 
 Files: *
-Copyright: 2009-2018, Bitcoin Core Developers
+Copyright: 2009-2018, Bitcoin Core Developers, Dogecoin Core Developers
 License: Expat
-Comment: The Bitcoin Core Developers encompasses the current developers listed on bitcoin.org,
+Comment: The Dogecoin Core Developers encompasses the current developers listed on dogecoin.com,
          as well as the numerous contributors to the project.
 
 Files: debian/*
@@ -48,6 +48,7 @@ Files: src/qt/res/icons/add.png
        src/qt/res/icons/transaction*.png
        src/qt/res/icons/tx_output.png
        src/qt/res/icons/warning.png
+       src/qt/res/icons/wallet_bgcoin.png
 Copyright: Stephen Hutchings (and more)
            http://typicons.com
 License: Expat
