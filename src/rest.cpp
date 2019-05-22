@@ -62,7 +62,7 @@ public:
 };
 
 extern void TxToJSON(const CTransaction& tx, const uint256 hashBlock, Object& entry);
-extern Object blockToJSON(const CBlock& block, const CBlockIndex* blockindex, bool txDetails = false);
+extern Object blockToJSON(const CBlock& block, const CBlockIndex* tip, const CBlockIndex* blockindex, bool txDetails = false);
 extern void ScriptPubKeyToJSON(const CScript& scriptPubKey, Object& out, bool fIncludeHex);
 
 static RestErr RESTERR(enum HTTPStatusCode status, string message)
@@ -133,10 +133,12 @@ static bool rest_headers(AcceptedConnection* conn,
     if (!ParseHashStr(hashStr, hash))
         throw RESTERR(HTTP_BAD_REQUEST, "Invalid hash: " + hashStr);
 
+    const CBlockIndex* tip = nullptr;
     std::vector<CBlockHeader> headers;
     headers.reserve(count);
     {
         LOCK(cs_main);
+        tip = chainActive.Tip();
         BlockMap::const_iterator it = mapBlockIndex.find(hash);
         const CBlockIndex *pindex = (it != mapBlockIndex.end()) ? it->second : NULL;
         while (pindex != NULL && chainActive.Contains(pindex)) {
@@ -190,9 +192,11 @@ static bool rest_block(AcceptedConnection* conn,
         throw RESTERR(HTTP_BAD_REQUEST, "Invalid hash: " + hashStr);
 
     CBlock block;
-    CBlockIndex* pblockindex = NULL;
+    CBlockIndex* pblockindex = nullptr;
+    CBlockIndex* tip = nullptr;
     {
         LOCK(cs_main);
+        tip = chainActive.Tip();
         if (mapBlockIndex.count(hash) == 0)
             throw RESTERR(HTTP_NOT_FOUND, hashStr + " not found");
 
@@ -221,7 +225,7 @@ static bool rest_block(AcceptedConnection* conn,
     }
 
     case RF_JSON: {
-        Object objBlock = blockToJSON(block, pblockindex, showTxDetails);
+        Object objBlock = blockToJSON(block, tip, pblockindex, showTxDetails);
         string strJSON = write_string(Value(objBlock), false) + "\n";
         conn->stream() << HTTPReply(HTTP_OK, strJSON, fRun) << std::flush;
         return true;
