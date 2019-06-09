@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2013 The Bitcoin Core developers
+// Copyright (c) 2011-2015 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -15,8 +15,6 @@ QT_BEGIN_NAMESPACE
 class QValueComboBox;
 QT_END_NAMESPACE
 
-class AmountSpinBox;
-
 /** Widget for entering bitcoin amounts.
   */
 class BitcoinAmountField: public QWidget
@@ -32,9 +30,6 @@ public:
 
     CAmount value(bool *value=0) const;
     void setValue(const CAmount& value);
-
-    void setMinimum(const int min);
-    int minimum();
 
     /** Set single step in satoshis **/
     void setSingleStep(const CAmount& step);
@@ -61,7 +56,7 @@ public:
     */
     QWidget *setupTabChain(QWidget *prev);
 
-signals:
+Q_SIGNALS:
     void valueChanged();
 
 protected:
@@ -72,9 +67,7 @@ private:
     AmountSpinBox *amount;
     QValueComboBox *unit;
 
-    void setText(const QString &text);
-    QString text() const;
-private slots:
+private Q_SLOTS:
     void unitChanged(int idx);
 
 };

@@ -103,39 +103,20 @@ private:
     DISALLOW_COPY_AND_ASSIGN(Win32RandomAccessFile);
 };
 
-class Win32MapFile : public WritableFile
+class Win32WritableFile : public WritableFile
 {
 public:
-    Win32MapFile(const std::string& fname);
+    Win32WritableFile(const std::string& fname, bool append);
+    ~Win32WritableFile();
 
-    ~Win32MapFile();
     virtual Status Append(const Slice& data);
     virtual Status Close();
     virtual Status Flush();
     virtual Status Sync();
     BOOL isEnable();
 private:
-    std::string _filename;
-    HANDLE _hFile;
-    size_t _page_size;
-    size_t _map_size;       // How much extra memory to map at a time
-    char* _base;            // The mapped region
-    HANDLE _base_handle;	
-    char* _limit;           // Limit of the mapped region
-    char* _dst;             // Where to write next  (in range [base_,limit_])
-    char* _last_sync;       // Where have we synced up to
-    uint64_t _file_offset;  // Offset of base_ in file
-    //LARGE_INTEGER file_offset_;
-    // Have we done an munmap of unsynced data?
-    bool _pending_sync;
-
-    // Roundup x to a multiple of y
-    static size_t _Roundup(size_t x, size_t y);
-    size_t _TruncateToPageBoundary(size_t s);
-    bool _UnmapCurrentRegion();
-    bool _MapNewRegion();
-    DISALLOW_COPY_AND_ASSIGN(Win32MapFile);
-    BOOL _Init(LPCWSTR Path);
+    std::string filename_;
+    ::HANDLE _hFile;
 };
 
 class Win32FileLock : public FileLock
@@ -176,6 +157,8 @@ public:
     virtual Status NewRandomAccessFile(const std::string& fname,
         RandomAccessFile** result);
     virtual Status NewWritableFile(const std::string& fname,
+        WritableFile** result);
+    virtual Status NewAppendableFile(const std::string& fname,
         WritableFile** result);
 
     virtual bool FileExists(const std::string& fname);
@@ -442,202 +425,69 @@ void Win32RandomAccessFile::_CleanUp()
     }
 }
 
-size_t Win32MapFile::_Roundup( size_t x, size_t y )
+Win32WritableFile::Win32WritableFile(const std::string& fname, bool append)
+    : filename_(fname)
 {
-    return ((x + y - 1) / y) * y;
+    std::wstring path;
+    ToWidePath(fname, path);
+    // NewAppendableFile: append to an existing file, or create a new one
+    //     if none exists - this is OPEN_ALWAYS behavior, with
+    //     FILE_APPEND_DATA to avoid having to manually position the file
+    //     pointer at the end of the file.
+    // NewWritableFile: create a new file, delete if it exists - this is
+    //     CREATE_ALWAYS behavior. This file is used for writing only so
+    //     use GENERIC_WRITE.
+    _hFile = CreateFileW(path.c_str(),
+                         append ? FILE_APPEND_DATA : GENERIC_WRITE,
+                         FILE_SHARE_READ|FILE_SHARE_DELETE|FILE_SHARE_WRITE,
+                         NULL,
+                         append ? OPEN_ALWAYS : CREATE_ALWAYS,
+                         FILE_ATTRIBUTE_NORMAL,
+                         NULL);
+    // CreateFileW returns INVALID_HANDLE_VALUE in case of error, always check isEnable() before use
 }
 
-size_t Win32MapFile::_TruncateToPageBoundary( size_t s )
+Win32WritableFile::~Win32WritableFile()
 {
-    s -= (s & (_page_size - 1));
-    assert((s % _page_size) == 0);
-    return s;
+    if (_hFile != INVALID_HANDLE_VALUE)
+        Close();
 }
 
-bool Win32MapFile::_UnmapCurrentRegion()
+Status Win32WritableFile::Append(const Slice& data)
 {
-    bool result = true;
-    if (_base != NULL) {
-        if (_last_sync < _limit) {
-            // Defer syncing this data until next Sync() call, if any
-            _pending_sync = true;
-        }
-        if (!UnmapViewOfFile(_base) || !CloseHandle(_base_handle))
-            result = false;
-        _file_offset += _limit - _base;
-        _base = NULL;
-        _base_handle = NULL;
-        _limit = NULL;
-        _last_sync = NULL;
-        _dst = NULL;
-        // Increase the amount we map the next time, but capped at 1MB
-        if (_map_size < (1<<20)) {
-            _map_size *= 2;
-        }
+    DWORD r = 0;
+    if (!WriteFile(_hFile, data.data(), data.size(), &r, NULL) || r != data.size()) {
+        return Status::IOError("Win32WritableFile.Append::WriteFile: "+filename_, Win32::GetLastErrSz());
     }
-    return result;
-}
-
-bool Win32MapFile::_MapNewRegion()
-{
-    assert(_base == NULL);
-    //LONG newSizeHigh = (LONG)((file_offset_ + map_size_) >> 32);
-    //LONG newSizeLow = (LONG)((file_offset_ + map_size_) & 0xFFFFFFFF);
-    DWORD off_hi = (DWORD)(_file_offset >> 32);
-    DWORD off_lo = (DWORD)(_file_offset & 0xFFFFFFFF);
-    LARGE_INTEGER newSize;
-    newSize.QuadPart = _file_offset + _map_size;
-    SetFilePointerEx(_hFile, newSize, NULL, FILE_BEGIN);
-    SetEndOfFile(_hFile);
-
-    _base_handle = CreateFileMappingA(
-        _hFile,
-        NULL,
-        PAGE_READWRITE,
-        0,
-        0,
-        0);
-    if (_base_handle != NULL) {
-        _base = (char*) MapViewOfFile(_base_handle,
-            FILE_MAP_ALL_ACCESS,
-            off_hi,
-            off_lo,
-            _map_size);
-        if (_base != NULL) {
-            _limit = _base + _map_size;
-            _dst = _base;
-            _last_sync = _base;
-            return true;
-        }
-    }
-    return false;
-}
-
-Win32MapFile::Win32MapFile( const std::string& fname) :
-    _filename(fname),
-    _hFile(NULL),
-    _page_size(Win32::g_PageSize),
-    _map_size(_Roundup(65536, Win32::g_PageSize)),
-    _base(NULL),
-    _base_handle(NULL),
-    _limit(NULL),
-    _dst(NULL),
-    _last_sync(NULL),
-    _file_offset(0),
-    _pending_sync(false)
-{
-	std::wstring path;
-	ToWidePath(fname, path);
-    _Init(path.c_str());
-    assert((Win32::g_PageSize & (Win32::g_PageSize - 1)) == 0);
-}
-
-Status Win32MapFile::Append( const Slice& data )
-{
-    const char* src = data.data();
-    size_t left = data.size();
-    Status s;
-    while (left > 0) {
-        assert(_base <= _dst);
-        assert(_dst <= _limit);
-        size_t avail = _limit - _dst;
-        if (avail == 0) {
-            if (!_UnmapCurrentRegion() ||
-                !_MapNewRegion()) {
-                    return Status::IOError("WinMmapFile.Append::UnmapCurrentRegion or MapNewRegion: ", Win32::GetLastErrSz());
-            }
-        }
-        size_t n = (left <= avail) ? left : avail;
-        memcpy(_dst, src, n);
-        _dst += n;
-        src += n;
-        left -= n;
-    }
-    return s;
-}
-
-Status Win32MapFile::Close()
-{
-    Status s;
-    size_t unused = _limit - _dst;
-    if (!_UnmapCurrentRegion()) {
-        s = Status::IOError("WinMmapFile.Close::UnmapCurrentRegion: ",Win32::GetLastErrSz());
-    } else if (unused > 0) {
-        // Trim the extra space at the end of the file
-        LARGE_INTEGER newSize;
-        newSize.QuadPart = _file_offset - unused;
-        if (!SetFilePointerEx(_hFile, newSize, NULL, FILE_BEGIN)) {
-            s = Status::IOError("WinMmapFile.Close::SetFilePointer: ",Win32::GetLastErrSz());
-        } else 
-            SetEndOfFile(_hFile);
-    }
-    if (!CloseHandle(_hFile)) {
-        if (s.ok()) {
-            s = Status::IOError("WinMmapFile.Close::CloseHandle: ", Win32::GetLastErrSz());
-        }
-    }
-    _hFile = INVALID_HANDLE_VALUE;
-    _base = NULL;
-    _base_handle = NULL;
-    _limit = NULL;
-
-    return s;
-}
-
-Status Win32MapFile::Sync()
-{
-    Status s;
-    if (_pending_sync) {
-        // Some unmapped data was not synced
-        _pending_sync = false;
-        if (!FlushFileBuffers(_hFile)) {
-            s = Status::IOError("WinMmapFile.Sync::FlushFileBuffers: ",Win32::GetLastErrSz());
-        }
-    }
-    if (_dst > _last_sync) {
-        // Find the beginnings of the pages that contain the first and last
-        // bytes to be synced.
-        size_t p1 = _TruncateToPageBoundary(_last_sync - _base);
-        size_t p2 = _TruncateToPageBoundary(_dst - _base - 1);
-        _last_sync = _dst;
-        if (!FlushViewOfFile(_base + p1, p2 - p1 + _page_size)) {
-            s = Status::IOError("WinMmapFile.Sync::FlushViewOfFile: ",Win32::GetLastErrSz());
-        }
-    }
-    return s;
-}
-
-Status Win32MapFile::Flush()
-{
     return Status::OK();
 }
 
-Win32MapFile::~Win32MapFile()
+Status Win32WritableFile::Close()
 {
-    if (_hFile != INVALID_HANDLE_VALUE) { 
-        Win32MapFile::Close();
+    if (!CloseHandle(_hFile)) {
+        return Status::IOError("Win32WritableFile.Close::CloseHandle: "+filename_, Win32::GetLastErrSz());
     }
+    _hFile = INVALID_HANDLE_VALUE;
+    return Status::OK();
 }
 
-BOOL Win32MapFile::_Init( LPCWSTR Path )
+Status Win32WritableFile::Flush()
 {
-    DWORD Flag = PathFileExistsW(Path) ? OPEN_EXISTING : CREATE_ALWAYS;
-    _hFile = CreateFileW(Path,
-                         GENERIC_READ | GENERIC_WRITE,
-                         FILE_SHARE_READ|FILE_SHARE_DELETE|FILE_SHARE_WRITE,
-                         NULL,
-                         Flag,
-                         FILE_ATTRIBUTE_NORMAL,
-                         NULL);
-    if(!_hFile || _hFile == INVALID_HANDLE_VALUE)
-        return FALSE;
-    else
-        return TRUE;
+    // Nothing to do here, there are no application-side buffers
+    return Status::OK();
 }
 
-BOOL Win32MapFile::isEnable()
+Status Win32WritableFile::Sync()
 {
-    return _hFile ? TRUE : FALSE;
+    if (!FlushFileBuffers(_hFile)) {
+        return Status::IOError("Win32WritableFile.Sync::FlushFileBuffers "+filename_, Win32::GetLastErrSz());
+    }
+    return Status::OK();
+}
+
+BOOL Win32WritableFile::isEnable()
+{
+    return _hFile != INVALID_HANDLE_VALUE;
 }
 
 Win32FileLock::Win32FileLock( const std::string& fname ) :
@@ -981,7 +831,9 @@ Status Win32Env::NewLogger( const std::string& fname, Logger** result )
 {
     Status sRet;
     std::string path = fname;
-    Win32MapFile* pMapFile = new Win32MapFile(ModifyPath(path));
+    // Logs are opened with write semantics, not with append semantics
+    // (see PosixEnv::NewLogger)
+    Win32WritableFile* pMapFile = new Win32WritableFile(ModifyPath(path), false);
     if(!pMapFile->isEnable()){
         delete pMapFile;
         *result = NULL;
@@ -995,7 +847,20 @@ Status Win32Env::NewWritableFile( const std::string& fname, WritableFile** resul
 {
     Status sRet;
     std::string path = fname;
-    Win32MapFile* pFile = new Win32MapFile(ModifyPath(path));
+    Win32WritableFile* pFile = new Win32WritableFile(ModifyPath(path), false);
+    if(!pFile->isEnable()){
+        *result = NULL;
+        sRet = Status::IOError(fname,Win32::GetLastErrSz());
+    }else
+        *result = pFile;
+    return sRet;
+}
+
+Status Win32Env::NewAppendableFile( const std::string& fname, WritableFile** result )
+{
+    Status sRet;
+    std::string path = fname;
+    Win32WritableFile* pFile = new Win32WritableFile(ModifyPath(path), true);
     if(!pFile->isEnable()){
         *result = NULL;
         sRet = Status::IOError(fname,Win32::GetLastErrSz());

@@ -3,7 +3,7 @@
 
 ![Dogecoin](http://static.tumblr.com/ppdj5y9/Ae9mxmxtp/300coin.png)
 
-[![Build Status](https://travis-ci.org/dogecoin/dogecoin.svg?branch=1.7-dev)](https://travis-ci.org/dogecoin/dogecoin) [![tip for next commit](https://tip4commit.com/projects/702.svg)](https://tip4commit.com/github/dogecoin/dogecoin)
+[![Build Status](https://travis-ci.org/dogecoin/dogecoin.svg?branch=1.14-dev)](https://travis-ci.org/dogecoin/dogecoin) [![tip for next commit](https://tip4commit.com/projects/702.svg)](https://tip4commit.com/github/dogecoin/dogecoin)
 
 ## What is Dogecoin? – Such coin
 Dogecoin is a cryptocurrency like Bitcoin, although it does not use SHA256 as its proof of work (POW). Taking development cues from Tenebrix and Litecoin, Dogecoin currently employs a simplified variant of scrypt.
@@ -11,8 +11,8 @@ Dogecoin is a cryptocurrency like Bitcoin, although it does not use SHA256 as it
 http://dogecoin.com/
 
 ## License – Much license
-Dogecoin is released under the terms of the MIT license. See [COPYING](COPYING)
-for more information or see http://opensource.org/licenses/MIT.
+Dogecoin Core is released under the terms of the MIT license. See [COPYING](COPYING) for more
+information or see https://opensource.org/licenses/MIT.
 
 ## Development and contributions – omg developers
 Development is ongoing, and the development team, as well as other volunteers, can freely work in their own trees and submit pull requests when features or bug fixes are ready.
@@ -29,6 +29,22 @@ There are 3 types of branches in this repository:
 
 *Master and maintenance branches are exclusively mutable by release. Planned releases will always have a development branch and pull requests should be submitted against those. Maintenance branches are there for* ***bug fixes only,*** *please submit new features against the development branch with the highest version.*
 
+#### Contributions
+
+Developers are strongly encouraged to write [unit tests](src/test/README.md) for new code, and to
+submit new unit tests for old code. Unit tests can be compiled and run
+(assuming they weren't disabled in configure) with: `make check`. Further details on running
+and extending unit tests can be found in [/src/test/README.md](/src/test/README.md).
+
+There are also [regression and integration tests](/qa) of the RPC interface, written
+in Python, that are run automatically on the build server.
+These tests can be run (if the [test dependencies](/qa) are installed) with: `qa/pull-tester/rpc-tests.py`
+
+Changes should be tested by somebody other than the developer who wrote the
+code. This is especially important for large or high-risk changes. It is useful
+to add a test plan to the pull request description if testing the changes is
+not straightforward.
+
 ## Very Much Frequently Asked Questions
 
 ### How much doge can exist? – So many puppies!
@@ -42,7 +58,7 @@ Originally, a different payout scheme was envisioned with block rewards being de
 
 The current block reward schedule:
 
-1–99,999: 0–1,000,000 Dogecoin 
+1–99,999: 0–1,000,000 Dogecoin
 
 100,000–144,999: 0–500,000 Dogecoin
 
@@ -60,7 +76,7 @@ The current block reward schedule:
 
 The original block reward schedule, with one-minute block targets and four-hour difficulty readjustment:
 
-1–99,999: 0–1,000,000 Dogecoin 
+1–99,999: 0–1,000,000 Dogecoin
 
 100,000–199,999: 0–500,000 Dogecoin
 
@@ -88,20 +104,7 @@ P2P 22556
 
 ![](http://dogesay.com/wow//////such/coin)
 
-Translations
-------------
-
-Changes to translations, as well as new translations, can be submitted to
-[Bitcoin Core's Transifex page](https://www.transifex.com/projects/p/bitcoin/).
-
-Periodically the translations are pulled from Transifex and merged into the git repository. See the
-[translation process](doc/translation_process.md) for details on how this works.
-
-If the changes are Dogecoin specific, they can be submitted as pull requests against this repository.
-If it is a general translation, consider submitting it through upstream, as we will pull these changes later on.
-
-Development tips and tricks
----------------------------
+## Development tips and tricks
 
 **compiling for debugging**
 

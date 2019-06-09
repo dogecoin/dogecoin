@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2013 The Bitcoin Core developers
+// Copyright (c) 2011-2015 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -46,7 +46,7 @@ public:
     void setModel(AddressTableModel *model);
     const QString &getReturnValue() const { return returnValue; }
 
-public slots:
+public Q_SLOTS:
     void done(int retval);
 
 private:
@@ -60,7 +60,7 @@ private:
     QAction *deleteAction; // to be able to explicitly disable it
     QString newAddressToSelect;
 
-private slots:
+private Q_SLOTS:
     /** Delete currently selected address entry */
     void on_deleteAddress_clicked();
     /** Create a new address for receiving coins and / or add a new address book entry */
@@ -81,7 +81,7 @@ private slots:
     /** New entry/entries were added to address table */
     void selectNewAddress(const QModelIndex &parent, int begin, int /*end*/);
 
-signals:
+Q_SIGNALS:
     void sendCoins(QString addr);
 };
 
