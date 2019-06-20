@@ -25,3 +25,9 @@
 # Additional options (avoid -conf and -datadir, use flags above)
 DOGECOIND_OPTS="-disablewallet"
 
+# The timeout in seconds OpenRC will wait for dogecoind to terminate
+# after a SIGTERM has been raised.
+# Note that this will be mapped as argument to start-stop-daemon's
+# '--retry' option, which means you can specify a retry schedule
+# here. For more information see man 8 start-stop-daemon.
+DOGECOIND_SIGTERM_TIMEOUT=60

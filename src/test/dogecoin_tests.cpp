@@ -5,7 +5,6 @@
 #include "arith_uint256.h"
 #include "chainparams.h"
 #include "dogecoin.h"
-#include "main.h"
 #include "test/test_bitcoin.h"
 
 #include <boost/test/unit_test.hpp>
@@ -63,9 +62,9 @@ BOOST_AUTO_TEST_CASE(subsidy_limit_test)
 {
     int nHeight = 0;
     int nStepSize= 1;
+    const CChainParams& mainParams = Params(CBaseChainParams::MAIN);
     CAmount nSum = 0;
     uint256 prevHash = uint256S("0");
-    const CChainParams mainParams = Params(CBaseChainParams::MAIN);
 
     for (nHeight = 0; nHeight <= 100000; nHeight++) {
         const Consensus::Params& params = mainParams.GetConsensus(nHeight);
@@ -93,13 +92,13 @@ BOOST_AUTO_TEST_CASE(subsidy_limit_test)
     //test sum +- ~10billion
     arith_uint256 upperlimit = arith_uint256("95e14ec776380000"); //108 billion doge
     BOOST_CHECK(nSum <= upperlimit);
-    
+
     arith_uint256 lowerlimit = arith_uint256("7a1fe16027700000"); //88 billion doge
     BOOST_CHECK(nSum >= lowerlimit);
-    
+
     // Test reward at 600k+ is constant
-    const Consensus::Params& params = mainParams.GetConsensus(600000);
-    CAmount nConstantSubsidy = GetDogecoinBlockSubsidy(600000, params, prevHash);
+    const Consensus::Params& params = mainParams.GetConsensus(nHeight);
+    CAmount nConstantSubsidy = GetDogecoinBlockSubsidy(nHeight, params, prevHash);
     BOOST_CHECK_EQUAL(nConstantSubsidy, 10000 * COIN);
 
     nConstantSubsidy = GetDogecoinBlockSubsidy(700000, params, prevHash);

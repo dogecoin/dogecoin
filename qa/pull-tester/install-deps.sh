@@ -2,9 +2,9 @@
 
 # installs test dependencies
 
-wget https://pypi.python.org/packages/source/l/ltc_scrypt/ltc_scrypt-1.0.tar.gz
-#echo "7d019c3c98f16eb466a272e518ffb014 ltc_scrypt-1.0.tar.gz" | md5sum -c
-tar zxf ltc_scrypt-1.0.tar.gz
-pushd ltc_scrypt-1.0
-python setup.py install --user
+wget https://github.com/langerhans/ltc-scrypt/archive/master.tar.gz
+echo "ade3cdf498927990b6d153d74f0da104114e838584be5a81bef8972accd03341 master.tar.gz" | sha256sum -c
+tar zxf master.tar.gz
+pushd ltc-scrypt-master
+python3 setup.py install --user
 popd

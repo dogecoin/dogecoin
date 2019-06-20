@@ -1,6 +1,9 @@
 #!/usr/bin/env python
+# Copyright (c) 2014-2016 The Bitcoin Core developers
+# Distributed under the MIT software license, see the accompanying
+# file COPYING or http://www.opensource.org/licenses/mit-license.php.
 '''
-Run this scrip every time you change one of the png files. Using pngcrush, it will optimize the png files, remove various color profiles, remove ancillary chunks (alla) and text chunks (text).
+Run this script every time you change one of the png files. Using pngcrush, it will optimize the png files, remove various color profiles, remove ancillary chunks (alla) and text chunks (text).
 #pngcrush -brute -ow -rem gAMA -rem cHRM -rem iCCP -rem sRGB -rem alla -rem text
 '''
 import os
@@ -18,12 +21,12 @@ def content_hash(filename):
     '''Return hash of RGBA contents of image'''
     i = Image.open(filename)
     i = i.convert('RGBA')
-    data = i.tostring()
+    data = i.tobytes()
     return hashlib.sha256(data).hexdigest()
 
 pngcrush = 'pngcrush'
 git = 'git'
-folders = ["src/qt/res/movies", "src/qt/res/icons"]
+folders = ["src/qt/res/movies", "src/qt/res/icons", "share/pixmaps"]
 basePath = subprocess.check_output([git, 'rev-parse', '--show-toplevel']).rstrip('\n')
 totalSaveBytes = 0
 noHashChange = True
@@ -36,7 +39,7 @@ for folder in folders:
         if extension.lower() == '.png':
             print("optimizing "+file+"..."),
             file_path = os.path.join(absFolder, file)
-            fileMetaMap = {'file' : file, 'osize': os.path.getsize(file_path), 'sha256Old' : file_hash(file_path)};
+            fileMetaMap = {'file' : file, 'osize': os.path.getsize(file_path), 'sha256Old' : file_hash(file_path)}
             fileMetaMap['contentHashPre'] = content_hash(file_path)
         
             pngCrushOutput = ""

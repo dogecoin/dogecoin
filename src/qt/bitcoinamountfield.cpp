@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2014 The Bitcoin Core developers
+// Copyright (c) 2011-2015 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -25,10 +25,9 @@ public:
     explicit AmountSpinBox(QWidget *parent):
         QAbstractSpinBox(parent),
         currentUnit(BitcoinUnits::BTC),
-        singleStep(COIN) // koinu
+        singleStep(100000000) // koinu
     {
         setAlignment(Qt::AlignRight);
-        min = CAmount(0);
 
         connect(lineEdit(), SIGNAL(textEdited(QString)), this, SIGNAL(valueChanged()));
     }
@@ -49,7 +48,7 @@ public:
         CAmount val = parse(input, &valid);
         if(valid)
         {
-            input = BitcoinUnits::format(currentUnit, val, false, true);
+            input = BitcoinUnits::format(currentUnit, val, false, BitcoinUnits::separatorAlways);
             lineEdit()->setText(input);
         }
     }
@@ -61,23 +60,8 @@ public:
 
     void setValue(const CAmount& value)
     {
-        lineEdit()->setText(BitcoinUnits::format(currentUnit, value, false, true));
-        emit valueChanged();
-    }
-
-    void setMinimum(const int min)
-    {
-        this->min = min * COIN;
-        bool valid = false;
-        CAmount val = value(&valid);
-        if (val < this->min) {
-            setValue(this->min);
-        }
-    }
-
-    int minimum()
-    {
-        return min / COIN;
+        lineEdit()->setText(BitcoinUnits::format(currentUnit, value, false, BitcoinUnits::separatorAlways));
+        Q_EMIT valueChanged();
     }
 
     void stepBy(int steps)
@@ -85,7 +69,7 @@ public:
         bool valid = false;
         CAmount val = value(&valid);
         val = val + steps * singleStep;
-        val = qMin(qMax(val, min), BitcoinUnits::maxMoney());
+        val = qMin(qMax(val, CAmount(0)), BitcoinUnits::maxMoney());
         setValue(val);
     }
 
@@ -142,7 +126,6 @@ public:
 
 private:
     int currentUnit;
-    CAmount min;
     CAmount singleStep;
     mutable QSize cachedMinimumSizeHint;
 
@@ -157,7 +140,7 @@ private:
         bool valid = BitcoinUnits::parse(currentUnit, text, &val);
         if(valid)
         {
-            if(val < min || val > BitcoinUnits::maxMoney())
+            if(val < 0 || val > BitcoinUnits::maxMoney())
                 valid = false;
         }
         if(valid_out)
@@ -201,7 +184,7 @@ protected:
         return rv;
     }
 
-signals:
+Q_SIGNALS:
     void valueChanged();
 };
 
@@ -212,6 +195,7 @@ BitcoinAmountField::BitcoinAmountField(QWidget *parent) :
     amount(0)
 {
     amount = new AmountSpinBox(this);
+    amount->setLocale(QLocale::c());
     amount->installEventFilter(this);
     amount->setMaximumWidth(170);
 
@@ -234,24 +218,6 @@ BitcoinAmountField::BitcoinAmountField(QWidget *parent) :
 
     // Set default based on configuration
     unitChanged(unit->currentIndex());
-}
-
-void BitcoinAmountField::setText(const QString &text)
-{
-    if (text.isEmpty())
-        amount->clear();
-    else
-        amount->setValue(QLocale().toDouble(text));
-}
-
-void BitcoinAmountField::setMinimum(const int min)
-{
-    amount->setMinimum(min);
-}
-
-int BitcoinAmountField::minimum()
-{
-    return amount->minimum();
 }
 
 void BitcoinAmountField::clear()

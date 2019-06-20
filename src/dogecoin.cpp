@@ -5,10 +5,12 @@
 #include <boost/random/uniform_int.hpp>
 #include <boost/random/mersenne_twister.hpp>
 
+#include "policy/policy.h"
 #include "arith_uint256.h"
 #include "dogecoin.h"
-#include "main.h"
+#include "txmempool.h"
 #include "util.h"
+#include "validation.h"
 
 int static generateMTRandom(unsigned int s, int range)
 {
@@ -89,17 +91,15 @@ bool CheckAuxPowProofOfWork(const CBlockHeader& block, const Consensus::Params& 
        the chain ID is correct.  Legacy blocks are not allowed since
        the merge-mining start, which is checked in AcceptBlockHeader
        where the height is known.  */
-    if (!block.nVersion.IsLegacy() && params.fStrictChainId && block.nVersion.GetChainId() != params.nAuxpowChainId)
+    if (!block.IsLegacy() && params.fStrictChainId && block.GetChainId() != params.nAuxpowChainId)
         return error("%s : block does not have our chain ID"
                      " (got %d, expected %d, full nVersion %d)",
-                     __func__,
-                     block.nVersion.GetChainId(),
-                     params.nAuxpowChainId,
-                     block.nVersion.GetFullVersion());
+                     __func__, block.GetChainId(),
+                     params.nAuxpowChainId, block.nVersion);
 
     /* If there is no auxpow, just check the block hash.  */
     if (!block.auxpow) {
-        if (block.nVersion.IsAuxpow())
+        if (block.IsAuxpow())
             return error("%s : no auxpow on block with auxpow version",
                          __func__);
 
@@ -111,10 +111,10 @@ bool CheckAuxPowProofOfWork(const CBlockHeader& block, const Consensus::Params& 
 
     /* We have auxpow.  Check it.  */
 
-    if (!block.nVersion.IsAuxpow())
+    if (!block.IsAuxpow())
         return error("%s : auxpow on block with non-auxpow version", __func__);
 
-    if (!block.auxpow->check(block.GetHash(), block.nVersion.GetChainId(), params))
+    if (!block.auxpow->check(block.GetHash(), block.GetChainId(), params))
         return error("%s : AUX POW is not valid", __func__);
     if (!CheckProofOfWork(block.auxpow->getParentBlockPoWHash(), block.nBits, params))
         return error("%s : AUX proof of work failed", __func__);
@@ -146,11 +146,40 @@ CAmount GetDogecoinBlockSubsidy(int nHeight, const Consensus::Params& consensusP
     }
 }
 
+CAmount GetDogecoinMinRelayFee(const CTransaction& tx, unsigned int nBytes, bool fAllowFree)
+{
+    {
+        LOCK(mempool.cs);
+        uint256 hash = tx.GetHash();
+        double dPriorityDelta = 0;
+        CAmount nFeeDelta = 0;
+        mempool.ApplyDeltas(hash, dPriorityDelta, nFeeDelta);
+        if (dPriorityDelta > 0 || nFeeDelta > 0)
+            return 0;
+    }
 
-int64_t GetDogecoinDustFee(const std::vector<CTxOut> &vout, CFeeRate &baseFeeRate) {
-    int64_t nFee = 0;
+    CAmount nMinFee = ::minRelayTxFee.GetFee(nBytes);
+    nMinFee += GetDogecoinDustFee(tx.vout, ::minRelayTxFee);
 
-    // To limit dust spam, add base fee for each dust output
+    if (fAllowFree)
+    {
+        // There is a free transaction area in blocks created by most miners,
+        // * If we are relaying we allow transactions up to DEFAULT_BLOCK_PRIORITY_SIZE - 1000
+        //   to be considered to fall into this category. We don't want to encourage sending
+        //   multiple transactions instead of one big transaction to avoid fees.
+        if (nBytes < (DEFAULT_BLOCK_PRIORITY_SIZE - 1000))
+            nMinFee = 0;
+    }
+
+    if (!MoneyRange(nMinFee))
+        nMinFee = MAX_MONEY;
+    return nMinFee;
+}
+
+CAmount GetDogecoinDustFee(const std::vector<CTxOut> &vout, CFeeRate &baseFeeRate) {
+    CAmount nFee = 0;
+
+    // To limit dust spam, add base fee for each output less than a COIN
     BOOST_FOREACH(const CTxOut& txout, vout)
         // if (txout.IsDust(::minRelayTxFee))
         if (txout.nValue < COIN)

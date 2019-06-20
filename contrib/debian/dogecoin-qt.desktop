@@ -1,7 +1,8 @@
 [Desktop Entry]
 Encoding=UTF-8
-Name=Dogecoin
-Comment=Dogecoin P2P Cryptocurrency
+Name=Dogecoin Core
+Comment=Connect to the Dogecoin P2P Network
+Comment[de]=Verbinde mit dem Dogecoin peer-to-peer Netzwerk
 Comment[fr]=Dogecoin, monnaie virtuelle cryptographique pair à pair
 Comment[tr]=Dogecoin, eşten eşe kriptografik sanal para birimi
 Exec=dogecoin-qt %u

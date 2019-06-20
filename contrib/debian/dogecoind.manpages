@@ -1,3 +1,2 @@
-debian/manpages/dogecoind.1
-debian/manpages/dogecoin.conf.5
-debian/manpages/dogecoin-cli.1
+doc/man/dogecoind.1
+doc/man/dogecoin-cli.1
