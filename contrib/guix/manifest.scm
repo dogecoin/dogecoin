@@ -106,7 +106,7 @@ chain for " target " development."))
       (home-page (package-home-page xgcc))
       (license (package-license xgcc)))))
 
-(define* (make-bitcoin-cross-toolchain target
+(define* (make-dogecoin-cross-toolchain target
                                   #:key
                                   (base-gcc-for-libc gcc-5)
                                   (base-kernel-headers linux-libre-headers-4.19)
@@ -191,8 +191,8 @@ chain for " target " development."))
            ;; Windows
            (list zip (make-mingw-pthreads-cross-toolchain "x86_64-w64-mingw32") nsis-x86_64))
           ((string-contains target "riscv64-linux-")
-           (list (make-bitcoin-cross-toolchain "riscv64-linux-gnu"
+           (list (make-dogecoin-cross-toolchain "riscv64-linux-gnu"
                                                #:base-gcc-for-libc gcc-7)))
           ((string-contains target "-linux-")
-           (list (make-bitcoin-cross-toolchain target)))
+           (list (make-dogecoin-cross-toolchain target)))
           (else '())))))
