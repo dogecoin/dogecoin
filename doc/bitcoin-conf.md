@@ -1,6 +1,6 @@
-# `bitcoin.conf` Configuration File
+# `dogecoin.conf` Configuration File
 
-The configuration file is used by `bitcoind`, `bitcoin-qt` and `bitcoin-cli`.
+The configuration file is used by `dogecoind`, `dogecoin-qt` and `dogecoin-cli`.
 
 All command-line options (except for `-?`, `-help`, `-version` and `-conf`) may be specified in a configuration file, and all configuration file options (except for `includeconf`) may also be specified on the command line. Command-line options override values set in the configuration file and configuration file options override values set in the GUI.
 
@@ -47,16 +47,16 @@ rpcport=4000
 
 ## Configuration File Path
 
-The configuration file is not automatically created; you can create it using your favorite text editor. By default, the configuration file name is `bitcoin.conf` and it is located in the Bitcoin data directory, but both the Bitcoin data directory and the configuration file path may be changed using the `-datadir` and `-conf` command-line options.
+The configuration file is not automatically created; you can create it using your favorite text editor. By default, the configuration file name is `dogecoin.conf` and it is located in the Dogecoin data directory, but both the Dogecoin data directory and the configuration file path may be changed using the `-datadir` and `-conf` command-line options.
 
-The `includeconf=<file>` option in the `bitcoin.conf` file can be used to include additional configuration files.
+The `includeconf=<file>` option in the `dogecoin.conf` file can be used to include additional configuration files.
 
 ### Default configuration file locations
 
 Operating System | Data Directory | Example Path
 -- | -- | --
-Windows | `%APPDATA%\Bitcoin\` | `C:\Users\username\AppData\Roaming\Bitcoin\bitcoin.conf`
-Linux | `$HOME/.bitcoin/` | `/home/username/.bitcoin/bitcoin.conf`
-macOS | `$HOME/Library/Application Support/Bitcoin/` | `/Users/username/Library/Application Support/Bitcoin/bitcoin.conf`
+Windows | `%APPDATA%\Dogecoin\` | `C:\Users\username\AppData\Roaming\Dogecoin\dogecoin.conf`
+Linux | `$HOME/.dogecoin/` | `/home/username/.dogecoin/dogecoin.conf`
+macOS | `$HOME/Library/Application Support/Dogecoin/` | `/Users/username/Library/Application Support/Dogecoin/dogecoin.conf`
 
-You can find an example bitcoin.conf file in [share/examples/bitcoin.conf](../share/examples/bitcoin.conf).
+You can find an example dogecoin.conf file in [share/examples/dogecoin.conf](../share/examples/dogecoin.conf).
