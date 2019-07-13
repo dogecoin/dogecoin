@@ -202,7 +202,7 @@ public:
         // BIP34 is never enforced in Dogecoin v2 blocks, so we enforce from v3
         consensus.BIP34Height = 708658;
         consensus.BIP34Hash = uint256S("0x21b8b97dcdb94caa67c7f8f6dbf22e61e0cfe0e46e1fff3528b22864659e9b38");
-        consensus.BIP65Height = 5000000; // Dogecoin: Use a stupidly high value as a placeholder until 1.14 locks this in
+        consensus.BIP65Height = 1854705; // 955bd496d23790aba1ecfacb722b089a6ae7ddabaedf7d8fb0878f48308a71f9 - first v4 block after the last v3 block
         consensus.BIP66Height = 708658; // 21b8b97dcdb94caa67c7f8f6dbf22e61e0cfe0e46e1fff3528b22864659e9b38 - this is the last block that could be v2, 1900 blocks past the last v2 block
         consensus.powLimit = uint256S("0x00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~uint256(0) >> 20;
         consensus.nPowTargetTimespan = 4 * 60 * 60; // pre-digishield: 4 hours
@@ -281,15 +281,16 @@ public:
                 {703635, uint256S("839fa54617adcd582d53030a37455c14a87a806f6615aa8213f13e196230ff7f")},
                 {1000000, uint256S("1fe4d44ea4d1edb031f52f0d7c635db8190dc871a190654c41d2450086b8ef0e")},
                 {1202214, uint256S("a2179767a87ee4e95944703976fee63578ec04fa3ac2fc1c9c2c83587d096977")},
-                {1855459, uint256S("8f66489d4531ee118ee7e6d28750d5e136301836b32ed4d7854e0fa71f8b57f9")},
+                {1854705, uint256S("955bd496d23790aba1ecfacb722b089a6ae7ddabaedf7d8fb0878f48308a71f9")},
+                {1985111, uint256S("c0ef7d7277740c52263e0a379b6818c6fa90981cfeea893ec6815ca6b6a0f294")},
             }
         };
 
         chainTxData = ChainTxData{
-            // Data from rpc: getchaintxstats 4096 8f66489d4531ee118ee7e6d28750d5e136301836b32ed4d7854e0fa71f8b57f9
-            /* nTime    */ 1550901172,
-            /* nTxCount */ 2860626,
-            /* dTxRate  */ 0.025
+            // Data from rpc: getchaintxstats 4096 c0ef7d7277740c52263e0a379b6818c6fa90981cfeea893ec6815ca6b6a0f294
+            /* nTime    */ 1563054279,
+            /* nTxCount */ 2990413,
+            /* dTxRate  */ 0.01
         };
 
         /* enable fallback fee on testnet */
