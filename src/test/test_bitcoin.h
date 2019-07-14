@@ -127,4 +127,12 @@ CBlock getBlock13b8a();
 // define an implicit conversion here so that uint256 may be used directly in BOOST_CHECK_*
 std::ostream& operator<<(std::ostream& os, const uint256& num);
 
+/* This is defined in merkle_tests.cpp, but also used by auxpow_tests.cpp.  */
+namespace merkle_tests {
+std::vector<uint256> BlockMerkleBranch(const CBlock& block, uint32_t position);
+}
+
+// Define == for coin equality (used by multiple tests).
+bool operator==(const Coin &a, const Coin &b);
+
 #endif
