@@ -447,8 +447,6 @@ Thanks to everyone who directly contributed to this release:
 - Gregory Sanders
 - Jonas Schnelli
 - Matt Corallo
-<<<<<<< HEAD
-=======
 - Matthew King
 - matthias
 - Max Keller
