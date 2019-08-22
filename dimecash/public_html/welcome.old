@@ -1,0 +1,264 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<h1>Welcome to Dimecash! </h1>
+<div>
+
+The unspendable api is now available, you can test from this site or remotely:
+<a href=https://dime.cash/api/index.php> API </a>
+<hr>
+<h2>Summary</h2>
+<div>
+
+This is the home of the dimecash project.  The goal is to fork litecoin into a new linguistic currency that exploits two curiosities of being an alt-coin. <p> The first is that (unlike bitcoin) currencies such as Dogecoin (itself a Litecoin fork) can function and thrive in a certain niche, while being worth only a fraction of a penny each.  This allows for a system of Advances <a href=https://en.bitcoin.it/wiki/Satoshi_codes> Satoshi Codes </a> to be implemented to express complicated ideas with a series of up to eight (or potentially more) digits. Different messages would end up costing slightly more or less based on the hash of the message.  This is not a concern because the entire amount would still be dwarfed by mining fees, which cost less than a penny.  
+As a message system this is <a href=https://www.imdb.com/title/tt0119107/?ref_=fn_al_tt_1> Fast, Cheap & Out of Control. </a> 
+<p>  The second expoit involves the <a href=https://en.wikipedia.org/wiki/Base58> Base58Check </a> (base-58) numerical representation which is inherited from bitcoin.
+
+Readable text can be pushed into the ledger so that the above tiny transactions can be given a context. So a small code sent to DCxABRAMSxNAiLSzzzzDxxxxxxxxxk8h66 would have an implied different meaning than one sent to DCxARLENxDoGxRESCUEzzzzDxxxxthHJRZ.  Any funds sent to these addresses currently would be lost. Dimecash would seek to reward new tokens (diamonds) to replace those lost.  It is very important to only send tiny amounts using this system unless you are sending to a real address (unreadable).  Also, the point of this system is to not act as a currency, but as an agent of meaning or a linguistic ledger.  Because of its open nature, Dimecash can be vastly sidechained into other currencies and blockchains in order to bridge the gap between the public and private ledgers. 
+
+
+ <p> Finally, this site will bring the two elements together with the use of portable "secret" files that can contain a fair amount of text which a human could make sense of, and which can also always be reduced to various small hashes.  The value-add of dimecash is in the management of these secrets and the potential to support identity portals into secured blockchain solutions.  
+
+Because Dimecash seeks to use an addressing scheme that starts with DC, unspendable addresses can be shared with Dogecoin, so that the system can be started before the Litecoin fork is completed.  This may seem strange, but for the ideas expressed through Dimecash to take hold, atomic swaps between various currencies must be supported.  Regardless of the price of a currency, it still exists as an immutable record with Byzantine Fault Tolerance that could be exploited as a data ledger, as is done extensively with BCH Opt-Return Codes. 
+</div>
+
+<h2> Repurposing Obviously Unspendable proof-of-burn addresses </h2>
+When someone creates a cryptocurrency wallet, what they are really doing is letting the computer randomly pick a very large number which is specially altered and then mathematically reduced into a smaller number.  But even the smaller number is quite large.  To make this number easier for people to deal with, an alphanumeric system is used. This system is called Base58.  It represents numbers as capital and small letters and uses 58 different possibilities.  Visually confusing numbers are omited.  For example, the small "l" or capital "O" are never used.  Satoshi Nakamoto created Base58  
+
+<pre>
+Hash
+----------------------------------
+6DMzA8Vw8o91GKneBLehZp6Y29A75P2kY8
+EZYAzeF4uNLMj68ziNKeMRvb4ZGBazawXd
+UCa3wJJSB5Ywt2jaaFdsCxcNttqseHsAA6
+AVhWW1eEvhjPtxbmVnyqsSdmChWNK2tVLu
+</pre>
+
+But this version of Base-58 is even more specific.  The last six characters in these sets refer back to the first, as a check system.  The addresses could be understood as two parts that are stuck together.  This is known as Base58-Check:
+
+<pre>
+Hash                         Check
+---------------------------- ------
+6DMzA8Vw8o91GKneBLehZp6Y29A7 5P2kY8
+EZYAzeF4uNLMj68ziNKeMRvb4ZGB azawXd
+UCa3wJJSB5Ywt2jaaFdsCxcNttqs eHsAA6
+AVhWW1eEvhjPtxbmVnyqsSdmChWN K2tVLu
+</pre>
+
+The following addresses are also valid in that their hash and check are balanced together, but they are not "spendable". This means that money sent to these addresses will essentially be destroyed or "burned".  Readable addresses with messages this large are never spendable.
+
+<pre>
+Hash                         Check
+---------------------------- ------
+1bitcoineateraddressdontsend f59kue
+DDogepartyxxxxxxxxxxxxxxxxxx w1dfzr
+1CounterpartyXXXXXXXXXXXXXXX UWLpVr
+</pre>
+
+These human-readable addresses are created by short-circuiting the process in a way where the check can be figured out, but where no secret very large number is used.  No private key could exist to "unlock" these.  They can be understood to act as a monetary black-hole.  Because the world doesn't have anything close to the raw computing power necessary to process trillions of large numbers until one of these human-readable addresses were to be generated, these addresses can be understood to never have a private key.  These addresses are called Obviously Unspendable because of this. I would rather use a different name, however.  I will call them Public Anchors since they are impossible to own or regulate and can come into existence as soon as they are first referenced.
+<p>
+I became fascinated with this process and now use a python script to create DogeCoin Public Anchors. The script is available <a href=https://github.com/johnrigler/unspendable> here. </a>
+
+<p>
+To understand more about proof-of-burn:
+
+<a href=https://en.bitcoin.it/wiki/Proof_of_burn> https://en.bitcoin.it/wiki/Proof_of_burn </a>
+
+<p>
+As an avid fan of James Joyce, I immediately discovered some Anchors for the first paragraph of "Finnegans Wake" on the Dogecoin blockchain.  
+
+<pre>
+DCxxxRiVERRUNxPASTxEVExANDxxJ92X19
+DCxxADAMkSyFRoMxSWERVExoFxxxHtXrfA
+DCxxSHoRExxxToxBENDxoFxBAYxxCCJXLy
+DCxBRiNGSxUSxBYxAxCoMMoDiUSx9gNhNy
+DCViCUSxoFxRECiRCULATioNxxxxDTm2kZ
+DCBACKxToxHoWTHxCASTLExxxxxxGBesZt
+DCxxxxxANDxENViRoNSxxxxxxxxxD2nMSf
+</pre>
+
+By removing the small 'x' characters and making a few other changes, we get:
+
+<pre>
+DC   RiVERRUN PAST EVE AND    J92X19
+DC  ADAM'S. FRoM SWERVE oF    HtXrfA
+DC  SHoRE   To BEND oF BAY    CCJXLy
+DC BRiNGS US BY A CoMMoDiUS   9gNhNy
+DC ViCUS oF RECiRCULATioN     DTm2kZ     
+DC BACK To HoWTH CASTLE       GBesZt
+DC     AND ENViRoNS.          D2nMSf
+</pre> 
+
+If you feel like you are ready to create one of these anchors, then just visit the
+link at <a href=https://dime.cash/api/index.php> API </a>.
+
+<h3> Advances Satoshi Codes </h3>
+
+The term <a href=https://en.bitcoin.it/wiki/Satoshi_codes> Satoshi Code</a> initally referred to the last two digits of a bitcoin transaction and was intended as a standardized convention to embed simple meaning into the transaction.  More conventionally, messages can be created in the ledger with a string of text encoded into  Opt-Return codes.  This is widely used in the BCH protocol.  Satoshi Codes are simpler, much more human readable without the aid of a block explorer (which must be trusted), and can be entered into any currency with the simplest of wallets.  These codes could live nicely in their own field, but cryptocurrency core engines (bitcoind, litecoind, etc.) simply don't have this option.
+<p>
+The bitcoin community also feels that Opt-Return codes should be used for their original intended purpose only.  Dimecash does not rule out the use of Opt-Return codes.  Public Anchors can go up to eight character (or beyond).  The original Satoshi Code system did not rule this out.  With each digit, the code becomes more expensive to send, but is still trivially small in most cases.
+<p>
+The codes that I find myself most often sending are four or five digits, but the length itself can even contain a meaning:
+<hr>
+<br>Digits Meaning
+<br>------ -----------------------------------
+<p>  2 ---    The length of a traditional Satoshi Code
+
+<p>  3 ---   Very simple messages, bit logic can be used for 
+         messages such as a tic-tac-toe game or simply
+         something like '0.00000888' to mean 'crash'
+
+<p>  4 ---   Either a two characters in a twice-shifted Octal
+         (Shoctal) system or an example of a CRC Unix sum that 
+         happens to be four digits long.
+
+<p>  5 ---   This could be a US ZIP code, or any similar code, but
+       is most likely to be a five digit CRC Unix sum uses as 
+       a weak or "light" hash.  
+  
+<p>  6 ---   A Three character Shoctal code
+
+<p>  7 ---   An advanced hash or shoctal code which is far superior to
+       the five-digit code above, but is far from a SHA-256 hash.
+      
+While the five and seven digit hashes are prone to collision, any
+danger would be mitigated by the fact that linting, expectation of
+content (a legal agreement would look very different from a piece of
+code that controls an IOT device), and the fact that people can and 
+should engage with this system at a very basic level.  
+
+Just as the unspendable addresses above are readable, data put into
+these small hashes should also be readable by both human and machine.
+This innovation is really critical to the viability of the entire system.
+
+<h3> Secret Bourne Again (bash) functions </h3>
+
+Bash is the name of a shell which is popular on Linux.  For years, I 
+used IBM's AIX native shell-- The Korn Shell (ksh) but now exclusively 
+use bash.  I suspect that these function would work with many shells, 
+but have only tested them on bash.
+<p>
+Bash is not only available on Linux and Unix server, but on modern Macintosh 
+and Windows servers, as well as smart phones and devices such as the Raspberry Pi.  I also will provide on this site, a bash function wrapper that allows people to simple create these function on this site.  This (along with the ability to create Obviously Unspendable Addresses) essentially means that anyone with a wallet and some cryptocurrency could use this system on the currency of their choice.
+
+Here is an example of the text above represented as one five-digit code:
+
+<pre>
+
+river.run() {
+: past even atoms
+# Phoenetic second meaning 
+: from swerve of shore
+: to bend of bay
+: brings us by a commodious
+: vicus
+# Reference to Giambattista Vico and The New Science
+: back to howthe.castle.environs
+# Reference to HCE aka Finn McCool aka Porter
+}
+ 
+</pre>
+
+After typing in the above text (which is programatically valid) I cut and pasted it into a bash shell.  Then I enter the command to call it back.
+
+<pre>
+bash> declare -f river.run
+river.run ()
+{
+    : past even atoms;
+    : from swerve of shore;
+    : to bend of bay;
+    : brings us by a commodious;
+    : vicus;
+    : back to howthe.castle.environs
+}
+</pre>
+
+Notice that is now looks different, the spacing is changed, semi-colons are added to all but the last line, and every line starting with a pound symbol has been lost.  These changes will be made the same each time, regardless of my spacing.  This makes the function, like the base-58 code, easy for human beings to keep track of.  I could have just as easily chosen JSON and used the jq command for linting, but I prefer this.
+<p>
+Now the function is again retrieved from the live memory session of the shell and is piped into another command, which is called "sum":
+
+<pre>
+bash> declare -f river.run | sum
+37497      1
+</pre>
+
+Thus the river.run function can be reliably tied to the five-digit number 37497, especially if sent to a Public Anchor that makes reference its origin.  This simple system is, I believe suprisingly robust and versatile.  If the sum command becomes inadequate, then here are some other choices.
+
+<pre>
+Hash Type     Hash Value
+------------  -------------------------------------------------------------
+sum           37497     1
+cksum         2449369253 175
+shasum -a 1   5ec757d1f48398a6f0fe520f9cf3a25dddf16d9b
+shasum -a 224 8f8a077ab4ef7026456df6be253751acbb6bac4253d40222320e8c2c00f969a8
+</pre>
+
+My preference would be to convert one of these (maybe cksum) into octal and show only the first seven digits using the numerals two through nine with two representing zero and nine representing seven.  I call this shoctal.  It allows a seven digit number to be uses as a Satoshi Code without any zeroes to confuse its meaning.  The numeral one can be essentially used as a decimal point or to break the data into two sets if necessary.  In fact, if a one is seen in the seven-digit string, then it could be assumed to not be a hash.
+<p>
+The easiest seven-digit hash above would be from the cksum.
+<p>
+Now, because I am working directly from the shell with no special software, I need to place the function into a file with a very specific name.
+
+<pre>
+declare -f river.run > river.run-37497.1
+</pre>
+
+I will also go back and manually add the lost comments into the file.
+
+<pre>
+river.run ()
+{
+    : past even atoms;
+    # Phoenetic second meaning
+    : from swerve of shore;
+    : to bend of bay;
+    : brings us by a commodious;
+    : vicus;
+    # Reference to Giambattista Vico and The New Science
+    : back to howthe.castle.environs
+    # Reference to HCE aka Finn McCool aka Porter
+}
+</pre>
+
+The file now has the odd feature that it could generate two different hashes, depending on if the pounded out comments are included.
+<p>
+<?
+echo `date`;
+
+if(isset($_POST['funct']))
+      {
+      file_put_contents("$_SERVER[UNIQUE_ID]",$_POST[funct]);
+      $fun=`./decf.bash $_SERVER[UNIQUE_ID]`;
+      }
+      else
+      $fun=`./decf.bash Hello-27909.1`;
+?>
+
+<form action="index.php" method="post">
+   <p><textarea rows="20" cols="60" name="funct">
+<? echo $fun; ?>
+</textarea>
+   <input type="submit" name="submit" value="Submit" />
+</form>
+
+If you naturally read the contents of the box above, then you have experiences one of the basic hacks of Dimecash.  When you first visit this page, the message should end with the line: # Hello-27909.1.  If you change even one small part of the message the number will change.  The number is a very small hash of the message.  Feel free to change the text and you will see that the message changes.  If you change the message to say "Goodbye () { : again; }", then you will see some reformating and a number will appear at the end.  The number should change to 60272.  Change whatever you like and the number should always uniquely represent the text.  This can also be done on a bash computer outside of this site and will resolve to the same number.
+
+
+<p>
+
+<h2>Dimecash Dilemma</h2>
+This brings us to the name of this section, the "dimecash dilemma". Like embedding messages into Opt-Return codes, these systems are still very much hacks of existing solutions that did not anticipate or account for their usefulness.  Sending many tiny transactions will potentially break a wallet and cause part or all of the funds to become inaccessible.  This is because of how the currency deals with Unspent Transaction Output (UTXO) and a phenomena called dust.  Basically, if a wallet shows 40 bitcoin exactly, and if the underlying ledger shows that the currency is stored as a record of 40 whole coins, then the ledger would easily be able to represent the results.  If however, the 40 whole coins were transferred into the address as thousands of tiny transactions, the system would have significantly more trouble.  In a traditional database, a field could very easily store either the value 40 or the value 39.81455123, but the ledger must deal with the data in a very different way that is beyond the scope of this document.
+<p>
+Also, another very different problem exists.  Because this system pushes for wide (general public) adoption of a low (or no) mandatory software structure, one could easily get confused and send a large sum of money into an obviously unspendable address as if it were a "vanity address".  What is obvious to a cryptography expert is not obvious to the general public.
+<p>
+These two issues form the basic problem with using this system with existing currency and thus drove the need for the dimecash fork.
+
+<h2>Dimecash Diamonds</h2>
+
+The github page for dimecash, and the following whitepaper, further explains the needs and goals of dimecash.
+
+<a href=https://github.com/johnrigler/dimecash> Dimecash on Github </a>
+
+While this can be done on various alt-coins, the fork seeks to deal with issues of Dust (eventually the system stops working and a wallet may have to be deleted), begins to work with a reward system when coins are spend (in Doge, the whales could voluntarily do this), and finally consider ways that the entire chain can be loaded into a Hyperledger solution. By restricting Doge Addresses to DCx, when Dimecash is implemented, it could use DCA, DCB, etc. to avoid confusion. Different versions of Dimecash could possibly co-exist with exclusive naming. 
+
+</html>

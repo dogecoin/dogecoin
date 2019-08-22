@@ -1,0 +1,690 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>dogecoinrpc.connection — Connect to Dogecoin server via JSON-RPC &mdash; dogecoin-python 0.1.3 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="dogecoin-python 0.1.3 documentation" href="index.html" />
+    <link rel="up" title="API reference" href="apireference.html" />
+    <link rel="next" title="dogecoinrpc.exceptions — Exception definitions" href="dogecoinrpc.exceptions.html" />
+    <link rel="prev" title="dogecoinrpc — Convenience functions" href="dogecoinrpc.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dogecoinrpc.exceptions.html" title="dogecoinrpc.exceptions — Exception definitions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="dogecoinrpc.html" title="dogecoinrpc — Convenience functions"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">dogecoin-python 0.1.3 documentation</a> &raquo;</li>
+          <li><a href="apireference.html" accesskey="U">API reference</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-dogecoinrpc.connection">
+<span id="dogecoinrpc-connection-connect-to-dogecoin-server-via-json-rpc"></span><h1><a class="reference internal" href="#module-dogecoinrpc.connection" title="dogecoinrpc.connection"><tt class="xref py py-mod docutils literal"><span class="pre">dogecoinrpc.connection</span></tt></a> &#8212; Connect to Dogecoin server via JSON-RPC<a class="headerlink" href="#module-dogecoinrpc.connection" title="Permalink to this headline">¶</a></h1>
+<p>Connect to Dogecoin server via JSON-RPC.</p>
+<dl class="class">
+<dt id="dogecoinrpc.connection.DogecoinConnection">
+<em class="property">class </em><tt class="descclassname">dogecoinrpc.connection.</tt><tt class="descname">DogecoinConnection</tt><big>(</big><em>user</em>, <em>password</em>, <em>host='localhost'</em>, <em>port=22555</em>, <em>use_https=False</em><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<p>A DogecoinConnection object defines a connection to a dogecoin server.
+It is a thin wrapper around a JSON-RPC API connection.</p>
+<p>Arguments to constructor:</p>
+<ul class="simple">
+<li><em>user</em> &#8211; Authenticate as user.</li>
+<li><em>password</em> &#8211; Authentication password.</li>
+<li><em>host</em> &#8211; Dogecoin JSON-RPC host.</li>
+<li><em>port</em> &#8211; Dogecoin JSON-RPC port.</li>
+</ul>
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.backupwallet">
+<tt class="descname">backupwallet</tt><big>(</big><em>destination</em><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.backupwallet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Safely copies <tt class="docutils literal"><span class="pre">wallet.dat</span></tt> to <em>destination</em>, which can be a directory or a path
+with filename.</p>
+<p>Arguments:
+- <em>destination</em> &#8211; directory or path with filename to backup wallet to.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.createrawtransaction">
+<tt class="descname">createrawtransaction</tt><big>(</big><em>inputs</em>, <em>outputs</em><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.createrawtransaction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a raw transaction spending given inputs
+(a list of dictionaries, each containing a transaction id and an output number),
+sending to given address(es).</p>
+<p>Returns hex-encoded raw transaction.</p>
+<p>Example usage:
+&gt;&gt;&gt; conn.createrawtransaction(</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>[{&#8220;txid&#8221;: &#8220;a9d4599e15b53f3eb531608ddb31f48c695c3d0b3538a6bda871e8b34f2f430c&#8221;,</dt>
+<dd>&#8220;vout&#8221;: 0}],</dd>
+</dl>
+<p>{&#8220;mkZBYBiq6DNoQEKakpMJegyDbw2YiNQnHT&#8221;:50})</p>
+</div></blockquote>
+<p>Arguments:</p>
+<ul>
+<li><p class="first"><em>inputs</em> &#8211; A list of {&#8220;txid&#8221;: txid, &#8220;vout&#8221;: n} dictionaries.</p>
+</li>
+<li><dl class="first docutils">
+<dt><em>outputs</em> &#8211; A dictionary mapping (public) addresses to the amount</dt>
+<dd><p class="first last">they are to be paid.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.decoderawtransaction">
+<tt class="descname">decoderawtransaction</tt><big>(</big><em>hexstring</em><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.decoderawtransaction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Produces a human-readable JSON object for a raw transaction.</p>
+<p>Arguments:</p>
+<ul class="simple">
+<li><em>hexstring</em> &#8211; A hex string of the transaction to be decoded.</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.dumpprivkey">
+<tt class="descname">dumpprivkey</tt><big>(</big><em>address</em><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.dumpprivkey" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the private key belonging to &lt;address&gt;.</p>
+<p>Arguments:</p>
+<ul class="simple">
+<li><em>address</em> &#8211; Dogecoin address whose private key should be returned.</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.getaccount">
+<tt class="descname">getaccount</tt><big>(</big><em>dogecoinaddress</em><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.getaccount" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the account associated with the given address.</p>
+<p>Arguments:</p>
+<ul class="simple">
+<li><em>dogecoinaddress</em> &#8211; Dogecoin address to get account for.</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.getaccountaddress">
+<tt class="descname">getaccountaddress</tt><big>(</big><em>account</em><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.getaccountaddress" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the current dogecoin address for receiving payments to an account.</p>
+<p>Arguments:</p>
+<ul class="simple">
+<li><em>account</em> &#8211; Account for which the address should be returned.</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.getaddressesbyaccount">
+<tt class="descname">getaddressesbyaccount</tt><big>(</big><em>account</em><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.getaddressesbyaccount" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the list of addresses for the given account.</p>
+<p>Arguments:</p>
+<ul class="simple">
+<li><em>account</em> &#8211; Account to get list of addresses for.</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.getbalance">
+<tt class="descname">getbalance</tt><big>(</big><em>account=None</em>, <em>minconf=None</em><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.getbalance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the current balance, either for an account or the total server balance.</p>
+<p>Arguments:
+- <em>account</em> &#8211; If this parameter is specified, returns the balance in the account.
+- <em>minconf</em> &#8211; Minimum number of confirmations required for transferred balance.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.getblock">
+<tt class="descname">getblock</tt><big>(</big><em>hash</em><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.getblock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns information about the given block hash.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.getblockcount">
+<tt class="descname">getblockcount</tt><big>(</big><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.getblockcount" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of blocks in the longest block chain.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.getblockhash">
+<tt class="descname">getblockhash</tt><big>(</big><em>index</em><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.getblockhash" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns hash of block in best-block-chain at index.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> &#8211; index ob the block</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.getblocknumber">
+<tt class="descname">getblocknumber</tt><big>(</big><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.getblocknumber" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the block number of the latest block in the longest block chain.
+Deprecated. Use getblockcount instead.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.getconnectioncount">
+<tt class="descname">getconnectioncount</tt><big>(</big><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.getconnectioncount" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of connections to other nodes.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.getdifficulty">
+<tt class="descname">getdifficulty</tt><big>(</big><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.getdifficulty" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the proof-of-work difficulty as a multiple of the minimum difficulty.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.getgenerate">
+<tt class="descname">getgenerate</tt><big>(</big><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.getgenerate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns <tt class="xref py py-const docutils literal"><span class="pre">True</span></tt> or <tt class="xref py py-const docutils literal"><span class="pre">False</span></tt>, depending on whether generation is enabled.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.gethashespersec">
+<tt class="descname">gethashespersec</tt><big>(</big><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.gethashespersec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a recent hashes per second performance measurement while generating.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.getinfo">
+<tt class="descname">getinfo</tt><big>(</big><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.getinfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an <a class="reference internal" href="dogecoinrpc.data.html#dogecoinrpc.data.ServerInfo" title="dogecoinrpc.data.ServerInfo"><tt class="xref py py-class docutils literal"><span class="pre">ServerInfo</span></tt></a> object containing various state info.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.getmininginfo">
+<tt class="descname">getmininginfo</tt><big>(</big><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.getmininginfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an <a class="reference internal" href="dogecoinrpc.data.html#dogecoinrpc.data.MiningInfo" title="dogecoinrpc.data.MiningInfo"><tt class="xref py py-class docutils literal"><span class="pre">MiningInfo</span></tt></a> object containing various
+mining state info.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.getnewaddress">
+<tt class="descname">getnewaddress</tt><big>(</big><em>account=None</em><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.getnewaddress" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a new dogecoin address for receiving payments.</p>
+<p>Arguments:</p>
+<ul class="simple">
+<li><em>account</em> &#8211; If account is specified (recommended), it is added to the address book
+so that payments received with the address will be credited to it.</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.getrawtransaction">
+<tt class="descname">getrawtransaction</tt><big>(</big><em>txid</em>, <em>verbose=True</em><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.getrawtransaction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get transaction raw info</p>
+<p>Arguments:</p>
+<ul class="simple">
+<li><em>txid</em> &#8211; Transactiond id for which the info should be returned.</li>
+<li><em>verbose</em> &#8211; If False, return only the &#8220;hex&#8221; of the transaction.</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.getreceivedbyaccount">
+<tt class="descname">getreceivedbyaccount</tt><big>(</big><em>account</em>, <em>minconf=1</em><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.getreceivedbyaccount" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the total amount received by addresses with an account in transactions with
+at least a certain number of confirmations.</p>
+<p>Arguments:</p>
+<ul class="simple">
+<li><em>account</em> &#8211; Account to query for total amount.</li>
+<li><em>minconf</em> &#8211; Number of confirmations to require, defaults to 1.</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.getreceivedbyaddress">
+<tt class="descname">getreceivedbyaddress</tt><big>(</big><em>dogecoinaddress</em>, <em>minconf=1</em><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.getreceivedbyaddress" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the total amount received by a dogecoin address in transactions with at least a
+certain number of confirmations.</p>
+<p>Arguments:</p>
+<ul class="simple">
+<li><em>dogecoinaddress</em> &#8211; Address to query for total amount.</li>
+<li><em>minconf</em> &#8211; Number of confirmations to require, defaults to 1.</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.gettransaction">
+<tt class="descname">gettransaction</tt><big>(</big><em>txid</em><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.gettransaction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get detailed information about transaction</p>
+<p>Arguments:</p>
+<ul class="simple">
+<li><em>txid</em> &#8211; Transactiond id for which the info should be returned</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.gettxout">
+<tt class="descname">gettxout</tt><big>(</big><em>txid</em>, <em>index</em>, <em>mempool=True</em><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.gettxout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns details about an unspent transaction output (UTXO)</p>
+<p>Arguments:</p>
+<ul class="simple">
+<li><em>txid</em> &#8211; Transactiond id for which the info should be returned.</li>
+<li><em>index</em> &#8211; The output index.</li>
+<li><em>mempool</em> &#8211; Add memory pool transactions.</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.getwork">
+<tt class="descname">getwork</tt><big>(</big><em>data=None</em><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.getwork" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get work for remote mining, or submit result.
+If data is specified, the server tries to solve the block
+using the provided data and returns <tt class="xref py py-const docutils literal"><span class="pre">True</span></tt> if it was successful.
+If not, the function returns formatted hash data (<a class="reference internal" href="dogecoinrpc.data.html#dogecoinrpc.data.WorkItem" title="dogecoinrpc.data.WorkItem"><tt class="xref py py-class docutils literal"><span class="pre">WorkItem</span></tt></a>)
+to work on.</p>
+<p>Arguments:</p>
+<ul class="simple">
+<li><em>data</em> &#8211; Result from remote mining.</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.importprivkey">
+<tt class="descname">importprivkey</tt><big>(</big><em>privkey</em>, <em>acct=''</em>, <em>rescan=True</em><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.importprivkey" title="Permalink to this definition">¶</a></dt>
+<dd><p>import private key &lt;privkey&gt; to account [acct], optionally rescanning blockchain .</p>
+<p>Arguments:</p>
+<ul class="simple">
+<li><em>privkey</em> &#8211; private key to import.</li>
+<li>[acct] &#8211; name of account to associate with private key</li>
+<li>[rescan] &#8211; rescan blockchain for transcations containing altcoin address associated with privkey</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.keypoolrefill">
+<tt class="descname">keypoolrefill</tt><big>(</big><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.keypoolrefill" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fills the keypool, requires wallet passphrase to be set.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.listaccounts">
+<tt class="descname">listaccounts</tt><big>(</big><em>minconf=1</em>, <em>as_dict=False</em><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.listaccounts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of account names.</p>
+<p>Arguments:</p>
+<ul class="simple">
+<li><em>minconf</em> &#8211; Minimum number of confirmations before payments are included.</li>
+<li><em>as_dict</em> &#8211; Returns a dictionary of account names, with their balance as values.</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.listreceivedbyaccount">
+<tt class="descname">listreceivedbyaccount</tt><big>(</big><em>minconf=1</em>, <em>includeempty=False</em><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.listreceivedbyaccount" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of accounts.</p>
+<p>Each account is represented with a <a class="reference internal" href="dogecoinrpc.data.html#dogecoinrpc.data.AccountInfo" title="dogecoinrpc.data.AccountInfo"><tt class="xref py py-class docutils literal"><span class="pre">AccountInfo</span></tt></a> object.</p>
+<p>Arguments:</p>
+<ul class="simple">
+<li><em>minconf</em> &#8211; Minimum number of confirmations before payments are included.</li>
+<li><em>includeempty</em> &#8211; Whether to include addresses that haven&#8217;t received any payments.</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.listreceivedbyaddress">
+<tt class="descname">listreceivedbyaddress</tt><big>(</big><em>minconf=1</em>, <em>includeempty=False</em><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.listreceivedbyaddress" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of addresses.</p>
+<p>Each address is represented with a <a class="reference internal" href="dogecoinrpc.data.html#dogecoinrpc.data.AddressInfo" title="dogecoinrpc.data.AddressInfo"><tt class="xref py py-class docutils literal"><span class="pre">AddressInfo</span></tt></a> object.</p>
+<p>Arguments:</p>
+<ul class="simple">
+<li><em>minconf</em> &#8211; Minimum number of confirmations before payments are included.</li>
+<li><em>includeempty</em> &#8211; Whether to include addresses that haven&#8217;t received any payments.</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.listtransactions">
+<tt class="descname">listtransactions</tt><big>(</big><em>account=None</em>, <em>count=10</em>, <em>from_=0</em>, <em>address=None</em><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.listtransactions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of the last transactions for an account.</p>
+<p>Each transaction is represented with a <a class="reference internal" href="dogecoinrpc.data.html#dogecoinrpc.data.TransactionInfo" title="dogecoinrpc.data.TransactionInfo"><tt class="xref py py-class docutils literal"><span class="pre">TransactionInfo</span></tt></a> object.</p>
+<p>Arguments:</p>
+<ul>
+<li><dl class="first docutils">
+<dt><em>account</em> &#8211; Account to list transactions from. Return transactions from</dt>
+<dd><p class="first last">all accounts if None.</p>
+</dd>
+</dl>
+</li>
+<li><p class="first"><em>count</em> &#8211; Number of transactions to return.</p>
+</li>
+<li><p class="first"><em>from_</em> &#8211; Skip the first &lt;<a href="#id1"><span class="problematic" id="id2">from_</span></a>&gt; transactions.</p>
+</li>
+<li><p class="first"><em>address</em> &#8211; Receive address to consider</p>
+</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.listunspent">
+<tt class="descname">listunspent</tt><big>(</big><em>minconf=1</em>, <em>maxconf=999999</em><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.listunspent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of unspent transaction inputs in the wallet.</p>
+<p>Arguments:</p>
+<ul class="simple">
+<li><em>minconf</em> &#8211; Minimum number of confirmations required to be listed.</li>
+<li><em>maxconf</em> &#8211; Maximal number of confirmations allowed to be listed.</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.move">
+<tt class="descname">move</tt><big>(</big><em>fromaccount</em>, <em>toaccount</em>, <em>amount</em>, <em>minconf=1</em>, <em>comment=None</em><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.move" title="Permalink to this definition">¶</a></dt>
+<dd><p>Move from one account in your wallet to another.</p>
+<p>Arguments:</p>
+<ul class="simple">
+<li><em>fromaccount</em> &#8211; Source account name.</li>
+<li><em>toaccount</em> &#8211; Destination account name.</li>
+<li><em>amount</em> &#8211; Amount to transfer.</li>
+<li><em>minconf</em> &#8211; Minimum number of confirmations required for transferred balance.</li>
+<li><em>comment</em> &#8211; Comment to add to transaction log.</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.sendfrom">
+<tt class="descname">sendfrom</tt><big>(</big><em>fromaccount</em>, <em>todogecoinaddress</em>, <em>amount</em>, <em>minconf=1</em>, <em>comment=None</em>, <em>comment_to=None</em><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.sendfrom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends amount from account&#8217;s balance to dogecoinaddress. This method will fail
+if there is less than amount dogecoins with minconf confirmations in the account&#8217;s
+balance (unless account is the empty-string-named default account; it
+behaves like the sendtoaddress method). Returns transaction ID on success.</p>
+<p>Arguments:</p>
+<ul class="simple">
+<li><em>fromaccount</em> &#8211; Account to send from.</li>
+<li><em>todogecoinaddress</em> &#8211; Dogecoin address to send to.</li>
+<li><em>amount</em> &#8211; Amount to send (float, rounded to the nearest 0.01).</li>
+<li><em>minconf</em> &#8211; Minimum number of confirmations required for transferred balance.</li>
+<li><em>comment</em> &#8211; Comment for transaction.</li>
+<li><em>comment_to</em> &#8211; Comment for to-address.</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.sendmany">
+<tt class="descname">sendmany</tt><big>(</big><em>fromaccount</em>, <em>todict</em>, <em>minconf=1</em>, <em>comment=None</em><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.sendmany" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends specified amounts from account&#8217;s balance to dogecoinaddresses. This method will fail
+if there is less than total amount dogecoins with minconf confirmations in the account&#8217;s
+balance (unless account is the empty-string-named default account; Returns transaction ID
+on success.</p>
+<p>Arguments:</p>
+<ul class="simple">
+<li><em>fromaccount</em> &#8211; Account to send from.</li>
+<li><em>todict</em> &#8211; Dictionary with Dogecoin addresses as keys and amounts as values.</li>
+<li><em>minconf</em> &#8211; Minimum number of confirmations required for transferred balance.</li>
+<li><em>comment</em> &#8211; Comment for transaction.</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.sendtoaddress">
+<tt class="descname">sendtoaddress</tt><big>(</big><em>dogecoinaddress</em>, <em>amount</em>, <em>comment=None</em>, <em>comment_to=None</em><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.sendtoaddress" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends <em>amount</em> from the server&#8217;s available balance to <em>dogecoinaddress</em>.</p>
+<p>Arguments:</p>
+<ul class="simple">
+<li><em>dogecoinaddress</em> &#8211; Dogecoin address to send to.</li>
+<li><em>amount</em> &#8211; Amount to send (float, rounded to the nearest 0.00000001).</li>
+<li><em>minconf</em> &#8211; Minimum number of confirmations required for transferred balance.</li>
+<li><em>comment</em> &#8211; Comment for transaction.</li>
+<li><em>comment_to</em> &#8211; Comment for to-address.</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.setaccount">
+<tt class="descname">setaccount</tt><big>(</big><em>dogecoinaddress</em>, <em>account</em><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.setaccount" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the account associated with the given address.</p>
+<p>Arguments:</p>
+<ul class="simple">
+<li><em>dogecoinaddress</em> &#8211; Dogecoin address to associate.</li>
+<li><em>account</em> &#8211; Account to associate the address to.</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.setgenerate">
+<tt class="descname">setgenerate</tt><big>(</big><em>generate</em>, <em>genproclimit=None</em><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.setgenerate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enable or disable generation (mining) of coins.</p>
+<p>Arguments:</p>
+<ul class="simple">
+<li><em>generate</em> &#8211; is <tt class="xref py py-const docutils literal"><span class="pre">True</span></tt> or <tt class="xref py py-const docutils literal"><span class="pre">False</span></tt> to turn generation on or off.</li>
+<li><em>genproclimit</em> &#8211; Number of processors that are used for generation, -1 is unlimited.</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.signmessage">
+<tt class="descname">signmessage</tt><big>(</big><em>address</em>, <em>message</em><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.signmessage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sign messages, returns the signature</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>address</strong> (<em>str or unicode</em>) &#8211; Dogecoin address used to sign a message</li>
+<li><strong>message</strong> (<em>str or unicode</em>) &#8211; The message to sign</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">unicode</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.signrawtransaction">
+<tt class="descname">signrawtransaction</tt><big>(</big><em>hexstring</em>, <em>previous_transactions=None</em>, <em>private_keys=None</em><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.signrawtransaction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sign inputs for raw transaction (serialized, hex-encoded).</p>
+<dl class="docutils">
+<dt>Returns a dictionary with the keys:</dt>
+<dd>&#8220;hex&#8221;: raw transaction with signature(s) (hex-encoded string)
+&#8220;complete&#8221;: 1 if transaction has a complete set of signature(s), 0 if not</dd>
+</dl>
+<p>Arguments:</p>
+<ul>
+<li><p class="first"><em>hexstring</em> &#8211; A hex string of the transaction to sign.</p>
+</li>
+<li><dl class="first docutils">
+<dt><em>previous_transactions</em> &#8211; A (possibly empty) list of dictionaries of the form:</dt>
+<dd><p class="first last">{&#8220;txid&#8221;: txid, &#8220;vout&#8221;: n, &#8220;scriptPubKey&#8221;: hex, &#8220;redeemScript&#8221;: hex}, representing
+previous transaction outputs that this transaction depends on but may not yet be
+in the block chain.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><em>private_keys</em> &#8211; A (possibly empty) list of base58-encoded private</dt>
+<dd><p class="first last">keys that, if given, will be the only keys used to sign the transaction.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.stop">
+<tt class="descname">stop</tt><big>(</big><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.stop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop dogecoin server.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.validateaddress">
+<tt class="descname">validateaddress</tt><big>(</big><em>validateaddress</em><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.validateaddress" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate a dogecoin address and return information for it.</p>
+<p>The information is represented by a <a class="reference internal" href="dogecoinrpc.data.html#dogecoinrpc.data.AddressValidation" title="dogecoinrpc.data.AddressValidation"><tt class="xref py py-class docutils literal"><span class="pre">AddressValidation</span></tt></a> object.</p>
+<p>Arguments: &#8211; Address to validate.</p>
+<ul class="simple">
+<li><em>validateaddress</em></li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.verifymessage">
+<tt class="descname">verifymessage</tt><big>(</big><em>address</em>, <em>signature</em>, <em>message</em><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.verifymessage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verify a signed message</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>address</strong> (<em>str or unicode</em>) &#8211; Dogecoin address used to sign a message</li>
+<li><strong>signature</strong> (<em>unicode</em>) &#8211; The signature</li>
+<li><strong>message</strong> (<em>str or unicode</em>) &#8211; The message to sign</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">bool</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.walletlock">
+<tt class="descname">walletlock</tt><big>(</big><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.walletlock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes the wallet encryption key from memory, locking the wallet.
+After calling this method, you will need to call walletpassphrase
+again before being able to call any methods which require the wallet
+to be unlocked.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.walletpassphrase">
+<tt class="descname">walletpassphrase</tt><big>(</big><em>passphrase</em>, <em>timeout</em>, <em>dont_raise=False</em><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.walletpassphrase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores the wallet decryption key in memory for &lt;timeout&gt; seconds.</p>
+<ul>
+<li><p class="first"><em>passphrase</em> &#8211; The wallet passphrase.</p>
+</li>
+<li><dl class="first docutils">
+<dt><em>timeout</em> &#8211; Time in seconds to keep the wallet unlocked</dt>
+<dd><p class="first last">(by keeping the passphrase in memory).</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><em>dont_raise</em> &#8211; instead of raising <cite>~dogecoinrpc.exceptions.WalletPassphraseIncorrect</cite></dt>
+<dd><p class="first last">return False.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="dogecoinrpc.connection.DogecoinConnection.walletpassphrasechange">
+<tt class="descname">walletpassphrasechange</tt><big>(</big><em>oldpassphrase</em>, <em>newpassphrase</em>, <em>dont_raise=False</em><big>)</big><a class="headerlink" href="#dogecoinrpc.connection.DogecoinConnection.walletpassphrasechange" title="Permalink to this definition">¶</a></dt>
+<dd><p>Changes the wallet passphrase from &lt;oldpassphrase&gt; to &lt;newpassphrase&gt;.</p>
+<p>Arguments:</p>
+<ul>
+<li><dl class="first docutils">
+<dt><em>dont_raise</em> &#8211; instead of raising <cite>~dogecoinrpc.exceptions.WalletPassphraseIncorrect</cite></dt>
+<dd><p class="first last">return False.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="dogecoinrpc.html"
+                        title="previous chapter"><tt class="docutils literal"><span class="pre">dogecoinrpc</span></tt> &#8212; Convenience functions</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="dogecoinrpc.exceptions.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">dogecoinrpc.exceptions</span></tt> &#8212; Exception definitions</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/dogecoinrpc.connection.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dogecoinrpc.exceptions.html" title="dogecoinrpc.exceptions — Exception definitions"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="dogecoinrpc.html" title="dogecoinrpc — Convenience functions"
+             >previous</a> |</li>
+        <li><a href="index.html">dogecoin-python 0.1.3 documentation</a> &raquo;</li>
+          <li><a href="apireference.html" >API reference</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, bitcoin-python developers.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>

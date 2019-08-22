@@ -1,0 +1,3 @@
+AddType application/x-httpd-php56 .php
+Options +ExecCGI
+AddHandler cgi-script .cgi .py .php .pl

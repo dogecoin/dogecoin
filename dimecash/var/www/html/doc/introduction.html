@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Introduction &mdash; dogecoin-python 0.1.3 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="dogecoin-python 0.1.3 documentation" href="index.html" />
+    <link rel="up" title="Getting Started" href="gettingstarted.html" />
+    <link rel="next" title="Usage" href="usage.html" />
+    <link rel="prev" title="Getting Started" href="gettingstarted.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="usage.html" title="Usage"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="gettingstarted.html" title="Getting Started"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">dogecoin-python 0.1.3 documentation</a> &raquo;</li>
+          <li><a href="gettingstarted.html" accesskey="U">Getting Started</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>The goal of this library is to make it easier for:</p>
+<ul class="simple">
+<li>Payment gateways to support dogecoin</li>
+<li>Merchant sites to integrate dogecoin payments directly</li>
+<li>Other services that require (micro-)payments to use dogecoin</li>
+</ul>
+<p>In this initial release it implements a thin wrapper around the
+Dogecoin JSON-RPC API. Using this API from Python directly is conceptually very simple,
+here is the example from the API
+documentation page:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">jsonrpc</span> <span class="kn">import</span> <span class="n">ServiceProxy</span>
+
+<span class="n">access</span> <span class="o">=</span> <span class="n">ServiceProxy</span><span class="p">(</span><span class="s">&quot;http://user:password@127.0.0.1:8332&quot;</span><span class="p">)</span>
+<span class="n">access</span><span class="o">.</span><span class="n">getinfo</span><span class="p">()</span>
+<span class="n">access</span><span class="o">.</span><span class="n">listreceivedbyaddress</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">access</span><span class="o">.</span><span class="n">sendtoaddress</span><span class="p">(</span><span class="s">&quot;11yEmxiMso2RsFVfBcCa616npBvGgxiBX&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>However, this approach has some disadvantages, one thing is that error handling is complex, as it
+requires manually checking the contents of <tt class="xref py py-const docutils literal"><span class="pre">JSONException</span></tt> objects.</p>
+<p><tt class="docutils literal"><span class="pre">dogecoin-python</span></tt> attempts to create an even more friendly interface by wrapping the JSON-RPC API. The major advantages
+compared to a raw <tt class="docutils literal"><span class="pre">jsonrpc</span></tt> based approach are:</p>
+<ul class="simple">
+<li>Better exception handling. Exceptions are converted to subclasses of <a class="reference internal" href="dogecoinrpc.exceptions.html#dogecoinrpc.exceptions.DogecoinException" title="dogecoinrpc.exceptions.DogecoinException"><tt class="xref py py-class docutils literal"><span class="pre">DogecoinException</span></tt></a>.</li>
+<li>Automatic dogecoin configuration loading. In case the <tt class="docutils literal"><span class="pre">dogecoin</span> <span class="pre">-server</span></tt> or <tt class="docutils literal"><span class="pre">dogecoind</span></tt> program runs on the same
+machine as the client script, and as the same user, the configuration file can automatically be parsed. This
+makes it unneccesary to explicitly specify a <em>username</em> and <em>password</em>. Of course, this is still possible.</li>
+<li>Documentation in Pythonish format. You are reading this right now.</li>
+<li>The functions
+<a class="reference internal" href="dogecoinrpc.connection.html#dogecoinrpc.connection.DogecoinConnection.getinfo" title="dogecoinrpc.connection.DogecoinConnection.getinfo"><tt class="xref py py-func docutils literal"><span class="pre">getinfo()</span></tt></a>, <a class="reference internal" href="dogecoinrpc.connection.html#dogecoinrpc.connection.DogecoinConnection.listreceivedbyaccount" title="dogecoinrpc.connection.DogecoinConnection.listreceivedbyaccount"><tt class="xref py py-func docutils literal"><span class="pre">listreceivedbyaccount()</span></tt></a>,
+<a class="reference internal" href="dogecoinrpc.connection.html#dogecoinrpc.connection.DogecoinConnection.listreceivedbyaddress" title="dogecoinrpc.connection.DogecoinConnection.listreceivedbyaddress"><tt class="xref py py-func docutils literal"><span class="pre">listreceivedbyaddress()</span></tt></a>,
+<a class="reference internal" href="dogecoinrpc.connection.html#dogecoinrpc.connection.DogecoinConnection.listtransactions" title="dogecoinrpc.connection.DogecoinConnection.listtransactions"><tt class="xref py py-func docutils literal"><span class="pre">listtransactions()</span></tt></a> and more return actual Python objects, instead of simply
+dictionaries. This makes for cleaner code, as the fields can simply be addressed with <tt class="docutils literal"><span class="pre">x.foo</span></tt> instead of
+<tt class="docutils literal"><span class="pre">x['foo']</span></tt>.</li>
+</ul>
+<p>The plan for future releases is to add a more high-level interface on top of this.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="gettingstarted.html"
+                        title="previous chapter">Getting Started</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="usage.html"
+                        title="next chapter">Usage</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/introduction.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="usage.html" title="Usage"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="gettingstarted.html" title="Getting Started"
+             >previous</a> |</li>
+        <li><a href="index.html">dogecoin-python 0.1.3 documentation</a> &raquo;</li>
+          <li><a href="gettingstarted.html" >Getting Started</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, bitcoin-python developers.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>

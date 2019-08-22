@@ -1,0 +1,9 @@
+a-test-for-arg-1 () 
+{ 
+    if [ x$1 != x ]; then
+        echo blank;
+    else
+        echo $1;
+    fi
+}
+#  a-test-for-arg-1-46890.1

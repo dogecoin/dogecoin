@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>dogecoinrpc.config — Utilities for reading dogecoin configuration files &mdash; dogecoin-python 0.1.3 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="dogecoin-python 0.1.3 documentation" href="index.html" />
+    <link rel="up" title="API reference" href="apireference.html" />
+    <link rel="prev" title="dogecoinrpc.data — Dogecoin RPC service, data objects" href="dogecoinrpc.data.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dogecoinrpc.data.html" title="dogecoinrpc.data — Dogecoin RPC service, data objects"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">dogecoin-python 0.1.3 documentation</a> &raquo;</li>
+          <li><a href="apireference.html" accesskey="U">API reference</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-dogecoinrpc.config">
+<span id="dogecoinrpc-config-utilities-for-reading-dogecoin-configuration-files"></span><h1><a class="reference internal" href="#module-dogecoinrpc.config" title="dogecoinrpc.config"><tt class="xref py py-mod docutils literal"><span class="pre">dogecoinrpc.config</span></tt></a> &#8212; Utilities for reading dogecoin configuration files<a class="headerlink" href="#module-dogecoinrpc.config" title="Permalink to this headline">¶</a></h1>
+<p>Utilities for reading dogecoin configuration files.</p>
+<dl class="function">
+<dt id="dogecoinrpc.config.read_config_file">
+<tt class="descclassname">dogecoinrpc.config.</tt><tt class="descname">read_config_file</tt><big>(</big><em>filename</em><big>)</big><a class="headerlink" href="#dogecoinrpc.config.read_config_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a simple <tt class="docutils literal"><span class="pre">'='</span></tt>-delimited config file.
+Raises <tt class="xref py py-const docutils literal"><span class="pre">IOError</span></tt> if unable to open file, or <tt class="xref py py-const docutils literal"><span class="pre">ValueError</span></tt>
+if an parse error occurs.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="dogecoinrpc.config.read_default_config">
+<tt class="descclassname">dogecoinrpc.config.</tt><tt class="descname">read_default_config</tt><big>(</big><em>filename=None</em><big>)</big><a class="headerlink" href="#dogecoinrpc.config.read_default_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read dogecoin default configuration from the current user&#8217;s home directory.</p>
+<p>Arguments:</p>
+<ul class="simple">
+<li><cite>filename</cite>: Path to a configuration file in a non-standard location (optional)</li>
+</ul>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="dogecoinrpc.data.html"
+                        title="previous chapter"><tt class="docutils literal"><span class="pre">dogecoinrpc.data</span></tt> &#8212; Dogecoin RPC service, data objects</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/dogecoinrpc.config.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dogecoinrpc.data.html" title="dogecoinrpc.data — Dogecoin RPC service, data objects"
+             >previous</a> |</li>
+        <li><a href="index.html">dogecoin-python 0.1.3 documentation</a> &raquo;</li>
+          <li><a href="apireference.html" >API reference</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, bitcoin-python developers.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>

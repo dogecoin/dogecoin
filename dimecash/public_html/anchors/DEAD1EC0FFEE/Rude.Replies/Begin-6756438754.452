@@ -1,0 +1,8 @@
+Begin () 
+{ 
+    : to.type.stuff funny;
+    : because it is not.good.like.Opt-Return-Codes;
+    pwd;
+    hostname;
+    : see you can run commands too
+}

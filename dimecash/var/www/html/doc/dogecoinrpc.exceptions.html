@@ -1,0 +1,282 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>dogecoinrpc.exceptions — Exception definitions &mdash; dogecoin-python 0.1.3 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="dogecoin-python 0.1.3 documentation" href="index.html" />
+    <link rel="up" title="API reference" href="apireference.html" />
+    <link rel="next" title="dogecoinrpc.data — Dogecoin RPC service, data objects" href="dogecoinrpc.data.html" />
+    <link rel="prev" title="dogecoinrpc.connection — Connect to Dogecoin server via JSON-RPC" href="dogecoinrpc.connection.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dogecoinrpc.data.html" title="dogecoinrpc.data — Dogecoin RPC service, data objects"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="dogecoinrpc.connection.html" title="dogecoinrpc.connection — Connect to Dogecoin server via JSON-RPC"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">dogecoin-python 0.1.3 documentation</a> &raquo;</li>
+          <li><a href="apireference.html" accesskey="U">API reference</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-dogecoinrpc.exceptions">
+<span id="dogecoinrpc-exceptions-exception-definitions"></span><h1><a class="reference internal" href="#module-dogecoinrpc.exceptions" title="dogecoinrpc.exceptions"><tt class="xref py py-mod docutils literal"><span class="pre">dogecoinrpc.exceptions</span></tt></a> &#8212; Exception definitions<a class="headerlink" href="#module-dogecoinrpc.exceptions" title="Permalink to this headline">¶</a></h1>
+<p>Exception definitions.</p>
+<dl class="exception">
+<dt id="dogecoinrpc.exceptions.ClientException">
+<em class="property">exception </em><tt class="descclassname">dogecoinrpc.exceptions.</tt><tt class="descname">ClientException</tt><big>(</big><em>error</em><big>)</big><a class="headerlink" href="#dogecoinrpc.exceptions.ClientException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dogecoinrpc.exceptions.DogecoinException" title="dogecoinrpc.exceptions.DogecoinException"><tt class="xref py py-class docutils literal"><span class="pre">dogecoinrpc.exceptions.DogecoinException</span></tt></a></p>
+<p>P2P network error.
+This exception is never raised but functions as a superclass
+for other P2P client exceptions.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="dogecoinrpc.exceptions.DogecoinException">
+<em class="property">exception </em><tt class="descclassname">dogecoinrpc.exceptions.</tt><tt class="descname">DogecoinException</tt><big>(</big><em>error</em><big>)</big><a class="headerlink" href="#dogecoinrpc.exceptions.DogecoinException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.Exception</span></tt></p>
+<p>Base class for exceptions received from Dogecoin server.</p>
+<ul class="simple">
+<li><em>code</em> &#8211; Error code from <tt class="docutils literal"><span class="pre">dogecoind</span></tt>.</li>
+</ul>
+</dd></dl>
+
+<dl class="exception">
+<dt id="dogecoinrpc.exceptions.DownloadingBlocks">
+<em class="property">exception </em><tt class="descclassname">dogecoinrpc.exceptions.</tt><tt class="descname">DownloadingBlocks</tt><big>(</big><em>error</em><big>)</big><a class="headerlink" href="#dogecoinrpc.exceptions.DownloadingBlocks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dogecoinrpc.exceptions.ClientException" title="dogecoinrpc.exceptions.ClientException"><tt class="xref py py-class docutils literal"><span class="pre">dogecoinrpc.exceptions.ClientException</span></tt></a></p>
+<p>Client is still downloading blocks.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="dogecoinrpc.exceptions.InsufficientFunds">
+<em class="property">exception </em><tt class="descclassname">dogecoinrpc.exceptions.</tt><tt class="descname">InsufficientFunds</tt><big>(</big><em>error</em><big>)</big><a class="headerlink" href="#dogecoinrpc.exceptions.InsufficientFunds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dogecoinrpc.exceptions.WalletError" title="dogecoinrpc.exceptions.WalletError"><tt class="xref py py-class docutils literal"><span class="pre">dogecoinrpc.exceptions.WalletError</span></tt></a></p>
+<p>Insufficient funds to complete transaction in wallet or account</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="dogecoinrpc.exceptions.InvalidAccountName">
+<em class="property">exception </em><tt class="descclassname">dogecoinrpc.exceptions.</tt><tt class="descname">InvalidAccountName</tt><big>(</big><em>error</em><big>)</big><a class="headerlink" href="#dogecoinrpc.exceptions.InvalidAccountName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dogecoinrpc.exceptions.WalletError" title="dogecoinrpc.exceptions.WalletError"><tt class="xref py py-class docutils literal"><span class="pre">dogecoinrpc.exceptions.WalletError</span></tt></a></p>
+<p>Invalid account name</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="dogecoinrpc.exceptions.InvalidAddressOrKey">
+<em class="property">exception </em><tt class="descclassname">dogecoinrpc.exceptions.</tt><tt class="descname">InvalidAddressOrKey</tt><big>(</big><em>error</em><big>)</big><a class="headerlink" href="#dogecoinrpc.exceptions.InvalidAddressOrKey" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dogecoinrpc.exceptions.DogecoinException" title="dogecoinrpc.exceptions.DogecoinException"><tt class="xref py py-class docutils literal"><span class="pre">dogecoinrpc.exceptions.DogecoinException</span></tt></a></p>
+<p>Invalid address or key.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dogecoinrpc.exceptions.InvalidAmount">
+<tt class="descclassname">dogecoinrpc.exceptions.</tt><tt class="descname">InvalidAmount</tt><a class="headerlink" href="#dogecoinrpc.exceptions.InvalidAmount" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#dogecoinrpc.exceptions.JSONTypeError" title="dogecoinrpc.exceptions.JSONTypeError"><tt class="xref py py-class docutils literal"><span class="pre">JSONTypeError</span></tt></a></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="dogecoinrpc.exceptions.InvalidParameter">
+<em class="property">exception </em><tt class="descclassname">dogecoinrpc.exceptions.</tt><tt class="descname">InvalidParameter</tt><big>(</big><em>error</em><big>)</big><a class="headerlink" href="#dogecoinrpc.exceptions.InvalidParameter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dogecoinrpc.exceptions.DogecoinException" title="dogecoinrpc.exceptions.DogecoinException"><tt class="xref py py-class docutils literal"><span class="pre">dogecoinrpc.exceptions.DogecoinException</span></tt></a></p>
+<p>Invalid parameter provided to RPC call.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dogecoinrpc.exceptions.InvalidTransactionID">
+<tt class="descclassname">dogecoinrpc.exceptions.</tt><tt class="descname">InvalidTransactionID</tt><a class="headerlink" href="#dogecoinrpc.exceptions.InvalidTransactionID" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#dogecoinrpc.exceptions.InvalidAddressOrKey" title="dogecoinrpc.exceptions.InvalidAddressOrKey"><tt class="xref py py-class docutils literal"><span class="pre">InvalidAddressOrKey</span></tt></a></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="dogecoinrpc.exceptions.JSONTypeError">
+<em class="property">exception </em><tt class="descclassname">dogecoinrpc.exceptions.</tt><tt class="descname">JSONTypeError</tt><big>(</big><em>error</em><big>)</big><a class="headerlink" href="#dogecoinrpc.exceptions.JSONTypeError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dogecoinrpc.exceptions.DogecoinException" title="dogecoinrpc.exceptions.DogecoinException"><tt class="xref py py-class docutils literal"><span class="pre">dogecoinrpc.exceptions.DogecoinException</span></tt></a></p>
+<p>Unexpected type was passed as parameter</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="dogecoinrpc.exceptions.KeypoolRanOut">
+<em class="property">exception </em><tt class="descclassname">dogecoinrpc.exceptions.</tt><tt class="descname">KeypoolRanOut</tt><big>(</big><em>error</em><big>)</big><a class="headerlink" href="#dogecoinrpc.exceptions.KeypoolRanOut" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dogecoinrpc.exceptions.WalletError" title="dogecoinrpc.exceptions.WalletError"><tt class="xref py py-class docutils literal"><span class="pre">dogecoinrpc.exceptions.WalletError</span></tt></a></p>
+<p>Keypool ran out, call keypoolrefill first</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="dogecoinrpc.exceptions.NotConnected">
+<em class="property">exception </em><tt class="descclassname">dogecoinrpc.exceptions.</tt><tt class="descname">NotConnected</tt><big>(</big><em>error</em><big>)</big><a class="headerlink" href="#dogecoinrpc.exceptions.NotConnected" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dogecoinrpc.exceptions.ClientException" title="dogecoinrpc.exceptions.ClientException"><tt class="xref py py-class docutils literal"><span class="pre">dogecoinrpc.exceptions.ClientException</span></tt></a></p>
+<p>Not connected to any peers.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="dogecoinrpc.exceptions.OutOfMemory">
+<em class="property">exception </em><tt class="descclassname">dogecoinrpc.exceptions.</tt><tt class="descname">OutOfMemory</tt><big>(</big><em>error</em><big>)</big><a class="headerlink" href="#dogecoinrpc.exceptions.OutOfMemory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dogecoinrpc.exceptions.DogecoinException" title="dogecoinrpc.exceptions.DogecoinException"><tt class="xref py py-class docutils literal"><span class="pre">dogecoinrpc.exceptions.DogecoinException</span></tt></a></p>
+<p>Out of memory during operation.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="dogecoinrpc.exceptions.SafeMode">
+<em class="property">exception </em><tt class="descclassname">dogecoinrpc.exceptions.</tt><tt class="descname">SafeMode</tt><big>(</big><em>error</em><big>)</big><a class="headerlink" href="#dogecoinrpc.exceptions.SafeMode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dogecoinrpc.exceptions.DogecoinException" title="dogecoinrpc.exceptions.DogecoinException"><tt class="xref py py-class docutils literal"><span class="pre">dogecoinrpc.exceptions.DogecoinException</span></tt></a></p>
+<p>Operation denied in safe mode (run <tt class="docutils literal"><span class="pre">dogecoind</span></tt> with <tt class="docutils literal"><span class="pre">-disablesafemode</span></tt>).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dogecoinrpc.exceptions.SendError">
+<tt class="descclassname">dogecoinrpc.exceptions.</tt><tt class="descname">SendError</tt><a class="headerlink" href="#dogecoinrpc.exceptions.SendError" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#dogecoinrpc.exceptions.WalletError" title="dogecoinrpc.exceptions.WalletError"><tt class="xref py py-class docutils literal"><span class="pre">WalletError</span></tt></a></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="dogecoinrpc.exceptions.TransportException">
+<em class="property">exception </em><tt class="descclassname">dogecoinrpc.exceptions.</tt><tt class="descname">TransportException</tt><big>(</big><em>msg</em>, <em>code=None</em>, <em>protocol=None</em>, <em>raw_detail=None</em><big>)</big><a class="headerlink" href="#dogecoinrpc.exceptions.TransportException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.Exception</span></tt></p>
+<p>Class to define transport-level failures.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="dogecoinrpc.exceptions.WalletAlreadyUnlocked">
+<em class="property">exception </em><tt class="descclassname">dogecoinrpc.exceptions.</tt><tt class="descname">WalletAlreadyUnlocked</tt><big>(</big><em>error</em><big>)</big><a class="headerlink" href="#dogecoinrpc.exceptions.WalletAlreadyUnlocked" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dogecoinrpc.exceptions.WalletError" title="dogecoinrpc.exceptions.WalletError"><tt class="xref py py-class docutils literal"><span class="pre">dogecoinrpc.exceptions.WalletError</span></tt></a></p>
+<p>Wallet is already unlocked</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="dogecoinrpc.exceptions.WalletEncryptionFailed">
+<em class="property">exception </em><tt class="descclassname">dogecoinrpc.exceptions.</tt><tt class="descname">WalletEncryptionFailed</tt><big>(</big><em>error</em><big>)</big><a class="headerlink" href="#dogecoinrpc.exceptions.WalletEncryptionFailed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dogecoinrpc.exceptions.WalletError" title="dogecoinrpc.exceptions.WalletError"><tt class="xref py py-class docutils literal"><span class="pre">dogecoinrpc.exceptions.WalletError</span></tt></a></p>
+<p>Failed to encrypt the wallet</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="dogecoinrpc.exceptions.WalletError">
+<em class="property">exception </em><tt class="descclassname">dogecoinrpc.exceptions.</tt><tt class="descname">WalletError</tt><big>(</big><em>error</em><big>)</big><a class="headerlink" href="#dogecoinrpc.exceptions.WalletError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dogecoinrpc.exceptions.DogecoinException" title="dogecoinrpc.exceptions.DogecoinException"><tt class="xref py py-class docutils literal"><span class="pre">dogecoinrpc.exceptions.DogecoinException</span></tt></a></p>
+<p>Unspecified problem with wallet (key not found etc.)</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="dogecoinrpc.exceptions.WalletPassphraseIncorrect">
+<em class="property">exception </em><tt class="descclassname">dogecoinrpc.exceptions.</tt><tt class="descname">WalletPassphraseIncorrect</tt><big>(</big><em>error</em><big>)</big><a class="headerlink" href="#dogecoinrpc.exceptions.WalletPassphraseIncorrect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dogecoinrpc.exceptions.WalletError" title="dogecoinrpc.exceptions.WalletError"><tt class="xref py py-class docutils literal"><span class="pre">dogecoinrpc.exceptions.WalletError</span></tt></a></p>
+<p>The wallet passphrase entered was incorrect</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="dogecoinrpc.exceptions.WalletUnlockNeeded">
+<em class="property">exception </em><tt class="descclassname">dogecoinrpc.exceptions.</tt><tt class="descname">WalletUnlockNeeded</tt><big>(</big><em>error</em><big>)</big><a class="headerlink" href="#dogecoinrpc.exceptions.WalletUnlockNeeded" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dogecoinrpc.exceptions.WalletError" title="dogecoinrpc.exceptions.WalletError"><tt class="xref py py-class docutils literal"><span class="pre">dogecoinrpc.exceptions.WalletError</span></tt></a></p>
+<p>Enter the wallet passphrase with walletpassphrase first</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="dogecoinrpc.exceptions.WalletWrongEncState">
+<em class="property">exception </em><tt class="descclassname">dogecoinrpc.exceptions.</tt><tt class="descname">WalletWrongEncState</tt><big>(</big><em>error</em><big>)</big><a class="headerlink" href="#dogecoinrpc.exceptions.WalletWrongEncState" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dogecoinrpc.exceptions.WalletError" title="dogecoinrpc.exceptions.WalletError"><tt class="xref py py-class docutils literal"><span class="pre">dogecoinrpc.exceptions.WalletError</span></tt></a></p>
+<p>Command given in wrong wallet encryption state (encrypting an encrypted wallet etc.)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="dogecoinrpc.exceptions.wrap_exception">
+<tt class="descclassname">dogecoinrpc.exceptions.</tt><tt class="descname">wrap_exception</tt><big>(</big><em>error</em><big>)</big><a class="headerlink" href="#dogecoinrpc.exceptions.wrap_exception" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a JSON error object to a more specific Dogecoin exception.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="dogecoinrpc.connection.html"
+                        title="previous chapter"><tt class="docutils literal"><span class="pre">dogecoinrpc.connection</span></tt> &#8212; Connect to Dogecoin server via JSON-RPC</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="dogecoinrpc.data.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">dogecoinrpc.data</span></tt> &#8212; Dogecoin RPC service, data objects</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/dogecoinrpc.exceptions.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dogecoinrpc.data.html" title="dogecoinrpc.data — Dogecoin RPC service, data objects"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="dogecoinrpc.connection.html" title="dogecoinrpc.connection — Connect to Dogecoin server via JSON-RPC"
+             >previous</a> |</li>
+        <li><a href="index.html">dogecoin-python 0.1.3 documentation</a> &raquo;</li>
+          <li><a href="apireference.html" >API reference</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, bitcoin-python developers.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>

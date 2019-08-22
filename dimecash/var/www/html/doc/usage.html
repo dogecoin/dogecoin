@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Usage &mdash; dogecoin-python 0.1.3 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="dogecoin-python 0.1.3 documentation" href="index.html" />
+    <link rel="up" title="Getting Started" href="gettingstarted.html" />
+    <link rel="next" title="Examples" href="examples.html" />
+    <link rel="prev" title="Introduction" href="introduction.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="examples.html" title="Examples"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="introduction.html" title="Introduction"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">dogecoin-python 0.1.3 documentation</a> &raquo;</li>
+          <li><a href="gettingstarted.html" accesskey="U">Getting Started</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="usage">
+<h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h1>
+<p>See also the <a href="#id1"><span class="problematic" id="id2">`main dogecoin documentation`_</span></a> for details and background on setting up and
+using dogecoind remotely.</p>
+<div class="section" id="setting-up-dogecoin-for-remote-control">
+<h2>Setting up dogecoin for remote control<a class="headerlink" href="#setting-up-dogecoin-for-remote-control" title="Permalink to this headline">¶</a></h2>
+<p>If you run Dogecoin with the <tt class="docutils literal"><span class="pre">-server</span></tt> argument, or if you run <tt class="docutils literal"><span class="pre">dogecoind</span></tt>, it can be controlled
+either by sending it HTTP-JSON-RPC commands.</p>
+<p>However, beginning with Dogecoin 0.3.3 you must create a <tt class="docutils literal"><span class="pre">dogecoin.conf</span></tt> file in the Dogecoin data directory
+(default <tt class="docutils literal"><span class="pre">$HOME/.dogeconf</span></tt>) and set an RPC password:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">rpcuser</span><span class="o">=</span><span class="n">anything</span>
+<span class="n">rpcpassword</span><span class="o">=</span><span class="n">anything</span>
+</pre></div>
+</div>
+<p>Once that is done, the easiest way to check whether Dogecoin accepts remote commands is by running
+Dogecoin again, with the command (and any parameters) as arguments. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ dogecoind getinfo
+</pre></div>
+</div>
+</div>
+<div class="section" id="connecting-to-the-wallet-from-python">
+<h2>Connecting to the wallet from Python<a class="headerlink" href="#connecting-to-the-wallet-from-python" title="Permalink to this headline">¶</a></h2>
+<p>There are two functions for this:</p>
+<dl class="docutils">
+<dt><em>Connecting to local dogecoin instance</em></dt>
+<dd><p class="first">Use the function <a class="reference internal" href="dogecoinrpc.html#dogecoinrpc.connect_to_local" title="dogecoinrpc.connect_to_local"><tt class="xref py py-func docutils literal"><span class="pre">connect_to_local()</span></tt></a>. This automagically
+sorts out the connection to a dogecoin process running on the current machine,
+for the current user.</p>
+<div class="last highlight-python"><div class="highlight"><pre><span class="n">conn</span> <span class="o">=</span> <span class="n">dogecoinrpc</span><span class="o">.</span><span class="n">connect_to_local</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd>
+<dt><em>Connecting to a remote dogecoin instance</em></dt>
+<dd><p class="first">Use the function <a class="reference internal" href="dogecoinrpc.html#dogecoinrpc.connect_to_remote" title="dogecoinrpc.connect_to_remote"><tt class="xref py py-func docutils literal"><span class="pre">connect_to_remote()</span></tt></a>. For this function
+it is neccesary to explicitly specify a hostname and port to connect to, and
+to provide user credentials for logging in.</p>
+<div class="last highlight-python"><div class="highlight"><pre><span class="n">conn</span> <span class="o">=</span> <span class="n">dogecoinrpc</span><span class="o">.</span><span class="n">connect_to_remote</span><span class="p">(</span><span class="s">&#39;foo&#39;</span><span class="p">,</span> <span class="s">&#39;bar&#39;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s">&#39;payments.yoyodyne.com&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8332</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</div>
+<div class="section" id="how-to-use-the-api">
+<h2>How to use the API<a class="headerlink" href="#how-to-use-the-api" title="Permalink to this headline">¶</a></h2>
+<p>For basic sending and receiving of payments, the four most important methods are</p>
+<dl class="docutils">
+<dt><em>Getting the current balance</em></dt>
+<dd><p class="first">Use the method <a class="reference internal" href="dogecoinrpc.connection.html#dogecoinrpc.connection.DogecoinConnection.getbalance" title="dogecoinrpc.connection.DogecoinConnection.getbalance"><tt class="xref py py-func docutils literal"><span class="pre">getbalance()</span></tt></a> to get the current server balance.</p>
+<div class="last highlight-python"><div class="highlight"><pre>print &quot;Your balance is %f&quot; % (conn.getbalance(),)
+</pre></div>
+</div>
+</dd>
+<dt><em>Check a customer address for validity and get information about it</em></dt>
+<dd><p class="first">This can be done with the method <a class="reference internal" href="dogecoinrpc.connection.html#dogecoinrpc.connection.DogecoinConnection.validateaddress" title="dogecoinrpc.connection.DogecoinConnection.validateaddress"><tt class="xref py py-func docutils literal"><span class="pre">validateaddress()</span></tt></a>.</p>
+<div class="last highlight-python"><div class="highlight"><pre>rv = conn.validateaddress(foo)
+if rv.isvalid:
+    print &quot;The address that you provided is valid&quot;
+else:
+    print &quot;The address that you provided is invalid, please correct&quot;
+</pre></div>
+</div>
+</dd>
+<dt><em>Sending payments</em></dt>
+<dd><p class="first">The method <a class="reference internal" href="dogecoinrpc.connection.html#dogecoinrpc.connection.DogecoinConnection.sendtoaddress" title="dogecoinrpc.connection.DogecoinConnection.sendtoaddress"><tt class="xref py py-func docutils literal"><span class="pre">sendtoaddress()</span></tt></a> sends a specified
+amount of coins to a specified address.</p>
+<div class="last highlight-python"><div class="highlight"><pre><span class="n">conn</span><span class="o">.</span><span class="n">sendtoaddress</span><span class="p">(</span><span class="s">&quot;msTGAm1ApjEJfsWfAaRVaZHRm26mv5GL73&quot;</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+<dt><em>Get a new address for accepting payments</em></dt>
+<dd><p class="first">To accept payments, use the method <a class="reference internal" href="dogecoinrpc.connection.html#dogecoinrpc.connection.DogecoinConnection.getnewaddress" title="dogecoinrpc.connection.DogecoinConnection.getnewaddress"><tt class="xref py py-func docutils literal"><span class="pre">getnewaddress()</span></tt></a>
+to generate a new address. Give this address to the customer and store it in a safe place, to be able to check
+when the payment to this address has been made.</p>
+<div class="last highlight-python"><div class="highlight"><pre>pay_to = conn.getnewaddress()
+print &quot;We will ship the pirate sandwidth after payment of 200 coins to &quot;, pay_to
+</pre></div>
+</div>
+</dd>
+<dt><em>Check how much has been received at a certain address</em></dt>
+<dd><p class="first">The method <a class="reference internal" href="dogecoinrpc.connection.html#dogecoinrpc.connection.DogecoinConnection.getreceivedbyaddress" title="dogecoinrpc.connection.DogecoinConnection.getreceivedbyaddress"><tt class="xref py py-func docutils literal"><span class="pre">getreceivedbyaddress()</span></tt></a>
+returns how many dogecoins have been received at a certain address. Together with the
+previous function, this can be used to check whether a payment has been made
+by the customer.</p>
+<div class="last highlight-python"><div class="highlight"><pre>amount = conn.getreceivedbyaddress(pay_to)
+if amount &gt; 200.0:
+    print &quot;Thanks, your sandwidth will be prepared and shipped.&quot;
+</pre></div>
+</div>
+</dd>
+</dl>
+</div>
+<div class="section" id="the-account-api">
+<h2>The account API<a class="headerlink" href="#the-account-api" title="Permalink to this headline">¶</a></h2>
+<p>More advanced usage of dogecoin allows multiple accounts within one wallet. This
+can be useful if you are writing software for a bank, or
+simply want to have a clear separation between customers payments.</p>
+<p>For this, see the <a class="reference external" href="https://en.bitcoin.it/wiki/Accounts_explained">Account API</a> documentation.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Usage</a><ul>
+<li><a class="reference internal" href="#setting-up-dogecoin-for-remote-control">Setting up dogecoin for remote control</a></li>
+<li><a class="reference internal" href="#connecting-to-the-wallet-from-python">Connecting to the wallet from Python</a></li>
+<li><a class="reference internal" href="#how-to-use-the-api">How to use the API</a></li>
+<li><a class="reference internal" href="#the-account-api">The account API</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="introduction.html"
+                        title="previous chapter">Introduction</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="examples.html"
+                        title="next chapter">Examples</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/usage.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="examples.html" title="Examples"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="introduction.html" title="Introduction"
+             >previous</a> |</li>
+        <li><a href="index.html">dogecoin-python 0.1.3 documentation</a> &raquo;</li>
+          <li><a href="gettingstarted.html" >Getting Started</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, bitcoin-python developers.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>dogecoinrpc — Convenience functions &mdash; dogecoin-python 0.1.3 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="dogecoin-python 0.1.3 documentation" href="index.html" />
+    <link rel="up" title="API reference" href="apireference.html" />
+    <link rel="next" title="dogecoinrpc.connection — Connect to Dogecoin server via JSON-RPC" href="dogecoinrpc.connection.html" />
+    <link rel="prev" title="API reference" href="apireference.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dogecoinrpc.connection.html" title="dogecoinrpc.connection — Connect to Dogecoin server via JSON-RPC"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="apireference.html" title="API reference"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">dogecoin-python 0.1.3 documentation</a> &raquo;</li>
+          <li><a href="apireference.html" accesskey="U">API reference</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-dogecoinrpc">
+<span id="dogecoinrpc-convenience-functions"></span><h1><a class="reference internal" href="#module-dogecoinrpc" title="dogecoinrpc"><tt class="xref py py-mod docutils literal"><span class="pre">dogecoinrpc</span></tt></a> &#8212; Convenience functions<a class="headerlink" href="#module-dogecoinrpc" title="Permalink to this headline">¶</a></h1>
+<p>dogecoin-python - Easy-to-use Dogecoin API client</p>
+<dl class="function">
+<dt id="dogecoinrpc.connect_to_local">
+<tt class="descclassname">dogecoinrpc.</tt><tt class="descname">connect_to_local</tt><big>(</big><em>filename=None</em><big>)</big><a class="headerlink" href="#dogecoinrpc.connect_to_local" title="Permalink to this definition">¶</a></dt>
+<dd><p>Connect to default dogecoin instance owned by this user, on this machine.</p>
+<p>Returns a <a class="reference internal" href="dogecoinrpc.connection.html#dogecoinrpc.connection.DogecoinConnection" title="dogecoinrpc.connection.DogecoinConnection"><tt class="xref py py-class docutils literal"><span class="pre">DogecoinConnection</span></tt></a> object.</p>
+<p>Arguments:</p>
+<blockquote>
+<div><ul class="simple">
+<li><cite>filename</cite>: Path to a configuration file in a non-standard location (optional)</li>
+</ul>
+</div></blockquote>
+</dd></dl>
+
+<dl class="function">
+<dt id="dogecoinrpc.connect_to_remote">
+<tt class="descclassname">dogecoinrpc.</tt><tt class="descname">connect_to_remote</tt><big>(</big><em>user</em>, <em>password</em>, <em>host='localhost'</em>, <em>port=22555</em>, <em>use_https=False</em><big>)</big><a class="headerlink" href="#dogecoinrpc.connect_to_remote" title="Permalink to this definition">¶</a></dt>
+<dd><p>Connect to remote or alternative local dogecoin client instance.</p>
+<p>Returns a <a class="reference internal" href="dogecoinrpc.connection.html#dogecoinrpc.connection.DogecoinConnection" title="dogecoinrpc.connection.DogecoinConnection"><tt class="xref py py-class docutils literal"><span class="pre">DogecoinConnection</span></tt></a> object.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="apireference.html"
+                        title="previous chapter">API reference</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="dogecoinrpc.connection.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">dogecoinrpc.connection</span></tt> &#8212; Connect to Dogecoin server via JSON-RPC</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/dogecoinrpc.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dogecoinrpc.connection.html" title="dogecoinrpc.connection — Connect to Dogecoin server via JSON-RPC"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="apireference.html" title="API reference"
+             >previous</a> |</li>
+        <li><a href="index.html">dogecoin-python 0.1.3 documentation</a> &raquo;</li>
+          <li><a href="apireference.html" >API reference</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, bitcoin-python developers.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+    </div>
+  </body>
+</html>
