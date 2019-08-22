@@ -48,11 +48,11 @@ createrawtransaction
     #        {"address":amount,"data":"hex",...} 
      #     ( locktime ) 
 }
-dc.last () 
-{ 
-    ls $_DC_WEB/doge/last | tail -1
-}
 dc.next () 
 { 
     echo $(dc.last)+1 | bc
+}
+dc.last () 
+{ 
+    cat $_DC_WEB/doge/*000.txt | tail -1 | awk '{print $1 }'
 }
