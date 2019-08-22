@@ -1,0 +1,9 @@
+git clone https://github.com/johnrigler/alp;
+git clone https://github.com/johnrigler/unspendable;
+
+echo "Add this to bashrc:";
+echo ". alp/alp.bash";
+echo 'unspendable() {';
+echo '      ~/unspendable/unspendable.py $1 $2 $3';
+echo '             }';
+echo

@@ -1,0 +1,4 @@
+unspendable () 
+{ 
+    ~/unspendable/unspendable.py $*
+}

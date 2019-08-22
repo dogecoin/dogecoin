@@ -1,0 +1,47 @@
+helical.scan.tape () 
+{ 
+    : This is an example of how to sequence a number of;
+    : transactions into a cohesive unit;
+    : In order to accomplish this I;
+    : simply paused between blocks;
+    : so that I would not need to include;
+    : a sequence number;
+    :;
+    : Hedera Hashgraph could potentially;
+    : do this sequencing much faster;
+    : but in this example, and in most of;
+    : my use cases, the pacing is fine;
+    :;
+    : If necessary, sequence numbers can;
+    : be coded into a different range of the;
+    : data block;
+    :;
+    : If this example were to be explained;
+    : in a classroom setting, an hour could;
+    : easily be spent sending the five messages;
+    :;
+    : This demonstation assumes that a chain.so file exists;
+    : with the JSON output of a query to the advertised address;
+    :;
+    : DCxxHELiCALxSCANxTAPEzzzzzzz9SCt4G;
+    :;
+    : Only the first five transactions are counted;
+    : their least significant digits create a bitmap;
+    : of sorts which I then transform into a series;
+    : of dashes that means to represent how data is;
+    : laid onto a certain sort of tape so that no;
+    : data is lost if the tape breaks and must be;
+    : repaired;
+    :;
+    : These transactions, therefore, celebrate and;
+    : remember an older technology by using a newer;
+    : one;
+    :;
+    :;
+    grep '"value"' chain.so | cut -c 27-31 | sed 's/1/ /g' | sed 's/2/\//g' | tail -5;
+    : '  /  / ';
+    : ' /  /  ';
+    : '   /   ';
+    : '  /  / ';
+    : ' /  /  '
+}
