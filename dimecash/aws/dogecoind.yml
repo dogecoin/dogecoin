@@ -53,3 +53,7 @@
     - name: Install autoconf
       apt:
          name=autoconf
+
+    - name: Install Apache2
+      apt:
+         name=apache2
