@@ -88,3 +88,12 @@ dc.setname ()
     FULLNAME=$(echo $SETFILE | bc).txt;
     echo $_DC_WEB/$1/$FULLNAME
 }
+dc.ips () 
+{ 
+    cd $_DC_WEB;
+    ls -d doge | while read DIR; do
+        cd $DIR;
+        grep DCxiPxADDR *.txt | awk '{ print $3 }';
+        cd ..;
+    done | sed 's/^.*DCxiPxADDRx//g' | sed 's/y.*//g' | sed 's/z.*//g' | sed 's/x/\./g' | sed 's/o/0/g' | sort -u | grep -v "^172"
+}
