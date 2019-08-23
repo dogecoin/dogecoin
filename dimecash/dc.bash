@@ -4,7 +4,7 @@ unspendable() {
 
 }
 # User specific aliases and functions
-alias php=/usr/local/php70/bin/php
+#alias php=/usr/local/php70/bin/php
 
 . ~/alp/alp.bash
 
