@@ -95,3 +95,7 @@ dc.ips ()
         cd ..;
     done | sed 's/^.*DCxiPxADDRx//g' | sed 's/y.*//g' | sed 's/z.*//g' | sed 's/x/\./g' | sed 's/o/0/g' | sort -u | grep -v "^172"
 }
+dc.usp9 () 
+{ 
+    dc.valid $(usp9 "$*") | grep address | cut -c 15-48
+}
