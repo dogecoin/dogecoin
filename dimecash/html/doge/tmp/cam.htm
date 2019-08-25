@@ -1,0 +1,662 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="shortcut icon" href="https://www.kirupa.com/favicon_new.png" />
+<link rel="apple-touch-icon" href="https://www.kirupa.com/favicon_ios.png" />
+<link rel="alternate" type="application/rss+xml" title="kirupa.com Updates" href="https://www.kirupa.com/modular/kirupa.xml" />
+
+<meta property="og:site_name" content="kirupa.com" />
+<meta property="fb:admins" content="700218" />
+<meta property="og:type" content="article">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#0099fe" />
+<link rel="manifest" href="/manifest.json">
+<meta content="webcam, getUserMedia, video, stream" name="keywords" />
+<meta content="Learn how the &lt;video&gt; element combined with the getUserMedia function can help you display your webcam's video stream in the browser." name="description" />
+<meta content="Accessing Your Webcam in HTML5 | KIRUPA" name="title" />
+<title>Accessing Your Webcam in HTML5 | KIRUPA</title>
+<meta content="Kirupa Chinnathambi" name="author" />
+<link href="https://www.kirupa.com/ssi/newDesign/kirupa_html5.css" rel="stylesheet" type="text/css">
+<meta property="og:title" content="Accessing Your Webcam in HTML5">
+<meta property="og:url" content="https://www.kirupa.com/html5/accessing_your_webcam_in_html5.htm">
+<meta property="og:image" content="https://www.kirupa.com/images/s/4.png">
+<meta property="og:description" content="Learn how the video element combined with the getUserMedia function can help you display your webcam's video stream in the browser.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@kirupa">
+<meta name="twitter:creator" content="@kirupa">
+<meta name="twitter:title" content="Accessing Your Webcam in HTML5">
+<meta name="twitter:description" content="Learn how the video element combined with the getUserMedia function can help you display your webcam's video stream in the browser.">
+<meta name="twitter:image:src" content="https://www.kirupa.com/images/s/4.png">
+</head>
+<body data-help="//www.kirupa.com/forum/showthread.php?377557-Tutorial-Accessing-the-Webcam-in-HTML5">
+<div id="navigationSlider" class="hidden">
+<ul id="mobileNavItems">
+<li><a id="animationMobileLink" href="//www.kirupa.com/learn/index.htm">Learn</a></li>
+
+<li><a id="bookMobileLink" href="//www.kirupa.com/book/index.htm">Books</a></li>
+<li><a id="forumMobileLink" href="http://forum.kirupa.com/">Forums</a></li>
+<li></li>
+</ul>
+</div>
+<div id="miniHeader" class="miniHidden">
+<div id="miniHeaderContent">
+<div id="miniLogo"> <a href="https://www.kirupa.com"><img alt="The KIRUPA logo!" src="https://www.kirupa.com/images/orange_logo.svg" /></a>
+</div>
+<div id="miniShare">
+<div class="addthis_sharing_toolbox"></div>
+</div>
+<div id="miniHelp">
+<a href="http://forum.kirupa.com">GET HELP</a>
+</div>
+</div>
+</div>
+<div id="mobileHeader">
+<ul>
+<li>
+<a href="//www.kirupa.com">
+<img id="mobileLogo" alt="kirupa.com logo!" src="//www.kirupa.com/images/orange_logo_svg.svg">
+</a>
+</li>
+<li>
+<img id="navMobile" alt="kirupa.com logo!" src="//www.kirupa.com/ssi/newDesign/nav_rows.svg" width="24">
+</li>
+</ul>
+</div>
+<div id="headerContainer">
+<div id="headerContent">
+<ul>
+<li><a href="https://www.kirupa.com"><img src="//www.kirupa.com/images/orange_logo_svg.svg" alt="KIRUPA logo" /></a></li>
+<li id="searchLink" class="mainItems firstItem"><a href="http://forum.kirupa.com"><img width="16" src="//www.kirupa.com/images/help.svg" alt="" /></a></li>
+<li id="tutorialsLink" class="mainItems textItem"><a href="https://www.kirupa.com/learn/index.htm">LEARN</a></li>
+<li id="bookLink" class="mainItems textItem"><a href="https://www.kirupa.com/book/index.htm">BOOKS</a></li>
+<li id="forumLink" class="mainItems textItem"><a href="http://forum.kirupa.com">FORUM</a></li>
+<li class="mainItems headerIcon"><a href="https://www.facebook.com/kirupa" target="_blank"><img src="//www.kirupa.com/images/fb_svg.svg" alt="" /></a></li>
+<li class="mainItems headerIcon"><a href="https://www.twitter.com/kirupa"><img src="//www.kirupa.com/images/twitter_svg.svg" alt="" /></a></li>
+<li id="searchArea">
+<form action="/searchresults.htm" method="get" style="margin-bottom: 0px">
+<input id="sbi" class="inputTextStyle" name="q" size="20" role="textbox" aria-autocomplete="list" aria-haspopup="true" type="text" />
+<button id="searchButton" type="submit">GO</button>
+</form>
+</li>
+</ul>
+</div>
+</div>
+<div id="mainBody">
+<div id="mainContent">
+<div id="tutorialInformation">
+<div class="authorImage">
+<a href="//www.kirupa.com/me/index.htm">
+<img alt="Look, it's a kirupa!!!" src="//www.kirupa.com/ssi/newDesign/kirupa_me.png"></a></div>
+<div class="authorText">
+<h1>Accessing Your Webcam in HTML</h1>
+<p class="tutorialInfo">by
+<a href="//www.kirupa.com/me/index.htm">kirupa</a>&nbsp;&nbsp;|   filed under <a href="https://www.kirupa.com/javascript/javascript_tips_and_tricks.htm">JS Tips and Tricks</a></p>
+</div>
+</div>
+<div id="tutorialBox">
+</div>
+<p>Accessing your webcam via your browser used to involve a...pardon the
+profanity, a plugin. That's right. In order to connect
+to a webcam and gain access to its video stream, you had to rely on
+something primarily created in Flash or Silverlight. While that approach
+certainly worked for browsers that supported plug-ins, it didn't help
+for the increasing number of browsers that aim to be plugin-free. This
+inability to natively access the webcam without relying on 3rd party
+components was certainly a gap in
+the HTML development story. At least, that was the case until pretty recently.</p>
+<p>The W3C has been attempting to fill this gap by encouraging browser
+vendors to implement the proposals outlined in the
+<a class="blueEmphasis" href="http://dev.w3.org/2011/webrtc/editor/getusermedia.html">
+Media Capture and Streams</a> spec. This spec defines, among various
+other things, how to communicate with a webcam device using just a little bit of JavaScript.
+The good news is, despite its newness, various browsers have already
+implemented support for accessing the webcam in their latest versions.</p>
+<div class="callout">
+<h4>Note: Browser Support</h4>
+<p>Because accessing the webcam natively is a recent introduction, check out
+<a class="blueEmphasis" href="http://caniuse.com/stream" target="_blank">caniuse's statistics</a>
+to see the level of support it has among the major browsers.) In
+writing this tutorial, I used the latest version of Google's Chrome
+where everything works swimmingly.</p>
+</div>
+<p>So...while the rest of the world is getting upgraded to browsers
+that support native webcam access, now is a great time for you to get
+ahead of the program and learn all about it. That's where this tutorial
+comes in. By the time you reach the bottom of this page, you will have
+learned how to take your webcam's video stream and display it using
+only some HTML and JavaScript.</p>
+<p>Onwards.</p>
+<h2>The Example</h2>
+<p>Before proceeding further, let's first take a look at an example that
+is identical to what you will be creating. If you are on a browser that supports the
+<span class="inlineCode">getUserMedia</span> function, you
+have granted permission for your browser to access the webcam, and you are not on a mobile device like an iPad, iPhone, Android-based phone, etc. you
+should see a live version of yourself (or whatever your webcam is pointing
+at) in the gray box below:</p>
+<p class="centerImageNoBorder">
+<iframe id="I1" border="0" frameborder="0" name="I1" scrolling="no" src="../cam.html" style="width: 550px; height: 410px;">Your browser does not support inline frames or is currently configured not to display inline frames.
+			</iframe></p>
+<p>If you do not give your browser permission to access the webcam, you
+will not see anything interesting. You will just see a beautiful gray
+box with a finely crafted dark gray border.</p>
+<div class="callout">
+<h4>Google Chrome and HTTPS</h4>
+<p>If you are on a recent version of Google Chrome, a <a href="https://sites.google.com/a/chromium.org/dev/Home/chromium-security/deprecating-powerful-features-on-insecure-origins" target="_blank" class="blueEmphasis">security change was made recently</a> where a webcam can only be accessed if the content is served via HTTPS. You can still develop and test locally (or via localhost), but you won't be able to test it &quot;in the wild&quot; unless you are on a secure HTTPS connection.</p>
+</div>
+<p>If you didn't see a permissions notification, you may have just
+overlooked it or dismissed it because it appeared when you loaded the
+page. Different browsers do different things when they
+ask you for permission to use the webcam. For example, here is what
+Chrome's prompt looks like:</p>
+<p class="centerImage">
+<img alt="Chrome's prompt for using the webcam" height="200" src="images/chrome_prompting.png" width="578"></p>
+<p>If you denied permission accidentally (or intentionally), just
+reload this page to get a crack at acing this test again.</p>
+<h2>Overview of How This Works</h2>
+<p>To help make the code we will be writing...easier to write, let's look
+at an overview of how everything works using plain old English. There
+are two components that do all the heavy lifting in getting data from
+your webcam displayed on your screen. They are the HTML
+<span class="inlineCode">video</span> element and the
+JavaScript
+<span class="inlineCode">getUserMedia</span> function:</p>
+<p class="centerImageNoBorder">
+<img alt="meet the stars" height="202" src="images/video_getUserMedia.png" width="425"></p>
+<p>The <span class="inlineCode">video</span> element is pretty
+straightforward in what it does. It is responsible for taking the video
+stream from your webcam and actually displaying it on the screen.</p>
+<p>The interesting piece is the <span class="inlineCode">getUserMedia</span>
+function. This function allows you to
+do three things:</p>
+<ol>
+<li>Specify whether you want to get video data from the webcam,
+audio data from a microphone, or both. </li>
+<li>If the user grants permission to access the webcam, specify a
+<strong>success</strong> function to call where you can process the
+webcam data further.</li>
+<li>If the user does not grant permission to access the webcam or
+your webcam runs into some other kind of error, specify a <strong>error</strong>
+function to handle the error conditions.</li>
+</ol>
+<p>For what we are trying to do, we call the <span class="inlineCode">getUserMedia</span>
+function and tell
+it to only retrieve the video from the webcam. I will cover the
+microphone in the future! Once we retrieve the
+video, we tell our success function to send the video data to our video
+element for display on our screen.</p>
+<p>If this sounds pretty straightforward, that's because it actually is
+pretty. Let's
+put all of this straightforward English-sounding description into HTML
+and JavaScript in the next section.</p>
+<h2>Adding the Code</h2>
+<p>In this section, let's go ahead and display our webcam data to the
+screen. First, let's add the HTML and CSS:</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta charset="utf-8"&gt;
+&lt;title&gt;Display Webcam Stream&lt;/title&gt;
+ 
+&lt;style&gt;
+#container {
+	margin: 0px auto;
+	width: 500px;
+	height: 375px;
+	border: 10px #333 solid;
+}
+#videoElement {
+	width: 500px;
+	height: 375px;
+	background-color: #666;
+}
+&lt;/style&gt;
+&lt;/head&gt;
+ 
+&lt;body&gt;
+&lt;div id="container"&gt;
+	&lt;video autoplay="true" id="videoElement"&gt;
+	
+	&lt;/video&gt;
+&lt;/div&gt;
+&lt;script&gt;
+
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>In a new document, go ahead and add all of the HTML and CSS that you
+see above. The important thing to note in this snippet is the
+<span class="inlineCode">video</span> tag:</p>
+<pre><code class="language-js">&lt;video autoplay="true" id="videoElement"&gt;
+
+&lt;/video&gt;</code></pre>
+<p>Our <span class="inlineCode">video</span> tag has an
+<span class="inlineCode">id</span> value of <strong>videoElement</strong>,
+and its <span class="inlineCode">autoplay</span> attribute is set to
+<strong>true</strong>. By setting the <span class="inlineCode">autoplay</span>
+attribute to <strong>true</strong>, we ensure that our video starts to
+display automatically once we have our webcam video stream.</p>
+<p>If you preview what your page looks like in your browser, what you
+will see will look as follows:</p>
+<p class="centerImageNoBorder">
+<img alt="a giant gray box - yay!" height="522" src="images/giant_gray_box.png" width="610"></p>
+<p>Yes, this looks pretty plain and boring now. That is because we
+haven't added the JavaScript that ties together our
+<span class="inlineCode">video</span> element with your webcam. We'll do
+that next!</p>
+<p>Inside your <span class="inlineCode">script</span> tag, add the
+following code:</p>
+<pre><code class="language-js">var video = document.querySelector(&quot;#videoElement&quot;);
+
+if (navigator.mediaDevices.getUserMedia) {
+  navigator.mediaDevices.getUserMedia({ video: true })
+    .then(function (stream) {
+      video.srcObject = stream;
+    })
+    .catch(function (err0r) {
+      console.log(&quot;Something went wrong!&quot;);
+    });
+}</code></pre>
+<p>Once you've added this code, save your HTML document and preview your
+page. Provided you are on a supported browser, you should see your webcam video stream after you've given your
+browser permission to access it.</p>
+<h2>Examining the Code</h2>
+<p>Now that you have a working example, let's go through our code
+line-by-line to understand how the verbal overview you saw earlier
+matches the code that you just added.</p>
+<p>Let's
+start at the very top:</p>
+<pre><code class="language-js">var video = document.querySelector("#videoElement");</code></pre>
+<p>We first declare a variable called <span class="inlineCode">video</span>,
+and it is initialized to our <span class="inlineCode">video</span>
+element that lives in the HTML. We get our paws on the
+<span class="inlineCode">video</span> element by using
+<span class="inlineCode">
+<a href="//www.kirupa.com/html5/finding_elements_dom_using_querySelector.htm">
+querySelector</a></span> and specifying the <span class="inlineCode">id</span>
+selector that targets it.</p>
+<hr />
+<p>Next up is our code for accessing the <span class="inlineCode">
+getUserMedia</span> API:</p>
+<pre><code class="language-js">if (navigator.mediaDevices.getUserMedia) {
+  navigator.mediaDevices.getUserMedia({ video: true })
+    .then(function (stream) {
+      video.srcObject = stream;
+    })
+    .catch(function (err0r) {
+      console.log(&quot;Something went wrong!&quot;);
+    });
+}</code></pre>
+<p>The <span class="inlineCode">getUserMedia</span> method is
+supported by most browsers, but it doesn't hurt to check first before starting to access properties on it. This <span class="inlineCode">if</span> statement ensures that our media-related code only works if <span class="inlineCode">getUserMedia</span> is actually supported.</p>
+<hr />
+<p>The rest of our code is responsible for accessing our webcam and streaming the visuals to the screen. Before we go through and look at that, let's take a step back and talk about how <span class="inlineCode">getUserMedia</span> actually works. It takes one argument that specifies what are known as <strong>constraints</strong>. Constraints allow you to control, among various things, whether video is allowed, whether audio is allowed, how big to make the video dimensions, whether to prefer a front-facing camera over a back-facing one, the video frame rate, and more. You represent these constraints as just objects and properties. Nothing fancy there.</p>
+<p>In our code, you can see constraints in action below:</p>
+<pre class="line-numbers" data-line="2"><code class="language-js">if (navigator.mediaDevices.getUserMedia) {
+  navigator.mediaDevices.getUserMedia({ video: true })
+    .then(function (stream) {
+      video.srcObject = stream;
+    })
+    .catch(function (err0r) {
+      console.log(&quot;Something went wrong!&quot;);
+    });
+}</code></pre>
+<p>All we are telling <span class="inlineCode">getUserMedia</span> is to specify a constraints object whose <span class="inlineCode">video</span> property is set to <strong>true</strong>. This means that default settings will be used in capturing the visuals and displaying them. This isn't the most exciting constraint to set, but it gets the job done. To see the full range of constraints you can specify, <a href="https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia" class="blueEmphasis">the MDN article on getUserMedia</a> goes through all the fun details.</p>
+<p>Beyond constraints, there is another very important detail we need to know about the <span class="inlineCode">getUserMedia</span> method. What it returns is a promise that resolves to an object of type <span class="inlineCode">MediaStream</span>. When the promise successfully resolves, you can access the underlying media stream and perform any additional actions.</p>
+<p>In our code, we are keeping things simple and just setting our stream to our <span class="inlineCode">video</span> element's <span class="inlineCode">srcObject</span> property:</p>
+<pre class="line-numbers" data-line="4"><code class="language-js">if (navigator.mediaDevices.getUserMedia) {
+  navigator.mediaDevices.getUserMedia({ video: true })
+    .then(function (stream) {
+      video.srcObject = stream;
+    })
+    .catch(function (err0r) {
+      console.log(&quot;Something went wrong!&quot;);
+    });
+}</code></pre>
+<p>If there are any failures, the <span class="inlineCode">catch</span> block will kick in.</p>
+<div class="callout">
+<h4>Tip: Stopping the Webcam Stream</h4>
+<p>If you want to stop the webcam stream, you need some code that looks as follows:</p>
+<pre><code class="language-js">function stop(e) {
+  var stream = video.srcObject;
+  var tracks = stream.getTracks();
+
+  for (var i = 0; i < tracks.length; i++) {
+    var track = tracks[i];
+    track.stop();
+  }
+
+  video.srcObject = null;
+}</code></pre>
+<p><a href="https://forum.kirupa.com/t/accessing-your-webcam-in-html5/352092/38?u=kirupa" class="blueEmphasis">This thread</a> goes into more detail on what you should do along with a working example,</p>
+</div>
+<h2>Conclusion</h2>
+<p>So, there you have it - a look at how you can access a user's webcam
+video stream and display it in the browser. Once you get the video
+displayed, you can then do all sorts of things that you can do to videos
+in general. You can apply crazy filters, you can take a snapshot and
+save the image to disk, etc. I may cover some of these in future
+tutorials.</p>
+<p>
+<p>If you have a question about this or any other topic, the easiest thing is to comment below or drop by <a class="blueEmphasis" href="http://forum.kirupa.com">our forums</a> where a bunch of the friendliest people you'll ever run into will be happy to help you out!</p>
+<div id="bookPromo" style="display:none">
+<h3>Did You Like This?</h3>
+<div id="js101Signature" style="display: none">
+<ul>
+<li>
+<a onclick="_gaq.push(['_trackEvent', 'js101MoreInfo_Signature', 'clicked'])" href="http://www.quepublishing.com/store/javascript-absolute-beginners-guide-9780789758064">MORE INFO</a></li>
+<li>
+<a onclick="_gaq.push(['_trackEvent', 'js101BuyNow_Signature', 'clicked'])" href="https://www.amazon.com/exec/obidos/ASIN/0789758067/kirupacom">BUY NOW</a></li>
+</ul>
+</div>
+<div id="animationSignature" style="display: none">
+<ul>
+<li>
+<a onclick="_gaq.push(['_trackEvent', 'animationMoreInfo_Signature', 'clicked'])" href="//www.kirupa.com/book/animation_in_html_css_and_javascript.htm">MORE INFO</a></li>
+<li>
+<a onclick="_gaq.push(['_trackEvent', 'animationBuyNow_Signature', 'clicked'])" href="http://www.amazon.com/dp/1502548704?_encoding=UTF8&camp=15041&creative=373501&linkCode=as3&tag=kirupacom">BUY NOW</a></li>
+</ul>
+</div>
+<div id="canvasSignature" style="display: none">
+<ul>
+<li>
+<a onclick="_gaq.push(['_trackEvent', 'canvasMoreInfo_Signature', 'clicked'])" href="https://www.kirupa.com/book/html5_canvas_noob_to_ninja.htm">MORE INFO</a></li>
+<li>
+<a onclick="_gaq.push(['_trackEvent', 'canvasBuyNow_Signature', 'clicked'])" href="http://www.amazon.com/gp/product/1523978090?redirect=true&tag=kirupacom">BUY NOW</a></li>
+</ul>
+</div>
+<div id="reactSignature">
+<ul>
+<li>
+<a onclick="_gaq.push(['_trackEvent', 'reactMoreInfo_Signature', 'clicked'])" href="http://www.informit.com/store/learning-react-a-hands-on-guide-to-building-maintainable-9780134546315">MORE INFO</a></li>
+<li>
+<a onclick="_gaq.push(['_trackEvent', 'reactBuyNow_Signature', 'clicked'])" href="https://www.amazon.com/exec/obidos/ASIN/0134546318/kirupacom">BUY NOW</a></li>
+</ul>
+</div>
+</div>
+<p><a href="https://www.kirupa.com/about/whatiskirupa.htm"><img src="https://www.kirupa.com/images/kirupa_sig.png" width="150" height="65" alt="" /></a> </p>
+<div id="sigNewsletter">
+<h4>THE KIRUPA NEWSLETTER</h4>
+<p>Get cool tips, tricks, <span class="strikethrough">selfies</span>, and more...personally hand-delivered to your inbox!</p>
+<form action="//kirupa.us7.list-manage.com/subscribe/post?u=b0d69bc8873ebf34032eb7796&amp;id=47036a7bd4" class="validate" id="mc-embedded-subscribe-form" method="post" name="mc-embedded-subscribe-form" novalidate target="_blank">
+<div id="mc_embed_signup_scroll">
+<p><input class="email" id="mce-EMAIL" name="EMAIL" placeholder="email address" required="" type="email" value=""><input class="button" id="mc-embedded-subscribe" name="subscribe" type="submit" value="SIGN ME UP"> </p>
+<p>
+</p>
+<div style="position: absolute; left: -5000px;">
+<input name="b_b0d69bc8873ebf34032eb7796_47036a7bd4" tabindex="-1" type="text" value="">
+</div>
+<div class="clear">
+</div>
+</div>
+</form>
+<p class="smallText">( <a class="blueEmphasis" href="http://us7.campaign-archive1.com/home/?u=b0d69bc8873ebf34032eb7796&id=47036a7bd4">View past issues</a> for an idea of what you've been missing out on all this time! )</p>
+</div>
+<p> </p>
+<h2 id="pageComments">GOT A QUESTION?</h2>
+<div id="pageCommentsImage">
+<img src="https://www.kirupa.com/images/green_square.svg" />
+</div>
+<div id="oldComments">
+<div id='discourse-comments'></div>
+<script type="text/javascript">
+			  DiscourseEmbed = { discourseUrl: 'https://forum.kirupa.com/',
+								 discourseEmbedUrl: "https://www.kirupa.com" + window.location.pathname.split("?")[0].split("#")[0] };
+
+			  (function() {
+				var d = document.createElement('script'); d.type = 'text/javascript'; d.async = true;
+				d.src = DiscourseEmbed.discourseUrl + 'javascripts/embed.js';
+				(document.getElementsByTagName('title')[0] || document.getElementsByTagName('title')[0]).appendChild(d);
+			  })();
+			</script>
+</div>
+</p>
+</div>
+<div id="rightContents">
+<style>
+    #outerContainer {
+
+    }
+    #forumListing {
+      width: 250px;
+      padding: 0;
+      margin: 0;
+      margin-top: 30px;
+    }
+    
+    #forumListing li {
+      list-style: none;
+    }
+    #forumListing li p {
+      line-height: 20px;
+      margin-left: -10px;
+    }
+    #forumListing li a {
+      color: #222;
+      font-size: 14px;
+      padding: 5px;
+      padding-left: 40px;
+      display: inline-block;
+      
+      background-image: url("https://www.kirupa.com/icon/1f354.svg");
+      background-repeat: no-repeat;
+      background-size: 20px;
+      background-position: 10px 3px;
+    }
+    #forumListing li a:hover {
+      text-decoration: underline;
+    }
+    #forumListing li p:hover {
+      background-color: #FAFAFA;
+    }
+  </style>
+<div id="bookBannerContent">
+<ul>
+<li class="learningReactRight">
+<a href="https://www.amazon.com/exec/obidos/ASIN/013484355X/kirupacom"><strong>Learning React:</strong><br>
+<span class="lessemphasis">A Hands-on Guide</span></a>
+<ul class="buyNowRight">
+<li>
+<a href="https://www.amazon.com/exec/obidos/ASIN/013484355X/kirupacom">BUY</a></li>
+</ul>
+</li>
+<li class="animationRight">
+<a href="http://shop.oreilly.com/product/0636920050858.do" target="_blank"><strong>Creating</strong><span class="lessemphasis"> Web Animations</span></a>
+<ul class="buyNowRight">
+<li>
+<a href="https://www.amazon.com/exec/obidos/ASIN/1491957514/kirupacom" target="_blank">BUY</a></li>
+</ul>
+</li>
+<li class="js101Right">
+<a href="http://www.quepublishing.com/store/javascript-absolute-beginners-guide-9780789758064"><strong>JavaScript</strong> <span class="lessemphasis">Absolute Beginner's Guide</span></a>
+<ul class="buyNowRight">
+<li>
+<a href="https://www.amazon.com/exec/obidos/ASIN/0789758067/kirupacom">BUY</a></li>
+</ul>
+</li>
+</ul>
+<img alt="new books - yay!!!" height="66" src="//www.kirupa.com/images/caption_books.png" width="165">
+</div>
+<div id="rightNewsletter">
+<h4>HOT FORUM TOPICS</h4>
+<div id="outerContainer">
+<ul id="forumListing">
+</ul>
+</div>
+<template id="topicRow">
+<li>
+<p>
+<a href="#">Test</a>
+</p>
+</li>
+</template>
+<script>
+    
+    fetch('https://forum.kirupa.com/latest.json')
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(jsonData) {
+        processResults(jsonData);
+      });
+
+      var topicArray = [];
+
+      function processResults(input) {
+        //console.log(input);
+
+        var topicList = input.topic_list.topics;
+
+        for (var i = 0; i < 7; i++) {
+          var topic = topicList[i];
+
+          if (topic.pinned == false) {
+            topicArray.push({
+              title: topic.title,
+              count: topic.posts_count,
+              category: topic.category_id,
+              urlFrag: topic.slug + "/" + topic.id
+            });
+          }
+        }
+
+        //console.log(topicArray);
+
+        createDOM();
+      }
+
+      function createDOM() {
+        // 38 -> flash/as -> flash.svg
+        // 43 -> jobs -> 26f3.svg (golf)
+        // 36 -> random -> 1f379.svg (orange)
+        // 3 -> meta -> 1f441.svg
+        // 41 -> programming -> 1f4be.svg (disk)
+        // 42 -> web dev -> 1f431.svg (cat)
+        // other -> unknown -> 1f354.svg
+        // other
+        var forumParent = document.querySelector("#forumListing");
+        var t = document.querySelector("#topicRow");
+
+        for (var i = 0; i < topicArray.length; i++) {
+          var topic = topicArray[i];
+
+          var clone = document.importNode(t.content, true);
+
+          // set the link
+          var topicLink = clone.querySelector("a");
+          topicLink.textContent = topic.title;
+          topicLink.setAttribute("href", "https://forum.kirupa.com/t/" + topic.urlFrag);
+
+          // set the icon
+          var category = topic.category;
+          var icon = "https://www.kirupa.com/icon/";
+
+          switch(category) {
+            case 38:
+                icon += "1f525.svg";
+                break;
+            case 43:
+                icon += "1f4b0.svg";
+                break;
+            case 41:
+                icon += "1f4ac.svg";
+                break;
+            case 39:
+                icon += "1f3a8.svg";
+                break;
+            case 42:
+                icon += "1f4dd.svg";
+                break;
+            case 36:
+                icon += "1f5e8.svg";
+                break;
+             case 3:
+                icon += "1f5fa.svg";
+                break;
+            default:
+              icon += "1f4dd.svg"
+              break;
+          }
+
+          topicLink.style.backgroundImage = "url(" + icon + ")";
+
+          forumParent.appendChild(clone);
+        }
+      }
+
+    </script>
+</div>
+</div>
+</div>
+<div id="mainFooter">
+<div class="footerContents">
+<div class="leftFooter">
+<p>Serving you freshly baked content since 1998!</p>
+<p><a href="https://mediatemple.net/" target="_blank">Killer hosting by (mt) mediatemple</a></p>
+</div>
+<div class="rightFooter"> <a href="https://www.facebook.com/kirupa" target="_blank"><img src="https://www.kirupa.com/images/fb_svg.svg" alt="Facebook"></a>
+<a href="https://www.twitter.com/kirupa" target="_blank"><img src="https://www.kirupa.com/images/twitter_svg.svg" alt="Twitter"></a>
+<a href="https://www.youtube.com/user/kirupa" target="_blank"><img src="https://www.kirupa.com/images/s/youtube.svg" alt="Youtube"></a>
+<a href="https://www.pinterest.com/kirupa/" target="_blank"><img src="https://www.kirupa.com/images/s/pinterest.svg" alt="Pinterest"></a>
+<a href="https://www.instagram.com/kirupac/" target="_blank"><img src="https://www.kirupa.com/images/s/instagram.svg" alt="Instagram"></a>
+<a href="https://github.com/kirupa/kirupa" target="_blank"><img src="https://www.kirupa.com/images/s/github.svg" alt="Github"></a>
+</div>
+</div>
+</div>
+<div id="mobileFooter">
+<div id="topFooter"><a href="#">BACK TO TOP</a></div>
+<div id="bookBannerContent">
+<ul>
+<li class="canvasRight">
+<a onclick="_gaq.push(['_trackEvent', 'canvasMoreInfo', 'clicked'])" href="https://www.kirupa.com/book/html5_canvas_noob_to_ninja.htm">HTML5 Canvas: From Noob to Ninja</a>
+<ul class="buyNowRight">
+<li>
+<a onclick="_gaq.push(['_trackEvent', 'canvasBuyNow', 'clicked'])" href="http://www.amazon.com/gp/product/1523978090?redirect=true&tag=kirupacom">BUY NOW</a></li>
+</ul>
+</li>
+<li class="animationRight">
+<a onclick="_gaq.push(['_trackEvent', 'animationMoreInfo', 'clicked'])" href="//www.kirupa.com/book/animation_in_html_css_and_javascript.htm">Animation in HTML, CSS, and JavaScript</a>
+<ul class="buyNowRight">
+<li>
+<a onclick="_gaq.push(['_trackEvent', 'animationBuyNow', 'clicked'])" href="http://www.amazon.com/dp/1502548704?_encoding=UTF8&amp;camp=15041&amp;creative=373501&amp;linkCode=as3&amp;tag=kirupacom" target="_blank">BUY NOW</a></li>
+</ul>
+</li>
+<li class="js101Right">
+<a onclick="_gaq.push(['_trackEvent', 'js101MoreInfo', 'clicked'])" href="http://www.quepublishing.com/store/javascript-absolute-beginners-guide-9780789758064">JavaScript: Absolute Beginner's Guide</a>
+<ul class="buyNowRight">
+<li>
+<a onclick="_gaq.push(['_trackEvent', 'js101BuyNow', 'clicked'])" href="https://www.amazon.com/exec/obidos/ASIN/0789758067/kirupacom">BUY NOW</a></li>
+</ul>
+</li>
+</ul>
+<img alt="new books - yay!!!" height="66" src="//www.kirupa.com/images/caption_books.png" width="165">
+</div>
+<div id="bottomLinks">
+<h3>Copyright 2018 Kirupa, Inc.</h3>
+</div>
+</div>
+<script async src="//www.kirupa.com/ssi/newDesign/kirupa.js"></script>
+<link href="//www.kirupa.com/ssi/sh/styles/shCore.css" rel="stylesheet" type="text/css" />
+<link href="//www.kirupa.com/ssi/sh/styles/shThemeDefault.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="//www.kirupa.com/ssi/sh/scripts/shCore.js"></script>
+<script type="text/javascript" src="//www.kirupa.com/ssi/sh/scripts/shBrushJScript.js"></script>
+<script type="text/javascript" src="//www.kirupa.com/ssi/sh/scripts/shBrushXml.js"></script>
+<script type="text/javascript" src="//www.kirupa.com/ssi/sh/scripts/shBrushCss.js"></script>
+
+<script type="text/javascript">
+	 SyntaxHighlighter.defaults['gutter'] = false;
+	 SyntaxHighlighter.defaults['toolbar'] = false;
+	 SyntaxHighlighter.defaults['class-name'] = 'kirupa_code';
+   SyntaxHighlighter.all();
+</script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('/service-worker.js');
+    });
+  }
+</script>
+<link href="https://www.kirupa.com/js/prism_v1.css" rel="stylesheet" />
+<script src="https://www.kirupa.com/js/prism_v1.js"></script>
+</body>
+</html>

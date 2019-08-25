@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en" xml:lang="en">
+<head>
+ <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+ <meta http-equiv="refresh" content="15">
+
+<pre>
+<?php
+
+
+$blocks = array();
+$feed=(explode("\n",`tail -2000 2800000.txt | tac`)); 
+
+
+foreach($feed as $line)
+{
+	list($block,$date,$addr,$code) = explode(" ",$line);
+	$blocks[$block][$date][$addr] = $code;
+}
+
+
+foreach($blocks as $height => $values) 
+{
+	foreach($values as $timestamp => $values)
+	{
+		echo "<hr>---------------- $height $timestamp ------------\n";
+		foreach($values as $addr => $code)
+			echo "$addr --- $code\n";
+	}
+
+}
+
+
+
+?>
+</pre>
+
