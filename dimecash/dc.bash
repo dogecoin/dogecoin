@@ -97,5 +97,25 @@ dc.ips ()
 }
 dc.usp9 () 
 { 
-    dc.valid $(usp9 "$*") | grep address | cut -c 15-48
+    dc.valid $(usp9 "$*")
+}
+dc.valid () 
+{ 
+    dc validateaddress $1 | grep address | cut -c 15-48
+}
+usp9 () 
+{ 
+    NAME=$(echo $* | tr 'a-z' 'A-Z');
+    NAME=$(echo $NAME | sed 's/0/o/g' | sed 's/1/L/g' | sed 's/O/o/g' | sed 's/l/L/g' | sed 's/I/i/g');
+    NAME=$(echo $NAME | sed 's/x/X/g' | sed 's/ /x/g' | sed 's/\-/y/g');
+    LEN=$(echo $NAME | wc -c);
+    PAD="";
+    let MAX=27;
+    while [[ $LEN -lt $MAX ]]; do
+        PAD=$PAD"z";
+        let LEN=LEN+1;
+    done;
+    CHAR="9";
+    NUM=22;
+    ~/unspendable/unspendable.py 9 9s$NAME$PAD $NUM
 }
