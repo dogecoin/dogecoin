@@ -3,8 +3,6 @@ unspendable() {
 ~/unspendable/unspendable.py $*
 
 }
-# User specific aliases and functions
-alias php=/usr/local/php70/bin/php
 
 . ~/alp/alp.bash
 
@@ -97,3 +95,4 @@ dc.ips ()
         cd ..;
     done | sed 's/^.*DCxiPxADDRx//g' | sed 's/y.*//g' | sed 's/z.*//g' | sed 's/x/\./g' | sed 's/o/0/g' | sort -u | grep -v "^172"
 }
+usp9-62230.1
