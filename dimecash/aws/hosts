@@ -1,3 +1,2 @@
-[dogecoind]
-ubuntu@172.31.29.65 ansible_ssh_private_key_file=./id_rsa 
-root@104.248.156.22 ansible_ssh_private_key_file=./id_rsa 
+[]
+ubuntu@3.84.169.227 ansible_ssh_private_key_file=./id_rsa

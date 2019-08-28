@@ -1,10 +1,7 @@
-
-data "aws_vpc" "monica_vpc" {}
-
-resource "aws_vpc" "main" {
+resource "aws_vpc" "dimecash_vpc" {
   cidr_block = "172.31.0.0/16"
   tags = {
-    Name = "monica_vpc"
+    Name = "dimecash_vpc"
   }
 
 }

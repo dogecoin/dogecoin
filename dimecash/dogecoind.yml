@@ -22,6 +22,11 @@
     - name: PIP Install setuptools
       pip: 
            name=setuptools
+
+    - name: PIP Install qrcode
+      pip:
+           name=qrcode[pil]
+
     - name: Install JQ JSON Language
       apt:
          name=jq
@@ -38,10 +43,6 @@
       apt:
          name=libboost-all-dev
 
-    - name: Install libdb5.3++-dev
-      apt:
-         name=libdb5.3++-dev
-
     - name: Install libssl-dev
       apt:
          name=libssl-dev
@@ -57,3 +58,20 @@
     - name: Install Apache2
       apt:
          name=apache2
+
+    - name: Install PHP7-cli
+      apt:
+        name=php7.2-cli
+
+    - name: Install Apache PHP Module
+      apt:
+        name=libapache2-mod-php
+
+    - name: Install GD Graphics for PHP
+      apt:
+        name=php-gd
+
+    - name: Install Mail tools
+      apt:
+        name=mailutils
+

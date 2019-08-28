@@ -1,5 +1,5 @@
-resource "aws_security_group" "monica_public" {
-  name   = "monica public"
+resource "aws_security_group" "dimecashd" {
+  name   = "dimecashd"
   vpc_id = "${aws_vpc.main.id}"
 
  ingress {     

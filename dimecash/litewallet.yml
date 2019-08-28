@@ -1,0 +1,11 @@
+---
+- hosts: zackovo 
+  become: yes
+  tasks:
+    - apt:
+        update_cache: yes
+    - name: Install JAVA 
+      apt:
+        name=openjdk-11-jdk
+
+
