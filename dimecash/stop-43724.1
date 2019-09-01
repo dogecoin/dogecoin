@@ -1,7 +1,0 @@
-stop () 
-{ 
-    ps -ef | grep process.bash | while read A B C; do
-        kill $B;
-    done;
-    dogecoin-cli stop
-}
