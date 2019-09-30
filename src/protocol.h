@@ -39,7 +39,12 @@ public:
     };
     typedef unsigned char MessageStartChars[MESSAGE_START_SIZE];
 
+
     CMessageHeader(const MessageStartChars& pchMessageStartIn);
+
+    /** Construct a P2P message header from message-start characters, a command and the size of the message.
+     * @note Passing in a `pszCommand` longer than COMMAND_SIZE will result in a run-time assertion error.
+     */
     CMessageHeader(const MessageStartChars& pchMessageStartIn, const char* pszCommand, unsigned int nMessageSizeIn);
 
     std::string GetCommand() const;
