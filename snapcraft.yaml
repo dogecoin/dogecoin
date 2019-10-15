@@ -70,9 +70,8 @@ parts:
       - libminiupnpc-dev
       - libevent-dev
       - libssl-dev
+      - libdb++-dev
       - libtool
-      - libdb5.1-dev 
-      - libdb5.1++-dev
       - pkg-config
       - autotools-dev
       - automake
@@ -91,16 +90,15 @@ parts:
       - libminiupnpc-dev
       - libevent-dev
       - libssl-dev
-      - libtool      
-      - libdb5.1-dev 
-      - libdb5.1++-dev
+      - libdb++-dev
+      - libtool
       - pkg-config
       - autotools-dev
       - automake
       - bsdmainutils
     override-build: |
       bash autogen.sh
-      bash configure
+      bash configure --with-incompatible-bdb
       make -j4
       cp $SNAPCRAFT_PART_BUILD/src/dogecoind $SNAPCRAFT_PART_INSTALL/bin
   dogecoin:
@@ -123,6 +121,7 @@ parts:
       - libminiupnpc-dev
       - libevent-dev
       - libssl-dev
+      - libdb++-dev
       - libtool
       - libqt5gui5
       - libqt5core5a
@@ -130,9 +129,7 @@ parts:
       - qttools5-dev
       - qttools5-dev-tools
       - qt5-default
-      - qtbase5-dev-tools      
-      - libdb5.1-dev 
-      - libdb5.1++-dev
+      - qtbase5-dev-tools
       - pkg-config
       - autotools-dev
       - automake
@@ -151,6 +148,7 @@ parts:
       - libminiupnpc-dev
       - libevent-dev
       - libssl-dev
+      - libdb++-dev
       - libtool
       - libqt5gui5
       - libqt5core5a
@@ -158,16 +156,14 @@ parts:
       - qttools5-dev
       - qttools5-dev-tools
       - qt5-default
-      - qtbase5-dev-tools      
-      - libdb5.1-dev 
-      - libdb5.1++-dev
+      - qtbase5-dev-tools
       - pkg-config
       - autotools-dev
       - automake
       - bsdmainutils
     override-build: |
       bash autogen.sh
-      bash configure
+      bash configure --with-incompatible-bdb
       make -j4
       cp dogecoin-qt $SNAPCRAFT_PART_INSTALL/bin
     after: [desktop-qt5]
