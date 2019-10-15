@@ -51,23 +51,6 @@ apps:
       HOME: $SNAP_USER_COMMON
  
 parts:
-  openssl:
-    plugin: nil
-    source: https://www.openssl.org/source/openssl-1.0.1j.tar.gz
-    build-packages:
-      - g++
-      - build-essential
-      - libtool
-    override-build: |
-      echo "Downgrading OpenSSL to 1.0.1j"
-      sudo ./config
-      sudo make
-      echo "Make depends OpenSSL to 1.0.1j"
-      sudo make depend
-      echo "Make install OpenSSL to 1.0.1j"
-      sudo make install
-      echo "Linking OpenSSL to 1.0.1j"
-      sudo ln -sf /usr/local/ssl/bin/openssl `which openssl`
   daemon:
     source: https://github.com/carsenk/dogecoin.git
     source-type: git
@@ -82,13 +65,18 @@ parts:
       - build-essential
       - apt-transport-https
       - zlib1g-dev
-      - libdb++-dev
       - libboost-all-dev
       - libqrencode-dev
       - libminiupnpc-dev
       - libevent-dev
       - libssl-dev
       - libtool
+      - libdb5.1-dev 
+      - libdb5.1++-dev
+      - pkg-config
+      - autotools-dev
+      - automake
+      - bsdmainutils
     stage-packages:
       - g++
       - jq
@@ -98,40 +86,22 @@ parts:
       - build-essential
       - apt-transport-https
       - zlib1g-dev
-      - libdb++-dev
       - libboost-all-dev
       - libqrencode-dev
       - libminiupnpc-dev
       - libevent-dev
       - libssl-dev
-      - libtool
+      - libtool      
+      - libdb5.1-dev 
+      - libdb5.1++-dev
+      - pkg-config
+      - autotools-dev
+      - automake
+      - bsdmainutils
     override-build: |
-      set -x
-      ARCH=$(uname -m)
-      MF=makefile.unix
-      if [ "$ARCH" = "x86_64" ]; then
-          MF="makefile.unix"
-      elif [ "$ARCH" = "i686" ] || [ "$ARCH" = "i386" ]; then
-          MF="makefile.arm"
-      elif [ "$ARCH" = "armv7l" ] || [ "$ARCH" = "armv6l" ]; then
-          MF="makefile.arm"
-      elif [ "$ARCH" = *"armv8"* ] || [ "$ARCH" = "aarch64" ]; then
-          MF="makefile.arm"
-      elif [ "$ARCH" = *"mips64le"* ]; then
-          MF="makefile.arm"
-      elif [ "$ARCH" = *"mips64"* ]; then
-          MF="makefile.arm"
-      elif [ "$ARCH" = *"mipsle"* ]; then
-          MF="makefile.arm"
-      elif [ "$ARCH" = *"mips"* ]; then
-          MF="makefile.arm"
-      elif [[ "$ARCH" == "ppc64le" ]]; then
-          MF="makefile.arm"
-      elif [[ "$ARCH" == "ppc64" ]]; then
-          MF="makefile.arm"
-      fi
-      cd src
-      OPENSSL_INCLUDE_PATH=/usr/local/ssl/include OPENSSL_LIB_PATH=/usr/local/ssl/lib make -f "${MF}" -j4
+      bash autogen.sh
+      bash configure
+      make -j4
       cp $SNAPCRAFT_PART_BUILD/src/dogecoind $SNAPCRAFT_PART_INSTALL/bin
   dogecoin:
     source: https://github.com/carsenk/dogecoin.git
@@ -148,7 +118,6 @@ parts:
       - build-essential
       - apt-transport-https
       - zlib1g-dev
-      - libdb++-dev
       - libboost-all-dev
       - libqrencode-dev
       - libminiupnpc-dev
@@ -161,7 +130,13 @@ parts:
       - qttools5-dev
       - qttools5-dev-tools
       - qt5-default
-      - qtbase5-dev-tools
+      - qtbase5-dev-tools      
+      - libdb5.1-dev 
+      - libdb5.1++-dev
+      - pkg-config
+      - autotools-dev
+      - automake
+      - bsdmainutils
     stage-packages:
       - g++
       - jq
@@ -171,7 +146,6 @@ parts:
       - build-essential
       - apt-transport-https
       - zlib1g-dev
-      - libdb++-dev
       - libboost-all-dev
       - libqrencode-dev
       - libminiupnpc-dev
@@ -184,34 +158,17 @@ parts:
       - qttools5-dev
       - qttools5-dev-tools
       - qt5-default
-      - qtbase5-dev-tools
+      - qtbase5-dev-tools      
+      - libdb5.1-dev 
+      - libdb5.1++-dev
+      - pkg-config
+      - autotools-dev
+      - automake
+      - bsdmainutils
     override-build: |
-      set -x
-      ARCH=$(uname -m)
-      MF=USE_NATIVETOR=1
-      if [ "$ARCH" = "x86_64" ]; then
-          MF="USE_NATIVETOR=1"
-      elif [ "$ARCH" = "i686" ] || [ "$ARCH" = "i386" ]; then
-          MF="USE_NATIVETOR=-"
-      elif [ "$ARCH" = "armv7l" ] || [ "$ARCH" = "armv6l" ]; then
-          MF="USE_NATIVETOR=-"
-      elif [ "$ARCH" = *"armv8"* ] || [ "$ARCH" = "aarch64" ]; then
-          MF="USE_NATIVETOR=-"
-      elif [ "$ARCH" = *"mips64le"* ]; then
-          MF="USE_NATIVETOR=-"
-      elif [ "$ARCH" = *"mips64"* ]; then
-          MF="USE_NATIVETOR=-"
-      elif [ "$ARCH" = *"mipsle"* ]; then
-          MF="USE_NATIVETOR=-"
-      elif [ "$ARCH" = *"mips"* ]; then
-          MF="USE_NATIVETOR=-"
-      elif [[ "$ARCH" == "ppc64le" ]]; then
-          MF="USE_NATIVETOR=-"
-      elif [[ "$ARCH" == "ppc64" ]]; then
-          MF="USE_NATIVETOR=-"
-      fi
-      qmake "USE_UPNP=1" "USE_QRCODE=1" "${MF}" OPENSSL_INCLUDE_PATH=/usr/local/ssl/include OPENSSL_LIB_PATH=/usr/local/ssl/lib dogecoin-qt.pro
-      OPENSSL_INCLUDE_PATH=/usr/local/ssl/include OPENSSL_LIB_PATH=/usr/local/ssl/lib make -j4
+      bash autogen.sh
+      bash configure
+      make -j4
       cp dogecoin-qt $SNAPCRAFT_PART_INSTALL/bin
     after: [desktop-qt5]
   desktop:

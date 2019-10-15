@@ -1,7 +1,7 @@
 #!/bin/sh -e
 
 DATA_DIR="$SNAP_USER_COMMON"
-CONFIG="$DATA_DIR/denarius.conf"
+CONFIG="$DATA_DIR/dogecoin.conf"
 
 # This may be used to bootstrap config settings from the environment settings
 # given by the snap installation command. Otherwise, denariusd will make it's
