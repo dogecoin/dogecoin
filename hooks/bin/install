@@ -1,0 +1,17 @@
+#!/bin/sh -e
+
+DATA_DIR="$SNAP_USER_COMMON"
+CONFIG="$DATA_DIR/denarius.conf"
+
+# This may be used to bootstrap config settings from the environment settings
+# given by the snap installation command. Otherwise, denariusd will make it's
+# own config on start.
+
+### examples:
+# snapctl set port=33369
+# snapctl set rpcport=33379
+# snapctl set rpcuser=$RPCUSER
+# snapctl set rpcpass=$RPCPASS
+
+# Updated to support Parallel Snap Installs
+snapctl stop --disable $SNAP_INSTANCE_NAME.dogecoind

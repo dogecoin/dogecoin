@@ -1,0 +1,15 @@
+# http://standards.freedesktop.org/desktop-entry-spec/desktop-entry-spec-1.0.html
+[Desktop Entry]
+Type=Application
+Version=master
+Encoding=UTF-8
+Name=Dogecoin
+Icon=${SNAP}/meta/gui/dogecoin128.png
+MimeType=x-scheme-handler/dogecoin;
+Exec=dogecoin
+Terminal=false
+Categories=Office;Finance;
+Comment=Dogecoin such coin
+Keywords=internet;bitcoin;dogecoin;
+Comment[fr]=Dogecoin, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=Dogecoin, eşten eşe kriptografik sanal para birimi
