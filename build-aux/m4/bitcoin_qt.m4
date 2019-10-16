@@ -112,39 +112,6 @@ AC_DEFUN([BITCOIN_QT_CONFIGURE],[
   TEMP_CXXFLAGS=$CXXFLAGS
   CPPFLAGS="$QT_INCLUDES $CPPFLAGS"
   CXXFLAGS="$PIC_FLAGS $CXXFLAGS"
-<<<<<<< HEAD
-  if test x$bitcoin_qt_got_major_vers = x5; then
-    _BITCOIN_QT_IS_STATIC
-    if test x$bitcoin_cv_static_qt = xyes; then
-      _BITCOIN_QT_FIND_STATIC_PLUGINS
-      AC_DEFINE(QT_STATICPLUGIN, 1, [Define this symbol if qt plugins are static])
-      AC_CACHE_CHECK(for Qt < 5.4, bitcoin_cv_need_acc_widget,[AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
-          [[#include <QtCore>]],[[
-          #if QT_VERSION >= 0x050400
-          choke;
-          #endif
-          ]])],
-        [bitcoin_cv_need_acc_widget=yes],
-        [bitcoin_cv_need_acc_widget=no])
-      ])
-      if test "x$bitcoin_cv_need_acc_widget" = "xyes"; then
-        _BITCOIN_QT_CHECK_STATIC_PLUGINS([Q_IMPORT_PLUGIN(AccessibleFactory)], [-lqtaccessiblewidgets])
-      fi
-      if test x$TARGET_OS = xwindows; then
-        _BITCOIN_QT_CHECK_STATIC_PLUGINS([Q_IMPORT_PLUGIN(QWindowsIntegrationPlugin)],[-lqwindows])
-        _BITCOIN_QT_CHECK_STATIC_PLUGINS([Q_IMPORT_PLUGIN(QMinimalIntegrationPlugin)],[-lqminimal])
-        _BITCOIN_QT_CHECK_STATIC_PLUGINS([Q_IMPORT_PLUGIN(QWindowsPrinterSupportPlugin)],[-lwindowsprintersupport])
-        AC_DEFINE(QT_QPA_PLATFORM_WINDOWS, 1, [Define this symbol if the qt platform is windows])
-      elif test x$TARGET_OS = xlinux; then
-        _BITCOIN_QT_CHECK_STATIC_PLUGINS([Q_IMPORT_PLUGIN(QXcbIntegrationPlugin)],[-lqxcb -lxcb-static])
-        AC_DEFINE(QT_QPA_PLATFORM_XCB, 1, [Define this symbol if the qt platform is xcb])
-      elif test x$TARGET_OS = xdarwin; then
-        AX_CHECK_LINK_FLAG([[-framework IOKit]],[QT_LIBS="$QT_LIBS -framework IOKit"],[AC_MSG_ERROR(could not iokit framework)])
-        AX_CHECK_LINK_FLAG([[-lcups]],[QT_LIBS="$QT_LIBS -lcups"],[AC_MSG_ERROR(could not link against cups)])
-        _BITCOIN_QT_CHECK_STATIC_PLUGINS([Q_IMPORT_PLUGIN(QCocoaIntegrationPlugin)],[-lqcocoa])
-        AC_DEFINE(QT_QPA_PLATFORM_COCOA, 1, [Define this symbol if the qt platform is cocoa])
-      fi
-=======
   _BITCOIN_QT_IS_STATIC
   if test "x$bitcoin_cv_static_qt" = xyes; then
     _BITCOIN_QT_FIND_STATIC_PLUGINS
@@ -157,7 +124,6 @@ AC_DEFUN([BITCOIN_QT_CONFIGURE],[
       AX_CHECK_LINK_FLAG([[-lcups]],[QT_LIBS="$QT_LIBS -lcups"],[AC_MSG_ERROR(could not link against cups)])
       _BITCOIN_QT_CHECK_STATIC_PLUGINS([Q_IMPORT_PLUGIN(QCocoaIntegrationPlugin)],[-lqcocoa])
       AC_DEFINE(QT_QPA_PLATFORM_COCOA, 1, [Define this symbol if the qt platform is cocoa])
->>>>>>> 4ce0531451 (depends: bump qt to 5.9.8)
     fi
   fi
   CPPFLAGS=$TEMP_CPPFLAGS
@@ -367,15 +333,6 @@ AC_DEFUN([_BITCOIN_QT_FIND_STATIC_PLUGINS],[
      if test "x$use_pkgconfig" = xyes; then
      : dnl
      m4_ifdef([PKG_CHECK_MODULES],[
-<<<<<<< HEAD
-       PKG_CHECK_MODULES([QTPLATFORM], [Qt5PlatformSupport], [QT_LIBS="$QTPLATFORM_LIBS $QT_LIBS"])
-       if test x$TARGET_OS = xlinux; then
-         if ${PKG_CONFIG} --exists "Qt5Core >= 5.5" 2>/dev/null; then
-           PKG_CHECK_MODULES([QTXCBQPA], [Qt5XcbQpa], [QT_LIBS="$QTXCBQPA_LIBS $QT_LIBS"])
-         fi
-       elif test x$TARGET_OS = xdarwin; then
-         PKG_CHECK_MODULES([QTPRINT], [Qt5PrintSupport], [QT_LIBS="$QTPRINT_LIBS $QT_LIBS"])
-=======
        if test x$bitcoin_cv_qt58 = xno; then
          PKG_CHECK_MODULES([QTPLATFORM], [Qt5PlatformSupport], [QT_LIBS="$QTPLATFORM_LIBS $QT_LIBS"])
        else
@@ -391,7 +348,7 @@ AC_DEFUN([_BITCOIN_QT_FIND_STATIC_PLUGINS],[
          PKG_CHECK_MODULES([QTCLIPBOARD], [Qt5ClipboardSupport], [QT_LIBS="-lQt5ClipboardSupport $QT_LIBS"])
          PKG_CHECK_MODULES([QTGRAPHICS], [Qt5GraphicsSupport], [QT_LIBS="-lQt5GraphicsSupport $QT_LIBS"])
          PKG_CHECK_MODULES([QTCGL], [Qt5CglSupport], [QT_LIBS="-lQt5CglSupport $QT_LIBS"])
->>>>>>> 4ce0531451 (depends: bump qt to 5.9.8)
+         PKG_CHECK_MODULES([QTPRINT], [Qt5PrintSupport], [QT_LIBS="$QTPRINT_LIBS $QT_LIBS"])
        fi
      ])
      else
