@@ -144,7 +144,7 @@ string EncodeBase64(const unsigned char* pch, size_t len)
 
 string EncodeBase64(const string& str)
 {
-    return EncodeBase64((const unsigned char*)str.c_str(), str.size());
+    return EncodeBase64((const unsigned char*)str.data(), str.size());
 }
 
 vector<unsigned char> DecodeBase64(const char* p, bool* pfInvalid)
@@ -297,7 +297,7 @@ string EncodeBase32(const unsigned char* pch, size_t len)
 
 string EncodeBase32(const string& str)
 {
-    return EncodeBase32((const unsigned char*)str.c_str(), str.size());
+    return EncodeBase32((const unsigned char*)str.data(), str.size());
 }
 
 vector<unsigned char> DecodeBase32(const char* p, bool* pfInvalid)
