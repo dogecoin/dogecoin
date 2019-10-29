@@ -340,12 +340,17 @@ public:
             ( 703635, uint256S("0x839fa54617adcd582d53030a37455c14a87a806f6615aa8213f13e196230ff7f"))
             ( 1000000, uint256S("0x1fe4d44ea4d1edb031f52f0d7c635db8190dc871a190654c41d2450086b8ef0e"))
             ( 1202214, uint256S("0xa2179767a87ee4e95944703976fee63578ec04fa3ac2fc1c9c2c83587d096977"))
+            ( 1855459, uint256S("0x8f66489d4531ee118ee7e6d28750d5e136301836b32ed4d7854e0fa71f8b57f9"))
+            ( 1855460, uint256S("0xdca7f518a3d1450d2cce0190e70fb1c91e5cd878e9b2ea23f8f8af02a13d9276"))
+            ( 1900000, uint256S("0x859052d13b6db190d08b4cbc54d3105af78c1104bf0297447b104b914d7a99e4"))
+            ( 2000000, uint256S("0xd6acde73e1b42fc17f29dcc76f63946d378ae1bd4eafab44d801a25be784103c"))
+            ( 2058783, uint256S("0xea8fe5057c28a370b1ff414448476271da76b667d8eb3940c9ae466c6f9cc2e6"))
         };
 
         chainTxData = ChainTxData{
-            // Data as of block a2179767a87ee4e95944703976fee63578ec04fa3ac2fc1c9c2c83587d096977 (height 1202214)
-            1514565123, // * UNIX timestamp of last checkpoint block
-            2005610,    // * total number of transactions between genesis and last checkpoint
+            // Data as of block ea8fe5057c28a370b1ff414448476271da76b667d8eb3940c9ae466c6f9cc2e6 (height 2058783)
+            1572386267, // * UNIX timestamp of last checkpoint block
+            3074833,    // * total number of transactions between genesis and last checkpoint
             1000 // * estimated number of transactions per day after checkpoint
         };
 
