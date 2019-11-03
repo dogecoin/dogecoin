@@ -178,6 +178,7 @@ public:
         if (scriptPubKey.IsUnspendable())
             return 0;
 
+        /*
         size_t nSize = GetSerializeSize(*this, SER_DISK, 0);
         int witnessversion = 0;
         std::vector<unsigned char> witnessprogram;
@@ -190,8 +191,11 @@ public:
             nSize += (32 + 4 + 1 + 107 + 4); // the 148 mentioned above
         }
 
+        return 3 * minRelayTxFee.GetFee(nSize);
+        */
+
         // Dogecoin: Anything below 1 DOGE is always dust
-        return std::max(COIN, 3 * minRelayTxFee.GetFee(nSize));
+        return COIN;
     }
 
     bool IsDust(const CFeeRate &minRelayTxFee) const
