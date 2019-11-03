@@ -190,7 +190,8 @@ public:
             nSize += (32 + 4 + 1 + 107 + 4); // the 148 mentioned above
         }
 
-        return 3 * minRelayTxFee.GetFee(nSize);
+        // Dogecoin: Anything below 1 DOGE is always dust
+        return std::max(COIN, 3 * minRelayTxFee.GetFee(nSize));
     }
 
     bool IsDust(const CFeeRate &minRelayTxFee) const
