@@ -6,6 +6,7 @@
 #include <boost/random/mersenne_twister.hpp>
 
 #include <arith_uint256.h>
+#include <policy/policy.h>
 #include <dogecoin.h>
 #include <pow.h>
 #include <util.h>
@@ -174,7 +175,7 @@ CAmount GetDogecoinDustFee(const std::vector<CTxOut> &vout, const CFeeRate &base
 
     // To limit dust spam, add base fee for each output less than a COIN
     for (const CTxOut& txout: vout)
-        if (txout.nValue < COIN)
+        if (IsDust(txout, ::minRelayTxFee))
             nFee += baseFeeRate.GetFeePerK();
 
     return nFee;
