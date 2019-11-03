@@ -34,6 +34,7 @@ CAmount GetDustThreshold(const CTxOut& txout, const CFeeRate& dustRelayFeeIn)
     if (txout.scriptPubKey.IsUnspendable())
         return 0;
 
+    /*
     size_t nSize = GetSerializeSize(txout, SER_DISK, 0);
     int witnessversion = 0;
     std::vector<unsigned char> witnessprogram;
@@ -45,9 +46,10 @@ CAmount GetDustThreshold(const CTxOut& txout, const CFeeRate& dustRelayFeeIn)
     } else {
         nSize += (32 + 4 + 1 + 107 + 4); // the 148 mentioned above
     }
+    */
 
     // Dogecoin: Anything below 1 DOGE is always dust
-    return std::max(COIN, dustRelayFeeIn.GetFee(nSize));
+    return COIN;
 }
 
 bool IsDust(const CTxOut& txout, const CFeeRate& dustRelayFeeIn)
