@@ -1,14 +1,14 @@
 # Dogecoin Core [DOGE, Ð]
 ==========================
 
-![Dogecoin](http://static.tumblr.com/ppdj5y9/Ae9mxmxtp/300coin.png)
+![Dogecoin](https://static.tumblr.com/ppdj5y9/Ae9mxmxtp/300coin.png)
 
 [![Build Status](https://travis-ci.org/dogecoin/dogecoin.svg?branch=1.14-dev)](https://travis-ci.org/dogecoin/dogecoin) [![tip for next commit](https://tip4commit.com/projects/702.svg)](https://tip4commit.com/github/dogecoin/dogecoin)
 
 ## What is Dogecoin? – Such coin
 Dogecoin is a cryptocurrency like Bitcoin, although it does not use SHA256 as its proof of work (POW). Taking development cues from Tenebrix and Litecoin, Dogecoin currently employs a simplified variant of scrypt.
 
-http://dogecoin.com/
+https://dogecoin.com/
 
 ## License – Much license
 Dogecoin Core is released under the terms of the MIT license. See [COPYING](COPYING) for more
@@ -96,13 +96,13 @@ The original block reward schedule, with one-minute block targets and four-hour 
 
   - [OSX Build Notes](doc/build-osx.md)
   - [Unix Build Notes](doc/build-unix.md)
-  - [Windows Build Notes](doc/build-msw.md)
+  - [Windows Build Notes](doc/build-windows.md)
 
 ### Such ports
 RPC 22555
 P2P 22556
 
-![](http://dogesay.com/wow//////such/coin)
+![](https://dogesay.com/3f5a00acf72df93528b6bb7cd0a4fd0c.jpeg)
 
 ## Development tips and tricks
 
