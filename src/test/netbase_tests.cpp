@@ -109,7 +109,6 @@ BOOST_AUTO_TEST_CASE(netbase_lookupnumeric)
 
 BOOST_AUTO_TEST_CASE(onioncat_test)
 {
-
     // values from https://web.archive.org/web/20121122003543/http://www.cypherpunk.at/onioncat/wiki/OnionCat
     CNetAddr addr1(ResolveIP("5wyqrzbvrdsumnok.onion"));
     CNetAddr addr2(ResolveIP("FD87:D87E:EB43:edb1:8e4:3588:e546:35ca"));
@@ -283,6 +282,24 @@ BOOST_AUTO_TEST_CASE(netbase_getgroup)
     BOOST_CHECK(ResolveIP("2001:470:abcd:9999:9999:9999:9999:9999").GetGroup() == boost::assign::list_of((unsigned char)NET_IPV6)(32)(1)(4)(112)(175)); //he.net
     BOOST_CHECK(ResolveIP("2001:2001:9999:9999:9999:9999:9999:9999").GetGroup() == boost::assign::list_of((unsigned char)NET_IPV6)(32)(1)(32)(1)); //IPv6
 
+}
+
+BOOST_AUTO_TEST_CASE(netbase_dont_resolve_strings_with_embedded_nul_characters)
+{
+    CNetAddr addr;
+    BOOST_CHECK(LookupHost(std::string("127.0.0.1", 9), addr, false));
+    BOOST_CHECK(!LookupHost(std::string("127.0.0.1\0", 10), addr, false));
+    BOOST_CHECK(!LookupHost(std::string("127.0.0.1\0example.com", 21), addr, false));
+    BOOST_CHECK(!LookupHost(std::string("127.0.0.1\0example.com\0", 22), addr, false));
+    CSubNet ret;
+    BOOST_CHECK(LookupSubNet(std::string("1.2.3.0/24", 10), ret));
+    BOOST_CHECK(!LookupSubNet(std::string("1.2.3.0/24\0", 11), ret));
+    BOOST_CHECK(!LookupSubNet(std::string("1.2.3.0/24\0example.com", 22), ret));
+    BOOST_CHECK(!LookupSubNet(std::string("1.2.3.0/24\0example.com\0", 23), ret));
+    BOOST_CHECK(LookupSubNet(std::string("5wyqrzbvrdsumnok.onion", 22), ret));
+    BOOST_CHECK(!LookupSubNet(std::string("5wyqrzbvrdsumnok.onion\0", 23), ret));
+    BOOST_CHECK(!LookupSubNet(std::string("5wyqrzbvrdsumnok.onion\0example.com", 34), ret));
+    BOOST_CHECK(!LookupSubNet(std::string("5wyqrzbvrdsumnok.onion\0example.com\0", 35), ret));
 }
 
 BOOST_AUTO_TEST_SUITE_END()
