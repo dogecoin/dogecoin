@@ -535,6 +535,9 @@ public:
     CAmount minFeeFilter;
     uint64_t nProcessedAddrs;
     uint64_t nRatelimitedAddrs;
+    // Bind address of our side of the connection
+    CAddress addrBind;
+    uint32_t m_mapped_as;
 };
 
 
@@ -832,7 +835,7 @@ public:
 
     void CloseSocketDisconnect();
 
-    void copyStats(CNodeStats &stats);
+    void copyStats(CNodeStats &stats, std::vector<bool> &m_asmap);
 
     ServiceFlags GetLocalServices() const
     {
