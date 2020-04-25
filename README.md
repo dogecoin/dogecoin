@@ -96,7 +96,7 @@ The original block reward schedule, with one-minute block targets and four-hour 
 
   - [OSX Build Notes](doc/build-osx.md)
   - [Unix Build Notes](doc/build-unix.md)
-  - [Windows Build Notes](doc/build-msw.md)
+  - [Windows Build Notes](doc/build-windows.md)
 
 ### Such ports
 RPC 22555
