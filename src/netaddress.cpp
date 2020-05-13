@@ -543,12 +543,10 @@ bool CService::GetSockAddr(struct sockaddr* paddr, socklen_t *addrlen) const
 
 std::vector<unsigned char> CService::GetKey() const
 {
-     std::vector<unsigned char> vKey;
-     vKey.resize(18);
-     memcpy(&vKey[0], ip, 16);
-     vKey[16] = port / 0x100;
-     vKey[17] = port & 0x0FF;
-     return vKey;
+    auto key = GetAddrBytes();
+    key.push_back(port / 0x100); // most significant byte of our port
+    key.push_back(port & 0x0FF); // least significant byte of our port
+    return key;
 }
 
 std::string CService::ToStringPort() const
