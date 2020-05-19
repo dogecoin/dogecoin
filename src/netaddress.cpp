@@ -16,6 +16,7 @@
 #include <algorithm>
 #include <array>
 #include <cstdint>
+#include <ios>
 #include <iterator>
 #include <tuple>
 
@@ -30,18 +31,7 @@ CNetAddr::BIP155Network CNetAddr::GetBIP155Network() const
     case NET_IPV6:
         return BIP155Network::IPV6;
     case NET_ONION:
-        switch (m_addr.size()) {
-        case ADDR_TORV2_SIZE:
-            return BIP155Network::TORV2;
-        case ADDR_TORV3_SIZE:
-            return BIP155Network::TORV3;
-        default:
-            assert(false);
-        }
-    case NET_I2P:
-        return BIP155Network::I2P;
-    case NET_CJDNS:
-        return BIP155Network::CJDNS;
+        return BIP155Network::TORV2;
     case NET_INTERNAL:   // should have been handled before calling this function
     case NET_UNROUTABLE: // m_net is never and should not be set to NET_UNROUTABLE
     case NET_MAX:        // m_net is never and should not be set to NET_MAX
@@ -78,30 +68,6 @@ bool CNetAddr::SetNetFromBIP155Network(uint8_t possible_bip155_net, size_t addre
         throw std::ios_base::failure(
             strprintf("BIP155 TORv2 address with length %u (should be %u)", address_size,
                       ADDR_TORV2_SIZE));
-    case BIP155Network::TORV3:
-        if (address_size == ADDR_TORV3_SIZE) {
-            m_net = NET_ONION;
-            return true;
-        }
-        throw std::ios_base::failure(
-            strprintf("BIP155 TORv3 address with length %u (should be %u)", address_size,
-                      ADDR_TORV3_SIZE));
-    case BIP155Network::I2P:
-        if (address_size == ADDR_I2P_SIZE) {
-            m_net = NET_I2P;
-            return true;
-        }
-        throw std::ios_base::failure(
-            strprintf("BIP155 I2P address with length %u (should be %u)", address_size,
-                      ADDR_I2P_SIZE));
-    case BIP155Network::CJDNS:
-        if (address_size == ADDR_CJDNS_SIZE) {
-            m_net = NET_CJDNS;
-            return true;
-        }
-        throw std::ios_base::failure(
-            strprintf("BIP155 CJDNS address with length %u (should be %u)", address_size,
-                      ADDR_CJDNS_SIZE));
     }
 
     // Don't throw on addresses with unknown network ids (maybe from the future).
