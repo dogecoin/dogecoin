@@ -302,6 +302,21 @@ string EncodeBase32(const string& str, bool pad)
     return EncodeBase32((const unsigned char*)str.c_str(), str.size(), pad);
 }
 
+string EncodeBase32(Span<const unsigned char> input, bool pad)
+{
+    static const char *pbase32 = "abcdefghijklmnopqrstuvwxyz234567";
+
+    string str;
+    str.reserve(((input.size() + 4) / 5) * 8);
+    ConvertBits<8, 5, true>([&](int v) { str += pbase32[v]; }, input.begin(), input.end());
+    if (pad) {
+        while (str.size() % 8) {
+            str += '=';
+        }
+    }
+    return str;
+}
+
 vector<unsigned char> DecodeBase32(const char* p, bool* pfInvalid)
 {
     static const int decode32_table[256] =

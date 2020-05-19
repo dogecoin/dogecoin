@@ -1700,8 +1700,7 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
 
     else if (strCommand == NetMsgType::SENDADDRV2) 
     {
-        pfrom.m_wants_addrv2 = true;
-        return;
+        pfrom->m_wants_addrv2 = true;
     }
 
     else if (strCommand == NetMsgType::SENDHEADERS) 
@@ -3105,7 +3104,6 @@ bool SendMessages(CNode* pto, CConnman& connman, const std::atomic<bool>& interr
             pto->nNextAddrSend = PoissonNextSend(current_time, AVG_ADDRESS_BROADCAST_INTERVAL);
             std::vector<CAddress> vAddr;
             vAddr.reserve(pto->vAddrToSend.size());
-            assert(pto->m_addr_known);
 
             const char* msg_type;
             int make_flags;

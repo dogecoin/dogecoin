@@ -787,8 +787,7 @@ public:
         // Known checking here is only to save space from duplicates.
         // SendMessages will filter it again for knowns that were added
         // after addresses were pushed.
-        assert(m_addr_known);
-        if (_addr.IsValid() && !m_addr_known->contains(_addr.GetKey()) && addr_format_supported) {
+        if (_addr.IsValid() && !addrKnown.contains(_addr.GetKey()) && addr_format_supported) {
             if (vAddrToSend.size() >= MAX_ADDR_TO_SEND) {
                 vAddrToSend[insecure_rand.rand32() % vAddrToSend.size()] = _addr;
             } else {

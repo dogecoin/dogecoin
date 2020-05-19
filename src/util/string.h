@@ -63,6 +63,17 @@ inline bool ValidAsCString(const std::string& str) noexcept
 }
 
 /**
+ * Check if a string does not contain any embedded NUL (\0) characters
+ */
+inline bool ContainsNoNUL(std::string str) noexcept
+{
+    for (auto c : str) {
+        if (c == 0) return false;
+    }
+    return true;
+}
+
+/**
  * Locale-independent version of std::to_string
  */
 template <typename T>

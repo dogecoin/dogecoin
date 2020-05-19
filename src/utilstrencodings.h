@@ -9,6 +9,7 @@
 #ifndef BITCOIN_UTILSTRENCODINGS_H
 #define BITCOIN_UTILSTRENCODINGS_H
 
+#include "span.h"
 #include <stdint.h>
 #include <string>
 #include <vector>
@@ -21,6 +22,38 @@
 
 /** This is needed because the foreach macro can't get over the comma in pair<t1, t2> */
 #define PAIRTYPE(t1, t2)    std::pair<t1, t2>
+
+/** Helper class for the default infn argument to ConvertBits (just returns the input). */
+struct IntIdentity
+{
+    int operator()(int x) const { return x; }
+};
+
+/** Convert from one power-of-2 number base to another. */
+template<int frombits, int tobits, bool pad, typename O, typename It, typename I = IntIdentity>
+bool ConvertBits(O outfn, It it, It end, I infn = {}) {
+    size_t acc = 0;
+    size_t bits = 0;
+    constexpr size_t maxv = (1 << tobits) - 1;
+    constexpr size_t max_acc = (1 << (frombits + tobits - 1)) - 1;
+    while (it != end) {
+        int v = infn(*it);
+        if (v < 0) return false;
+        acc = ((acc << frombits) | v) & max_acc;
+        bits += frombits;
+        while (bits >= tobits) {
+            bits -= tobits;
+            outfn((acc >> bits) & maxv);
+        }
+        ++it;
+    }
+    if (pad) {
+        if (bits) outfn((acc << (tobits - bits)) & maxv);
+    } else if (bits >= frombits || ((acc << (tobits - bits)) & maxv)) {
+        return false;
+    }
+    return true;
+}
 
 /** Used by SanitizeString() */
 enum SafeChars
@@ -49,6 +82,7 @@ std::vector<unsigned char> DecodeBase32(const char* p, bool* pfInvalid = NULL);
 std::string DecodeBase32(const std::string& str);
 std::string EncodeBase32(const unsigned char* pch, size_t len);
 std::string EncodeBase32(const std::string& str, bool pad = true);
+std::string EncodeBase32(Span<const unsigned char> input, bool pad = true);
 
 std::string i64tostr(int64_t n);
 std::string itostr(int n);
@@ -58,7 +92,7 @@ int atoi(const std::string& str);
 
 /**
  * Convert string to signed 32-bit integer with strict parse error feedback.
- * @returns true if the entire string could be parsed as valid integer,
+ * @returns true if tstd::string EncodeBase32(Span<const unsigned char> input, bool pad = true);he entire string could be parsed as valid integer,
  *   false if not the entire string could be parsed or when overflow or underflow occurred.
  */
 bool ParseInt32(const std::string& str, int32_t *out);
