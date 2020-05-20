@@ -135,12 +135,17 @@ def uint256_from_compact(c):
     return v
 
 
-def deser_vector(f, c):
+# deser_function_name: Allow for an alternate deserialization function on the
+# entries in the vector.
+def deser_vector(f, c, deser_function_name=None):
     nit = deser_compact_size(f)
     r = []
     for i in range(nit):
         t = c()
-        t.deserialize(f)
+        if deser_function_name:
+            getattr(t, deser_function_name)(f)
+        else:
+            t.deserialize(f)
         r.append(t)
     return r
 
@@ -216,36 +221,84 @@ def ToHex(obj):
 
 # Objects that map to bitcoind objects, which can be serialized/deserialized
 
-class CAddress(object):
+
+class CAddress:
+    __slots__ = ("net", "ip", "nServices", "port", "time")
+
+    # see https://github.com/bitcoin/bips/blob/master/bip-0155.mediawiki
+    NET_IPV4 = 1
+
+    ADDRV2_NET_NAME = {
+        NET_IPV4: "IPv4"
+    }
+
+    ADDRV2_ADDRESS_LENGTH = {
+        NET_IPV4: 4
+    }
+
     def __init__(self):
         self.time = 0
         self.nServices = 1
-        self.pchReserved = b"\x00" * 10 + b"\xff" * 2
+        self.net = self.NET_IPV4
         self.ip = "0.0.0.0"
         self.port = 0
 
-    def deserialize(self, f, with_time=True):
+    def deserialize(self, f, *, with_time=True):
+        """Deserialize from addrv1 format (pre-BIP155)"""
         if with_time:
+            # VERSION messages serialize CAddress objects without time
             self.time = struct.unpack("<I", f.read(4))[0]
         self.nServices = struct.unpack("<Q", f.read(8))[0]
-        self.pchReserved = f.read(12)
+        # We only support IPv4 which means skip 12 bytes and read the next 4 as IPv4 address.
+        f.read(12)
+        self.net = self.NET_IPV4
         self.ip = socket.inet_ntoa(f.read(4))
         self.port = struct.unpack(">H", f.read(2))[0]
 
-    def serialize(self, with_time=True):
+    def serialize(self, *, with_time=True):
+        """Serialize in addrv1 format (pre-BIP155)"""
+        assert self.net == self.NET_IPV4
         r = b""
         if with_time:
+            # VERSION messages serialize CAddress objects without time
             r += struct.pack("<I", self.time)
         r += struct.pack("<Q", self.nServices)
-        r += self.pchReserved
+        r += b"\x00" * 10 + b"\xff" * 2
+        r += socket.inet_aton(self.ip)
+        r += struct.pack(">H", self.port)
+        return r
+
+    def deserialize_v2(self, f):
+        """Deserialize from addrv2 format (BIP155)"""
+        self.time = struct.unpack("<I", f.read(4))[0]
+
+        self.nServices = deser_compact_size(f)
+
+        self.net = struct.unpack("B", f.read(1))[0]
+        assert self.net == self.NET_IPV4
+
+        address_length = deser_compact_size(f)
+        assert address_length == self.ADDRV2_ADDRESS_LENGTH[self.net]
+
+        self.ip = socket.inet_ntoa(f.read(4))
+
+        self.port = struct.unpack(">H", f.read(2))[0]
+
+    def serialize_v2(self):
+        """Serialize in addrv2 format (BIP155)"""
+        assert self.net == self.NET_IPV4
+        r = b""
+        r += struct.pack("<I", self.time)
+        r += ser_compact_size(self.nServices)
+        r += struct.pack("B", self.net)
+        r += ser_compact_size(self.ADDRV2_ADDRESS_LENGTH[self.net])
         r += socket.inet_aton(self.ip)
         r += struct.pack(">H", self.port)
         return r
 
     def __repr__(self):
-        return "CAddress(time=%i, nServices=%i ip=%s port=%i)" % (
-          self.time, self.nServices, self.ip, self.port
-        )
+        return ("CAddress(nServices=%i net=%s addr=%s port=%i)"
+                % (self.nServices, self.ADDRV2_NET_NAME[self.net], self.ip, self.port))
 
 MSG_WITNESS_FLAG = 1<<30
 
@@ -1051,27 +1104,43 @@ class msg_addr(object):
         return "msg_addr(addrs=%s)" % (repr(self.addrs))
 
 
-class msg_alert(object):
-    command = b"alert"
+class msg_addrv2:
+    __slots__ = ("addrs",)
+    msgtype = b"addrv2"
 
     def __init__(self):
-        self.alert = CAlert()
+        self.addrs = []
 
     def deserialize(self, f):
-        self.alert = CAlert()
-        self.alert.deserialize(f)
+        self.addrs = deser_vector(f, CAddress, "deserialize_v2")
 
     def serialize(self):
-        r = b""
-        r += self.alert.serialize()
-        return r
+        return ser_vector(self.addrs, "serialize_v2")
 
     def __repr__(self):
-        return "msg_alert(alert=%s)" % (repr(self.alert), )
+        return "msg_addrv2(addrs=%s)" % (repr(self.addrs))
 
 
-class msg_inv(object):
-    command = b"inv"
+class msg_sendaddrv2:
+    __slots__ = ()
+    msgtype = b"sendaddrv2"
+
+    def __init__(self):
+        pass
+
+    def deserialize(self, f):
+        pass
+
+    def serialize(self):
+        return b""
+
+    def __repr__(self):
+        return "msg_sendaddrv2()"
+
+
+class msg_inv:
+    __slots__ = ("inv",)
+    msgtype = b"inv"
 
     def __init__(self, inv=None):
         if inv is None:
@@ -1215,6 +1284,8 @@ class msg_getaddr(object):
     def __repr__(self):
         return "msg_getaddr()"
 
+    def __repr__(self):
+        return "msg_getaddr()"
 
 class msg_ping_prebip31(object):
     command = b"ping"
@@ -1493,7 +1564,7 @@ class msg_witness_blocktxn(msg_blocktxn):
 # This is what a callback should look like for NodeConn
 # Reimplement the on_* functions to provide handling for events
 class NodeConnCB(object):
-    def __init__(self):
+    def __init__(self, support_addrv2=False):
         self.verack_received = False
         # deliver_sleep_time is helpful for debugging race conditions in p2p
         # tests; it causes message delivery to sleep for the specified time
@@ -1501,6 +1572,8 @@ class NodeConnCB(object):
         self.deliver_sleep_time = None
         # Remember the services our peer has advertised
         self.peer_services = None
+
+        self.support_addrv2 = support_addrv2
 
     def set_deliver_sleep_time(self, value):
         with mininode_lock:
@@ -1539,6 +1612,8 @@ class NodeConnCB(object):
         if message.nVersion < 209:
             conn.ver_recv = conn.ver_send
         conn.nServices = message.nServices
+        if self.support_addrv2:
+            self.send_message(msg_sendaddrv2())
 
     def on_verack(self, conn, message):
         conn.ver_recv = conn.ver_send
@@ -1569,6 +1644,7 @@ class NodeConnCB(object):
     def on_close(self, conn): pass
     def on_mempool(self, conn): pass
     def on_pong(self, conn, message): pass
+    def on_sendaddrv2(self, message): pass
     def on_feefilter(self, conn, message): pass
     def on_sendheaders(self, conn, message): pass
     def on_sendcmpct(self, conn, message): pass
@@ -1614,6 +1690,7 @@ class NodeConn(asyncore.dispatcher):
         b"version": msg_version,
         b"verack": msg_verack,
         b"addr": msg_addr,
+        b"addrv2": msg_addrv2,
         b"alert": msg_alert,
         b"inv": msg_inv,
         b"getdata": msg_getdata,
@@ -1623,6 +1700,7 @@ class NodeConn(asyncore.dispatcher):
         b"getaddr": msg_getaddr,
         b"ping": msg_ping,
         b"pong": msg_pong,
+        b"sendaddrv2": msg_sendaddrv2,
         b"headers": msg_headers,
         b"getheaders": msg_getheaders,
         b"reject": msg_reject,

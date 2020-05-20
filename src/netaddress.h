@@ -162,7 +162,12 @@ class CNetAddr
         bool IsLocal() const;
         bool IsRoutable() const;
         bool IsValid() const;
-        bool IsMulticast() const;
+
+        /**
+         * Check if the current object can be serialized in pre-ADDRv2/BIP155 format.
+         */
+        bool IsAddrV1Compatible() const;
+
         enum Network GetNetwork() const;
         std::string ToString() const;
         std::string ToStringIP() const;
