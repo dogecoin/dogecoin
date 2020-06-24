@@ -690,7 +690,7 @@ UniValue dumpwallet(const JSONRPCRequest& request)
         CScript script;
         std::string address = EncodeDestination(scriptid);
         if(pwallet->GetCScript(scriptid, script)) {
-            file << strprintf("%s 0 script=1", HexStr(script.begin(), script.end()));
+            file << strprintf("%s 0 script=1", HexStr(script));
             file << strprintf(" # addr=%s\n", address);
         }
     }
