@@ -63,7 +63,7 @@ def mineAuxpowBlock (node):
   """
 
   auxblock = node.getauxblock ()
-  target = reverseHex (auxblock['_target'])
+  target = reverseHex (auxblock['target'])
   apow = computeAuxpow (auxblock['hash'], target, True)
   res = node.getauxblock (auxblock['hash'], apow)
   assert res
