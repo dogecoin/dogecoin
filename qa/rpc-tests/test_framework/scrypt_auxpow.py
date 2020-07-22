@@ -14,6 +14,7 @@
 
 from .auxpow import *
 import ltc_scrypt
+import binascii
 
 def computeAuxpowWithChainId (block, target, chainid, ok):
   """
@@ -23,7 +24,7 @@ def computeAuxpowWithChainId (block, target, chainid, ok):
 
   # Start by building the merge-mining coinbase.  The merkle tree
   # consists only of the block hash as root.
-  coinbase = "fabe" + (b"m" * 2).hex()
+  coinbase = "fabe" + binascii.hexlify((b"m" * 2)).decode("ascii")
   coinbase += block
   coinbase += "01000000" + ("00" * 4)
 
@@ -82,11 +83,11 @@ def mineScryptBlock (header, target, ok):
   for the given target.
   """
 
-  data = bytearray (bytes.fromhex(header))
+  data = bytearray (binascii.unhexlify(header))
   while True:
     assert data[79] < 255
     data[79] += 1
-    hexData = data.hex()
+    hexData = binascii.hexlify(data).decode("ascii")
 
     scrypt = getScryptPoW(hexData)
     if (ok and scrypt < target) or ((not ok) and scrypt > target):
@@ -100,5 +101,6 @@ def getScryptPoW(hexData):
   Actual scrypt pow calculation
   """
 
-  data = bytes.fromhex(hexData)
-  return reverseHex(ltc_scrypt.getPoWHash(data).hex())
+  data = binascii.unhexlify(hexData)
+
+  return reverseHex(binascii.hexlify(ltc_scrypt.getPoWHash(data)).decode("ascii"))
