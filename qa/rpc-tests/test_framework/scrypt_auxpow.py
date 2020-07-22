@@ -8,12 +8,13 @@
 # solve an auxpow header and to generate auxpow blocks with scrypt.
 # extends and modifies auxpow module by Daniel Kraft.
 
-# This module requires a built and installed version of the litecoin_scrypt
+# This module requires a built and installed version of the ltc_scrypt
 # package, which can be downloaded from:
 # https://pypi.python.org/packages/source/l/ltc_scrypt/ltc_scrypt-1.0.tar.gz
 
 from .auxpow import *
-import litecoin_scrypt
+import ltc_scrypt
+import binascii
 
 def computeAuxpowWithChainId (block, target, chainid, ok):
   """
@@ -23,7 +24,7 @@ def computeAuxpowWithChainId (block, target, chainid, ok):
 
   # Start by building the merge-mining coinbase.  The merkle tree
   # consists only of the block hash as root.
-  coinbase = "fabe" + (b"m" * 2).hex()
+  coinbase = "fabe" + binascii.hexlify((b"m" * 2)).decode("ascii")
   coinbase += block
   coinbase += "01000000" + ("00" * 4)
 
@@ -70,7 +71,7 @@ def mineScryptAux (node, chainid, ok):
   """
 
   auxblock = node.getauxblock ()
-  target = reverseHex (auxblock['_target'])
+  target = reverseHex (auxblock['target'])
 
   apow = computeAuxpowWithChainId (auxblock['hash'], target, chainid, ok)
   res = node.getauxblock (auxblock['hash'], apow)
@@ -82,11 +83,11 @@ def mineScryptBlock (header, target, ok):
   for the given target.
   """
 
-  data = bytearray (bytes.fromhex(header))
+  data = bytearray (binascii.unhexlify(header))
   while True:
     assert data[79] < 255
     data[79] += 1
-    hexData = data.hex()
+    hexData = binascii.hexlify(data).decode("ascii")
 
     scrypt = getScryptPoW(hexData)
     if (ok and scrypt < target) or ((not ok) and scrypt > target):
@@ -100,5 +101,6 @@ def getScryptPoW(hexData):
   Actual scrypt pow calculation
   """
 
-  data = bytes.fromhex(hexData)
-  return reverseHex(litecoin_scrypt.getPoWHash(data).hex())
+  data = binascii.unhexlify(hexData)
+
+  return reverseHex(binascii.hexlify(ltc_scrypt.getPoWHash(data)).decode("ascii"))

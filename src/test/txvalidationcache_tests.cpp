@@ -44,7 +44,7 @@ BOOST_FIXTURE_TEST_CASE(tx_mempool_block_doublespend, TestChain240Setup)
         spends[i].vin[0].prevout.hash = coinbaseTxns[0].GetHash();
         spends[i].vin[0].prevout.n = 0;
         spends[i].vout.resize(1);
-        spends[i].vout[0].nValue = 11*CENT;
+        spends[i].vout[0].nValue = COIN;
         spends[i].vout[0].scriptPubKey = scriptPubKey;
 
         // Sign:
