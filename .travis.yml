@@ -43,6 +43,7 @@ install:
     - if [ -n "$DPKG_ADD_ARCH" ]; then sudo dpkg --add-architecture "$DPKG_ADD_ARCH" ; fi
     - if [ -n "$PACKAGES" ]; then travis_retry sudo apt-get update; fi
     - if [ -n "$PACKAGES" ]; then travis_retry sudo apt-get install --no-install-recommends --no-upgrade -qq $PACKAGES; fi
+    - if [ "$RUN_TESTS" = "true" ]; then travis_retry sudo apt-get install --no-install-recommends --no-upgrade -qq python3-dev; fi
 before_script:
     - unset CC; unset CXX
     - if [ "$CHECK_DOC" = 1 ]; then contrib/devtools/check-doc.py; fi
