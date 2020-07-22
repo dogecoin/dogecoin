@@ -173,7 +173,7 @@ BOOST_AUTO_TEST_CASE(coin_selection_tests)
 
         add_coin( 18*COIN); // now we have 5+6+7+8+18+20+30
 
-        // and now if we try making 16 coins again, the smaller outputs can make 5+6+7 = 18 cents, the same as the next biggest output, 18
+        // and now if we try making 16 coins again, the smaller outputs can make 5+6+7 = 18 coins, the same as the next biggest output, 18
         BOOST_CHECK( wallet.SelectCoinsMinConf(16 * COIN, 1, 1, 0, vCoins, setCoinsRet, nValueRet));
         BOOST_CHECK_EQUAL(nValueRet, 18 * COIN);  // we should get 18 in 1 output
         BOOST_CHECK_EQUAL(setCoinsRet.size(), 1U); // because in the event of a tie, the biggest output wins
