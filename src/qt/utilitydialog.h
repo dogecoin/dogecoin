@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2014 The Bitcoin Core developers
+// Copyright (c) 2011-2016 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -26,15 +26,17 @@ public:
     explicit PaperWalletDialog(QWidget *parent);
     ~PaperWalletDialog();
 
+    void setClientModel(ClientModel *clientModel);
     void setModel(WalletModel *model);
 
 private:
     Ui::PaperWalletDialog *ui;
+    ClientModel *clientModel;
     WalletModel *model;
     static const int PAPER_WALLET_READJUST_LIMIT = 20;
     static const int PAPER_WALLET_PAGE_MARGIN = 50;
 
-private slots:
+private Q_SLOTS:
     void on_getNewAddress_clicked();
     void on_printButton_clicked();
 };
@@ -55,7 +57,7 @@ private:
     Ui::HelpMessageDialog *ui;
     QString text;
 
-private slots:
+private Q_SLOTS:
     void on_okButton_accepted();
 };
 
@@ -67,7 +69,7 @@ class ShutdownWindow : public QWidget
 
 public:
     ShutdownWindow(QWidget *parent=0, Qt::WindowFlags f=0);
-    static void showShutdownWindow(BitcoinGUI *window);
+    static QWidget *showShutdownWindow(BitcoinGUI *window);
 
 protected:
     void closeEvent(QCloseEvent *event);

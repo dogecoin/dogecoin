@@ -1,34 +1,34 @@
 [
     [
-        "DD4KSSuBJqcjuTcvUg1CgUKeurPUFeEZkE", 
-        "56d9b1d684d5abef32134ebc6883d75d3a53e9be", 
+        "DD4KSSuBJqcjuTcvUg1CgUKeurPUFeEZkE",
+        "56d9b1d684d5abef32134ebc6883d75d3a53e9be",
         {
-            "addrType": "pubkey", 
-            "isPrivkey": false, 
+            "addrType": "pubkey",
+            "isPrivkey": false,
             "isTestnet": false
         }
     ], 
     [
-        "A7HRQk3GFCW2QasvdZxXuYj8kkQK5QrYLs", 
-        "a2dd71f34fe73314d6e37c44035513f203aa400b", 
+        "A7HRQk3GFCW2QasvdZxXuYj8kkQK5QrYLs",
+        "a2dd71f34fe73314d6e37c44035513f203aa400b",
         {
-            "addrType": "script", 
-            "isPrivkey": false, 
+            "addrType": "script",
+            "isPrivkey": false,
             "isTestnet": false
         }
-    ], 
+    ],
     [
-        "nhRsrUaxZou6sewjqaS37cJrMRJRgwVXdk", 
-        "9131c29384f000c0d651660eefaf1717c8ca1855", 
+        "nhRsrUaxZou6sewjqaS37cJrMRJRgwVXdk",
+        "9131c29384f000c0d651660eefaf1717c8ca1855",
         {
-            "addrType": "pubkey", 
-            "isPrivkey": false, 
+            "addrType": "pubkey",
+            "isPrivkey": false,
             "isTestnet": true
         }
-    ], 
+    ],
     [
-        "2MsvyG12kxxipe276Au4zKqvd2xdrBuHWb3", 
-        "078457e357c6c4d8736515d14482089dd2a1f9f8", 
+        "2MsvyG12kxxipe276Au4zKqvd2xdrBuHWb3",
+        "078457e357c6c4d8736515d14482089dd2a1f9f8",
         {
             "addrType": "script", 
             "isPrivkey": false, 
