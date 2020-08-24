@@ -166,6 +166,7 @@ BOOST_AUTO_TEST_CASE(subnet_test)
     BOOST_CHECK(!ResolveSubNet("1.2.3.0/-1").IsValid());
     BOOST_CHECK(ResolveSubNet("1.2.3.0/32").IsValid());
     BOOST_CHECK(!ResolveSubNet("1.2.3.0/33").IsValid());
+    BOOST_CHECK(!ResolveSubNet("1.2.3.0/300").IsValid());
     BOOST_CHECK(ResolveSubNet("1:2:3:4:5:6:7:8/0").IsValid());
     BOOST_CHECK(ResolveSubNet("1:2:3:4:5:6:7:8/33").IsValid());
     BOOST_CHECK(!ResolveSubNet("1:2:3:4:5:6:7:8/-1").IsValid());
@@ -197,6 +198,11 @@ BOOST_AUTO_TEST_CASE(subnet_test)
     BOOST_CHECK(CSubNet(ResolveIP("1:2:3:4:5:6:7:8")).Match(ResolveIP("1:2:3:4:5:6:7:8")));
     BOOST_CHECK(!CSubNet(ResolveIP("1:2:3:4:5:6:7:8")).Match(ResolveIP("1:2:3:4:5:6:7:9")));
     BOOST_CHECK(CSubNet(ResolveIP("1:2:3:4:5:6:7:8")).ToString() == "1:2:3:4:5:6:7:8/128");
+    // IPv4 address with IPv6 netmask or the other way around.
+    BOOST_CHECK(!CSubNet(ResolveIP("1.1.1.1"), ResolveIP("ffff::")).IsValid());
+    BOOST_CHECK(!CSubNet(ResolveIP("::1"), ResolveIP("255.0.0.0")).IsValid());
+    // Can't subnet TOR (or any other non-IPv4 and non-IPv6 network).
+    BOOST_CHECK(!CSubNet(ResolveIP("5wyqrzbvrdsumnok.onion"), ResolveIP("255.0.0.0")).IsValid());
 
     subnet = ResolveSubNet("1.2.3.4/255.255.255.255");
     BOOST_CHECK_EQUAL(subnet.ToString(), "1.2.3.4/32");
@@ -294,6 +300,114 @@ BOOST_AUTO_TEST_CASE(netbase_getgroup)
     BOOST_CHECK(ResolveIP("2001:470:abcd:9999:9999:9999:9999:9999").GetGroup() == boost::assign::list_of((unsigned char)NET_IPV6)(32)(1)(4)(112)(175)); //he.net
     BOOST_CHECK(ResolveIP("2001:2001:9999:9999:9999:9999:9999:9999").GetGroup() == boost::assign::list_of((unsigned char)NET_IPV6)(32)(1)(32)(1)); //IPv6
 
+    BOOST_CHECK_EQUAL(ParseNetwork("IPv4"), NET_IPV4);
+    BOOST_CHECK_EQUAL(ParseNetwork("IPv6"), NET_IPV6);
+    BOOST_CHECK_EQUAL(ParseNetwork("ONION"), NET_ONION);
+    BOOST_CHECK_EQUAL(ParseNetwork("TOR"), NET_ONION);
+
+    BOOST_CHECK_EQUAL(ParseNetwork(":)"), NET_UNROUTABLE);
+    BOOST_CHECK_EQUAL(ParseNetwork("tÖr"), NET_UNROUTABLE);
+    BOOST_CHECK_EQUAL(ParseNetwork("\xfe\xff"), NET_UNROUTABLE);
+    BOOST_CHECK_EQUAL(ParseNetwork(""), NET_UNROUTABLE);
+}
+
+BOOST_AUTO_TEST_CASE(netpermissions_test)
+{
+    bilingual_str error;
+    NetWhitebindPermissions whitebindPermissions;
+    NetWhitelistPermissions whitelistPermissions;
+
+    // Detect invalid white bind
+    BOOST_CHECK(!NetWhitebindPermissions::TryParse("", whitebindPermissions, error));
+    BOOST_CHECK(error.original.find("Cannot resolve -whitebind address") != std::string::npos);
+    BOOST_CHECK(!NetWhitebindPermissions::TryParse("127.0.0.1", whitebindPermissions, error));
+    BOOST_CHECK(error.original.find("Need to specify a port with -whitebind") != std::string::npos);
+    BOOST_CHECK(!NetWhitebindPermissions::TryParse("", whitebindPermissions, error));
+
+    // If no permission flags, assume backward compatibility
+    BOOST_CHECK(NetWhitebindPermissions::TryParse("1.2.3.4:32", whitebindPermissions, error));
+    BOOST_CHECK(error.empty());
+    BOOST_CHECK_EQUAL(whitebindPermissions.m_flags, PF_ISIMPLICIT);
+    BOOST_CHECK(NetPermissions::HasFlag(whitebindPermissions.m_flags, PF_ISIMPLICIT));
+    NetPermissions::ClearFlag(whitebindPermissions.m_flags, PF_ISIMPLICIT);
+    BOOST_CHECK(!NetPermissions::HasFlag(whitebindPermissions.m_flags, PF_ISIMPLICIT));
+    BOOST_CHECK_EQUAL(whitebindPermissions.m_flags, PF_NONE);
+    NetPermissions::AddFlag(whitebindPermissions.m_flags, PF_ISIMPLICIT);
+    BOOST_CHECK(NetPermissions::HasFlag(whitebindPermissions.m_flags, PF_ISIMPLICIT));
+
+    // Can set one permission
+    BOOST_CHECK(NetWhitebindPermissions::TryParse("bloom@1.2.3.4:32", whitebindPermissions, error));
+    BOOST_CHECK_EQUAL(whitebindPermissions.m_flags, PF_BLOOMFILTER);
+    BOOST_CHECK(NetWhitebindPermissions::TryParse("@1.2.3.4:32", whitebindPermissions, error));
+    BOOST_CHECK_EQUAL(whitebindPermissions.m_flags, PF_NONE);
+
+    // Happy path, can parse flags
+    BOOST_CHECK(NetWhitebindPermissions::TryParse("bloom,forcerelay@1.2.3.4:32", whitebindPermissions, error));
+    // forcerelay should also activate the relay permission
+    BOOST_CHECK_EQUAL(whitebindPermissions.m_flags, PF_BLOOMFILTER | PF_FORCERELAY | PF_RELAY);
+    BOOST_CHECK(NetWhitebindPermissions::TryParse("bloom,relay,noban@1.2.3.4:32", whitebindPermissions, error));
+    BOOST_CHECK_EQUAL(whitebindPermissions.m_flags, PF_BLOOMFILTER | PF_RELAY | PF_NOBAN);
+    BOOST_CHECK(NetWhitebindPermissions::TryParse("bloom,forcerelay,noban@1.2.3.4:32", whitebindPermissions, error));
+    BOOST_CHECK(NetWhitebindPermissions::TryParse("all@1.2.3.4:32", whitebindPermissions, error));
+    BOOST_CHECK_EQUAL(whitebindPermissions.m_flags, PF_ALL);
+
+    // Allow dups
+    BOOST_CHECK(NetWhitebindPermissions::TryParse("bloom,relay,noban,noban@1.2.3.4:32", whitebindPermissions, error));
+    BOOST_CHECK_EQUAL(whitebindPermissions.m_flags, PF_BLOOMFILTER | PF_RELAY | PF_NOBAN);
+
+    // Allow empty
+    BOOST_CHECK(NetWhitebindPermissions::TryParse("bloom,relay,,noban@1.2.3.4:32", whitebindPermissions, error));
+    BOOST_CHECK_EQUAL(whitebindPermissions.m_flags, PF_BLOOMFILTER | PF_RELAY | PF_NOBAN);
+    BOOST_CHECK(NetWhitebindPermissions::TryParse(",@1.2.3.4:32", whitebindPermissions, error));
+    BOOST_CHECK_EQUAL(whitebindPermissions.m_flags, PF_NONE);
+    BOOST_CHECK(NetWhitebindPermissions::TryParse(",,@1.2.3.4:32", whitebindPermissions, error));
+    BOOST_CHECK_EQUAL(whitebindPermissions.m_flags, PF_NONE);
+
+    // Detect invalid flag
+    BOOST_CHECK(!NetWhitebindPermissions::TryParse("bloom,forcerelay,oopsie@1.2.3.4:32", whitebindPermissions, error));
+    BOOST_CHECK(error.original.find("Invalid P2P permission") != std::string::npos);
+
+    // Check netmask error
+    BOOST_CHECK(!NetWhitelistPermissions::TryParse("bloom,forcerelay,noban@1.2.3.4:32", whitelistPermissions, error));
+    BOOST_CHECK(error.original.find("Invalid netmask specified in -whitelist") != std::string::npos);
+
+    // Happy path for whitelist parsing
+    BOOST_CHECK(NetWhitelistPermissions::TryParse("noban@1.2.3.4", whitelistPermissions, error));
+    BOOST_CHECK_EQUAL(whitelistPermissions.m_flags, PF_NOBAN);
+    BOOST_CHECK(NetWhitelistPermissions::TryParse("bloom,forcerelay,noban,relay@1.2.3.4/32", whitelistPermissions, error));
+    BOOST_CHECK_EQUAL(whitelistPermissions.m_flags, PF_BLOOMFILTER | PF_FORCERELAY | PF_NOBAN | PF_RELAY);
+    BOOST_CHECK(error.empty());
+    BOOST_CHECK_EQUAL(whitelistPermissions.m_subnet.ToString(), "1.2.3.4/32");
+    BOOST_CHECK(NetWhitelistPermissions::TryParse("bloom,forcerelay,noban,relay,mempool@1.2.3.4/32", whitelistPermissions, error));
+
+    const auto strings = NetPermissions::ToStrings(PF_ALL);
+    BOOST_CHECK_EQUAL(strings.size(), 7U);
+    BOOST_CHECK(std::find(strings.begin(), strings.end(), "bloomfilter") != strings.end());
+    BOOST_CHECK(std::find(strings.begin(), strings.end(), "forcerelay") != strings.end());
+    BOOST_CHECK(std::find(strings.begin(), strings.end(), "relay") != strings.end());
+    BOOST_CHECK(std::find(strings.begin(), strings.end(), "noban") != strings.end());
+    BOOST_CHECK(std::find(strings.begin(), strings.end(), "mempool") != strings.end());
+    BOOST_CHECK(std::find(strings.begin(), strings.end(), "download") != strings.end());
+    BOOST_CHECK(std::find(strings.begin(), strings.end(), "addr") != strings.end());
+}
+
+BOOST_AUTO_TEST_CASE(netbase_dont_resolve_strings_with_embedded_nul_characters)
+{
+    CNetAddr addr;
+    BOOST_CHECK(LookupHost(std::string("127.0.0.1", 9), addr, false));
+    BOOST_CHECK(!LookupHost(std::string("127.0.0.1\0", 10), addr, false));
+    BOOST_CHECK(!LookupHost(std::string("127.0.0.1\0example.com", 21), addr, false));
+    BOOST_CHECK(!LookupHost(std::string("127.0.0.1\0example.com\0", 22), addr, false));
+    CSubNet ret;
+    BOOST_CHECK(LookupSubNet(std::string("1.2.3.0/24", 10), ret));
+    BOOST_CHECK(!LookupSubNet(std::string("1.2.3.0/24\0", 11), ret));
+    BOOST_CHECK(!LookupSubNet(std::string("1.2.3.0/24\0example.com", 22), ret));
+    BOOST_CHECK(!LookupSubNet(std::string("1.2.3.0/24\0example.com\0", 23), ret));
+    // We only do subnetting for IPv4 and IPv6
+    BOOST_CHECK(!LookupSubNet(std::string("5wyqrzbvrdsumnok.onion", 22), ret));
+    BOOST_CHECK(!LookupSubNet(std::string("5wyqrzbvrdsumnok.onion\0", 23), ret));
+    BOOST_CHECK(!LookupSubNet(std::string("5wyqrzbvrdsumnok.onion\0example.com", 34), ret));
+    BOOST_CHECK(!LookupSubNet(std::string("5wyqrzbvrdsumnok.onion\0example.com\0", 35), ret));
 }
 
 BOOST_AUTO_TEST_CASE(netbase_dont_resolve_strings_with_embedded_nul_characters)
