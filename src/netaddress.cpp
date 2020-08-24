@@ -753,14 +753,25 @@ CSubNet::CSubNet(const CNetAddr& addr, uint8_t mask) : CSubNet()
     assert(mask <= sizeof(netmask) * 8);
 
     network = addr;
+    // Default to /32 (IPv4) or /128 (IPv6), i.e. match single address
+    memset(netmask, 255, sizeof(netmask));
 
-    uint8_t n = mask;
-    for (size_t i = 0; i < network.m_addr.size(); ++i) {
-        const uint8_t bits = n < 8 ? n : 8;
-        netmask[i] = (uint8_t)((uint8_t)0xFF << (8 - bits)); // Set first bits.
-        network.m_addr[i] &= netmask[i]; // Normalize network according to netmask.
-        n -= bits;
-    }
+    // IPv4 addresses start at offset 12, and first 12 bytes must match, so just offset n
+    const int astartofs = network.IsIPv4() ? 12 : 0;
+
+    int32_t n = mask;
+    if(n >= 0 && n <= (128 - astartofs*8)) // Only valid if in range of bits of address
+    {
+        n += astartofs*8;
+        // Clear bits [n..127]
+        for (; n < 128; ++n)
+            netmask[n>>3] &= ~(1<<(7-(n&7)));
+    } else
+        valid = false;
+
+    // Normalize network according to netmask
+    for(int x=0; x<16; ++x)
+        network.ip[x] &= netmask[x];
 }
 
 /**
@@ -783,16 +794,13 @@ static inline int NetmaskBits(uint8_t x)
     }
 }
 
-CSubNet::CSubNet(const CNetAddr& addr, const CNetAddr& mask) : CSubNet()
+CSubNet::CSubNet(const CNetAddr &addr, const CNetAddr &mask)
 {
-    valid = (addr.IsIPv4() || addr.IsIPv6()) && addr.m_net == mask.m_net;
-    if (!valid) {
-        return;
-    }
+    valid = true;
     // Check if `mask` contains 1-bits after 0-bits (which is an invalid netmask).
     bool zeros_found = false;
-    for (auto b : mask.m_addr) {
-        const int num_bits = NetmaskBits(b);
+    for (size_t i = mask.IsIPv4() ? 12 : 0; i < sizeof(mask.ip); ++i) {
+        const int num_bits = NetmaskBits(mask.ip[i]);
         if (num_bits == -1 || (zeros_found && num_bits != 0)) {
             valid = false;
             return;
@@ -801,76 +809,58 @@ CSubNet::CSubNet(const CNetAddr& addr, const CNetAddr& mask) : CSubNet()
             zeros_found = true;
         }
     }
-
-    assert(mask.m_addr.size() <= sizeof(netmask));
-
-    memcpy(netmask, mask.m_addr.data(), mask.m_addr.size());
-
     network = addr;
+    // Default to /32 (IPv4) or /128 (IPv6), i.e. match single address
+    memset(netmask, 255, sizeof(netmask));
+
+    // IPv4 addresses start at offset 12, and first 12 bytes must match, so just offset n
+    const int astartofs = network.IsIPv4() ? 12 : 0;
+
+    for(int x=astartofs; x<16; ++x)
+        netmask[x] = mask.ip[x];
 
     // Normalize network according to netmask
-    for (size_t x = 0; x < network.m_addr.size(); ++x) {
-        network.m_addr[x] &= netmask[x];
-    }
+    for(int x=0; x<16; ++x)
+        network.ip[x] &= netmask[x];
 }
 
-CSubNet::CSubNet(const CNetAddr& addr) : CSubNet()
+CSubNet::CSubNet(const CNetAddr &addr):
+    valid(addr.IsValid())
 {
-    valid = addr.IsIPv4() || addr.IsIPv6();
-    if (!valid) {
-        return;
-    }
-
-    assert(addr.m_addr.size() <= sizeof(netmask));
-
-    memset(netmask, 0xFF, addr.m_addr.size());
-
+    memset(netmask, 255, sizeof(netmask));
     network = addr;
 }
 
+/**
+ * @returns True if this subnet is valid, the specified address is valid, and
+ *          the specified address belongs in this subnet.
+ */
 bool CSubNet::Match(const CNetAddr &addr) const
 {
     if (!valid || !addr.IsValid() || network.m_net != addr.m_net)
         return false;
-    assert(network.m_addr.size() == addr.m_addr.size());
-    for (size_t x = 0; x < addr.m_addr.size(); ++x) {
-        if ((addr.m_addr[x] & netmask[x]) != network.m_addr[x]) {
+    for(int x=0; x<16; ++x)
+        if ((addr.ip[x] & netmask[x]) != network.ip[x])
             return false;
-        }
-    }
     return true;
 }
 
+/**
+ * @returns The number of 1-bits in the prefix of the specified subnet mask. If
+ *          the specified subnet mask is not a valid one, -1.
+ */
 static inline int NetmaskBits(uint8_t x)
 {
-    switch(x) {
-    case 0x00: return 0; break;
-    case 0x80: return 1; break;
-    case 0xc0: return 2; break;
-    case 0xe0: return 3; break;
-    case 0xf0: return 4; break;
-    case 0xf8: return 5; break;
-    case 0xfc: return 6; break;
-    case 0xfe: return 7; break;
-    case 0xff: return 8; break;
-    default: return -1; break;
-    }
-}
-
-std::string CSubNet::ToString() const
-{
-    assert(network.m_addr.size() <= sizeof(netmask));
-
     uint8_t cidr = 0;
 
-    for (size_t i = 0; i < network.m_addr.size(); ++i) {
+    for (size_t i = network.IsIPv4() ? 12 : 0; i < sizeof(netmask); ++i) {
         if (netmask[i] == 0x00) {
             break;
         }
         cidr += NetmaskBits(netmask[i]);
     }
 
-    return network.ToString() + "/" + strNetmask;
+    return network.ToString() + strprintf("/%u", cidr);
 }
 
 bool CSubNet::IsValid() const
