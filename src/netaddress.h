@@ -37,8 +37,14 @@ enum Network
     /// IPv6
     NET_IPV6,
 
-    /// TORv2
+    /// TOR (v2 or v3)
     NET_ONION,
+
+    /// I2P
+    NET_I2P,
+
+    /// CJDNS
+    NET_CJDNS,
 
     /// A set of addresses that represent the hash of a string or FQDN. We use
     /// them in CAddrMan to keep track of which DNS seeds were used.
@@ -79,6 +85,16 @@ static constexpr size_t ADDR_IPV6_SIZE = 16;
 
 /// Size of TORv2 address (in bytes).
 static constexpr size_t ADDR_TORV2_SIZE = 10;
+
+/// Size of TORv3 address (in bytes). This is the length of just the address
+/// as used in BIP155, without the checksum and the version byte.
+static constexpr size_t ADDR_TORV3_SIZE = 32;
+
+/// Size of I2P address (in bytes).
+static constexpr size_t ADDR_I2P_SIZE = 32;
+
+/// Size of CJDNS address (in bytes).
+static constexpr size_t ADDR_CJDNS_SIZE = 16;
 
 /// Size of "internal" (NET_INTERNAL) address (in bytes).
 static constexpr size_t ADDR_INTERNAL_SIZE = 10;
@@ -133,6 +149,8 @@ class CNetAddr
         bool IsRFC6052() const; // IPv6 well-known prefix (64:FF9B::/96)
         bool IsRFC6145() const; // IPv6 IPv4-translated address (::FFFF:0:0:0/96)
         bool IsTor() const;
+        bool IsI2P() const;
+        bool IsCJDNS() const;
         bool IsLocal() const;
         bool IsRoutable() const;
         bool IsValid() const;
@@ -159,7 +177,11 @@ class CNetAddr
         template <typename Stream>
         void Serialize(Stream& s) const
         {
-            SerializeV1Stream(s);
+            if (s.GetVersion() & ADDRV2_FORMAT) {
+                SerializeV2Stream(s);
+            } else {
+                SerializeV1Stream(s);
+            }
         }
 
         /**
@@ -168,20 +190,58 @@ class CNetAddr
         template <typename Stream>
         void Unserialize(Stream& s)
         {
-            UnserializeV1Stream(s);
+            if (s.GetVersion() & ADDRV2_FORMAT) {
+                UnserializeV2Stream(s);
+            } else {
+                UnserializeV1Stream(s);
+            }
         }
 
         friend class CSubNet;
 
     private:
         /**
+         * BIP155 network ids recognized by this software.
+         */
+        enum BIP155Network : uint8_t {
+            IPV4 = 1,
+            IPV6 = 2,
+            TORV2 = 3,
+            TORV3 = 4,
+            I2P = 5,
+            CJDNS = 6,
+        };
+
+        /**
          * Size of CNetAddr when serialized as ADDRv1 (pre-BIP155) (in bytes).
          */
         static constexpr size_t V1_SERIALIZATION_SIZE = ADDR_IPV6_SIZE;
 
         /**
+         * Maximum size of an address as defined in BIP155 (in bytes).
+         * This is only the size of the address, not the entire CNetAddr object
+         * when serialized.
+         */
+        static constexpr size_t MAX_ADDRV2_SIZE = 512;
+
+        /**
+         * Get the BIP155 network id of this address.
+         * Must not be called for IsInternal() objects.
+         * @returns BIP155 network id
+         */
+        BIP155Network GetBIP155Network() const;
+
+        /**
+         * Set `m_net` from the provided BIP155 network id and size after validation.
+         * @retval true the network was recognized, is valid and `m_net` was set
+         * @retval false not recognised (from future?) and should be silently ignored
+         * @throws std::ios_base::failure if the network is one of the BIP155 founding
+         * networks (id 1..6) with wrong address size.
+         */
+        bool SetNetFromBIP155Network(uint8_t possible_bip155_net, size_t address_size);
+
+        /**
          * Serialize in pre-ADDRv2/BIP155 format to an array.
-         * Some addresses (e.g. TORv3) cannot be serialized in pre-BIP155 format.
          */
         void SerializeV1Array(uint8_t (&arr)[V1_SERIALIZATION_SIZE]) const
         {
@@ -199,6 +259,9 @@ class CNetAddr
                 memcpy(arr + prefix_size, m_addr.data(), m_addr.size());
                 return;
             case NET_ONION:
+                if (m_addr.size() == ADDR_TORV3_SIZE) {
+                    break;
+                }
                 prefix_size = sizeof(TORV2_IN_IPV6_PREFIX);
                 assert(prefix_size + m_addr.size() == sizeof(arr));
                 memcpy(arr, TORV2_IN_IPV6_PREFIX.data(), prefix_size);
@@ -210,17 +273,21 @@ class CNetAddr
                 memcpy(arr, INTERNAL_IN_IPV6_PREFIX.data(), prefix_size);
                 memcpy(arr + prefix_size, m_addr.data(), m_addr.size());
                 return;
+            case NET_I2P:
+                break;
+            case NET_CJDNS:
+                break;
             case NET_UNROUTABLE:
             case NET_MAX:
                 assert(false);
             } // no default case, so the compiler can warn about missing cases
 
-            assert(false);
+            // Serialize TORv3, I2P and CJDNS as all-zeros.
+            memset(arr, 0x0, V1_SERIALIZATION_SIZE);
         }
 
         /**
          * Serialize in pre-ADDRv2/BIP155 format to a stream.
-         * Some addresses (e.g. TORv3) cannot be serialized in pre-BIP155 format.
          */
         template <typename Stream>
         void SerializeV1Stream(Stream& s) const

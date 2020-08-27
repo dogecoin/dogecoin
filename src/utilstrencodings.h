@@ -48,7 +48,7 @@ std::string EncodeBase64(const std::string& str);
 std::vector<unsigned char> DecodeBase32(const char* p, bool* pfInvalid = NULL);
 std::string DecodeBase32(const std::string& str);
 std::string EncodeBase32(const unsigned char* pch, size_t len);
-std::string EncodeBase32(const std::string& str);
+std::string EncodeBase32(const std::string& str, bool pad = true);
 
 std::string i64tostr(int64_t n);
 std::string itostr(int n);
