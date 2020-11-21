@@ -18,15 +18,15 @@
 #include <qt/paymentrequestplus.h>
 #include <qt/guiutil.h>
 
-#include <bitcoinunits.h>
+#include <qt/bitcoinunits.h>
 
 #ifdef ENABLE_WALLET
-#include <sendcoinsdialog.h>
-#include <sendcoinsentry.h>
-#include <coincontroldialog.h>
+#include <qt/sendcoinsdialog.h>
+#include <qt/sendcoinsentry.h>
+#include <qt/coincontroldialog.h>
 #endif
 
-#include <optionsmodel.h>
+#include <qt/optionsmodel.h>
 
 #include <clientversion.h>
 #include <init.h>
@@ -34,6 +34,7 @@
 #include <util.h>
 #include <net.h>
 #include <utilstrencodings.h>
+#include <wallet/coincontrol.h>
 
 #include <stdio.h>
 
@@ -61,7 +62,7 @@
 #include <QtPrintSupport/QPrintPreviewDialog>
 #endif
 #include <QPainter>
-#include "walletmodel.h"
+#include <qt/walletmodel.h>
 
 /** "Help message" or "About" dialog box */
 HelpMessageDialog::HelpMessageDialog(interfaces::Node& node, QWidget *parent, bool about) :
@@ -201,6 +202,10 @@ PaperWalletDialog::PaperWalletDialog(QWidget *parent) :
 void PaperWalletDialog::setClientModel(ClientModel *_clientModel)
 {
     this->clientModel = _clientModel;
+
+    if (_clientModel) {
+        connect(_clientModel, SIGNAL(numBlocksChanged(int,QDateTime,double,bool)), this, SLOT(updateSmartFeeLabel()));
+    }
 
     // FIXME: This cannot be the right way of doing something on open
     if (_clientModel && _clientModel->getNetworkActive()) {
@@ -407,11 +412,13 @@ void PaperWalletDialog::on_printButton_clicked()
 
         tx = new WalletModelTransaction(recipients);
 
-        WalletModel::SendCoinsReturn prepareStatus;
-        if (this->model->getOptionsModel()->getCoinControlFeatures()) // coin control enabled
-            prepareStatus = this->model->prepareTransaction(*tx, CoinControlDialog::coinControl);
-        else
-            prepareStatus = this->model->prepareTransaction(*tx);
+	// Always use a CCoinControl instance, use the CoinControlDialog instance if CoinControl has been enabled
+        CCoinControl ctrl;
+        if (model->getOptionsModel()->getCoinControlFeatures())
+            ctrl = *CoinControlDialog::coinControl();
+
+        updateCoinControlState(ctrl);
+        WalletModel::SendCoinsReturn prepareStatus = this->model->prepareTransaction(*tx, CoinControlDialog::coinControl);
 
         if (prepareStatus.status == WalletModel::InvalidAddress) {
             QMessageBox::critical(this, tr("Send Coins"), tr("The recipient address is not valid, please recheck."), QMessageBox::Ok, QMessageBox::Ok);

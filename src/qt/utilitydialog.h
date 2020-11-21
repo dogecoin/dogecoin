@@ -5,9 +5,10 @@
 #ifndef BITCOIN_QT_UTILITYDIALOG_H
 #define BITCOIN_QT_UTILITYDIALOG_H
 
+#include <qt/walletmodel.h>
+
 #include <QDialog>
 #include <QObject>
-#include "walletmodel.h"
 
 class BitcoinGUI;
 
