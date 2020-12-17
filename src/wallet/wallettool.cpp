@@ -109,6 +109,19 @@ bool ExecuteWalletToolFunc(const std::string& command, const std::string& name)
 {
     fs::path path = fs::absolute(name, GetWalletDir());
 
+    if (gArgs.IsArgSet("-format") && command != "createfromdump") {
+        tfm::format(std::cerr, "The -format option can only be used with the \"createfromdump\" command.\n");
+        return false;
+    }
+    if (gArgs.IsArgSet("-dumpfile") && command != "dump" && command != "createfromdump") {
+        tfm::format(std::cerr, "The -dumpfile option can only be used with the \"dump\" and \"createfromdump\" commands.\n");
+        return false;
+    }
+    if (gArgs.IsArgSet("-descriptors") && command != "create") {
+        tfm::format(std::cerr, "The -descriptors option can only be used with the 'create' command.\n");
+        return false;
+    }
+
     if (command == "create") {
         std::shared_ptr<CWallet> wallet_instance = MakeWallet(name, path, /* create= */ true);
         if (wallet_instance) {
