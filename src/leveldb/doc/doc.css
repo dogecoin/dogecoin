@@ -10,17 +10,17 @@ h1 {
   font-size: 14pt;
 }
 h2 {
-  margin-left: -0in;
+  margin-left: 0;
   font-size: 12pt;
 }
 h3 {
-  margin-left: -0in;
+  margin-left: 0;
 }
 h4 {
-  margin-left: -0in;
+  margin-left: 0;
 }
 hr {
-  margin-left: -0in;
+  margin-left: 0;
 }
 
 /* Definition lists: definition term bold */
@@ -47,13 +47,13 @@ div.note p {
 }
 
 ul {
-  margin-top: -0em;
-  margin-bottom: -0em;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 ol {
-  margin-top: -0em;
-  margin-bottom: -0em;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 UL.nobullets {
@@ -63,14 +63,14 @@ UL.nobullets {
 }
 
 p {
-  margin: 1em 0 1em 0;
-  padding: 0 0 0 0;
+  margin: 1em 0;
+  padding: 0;
 }
 
 pre {
   line-height: 1.3em;
-  padding: 0.4em 0 0.8em 0;
-  margin:  0 0 0 0;
+  padding: 0.4em 0 0.8em;
+  margin:  0;
   border:  0 0 0 0;
   color: blue;
 }
@@ -84,6 +84,6 @@ pre {
 }
 
 .datatable td,th {
-  padding: 0 0.5em 0 0.5em;
+  padding: 0 0.5em;
   text-align: right;
 }
