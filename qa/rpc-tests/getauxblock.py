@@ -25,7 +25,7 @@ class GetAuxBlockTest (BitcoinTestFramework):
     assert_equal (auxblock['previousblockhash'], blocktemplate['previousblockhash'])
 
     # Compare target and take byte order into account.
-    target = auxblock['_target']
+    target = auxblock['target']
     reversedTarget = auxpow.reverseHex (target)
     assert_equal (reversedTarget, blocktemplate['target'])
 
