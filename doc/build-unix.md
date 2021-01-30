@@ -42,7 +42,7 @@ Optional dependencies:
  Library     | Purpose          | Description
  ------------|------------------|----------------------
  miniupnpc   | UPnP Support     | Firewall-jumping support
- libdb4.8    | Berkeley DB      | Wallet storage (only needed when wallet enabled)
+ libdb5.1    | Berkeley DB      | Wallet storage (only needed when wallet enabled)
  qt          | GUI              | GUI toolkit (only needed when GUI enabled)
  protobuf    | Payments in GUI  | Data interchange format used for payment protocol (only needed when GUI enabled)
  libqrencode | QR codes in GUI  | Optional for generating QR codes (only needed when GUI enabled)
@@ -79,8 +79,8 @@ Now, you can either build from self-compiled [depends](/depends/README.md) or in
 BerkeleyDB is required for the wallet.
 
 Ubuntu and Debian have their own libdb-dev and libdb++-dev packages, but these will install
-BerkeleyDB 5.1 or later. This will break binary wallet compatibility with the distributed executables, which
-are based on BerkeleyDB 4.8. If you do not care about wallet compatibility,
+BerkeleyDB 5.3 or later. This will break binary wallet compatibility with the distributed executables, which
+are based on BerkeleyDB 5.1. If you do not care about wallet compatibility,
 pass `--with-incompatible-bdb` to configure.
 
 Otherwise, you can build from self-compiled `depends` (see above).
@@ -120,7 +120,7 @@ built by default.
 
 Build requirements:
 
-    sudo dnf install gcc-c++ libtool make autoconf automake openssl-devel libevent-devel boost-devel libdb4-devel libdb4-cxx-devel python3
+    sudo dnf install gcc-c++ libtool make autoconf automake openssl-devel libevent-devel boost-devel libdb5-devel libdb5-cxx-devel python3
 
 Optional:
 
@@ -154,12 +154,12 @@ turned off by default.  See the configure options for upnp behavior desired:
 
 Berkeley DB
 -----------
-It is recommended to use Berkeley DB 4.8. If you have to build it yourself,
-you can use [the installation script included in contrib/](/contrib/install_db4.sh)
+It is recommended to use Berkeley DB 5.1. If you have to build it yourself,
+you can use [the installation script included in contrib/](/contrib/install_db5.sh)
 like so:
 
 ```shell
-./contrib/install_db4.sh `pwd`
+./contrib/install_db5.sh `pwd`
 ```
 
 from the root of the repository.
@@ -228,7 +228,7 @@ disable-wallet mode with:
 
     ./configure --disable-wallet
 
-In this case there is no dependency on Berkeley DB 4.8.
+In this case there is no dependency on Berkeley DB 5.1.
 
 Mining is also possible in disable-wallet mode using the `getblocktemplate` RPC call.
 
@@ -251,11 +251,11 @@ This example lists the steps necessary to setup and build a command line only, n
     make check
 
 Note:
-Enabling wallet support requires either compiling against a Berkeley DB newer than 4.8 (package `db`) using `--with-incompatible-bdb`,
-or building and depending on a local version of Berkeley DB 4.8. The readily available Arch Linux packages are currently built using
+Enabling wallet support requires either compiling against a Berkeley DB newer than 5.1 (package `db`) using `--with-incompatible-bdb`,
+or building and depending on a local version of Berkeley DB 5.1. The readily available Arch Linux packages are currently built using
 `--with-incompatible-bdb` according to the [PKGBUILD](https://projects.archlinux.org/svntogit/community.git/tree/bitcoin/trunk/PKGBUILD).
 As mentioned above, when maintaining portability of the wallet between the standard Bitcoin Core distributions and independently built
-node software is desired, Berkeley DB 4.8 must be used.
+node software is desired, Berkeley DB 5.1 must be used.
 
 
 ARM Cross-compilation

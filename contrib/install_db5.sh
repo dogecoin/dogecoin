@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Install libdb4.8 (Berkeley DB).
+# Install libdb5.1 (Berkeley DB).
 
 export LC_ALL=C
 set -e
@@ -8,8 +8,8 @@ set -e
 if [ -z "${1}" ]; then
   echo "Usage: $0 <base-dir> [<extra-bdb-configure-flag> ...]"
   echo
-  echo "Must specify a single argument: the directory in which db4 will be built."
-  echo "This is probably \`pwd\` if you're at the root of the bitcoin repository."
+  echo "Must specify a single argument: the directory in which db5 will be built."
+  echo "This is probably \`pwd\` if you're at the root of the dogecoin repository."
   exit 1
 fi
 
@@ -17,9 +17,9 @@ expand_path() {
   echo "$(cd "${1}" && pwd -P)"
 }
 
-BDB_PREFIX="$(expand_path ${1})/db4"; shift;
-BDB_VERSION='db-4.8.30.NC'
-BDB_HASH='12edc0df75bf9abd7f82f821795bcee50f42cb2e5f76a6a281b85732798364ef'
+BDB_PREFIX="$(expand_path ${1})/db5"; shift;
+BDB_VERSION='db-5.1.29.NC'
+BDB_HASH='08238e59736d1aacdd47cfb8e68684c695516c37f4fbe1b8267dde58dc3a576c'
 BDB_URL="https://download.oracle.com/berkeley-db/${BDB_VERSION}.tar.gz"
 
 check_exists() {
@@ -68,7 +68,7 @@ cd "${BDB_PREFIX}/${BDB_VERSION}/"
 CLANG_CXX11_PATCH_URL='https://gist.githubusercontent.com/LnL7/5153b251fd525fe15de69b67e63a6075/raw/7778e9364679093a32dec2908656738e16b6bdcb/clang.patch'
 CLANG_CXX11_PATCH_HASH='7a9a47b03fd5fb93a16ef42235fa9512db9b0829cfc3bdf90edd3ec1f44d637c'
 http_get "${CLANG_CXX11_PATCH_URL}" clang.patch "${CLANG_CXX11_PATCH_HASH}"
-patch -p2 < clang.patch
+patch -p1 < clang.patch
 
 cd build_unix/
 
@@ -79,9 +79,9 @@ cd build_unix/
 make install
 
 echo
-echo "db4 build complete."
+echo "db5 build complete."
 echo
-echo 'When compiling bitcoind, run `./configure` in the following way:'
+echo 'When compiling dogecoind, run `./configure` in the following way:'
 echo
 echo "  export BDB_PREFIX='${BDB_PREFIX}'"
-echo '  ./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include" ...'
+echo '  ./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-5.1" BDB_CFLAGS="-I${BDB_PREFIX}/include" ...'

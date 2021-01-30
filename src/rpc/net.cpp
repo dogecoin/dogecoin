@@ -226,8 +226,8 @@ static UniValue addnode(const JSONRPCRequest& request)
                 },
                 RPCResults{},
                 RPCExamples{
-                    HelpExampleCli("addnode", "\"192.168.0.6:8333\" \"onetry\"")
-            + HelpExampleRpc("addnode", "\"192.168.0.6:8333\", \"onetry\"")
+                    HelpExampleCli("addnode", "\"192.168.0.6:22556\" \"onetry\"")
+            + HelpExampleRpc("addnode", "\"192.168.0.6:22556\", \"onetry\"")
                 },
             }.ToString());
 
@@ -320,7 +320,7 @@ static UniValue getaddednodeinfo(const JSONRPCRequest& request)
             "    \"connected\" : true|false,          (boolean) If connected\n"
             "    \"addresses\" : [                    (list of objects) Only when connected = true\n"
             "       {\n"
-            "         \"address\" : \"192.168.0.201:8333\",  (string) The bitcoin server IP and port we're connected to\n"
+            "         \"address\" : \"192.168.0.201:22556\",  (string) The dogecoin server IP and port we're connected to\n"
             "         \"connected\" : \"outbound\"           (string) connection, inbound or outbound\n"
             "       }\n"
             "     ]\n"
