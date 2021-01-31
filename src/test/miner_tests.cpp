@@ -11,6 +11,7 @@
 #include <validation.h>
 #include <miner.h>
 #include <policy/policy.h>
+#include <pow.h>
 #include <pubkey.h>
 #include <script/standard.h>
 #include <txmempool.h>
@@ -52,28 +53,28 @@ struct {
     unsigned char extranonce;
     unsigned int nonce;
 } blockinfo[] = {
-    {4, 0x127fad2d}, {2, 0x335d1b8f}, {1, 0x33d47094}, {2, 0x0b09ec28},
-    {1, 0x06cf723b}, {2, 0x039202bc}, {1, 0x0a2c9d46}, {2, 0x6225cb92},
-    {2, 0x6ea1513e}, {1, 0x4401bef3}, {1, 0x04d3a1d2}, {2, 0x1c512825},
-    {2, 0x54a03b14}, {1, 0x6048e27d}, {1, 0x1b926afc}, {2, 0x68c4afbd},
-    {2, 0x4439c313}, {1, 0x1263fceb}, {2, 0x834dee3e}, {2, 0xf21ed9dc},
-    {1, 0xdcdac434}, {2, 0x4c1945be}, {1, 0x6d42a594}, {3, 0x20927a30},
-    {3, 0xfd60f461}, {2, 0xd9ad2207}, {2, 0xe7f69d1a}, {1, 0x7fa9b932},
-    {2, 0xb0511080}, {1, 0xe7d24cd5}, {2, 0x3c57e668}, {2, 0x83bfdc2e},
-    {2, 0x6eeb4e10}, {2, 0x9cacbcfd}, {2, 0xb27ea98e}, {2, 0x6d57c5a7},
-    {1, 0x6deb4fa8}, {2, 0xabf625c6}, {2, 0x27e7c569}, {1, 0x89c6e991},
-    {2, 0xc359bc28}, {1, 0x6f25768d}, {2, 0x654a4c31}, {1, 0x5cd03bab},
-    {1, 0xda405f69}, {3, 0xfea453e5}, {2, 0x137d2c3a}, {5, 0xdee2f36e},
-    {1, 0xeccbcf26}, {5, 0x9237dbaa}, {1, 0xb7b9350b}, {1, 0xcd0c7eb2},
-    {1, 0xf5ea5a32}, {2, 0x3486a7f3}, {1, 0xd0a0f2be}, {1, 0xe1238144},
-    {1, 0x28b98a9b}, {1, 0xe79d02aa}, {5, 0xf4555d56}, {5, 0x74da0bb7},
-    {1, 0x18728b91}, {1, 0x07ed3a93}, {6, 0xd7a5e106}, {2, 0xba50b06c},
-    {2, 0x952c830d}, {1, 0xfbd1bb18}, {1, 0x36126967}, {1, 0xcce357d0},
-    {2, 0xff1ec2d6}, {2, 0xbed5dfc9}, {1, 0x0d21fdd7}, {1, 0xd744edea},
-    {1, 0xe09fc8f2}, {5, 0x2ad325c5}, {5, 0x466b6549}, {1, 0x10705d49},
-    {1, 0xf88478ce}, {2, 0xbfda6c4a}, {2, 0x731fe414}, {1, 0x6f1b362e},
-    {2, 0x6be709cf}, {1, 0x60553200}, {2, 0xf6a992f0}, {2, 0x1521f7f5},
-    {1, 0x8b440273}, {1, 0xe9ade0c8}, {1, 0x4d414618}, {5, 0x7b48070d},
+    {4, 0x000638be}, {2, 0x00008a04}, {1, 0x000ea608}, {2, 0x000bca73},
+    {1, 0x00059a55}, {2, 0x0016d0cb}, {1, 0x002fbf48}, {2, 0x0023263b},
+    {2, 0x0007796f}, {1, 0x0003f4b5}, {1, 0x001c3142}, {2, 0x0008c944},
+    {2, 0x000e3a02}, {1, 0x0004a616}, {1, 0x002355f6}, {2, 0x001f1266},
+    {2, 0x002775e5}, {1, 0x001ac25e}, {2, 0x000ec229}, {2, 0x00053c93},
+    {1, 0x003566ad}, {2, 0x00054d7e}, {1, 0x00210eca}, {3, 0x001562b4},
+    {3, 0x000a4a2d}, {2, 0x0024d5f9}, {2, 0x00058f38}, {1, 0x00049f61},
+    {2, 0x000995f9}, {1, 0x00235a8b}, {2, 0x000006bb}, {2, 0x00042080},
+    {2, 0x0000c974}, {2, 0x000fd787}, {2, 0x001a1ad0}, {2, 0x001eec47},
+    {1, 0x0006ce5b}, {2, 0x0007bec5}, {2, 0x0005a3ce}, {1, 0x000a2d49},
+    {2, 0x000f8516}, {1, 0x00138b5f}, {2, 0x00216c71}, {1, 0x0001edcd},
+    {1, 0x000b8ac2}, {3, 0x000381f9}, {2, 0x0028ccd3}, {5, 0x002058c6},
+    {1, 0x002512f3}, {5, 0x0005008a}, {1, 0x0002a287}, {1, 0x0003b92a},
+    {1, 0x0002c1eb}, {2, 0x000eaf45}, {1, 0x00077d83}, {1, 0x0014caff},
+    {1, 0x0022fdda}, {1, 0x00009def}, {5, 0x002bdaf8}, {5, 0x00068974},
+    {1, 0x0010f344}, {1, 0x00071f69}, {6, 0x0003f12c}, {2, 0x0003c454},
+    {2, 0x000807c4}, {1, 0x0004becf}, {1, 0x00115d2f}, {1, 0x00114a03},
+    {2, 0x000b6c00}, {2, 0x001ef9c9}, {1, 0x0025f403}, {1, 0x000aa00c},
+    {1, 0x001aa27f}, {5, 0x0005d91a}, {5, 0x000296ab}, {1, 0x000eaf09},
+    {1, 0x0000d633}, {2, 0x00219186}, {2, 0x00106701}, {1, 0x001c6865},
+    {2, 0x00009019}, {1, 0x00020f3a}, {2, 0x0004cd64}, {2, 0x0005e4c8},
+    {1, 0x0007ba85}, {1, 0x0005c1b1}, {1, 0x00207fcc}, {5, 0x0038bad9},
     {1, 0x1202ebae}, {1, 0xd23fe97e}, {1, 0x8d1d6505}, {1, 0xfafbaae3},
     {1, 0xf200353e}, {1, 0xe77bd65e}, {1, 0x9fa32102}, {2, 0x68dfa747},
     {0, 0x7c74d78e}, {1, 0x9b79cc6b}, {2, 0xad957cc2}, {2, 0x91acb818}
@@ -223,6 +224,7 @@ BOOST_AUTO_TEST_CASE(CreateNewBlock_validity)
     // Therefore, load 100 blocks :)
     int baseheight = 0;
     std::vector<CTransactionRef> txFirst;
+    printf("    ");
     for (unsigned int i = 0; i < sizeof(blockinfo)/sizeof(*blockinfo); ++i)
     {
 
@@ -248,6 +250,19 @@ BOOST_AUTO_TEST_CASE(CreateNewBlock_validity)
                 txFirst.push_back(pblock->vtx[0]);
             pblock->hashMerkleRoot = BlockMerkleRoot(*pblock);
             pblock->nNonce = blockinfo[i].nonce;
+        }
+	printf("{");
+        if (!CheckProofOfWork(pblock->GetPoWHash(), pblock->nBits, chainparams.GetConsensus())) {
+            pblock->nNonce = 0;
+            while (!CheckProofOfWork(pblock->GetPoWHash(), pblock->nBits, chainparams.GetConsensus())) {
+                ++pblock->nNonce;
+            }
+        }
+        printf("%d, 0x%08x},", blockinfo[i].extranonce, pblock->nNonce);
+        if ((i + 1) % 4 == 0) {
+            printf("\n    ");
+        } else {
+            printf(" ");
         }
         std::shared_ptr<const CBlock> shared_pblock = std::make_shared<const CBlock>(*pblock);
         BOOST_CHECK(ProcessNewBlock(chainparams, shared_pblock, true, nullptr));
