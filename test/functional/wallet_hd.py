@@ -39,7 +39,7 @@ class WalletHDTest(BitcoinTestFramework):
 
         # Import a non-HD private key in the HD wallet
         non_hd_add = 'bcrt1qmevj8zfx0wdvp05cqwkmr6mxkfx60yezwjksmt'
-        non_hd_key = 'cS9umN9w6cDMuRVYdbkfE4c7YUFLJRoXMfhQ569uY4odiQbVN8Rt'
+        non_hd_key = 'cjKAugsjSv3drTX5jkYSpQo63LedyGLygYwfBzr6X2K4H53NLYRH'
         self.nodes[1].importprivkey(non_hd_key)
 
         # This should be enough to keep the master key and the non-HD key

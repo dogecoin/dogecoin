@@ -50,7 +50,7 @@ class WalletLabelsTest(BitcoinTestFramework):
             linked_addresses.add(address_group[0][0])
 
         # send 50 from each address to a third address not in this wallet
-        common_address = "msf4WtN1YQKXvNtvdFYt9JBnUD2FB41kjr"
+        common_address = "ngLGV6xaxmFHZFB6g6DX7YjMjDY8dnvuTw"
         node.sendmany(
             amounts={common_address: 100},
             subtractfeefrom=[common_address],
