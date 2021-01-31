@@ -66,8 +66,8 @@ void Check(const std::string& prv, const std::string& pub, int flags, const std:
     // Check that parsing succeeds.
     auto parse_priv = Parse(MaybeUseHInsteadOfApostrophy(prv), keys_priv);
     auto parse_pub = Parse(MaybeUseHInsteadOfApostrophy(pub), keys_pub);
-    BOOST_CHECK(parse_priv);
-    BOOST_CHECK(parse_pub);
+    BOOST_REQUIRE(parse_priv);
+    BOOST_REQUIRE(parse_pub);
 
     // Check private keys are extracted from the private version but not the public one.
     BOOST_CHECK(keys_priv.keys.size());
