@@ -168,7 +168,7 @@ BitcoinGUI::BitcoinGUI(const PlatformStyle *_platformStyle, const NetworkStyle *
         setCentralWidget(rpcConsole);
     }
 
-    // Dogecoin: load fallback font in case Comic Sans is not availble on the system
+    // Dogecoin: load fallback font in case Comic Sans is not available on the system
     QFontDatabase::addApplicationFont(":fonts/ComicNeue-Bold");
     QFontDatabase::addApplicationFont(":fonts/ComicNeue-Bold-Oblique");
     QFontDatabase::addApplicationFont(":fonts/ComicNeue-Light");
