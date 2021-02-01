@@ -733,7 +733,7 @@ class SegWitTest(BitcoinTestFramework):
         ''' Should only allow up to 520 byte pushes in witness stack '''
         print("\tTesting maximum witness push size")
         MAX_SCRIPT_ELEMENT_SIZE = 520
-        if not (len(self.utxo)):
+        if not self.utxo:
             raise AssertionError
 
         block = self.build_next_block()
@@ -773,7 +773,7 @@ class SegWitTest(BitcoinTestFramework):
         # Can create witness outputs that are long, but can't be greater than
         # 10k bytes to successfully spend
         print("\tTesting maximum witness program length")
-        if not (len(self.utxo)):
+        if not self.utxo:
             raise AssertionError
         MAX_PROGRAM_LENGTH = 10000
 
@@ -825,7 +825,7 @@ class SegWitTest(BitcoinTestFramework):
     def test_witness_input_length(self):
         ''' Ensure that vin length must match vtxinwit length '''
         print("\tTesting witness input length")
-        if not (len(self.utxo)):
+        if not self.utxo:
             raise AssertionError
 
         witness_program = CScript([OP_DROP, OP_TRUE])
@@ -913,7 +913,7 @@ class SegWitTest(BitcoinTestFramework):
         # Generate a transaction that doesn't require a witness, but send it
         # with a witness.  Should be rejected for premature-witness, but should
         # not be added to recently rejected list.
-        if not (len(self.utxo)):
+        if not self.utxo:
             raise AssertionError
         tx = CTransaction()
         tx.vin.append(CTxIn(COutPoint(self.utxo[0].sha256, self.utxo[0].n), b""))
@@ -968,7 +968,7 @@ class SegWitTest(BitcoinTestFramework):
         # Generate a transaction that doesn't require a witness, but send it
         # with a witness.  Should be rejected because we can't use a witness
         # when spending a non-witness output.
-        if not (len(self.utxo)):
+        if not self.utxo:
             raise AssertionError
         tx = CTransaction()
         tx.vin.append(CTxIn(COutPoint(self.utxo[0].sha256, self.utxo[0].n), b""))
@@ -1150,7 +1150,7 @@ class SegWitTest(BitcoinTestFramework):
     # V0 segwit outputs should be standard after activation, but not before.
     def test_standardness_v0(self, segwit_activated):
         print("\tTesting standardness of v0 outputs (%s activation)" % ("after" if segwit_activated else "before"))
-        if not (len(self.utxo)):
+        if not self.utxo:
             raise AssertionError
 
         witness_program = CScript([OP_TRUE])
@@ -1228,7 +1228,7 @@ class SegWitTest(BitcoinTestFramework):
     # but valid in blocks. Can run this before and after segwit activation.
     def test_segwit_versions(self):
         print("\tTesting standardness/consensus for segwit versions (0-16)")
-        if not (len(self.utxo)):
+        if not self.utxo:
             raise AssertionError
         NUM_TESTS = 17 # will test OP_0, OP1, ..., OP_16
         if (len(self.utxo) < NUM_TESTS):
@@ -1359,7 +1359,7 @@ class SegWitTest(BitcoinTestFramework):
         scriptPubKey = CScript([OP_0, witness_hash])
 
         # First create a witness output for use in the tests.
-        if not (len(self.utxo)):
+        if not self.utxo:
             raise AssertionError
         tx = CTransaction()
         tx.vin.append(CTxIn(COutPoint(self.utxo[0].sha256, self.utxo[0].n), b""))
@@ -1535,7 +1535,7 @@ class SegWitTest(BitcoinTestFramework):
     def test_p2sh_witness(self, segwit_activated):
         print("\tTesting P2SH witness transactions")
 
-        if not (len(self.utxo)):
+        if not self.utxo:
             raise AssertionError
 
         # Prepare the p2sh-wrapped witness output
@@ -1639,7 +1639,7 @@ class SegWitTest(BitcoinTestFramework):
         '''Ensure sigop counting is correct inside witnesses.'''
         print("\tTesting sigops limit")
 
-        if not (len(self.utxo)):
+        if not self.utxo:
             raise AssertionError
 
         # Keep this under MAX_OPS_PER_SCRIPT (201)
@@ -1913,7 +1913,7 @@ class SegWitTest(BitcoinTestFramework):
 
         p2wsh_scripts = []
 
-        if not (len(self.utxo)):
+        if not self.utxo:
             raise AssertionError
         tx = CTransaction()
         tx.vin.append(CTxIn(COutPoint(self.utxo[0].sha256, self.utxo[0].n), b""))

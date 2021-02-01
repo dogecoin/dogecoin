@@ -1532,7 +1532,7 @@ class NodeConnCB():
         for i in message.inv:
             if i.type != 0:
                 want.inv.append(i)
-        if len(want.inv):
+        if want.inv:
             conn.send_message(want)
 
     def on_addr(self, conn, message): pass
