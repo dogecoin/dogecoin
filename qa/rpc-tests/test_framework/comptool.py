@@ -16,16 +16,6 @@ as the test generator to TestManager.  get_tests() should be a python
 generator that returns TestInstance objects.  See below for definition.
 '''
 
-# TestNode behaves as follows:
-# Configure with a BlockStore and TxStore
-# on_inv: log the message but don't request
-# on_headers: log the chain tip
-# on_pong: update ping response map (for synchronization)
-# on_getheaders: provide headers via BlockStore
-# on_getdata: provide blocks via BlockStore
-
-global mininode_lock
-
 class RejectResult():
     '''
     Outcome that expects rejection of a transaction or block.
