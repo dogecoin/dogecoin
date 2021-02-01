@@ -178,13 +178,11 @@ class BaseNode(SingleNodeConnCB):
         test_function = lambda: self.last_block != None and self.last_block.sha256 == blockhash
         if not (wait_until(test_function, timeout=timeout)):
             raise AssertionError
-        return
 
     def wait_for_getheaders(self, timeout=60):
         test_function = lambda: self.last_getheaders != None
         if not (wait_until(test_function, timeout=timeout)):
             raise AssertionError
-        return
 
     def wait_for_getdata(self, hash_list, timeout=60):
         if hash_list == []:
@@ -199,13 +197,11 @@ class BaseNode(SingleNodeConnCB):
         test_function = lambda: self.disconnected
         if not (wait_until(test_function, timeout=timeout)):
             raise AssertionError
-        return
 
     def wait_for_block_announcement(self, block_hash, timeout=60):
         test_function = lambda: self.last_blockhash_announced == block_hash
         if not (wait_until(test_function, timeout=timeout)):
             raise AssertionError
-        return
 
     def send_header_for_blocks(self, new_blocks):
         headers_message = msg_headers()

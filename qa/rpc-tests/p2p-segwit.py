@@ -89,12 +89,10 @@ class TestNode(NodeConnCB):
         test_function = lambda: self.last_pong.nonce == self.ping_counter
         self.sync(test_function, timeout)
         self.ping_counter += 1
-        return
 
     def wait_for_block(self, blockhash, timeout=60):
         test_function = lambda: self.last_block != None and self.last_block.sha256 == blockhash
         self.sync(test_function, timeout)
-        return
 
     def wait_for_getdata(self, timeout=60):
         test_function = lambda: self.last_getdata != None
@@ -113,7 +111,6 @@ class TestNode(NodeConnCB):
             self.last_getdata = None
         self.send_message(msg_inv(inv=[CInv(1, tx.sha256)]))
         self.wait_for_getdata(timeout)
-        return
 
     def announce_block_and_wait_for_getdata(self, block, use_header, timeout=60):
         with mininode_lock:
@@ -128,7 +125,6 @@ class TestNode(NodeConnCB):
             self.wait_for_getheaders()
             self.send_message(msg)
         self.wait_for_getdata()
-        return
 
     def announce_block(self, block, use_header):
         with mininode_lock:
@@ -222,7 +218,6 @@ class SegWitTest(BitcoinTestFramework):
         block.vtx.extend(tx_list)
         add_witness_commitment(block, nonce)
         block.solve()
-        return
 
     ''' Individual tests '''
     def test_witness_services(self):
