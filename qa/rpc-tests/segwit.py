@@ -355,9 +355,9 @@ class SegWitTest(BitcoinTestFramework):
         uncompressed_spendable_address = ["mvozP4UwyGD2mGZU4D2eMvMLPB9WkMmMQu"]
         self.nodes[0].importprivkey("cNC8eQ5dg3mFAVePDX4ddmPYpPbw41r9bm2jd1nLJT77e6RrzTRR")
         compressed_spendable_address = ["mmWQubrDomqpgSYekvsU7HWEVjLFHAakLe"]
-        if ((self.nodes[0].validateaddress(uncompressed_spendable_address[0])['iscompressed'] != False)):
+        if ((self.nodes[0].validateaddress(uncompressed_spendable_address[0])['iscompressed'] is False)):
             raise AssertionError
-        if ((self.nodes[0].validateaddress(compressed_spendable_address[0])['iscompressed'] != True)):
+        if ((self.nodes[0].validateaddress(compressed_spendable_address[0])['iscompressed'] is True)):
             raise AssertionError
 
         self.nodes[0].importpubkey(pubkeys[0])
@@ -647,7 +647,7 @@ class SegWitTest(BitcoinTestFramework):
         for i in self.nodes[0].listunspent():
             if (i['txid'] == txid):
                 watchcount += 1
-                if (i['spendable'] == True):
+                if (i['spendable'] is True):
                     spendcount += 1
         if (ismine == 2):
             assert_equal(spendcount, len(script_list))

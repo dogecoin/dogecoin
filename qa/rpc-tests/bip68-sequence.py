@@ -440,7 +440,7 @@ class BIP68Test(BitcoinTestFramework):
         tx_signed = self.nodes[1].signrawtransaction(ToHex(tx))["hex"]
         try:
             tx_id = self.nodes[1].sendrawtransaction(tx_signed)
-            if (before_activation != False):
+            if (before_activation is False):
                 raise AssertionError
         except:
             if not (before_activation):
