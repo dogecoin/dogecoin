@@ -82,8 +82,7 @@ SECP256K1_ORDER_HALF = SECP256K1_ORDER // 2
 def _check_result(val, func, args):
     if val == 0:
         raise ValueError
-    else:
-        return ctypes.c_void_p (val)
+    return ctypes.c_void_p (val)
 
 ssl.EC_KEY_new_by_curve_name.restype = ctypes.c_void_p
 ssl.EC_KEY_new_by_curve_name.errcheck = _check_result
