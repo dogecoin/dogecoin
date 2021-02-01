@@ -16,7 +16,7 @@
 # name $BRANCH is overwritten with the merged result, and optionally pushed.
 from __future__ import division,print_function,unicode_literals
 import os
-from sys import stdin,stdout,stderr
+from sys import stdin,stdout,stderr,exit
 import argparse
 import subprocess
 import json,codecs
