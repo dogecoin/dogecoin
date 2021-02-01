@@ -53,7 +53,8 @@ class RPCBindTest(BitcoinTestFramework):
 
     def run_test(self):
         # due to OS-specific network stats queries, this test works only on Linux
-        assert(sys.platform.startswith('linux'))
+        if not (sys.platform.startswith('linux')):
+            raise AssertionError
         # find the first non-loopback interface for testing
         non_loopback_ip = None
         for name,ip in all_interfaces():
@@ -61,7 +62,8 @@ class RPCBindTest(BitcoinTestFramework):
                 non_loopback_ip = ip
                 break
         if non_loopback_ip is None:
-            assert(not 'This test requires at least one non-loopback IPv4 interface')
+            if 'This test requires at least one non-loopback IPv4 interface':
+                raise AssertionError
         print("Using interface %s for testing" % non_loopback_ip)
 
         defaultport = rpc_port(0)
@@ -95,7 +97,8 @@ class RPCBindTest(BitcoinTestFramework):
         self.run_allowip_test([non_loopback_ip], non_loopback_ip, defaultport)
         try:
             self.run_allowip_test(['1.1.1.1'], non_loopback_ip, defaultport)
-            assert(not 'Connection not denied by rpcallowip as expected')
+            if 'Connection not denied by rpcallowip as expected':
+                raise AssertionError
         except JSONRPCException:
             pass
 

@@ -32,7 +32,8 @@ class AbandonConflictTest(BitcoinTestFramework):
 
         sync_blocks(self.nodes)
         newbalance = self.nodes[0].getbalance()
-        assert(balance - newbalance <= Decimal("3")) #no more than fees lost
+        if (balance - newbalance > Decimal("3")):
+            raise AssertionError
         balance = newbalance
 
         url = urllib.parse.urlparse(self.nodes[1].url)
@@ -89,7 +90,8 @@ class AbandonConflictTest(BitcoinTestFramework):
         unconfbalance = self.nodes[0].getunconfirmedbalance() + self.nodes[0].getbalance()
         assert_equal(unconfbalance, newbalance)
         # Also shouldn't show up in listunspent
-        assert(not txABC2 in [utxo["txid"] for utxo in self.nodes[0].listunspent(0)])
+        if txABC2 in [utxo["txid"] for utxo in self.nodes[0].listunspent(0)]:
+            raise AssertionError
         balance = newbalance
 
         # Abandon original transaction and verify inputs are available again

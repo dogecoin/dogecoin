@@ -78,17 +78,24 @@ def test_simple_bumpfee_succeeds(rbf_node, peer_node, dest_address):
     rbfid = create_fund_sign_send(rbf_node, {dest_address: 0.90000000})
     rbftx = rbf_node.gettransaction(rbfid)
     sync_mempools((rbf_node, peer_node))
-    assert rbfid in rbf_node.getrawmempool() and rbfid in peer_node.getrawmempool()
+    if not (rbfid in rbf_node.getrawmempool() and rbfid in peer_node.getrawmempool()):
+        raise AssertionError
     bumped_tx = rbf_node.bumpfee(rbfid)
-    assert bumped_tx["fee"] - abs(rbftx["fee"]) > 0
+    if bumped_tx["fee"] - abs(rbftx["fee"]) <= 0:
+        raise AssertionError
     # check that bumped_tx propogates, original tx was evicted and has a wallet conflict
     sync_mempools((rbf_node, peer_node))
-    assert bumped_tx["txid"] in rbf_node.getrawmempool()
-    assert bumped_tx["txid"] in peer_node.getrawmempool()
-    assert rbfid not in rbf_node.getrawmempool()
-    assert rbfid not in peer_node.getrawmempool()
+    if bumped_tx["txid"] not in rbf_node.getrawmempool():
+        raise AssertionError
+    if bumped_tx["txid"] not in peer_node.getrawmempool():
+        raise AssertionError
+    if rbfid in rbf_node.getrawmempool():
+        raise AssertionError
+    if rbfid in peer_node.getrawmempool():
+        raise AssertionError
     oldwtx = rbf_node.gettransaction(rbfid)
-    assert len(oldwtx["walletconflicts"]) > 0
+    if len(oldwtx["walletconflicts"]) <= 0:
+        raise AssertionError
     # check wallet transaction replaces and replaced_by values
     bumpedwtx = rbf_node.gettransaction(bumped_tx["txid"])
     assert_equal(oldwtx["replaced_by_txid"], bumped_tx["txid"])
@@ -119,11 +126,14 @@ def test_segwit_bumpfee_succeeds(rbf_node, dest_address):
          get_change_address(rbf_node): Decimal("0.0003")})
     rbfsigned = rbf_node.signrawtransaction(rbfraw)
     rbfid = rbf_node.sendrawtransaction(rbfsigned["hex"])
-    assert rbfid in rbf_node.getrawmempool()
+    if rbfid not in rbf_node.getrawmempool():
+        raise AssertionError
 
     bumped_tx = rbf_node.bumpfee(rbfid)
-    assert bumped_tx["txid"] in rbf_node.getrawmempool()
-    assert rbfid not in rbf_node.getrawmempool()
+    if bumped_tx["txid"] not in rbf_node.getrawmempool():
+        raise AssertionError
+    if rbfid in rbf_node.getrawmempool():
+        raise AssertionError
 
 
 def test_nonrbf_bumpfee_fails(peer_node, dest_address):
@@ -201,7 +211,8 @@ def test_settxfee(rbf_node, dest_address):
     rbftx = rbf_node.gettransaction(rbfid)
     rbf_node.settxfee(Decimal("0.00002500"))
     bumped_tx = rbf_node.bumpfee(rbfid)
-    assert bumped_tx["fee"] > 2 * abs(rbftx["fee"])
+    if bumped_tx["fee"] <= 2 * abs(rbftx["fee"]):
+        raise AssertionError
     rbf_node.settxfee(Decimal("0.00000000"))  # unset paytxfee
 
 
@@ -226,10 +237,13 @@ def test_unconfirmed_not_spendable(rbf_node, rbf_node_address):
     # check that unconfirmed outputs from bumped transactions are not spendable
     rbfid = create_fund_sign_send(rbf_node, {rbf_node_address: 0.90000000})
     rbftx = rbf_node.gettransaction(rbfid)["hex"]
-    assert rbfid in rbf_node.getrawmempool()
+    if rbfid not in rbf_node.getrawmempool():
+        raise AssertionError
     bumpid = rbf_node.bumpfee(rbfid)["txid"]
-    assert bumpid in rbf_node.getrawmempool()
-    assert rbfid not in rbf_node.getrawmempool()
+    if bumpid not in rbf_node.getrawmempool():
+        raise AssertionError
+    if rbfid in rbf_node.getrawmempool():
+        raise AssertionError
 
     # check that outputs from the bump transaction are not spendable
     # due to the replaces_txid check in CWallet::AvailableCoins
@@ -243,8 +257,10 @@ def test_unconfirmed_not_spendable(rbf_node, rbf_node_address):
     block = submit_block_with_tx(rbf_node, rbftx)
     rbf_node.abandontransaction(bumpid)
     rbf_node.invalidateblock(block.hash)
-    assert bumpid not in rbf_node.getrawmempool()
-    assert rbfid in rbf_node.getrawmempool()
+    if bumpid in rbf_node.getrawmempool():
+        raise AssertionError
+    if rbfid not in rbf_node.getrawmempool():
+        raise AssertionError
 
     # check that outputs from the rbf tx are not spendable before the
     # transaction is confirmed, due to the replaced_by_txid check in

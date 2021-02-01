@@ -74,9 +74,12 @@ class TimeoutsTest(BitcoinTestFramework):
 
         sleep(1)
 
-        assert(self.no_verack_node.connected)
-        assert(self.no_version_node.connected)
-        assert(self.no_send_node.connected)
+        if not (self.no_verack_node.connected):
+            raise AssertionError
+        if not (self.no_version_node.connected):
+            raise AssertionError
+        if not (self.no_send_node.connected):
+            raise AssertionError
 
         ping_msg = msg_ping()
         connections[0].send_message(ping_msg)
@@ -84,20 +87,27 @@ class TimeoutsTest(BitcoinTestFramework):
 
         sleep(30)
 
-        assert(self.no_verack_node.received_version)
+        if not (self.no_verack_node.received_version):
+            raise AssertionError
 
-        assert(self.no_verack_node.connected)
-        assert(self.no_version_node.connected)
-        assert(self.no_send_node.connected)
+        if not (self.no_verack_node.connected):
+            raise AssertionError
+        if not (self.no_version_node.connected):
+            raise AssertionError
+        if not (self.no_send_node.connected):
+            raise AssertionError
 
         connections[0].send_message(ping_msg)
         connections[1].send_message(ping_msg)
 
         sleep(31)
 
-        assert(not self.no_verack_node.connected)
-        assert(not self.no_version_node.connected)
-        assert(not self.no_send_node.connected)
+        if self.no_verack_node.connected:
+            raise AssertionError
+        if self.no_version_node.connected:
+            raise AssertionError
+        if self.no_send_node.connected:
+            raise AssertionError
 
 if __name__ == '__main__':
     TimeoutsTest().main()

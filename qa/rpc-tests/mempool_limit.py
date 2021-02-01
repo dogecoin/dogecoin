@@ -46,9 +46,11 @@ class MempoolLimitTest(BitcoinTestFramework):
             txids[i] = create_lots_of_big_transactions(self.nodes[0], self.txouts, utxos[30*i:30*i+30], 30, (i+1)*base_fee)
 
         # by now, the tx should be evicted, check confirmation state
-        assert(txid not in self.nodes[0].getrawmempool())
+        if (txid in self.nodes[0].getrawmempool()):
+            raise AssertionError
         txdata = self.nodes[0].gettransaction(txid)
-        assert(txdata['confirmations'] ==  0) #confirmation should still be 0
+        if (txdata['confirmations'] != 0):
+            raise AssertionError
 
 if __name__ == '__main__':
     MempoolLimitTest().main()

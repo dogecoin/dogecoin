@@ -33,7 +33,8 @@ class NodeHandlingTest(BitcoinTestFramework):
         ###########################
         assert_equal(len(self.nodes[1].getpeerinfo()), 2)  # node1 should have 2 connections to node0 at this point
         self.nodes[1].setban("127.0.0.1", "add")
-        assert wait_until(lambda: len(self.nodes[1].getpeerinfo()) == 0, timeout=10)
+        if not wait_until(lambda: len(self.nodes[1].getpeerinfo()) == 0, timeout=10):
+            raise AssertionError
         assert_equal(len(self.nodes[1].getpeerinfo()), 0)  # all nodes must be disconnected at this point
         assert_equal(len(self.nodes[1].listbanned()), 1)
         self.nodes[1].clearbanned()
@@ -60,7 +61,8 @@ class NodeHandlingTest(BitcoinTestFramework):
         self.nodes[1].setban("2001:4d48:ac57:400:cacf:e9ff:fe1d:9c63/19", "add", 1000)  # ban for 1000 seconds
         listBeforeShutdown = self.nodes[1].listbanned()
         assert_equal("192.168.0.1/32", listBeforeShutdown[2]['address'])
-        assert wait_until(lambda: len(self.nodes[1].listbanned()) == 3, timeout=10)
+        if not wait_until(lambda: len(self.nodes[1].listbanned()) == 3, timeout=10):
+            raise AssertionError
 
         stop_node(self.nodes[1], 1)
 
@@ -79,11 +81,14 @@ class NodeHandlingTest(BitcoinTestFramework):
         ###########################
         address1 = self.nodes[0].getpeerinfo()[0]['addr']
         self.nodes[0].disconnectnode(address=address1)
-        assert wait_until(lambda: len(self.nodes[0].getpeerinfo()) == 1, timeout=10)
-        assert not [node for node in self.nodes[0].getpeerinfo() if node['addr'] == address1]
+        if not wait_until(lambda: len(self.nodes[0].getpeerinfo()) == 1, timeout=10):
+            raise AssertionError
+        if [node for node in self.nodes[0].getpeerinfo() if node['addr'] == address1]:
+            raise AssertionError
 
         connect_nodes_bi(self.nodes, 0, 1)  # reconnect the node
-        assert [node for node in self.nodes[0].getpeerinfo() if node['addr'] == address1]
+        if not [node for node in self.nodes[0].getpeerinfo() if node['addr'] == address1]:
+            raise AssertionError
 
 if __name__ == '__main__':
     NodeHandlingTest().main()

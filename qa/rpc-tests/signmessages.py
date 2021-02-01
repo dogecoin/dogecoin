@@ -28,14 +28,16 @@ class SignMessagesTest(BitcoinTestFramework):
         signature = self.nodes[0].signmessagewithprivkey(privKey, message)
 
         # Verify the message
-        assert(self.nodes[0].verifymessage(address, signature, message))
+        if not (self.nodes[0].verifymessage(address, signature, message)):
+            raise AssertionError
 
         # Test the signing with an address with wallet
         address = self.nodes[0].getnewaddress()
         signature = self.nodes[0].signmessage(address, message)
 
         # Verify the message
-        assert(self.nodes[0].verifymessage(address, signature, message))
+        if not (self.nodes[0].verifymessage(address, signature, message)):
+            raise AssertionError
 
 if __name__ == '__main__':
     SignMessagesTest().main()

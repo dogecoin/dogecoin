@@ -152,7 +152,8 @@ class PruneTest(BitcoinTestFramework):
             self.nodes[1].invalidateblock(curhash)
             curhash = self.nodes[1].getblockhash(invalidheight - 1)
 
-        assert(self.nodes[1].getblockcount() == invalidheight - 1)
+        if (self.nodes[1].getblockcount() != invalidheight - 1):
+            raise AssertionError
         print("New best height", self.nodes[1].getblockcount())
 
         # Reboot node1 to clear those giant tx's from mempool
@@ -213,8 +214,10 @@ class PruneTest(BitcoinTestFramework):
             blocks_to_mine = first_reorg_height + 1 - self.mainchainheight
             print("Rewind node 0 to prev main chain to mine longer chain to trigger redownload. Blocks needed:", blocks_to_mine)
             self.nodes[0].invalidateblock(curchainhash)
-            assert(self.nodes[0].getblockcount() == self.mainchainheight)
-            assert(self.nodes[0].getbestblockhash() == self.mainchainhash2)
+            if (self.nodes[0].getblockcount() != self.mainchainheight):
+                raise AssertionError
+            if (self.nodes[0].getbestblockhash() != self.mainchainhash2):
+                raise AssertionError
             goalbesthash = self.nodes[0].generate(blocks_to_mine)[-1]
             goalbestheight = first_reorg_height + 1
 
@@ -224,9 +227,11 @@ class PruneTest(BitcoinTestFramework):
             time.sleep(0.1)
             if time.time() - waitstart > 900:
                 raise AssertionError("Node 2 didn't reorg to proper height")
-        assert(self.nodes[2].getbestblockhash() == goalbesthash)
+        if (self.nodes[2].getbestblockhash() != goalbesthash):
+            raise AssertionError
         # Verify we can now have the data for a block previously pruned
-        assert(self.nodes[2].getblock(self.forkhash)["height"] == self.forkheight)
+        if (self.nodes[2].getblock(self.forkhash)["height"] != self.forkheight):
+            raise AssertionError
 
     def manual_test(self, node_number, use_timestamp):
         # at this point, node has 995 blocks and has not yet run in prune mode

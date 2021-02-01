@@ -55,7 +55,8 @@ class BaseNode(SingleNodeConnCB):
 
     def wait_for_disconnect(self, timeout=60):
         test_function = lambda: self.disconnected
-        assert(wait_until(test_function, timeout=timeout))
+        if not (wait_until(test_function, timeout=timeout)):
+            raise AssertionError
         return
 
     def send_header_for_blocks(self, new_blocks):

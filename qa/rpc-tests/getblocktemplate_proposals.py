@@ -92,7 +92,8 @@ class GetBlockTemplateProposalTest(BitcoinTestFramework):
         txlist = list(bytearray(a2b_hex(a['data'])) for a in (tmpl['coinbasetxn'],) + tuple(tmpl['transactions']))
 
         # Test 0: Capability advertised
-        assert('proposal' in tmpl['capabilities'])
+        if ('proposal' not in tmpl['capabilities']):
+            raise AssertionError
 
         # NOTE: This test currently FAILS (regtest mode doesn't enforce block height in coinbase)
         ## Test 1: Bad height in coinbase

@@ -30,12 +30,14 @@ def witness_script(version, pubkey):
         scripthash = bytes_to_hex_str(sha256(hex_str_to_bytes("5121" + pubkey + "51ae")))
         pkscript = "0020" + scripthash
     else:
-        assert("Wrong version" == "0 or 1")
+        if ("Wrong version" != "0 or 1"):
+            raise AssertionError
     return pkscript
 
 def addlength(script):
     scriptlen = format(len(script)//2, 'x')
-    assert(len(scriptlen) == 2)
+    if (len(scriptlen) != 2):
+        raise AssertionError
     return scriptlen + script
 
 def create_witnessprogram(version, node, utxo, pubkey, encode_p2sh, amount):
@@ -57,7 +59,8 @@ def send_to_witness(version, node, utxo, pubkey, encode_p2sh, amount, sign=True,
     tx_to_witness = create_witnessprogram(version, node, utxo, pubkey, encode_p2sh, amount)
     if (sign):
         signed = node.signrawtransaction(tx_to_witness)
-        assert("errors" not in signed or len(["errors"]) == 0)
+        if not ("errors" not in signed or len(["errors"]) == 0):
+            raise AssertionError
         return node.sendrawtransaction(signed["hex"])
     else:
         if (insert_redeem_script):
@@ -110,7 +113,8 @@ class SegWitTest(BitcoinTestFramework):
         try:
             send_to_witness(1, node, getutxo(txid), self.pubkey[0], False, Decimal("49.998"), sign, redeem_script)
         except JSONRPCException as exp:
-            assert(exp.error["code"] == -26)
+            if (exp.error["code"] != -26):
+                raise AssertionError
         else:
             raise AssertionError("Tx should not have been accepted")
 
@@ -119,7 +123,8 @@ class SegWitTest(BitcoinTestFramework):
         try:
             node.generate(1)
         except JSONRPCException as exp:
-            assert(exp.error["code"] == -1)
+            if (exp.error["code"] != -1):
+                raise AssertionError
         else:
             raise AssertionError("Created valid block when TestBlockValidity should have failed")
         sync_blocks(self.nodes)
@@ -130,17 +135,27 @@ class SegWitTest(BitcoinTestFramework):
         print("Verify sigops are counted in GBT with pre-BIP141 rules before the fork")
         txid = self.nodes[0].sendtoaddress(self.nodes[0].getnewaddress(), 1)
         tmpl = self.nodes[0].getblocktemplate({})
-        assert(tmpl['sizelimit'] == 1000000)
-        assert('weightlimit' not in tmpl)
-        assert(tmpl['sigoplimit'] == 20000)
-        assert(tmpl['transactions'][0]['hash'] == txid)
-        assert(tmpl['transactions'][0]['sigops'] == 2)
+        if (tmpl['sizelimit'] != 1000000):
+            raise AssertionError
+        if ('weightlimit' in tmpl):
+            raise AssertionError
+        if (tmpl['sigoplimit'] != 20000):
+            raise AssertionError
+        if (tmpl['transactions'][0]['hash'] != txid):
+            raise AssertionError
+        if (tmpl['transactions'][0]['sigops'] != 2):
+            raise AssertionError
         tmpl = self.nodes[0].getblocktemplate({'rules':['segwit']})
-        assert(tmpl['sizelimit'] == 1000000)
-        assert('weightlimit' not in tmpl)
-        assert(tmpl['sigoplimit'] == 20000)
-        assert(tmpl['transactions'][0]['hash'] == txid)
-        assert(tmpl['transactions'][0]['sigops'] == 2)
+        if (tmpl['sizelimit'] != 1000000):
+            raise AssertionError
+        if ('weightlimit' in tmpl):
+            raise AssertionError
+        if (tmpl['sigoplimit'] != 20000):
+            raise AssertionError
+        if (tmpl['transactions'][0]['hash'] != txid):
+            raise AssertionError
+        if (tmpl['transactions'][0]['sigops'] != 2):
+            raise AssertionError
         self.nodes[0].generate(1) #block 162
 
         balance_presetup = self.nodes[0].getbalance()
@@ -220,15 +235,22 @@ class SegWitTest(BitcoinTestFramework):
         assert_equal(len(segwit_tx_list), 5)
 
         print("Verify block and transaction serialization rpcs return differing serializations depending on rpc serialization flag")
-        assert(self.nodes[2].getblock(block[0], False) !=  self.nodes[0].getblock(block[0], False))
-        assert(self.nodes[1].getblock(block[0], False) ==  self.nodes[2].getblock(block[0], False))
+        if (self.nodes[2].getblock(block[0], False) == self.nodes[0].getblock(block[0], False)):
+            raise AssertionError
+        if (self.nodes[1].getblock(block[0], False) != self.nodes[2].getblock(block[0], False)):
+            raise AssertionError
         for i in range(len(segwit_tx_list)):
             tx = FromHex(CTransaction(), self.nodes[2].gettransaction(segwit_tx_list[i])["hex"])
-            assert(self.nodes[2].getrawtransaction(segwit_tx_list[i]) != self.nodes[0].getrawtransaction(segwit_tx_list[i]))
-            assert(self.nodes[1].getrawtransaction(segwit_tx_list[i], 0) == self.nodes[2].getrawtransaction(segwit_tx_list[i]))
-            assert(self.nodes[0].getrawtransaction(segwit_tx_list[i]) != self.nodes[2].gettransaction(segwit_tx_list[i])["hex"])
-            assert(self.nodes[1].getrawtransaction(segwit_tx_list[i]) == self.nodes[2].gettransaction(segwit_tx_list[i])["hex"])
-            assert(self.nodes[0].getrawtransaction(segwit_tx_list[i]) == bytes_to_hex_str(tx.serialize_without_witness()))
+            if (self.nodes[2].getrawtransaction(segwit_tx_list[i]) == self.nodes[0].getrawtransaction(segwit_tx_list[i])):
+                raise AssertionError
+            if (self.nodes[1].getrawtransaction(segwit_tx_list[i], 0) != self.nodes[2].getrawtransaction(segwit_tx_list[i])):
+                raise AssertionError
+            if (self.nodes[0].getrawtransaction(segwit_tx_list[i]) == self.nodes[2].gettransaction(segwit_tx_list[i])["hex"]):
+                raise AssertionError
+            if (self.nodes[1].getrawtransaction(segwit_tx_list[i]) != self.nodes[2].gettransaction(segwit_tx_list[i])["hex"]):
+                raise AssertionError
+            if (self.nodes[0].getrawtransaction(segwit_tx_list[i]) != bytes_to_hex_str(tx.serialize_without_witness())):
+                raise AssertionError
 
         print("Verify witness txs without witness data are invalid after the fork")
         self.fail_mine(self.nodes[2], wit_ids[NODE_2][WIT_V0][2], False)
@@ -245,11 +267,16 @@ class SegWitTest(BitcoinTestFramework):
         print("Verify sigops are counted in GBT with BIP141 rules after the fork")
         txid = self.nodes[0].sendtoaddress(self.nodes[0].getnewaddress(), 1)
         tmpl = self.nodes[0].getblocktemplate({'rules':['segwit']})
-        assert(tmpl['sizelimit'] >= 3999577)  # actual maximum size is lower due to minimum mandatory non-witness data
-        assert(tmpl['weightlimit'] == 4000000)
-        assert(tmpl['sigoplimit'] == 80000)
-        assert(tmpl['transactions'][0]['txid'] == txid)
-        assert(tmpl['transactions'][0]['sigops'] == 8)
+        if (tmpl['sizelimit'] < 3999577):
+            raise AssertionError
+        if (tmpl['weightlimit'] != 4000000):
+            raise AssertionError
+        if (tmpl['sigoplimit'] != 80000):
+            raise AssertionError
+        if (tmpl['transactions'][0]['txid'] != txid):
+            raise AssertionError
+        if (tmpl['transactions'][0]['sigops'] != 8):
+            raise AssertionError
 
         self.nodes[0].generate(1) # Mine a block to clear the gbt cache
 
@@ -261,8 +288,10 @@ class SegWitTest(BitcoinTestFramework):
         txid1 = send_to_witness(1, self.nodes[0], find_unspent(self.nodes[0], 50), self.pubkey[0], False, Decimal("49.996"))
         hex_tx = self.nodes[0].gettransaction(txid)['hex']
         tx = FromHex(CTransaction(), hex_tx)
-        assert(tx.wit.is_null()) # This should not be a segwit input
-        assert(txid1 in self.nodes[0].getrawmempool())
+        if not (tx.wit.is_null()):
+            raise AssertionError
+        if (txid1 not in self.nodes[0].getrawmempool()):
+            raise AssertionError
 
         # Now create tx2, which will spend from txid1.
         tx = CTransaction()
@@ -271,7 +300,8 @@ class SegWitTest(BitcoinTestFramework):
         tx2_hex = self.nodes[0].signrawtransaction(ToHex(tx))['hex']
         txid2 = self.nodes[0].sendrawtransaction(tx2_hex)
         tx = FromHex(CTransaction(), tx2_hex)
-        assert(not tx.wit.is_null())
+        if tx.wit.is_null():
+            raise AssertionError
 
         # Now create tx3, which will spend from txid2
         tx = CTransaction()
@@ -279,23 +309,30 @@ class SegWitTest(BitcoinTestFramework):
         tx.vout.append(CTxOut(int(49.95*COIN), CScript([OP_TRUE]))) # Huge fee
         tx.calc_sha256()
         txid3 = self.nodes[0].sendrawtransaction(ToHex(tx))
-        assert(tx.wit.is_null())
-        assert(txid3 in self.nodes[0].getrawmempool())
+        if not (tx.wit.is_null()):
+            raise AssertionError
+        if (txid3 not in self.nodes[0].getrawmempool()):
+            raise AssertionError
 
         # Now try calling getblocktemplate() without segwit support.
         template = self.nodes[0].getblocktemplate()
 
         # Check that tx1 is the only transaction of the 3 in the template.
         template_txids = [ t['txid'] for t in template['transactions'] ]
-        assert(txid2 not in template_txids and txid3 not in template_txids)
-        assert(txid1 in template_txids)
+        if not (txid2 not in template_txids and txid3 not in template_txids):
+            raise AssertionError
+        if (txid1 not in template_txids):
+            raise AssertionError
 
         # Check that running with segwit support results in all 3 being included.
         template = self.nodes[0].getblocktemplate({"rules": ["segwit"]})
         template_txids = [ t['txid'] for t in template['transactions'] ]
-        assert(txid1 in template_txids)
-        assert(txid2 in template_txids)
-        assert(txid3 in template_txids)
+        if (txid1 not in template_txids):
+            raise AssertionError
+        if (txid2 not in template_txids):
+            raise AssertionError
+        if (txid3 not in template_txids):
+            raise AssertionError
 
         # Mine a block to clear the gbt cache again.
         self.nodes[0].generate(1)
@@ -318,8 +355,10 @@ class SegWitTest(BitcoinTestFramework):
         uncompressed_spendable_address = ["mvozP4UwyGD2mGZU4D2eMvMLPB9WkMmMQu"]
         self.nodes[0].importprivkey("cNC8eQ5dg3mFAVePDX4ddmPYpPbw41r9bm2jd1nLJT77e6RrzTRR")
         compressed_spendable_address = ["mmWQubrDomqpgSYekvsU7HWEVjLFHAakLe"]
-        assert ((self.nodes[0].validateaddress(uncompressed_spendable_address[0])['iscompressed'] == False))
-        assert ((self.nodes[0].validateaddress(compressed_spendable_address[0])['iscompressed'] == True))
+        if ((self.nodes[0].validateaddress(uncompressed_spendable_address[0])['iscompressed'] != False)):
+            raise AssertionError
+        if ((self.nodes[0].validateaddress(compressed_spendable_address[0])['iscompressed'] != True)):
+            raise AssertionError
 
         self.nodes[0].importpubkey(pubkeys[0])
         compressed_solvable_address = [key_to_p2pkh(pubkeys[0])]
@@ -481,7 +520,8 @@ class SegWitTest(BitcoinTestFramework):
             except JSONRPCException as exp:
                 assert_equal(exp.error["message"], "Public key or redeemscript not known to wallet, or the key is uncompressed")
             else:
-                assert(False)
+                if not (False):
+                    raise AssertionError
 
         for i in compressed_spendable_address + compressed_solvable_address:
             witaddress = self.nodes[0].addwitnessaddress(i)
@@ -565,7 +605,8 @@ class SegWitTest(BitcoinTestFramework):
             except JSONRPCException as exp:
                 assert_equal(exp.error["message"], "Public key or redeemscript not known to wallet, or the key is uncompressed")
             else:
-                assert(False)
+                if not (False):
+                    raise AssertionError
 
         # after importaddress it should pass addwitnessaddress
         v = self.nodes[0].validateaddress(compressed_solvable_address[1])

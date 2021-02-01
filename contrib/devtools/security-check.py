@@ -154,7 +154,8 @@ def check_PE_HIGH_ENTROPY_VA(executable):
     if arch == 'i386:x86-64': 
         reqbits = IMAGE_DLL_CHARACTERISTICS_HIGH_ENTROPY_VA
     else: # Unnecessary on 32-bit
-        assert(arch == 'i386')
+        if (arch != 'i386'):
+            raise AssertionError
         reqbits = 0
     return (bits & reqbits) == reqbits
 

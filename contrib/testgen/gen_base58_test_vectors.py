@@ -61,7 +61,8 @@ def gen_valid_vectors():
             payload = os.urandom(template[1]) 
             suffix = str(bytearray(template[2]))
             rv = b58encode_chk(prefix + payload + suffix)
-            assert is_valid(rv)
+            if not is_valid(rv):
+                raise AssertionError
             metadata = dict([(x,y) for (x,y) in zip(metadata_keys,template[3]) if y is not None])
             yield (rv, b2a_hex(payload), metadata)
 

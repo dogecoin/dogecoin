@@ -18,7 +18,8 @@ def trueDummy(tx):
     newscript = []
     for i in scriptSig:
         if (len(newscript) == 0):
-            assert(len(i) == 0)
+            if (len(i) != 0):
+                raise AssertionError
             newscript.append(b'\x51')
         else:
             newscript.append(i)

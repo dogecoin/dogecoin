@@ -43,7 +43,8 @@ class GetAuxBlockTest (BitcoinTestFramework):
     self.nodes[1].generate (1)
     self.sync_all ()
     auxblock2 = self.nodes[0].getauxblock ()
-    assert auxblock['hash'] != auxblock2['hash']
+    if auxblock['hash'] == auxblock2['hash']:
+      raise AssertionError
     try:
       self.nodes[0].getauxblock (auxblock['hash'], "x")
       raise AssertionError ("invalid block hash accepted")
@@ -71,12 +72,14 @@ class GetAuxBlockTest (BitcoinTestFramework):
     # Compute invalid auxpow.
     apow = auxpow.computeAuxpowWithChainId (auxblock['hash'], target, "98", False)
     res = self.nodes[0].getauxblock (auxblock['hash'], apow)
-    assert not res
+    if res:
+      raise AssertionError
 
     # Compute and submit valid auxpow.
     apow = auxpow.computeAuxpowWithChainId (auxblock['hash'], target, "98", True)
     res = self.nodes[0].getauxblock (auxblock['hash'], apow)
-    assert res
+    if not res:
+      raise AssertionError
 
     # Make sure that the block is indeed accepted.
     self.sync_all ()
@@ -87,7 +90,8 @@ class GetAuxBlockTest (BitcoinTestFramework):
 
     # Call getblock and verify the auxpow field.
     data = self.nodes[1].getblock (auxblock['hash'])
-    assert 'auxpow' in data
+    if 'auxpow' not in data:
+      raise AssertionError
     auxJson = data['auxpow']
     assert_equal (auxJson['index'], 0)
     assert_equal (auxJson['parentblock'], apow[-160:])
@@ -95,7 +99,8 @@ class GetAuxBlockTest (BitcoinTestFramework):
     # Check that previous blocks don't have 'auxpow' in their getblock JSON.
     oldHash = self.nodes[1].getblockhash (100)
     data = self.nodes[1].getblock (oldHash)
-    assert 'auxpow' not in data
+    if 'auxpow' in data:
+      raise AssertionError
 
     # Check that it paid correctly to the first node.
     t = self.nodes[0].listtransactions ("", 1)
@@ -103,8 +108,10 @@ class GetAuxBlockTest (BitcoinTestFramework):
     t = t[0]
     assert_equal (t['category'], "immature")
     assert_equal (t['blockhash'], auxblock['hash'])
-    assert t['generated']
-    assert t['amount'] >= Decimal ("500000")
+    if not t['generated']:
+      raise AssertionError
+    if t['amount'] < Decimal ("500000"):
+      raise AssertionError
     assert_equal (t['confirmations'], 1)
 
     # Verify the coinbase script.  Ensure that it includes the block height

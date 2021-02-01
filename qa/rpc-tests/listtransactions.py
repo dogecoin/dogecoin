@@ -93,7 +93,8 @@ class ListTransactionsTest(BitcoinTestFramework):
         txid = self.nodes[1].sendtoaddress(multisig["address"], 0.1)
         self.nodes[1].generate(1)
         self.sync_all()
-        assert(len(self.nodes[0].listtransactions("watchonly", 100, 0, False)) == 0)
+        if (len(self.nodes[0].listtransactions("watchonly", 100, 0, False)) != 0):
+            raise AssertionError
         assert_array_result(self.nodes[0].listtransactions("watchonly", 100, 0, True),
                            {"category":"receive","amount":Decimal("0.1")},
                            {"txid":txid, "account" : "watchonly"} )
@@ -121,7 +122,8 @@ class ListTransactionsTest(BitcoinTestFramework):
 
         # 1. Chain a few transactions that don't opt-in.
         txid_1 = self.nodes[0].sendtoaddress(self.nodes[1].getnewaddress(), 100)
-        assert(not is_opt_in(self.nodes[0], txid_1))
+        if is_opt_in(self.nodes[0], txid_1):
+            raise AssertionError
         assert_array_result(self.nodes[0].listtransactions(), {"txid": txid_1}, {"bip125-replaceable":"no"})
         sync_mempools(self.nodes)
         assert_array_result(self.nodes[1].listtransactions(), {"txid": txid_1}, {"bip125-replaceable":"no"})
@@ -137,7 +139,8 @@ class ListTransactionsTest(BitcoinTestFramework):
         txid_2 = self.nodes[1].sendrawtransaction(tx2_signed)
 
         # ...and check the result
-        assert(not is_opt_in(self.nodes[1], txid_2))
+        if is_opt_in(self.nodes[1], txid_2):
+            raise AssertionError
         assert_array_result(self.nodes[1].listtransactions(), {"txid": txid_2}, {"bip125-replaceable":"no"})
         sync_mempools(self.nodes)
         assert_array_result(self.nodes[0].listtransactions(), {"txid": txid_2}, {"bip125-replaceable":"no"})
@@ -153,7 +156,8 @@ class ListTransactionsTest(BitcoinTestFramework):
         tx3_signed = self.nodes[0].signrawtransaction(tx3)['hex']
         txid_3 = self.nodes[0].sendrawtransaction(tx3_signed)
 
-        assert(is_opt_in(self.nodes[0], txid_3))
+        if not (is_opt_in(self.nodes[0], txid_3)):
+            raise AssertionError
         assert_array_result(self.nodes[0].listtransactions(), {"txid": txid_3}, {"bip125-replaceable":"yes"})
         sync_mempools(self.nodes)
         assert_array_result(self.nodes[1].listtransactions(), {"txid": txid_3}, {"bip125-replaceable":"yes"})
@@ -167,7 +171,8 @@ class ListTransactionsTest(BitcoinTestFramework):
         tx4_signed = self.nodes[1].signrawtransaction(tx4)["hex"]
         txid_4 = self.nodes[1].sendrawtransaction(tx4_signed)
 
-        assert(not is_opt_in(self.nodes[1], txid_4))
+        if is_opt_in(self.nodes[1], txid_4):
+            raise AssertionError
         assert_array_result(self.nodes[1].listtransactions(), {"txid": txid_4}, {"bip125-replaceable":"yes"})
         sync_mempools(self.nodes)
         assert_array_result(self.nodes[0].listtransactions(), {"txid": txid_4}, {"bip125-replaceable":"yes"})
@@ -178,7 +183,8 @@ class ListTransactionsTest(BitcoinTestFramework):
         tx3_b = bytes_to_hex_str(tx3_b.serialize())
         tx3_b_signed = self.nodes[0].signrawtransaction(tx3_b)['hex']
         txid_3b = self.nodes[0].sendrawtransaction(tx3_b_signed, True)
-        assert(is_opt_in(self.nodes[0], txid_3b))
+        if not (is_opt_in(self.nodes[0], txid_3b)):
+            raise AssertionError
 
         assert_array_result(self.nodes[0].listtransactions(), {"txid": txid_4}, {"bip125-replaceable":"unknown"})
         sync_mempools(self.nodes)
@@ -194,7 +200,8 @@ class ListTransactionsTest(BitcoinTestFramework):
 
         # After mining a transaction, it's no longer BIP125-replaceable
         self.nodes[0].generate(1)
-        assert(txid_3b not in self.nodes[0].getrawmempool())
+        if (txid_3b in self.nodes[0].getrawmempool()):
+            raise AssertionError
         assert_equal(self.nodes[0].gettransaction(txid_3b)["bip125-replaceable"], "no")
         assert_equal(self.nodes[0].gettransaction(txid_4)["bip125-replaceable"], "unknown")
 

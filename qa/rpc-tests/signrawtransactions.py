@@ -40,26 +40,31 @@ class SignRawTransactionsTest(BitcoinTestFramework):
         rawTxSigned = self.nodes[0].signrawtransaction(rawTx, inputs, privKeys)
 
         # 1) The transaction has a complete set of signatures
-        assert 'complete' in rawTxSigned
+        if 'complete' not in rawTxSigned:
+            raise AssertionError
         assert_equal(rawTxSigned['complete'], True)
 
         # 2) No script verification error occurred
-        assert 'errors' not in rawTxSigned
+        if 'errors' in rawTxSigned:
+            raise AssertionError
 
         # Check that signrawtransaction doesn't blow up on garbage merge attempts
         dummyTxInconsistent = self.nodes[0].createrawtransaction([inputs[0]], outputs)
         rawTxUnsigned = self.nodes[0].signrawtransaction(rawTx + dummyTxInconsistent, inputs)
 
-        assert 'complete' in rawTxUnsigned
+        if 'complete' not in rawTxUnsigned:
+            raise AssertionError
         assert_equal(rawTxUnsigned['complete'], False)
 
         # Check that signrawtransaction properly merges unsigned and signed txn, even with garbage in the middle
         rawTxSigned2 = self.nodes[0].signrawtransaction(rawTxUnsigned["hex"] + dummyTxInconsistent + rawTxSigned["hex"], inputs)
 
-        assert 'complete' in rawTxSigned2
+        if 'complete' not in rawTxSigned2:
+            raise AssertionError
         assert_equal(rawTxSigned2['complete'], True)
 
-        assert 'errors' not in rawTxSigned2
+        if 'errors' in rawTxSigned2:
+            raise AssertionError
 
 
     def script_verification_error_test(self):
@@ -107,19 +112,26 @@ class SignRawTransactionsTest(BitcoinTestFramework):
         rawTxSigned = self.nodes[0].signrawtransaction(rawTx, scripts, privKeys)
 
         # 3) The transaction has no complete set of signatures
-        assert 'complete' in rawTxSigned
+        if 'complete' not in rawTxSigned:
+            raise AssertionError
         assert_equal(rawTxSigned['complete'], False)
 
         # 4) Two script verification errors occurred
-        assert 'errors' in rawTxSigned
+        if 'errors' not in rawTxSigned:
+            raise AssertionError
         assert_equal(len(rawTxSigned['errors']), 2)
 
         # 5) Script verification errors have certain properties
-        assert 'txid' in rawTxSigned['errors'][0]
-        assert 'vout' in rawTxSigned['errors'][0]
-        assert 'scriptSig' in rawTxSigned['errors'][0]
-        assert 'sequence' in rawTxSigned['errors'][0]
-        assert 'error' in rawTxSigned['errors'][0]
+        if 'txid' not in rawTxSigned['errors'][0]:
+            raise AssertionError
+        if 'vout' not in rawTxSigned['errors'][0]:
+            raise AssertionError
+        if 'scriptSig' not in rawTxSigned['errors'][0]:
+            raise AssertionError
+        if 'sequence' not in rawTxSigned['errors'][0]:
+            raise AssertionError
+        if 'error' not in rawTxSigned['errors'][0]:
+            raise AssertionError
 
         # 6) The verification errors refer to the invalid (vin 1) and missing input (vin 2)
         assert_equal(rawTxSigned['errors'][0]['txid'], inputs[1]['txid'])

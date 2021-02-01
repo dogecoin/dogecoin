@@ -26,23 +26,29 @@ class DisableWalletTest (BitcoinTestFramework):
     def run_test (self):
         # Check regression: https://github.com/bitcoin/bitcoin/issues/6963#issuecomment-154548880
         x = self.nodes[0].validateaddress('D8dhKpPmW3L86B3Ej1bCuBSLLNN1QWqD2B')
-        assert(x['isvalid'] == False)
+        if (x['isvalid'] != False):
+            raise AssertionError
         x = self.nodes[0].validateaddress('mnT5rNQSpWrjbFCup6nHKXSYsPsJwq5Ag5')
-        assert(x['isvalid'] == True)
+        if (x['isvalid'] != True):
+            raise AssertionError
 
         # Checking mining to an address without a wallet
         try:
             self.nodes[0].generatetoaddress(1, 'mnT5rNQSpWrjbFCup6nHKXSYsPsJwq5Ag5')
         except JSONRPCException as e:
-            assert("Invalid address" not in e.error['message'])
-            assert("ProcessNewBlock, block not accepted" not in e.error['message'])
-            assert("Couldn't create new block" not in e.error['message'])
+            if ("Invalid address" in e.error['message']):
+                raise AssertionError
+            if ("ProcessNewBlock, block not accepted" in e.error['message']):
+                raise AssertionError
+            if ("Couldn't create new block" in e.error['message']):
+                raise AssertionError
 
         try:
             self.nodes[0].generatetoaddress(1, 'D8dhKpPmW3L86B3Ej1bCuBSLLNN1QWqD2B')
             raise AssertionError("Must not mine to invalid address!")
         except JSONRPCException as e:
-            assert("Invalid address" in e.error['message'])
+            if ("Invalid address" not in e.error['message']):
+                raise AssertionError
 
 if __name__ == '__main__':
     DisableWalletTest ().main ()
