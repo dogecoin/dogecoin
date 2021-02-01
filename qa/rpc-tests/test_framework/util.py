@@ -97,7 +97,8 @@ def get_rpc_proxy(url, node_number, timeout=None):
 
 
 def p2p_port(n):
-    assert(n <= MAX_NODES)
+    if (n > MAX_NODES):
+        raise AssertionError
     return PORT_MIN + n + (MAX_NODES * PortSeed.n) % (PORT_RANGE - 1 - MAX_NODES)
 
 def rpc_port(n):
@@ -233,7 +234,8 @@ def initialize_chain(test_dir, num_nodes, cachedir):
     Afterward, create num_nodes copies from the cache
     """
 
-    assert num_nodes <= MAX_NODES
+    if num_nodes > MAX_NODES:
+        raise AssertionError
     create_cache = False
     for i in range(MAX_NODES):
         if not os.path.isdir(os.path.join(cachedir, 'node'+str(i))):
@@ -383,7 +385,8 @@ def stop_node(node, i):
 def stop_nodes(nodes):
     for i, node in enumerate(nodes):
         stop_node(node, i)
-    assert not bitcoind_processes.values() # All connections must be gone now
+    if bitcoind_processes.values():
+        raise AssertionError
 
 def set_node_times(nodes, t):
     for node in nodes:
@@ -417,7 +420,8 @@ def gather_inputs(from_node, amount_needed, confirmations_required=1):
     """
     Return a random set of unspent txouts that are enough to pay amount_needed
     """
-    assert(confirmations_required >=0)
+    if (confirmations_required < 0):
+        raise AssertionError
     utxo = from_node.listunspent(confirmations_required)
     random.shuffle(utxo)
     inputs = []
@@ -649,7 +653,8 @@ def create_confirmed_utxos(fee, node, count):
         node.generate(1)
 
     utxos = node.listunspent()
-    assert(len(utxos) >= count)
+    if (len(utxos) < count):
+        raise AssertionError
     return utxos
 
 # Create large OP_RETURN txouts that can be appended to a transaction

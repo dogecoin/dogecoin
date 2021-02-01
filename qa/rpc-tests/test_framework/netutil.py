@@ -127,13 +127,15 @@ def addr_to_hex(addr):
                 if i == 0 or i == (len(addr)-1): # skip empty component at beginning or end
                     continue
                 x += 1 # :: skips to suffix
-                assert(x < 2)
+                if (x >= 2):
+                    raise AssertionError
             else: # two bytes per component
                 val = int(comp, 16)
                 sub[x].append(val >> 8)
                 sub[x].append(val & 0xff)
         nullbytes = 16 - len(sub[0]) - len(sub[1])
-        assert((x == 0 and nullbytes == 0) or (x == 1 and nullbytes > 0))
+        if not ((x == 0 and nullbytes == 0) or (x == 1 and nullbytes > 0)):
+            raise AssertionError
         addr = sub[0] + ([0] * nullbytes) + sub[1]
     else:
         raise ValueError('Could not parse address %s' % addr)

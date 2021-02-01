@@ -97,7 +97,8 @@ class CScriptOp(int):
         try:
             return _opcode_instances[n]
         except IndexError:
-            assert len(_opcode_instances) == n
+            if len(_opcode_instances) != n:
+                raise AssertionError
             _opcode_instances.append(super(CScriptOp, cls).__new__(cls, n))
             return _opcode_instances[n]
 
@@ -740,7 +741,8 @@ class CScript(bytes):
                     i += 4
 
                 else:
-                    assert False # shouldn't happen
+                    if not False:
+                        raise AssertionError
 
 
                 data = bytes(self[i:i+datasize])

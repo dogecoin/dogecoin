@@ -161,13 +161,18 @@ class CECKey():
         sig_size0.value = ssl.ECDSA_size(self.k)
         mb_sig = ctypes.create_string_buffer(sig_size0.value)
         result = ssl.ECDSA_sign(0, hash, len(hash), mb_sig, ctypes.byref(sig_size0), self.k)
-        assert 1 == result
-        assert mb_sig.raw[0] == 0x30
-        assert mb_sig.raw[1] == sig_size0.value - 2
+        if 1 != result:
+            raise AssertionError
+        if mb_sig.raw[0] != 0x30:
+            raise AssertionError
+        if mb_sig.raw[1] != sig_size0.value - 2:
+            raise AssertionError
         total_size = mb_sig.raw[1]
-        assert mb_sig.raw[2] == 2
+        if mb_sig.raw[2] != 2:
+            raise AssertionError
         r_size = mb_sig.raw[3]
-        assert mb_sig.raw[4 + r_size] == 2
+        if mb_sig.raw[4 + r_size] != 2:
+            raise AssertionError
         s_size = mb_sig.raw[5 + r_size]
         s_value = int.from_bytes(mb_sig.raw[6+r_size:6+r_size+s_size], byteorder='big')
         if (not low_s) or s_value <= SECP256K1_ORDER_HALF:

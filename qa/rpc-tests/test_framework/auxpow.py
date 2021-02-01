@@ -66,7 +66,8 @@ def mineAuxpowBlock (node):
   target = reverseHex (auxblock['_target'])
   apow = computeAuxpow (auxblock['hash'], target, True)
   res = node.getauxblock (auxblock['hash'], apow)
-  assert res
+  if not res:
+    raise AssertionError
 
 def mineBlock (header, target, ok):
   """
@@ -76,7 +77,8 @@ def mineBlock (header, target, ok):
 
   data = bytearray (binascii.unhexlify (header))
   while True:
-    assert data[79] < 255
+    if data[79] >= 255:
+      raise AssertionError
     data[79] += 1
     hexData = binascii.hexlify (data)
 

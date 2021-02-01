@@ -30,10 +30,12 @@ def read_dump(file_name, addrs, hd_master_addr_old):
                     keypath = None
                     if keytype == "inactivehdmaster=1":
                         # ensure the old master is still available
-                        assert(hd_master_addr_old == addr)
+                        if (hd_master_addr_old != addr):
+                            raise AssertionError
                     elif keytype == "hdmaster=1":
                         # ensure we have generated a new hd master key
-                        assert(hd_master_addr_old != addr)
+                        if (hd_master_addr_old == addr):
+                            raise AssertionError
                         hd_master_addr_ret = addr
                     else:
                         keypath = addr_keypath.rstrip().split("hdkeypath=")[1]

@@ -78,7 +78,8 @@ class BitcoinTestFramework():
         """
         Split the network of four nodes into nodes 0/1 and 2/3.
         """
-        assert not self.is_network_split
+        if self.is_network_split:
+            raise AssertionError
         stop_nodes(self.nodes)
         self.setup_network(True)
 
@@ -96,7 +97,8 @@ class BitcoinTestFramework():
         """
         Join the (previously split) network halves together.
         """
-        assert self.is_network_split
+        if not self.is_network_split:
+            raise AssertionError
         stop_nodes(self.nodes)
         self.setup_network(False)
 

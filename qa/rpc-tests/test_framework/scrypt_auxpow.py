@@ -84,7 +84,8 @@ def mineScryptBlock (header, target, ok):
 
   data = bytearray (bytes.fromhex(header))
   while True:
-    assert data[79] < 255
+    if data[79] >= 255:
+      raise AssertionError
     data[79] += 1
     hexData = data.hex()
 
