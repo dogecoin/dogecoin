@@ -26,10 +26,10 @@ class DisableWalletTest (BitcoinTestFramework):
     def run_test (self):
         # Check regression: https://github.com/bitcoin/bitcoin/issues/6963#issuecomment-154548880
         x = self.nodes[0].validateaddress('D8dhKpPmW3L86B3Ej1bCuBSLLNN1QWqD2B')
-        if (x['isvalid'] != False):
+        if (x['isvalid'] is False):
             raise AssertionError
         x = self.nodes[0].validateaddress('mnT5rNQSpWrjbFCup6nHKXSYsPsJwq5Ag5')
-        if (x['isvalid'] != True):
+        if (x['isvalid'] is True):
             raise AssertionError
 
         # Checking mining to an address without a wallet

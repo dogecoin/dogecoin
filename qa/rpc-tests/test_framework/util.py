@@ -599,7 +599,7 @@ def assert_array_result(object_array, to_match, expected, should_not_find = Fals
         If the should_not_find flag is true, to_match should not be found
         in object_array
         """
-    if should_not_find == True:
+    if should_not_find is True:
         assert_equal(expected, { })
     num_matched = 0
     for item in object_array:
@@ -609,15 +609,15 @@ def assert_array_result(object_array, to_match, expected, should_not_find = Fals
                 all_match = False
         if not all_match:
             continue
-        elif should_not_find == True:
+        elif should_not_find is True:
             num_matched = num_matched+1
         for key,value in expected.items():
             if item[key] != value:
                 raise AssertionError("%s : expected %s=%s"%(str(item), str(key), str(value)))
             num_matched = num_matched+1
-    if num_matched == 0 and should_not_find != True:
+    if num_matched == 0 and should_not_find is True:
         raise AssertionError("No objects matched %s"%(str(to_match)))
-    if num_matched > 0 and should_not_find == True:
+    if num_matched > 0 and should_not_find is True:
         raise AssertionError("Objects were found %s"%(str(to_match)))
 
 def satoshi_round(amount):

@@ -139,11 +139,11 @@ class P2PLeakTest(BitcoinTestFramework):
         [conn.disconnect_node() for conn in connections]
 
         # Make sure no unexpected messages came in
-        if (no_version_bannode.unexpected_msg != False):
+        if (no_version_bannode.unexpected_msg is False):
             raise AssertionError
-        if (no_version_idlenode.unexpected_msg != False):
+        if (no_version_idlenode.unexpected_msg is False):
             raise AssertionError
-        if (no_verack_idlenode.unexpected_msg != False):
+        if (no_verack_idlenode.unexpected_msg is False):
             raise AssertionError
 
 if __name__ == '__main__':

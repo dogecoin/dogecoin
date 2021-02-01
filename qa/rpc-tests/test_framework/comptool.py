@@ -340,7 +340,7 @@ class TestManager():
                     with mininode_lock:
                         self.block_store.add_block(block)
                         for c in self.connections:
-                            if first_block_with_hash and block.sha256 in c.cb.block_request_map and c.cb.block_request_map[block.sha256] == True:
+                            if first_block_with_hash and block.sha256 in c.cb.block_request_map and c.cb.block_request_map[block.sha256] is True:
                                 # There was a previous request for this block hash
                                 # Most likely, we delivered a header for this block
                                 # but never had the block to respond to the getdata
@@ -352,7 +352,7 @@ class TestManager():
                     if (test_instance.sync_every_block):
                         # if we expect success, send inv and sync every block
                         # if we expect failure, just push the block and see what happens.
-                        if outcome == True:
+                        if outcome is True:
                             [ c.cb.send_inv(block) for c in self.connections ]
                             self.sync_blocks(block.sha256, 1)
                         else:
