@@ -64,7 +64,9 @@ class BIP9SoftForksTest(ComparisonTestFramework):
         tx.deserialize(f)
         return tx
 
-    def generate_blocks(self, number, version, test_blocks = []):
+    def generate_blocks(self, number, version, test_blocks = None):
+        if test_blocks is None:
+            test_blocks = []
         for i in range(number):
             block = create_block(self.tip, create_coinbase(self.height), self.last_block_time + 1)
             block.nVersion = version
