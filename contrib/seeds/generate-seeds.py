@@ -48,9 +48,9 @@ def name_to_ipv6(addr):
         if len(vchAddr) != 16-len(pchOnionCat):
             raise ValueError('Invalid onion %s' % s)
         return pchOnionCat + vchAddr
-    elif '.' in addr: # IPv4
+    if '.' in addr: # IPv4
         return pchIPv4 + bytearray((int(x) for x in addr.split('.')))
-    elif ':' in addr: # IPv6
+    if ':' in addr: # IPv6
         sub = [[], []] # prefix, suffix
         x = 0
         addr = addr.split(':')
@@ -69,10 +69,9 @@ def name_to_ipv6(addr):
         if not ((x == 0 and nullbytes == 0) or (x == 1 and nullbytes > 0)):
             raise AssertionError
         return bytearray(sub[0] + ([0] * nullbytes) + sub[1])
-    elif addr.startswith('0x'): # IPv4-in-little-endian
+    if addr.startswith('0x'): # IPv4-in-little-endian
         return pchIPv4 + bytearray(reversed(a2b_hex(addr[2:])))
-    else:
-        raise ValueError('Could not parse address %s' % addr)
+    raise ValueError('Could not parse address %s' % addr)
 
 def parse_spec(s, defaultport):
     match = re.match('\[([0-9a-fA-F:]+)\](?::([0-9]+))?$', s)

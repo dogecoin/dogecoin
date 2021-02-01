@@ -247,8 +247,7 @@ class PruneTest(BitcoinTestFramework):
         def height(index):
             if use_timestamp:
                 return node.getblockheader(node.getblockhash(index))["time"] + RESCAN_WINDOW
-            else:
-                return index
+            return index
 
         def prune(index, expected_ret=None):
             ret = node.pruneblockchain(height(index))
