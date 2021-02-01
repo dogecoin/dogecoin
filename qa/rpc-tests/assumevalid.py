@@ -57,7 +57,6 @@ class BaseNode(SingleNodeConnCB):
         test_function = lambda: self.disconnected
         if not (wait_until(test_function, timeout=timeout)):
             raise AssertionError
-        return
 
     def send_header_for_blocks(self, new_blocks):
         headers_message = msg_headers()
