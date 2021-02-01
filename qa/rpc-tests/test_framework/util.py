@@ -588,10 +588,10 @@ def assert_is_hex_string(string):
 def assert_is_hash_string(string, length=64):
     if not isinstance(string, str):
         raise AssertionError("Expected a string, got type %r" % type(string))
-    elif length and len(string) != length:
+    if length and len(string) != length:
         raise AssertionError(
             "String of length %d expected; got %d" % (length, len(string)))
-    elif not re.match('[abcdef0-9]+$', string):
+    if not re.match('[abcdef0-9]+$', string):
         raise AssertionError(
             "String %r contains invalid characters for a hash." % string)
 
