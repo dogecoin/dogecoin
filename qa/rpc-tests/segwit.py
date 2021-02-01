@@ -62,9 +62,8 @@ def send_to_witness(version, node, utxo, pubkey, encode_p2sh, amount, sign=True,
         if not ("errors" not in signed or len(["errors"]) == 0):
             raise AssertionError
         return node.sendrawtransaction(signed["hex"])
-    else:
-        if (insert_redeem_script):
-            tx_to_witness = tx_to_witness[0:82] + addlength(insert_redeem_script) + tx_to_witness[84:]
+    if (insert_redeem_script):
+        tx_to_witness = tx_to_witness[0:82] + addlength(insert_redeem_script) + tx_to_witness[84:]
 
     return node.sendrawtransaction(tx_to_witness)
 

@@ -172,15 +172,14 @@ class CECKey():
         s_value = int.from_bytes(mb_sig.raw[6+r_size:6+r_size+s_size], byteorder='big')
         if (not low_s) or s_value <= SECP256K1_ORDER_HALF:
             return mb_sig.raw[:sig_size0.value]
-        else:
-            low_s_value = SECP256K1_ORDER - s_value
-            low_s_bytes = (low_s_value).to_bytes(33, byteorder='big')
-            while len(low_s_bytes) > 1 and low_s_bytes[0] == 0 and low_s_bytes[1] < 0x80:
-                low_s_bytes = low_s_bytes[1:]
-            new_s_size = len(low_s_bytes)
-            new_total_size_byte = (total_size + new_s_size - s_size).to_bytes(1,byteorder='big')
-            new_s_size_byte = (new_s_size).to_bytes(1,byteorder='big')
-            return b'\x30' + new_total_size_byte + mb_sig.raw[2:5+r_size] + new_s_size_byte + low_s_bytes
+        low_s_value = SECP256K1_ORDER - s_value
+        low_s_bytes = (low_s_value).to_bytes(33, byteorder='big')
+        while len(low_s_bytes) > 1 and low_s_bytes[0] == 0 and low_s_bytes[1] < 0x80:
+            low_s_bytes = low_s_bytes[1:]
+        new_s_size = len(low_s_bytes)
+        new_total_size_byte = (total_size + new_s_size - s_size).to_bytes(1,byteorder='big')
+        new_s_size_byte = (new_s_size).to_bytes(1,byteorder='big')
+        return b'\x30' + new_total_size_byte + mb_sig.raw[2:5+r_size] + new_s_size_byte + low_s_bytes
 
     def verify(self, hash, sig):
         """Verify a DER signature"""
@@ -231,6 +230,5 @@ class CPubKey(bytes):
         # change for py2/3
         if sys.version > '3':
             return '%s(%s)' % (self.__class__.__name__, super(CPubKey, self).__repr__())
-        else:
-            return '%s(b%s)' % (self.__class__.__name__, super(CPubKey, self).__repr__())
+        return '%s(b%s)' % (self.__class__.__name__, super(CPubKey, self).__repr__())
 

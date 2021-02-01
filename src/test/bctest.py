@@ -17,10 +17,9 @@ def parse_output(a, fmt):
     Raise an error if the output can't be parsed."""
     if fmt == 'json': # json: compare parsed data
         return json.loads(a)
-    elif fmt == 'hex': # hex: parse and compare binary data
+    if fmt == 'hex': # hex: parse and compare binary data
         return binascii.a2b_hex(a.strip())
-    else:
-        raise NotImplementedError("Don't know how to compare %s" % fmt)
+    raise NotImplementedError("Don't know how to compare %s" % fmt)
 
 def bctest(testDir, testObj, exeext):
     """Runs a single test, comparing output and RC to expected output and RC.

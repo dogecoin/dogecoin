@@ -149,8 +149,7 @@ class FullBlockTest(ComparisonTestFramework):
         def rejected(reject = None):
             if reject is None:
                 return TestInstance([[self.tip, False]])
-            else:
-                return TestInstance([[self.tip, reject]])
+            return TestInstance([[self.tip, reject]])
 
         # move the tip back to a previous block
         def tip(number):
