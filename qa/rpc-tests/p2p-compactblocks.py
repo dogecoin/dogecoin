@@ -775,7 +775,7 @@ class CompactBlocksTest(BitcoinTestFramework):
     # Test that we don't get disconnected if we relay a compact block with valid header,
     # but invalid transactions.
     def test_invalid_tx_in_compactblock(self, node, test_node, use_segwit):
-        if not (len(self.utxos)):
+        if not self.utxos:
             raise AssertionError
         utxo = self.utxos[0]
 
@@ -813,7 +813,7 @@ class CompactBlocksTest(BitcoinTestFramework):
         peer.send_and_ping(msg)
 
     def test_compactblock_reconstruction_multiple_peers(self, node, stalling_peer, delivery_peer):
-        if not (len(self.utxos)):
+        if not self.utxos:
             raise AssertionError
 
         def announce_cmpct_block(node, peer):

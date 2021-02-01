@@ -125,7 +125,7 @@ class BaseNode(SingleNodeConnCB):
 
     def on_headers(self, conn, message):
         self.last_headers = message
-        if len(message.headers):
+        if message.headers:
             self.block_announced = True
             message.headers[-1].calc_sha256()
             self.last_blockhash_announced = message.headers[-1].sha256
