@@ -98,9 +98,12 @@ def get_bcaddress_version(strAddress):
 
 if __name__ == '__main__':
     # Test case (from http://gitorious.org/bitcoin/python-base58.git)
-    assert get_bcaddress_version('15VjRaDX9zpbA8LVnbrCAFzrVzN7ixHNsC') is 0
+    if get_bcaddress_version('15VjRaDX9zpbA8LVnbrCAFzrVzN7ixHNsC') is not 0:
+        raise AssertionError
     _ohai = 'o hai'.encode('ascii')
     _tmp = b58encode(_ohai)
-    assert _tmp == 'DYB3oMS'
-    assert b58decode(_tmp, 5) == _ohai
+    if _tmp != 'DYB3oMS':
+        raise AssertionError
+    if b58decode(_tmp, 5) != _ohai:
+        raise AssertionError
     print("Tests passed")

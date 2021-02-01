@@ -42,7 +42,8 @@ def make_utxo(node, amount, confirmed=True, scriptPubKey=CScript([1])):
         if txout['scriptPubKey']['addresses'] == [new_addr]:
             #print i
             break
-    assert i is not None
+    if i is None:
+        raise AssertionError
 
     tx2 = CTransaction()
     tx2.vin = [CTxIn(COutPoint(txid, i))]
@@ -61,7 +62,8 @@ def make_utxo(node, amount, confirmed=True, scriptPubKey=CScript([1])):
             new_size = len(node.getrawmempool())
             # Error out if we have something stuck in the mempool, as this
             # would likely be a bug.
-            assert(new_size < mempool_size)
+            if (new_size >= mempool_size):
+                raise AssertionError
             mempool_size = new_size
 
     return COutPoint(int(txid, 16), 0)
@@ -137,7 +139,8 @@ class ReplaceByFeeTest(BitcoinTestFramework):
         except JSONRPCException as exp:
             assert_equal(exp.error['code'], -26) # insufficient fee
         else:
-            assert(False)
+            if not (False):
+                raise AssertionError
 
         # Extra 0.1 BTC fee
         tx1b = CTransaction()
@@ -148,8 +151,10 @@ class ReplaceByFeeTest(BitcoinTestFramework):
 
         mempool = self.nodes[0].getrawmempool()
 
-        assert (tx1a_txid not in mempool)
-        assert (tx1b_txid in mempool)
+        if (tx1a_txid in mempool):
+            raise AssertionError
+        if (tx1b_txid not in mempool):
+            raise AssertionError
 
         assert_equal(tx1b_hex, self.nodes[0].getrawtransaction(tx1b_txid))
 
@@ -184,7 +189,8 @@ class ReplaceByFeeTest(BitcoinTestFramework):
         except JSONRPCException as exp:
             assert_equal(exp.error['code'], -26) # insufficient fee
         else:
-            assert(False) # transaction mistakenly accepted!
+            if not (False):
+                raise AssertionError
 
         # Accepted with sufficient fee
         dbl_tx = CTransaction()
@@ -195,7 +201,8 @@ class ReplaceByFeeTest(BitcoinTestFramework):
 
         mempool = self.nodes[0].getrawmempool()
         for doublespent_txid in chain_txids:
-            assert(doublespent_txid not in mempool)
+            if (doublespent_txid in mempool):
+                raise AssertionError
 
     def test_doublespend_tree(self):
         """Doublespend of a big tree of transactions"""
@@ -220,7 +227,8 @@ class ReplaceByFeeTest(BitcoinTestFramework):
             tx.vout = vout
             tx_hex = txToHex(tx)
 
-            assert(len(tx.serialize()) < 100000)
+            if (len(tx.serialize()) >= 100000):
+                raise AssertionError
             txid = self.nodes[0].sendrawtransaction(tx_hex, True)
             yield tx
             _total_txs[0] += 1
@@ -249,7 +257,8 @@ class ReplaceByFeeTest(BitcoinTestFramework):
         except JSONRPCException as exp:
             assert_equal(exp.error['code'], -26) # insufficient fee
         else:
-            assert(False)
+            if not (False):
+                raise AssertionError
 
         # 1 BTC fee is enough
         dbl_tx = CTransaction()
@@ -262,7 +271,8 @@ class ReplaceByFeeTest(BitcoinTestFramework):
 
         for tx in tree_txs:
             tx.rehash()
-            assert (tx.hash not in mempool)
+            if (tx.hash in mempool):
+                raise AssertionError
 
         # Try again, but with more total transactions than the "max txs
         # double-spent at once" anti-DoS limit.
@@ -282,7 +292,8 @@ class ReplaceByFeeTest(BitcoinTestFramework):
                 assert_equal(exp.error['code'], -26)
                 assert_equal("too many potential replacements" in exp.error['message'], True)
             else:
-                assert(False)
+                if not (False):
+                    raise AssertionError
 
             for tx in tree_txs:
                 tx.rehash()
@@ -310,7 +321,8 @@ class ReplaceByFeeTest(BitcoinTestFramework):
         except JSONRPCException as exp:
             assert_equal(exp.error['code'], -26) # insufficient fee
         else:
-            assert(False)
+            if not (False):
+                raise AssertionError
 
     def test_spends_of_conflicting_outputs(self):
         """Replacements that spend conflicting tx outputs are rejected"""
@@ -337,7 +349,8 @@ class ReplaceByFeeTest(BitcoinTestFramework):
         except JSONRPCException as exp:
             assert_equal(exp.error['code'], -26)
         else:
-            assert(False)
+            if not (False):
+                raise AssertionError
 
         # Spend tx1a's output to test the indirect case.
         tx1b = CTransaction()
@@ -358,7 +371,8 @@ class ReplaceByFeeTest(BitcoinTestFramework):
         except JSONRPCException as exp:
             assert_equal(exp.error['code'], -26)
         else:
-            assert(False)
+            if not (False):
+                raise AssertionError
 
     def test_new_unconfirmed_inputs(self):
         """Replacements that add new unconfirmed inputs are rejected"""
@@ -381,7 +395,8 @@ class ReplaceByFeeTest(BitcoinTestFramework):
         except JSONRPCException as exp:
             assert_equal(exp.error['code'], -26)
         else:
-            assert(False)
+            if not (False):
+                raise AssertionError
 
     def test_too_many_replacements(self):
         """Replacements that evict too many transactions are rejected"""
@@ -432,7 +447,8 @@ class ReplaceByFeeTest(BitcoinTestFramework):
             assert_equal(exp.error['code'], -26)
             assert_equal("too many potential replacements" in exp.error['message'], True)
         else:
-            assert(False)
+            if not (False):
+                raise AssertionError
 
         # If we remove an input, it should pass
         double_tx = CTransaction()
@@ -464,7 +480,8 @@ class ReplaceByFeeTest(BitcoinTestFramework):
             assert_equal(exp.error['code'], -26)
         else:
             print(tx1b_txid)
-            assert(False)
+            if not (False):
+                raise AssertionError
 
         tx1_outpoint = make_utxo(self.nodes[0], int(1.1*COIN))
 
@@ -486,7 +503,8 @@ class ReplaceByFeeTest(BitcoinTestFramework):
         except JSONRPCException as exp:
             assert_equal(exp.error['code'], -26)
         else:
-            assert(False)
+            if not (False):
+                raise AssertionError
 
         # Now create a new transaction that spends from tx1a and tx2a
         # opt-in on one of the inputs
@@ -543,7 +561,8 @@ class ReplaceByFeeTest(BitcoinTestFramework):
         except JSONRPCException as exp:
             assert_equal(exp.error['code'], -26)
         else:
-            assert(False)
+            if not (False):
+                raise AssertionError
 
         # Use prioritisetransaction to set tx1a's fee to 0.
         self.nodes[0].prioritisetransaction(tx1a_txid, 0, int(-0.1*COIN))
@@ -551,7 +570,8 @@ class ReplaceByFeeTest(BitcoinTestFramework):
         # Now tx1b should be able to replace tx1a
         tx1b_txid = self.nodes[0].sendrawtransaction(tx1b_hex, True)
 
-        assert(tx1b_txid in self.nodes[0].getrawmempool())
+        if (tx1b_txid not in self.nodes[0].getrawmempool()):
+            raise AssertionError
 
         # 2. Check that absolute fee checks use modified fee.
         tx1_outpoint = make_utxo(self.nodes[0], int(1.1*COIN))
@@ -575,7 +595,8 @@ class ReplaceByFeeTest(BitcoinTestFramework):
         except JSONRPCException as exp:
             assert_equal(exp.error['code'], -26)
         else:
-            assert(False)
+            if not (False):
+                raise AssertionError
 
         # Now prioritise tx2b to have a higher modified fee
         self.nodes[0].prioritisetransaction(tx2b.hash, 0, int(0.1*COIN))
@@ -583,7 +604,8 @@ class ReplaceByFeeTest(BitcoinTestFramework):
         # tx2b should now be accepted
         tx2b_txid = self.nodes[0].sendrawtransaction(tx2b_hex, True)
 
-        assert(tx2b_txid in self.nodes[0].getrawmempool())
+        if (tx2b_txid not in self.nodes[0].getrawmempool()):
+            raise AssertionError
 
 if __name__ == '__main__':
     ReplaceByFeeTest().main()

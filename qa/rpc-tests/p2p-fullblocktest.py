@@ -123,7 +123,8 @@ class FullBlockTest(ComparisonTestFramework):
             block.solve()
         self.tip = block
         self.block_heights[block.sha256] = height
-        assert number not in self.blocks
+        if number in self.blocks:
+            raise AssertionError
         self.blocks[number] = block
         return block
 
@@ -656,7 +657,8 @@ class FullBlockTest(ComparisonTestFramework):
         b46.solve()
         self.block_heights[b46.sha256] = self.block_heights[b44.sha256]+1
         self.tip = b46
-        assert 46 not in self.blocks
+        if 46 in self.blocks:
+            raise AssertionError
         self.blocks[46] = b46
         s = ser_uint256(b46.hashMerkleRoot)
         yield rejected(RejectResult(16, b'bad-blk-length'))
@@ -809,7 +811,8 @@ class FullBlockTest(ComparisonTestFramework):
         tip(57)
         b58 = block(58, spend=out[17])
         tx = CTransaction()
-        assert(len(out[17].tx.vout) < 42)
+        if (len(out[17].tx.vout) >= 42):
+            raise AssertionError
         tx.vin.append(CTxIn(COutPoint(out[17].tx.sha256, 42), CScript([OP_TRUE]), 0xffffffff))
         tx.vout.append(CTxOut(0, b""))
         tx.calc_sha256()
@@ -857,10 +860,12 @@ class FullBlockTest(ComparisonTestFramework):
         b62 = block(62)
         tx = CTransaction()
         tx.nLockTime = 0xffffffff  #this locktime is non-final
-        assert(out[18].n < len(out[18].tx.vout))
+        if (out[18].n >= len(out[18].tx.vout)):
+            raise AssertionError
         tx.vin.append(CTxIn(COutPoint(out[18].tx.sha256, out[18].n))) # don't set nSequence
         tx.vout.append(CTxOut(0, CScript([OP_TRUE])))
-        assert(tx.vin[0].nSequence < 0xffffffff)
+        if (tx.vin[0].nSequence >= 0xffffffff):
+            raise AssertionError
         tx.calc_sha256()
         b62 = update_block(62, [tx])
         yield rejected(RejectResult(16, b'bad-txns-nonfinal'))
@@ -1171,8 +1176,10 @@ class FullBlockTest(ComparisonTestFramework):
         # now check that tx78 and tx79 have been put back into the peer's mempool
         mempool = self.nodes[0].getrawmempool()
         assert_equal(len(mempool), 2)
-        assert(tx78.hash in mempool)
-        assert(tx79.hash in mempool)
+        if (tx78.hash not in mempool):
+            raise AssertionError
+        if (tx79.hash not in mempool):
+            raise AssertionError
 
 
         # Test invalid opcodes in dead execution paths.

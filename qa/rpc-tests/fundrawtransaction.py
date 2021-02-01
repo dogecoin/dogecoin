@@ -76,7 +76,8 @@ class RawTransactionsTest(BitcoinTestFramework):
         rawtxfund = self.nodes[2].fundrawtransaction(rawtx)
         fee = rawtxfund['fee']
         dec_tx  = self.nodes[2].decoderawtransaction(rawtxfund['hex'])
-        assert(len(dec_tx['vin']) > 0) #test that we have enough inputs
+        if (len(dec_tx['vin']) <= 0):
+            raise AssertionError
 
         ##############################
         # simple test with two coins #
@@ -89,7 +90,8 @@ class RawTransactionsTest(BitcoinTestFramework):
         rawtxfund = self.nodes[2].fundrawtransaction(rawtx)
         fee = rawtxfund['fee']
         dec_tx  = self.nodes[2].decoderawtransaction(rawtxfund['hex'])
-        assert(len(dec_tx['vin']) > 0) #test if we have enough inputs
+        if (len(dec_tx['vin']) <= 0):
+            raise AssertionError
 
         ##############################
         # simple test with two coins #
@@ -102,7 +104,8 @@ class RawTransactionsTest(BitcoinTestFramework):
         rawtxfund = self.nodes[2].fundrawtransaction(rawtx)
         fee = rawtxfund['fee']
         dec_tx  = self.nodes[2].decoderawtransaction(rawtxfund['hex'])
-        assert(len(dec_tx['vin']) > 0)
+        if (len(dec_tx['vin']) <= 0):
+            raise AssertionError
         assert_equal(dec_tx['vin'][0]['scriptSig']['hex'], '')
 
 
@@ -121,7 +124,8 @@ class RawTransactionsTest(BitcoinTestFramework):
         for out in dec_tx['vout']:
             totalOut += out['value']
 
-        assert(len(dec_tx['vin']) > 0)
+        if (len(dec_tx['vin']) <= 0):
+            raise AssertionError
         assert_equal(dec_tx['vin'][0]['scriptSig']['hex'], '')
 
 
@@ -332,7 +336,8 @@ class RawTransactionsTest(BitcoinTestFramework):
 
         #compare fee
         feeDelta = Decimal(fundedTx['fee']) - Decimal(signedFee)
-        assert(feeDelta >= 0 and feeDelta <= feeTolerance)
+        if not (feeDelta >= 0 and feeDelta <= feeTolerance):
+            raise AssertionError
         ############################################################
 
         ############################################################
@@ -347,7 +352,8 @@ class RawTransactionsTest(BitcoinTestFramework):
 
         #compare fee
         feeDelta = Decimal(fundedTx['fee']) - Decimal(signedFee)
-        assert(feeDelta >= 0 and feeDelta <= feeTolerance)
+        if not (feeDelta >= 0 and feeDelta <= feeTolerance):
+            raise AssertionError
         ############################################################
 
 
@@ -374,7 +380,8 @@ class RawTransactionsTest(BitcoinTestFramework):
 
         #compare fee
         feeDelta = Decimal(fundedTx['fee']) - Decimal(signedFee)
-        assert(feeDelta >= 0 and feeDelta <= feeTolerance)
+        if not (feeDelta >= 0 and feeDelta <= feeTolerance):
+            raise AssertionError
         ############################################################
 
 
@@ -407,7 +414,8 @@ class RawTransactionsTest(BitcoinTestFramework):
 
         #compare fee
         feeDelta = Decimal(fundedTx['fee']) - Decimal(signedFee)
-        assert(feeDelta >= 0 and feeDelta <= feeTolerance)
+        if not (feeDelta >= 0 and feeDelta <= feeTolerance):
+            raise AssertionError
         ############################################################
 
 
@@ -527,7 +535,8 @@ class RawTransactionsTest(BitcoinTestFramework):
 
         #compare fee
         feeDelta = Decimal(fundedTx['fee']) - Decimal(signedFee)
-        assert(feeDelta >= 0 and feeDelta <= feeTolerance*19) #~19 inputs
+        if not (feeDelta >= 0 and feeDelta <= feeTolerance*19):
+            raise AssertionError
 
 
         #############################################
@@ -599,7 +608,8 @@ class RawTransactionsTest(BitcoinTestFramework):
         assert_equal(len(res_dec["vin"]), 1)
         assert_equal(res_dec["vin"][0]["txid"], watchonly_txid)
 
-        assert("fee" in result.keys())
+        if ("fee" not in result.keys()):
+            raise AssertionError
         assert_greater_than(result["changepos"], -1)
 
         ###############################################################
@@ -614,16 +624,19 @@ class RawTransactionsTest(BitcoinTestFramework):
         result = self.nodes[3].fundrawtransaction(rawtx, True)
         res_dec = self.nodes[0].decoderawtransaction(result["hex"])
         assert_equal(len(res_dec["vin"]), 2)
-        assert(res_dec["vin"][0]["txid"] == watchonly_txid or res_dec["vin"][1]["txid"] == watchonly_txid)
+        if not (res_dec["vin"][0]["txid"] == watchonly_txid or res_dec["vin"][1]["txid"] == watchonly_txid):
+            raise AssertionError
 
         assert_greater_than(result["fee"], 0)
         assert_greater_than(result["changepos"], -1)
         assert_equal(result["fee"] + res_dec["vout"][result["changepos"]]["value"], watchonly_amount / 10)
 
         signedtx = self.nodes[3].signrawtransaction(result["hex"])
-        assert(not signedtx["complete"])
+        if signedtx["complete"]:
+            raise AssertionError
         signedtx = self.nodes[0].signrawtransaction(signedtx["hex"])
-        assert(signedtx["complete"])
+        if not (signedtx["complete"]):
+            raise AssertionError
         self.nodes[0].sendrawtransaction(signedtx["hex"])
         self.nodes[0].generate(1)
         self.sync_all()
@@ -655,10 +668,12 @@ class RawTransactionsTest(BitcoinTestFramework):
         for out in res_dec['vout']:
             if out['value'] > 1.0:
                 changeaddress += out['scriptPubKey']['addresses'][0]
-        assert(changeaddress != "")
+        if (changeaddress == ""):
+            raise AssertionError
         nextaddr = self.nodes[3].getnewaddress()
         # frt should not have removed the key from the keypool
-        assert(changeaddress == nextaddr)
+        if (changeaddress != nextaddr):
+            raise AssertionError
 
         result3 = self.nodes[3].fundrawtransaction(rawtx)
         res_dec = self.nodes[0].decoderawtransaction(result3["hex"])
@@ -666,10 +681,12 @@ class RawTransactionsTest(BitcoinTestFramework):
         for out in res_dec['vout']:
             if out['value'] > 1.0:
                 changeaddress += out['scriptPubKey']['addresses'][0]
-        assert(changeaddress != "")
+        if (changeaddress == ""):
+            raise AssertionError
         nextaddr = self.nodes[3].getnewaddress()
         # Now the change address key should be removed from the keypool
-        assert(changeaddress != nextaddr)
+        if (changeaddress == nextaddr):
+            raise AssertionError
 
         ######################################
         # Test subtractFeeFromOutputs option #

@@ -150,7 +150,8 @@ class BaseNode(SingleNodeConnCB):
         expect_headers = headers if headers != None else []
         expect_inv = inv if inv != None else []
         test_function = lambda: self.block_announced
-        assert(wait_until(test_function, timeout=60))
+        if not (wait_until(test_function, timeout=60)):
+            raise AssertionError
         with mininode_lock:
             self.block_announced = False
 
@@ -175,12 +176,14 @@ class BaseNode(SingleNodeConnCB):
     # Syncing helpers
     def wait_for_block(self, blockhash, timeout=60):
         test_function = lambda: self.last_block != None and self.last_block.sha256 == blockhash
-        assert(wait_until(test_function, timeout=timeout))
+        if not (wait_until(test_function, timeout=timeout)):
+            raise AssertionError
         return
 
     def wait_for_getheaders(self, timeout=60):
         test_function = lambda: self.last_getheaders != None
-        assert(wait_until(test_function, timeout=timeout))
+        if not (wait_until(test_function, timeout=timeout)):
+            raise AssertionError
         return
 
     def wait_for_getdata(self, hash_list, timeout=60):
@@ -188,17 +191,20 @@ class BaseNode(SingleNodeConnCB):
             return
 
         test_function = lambda: self.last_getdata != None and [x.hash for x in self.last_getdata.inv] == hash_list
-        assert(wait_until(test_function, timeout=timeout))
+        if not (wait_until(test_function, timeout=timeout)):
+            raise AssertionError
         return
 
     def wait_for_disconnect(self, timeout=60):
         test_function = lambda: self.disconnected
-        assert(wait_until(test_function, timeout=timeout))
+        if not (wait_until(test_function, timeout=timeout)):
+            raise AssertionError
         return
 
     def wait_for_block_announcement(self, block_hash, timeout=60):
         test_function = lambda: self.last_blockhash_announced == block_hash
-        assert(wait_until(test_function, timeout=timeout))
+        if not (wait_until(test_function, timeout=timeout)):
+            raise AssertionError
         return
 
     def send_header_for_blocks(self, new_blocks):

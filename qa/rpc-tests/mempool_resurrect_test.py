@@ -55,7 +55,8 @@ class MempoolCoinbaseTest(BitcoinTestFramework):
         assert_equal(set(self.nodes[0].getrawmempool()), set())
         for txid in spends1_id+spends2_id:
             tx = self.nodes[0].gettransaction(txid)
-            assert(tx["confirmations"] > 0)
+            if (tx["confirmations"] <= 0):
+                raise AssertionError
 
         # Use invalidateblock to re-org back; all transactions should
         # end up unconfirmed and back in the mempool
@@ -66,7 +67,8 @@ class MempoolCoinbaseTest(BitcoinTestFramework):
         assert_equal(set(self.nodes[0].getrawmempool()), set(spends1_id+spends2_id))
         for txid in spends1_id+spends2_id:
             tx = self.nodes[0].gettransaction(txid)
-            assert(tx["confirmations"] == 0)
+            if (tx["confirmations"] != 0):
+                raise AssertionError
 
         # Generate another block, they should all get mined
         self.nodes[0].generate(1)
@@ -74,7 +76,8 @@ class MempoolCoinbaseTest(BitcoinTestFramework):
         assert_equal(set(self.nodes[0].getrawmempool()), set())
         for txid in spends1_id+spends2_id:
             tx = self.nodes[0].gettransaction(txid)
-            assert(tx["confirmations"] > 0)
+            if (tx["confirmations"] <= 0):
+                raise AssertionError
 
 
 if __name__ == '__main__':

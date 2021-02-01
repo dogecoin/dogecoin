@@ -97,7 +97,8 @@ class VersionBitsWarningTest(BitcoinTestFramework):
     def test_versionbits_in_alert_file(self):
         with open(self.alert_filename, 'r', encoding='utf8') as f:
             alert_text = f.read()
-        assert(VB_PATTERN.match(alert_text))
+        if not (VB_PATTERN.match(alert_text)):
+            raise AssertionError
 
     def run_test(self):
         # Setup the p2p connection and start up the network thread.
@@ -124,9 +125,12 @@ class VersionBitsWarningTest(BitcoinTestFramework):
         self.nodes[0].generate(VB_PERIOD - VB_THRESHOLD + 1)
         # Check that we're not getting any versionbit-related errors in
         # get*info()
-        assert(not VB_PATTERN.match(self.nodes[0].getinfo()["errors"]))
-        assert(not VB_PATTERN.match(self.nodes[0].getmininginfo()["errors"]))
-        assert(not VB_PATTERN.match(self.nodes[0].getnetworkinfo()["warnings"]))
+        if VB_PATTERN.match(self.nodes[0].getinfo()["errors"]):
+            raise AssertionError
+        if VB_PATTERN.match(self.nodes[0].getmininginfo()["errors"]):
+            raise AssertionError
+        if VB_PATTERN.match(self.nodes[0].getnetworkinfo()["warnings"]):
+            raise AssertionError
 
         # 3. Now build one period of blocks with >= VB_THRESHOLD blocks signaling
         # some unknown bit
@@ -136,9 +140,12 @@ class VersionBitsWarningTest(BitcoinTestFramework):
         # have gotten a different alert due to more than 51/100 blocks
         # being of unexpected version.
         # Check that get*info() shows some kind of error.
-        assert(WARN_UNKNOWN_RULES_MINED in self.nodes[0].getinfo()["errors"])
-        assert(WARN_UNKNOWN_RULES_MINED in self.nodes[0].getmininginfo()["errors"])
-        assert(WARN_UNKNOWN_RULES_MINED in self.nodes[0].getnetworkinfo()["warnings"])
+        if (WARN_UNKNOWN_RULES_MINED not in self.nodes[0].getinfo()["errors"]):
+            raise AssertionError
+        if (WARN_UNKNOWN_RULES_MINED not in self.nodes[0].getmininginfo()["errors"]):
+            raise AssertionError
+        if (WARN_UNKNOWN_RULES_MINED not in self.nodes[0].getnetworkinfo()["warnings"]):
+            raise AssertionError
 
         # Mine a period worth of expected blocks so the generic block-version warning
         # is cleared, and restart the node. This should move the versionbit state
@@ -152,9 +159,12 @@ class VersionBitsWarningTest(BitcoinTestFramework):
 
         # Connecting one block should be enough to generate an error.
         self.nodes[0].generate(1)
-        assert(WARN_UNKNOWN_RULES_ACTIVE in self.nodes[0].getinfo()["errors"])
-        assert(WARN_UNKNOWN_RULES_ACTIVE in self.nodes[0].getmininginfo()["errors"])
-        assert(WARN_UNKNOWN_RULES_ACTIVE in self.nodes[0].getnetworkinfo()["warnings"])
+        if (WARN_UNKNOWN_RULES_ACTIVE not in self.nodes[0].getinfo()["errors"]):
+            raise AssertionError
+        if (WARN_UNKNOWN_RULES_ACTIVE not in self.nodes[0].getmininginfo()["errors"]):
+            raise AssertionError
+        if (WARN_UNKNOWN_RULES_ACTIVE not in self.nodes[0].getnetworkinfo()["warnings"]):
+            raise AssertionError
         stop_nodes(self.nodes)
         self.test_versionbits_in_alert_file()
 

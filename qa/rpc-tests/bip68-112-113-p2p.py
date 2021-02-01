@@ -150,7 +150,8 @@ class BIP68_112_113Test(ComparisonTestFramework):
 
     def create_bip68txs(self, bip68inputs, txversion, locktime_delta = 0):
         txs = []
-        assert(len(bip68inputs) >= 16)
+        if (len(bip68inputs) < 16):
+            raise AssertionError
         i = 0
         for b31 in range(2):
             b25txs = []
@@ -178,7 +179,8 @@ class BIP68_112_113Test(ComparisonTestFramework):
 
     def create_bip112txs(self, bip112inputs, varyOP_CSV, txversion, locktime_delta = 0):
         txs = []
-        assert(len(bip112inputs) >= 16)
+        if (len(bip112inputs) < 16):
+            raise AssertionError
         i = 0
         for b31 in range(2):
             b25txs = []

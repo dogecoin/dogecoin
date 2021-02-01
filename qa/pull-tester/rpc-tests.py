@@ -260,7 +260,8 @@ class RPCTestHandler:
     """
 
     def __init__(self, num_tests_parallel, test_list=None, flags=None):
-        assert(num_tests_parallel >= 1)
+        if (num_tests_parallel < 1):
+            raise AssertionError
         self.num_jobs = num_tests_parallel
         self.test_list = test_list
         self.flags = flags

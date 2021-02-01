@@ -38,27 +38,31 @@ class GetBlockTemplateLPTest(BitcoinTestFramework):
         longpollid = templat['longpollid']
         # longpollid should not change between successive invocations if nothing else happens
         templat2 = self.nodes[0].getblocktemplate()
-        assert(templat2['longpollid'] == longpollid)
+        if (templat2['longpollid'] != longpollid):
+            raise AssertionError
 
         # Test 1: test that the longpolling wait if we do nothing
         thr = LongpollThread(self.nodes[0])
         thr.start()
         # check that thread still lives
         thr.join(5)  # wait 5 seconds or until thread exits
-        assert(thr.is_alive())
+        if not (thr.is_alive()):
+            raise AssertionError
 
         # Test 2: test that longpoll will terminate if another node generates a block
         self.nodes[1].generate(1)  # generate a block on another node
         # check that thread will exit now that new transaction entered mempool
         thr.join(5)  # wait 5 seconds or until thread exits
-        assert(not thr.is_alive())
+        if thr.is_alive():
+            raise AssertionError
 
         # Test 3: test that longpoll will terminate if we generate a block ourselves
         thr = LongpollThread(self.nodes[0])
         thr.start()
         self.nodes[0].generate(1)  # generate a block on another node
         thr.join(5)  # wait 5 seconds or until thread exits
-        assert(not thr.is_alive())
+        if thr.is_alive():
+            raise AssertionError
 
         # Test 4: test that introducing a new transaction into the mempool will terminate the longpoll
         thr = LongpollThread(self.nodes[0])
@@ -67,7 +71,8 @@ class GetBlockTemplateLPTest(BitcoinTestFramework):
         (txid, txhex, fee) = random_transaction(self.nodes, Decimal("1.1"), Decimal("0.0"), Decimal("0.001"), 20)
         # after one minute, every 10 seconds the mempool is probed, so in 80 seconds it should have returned
         thr.join(60 + 20)
-        assert(not thr.is_alive())
+        if thr.is_alive():
+            raise AssertionError
 
 if __name__ == '__main__':
     GetBlockTemplateLPTest().main()

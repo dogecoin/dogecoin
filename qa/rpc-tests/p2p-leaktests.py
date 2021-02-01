@@ -123,7 +123,8 @@ class P2PLeakTest(BitcoinTestFramework):
 
         NetworkThread().start()  # Start up network handling in another thread
 
-        assert(wait_until(lambda: no_version_bannode.connected and no_version_idlenode.connected and no_verack_idlenode.version_received, timeout=10))
+        if not (wait_until(lambda: no_version_bannode.connected and no_version_idlenode.connected and no_verack_idlenode.version_received, timeout=10)):
+            raise AssertionError
 
         # Mine a block and make sure that it's not sent to the connected nodes
         self.nodes[0].generate(1)
@@ -132,14 +133,18 @@ class P2PLeakTest(BitcoinTestFramework):
         time.sleep(5)
 
         #This node should have been banned
-        assert(no_version_bannode.connection.state == "closed")
+        if (no_version_bannode.connection.state != "closed"):
+            raise AssertionError
 
         [conn.disconnect_node() for conn in connections]
 
         # Make sure no unexpected messages came in
-        assert(no_version_bannode.unexpected_msg == False)
-        assert(no_version_idlenode.unexpected_msg == False)
-        assert(no_verack_idlenode.unexpected_msg == False)
+        if (no_version_bannode.unexpected_msg != False):
+            raise AssertionError
+        if (no_version_idlenode.unexpected_msg != False):
+            raise AssertionError
+        if (no_verack_idlenode.unexpected_msg != False):
+            raise AssertionError
 
 if __name__ == '__main__':
     P2PLeakTest().main()

@@ -66,14 +66,17 @@ class AuxPOWTest (BitcoinTestFramework):
         self.sync_all()
 
         # 6. mine a valid auxpow block, expect: success
-        assert scrypt_auxpow.mineScryptAux(self.nodes[0], "00", True) is True
+        if scrypt_auxpow.mineScryptAux(self.nodes[0], "00", True) is not True:
+            raise AssertionError
 
         # 7. mine an auxpow block with high pow, expect: fail
-        assert scrypt_auxpow.mineScryptAux(self.nodes[0], "00", False) is False
+        if scrypt_auxpow.mineScryptAux(self.nodes[0], "00", False) is not False:
+            raise AssertionError
 
         # 8. mine a valid auxpow block with the parent chain being us
         # expect: fail
-        assert scrypt_auxpow.mineScryptAux(self.nodes[0], self.CHAIN_ID, True) is False
+        if scrypt_auxpow.mineScryptAux(self.nodes[0], self.CHAIN_ID, True) is not False:
+            raise AssertionError
         self.sync_all()
 
         # 9. mine enough blocks to mature all node 0 rewards

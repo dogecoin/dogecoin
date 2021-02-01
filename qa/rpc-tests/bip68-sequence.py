@@ -70,7 +70,8 @@ class BIP68Test(BitcoinTestFramework):
         self.nodes[0].sendtoaddress(new_addr, 2) # send 2 BTC
 
         utxos = self.nodes[0].listunspent(0, 0)
-        assert(len(utxos) > 0)
+        if (len(utxos) <= 0):
+            raise AssertionError
 
         utxo = utxos[0]
 
@@ -102,7 +103,8 @@ class BIP68Test(BitcoinTestFramework):
         except JSONRPCException as exp:
             assert_equal(exp.error["message"], NOT_FINAL_ERROR)
         else:
-            assert(False)
+            if not (False):
+                raise AssertionError
 
         # Setting the version back down to 1 should disable the sequence lock,
         # so this should be accepted.
@@ -200,10 +202,12 @@ class BIP68Test(BitcoinTestFramework):
             try:
                 self.nodes[0].sendrawtransaction(rawtx)
             except JSONRPCException as exp:
-                assert(not should_pass and using_sequence_locks)
+                if not (not should_pass and using_sequence_locks):
+                    raise AssertionError
                 assert_equal(exp.error["message"], NOT_FINAL_ERROR)
             else:
-                assert(should_pass or not using_sequence_locks)
+                if not (should_pass or not using_sequence_locks):
+                    raise AssertionError
                 # Recalculate utxos if we successfully sent the transaction
                 utxos = self.nodes[0].listunspent()
 
@@ -250,10 +254,12 @@ class BIP68Test(BitcoinTestFramework):
                 node.sendrawtransaction(ToHex(tx))
             except JSONRPCException as exp:
                 assert_equal(exp.error["message"], NOT_FINAL_ERROR)
-                assert(orig_tx.hash in node.getrawmempool())
+                if (orig_tx.hash not in node.getrawmempool()):
+                    raise AssertionError
             else:
                 # orig_tx must not be in mempool
-                assert(orig_tx.hash not in node.getrawmempool())
+                if (orig_tx.hash in node.getrawmempool()):
+                    raise AssertionError
             return tx
 
         test_nonzero_locks(tx2, self.nodes[0], self.relayfee, use_height_lock=True)
@@ -268,7 +274,8 @@ class BIP68Test(BitcoinTestFramework):
             self.nodes[0].generate(1)
             cur_time += 600
 
-        assert(tx2.hash in self.nodes[0].getrawmempool())
+        if (tx2.hash not in self.nodes[0].getrawmempool()):
+            raise AssertionError
 
         test_nonzero_locks(tx2, self.nodes[0], self.relayfee, use_height_lock=True)
         test_nonzero_locks(tx2, self.nodes[0], self.relayfee, use_height_lock=False)
@@ -279,23 +286,28 @@ class BIP68Test(BitcoinTestFramework):
         # Advance the time on the node so that we can test timelocks
         self.nodes[0].setmocktime(cur_time+600)
         self.nodes[0].generate(1)
-        assert(tx2.hash not in self.nodes[0].getrawmempool())
+        if (tx2.hash in self.nodes[0].getrawmempool()):
+            raise AssertionError
 
         # Now that tx2 is not in the mempool, a sequence locked spend should
         # succeed
         tx3 = test_nonzero_locks(tx2, self.nodes[0], self.relayfee, use_height_lock=False)
-        assert(tx3.hash in self.nodes[0].getrawmempool())
+        if (tx3.hash not in self.nodes[0].getrawmempool()):
+            raise AssertionError
 
         self.nodes[0].generate(1)
-        assert(tx3.hash not in self.nodes[0].getrawmempool())
+        if (tx3.hash in self.nodes[0].getrawmempool()):
+            raise AssertionError
 
         # One more test, this time using height locks
         tx4 = test_nonzero_locks(tx3, self.nodes[0], self.relayfee, use_height_lock=True)
-        assert(tx4.hash in self.nodes[0].getrawmempool())
+        if (tx4.hash not in self.nodes[0].getrawmempool()):
+            raise AssertionError
 
         # Now try combining confirmed and unconfirmed inputs
         tx5 = test_nonzero_locks(tx4, self.nodes[0], self.relayfee, use_height_lock=True)
-        assert(tx5.hash not in self.nodes[0].getrawmempool())
+        if (tx5.hash in self.nodes[0].getrawmempool()):
+            raise AssertionError
 
         utxos = self.nodes[0].listunspent()
         tx5.vin.append(CTxIn(COutPoint(int(utxos[0]["txid"], 16), utxos[0]["vout"]), nSequence=1))
@@ -307,7 +319,8 @@ class BIP68Test(BitcoinTestFramework):
         except JSONRPCException as exp:
             assert_equal(exp.error["message"], NOT_FINAL_ERROR)
         else:
-            assert(False)
+            if not (False):
+                raise AssertionError
 
         # Test mempool-BIP68 consistency after reorg
         #
@@ -319,8 +332,10 @@ class BIP68Test(BitcoinTestFramework):
         # If we invalidate the tip, tx3 should get added to the mempool, causing
         # tx4 to be removed (fails sequence-lock).
         self.nodes[0].invalidateblock(self.nodes[0].getbestblockhash())
-        assert(tx4.hash not in self.nodes[0].getrawmempool())
-        assert(tx3.hash in self.nodes[0].getrawmempool())
+        if (tx4.hash in self.nodes[0].getrawmempool()):
+            raise AssertionError
+        if (tx3.hash not in self.nodes[0].getrawmempool()):
+            raise AssertionError
 
         # Now mine 2 empty blocks to reorg out the current tip (labeled tip-1 in
         # diagram above).
@@ -339,8 +354,10 @@ class BIP68Test(BitcoinTestFramework):
             cur_time += 1
 
         mempool = self.nodes[0].getrawmempool()
-        assert(tx3.hash not in mempool)
-        assert(tx2.hash in mempool)
+        if (tx3.hash in mempool):
+            raise AssertionError
+        if (tx2.hash not in mempool):
+            raise AssertionError
 
         # Reset the chain and get rid of the mocktimed-blocks
         self.nodes[0].setmocktime(0)
@@ -352,7 +369,8 @@ class BIP68Test(BitcoinTestFramework):
     # being run, then it's possible the test has activated the soft fork, and
     # this test should be moved to run earlier, or deleted.
     def test_bip68_not_consensus(self):
-        assert(get_bip9_status(self.nodes[0], 'csv')['status'] != 'active')
+        if (get_bip9_status(self.nodes[0], 'csv')['status'] == 'active'):
+            raise AssertionError
         txid = self.nodes[0].sendtoaddress(self.nodes[0].getnewaddress(), 2)
 
         tx1 = FromHex(CTransaction(), self.nodes[0].getrawtransaction(txid))
@@ -385,7 +403,8 @@ class BIP68Test(BitcoinTestFramework):
         except JSONRPCException as exp:
             assert_equal(exp.error["message"], NOT_FINAL_ERROR)
         else:
-            assert(False)
+            if not (False):
+                raise AssertionError
 
         # make a block that violates bip68; ensure that the tip updates
         tip = int(self.nodes[0].getbestblockhash(), 16)
@@ -403,9 +422,11 @@ class BIP68Test(BitcoinTestFramework):
         # activation should happen at block height 432 (3 periods)
         min_activation_height = 432
         height = self.nodes[0].getblockcount()
-        assert(height < 432)
+        if (height >= 432):
+            raise AssertionError
         self.nodes[0].generate(432-height)
-        assert(get_bip9_status(self.nodes[0], 'csv')['status'] == 'active')
+        if (get_bip9_status(self.nodes[0], 'csv')['status'] != 'active'):
+            raise AssertionError
         sync_blocks(self.nodes)
 
     # Use self.nodes[1] to test standardness relay policy
@@ -419,9 +440,11 @@ class BIP68Test(BitcoinTestFramework):
         tx_signed = self.nodes[1].signrawtransaction(ToHex(tx))["hex"]
         try:
             tx_id = self.nodes[1].sendrawtransaction(tx_signed)
-            assert(before_activation == False)
+            if (before_activation != False):
+                raise AssertionError
         except:
-            assert(before_activation)
+            if not (before_activation):
+                raise AssertionError
 
 
 if __name__ == '__main__':

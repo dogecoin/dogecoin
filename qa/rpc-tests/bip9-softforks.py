@@ -94,8 +94,10 @@ class BIP9SoftForksTest(ComparisonTestFramework):
         assert_equal(self.get_bip9_status(bipName)['status'], 'defined')
         assert_equal(self.get_bip9_status(bipName)['since'], 0)
         tmpl = self.nodes[0].getblocktemplate({})
-        assert(bipName not in tmpl['rules'])
-        assert(bipName not in tmpl['vbavailable'])
+        if (bipName in tmpl['rules']):
+            raise AssertionError
+        if (bipName in tmpl['vbavailable']):
+            raise AssertionError
         assert_equal(tmpl['vbrequired'], 0)
         assert_equal(tmpl['version'], 0x20000000)
 
@@ -107,10 +109,12 @@ class BIP9SoftForksTest(ComparisonTestFramework):
         assert_equal(self.get_bip9_status(bipName)['status'], 'started')
         assert_equal(self.get_bip9_status(bipName)['since'], 144)
         tmpl = self.nodes[0].getblocktemplate({})
-        assert(bipName not in tmpl['rules'])
+        if (bipName in tmpl['rules']):
+            raise AssertionError
         assert_equal(tmpl['vbavailable'][bipName], bitno)
         assert_equal(tmpl['vbrequired'], 0)
-        assert(tmpl['version'] & activated_version)
+        if not (tmpl['version'] & activated_version):
+            raise AssertionError
 
         # Test 2
         # Fail to achieve LOCKED_IN 100 out of 144 signal bit 1
@@ -124,10 +128,12 @@ class BIP9SoftForksTest(ComparisonTestFramework):
         assert_equal(self.get_bip9_status(bipName)['status'], 'started')
         assert_equal(self.get_bip9_status(bipName)['since'], 144)
         tmpl = self.nodes[0].getblocktemplate({})
-        assert(bipName not in tmpl['rules'])
+        if (bipName in tmpl['rules']):
+            raise AssertionError
         assert_equal(tmpl['vbavailable'][bipName], bitno)
         assert_equal(tmpl['vbrequired'], 0)
-        assert(tmpl['version'] & activated_version)
+        if not (tmpl['version'] & activated_version):
+            raise AssertionError
 
         # Test 3
         # 108 out of 144 signal bit 1 to achieve LOCKED_IN
@@ -141,7 +147,8 @@ class BIP9SoftForksTest(ComparisonTestFramework):
         assert_equal(self.get_bip9_status(bipName)['status'], 'locked_in')
         assert_equal(self.get_bip9_status(bipName)['since'], 432)
         tmpl = self.nodes[0].getblocktemplate({})
-        assert(bipName not in tmpl['rules'])
+        if (bipName in tmpl['rules']):
+            raise AssertionError
 
         # Test 4
         # 143 more version 536870913 blocks (waiting period-1)
@@ -151,7 +158,8 @@ class BIP9SoftForksTest(ComparisonTestFramework):
         assert_equal(self.get_bip9_status(bipName)['status'], 'locked_in')
         assert_equal(self.get_bip9_status(bipName)['since'], 432)
         tmpl = self.nodes[0].getblocktemplate({})
-        assert(bipName not in tmpl['rules'])
+        if (bipName in tmpl['rules']):
+            raise AssertionError
 
         # Test 5
         # Check that the new rule is enforced
@@ -177,10 +185,13 @@ class BIP9SoftForksTest(ComparisonTestFramework):
         assert_equal(self.get_bip9_status(bipName)['status'], 'active')
         assert_equal(self.get_bip9_status(bipName)['since'], 576)
         tmpl = self.nodes[0].getblocktemplate({})
-        assert(bipName in tmpl['rules'])
-        assert(bipName not in tmpl['vbavailable'])
+        if (bipName not in tmpl['rules']):
+            raise AssertionError
+        if (bipName in tmpl['vbavailable']):
+            raise AssertionError
         assert_equal(tmpl['vbrequired'], 0)
-        assert(not (tmpl['version'] & (1 << bitno)))
+        if (tmpl['version'] & (1 << bitno)):
+            raise AssertionError
 
         # Test 6
         # Check that the new sequence lock rules are enforced
