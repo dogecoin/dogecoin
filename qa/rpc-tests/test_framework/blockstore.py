@@ -11,7 +11,7 @@ from .mininode import *
 from io import BytesIO
 import dbm.dumb as dbmd
 
-class BlockStore(object):
+class BlockStore():
     def __init__(self, datadir):
         self.blockDB = dbmd.open(datadir + "/blocks", 'c')
         self.currentBlock = 0
@@ -121,7 +121,7 @@ class BlockStore(object):
         locator.vHave = r
         return locator
 
-class TxStore(object):
+class TxStore():
     def __init__(self, datadir):
         self.txDB = dbmd.open(datadir + "/transactions", 'c')
 
