@@ -71,7 +71,7 @@ b'libfreetype.so.6', # font parsing
 b'libdl.so.2' # programming interface to dynamic linker
 }
 
-class CPPFilt(object):
+class CPPFilt():
     '''
     Demangle C++ symbol names.
 
