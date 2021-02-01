@@ -42,7 +42,8 @@ class WalletAccountsTest(BitcoinTestFramework):
             
             node.getnewaddress(account)
             assert_equal(node.getaccount(address), account)
-            assert(address in node.getaddressesbyaccount(account))
+            if (address not in node.getaddressesbyaccount(account)):
+                raise AssertionError
             
             node.sendfrom("", address, amount_to_send)
         
@@ -58,7 +59,8 @@ class WalletAccountsTest(BitcoinTestFramework):
         
         for account in accounts:
             address = node.getaccountaddress(account)
-            assert(address != account_addresses[account])
+            if (address == account_addresses[account]):
+                raise AssertionError
             assert_equal(node.getreceivedbyaccount(account), 2000000)
             node.move(account, "", node.getbalance(account))
         
@@ -75,8 +77,10 @@ class WalletAccountsTest(BitcoinTestFramework):
         for account in accounts:
             address = node.getaccountaddress("")
             node.setaccount(address, account)
-            assert(address in node.getaddressesbyaccount(account))
-            assert(address not in node.getaddressesbyaccount(""))
+            if (address not in node.getaddressesbyaccount(account)):
+                raise AssertionError
+            if (address in node.getaddressesbyaccount("")):
+                raise AssertionError
         
         for account in accounts:
             addresses = []

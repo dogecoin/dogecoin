@@ -360,7 +360,8 @@ class TestManager():
                     [ c.cb.send_header(block_header) for c in self.connections ]
 
                 else:  # Tx test runner
-                    assert(isinstance(b_or_t, CTransaction))
+                    if not (isinstance(b_or_t, CTransaction)):
+                        raise AssertionError
                     tx = b_or_t
                     tx_outcome = outcome
                     # Add to shared tx store and clear map entry

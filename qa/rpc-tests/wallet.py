@@ -164,7 +164,8 @@ class WalletTest (BitcoinTestFramework):
         assert_equal(set(relayed), {txid1, txid2})
         sync_mempools(self.nodes)
 
-        assert(txid1 in self.nodes[3].getrawmempool())
+        if (txid1 not in self.nodes[3].getrawmempool()):
+            raise AssertionError
 
         # Exercise balance rpcs
         assert_equal(self.nodes[0].getwalletinfo()["unconfirmed_balance"], 100000)
@@ -196,7 +197,8 @@ class WalletTest (BitcoinTestFramework):
             if uTx['txid'] == zeroValueTxid:
                 found = True
                 assert_equal(uTx['amount'], Decimal('0'))
-        assert(found)
+        if not (found):
+            raise AssertionError
 
         #do some -walletbroadcast tests
         stop_nodes(self.nodes)
@@ -255,7 +257,8 @@ class WalletTest (BitcoinTestFramework):
         try:
             txId  = self.nodes[0].sendtoaddress(self.nodes[2].getnewaddress(), "1f-4")
         except JSONRPCException as e:
-            assert("Invalid amount" in e.error['message'])
+            if ("Invalid amount" not in e.error['message']):
+                raise AssertionError
         else:
             raise AssertionError("Must not parse invalid amounts")
 
@@ -264,7 +267,8 @@ class WalletTest (BitcoinTestFramework):
             self.nodes[0].generate("2")
             raise AssertionError("Must not accept strings as numeric")
         except JSONRPCException as e:
-            assert("not an integer" in e.error['message'])
+            if ("not an integer" not in e.error['message']):
+                raise AssertionError
 
         # Import address and private key to check correct behavior of spendable unspents
         # 1. Send some coins to generate new UTXO
@@ -277,7 +281,8 @@ class WalletTest (BitcoinTestFramework):
         self.nodes[1].importaddress(address_to_import)
 
         # 3. Validate that the imported address is watch-only on node1
-        assert(self.nodes[1].validateaddress(address_to_import)["iswatchonly"])
+        if not (self.nodes[1].validateaddress(address_to_import)["iswatchonly"]):
+            raise AssertionError
 
         # 4. Check that the unspents after import are not spendable
         assert_array_result(self.nodes[1].listunspent(),
@@ -319,7 +324,8 @@ class WalletTest (BitcoinTestFramework):
                 addr = self.nodes[0].getaccountaddress(s)
                 label = self.nodes[0].getaccount(addr)
                 assert_equal(label, s)
-                assert(s in self.nodes[0].listaccounts().keys())
+                if (s not in self.nodes[0].listaccounts().keys()):
+                    raise AssertionError
         self.nodes[0].ensure_ascii = True # restore to default
 
         # maintenance tests
@@ -376,8 +382,10 @@ class WalletTest (BitcoinTestFramework):
         # Without walletrejectlongchains, we will still generate a txid
         # The tx will be stored in the wallet but not accepted to the mempool
         extra_txid = self.nodes[0].sendtoaddress(sending_addr, Decimal('1'))
-        assert(extra_txid not in self.nodes[0].getrawmempool())
-        assert(extra_txid in [tx["txid"] for tx in self.nodes[0].listtransactions()])
+        if (extra_txid in self.nodes[0].getrawmempool()):
+            raise AssertionError
+        if (extra_txid not in [tx["txid"] for tx in self.nodes[0].listtransactions()]):
+            raise AssertionError
         self.nodes[0].abandontransaction(extra_txid)
         total_txs = len(self.nodes[0].listtransactions("*",99999))
 
