@@ -1792,7 +1792,6 @@ class SegWitTest(BitcoinTestFramework):
                 block = CBlock()
                 witness_root = block.get_merkle_root([ser_uint256(0), ser_uint256(txid)])
                 check_commitment = uint256_from_str(hash256(ser_uint256(witness_root)+ser_uint256(0)))
-                from test_framework.blocktools import WITNESS_COMMITMENT_HEADER
                 output_data = WITNESS_COMMITMENT_HEADER + ser_uint256(check_commitment)
                 script = CScript([OP_RETURN, output_data])
                 assert_equal(witness_commitment, bytes_to_hex_str(script))
