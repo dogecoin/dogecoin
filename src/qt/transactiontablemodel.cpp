@@ -26,6 +26,7 @@
 #include <QIcon>
 #include <QList>
 
+#include <boost/bind.hpp>
 #include <boost/foreach.hpp>
 
 // Amount column is right-aligned it contains numbers

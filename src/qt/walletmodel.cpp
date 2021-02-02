@@ -28,6 +28,7 @@
 #include <QSet>
 #include <QTimer>
 
+#include <boost/bind.hpp>
 #include <boost/foreach.hpp>
 
 WalletModel::WalletModel(const PlatformStyle *platformStyle, CWallet *_wallet, OptionsModel *_optionsModel, QObject *parent) :
