@@ -52,7 +52,8 @@ class BIP65Test(ComparisonTestFramework):
         NetworkThread().start() # Start up network handling in another thread
         test.run()
 
-    def create_transaction(self, node, coinbase, to_address, amount):
+    @staticmethod
+    def create_transaction(node, coinbase, to_address, amount):
         from_txid = node.getblock(coinbase)['tx'][0]
         inputs = [{ "txid" : from_txid, "vout" : 0}]
         outputs = { to_address : amount }
