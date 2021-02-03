@@ -45,10 +45,10 @@ def read_dump(file_name, addrs, hd_master_addr_old):
                         if addrObj['address'] == addr and addrObj['hdkeypath'] == keypath and keytype == "label=":
                             found_addr += 1
                             break
-                        elif keytype == "change=1":
+                        if keytype == "change=1":
                             found_addr_chg += 1
                             break
-                        elif keytype == "reserve=1":
+                        if keytype == "reserve=1":
                             found_addr_rsv += 1
                             break
         return found_addr, found_addr_chg, found_addr_rsv, hd_master_addr_ret
