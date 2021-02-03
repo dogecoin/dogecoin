@@ -15,7 +15,7 @@ class BlockStore():
     def __init__(self, datadir):
         self.blockDB = dbmd.open(datadir + "/blocks", 'c')
         self.currentBlock = 0
-        self.headers_map = dict()
+        self.headers_map = {}
 
     def close(self):
         self.blockDB.close()

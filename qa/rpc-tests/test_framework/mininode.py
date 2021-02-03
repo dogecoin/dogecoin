@@ -57,7 +57,7 @@ NODE_WITNESS = (1 << 3)
 # Keep our own socket map for asyncore, so that we can track disconnects
 # ourselves (to workaround an issue with closing an asyncore socket when
 # using select)
-mininode_socket_map = dict()
+mininode_socket_map = {}
 
 # One lock for synchronizing all data access between the networking thread (see
 # NetworkThread below) and the thread running the test logic.  For simplicity,
