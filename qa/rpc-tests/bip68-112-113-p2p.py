@@ -113,7 +113,8 @@ class BIP68_112_113Test(ComparisonTestFramework):
         amount = Decimal("49.99")
         return node.sendrawtransaction(ToHex(self.sign_transaction(node, self.create_transaction(node, node.getblock(coinbases.pop())['tx'][0], self.nodeaddress, amount))))
 
-    def create_transaction(self, node, txid, to_address, amount):
+    @staticmethod
+    def create_transaction(node, txid, to_address, amount):
         inputs = [{ "txid" : txid, "vout" : 0}]
         outputs = { to_address : amount }
         rawtx = node.createrawtransaction(inputs, outputs)
@@ -122,7 +123,8 @@ class BIP68_112_113Test(ComparisonTestFramework):
         tx.deserialize(f)
         return tx
 
-    def sign_transaction(self, node, unsignedtx):
+    @staticmethod
+    def sign_transaction(node, unsignedtx):
         rawtx = ToHex(unsignedtx)
         signresult = node.signrawtransaction(rawtx)
         tx = CTransaction()

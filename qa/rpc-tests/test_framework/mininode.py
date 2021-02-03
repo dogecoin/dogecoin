@@ -616,7 +616,8 @@ class CBlock(CBlockHeader):
         return r
 
     # Calculate the merkle root given a vector of transaction hashes
-    def get_merkle_root(self, hashes):
+    @staticmethod
+    def get_merkle_root(hashes):
         while len(hashes) > 1:
             newhashes = []
             for i in range(0, len(hashes), 2):
@@ -1025,7 +1026,8 @@ class msg_verack():
     def deserialize(self, f):
         pass
 
-    def serialize(self):
+    @staticmethod
+    def serialize():
         return b""
 
     def __repr__(self):
@@ -1192,7 +1194,8 @@ class msg_getaddr():
     def deserialize(self, f):
         pass
 
-    def serialize(self):
+    @staticmethod
+    def serialize():
         return b""
 
     def __repr__(self):
@@ -1208,7 +1211,8 @@ class msg_ping_prebip31():
     def deserialize(self, f):
         pass
 
-    def serialize(self):
+    @staticmethod
+    def serialize():
         return b""
 
     def __repr__(self):
@@ -1260,7 +1264,8 @@ class msg_mempool():
     def deserialize(self, f):
         pass
 
-    def serialize(self):
+    @staticmethod
+    def serialize():
         return b""
 
     def __repr__(self):
@@ -1275,7 +1280,8 @@ class msg_sendheaders():
     def deserialize(self, f):
         pass
 
-    def serialize(self):
+    @staticmethod
+    def serialize():
         return b""
 
     def __repr__(self):
@@ -1515,7 +1521,8 @@ class NodeConnCB():
                 print("ERROR delivering %s (%s)" % (repr(message),
                                                     sys.exc_info()[0]))
 
-    def on_version(self, conn, message):
+    @staticmethod
+    def on_version(conn, message):
         if message.nVersion >= 209:
             conn.send_message(msg_verack())
         conn.ver_send = min(MY_VERSION, message.nVersion)
@@ -1527,7 +1534,8 @@ class NodeConnCB():
         conn.ver_recv = conn.ver_send
         self.verack_received = True
 
-    def on_inv(self, conn, message):
+    @staticmethod
+    def on_inv(conn, message):
         want = msg_getdata()
         for i in message.inv:
             if i.type != 0:
@@ -1544,7 +1552,8 @@ class NodeConnCB():
     def on_getaddr(self, conn, message): pass
     def on_headers(self, conn, message): pass
     def on_getheaders(self, conn, message): pass
-    def on_ping(self, conn, message):
+    @staticmethod
+    def on_ping(conn, message):
         if conn.ver_send > BIP0031_VERSION:
             conn.send_message(msg_pong(message.nonce))
     def on_reject(self, conn, message): pass

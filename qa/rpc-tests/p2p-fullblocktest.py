@@ -72,12 +72,14 @@ class FullBlockTest(ComparisonTestFramework):
         NetworkThread().start() # Start up network handling in another thread
         self.test.run()
 
-    def add_transactions_to_block(self, block, tx_list):
+    @staticmethod
+    def add_transactions_to_block(block, tx_list):
         [ tx.rehash() for tx in tx_list ]
         block.vtx.extend(tx_list)
 
     # this is a little handier to use than the version in blocktools.py
-    def create_tx(self, spend_tx, n, value, script=CScript([OP_TRUE])):
+    @staticmethod
+    def create_tx(spend_tx, n, value, script=CScript([OP_TRUE])):
         tx = create_transaction(spend_tx, n, b"", value, script)
         return tx
 

@@ -103,7 +103,8 @@ class NULLDUMMYTest(BitcoinTestFramework):
         self.block_submit(self.nodes[0], test6txs, True, True)
 
 
-    def create_transaction(self, node, txid, to_address, amount):
+    @staticmethod
+    def create_transaction(node, txid, to_address, amount):
         inputs = [{ "txid" : txid, "vout" : 0}]
         outputs = { to_address : amount }
         rawtx = node.createrawtransaction(inputs, outputs)
@@ -114,7 +115,8 @@ class NULLDUMMYTest(BitcoinTestFramework):
         return tx
 
 
-    def tx_submit(self, node, tx, msg = ""):
+    @staticmethod
+    def tx_submit(node, tx, msg = ""):
         tx.rehash()
         try:
             node.sendrawtransaction(bytes_to_hex_str(tx.serialize_with_witness()), True)

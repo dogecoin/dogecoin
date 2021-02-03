@@ -46,7 +46,8 @@ class BIP9SoftForksTest(ComparisonTestFramework):
         NetworkThread().start() # Start up network handling in another thread
         self.test.run()
 
-    def create_transaction(self, node, coinbase, to_address, amount):
+    @staticmethod
+    def create_transaction(node, coinbase, to_address, amount):
         from_txid = node.getblock(coinbase)['tx'][0]
         inputs = [{ "txid" : from_txid, "vout" : 0}]
         outputs = { to_address : amount }
@@ -57,7 +58,8 @@ class BIP9SoftForksTest(ComparisonTestFramework):
         tx.nVersion = 2
         return tx
 
-    def sign_transaction(self, node, tx):
+    @staticmethod
+    def sign_transaction(node, tx):
         signresult = node.signrawtransaction(bytes_to_hex_str(tx.serialize()))
         tx = CTransaction()
         f = BytesIO(hex_str_to_bytes(signresult['hex']))
@@ -234,17 +236,20 @@ class BIP9SoftForksTest(ComparisonTestFramework):
         ):
             yield test
 
-    def donothing(self, tx):
+    @staticmethod
+    def donothing(tx):
         return
 
-    def csv_invalidate(self, tx):
+    @staticmethod
+    def csv_invalidate(tx):
         '''Modify the signature in vin 0 of the tx to fail CSV
         Prepends -1 CSV DROP in the scriptSig itself.
         '''
         tx.vin[0].scriptSig = CScript([OP_1NEGATE, OP_CHECKSEQUENCEVERIFY, OP_DROP] +
                                       list(CScript(tx.vin[0].scriptSig)))
 
-    def sequence_lock_invalidate(self, tx):
+    @staticmethod
+    def sequence_lock_invalidate(tx):
         '''Modify the nSequence to make it fails once sequence lock rule is activated (high timespan)
         '''
         tx.vin[0].nSequence = 0x00FFFFFF

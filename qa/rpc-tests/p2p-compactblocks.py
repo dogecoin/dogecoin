@@ -129,7 +129,8 @@ class CompactBlocksTest(BitcoinTestFramework):
                  ["-debug", "-logtimemicros", "-txindex"]])
         connect_nodes(self.nodes[0], 1)
 
-    def build_block_on_tip(self, node, segwit=False):
+    @staticmethod
+    def build_block_on_tip(node, segwit=False):
         height = node.getblockcount()
         tip = node.getbestblockhash()
         mtp = node.getblockheader(tip)['mediantime']
@@ -174,7 +175,8 @@ class CompactBlocksTest(BitcoinTestFramework):
     #   are made with compact blocks.
     # If old_node is passed in, request compact blocks with version=preferred-1
     # and verify that it receives block announcements via compact block.
-    def test_sendcmpct(self, node, test_node, preferred_version, old_node=None):
+    @staticmethod
+    def test_sendcmpct(node, test_node, preferred_version, old_node=None):
         # Make sure we get a SENDCMPCT message from our peer
         def received_sendcmpct():
             return (len(test_node.last_sendcmpct) > 0)
@@ -365,7 +367,8 @@ class CompactBlocksTest(BitcoinTestFramework):
             header_and_shortids = HeaderAndShortIDs(test_node.last_cmpctblock.header_and_shortids)
         self.check_compactblock_construction_from_block(version, header_and_shortids, block_hash, block)
 
-    def check_compactblock_construction_from_block(self, version, header_and_shortids, block_hash, block):
+    @staticmethod
+    def check_compactblock_construction_from_block(version, header_and_shortids, block_hash, block):
         # Check that we got the right block!
         header_and_shortids.header.calc_sha256()
         assert_equal(header_and_shortids.header.sha256, block_hash)
@@ -637,7 +640,8 @@ class CompactBlocksTest(BitcoinTestFramework):
             test_node.send_and_ping(msg_block(block))
         assert_equal(int(node.getbestblockhash(), 16), block.sha256)
 
-    def test_getblocktxn_handler(self, node, test_node, version):
+    @staticmethod
+    def test_getblocktxn_handler(node, test_node, version):
         # bitcoind will not send blocktxn responses for blocks whose height is
         # more than 10 blocks deep.
         MAX_GETBLOCKTXN_DEPTH = 10
@@ -748,7 +752,8 @@ class CompactBlocksTest(BitcoinTestFramework):
             if (test_node.last_blocktxn is not None):
                 raise AssertionError
 
-    def activate_segwit(self, node):
+    @staticmethod
+    def activate_segwit(node):
         node.generate(144*3)
         assert_equal(get_bip9_status(node, "segwit")["status"], 'active')
 
@@ -803,7 +808,8 @@ class CompactBlocksTest(BitcoinTestFramework):
 
     # Helper for enabling cb announcements
     # Send the sendcmpct request and sync headers
-    def request_cb_announcements(self, peer, node, version):
+    @staticmethod
+    def request_cb_announcements(peer, node, version):
         tip = node.getbestblockhash()
         peer.get_headers(locator=[int(tip, 16)], hashstop=0)
 
