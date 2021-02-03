@@ -19,7 +19,7 @@ MAX_REQUESTS = 128
 class TestManager(NodeConnCB):
     # set up NodeConnCB callbacks, overriding base class
     def on_getdata(self, conn, message):
-        self.log.debug("got getdata %s" % repr(message))
+        self.log.debug("got getdata %s", repr(message))
         # Log the requests
         for inv in message.inv:
             if inv.hash not in self.blockReqCounts:

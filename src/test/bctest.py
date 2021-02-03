@@ -49,10 +49,10 @@ def bctest(testDir, testObj, exeext):
         try:
             outputData = open(testDir + "/" + outputFn).read()
         except:
-            logging.error("Output file " + outputFn + " can not be opened")
+            logging.error("Output file " + outputFn, " can not be opened")
             raise
         if not outputData:
-            logging.error("Output data missing for " + outputFn)
+            logging.error("Output data missing for ", outputFn)
             raise Exception
 
     # Run the test
@@ -60,7 +60,7 @@ def bctest(testDir, testObj, exeext):
     try:
         outs = proc.communicate(input=inputData)
     except OSError:
-        logging.error("OSError, Failed to execute " + execprog)
+        logging.error("OSError, Failed to execute ", execprog)
         raise
 
     if outputData:
@@ -68,16 +68,16 @@ def bctest(testDir, testObj, exeext):
         try:
             a_parsed = parse_output(outs[0], outputType)
         except Exception as e:
-            logging.error('Error parsing command output as %s: %s' % (outputType,e))
+            logging.error('Error parsing command output as %s: %s', outputType, e)
             raise
         try:
             b_parsed = parse_output(outputData, outputType)
         except Exception as e:
-            logging.error('Error parsing expected output %s as %s: %s' % (outputFn,outputType,e))
+            logging.error('Error parsing expected output %s as %s: %s', outputFn, outputType, e)
             raise
         # Compare data
         if a_parsed != b_parsed:
-            logging.error("Output data mismatch for " + outputFn + " (format " + outputType + ")")
+            logging.error("Output data mismatch for " + outputFn + " (format " + outputType, ")")
             raise Exception
         # Compare formatting
         if outs[0] != outputData:
@@ -94,7 +94,7 @@ def bctest(testDir, testObj, exeext):
     if "return_code" in testObj:
         wantRC = testObj['return_code']
     if proc.returncode != wantRC:
-        logging.error("Return code mismatch for " + outputFn)
+        logging.error("Return code mismatch for ", outputFn)
         raise Exception
 
     if "error_txt" in testObj:
@@ -120,13 +120,13 @@ def bctester(testDir, input_basename, buildenv):
     for testObj in input_data:
         try:
             bctest(testDir, testObj, buildenv.exeext)
-            logging.info("PASSED: " + testObj["description"])
+            logging.info("PASSED: ", testObj["description"])
         except:
-            logging.info("FAILED: " + testObj["description"])
+            logging.info("FAILED: ", testObj["description"])
             failed_testcases.append(testObj["description"])
 
     if failed_testcases:
-        logging.error("FAILED TESTCASES: [" + ", ".join(failed_testcases) + "]")
+        logging.error("FAILED TESTCASES: [" + ", ".join(failed_testcases), "]")
         sys.exit(1)
     else:
         sys.exit(0)

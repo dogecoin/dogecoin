@@ -140,8 +140,7 @@ class AuthServiceProxy():
     def __call__(self, *args, **argsn):
         AuthServiceProxy.__id_count += 1
 
-        log.debug("-%s-> %s %s"%(AuthServiceProxy.__id_count, self._service_name,
-                                 json.dumps(args, default=EncodeDecimal, ensure_ascii=self.ensure_ascii)))
+        log.debug("-%s-> %s %s", AuthServiceProxy.__id_count, self._service_name, json.dumps(args, default=EncodeDecimal, ensure_ascii=self.ensure_ascii))
         if args and argsn:
             raise ValueError('Cannot handle both named and positional arguments')
         postdata = json.dumps({'version': '1.1',
@@ -158,7 +157,7 @@ class AuthServiceProxy():
 
     def _batch(self, rpc_call_list):
         postdata = json.dumps(list(rpc_call_list), default=EncodeDecimal, ensure_ascii=self.ensure_ascii)
-        log.debug("--> "+postdata)
+        log.debug("--> ", postdata)
         return self._request('POST', self.__url.path, postdata.encode('utf-8'))
 
     def _get_response(self):
@@ -183,7 +182,7 @@ class AuthServiceProxy():
         responsedata = http_response.read().decode('utf8')
         response = json.loads(responsedata, parse_float=decimal.Decimal)
         if "error" in response and response["error"] is None:
-            log.debug("<-%s- %s"%(response["id"], json.dumps(response["result"], default=EncodeDecimal, ensure_ascii=self.ensure_ascii)))
+            log.debug("<-%s- %s", response["id"], json.dumps(response["result"], default=EncodeDecimal, ensure_ascii=self.ensure_ascii))
         else:
-            log.debug("<-- "+responsedata)
+            log.debug("<-- ", responsedata)
         return response
