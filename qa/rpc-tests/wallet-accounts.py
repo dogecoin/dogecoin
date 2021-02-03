@@ -32,7 +32,7 @@ class WalletAccountsTest(BitcoinTestFramework):
         
         accounts = ["a","b","c","d","e"]
         amount_to_send = 1000000
-        account_addresses = dict()
+        account_addresses = {}
         for account in accounts:
             address = node.getaccountaddress(account)
             account_addresses[account] = address
