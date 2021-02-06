@@ -777,6 +777,11 @@ void InitParameterInteraction()
         if (SoftSetBoolArg("-whitelistrelay", true))
             LogPrintf("%s: parameter interaction: -whitelistforcerelay=1 -> setting -whitelistrelay=1\n", __func__);
     }
+
+    // Skip checking auxpow checks when reading from disk
+    if (GetBoolArg("-skipauxpowchecks", DEFAULT_SKIPAUXPOWCHECKS)) {
+        fSkipAuxpowChecks = true;
+    }
 }
 
 static std::string ResolveErrMsg(const char * const optname, const std::string& strBind)
@@ -1549,6 +1554,9 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
         return false;
     }
     LogPrintf(" block index %15dms\n", GetTimeMillis() - nStart);
+
+    if (fSkipAuxpowChecks)
+        LogPrintf("Skipping auxpow checks on blocks loaded from disk..\n");
 
     boost::filesystem::path est_path = GetDataDir() / FEE_ESTIMATES_FILENAME;
     CAutoFile est_filein(fopen(est_path.string().c_str(), "rb"), SER_DISK, CLIENT_VERSION);
