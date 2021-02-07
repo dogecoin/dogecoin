@@ -21,7 +21,7 @@ static void BlockToJsonVerbose(benchmark::Bench& bench)
     stream >> block;
 
     CBlockIndex blockindex;
-    const uint256 blockHash = block.GetHash();
+    const uint256 blockHash = block.GetPoWHash();
     blockindex.phashBlock = &blockHash;
     blockindex.nBits = 403014710;
 
