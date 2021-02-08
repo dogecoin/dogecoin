@@ -414,7 +414,7 @@ bool DummySignatureCreator::CreateSig(std::vector<unsigned char>& vchSig, const 
     // Create a dummy signature that is a valid DER-encoding
     vchSig.assign(72, '\000');
     vchSig[0] = 0x30;
-    vchSig[1] = 69;
+    vchSig[1] = 69; /* NICE */
     vchSig[2] = 0x02;
     vchSig[3] = 33;
     vchSig[4] = 0x01;
