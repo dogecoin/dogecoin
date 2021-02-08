@@ -23,7 +23,7 @@ CBlockHeader CBlockIndex::GetBlockHeader(const Consensus::Params& consensusParam
        have to read the actual *header*, not the full block.  */
     if (block.IsAuxpow())
     {
-        ReadBlockHeaderFromDisk(block, this, consensusParams);
+        ReadBlockHeaderFromDisk(block, this, consensusParams, fCheckPOW);
         return block;
     }
 
