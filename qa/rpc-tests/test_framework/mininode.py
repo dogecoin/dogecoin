@@ -36,7 +36,7 @@ from threading import RLock
 from threading import Thread
 import logging
 import copy
-import litecoin_scrypt
+import ltc_scrypt
 from test_framework.siphash import siphash256
 
 BIP0031_VERSION = 60000
@@ -583,7 +583,7 @@ class CBlockHeader(object):
             r += struct.pack("<I", self.nNonce)
             self.sha256 = uint256_from_str(hash256(r))
             self.hash = encode(hash256(r)[::-1], 'hex_codec').decode('ascii')
-            self.scrypt256 = uint256_from_str(litecoin_scrypt.getPoWHash(r))
+            self.scrypt256 = uint256_from_str(ltc_scrypt.getPoWHash(r))
 
     def rehash(self):
         self.sha256 = None
