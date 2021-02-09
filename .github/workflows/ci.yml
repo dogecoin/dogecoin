@@ -26,7 +26,7 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          sudo apt-get install libdb++-dev libboost-all-dev ${{ matrix.packages }}
+          sudo apt-get install libdb++-dev libboost-all-dev libevent-dev ${{ matrix.packages }}
       - name: Checkout
         uses: actions/checkout@v2
 
