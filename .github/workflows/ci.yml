@@ -1,0 +1,40 @@
+name: ci
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: ${{ matrix.name }}
+
+    strategy:
+      fail-fast: true
+      matrix:
+        name:
+          - Ubuntu 18.04 GCC
+        include:
+          - name: Ubuntu 18.04 GCC
+            os: ubuntu-18.04
+            compiler: gcc
+            cpp-compiler: g++
+            build-dir: build
+            build-src-dir: ..
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Install packages (Ubuntu)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install libdb++-dev libboost-all-dev libevent-dev ${{ matrix.packages }}
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Generate project files
+        run: |
+          ./autogen.sh
+          ./configure  --disable-wallet
+
+      - name: Compile source code
+        run: |
+          make -j2
