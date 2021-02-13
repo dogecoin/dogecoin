@@ -434,18 +434,32 @@ Unused mempool memory used by coincache
   when there is extra memory available. This may result in an increase in
   memory usage during IBD for those previously relying on only the `-dbcache`
   option to limit memory during that time.
->>>>>>> Update release notes for 1.14 (#1464)
 
 Credits
 =======
 
 Thanks to everyone who directly contributed to this release:
 
-- Alex Morcos
+- Anthony Chen
+- Bertrand Jacquin
+- BT
 - Cory Fields
+- CryptAxe
+- Daniel Edgecumbe
+- Dennis Field
 - fanquake
-- Gregory Sanders
+- Ikko Ashimine
+- Jeremy Rubin
+- John Newbery
 - Jonas Schnelli
+- Jonathan (greenbigfrog)
+- Gregory Maxwell
+- Karl-Johan Alm
+- Kent
+- Luke Dashjr
+- Marco
+- MarcoFalke
+- marcuswin
 - Matt Corallo
 - Matthew King
 - matthias
@@ -466,14 +480,13 @@ Thanks to everyone who directly contributed to this release:
 - Pieter Wuille
 - poole\_party
 - practicalswift
-- R E Broadley
-- randy-waterhouse
-- Richard Kiss
-- Robert McLaughlin
-- rodasmith
+- Primo
 - Ross Nicoll
-- Russell Yanofsky
-- Shigeya Suzuki
+- Sjors Provoost
+- Suhas Daftuar
+- Thomas Snider
+- Tjps
+- Vertian
 - Wladimir J. van der Laan
 
 As well as everyone that helped translating on [Transifex](https://www.transifex.com/projects/p/bitcoin/).
