@@ -313,7 +313,7 @@ class ImportDescriptorsTest(BitcoinTestFramework):
         assert_raises_rpc_error(-4, 'This wallet has no available keys', w1.getrawchangeaddress, 'legacy')
 
         # # Test importing a descriptor containing a WIF private key
-        wif_priv = "cTe1f5rdT8A8DFgVWTjyPwACsDPJM9ff4QngFxUixCSvvbg1x6sh"
+        wif_priv = "ckoGoQaRoRzQAHi2ccXkzHMBN5nc1zD7PJ2wNsAuw9xMVG3kovDo"
         address = "2MuhcG52uHPknxDgmGPsV18jSHFBnnRgjPg"
         desc = "sh(wpkh(" + wif_priv + "))"
         self.log.info("Should import a descriptor with a WIF private key as spendable")
