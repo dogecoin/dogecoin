@@ -27,9 +27,12 @@ class ToolWalletTest(BitcoinTestFramework):
         self.skip_if_no_wallet_tool()
 
     def bitcoin_wallet_process(self, *args):
-        binary = self.config["environment"]["BUILDDIR"] + '/src/bitcoin-wallet' + self.config["environment"]["EXEEXT"]
-        args = ['-datadir={}'.format(self.nodes[0].datadir), '-chain=%s' % self.chain] + list(args)
-        return subprocess.Popen([binary] + args, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+        binary = self.config["environment"]["BUILDDIR"] + '/src/dogecoin-wallet' + self.config["environment"]["EXEEXT"]
+        default_args = ['-datadir={}'.format(self.nodes[0].datadir), '-chain=%s' % self.chain]
+        if self.options.descriptors and 'create' in args:
+            default_args.append('-descriptors')
+
+        return subprocess.Popen([binary] + default_args + list(args), stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
 
     def assert_raises_tool_error(self, error, *args):
         p = self.bitcoin_wallet_process(*args)
@@ -73,7 +76,7 @@ class ToolWalletTest(BitcoinTestFramework):
         locked_dir = os.path.join(self.options.tmpdir, "node0", "regtest", "wallets")
         error = 'Error initializing wallet database environment "{}"!'.format(locked_dir)
         if self.options.descriptors:
-            error = "SQLiteDatabase: Unable to obtain an exclusive lock on the database, is it being used by another bitcoind?"
+            error = "SQLiteDatabase: Unable to obtain an exclusive lock on the database, is it being used by another dogecoind?"
         self.assert_raises_tool_error(
             error,
             '-wallet=' + self.default_wallet_name,
@@ -254,6 +257,83 @@ class ToolWalletTest(BitcoinTestFramework):
         self.stop_node(0)
 
         self.assert_tool_output('', '-wallet=salvage', 'salvage')
+
+    def test_dump_createfromdump(self):
+        self.start_node(0)
+        self.nodes[0].createwallet("todump")
+        file_format = self.nodes[0].get_wallet_rpc("todump").getwalletinfo()["format"]
+        self.nodes[0].createwallet("todump2")
+        self.stop_node(0)
+
+        self.log.info('Checking dump arguments')
+        self.assert_raises_tool_error('No dump file provided. To use dump, -dumpfile=<filename> must be provided.', '-wallet=todump', 'dump')
+
+        self.log.info('Checking basic dump')
+        wallet_dump = os.path.join(self.nodes[0].datadir, "wallet.dump")
+        self.assert_tool_output('The dumpfile may contain private keys. To ensure the safety of your Bitcoin, do not share the dumpfile.\n', '-wallet=todump', '-dumpfile={}'.format(wallet_dump), 'dump')
+
+        dump_data = self.read_dump(wallet_dump)
+        orig_dump = dump_data.copy()
+        # Check the dump magic
+        assert_equal(dump_data['DOGECOIN_CORE_WALLET_DUMP'], '1')
+        # Check the file format
+        assert_equal(dump_data["format"], file_format)
+
+        self.log.info('Checking that a dumpfile cannot be overwritten')
+        self.assert_raises_tool_error('File {} already exists. If you are sure this is what you want, move it out of the way first.'.format(wallet_dump),  '-wallet=todump2', '-dumpfile={}'.format(wallet_dump), 'dump')
+
+        self.log.info('Checking createfromdump arguments')
+        self.assert_raises_tool_error('No dump file provided. To use createfromdump, -dumpfile=<filename> must be provided.', '-wallet=todump', 'createfromdump')
+        non_exist_dump = os.path.join(self.nodes[0].datadir, "wallet.nodump")
+        self.assert_raises_tool_error('Unknown wallet file format "notaformat" provided. Please provide one of "bdb" or "sqlite".', '-wallet=todump', '-format=notaformat', '-dumpfile={}'.format(wallet_dump), 'createfromdump')
+        self.assert_raises_tool_error('Dump file {} does not exist.'.format(non_exist_dump), '-wallet=todump', '-dumpfile={}'.format(non_exist_dump), 'createfromdump')
+        wallet_path = os.path.join(self.nodes[0].datadir, 'regtest/wallets/todump2')
+        self.assert_raises_tool_error('Failed to create database path \'{}\'. Database already exists.'.format(wallet_path), '-wallet=todump2', '-dumpfile={}'.format(wallet_dump), 'createfromdump')
+        self.assert_raises_tool_error("The -descriptors option can only be used with the 'create' command.", '-descriptors', '-wallet=todump2', '-dumpfile={}'.format(wallet_dump), 'createfromdump')
+
+        self.log.info('Checking createfromdump')
+        self.do_tool_createfromdump("load", "wallet.dump")
+        self.do_tool_createfromdump("load-bdb", "wallet.dump", "bdb")
+        if self.is_sqlite_compiled():
+            self.do_tool_createfromdump("load-sqlite", "wallet.dump", "sqlite")
+
+        self.log.info('Checking createfromdump handling of magic and versions')
+        bad_ver_wallet_dump = os.path.join(self.nodes[0].datadir, "wallet-bad_ver1.dump")
+        dump_data["DOGECOIN_CORE_WALLET_DUMP"] = "0"
+        self.write_dump(dump_data, bad_ver_wallet_dump)
+        self.assert_raises_tool_error('Error: Dumpfile version is not supported. This version of dogecoin-wallet only supports version 1 dumpfiles. Got dumpfile with version 0', '-wallet=badload', '-dumpfile={}'.format(bad_ver_wallet_dump), 'createfromdump')
+        assert not os.path.isdir(os.path.join(self.nodes[0].datadir, "regtest/wallets", "badload"))
+        bad_ver_wallet_dump = os.path.join(self.nodes[0].datadir, "wallet-bad_ver2.dump")
+        dump_data["DOGECOIN_CORE_WALLET_DUMP"] = "2"
+        self.write_dump(dump_data, bad_ver_wallet_dump)
+        self.assert_raises_tool_error('Error: Dumpfile version is not supported. This version of dogecoin-wallet only supports version 1 dumpfiles. Got dumpfile with version 2', '-wallet=badload', '-dumpfile={}'.format(bad_ver_wallet_dump), 'createfromdump')
+        assert not os.path.isdir(os.path.join(self.nodes[0].datadir, "regtest/wallets", "badload"))
+        bad_magic_wallet_dump = os.path.join(self.nodes[0].datadir, "wallet-bad_magic.dump")
+        del dump_data["DOGECOIN_CORE_WALLET_DUMP"]
+        dump_data["not_the_right_magic"] = "1"
+        self.write_dump(dump_data, bad_magic_wallet_dump, "not_the_right_magic")
+        self.assert_raises_tool_error('Error: Dumpfile identifier record is incorrect. Got "not_the_right_magic", expected "DOGECOIN_CORE_WALLET_DUMP".', '-wallet=badload', '-dumpfile={}'.format(bad_magic_wallet_dump), 'createfromdump')
+        assert not os.path.isdir(os.path.join(self.nodes[0].datadir, "regtest/wallets", "badload"))
+
+        self.log.info('Checking createfromdump handling of checksums')
+        bad_sum_wallet_dump = os.path.join(self.nodes[0].datadir, "wallet-bad_sum1.dump")
+        dump_data = orig_dump.copy()
+        checksum = dump_data["checksum"]
+        dump_data["checksum"] = "1" * 64
+        self.write_dump(dump_data, bad_sum_wallet_dump)
+        self.assert_raises_tool_error('Error: Dumpfile checksum does not match. Computed {}, expected {}'.format(checksum, "1" * 64), '-wallet=bad', '-dumpfile={}'.format(bad_sum_wallet_dump), 'createfromdump')
+        assert not os.path.isdir(os.path.join(self.nodes[0].datadir, "regtest/wallets", "badload"))
+        bad_sum_wallet_dump = os.path.join(self.nodes[0].datadir, "wallet-bad_sum2.dump")
+        del dump_data["checksum"]
+        self.write_dump(dump_data, bad_sum_wallet_dump, skip_checksum=True)
+        self.assert_raises_tool_error('Error: Missing checksum', '-wallet=badload', '-dumpfile={}'.format(bad_sum_wallet_dump), 'createfromdump')
+        assert not os.path.isdir(os.path.join(self.nodes[0].datadir, "regtest/wallets", "badload"))
+        bad_sum_wallet_dump = os.path.join(self.nodes[0].datadir, "wallet-bad_sum3.dump")
+        dump_data["checksum"] = "2" * 10
+        self.write_dump(dump_data, bad_sum_wallet_dump)
+        self.assert_raises_tool_error('Error: Dumpfile checksum does not match. Computed {}, expected {}{}'.format(checksum, "2" * 10, "0" * 54), '-wallet=badload', '-dumpfile={}'.format(bad_sum_wallet_dump), 'createfromdump')
+        assert not os.path.isdir(os.path.join(self.nodes[0].datadir, "regtest/wallets", "badload"))
+
 
     def run_test(self):
         self.wallet_path = os.path.join(self.nodes[0].datadir, self.chain, 'wallets', self.default_wallet_name, self.wallet_data_filename)

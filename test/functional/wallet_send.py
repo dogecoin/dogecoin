@@ -281,7 +281,7 @@ class WalletSendTest(BitcoinTestFramework):
         self.test_send(from_wallet=w0, to_wallet=w1, amount=1, arg_fee_rate=1, fee_rate=1, add_to_wallet=False,
                        expect_error=(-8, "Pass the fee_rate either as an argument, or in the options object, but not both"))
 
-        assert_raises_rpc_error(-8, "Use fee_rate (sat/vB) instead of feeRate", w0.send, {w1.getnewaddress(): 1}, 6, "conservative", 1, {"feeRate": 0.01})
+        assert_raises_rpc_error(-8, "Use fee_rate (koinu/vB) instead of feeRate", w0.send, {w1.getnewaddress(): 1}, 6, "conservative", 1, {"feeRate": 0.01})
 
         assert_raises_rpc_error(-3, "Unexpected key totalFee", w0.send, {w1.getnewaddress(): 1}, 6, "conservative", 1, {"totalFee": 0.01})
 
@@ -289,14 +289,14 @@ class WalletSendTest(BitcoinTestFramework):
             self.test_send(from_wallet=w0, to_wallet=w1, amount=1, conf_target=target, estimate_mode=mode,
                 expect_error=(-8, "Invalid conf_target, must be between 1 and 1008"))  # max value of 1008 per src/policy/fees.h
         msg = 'Invalid estimate_mode parameter, must be one of: "unset", "economical", "conservative"'
-        for target, mode in product([-1, 0], ["btc/kb", "sat/b"]):
+        for target, mode in product([-1, 0], ["doge/kb", "koinu/b"]):
             self.test_send(from_wallet=w0, to_wallet=w1, amount=1, conf_target=target, estimate_mode=mode, expect_error=(-8, msg))
         for mode in ["", "foo", Decimal("3.141592")]:
             self.test_send(from_wallet=w0, to_wallet=w1, amount=1, conf_target=0.1, estimate_mode=mode, expect_error=(-8, msg))
             self.test_send(from_wallet=w0, to_wallet=w1, amount=1, arg_conf_target=0.1, arg_estimate_mode=mode, expect_error=(-8, msg))
             assert_raises_rpc_error(-8, msg, w0.send, {w1.getnewaddress(): 1}, 0.1, mode)
 
-        for mode in ["economical", "conservative", "btc/kb", "sat/b"]:
+        for mode in ["economical", "conservative", "doge/kb", "koinu/b"]:
             self.log.debug("{}".format(mode))
             for k, v in {"string": "true", "object": {"foo": "bar"}}.items():
                 self.test_send(from_wallet=w0, to_wallet=w1, amount=1, conf_target=v, estimate_mode=mode,
@@ -305,16 +305,16 @@ class WalletSendTest(BitcoinTestFramework):
         # Test setting explicit fee rate just below the minimum and at zero.
         self.log.info("Explicit fee rate raises RPC error 'fee rate too low' if fee_rate of 0.99999999 is passed")
         self.test_send(from_wallet=w0, to_wallet=w1, amount=1, fee_rate=0.99999999,
-            expect_error=(-4, "Fee rate (0.999 sat/vB) is lower than the minimum fee rate setting (1.000 sat/vB)"))
+            expect_error=(-4, "Fee rate (0.999 koinu/vB) is lower than the minimum fee rate setting (1.000 koinu/vB)"))
         self.test_send(from_wallet=w0, to_wallet=w1, amount=1, arg_fee_rate=0.99999999,
-            expect_error=(-4, "Fee rate (0.999 sat/vB) is lower than the minimum fee rate setting (1.000 sat/vB)"))
+            expect_error=(-4, "Fee rate (0.999 koinu/vB) is lower than the minimum fee rate setting (1.000 koinu/vB)"))
         self.test_send(from_wallet=w0, to_wallet=w1, amount=1, fee_rate=0,
-            expect_error=(-4, "Fee rate (0.000 sat/vB) is lower than the minimum fee rate setting (1.000 sat/vB)"))
+            expect_error=(-4, "Fee rate (0.000 koinu/vB) is lower than the minimum fee rate setting (1.000 koinu/vB)"))
         self.test_send(from_wallet=w0, to_wallet=w1, amount=1, arg_fee_rate=0,
-            expect_error=(-4, "Fee rate (0.000 sat/vB) is lower than the minimum fee rate setting (1.000 sat/vB)"))
+            expect_error=(-4, "Fee rate (0.000 koinu/vB) is lower than the minimum fee rate setting (1.000 koinu/vB)"))
 
         # TODO: Return hex if fee rate is below -maxmempool
-        # res = self.test_send(from_wallet=w0, to_wallet=w1, amount=1, conf_target=0.1, estimate_mode="sat/b", add_to_wallet=False)
+        # res = self.test_send(from_wallet=w0, to_wallet=w1, amount=1, conf_target=0.1, estimate_mode="koinu/b", add_to_wallet=False)
         # assert res["hex"]
         # hex = res["hex"]
         # res = self.nodes[0].testmempoolaccept([hex])
