@@ -83,6 +83,15 @@ EXTENDED_SCRIPTS = [
     'feature_dbcrash.py',
 ]
 
+COMPATIBILITY_SCRIPTS = [
+    # These tests are not run by default.
+    # Longest test should go first, to favor running tests in parallel
+    'feature_backwards_compatibility.py',
+    'feature_backwards_compatibility.py --descriptors',
+    'wallet_upgradewallet.py',
+    'mempool_compatibility.py',
+]
+
 BASE_SCRIPTS = [
     # Scripts that are run by default.
     # Longest test should go first, to favor running tests in parallel
@@ -196,9 +205,6 @@ BASE_SCRIPTS = [
     'example_test.py',
     'wallet_txn_doublespend.py',
     'wallet_txn_doublespend.py --descriptors',
-    # Dogecoin: Disable tests we do not have releases to test against
-    # 'feature_backwards_compatibility.py',
-    # 'feature_backwards_compatibility.py --descriptors',
     'wallet_txn_clone.py --mineblock',
     'feature_notifications.py',
     'rpc_getblockfilter.py',
@@ -226,8 +232,6 @@ BASE_SCRIPTS = [
     'wallet_import_rescan.py --legacy-wallet',
     'wallet_import_with_label.py --legacy-wallet',
     'wallet_importdescriptors.py --descriptors',
-    # Dogecoin: Disable tests we do not have releases to test against
-    # 'wallet_upgradewallet.py',
     'rpc_bind.py --ipv4',
     'rpc_bind.py --ipv6',
     'rpc_bind.py --nonloopback',
@@ -268,8 +272,6 @@ BASE_SCRIPTS = [
     'feature_includeconf.py',
     'feature_asmap.py',
     'mempool_unbroadcast.py',
-    # Dogecoin: Disable tests we do not have releases to test against
-    # 'mempool_compatibility.py',
     'rpc_deriveaddresses.py',
     'rpc_deriveaddresses.py --usecli',
     'p2p_ping.py',
@@ -292,7 +294,7 @@ BASE_SCRIPTS = [
 ]
 
 # Place EXTENDED_SCRIPTS first since it has the 3 longest running tests
-ALL_SCRIPTS = EXTENDED_SCRIPTS + BASE_SCRIPTS
+ALL_SCRIPTS = EXTENDED_SCRIPTS + BASE_SCRIPTS + COMPATIBILITY_SCRIPTS
 
 NON_SCRIPTS = [
     # These are python files that live in the functional tests directory, but are not test scripts.
@@ -313,6 +315,7 @@ def main():
     parser.add_argument('--combinedlogslen', '-c', type=int, default=0, metavar='n', help='On failure, print a log (of length n lines) to the console, combined from the test framework and all test nodes.')
     parser.add_argument('--coverage', action='store_true', help='generate a basic coverage report for the RPC interface')
     parser.add_argument('--ci', action='store_true', help='Run checks and code that are usually only enabled in a continuous integration environment')
+    parser.add_argument('--compatibility', action='store_true', help='run the backward compatibility test suite in addition to the basic tests')
     parser.add_argument('--exclude', '-x', help='specify a comma-separated-list of scripts to exclude.')
     parser.add_argument('--extended', action='store_true', help='run the extended test suite in addition to the basic tests')
     parser.add_argument('--help', '-h', '-?', action='store_true', help='print help text and exit')
@@ -382,12 +385,14 @@ def main():
                 test_list.append(script)
             else:
                 print("{}WARNING!{} Test '{}' not found in full test list.".format(BOLD[1], BOLD[0], test))
-    elif args.extended:
-        # Include extended tests
-        test_list += ALL_SCRIPTS
     else:
-        # Run base tests only
         test_list += BASE_SCRIPTS
+        if args.compatibility:
+            # Include backwards compatibility tests
+            test_list += COMPATIBILITY_SCRIPTS
+        if args.extended:
+            # Include extended tests
+            test_list += EXTENDED_SCRIPTS
 
     # Remove the test cases that the user has explicitly asked to exclude.
     if args.exclude:
