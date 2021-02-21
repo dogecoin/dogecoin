@@ -196,6 +196,9 @@ BASE_SCRIPTS = [
     'example_test.py',
     'wallet_txn_doublespend.py',
     'wallet_txn_doublespend.py --descriptors',
+    # Dogecoin: Disable tests we do not have releases to test against
+    # 'feature_backwards_compatibility.py',
+    # 'feature_backwards_compatibility.py --descriptors',
     'wallet_txn_clone.py --mineblock',
     'feature_notifications.py',
     'rpc_getblockfilter.py',
@@ -223,6 +226,8 @@ BASE_SCRIPTS = [
     'wallet_import_rescan.py --legacy-wallet',
     'wallet_import_with_label.py --legacy-wallet',
     'wallet_importdescriptors.py --descriptors',
+    # Dogecoin: Disable tests we do not have releases to test against
+    # 'wallet_upgradewallet.py',
     'rpc_bind.py --ipv4',
     'rpc_bind.py --ipv6',
     'rpc_bind.py --nonloopback',
@@ -263,6 +268,8 @@ BASE_SCRIPTS = [
     'feature_includeconf.py',
     'feature_asmap.py',
     'mempool_unbroadcast.py',
+    # Dogecoin: Disable tests we do not have releases to test against
+    # 'mempool_compatibility.py',
     'rpc_deriveaddresses.py',
     'rpc_deriveaddresses.py --usecli',
     'p2p_ping.py',
