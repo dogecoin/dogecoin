@@ -109,7 +109,7 @@ P2P 22556
 **compiling for debugging**
 
 Run `configure` with the `--enable-debug` option, then `make`. Or run `configure` with
-`CXXFLAGS="-g -ggdb -O0`" or whatever debug flags you need.
+`CXXFLAGS="-g -ggdb -O0"` or whatever debug flags you need.
 
 **debug.log**
 
