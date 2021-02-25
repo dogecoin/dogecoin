@@ -47,7 +47,7 @@ AC_DEFUN([BITCOIN_FIND_BDB51],[
       AC_MSG_ERROR([Found Berkeley DB other than 5.1, required for portable wallets (--with-incompatible-bdb to ignore or --disable-wallet to disable wallet functionality)])
     ])
   else
-    BITCOIN_SUBDIR_TO_INCLUDE(BDB_CPPFLAGS,[${bdb48path}],db_cxx)
+    BITCOIN_SUBDIR_TO_INCLUDE(BDB_CPPFLAGS,[${bdb51path}],db_cxx)
     bdbpath="${bdb51path}"
   fi
   AC_SUBST(BDB_CPPFLAGS)

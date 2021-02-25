@@ -1,5 +1,5 @@
 // Copyright (c) 2010 Satoshi Nakamoto
-// Copyright (c) 2009-2013 The Bitcoin Core developers
+// Copyright (c) 2009-2015 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -49,7 +49,7 @@ public:
     ADD_SERIALIZE_METHODS;
 
     template <typename Stream, typename Operation>
-    inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion) {
+    inline void SerializationOp(Stream& s, Operation ser_action) {
         READWRITE(this->nVersion);
         nVersion = this->nVersion;
         READWRITE(nRelayUntil);
@@ -87,7 +87,7 @@ public:
     ADD_SERIALIZE_METHODS;
 
     template <typename Stream, typename Operation>
-    inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion) {
+    inline void SerializationOp(Stream& s, Operation ser_action) {
         READWRITE(vchMsg);
         READWRITE(vchSig);
     }
@@ -97,12 +97,11 @@ public:
     uint256 GetHash() const;
     bool IsInEffect() const;
     bool Cancels(const CAlert& alert) const;
-    bool AppliesTo(int nVersion, std::string strSubVerIn) const;
+    bool AppliesTo(int nVersion, const std::string& strSubVerIn) const;
     bool AppliesToMe() const;
-    bool RelayTo(CNode* pnode) const;
     bool CheckSignature(const std::vector<unsigned char>& alertKey) const;
-    bool ProcessAlert(const std::vector<unsigned char>& alertKey, bool fThread = true); // fThread means run -alertnotify in a free-running thread
-    static void Notify(const std::string& strMessage, bool fThread);
+    bool ProcessAlert(const std::vector<unsigned char>& alertKey, bool fThread = true);
+    static void Notify(const std::string& strMessage, bool fThread = true);
 
     /*
      * Get copy of (active) alert object by hash. Returns a null alert if it is not found.

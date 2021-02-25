@@ -7,7 +7,7 @@ As such, DNS seeds must be run by entities which have some minimum
 level of trust within the Dogecoin community.
 
 Other implementations of Dogecoin software may also use the same
-seeds and may be more exposed. In light of this exposure, this 
+seeds and may be more exposed. In light of this exposure, this
 document establishes some basic expectations for operating dnsseeds.
 
 0. A DNS seed operating organization or person is expected to follow good

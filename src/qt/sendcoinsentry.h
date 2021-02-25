@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2013 The Bitcoin Core developers
+// Copyright (c) 2011-2015 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -46,15 +46,15 @@ public:
 
     void setFocus();
 
-public slots:
+public Q_SLOTS:
     void clear();
 
-signals:
+Q_SIGNALS:
     void removeEntry(SendCoinsEntry *entry);
     void payAmountChanged();
     void subtractFeeFromAmountChanged();
 
-private slots:
+private Q_SLOTS:
     void deleteClicked();
     void on_payTo_textChanged(const QString &address);
     void on_addressBookButton_clicked();

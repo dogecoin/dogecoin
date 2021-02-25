@@ -1,4 +1,4 @@
-// Copyright (c) 2009-2014 The Bitcoin Core developers
+// Copyright (c) 2009-2015 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -79,11 +79,11 @@ void PaymentServerTests::paymentServerTests()
 
     // Now feed PaymentRequests to server, and observe signals it produces
 
-    /* Disable certificate tests as we don't touch this code, and building test
-       data would take significant effort. Also pending discussion on spec
+    // Dogecoin: Disable certificate tests as we don't touch this code, and building test
+    // data would take significant effort. Also pending discussion on spec
     // This payment request validates directly against the
     // caCert1 certificate authority:
-    data = DecodeBase64(paymentrequest1_cert1_BASE64);
+    /* data = DecodeBase64(paymentrequest1_cert1_BASE64);
     r = handleRequest(server, data);
     r.paymentRequest.getMerchant(caStore, merchant);
     QCOMPARE(merchant, QString("testmerchant.org"));
@@ -104,7 +104,7 @@ void PaymentServerTests::paymentServerTests()
     data = DecodeBase64(paymentrequest4_cert1_BASE64);
     r = handleRequest(server, data);
     r.paymentRequest.getMerchant(caStore, merchant);
-    QCOMPARE(merchant, QString("")); */
+    QCOMPARE(merchant, QString(""));
 
     // Validly signed, but by a CA not in our root CA list:
     data = DecodeBase64(paymentrequest5_cert1_BASE64);
@@ -123,7 +123,7 @@ void PaymentServerTests::paymentServerTests()
     // Load second root certificate
     caStore = X509_STORE_new();
     X509_STORE_add_cert(caStore, parse_b64der_cert(caCert2_BASE64));
-    PaymentServer::LoadRootCAs(caStore);
+    PaymentServer::LoadRootCAs(caStore); */
 
     QByteArray byteArray;
 
@@ -187,22 +187,22 @@ void PaymentServerTests::paymentServerTests()
     tempFile.open();
     tempFile.write((const char*)randData, sizeof(randData));
     tempFile.close();
-    QCOMPARE(PaymentServer::readPaymentRequestFromFile(tempFile.fileName(), r.paymentRequest), false);
+    // compares 50001 <= BIP70_MAX_PAYMENTREQUEST_SIZE == false
+    QCOMPARE(PaymentServer::verifySize(tempFile.size()), false);
 
     // Payment request with amount overflow (amount is set to 21000001 BTC):
-    // Dogecoin: Maximum Doge value exceeds the values I can get into the payment request, so can't test this
-    /* data = DecodeBase64(paymentrequest5_cert2_BASE64);
+    data = DecodeBase64(paymentrequest5_cert2_BASE64);
     byteArray = QByteArray((const char*)&data[0], data.size());
     r.paymentRequest.parse(byteArray);
     // Ensure the request is initialized
     QVERIFY(r.paymentRequest.IsInitialized());
     // Extract address and amount from the request
     QList<std::pair<CScript, CAmount> > sendingTos = r.paymentRequest.getPayTo();
-    foreach (const PAIRTYPE(CScript, CAmount)& sendingTo, sendingTos) {
+    Q_FOREACH (const PAIRTYPE(CScript, CAmount)& sendingTo, sendingTos) {
         CTxDestination dest;
         if (ExtractDestination(sendingTo.first, dest))
             QCOMPARE(PaymentServer::verifyAmount(sendingTo.second), false);
-    } */
+    }
 
     delete server;
 }

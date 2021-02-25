@@ -1,11 +1,13 @@
 UNIX BUILD NOTES
 ====================
-Some notes on how to build Dogecoin in Unix. 
+Some notes on how to build Dogecoin Core in Unix.
+
+(for OpenBSD specific instructions, see [build-openbsd.md](build-openbsd.md))
 
 Note
 ---------------------
 Always use absolute paths to configure and compile Dogecoin and the dependencies,
-for example, when specifying the the path of the dependency:
+for example, when specifying the path of the dependency:
 
 	../dist/configure --enable-cxx --disable-shared --with-pic --prefix=$BDB_PREFIX
 
@@ -31,8 +33,9 @@ These dependencies are required:
 
  Library     | Purpose          | Description
  ------------|------------------|----------------------
- libssl      | SSL Support      | Secure communications
- libboost    | Boost            | C++ Library
+ libssl      | Crypto           | Random Number Generation, Elliptic Curve Cryptography
+ libboost    | Utility          | Library for threading, data structures, etc
+ libevent    | Networking       | OS independent asynchronous networking
 
 Optional dependencies:
 
@@ -43,52 +46,75 @@ Optional dependencies:
  qt          | GUI              | GUI toolkit (only needed when GUI enabled)
  protobuf    | Payments in GUI  | Data interchange format used for payment protocol (only needed when GUI enabled)
  libqrencode | QR codes in GUI  | Optional for generating QR codes (only needed when GUI enabled)
+ univalue    | Utility          | JSON parsing and encoding (bundled version will be used unless --with-system-univalue passed to configure)
+ libzmq3     | ZMQ notification | Optional, allows generating ZMQ notifications (requires ZMQ version >= 4.x)
 
 For the versions used in the release, see [release-process.md](release-process.md) under *Fetch and build inputs*.
 
-System requirements
+Memory Requirements
 --------------------
 
-C++ compilers are memory-hungry. It is recommended to have at least 1 GB of
-memory available when compiling Dogecoin Core. With 512MB of memory or less,
-compilation will take much longer due to swap thrashing.
+C++ compilers are memory-hungry. It is recommended to have at least 1.5 GB of
+memory available when compiling Dogecoin Core. On systems with less, gcc can be
+tuned to conserve memory with additional CXXFLAGS:
+
+    ./configure CXXFLAGS="--param ggc-min-expand=1 --param ggc-min-heapsize=32768"
 
 Dependency Build Instructions: Ubuntu & Debian
 ----------------------------------------------
 Build requirements:
 
-	sudo apt-get install build-essential libtool autotools-dev autoconf pkg-config libssl-dev
-	
-for Ubuntu 12.04 and later or Debian 7 and later, libboost-all-dev has to be installed:
+    sudo apt-get install build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils
 
-	sudo apt-get install libboost-all-dev libdb5.1-dev libdb5.1++-dev
+Options when installing required Boost library files:
 
-	Note that if you have Berkeley DB 4.8 packages installed (i.e. for other
-	wallet software), they are incompatible with the packages for 5.1. You
-	will have to manually download 5.1 from
-	http://download.oracle.com/berkeley-db/db-5.1.29.NC.tar.gz and compile
-	it, install it to /usr/local where the configure script should locate it
-	automatically.
+1. On at least Ubuntu 14.04+ and Debian 7+ there are generic names for the
+individual boost development packages, so the following can be used to only
+install necessary parts of boost:
 
-Optional:
+        sudo apt-get install libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-program-options-dev libboost-test-dev libboost-thread-dev
 
-	sudo apt-get install libminiupnpc-dev (see --with-miniupnpc and --enable-upnp-default)
+2. If that doesn't work, you can install all boost development packages with:
+
+        sudo apt-get install libboost-all-dev
+
+BerkeleyDB is required for the wallet.
+
+    sudo apt-get install libdb5.1-dev libdb5.1++-dev
+
+       Note that if you have Berkeley DB 4.8 packages installed (i.e. for other
+       wallet software), they are incompatible with the packages for 5.1. You
+       will have to manually download 5.1 from
+       http://download.oracle.com/berkeley-db/db-5.1.29.NC.tar.gz and compile
+       it, install it to /usr/local where the configure script should locate it
+       automatically.
+
+
+See the section "Disable-wallet mode" to build Dogecoin Core without wallet.
+
+Optional (see --with-miniupnpc and --enable-upnp-default):
+
+    sudo apt-get install libminiupnpc-dev
+
+ZMQ dependencies (provides ZMQ API 4.x):
+
+    sudo apt-get install libzmq3-dev
 
 Dependencies for the GUI: Ubuntu & Debian
 -----------------------------------------
 
 If you want to build Dogecoin-Qt, make sure that the required packages for Qt development
-are installed. Either Qt 4 or Qt 5 are necessary to build the GUI.
-If both Qt 4 and Qt 5 are installed, Qt 4 will be used. Pass `--with-gui=qt5` to configure to choose Qt5.
+are installed. Either Qt 5 or Qt 4 are necessary to build the GUI.
+If both Qt 4 and Qt 5 are installed, Qt 5 will be used. Pass `--with-gui=qt4` to configure to choose Qt4.
 To build without GUI pass `--without-gui`.
 
-To build with Qt 4, you need the following:
-
-    sudo apt-get install libqt4-dev libprotobuf-dev protobuf-compiler
-
-For Qt 5, you need the following:
+To build with Qt 5 (recommended) you need the following:
 
     sudo apt-get install libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler
+
+Alternatively, to build with Qt 4 you need the following:
+
+    sudo apt-get install libqt4-dev libprotobuf-dev protobuf-compiler
 
 libqrencode (optional) can be installed with:
 
@@ -96,6 +122,24 @@ libqrencode (optional) can be installed with:
 
 Once these are installed, they will be found by configure and a dogecoin-qt executable will be
 built by default.
+
+Dependency Build Instructions: Fedora
+-------------------------------------
+Build requirements:
+
+    sudo dnf install gcc-c++ libtool make autoconf automake openssl-devel libevent-devel boost-devel libdb4-devel libdb4-cxx-devel
+
+Optional:
+
+    sudo dnf install miniupnpc-devel
+
+To build with Qt 5 (recommended) you need the following:
+
+    sudo dnf install qt5-qttools-devel qt5-qtbase-devel protobuf-devel
+
+libqrencode (optional) can be installed with:
+
+    sudo dnf install qrencode-devel
 
 Notes
 -----
@@ -113,14 +157,6 @@ turned off by default.  See the configure options for upnp behavior desired:
 	--without-miniupnpc      No UPnP support miniupnp not required
 	--disable-upnp-default   (the default) UPnP support turned off by default at runtime
 	--enable-upnp-default    UPnP support turned on by default at runtime
-
-To build:
-
-	tar -xzvf miniupnpc-1.6.tar.gz
-	cd miniupnpc-1.6
-	make
-	sudo su
-	make install
 
 
 Berkeley DB
@@ -148,7 +184,8 @@ make install
 
 # Configure Dogecoin Core to use our own-built instance of BDB
 cd $BITCOIN_ROOT
-./configure (other args...) LDFLAGS="-L${BDB_PREFIX}/lib/" CPPFLAGS="-I${BDB_PREFIX}/include/"
+./autogen.sh
+./configure LDFLAGS="-L${BDB_PREFIX}/lib/" CPPFLAGS="-I${BDB_PREFIX}/include/" # (other args...)
 ```
 
 **Note**: You only need Berkeley DB if the wallet is enabled (see the section *Disable-Wallet mode* below).
@@ -188,9 +225,10 @@ Hardening enables the following features:
 
     To test that you have built PIE executable, install scanelf, part of paxutils, and use:
 
-    	scanelf -e ./dogecoin
+	scanelf -e ./dogecoin
 
     The output should contain:
+
      TYPE
     ET_DYN
 
@@ -222,3 +260,84 @@ In this case there is no dependency on Berkeley DB 4.8.
 Mining is also possible in disable-wallet mode, but only using the `getblocktemplate` RPC
 call, not `getwork`.
 
+Additional Configure Flags
+--------------------------
+A list of additional configure flags can be displayed with:
+
+    ./configure --help
+
+
+Setup and Build Example: Arch Linux
+-----------------------------------
+This example lists the steps necessary to setup and build a command line only, non-wallet distribution of the latest changes on Arch Linux:
+
+    pacman -S git base-devel boost libevent python
+    git clone https://github.com/bitcoin/bitcoin.git
+    cd bitcoin/
+    ./autogen.sh
+    ./configure --disable-wallet --without-gui --without-miniupnpc
+    make check
+
+Note:
+Enabling wallet support requires either compiling against a Berkeley DB newer than 4.8 (package `db`) using `--with-incompatible-bdb`,
+or building and depending on a local version of Berkeley DB 4.8. The readily available Arch Linux packages are currently built using
+`--with-incompatible-bdb` according to the [PKGBUILD](https://projects.archlinux.org/svntogit/community.git/tree/bitcoin/trunk/PKGBUILD).
+As mentioned above, when maintaining portability of the wallet between the standard Dogecoin Core distributions and independently built
+node software is desired, Berkeley DB 4.8 must be used.
+
+
+ARM Cross-compilation
+-------------------
+These steps can be performed on, for example, an Ubuntu VM. The depends system
+will also work on other Linux distributions, however the commands for
+installing the toolchain will be different.
+
+Make sure you install the build requirements mentioned above.
+Then, install the toolchain and curl:
+
+    sudo apt-get install g++-arm-linux-gnueabihf curl
+
+To build executables for ARM:
+
+    cd depends
+    make HOST=arm-linux-gnueabihf NO_QT=1
+    cd ..
+    ./configure --prefix=$PWD/depends/arm-linux-gnueabihf --enable-glibc-back-compat --enable-reduce-exports LDFLAGS=-static-libstdc++
+    make
+
+
+For further documentation on the depends system see [README.md](../depends/README.md) in the depends directory.
+
+Building on FreeBSD
+--------------------
+
+(Updated as of FreeBSD 11.0)
+
+Clang is installed by default as `cc` compiler, this makes it easier to get
+started than on [OpenBSD](build-openbsd.md). Installing dependencies:
+
+    pkg install autoconf automake libtool pkgconf
+    pkg install boost-libs openssl libevent
+    pkg install gmake
+
+You need to use GNU make (`gmake`) instead of `make`.
+(`libressl` instead of `openssl` will also work)
+
+For the wallet (optional):
+
+    pkg install db5
+
+This will give a warning "configure: WARNING: Found Berkeley DB other
+than 4.8; wallets opened by this build will not be portable!", but as FreeBSD never
+had a binary release, this may not matter. If backwards compatibility
+with 4.8-built Dogecoin Core is needed follow the steps under "Berkeley DB" above.
+
+Then build using:
+
+    ./autogen.sh
+    ./configure --with-incompatible-bdb BDB_CFLAGS="-I/usr/local/include/db5" BDB_LIBS="-L/usr/local/lib -ldb_cxx-5"
+    gmake
+
+*Note on debugging*: The version of `gdb` installed by default is [ancient and considered harmful](https://wiki.freebsd.org/GdbRetirement).
+It is not suitable for debugging a multi-threaded C++ program, not even for getting backtraces. Please install the package `gdb` and
+use the versioned gdb command e.g. `gdb7111`.

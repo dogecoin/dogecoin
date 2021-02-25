@@ -10,24 +10,30 @@
 #include "uint256.h"
 
 /**
- * Encapsulate a block version.  This takes care of building it up
- * from a base version, the modifier flags (like auxpow) and
- * also the auxpow chain ID.
+ * A block header without auxpow information.  This "intermediate step"
+ * in constructing the full header is useful, because it breaks the cyclic
+ * dependency between auxpow (referencing a parent block header) and
+ * the block header (referencing an auxpow).  The parent block header
+ * does not have auxpow itself, so it is a pure header.
  */
-class CBlockVersion
+class CPureBlockHeader
 {
-private:
+public:
     /* Modifiers to the version.  */
     static const int32_t VERSION_AUXPOW = (1 << 8);
 
     /** Bits above are reserved for the auxpow chain ID.  */
     static const int32_t VERSION_CHAIN_START = (1 << 16);
 
-    /** The version as integer.  Should not be accessed directly.  */
-    int nVersion;
+    // header
+    int32_t nVersion;
+    uint256 hashPrevBlock;
+    uint256 hashMerkleRoot;
+    uint32_t nTime;
+    uint32_t nBits;
+    uint32_t nNonce;
 
-public:
-    inline CBlockVersion()
+    CPureBlockHeader()
     {
         SetNull();
     }
@@ -35,15 +41,67 @@ public:
     ADD_SERIALIZE_METHODS;
 
     template <typename Stream, typename Operation>
-    inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion)
+    inline void SerializationOp(Stream& s, Operation ser_action)
     {
         READWRITE(this->nVersion);
+        READWRITE(hashPrevBlock);
+        READWRITE(hashMerkleRoot);
+        READWRITE(nTime);
+        READWRITE(nBits);
+        READWRITE(nNonce);
     }
 
-    inline void SetNull()
+    void SetNull()
     {
         nVersion = 0;
+        hashPrevBlock.SetNull();
+        hashMerkleRoot.SetNull();
+        nTime = 0;
+        nBits = 0;
+        nNonce = 0;
     }
+
+    bool IsNull() const
+    {
+        return (nBits == 0);
+    }
+
+    uint256 GetHash() const;
+
+    uint256 GetPoWHash() const;
+
+    int64_t GetBlockTime() const
+    {
+        return (int64_t)nTime;
+    }
+
+    /* Below are methods to interpret the version with respect to
+       auxpow data and chain ID.  This used to be in the CBlockVersion
+       class, but was moved here when we switched back to nVersion being
+       a pure int member as preparation to undoing the "abuse" and
+       allowing BIP9 to work.  */
+
+    /**
+     * Extract the base version (without modifiers and chain ID).
+     * @return The base version./
+     */
+    inline int32_t GetBaseVersion() const
+    {
+        return GetBaseVersion(nVersion);
+    }
+    static inline int32_t GetBaseVersion(int32_t ver)
+    {
+        return ver % VERSION_AUXPOW;
+    }
+
+    /**
+     * Set the base version (apart from chain ID and auxpow flag) to
+     * the one given.  This should only be called when auxpow is not yet
+     * set, to initialise a block!
+     * @param nBaseVersion The base version.
+     * @param nChainId The auxpow chain ID.
+     */
+    void SetBaseVersion(int32_t nBaseVersion, int32_t nChainId);
 
     /**
      * Extract the chain ID.
@@ -65,27 +123,8 @@ public:
     }
 
     /**
-     * Extract the full version.  Used for RPC results and debug prints.
-     * @return The full version.
-     */
-    inline int32_t GetFullVersion() const
-    {
-        return nVersion;
-    }
-
-    /**
-     * Set the genesis block version.  This must be a literal write
-     * through, to get the correct historic version.
-     * @param nGenesisVersion The version to set.
-     */
-    inline void SetGenesisVersion(int32_t nGenesisVersion)
-    {
-        nVersion = nGenesisVersion;
-    }
-
-    /**
      * Check if the auxpow flag is set in the version.
-     * @return True iff this block version is marked as auxpow.
+     * @return True if this block version is marked as auxpow.
      */
     inline bool IsAuxpow() const
     {
@@ -96,7 +135,7 @@ public:
      * Set the auxpow flag.  This is used for testing.
      * @param auxpow Whether to mark auxpow as true.
      */
-    inline void SetAuxpow(bool auxpow)
+    inline void SetAuxpowFlag(bool auxpow)
     {
         if (auxpow)
             nVersion |= VERSION_AUXPOW;
@@ -111,90 +150,8 @@ public:
     inline bool IsLegacy() const
     {
         return nVersion == 1
+            // Dogecoin: We have a random v2 block with no AuxPoW, treat as legacy
             || (nVersion == 2 && GetChainId() == 0);
-    }
-
-    CBlockVersion& operator=(const CBlockVersion& other)
-    {
-        nVersion = other.nVersion;
-        return *this;
-    }
-
-    CBlockVersion& operator=(const int nBaseVersion)
-    {
-        nVersion = (nBaseVersion & 0x000000ff) | (nVersion & 0xffffff00);
-        return *this;
-    }
-
-    operator int() { return nVersion & 0x000000ff; }
-    friend inline bool operator==(const CBlockVersion a, const int b) { return (a.nVersion & 0x000000ff) == b; }
-    friend inline bool operator!=(const CBlockVersion a, const int b) { return (a.nVersion & 0x000000ff) != b; }
-    friend inline bool operator>(const CBlockVersion a, const int b) { return (a.nVersion & 0x000000ff) > b; }
-    friend inline bool operator<(const CBlockVersion a, const int b) { return (a.nVersion & 0x000000ff) < b; }
-    friend inline bool operator>=(const CBlockVersion a, const int b) { return (a.nVersion & 0x000000ff) >= b; }
-    friend inline bool operator<=(const CBlockVersion a, const int b) { return (a.nVersion & 0x000000ff) <= b; }
-};
-
-/**
- * A block header without auxpow information.  This "intermediate step"
- * in constructing the full header is useful, because it breaks the cyclic
- * dependency between auxpow (referencing a parent block header) and
- * the block header (referencing an auxpow).  The parent block header
- * does not have auxpow itself, so it is a pure header.
- */
-class CPureBlockHeader
-{
-public:
-    // header
-    static const int32_t CURRENT_VERSION = 3;
-    CBlockVersion nVersion;
-    uint256 hashPrevBlock;
-    uint256 hashMerkleRoot;
-    uint32_t nTime;
-    uint32_t nBits;
-    uint32_t nNonce;
-
-    CPureBlockHeader()
-    {
-        SetNull();
-    }
-
-    ADD_SERIALIZE_METHODS;
-
-    template <typename Stream, typename Operation>
-    inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion)
-    {
-        READWRITE(this->nVersion);
-        nVersion = this->nVersion;
-        READWRITE(hashPrevBlock);
-        READWRITE(hashMerkleRoot);
-        READWRITE(nTime);
-        READWRITE(nBits);
-        READWRITE(nNonce);
-    }
-
-    void SetNull()
-    {
-        nVersion.SetNull();
-        hashPrevBlock.SetNull();
-        hashMerkleRoot.SetNull();
-        nTime = 0;
-        nBits = 0;
-        nNonce = 0;
-    }
-
-    bool IsNull() const
-    {
-        return (nBits == 0);
-    }
-
-    uint256 GetHash() const;
-
-    uint256 GetPoWHash() const;
-
-    int64_t GetBlockTime() const
-    {
-        return (int64_t)nTime;
     }
 };
 

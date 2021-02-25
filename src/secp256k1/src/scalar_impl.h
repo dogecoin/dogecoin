@@ -7,8 +7,6 @@
 #ifndef _SECP256K1_SCALAR_IMPL_H_
 #define _SECP256K1_SCALAR_IMPL_H_
 
-#include <string.h>
-
 #include "group.h"
 #include "scalar.h"
 
@@ -16,7 +14,9 @@
 #include "libsecp256k1-config.h"
 #endif
 
-#if defined(USE_SCALAR_4X64)
+#if defined(EXHAUSTIVE_TEST_ORDER)
+#include "scalar_low_impl.h"
+#elif defined(USE_SCALAR_4X64)
 #include "scalar_4x64_impl.h"
 #elif defined(USE_SCALAR_8X32)
 #include "scalar_8x32_impl.h"
@@ -25,29 +25,49 @@
 #endif
 
 #ifndef USE_NUM_NONE
-static void secp256k1_scalar_get_num(secp256k1_num_t *r, const secp256k1_scalar_t *a) {
+static void secp256k1_scalar_get_num(secp256k1_num *r, const secp256k1_scalar *a) {
     unsigned char c[32];
     secp256k1_scalar_get_b32(c, a);
     secp256k1_num_set_bin(r, c, 32);
 }
 
 /** secp256k1 curve order, see secp256k1_ecdsa_const_order_as_fe in ecdsa_impl.h */
-static void secp256k1_scalar_order_get_num(secp256k1_num_t *r) {
+static void secp256k1_scalar_order_get_num(secp256k1_num *r) {
+#if defined(EXHAUSTIVE_TEST_ORDER)
+    static const unsigned char order[32] = {
+        0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,EXHAUSTIVE_TEST_ORDER
+    };
+#else
     static const unsigned char order[32] = {
         0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,
         0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFE,
         0xBA,0xAE,0xDC,0xE6,0xAF,0x48,0xA0,0x3B,
         0xBF,0xD2,0x5E,0x8C,0xD0,0x36,0x41,0x41
     };
+#endif
     secp256k1_num_set_bin(r, order, 32);
 }
 #endif
 
-static void secp256k1_scalar_inverse(secp256k1_scalar_t *r, const secp256k1_scalar_t *x) {
-    secp256k1_scalar_t *t;
+static void secp256k1_scalar_inverse(secp256k1_scalar *r, const secp256k1_scalar *x) {
+#if defined(EXHAUSTIVE_TEST_ORDER)
+    int i;
+    *r = 0;
+    for (i = 0; i < EXHAUSTIVE_TEST_ORDER; i++)
+        if ((i * *x) % EXHAUSTIVE_TEST_ORDER == 1)
+            *r = i;
+    /* If this VERIFY_CHECK triggers we were given a noninvertible scalar (and thus
+     * have a composite group order; fix it in exhaustive_tests.c). */
+    VERIFY_CHECK(*r != 0);
+}
+#else
+    secp256k1_scalar *t;
     int i;
     /* First compute x ^ (2^N - 1) for some values of N. */
-    secp256k1_scalar_t x2, x3, x4, x6, x7, x8, x15, x30, x60, x120, x127;
+    secp256k1_scalar x2, x3, x4, x6, x7, x8, x15, x30, x60, x120, x127;
 
     secp256k1_scalar_sqr(&x2,  x);
     secp256k1_scalar_mul(&x2, &x2,  x);
@@ -234,24 +254,45 @@ static void secp256k1_scalar_inverse(secp256k1_scalar_t *r, const secp256k1_scal
     secp256k1_scalar_mul(r, t, &x6); /* 111111 */
 }
 
-static void secp256k1_scalar_inverse_var(secp256k1_scalar_t *r, const secp256k1_scalar_t *x) {
+SECP256K1_INLINE static int secp256k1_scalar_is_even(const secp256k1_scalar *a) {
+    return !(a->d[0] & 1);
+}
+#endif
+
+static void secp256k1_scalar_inverse_var(secp256k1_scalar *r, const secp256k1_scalar *x) {
 #if defined(USE_SCALAR_INV_BUILTIN)
     secp256k1_scalar_inverse(r, x);
 #elif defined(USE_SCALAR_INV_NUM)
     unsigned char b[32];
-    secp256k1_num_t n, m;
-    secp256k1_scalar_get_b32(b, x);
+    secp256k1_num n, m;
+    secp256k1_scalar t = *x;
+    secp256k1_scalar_get_b32(b, &t);
     secp256k1_num_set_bin(&n, b, 32);
     secp256k1_scalar_order_get_num(&m);
     secp256k1_num_mod_inverse(&n, &n, &m);
     secp256k1_num_get_bin(b, 32, &n);
     secp256k1_scalar_set_b32(r, b, NULL);
+    /* Verify that the inverse was computed correctly, without GMP code. */
+    secp256k1_scalar_mul(&t, &t, r);
+    CHECK(secp256k1_scalar_is_one(&t));
 #else
 #error "Please select scalar inverse implementation"
 #endif
 }
 
 #ifdef USE_ENDOMORPHISM
+#if defined(EXHAUSTIVE_TEST_ORDER)
+/**
+ * Find k1 and k2 given k, such that k1 + k2 * lambda == k mod n; unlike in the
+ * full case we don't bother making k1 and k2 be small, we just want them to be
+ * nontrivial to get full test coverage for the exhaustive tests. We therefore
+ * (arbitrarily) set k2 = k + 5 and k1 = k - k2 * lambda.
+ */
+static void secp256k1_scalar_split_lambda(secp256k1_scalar *r1, secp256k1_scalar *r2, const secp256k1_scalar *a) {
+    *r2 = (*a + 5) % EXHAUSTIVE_TEST_ORDER;
+    *r1 = (*a + (EXHAUSTIVE_TEST_ORDER - *r2) * EXHAUSTIVE_TEST_LAMBDA) % EXHAUSTIVE_TEST_ORDER;
+}
+#else
 /**
  * The Secp256k1 curve has an endomorphism, where lambda * (x, y) = (beta * x, y), where
  * lambda is {0x53,0x63,0xad,0x4c,0xc0,0x5c,0x30,0xe0,0xa5,0x26,0x1c,0x02,0x88,0x12,0x64,0x5a,
@@ -290,30 +331,31 @@ static void secp256k1_scalar_inverse_var(secp256k1_scalar_t *r, const secp256k1_
  * The function below splits a in r1 and r2, such that r1 + lambda * r2 == a (mod order).
  */
 
-static void secp256k1_scalar_split_lambda_var(secp256k1_scalar_t *r1, secp256k1_scalar_t *r2, const secp256k1_scalar_t *a) {
-    secp256k1_scalar_t c1, c2;
-    static const secp256k1_scalar_t minus_lambda = SECP256K1_SCALAR_CONST(
+static void secp256k1_scalar_split_lambda(secp256k1_scalar *r1, secp256k1_scalar *r2, const secp256k1_scalar *a) {
+    secp256k1_scalar c1, c2;
+    static const secp256k1_scalar minus_lambda = SECP256K1_SCALAR_CONST(
         0xAC9C52B3UL, 0x3FA3CF1FUL, 0x5AD9E3FDUL, 0x77ED9BA4UL,
         0xA880B9FCUL, 0x8EC739C2UL, 0xE0CFC810UL, 0xB51283CFUL
     );
-    static const secp256k1_scalar_t minus_b1 = SECP256K1_SCALAR_CONST(
+    static const secp256k1_scalar minus_b1 = SECP256K1_SCALAR_CONST(
         0x00000000UL, 0x00000000UL, 0x00000000UL, 0x00000000UL,
         0xE4437ED6UL, 0x010E8828UL, 0x6F547FA9UL, 0x0ABFE4C3UL
     );
-    static const secp256k1_scalar_t minus_b2 = SECP256K1_SCALAR_CONST(
+    static const secp256k1_scalar minus_b2 = SECP256K1_SCALAR_CONST(
         0xFFFFFFFFUL, 0xFFFFFFFFUL, 0xFFFFFFFFUL, 0xFFFFFFFEUL,
         0x8A280AC5UL, 0x0774346DUL, 0xD765CDA8UL, 0x3DB1562CUL
     );
-    static const secp256k1_scalar_t g1 = SECP256K1_SCALAR_CONST(
+    static const secp256k1_scalar g1 = SECP256K1_SCALAR_CONST(
         0x00000000UL, 0x00000000UL, 0x00000000UL, 0x00003086UL,
         0xD221A7D4UL, 0x6BCDE86CUL, 0x90E49284UL, 0xEB153DABUL
     );
-    static const secp256k1_scalar_t g2 = SECP256K1_SCALAR_CONST(
+    static const secp256k1_scalar g2 = SECP256K1_SCALAR_CONST(
         0x00000000UL, 0x00000000UL, 0x00000000UL, 0x0000E443UL,
         0x7ED6010EUL, 0x88286F54UL, 0x7FA90ABFUL, 0xE4C42212UL
     );
     VERIFY_CHECK(r1 != a);
     VERIFY_CHECK(r2 != a);
+    /* these _var calls are constant time since the shift amount is constant */
     secp256k1_scalar_mul_shift_var(&c1, a, &g1, 272);
     secp256k1_scalar_mul_shift_var(&c2, a, &g2, 272);
     secp256k1_scalar_mul(&c1, &c1, &minus_b1);
@@ -322,6 +364,7 @@ static void secp256k1_scalar_split_lambda_var(secp256k1_scalar_t *r1, secp256k1_
     secp256k1_scalar_mul(r1, r2, &minus_lambda);
     secp256k1_scalar_add(r1, r1, a);
 }
+#endif
 #endif
 
 #endif
