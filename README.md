@@ -1,8 +1,7 @@
-<h1 align="center">Dogecoin Core [DOGE, Ð]</h1>
-
 <p align="center">
 <img src="http://static.tumblr.com/ppdj5y9/Ae9mxmxtp/300coin.png"
 </p>
+<h1 align="center">Dogecoin Core [DOGE, Ð]</h1>
 
 [![Build Status](https://travis-ci.com/dogecoin/dogecoin.svg?branch=master)](https://travis-ci.com/dogecoin/dogecoin) [![tip for next commit](https://tip4commit.com/projects/702.svg)](https://tip4commit.com/github/dogecoin/dogecoin)
 
