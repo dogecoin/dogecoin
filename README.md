@@ -1,6 +1,5 @@
-<p align="center">
-Dogecoin Core [DOGE, Ð]<br>dogecoin.com
-=
+<h1 align="center">Dogecoin Core<br> [DOGE, Ð]</h1>
+
 <p align="center">
 <img src="http://static.tumblr.com/ppdj5y9/Ae9mxmxtp/300coin.png"
 </p>
