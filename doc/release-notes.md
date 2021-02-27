@@ -84,9 +84,9 @@ Add query options to listunspent RPC call
 -----------------------------------------
 
 * Return unspents greater or equal than a specific amount in DOGE: minimumAmount (default = 0).
-* Return unspents lower or equal than a specific amount in DOGE: maximumAmount (default = MAX_MONEY = 100000000000 DOGE).
+* Return unspents lower or equal than a specific amount in DOGE: maximumAmount (default=unlimited).
 * Return unspents with a total number lower or equal than a specific number: maximumCount (default=0=unlimited).
-* Return unspents which total is greater or equal than a specific amount in DOGE: minimumSumAmount (default = MAX_MONEY = 100000000000 DOGE).
+* Return unspents which total is greater or equal than a specific amount in DOGE: minimumSumAmount (default=unlimited).
 
 Minor changes
 =============
