@@ -83,24 +83,22 @@ Some locales sort differently, which causes a different order of files, which le
 Add query options to listunspent RPC call
 -----------------------------------------
 
-* Return unspents greater or equal than a specific amount in BTC: minimumAmount (default = 0).
-* Return unspents lower or equal than a specific amount in BTC: maximumAmount (default = MAX_MONEY = 21000000.0 BTC).
+* Return unspents greater or equal than a specific amount in DOGE: minimumAmount (default = 0).
+* Return unspents lower or equal than a specific amount in DOGE: maximumAmount (default = MAX_MONEY = 100000000000 DOGE).
 * Return unspents with a total number lower or equal than a specific number: maximumCount (default=0=unlimited).
-* Return unspents which total is greater or equal than a specific amount in BTC: minimumSumAmount (default = MAX_MONEY = 21000000.0 BTC).
+* Return unspents which total is greater or equal than a specific amount in DOGE: minimumSumAmount (default = MAX_MONEY = 100000000000 DOGE).
 
-Bug fixes and corrections
-=========================
+Minor changes
+=============
 
-* Change references in INSTALL.md from Bitcoin to Dogecoin
-* Update package links for OSX cross compilation
-* Update Patrick Lodder's private key
-* Numerous fixes to automated tests.
-* Replace missing Windows build notes.
-* Change IPC prefix from `bitcoin:` to `dogecoin:`.
-* Corrections to Italian translation.
-* Refresh main and test network checkpoints.
-* Update build-osx.md for Mac install.
-* Do not print an error on connection timeouts through proxy.
+ * Update package links for OSX cross compilation
+ * Change IPC prefix from `bitcoin:` to `dogecoin:`.
+ * Locale independent sorting.
+ * Corrections to Italian translation.
+ * Refresh main and test network checkpoints and seeds.
+ * Do not print an error on connection timeouts through proxy.
+ * Numerous fixes to automated tests.
+ * Numerous fixes to documentation.
 
 Credits
 =======
