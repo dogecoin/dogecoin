@@ -108,8 +108,17 @@ P2P 22556
 
 **compiling for debugging**
 
+<<<<<<< HEAD
 Run configure with the --enable-debug option, then make. Or run configure with
 CXXFLAGS="-g -ggdb -O0" or whatever debug flags you need.
+=======
+<<<<<<< HEAD
+Run `configure` with the `--enable-debug` option, then `make`. Or run configure with
+=======
+Run `configure` with the `--enable-debug` option, then `make`. Or run `configure` with
+>>>>>>> 0d2398c1b (Formatting in "Development Tips and Tricks" (#1766))
+`CXXFLAGS="-g -ggdb -O0"` or whatever debug flags you need.
+>>>>>>> 1188528b6 (Formatting in "Development Tips and Tricks" (#1766))
 
 **debug.log**
 
@@ -134,6 +143,16 @@ that run in -regtest mode.
 **DEBUG_LOCKORDER**
 
 Dogecoin Core is a multithreaded application, and deadlocks or other multithreading bugs
+<<<<<<< HEAD
 can be very difficult to track down. Compiling with -DDEBUG_LOCKORDER (configure
 CXXFLAGS="-DDEBUG_LOCKORDER -g") inserts run-time checks to keep track of which locks
 are held, and adds warnings to the debug.log file if inconsistencies are detected.
+=======
+can be very difficult to track down. Compiling with `-DDEBUG_LOCKORDER` (`configure
+CXXFLAGS="-DDEBUG_LOCKORDER -g"`) inserts run-time checks to keep track of which locks
+<<<<<<< HEAD
+are held, and adds warnings to the debug.log file if inconsistencies are detected.
+=======
+are held, and adds warnings to the debug.log file if inconsistencies are detected.
+>>>>>>> 0d2398c1b (Formatting in "Development Tips and Tricks" (#1766))
+>>>>>>> 1188528b6 (Formatting in "Development Tips and Tricks" (#1766))
