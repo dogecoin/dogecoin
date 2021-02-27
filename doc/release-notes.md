@@ -63,22 +63,12 @@ Increase block download timeouts
 
 Block download timeouts are expressed as a multiple of block interval, and as such Dogecoin block download times were relatively aggressive, leading to a high number of timeouts. Increased the timeouts to be more flexible to real world conditions.
 
-Fixate BIP65 softfork heights
------------------------------
-    
-Set softfork heights in chainparams.cpp, so nodes no longer have to test for softfork conditions.
-
 Add size_on_disk, prune_target_size, automatic_pruning to getblockchaininfo
 ---------------------------------------------------------------------------
 
 * Fix pruneheight help text.
 * Move fPruneMode block to match output ordering with help text.
 * Add functional tests for new fields in getblockchaininfo.
-
-Locale independent sorting
---------------------------
-    
-Some locales sort differently, which causes a different order of files, which leads to an unreproducible build.  Sorting is now always based on the C locale.
 
 Add query options to listunspent RPC call
 -----------------------------------------
@@ -91,14 +81,15 @@ Add query options to listunspent RPC call
 Minor changes
 =============
 
- * Update package links for OSX cross compilation
- * Change IPC prefix from `bitcoin:` to `dogecoin:`.
- * Locale independent sorting.
- * Corrections to Italian translation.
- * Refresh main and test network checkpoints and seeds.
- * Do not print an error on connection timeouts through proxy.
- * Numerous fixes to automated tests.
- * Numerous fixes to documentation.
+* Set BIP65 softfork heights in chainparams.cpp.
+* Update package links for OSX cross compilation.
+* Change IPC prefix from `bitcoin:` to `dogecoin:`.
+* Locale independent sorting.
+* Corrections to Italian translation.
+* Refresh main and test network checkpoints and seeds.
+* Do not print an error on connection timeouts through proxy.
+* Numerous fixes to automated tests.
+* Numerous fixes to documentation.
 
 Credits
 =======
