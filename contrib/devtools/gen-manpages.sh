@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 TOPDIR=${TOPDIR:-$(git rev-parse --show-toplevel)}
 SRCDIR=${SRCDIR:-$TOPDIR/src}
