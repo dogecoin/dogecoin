@@ -20,12 +20,6 @@ The developers also maintain personal Twitter accounts:
   * @langer\_hans
   * @JRossNicoll
 
-Lastly the founders are on Twitter, although as of the time of writing not involved in
-maintaining Dogecoin:
-
-  * @ummjackson
-  * @BillyM2k
-
 Compatibility
 ==============
 
@@ -102,10 +96,12 @@ Thanks to everyone who directly contributed to this release:
 - Daniel Edgecumbe
 - Demon
 - Dennis Field
+- fluteds
 - Ikko Ashimine
 - John-Gee
 - Jonathan
 - Kent
+- leuqarte
 - Luis-Johannes Schubert
 - Marco
 - marcuswin
