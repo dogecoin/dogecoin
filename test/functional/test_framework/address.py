@@ -104,7 +104,7 @@ def program_to_witness(version, program, main=False):
     assert 0 <= version <= 16
     assert 2 <= len(program) <= 40
     assert version > 0 or len(program) in [20, 32]
-    return encode_segwit_address("dc" if main else "dcrt", version, program)
+    return encode_segwit_address("doge" if main else "dcrt", version, program)
 
 def script_to_p2wsh(script, main=False):
     script = check_script(script)
