@@ -20,12 +20,6 @@ The developers also maintain personal Twitter accounts:
   * @langer\_hans
   * @JRossNicoll
 
-Lastly the founders are on Twitter, although as of the time of writing not involved in
-maintaining Dogecoin:
-
-  * @ummjackson
-  * @BillyM2k
-
 Compatibility
 ==============
 
