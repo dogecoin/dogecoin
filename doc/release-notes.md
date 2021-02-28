@@ -102,10 +102,12 @@ Thanks to everyone who directly contributed to this release:
 - Daniel Edgecumbe
 - Demon
 - Dennis Field
+- fluteds
 - Ikko Ashimine
 - John-Gee
 - Jonathan
 - Kent
+- leuqarte
 - Luis-Johannes Schubert
 - Marco
 - marcuswin
