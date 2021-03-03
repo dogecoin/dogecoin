@@ -90,6 +90,8 @@ struct Params {
      */
     bool signet_blocks{false};
     std::vector<uint8_t> signet_challenge;
+
+    bool fShortEarlyCoinbase;
 };
 } // namespace Consensus
 

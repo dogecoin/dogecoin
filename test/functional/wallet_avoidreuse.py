@@ -80,7 +80,7 @@ class AvoidReuseTest(BitcoinTestFramework):
         self.test_persistence()
         self.test_immutable()
 
-        self.nodes[0].generate(110)
+        self.nodes[0].generate(250)
         self.sync_all()
         self.test_change_remains_change(self.nodes[1])
         reset_balance(self.nodes[1], self.nodes[0].getnewaddress())

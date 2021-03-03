@@ -195,9 +195,9 @@ TestingSetup::~TestingSetup()
     pblocktree.reset();
 }
 
-TestChain100Setup::TestChain100Setup()
+TestChain240Setup::TestChain240Setup()
 {
-    // Generate a 100-block chain:
+    // Generate a 240-block chain:
     coinbaseKey.MakeNewKey(true);
     CScript scriptPubKey = CScript() << ToByteVector(coinbaseKey.GetPubKey()) << OP_CHECKSIG;
     for (int i = 0; i < COINBASE_MATURITY; i++) {
@@ -207,7 +207,7 @@ TestChain100Setup::TestChain100Setup()
     }
 }
 
-CBlock TestChain100Setup::CreateAndProcessBlock(const std::vector<CMutableTransaction>& txns, const CScript& scriptPubKey)
+CBlock TestChain240Setup::CreateAndProcessBlock(const std::vector<CMutableTransaction>& txns, const CScript& scriptPubKey)
 {
     const CChainParams& chainparams = Params();
     CTxMemPool empty_pool;
@@ -227,7 +227,7 @@ CBlock TestChain100Setup::CreateAndProcessBlock(const std::vector<CMutableTransa
     return block;
 }
 
-TestChain100Setup::~TestChain100Setup()
+TestChain240Setup::~TestChain240Setup()
 {
     gArgs.ForceSetArg("-segwitheight", "0");
 }

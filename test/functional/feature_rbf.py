@@ -27,7 +27,7 @@ def make_utxo(node, amount, confirmed=True, scriptPubKey=DUMMY_P2WPKH_SCRIPT):
     """
     fee = 1*COIN
     while node.getbalance() < satoshi_round((amount + fee)/COIN):
-        node.generate(100)
+        node.generate(240)
 
     new_addr = node.getnewaddress()
     txid = node.sendtoaddress(new_addr, satoshi_round((amount+fee)/COIN))

@@ -17,7 +17,7 @@ bool CheckInputScripts(const CTransaction& tx, TxValidationState &state, const C
 
 BOOST_AUTO_TEST_SUITE(txvalidationcache_tests)
 
-BOOST_FIXTURE_TEST_CASE(tx_mempool_block_doublespend, TestChain100Setup)
+BOOST_FIXTURE_TEST_CASE(tx_mempool_block_doublespend, TestChain240Setup)
 {
     // Make sure skipping validation of transactions that were
     // validated going into the memory pool does not allow
@@ -145,7 +145,7 @@ static void ValidateCheckInputsForAllFlags(const CTransaction &tx, uint32_t fail
     }
 }
 
-BOOST_FIXTURE_TEST_CASE(checkinputs_test, TestChain100Setup)
+BOOST_FIXTURE_TEST_CASE(checkinputs_test, TestChain240Setup)
 {
     // Test that passing CheckInputScripts with one set of script flags doesn't imply
     // that we would pass again with a different set of flags.

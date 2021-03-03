@@ -8,7 +8,7 @@ Test case is:
 4 nodes. 1 2 and 3 send transactions between each other,
 fourth node is a miner.
 1 2 3 each mine a block to start, then
-Miner creates 100 blocks so 1 2 3 each have 50 mature
+Miner creates 240 blocks so 1 2 3 each have 50 mature
 coins to spend.
 Then 5 iterations of 1/2/3 sending coins amongst
 themselves to get transactions in the wallets,
@@ -17,11 +17,11 @@ and the miner mining one block.
 Wallets are backed up using dumpwallet/backupwallet.
 Then 5 more iterations of transactions and mining a block.
 
-Miner then generates 101 more blocks, so any
+Miner then generates 241 more blocks, so any
 transaction fees paid mature.
 
 Sanity check:
-  Sum(1,2,3,4 balances) == 114*50
+  Sum(1,2,3,4 balances) == (149 * 50) + (105 * 25)
 
 1/2/3 are shutdown, and their wallets erased.
 Then restore using wallet.dat backup. And
@@ -123,7 +123,7 @@ class WalletBackupTest(BitcoinTestFramework):
         self.sync_blocks()
         self.nodes[2].generate(1)
         self.sync_blocks()
-        self.nodes[3].generate(100)
+        self.nodes[3].generate(240)
         self.sync_blocks()
 
         assert_equal(self.nodes[0].getbalance(), 50)
@@ -151,8 +151,8 @@ class WalletBackupTest(BitcoinTestFramework):
         for _ in range(5):
             self.do_one_round()
 
-        # Generate 101 more blocks, so any fees paid mature
-        self.nodes[3].generate(101)
+        # Generate 241 more blocks, so any fees paid mature
+        self.nodes[3].generate(241)
         self.sync_all()
 
         balance0 = self.nodes[0].getbalance()
@@ -161,9 +161,9 @@ class WalletBackupTest(BitcoinTestFramework):
         balance3 = self.nodes[3].getbalance()
         total = balance0 + balance1 + balance2 + balance3
 
-        # At this point, there are 214 blocks (103 for setup, then 10 rounds, then 101.)
-        # 114 are mature, so the sum of all wallets should be 114 * 50 = 5700.
-        assert_equal(total, 5700)
+        # At this point, there are 494 blocks (243 for setup, then 10 rounds, then 241.)
+        # 254 are mature, so the sum of all wallets should be (149 * 50) + (105 * 25) = 10075.
+        assert_equal(total, 10075)
 
         ##
         # Test restoring spender wallets from backups

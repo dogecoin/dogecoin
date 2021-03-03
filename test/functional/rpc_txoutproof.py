@@ -23,11 +23,11 @@ class MerkleBlockTest(BitcoinTestFramework):
         miniwallet = MiniWallet(self.nodes[0])
         # Add enough mature utxos to the wallet, so that all txs spend confirmed coins
         miniwallet.generate(5)
-        self.nodes[0].generate(100)
+        self.nodes[0].generate(240)
         self.sync_all()
 
         chain_height = self.nodes[1].getblockcount()
-        assert_equal(chain_height, 105)
+        assert_equal(chain_height, 245)
 
         txid1 = miniwallet.send_self_transfer(from_node=self.nodes[0])['txid']
         txid2 = miniwallet.send_self_transfer(from_node=self.nodes[0])['txid']

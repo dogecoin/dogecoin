@@ -92,7 +92,7 @@ VB_TOP_BITS = 0x20000000
 
 MAX_SIGOP_COST = 80000
 
-SEGWIT_HEIGHT = 120
+SEGWIT_HEIGHT = 260
 
 class UTXO():
     """Used to keep track of anyone-can-spend outputs that we can use in the tests."""
@@ -336,7 +336,7 @@ class SegWitTest(BitcoinTestFramework):
         self.test_node.send_and_ping(msg_no_witness_block(block))  # make sure the block was processed
         txid = block.vtx[0].sha256
 
-        self.nodes[0].generate(99)  # let the block mature
+        self.nodes[0].generate(239)  # let the block mature
 
         # Create a transaction that spends the coinbase
         tx = CTransaction()
@@ -1484,7 +1484,7 @@ class SegWitTest(BitcoinTestFramework):
         spend_tx.rehash()
 
         # Now test a premature spend.
-        self.nodes[0].generate(98)
+        self.nodes[0].generate(238)
         self.sync_blocks()
         block2 = self.build_next_block()
         self.update_witness_block_with_transactions(block2, [spend_tx])

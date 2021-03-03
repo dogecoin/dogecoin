@@ -23,7 +23,7 @@ class ScantxoutsetTest(BitcoinTestFramework):
 
     def run_test(self):
         self.log.info("Mining blocks...")
-        self.nodes[0].generate(110)
+        self.nodes[0].generate(250)
 
         addr_P2SH_SEGWIT = self.nodes[0].getnewaddress("", "p2sh-segwit")
         pubk1 = self.nodes[0].getaddressinfo(addr_P2SH_SEGWIT)['pubkey']

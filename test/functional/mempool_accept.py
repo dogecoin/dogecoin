@@ -57,9 +57,9 @@ class MempoolAcceptanceTest(BitcoinTestFramework):
     def run_test(self):
         node = self.nodes[0]
 
-        self.log.info('Start with empty mempool, and 200 blocks')
+        self.log.info('Start with empty mempool, and 340 blocks')
         self.mempool_size = 0
-        assert_equal(node.getblockcount(), 200)
+        assert_equal(node.getblockcount(), 340)
         assert_equal(node.getmempoolinfo()['size'], self.mempool_size)
         coins = node.listunspent()
 

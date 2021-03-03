@@ -13,11 +13,11 @@ from test_framework.util import (
     get_auth_cookie,
 )
 
-# The block reward of coinbaseoutput.nValue (50) BTC/block matures after
-# COINBASE_MATURITY (100) blocks. Therefore, after mining 101 blocks we expect
-# node 0 to have a balance of (BLOCKS - COINBASE_MATURITY) * 50 BTC/block.
-BLOCKS = 101
-BALANCE = (BLOCKS - 100) * 50
+# The block reward of coinbaseoutput.nValue (50) DOGE/block matures after
+# COINBASE_MATURITY (240) blocks. Therefore, after mining 241 blocks we expect
+# node 0 to have a balance of (BLOCKS - COINBASE_MATURITY) * 50 DOGE/block.
+BLOCKS = 241
+BALANCE = (BLOCKS - 240) * 50
 
 JSON_PARSING_ERROR = 'error: Error parsing JSON: foo'
 BLOCKS_VALUE_OF_ZERO = 'error: the first argument (number of blocks to generate, default: 1) must be an integer value greater than zero'

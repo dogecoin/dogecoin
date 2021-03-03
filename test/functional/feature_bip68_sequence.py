@@ -387,9 +387,9 @@ class BIP68Test(BitcoinTestFramework):
         assert_equal(self.nodes[0].getbestblockhash(), block.hash)
 
     def activateCSV(self):
-        # activation should happen at block height 432 (3 periods)
-        # getblockchaininfo will show CSV as active at block 431 (144 * 3 -1) since it's returning whether CSV is active for the next block.
-        min_activation_height = 432
+        # activation should happen at block height 720 (5 periods)
+        # getblockchaininfo will show CSV as active at block 719 (144 * 5 - 1) since it's returning whether CSV is active for the next block.
+        min_activation_height = 720
         height = self.nodes[0].getblockcount()
         assert_greater_than(min_activation_height - height, 2)
         self.nodes[0].generate(min_activation_height - height - 2)

@@ -73,7 +73,7 @@ class ImportDescriptorsTest(BitcoinTestFramework):
         assert_equal(wpriv.getwalletinfo()['keypoolsize'], 0)
 
         self.log.info('Mining coins')
-        w0.generatetoaddress(101, w0.getnewaddress())
+        w0.generatetoaddress(241, w0.getnewaddress())
 
         # RPC importdescriptors -----------------------------------------------
 

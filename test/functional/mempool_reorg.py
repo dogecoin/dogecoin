@@ -27,8 +27,8 @@ class MempoolCoinbaseTest(BitcoinTestFramework):
         self.skip_if_no_wallet()
 
     def run_test(self):
-        # Start with a 200 block chain
-        assert_equal(self.nodes[0].getblockcount(), 200)
+        # Start with a 340 block chain
+        assert_equal(self.nodes[0].getblockcount(), 340)
 
         # Mine four blocks. After this, nodes[0] blocks
         # 101, 102, and 103 are spend-able.
