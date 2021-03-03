@@ -24,6 +24,7 @@ packages:
 - "libtool"
 - "automake"
 - "faketime"
+- "bison"
 - "bsdmainutils"
 - "ca-certificates"
 - "python"
