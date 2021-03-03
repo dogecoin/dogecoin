@@ -18,7 +18,7 @@
 
 BOOST_AUTO_TEST_SUITE(blockfilter_index_tests)
 
-struct BuildChainTestingSetup : public TestChain100Setup {
+struct BuildChainTestingSetup : public TestChain240Setup {
     CBlock CreateBlock(const CBlockIndex* prev, const std::vector<CMutableTransaction>& txns, const CScript& scriptPubKey);
     bool BuildChain(const CBlockIndex* pindex, const CScript& coinbase_script_pub_key, size_t length, std::vector<std::shared_ptr<CBlock>>& chain);
 };

@@ -383,7 +383,7 @@ class BitcoinTestFramework(metaclass=BitcoinTestMetaClass):
             self.import_deterministic_coinbase_privkeys()
         if not self.setup_clean_chain:
             for n in self.nodes:
-                assert_equal(n.getblockchaininfo()["blocks"], 199)
+                assert_equal(n.getblockchaininfo()["blocks"], 339)
             # To ensure that all nodes are out of IBD, the most recent block
             # must have a timestamp not too old (see IsInitialBlockDownload()).
             self.log.debug('Generate a block with current time')
@@ -392,7 +392,7 @@ class BitcoinTestFramework(metaclass=BitcoinTestMetaClass):
             for n in self.nodes:
                 n.submitblock(block)
                 chain_info = n.getblockchaininfo()
-                assert_equal(chain_info["blocks"], 200)
+                assert_equal(chain_info["blocks"], 340)
                 assert_equal(chain_info["initialblockdownload"], False)
 
     def import_deterministic_coinbase_privkeys(self):
@@ -682,7 +682,7 @@ class BitcoinTestFramework(metaclass=BitcoinTestMetaClass):
     def _initialize_chain(self):
         """Initialize a pre-mined blockchain for use by the test.
 
-        Create a cache of a 199-block-long chain
+        Create a cache of a 339-block-long chain
         Afterward, create num_nodes copies from the cache."""
 
         CACHE_NODE_ID = 0  # Use node 0 to create the cache for all other nodes
@@ -718,19 +718,24 @@ class BitcoinTestFramework(metaclass=BitcoinTestMetaClass):
             # Set a time in the past, so that blocks don't end up in the future
             cache_node.setmocktime(cache_node.getblockheader(cache_node.getbestblockhash())['time'])
 
-            # Create a 199-block-long chain; each of the 4 first nodes
-            # gets 25 mature blocks and 25 immature.
-            # The 4th node gets only 24 immature blocks so that the very last
+            # Create a 339-block-long chain; each of the 4 first nodes
+            # gets 25 mature blocks and 60 immature.
+            # The 4th node gets only 59 immature blocks so that the very last
             # block in the cache does not age too much (have an old tip age).
             # This is needed so that we are out of IBD when the test starts,
             # see the tip age check in IsInitialBlockDownload().
-            for i in range(8):
+            for i in range(4):
                 cache_node.generatetoaddress(
-                    nblocks=25 if i != 7 else 24,
+                    nblocks=25,
+                    address=TestNode.PRIV_KEYS[i % 4].address,
+                )
+            for i in range(4):
+                cache_node.generatetoaddress(
+                    nblocks=60 if i != 3 else 59,
                     address=TestNode.PRIV_KEYS[i % 4].address,
                 )
 
-            assert_equal(cache_node.getblockchaininfo()["blocks"], 199)
+            assert_equal(cache_node.getblockchaininfo()["blocks"], 339)
 
             # Shut it down, and clean up cache directories:
             self.stop_nodes()

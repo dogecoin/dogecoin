@@ -32,7 +32,7 @@ class WalletLabelsTest(BitcoinTestFramework):
         # Note each time we call generate, all generated coins go into
         # the same address, so we call twice to get two addresses w/50 each
         node.generatetoaddress(nblocks=1, address=node.getnewaddress(label='coinbase'))
-        node.generatetoaddress(nblocks=101, address=node.getnewaddress(label='coinbase'))
+        node.generatetoaddress(nblocks=241, address=node.getnewaddress(label='coinbase'))
         assert_equal(node.getbalance(), 100)
 
         # there should be 2 address groups
@@ -68,7 +68,7 @@ class WalletLabelsTest(BitcoinTestFramework):
 
         # we want to reset so that the "" label has what's expected.
         # otherwise we're off by exactly the fee amount as that's mined
-        # and matures in the next 100 blocks
+        # and matures in the next 240 blocks
         amount_to_send = 1.0
 
         # Create labels and make sure subsequent label API calls
@@ -104,7 +104,7 @@ class WalletLabelsTest(BitcoinTestFramework):
             label.verify(node)
             assert_equal(node.getreceivedbylabel(label.name), 2)
             label.verify(node)
-        node.generate(101)
+        node.generate(241)
 
         # Check that setlabel can assign a label to a new unused address.
         for label in labels:
@@ -124,7 +124,7 @@ class WalletLabelsTest(BitcoinTestFramework):
                 label.add_address(multisig_address)
                 label.purpose[multisig_address] = "send"
                 label.verify(node)
-            node.generate(101)
+            node.generate(241)
 
         # Check that setlabel can change the label of an address from a
         # different label.

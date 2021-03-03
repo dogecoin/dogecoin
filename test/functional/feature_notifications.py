@@ -90,7 +90,7 @@ class NotificationsTest(BitcoinTestFramework):
             self.log.info("test -walletnotify with conflicting transactions")
             self.nodes[0].sethdseed(seed=self.nodes[1].dumpprivkey(keyhash_to_p2pkh(hex_str_to_bytes(self.nodes[1].getwalletinfo()['hdseedid'])[::-1])))
             self.nodes[0].rescanblockchain()
-            self.nodes[0].generatetoaddress(100, ADDRESS_BCRT1_UNSPENDABLE)
+            self.nodes[0].generatetoaddress(240, ADDRESS_BCRT1_UNSPENDABLE)
             self.sync_blocks()
 
             # Generate transaction on node 0, sync mempools, and check for

@@ -27,7 +27,7 @@ class P2PLeakTxTest(BitcoinTestFramework):
         miniwallet = MiniWallet(gen_node)
         # Add enough mature utxos to the wallet, so that all txs spend confirmed coins
         miniwallet.generate(1)
-        gen_node.generate(100)
+        gen_node.generate(240)
 
         inbound_peer = self.nodes[0].add_p2p_connection(P2PNode())  # An "attacking" inbound peer
 

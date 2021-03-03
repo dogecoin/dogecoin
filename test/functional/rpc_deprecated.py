@@ -13,6 +13,9 @@ class DeprecatedRpcTest(BitcoinTestFramework):
         self.extra_args = [[], ['-deprecatedrpc=bumpfee']]
 
     def run_test(self):
+        # The framework creates 200 blocks, we need some to mature, so mine 140 more
+        self.nodes[0].generate(140)
+
         # This test should be used to verify correct behaviour of deprecated
         # RPC methods with and without the -deprecatedrpc flags. For example:
         #
