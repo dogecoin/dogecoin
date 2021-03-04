@@ -586,9 +586,9 @@ class WalletTest(BitcoinTestFramework):
         assert_equal(total_txs, len(self.nodes[0].listtransactions("*", 99999)))
 
         # Test getaddressinfo on external address. Note that these addresses are taken from disablewallet.py
-        assert_raises_rpc_error(-5, "Invalid address", self.nodes[0].getaddressinfo, "3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy")
-        address_info = self.nodes[0].getaddressinfo("mneYUmWYsuk7kySiURxCi3AGxrAqZxLgPZ")
-        assert_equal(address_info['address'], "mneYUmWYsuk7kySiURxCi3AGxrAqZxLgPZ")
+        assert_raises_rpc_error(-5, "Invalid address", self.nodes[0].getaddressinfo, "A8tPcraiJcyw6k8tLrK36vc6DSAsXwu8f7")
+        address_info = self.nodes[0].getaddressinfo("nbKkSz78JGfsPqitXGcqgHhrDrgizjB3bW")
+        assert_equal(address_info['address'], "nbKkSz78JGfsPqitXGcqgHhrDrgizjB3bW")
         assert_equal(address_info["scriptPubKey"], "76a9144e3854046c7bd1594ac904e4793b6a45b36dea0988ac")
         assert not address_info["ismine"]
         assert not address_info["iswatchonly"]

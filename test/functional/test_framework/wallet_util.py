@@ -122,7 +122,7 @@ def test_address(node, address, **kwargs):
 def bytes_to_wif(b, compressed=True):
     if compressed:
         b += b'\x01'
-    return byte_to_base58(b, 239)
+    return byte_to_base58(b, 241)
 
 def generate_wif_key():
     # Makes a WIF privkey for imports

@@ -110,12 +110,12 @@ class TestFrameworkScript(unittest.TestCase):
     def test_segwit_encode_decode(self):
         def test_python_bech32(addr):
             hrp = addr[:4]
-            self.assertEqual(hrp, "bcrt")
+            self.assertEqual(hrp, "dcrt")
             (witver, witprog) = decode_segwit_address(hrp, addr)
             self.assertEqual(encode_segwit_address(hrp, witver, witprog), addr)
 
         # P2WPKH
-        test_python_bech32('bcrt1qthmht0k2qnh3wy7336z05lu2km7emzfpm3wg46')
+        test_python_bech32('dcrt1qthmht0k2qnh3wy7336z05lu2km7emzfp7a0j9y')
         # P2WSH
-        test_python_bech32('bcrt1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq3xueyj')
-        test_python_bech32('bcrt1qft5p2uhsdcdc3l2ua4ap5qqfg4pjaqlp250x7us7a8qqhrxrxfsqseac85')
+        test_python_bech32('dcrt1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqtlqpp6')
+        test_python_bech32('dcrt1qft5p2uhsdcdc3l2ua4ap5qqfg4pjaqlp250x7us7a8qqhrxrxfsq2qpqzu')
