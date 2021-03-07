@@ -30,7 +30,7 @@ private:
     QString _label;
     QString _redeemScript;
 
-private slots:
+private Q_SLOTS:
     void generatePubKey();
 };
 
