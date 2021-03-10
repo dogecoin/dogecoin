@@ -752,10 +752,19 @@ void RPCConsole::message(int category, const QString &message, bool html)
     out += "<table><tr><td class=\"time\" width=\"65\">" + timeString + "</td>";
     out += "<td class=\"icon\" width=\"32\"><img src=\"" + categoryClass(category) + "\"></td>";
     out += "<td class=\"message " + categoryClass(category) + "\" valign=\"middle\">";
+
+    QString interpretedMessage;
+    if(category == CMD_REPLY && message == "null")
+    {
+        interpretedMessage = "Empty response";
+    } else {
+        interpretedMessage = message;
+    }
+
     if(html)
-        out += message;
+        out += interpretedMessage;
     else
-        out += GUIUtil::HtmlEscape(message, false);
+        out += GUIUtil::HtmlEscape(interpretedMessage, false);
     out += "</td></tr></table>";
     ui->messagesWidget->append(out);
 }
