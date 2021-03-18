@@ -90,7 +90,7 @@ CTxMemPool mempool(::minRelayTxFee);
 
 /**
  * Returns true if there are nRequired or more blocks of minVersion or above
- * in the last Consensus::Params::nMajorityWindow blocks, starting at pstart and going backwards.
+ * in the last Consensus::Params::nMinerConfirmationWindow blocks, starting at pstart and going backwards.
  */
 static bool IsSuperMajority(int minVersion, const CBlockIndex* pstart, unsigned nRequired, const Consensus::Params& consensusParams);
 static void CheckBlockIndex(const Consensus::Params& consensusParams);
@@ -3282,7 +3282,7 @@ static bool AcceptBlock(const std::shared_ptr<const CBlock>& pblock, CValidation
 static bool IsSuperMajority(int minVersion, const CBlockIndex* pstart, unsigned nRequired, const Consensus::Params& consensusParams)
 {
     unsigned int nFound = 0;
-    for (int i = 0; i < consensusParams.nMajorityWindow && nFound < nRequired && pstart != NULL; i++)
+    for (int i = 0; i < consensusParams.nMinerConfirmationWindow && nFound < nRequired && pstart != NULL; i++)
     {
         if (pstart->GetBaseVersion() >= minVersion)
             ++nFound;
