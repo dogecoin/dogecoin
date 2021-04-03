@@ -1,0 +1,167 @@
+name: Continuous Integration on Master
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+env:
+  SOURCE_ARTIFACT: source
+jobs:
+  create-source-distribution:
+    name: Create Source Distribution
+    runs-on: ubuntu-18.04
+    env:
+      ARTIFACT_DIR: source
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Install Required Packages
+      run: |
+        sudo apt-get install build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils python3
+        sudo apt-get install libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-program-options-dev libboost-test-dev libboost-thread-dev
+        sudo apt-get install libboost-all-dev
+        sudo apt-get install software-properties-common
+        sudo add-apt-repository ppa:bitcoin/bitcoin
+        sudo apt-get update
+        sudo apt-get install libdb4.8-dev libdb4.8++-dev
+        sudo apt-get update
+        sudo apt-get install libminiupnpc-dev
+        sudo apt-get install libzmq3-dev
+        sudo apt-get install libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler
+        sudo apt-get install libqrencode-dev
+    - name: Create Distribution Tarball
+      run: |
+        ./autogen.sh
+        ./configure --with-incompatible-bdb
+        make dist
+    - name: Download Dependencies
+      run: make -C depends download
+    - name: Create Dependencies Tarball
+      run: tar -czf depends.tar.gz depends
+    - name: Prepare Files for Artifact
+      run: |
+        mkdir -p $ARTIFACT_DIR
+        mv depends.tar.gz dogecoin-*.tar.gz $ARTIFACT_DIR
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: ${{ env.SOURCE_ARTIFACT }}
+        path: ${{ env.ARTIFACT_DIR }}
+  build-linux:
+    name: Build for Linux
+    needs: create-source-distribution
+    runs-on: ubuntu-18.04
+    env:
+      ARTIFACT_DIR: linux-binaries
+      TEST_LOG_ARTIFACT_DIR: test-logs
+    steps:
+    - name: Getting Source
+      uses: actions/download-artifact@v1
+      with:
+        name: ${{ env.SOURCE_ARTIFACT }}
+    - name: Extract Archives
+      run: |
+        tar -xzf depends.tar.gz
+        tar -xzf dogecoin-*.tar.gz --strip-components=1
+      working-directory: ${{ env.SOURCE_ARTIFACT }}
+    - name: Install Required Packages
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y python3-zmq
+    - name: Build Dependencies
+      run: make -C depends -j$(nproc)
+      working-directory: ${{ env.SOURCE_ARTIFACT }}
+    - name: Build Dogecoin
+      run: |
+        ./configure --prefix=$(realpath depends/x86_64-pc-linux-gnu)
+        make -j$(nproc)
+      working-directory: ${{ env.SOURCE_ARTIFACT }}
+    - name: Prepare Files for Artifact
+      run: |
+        mkdir -p $ARTIFACT_DIR
+        mv $SOURCE_ARTIFACT/src/{dogecoin-cli,dogecoin-tx,dogecoind,qt/dogecoin-qt} $ARTIFACT_DIR
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: linux-binaries
+        path: ${{ env.ARTIFACT_DIR }}
+  build-windows:
+    name: Build for Windows
+    needs: create-source-distribution
+    runs-on: ubuntu-18.04
+    env:
+      ARTIFACT_DIR: windows-binaries
+    steps:
+    - name: Getting Source
+      uses: actions/download-artifact@v1
+      with:
+        name: ${{ env.SOURCE_ARTIFACT }}
+    - name: Extract Archives
+      run: |
+        tar -xzf depends.tar.gz
+        tar -xzf dogecoin-*.tar.gz --strip-components=1
+      working-directory: ${{ env.SOURCE_ARTIFACT }}
+    - name: Install Required Packages
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y g++-mingw-w64-x86-64 gcc-mingw-w64-x86-64
+    - name: Switch MinGW GCC and G++ to POSIX Threading
+      run: |
+        sudo update-alternatives --set x86_64-w64-mingw32-gcc /usr/bin/x86_64-w64-mingw32-gcc-posix
+        sudo update-alternatives --set x86_64-w64-mingw32-g++ /usr/bin/x86_64-w64-mingw32-g++-posix
+    - name: Build Dependencies
+      run: make -C depends -j$(nproc) HOST=x86_64-w64-mingw32
+      working-directory: ${{ env.SOURCE_ARTIFACT }}
+    - name: Build Dogecoin
+      run: |
+        ./configure --prefix=$(realpath depends/x86_64-w64-mingw32)
+        make -j$(nproc)
+      working-directory: ${{ env.SOURCE_ARTIFACT }}
+    - name: Prepare Files for Artifact
+      run: |
+        mkdir -p $ARTIFACT_DIR
+        mv $SOURCE_ARTIFACT/src/{dogecoin-cli.exe,dogecoin-tx.exe,dogecoind.exe,qt/dogecoin-qt.exe} $ARTIFACT_DIR
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: windows-binaries
+        path: ${{ env.ARTIFACT_DIR }}
+  # build-mac:
+  #   name: Build for macOS
+  #   needs: create-source-distribution
+  #   runs-on: macos-10.15
+  #   env:
+  #     ARTIFACT_DIR: mac-binaries
+  #   steps:
+  #   - name: Getting Source
+  #     uses: actions/download-artifact@v1
+  #     with:
+  #       name: ${{ env.SOURCE_ARTIFACT }}
+  #   - name: Extract Archives
+  #     run: |
+  #       tar -xzf depends.tar.gz
+  #       tar -xzf dogecoin-*.tar.gz --strip-components=1
+  #     working-directory: ${{ env.SOURCE_ARTIFACT }}
+  #   - name: Use Xcode instead of Command Line Tools
+  #     run: sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+  #   - name: Install Required Packages
+  #     run: brew install automake coreutils pkg-config
+  #   - name: Build Dependencies
+  #     run: make -C depends -j$(sysctl -n hw.activecpu)
+  #     working-directory: ${{ env.SOURCE_ARTIFACT }}
+  #   - name: Build Dogecoin
+  #     run: |
+  #       ./configure --disable-jni --prefix=$(grealpath depends/x86_64-apple-darwin*)
+  #       make -j$(sysctl -n hw.activecpu)
+  #     working-directory: ${{ env.SOURCE_ARTIFACT }}
+  #   - name: Prepare Files for Artifact
+  #     run: |
+  #       mkdir -p $ARTIFACT_DIR
+  #       mv $SOURCE_ARTIFACT/src/{dogecoin-cli,dogecoin-tx,dogecoind,qt/dogecoin-qt} $ARTIFACT_DIR
+  #   - name: Upload Artifact
+  #     uses: actions/upload-artifact@v1
+  #     with:
+  #       name: mac-binaries
+  #       path: ${{ env.ARTIFACT_DIR }}
