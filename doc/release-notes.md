@@ -111,6 +111,6 @@ Thanks to everyone who directly contributed to this release:
 - Primo
 - Reiner Herrmann
 - Ross Nicoll
-- Shibe
+- Go
 - tnaka
 - Vertian
