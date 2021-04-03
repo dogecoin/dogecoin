@@ -128,7 +128,7 @@ to see it.
 
 **testnet and regtest modes**
 
-Run with the -testnet option to run with "play dogecoins" on the test network, if you
+Run with the -testnet option to run with "play dingocoins" on the test network, if you
 are testing multi-machine code that needs to operate across the internet.
 
 If you are testing something that can run on one machine, run with the -regtest option.
@@ -137,7 +137,7 @@ that run in -regtest mode.
 
 **DEBUG_LOCKORDER**
 
-Dogecoin Core is a multithreaded application, and deadlocks or other multithreading bugs
+Dingocoin Core is a multithreaded application, and deadlocks or other multithreading bugs
 can be very difficult to track down. Compiling with -DDEBUG_LOCKORDER (configure
 CXXFLAGS="-DDEBUG_LOCKORDER -g") inserts run-time checks to keep track of which locks
 are held, and adds warnings to the debug.log file if inconsistencies are detected.
@@ -186,7 +186,7 @@ Threads
 
 - ThreadRPCServer : Remote procedure call handler, listens on port 22555 for connections and services them.
 
-- DogecoinMiner : Generates dogecoins (if wallet is enabled).
+- DingocoinMiner : Generates dingocoins (if wallet is enabled).
 
 - Shutdown : Does an orderly shutdown of everything.
 
@@ -490,7 +490,7 @@ Git and GitHub tips
 
         [remote "upstream-pull"]
                 fetch = +refs/pull/*:refs/remotes/upstream-pull/*
-                url = git@github.com:dogecoin/dogecoin.git
+                url = git@github.com:dingocoin/dingocoin.git
 
   This will add an `upstream-pull` remote to your git repository, which can be fetched using `git fetch --all`
   or `git fetch upstream-pull`. Afterwards, you can use `upstream-pull/NUMBER/head` in arguments to `git show`,

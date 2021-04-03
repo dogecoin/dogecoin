@@ -1,19 +1,19 @@
-Dogecoin Core version 1.14.3 is now available from:
+Dingocoin Core version 1.14.3 is now available from:
 
-  <https://github.com/dogecoin/dogecoin/releases/tag/v1.14.3/>
+  <https://github.com/dingocoin/dingocoin/releases/tag/v1.14.3/>
 
 This is a new minor version release, including various bugfixes and performance improvements. It is a recommended
 update for all users.
 
 Please report bugs using the issue tracker at github:
 
-  <https://github.com/dogecoin/dogecoin/issues>
+  <https://github.com/dingocoin/dingocoin/issues>
 
 To receive security and update notifications, please watch reddit or Twitter:
 
-  * https://www.reddit.com/r/dogecoin/
-  * @Dogecoin on Twitter for high priority announcements
-  * @dogecoin\_devs on Twitter for updates on development work
+  * https://www.reddit.com/r/dingocoin/
+  * @Dingocoin on Twitter for high priority announcements
+  * @dingocoin\_devs on Twitter for updates on development work
 
 The developers also maintain personal Twitter accounts:
 
@@ -23,14 +23,14 @@ The developers also maintain personal Twitter accounts:
 Compatibility
 ==============
 
-Dogecoin Core is extensively tested on Ubuntu Server LTS, Mac OS X and Windows 10.
+Dingocoin Core is extensively tested on Ubuntu Server LTS, Mac OS X and Windows 10.
 
 Microsoft ended support for Windows XP on [April 8th, 2014](https://www.microsoft.com/en-us/WindowsForBusiness/end-of-xp-support),
 No attempt is made to prevent installing or running the software on Windows XP, you
 can still do so at your own risk but be aware that there are known instabilities and issues.
 Please do not report issues about Windows XP to the issue tracker.
 
-Dogecoin Core should also work on most other Unix-like systems but is not
+Dingocoin Core should also work on most other Unix-like systems but is not
 frequently tested on them.
 
 Notable changes
@@ -55,7 +55,7 @@ This default setting can be overridden with the -mempoolexpiry parameter by indi
 Increase block download timeouts
 --------------------------------
 
-Block download timeouts are expressed as a multiple of block interval, and as such Dogecoin block download times were relatively aggressive, leading to a high number of timeouts. Increased the timeouts to be more flexible to real world conditions.
+Block download timeouts are expressed as a multiple of block interval, and as such Dingocoin block download times were relatively aggressive, leading to a high number of timeouts. Increased the timeouts to be more flexible to real world conditions.
 
 Add size_on_disk, prune_target_size, automatic_pruning to getblockchaininfo
 ---------------------------------------------------------------------------
@@ -67,17 +67,17 @@ Add size_on_disk, prune_target_size, automatic_pruning to getblockchaininfo
 Add query options to listunspent RPC call
 -----------------------------------------
 
-* Return unspents greater or equal than a specific amount in DOGE: minimumAmount (default = 0).
-* Return unspents lower or equal than a specific amount in DOGE: maximumAmount (default=unlimited).
+* Return unspents greater or equal than a specific amount in DINGO: minimumAmount (default = 0).
+* Return unspents lower or equal than a specific amount in DINGO: maximumAmount (default=unlimited).
 * Return unspents with a total number lower or equal than a specific number: maximumCount (default=0=unlimited).
-* Return unspents which total is greater or equal than a specific amount in DOGE: minimumSumAmount (default=unlimited).
+* Return unspents which total is greater or equal than a specific amount in DINGO: minimumSumAmount (default=unlimited).
 
 Minor changes
 =============
 
 * Set BIP65 softfork heights in chainparams.cpp.
 * Update package links for OSX cross compilation.
-* Change IPC prefix from `bitcoin:` to `dogecoin:`.
+* Change IPC prefix from `bitcoin:` to `dingocoin:`.
 * Locale independent sorting.
 * Corrections to Italian translation.
 * Refresh main and test network checkpoints and seeds.

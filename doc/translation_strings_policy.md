@@ -1,7 +1,7 @@
 Translation Strings Policy
 ===========================
 
-This document provides guidelines for internationalization of the Dogecoin Core software.
+This document provides guidelines for internationalization of the Dingocoin Core software.
 
 How to translate?
 ------------------

@@ -223,7 +223,7 @@ class RESTTest (BitcoinTestFramework):
         response_header = http_get_call(url.hostname, url.port, '/rest/headers/1/'+bb_hash+self.FORMAT_SEPARATOR+"bin", True)
         assert_equal(response_header.status, 200)
         headerLen = int(response_header.getheader('content-length'))
-        assert_equal(headerLen, 297) # DOGE: AuxPoW makes headers longer
+        assert_equal(headerLen, 297) # DINGO: AuxPoW makes headers longer
         response_header_str = response_header.read()
         assert_equal(response_str[0:headerLen], response_header_str)
 

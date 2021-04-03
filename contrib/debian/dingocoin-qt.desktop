@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Dingocoin Core
+Comment=Connect to the Dingocoin P2P Network
+Comment[de]=Verbinde mit dem Dingocoin peer-to-peer Netzwerk
+Comment[fr]=Dingocoin, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=Dingocoin, eşten eşe kriptografik sanal para birimi
+Exec=dingocoin-qt %u
+Terminal=false
+Type=Application
+Icon=dingocoin128
+MimeType=x-scheme-handler/dingocoin;
+Categories=Office;Finance;

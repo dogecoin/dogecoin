@@ -26,7 +26,7 @@ class TxnMallTest(BitcoinTestFramework):
         return super(TxnMallTest, self).setup_network(True)
 
     def run_test(self):
-        # All nodes should start with 7,500,000 DOGE:
+        # All nodes should start with 7,500,000 DINGO:
         starting_balance = 7500000
         for i in range(4):
             assert_equal(self.nodes[i].getbalance(), starting_balance)
@@ -47,7 +47,7 @@ class TxnMallTest(BitcoinTestFramework):
         # Coins are sent to node1_address
         node1_address = self.nodes[1].getnewaddress("from0")
 
-        # First: use raw transaction API to send 7499960 DOGE to node1_address,
+        # First: use raw transaction API to send 7499960 DINGO to node1_address,
         # but don't broadcast:
         doublespend_fee = Decimal('-2')
         rawtx_input_0 = {}
@@ -77,7 +77,7 @@ class TxnMallTest(BitcoinTestFramework):
         tx1 = self.nodes[0].gettransaction(txid1)
         tx2 = self.nodes[0].gettransaction(txid2)
 
-        # Node0's balance should be starting balance, plus 500,000 DOGE for another
+        # Node0's balance should be starting balance, plus 500,000 DINGO for another
         # matured block, minus 7499960, minus 20, and minus transaction fees:
         expected = starting_balance + fund_foo_tx["fee"] + fund_bar_tx["fee"]
         if self.options.mine_block: expected += 500000

@@ -1,19 +1,19 @@
 //
-// Simple Dogecoin Payment Protocol messages
+// Simple Dingocoin Payment Protocol messages
 // Derived from the Bitcoin Payment Protocol
 //
 // Use fields 100+ for extensions;
 // to avoid conflicts, register extensions via pull-req at:
-// https://github.com/dogecoin/dips
+// https://github.com/dingocoin/dips
 //
 
 syntax = "proto2";
 
 package payments;
-option java_package = "com.dogecoin.protocols.payments";
+option java_package = "com.dingocoin.protocols.payments";
 option java_outer_classname = "Protos";
 
-// Generalized form of "send payment to this/these dogecoin addresses"
+// Generalized form of "send payment to this/these dingocoin addresses"
 message Output {
         optional uint64 amount = 1 [default = 0]; // amount is integer-number-of-satoshis
         required bytes script = 2; // usually one of the standard Script forms

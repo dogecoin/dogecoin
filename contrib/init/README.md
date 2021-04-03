@@ -1,11 +1,11 @@
 Sample configuration files for:
 
-SystemD: dogecoind.service
-Upstart: dogecoind.conf
-OpenRC:  dogecoind.openrc
-         dogecoind.openrcconf
-CentOS:  dogecoind.init
-OS X:    org.dogecoin.dogecoind.plist
+SystemD: dingocoind.service
+Upstart: dingocoind.conf
+OpenRC:  dingocoind.openrc
+         dingocoind.openrcconf
+CentOS:  dingocoind.init
+OS X:    org.dingocoin.dingocoind.plist
 
 have been made available to assist packagers in creating node packages here.
 

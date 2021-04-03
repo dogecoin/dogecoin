@@ -3,9 +3,9 @@ Release Process
 
 Before every release candidate:
 
-* Update translations (ping wumpus on IRC) see [translation_process.md](https://github.com/dogecoin/dogecoin/blob/master/doc/translation_process.md#synchronising-translations).
+* Update translations (ping wumpus on IRC) see [translation_process.md](https://github.com/dingocoin/dingocoin/blob/master/doc/translation_process.md#synchronising-translations).
 
-* Update manpages, see [gen-manpages.sh](https://github.com/dogecoin/dogecoin/blob/master/contrib/devtools/README.md#gen-manpagessh).
+* Update manpages, see [gen-manpages.sh](https://github.com/dingocoin/dingocoin/blob/master/contrib/devtools/README.md#gen-manpagessh).
 
 Before every minor and major release:
 
@@ -21,7 +21,7 @@ Before every minor and major release:
 
 Before every major release:
 
-* Update hardcoded [seeds](/contrib/seeds/README.md), see [this pull request](https://github.com/dogecoin/dogecoin/pull/7415) for an example.
+* Update hardcoded [seeds](/contrib/seeds/README.md), see [this pull request](https://github.com/dingocoin/dingocoin/pull/7415) for an example.
 * Update [`BLOCK_CHAIN_SIZE`](/src/qt/intro.cpp) to the current size plus some overhead.
 
 ### First time / New builders
@@ -31,12 +31,12 @@ If you're using the automated script (found in [contrib/gitian-build.sh](/contri
 Check out the source code in the following directory hierarchy.
 
     cd /path/to/your/toplevel/build
-    git clone https://github.com/dogecoin-core/gitian.sigs.git
-    git clone https://github.com/dogecoin-core/dogecoin-detached-sigs.git
+    git clone https://github.com/dingocoin-core/gitian.sigs.git
+    git clone https://github.com/dingocoin-core/dingocoin-detached-sigs.git
     git clone https://github.com/devrandom/gitian-builder.git
-    git clone https://github.com/dogecoin/dogecoin.git
+    git clone https://github.com/dingocoin/dingocoin.git
 
-### Dogecoin maintainers/release engineers, update version in sources
+### Dingocoin maintainers/release engineers, update version in sources
 
 Update the following:
 
@@ -75,7 +75,7 @@ If you're using the automated script (found in [contrib/gitian-build.sh](/contri
 
 Setup Gitian descriptors:
 
-    pushd ./dogecoin
+    pushd ./dingocoin
     export SIGNER=(your Gitian key, ie bluematt, sipa, etc)
     export VERSION=(new version, e.g. 0.8.0)
     git fetch
@@ -109,7 +109,7 @@ Create the OS X SDK tarball, see the [OS X readme](README_osx.md) for details, a
 By default, Gitian will fetch source files as needed. To cache them ahead of time:
 
     pushd ./gitian-builder
-    make -C ../dogecoin/depends download SOURCES_PATH=`pwd`/cache/common
+    make -C ../dingocoin/depends download SOURCES_PATH=`pwd`/cache/common
     popd
 
 Only missing files will be fetched, so this is safe to re-run for each build.
@@ -117,50 +117,50 @@ Only missing files will be fetched, so this is safe to re-run for each build.
 NOTE: Offline builds must use the --url flag to ensure Gitian fetches only from local URLs. For example:
 
     pushd ./gitian-builder
-    ./bin/gbuild --url dogecoin=/path/to/dogecoin,signature=/path/to/sigs {rest of arguments}
+    ./bin/gbuild --url dingocoin=/path/to/dingocoin,signature=/path/to/sigs {rest of arguments}
     popd
 
 The gbuild invocations below <b>DO NOT DO THIS</b> by default.
 
-### Build and sign Dogecoin Core for Linux, Windows, and OS X:
+### Build and sign Dingocoin Core for Linux, Windows, and OS X:
 
     pushd ./gitian-builder
-    ./bin/gbuild --memory 3000 --commit dogecoin=v${VERSION} ../dogecoin/contrib/gitian-descriptors/gitian-linux.yml
-    ./bin/gsign --signer $SIGNER --release ${VERSION}-linux --destination ../gitian.sigs/ ../dogecoin/contrib/gitian-descriptors/gitian-linux.yml
-    mv build/out/dogecoin-*.tar.gz build/out/src/dogecoin-*.tar.gz ../
+    ./bin/gbuild --memory 3000 --commit dingocoin=v${VERSION} ../dingocoin/contrib/gitian-descriptors/gitian-linux.yml
+    ./bin/gsign --signer $SIGNER --release ${VERSION}-linux --destination ../gitian.sigs/ ../dingocoin/contrib/gitian-descriptors/gitian-linux.yml
+    mv build/out/dingocoin-*.tar.gz build/out/src/dingocoin-*.tar.gz ../
 
-    ./bin/gbuild --memory 3000 --commit dogecoin=v${VERSION} ../dogecoin/contrib/gitian-descriptors/gitian-win.yml
-    ./bin/gsign --signer $SIGNER --release ${VERSION}-win-unsigned --destination ../gitian.sigs/ ../dogecoin/contrib/gitian-descriptors/gitian-win.yml
-    mv build/out/dogecoin-*-win-unsigned.tar.gz inputs/dogecoin-win-unsigned.tar.gz
-    mv build/out/dogecoin-*.zip build/out/dogecoin-*.exe ../
+    ./bin/gbuild --memory 3000 --commit dingocoin=v${VERSION} ../dingocoin/contrib/gitian-descriptors/gitian-win.yml
+    ./bin/gsign --signer $SIGNER --release ${VERSION}-win-unsigned --destination ../gitian.sigs/ ../dingocoin/contrib/gitian-descriptors/gitian-win.yml
+    mv build/out/dingocoin-*-win-unsigned.tar.gz inputs/dingocoin-win-unsigned.tar.gz
+    mv build/out/dingocoin-*.zip build/out/dingocoin-*.exe ../
 
-    ./bin/gbuild --memory 3000 --commit dogecoin=v${VERSION} ../dogecoin/contrib/gitian-descriptors/gitian-osx.yml
-    ./bin/gsign --signer $SIGNER --release ${VERSION}-osx-unsigned --destination ../gitian.sigs/ ../dogecoin/contrib/gitian-descriptors/gitian-osx.yml
-    mv build/out/dogecoin-*-osx-unsigned.tar.gz inputs/dogecoin-osx-unsigned.tar.gz
-    mv build/out/dogecoin-*.tar.gz build/out/dogecoin-*.dmg ../
+    ./bin/gbuild --memory 3000 --commit dingocoin=v${VERSION} ../dingocoin/contrib/gitian-descriptors/gitian-osx.yml
+    ./bin/gsign --signer $SIGNER --release ${VERSION}-osx-unsigned --destination ../gitian.sigs/ ../dingocoin/contrib/gitian-descriptors/gitian-osx.yml
+    mv build/out/dingocoin-*-osx-unsigned.tar.gz inputs/dingocoin-osx-unsigned.tar.gz
+    mv build/out/dingocoin-*.tar.gz build/out/dingocoin-*.dmg ../
     popd
 
 Build output expected:
 
-  1. source tarball (`dogecoin-${VERSION}.tar.gz`)
-  2. linux 32-bit and 64-bit dist tarballs (`dogecoin-${VERSION}-linux[32|64].tar.gz`)
-  3. windows 32-bit and 64-bit unsigned installers and dist zips (`dogecoin-${VERSION}-win[32|64]-setup-unsigned.exe`, `dogecoin-${VERSION}-win[32|64].zip`)
-  4. OS X unsigned installer and dist tarball (`dogecoin-${VERSION}-osx-unsigned.dmg`, `dogecoin-${VERSION}-osx64.tar.gz`)
+  1. source tarball (`dingocoin-${VERSION}.tar.gz`)
+  2. linux 32-bit and 64-bit dist tarballs (`dingocoin-${VERSION}-linux[32|64].tar.gz`)
+  3. windows 32-bit and 64-bit unsigned installers and dist zips (`dingocoin-${VERSION}-win[32|64]-setup-unsigned.exe`, `dingocoin-${VERSION}-win[32|64].zip`)
+  4. OS X unsigned installer and dist tarball (`dingocoin-${VERSION}-osx-unsigned.dmg`, `dingocoin-${VERSION}-osx64.tar.gz`)
   5. Gitian signatures (in `gitian.sigs/${VERSION}-<linux|{win,osx}-unsigned>/(your Gitian key)/`)
 
 ### Verify other gitian builders signatures to your own. (Optional)
 
 Add other gitian builders keys to your gpg keyring, and/or refresh keys.
 
-    gpg --import dogecoin/contrib/gitian-keys/*.pgp
+    gpg --import dingocoin/contrib/gitian-keys/*.pgp
     gpg --refresh-keys
 
 Verify the signatures
 
     pushd ./gitian-builder
-    ./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-linux ../dogecoin/contrib/gitian-descriptors/gitian-linux.yml
-    ./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-win-unsigned ../dogecoin/contrib/gitian-descriptors/gitian-win.yml
-    ./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-osx-unsigned ../dogecoin/contrib/gitian-descriptors/gitian-osx.yml
+    ./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-linux ../dingocoin/contrib/gitian-descriptors/gitian-linux.yml
+    ./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-win-unsigned ../dingocoin/contrib/gitian-descriptors/gitian-win.yml
+    ./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-osx-unsigned ../dingocoin/contrib/gitian-descriptors/gitian-osx.yml
     popd
 
 ### Next steps:
@@ -178,25 +178,25 @@ Commit your signature to gitian.sigs:
 Wait for Windows/OS X detached signatures:
 
 - Once the Windows/OS X builds each have 3 matching signatures, they will be signed with their respective release keys.
-- Detached signatures will then be committed to the [dogecoin-detached-sigs](https://github.com/doge/dogecoin-detached-sigs) repository, which can be combined with the unsigned apps to create signed binaries.
+- Detached signatures will then be committed to the [dingocoin-detached-sigs](https://github.com/dingo/dingocoin-detached-sigs) repository, which can be combined with the unsigned apps to create signed binaries.
 
 Create (and optionally verify) the signed OS X binary:
 
     pushd ./gitian-builder
-    ./bin/gbuild -i --commit signature=v${VERSION} ../dogecoin/contrib/gitian-descriptors/gitian-osx-signer.yml
-    ./bin/gsign --signer $SIGNER --release ${VERSION}-osx-signed --destination ../gitian.sigs/ ../dogecoin/contrib/gitian-descriptors/gitian-osx-signer.yml
-    ./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-osx-signed ../dogecoin/contrib/gitian-descriptors/gitian-osx-signer.yml
-    mv build/out/dogecoin-osx-signed.dmg ../dogecoin-${VERSION}-osx.dmg
+    ./bin/gbuild -i --commit signature=v${VERSION} ../dingocoin/contrib/gitian-descriptors/gitian-osx-signer.yml
+    ./bin/gsign --signer $SIGNER --release ${VERSION}-osx-signed --destination ../gitian.sigs/ ../dingocoin/contrib/gitian-descriptors/gitian-osx-signer.yml
+    ./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-osx-signed ../dingocoin/contrib/gitian-descriptors/gitian-osx-signer.yml
+    mv build/out/dingocoin-osx-signed.dmg ../dingocoin-${VERSION}-osx.dmg
     popd
 
 Create (and optionally verify) the signed Windows binaries:
 
     pushd ./gitian-builder
-    ./bin/gbuild -i --commit signature=v${VERSION} ../dogecoin/contrib/gitian-descriptors/gitian-win-signer.yml
-    ./bin/gsign --signer $SIGNER --release ${VERSION}-win-signed --destination ../gitian.sigs/ ../dogecoin/contrib/gitian-descriptors/gitian-win-signer.yml
-    ./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-win-signed ../dogecoin/contrib/gitian-descriptors/gitian-win-signer.yml
-    mv build/out/dogecoin-*win64-setup.exe ../dogecoin-${VERSION}-win64-setup.exe
-    mv build/out/dogecoin-*win32-setup.exe ../dogecoin-${VERSION}-win32-setup.exe
+    ./bin/gbuild -i --commit signature=v${VERSION} ../dingocoin/contrib/gitian-descriptors/gitian-win-signer.yml
+    ./bin/gsign --signer $SIGNER --release ${VERSION}-win-signed --destination ../gitian.sigs/ ../dingocoin/contrib/gitian-descriptors/gitian-win-signer.yml
+    ./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-win-signed ../dingocoin/contrib/gitian-descriptors/gitian-win-signer.yml
+    mv build/out/dingocoin-*win64-setup.exe ../dingocoin-${VERSION}-win64-setup.exe
+    mv build/out/dingocoin-*win32-setup.exe ../dingocoin-${VERSION}-win32-setup.exe
     popd
 
 Commit your signature for the signed OS X/Windows binaries:
@@ -218,23 +218,23 @@ sha256sum * > SHA256SUMS
 
 The list of files should be:
 ```
-dogecoin-${VERSION}-aarch64-linux-gnu.tar.gz
-dogecoin-${VERSION}-arm-linux-gnueabihf.tar.gz
-dogecoin-${VERSION}-i686-pc-linux-gnu.tar.gz
-dogecoin-${VERSION}-x86_64-linux-gnu.tar.gz
-dogecoin-${VERSION}-osx64.tar.gz
-dogecoin-${VERSION}-osx.dmg
-dogecoin-${VERSION}.tar.gz
-dogecoin-${VERSION}-win32-setup.exe
-dogecoin-${VERSION}-win32.zip
-dogecoin-${VERSION}-win64-setup.exe
-dogecoin-${VERSION}-win64.zip
+dingocoin-${VERSION}-aarch64-linux-gnu.tar.gz
+dingocoin-${VERSION}-arm-linux-gnueabihf.tar.gz
+dingocoin-${VERSION}-i686-pc-linux-gnu.tar.gz
+dingocoin-${VERSION}-x86_64-linux-gnu.tar.gz
+dingocoin-${VERSION}-osx64.tar.gz
+dingocoin-${VERSION}-osx.dmg
+dingocoin-${VERSION}.tar.gz
+dingocoin-${VERSION}-win32-setup.exe
+dingocoin-${VERSION}-win32.zip
+dingocoin-${VERSION}-win64-setup.exe
+dingocoin-${VERSION}-win64.zip
 ```
 The `*-debug*` files generated by the gitian build contain debug symbols
 for troubleshooting by developers. It is assumed that anyone that is interested
 in debugging can run gitian to generate the files for themselves. To avoid
 end-user confusion about which file to pick, as well as save storage
-space *do not upload these to the dogecoin.com server, nor put them in the torrent*.
+space *do not upload these to the dingocoin.com server, nor put them in the torrent*.
 
 - GPG-sign it, delete the unsigned file:
 ```
@@ -244,23 +244,23 @@ rm SHA256SUMS
 (the digest algorithm is forced to sha256 to avoid confusion of the `Hash:` header that GPG adds with the SHA256 used for the files)
 Note: check that SHA256SUMS itself doesn't end up in SHA256SUMS, which is a spurious/nonsensical entry.
 
-- Upload zips and installers, as well as `SHA256SUMS.asc` from last step, to the dogecoin.com Github repo
+- Upload zips and installers, as well as `SHA256SUMS.asc` from last step, to the dingocoin.com Github repo
 
-- Create a [new GitHub release](https://github.com/dogecoin/dogecoin/releases/new) with a link to the archived release notes.
+- Create a [new GitHub release](https://github.com/dingocoin/dingocoin/releases/new) with a link to the archived release notes.
 
-- Update dogecoin.com version - Langerhans to do
+- Update dingocoin.com version - Langerhans to do
 
 - Announce the release:
 
-  - Release sticky on Dogecoin Forums: http://forum.dogecoin.com/forum/news-community/community-announcements
+  - Release sticky on Dingocoin Forums: http://forum.dingocoin.com/forum/news-community/community-announcements
 
-  - Dogecoin-development mailing list
+  - Dingocoin-development mailing list
 
-  - Twitter, reddit /r/dogecoin
+  - Twitter, reddit /r/dingocoin
 
-  - Update title of #dogecoin on Freenode IRC
+  - Update title of #dingocoin on Freenode IRC
 
-  - Announce on reddit /r/dogecoin, /r/dogecoindev
+  - Announce on reddit /r/dingocoin, /r/dingocoindev
 
 - Add release notes for the new version to the directory `doc/release-notes` in git master
 

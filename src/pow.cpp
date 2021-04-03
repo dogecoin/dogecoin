@@ -8,7 +8,7 @@
 #include "auxpow.h"
 #include "arith_uint256.h"
 #include "chain.h"
-#include "dogecoin.h"
+#include "dingocoin.h"
 #include "primitives/block.h"
 #include "uint256.h"
 #include "util.h"
@@ -20,7 +20,7 @@ bool AllowMinDifficultyForBlock(const CBlockIndex* pindexLast, const CBlockHeade
     if (!params.fPowAllowMinDifficultyBlocks)
         return false;
 
-    // Dogecoin: Magic number at which reset protocol switches
+    // Dingocoin: Magic number at which reset protocol switches
     // check if we allow minimum difficulty at this block-height
     if (pindexLast->nHeight < 157500)
         return false;
@@ -37,7 +37,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     if (pindexLast == NULL)
         return nProofOfWorkLimit;
 
-    // Dogecoin: Special rules for minimum difficulty blocks with Digishield
+    // Dingocoin: Special rules for minimum difficulty blocks with Digishield
     if (AllowDigishieldMinDifficultyForBlock(pindexLast, pblock, params))
     {
         // Special difficulty rule for testnet:
@@ -84,7 +84,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     const CBlockIndex* pindexFirst = pindexLast->GetAncestor(nHeightFirst);
     assert(pindexFirst);
 
-    return CalculateDogecoinNextWorkRequired(pindexLast, pindexFirst->GetBlockTime(), params);
+    return CalculateDingocoinNextWorkRequired(pindexLast, pindexFirst->GetBlockTime(), params);
 }
 
 unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nFirstBlockTime, const Consensus::Params& params)

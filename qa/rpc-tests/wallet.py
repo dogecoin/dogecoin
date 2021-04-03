@@ -57,7 +57,7 @@ class WalletTest (BitcoinTestFramework):
         assert_equal(len(self.nodes[1].listunspent()), 1)
         assert_equal(len(self.nodes[2].listunspent()), 0)
 
-        # Send 210.000 DOGE from 0 to 2 using sendtoaddress call.
+        # Send 210.000 DINGO from 0 to 2 using sendtoaddress call.
         self.nodes[0].sendtoaddress(self.nodes[2].getnewaddress(), 110000)
         self.nodes[0].sendtoaddress(self.nodes[2].getnewaddress(), 100000)
 
@@ -81,7 +81,7 @@ class WalletTest (BitcoinTestFramework):
         self.nodes[1].generate(60)
         self.sync_all()
 
-        # node0 should end up with 1.000.000 doge in block rewards plus fees, but
+        # node0 should end up with 1.000.000 dingo in block rewards plus fees, but
         # minus the 210.000 plus fees sent to node2
         assert_equal(self.nodes[0].getbalance(), 1000000-210000)
         assert_equal(self.nodes[2].getbalance(), 210000)
@@ -114,7 +114,7 @@ class WalletTest (BitcoinTestFramework):
         assert_equal(self.nodes[2].getbalance(), 999994)
         assert_equal(self.nodes[2].getbalance("from1"), 999994-210000)
 
-        # Send 100000 DOGE normal
+        # Send 100000 DINGO normal
         address = self.nodes[0].getnewaddress("test")
         fee_per_byte = Decimal('1') / 1000
         self.nodes[2].settxfee(fee_per_byte * 1000)
@@ -124,7 +124,7 @@ class WalletTest (BitcoinTestFramework):
         node_2_bal = self.check_fee_amount(self.nodes[2].getbalance(), Decimal('899994'), fee_per_byte, count_bytes(self.nodes[2].getrawtransaction(txid)))
         assert_equal(self.nodes[0].getbalance(), Decimal('100000'))
 
-        # Send 100000 DOGE with subtract fee from amount
+        # Send 100000 DINGO with subtract fee from amount
         txid = self.nodes[2].sendtoaddress(address, 100000, "", "", True)
         self.nodes[2].generate(1)
         self.sync_all()
@@ -132,7 +132,7 @@ class WalletTest (BitcoinTestFramework):
         assert_equal(self.nodes[2].getbalance(), node_2_bal)
         node_0_bal = self.check_fee_amount(self.nodes[0].getbalance(), Decimal('200000'), fee_per_byte, count_bytes(self.nodes[2].getrawtransaction(txid)))
 
-        # Sendmany 100000 DOGE
+        # Sendmany 100000 DINGO
         txid = self.nodes[2].sendmany('from1', {address: 100000}, 0, "", [])
         self.nodes[2].generate(1)
         self.sync_all()

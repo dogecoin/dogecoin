@@ -1,4 +1,4 @@
-### Building dogecoin-qt 1.14 on modern macs. ###
+### Building dingocoin-qt 1.14 on modern macs. ###
 
 Note that this requires changes made by michilumin on the 1.14-dev branch as well as some changes to BDB.
 
@@ -6,11 +6,11 @@ Tested on OSX 10.11 El Capitan and 10.13 High Sierra.
 
 **Paper wallet printing support seems to work fine through this method as well.**
 
-### Clone dogecoin locally, or check it out, etc. ###
+### Clone dingocoin locally, or check it out, etc. ###
 
 For this purpose, just indicating the 1.14-branding branch in my repo.
 
-	$git clone -b 1.14-branding --single-branch https://github.com/michilumin/dogecoin.git
+	$git clone -b 1.14-branding --single-branch https://github.com/michilumin/dingocoin.git
 
 ### Set up OSX basic build dependencies. ##
 
@@ -52,16 +52,16 @@ Patch bdb 5.1.29 from our patchfiles
 
     $cd src
     $cd dbinc
-    $patch -b atomic.h ~/dogecoin/depends/patches/bdb-5.1.29-clang-osx/atomic.h.patch
+    $patch -b atomic.h ~/dingocoin/depends/patches/bdb-5.1.29-clang-osx/atomic.h.patch
     $cd ..
     $cd mp
-    $patch -b mp_fget.c ~/dogecoin/depends/patches/bdb-5.1.29-clang-osx/mp_fget.c.patch
-    $patch -b mp_mvcc.c ~/dogecoin/depends/patches/bdb-5.1.29-clang-osx/mp_mvcc.c.patch
-    $patch -b mp_region.c ~/dogecoin/depends/patches/bdb-5.1.29-clang-osx/mp_region.c.patch
+    $patch -b mp_fget.c ~/dingocoin/depends/patches/bdb-5.1.29-clang-osx/mp_fget.c.patch
+    $patch -b mp_mvcc.c ~/dingocoin/depends/patches/bdb-5.1.29-clang-osx/mp_mvcc.c.patch
+    $patch -b mp_region.c ~/dingocoin/depends/patches/bdb-5.1.29-clang-osx/mp_region.c.patch
     $cd ..
     $cd mutex
-    $patch -b mut_method.c ~/dogecoin/depends/patches/bdb-5.1.29-clang-osx/mut_method.c.patch
-    $patch -b mut_tas.c ~/dogecoin/depends/patches/bdb-5.1.29-clang-osx/mut_tas.c.patch
+    $patch -b mut_method.c ~/dingocoin/depends/patches/bdb-5.1.29-clang-osx/mut_method.c.patch
+    $patch -b mut_tas.c ~/dingocoin/depends/patches/bdb-5.1.29-clang-osx/mut_tas.c.patch
 
 Build BDB 5.1.29
 
@@ -82,9 +82,9 @@ Build BDB 5.1.29
     $cd /usr/local/include 
     $ln -s ../opt/openssl/include/openssl 
 
-### Go back to your Dogecoin repo ###
+### Go back to your Dingocoin repo ###
 
-    $cd ~/dogecoin
+    $cd ~/dingocoin
     $./autogen.sh
     $./configure --with-gui=qt5 --with-qrcode=yes
     $make
@@ -97,7 +97,7 @@ Go have another beverage.
 
 Run it.
 
-	$/usr/local/bin/dogecoin-qt
+	$/usr/local/bin/dingocoin-qt
 
 
 

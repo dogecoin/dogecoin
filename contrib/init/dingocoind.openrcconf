@@ -1,0 +1,33 @@
+# /etc/conf.d/dingocoind: config file for /etc/init.d/dingocoind
+
+# Config file location
+#DINGOCOIND_CONFIGFILE="/etc/dingocoin/dingocoin.conf"
+
+# What directory to write pidfile to?  (created and owned by $DINGOCOIND_USER)
+#DINGOCOIND_PIDDIR="/var/run/dingocoind"
+
+# What filename to give the pidfile
+#DINGOCOIND_PIDFILE="${DINGOCOIND_PIDDIR}/dingocoind.pid"
+
+# Where to write dingocoind data (be mindful that the blockchain is large)
+#DINGOCOIND_DATADIR="/var/lib/dingocoind"
+
+# User and group to own dingocoind process
+#DINGOCOIND_USER="dingocoin"
+#DINGOCOIND_GROUP="dingocoin"
+
+# Path to dingocoind executable
+#DINGOCOIND_BIN="/usr/bin/dingocoind"
+
+# Nice value to run dingocoind under
+#DINGOCOIND_NICE=0
+
+# Additional options (avoid -conf and -datadir, use flags above)
+DINGOCOIND_OPTS="-disablewallet"
+
+# The timeout in seconds OpenRC will wait for dingocoind to terminate
+# after a SIGTERM has been raised.
+# Note that this will be mapped as argument to start-stop-daemon's
+# '--retry' option, which means you can specify a retry schedule
+# here. For more information see man 8 start-stop-daemon.
+DINGOCOIND_SIGTERM_TIMEOUT=60

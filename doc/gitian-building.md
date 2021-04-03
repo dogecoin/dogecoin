@@ -1,9 +1,9 @@
 Gitian building
 ================
 
-*Setup instructions for a Gitian build of Dogecoin Core using a Debian VM or physical system.*
+*Setup instructions for a Gitian build of Dingocoin Core using a Debian VM or physical system.*
 
-Gitian is the deterministic build process that is used to build the Dogecoin
+Gitian is the deterministic build process that is used to build the Dingocoin
 Core executables. It provides a way to be reasonably sure that the
 executables are really built from the source on GitHub. It also makes sure that
 the same, tested dependencies are used and statically built into the executable.
@@ -11,7 +11,7 @@ the same, tested dependencies are used and statically built into the executable.
 Multiple developers build the source code by following a specific descriptor
 ("recipe"), cryptographically sign the result, and upload the resulting signature.
 These results are compared and only if they match, the build is accepted and uploaded
-to dogecoin.com.
+to dingocoin.com.
 
 More independent Gitian builders are needed, which is why this guide exists.
 It is preferred you follow these steps yourself instead of using someone else's
@@ -26,7 +26,7 @@ Table of Contents
 - [Installing Gitian](#installing-gitian)
 - [Setting up the Gitian image](#setting-up-the-gitian-image)
 - [Getting and building the inputs](#getting-and-building-the-inputs)
-- [Building Dogecoin Core](#building-dogecoin-core)
+- [Building Dingocoin Core](#building-dingocoin-core)
 - [Building an alternative repository](#building-an-alternative-repository)
 - [Signing externally](#signing-externally)
 - [Uploading signatures](#uploading-signatures)
@@ -305,12 +305,12 @@ cd ..
 
 **Note**: When sudo asks for a password, enter the password for the user *debian* not for *root*.
 
-Clone the git repositories for dogecoin and Gitian.
+Clone the git repositories for dingocoin and Gitian.
 
 ```bash
 git clone https://github.com/devrandom/gitian-builder.git
-git clone https://github.com/dogecoin/dogecoin.git
-git clone https://github.com/dogecoin/gitian.sigs.git
+git clone https://github.com/dingocoin/dingocoin.git
+git clone https://github.com/dingocoin/gitian.sigs.git
 ```
 
 Setting up the Gitian image
@@ -339,16 +339,16 @@ Getting and building the inputs
 At this point you have two options, you can either use the automated script (found in [contrib/gitian-build.sh](/contrib/gitian-build.sh)) or you could manually do everything by following this guide. If you're using the automated script, then run it with the "--setup" command. Afterwards, run it with the "--build" command (example: "contrib/gitian-building.sh -b signer 0.13.0"). Otherwise ignore this.
 
 Follow the instructions in [doc/release-process.md](release-process.md#fetch-and-create-inputs-first-time-or-when-dependency-versions-change)
-in the dogecoin repository under 'Fetch and create inputs' to install sources which require
+in the dingocoin repository under 'Fetch and create inputs' to install sources which require
 manual intervention. Also optionally follow the next step: 'Seed the Gitian sources cache
 and offline git repositories' which will fetch the remaining files required for building
 offline.
 
-Building Dogecoin Core
+Building Dingocoin Core
 ----------------
 
-To build Dogecoin Core (for Linux, OS X and Windows) just follow the steps under 'perform
-Gitian builds' in [doc/release-process.md](release-process.md#perform-gitian-builds) in the dogecoin repository.
+To build Dingocoin Core (for Linux, OS X and Windows) just follow the steps under 'perform
+Gitian builds' in [doc/release-process.md](release-process.md#perform-gitian-builds) in the dingocoin repository.
 
 This may take some time as it will build all the dependencies needed for each descriptor.
 These dependencies will be cached after a successful build to avoid rebuilding them when possible.
@@ -362,12 +362,12 @@ tail -f var/build.log
 
 Output from `gbuild` will look something like
 
-    Initialized empty Git repository in /home/debian/gitian-builder/inputs/dogecoin/.git/
+    Initialized empty Git repository in /home/debian/gitian-builder/inputs/dingocoin/.git/
     remote: Counting objects: 57959, done.
     remote: Total 57959 (delta 0), reused 0 (delta 0), pack-reused 57958
     Receiving objects: 100% (57959/57959), 53.76 MiB | 484.00 KiB/s, done.
     Resolving deltas: 100% (41590/41590), done.
-    From https://github.com/dogecoin/dogecoin
+    From https://github.com/dingocoin/dingocoin
     ... (new tags, new branch etc)
     --- Building for trusty amd64 ---
     Stopping target if it is up
@@ -393,18 +393,18 @@ and inputs.
 
 For example:
 ```bash
-URL=https://github.com/laanwj/dogecoin.git
+URL=https://github.com/laanwj/dingocoin.git
 COMMIT=2014_03_windows_unicode_path
-./bin/gbuild --commit dogecoin=${COMMIT} --url dogecoin=${URL} ../dogecoin/contrib/gitian-descriptors/gitian-linux.yml
-./bin/gbuild --commit dogecoin=${COMMIT} --url dogecoin=${URL} ../dogecoin/contrib/gitian-descriptors/gitian-win.yml
-./bin/gbuild --commit dogecoin=${COMMIT} --url dogecoin=${URL} ../dogecoin/contrib/gitian-descriptors/gitian-osx.yml
+./bin/gbuild --commit dingocoin=${COMMIT} --url dingocoin=${URL} ../dingocoin/contrib/gitian-descriptors/gitian-linux.yml
+./bin/gbuild --commit dingocoin=${COMMIT} --url dingocoin=${URL} ../dingocoin/contrib/gitian-descriptors/gitian-win.yml
+./bin/gbuild --commit dingocoin=${COMMIT} --url dingocoin=${URL} ../dingocoin/contrib/gitian-descriptors/gitian-osx.yml
 ```
 
 Building fully offline
 -----------------------
 
 For building fully offline including attaching signatures to unsigned builds, the detached-sigs repository
-and the dogecoin git repository with the desired tag must both be available locally, and then gbuild must be
+and the dingocoin git repository with the desired tag must both be available locally, and then gbuild must be
 told where to find them. It also requires an apt-cacher-ng which is fully-populated but set to offline mode, or
 manually disabling gitian-builder's use of apt-get to update the VM build environment.
 
@@ -423,7 +423,7 @@ cd /path/to/gitian-builder
 LXC_ARCH=amd64 LXC_SUITE=trusty on-target -u root apt-get update
 LXC_ARCH=amd64 LXC_SUITE=trusty on-target -u root \
   -e DEBIAN_FRONTEND=noninteractive apt-get --no-install-recommends -y install \
-  $( sed -ne '/^packages:/,/[^-] .*/ {/^- .*/{s/"//g;s/- //;p}}' ../dogecoin/contrib/gitian-descriptors/*|sort|uniq )
+  $( sed -ne '/^packages:/,/[^-] .*/ {/^- .*/{s/"//g;s/- //;p}}' ../dingocoin/contrib/gitian-descriptors/*|sort|uniq )
 LXC_ARCH=amd64 LXC_SUITE=trusty on-target -u root apt-get -q -y purge grub
 LXC_ARCH=amd64 LXC_SUITE=trusty on-target -u root -e DEBIAN_FRONTEND=noninteractive apt-get -y dist-upgrade
 ```
@@ -443,12 +443,12 @@ Then when building, override the remote URLs that gbuild would otherwise pull fr
 ```bash
 
 cd /some/root/path/
-git clone https://github.com/dogecoin/dogecoin-detached-sigs.git
+git clone https://github.com/dingocoin/dingocoin-detached-sigs.git
 
-BTCPATH=/some/root/path/dogecoin
-SIGPATH=/some/root/path/dogecoin-detached-sigs
+BTCPATH=/some/root/path/dingocoin
+SIGPATH=/some/root/path/dingocoin-detached-sigs
 
-./bin/gbuild --url dogecoin=${BTCPATH},signature=${SIGPATH} ../dogecoin/contrib/gitian-descriptors/gitian-win-signer.yml
+./bin/gbuild --url dingocoin=${BTCPATH},signature=${SIGPATH} ../dingocoin/contrib/gitian-descriptors/gitian-win-signer.yml
 ```
 
 Signing externally
@@ -463,9 +463,9 @@ When you execute `gsign` you will get an error from GPG, which can be ignored. C
 in `gitian.sigs` to your signing machine and do
 
 ```bash
-    gpg --detach-sign ${VERSION}-linux/${SIGNER}/dogecoin-linux-build.assert
-    gpg --detach-sign ${VERSION}-win/${SIGNER}/dogecoin-win-build.assert
-    gpg --detach-sign ${VERSION}-osx-unsigned/${SIGNER}/dogecoin-osx-build.assert
+    gpg --detach-sign ${VERSION}-linux/${SIGNER}/dingocoin-linux-build.assert
+    gpg --detach-sign ${VERSION}-win/${SIGNER}/dingocoin-win-build.assert
+    gpg --detach-sign ${VERSION}-osx-unsigned/${SIGNER}/dingocoin-osx-build.assert
 ```
 
 This will create the `.sig` files that can be committed together with the `.assert` files to assert your
@@ -475,5 +475,5 @@ Uploading signatures
 ---------------------
 
 After building and signing you can push your signatures (both the `.assert` and `.assert.sig` files) to the
-[dogecoin/gitian.sigs](https://github.com/dogecoin/gitian.sigs/) repository, or if that's not possible create a pull
+[dingocoin/gitian.sigs](https://github.com/dingocoin/gitian.sigs/) repository, or if that's not possible create a pull
 request. You can also mail the files to Wladimir (laanwj@gmail.com) and he will commit them.

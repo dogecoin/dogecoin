@@ -1,19 +1,19 @@
-Dogecoin Core version 1.14.2 is now available from:
+Dingocoin Core version 1.14.2 is now available from:
 
-  <https://github.com/dogecoin/dogecoin/releases/tag/v1.14.2/>
+  <https://github.com/dingocoin/dingocoin/releases/tag/v1.14.2/>
 
 This is a new major version release, including new features, various bugfixes
 and performance improvements, as well as updated translations.
 
 Please report bugs using the issue tracker at github:
 
-  <https://github.com/dogecoin/dogecoin/issues>
+  <https://github.com/dingocoin/dingocoin/issues>
 
 To receive security and update notifications, please watch reddit or Twitter:
 
-  * https://www.reddit.com/r/dogecoin/
-  * @Dogecoin on Twitter for high priority announcements
-  * @dogecoin\_devs on Twitter for updates on development work
+  * https://www.reddit.com/r/dingocoin/
+  * @Dingocoin on Twitter for high priority announcements
+  * @dingocoin\_devs on Twitter for updates on development work
 
 The developers also maintain personal Twitter accounts:
 
@@ -21,7 +21,7 @@ The developers also maintain personal Twitter accounts:
   * @JRossNicoll
 
 Lastly the founders are on Twitter, although as of the time of writing not involved in
-maintaining Dogecoin:
+maintaining Dingocoin:
 
   * @ummjackson
   * @BillyM2k
@@ -29,14 +29,14 @@ maintaining Dogecoin:
 Compatibility
 ==============
 
-Dogecoin Core is extensively tested on Ubuntu Server LTS, Mac OS X and Windows 10.
+Dingocoin Core is extensively tested on Ubuntu Server LTS, Mac OS X and Windows 10.
 
 Microsoft ended support for Windows XP on [April 8th, 2014](https://www.microsoft.com/en-us/WindowsForBusiness/end-of-xp-support),
 No attempt is made to prevent installing or running the software on Windows XP, you
 can still do so at your own risk but be aware that there are known instabilities and issues.
 Please do not report issues about Windows XP to the issue tracker.
 
-Dogecoin Core should also work on most other Unix-like systems but is not
+Dingocoin Core should also work on most other Unix-like systems but is not
 frequently tested on them.
 
 Notable changes
@@ -124,7 +124,7 @@ improved, leading to much shorter sync and initial block download times.
 Manual Pruning
 --------------
 
-Dogecoin Core introduces pruning the blockchain in 1.14. Pruning
+Dingocoin Core introduces pruning the blockchain in 1.14. Pruning
 the blockchain allows for significant storage space savings as the vast majority of
 the downloaded data can be discarded after processing so very little of it remains
 on the disk.
@@ -198,7 +198,7 @@ the same thing as the GUI icon. The command takes one boolean parameter,
 Out-of-sync Modal Info Layer
 ----------------------------
 
-When Dogecoin Core is out-of-sync on startup, a semi-transparent information
+When Dingocoin Core is out-of-sync on startup, a semi-transparent information
 layer will be shown over top of the normal display. This layer contains
 details about the current sync progress and estimates the amount of time
 remaining to finish syncing. This layer can also be hidden and subsequently
@@ -250,7 +250,7 @@ possible.
 Known Bugs
 ==========
 
-Since 1.14.0 the approximate transaction fee shown in Dogecoin-Qt when using coin
+Since 1.14.0 the approximate transaction fee shown in Dingocoin-Qt when using coin
 control and smart fee estimation does not reflect any change in target from the
 smart fee slider. It will only present an approximate fee calculated using the
 default target. The fee calculated using the correct target is still applied to
@@ -331,7 +331,7 @@ Low-level RPC changes
    the mempool or if `txindex` is enabled.
 
  - A new RPC command `getmemoryinfo` has been added which will return information
-   about the memory usage of Dogecoin Core. This was added in conjunction with
+   about the memory usage of Dingocoin Core. This was added in conjunction with
    optimizations to memory management. See [Pull #8753](https://github.com/bitcoin/bitcoin/pull/8753)
    for more information.
 
