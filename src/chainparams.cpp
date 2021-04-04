@@ -74,7 +74,7 @@ public:
     CMainParams() {
         strNetworkID = "main";
 
-        // Blocks 0 - 144999 are conventional difficulty calculation
+        // Blocks 0 - 4999 are conventional difficulty calculation
         consensus.nSubsidyHalvingInterval = 100000;
         consensus.nMajorityEnforceBlockUpgrade = 1500;
         consensus.nMajorityRejectBlockOutdated = 1900;
@@ -102,7 +102,7 @@ public:
         // XXX: BIP heights and hashes all need to be updated to Dingocoin values
         consensus.vDeployments[Consensus::DEPLOYMENT_CSV].bit = 0;
         consensus.vDeployments[Consensus::DEPLOYMENT_CSV].nStartTime = 1462060800; // May 1st, 2016
-        consensus.vDeployments[Consensus::DEPLOYMENT_CSV].nTimeout = 1493596800; // May 1st, 2017
+        consensus.vDeployments[Consensus::DEPLOYMENT_CSV].nTimeout = 0; // Disabled
 
         // Deployment of SegWit (BIP141, BIP143, and BIP147)
         consensus.vDeployments[Consensus::DEPLOYMENT_SEGWIT].bit = 1;
@@ -113,7 +113,7 @@ public:
         consensus.nMinimumChainWork = uint256S("0x00");
 
         // By default assume that the signatures in ancestors of this block are valid.
-        consensus.defaultAssumeValid = uint256S("0x1a91e3dace36e2be3bf030a65679fe821aa1d6ef92e7c9902eb318182c355691"); // 0
+        consensus.defaultAssumeValid = uint256S("0x594a42d8fe16382085dc982135df72cf8fcea12d34e6efd566e2f9e442e2136f"); // 1
 
         // AuxPoW parameters
         consensus.nAuxpowChainId = 0x0062; // 98 - Josh Wise!
@@ -162,7 +162,8 @@ public:
 
         // Note that of those with the service bits flag, most only support a subset of possible options
         vSeeds.push_back(CDNSSeedData("mint.australiacash.org", "mint2.australiacash.org", true));
-        // vSeeds.push_back(CDNSSeedData("multidingo.org", "seed2.multidingo.org"));
+        vSeeds.push_back(CDNSSeedData("45.76.120.169", "45.76.120.169"));
+        vSeeds.push_back(CDNSSeedData("139.180.173.59", "139.180.173.59"));
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,30);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,22);
@@ -174,21 +175,22 @@ public:
         //vFixedSeeds = std::vector<SeedSpec6>(pnSeed6_main, pnSeed6_main + ARRAYLEN(pnSeed6_main));
         vFixedSeeds.clear();
 
-        fMiningRequiresPeers = false;
+        fMiningRequiresPeers = true;
         fDefaultConsistencyChecks = false;
         fRequireStandard = true;
         fMineBlocksOnDemand = false;
 
         checkpointData = (CCheckpointData) {
             boost::assign::map_list_of
-            (      0, uint256S("0x1a91e3dace36e2be3bf030a65679fe821aa1d6ef92e7c9902eb318182c355691"))
+            (      0, uint256S("0x1a91e3dace36e2be3bf030a65679fe821aa1d6ef92e7c9902eb318182c355691")) // Dogecoins original genesis block for shits and giggles
+            (      1, uint256s("0x594a42d8fe16382085dc982135df72cf8fcea12d34e6efd566e2f9e442e2136f")) // First block mined within the Dingocoin Blockchain 03/04/2021
         };
 
         chainTxData = ChainTxData{
-            // Data as of block 954c7c66dee51f0a3fb1edb26200b735f5275fe54d9505c76ebd2bcabac36f1e (height 3606083).
+            // Data as of block 594a42d8fe16382085dc982135df72cf8fcea12d34e6efd566e2f9e442e2136f (height 1).
             // Tx estimate based on average of year 2021 (~40k transactions per day)
-            1386325540, // * UNIX timestamp of last checkpoint block
-            0,   // * total number of transactions between genesis and last checkpoint
+            1617400742, // * UNIX timestamp of last checkpoint block
+            1,   // * total number of transactions between genesis and last checkpoint
                         //   (the tx=... number in the SetBestChain debug.log lines)
             0.06        // * estimated number of transactions per second after checkpoint
         };
