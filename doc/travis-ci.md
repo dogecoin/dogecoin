@@ -2,7 +2,7 @@ Travis CI
 =========
 
 Support for using travis-ci has been added in order to automate pull-testing.
-See [travis-ci.org](https://travis-ci.org/) for more info
+See [travis-ci.org](https://travis-ci.org/) for more info.
 
 This procedure is different than the pull-tester that came before it in a few
 ways.
