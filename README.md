@@ -53,7 +53,7 @@ not straightforward.
 ## Very Much Frequently Asked Questions ❓
 
 ### How much dingo can exist? – So many puppies! 🐕
-Early 2015 (approximately a year and a half after release) there will be
+Mid 2022 (approximately a year and a half after release) there will be
 approximately 100,000,000,000 coins.
 Each subsequent block will grant 10,000 coins to encourage miners to continue to
 secure the network and make up for lost wallets on hard drives/phones/lost
@@ -73,7 +73,7 @@ determined by taking the maximum reward as per the block schedule and applying
 the result of a Mersenne Twister pseudo-random number generator to arrive at a
 number between 0 and the maximum reward.
 
-This was changed starting with block 145,000, to prevent large pools from gaming
+This was changed starting with block 5,000, to prevent large pools from gaming
 the system and mining only high reward blocks. At the same time, the difficulty
 retargeting was also changed from four hours to once per block (every minute),
 implementing an algorithm courtesy of the DigiByte Coin development team, to
@@ -81,11 +81,11 @@ lessen the impact of sudden increases and decreases of network hashing rate.
 
 **The current block reward schedule:**
 
-1–99,999: 0–1,000,000 Dingocoin
+1–4,999: 0–1,000,000 Dingocoin
 
-100,000–144,999: 0–500,000 Dingocoin
+5,000–99,999: 500,000 Dingocoin
 
-145,000–199,999: 250,000 Dingocoin
+100,000–199,999: 250,000 Dingocoin
 
 200,000–299,999: 125,000 Dingocoin
 
