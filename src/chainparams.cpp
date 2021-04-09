@@ -82,8 +82,8 @@ public:
         // BIP34 is never enforced in Dingocoin v2 blocks, so we enforce from v3
         consensus.BIP34Height = 1034383;
         consensus.BIP34Hash = uint256S("0x00");
-        consensus.BIP65Height = 3464751; // 34cd2cbba4ba366f47e5aa0db5f02c19eba2adf679ceb6653ac003bdc9a0ef1f - first v4 block after the last v3 block
-        consensus.BIP66Height = 1034383; // 80d1364201e5df97e696c03bdd24dc885e8617b9de51e453c10a4f629b1e797a - this is the last block that could be v2, 1900 blocks past the last v2 block
+        consensus.BIP65Height = 9999999; // Disable until activated
+        consensus.BIP66Height = 9999999; // Disable until activated
         consensus.powLimit = uint256S("0x00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~uint256(0) >> 20;
         consensus.nPowTargetTimespan = 4 * 60 * 60; // pre-digishield: 4 hours
         consensus.nPowTargetSpacing = 60; // 1 minute
@@ -110,10 +110,10 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_SEGWIT].nTimeout = 0; // Disabled
 
         // The best chain should have at least this much work.
-        consensus.nMinimumChainWork = uint256S("0x00");
+        consensus.nMinimumChainWork = uint256S("0x00000000000000000000000000000000000000000000000000000003b86849a6");
 
         // By default assume that the signatures in ancestors of this block are valid.
-        consensus.defaultAssumeValid = uint256S("0x594a42d8fe16382085dc982135df72cf8fcea12d34e6efd566e2f9e442e2136f"); // 1
+        consensus.defaultAssumeValid = uint256S("0xd2fe4ee046feaa1d175ff7120cd2e3d1ea07088745b5f52bc13df98cf8eb5094"); // 6250
 
         // AuxPoW parameters
         consensus.nAuxpowChainId = 0x0062; // 98 - Josh Wise!
@@ -161,9 +161,10 @@ public:
         assert(genesis.hashMerkleRoot == uint256S("0x5b2a3f53f605d62c53e62932dac6925e3d74afa5a4b459745c36d42d0ed26a69"));
 
         // Note that of those with the service bits flag, most only support a subset of possible options
-        vSeeds.push_back(CDNSSeedData("mint.australiacash.org", "mint2.australiacash.org", true));
+        vSeeds.push_back(CDNSSeedData("mint.australiacash.org", "mint.australiacash.org", true));
         vSeeds.push_back(CDNSSeedData("45.76.120.169", "45.76.120.169"));
         vSeeds.push_back(CDNSSeedData("139.180.173.59", "139.180.173.59"));
+        vSeeds.push_back(CDNSSeedData("165.232.173.117", "165.232.173.117"));
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,30);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,22);
@@ -184,13 +185,15 @@ public:
             boost::assign::map_list_of
             (      0, uint256S("0x1a91e3dace36e2be3bf030a65679fe821aa1d6ef92e7c9902eb318182c355691")) // Dogecoins original genesis block for shits and giggles
             (      1, uint256S("0x594a42d8fe16382085dc982135df72cf8fcea12d34e6efd566e2f9e442e2136f")) // First block mined within the Dingocoin Blockchain 03/04/2021
+            (   4999, uint256S("0x2a17ca5b715be5cb5322b5c4e13fa2509744728fde377eeb3dc2eff69fec79e4")) // Final block before Digishield activation
+            (   6250, uint256S("0xd2fe4ee046feaa1d175ff7120cd2e3d1ea07088745b5f52bc13df98cf8eb5094"))
         };
 
         chainTxData = ChainTxData{
             // Data as of block 594a42d8fe16382085dc982135df72cf8fcea12d34e6efd566e2f9e442e2136f (height 1).
             // Tx estimate based on average of year 2021 (~40k transactions per day)
-            1617400742, // * UNIX timestamp of last checkpoint block
-            1,   // * total number of transactions between genesis and last checkpoint
+            1617957014, // * UNIX timestamp of last checkpoint block
+            8500,   // * total number of transactions between genesis and last checkpoint
                         //   (the tx=... number in the SetBestChain debug.log lines)
             0.06        // * estimated number of transactions per second after checkpoint
         };

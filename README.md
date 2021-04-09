@@ -7,7 +7,7 @@
 Dingocoin is a cryptocurrency like Bitcoin, although it does not use SHA256 as
 its proof of work (POW). Taking development cues from Tenebrix and Litecoin,
 Dingocoin currently employs a simplified variant of scrypt.
-- **Website:** [dingocoin.com.](https://dingocoin.com)
+- **Website:** [dingocoin.com.](https://dingocoin.org)
 
 ## License – Much license ⚖️
 Dingocoin Core is released under the terms of the MIT license. See
@@ -123,8 +123,8 @@ lessen the impact of sudden increases and decreases of network hashing rate.
 
 ### Such ports
 
-- RPC 22555
-- P2P 22556
+- RPC 34646
+- P2P 33117
 
 ## Development tips and tricks
 
