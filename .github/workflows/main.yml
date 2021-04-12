@@ -31,7 +31,7 @@ jobs:
     - name: Create Distribution Tarball
       run: |
         ./autogen.sh
-        ./configure --with-incompatible-bdb
+        ./configure --with-incompatible-bdb --with-miniupnpc
         make dist
     - name: Download Dependencies
       run: make -C depends download
