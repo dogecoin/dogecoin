@@ -75,6 +75,8 @@ const std::string BitcoinGUI::DEFAULT_UIPLATFORM =
 #endif
         ;
 
+#include <boost/bind/bind.hpp>
+
 /** Display name for default wallet name. Uses tilde to avoid name
  * collisions in the future with additional wallets */
 const QString BitcoinGUI::DEFAULT_WALLET = "~Default";
@@ -168,7 +170,7 @@ BitcoinGUI::BitcoinGUI(const PlatformStyle *_platformStyle, const NetworkStyle *
         setCentralWidget(rpcConsole);
     }
 
-    // Dogecoin: load fallback font in case Comic Sans is not availble on the system
+    // Dogecoin: load fallback font in case Comic Sans is not available on the system
     QFontDatabase::addApplicationFont(":fonts/ComicNeue-Bold");
     QFontDatabase::addApplicationFont(":fonts/ComicNeue-Bold-Oblique");
     QFontDatabase::addApplicationFont(":fonts/ComicNeue-Light");
@@ -1196,15 +1198,27 @@ static bool ThreadSafeMessageBox(BitcoinGUI *gui, const std::string& message, co
 void BitcoinGUI::subscribeToCoreSignals()
 {
     // Connect signals to client
-    uiInterface.ThreadSafeMessageBox.connect(boost::bind(ThreadSafeMessageBox, this, _1, _2, _3));
-    uiInterface.ThreadSafeQuestion.connect(boost::bind(ThreadSafeMessageBox, this, _1, _3, _4));
+    uiInterface.ThreadSafeMessageBox.connect(boost::bind(ThreadSafeMessageBox, this,
+                                                         boost::placeholders::_1,
+                                                         boost::placeholders::_2,
+                                                         boost::placeholders::_3));
+    uiInterface.ThreadSafeQuestion.connect(boost::bind(ThreadSafeMessageBox, this,
+                                                       boost::placeholders::_1,
+                                                       boost::placeholders::_3,
+                                                       boost::placeholders::_4));
 }
 
 void BitcoinGUI::unsubscribeFromCoreSignals()
 {
     // Disconnect signals from client
-    uiInterface.ThreadSafeMessageBox.disconnect(boost::bind(ThreadSafeMessageBox, this, _1, _2, _3));
-    uiInterface.ThreadSafeQuestion.disconnect(boost::bind(ThreadSafeMessageBox, this, _1, _3, _4));
+    uiInterface.ThreadSafeMessageBox.disconnect(boost::bind(ThreadSafeMessageBox, this,
+                                                            boost::placeholders::_1,
+                                                            boost::placeholders::_2,
+                                                            boost::placeholders::_3));
+    uiInterface.ThreadSafeQuestion.disconnect(boost::bind(ThreadSafeMessageBox, this,
+                                                          boost::placeholders::_1,
+                                                          boost::placeholders::_3,
+                                                          boost::placeholders::_4));
 }
 
 void BitcoinGUI::toggleNetworkActive()

@@ -44,6 +44,7 @@
 
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/algorithm/string/join.hpp>
+#include <boost/bind/bind.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 #include <boost/math/distributions/poisson.hpp>
@@ -179,7 +180,9 @@ private:
 
 public:
     MemPoolConflictRemovalTracker(CTxMemPool &_pool) : pool(_pool) {
-        pool.NotifyEntryRemoved.connect(boost::bind(&MemPoolConflictRemovalTracker::NotifyEntryRemoved, this, _1, _2));
+        pool.NotifyEntryRemoved.connect(boost::bind(&MemPoolConflictRemovalTracker::NotifyEntryRemoved,
+                                                    this, boost::placeholders::_1,
+                                                    boost::placeholders::_2));
     }
 
     void NotifyEntryRemoved(CTransactionRef txRemoved, MemPoolRemovalReason reason) {
@@ -189,7 +192,9 @@ public:
     }
 
     ~MemPoolConflictRemovalTracker() {
-        pool.NotifyEntryRemoved.disconnect(boost::bind(&MemPoolConflictRemovalTracker::NotifyEntryRemoved, this, _1, _2));
+        pool.NotifyEntryRemoved.disconnect(boost::bind(&MemPoolConflictRemovalTracker::NotifyEntryRemoved,
+                                                       this, boost::placeholders::_1,
+                                                       boost::placeholders::_2));
         for (const auto& tx : conflictedTxs) {
             GetMainSignals().SyncTransaction(*tx, NULL, CMainSignals::SYNC_TRANSACTION_NOT_IN_BLOCK);
         }
@@ -1142,7 +1147,7 @@ bool WriteBlockToDisk(const CBlock& block, CDiskBlockPos& pos, const CMessageHea
    both a block and its header.  */
 
 template<typename T>
-static bool ReadBlockOrHeader(T& block, const CDiskBlockPos& pos, const Consensus::Params& consensusParams)
+static bool ReadBlockOrHeader(T& block, const CDiskBlockPos& pos, const Consensus::Params& consensusParams, bool fCheckPOW)
 {
     block.SetNull();
 
@@ -1160,16 +1165,16 @@ static bool ReadBlockOrHeader(T& block, const CDiskBlockPos& pos, const Consensu
     }
 
     // Check the header
-    if (!CheckAuxPowProofOfWork(block, consensusParams))
+    if (fCheckPOW && !CheckAuxPowProofOfWork(block, consensusParams))
         return error("ReadBlockFromDisk: Errors in block header at %s", pos.ToString());
 
     return true;
 }
 
 template<typename T>
-static bool ReadBlockOrHeader(T& block, const CBlockIndex* pindex, const Consensus::Params& consensusParams)
+static bool ReadBlockOrHeader(T& block, const CBlockIndex* pindex, const Consensus::Params& consensusParams, bool fCheckPOW)
 {
-    if (!ReadBlockOrHeader(block, pindex->GetBlockPos(), consensusParams))
+    if (!ReadBlockOrHeader(block, pindex->GetBlockPos(), consensusParams, fCheckPOW))
         return false;
     if (block.GetHash() != pindex->GetBlockHash())
         return error("ReadBlockOrHeader(CBlock&, CBlockIndex*): GetHash() doesn't match index for %s at %s",
@@ -1177,19 +1182,19 @@ static bool ReadBlockOrHeader(T& block, const CBlockIndex* pindex, const Consens
     return true;
 }
 
-bool ReadBlockFromDisk(CBlock& block, const CDiskBlockPos& pos, const Consensus::Params& consensusParams)
+bool ReadBlockFromDisk(CBlock& block, const CDiskBlockPos& pos, const Consensus::Params& consensusParams, bool fCheckPOW)
 {
-    return ReadBlockOrHeader(block, pos, consensusParams);
+    return ReadBlockOrHeader(block, pos, consensusParams, fCheckPOW);
 }
 
-bool ReadBlockFromDisk(CBlock& block, const CBlockIndex* pindex, const Consensus::Params& consensusParams)
+bool ReadBlockFromDisk(CBlock& block, const CBlockIndex* pindex, const Consensus::Params& consensusParams, bool fCheckPOW)
 {
-    return ReadBlockOrHeader(block, pindex, consensusParams);
+    return ReadBlockOrHeader(block, pindex, consensusParams, fCheckPOW);
 }
 
-bool ReadBlockHeaderFromDisk(CBlockHeader& block, const CBlockIndex* pindex, const Consensus::Params& consensusParams)
+bool ReadBlockHeaderFromDisk(CBlockHeader& block, const CBlockIndex* pindex, const Consensus::Params& consensusParams, bool fCheckPOW)
 {
-    return ReadBlockOrHeader(block, pindex, consensusParams);
+    return ReadBlockOrHeader(block, pindex, consensusParams, fCheckPOW);
 }
 
 CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
@@ -1852,9 +1857,8 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
         flags |= SCRIPT_VERIFY_DERSIG;
     }
 
-    // Start enforcing CHECKLOCKTIMEVERIFY, (BIP65) for block.nVersion=4
-    // blocks, when 75% of the network has upgraded:
-    if (block.GetBaseVersion() >= 4 && IsSuperMajority(4, pindex->pprev, chainparams.GetConsensus(0).nMajorityEnforceBlockUpgrade, chainparams.GetConsensus(0))) {
+    // Start enforcing CHECKLOCKTIMEVERIFY, (BIP65) for block.nVersion=4 blocks
+    if (pindex->nHeight >= chainparams.GetConsensus(0).BIP65Height) {
         flags |= SCRIPT_VERIFY_CHECKLOCKTIMEVERIFY;
     }
 
@@ -3035,14 +3039,10 @@ bool ContextualCheckBlockHeader(const CBlockHeader& block, CValidationState& sta
     // Reject outdated version blocks when 95% (75% on testnet) of the network has upgraded:
     // check for version 2, 3 and 4 upgrades
     // Dogecoin: Version 2 enforcement was never used
-    if((block.GetBaseVersion() < 3 && nHeight >= consensusParams.BIP66Height))
+    if((block.GetBaseVersion() < 3 && nHeight >= consensusParams.BIP66Height) ||
+       (block.GetBaseVersion() < 4 && nHeight >= consensusParams.BIP65Height))
             return state.Invalid(false, REJECT_OBSOLETE, strprintf("bad-version(0x%08x)", block.GetBaseVersion()),
                                  strprintf("rejected nVersion=0x%08x block", block.GetBaseVersion()));
-
-    // Dogecoin: Introduce supermajority rules for v4 blocks
-    if (block.GetBaseVersion() < 4 && IsSuperMajority(4, pindexPrev, consensusParams.nMajorityRejectBlockOutdated, consensusParams))
-        return state.Invalid(error("%s : rejected nVersion=3 block", __func__),
-                             REJECT_OBSOLETE, "bad-version");
 
     return true;
 }
@@ -3356,6 +3356,8 @@ bool TestBlockValidity(CValidationState& state, const CChainParams& chainparams,
 /* Calculate the amount of disk space the block & undo files currently use */
 uint64_t CalculateCurrentUsage()
 {
+    LOCK(cs_LastBlockFile);
+
     uint64_t retval = 0;
     BOOST_FOREACH(const CBlockFileInfo &file, vinfoBlockFile) {
         retval += file.nSize + file.nUndoSize;
@@ -3366,6 +3368,8 @@ uint64_t CalculateCurrentUsage()
 /* Prune a block file (modify associated database entries)*/
 void PruneOneBlockFile(const int fileNumber)
 {
+    LOCK(cs_LastBlockFile);
+
     for (BlockMap::iterator it = mapBlockIndex.begin(); it != mapBlockIndex.end(); ++it) {
         CBlockIndex* pindex = it->second;
         if (pindex->nFile == fileNumber) {
@@ -4231,6 +4235,8 @@ std::string CBlockFileInfo::ToString() const
 
 CBlockFileInfo* GetBlockFileInfo(size_t n)
 {
+    LOCK(cs_LastBlockFile);
+
     return &vinfoBlockFile.at(n);
 }
 

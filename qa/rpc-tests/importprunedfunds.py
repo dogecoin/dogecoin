@@ -25,7 +25,7 @@ class ImportPrunedFundsTest(BitcoinTestFramework):
         self.nodes[0].generate(101)
 
         self.sync_all()
-        
+
         # address
         address1 = self.nodes[0].getnewaddress()
         # pubkey
@@ -58,20 +58,21 @@ class ImportPrunedFundsTest(BitcoinTestFramework):
         assert_equal(address_info['ismine'], False)
 
         #Send funds to self
-        txnid1 = self.nodes[0].sendtoaddress(address1, 0.1)
+        txnid3 = self.nodes[0].sendtoaddress(address3, 2.5)
         self.nodes[0].generate(1)
-        rawtxn1 = self.nodes[0].gettransaction(txnid1)['hex']
-        proof1 = self.nodes[0].gettxoutproof([txnid1])
+        rawtxn3 = self.nodes[0].gettransaction(txnid3)['hex']
+        proof3 = self.nodes[0].gettxoutproof([txnid3])
 
-        txnid2 = self.nodes[0].sendtoaddress(address2, 0.05)
+        txnid2 = self.nodes[0].sendtoaddress(address2, 5)
         self.nodes[0].generate(1)
         rawtxn2 = self.nodes[0].gettransaction(txnid2)['hex']
         proof2 = self.nodes[0].gettxoutproof([txnid2])
 
-        txnid3 = self.nodes[0].sendtoaddress(address3, 0.025)
+        txnid1 = self.nodes[0].sendtoaddress(address1, 10)
         self.nodes[0].generate(1)
-        rawtxn3 = self.nodes[0].gettransaction(txnid3)['hex']
-        proof3 = self.nodes[0].gettxoutproof([txnid3])
+        rawtxn1 = self.nodes[0].gettransaction(txnid1)['hex']
+        proof1 = self.nodes[0].gettxoutproof([txnid1])
+
 
         self.sync_all()
 
@@ -85,15 +86,15 @@ class ImportPrunedFundsTest(BitcoinTestFramework):
         self.nodes[1].importaddress(address2, "add2", False)
         result2 = self.nodes[1].importprunedfunds(rawtxn2, proof2)
         balance2 = self.nodes[1].getbalance("add2", 0, True)
-        assert_equal(balance2, Decimal('0.05'))
+        assert_equal(balance2, Decimal('5'))
 
         #Import with private key with no rescan
         self.nodes[1].importprivkey(address3_privkey, "add3", False)
         result3 = self.nodes[1].importprunedfunds(rawtxn3, proof3)
         balance3 = self.nodes[1].getbalance("add3", 0, False)
-        assert_equal(balance3, Decimal('0.025'))
+        assert_equal(balance3, Decimal('2.5'))
         balance3 = self.nodes[1].getbalance("*", 0, True)
-        assert_equal(balance3, Decimal('0.075'))
+        assert_equal(balance3, Decimal('7.5'))
 
         #Addresses Test - after import
         address_info = self.nodes[1].validateaddress(address1)
@@ -110,11 +111,11 @@ class ImportPrunedFundsTest(BitcoinTestFramework):
         assert_raises_jsonrpc(-8, "Transaction does not exist in wallet.", self.nodes[1].removeprunedfunds, txnid1)
 
         balance1 = self.nodes[1].getbalance("*", 0, True)
-        assert_equal(balance1, Decimal('0.075'))
+        assert_equal(balance1, Decimal('7.5'))
 
         self.nodes[1].removeprunedfunds(txnid2)
         balance2 = self.nodes[1].getbalance("*", 0, True)
-        assert_equal(balance2, Decimal('0.025'))
+        assert_equal(balance2, Decimal('2.5'))
 
         self.nodes[1].removeprunedfunds(txnid3)
         balance3 = self.nodes[1].getbalance("*", 0, True)

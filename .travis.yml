@@ -1,4 +1,3 @@
-sudo: required
 dist: trusty
 os: linux
 language: generic
@@ -20,7 +19,7 @@ env:
     - SDK_URL=https://bitcoincore.org/depends-sources/sdks
     - PYTHON_DEBUG=1
     - WINEDEBUG=fixme-all
-  matrix:
+  jobs:
 # ARM
     - HOST=arm-linux-gnueabihf PACKAGES="g++-arm-linux-gnueabihf" DEP_OPTS="NO_QT=1" CHECK_DOC=1 GOAL="install" BITCOIN_CONFIG="--enable-glibc-back-compat --enable-reduce-exports"
 # Win32
@@ -44,6 +43,7 @@ install:
     - if [ -n "$DPKG_ADD_ARCH" ]; then sudo dpkg --add-architecture "$DPKG_ADD_ARCH" ; fi
     - if [ -n "$PACKAGES" ]; then travis_retry sudo apt-get update; fi
     - if [ -n "$PACKAGES" ]; then travis_retry sudo apt-get install --no-install-recommends --no-upgrade -qq $PACKAGES; fi
+    - if [ "$RUN_TESTS" = "true" ]; then travis_retry sudo apt-get install --no-install-recommends --no-upgrade -qq python3-dev; fi
 before_script:
     - unset CC; unset CXX
     - if [ "$CHECK_DOC" = 1 ]; then contrib/devtools/check-doc.py; fi
