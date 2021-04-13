@@ -200,7 +200,7 @@ PaperWalletDialog::PaperWalletDialog(QWidget *parent) :
     ui->buttonBox->addButton(tr("Close"), QDialogButtonBox::RejectRole);
 
     // Begin with a small bold monospace font for the textual version of the key and address.
-    QFont font("Monospace");
+    QFont font("Courier");
     font.setBold(true);
     font.setStyleHint(QFont::TypeWriter);
     font.setPixelSize(1);
@@ -302,7 +302,7 @@ void PaperWalletDialog::on_getNewAddress_clicked()
     // Update the fonts to fit the height of the wallet.
     // This should only really trigger the first time since the font size persists.
     double paperHeight = (double)ui->paperTemplate->height();
-    double maxTextWidth = paperHeight * 0.99;
+    double maxTextWidth = paperHeight * 0.98;
     double minTextWidth = paperHeight * 0.95;
     int pixelSizeStep = 1;
 
