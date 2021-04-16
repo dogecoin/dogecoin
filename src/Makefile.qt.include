@@ -109,6 +109,8 @@ QT_FORMS_UI = \
   qt/forms/receivecoinsdialog.ui \
   qt/forms/receiverequestdialog.ui \
   qt/forms/debugwindow.ui \
+  qt/forms/addpeerdialog.ui \
+  qt/forms/testpeerdialog.ui \
   qt/forms/sendcoinsdialog.ui \
   qt/forms/sendcoinsentry.ui \
   qt/forms/signverifymessagedialog.ui \
@@ -157,6 +159,7 @@ QT_MOC_CPP = \
   qt/moc_transactiontablemodel.cpp \
   qt/moc_transactionview.cpp \
   qt/moc_utilitydialog.cpp \
+  qt/moc_peerdialog.cpp \
   qt/moc_verticallabel.cpp \
   qt/moc_walletframe.cpp \
   qt/moc_walletmodel.cpp \
@@ -230,6 +233,7 @@ BITCOIN_QT_H = \
   qt/transactiontablemodel.h \
   qt/transactionview.h \
   qt/utilitydialog.h \
+  qt/peerdialog.h \
   qt/verticallabel.h \
   qt/walletframe.h \
   qt/walletmodel.h \
@@ -320,6 +324,7 @@ BITCOIN_QT_BASE_CPP = \
   qt/splashscreen.cpp \
   qt/trafficgraphwidget.cpp \
   qt/utilitydialog.cpp \
+  qt/peerdialog.cpp \
   qt/verticallabel.cpp
 
 BITCOIN_QT_WINDOWS_CPP = qt/winshutdownmonitor.cpp
