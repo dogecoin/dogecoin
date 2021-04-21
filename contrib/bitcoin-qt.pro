@@ -5,6 +5,7 @@ FORMS += \
     ../src/qt/forms/coincontroldialog.ui \
     ../src/qt/forms/editaddressdialog.ui \
     ../src/qt/forms/helpmessagedialog.ui \
+    ../src/qt/forms/importkeysdialog.ui \
     ../src/qt/forms/intro.ui \
     ../src/qt/forms/openuridialog.ui \
     ../src/qt/forms/optionsdialog.ui \
