@@ -2460,7 +2460,7 @@ Zwróć uwagę, że poprawnie zweryfikowana wiadomość potwierdza to, że nadaw
     </message>
     <message>
         <source>Prune: last wallet synchronisation goes beyond pruned data. You need to -reindex (download the whole blockchain again in case of pruned node)</source>
-        <translation>Przycinanie: ostatnia synchronizacja portfela jest za danymi. Musisz użyć -reindex (pobrać cały ciąg bloków ponownie w przypadku przyciętego węzła)</translation>
+        <translation>Przycinanie: ostatnia synchronizacja portfela wykracza poza przycięte dane. Musisz użyć -reindex (pobrać cały ciąg bloków ponownie w przypadku przyciętego węzła)</translation>
     </message>
     <message>
         <source>Rescans are not possible in pruned mode. You will need to use -reindex which will download the whole blockchain again.</source>
