@@ -107,10 +107,10 @@ static const int MAX_BLOCKTXN_DEPTH = 10;
  *  degree of disordering of blocks on disk (which make reindexing and pruning harder). We'll probably
  *  want to make this a per-peer adaptive value at some point. */
 static const unsigned int BLOCK_DOWNLOAD_WINDOW = 1024;
-/** Block download timeout base, expressed in millionths of the block interval (i.e. 10 min) */
-static const int64_t BLOCK_DOWNLOAD_TIMEOUT_BASE = 1000000;
-/** Additional block download timeout per parallel downloading peer (i.e. 5 min) */
-static const int64_t BLOCK_DOWNLOAD_TIMEOUT_PER_PEER = 500000;
+/** Block download timeout base, expressed in millionths of the block interval (i.e. 5 min) */
+static const int64_t BLOCK_DOWNLOAD_TIMEOUT_BASE = 50000000;
+/** Additional block download timeout per parallel downloading peer (i.e. 2.5 min) */
+static const int64_t BLOCK_DOWNLOAD_TIMEOUT_PER_PEER = 2500000;
 /** Maximum number of headers to announce when relaying blocks with headers message.*/
 static const unsigned int MAX_BLOCKS_TO_ANNOUNCE = 8;
 /** Maximum number of unconnecting headers announcements before DoS score */
