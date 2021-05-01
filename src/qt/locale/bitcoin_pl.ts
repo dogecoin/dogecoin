@@ -181,7 +181,7 @@
     </message>
     <message>
         <source>%1 will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your dogecoins from being stolen by malware infecting your computer.</source>
-        <translation>%1 zamknie się aby dokończyć proces szyfrowania. Pamiętaj, że szyfrowanie portfela nie zabezpiecza w pełni Twoich dogecoinów przed kradzieżą przez wirusy lub trojany mogące zainfekować Twój komputer.</translation>
+        <translation>%1 zamknie się aby dokończyć proces szyfrowania. Pamiętaj, że szyfrowanie portfela nie zabezpiecza w pełni Twoich Dogecoinów przed kradzieżą przez wirusy lub trojany mogące zainfekować Twój komputer.</translation>
     </message>
     <message>
         <source>IMPORTANT: Any previous backups you have made of your wallet file should be replaced with the newly generated, encrypted wallet file. For security reasons, previous backups of the unencrypted wallet file will become useless as soon as you start using the new, encrypted wallet.</source>
@@ -323,7 +323,7 @@
     </message>
     <message>
         <source>Send coins to a Dogecoin address</source>
-        <translation>Wyślij monety na adres dogecoinowy</translation>
+        <translation>Wyślij monety na adres Dogecoinowy</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -375,11 +375,11 @@
     </message>
     <message>
         <source>Sign messages with your Dogecoin addresses to prove you own them</source>
-        <translation>Podpisz wiadomości swoim adresem aby udowodnić jego posiadanie</translation>
+        <translation>Podpisz wiadomości swoim adresem Dogecoinowym, aby udowodnić jego posiadanie</translation>
     </message>
     <message>
         <source>Verify messages to ensure they were signed with specified Dogecoin addresses</source>
-        <translation>Zweryfikuj wiadomość, aby upewnić się, że została podpisana podanym adresem dogecoinowym.</translation>
+        <translation>Zweryfikuj wiadomość, aby upewnić się, że została podpisana podanym adresem Dogecoinowym.</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -399,7 +399,7 @@
     </message>
     <message>
         <source>Request payments (generates QR codes and dogecoin: URIs)</source>
-        <translation>Żądaj płatności (generuje kod QR oraz dogecoinowe URI)</translation>
+        <translation>Żądaj płatności (generuje kod QR oraz Dogecoinowe URI)</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -411,7 +411,7 @@
     </message>
     <message>
         <source>Open a dogecoin: URI or payment request</source>
-        <translation>Otwórz URI dogecoin: lub żądanie zapłaty</translation>
+        <translation>Otwórz Dogecoinowe: URI lub żądanie zapłaty</translation>
     </message>
     <message>
         <source>&amp;Command-line options</source>
@@ -1148,7 +1148,7 @@
     </message>
     <message>
         <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Dogecoin network after a connection is established, but this process has not completed yet.</source>
-        <translation>Wyświetlana informacja może być nieaktualna. Twój portfel synchronizuje się automatycznie z siecią dogecoin, zaraz po tym jak uzyskano połączenie, ale proces ten nie został jeszcze ukończony.</translation>
+        <translation>Wyświetlana informacja może być nieaktualna. Twój portfel synchronizuje się automatycznie z siecią Dogecoin, zaraz po tym jak uzyskano połączenie, ale proces ten nie został jeszcze ukończony.</translation>
     </message>
     <message>
         <source>Watch-only:</source>
@@ -1223,7 +1223,7 @@
     </message>
     <message>
         <source>Cannot start dogecoin: click-to-pay handler</source>
-        <translation>Nie można uruchomić protokołu dogecoin: kliknij-by-zapłacić</translation>
+        <translation>Nie można uruchomić protokołu Dogecoin: kliknij-by-zapłacić</translation>
     </message>
     <message>
         <source>URI handling</source>
@@ -1293,7 +1293,7 @@
     </message>
     <message>
         <source>Enter a Dogecoin address (e.g. %1)</source>
-        <translation>Wprowadź adres dogecoinowy (np. %1)</translation>
+        <translation>Wprowadź adres Dogecoinowy (np. %1)</translation>
     </message>
     <message>
         <source>%1 d</source>
@@ -1902,7 +1902,7 @@
     </message>
     <message>
         <source>Paying only the minimum fee is just fine as long as there is less transaction volume than space in the blocks. But be aware that this can end up in a never confirming transaction once there is more demand for dogecoin transactions than the network can process.</source>
-        <translation>Zapłacenie tylko minimalnej opłaty jest nadal wystarczające, dopóki jest mniejszy wolumen transakcji niż miejsca w blokach. Należy jednak mieć świadomość, że może skończyć się to niezatwierdzeniem nigdy transakcji, gdy jest większe zapotrzebowanie na transakcje dogecoina niż sieć może przetworzyć.</translation>
+        <translation>Zapłacenie tylko minimalnej opłaty jest nadal wystarczające, dopóki jest mniejszy wolumen transakcji niż miejsca w blokach. Należy jednak mieć świadomość, że może skończyć się to niezatwierdzeniem nigdy transakcji, gdy jest większe zapotrzebowanie na transakcje Dogecoina niż sieć może przetworzyć.</translation>
     </message>
     <message>
         <source>(read the tooltip)</source>
@@ -2053,7 +2053,7 @@
     </message>
     <message>
         <source>The Dogecoin address to send the payment to</source>
-        <translation>Adres Dogecoin gdzie wysłać płatność</translation>
+        <translation>Adres Dogecoin, na który wysłać płatność</translation>
     </message>
     <message>
         <source>Alt+A</source>
@@ -2097,7 +2097,7 @@
     </message>
     <message>
         <source>A message that was attached to the dogecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
-        <translation>Wiadomość, która została dołączona do URI Dogecoin, która będzie przechowywana wraz z transakcją w celach informacyjnych. Uwaga: Ta wiadomość nie będzie rozsyłana w sieci Dogecoin.</translation>
+        <translation>Wiadomość, która została dołączona do URI Dogecoina, która będzie przechowywana wraz z transakcją w celach informacyjnych. Uwaga: Ta wiadomość nie będzie rozsyłana w sieci Dogecoin.</translation>
     </message>
     <message>
         <source>Pay To:</source>
@@ -2460,7 +2460,7 @@ Zwróć uwagę, że poprawnie zweryfikowana wiadomość potwierdza to, że nadaw
     </message>
     <message>
         <source>Prune: last wallet synchronisation goes beyond pruned data. You need to -reindex (download the whole blockchain again in case of pruned node)</source>
-        <translation>Przycinanie: ostatnia synchronizacja portfela jest za danymi. Muszisz użyć -reindex (pobrać cały ciąg bloków ponownie w przypadku przyciętego węzła)</translation>
+        <translation>Przycinanie: ostatnia synchronizacja portfela jest za danymi. Musisz użyć -reindex (pobrać cały ciąg bloków ponownie w przypadku przyciętego węzła)</translation>
     </message>
     <message>
         <source>Rescans are not possible in pruned mode. You will need to use -reindex which will download the whole blockchain again.</source>
