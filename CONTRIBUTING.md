@@ -1,7 +1,6 @@
-Contributing to Bitcoin Core
-============================
+# Contributing to Dogecoin Core
 
-The Bitcoin Core project operates an open contributor model where anyone is
+The Dogecoin Core project operates an open contributor model where anyone is
 welcome to contribute towards development in the form of peer review, testing
 and patches. This document explains the practical process and guidelines for
 contributing.
@@ -15,8 +14,7 @@ merging pull requests as well as a "lead maintainer" who is responsible for the
 release cycle, overall merging, moderation and appointment of maintainers.
 
 
-Contributor Workflow
---------------------
+## Contributor Workflow
 
 The codebase is maintained using the "contributor workflow" where everyone
 without exception contributes patch proposals using "pull requests". This
@@ -94,8 +92,9 @@ At this stage one should expect comments and review from other contributors. You
 can add more commits to your pull request by committing them locally and pushing
 to your fork until you have satisfied all feedback.
 
-Squashing Commits
----------------------------
+
+## Squashing Commits
+
 If your pull request is accepted for merging, you may be asked by a maintainer
 to squash and or [rebase](https://git-scm.com/docs/git-rebase) your commits
 before it will be merged. The basic squashing workflow is shown below.
@@ -121,8 +120,7 @@ The length of time required for peer review is unpredictable and will vary from
 pull request to pull request.
 
 
-Pull Request Philosophy
------------------------
+## Pull Request Philosophy
 
 Patchsets should always be focused. For example, a pull request could add a
 feature, fix a bug, or refactor code; but not a mixture. Please also avoid super
@@ -130,7 +128,7 @@ pull requests which attempt to do too much, are overly large, or overly complex
 as this makes review difficult.
 
 
-###Features
+### Features
 
 When adding a new feature, thought must be given to the long term technical debt
 and maintenance that feature may require after inclusion. Before proposing a new
@@ -139,7 +137,7 @@ maintain it (including bug fixing). If features get orphaned with no maintainer
 in the future, they may be removed by the Repository Maintainer.
 
 
-###Refactoring
+### Refactoring
 
 Refactoring is a necessary part of any software project's evolution. The
 following guidelines cover refactoring pull requests for the project.
@@ -154,14 +152,13 @@ Project maintainers aim for a quick turnaround on refactoring pull requests, so
 where possible keep them short, uncomplex and easy to verify.
 
 
-"Decision Making" Process
--------------------------
+## "Decision Making" Process
 
-The following applies to code changes to the Bitcoin Core project (and related
-projects such as libsecp256k1), and is not to be confused with overall Bitcoin
+The following applies to code changes to the Dogecoin Core project (and related
+projects such as libsecp256k1), and is not to be confused with overall Dogecoin
 Network Protocol consensus changes.
 
-Whether a pull request is merged into Bitcoin Core rests with the project merge
+Whether a pull request is merged into Dogecoin Core rests with the project merge
 maintainers and ultimately the project lead.
 
 Maintainers will take into consideration if a patch is in line with the general
@@ -179,7 +176,7 @@ In general, all pull requests must:
   - where bugs are fixed, where possible, there should be unit tests
     demonstrating the bug and also proving the fix. This helps prevent regression.
 
-Patches that change Bitcoin consensus rules are considerably more involved than
+Patches that change Dogecoin consensus rules are considerably more involved than
 normal because they affect the entire ecosystem and so must be preceded by
 extensive mailing list discussions and have a numbered BIP. While each case will
 be different, one should be prepared to expend more time and effort than for
@@ -187,7 +184,7 @@ other kinds of patches because of increased peer review and consensus building
 requirements.
 
 
-###Peer Review
+### Peer Review
 
 Anyone may participate in peer review which is expressed by comments in the pull
 request. Typically reviewers will review the code for obvious errors, as well as
@@ -220,19 +217,18 @@ higher in terms of discussion and peer review requirements, keeping in mind that
 mistakes could be very costly to the wider community. This includes refactoring
 of consensus critical code.
 
-Where a patch set proposes to change the Bitcoin consensus, it must have been
+Where a patch set proposes to change the Dogecoin consensus, it must have been
 discussed extensively on the mailing list and IRC, be accompanied by a widely
 discussed BIP and have a generally widely perceived technical consensus of being
 a worthwhile change based on the judgement of the maintainers.
 
 
-Release Policy
---------------
+## Release Policy
 
-The project leader is the release manager for each Bitcoin Core release.
+The project leader is the release manager for each Dogecoin Core release.
 
-Copyright
----------
+
+## Copyright
 
 By contributing to this repository, you agree to license your work under the 
 MIT license unless specified otherwise in `contrib/debian/copyright` or at 
