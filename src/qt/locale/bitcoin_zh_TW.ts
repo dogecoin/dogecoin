@@ -67,12 +67,12 @@
     </message>
     <message>
         <source>These are your Bitcoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>這些是你要發送過去的 比特幣地址。在發送幣之前，務必要檢查金額和接收地址是否正確。</translation>
+        <translation>這些是你要發送過去的 狗狗幣地址。在發送幣之前，務必要檢查金額和接收地址是否正確。</translation>
     </message>
     <message>
         <source>These are your Bitcoin addresses for receiving payments. Use the 'Create new receiving address' button in the receive tab to create new addresses.
 Signing is only possible with addresses of the type 'legacy'.</source>
-        <translation>這些是您的比特幣接收地址。使用“接收”標籤中的“產生新的接收地址”按鈕產生新的地址。只能使用“傳統”類型的地址進行簽名。</translation>
+        <translation>這些是您的狗狗幣接收地址。使用“接收”標籤中的“產生新的接收地址”按鈕產生新的地址。只能使用“傳統”類型的地址進行簽名。</translation>
     </message>
     <message>
         <source>&amp;Copy Address</source>
@@ -360,7 +360,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
     </message>
     <message>
         <source>Send coins to a Bitcoin address</source>
-        <translation>發送幣給一個比特幣地址</translation>
+        <translation>發送幣給一個狗狗幣地址</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -396,11 +396,11 @@ Signing is only possible with addresses of the type 'legacy'.</source>
     </message>
     <message>
         <source>Sign messages with your Bitcoin addresses to prove you own them</source>
-        <translation>用比特幣地址簽名訊息來證明位址是你的</translation>
+        <translation>用狗狗幣地址簽名訊息來證明位址是你的</translation>
     </message>
     <message>
         <source>Verify messages to ensure they were signed with specified Bitcoin addresses</source>
-        <translation>驗證訊息是用來確定訊息是用指定的比特幣地址簽名的</translation>
+        <translation>驗證訊息是用來確定訊息是用指定的狗狗幣地址簽名的</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -484,7 +484,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
     </message>
     <message>
         <source>Load Partially Signed Bitcoin Transaction</source>
-        <translation>載入部分簽名的比特幣交易</translation>
+        <translation>載入部分簽名的狗狗幣交易</translation>
     </message>
     <message>
         <source>Load PSBT from clipboard...</source>
@@ -492,7 +492,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
     </message>
     <message>
         <source>Load Partially Signed Bitcoin Transaction from clipboard</source>
-        <translation>從剪貼簿載入部分簽名的比特幣交易</translation>
+        <translation>從剪貼簿載入部分簽名的狗狗幣交易</translation>
     </message>
     <message>
         <source>Node window</source>
@@ -512,7 +512,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
     </message>
     <message>
         <source>Open a bitcoin: URI</source>
-        <translation>打開一個比特幣：URI</translation>
+        <translation>打開一個狗狗幣：URI</translation>
     </message>
     <message>
         <source>Open Wallet</source>
@@ -908,7 +908,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
     </message>
     <message>
         <source>The entered address "%1" is not a valid Bitcoin address.</source>
-        <translation>輸入的地址 %1 並不是有效的比特幣地址。</translation>
+        <translation>輸入的地址 %1 並不是有效的狗狗幣地址。</translation>
     </message>
     <message>
         <source>The entered address "%1" is already in the address book with label "%2".</source>
@@ -1099,7 +1099,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
     <name>OpenURIDialog</name>
     <message>
         <source>Open bitcoin URI</source>
-        <translation>打開比特幣URI</translation>
+        <translation>打開狗狗幣URI</translation>
     </message>
     <message>
         <source>URI:</source>
@@ -1333,7 +1333,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
     </message>
     <message>
         <source>Connect to the Bitcoin network through a separate SOCKS5 proxy for Tor onion services.</source>
-        <translation>通過用於Tor洋蔥服務個別的SOCKS5代理連接到比特幣網路。</translation>
+        <translation>通過用於Tor洋蔥服務個別的SOCKS5代理連接到狗狗幣網路。</translation>
     </message>
     <message>
         <source>Use separate SOCKS&amp;5 proxy to reach peers via Tor onion services:</source>
@@ -1610,7 +1610,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
     </message>
     <message>
         <source>URI cannot be parsed! This can be caused by an invalid Bitcoin address or malformed URI parameters.</source>
-        <translation>沒辦法解析 URI ！可能是因為無效比特幣地址，或是 URI 參數格式錯誤。</translation>
+        <translation>沒辦法解析 URI ！可能是因為無效狗狗幣地址，或是 URI 參數格式錯誤。</translation>
     </message>
     <message>
         <source>Payment request file handling</source>
@@ -1652,7 +1652,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
     </message>
     <message>
         <source>Enter a Bitcoin address (e.g. %1)</source>
-        <translation>輸入 比特幣地址 (比如說 %1)</translation>
+        <translation>輸入 狗狗幣地址 (比如說 %1)</translation>
     </message>
     <message>
         <source>%1 d</source>
@@ -2578,7 +2578,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
     </message>
     <message>
         <source>Warning: Invalid Bitcoin address</source>
-        <translation>警告: 比特幣地址無效</translation>
+        <translation>警告: 狗狗幣地址無效</translation>
     </message>
     <message>
         <source>Warning: Unknown change address</source>
@@ -2617,7 +2617,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
     </message>
     <message>
         <source>The Bitcoin address to send the payment to</source>
-        <translation>將支付發送到的比特幣地址給</translation>
+        <translation>將支付發送到的狗狗幣地址給</translation>
     </message>
     <message>
         <source>Alt+A</source>
@@ -2703,11 +2703,11 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
     </message>
     <message>
         <source>You can sign messages/agreements with your addresses to prove you can receive bitcoins sent to them. Be careful not to sign anything vague or random, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</source>
-        <translation>您可以使用您的地址簽名訊息/協議，以證明您可以接收發送給他們的比特幣。但是請小心，不要簽名語意含糊不清，或隨機產生的內容，因為釣魚式詐騙可能會用騙你簽名的手法來冒充是你。只有簽名您同意的詳細內容。</translation>
+        <translation>您可以使用您的地址簽名訊息/協議，以證明您可以接收發送給他們的狗狗幣。但是請小心，不要簽名語意含糊不清，或隨機產生的內容，因為釣魚式詐騙可能會用騙你簽名的手法來冒充是你。只有簽名您同意的詳細內容。</translation>
     </message>
     <message>
         <source>The Bitcoin address to sign the message with</source>
-        <translation>用來簽名訊息的 比特幣地址</translation>
+        <translation>用來簽名訊息的 狗狗幣地址</translation>
     </message>
     <message>
         <source>Choose previously used address</source>
@@ -2739,7 +2739,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
     </message>
     <message>
         <source>Sign the message to prove you own this Bitcoin address</source>
-        <translation>簽名這個訊息來證明這個比特幣地址是你的</translation>
+        <translation>簽名這個訊息來證明這個狗狗幣地址是你的</translation>
     </message>
     <message>
         <source>Sign &amp;Message</source>
@@ -2763,7 +2763,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
     </message>
     <message>
         <source>The Bitcoin address the message was signed with</source>
-        <translation>簽名這個訊息的 比特幣地址</translation>
+        <translation>簽名這個訊息的 狗狗幣地址</translation>
     </message>
     <message>
         <source>The signed message to verify</source>
@@ -2775,7 +2775,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
     </message>
     <message>
         <source>Verify the message to ensure it was signed with the specified Bitcoin address</source>
-        <translation>驗證這個訊息來確定是用指定的比特幣地址簽名的</translation>
+        <translation>驗證這個訊息來確定是用指定的狗狗幣地址簽名的</translation>
     </message>
     <message>
         <source>Verify &amp;Message</source>
