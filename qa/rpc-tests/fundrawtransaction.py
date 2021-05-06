@@ -516,7 +516,7 @@ class RawTransactionsTest(BitcoinTestFramework):
 
         #fund a tx with ~20 small inputs
         inputs = []
-        # Dogecoin: TX size rounding gives us a fee of 4 DOGE
+        # Dogecoin: TX size rounding gives us a fee of 1 DOGE. 20 - 15 - 1 = 4 DOGE change
         outputs = {self.nodes[0].getnewaddress():15,self.nodes[0].getnewaddress():4}
         rawTx = self.nodes[1].createrawtransaction(inputs, outputs)
         fundedTx = self.nodes[1].fundrawtransaction(rawTx)

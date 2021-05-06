@@ -11,6 +11,7 @@
 #include "txmempool.h"
 #include "util.h"
 #include "validation.h"
+#include "dogecoin-fees.h"
 
 int static generateMTRandom(unsigned int s, int range)
 {
@@ -146,43 +147,4 @@ CAmount GetDogecoinBlockSubsidy(int nHeight, const Consensus::Params& consensusP
     }
 }
 
-CAmount GetDogecoinMinRelayFee(const CTransaction& tx, unsigned int nBytes, bool fAllowFree)
-{
-    {
-        LOCK(mempool.cs);
-        uint256 hash = tx.GetHash();
-        double dPriorityDelta = 0;
-        CAmount nFeeDelta = 0;
-        mempool.ApplyDeltas(hash, dPriorityDelta, nFeeDelta);
-        if (dPriorityDelta > 0 || nFeeDelta > 0)
-            return 0;
-    }
 
-    CAmount nMinFee = ::minRelayTxFee.GetFee(nBytes);
-    nMinFee += GetDogecoinDustFee(tx.vout, ::minRelayTxFee);
-
-    if (fAllowFree)
-    {
-        // There is a free transaction area in blocks created by most miners,
-        // * If we are relaying we allow transactions up to DEFAULT_BLOCK_PRIORITY_SIZE - 1000
-        //   to be considered to fall into this category. We don't want to encourage sending
-        //   multiple transactions instead of one big transaction to avoid fees.
-        if (nBytes < (DEFAULT_BLOCK_PRIORITY_SIZE - 1000))
-            nMinFee = 0;
-    }
-
-    if (!MoneyRange(nMinFee))
-        nMinFee = MAX_MONEY;
-    return nMinFee;
-}
-
-CAmount GetDogecoinDustFee(const std::vector<CTxOut> &vout, CFeeRate &baseFeeRate) {
-    CAmount nFee = 0;
-
-    // To limit dust spam, add base fee for each output less than a COIN
-    BOOST_FOREACH(const CTxOut& txout, vout)
-        if (txout.IsDust(::minRelayTxFee))
-            nFee += baseFeeRate.GetFeePerK();
-
-    return nFee;
-}
