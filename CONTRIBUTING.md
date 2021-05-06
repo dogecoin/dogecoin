@@ -227,7 +227,6 @@ a worthwhile change based on the judgement of the maintainers.
 
 The project leader is the release manager for each Dogecoin Core release.
 
-
 ## Copyright
 
 By contributing to this repository, you agree to license your work under the 
