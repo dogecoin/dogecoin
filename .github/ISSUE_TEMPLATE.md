@@ -2,7 +2,7 @@
 
 This issue tracker is only for technical issues related to Dogecoin Core.
 
-For general questions about Dogecoin please use one of the various communities, e.g. Reddit, IRC, Discord, etc.
+For general questions about Dogecoin or wallet recovery please use one of the various communities, e.g. Reddit, IRC, Discord, etc.
 
 ### Describe the issue
 
