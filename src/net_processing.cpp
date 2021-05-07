@@ -108,7 +108,7 @@ static const int MAX_BLOCKTXN_DEPTH = 10;
  *  want to make this a per-peer adaptive value at some point. */
 static const unsigned int BLOCK_DOWNLOAD_WINDOW = 1024;
 /** Block download timeout base, expressed in millionths of the block interval (i.e. 5 min) */
-static const int64_t BLOCK_DOWNLOAD_TIMEOUT_BASE = 50000000;
+static const int64_t BLOCK_DOWNLOAD_TIMEOUT_BASE = 5000000;
 /** Additional block download timeout per parallel downloading peer (i.e. 2.5 min) */
 static const int64_t BLOCK_DOWNLOAD_TIMEOUT_PER_PEER = 2500000;
 /** Maximum number of headers to announce when relaying blocks with headers message.*/
