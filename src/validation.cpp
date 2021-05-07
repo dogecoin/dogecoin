@@ -2516,7 +2516,7 @@ bool ActivateBestChain(CValidationState &state, const CChainParams& chainparams,
               // state of transactions in our wallet is currently cleared when we
               // receive another notification and there is a race condition where
               // notification of a connected conflict might cause an outside process
-              // to abandon a transaction and then have it inadvertantly cleared by
+              // to abandon a transaction and then have it inadvertently cleared by
               // the notification that the conflicted transaction was evicted.
             MemPoolConflictRemovalTracker mrt(mempool);
             CBlockIndex *pindexOldTip = chainActive.Tip();
