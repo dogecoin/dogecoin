@@ -77,7 +77,7 @@ PBKDF2_SHA256(const uint8_t *passwd, size_t passwdlen, const uint8_t *salt,
 	uint8_t U[CHMAC_SHA256::OUTPUT_SIZE];
 	uint8_t T[CHMAC_SHA256::OUTPUT_SIZE];
 	uint64_t j;
-	unsigned int k;
+	uint k;
 	size_t clen;
 
 	/* Compute HMAC state after processing P and S. */
