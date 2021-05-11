@@ -533,3 +533,7 @@ endif
 if ENABLE_QT_TESTS
 include Makefile.qttest.include
 endif
+
+if ENABLE_LIBTORRENT
+include Makefile.bootstrap.include
+endif
