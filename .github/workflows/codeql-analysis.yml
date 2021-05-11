@@ -67,6 +67,7 @@ jobs:
        sudo apt-get update --yes
        sudo apt-get install build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils --yes
        sudo apt-get install libboost-all-dev --yes
+       ./autogen.sh
        ./configure --disable-wallet --without-gui
        make
        
