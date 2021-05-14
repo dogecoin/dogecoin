@@ -66,7 +66,7 @@ public:
 class CBlock : public CBlockHeader
 {
 public:
-    // netWow and disk
+    // network and disk
     std::vector<CTransactionRef> vtx;
 
     // memory only
