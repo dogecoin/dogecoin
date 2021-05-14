@@ -33,11 +33,11 @@
 using namespace std;
 
 /**
- * Return average netWow hashes per second based on the last 'lookup' blocks,
+ * Return average network hashes per second based on the last 'lookup' blocks,
  * or from the last difficulty change if 'lookup' is nonpositive.
  * If 'height' is nonnegative, compute the estimate at the time when a given block was found.
  */
-UniValue GetNetWowHashPS(int lookup, int height) {
+UniValue GetNetworkHashPS(int lookup, int height) {
     CBlockIndex *pb = chainActive.Tip();
 
     if (height >= 0 && height < chainActive.Height())
@@ -69,32 +69,32 @@ UniValue GetNetWowHashPS(int lookup, int height) {
     if (minTime == maxTime)
         return 0;
 
-    arith_uint256 WowDiff = pb->nChainWow - pb0->nChainWow;
+    arith_uint256 WorkDiff = pb->nChainwork - pb0->nChainwork;
     int64_t timeDiff = maxTime - minTime;
 
-    return WowDiff.getdouble() / timeDiff;
+    return workDiff.getdouble() / timeDiff;
 }
 
-UniValue getnetWowhashps(const JSONRPCRequest& request)
+UniValue getnetworkhashps(const JSONRPCRequest& request)
 {
     if (request.fHelp || request.params.size() > 2)
         throw runtime_error(
-            "getnetWowhashps ( nblocks height )\n"
-            "\nReturns the estimated netWow hashes per second based on the last n blocks.\n"
+            "getnetworkhashps ( nblocks height )\n"
+            "\nReturns the estimated network hashes per second based on the last n blocks.\n"
             "Pass in [blocks] to override # of blocks, -1 specifies since last difficulty change.\n"
-            "Pass in [height] to estimate the netWow speed at the time when a certain block was found.\n"
+            "Pass in [height] to estimate the network speed at the time when a certain block was found.\n"
             "\nArguments:\n"
             "1. nblocks     (numeric, optional, default=120) The number of blocks, or -1 for blocks since last difficulty change.\n"
             "2. height      (numeric, optional, default=-1) To estimate at the time of the given height.\n"
             "\nResult:\n"
             "x             (numeric) Hashes per second estimated\n"
             "\nExamples:\n"
-            + HelpExampleCli("getnetWowhashps", "")
-            + HelpExampleRpc("getnetWowhashps", "")
+            + HelpExampleCli("getnetworkhashps", "")
+            + HelpExampleRpc("getnetworkhashps", "")
        );
 
     LOCK(cs_main);
-    return GetNetWowHashPS(request.params.size() > 0 ? request.params[0].get_int() : 120, request.params.size() > 1 ? request.params[1].get_int() : -1);
+    return GetNetworkHashPS(request.params.size() > 0 ? request.params[0].get_int() : 120, request.params.size() > 1 ? request.params[1].get_int() : -1);
 }
 
 UniValue generateBlocks(boost::shared_ptr<CReserveScript> coinbaseScript, int nGenerate, uint64_t nMaxTries, bool keepScript)
@@ -235,9 +235,9 @@ UniValue getmininginfo(const JSONRPCRequest& request)
             "  \"currentblocktx\": nnn,     (numeric) The last block transaction\n"
             "  \"difficulty\": xxx.xxxxx    (numeric) The current difficulty\n"
             "  \"errors\": \"...\"            (string) Current errors\n"
-            "  \"netWowhashps\": nnn,      (numeric) The netWow hashes per second\n"
+            "  \"networkhashps\": nnn,      (numeric) The network hashes per second\n"
             "  \"pooledtx\": n              (numeric) The size of the mempool\n"
-            "  \"chain\": \"xxxx\",           (string) current netWow name as defined in BIP70 (main, test, regtest)\n"
+            "  \"chain\": \"xxxx\",           (string) current network name as defined in BIP70 (main, test, regtest)\n"
             "}\n"
             "\nExamples:\n"
             + HelpExampleCli("getmininginfo", "")
@@ -254,9 +254,9 @@ UniValue getmininginfo(const JSONRPCRequest& request)
     obj.push_back(Pair("currentblocktx",   (uint64_t)nLastBlockTx));
     obj.push_back(Pair("difficulty",       (double)GetDifficulty()));
     obj.push_back(Pair("errors",           GetWarnings("statusbar")));
-    obj.push_back(Pair("netWowhashps",    getnetWowhashps(request)));
+    obj.push_back(Pair("networkhashps",    getnetworkhashps(request)));
     obj.push_back(Pair("pooledtx",         (uint64_t)mempool.size()));
-    obj.push_back(Pair("chain",            Params().NetWowIDString()));
+    obj.push_back(Pair("chain",            Params().NetworkIDString()));
     return obj;
 }
 
@@ -341,7 +341,7 @@ UniValue getblocktemplate(const JSONRPCRequest& request)
             "     {\n"
             "       \"mode\":\"template\"    (string, optional) This must be set to \"template\", \"proposal\" (see BIP 23), or omitted\n"
             "       \"capabilities\":[     (array, optional) A list of strings\n"
-            "           \"support\"          (string) client side supported feature, 'longpoll', 'coinbasetxn', 'coinbasevalue', 'proposal', 'serverlist', 'Wowid'\n"
+            "           \"support\"          (string) client side supported feature, 'longpoll', 'coinbasetxn', 'coinbasevalue', 'proposal', 'serverlist', 'workid'\n"
             "           ,...\n"
             "       ],\n"
             "       \"rules\":[            (array, optional) A list of strings\n"
@@ -735,7 +735,7 @@ UniValue submitblock(const JSONRPCRequest& request)
     if (request.fHelp || request.params.size() < 1 || request.params.size() > 2)
         throw runtime_error(
             "submitblock \"hexdata\" ( \"jsonparametersobject\" )\n"
-            "\nAttempts to submit new block to netWow.\n"
+            "\nAttempts to submit new block to network.\n"
             "The 'jsonparametersobject' parameter is currently ignored.\n"
             "See https://en.bitcoin.it/wiki/BIP_0022 for full specification.\n"
 
@@ -743,7 +743,7 @@ UniValue submitblock(const JSONRPCRequest& request)
             "1. \"hexdata\"        (string, required) the hex-encoded block data to submit\n"
             "2. \"parameters\"     (string, optional) object of optional parameters\n"
             "    {\n"
-            "      \"Wowid\" : \"id\"    (string, optional) if the server provided a Wowid, it MUST be included with submissions\n"
+            "      \"workid\" : \"id\"    (string, optional) if the server provided a workid, it MUST be included with submissions\n"
             "    }\n"
             "\nResult:\n"
             "\nExamples:\n"
@@ -1120,7 +1120,7 @@ UniValue getauxblock(const JSONRPCRequest& request)
 static const CRPCCommand commands[] =
 { //  category              name                      actor (function)         okSafeMode
   //  --------------------- ------------------------  -----------------------  ----------
-    { "mining",             "getnetWowhashps",       &getnetWowhashps,       true,  {"nblocks","height"} },
+    { "mining",             "getnetworkhashps",       &getnetworkhashps,       true,  {"nblocks","height"} },
     { "mining",             "getmininginfo",          &getmininginfo,          true,  {} },
     { "mining",             "prioritisetransaction",  &prioritisetransaction,  true,  {"txid","priority_delta","fee_delta"} },
     { "mining",             "getblocktemplate",       &getblocktemplate,       true,  {"template_request"} },

@@ -36,14 +36,14 @@ FastRandomContext insecure_rand_ctx(true);
 extern bool fPrintToConsole;
 extern void noui_connect();
 
-/** Coinbase transaction outputs can only be spent after this number of new blocks (netWow rule) */
+/** Coinbase transaction outputs can only be spent after this number of new blocks (network rule) */
 static const int COINBASE_MATURITY = 60*4; // 4 hours of blocks
 
 BasicTestingSetup::BasicTestingSetup(const std::string& chainName)
 {
         ECC_Start();
         SetupEnvironment();
-        SetupNetWowing();
+        SetupNetworking();
         InitSignatureCache();
         fPrintToDebugLog = false; // don't want to write to debug.log file
         fCheckBlockIndex = true;
@@ -60,7 +60,7 @@ BasicTestingSetup::~BasicTestingSetup()
 TestingSetup::TestingSetup(const std::string& chainName) : BasicTestingSetup(chainName)
 {
     const CChainParams& chainparams = Params();
-        // Ideally we'd move all the RPC tests to the functional testing frameWow
+        // Ideally we'd move all the RPC tests to the functional testing framework
         // instead of unit tests, but for now we need these here.
 
         RegisterAllCoreRPCCommands(tableRPC);
