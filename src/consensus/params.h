@@ -72,7 +72,7 @@ struct Params {
     bool fPowAllowDigishieldMinDifficultyBlocks; // Allow minimum difficulty blocks where a retarget would normally occur
     bool fSimplifiedRewards; // Use block height derived rewards rather than previous block hash derived
 
-    uint256 nMinimumChainwork;
+    uint256 nMinimumChainWork;
     uint256 defaultAssumeValid;
 
     /** Auxpow parameters */
