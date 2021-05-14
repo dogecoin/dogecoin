@@ -39,7 +39,7 @@ Notable changes
 Reduce CPU usage during sync
 ----------------------------
 
-When loading block headers to send to a peer, the block was revalidated by calculating its proof of woof. This is expensive and led to a bottleneck in the sync process where nodes were CPU rather than IO bound in sending blocks to ther peers.
+When loading block headers to send to a peer, the block was revalidated by calculating its proof of work. This is expensive and led to a bottleneck in the sync process where nodes were CPU rather than IO bound in sending blocks to ther peers.
 
 All block headers are already checked when they are accepted, and they will be checked again on the receiving node.
 
