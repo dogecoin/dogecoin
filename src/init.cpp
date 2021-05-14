@@ -1240,7 +1240,7 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
         {
             if (cmt != SanitizeString(cmt, SAFE_CHARS_UA_COMMENT))
                 return InitError(strprintf(_("User Agent comment (%s) contains unsafe characters."), cmt));
-            uacomments.push_back(cmt);
+            uacomments.emplace_back(cmt);
         }
     }
     strSubVersion = FormatSubVersion(CLIENT_NAME, CLIENT_VERSION, uacomments);
@@ -1610,7 +1610,7 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
     if (mapMultiArgs.count("-loadblock"))
     {
         BOOST_FOREACH(const std::string& strFile, mapMultiArgs.at("-loadblock"))
-            vImportFiles.push_back(strFile);
+            vImportFiles.emplace_back(strFile);
     }
 
     threadGroup.create_thread(boost::bind(&ThreadImport, vImportFiles));

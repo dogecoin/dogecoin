@@ -314,7 +314,7 @@ int LogPrintStr(const std::string &str)
         if (fileout == NULL) {
             assert(vMsgsBeforeOpenLog);
             ret = strTimestamped.length();
-            vMsgsBeforeOpenLog->push_back(strTimestamped);
+            vMsgsBeforeOpenLog->emplace_back(strTimestamped);
         }
         else
         {
@@ -382,7 +382,7 @@ void ParseParameters(int argc, const char* const argv[])
         InterpretNegativeSetting(str, strValue);
 
         mapArgs[str] = strValue;
-        _mapMultiArgs[str].push_back(strValue);
+        _mapMultiArgs[str].emplace_back(strValue);
     }
 }
 
@@ -576,7 +576,7 @@ void ReadConfigFile(const std::string& confPath)
             InterpretNegativeSetting(strKey, strValue);
             if (mapArgs.count(strKey) == 0)
                 mapArgs[strKey] = strValue;
-            _mapMultiArgs[strKey].push_back(strValue);
+            _mapMultiArgs[strKey].emplace_back(strValue);
         }
     }
     // If datadir is changed in .conf file:

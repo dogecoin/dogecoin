@@ -83,7 +83,7 @@ CNodeSignals& GetNodeSignals() { return g_signals; }
 void CConnman::AddOneShot(const std::string& strDest)
 {
     LOCK(cs_vOneShots);
-    vOneShots.push_back(strDest);
+    vOneShots.emplace_back(strDest);
 }
 
 unsigned short GetListenPort()
@@ -132,7 +132,7 @@ static std::vector<CAddress> convertSeed6(const std::vector<SeedSpec6> &vSeedsIn
         memcpy(&ip, i->addr, sizeof(ip));
         CAddress addr(CService(ip, i->port), NODE_NETWORK);
         addr.nTime = GetTime() - GetRand(nOneWeek) - nOneWeek;
-        vSeedsOut.push_back(addr);
+        vSeedsOut.emplace_back(addr);
     }
     return vSeedsOut;
 }
@@ -593,7 +593,7 @@ bool CConnman::IsWhitelistedRange(const CNetAddr &addr) {
 
 void CConnman::AddWhitelistedRange(const CSubNet &subnet) {
     LOCK(cs_vWhitelistedRange);
-    vWhitelistedRange.push_back(subnet);
+    vWhitelistedRange.emplace_back(subnet);
 }
 
 
@@ -693,7 +693,7 @@ bool CNode::ReceiveMsgBytes(const char *pch, unsigned int nBytes, bool& complete
         // get current incomplete message, or create a new one
         if (vRecvMsg.empty() ||
             vRecvMsg.back().complete())
-            vRecvMsg.push_back(CNetMessage(Params().MessageStart(), SER_NETWORK, INIT_PROTO_VERSION));
+            vRecvMsg.emplace_back(CNetMessage(Params().MessageStart(), SER_NETWORK, INIT_PROTO_VERSION));
 
         CNetMessage& msg = vRecvMsg.back();
 
@@ -947,7 +947,7 @@ bool CConnman::AttemptToEvictConnection()
                                                node->nLastBlockTime, node->nLastTXTime,
                                                (node->nServices & nRelevantServices) == nRelevantServices,
                                                node->fRelayTxes, node->pfilter != NULL, node->addr, node->nKeyedNetGroup};
-            vEvictionCandidates.push_back(candidate);
+            vEvictionCandidates.emplace_back(candidate);
         }
     }
 
@@ -997,7 +997,7 @@ bool CConnman::AttemptToEvictConnection()
     int64_t nMostConnectionsTime = 0;
     std::map<uint64_t, std::vector<NodeEvictionCandidate> > mapNetGroupNodes;
     BOOST_FOREACH(const NodeEvictionCandidate &node, vEvictionCandidates) {
-        mapNetGroupNodes[node.nKeyedNetGroup].push_back(node);
+        mapNetGroupNodes[node.nKeyedNetGroup].emplace_back(node);
         int64_t grouptime = mapNetGroupNodes[node.nKeyedNetGroup][0].nTimeConnected;
         size_t groupsize = mapNetGroupNodes[node.nKeyedNetGroup].size();
 
@@ -1102,7 +1102,7 @@ void CConnman::AcceptConnection(const ListenSocket& hListenSocket) {
 
     {
         LOCK(cs_vNodes);
-        vNodes.push_back(pnode);
+        vNodes.emplace_back(pnode);
     }
 }
 
@@ -1133,7 +1133,7 @@ void CConnman::ThreadSocketHandler()
 
                     // hold in disconnected pool until all refs are released
                     pnode->Release();
-                    vNodesDisconnected.push_back(pnode);
+                    vNodesDisconnected.emplace_back(pnode);
                 }
             }
         }
@@ -1597,7 +1597,7 @@ void CConnman::ThreadDNSAddressSeed()
                     int nOneDay = 24*3600;
                     CAddress addr = CAddress(CService(ip, Params().GetDefaultPort()), requiredServiceBits);
                     addr.nTime = GetTime() - 3*nOneDay - GetRand(4*nOneDay); // use a random age between 3 and 7 days old
-                    vAdd.push_back(addr);
+                    vAdd.emplace_back(addr);
                     found++;
                 }
             }
@@ -1846,7 +1846,7 @@ std::vector<AddedNodeInfo> CConnman::GetAddedNodeInfo()
         LOCK(cs_vAddedNodes);
         ret.reserve(vAddedNodes.size());
         BOOST_FOREACH(const std::string& strAddNode, vAddedNodes)
-            lAddresses.push_back(strAddNode);
+            lAddresses.emplace_back(strAddNode);
     }
 
 
@@ -1872,17 +1872,17 @@ std::vector<AddedNodeInfo> CConnman::GetAddedNodeInfo()
             // strAddNode is an IP:port
             auto it = mapConnected.find(service);
             if (it != mapConnected.end()) {
-                ret.push_back(AddedNodeInfo{strAddNode, service, true, it->second});
+                ret.emplace_back(AddedNodeInfo{strAddNode, service, true, it->second});
             } else {
-                ret.push_back(AddedNodeInfo{strAddNode, CService(), false, false});
+                ret.emplace_back(AddedNodeInfo{strAddNode, CService(), false, false});
             }
         } else {
             // strAddNode is a name
             auto it = mapConnectedByName.find(strAddNode);
             if (it != mapConnectedByName.end()) {
-                ret.push_back(AddedNodeInfo{strAddNode, it->second.second, true, it->second.first});
+                ret.emplace_back(AddedNodeInfo{strAddNode, it->second.second, true, it->second.first});
             } else {
-                ret.push_back(AddedNodeInfo{strAddNode, CService(), false, false});
+                ret.emplace_back(AddedNodeInfo{strAddNode, CService(), false, false});
             }
         }
     }
@@ -1961,7 +1961,7 @@ bool CConnman::OpenNetworkConnection(const CAddress& addrConnect, bool fCountFai
     GetNodeSignals().InitializeNode(pnode, *this);
     {
         LOCK(cs_vNodes);
-        vNodes.push_back(pnode);
+        vNodes.emplace_back(pnode);
     }
 
     return true;
@@ -2111,7 +2111,7 @@ bool CConnman::BindListenPort(const CService &addrBind, std::string& strError, b
         return false;
     }
 
-    vhListenSocket.push_back(ListenSocket(hListenSocket, fWhitelisted));
+    vhListenSocket.emplace_back(ListenSocket(hListenSocket, fWhitelisted));
 
     if (addrBind.IsRoutable() && fDiscover && !fWhitelisted)
         AddLocal(addrBind, LOCAL_BIND);
@@ -2455,7 +2455,7 @@ bool CConnman::AddNode(const std::string& strNode)
             return false;
     }
 
-    vAddedNodes.push_back(strNode);
+    vAddedNodes.emplace_back(strNode);
     return true;
 }
 
@@ -2787,9 +2787,9 @@ void CConnman::PushMessage(CNode* pnode, CSerializedNetMsg&& msg)
 
         if (pnode->nSendSize > nSendBufferMaxSize)
             pnode->fPauseSend = true;
-        pnode->vSendMsg.push_back(std::move(serializedHeader));
+        pnode->vSendMsg.emplace_back(std::move(serializedHeader));
         if (nMessageSize)
-            pnode->vSendMsg.push_back(std::move(msg.data));
+            pnode->vSendMsg.emplace_back(std::move(msg.data));
 
         // If write queue empty, attempt "optimistic write"
         if (optimisticSend == true)

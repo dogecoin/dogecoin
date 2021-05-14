@@ -211,7 +211,7 @@ CAuxPow::initAuxPow (CBlockHeader& header)
   const uint256 blockHash = header.GetHash ();
   std::vector<unsigned char> inputData(blockHash.begin (), blockHash.end ());
   std::reverse (inputData.begin (), inputData.end ());
-  inputData.push_back (1);
+  inputData.emplace_back (1);
   inputData.insert (inputData.end (), 7, 0);
 
   /* Fake a parent-block coinbase with just the required input

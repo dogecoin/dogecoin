@@ -149,7 +149,7 @@ void TorControlConnection::readcb(struct bufferevent *bev, void *ctx)
             continue;
         // <status>(-|+| )<data><CRLF>
         self->message.code = atoi(s.substr(0,3));
-        self->message.lines.push_back(s.substr(4));
+        self->message.lines.emplace_back(s.substr(4));
         char ch = s[3]; // '-','+' or ' '
         if (ch == ' ') {
             // Final line, dispatch reply and clean up
@@ -241,7 +241,7 @@ bool TorControlConnection::Command(const std::string &cmd, const ReplyHandlerCB&
         return false;
     evbuffer_add(buf, cmd.data(), cmd.size());
     evbuffer_add(buf, "\r\n", 2);
-    reply_handlers.push_back(reply_handler);
+    reply_handlers.emplace_back(reply_handler);
     return true;
 }
 

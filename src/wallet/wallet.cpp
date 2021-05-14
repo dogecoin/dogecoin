@@ -714,7 +714,7 @@ DBErrors CWallet::ReorderTransactions()
         if (nOrderPos == -1)
         {
             nOrderPos = nOrderPosNext++;
-            nOrderPosOffsets.push_back(nOrderPos);
+            nOrderPosOffsets.emplace_back(nOrderPos);
 
             if (pwtx)
             {
@@ -1496,11 +1496,11 @@ void CWalletTx::GetAmounts(list<COutputEntry>& listReceived,
 
         // If we are debited by the transaction, add the output as a "sent" entry
         if (nDebit > 0)
-            listSent.push_back(output);
+            listSent.emplace_back(output);
 
         // If we are receiving the output, add it as a "received" entry
         if (fIsMine & filter)
-            listReceived.push_back(output);
+            listReceived.emplace_back(output);
     }
 
 }
@@ -1889,7 +1889,7 @@ std::vector<uint256> CWallet::ResendWalletTransactionsBefore(int64_t nTime, CCon
     {
         CWalletTx& wtx = *item.second;
         if (wtx.RelayWalletTransaction(connman))
-            result.push_back(wtx.GetHash());
+            result.emplace_back(wtx.GetHash());
     }
     return result;
 }
@@ -2106,7 +2106,7 @@ void CWallet::AvailableCoins(vector<COutput> &vCoins, bool fOnlyConfirmed, const
                 bool fSpendableIn = ((mine & ISMINE_SPENDABLE) != ISMINE_NO) || (coinControl && coinControl->fAllowWatchOnly && (mine & ISMINE_WATCH_SOLVABLE) != ISMINE_NO);
                 bool fSolvableIn = (mine & (ISMINE_SPENDABLE | ISMINE_WATCH_SOLVABLE)) != ISMINE_NO;
 
-                vCoins.push_back(COutput(pcoin, i, nDepth, fSpendableIn, fSolvableIn));
+                vCoins.emplace_back(COutput(pcoin, i, nDepth, fSpendableIn, fSolvableIn));
 
                 // Checks the sum amount of all UTXO's.
                 if (nMinimumSumAmount != MAX_MONEY) {
@@ -2213,7 +2213,7 @@ bool CWallet::SelectCoinsMinConf(const CAmount& nTargetValue, const int nConfMin
         }
         else if (n < nTargetValue + MIN_CHANGE)
         {
-            vValue.push_back(coin);
+            vValue.emplace_back(coin);
             nTotalLower += n;
         }
         else if (n < coinLowestLarger.first)
@@ -2355,7 +2355,7 @@ bool CWallet::FundTransaction(CMutableTransaction& tx, CAmount& nFeeRet, bool ov
     {
         const CTxOut& txOut = tx.vout[idx];
         CRecipient recipient = {txOut.scriptPubKey, txOut.nValue, setSubtractFeeFromOutputs.count(idx) == 1};
-        vecSend.push_back(recipient);
+        vecSend.emplace_back(recipient);
     }
 
     CCoinControl coinControl;
@@ -3441,7 +3441,7 @@ void CWallet::ListLockedCoins(std::vector<COutPoint>& vOutpts)
     for (std::set<COutPoint>::iterator it = setLockedCoins.begin();
          it != setLockedCoins.end(); it++) {
         COutPoint outpt = (*it);
-        vOutpts.push_back(outpt);
+        vOutpts.emplace_back(outpt);
     }
 }
 
@@ -3467,7 +3467,7 @@ public:
 
     void operator()(const CKeyID &keyId) {
         if (keystore.HaveKey(keyId))
-            vKeys.push_back(keyId);
+            vKeys.emplace_back(keyId);
     }
 
     void operator()(const CScriptID &scriptId) {

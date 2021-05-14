@@ -215,7 +215,7 @@ bool CDBEnv::Salvage(const std::string& strFile, bool fAggressive, std::vector<C
                 LogPrintf("CDBEnv::Salvage: WARNING: Number of keys in data does not match number of values.\n");
                 break;
             }
-            vResult.push_back(make_pair(ParseHex(keyHex), ParseHex(valueHex)));
+            vResult.emplace_back(make_pair(ParseHex(keyHex), ParseHex(valueHex)));
         }
     }
 

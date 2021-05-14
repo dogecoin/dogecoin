@@ -152,7 +152,7 @@ static bool rest_headers(HTTPRequest* req,
         BlockMap::const_iterator it = mapBlockIndex.find(hash);
         const CBlockIndex *pindex = (it != mapBlockIndex.end()) ? it->second : NULL;
         while (pindex != NULL && chainActive.Contains(pindex)) {
-            headers.push_back(pindex);
+            headers.emplace_back(pindex);
             if (headers.size() == (unsigned long)count)
                 break;
             pindex = chainActive.Next(pindex);
@@ -446,7 +446,7 @@ static bool rest_getutxos(HTTPRequest* req, const std::string& strURIPart)
                 return RESTERR(req, HTTP_BAD_REQUEST, "Parse error");
 
             txid.SetHex(strTxid);
-            vOutPoints.push_back(COutPoint(txid, (uint32_t)nOutput));
+            vOutPoints.emplace_back(COutPoint(txid, (uint32_t)nOutput));
         }
 
         if (vOutPoints.size() > 0)
@@ -529,11 +529,11 @@ static bool rest_getutxos(HTTPRequest* req, const std::string& strURIPart)
                     coin.nHeight = coins.nHeight;
                     coin.out = coins.vout.at(vOutPoints[i].n);
                     assert(!coin.out.IsNull());
-                    outs.push_back(coin);
+                    outs.emplace_back(coin);
                 }
             }
 
-            hits.push_back(hit);
+            hits.emplace_back(hit);
             bitmapStringRepresentation.append(hit ? "1" : "0"); // form a binary string representation (human-readable for json output)
             bitmap[i / 8] |= ((uint8_t)hit) << (i % 8);
         }

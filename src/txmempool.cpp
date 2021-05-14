@@ -605,7 +605,7 @@ void CTxMemPool::removeForBlock(const std::vector<CTransactionRef>& vtx, unsigne
 
         indexed_transaction_set::iterator i = mapTx.find(hash);
         if (i != mapTx.end())
-            entries.push_back(&*i);
+            entries.emplace_back(&*i);
     }
     // Before the txs in the new block have been removed from the mempool, update policy estimates
     minerPolicyEstimator->processBlock(nBlockHeight, entries);
@@ -736,7 +736,7 @@ void CTxMemPool::check(const CCoinsViewCache *pcoins) const
         assert(it->GetSizeWithDescendants() >= childSizes + it->GetTxSize());
 
         if (fDependsWait)
-            waitingOnDependants.push_back(&(*it));
+            waitingOnDependants.emplace_back(&(*it));
         else {
             CValidationState state;
             bool fCheckResult = tx.IsCoinBase() ||
@@ -751,7 +751,7 @@ void CTxMemPool::check(const CCoinsViewCache *pcoins) const
         waitingOnDependants.pop_front();
         CValidationState state;
         if (!mempoolDuplicate.HaveInputs(entry->GetTx())) {
-            waitingOnDependants.push_back(entry);
+            waitingOnDependants.emplace_back(entry);
             stepsSinceLastRemove++;
             assert(stepsSinceLastRemove < waitingOnDependants.size());
         } else {
@@ -813,7 +813,7 @@ std::vector<CTxMemPool::indexed_transaction_set::const_iterator> CTxMemPool::Get
     iters.reserve(mapTx.size());
 
     for (indexed_transaction_set::iterator mi = mapTx.begin(); mi != mapTx.end(); ++mi) {
-        iters.push_back(mi);
+        iters.emplace_back(mi);
     }
     std::sort(iters.begin(), iters.end(), DepthAndScoreComparator());
     return iters;
@@ -828,7 +828,7 @@ void CTxMemPool::queryHashes(std::vector<uint256>& vtxid)
     vtxid.reserve(mapTx.size());
 
     for (auto it : iters) {
-        vtxid.push_back(it->GetTx().GetHash());
+        vtxid.emplace_back(it->GetTx().GetHash());
     }
 }
 
@@ -844,7 +844,7 @@ std::vector<TxMempoolInfo> CTxMemPool::infoAll() const
     std::vector<TxMempoolInfo> ret;
     ret.reserve(mapTx.size());
     for (auto it : iters) {
-        ret.push_back(GetInfo(it));
+        ret.emplace_back(GetInfo(it));
     }
 
     return ret;
@@ -1130,7 +1130,7 @@ void CTxMemPool::TrimToSize(size_t sizelimit, std::vector<uint256>* pvNoSpendsRe
         if (pvNoSpendsRemaining) {
             txn.reserve(stage.size());
             BOOST_FOREACH(txiter iter, stage)
-                txn.push_back(iter->GetTx());
+                txn.emplace_back(iter->GetTx());
         }
         RemoveStaged(stage, false, MemPoolRemovalReason::SIZELIMIT);
         if (pvNoSpendsRemaining) {
@@ -1140,7 +1140,7 @@ void CTxMemPool::TrimToSize(size_t sizelimit, std::vector<uint256>* pvNoSpendsRe
                         continue;
                     auto iter = mapNextTx.lower_bound(COutPoint(txin.prevout.hash, 0));
                     if (iter == mapNextTx.end() || iter->first->hash != txin.prevout.hash)
-                        pvNoSpendsRemaining->push_back(txin.prevout.hash);
+                        pvNoSpendsRemaining->emplace_back(txin.prevout.hash);
                 }
             }
         }
