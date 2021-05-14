@@ -1,116 +1,192 @@
-Dogecoin Core version 1.14.3 is now available from:
+*After branching off for a major version release of Bitcoin Core, use this
+template to create the initial release notes draft.*
 
-  <https://github.com/dogecoin/dogecoin/releases/tag/v1.14.3/>
+*The release notes draft is a temporary file that can be added to by anyone. See
+[/doc/developer-notes.md#release-notes](/doc/developer-notes.md#release-notes)
+for the process.*
 
-This is a new minor version release, including various bugfixes and performance improvements. It is a recommended
-update for all users.
+*Create the draft, named* "*version* Release Notes Draft"
+*(e.g. "0.20.0 Release Notes Draft"), as a collaborative wiki in:*
 
-Please report bugs using the issue tracker at github:
+https://github.com/bitcoin-core/bitcoin-devwiki/wiki/
 
-  <https://github.com/dogecoin/dogecoin/issues>
+*Before the final release, move the notes back to this git repository.*
 
-To receive security and update notifications, please watch reddit or Twitter:
+*version* Release Notes Draft
+===============================
 
-  * https://www.reddit.com/r/dogecoin/
-  * @Dogecoin on Twitter for high priority announcements
-  * @dogecoin\_devs on Twitter for updates on development work
+Bitcoin Core version *version* is now available from:
 
-The developers also maintain personal Twitter accounts:
+  <https://bitcoincore.org/bin/bitcoin-core-*version*/>
 
-  * @langer\_hans
-  * @JRossNicoll
+This release includes new features, various bug fixes and performance
+improvements, as well as updated translations.
+
+Please report bugs using the issue tracker at GitHub:
+
+  <https://github.com/bitcoin/bitcoin/issues>
+
+To receive security and update notifications, please subscribe to:
+
+  <https://bitcoincore.org/en/list/announcements/join/>
+
+How to Upgrade
+==============
+
+If you are running an older version, shut it down. Wait until it has completely
+shut down (which might take a few minutes in some cases), then run the
+installer (on Windows) or just copy over `/Applications/Bitcoin-Qt` (on Mac)
+or `bitcoind`/`bitcoin-qt` (on Linux).
+
+Upgrading directly from a version of Bitcoin Core that has reached its EOL is
+possible, but it might take some time if the data directory needs to be migrated. Old
+wallet versions of Bitcoin Core are generally supported.
 
 Compatibility
 ==============
 
-Dogecoin Core is extensively tested on Ubuntu Server LTS, Mac OS X and Windows 10.
+Bitcoin Core is supported and extensively tested on operating systems
+using the Linux kernel, macOS 10.14+, and Windows 7 and newer.  Bitcoin
+Core should also work on most other Unix-like systems but is not as
+frequently tested on them.  It is not recommended to use Bitcoin Core on
+unsupported systems.
 
-Microsoft ended support for Windows XP on [April 8th, 2014](https://www.microsoft.com/en-us/WindowsForBusiness/end-of-xp-support),
-No attempt is made to prevent installing or running the software on Windows XP, you
-can still do so at your own risk but be aware that there are known instabilities and issues.
-Please do not report issues about Windows XP to the issue tracker.
-
-Dogecoin Core should also work on most other Unix-like systems but is not
-frequently tested on them.
+From Bitcoin Core 22.0 onwards, macOS versions earlier than 10.14 are no longer supported.
 
 Notable changes
 ===============
 
-Reduce CPU usage during sync
-----------------------------
+P2P and network changes
+-----------------------
 
-When loading block headers to send to a peer, the block was revalidated by calculating its proof of work. This is expensive and led to a bottleneck in the sync process where nodes were CPU rather than IO bound in sending blocks to ther peers.
+- Added NAT-PMP port mapping support via
+  [`libnatpmp`](https://miniupnp.tuxfamily.org/libnatpmp.html). (#18077)
 
-All block headers are already checked when they are accepted, and they will be checked again on the receiving node.
+Updated RPCs
+------------
 
-Reduce default mempool expiry time
-----------------------------------
+- Due to [BIP 350](https://github.com/bitcoin/bips/blob/master/bip-0350.mediawiki)
+  being implemented, behavior for all RPCs that accept addresses is changed when
+  a native witness version 1 (or higher) is passed. These now require a Bech32m
+  encoding instead of a Bech32 one, and Bech32m encoding will be used for such
+  addresses in RPC output as well. No version 1 addresses should be created
+  for mainnet until consensus rules are adopted that give them meaning
+  (e.g. through [BIP 341](https://github.com/bitcoin/bips/blob/master/bip-0341.mediawiki)).
+  Once that happens, Bech32m is expected to be used for them, so this shouldn't
+  affect any production systems, but may be observed on other networks where such
+  addresses already have meaning (like signet). (#20861)
 
-Reduces DEFAULT_MEMPOOL_EXPIRY from 336 hours to 24 hours. Motivation is that while blocks are empty, un-relayable tx are stuck in mempools for a long time and effectively locking utxo for 2 weeks until they can be respent, if no RBF opt-in was performed (most wallet implementations do not do RBF opt-in.)
+- The `getpeerinfo` RPC returns two new boolean fields, `bip152_hb_to` and
+  `bip152_hb_from`, that respectively indicate whether we selected a peer to be
+  in compact blocks high-bandwidth mode or whether a peer selected us as a
+  compact blocks high-bandwidth peer. High-bandwidth peers send new block
+  announcements via a `cmpctblock` message rather than the usual inv/headers
+  announcements. See BIP 152 for more details. (#19776)
 
-As the expectation is that block space will not be fully utilized for the foreseeable future, and therefore, as long as this is the case, no valid transaction should ever live in the mempool for more than a couple of minutes.
+- `getpeerinfo` no longer returns the following fields: `addnode`, `banscore`,
+  and `whitelisted`, which were previously deprecated in 0.21. Instead of
+  `addnode`, the `connection_type` field returns manual. Instead of
+  `whitelisted`, the `permissions` field indicates if the peer has special
+  privileges. The `banscore` field has simply been removed. (#20755)
 
-This default setting can be overridden with the -mempoolexpiry parameter by individual node operators to a value (expressed in hours) that makes the most sense for the use cases the node serves.
+- The following RPCs:  `gettxout`, `getrawtransaction`, `decoderawtransaction`,
+  `decodescript`, `gettransaction`, and REST endpoints: `/rest/tx`,
+  `/rest/getutxos`, `/rest/block` deprecated the following fields (which are no
+  longer returned in the responses by default): `addresses`, `reqSigs`.
+  The `-deprecatedrpc=addresses` flag must be passed for these fields to be
+  included in the RPC response. This flag/option will be available only for this major release, after which
+  the deprecation will be removed entirely. Note that these fields are attributes of
+  the `scriptPubKey` object returned in the RPC response. However, in the response
+  of `decodescript` these fields are top-level attributes, and included again as attributes
+  of the `scriptPubKey` object. (#20286)
 
-Increase block download timeouts
---------------------------------
+- When creating a hex-encoded bitcoin transaction using the `bitcoin-tx` utility
+  with the `-json` option set, the following fields: `addresses`, `reqSigs` are no longer
+  returned in the tx output of the response. (#20286)
 
-Block download timeouts are expressed as a multiple of block interval, and as such Dogecoin block download times were relatively aggressive, leading to a high number of timeouts. Increased the timeouts to be more flexible to real world conditions.
+- The `listbanned` RPC now returns two new numeric fields: `ban_duration` and `time_remaining`.
+  Respectively, these new fields indicate the duration of a ban and the time remaining until a ban expires,
+  both in seconds. Additionally, the `ban_created` field is repositioned to come before `banned_until`. (#21602)
 
-Add size_on_disk, prune_target_size, automatic_pruning to getblockchaininfo
----------------------------------------------------------------------------
+Changes to Wallet or GUI related RPCs can be found in the GUI or Wallet section below.
 
-* Fix pruneheight help text.
-* Move fPruneMode block to match output ordering with help text.
-* Add functional tests for new fields in getblockchaininfo.
+New RPCs
+--------
 
-Add query options to listunspent RPC call
------------------------------------------
+Build System
+------------
 
-* Return unspents greater or equal than a specific amount in DOGE: minimumAmount (default = 0).
-* Return unspents lower or equal than a specific amount in DOGE: maximumAmount (default=unlimited).
-* Return unspents with a total number lower or equal than a specific number: maximumCount (default=0=unlimited).
-* Return unspents which total is greater or equal than a specific amount in DOGE: minimumSumAmount (default=unlimited).
+New settings
+------------
 
-Minor changes
-=============
+- The `-natpmp` option has been added to use NAT-PMP to map the listening port.
+  If both UPnP and NAT-PMP are enabled, a successful allocation from UPnP
+  prevails over one from NAT-PMP. (#18077)
 
-* Set BIP65 softfork heights in chainparams.cpp.
-* Update package links for OSX cross compilation.
-* Change IPC prefix from `bitcoin:` to `dogecoin:`.
-* Locale independent sorting.
-* Corrections to Italian translation.
-* Refresh main and test network checkpoints and seeds.
-* Do not print an error on connection timeouts through proxy.
-* Numerous fixes to automated tests.
-* Numerous fixes to documentation.
+Updated settings
+----------------
+
+Changes to Wallet or GUI related settings can be found in the GUI or Wallet section below.
+
+- Passing an invalid `-rpcauth` argument now cause bitcoind to fail to start.  (#20461)
+
+- The `getnodeaddresses` RPC now returns a "network" field indicating the
+  network type (ipv4, ipv6, onion, or i2p) for each address.  (#21594)
+
+Tools and Utilities
+-------------------
+
+- A new CLI `-addrinfo` command returns the number of addresses known to the
+  node per network type (including Tor v2 versus v3) and total. This can be
+  useful to see if the node knows enough addresses in a network to use options
+  like `-onlynet=<network>` or to upgrade to current and future Tor releases
+  that support Tor v3 addresses only.  (#21595)
+
+Wallet
+------
+
+- A new `listdescriptors` RPC is available to inspect the contents of descriptor-enabled wallets.
+  The RPC returns public versions of all imported descriptors, including their timestamp and flags.
+  For ranged descriptors, it also returns the range boundaries and the next index to generate addresses from. (#20226)
+
+- The `bumpfee` RPC is not available with wallets that have private keys
+  disabled. `psbtbumpfee` can be used instead. (#20891)
+
+- The `fundrawtransaction`, `send` and `walletcreatefundedpsbt` RPCs now support an `include_unsafe` option
+  that when `true` allows using unsafe inputs to fund the transaction.
+  Note that the resulting transaction may become invalid if one of the unsafe inputs disappears.
+  If that happens, the transaction must be funded with different inputs and republished. (#21359)
+
+GUI changes
+-----------
+
+Low-level changes
+=================
+
+RPC
+---
+
+- The RPC server can process a limited number of simultaneous RPC requests.
+  Previously, if this limit was exceeded, the RPC server would respond with
+  [status code 500 (`HTTP_INTERNAL_SERVER_ERROR`)](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#5xx_server_errors).
+  Now it returns status code 503 (`HTTP_SERVICE_UNAVAILABLE`). (#18335)
+
+- Error codes have been updated to be more accurate for the following error cases (#18466):
+  - `signmessage` now returns RPC_INVALID_ADDRESS_OR_KEY (-5) if the
+    passed address is invalid. Previously returned RPC_TYPE_ERROR (-3).
+  - `verifymessage` now returns RPC_INVALID_ADDRESS_OR_KEY (-5) if the
+    passed address is invalid. Previously returned RPC_TYPE_ERROR (-3).
+  - `verifymessage` now returns RPC_TYPE_ERROR (-3) if the passed signature
+    is malformed. Previously returned RPC_INVALID_ADDRESS_OR_KEY (-5).
+
+Tests
+-----
 
 Credits
 =======
 
 Thanks to everyone who directly contributed to this release:
 
-- Anthony Chen
-- Bertrand Jacquin
-- BT
-- Daniel Edgecumbe
-- Demon
-- Dennis Field
-- fluteds
-- Ikko Ashimine
-- John-Gee
-- Jonathan
-- Kent
-- leuqarte
-- Luis-Johannes Schubert
-- Marco
-- marcuswin
-- Max Keller
-- Patrick Lodder
-- Pedro Branco
-- Primo
-- Reiner Herrmann
-- Ross Nicoll
-- Shibe
-- tnaka
-- Vertian
+
+As well as to everyone that helped with translations on
+[Transifex](https://www.transifex.com/bitcoin/bitcoin/).

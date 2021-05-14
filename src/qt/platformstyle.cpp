@@ -1,17 +1,13 @@
-// Copyright (c) 2015-2016 The Bitcoin Core developers
+// Copyright (c) 2015-2019 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "platformstyle.h"
-
-#include "guiconstants.h"
+#include <qt/platformstyle.h>
 
 #include <QApplication>
 #include <QColor>
-#include <QIcon>
 #include <QImage>
 #include <QPalette>
-#include <QPixmap>
 
 static const struct {
     const char *platformId;
@@ -22,12 +18,11 @@ static const struct {
     /** Extra padding/spacing in transactionview */
     const bool useExtraSpacing;
 } platform_styles[] = {
-    {"macosx", false, false, true},
+    {"macosx", false, true, true},
     {"windows", true, false, false},
     /* Other: linux, unix, ... */
     {"other", true, true, false}
 };
-static const unsigned platform_styles_count = sizeof(platform_styles)/sizeof(*platform_styles);
 
 namespace {
 /* Local functions for colorizing single-color images */
@@ -48,8 +43,7 @@ void MakeSingleColorImage(QImage& img, const QColor& colorbase)
 QIcon ColorizeIcon(const QIcon& ico, const QColor& colorbase)
 {
     QIcon new_ico;
-    QSize sz;
-    Q_FOREACH(sz, ico.availableSizes())
+    for (const QSize& sz : ico.availableSizes())
     {
         QImage img(ico.pixmap(sz).toImage());
         MakeSingleColorImage(img, colorbase);
@@ -119,11 +113,6 @@ QIcon PlatformStyle::SingleColorIcon(const QIcon& icon) const
     return ColorizeIcon(icon, SingleColor());
 }
 
-QIcon PlatformStyle::TextColorIcon(const QString& filename) const
-{
-    return ColorizeIcon(filename, TextColor());
-}
-
 QIcon PlatformStyle::TextColorIcon(const QIcon& icon) const
 {
     return ColorizeIcon(icon, TextColor());
@@ -131,17 +120,15 @@ QIcon PlatformStyle::TextColorIcon(const QIcon& icon) const
 
 const PlatformStyle *PlatformStyle::instantiate(const QString &platformId)
 {
-    for (unsigned x=0; x<platform_styles_count; ++x)
-    {
-        if (platformId == platform_styles[x].platformId)
-        {
+    for (const auto& platform_style : platform_styles) {
+        if (platformId == platform_style.platformId) {
             return new PlatformStyle(
-                    platform_styles[x].platformId,
-                    platform_styles[x].imagesOnButtons,
-                    platform_styles[x].colorizeIcons,
-                    platform_styles[x].useExtraSpacing);
+                    platform_style.platformId,
+                    platform_style.imagesOnButtons,
+                    platform_style.colorizeIcons,
+                    platform_style.useExtraSpacing);
         }
     }
-    return 0;
+    return nullptr;
 }
 

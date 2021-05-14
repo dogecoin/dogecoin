@@ -1,11 +1,11 @@
-// Copyright (c) 2011-2014 The Bitcoin Core developers
+// Copyright (c) 2011-2020 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #ifndef BITCOIN_QT_TRANSACTIONFILTERPROXY_H
 #define BITCOIN_QT_TRANSACTIONFILTERPROXY_H
 
-#include "amount.h"
+#include <amount.h>
 
 #include <QDateTime>
 #include <QSortFilterProxyModel>
@@ -16,7 +16,7 @@ class TransactionFilterProxy : public QSortFilterProxyModel
     Q_OBJECT
 
 public:
-    explicit TransactionFilterProxy(QObject *parent = 0);
+    explicit TransactionFilterProxy(QObject *parent = nullptr);
 
     /** Earliest date that can be represented (far in the past) */
     static const QDateTime MIN_DATE;
@@ -35,7 +35,7 @@ public:
     };
 
     void setDateRange(const QDateTime &from, const QDateTime &to);
-    void setAddressPrefix(const QString &addrPrefix);
+    void setSearchString(const QString &);
     /**
       @note Type filter takes a bit field created with TYPE() or ALL_TYPES
      */
@@ -49,15 +49,15 @@ public:
     /** Set whether to show conflicted transactions. */
     void setShowInactive(bool showInactive);
 
-    int rowCount(const QModelIndex &parent = QModelIndex()) const;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
 protected:
-    bool filterAcceptsRow(int source_row, const QModelIndex & source_parent) const;
+    bool filterAcceptsRow(int source_row, const QModelIndex & source_parent) const override;
 
 private:
     QDateTime dateFrom;
     QDateTime dateTo;
-    QString addrPrefix;
+    QString m_search_string;
     quint32 typeFilter;
     WatchOnlyFilter watchOnlyFilter;
     CAmount minAmount;

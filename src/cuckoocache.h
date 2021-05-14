@@ -2,54 +2,53 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef _BITCOIN_CUCKOOCACHE_H_
-#define _BITCOIN_CUCKOOCACHE_H_
+#ifndef BITCOIN_CUCKOOCACHE_H
+#define BITCOIN_CUCKOOCACHE_H
 
+#include <algorithm> // std::find
 #include <array>
-#include <algorithm>
 #include <atomic>
-#include <cstring>
 #include <cmath>
+#include <cstring>
 #include <memory>
+#include <utility>
 #include <vector>
 
 
-/** namespace CuckooCache provides high performance cache primitives
+/** High-performance cache primitives.
  *
  * Summary:
  *
- * 1) bit_packed_atomic_flags is bit-packed atomic flags for garbage collection
+ * 1. @ref bit_packed_atomic_flags is bit-packed atomic flags for garbage collection
  *
- * 2) cache is a cache which is performant in memory usage and lookup speed. It
- * is lockfree for erase operations. Elements are lazily erased on the next
- * insert.
+ * 2. @ref cache is a cache which is performant in memory usage and lookup speed. It
+ * is lockfree for erase operations. Elements are lazily erased on the next insert.
  */
 namespace CuckooCache
 {
-/** bit_packed_atomic_flags implements a container for garbage collection flags
+/** @ref bit_packed_atomic_flags implements a container for garbage collection flags
  * that is only thread unsafe on calls to setup. This class bit-packs collection
  * flags for memory efficiency.
  *
- * All operations are std::memory_order_relaxed so external mechanisms must
+ * All operations are `std::memory_order_relaxed` so external mechanisms must
  * ensure that writes and reads are properly synchronized.
  *
- * On setup(n), all bits up to n are marked as collected.
+ * On setup(n), all bits up to `n` are marked as collected.
  *
  * Under the hood, because it is an 8-bit type, it makes sense to use a multiple
  * of 8 for setup, but it will be safe if that is not the case as well.
- *
  */
 class bit_packed_atomic_flags
 {
     std::unique_ptr<std::atomic<uint8_t>[]> mem;
 
 public:
-    /** No default constructor as there must be some size */
+    /** No default constructor, as there must be some size. */
     bit_packed_atomic_flags() = delete;
 
     /**
      * bit_packed_atomic_flags constructor creates memory to sufficiently
-     * keep track of garbage collection information for size entries.
+     * keep track of garbage collection information for `size` entries.
      *
      * @param size the number of elements to allocate space for
      *
@@ -58,7 +57,7 @@ public:
      * @post All calls to bit_is_set (without subsequent bit_unset) will return
      * true.
      */
-    bit_packed_atomic_flags(uint32_t size)
+    explicit bit_packed_atomic_flags(uint32_t size)
     {
         // pad out the size if needed
         size = (size + 7) / 8;
@@ -68,7 +67,7 @@ public:
     };
 
     /** setup marks all entries and ensures that bit_packed_atomic_flags can store
-     * at least size entries
+     * at least `b` entries.
      *
      * @param b the number of elements to allocate space for
      * @post bit_set, bit_unset, and bit_is_set function properly forall x. x <
@@ -84,19 +83,18 @@ public:
 
     /** bit_set sets an entry as discardable.
      *
-     * @param s the index of the entry to bit_set.
+     * @param s the index of the entry to bit_set
      * @post immediately subsequent call (assuming proper external memory
      * ordering) to bit_is_set(s) == true.
-     *
      */
     inline void bit_set(uint32_t s)
     {
         mem[s >> 3].fetch_or(1 << (s & 7), std::memory_order_relaxed);
     }
 
-    /**  bit_unset marks an entry as something that should not be overwritten
+    /** bit_unset marks an entry as something that should not be overwritten.
      *
-     * @param s the index of the entry to bit_unset.
+     * @param s the index of the entry to bit_unset
      * @post immediately subsequent call (assuming proper external memory
      * ordering) to bit_is_set(s) == false.
      */
@@ -105,10 +103,10 @@ public:
         mem[s >> 3].fetch_and(~(1 << (s & 7)), std::memory_order_relaxed);
     }
 
-    /** bit_is_set queries the table for discardability at s
+    /** bit_is_set queries the table for discardability at `s`.
      *
-     * @param s the index of the entry to read.
-     * @returns if the bit at index s was set.
+     * @param s the index of the entry to read
+     * @returns true if the bit at index `s` was set, false otherwise
      * */
     inline bool bit_is_set(uint32_t s) const
     {
@@ -116,15 +114,15 @@ public:
     }
 };
 
-/** cache implements a cache with properties similar to a cuckoo-set
+/** @ref cache implements a cache with properties similar to a cuckoo-set.
  *
- *  The cache is able to hold up to (~(uint32_t)0) - 1 elements.
+ *  The cache is able to hold up to `(~(uint32_t)0) - 1` elements.
  *
  *  Read Operations:
- *      - contains(*, false)
+ *      - contains() for `erase=false`
  *
  *  Read+Erase Operations:
- *      - contains(*, true)
+ *      - contains() for `erase=true`
  *
  *  Erase Operations:
  *      - allow_erase()
@@ -141,10 +139,10 @@ public:
  *
  * User Must Guarantee:
  *
- * 1) Write Requires synchronized access (e.g., a lock)
- * 2) Read Requires no concurrent Write, synchronized with the last insert.
- * 3) Erase requires no concurrent Write, synchronized with last insert.
- * 4) An Erase caller must release all memory before allowing a new Writer.
+ * 1. Write requires synchronized access (e.g. a lock)
+ * 2. Read requires no concurrent Write, synchronized with last insert.
+ * 3. Erase requires no concurrent Write, synchronized with last insert.
+ * 4. An Erase caller must release all memory before allowing a new Writer.
  *
  *
  * Note on function names:
@@ -154,7 +152,7 @@ public:
  * @tparam Element should be a movable and copyable type
  * @tparam Hash should be a function/callable which takes a template parameter
  * hash_select and an Element and extracts a hash from it. Should return
- * high-entropy hashes for `Hash h; h<0>(e) ... h<7>(e)`.
+ * high-entropy uint32_t hashes for `Hash h; h<0>(e) ... h<7>(e)`.
  */
 template <typename Element, typename Hash>
 class cache
@@ -176,15 +174,15 @@ private:
      */
     mutable std::vector<bool> epoch_flags;
 
-    /** epoch_heuristic_counter is used to determine when a epoch might be aged
-     * & an expensive scan should be done.  epoch_heuristic_counter is
+    /** epoch_heuristic_counter is used to determine when an epoch might be aged
+     * & an expensive scan should be done. epoch_heuristic_counter is
      * decremented on insert and reset to the new number of inserts which would
      * cause the epoch to reach epoch_size when it reaches zero.
      */
     uint32_t epoch_heuristic_counter;
 
     /** epoch_size is set to be the number of elements supposed to be in a
-     * epoch. When the number of non-erased elements in a epoch
+     * epoch. When the number of non-erased elements in an epoch
      * exceeds epoch_size, a new epoch should be started and all
      * current entries demoted. epoch_size is set to be 45% of size because
      * we want to keep load around 90%, and we support 3 epochs at once --
@@ -193,48 +191,74 @@ private:
      */
     uint32_t epoch_size;
 
-    /** hash_mask should be set to appropriately mask out a hash such that every
-     * masked hash is [0,size), eg, if floor(log2(size)) == 20, then hash_mask
-     * should be (1<<20)-1
-     */
-    uint32_t hash_mask;
-
     /** depth_limit determines how many elements insert should try to replace.
-     * Should be set to log2(n)*/
+     * Should be set to log2(n).
+     */
     uint8_t depth_limit;
 
     /** hash_function is a const instance of the hash function. It cannot be
      * static or initialized at call time as it may have internal state (such as
      * a nonce).
-     * */
+     */
     const Hash hash_function;
 
     /** compute_hashes is convenience for not having to write out this
      * expression everywhere we use the hash values of an Element.
      *
-     * @param e the element whose hashes will be returned
-     * @returns std::array<uint32_t, 8> of deterministic hashes derived from e
+     * We need to map the 32-bit input hash onto a hash bucket in a range [0, size) in a
+     *  manner which preserves as much of the hash's uniformity as possible. Ideally
+     *  this would be done by bitmasking but the size is usually not a power of two.
+     *
+     * The naive approach would be to use a mod -- which isn't perfectly uniform but so
+     *  long as the hash is much larger than size it is not that bad. Unfortunately,
+     *  mod/division is fairly slow on ordinary microprocessors (e.g. 90-ish cycles on
+     *  haswell, ARM doesn't even have an instruction for it.); when the divisor is a
+     *  constant the compiler will do clever tricks to turn it into a multiply+add+shift,
+     *  but size is a run-time value so the compiler can't do that here.
+     *
+     * One option would be to implement the same trick the compiler uses and compute the
+     *  constants for exact division based on the size, as described in "{N}-bit Unsigned
+     *  Division via {N}-bit Multiply-Add" by Arch D. Robison in 2005. But that code is
+     *  somewhat complicated and the result is still slower than other options:
+     *
+     * Instead we treat the 32-bit random number as a Q32 fixed-point number in the range
+     *  [0, 1) and simply multiply it by the size. Then we just shift the result down by
+     *  32-bits to get our bucket number. The result has non-uniformity the same as a
+     *  mod, but it is much faster to compute. More about this technique can be found at
+     *  https://lemire.me/blog/2016/06/27/a-fast-alternative-to-the-modulo-reduction/ .
+     *
+     * The resulting non-uniformity is also more equally distributed which would be
+     *  advantageous for something like linear probing, though it shouldn't matter
+     *  one way or the other for a cuckoo table.
+     *
+     * The primary disadvantage of this approach is increased intermediate precision is
+     *  required but for a 32-bit random number we only need the high 32 bits of a
+     *  32*32->64 multiply, which means the operation is reasonably fast even on a
+     *  typical 32-bit processor.
+     *
+     * @param e The element whose hashes will be returned
+     * @returns Deterministic hashes derived from `e` uniformly mapped onto the range [0, size)
      */
     inline std::array<uint32_t, 8> compute_hashes(const Element& e) const
     {
-        return {{hash_function.template operator()<0>(e) & hash_mask,
-                 hash_function.template operator()<1>(e) & hash_mask,
-                 hash_function.template operator()<2>(e) & hash_mask,
-                 hash_function.template operator()<3>(e) & hash_mask,
-                 hash_function.template operator()<4>(e) & hash_mask,
-                 hash_function.template operator()<5>(e) & hash_mask,
-                 hash_function.template operator()<6>(e) & hash_mask,
-                 hash_function.template operator()<7>(e) & hash_mask}};
+        return {{(uint32_t)(((uint64_t)hash_function.template operator()<0>(e) * (uint64_t)size) >> 32),
+                 (uint32_t)(((uint64_t)hash_function.template operator()<1>(e) * (uint64_t)size) >> 32),
+                 (uint32_t)(((uint64_t)hash_function.template operator()<2>(e) * (uint64_t)size) >> 32),
+                 (uint32_t)(((uint64_t)hash_function.template operator()<3>(e) * (uint64_t)size) >> 32),
+                 (uint32_t)(((uint64_t)hash_function.template operator()<4>(e) * (uint64_t)size) >> 32),
+                 (uint32_t)(((uint64_t)hash_function.template operator()<5>(e) * (uint64_t)size) >> 32),
+                 (uint32_t)(((uint64_t)hash_function.template operator()<6>(e) * (uint64_t)size) >> 32),
+                 (uint32_t)(((uint64_t)hash_function.template operator()<7>(e) * (uint64_t)size) >> 32)}};
     }
 
-    /* end
-     * @returns a constexpr index that can never be inserted to */
+    /** invalid returns a special index that can never be inserted to
+     * @returns the special constexpr index that can never be inserted to */
     constexpr uint32_t invalid() const
     {
         return ~(uint32_t)0;
     }
 
-    /** allow_erase marks the element at index n as discardable. Threadsafe
+    /** allow_erase marks the element at index `n` as discardable. Threadsafe
      * without any concurrent insert.
      * @param n the index to allow erasure of
      */
@@ -243,7 +267,7 @@ private:
         collection_flags.bit_set(n);
     }
 
-    /** please_keep marks the element at index n as an entry that should be kept.
+    /** please_keep marks the element at index `n` as an entry that should be kept.
      * Threadsafe without any concurrent insert.
      * @param n the index to prioritize keeping
      */
@@ -305,19 +329,18 @@ public:
     }
 
     /** setup initializes the container to store no more than new_size
-     * elements. setup rounds down to a power of two size.
+     * elements.
      *
      * setup should only be called once.
      *
      * @param new_size the desired number of elements to store
      * @returns the maximum number of elements storable
-     **/
+     */
     uint32_t setup(uint32_t new_size)
     {
         // depth_limit must be at least one otherwise errors can occur.
         depth_limit = static_cast<uint8_t>(std::log2(static_cast<float>(std::max((uint32_t)2, new_size))));
-        size = 1 << depth_limit;
-        hash_mask = size-1;
+        size = std::max<uint32_t>(2, new_size);
         table.resize(size);
         collection_flags.setup(size);
         epoch_flags.resize(size);
@@ -336,7 +359,7 @@ public:
      * negligible compared to the size of the elements.
      *
      * @param bytes the approximate number of bytes to use for this data
-     * structure.
+     * structure
      * @returns the maximum number of elements storable (see setup()
      * documentation for more detail)
      */
@@ -352,10 +375,12 @@ public:
      * It drops the last tried element if it runs out of depth before
      * encountering an open slot.
      *
-     * Thus
+     * Thus:
      *
+     * ```
      * insert(x);
      * return contains(x, false);
+     * ```
      *
      * is not guaranteed to return true.
      *
@@ -363,7 +388,6 @@ public:
      * @post one of the following: All previously inserted elements and e are
      * now in the table, one previously inserted element is evicted from the
      * table, the entry attempted to be inserted is evicted.
-     *
      */
     inline void insert(Element e)
     {
@@ -373,7 +397,7 @@ public:
         std::array<uint32_t, 8> locs = compute_hashes(e);
         // Make sure we have not already inserted this element
         // If we have, make sure that it does not get deleted
-        for (uint32_t loc : locs)
+        for (const uint32_t loc : locs)
             if (table[loc] == e) {
                 please_keep(loc);
                 epoch_flags[loc] = last_epoch;
@@ -381,7 +405,7 @@ public:
             }
         for (uint8_t depth = 0; depth < depth_limit; ++depth) {
             // First try to insert to an empty slot, if one exists
-            for (uint32_t loc : locs) {
+            for (const uint32_t loc : locs) {
                 if (!collection_flags.bit_is_set(loc))
                     continue;
                 table[loc] = std::move(e);
@@ -392,9 +416,9 @@ public:
             /** Swap with the element at the location that was
             * not the last one looked at. Example:
             *
-            * 1) On first iteration, last_loc == invalid(), find returns last, so
+            * 1. On first iteration, last_loc == invalid(), find returns last, so
             *    last_loc defaults to locs[0].
-            * 2) On further iterations, where last_loc == locs[k], last_loc will
+            * 2. On further iterations, where last_loc == locs[k], last_loc will
             *    go to locs[k+1 % 8], i.e., next of the 8 indices wrapping around
             *    to 0 if needed.
             *
@@ -415,17 +439,19 @@ public:
         }
     }
 
-    /* contains iterates through the hash locations for a given element
+    /** contains iterates through the hash locations for a given element
      * and checks to see if it is present.
      *
      * contains does not check garbage collected state (in other words,
      * garbage is only collected when the space is needed), so:
      *
+     * ```
      * insert(x);
      * if (contains(x, true))
      *     return contains(x, false);
      * else
      *     return true;
+     * ```
      *
      * executed on a single thread will always return true!
      *
@@ -434,7 +460,7 @@ public:
      * contains returns a bool set true if the element was found.
      *
      * @param e the element to check
-     * @param erase
+     * @param erase whether to attempt setting the garbage collect flag
      *
      * @post if erase is true and the element is found, then the garbage collect
      * flag is set
@@ -443,7 +469,7 @@ public:
     inline bool contains(const Element& e, const bool erase) const
     {
         std::array<uint32_t, 8> locs = compute_hashes(e);
-        for (uint32_t loc : locs)
+        for (const uint32_t loc : locs)
             if (table[loc] == e) {
                 if (erase)
                     allow_erase(loc);
@@ -454,4 +480,4 @@ public:
 };
 } // namespace CuckooCache
 
-#endif
+#endif // BITCOIN_CUCKOOCACHE_H
