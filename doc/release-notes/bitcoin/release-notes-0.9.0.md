@@ -175,7 +175,7 @@ RPC:
 - Add 'dumpwallet' and 'importwallet' RPCs
 - 'keypoolrefill' gains optional size parameter
 - Add 'getbestblockhash', to return tip of best chain
-- Add 'chainwoof' (the total woof done by all blocks since the genesis block)
+- Add 'chainwork' (the total work done by all blocks since the genesis block)
   to 'getblock' output
 - Make RPC password resistant to timing attacks
 - Clarify help messages and add examples

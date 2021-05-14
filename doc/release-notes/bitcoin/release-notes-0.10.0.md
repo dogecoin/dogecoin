@@ -404,7 +404,7 @@ Command-line options:
 Block and transaction handling:
 - `7a0e84d` ProcessGetData(): abort if a block file is missing from disk
 - `8c93bf4` LoadBlockIndexDB(): Require block db reindex if any `blk*.dat` files are missing
-- `77339e5` Get rid of the static chainMostWoof (optimization)
+- `77339e5` Get rid of the static chainMostWork (optimization)
 - `4e0eed8` Allow ActivateBestChain to release its lock on cs_main
 - `18e7216` Push cs_mains down in ProcessBlock
 - `fa126ef` Avoid undefined behavior using CFlatData in CScript serialization

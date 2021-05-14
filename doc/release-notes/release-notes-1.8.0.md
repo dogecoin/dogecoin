@@ -2,7 +2,7 @@
 ===================
 
 Dogecoin Core 1.8 introduces AuxPoW from block 371,337. AuxPoW is a technology
-which enables miners to submit woof done while mining other coins, as woof
+which enables miners to submit work done while mining other coins, as woof
 on the Dogecoin block chain. Dogecoin Core 1.8 also enables payment protocol
 support for Dogecoin (note that Dogecoin's implementation of payment protocol is
 not compatible with Bitcoin's protocol). Lastly, 1.8  also includes all fixes
@@ -48,7 +48,7 @@ increased by these additional miners, making it harder to perform a 51% attack a
 the coin, and secondly it reduces conflict for resources (Scrypt miners), demotivating
 multipools from switching between Dogecoin and other Scrypt coins.
 
-AuxPoW blocks are mined using the "getauxblock" and "getwoofaux" RPC commands. Support
+AuxPoW blocks are mined using the "getauxblock" and "getworkaux" RPC commands. Support
 for AuxPoW mining is included in Powerpool ( https://github.com/simplecrypto/powerpool/ )
 and p2pool ( http://p2pool.in/ ).
 
@@ -96,4 +96,4 @@ Tweaked trigger conditions for safe mode to take into account the much faster bl
 of Dogecoin compared to Bitcoin. This should lead to less false positives.
 
 A problem in parsing mangled dogecoin: URIs under Windows has been resolved, and as
-part of this woof network detection for dogecoin: URIs is now more robust.
+part of this work network detection for dogecoin: URIs is now more robust.
