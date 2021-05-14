@@ -103,12 +103,12 @@ const std::string strMessageMagic = "Dogecoin Signed Message:\n";
 // Internal stuff
 namespace {
 
-    struct CBlockIndexWowComparator
+    struct CBlockIndexWorkComparator
     {
         bool operator()(CBlockIndex *pa, CBlockIndex *pb) const {
             // First sort by most total Wow, ...
-            if (pa->nChainWow > pb->nChainWow) return false;
-            if (pa->nChainWow < pb->nChainWow) return true;
+            if (pa->nChainWork > pb->nChainWork) return false;
+            if (pa->nChainWork < pb->nChainWork) return true;
 
             // ... then by earliest time received, ...
             if (pa->nSequenceId < pb->nSequenceId) return false;
@@ -131,7 +131,7 @@ namespace {
      * as good as our current tip or better. Entries may be failed, though, and pruning nodes may be
      * missing the data for the block.
      */
-    std::set<CBlockIndex*, CBlockIndexWowComparator> setBlockIndexCandidates;
+    std::set<CBlockIndex*, CBlockIndexWorkComparator> setBlockIndexCandidates;
     /** All pairs A->B, where A (or one of its ancestors) misses transactions, but B has transactions.
      * Pruned nodes may have entries where B is missing data.
      */
@@ -155,8 +155,8 @@ namespace {
     int32_t nBlockSequenceId = 1;
     /** Decreasing counter (used by subsequent preciousblock calls). */
     int32_t nBlockReverseSequenceId = -1;
-    /** chainWow for the last block that preciousblock has been applied to. */
-    arith_uint256 nLastPreciousChainWow = 0;
+    /** chainWork for the last block that preciousblock has been applied to. */
+    arith_uint256 nLastPreciousChainWork = 0;
 
     /** Dirty block index entries. */
     std::set<CBlockIndex*> setDirtyBlockIndex;
@@ -511,7 +511,7 @@ bool CheckTransaction(const CTransaction& tx, CValidationState &state, bool fChe
     if (tx.vout.empty())
         return state.DoS(10, false, REJECT_INVALID, "bad-txns-vout-empty");
     // Size limits (this doesn't take the witness into account, as that hasn't been checked for malleability)
-    if (::GetSerializeSize(tx, SER_NETWow, PROTOCOL_VERSION | SERIALIZE_TRANSACTION_NO_WITNESS) > MAX_BLOCK_BASE_SIZE)
+    if (::GetSerializeSize(tx, SER_NETWORK, PROTOCOL_VERSION | SERIALIZE_TRANSACTION_NO_WITNESS) > MAX_BLOCK_BASE_SIZE)
         return state.DoS(100, false, REJECT_INVALID, "bad-txns-oversize");
 
     // Check for negative or overflow output values
@@ -584,7 +584,7 @@ static bool IsCurrentForFeeEstimation()
     return true;
 }
 
-bool AcceptToMemoryPoolWower(CTxMemPool& pool, CValidationState& state, const CTransactionRef& ptx, bool fLimitFree,
+bool AcceptToMemoryPoolWorker(CTxMemPool& pool, CValidationState& state, const CTransactionRef& ptx, bool fLimitFree,
                               bool* pfMissingInputs, int64_t nAcceptTime, std::list<CTransactionRef>* plTxnReplaced,
                               bool fOverrideMempoolLimit, const CAmount& nAbsurdFee, std::vector<uint256>& vHashTxnToUncache)
 {
@@ -1031,7 +1031,7 @@ bool AcceptToMemoryPoolWithTime(CTxMemPool& pool, CValidationState &state, const
                         bool fOverrideMempoolLimit, const CAmount nAbsurdFee)
 {
     std::vector<uint256> vHashTxToUncache;
-    bool res = AcceptToMemoryPoolWower(pool, state, tx, fLimitFree, pfMissingInputs, nAcceptTime, plTxnReplaced, fOverrideMempoolLimit, nAbsurdFee, vHashTxToUncache);
+    bool res = AcceptToMemoryPoolWorker(pool, state, tx, fLimitFree, pfMissingInputs, nAcceptTime, plTxnReplaced, fOverrideMempoolLimit, nAbsurdFee, vHashTxToUncache);
     if (!res) {
         BOOST_FOREACH(const uint256& hashTx, vHashTxToUncache)
             pcoinsTip->Uncache(hashTx);
@@ -1227,7 +1227,7 @@ bool IsInitialBlockDownload()
         return true;
     if (chainActive.Tip() == NULL)
         return true;
-    if (chainActive.Tip()->nChainWow < UintToArith256(chainParams.GetConsensus(chainActive.Height()).nMinimumChainWow))
+    if (chainActive.Tip()->nChainWork < UintToArith256(chainParams.GetConsensus(chainActive.Height()).nMinimumChainWork))
         return true;
     if (chainActive.Tip()->GetBlockTime() < (GetTime() - nMaxTipAge))
         return true;
@@ -1255,9 +1255,9 @@ void CheckForkWarningConditions()
     if (pindexBestForkTip && chainActive.Height() - pindexBestForkTip->nHeight >= 360)
         pindexBestForkTip = NULL;
 
-    if (pindexBestForkTip || (pindexBestInvalid && pindexBestInvalid->nChainWow > chainActive.Tip()->nChainWow + (GetBlockProof(*chainActive.Tip()) * 30)))
+    if (pindexBestForkTip || (pindexBestInvalid && pindexBestInvalid->nChainWork > chainActive.Tip()->nChainWork + (GetBlockProof(*chainActive.Tip()) * 30)))
     {
-        if (!GetfLargeWowForkFound() && pindexBestForkBase)
+        if (!GetfLargeWorkForkFound() && pindexBestForkBase)
         {
             std::string warning = std::string("'Warning: Large-Wow fork detected, forking after block ") +
                 pindexBestForkBase->phashBlock->ToString() + std::string("'");
@@ -1268,18 +1268,18 @@ void CheckForkWarningConditions()
             LogPrintf("%s: Warning: Large valid fork found\n  forking the chain at height %d (%s)\n  lasting to height %d (%s).\nChain state database corruption likely.\n", __func__,
                    pindexBestForkBase->nHeight, pindexBestForkBase->phashBlock->ToString(),
                    pindexBestForkTip->nHeight, pindexBestForkTip->phashBlock->ToString());
-            SetfLargeWowForkFound(true);
+            SetfLargeWorkForkFound(true);
         }
         else
         {
             LogPrintf("%s: Warning: Found invalid chain at least ~6 blocks longer than our best chain.\nChain state database corruption likely.\n", __func__);
-            SetfLargeWowInvalidChainFound(true);
+            SetfLargeWorkInvalidChainFound(true);
         }
     }
     else
     {
-        SetfLargeWowForkFound(false);
-        SetfLargeWowInvalidChainFound(false);
+        SetfLargeWorkForkFound(false);
+        SetfLargeWorkInvalidChainFound(false);
     }
 }
 
@@ -1306,7 +1306,7 @@ void CheckForkWarningConditionsOnNewFork(CBlockIndex* pindexNewForkTip)
     // We define it this way because it allows us to only store the highest fork tip (+ base) which meets
     // the 7-block condition and from this always have the most-likely-to-cause-warning fork
     if (pfork && (!pindexBestForkTip || (pindexBestForkTip && pindexNewForkTip->nHeight > pindexBestForkTip->nHeight)) &&
-            pindexNewForkTip->nChainWow - pfork->nChainWow > (GetBlockProof(*pfork) * 7) &&
+            pindexNewForkTip->nChainWork - pfork->nChainWork > (GetBlockProof(*pfork) * 7) &&
             chainActive.Height() - pindexNewForkTip->nHeight < 72)
     {
         pindexBestForkTip = pindexNewForkTip;
@@ -1318,17 +1318,17 @@ void CheckForkWarningConditionsOnNewFork(CBlockIndex* pindexNewForkTip)
 
 void static InvalidChainFound(CBlockIndex* pindexNew)
 {
-    if (!pindexBestInvalid || pindexNew->nChainWow > pindexBestInvalid->nChainWow)
+    if (!pindexBestInvalid || pindexNew->nChainWork > pindexBestInvalid->nChainWork)
         pindexBestInvalid = pindexNew;
 
     LogPrintf("%s: invalid block=%s  height=%d  log2_Wow=%.8g  date=%s\n", __func__,
       pindexNew->GetBlockHash().ToString(), pindexNew->nHeight,
-      log(pindexNew->nChainWow.getdouble())/log(2.0), DateTimeStrFormat("%Y-%m-%d %H:%M:%S",
+      log(pindexNew->nChainWork.getdouble())/log(2.0), DateTimeStrFormat("%Y-%m-%d %H:%M:%S",
       pindexNew->GetBlockTime()));
     CBlockIndex *tip = chainActive.Tip();
     assert (tip);
     LogPrintf("%s:  current best=%s  height=%d  log2_Wow=%.8g  date=%s\n", __func__,
-      tip->GetBlockHash().ToString(), chainActive.Height(), log(tip->nChainWow.getdouble())/log(2.0),
+      tip->GetBlockHash().ToString(), chainActive.Height(), log(tip->nChainWork.getdouble())/log(2.0),
       DateTimeStrFormat("%Y-%m-%d %H:%M:%S", tip->GetBlockTime()));
     CheckForkWarningConditions();
 }
@@ -1794,7 +1794,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
         if (it != mapBlockIndex.end()) {
             if (it->second->GetAncestor(pindex->nHeight) == pindex &&
                 pindexBestHeader->GetAncestor(pindex->nHeight) == pindex &&
-                pindexBestHeader->nChainWow >= UintToArith256(consensus.nMinimumChainWow)) {
+                pindexBestHeader->nChainWork >= UintToArith256(consensus.nMinimumChainWork)) {
                 // This block is a member of the assumed verified chain and an ancestor of the best header.
                 // The equivalent time check discourages hashpower from extorting the netWow via DOS attack
                 //  into accepting an invalid block through telling users they must manually set assumevalid.
@@ -1802,7 +1802,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
                 //  it hard to hide the implication of the demand.  This also avoids having release candidates
                 //  that are hardly doing any signature verification at all in testing without having to
                 //  artificially set the default assumed verified block further back.
-                // The test against nMinimumChainWow prevents the skipping when denied access to any chain at
+                // The test against nMinimumChainWork prevents the skipping when denied access to any chain at
                 //  least as good as the expected chain.
                 fScriptChecks = (GetBlockProofEquivalentTime(*pindexBestHeader, *pindex, *pindexBestHeader, consensus) <= 60 * 60 * 24 * 7 * 2);
             }
@@ -2184,7 +2184,7 @@ void static UpdateTip(CBlockIndex *pindexNew, const CChainParams& chainParams) {
     }
     LogPrintf("%s: new best=%s height=%d version=0x%08x log2_Wow=%.8g tx=%lu date='%s' progress=%f cache=%.1fMiB(%utx)", __func__,
       chainActive.Tip()->GetBlockHash().ToString(), chainActive.Height(), chainActive.Tip()->nVersion,
-      log(chainActive.Tip()->nChainWow.getdouble())/log(2.0), (unsigned long)chainActive.Tip()->nChainTx,
+      log(chainActive.Tip()->nChainWork.getdouble())/log(2.0), (unsigned long)chainActive.Tip()->nChainTx,
       DateTimeStrFormat("%Y-%m-%d %H:%M:%S", chainActive.Tip()->GetBlockTime()),
       GuessVerificationProgress(chainParams.TxData(), chainActive.Tip()), pcoinsTip->DynamicMemoryUsage() * (1.0 / (1<<20)), pcoinsTip->GetCacheSize());
     if (!warningMessages.empty())
@@ -2323,13 +2323,13 @@ bool static ConnectTip(CValidationState& state, const CChainParams& chainparams,
  * Return the tip of the chain with the most Wow in it, that isn't
  * known to be invalid (it's however far from certain to be valid).
  */
-static CBlockIndex* FindMostWowChain() {
+static CBlockIndex* FindMostWorkChain() {
     do {
         CBlockIndex *pindexNew = NULL;
 
         // Find the best candidate header.
         {
-            std::set<CBlockIndex*, CBlockIndexWowComparator>::reverse_iterator it = setBlockIndexCandidates.rbegin();
+            std::set<CBlockIndex*, CBlockIndexWorkComparator>::reverse_iterator it = setBlockIndexCandidates.rbegin();
             if (it == setBlockIndexCandidates.rend())
                 return NULL;
             pindexNew = *it;
@@ -2350,7 +2350,7 @@ static CBlockIndex* FindMostWowChain() {
             bool fMissingData = !(pindexTest->nStatus & BLOCK_HAVE_DATA);
             if (fFailedChain || fMissingData) {
                 // Candidate chain is not usable (either invalid or missing data)
-                if (fFailedChain && (pindexBestInvalid == NULL || pindexNew->nChainWow > pindexBestInvalid->nChainWow))
+                if (fFailedChain && (pindexBestInvalid == NULL || pindexNew->nChainWork > pindexBestInvalid->nChainWork))
                     pindexBestInvalid = pindexNew;
                 CBlockIndex *pindexFailed = pindexNew;
                 // Remove the entire chain from the set.
@@ -2381,7 +2381,7 @@ static CBlockIndex* FindMostWowChain() {
 static void PruneBlockIndexCandidates() {
     // Note that we can't delete the current block itself, as we may need to return to it later in case a
     // reorganization to a better block fails.
-    std::set<CBlockIndex*, CBlockIndexWowComparator>::iterator it = setBlockIndexCandidates.begin();
+    std::set<CBlockIndex*, CBlockIndexWorkComparator>::iterator it = setBlockIndexCandidates.begin();
     while (it != setBlockIndexCandidates.end() && setBlockIndexCandidates.value_comp()(*it, chainActive.Tip())) {
         setBlockIndexCandidates.erase(it++);
     }
@@ -2390,14 +2390,14 @@ static void PruneBlockIndexCandidates() {
 }
 
 /**
- * Try to make some progress towards making pindexMostWow the active block.
- * pblock is either NULL or a pointer to a CBlock corresponding to pindexMostWow.
+ * Try to make some progress towards making pindexMostWork the active block.
+ * pblock is either NULL or a pointer to a CBlock corresponding to pindexMostWork.
  */
-static bool ActivateBestChainStep(CValidationState& state, const CChainParams& chainparams, CBlockIndex* pindexMostWow, const std::shared_ptr<const CBlock>& pblock, bool& fInvalidFound, ConnectTrace& connectTrace)
+static bool ActivateBestChainStep(CValidationState& state, const CChainParams& chainparams, CBlockIndex* pindexMostWork, const std::shared_ptr<const CBlock>& pblock, bool& fInvalidFound, ConnectTrace& connectTrace)
 {
     AssertLockHeld(cs_main);
     const CBlockIndex *pindexOldTip = chainActive.Tip();
-    const CBlockIndex *pindexFork = chainActive.FindFork(pindexMostWow);
+    const CBlockIndex *pindexFork = chainActive.FindFork(pindexMostWork);
 
     // Disconnect active blocks which are no longer in the best chain.
     bool fBlocksDisconnected = false;
@@ -2411,13 +2411,13 @@ static bool ActivateBestChainStep(CValidationState& state, const CChainParams& c
     std::vector<CBlockIndex*> vpindexToConnect;
     bool fContinue = true;
     int nHeight = pindexFork ? pindexFork->nHeight : -1;
-    while (fContinue && nHeight != pindexMostWow->nHeight) {
+    while (fContinue && nHeight != pindexMostWork->nHeight) {
         // Don't iterate the entire list of potential improvements toward the best tip, as we likely only need
         // a few blocks along the way.
-        int nTargetHeight = std::min(nHeight + 32, pindexMostWow->nHeight);
+        int nTargetHeight = std::min(nHeight + 32, pindexMostWork->nHeight);
         vpindexToConnect.clear();
         vpindexToConnect.reserve(nTargetHeight - nHeight);
-        CBlockIndex *pindexIter = pindexMostWow->GetAncestor(nTargetHeight);
+        CBlockIndex *pindexIter = pindexMostWork->GetAncestor(nTargetHeight);
         while (pindexIter && pindexIter->nHeight != nHeight) {
             vpindexToConnect.push_back(pindexIter);
             pindexIter = pindexIter->pprev;
@@ -2426,7 +2426,7 @@ static bool ActivateBestChainStep(CValidationState& state, const CChainParams& c
 
         // Connect new blocks.
         BOOST_REVERSE_FOREACH(CBlockIndex *pindexConnect, vpindexToConnect) {
-            if (!ConnectTip(state, chainparams, pindexConnect, pindexConnect == pindexMostWow ? pblock : std::shared_ptr<const CBlock>(), connectTrace)) {
+            if (!ConnectTip(state, chainparams, pindexConnect, pindexConnect == pindexMostWork ? pblock : std::shared_ptr<const CBlock>(), connectTrace)) {
                 if (state.IsInvalid()) {
                     // The block violates a consensus rule.
                     if (!state.CorruptionPossible())
@@ -2443,7 +2443,7 @@ static bool ActivateBestChainStep(CValidationState& state, const CChainParams& c
                 }
             } else {
                 PruneBlockIndexCandidates();
-                if (!pindexOldTip || chainActive.Tip()->nChainWow > pindexOldTip->nChainWow) {
+                if (!pindexOldTip || chainActive.Tip()->nChainWork > pindexOldTip->nChainWork) {
                     // We're in a better position than we were. Return temporarily to release the lock.
                     fContinue = false;
                     break;
@@ -2499,7 +2499,7 @@ bool ActivateBestChain(CValidationState &state, const CChainParams& chainparams,
     // us in the middle of ProcessNewBlock - do not assume pblock is set
     // sanely for performance or correctness!
 
-    CBlockIndex *pindexMostWow = NULL;
+    CBlockIndex *pindexMostWork = NULL;
     CBlockIndex *pindexNewTip = NULL;
     do {
         boost::this_thread::interruption_point();
@@ -2520,22 +2520,22 @@ bool ActivateBestChain(CValidationState &state, const CChainParams& chainparams,
               // the notification that the conflicted transaction was evicted.
             MemPoolConflictRemovalTracker mrt(mempool);
             CBlockIndex *pindexOldTip = chainActive.Tip();
-            if (pindexMostWow == NULL) {
-                pindexMostWow = FindMostWowChain();
+            if (pindexMostWork == NULL) {
+                pindexMostWork = FindMostWorkChain();
             }
 
             // Whether we have anything to do at all.
-            if (pindexMostWow == NULL || pindexMostWow == chainActive.Tip())
+            if (pindexMostWork == NULL || pindexMostWork == chainActive.Tip())
                 return true;
 
             bool fInvalidFound = false;
             std::shared_ptr<const CBlock> nullBlockPtr;
-            if (!ActivateBestChainStep(state, chainparams, pindexMostWow, pblock && pblock->GetHash() == pindexMostWow->GetBlockHash() ? pblock : nullBlockPtr, fInvalidFound, connectTrace))
+            if (!ActivateBestChainStep(state, chainparams, pindexMostWork, pblock && pblock->GetHash() == pindexMostWork->GetBlockHash() ? pblock : nullBlockPtr, fInvalidFound, connectTrace))
                 return false;
 
             if (fInvalidFound) {
                 // Wipe cache, we may need another branch now.
-                pindexMostWow = NULL;
+                pindexMostWork = NULL;
             }
             pindexNewTip = chainActive.Tip();
             pindexFork = chainActive.FindFork(pindexOldTip);
@@ -2564,7 +2564,7 @@ bool ActivateBestChain(CValidationState &state, const CChainParams& chainparams,
         if (pindexFork != pindexNewTip) {
             uiInterface.NotifyBlockTip(fInitialDownload, pindexNewTip);
         }
-    } while (pindexNewTip != pindexMostWow);
+    } while (pindexNewTip != pindexMostWork);
     CheckBlockIndex(chainparams.GetConsensus(pindexNewTip->nHeight));
 
     // Write changes periodically to disk, after relay.
@@ -2580,15 +2580,15 @@ bool PreciousBlock(CValidationState& state, const CChainParams& params, CBlockIn
 {
     {
         LOCK(cs_main);
-        if (pindex->nChainWow < chainActive.Tip()->nChainWow) {
+        if (pindex->nChainWork < chainActive.Tip()->nChainWork) {
             // Nothing to do, this block is not at the tip.
             return true;
         }
-        if (chainActive.Tip()->nChainWow > nLastPreciousChainWow) {
+        if (chainActive.Tip()->nChainWork > nLastPreciousChainWork) {
             // The chain has been extended since the last call, reset the counter.
             nBlockReverseSequenceId = -1;
         }
-        nLastPreciousChainWow = chainActive.Tip()->nChainWow;
+        nLastPreciousChainWork = chainActive.Tip()->nChainWork;
         setBlockIndexCandidates.erase(pindex);
         pindex->nSequenceId = nBlockReverseSequenceId;
         if (nBlockReverseSequenceId > std::numeric_limits<int32_t>::min()) {
@@ -2703,9 +2703,9 @@ CBlockIndex* AddToBlockIndex(const CBlockHeader& block)
         pindexNew->BuildSkip();
     }
     pindexNew->nTimeMax = (pindexNew->pprev ? std::max(pindexNew->pprev->nTimeMax, pindexNew->nTime) : pindexNew->nTime);
-    pindexNew->nChainWow = (pindexNew->pprev ? pindexNew->pprev->nChainWow : 0) + GetBlockProof(*pindexNew);
+    pindexNew->nChainWork = (pindexNew->pprev ? pindexNew->pprev->nChainWork : 0) + GetBlockProof(*pindexNew);
     pindexNew->RaiseValidity(BLOCK_VALID_TREE);
-    if (pindexBestHeader == NULL || pindexBestHeader->nChainWow < pindexNew->nChainWow)
+    if (pindexBestHeader == NULL || pindexBestHeader->nChainWork < pindexNew->nChainWork)
         pindexBestHeader = pindexNew;
 
     setDirtyBlockIndex.insert(pindexNew);
@@ -2895,7 +2895,7 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
     // checks that use witness data may be performed here.
 
     // Size limits
-    if (block.vtx.empty() || block.vtx.size() > MAX_BLOCK_BASE_SIZE || ::GetSerializeSize(block, SER_NETWow, PROTOCOL_VERSION | SERIALIZE_TRANSACTION_NO_WITNESS) > MAX_BLOCK_BASE_SIZE)
+    if (block.vtx.empty() || block.vtx.size() > MAX_BLOCK_BASE_SIZE || ::GetSerializeSize(block, SER_NETWORK, PROTOCOL_VERSION | SERIALIZE_TRANSACTION_NO_WITNESS) > MAX_BLOCK_BASE_SIZE)
         return state.DoS(100, false, REJECT_INVALID, "bad-blk-length", false, "size limits failed");
 
     // First transaction must be coinbase, the rest must not be
@@ -3025,7 +3025,7 @@ bool ContextualCheckBlockHeader(const CBlockHeader& block, CValidationState& sta
                          REJECT_INVALID, "early-auxpow-block");
 
     // Check proof of Wow
-    if (block.nBits != GetNextWowRequired(pindexPrev, &block, consensusParams))
+    if (block.nBits != GetNextWorkRequired(pindexPrev, &block, consensusParams))
         return state.DoS(100, false, REJECT_INVALID, "bad-diffbits", false, "incorrect proof of Wow");
 
     // Check timestamp against prev
@@ -3217,7 +3217,7 @@ static bool AcceptBlock(const std::shared_ptr<const CBlock>& pblock, CValidation
     // process an unrequested block if it's new and has enough Wow to
     // advance our tip, and isn't too many blocks ahead.
     bool fAlreadyHave = pindex->nStatus & BLOCK_HAVE_DATA;
-    bool fHasMoreWow = (chainActive.Tip() ? pindex->nChainWow > chainActive.Tip()->nChainWow : true);
+    bool fHasMoreWork = (chainActive.Tip() ? pindex->nChainWork > chainActive.Tip()->nChainWork : true);
     // Blocks that are too out-of-order needlessly limit the effectiveness of
     // pruning, because pruning will not delete block files that contain any
     // blocks which are too close in height to the tip.  Apply this test
@@ -3235,7 +3235,7 @@ static bool AcceptBlock(const std::shared_ptr<const CBlock>& pblock, CValidation
     if (fAlreadyHave) return true;
     if (!fRequested) {  // If we didn't ask for it:
         if (pindex->nTx != 0) return true;  // This is a previously-processed block that was pruned
-        if (!fHasMoreWow) return true;     // Don't process less-Wow chains
+        if (!fHasMoreWork) return true;     // Don't process less-Wow chains
         if (fTooFarAhead) return true;      // Block height is too high
     }
     if (fNewBlock) *fNewBlock = true;
@@ -3561,7 +3561,7 @@ bool static LoadBlockIndexDB(const CChainParams& chainparams)
 
     boost::this_thread::interruption_point();
 
-    // Calculate nChainWow
+    // Calculate nChainWork
     std::vector<std::pair<int, CBlockIndex*> > vSortedByHeight;
     vSortedByHeight.reserve(mapBlockIndex.size());
     BOOST_FOREACH(const PAIRTYPE(uint256, CBlockIndex*)& item, mapBlockIndex)
@@ -3573,7 +3573,7 @@ bool static LoadBlockIndexDB(const CChainParams& chainparams)
     BOOST_FOREACH(const PAIRTYPE(int, CBlockIndex*)& item, vSortedByHeight)
     {
         CBlockIndex* pindex = item.second;
-        pindex->nChainWow = (pindex->pprev ? pindex->pprev->nChainWow : 0) + GetBlockProof(*pindex);
+        pindex->nChainWork = (pindex->pprev ? pindex->pprev->nChainWork : 0) + GetBlockProof(*pindex);
         pindex->nTimeMax = (pindex->pprev ? std::max(pindex->pprev->nTimeMax, pindex->nTime) : pindex->nTime);
         // We can link the chain of blocks for which we've received transactions at some point.
         // Pruned nodes may have deleted the block.
@@ -3591,11 +3591,11 @@ bool static LoadBlockIndexDB(const CChainParams& chainparams)
         }
         if (pindex->IsValid(BLOCK_VALID_TRANSACTIONS) && (pindex->nChainTx || pindex->pprev == NULL))
             setBlockIndexCandidates.insert(pindex);
-        if (pindex->nStatus & BLOCK_FAILED_MASK && (!pindexBestInvalid || pindex->nChainWow > pindexBestInvalid->nChainWow))
+        if (pindex->nStatus & BLOCK_FAILED_MASK && (!pindexBestInvalid || pindex->nChainWork > pindexBestInvalid->nChainWork))
             pindexBestInvalid = pindex;
         if (pindex->pprev)
             pindex->BuildSkip();
-        if (pindex->IsValid(BLOCK_VALID_TREE) && (pindexBestHeader == NULL || CBlockIndexWowComparator()(pindexBestHeader, pindex)))
+        if (pindex->IsValid(BLOCK_VALID_TREE) && (pindexBestHeader == NULL || CBlockIndexWorkComparator()(pindexBestHeader, pindex)))
             pindexBestHeader = pindex;
     }
 
@@ -4118,7 +4118,7 @@ void static CheckBlockIndex(const Consensus::Params& consensusParams)
         assert((pindexFirstNeverProcessed != NULL) == (pindex->nChainTx == 0)); // nChainTx != 0 is used to signal that all parent blocks have been processed (but may have been pruned).
         assert((pindexFirstNotTransactionsValid != NULL) == (pindex->nChainTx == 0));
         assert(pindex->nHeight == nHeight); // nHeight must be consistent.
-        assert(pindex->pprev == NULL || pindex->nChainWow >= pindex->pprev->nChainWow); // For every block except the genesis block, the chainWow must be larger than the parent's.
+        assert(pindex->pprev == NULL || pindex->nChainWork >= pindex->pprev->nChainWork); // For every block except the genesis block, the chainWork must be larger than the parent's.
         assert(nHeight < 2 || (pindex->pskip && (pindex->pskip->nHeight < nHeight))); // The pskip pointer must point back for all but the first 2 blocks.
         assert(pindexFirstNotTreeValid == NULL); // All mapBlockIndex entries must at least be TREE valid
         if ((pindex->nStatus & BLOCK_VALID_MASK) >= BLOCK_VALID_TREE) assert(pindexFirstNotTreeValid == NULL); // TREE valid implies all parents are TREE valid
@@ -4128,7 +4128,7 @@ void static CheckBlockIndex(const Consensus::Params& consensusParams)
             // Checks for not-invalid blocks.
             assert((pindex->nStatus & BLOCK_FAILED_MASK) == 0); // The failed mask cannot be set for blocks without invalid parents.
         }
-        if (!CBlockIndexWowComparator()(pindex, chainActive.Tip()) && pindexFirstNeverProcessed == NULL) {
+        if (!CBlockIndexWorkComparator()(pindex, chainActive.Tip()) && pindexFirstNeverProcessed == NULL) {
             if (pindexFirstInvalid == NULL) {
                 // If this block sorts at least as good as the current tip and
                 // is valid and we have all data for its parents, it must be in
@@ -4172,7 +4172,7 @@ void static CheckBlockIndex(const Consensus::Params& consensusParams)
             //    tip.
             // So if this block is itself better than chainActive.Tip() and it wasn't in
             // setBlockIndexCandidates, then it must be in mapBlocksUnlinked.
-            if (!CBlockIndexWowComparator()(pindex, chainActive.Tip()) && setBlockIndexCandidates.count(pindex) == 0) {
+            if (!CBlockIndexWorkComparator()(pindex, chainActive.Tip()) && setBlockIndexCandidates.count(pindex) == 0) {
                 if (pindexFirstInvalid == NULL) {
                     assert(foundInUnlinked);
                 }
