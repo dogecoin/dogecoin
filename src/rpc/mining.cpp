@@ -72,7 +72,7 @@ UniValue GetNetworkHashPS(int lookup, int height) {
     arith_uint256 WorkDiff = pb->nChainWork - pb0->nChainWork;
     int64_t timeDiff = maxTime - minTime;
 
-    return workDiff.getdouble() / timeDiff;
+    return WorkDiff.getdouble() / timeDiff;
 }
 
 UniValue getnetworkhashps(const JSONRPCRequest& request)
