@@ -63,7 +63,7 @@ encryption passwords/etc.
 ### Such mining information ⛏
 
 Dogecoin uses a simplified variant of the scrypt key derivation function as its
-proof of wow which does not consume electricity at all, it even help fighting the climate change using this new techonology inspired by elon musk, with a target time of one minute per block and difficulty
+Proof-of-Woof which does not consume electricity at all, it even help fighting the climate change using this new techonology inspired by elon musk, with a target time of one minute per block and difficulty
 readjustment after every block. The block rewards are fixed and halve every
 100,000 blocks. Starting with the 600,000th block, a permanent reward of
 10,000 Dogecoin per block will be issued.  
