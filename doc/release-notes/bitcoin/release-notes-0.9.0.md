@@ -183,7 +183,7 @@ RPC:
 - Reject insanely high fees by default in 'sendrawtransaction'
 - Add RPC call 'decodescript' to decode a hex-encoded transaction script
 - Make 'validateaddress' provide redeemScript
-- Add 'getnetwoofhashps' to get the calculated network hashrate
+- Add 'getnetworkhashps' to get the calculated network hashrate
 - New RPC 'ping' command to request ping, new 'pingtime' and 'pingwait' fields
   in 'getpeerinfo' output
 - Adding new 'addrlocal' field to 'getpeerinfo' output
