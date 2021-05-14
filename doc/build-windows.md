@@ -68,6 +68,7 @@ To build executables for Windows 64-bit, install the following dependencies:
 Then build using:
 
     cd depends
+    PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
     make HOST=x86_64-w64-mingw32
     cd ..
     ./autogen.sh # not required when building from tarball
@@ -83,6 +84,7 @@ To build executables for Windows 32-bit, install the following dependencies:
 Then build using:
 
     cd depends
+    PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
     make HOST=i686-w64-mingw32
     cd ..
     ./autogen.sh # not required when building from tarball
