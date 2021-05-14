@@ -2,7 +2,7 @@
 ===================
 
 Dogecoin Core 1.8 introduces AuxPoW from block 371,337. AuxPoW is a technology
-which enables miners to submit work done while mining other coins, as woof
+which enables miners to submit work done while mining other coins, as work
 on the Dogecoin block chain. Dogecoin Core 1.8 also enables payment protocol
 support for Dogecoin (note that Dogecoin's implementation of payment protocol is
 not compatible with Bitcoin's protocol). Lastly, 1.8  also includes all fixes
