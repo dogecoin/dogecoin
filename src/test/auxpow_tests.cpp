@@ -416,7 +416,7 @@ BOOST_AUTO_TEST_CASE(auxpow_pow)
     /* Mismatch between auxpow being present and block.nVersion.  Note that
      block.SetAuxpow sets also the version and that we want to ensure
      that the block hash itself doesn't change due to version changes.
-     This requires some Wow arounds.  */
+     This requires some work arounds.  */
     block.SetAuxpowFlag(false);
     const uint256 hashAux = block.GetHash();
     auxRoot = builder.buildAuxpowChain(hashAux, height, index);

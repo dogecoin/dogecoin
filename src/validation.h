@@ -47,7 +47,7 @@ struct ChainTxData;
 struct PrecomputedTransactionData;
 struct LockPoints;
 
-/** Default for accepting alerts from the P2P netWow. */
+/** Default for accepting alerts from the P2P network. */
 static const bool DEFAULT_ALERTS = true;
 /** Default for DEFAULT_WHITELISTRELAY. */
 static const bool DEFAULT_WHITELISTRELAY = true;
@@ -224,7 +224,7 @@ static const uint64_t MIN_DISK_SPACE_FOR_BLOCK_FILES = 2200ULL * 1024 * 1024;
  * install a CValidationInterface (see validationinterface.h) - this will have
  * its BlockChecked method called whenever *any* block completes validation.
  *
- * Note that we guarantee that either the proof-of-Wow is valid on pblock, or
+ * Note that we guarantee that either the proof-of-work is valid on pblock, or
  * (and possibly also) BlockChecked will have been called.
  * 
  * Call without cs_main held.
@@ -504,7 +504,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
  *  of problems. Note that in any case, coins may be modified. */
 bool DisconnectBlock(const CBlock& block, CValidationState& state, const CBlockIndex* pindex, CCoinsViewCache& coins, bool* pfClean = NULL);
 
-/** Check a block is completely valid from start to finish (only Wows on top of our current best block, with cs_main held) */
+/** Check a block is completely valid from start to finish (only works on top of our current best block, with cs_main held) */
 bool TestBlockValidity(CValidationState& state, const CChainParams& chainparams, const CBlock& block, CBlockIndex* pindexPrev, bool fCheckPOW = true, bool fCheckMerkleRoot = true);
 
 /** Check whether witness commitments are required for block. */

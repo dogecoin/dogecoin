@@ -329,7 +329,7 @@ UniValue getblocktemplate(const JSONRPCRequest& request)
         throw runtime_error(
             "getblocktemplate ( TemplateRequest )\n"
             "\nIf the request parameters include a 'mode' key, that is used to explicitly select between the default 'template' request or a 'proposal'.\n"
-            "It returns data needed to construct a block to Wow on.\n"
+            "It returns data needed to construct a block to wow on.\n"
             "For full specification, see BIPs 22, 23, 9, and 145:\n"
             "    https://github.com/bitcoin/bips/blob/master/bip-0022.mediawiki\n"
             "    https://github.com/bitcoin/bips/blob/master/bip-0023.mediawiki\n"
