@@ -129,7 +129,7 @@ UniValue blockheaderToJSON(const CBlockIndex* blockindex)
     result.push_back(Pair("nonce", (uint64_t)blockindex->nNonce));
     result.push_back(Pair("bits", strprintf("%08x", blockindex->nBits)));
     result.push_back(Pair("difficulty", GetDifficulty(blockindex)));
-    result.push_back(Pair("chainwork", blockindex->nChainWork.GetHex()));
+    result.push_back(Pair("chainwork", blockindex->nChainWoof.GetHex()));
 
     if (blockindex->pprev)
         result.push_back(Pair("previousblockhash", blockindex->pprev->GetBlockHash().GetHex()));
@@ -173,7 +173,7 @@ UniValue blockToJSON(const CBlock& block, const CBlockIndex* blockindex, bool tx
     result.push_back(Pair("nonce", (uint64_t)block.nNonce));
     result.push_back(Pair("bits", strprintf("%08x", block.nBits)));
     result.push_back(Pair("difficulty", GetDifficulty(blockindex)));
-    result.push_back(Pair("chainwork", blockindex->nChainWork.GetHex()));
+    result.push_back(Pair("chainwork", blockindex->nChainWoof.GetHex()));
 
     if (block.auxpow)
         result.push_back(Pair("auxpow", AuxpowToJSON(*block.auxpow)));
@@ -357,9 +357,9 @@ UniValue getdifficulty(const JSONRPCRequest& request)
     if (request.fHelp || request.params.size() != 0)
         throw runtime_error(
             "getdifficulty\n"
-            "\nReturns the proof-of-wow difficulty as a multiple of the minimum difficulty.\n"
+            "\nReturns the proof-of-woof difficulty as a multiple of the minimum difficulty.\n"
             "\nResult:\n"
-            "n.nnn       (numeric) the proof-of-wow difficulty as a multiple of the minimum difficulty.\n"
+            "n.nnn       (numeric) the proof-of-woof difficulty as a multiple of the minimum difficulty.\n"
             "\nExamples:\n"
             + HelpExampleCli("getdifficulty", "")
             + HelpExampleRpc("getdifficulty", "")
@@ -1133,7 +1133,7 @@ UniValue getblockchaininfo(const JSONRPCRequest& request)
             "  \"mediantime\": xxxxxx,     (numeric) median time for the current best block\n"
             "  \"verificationprogress\": xxxx, (numeric) estimate of verification progress [0..1]\n"
             "  \"initialblockdownload\": xxxx, (bool) (debug information) estimate of whether this node is in Initial Block Download mode.\n"
-            "  \"chainwork\": \"xxxx\"     (string) total amount of wow in active chain, in hexadecimal\n"
+            "  \"chainwork\": \"xxxx\"     (string) total amount of woof in active chain, in hexadecimal\n"
             "  \"size_on_disk\": xxxxxx,   (numeric) the estimated size of the block and undo files on disk\n"
             "  \"pruned\": xx,             (boolean) if the blocks are subject to pruning\n"
             "  \"pruneheight\": xxxxxx,    (numeric) lowest-height complete block stored (only present if pruning is enabled)\n"
@@ -1174,7 +1174,7 @@ UniValue getblockchaininfo(const JSONRPCRequest& request)
     obj.push_back(Pair("mediantime",            (int64_t)chainActive.Tip()->GetMedianTimePast()));
     obj.push_back(Pair("verificationprogress",  GuessVerificationProgress(Params().TxData(), chainActive.Tip())));
     obj.push_back(Pair("initialblockdownload",  IsInitialBlockDownload()));
-    obj.push_back(Pair("chainwork",             chainActive.Tip()->nChainWork.GetHex()));
+    obj.push_back(Pair("chainwork",             chainActive.Tip()->nChainWoof.GetHex()));
     obj.push_back(Pair("size_on_disk",          CalculateCurrentUsage()));
     obj.push_back(Pair("pruned",                fPruneMode));
     if (fPruneMode) {
@@ -1313,7 +1313,7 @@ UniValue getchaintips(const JSONRPCRequest& request)
             // This block is fully validated, but no longer part of the active chain. It was probably the active block once, but was reorganized.
             status = "valid-fork";
         } else if (block->IsValid(BLOCK_VALID_TREE)) {
-            // The headers for this block are valid, but it has not been validated. It was probably never part of the most-wow chain.
+            // The headers for this block are valid, but it has not been validated. It was probably never part of the most-woof chain.
             status = "valid-headers";
         } else {
             // No clue.
@@ -1367,7 +1367,7 @@ UniValue preciousblock(const JSONRPCRequest& request)
     if (request.fHelp || request.params.size() != 1)
         throw runtime_error(
             "preciousblock \"blockhash\"\n"
-            "\nTreats a block as if it were received before others with the same wow.\n"
+            "\nTreats a block as if it were received before others with the same woof.\n"
             "\nA later preciousblock call can override the effect of an earlier one.\n"
             "\nThe effects of preciousblock are not retained across restarts.\n"
             "\nArguments:\n"

@@ -371,8 +371,8 @@ void ProcessBlockAvailability(NodeId nodeid) {
 
     if (!state->hashLastUnknownBlock.IsNull()) {
         BlockMap::iterator itOld = mapBlockIndex.find(state->hashLastUnknownBlock);
-        if (itOld != mapBlockIndex.end() && itOld->second->nChainWork > 0) {
-            if (state->pindexBestKnownBlock == NULL || itOld->second->nChainWork >= state->pindexBestKnownBlock->nChainWork)
+        if (itOld != mapBlockIndex.end() && itOld->second->nChainWoof > 0) {
+            if (state->pindexBestKnownBlock == NULL || itOld->second->nChainWoof >= state->pindexBestKnownBlock->nChainWoof)
                 state->pindexBestKnownBlock = itOld->second;
             state->hashLastUnknownBlock.SetNull();
         }
@@ -387,9 +387,9 @@ void UpdateBlockAvailability(NodeId nodeid, const uint256 &hash) {
     ProcessBlockAvailability(nodeid);
 
     BlockMap::iterator it = mapBlockIndex.find(hash);
-    if (it != mapBlockIndex.end() && it->second->nChainWork > 0) {
+    if (it != mapBlockIndex.end() && it->second->nChainWoof > 0) {
         // An actually better block was announced.
-        if (state->pindexBestKnownBlock == NULL || it->second->nChainWork >= state->pindexBestKnownBlock->nChainWork)
+        if (state->pindexBestKnownBlock == NULL || it->second->nChainWoof >= state->pindexBestKnownBlock->nChainWoof)
             state->pindexBestKnownBlock = it->second;
     } else {
         // An unknown block was announced; just assume that the latest one is the best one.
@@ -480,7 +480,7 @@ void FindNextBlocksToDownload(NodeId nodeid, unsigned int count, std::vector<con
     // Make sure pindexBestKnownBlock is up to date, we'll need it.
     ProcessBlockAvailability(nodeid);
 
-    if (state->pindexBestKnownBlock == NULL || state->pindexBestKnownBlock->nChainWork < chainActive.Tip()->nChainWork) {
+    if (state->pindexBestKnownBlock == NULL || state->pindexBestKnownBlock->nChainWoof < chainActive.Tip()->nChainWoof) {
         // This peer has nothing interesting.
         return;
     }
@@ -1011,7 +1011,7 @@ void static ProcessGetData(CNode* pfrom, const Consensus::Params& consensusParam
                         static const int nOneMonth = 30 * 24 * 60 * 60;
                         // To prevent fingerprinting attacks, only send blocks outside of the active
                         // chain if they are valid, and no more than a month older (both in time, and in
-                        // best equivalent proof of wow) than the best header chain we know about.
+                        // best equivalent proof of woof) than the best header chain we know about.
                         send = mi->second->IsValid(BLOCK_VALID_SCRIPTS) && (pindexBestHeader != NULL) &&
                             (pindexBestHeader->GetBlockTime() - mi->second->GetBlockTime() < nOneMonth) &&
                             (GetBlockProofEquivalentTime(*pindexBestHeader, *mi->second, *pindexBestHeader, consensusParams) < nOneMonth);
@@ -1779,7 +1779,7 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
             return true;
         }
 
-        std::deque<COutPoint> vWorkQueue;
+        std::deque<COutPoint> vWoofQueue;
         std::vector<uint256> vEraseQueue;
         CTransactionRef ptx;
         vRecv >> ptx;
@@ -1802,7 +1802,7 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
             mempool.check(pcoinsTip);
             RelayTransaction(tx, connman);
             for (unsigned int i = 0; i < tx.vout.size(); i++) {
-                vWorkQueue.emplace_back(inv.hash, i);
+                vWoofQueue.emplace_back(inv.hash, i);
             }
 
             pfrom->nLastTXTime = GetTime();
@@ -1814,9 +1814,9 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
 
             // Recursively process any orphan transactions that depended on this one
             std::set<NodeId> setMisbehaving;
-            while (!vWorkQueue.empty()) {
-                auto itByPrev = mapOrphanTransactionsByPrev.find(vWorkQueue.front());
-                vWorkQueue.pop_front();
+            while (!vWoofQueue.empty()) {
+                auto itByPrev = mapOrphanTransactionsByPrev.find(vWoofQueue.front());
+                vWoofQueue.pop_front();
                 if (itByPrev == mapOrphanTransactionsByPrev.end())
                     continue;
                 for (auto mi = itByPrev->second.begin();
@@ -1840,7 +1840,7 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
                         LogPrint("mempool", "   accepted orphan tx %s\n", orphanHash.ToString());
                         RelayTransaction(orphanTx, connman);
                         for (unsigned int i = 0; i < orphanTx.vout.size(); i++) {
-                            vWorkQueue.emplace_back(orphanHash, i);
+                            vWoofQueue.emplace_back(orphanHash, i);
                         }
                         vEraseQueue.push_back(orphanHash);
                     }
@@ -2013,7 +2013,7 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
         if (pindex->nStatus & BLOCK_HAVE_DATA) // Nothing to do here
             return true;
 
-        if (pindex->nChainWork <= chainActive.Tip()->nChainWork || // We know something better
+        if (pindex->nChainWoof <= chainActive.Tip()->nChainWoof || // We know something better
                 pindex->nTx != 0) { // We had this block at some point, but pruned it
             if (fAlreadyInFlight) {
                 // We requested this block for some reason, but our mempool will probably be useless
@@ -2183,7 +2183,7 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
                 // Block is either okay, or possibly we received
                 // READ_STATUS_CHECKBLOCK_FAILED.
                 // Note that CheckBlock can only fail for one of a few reasons:
-                // 1. bad-proof-of-wow (impossible here, because we've already
+                // 1. bad-proof-of-woof (impossible here, because we've already
                 //    accepted the header)
                 // 2. merkleroot doesn't match the transactions given (already
                 //    caught in FillBlock with READ_STATUS_FAILED, so
@@ -2191,7 +2191,7 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
                 // 3. the block is otherwise invalid (eg invalid coinbase,
                 //    block is too big, too many legacy sigops, etc).
                 // So if CheckBlock failed, #3 is the only possibility.
-                // Under BIP 152, we don't DoS-ban unless proof of wow is
+                // Under BIP 152, we don't DoS-ban unless proof of woof is
                 // invalid (we don't require all the stateless checks to have
                 // been run).  This is handled below, so just treat this as
                 // though the block was successfully read, and rely on the
@@ -2316,7 +2316,7 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
         bool fCanDirectFetch = CanDirectFetch(chainparams.GetConsensus(0));
         // If this set of headers is valid and ends in a block with at least as
         // much work as our tip, download as much as possible.
-        if (fCanDirectFetch && pindexLast->IsValid(BLOCK_VALID_TREE) && chainActive.Tip()->nChainWork <= pindexLast->nChainWork) {
+        if (fCanDirectFetch && pindexLast->IsValid(BLOCK_VALID_TREE) && chainActive.Tip()->nChainWoof <= pindexLast->nChainWoof) {
             std::vector<const CBlockIndex*> vToFetch;
             const CBlockIndex *pindexWalk = pindexLast;
             // Calculate all the blocks we'd need to switch to pindexLast, up to a limit.
@@ -2681,7 +2681,7 @@ bool ProcessMessages(CNode* pfrom, CConnman& connman, const std::atomic<bool>& i
     //  (4) checksum
     //  (x) data
     //
-    bool fMoreWork = false;
+    bool fMoreWoof = false;
 
     if (!pfrom->vRecvGetData.empty())
         ProcessGetData(pfrom, chainparams.GetConsensus(chainActive.Height()), connman, interruptMsgProc);
@@ -2705,7 +2705,7 @@ bool ProcessMessages(CNode* pfrom, CConnman& connman, const std::atomic<bool>& i
             msgs.splice(msgs.begin(), pfrom->vProcessMsg, pfrom->vProcessMsg.begin());
             pfrom->nProcessQueueSize -= msgs.front().vRecv.size() + CMessageHeader::HEADER_SIZE;
             pfrom->fPauseRecv = pfrom->nProcessQueueSize > connman.GetReceiveFloodSize();
-            fMoreWork = !pfrom->vProcessMsg.empty();
+            fMoreWoof = !pfrom->vProcessMsg.empty();
         }
         CNetMessage& msg(msgs.front());
 
@@ -2722,7 +2722,7 @@ bool ProcessMessages(CNode* pfrom, CConnman& connman, const std::atomic<bool>& i
         if (!hdr.IsValid(chainparams.MessageStart()))
         {
             LogPrintf("PROCESSMESSAGE: ERRORS IN HEADER %s peer=%d\n", SanitizeString(hdr.GetCommand()), pfrom->id);
-            return fMoreWork;
+            return fMoreWoof;
         }
         std::string strCommand = hdr.GetCommand();
 
@@ -2738,7 +2738,7 @@ bool ProcessMessages(CNode* pfrom, CConnman& connman, const std::atomic<bool>& i
                SanitizeString(strCommand), nMessageSize,
                HexStr(hash.begin(), hash.begin()+CMessageHeader::CHECKSUM_SIZE),
                HexStr(hdr.pchChecksum, hdr.pchChecksum+CMessageHeader::CHECKSUM_SIZE));
-            return fMoreWork;
+            return fMoreWoof;
         }
 
         // Process message
@@ -2749,7 +2749,7 @@ bool ProcessMessages(CNode* pfrom, CConnman& connman, const std::atomic<bool>& i
             if (interruptMsgProc)
                 return false;
             if (!pfrom->vRecvGetData.empty())
-                fMoreWork = true;
+                fMoreWoof = true;
         }
         catch (const std::ios_base::failure& e)
         {
@@ -2787,7 +2787,7 @@ bool ProcessMessages(CNode* pfrom, CConnman& connman, const std::atomic<bool>& i
         LOCK(cs_main);
         SendRejectsAndCheckIfBanned(pfrom, connman);
 
-    return fMoreWork;
+    return fMoreWoof;
 }
 
 class CompareInvMempoolOrder

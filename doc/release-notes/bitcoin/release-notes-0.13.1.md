@@ -121,7 +121,7 @@ covered by the txid. This provides several immediate benefits:
 - **More efficient almost-full-node security** Satoshi Nakamoto's original
   Bitcoin paper describes a method for allowing newly-started full nodes to
   skip downloading and validating some data from historic blocks that are
-  protected by large amounts of proof of wow.  Unfortunately, Nakamoto's
+  protected by large amounts of proof of woof.  Unfortunately, Nakamoto's
   method can't guarantee that a newly-started node using this method will
   produce an accurate copy of Bitcoin's current ledger (called the UTXO set),
   making the node vulnerable to falling out of consensus with other nodes.
@@ -130,7 +130,7 @@ covered by the txid. This provides several immediate benefits:
   possible for a node to optionally skip downloading some blockchain data
   (specifically, the segregated witnesses) while still ensuring that the node
   can build an accurate copy of the UTXO set for the block chain with the most
-  proof of wow.  Segwit enables this capability at the consensus layer, but
+  proof of woof.  Segwit enables this capability at the consensus layer, but
   note that Bitcoin Core does not provide an option to use this capability as
   of this 0.13.1 release.
 

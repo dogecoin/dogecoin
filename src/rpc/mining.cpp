@@ -69,10 +69,10 @@ UniValue GetNetworkHashPS(int lookup, int height) {
     if (minTime == maxTime)
         return 0;
 
-    arith_uint256 WorkDiff = pb->nChainWork - pb0->nChainWork;
+    arith_uint256 WoofDiff = pb->nChainWoof - pb0->nChainWoof;
     int64_t timeDiff = maxTime - minTime;
 
-    return WorkDiff.getdouble() / timeDiff;
+    return WoofDiff.getdouble() / timeDiff;
 }
 
 UniValue getnetworkhashps(const JSONRPCRequest& request)
@@ -127,7 +127,7 @@ UniValue generateBlocks(boost::shared_ptr<CReserveScript> coinbaseScript, int nG
         // Dogecoin: Don't mine Aux blocks in regtest
         //CAuxPow::initAuxPow(*pblock);
         //CPureBlockHeader& miningHeader = pblock->auxpow->parentBlock;
-        while (nMaxTries > 0 && pblock->nNonce < nInnerLoopCount && !CheckProofOfWow(pblock->GetPoWHash(), pblock->nBits, Params().GetConsensus(nHeight))) {
+        while (nMaxTries > 0 && pblock->nNonce < nInnerLoopCount && !CheckProofOfWoof(pblock->GetPoWHash(), pblock->nBits, Params().GetConsensus(nHeight))) {
             ++pblock->nNonce;
             --nMaxTries;
         }
@@ -329,7 +329,7 @@ UniValue getblocktemplate(const JSONRPCRequest& request)
         throw runtime_error(
             "getblocktemplate ( TemplateRequest )\n"
             "\nIf the request parameters include a 'mode' key, that is used to explicitly select between the default 'template' request or a 'proposal'.\n"
-            "It returns data needed to construct a block to wow on.\n"
+            "It returns data needed to construct a block to work on.\n"
             "For full specification, see BIPs 22, 23, 9, and 145:\n"
             "    https://github.com/bitcoin/bips/blob/master/bip-0022.mediawiki\n"
             "    https://github.com/bitcoin/bips/blob/master/bip-0023.mediawiki\n"

@@ -1980,7 +1980,7 @@ void CConnman::ThreadMessageHandler()
             }
         }
 
-        bool fMoreWork = false;
+        bool fMoreWoof = false;
 
         BOOST_FOREACH(CNode* pnode, vNodesCopy)
         {
@@ -1988,8 +1988,8 @@ void CConnman::ThreadMessageHandler()
                 continue;
 
             // Receive messages
-            bool fMoreNodeWork = GetNodeSignals().ProcessMessages(pnode, *this, flagInterruptMsgProc);
-            fMoreWork |= (fMoreNodeWork && !pnode->fPauseSend);
+            bool fMoreNodeWoof = GetNodeSignals().ProcessMessages(pnode, *this, flagInterruptMsgProc);
+            fMoreWoof |= (fMoreNodeWoof && !pnode->fPauseSend);
             if (flagInterruptMsgProc)
                 return;
 
@@ -2009,7 +2009,7 @@ void CConnman::ThreadMessageHandler()
         }
 
         std::unique_lock<std::mutex> lock(mutexMsgProc);
-        if (!fMoreWork) {
+        if (!fMoreWoof) {
             condMsgProc.wait_until(lock, std::chrono::steady_clock::now() + std::chrono::milliseconds(100), [this] { return fMsgProcWake; });
         }
         fMsgProcWake = false;

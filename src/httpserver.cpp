@@ -63,7 +63,7 @@ private:
  * Work items are simply callable objects.
  */
 template <typename WorkItem>
-class WorkQueue
+class WoofQueue
 {
 private:
     /** Mutex protects entire object */
@@ -78,8 +78,8 @@ private:
     class ThreadCounter
     {
     public:
-        WorkQueue &wq;
-        ThreadCounter(WorkQueue &w): wq(w)
+        WoofQueue &wq;
+        ThreadCounter(WoofQueue &w): wq(w)
         {
             std::lock_guard<std::mutex> lock(wq.cs);
             wq.numThreads += 1;
@@ -93,7 +93,7 @@ private:
     };
 
 public:
-    WorkQueue(size_t _maxDepth) : running(true),
+    WoofQueue(size_t _maxDepth) : running(true),
                                  maxDepth(_maxDepth),
                                  numThreads(0)
     {
@@ -101,7 +101,7 @@ public:
     /** Precondition: worker threads have all stopped
      * (call WaitExit)
      */
-    ~WorkQueue()
+    ~WoofQueue()
     {
     }
     /** Enqueue a work item */
@@ -177,7 +177,7 @@ struct evhttp* eventHTTP = 0;
 //! List of subnets to allow RPC connections from
 static std::vector<CSubNet> rpc_allow_subnets;
 //! Work queue for handling longer requests off the event loop thread
-static WorkQueue<HTTPClosure>* workQueue = 0;
+static WoofQueue<HTTPClosure>* workQueue = 0;
 //! Handlers for (sub)paths
 std::vector<HTTPPathHandler> pathHandlers;
 //! Bound listening sockets
@@ -356,7 +356,7 @@ static bool HTTPBindAddresses(struct evhttp* http)
 }
 
 /** Simple wrapper to set thread name and run work queue */
-static void HTTPWorkQueueRun(WorkQueue<HTTPClosure>* queue)
+static void HTTPWoofQueueRun(WoofQueue<HTTPClosure>* queue)
 {
     RenameThread("dogecoin-httpworker");
     queue->Run();
@@ -436,7 +436,7 @@ bool InitHTTPServer()
     int workQueueDepth = std::max((long)GetArg("-rpcworkqueue", DEFAULT_HTTP_WORKQUEUE), 1L);
     LogPrintf("HTTP: creating work queue of depth %d\n", workQueueDepth);
 
-    workQueue = new WorkQueue<HTTPClosure>(workQueueDepth);
+    workQueue = new WoofQueue<HTTPClosure>(workQueueDepth);
     eventBase = base;
     eventHTTP = http;
     return true;
@@ -455,7 +455,7 @@ bool StartHTTPServer()
     threadHTTP = std::thread(std::move(task), eventBase, eventHTTP);
 
     for (int i = 0; i < rpcThreads; i++) {
-        std::thread rpc_worker(HTTPWorkQueueRun, workQueue);
+        std::thread rpc_worker(HTTPWoofQueueRun, workQueue);
         rpc_worker.detach();
     }
     return true;

@@ -37,7 +37,7 @@ bool AllowDigishieldMinDifficultyForBlock(const CBlockIndex* pindexLast, const C
     return (pblock->GetBlockTime() > pindexLast->GetBlockTime() + params.nPowTargetSpacing*2);
 }
 
-unsigned int CalculateDogecoinNextWorkRequired(const CBlockIndex* pindexLast, int64_t nFirstBlockTime, const Consensus::Params& params)
+unsigned int CalculateDogecoinNextWoofRequired(const CBlockIndex* pindexLast, int64_t nFirstBlockTime, const Consensus::Params& params)
 {
     int nHeight = pindexLast->nHeight + 1;
     const int64_t retargetTimespan = params.nPowTargetTimespan;
@@ -85,7 +85,7 @@ unsigned int CalculateDogecoinNextWorkRequired(const CBlockIndex* pindexLast, in
     return bnNew.GetCompact();
 }
 
-bool CheckAuxPowProofOfWow(const CBlockHeader& block, const Consensus::Params& params)
+bool CheckAuxPowProofOfWoof(const CBlockHeader& block, const Consensus::Params& params)
 {
     /* Except for legacy blocks with full version 1, ensure that
        the chain ID is correct.  Legacy blocks are not allowed since
@@ -103,8 +103,8 @@ bool CheckAuxPowProofOfWow(const CBlockHeader& block, const Consensus::Params& p
             return error("%s : no auxpow on block with auxpow version",
                          __func__);
 
-        if (!CheckProofOfWow(block.GetPoWHash(), block.nBits, params))
-            return error("%s : non-AUX proof of wow failed", __func__);
+        if (!CheckProofOfWoof(block.GetPoWHash(), block.nBits, params))
+            return error("%s : non-AUX proof of woof failed", __func__);
 
         return true;
     }
@@ -116,8 +116,8 @@ bool CheckAuxPowProofOfWow(const CBlockHeader& block, const Consensus::Params& p
 
     if (!block.auxpow->check(block.GetHash(), block.GetChainId(), params))
         return error("%s : AUX POW is not valid", __func__);
-    if (!CheckProofOfWow(block.auxpow->getParentBlockPoWHash(), block.nBits, params))
-        return error("%s : AUX proof of wow failed", __func__);
+    if (!CheckProofOfWoof(block.auxpow->getParentBlockPoWHash(), block.nBits, params))
+        return error("%s : AUX proof of woof failed", __func__);
 
     return true;
 }

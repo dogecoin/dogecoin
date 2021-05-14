@@ -24,7 +24,7 @@ BOOST_AUTO_TEST_CASE(get_next_work)
     pindexLast.nHeight = 30479;
     pindexLast.nTime = 1388163922; // Block #30479
     pindexLast.nBits = 0x1c00974f;
-    BOOST_CHECK_EQUAL(CalculateNextWorkRequired(&pindexLast, nLastRetargetTime, params), 0x1c0093a1);
+    BOOST_CHECK_EQUAL(CalculateNextWoofRequired(&pindexLast, nLastRetargetTime, params), 0x1c0093a1);
 }
 
 /* Test the constraint on the upper bound for next work */
@@ -38,7 +38,7 @@ BOOST_AUTO_TEST_CASE(get_next_work_pow_limit)
     pindexLast.nHeight = 2015;
     pindexLast.nTime = 1233061996;  // Block #2015
     pindexLast.nBits = 0x1d00ffff;
-    BOOST_CHECK_EQUAL(CalculateNextWorkRequired(&pindexLast, nLastRetargetTime, params), 0x1d03fffc);
+    BOOST_CHECK_EQUAL(CalculateNextWoofRequired(&pindexLast, nLastRetargetTime, params), 0x1d03fffc);
 }
 
 /* Test the constraint on the lower bound for actual time taken */
@@ -52,7 +52,7 @@ BOOST_AUTO_TEST_CASE(get_next_work_lower_limit_actual)
     pindexLast.nHeight = 66767;
     pindexLast.nTime = 1279008237 + (239 * 60 / 4 - 1); // Bitcoin Block #66528 + less than a quarter of the target timespan
     pindexLast.nBits = 0x1c05a3f4;
-    BOOST_CHECK_EQUAL(CalculateNextWorkRequired(&pindexLast, nLastRetargetTime, params), 0x1c0168fd);
+    BOOST_CHECK_EQUAL(CalculateNextWoofRequired(&pindexLast, nLastRetargetTime, params), 0x1c0168fd);
 }
 
 /* Test the constraint on the upper bound for actual time taken */
@@ -67,7 +67,7 @@ BOOST_AUTO_TEST_CASE(get_next_work_lower_limit_actual)
     pindexLast.nHeight = 46367;
     pindexLast.nTime = 1269211443;  // Block #46367
     pindexLast.nBits = 0x1c387f6f;
-    BOOST_CHECK_EQUAL(CalculateNextWorkRequired(&pindexLast, nLastRetargetTime, params), 0x1d00e1fd);
+    BOOST_CHECK_EQUAL(CalculateNextWoofRequired(&pindexLast, nLastRetargetTime, params), 0x1d00e1fd);
 } */
 
 BOOST_AUTO_TEST_CASE(GetBlockProofEquivalentTime_test)
@@ -81,7 +81,7 @@ BOOST_AUTO_TEST_CASE(GetBlockProofEquivalentTime_test)
         blocks[i].nHeight = i;
         blocks[i].nTime = 1269211443 + i * params.nPowTargetSpacing;
         blocks[i].nBits = 0x207fffff; /* target 0x7fffff000... */
-        blocks[i].nChainWork = i ? blocks[i - 1].nChainWork + GetBlockProof(blocks[i - 1]) : arith_uint256(0);
+        blocks[i].nChainWoof = i ? blocks[i - 1].nChainWoof + GetBlockProof(blocks[i - 1]) : arith_uint256(0);
     }
 
     for (int j = 0; j < 1000; j++) {

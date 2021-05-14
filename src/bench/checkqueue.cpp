@@ -22,25 +22,25 @@ static const int PREVECTOR_SIZE = 28;
 static const int QUEUE_BATCH_SIZE = 128;
 static void CCheckQueueSpeed(benchmark::State& state)
 {
-    struct FakeJobNoWork {
+    struct FakeJobNoWoof {
         bool operator()()
         {
             return true;
         }
-        void swap(FakeJobNoWork& x){};
+        void swap(FakeJobNoWoof& x){};
     };
-    CCheckQueue<FakeJobNoWork> queue {QUEUE_BATCH_SIZE};
+    CCheckQueue<FakeJobNoWoof> queue {QUEUE_BATCH_SIZE};
     boost::thread_group tg;
     for (auto x = 0; x < std::max(MIN_CORES, GetNumCores()); ++x) {
        tg.create_thread([&]{queue.Thread();});
     }
     while (state.KeepRunning()) {
-        CCheckQueueControl<FakeJobNoWork> control(&queue);
+        CCheckQueueControl<FakeJobNoWoof> control(&queue);
 
         // We call Add a number of times to simulate the behavior of adding
         // a block of transactions at once.
 
-        std::vector<std::vector<FakeJobNoWork>> vBatches(BATCHES);
+        std::vector<std::vector<FakeJobNoWoof>> vBatches(BATCHES);
         for (auto& vChecks : vBatches) {
             vChecks.resize(BATCH_SIZE);
         }

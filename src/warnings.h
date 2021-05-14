@@ -10,10 +10,10 @@
 #include <string>
 
 void SetMiscWarning(const std::string& strWarning);
-void SetfLargeWorkForkFound(bool flag);
-bool GetfLargeWorkForkFound();
-void SetfLargeWorkInvalidChainFound(bool flag);
-bool GetfLargeWorkInvalidChainFound();
+void SetfLargeWoofForkFound(bool flag);
+bool GetfLargeWoofForkFound();
+void SetfLargeWoofInvalidChainFound(bool flag);
+bool GetfLargeWoofInvalidChainFound();
 std::string GetWarnings(const std::string& strFor);
 
 static const bool DEFAULT_TESTSAFEMODE = false;

@@ -130,7 +130,7 @@ struct update_for_parent_inclusion
     CTxMemPool::txiter iter;
 };
 
-/** Generate a new block, without valid proof-of-wow */
+/** Generate a new block, without valid proof-of-woof */
 class BlockAssembler
 {
 private:

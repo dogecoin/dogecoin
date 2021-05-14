@@ -8,15 +8,15 @@
 
 bool AllowDigishieldMinDifficultyForBlock(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params& params);
 CAmount GetDogecoinBlockSubsidy(int nHeight, const Consensus::Params& consensusParams, uint256 prevHash);
-unsigned int CalculateDogecoinNextWorkRequired(const CBlockIndex* pindexLast, int64_t nLastRetargetTime, const Consensus::Params& params);
+unsigned int CalculateDogecoinNextWoofRequired(const CBlockIndex* pindexLast, int64_t nLastRetargetTime, const Consensus::Params& params);
 
 /**
- * Check proof-of-wow of a block header, taking auxpow into account.
+ * Check proof-of-woof of a block header, taking auxpow into account.
  * @param block The block header.
  * @param params Consensus parameters.
  * @return True iff the PoW is correct.
  */
-bool CheckAuxPowProofOfWow(const CBlockHeader& block, const Consensus::Params& params);
+bool CheckAuxPowProofOfWoof(const CBlockHeader& block, const Consensus::Params& params);
 
 CAmount GetDogecoinMinRelayFee(const CTransaction& tx, unsigned int nBytes, bool fAllowFree);
 CAmount GetDogecoinDustFee(const std::vector<CTxOut> &vout, CFeeRate &baseFeeRate);

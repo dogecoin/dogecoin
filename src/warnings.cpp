@@ -15,8 +15,8 @@
 
 CCriticalSection cs_warnings;
 std::string strMiscWarning;
-bool fLargeWorkForkFound = false;
-bool fLargeWorkInvalidChainFound = false;
+bool fLargeWoofForkFound = false;
+bool fLargeWoofInvalidChainFound = false;
 
 void SetMiscWarning(const std::string& strWarning)
 {
@@ -24,28 +24,28 @@ void SetMiscWarning(const std::string& strWarning)
     strMiscWarning = strWarning;
 }
 
-void SetfLargeWorkForkFound(bool flag)
+void SetfLargeWoofForkFound(bool flag)
 {
     LOCK(cs_warnings);
-    fLargeWorkForkFound = flag;
+    fLargeWoofForkFound = flag;
 }
 
-bool GetfLargeWorkForkFound()
+bool GetfLargeWoofForkFound()
 {
     LOCK(cs_warnings);
-    return fLargeWorkForkFound;
+    return fLargeWoofForkFound;
 }
 
-void SetfLargeWorkInvalidChainFound(bool flag)
+void SetfLargeWoofInvalidChainFound(bool flag)
 {
     LOCK(cs_warnings);
-    fLargeWorkInvalidChainFound = flag;
+    fLargeWoofInvalidChainFound = flag;
 }
 
-bool GetfLargeWorkInvalidChainFound()
+bool GetfLargeWoofInvalidChainFound()
 {
     LOCK(cs_warnings);
-    return fLargeWorkInvalidChainFound;
+    return fLargeWoofInvalidChainFound;
 }
 
 std::string GetWarnings(const std::string& strFor)
@@ -74,13 +74,13 @@ std::string GetWarnings(const std::string& strFor)
         strGUI += (strGUI.empty() ? "" : uiAlertSeperator) + strMiscWarning;
     }
 
-    if (fLargeWorkForkFound)
+    if (fLargeWoofForkFound)
     {
         nPriority = 2000;
         strStatusBar = strRPC = "Warning: The network does not appear to fully agree! Some miners appear to be experiencing issues.";
         strGUI += (strGUI.empty() ? "" : uiAlertSeperator) + _("Warning: The network does not appear to fully agree! Some miners appear to be experiencing issues.");
     }
-    else if (fLargeWorkInvalidChainFound)
+    else if (fLargeWoofInvalidChainFound)
     {
         nPriority = 2000;
         strStatusBar = strRPC = "Warning: We do not appear to fully agree with our peers! You may need to upgrade, or other nodes may need to upgrade.";

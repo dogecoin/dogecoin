@@ -14,10 +14,10 @@ class CBlockHeader;
 class CBlockIndex;
 class uint256;
 
-unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params&);
-unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nFirstBlockTime, const Consensus::Params&);
+unsigned int GetNextWoofRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params&);
+unsigned int CalculateNextWoofRequired(const CBlockIndex* pindexLast, int64_t nFirstBlockTime, const Consensus::Params&);
 
-/** Check whether a block hash satisfies the proof-of-wow requirement specified by nBits */
-bool CheckProofOfWow(uint256 hash, unsigned int nBits, const Consensus::Params&);
+/** Check whether a block hash satisfies the proof-of-woof requirement specified by nBits */
+bool CheckProofOfWoof(uint256 hash, unsigned int nBits, const Consensus::Params&);
 
 #endif // BITCOIN_POW_H
