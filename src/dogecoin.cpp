@@ -85,7 +85,7 @@ unsigned int CalculateDogecoinNextWorkRequired(const CBlockIndex* pindexLast, in
     return bnNew.GetCompact();
 }
 
-bool CheckAuxPowProofOfWork(const CBlockHeader& block, const Consensus::Params& params)
+bool CheckAuxPowProofOfWow(const CBlockHeader& block, const Consensus::Params& params)
 {
     /* Except for legacy blocks with full version 1, ensure that
        the chain ID is correct.  Legacy blocks are not allowed since
@@ -103,8 +103,8 @@ bool CheckAuxPowProofOfWork(const CBlockHeader& block, const Consensus::Params& 
             return error("%s : no auxpow on block with auxpow version",
                          __func__);
 
-        if (!CheckProofOfWork(block.GetPoWHash(), block.nBits, params))
-            return error("%s : non-AUX proof of work failed", __func__);
+        if (!CheckProofOfWow(block.GetPoWHash(), block.nBits, params))
+            return error("%s : non-AUX proof of wow failed", __func__);
 
         return true;
     }
@@ -116,8 +116,8 @@ bool CheckAuxPowProofOfWork(const CBlockHeader& block, const Consensus::Params& 
 
     if (!block.auxpow->check(block.GetHash(), block.GetChainId(), params))
         return error("%s : AUX POW is not valid", __func__);
-    if (!CheckProofOfWork(block.auxpow->getParentBlockPoWHash(), block.nBits, params))
-        return error("%s : AUX proof of work failed", __func__);
+    if (!CheckProofOfWow(block.auxpow->getParentBlockPoWHash(), block.nBits, params))
+        return error("%s : AUX proof of wow failed", __func__);
 
     return true;
 }

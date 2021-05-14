@@ -15,8 +15,8 @@
 #include <boost/shared_ptr.hpp>
 
 /** Nodes collect new transactions into a block, hash them into a hash tree,
- * and scan through nonce values to make the block's hash satisfy proof-of-work
- * requirements.  When they solve the proof-of-work, they broadcast the block
+ * and scan through nonce values to make the block's hash satisfy proof-of-Wow
+ * requirements.  When they solve the proof-of-Wow, they broadcast the block
  * to everyone and the block is added to the block chain.  The first transaction
  * in the block is a special one that creates a new coin owned by the creator
  * of the block.
@@ -66,7 +66,7 @@ public:
 class CBlock : public CBlockHeader
 {
 public:
-    // network and disk
+    // netWow and disk
     std::vector<CTransactionRef> vtx;
 
     // memory only

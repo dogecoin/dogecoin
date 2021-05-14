@@ -11,12 +11,12 @@ CAmount GetDogecoinBlockSubsidy(int nHeight, const Consensus::Params& consensusP
 unsigned int CalculateDogecoinNextWorkRequired(const CBlockIndex* pindexLast, int64_t nLastRetargetTime, const Consensus::Params& params);
 
 /**
- * Check proof-of-work of a block header, taking auxpow into account.
+ * Check proof-of-wow of a block header, taking auxpow into account.
  * @param block The block header.
  * @param params Consensus parameters.
  * @return True iff the PoW is correct.
  */
-bool CheckAuxPowProofOfWork(const CBlockHeader& block, const Consensus::Params& params);
+bool CheckAuxPowProofOfWow(const CBlockHeader& block, const Consensus::Params& params);
 
 CAmount GetDogecoinMinRelayFee(const CTransaction& tx, unsigned int nBytes, bool fAllowFree);
 CAmount GetDogecoinDustFee(const std::vector<CTxOut> &vout, CFeeRate &baseFeeRate);

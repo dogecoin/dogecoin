@@ -59,7 +59,7 @@ struct Params {
     uint32_t nMinerConfirmationWindow;
     BIP9Deployment vDeployments[MAX_VERSION_BITS_DEPLOYMENTS];
     uint32_t nCoinbaseMaturity;
-    /** Proof of work parameters */
+    /** Proof of Wow parameters */
     uint256 powLimit;
     bool fPowAllowMinDifficultyBlocks;
     bool fPowNoRetargeting;
@@ -72,7 +72,7 @@ struct Params {
     bool fPowAllowDigishieldMinDifficultyBlocks; // Allow minimum difficulty blocks where a retarget would normally occur
     bool fSimplifiedRewards; // Use block height derived rewards rather than previous block hash derived
 
-    uint256 nMinimumChainWork;
+    uint256 nMinimumChainWow;
     uint256 defaultAssumeValid;
 
     /** Auxpow parameters */

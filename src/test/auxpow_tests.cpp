@@ -341,9 +341,9 @@ mineBlock(CBlockHeader& block, bool ok, int nBits = -1)
     }
 
     if (ok)
-        BOOST_CHECK(CheckProofOfWork(block.GetPoWHash(), nBits, Params().GetConsensus(0)));
+        BOOST_CHECK(CheckProofOfWow(block.GetPoWHash(), nBits, Params().GetConsensus(0)));
     else
-        BOOST_CHECK(!CheckProofOfWork(block.GetPoWHash(), nBits, Params().GetConsensus(0)));
+        BOOST_CHECK(!CheckProofOfWow(block.GetPoWHash(), nBits, Params().GetConsensus(0)));
 }
 
 BOOST_AUTO_TEST_CASE(auxpow_pow)
@@ -360,21 +360,21 @@ BOOST_AUTO_TEST_CASE(auxpow_pow)
 
     block.nVersion = 1;
     mineBlock(block, true);
-    BOOST_CHECK(CheckAuxPowProofOfWork(block, params));
+    BOOST_CHECK(CheckAuxPowProofOfWow(block, params));
 
     // Dogecoin block version 2 can be both AuxPoW and regular, so test 3
 
     block.nVersion = 3;
     mineBlock(block, true);
-    BOOST_CHECK(!CheckAuxPowProofOfWork(block, params));
+    BOOST_CHECK(!CheckAuxPowProofOfWow(block, params));
 
     block.SetBaseVersion(2, params.nAuxpowChainId);
     mineBlock(block, true);
-    BOOST_CHECK(CheckAuxPowProofOfWork(block, params));
+    BOOST_CHECK(CheckAuxPowProofOfWow(block, params));
 
     block.SetChainId(params.nAuxpowChainId + 1);
     mineBlock(block, true);
-    BOOST_CHECK(!CheckAuxPowProofOfWork(block, params));
+    BOOST_CHECK(!CheckAuxPowProofOfWow(block, params));
 
     /* Check the case when the block does not have auxpow (this is true
      right now).  */
@@ -382,13 +382,13 @@ BOOST_AUTO_TEST_CASE(auxpow_pow)
     block.SetChainId(params.nAuxpowChainId);
     block.SetAuxpowFlag(true);
     mineBlock(block, true);
-    BOOST_CHECK(!CheckAuxPowProofOfWork(block, params));
+    BOOST_CHECK(!CheckAuxPowProofOfWow(block, params));
 
     block.SetAuxpowFlag(false);
     mineBlock(block, true);
-    BOOST_CHECK(CheckAuxPowProofOfWork(block, params));
+    BOOST_CHECK(CheckAuxPowProofOfWow(block, params));
     mineBlock(block, false);
-    BOOST_CHECK(!CheckAuxPowProofOfWork(block, params));
+    BOOST_CHECK(!CheckAuxPowProofOfWow(block, params));
 
     /* ****************************************** */
     /* Check the case that the block has auxpow.  */
@@ -408,15 +408,15 @@ BOOST_AUTO_TEST_CASE(auxpow_pow)
     builder.setCoinbase(CScript() << data);
     mineBlock(builder.parentBlock, false, block.nBits);
     block.SetAuxpow(new CAuxPow(builder.get()));
-    BOOST_CHECK(!CheckAuxPowProofOfWork(block, params));
+    BOOST_CHECK(!CheckAuxPowProofOfWow(block, params));
     mineBlock(builder.parentBlock, true, block.nBits);
     block.SetAuxpow(new CAuxPow(builder.get()));
-    BOOST_CHECK(CheckAuxPowProofOfWork(block, params));
+    BOOST_CHECK(CheckAuxPowProofOfWow(block, params));
 
     /* Mismatch between auxpow being present and block.nVersion.  Note that
      block.SetAuxpow sets also the version and that we want to ensure
      that the block hash itself doesn't change due to version changes.
-     This requires some work arounds.  */
+     This requires some Wow arounds.  */
     block.SetAuxpowFlag(false);
     const uint256 hashAux = block.GetHash();
     auxRoot = builder.buildAuxpowChain(hashAux, height, index);
@@ -427,7 +427,7 @@ BOOST_AUTO_TEST_CASE(auxpow_pow)
     BOOST_CHECK(hashAux != block.GetHash());
     block.SetAuxpowFlag(false);
     BOOST_CHECK(hashAux == block.GetHash());
-    BOOST_CHECK(!CheckAuxPowProofOfWork(block, params));
+    BOOST_CHECK(!CheckAuxPowProofOfWow(block, params));
 
     /* Modifying the block invalidates the PoW.  */
     block.SetAuxpowFlag(true);
@@ -436,9 +436,9 @@ BOOST_AUTO_TEST_CASE(auxpow_pow)
     builder.setCoinbase(CScript() << data);
     mineBlock(builder.parentBlock, true, block.nBits);
     block.SetAuxpow(new CAuxPow(builder.get()));
-    BOOST_CHECK(CheckAuxPowProofOfWork(block, params));
+    BOOST_CHECK(CheckAuxPowProofOfWow(block, params));
     tamperWith(block.hashMerkleRoot);
-    BOOST_CHECK(!CheckAuxPowProofOfWork(block, params));
+    BOOST_CHECK(!CheckAuxPowProofOfWow(block, params));
 }
 
 /* ************************************************************************** */

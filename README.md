@@ -5,7 +5,7 @@
 [![Build Status](https://travis-ci.com/dogecoin/dogecoin.svg?branch=master)](https://travis-ci.com/dogecoin/dogecoin)
 
 Dogecoin is a cryptocurrency like Bitcoin, although it does not use SHA256 as
-its proof of work (POW). Taking development cues from Tenebrix and Litecoin,
+its proof of wow (POW). Taking development cues from Tenebrix and Litecoin,
 Dogecoin currently employs a simplified variant of scrypt.
 - **Website:** [dogecoin.com.](https://dogecoin.com)
 
@@ -63,7 +63,7 @@ encryption passwords/etc.
 ### Such mining information ⛏
 
 Dogecoin uses a simplified variant of the scrypt key derivation function as its
-proof of work with a target time of one minute per block and difficulty
+proof of wow with a target time of one minute per block and difficulty
 readjustment after every block. The block rewards are fixed and halve every
 100,000 blocks. Starting with the 600,000th block, a permanent reward of
 10,000 Dogecoin per block will be issued.  
