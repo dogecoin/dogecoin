@@ -69,8 +69,8 @@ the code changes and accompanying discussion, both the pull request and
 git merge commit are mentioned.
 
 ### Consensus
-- #9293 `e591c10` [0.13 Backport #9053] IBD using chainwork instead of height and not using header timestamp (gmaxwell)
-- #9053 `5b93eee` IBD using chainwork instead of height and not using header timestamps (gmaxwell)
+- #9293 `e591c10` [0.13 Backport #9053] IBD using chainwoof instead of height and not using header timestamp (gmaxwell)
+- #9053 `5b93eee` IBD using chainwoof instead of height and not using header timestamps (gmaxwell)
 
 ### RPC and other APIs
 - #8845 `1d048b9` Don't return the address of a P2SH of a P2SH (jnewbery)

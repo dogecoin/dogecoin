@@ -28,7 +28,7 @@ Start three nodes:
       block 2202. node1 will sync all the way to block 2202.
     - node2 has -assumevalid set to the hash of block 102. Try to sync to
       block 200. node2 will reject block 102 since it's assumed valid, but it
-      isn't buried by at least two weeks' work.
+      isn't buried by at least two weeks' woof.
 '''
 
 from test_framework.mininode import *

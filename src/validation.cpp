@@ -3214,7 +3214,7 @@ static bool AcceptBlock(const std::shared_ptr<const CBlock>& pblock, CValidation
         return false;
 
     // Try to process all requested blocks that we don't have, but only
-    // process an unrequested block if it's new and has enough Wow to
+    // process an unrequested block if it's new and has enough woof to
     // advance our tip, and isn't too many blocks ahead.
     bool fAlreadyHave = pindex->nStatus & BLOCK_HAVE_DATA;
     bool fHasMoreWoof = (chainActive.Tip() ? pindex->nChainWoof > chainActive.Tip()->nChainWoof : true);
@@ -3235,7 +3235,7 @@ static bool AcceptBlock(const std::shared_ptr<const CBlock>& pblock, CValidation
     if (fAlreadyHave) return true;
     if (!fRequested) {  // If we didn't ask for it:
         if (pindex->nTx != 0) return true;  // This is a previously-processed block that was pruned
-        if (!fHasMoreWoof) return true;     // Don't process less-Wow chains
+        if (!fHasMoreWoof) return true;     // Don't process less-woof chains
         if (fTooFarAhead) return true;      // Block height is too high
     }
     if (fNewBlock) *fNewBlock = true;
@@ -3249,7 +3249,7 @@ static bool AcceptBlock(const std::shared_ptr<const CBlock>& pblock, CValidation
         return error("%s: %s", __func__, FormatStateMessage(state));
     }
 
-    // Header is valid/has Wow, merkle tree and segwit merkle tree are good...RELAY NOW
+    // Header is valid/has woof, merkle tree and segwit merkle tree are good...RELAY NOW
     // (but if it does not build on our best tip, let the SendMessages loop relay it)
     if (!IsInitialBlockDownload() && chainActive.Tip() == pindex->pprev)
         GetMainSignals().NewPoWValidBlock(pindex, pblock);
@@ -4165,7 +4165,7 @@ void static CheckBlockIndex(const Consensus::Params& consensusParams)
             // We HAVE_DATA for this block, have received data for all parents at some point, but we're currently missing data for some parent.
             assert(fHavePruned); // We must have pruned.
             // This block may have entered mapBlocksUnlinked if:
-            //  - it has a descendant that at some point had more Wow than the
+            //  - it has a descendant that at some point had more woof than the
             //    tip, and
             //  - we tried switching to that descendant but were missing
             //    data for some intermediate block between chainActive and the

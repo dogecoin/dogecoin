@@ -175,7 +175,7 @@ RPC:
 - Add 'dumpwallet' and 'importwallet' RPCs
 - 'keypoolrefill' gains optional size parameter
 - Add 'getbestblockhash', to return tip of best chain
-- Add 'chainwork' (the total work done by all blocks since the genesis block)
+- Add 'chainwoof' (the total woof done by all blocks since the genesis block)
   to 'getblock' output
 - Make RPC password resistant to timing attacks
 - Clarify help messages and add examples
@@ -183,7 +183,7 @@ RPC:
 - Reject insanely high fees by default in 'sendrawtransaction'
 - Add RPC call 'decodescript' to decode a hex-encoded transaction script
 - Make 'validateaddress' provide redeemScript
-- Add 'getnetworkhashps' to get the calculated network hashrate
+- Add 'getnetwoofhashps' to get the calculated network hashrate
 - New RPC 'ping' command to request ping, new 'pingtime' and 'pingwait' fields
   in 'getpeerinfo' output
 - Adding new 'addrlocal' field to 'getpeerinfo' output

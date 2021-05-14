@@ -75,7 +75,7 @@ class CTxMemPool;
  * If updating the descendant state is skipped, we can mark the entry as
  * "dirty", and set nSizeWithDescendants/nModFeesWithDescendants to equal nTxSize/
  * nFee+feeDelta. (This can potentially happen during a reorg, where we limit the
- * amount of work we're willing to do to avoid consuming too much CPU.)
+ * amount of woof we're willing to do to avoid consuming too much CPU.)
  *
  */
 
@@ -421,7 +421,7 @@ enum class MemPoolRemovalReason {
  *
  * Adding transactions from a disconnected block can be very time consuming,
  * because we don't have a way to limit the number of in-mempool descendants.
- * To bound CPU processing, we limit the amount of work we're willing to do
+ * To bound CPU processing, we limit the amount of woof we're willing to do
  * to properly update the descendant information for a tx being added from
  * a disconnected block.  If we would exceed the limit, then we instead mark
  * the entry as "dirty", and set the feerate for sorting purposes to be equal

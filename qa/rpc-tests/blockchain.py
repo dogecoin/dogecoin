@@ -61,7 +61,7 @@ class BlockchainTest(BitcoinTestFramework):
             'bip9_softforks',
             'blocks',
             'chain',
-            'chainwork',
+            'chainwoof',
             'difficulty',
             'headers',
             'initialblockdownload',
@@ -124,7 +124,7 @@ class BlockchainTest(BitcoinTestFramework):
         assert_equal(header['height'], 120)
         assert_equal(header['confirmations'], 1)
         assert_equal(header['previousblockhash'], secondbesthash)
-        assert_is_hex_string(header['chainwork'])
+        assert_is_hex_string(header['chainwoof'])
         assert_is_hash_string(header['hash'])
         assert_is_hash_string(header['previousblockhash'])
         assert_is_hash_string(header['merkleroot'])
