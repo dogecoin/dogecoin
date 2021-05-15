@@ -1988,8 +1988,8 @@ void CConnman::ThreadMessageHandler()
                 continue;
 
             // Receive messages
-            bool fMoreNodeWoof = GetNodeSignals().ProcessMessages(pnode, *this, flagInterruptMsgProc);
-            fMoreWoof |= (fMoreNodeWoof && !pnode->fPauseSend);
+            bool fMoreNodeWork = GetNodeSignals().ProcessMessages(pnode, *this, flagInterruptMsgProc);
+            fMoreWoof |= (fMoreNodeWork && !pnode->fPauseSend);
             if (flagInterruptMsgProc)
                 return;
 
