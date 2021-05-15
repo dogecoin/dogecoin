@@ -13,8 +13,13 @@ AC_CONFIG_SRCDIR([src/validation.cpp])
 AC_CONFIG_HEADERS([src/config/bitcoin-config.h])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([build-aux/m4])
+dnl Magnet link for the bootstrap.dat file. The torrent file can be downloaded
+dnl here:
+dnl https://dogecoin.gg/bootstrap
+dnl And can be converted to a magnet link here:
+dnl https://nutbread.github.io/t2m/
 AC_DEFINE([BOOTSTRAP_MAGNET],
-  ["magnet:?xt=urn:btih:26TORNYL6UASD3HRDG7IO2CGEDV5GEMY&dn=dogecoin-bootstrap-2021-04-11&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80"],
+  ["magnet:?xt=urn:btih:DCNFN7O2NPUGBDPTYYVRSFNQDANM7BDO&dn=dogecoin-bootstrap-2021-05-09&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80"],
   [Magnet link for the bootstrap torrent file])
 
 BITCOIN_DAEMON_NAME=dogecoind
