@@ -41,7 +41,7 @@ Only supports JSON as output format.
 * bestblockhash : (string) the hash of the currently best block
 * difficulty : (numeric) the current difficulty
 * verificationprogress : (numeric) estimate of verification progress [0..1]
-* chainwoof : (string) total amount of woof in active chain, in hexadecimal
+* chainwork : (string) total amount of woof in active chain, in hexadecimal
 * pruned : (boolean) if the blocks are subject to pruning
 * pruneheight : (numeric) heighest block available
 * softforks : (array) status of softforks in progress
