@@ -398,14 +398,6 @@
         <translation>&amp;pilihan Command-line</translation>
     </message>
     <message>
-        <source>Show the %1 help message to get a list with possible Dogecoin command-line options</source>
-        <translation>Tampilkan %1 pesan bantuan untuk mendapatkan daftar opsi baris perintah Dogecoin yang memungkinkan</translation>
-    </message>
-    <message>
-        <source>Encrypt the private keys that belong to your wallet</source>
-        <translation>Enkripsi private key yang dimiliki dompet Anda</translation>
-    </message>
-    <message>
         <source>&amp;File</source>
         <translation>&amp;Berkas</translation>
     </message>
@@ -422,12 +414,28 @@
         <translation>Baris tab</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and dogecoin: URIs)</source>
-        <translation>Permintaan pembayaran (membuat kode QR dan dogecoin: URIs)</translation>
+        <source>%1 client</source>
+        <translation>%1 klien</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n active connection(s) to Dogecoin network</source>
+        <translation><numerusform>%n koneksi aktif ke jaringan Dogecoin</numerusform></translation>
     </message>
     <message>
-        <source>Show the list of used sending addresses and labels</source>
-        <translation>Tampilkan daftar alamat dan label yang terkirim</translation>
+        <source>Click to disable network activity.</source>
+        <translation>Klik untuk menonaktifkan aktivitas jaringan.</translation>
+    </message>
+    <message>
+        <source>Network activity disabled.</source>
+        <translation>Aktivitas jaringan dinonaktifkan.</translation>
+    </message>
+    <message>
+        <source>Click to enable network activity again.</source>
+        <translation>Klik untuk mengaktifkan aktivitas jaringan lagi.</translation>
+    </message>
+    <message>
+        <source>Syncing Headers (%1%)...</source>
+        <translation>Menyinkronkan Header (%1%) ...</translation>
     </message>
     <message numerus="yes">
         <source>%n active connection(s) to Dogecoin network</source>
@@ -441,13 +449,29 @@
         <source>Processing blocks on disk...</source>
         <translation>Memproses blok pada disk ...</translation>
     </message>
+    <message>
+        <source>Reindexing blocks on disk...</source>
+        <translation>Mengindeks ulang blok di dalam disk...</translation>
+    </message>
+    <message>
+        <source>Connecting to peers...</source>
+        <translation>Menghubungkan ke rekan-rekan (peer)...</translation>
+    </message>
     <message numerus="yes">
         <source>Processed %n block(s) of transaction history.</source>
         <translation><numerusform>%n blok dari riwayat transaksi diproses.</numerusform></translation>
     </message>
     <message>
+        <source>Up to date</source>
+        <translation>Terbaru</translation>
+    </message>
+    <message>
         <source>%1 behind</source>
         <translation>kurang %1</translation>
+    </message>
+    <message>
+        <source>Catching up...</source>
+        <translation>Menangkap...</translation>
     </message>
     <message>
         <source>Last received block was generated %1 ago.</source>
@@ -462,6 +486,10 @@
         <translation>Galat</translation>
     </message>
     <message>
+        <source>Dogecoin</source>
+        <translation>Dogecoin</translation>
+    </message>
+    <message>
         <source>Warning</source>
         <translation>Peringatan</translation>
     </message>
@@ -474,6 +502,10 @@
         <translation>Terbaru</translation>
     </message>
     <message>
+        <source>Show the %1 help message to get a list with possible Dogecoin command-line options</source>
+        <translation>Tampilkan %1 pesan bantuan untuk mendapatkan daftar opsi baris perintah Dogecoin yang memungkinkan</translation>
+    </message>
+    <message>
         <source>%1 client</source>
         <translation>%1 klien</translation>
     </message>
@@ -483,7 +515,7 @@
     </message>
     <message>
         <source>Catching up...</source>
-        <translation>Menyusul...</translation>
+        <translation>Menangkap...</translation>
     </message>
     <message>
         <source>Date: %1
@@ -524,14 +556,26 @@
         <translation>Transaksi diterima</translation>
     </message>
     <message>
+        <source>HD key generation is &lt;b&gt;enabled&lt;/b&gt;</source>
+        <translation>Penciptaan kunci HD &lt;b&gt;diaktifkan&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <source>HD key generation is &lt;b&gt;disabled&lt;/b&gt;</source>
+        <translation>Penciptaan kunci HD &lt;b&gt;dinonaktifkan&lt;/b&gt;</translation>
+    </message>
+    <message>
         <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt;</source>
-        <translation>Saat ini dompet &lt;b&gt;terenkripsi&lt;/b&gt; dan &lt;b&gt;terbuka&lt;/b&gt;</translation>
+        <translation>Dompet &lt;b&gt;terenkripsi&lt;/b&gt; dan saat ini &lt;b&gt;tidak terkunci&lt;/b&gt;</translation>
     </message>
     <message>
         <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;locked&lt;/b&gt;</source>
-        <translation>Saat ini dompet &lt;b&gt;terenkripsi&lt;/b&gt; dan &lt;b&gt;terkunci&lt;/b&gt;</translation>
+        <translation>Dompet &lt;b&gt;terenkripsi&lt;/b&gt; dan saat ini &lt;b&gt;terkunci&lt;/b&gt;</translation>
     </message>
-    </context>
+    <message>
+        <source>A fatal error occurred. Dogecoin can no longer continue safely and will quit.</source>
+        <translation>Terjadi kesalahan fatal. Dogecoin tidak bisa berlanjut dan akan berhenti.</translation>
+    </message>
+</context>
 <context>
     <name>CoinControlDialog</name>
     <message>
@@ -722,12 +766,12 @@
         <translation>Ubah alamat pengiriman</translation>
     </message>
     <message>
-        <source>The entered address "%1" is not a valid Dogecoin address.</source>
-        <translation>Kamu memasukan alamat "%1" yang bukan alamat Dogecoin yang valid.</translation>
+        <source>The entered address &quot;%1&quot; is not a valid Dogecoin address.</source>
+        <translation>Kamu memasukan alamat &quot;%1&quot; yang bukan alamat Dogecoin yang valid.</translation>
     </message>
     <message>
-        <source>The entered address "%1" is already in the address book.</source>
-        <translation>Alamat yang kamu masukan "%1" sudah ada di daftar alamat.</translation>
+        <source>The entered address &quot;%1&quot; is already in the address book.</source>
+        <translation>Alamat yang kamu masukan &quot;%1&quot; sudah ada di daftar alamat.</translation>
     </message>
     <message>
         <source>Could not unlock wallet.</source>
@@ -866,6 +910,14 @@
         <translation>Formulir</translation>
     </message>
     <message>
+        <source>Recent transactions may not yet be visible, and therefore your wallet&apos;s balance might be incorrect. This information will be correct once your wallet has finished synchronizing with the dogecoin network, as detailed below.</source>
+        <translation>Transaksi terakhir mungkin belum diperlihatkan, karena mungkin saja saldo dompet kamu salah. Informasi ini akan menjadi benar setelah dompetmu tersinkronisasi dengan jaringa dogecoin, seperti tertampil dibawah.</translation>
+    </message>
+    <message>
+        <source>Attempting to spend dogecoins that are affected by not-yet-displayed transactions will not be accepted by the network.</source>
+        <translation>Mencoba untuk menggunakan koin-koin yang masuk kedalam kategori &quot;transaksi yang belum ditampilkan&quot; tidak akan diterima oleh jaringan.</translation>
+    </message>
+    <message>
         <source>Number of blocks left</source>
         <translation>Jumlah dari blok yang tersisa</translation>
     </message>
@@ -879,11 +931,27 @@
     </message>
     <message>
         <source>Progress</source>
-        <translation>Proses</translation>
+        <translation>Kemajuan</translation>
+    </message>
+    <message>
+        <source>Progress increase per hour</source>
+        <translation>Penambahan kemajuan tiap jam</translation>
+    </message>
+    <message>
+        <source>calculating...</source>
+        <translation>menghitung...</translation>
+    </message>
+    <message>
+        <source>Estimated time left until synced</source>
+        <translation>Perkiraan waktu tersisa sampai tersinkronisasi</translation>
     </message>
     <message>
         <source>Hide</source>
         <translation>Sembunyi</translation>
+    </message>
+    <message>
+        <source>Unknown. Syncing Headers (%1)...</source>
+        <translation>Tidak diketahui. Mensinkronisasi Headers (%1)...</translation>
     </message>
 </context>
 <context>
@@ -902,7 +970,7 @@
     </message>
     <message>
         <source>Select payment request file</source>
-        <translation>Pilih data permintaan pembayaran</translation>
+        <translation>Pilih berkas permintaan pembayaran</translation>
     </message>
     <message>
         <source>Select payment request file to open</source>
@@ -1164,16 +1232,15 @@
     </message>
     <message>
         <source>Your current spendable balance</source>
-        <translation>Jumlah yang Anda bisa pakai saat ini</translation>
+        <translation>Jumlah saldo yang bisa Anda pakai saat ini</translation>
     </message>
     <message>
         <source>Pending:</source>
-        <translation>Ditun
-da</translation>
+        <translation>Ditunda:</translation>
     </message>
     <message>
         <source>Total of transactions that have yet to be confirmed, and do not yet count toward the spendable balance</source>
-        <translation>Jumlah keseluruhan transaksi yang belum dikonfirmasi, dan belum saatnya dihitung sebagai pengeluaran saldo yang telah dibelanjakan.</translation>
+        <translation>Jumlah keseluruhan transaksi yang belum juga dikonfirmasi, dan belum terhitung sebagai saldo yang bisa dibelanjakan.</translation>
     </message>
     <message>
         <source>Immature:</source>
@@ -1181,11 +1248,11 @@ da</translation>
     </message>
     <message>
         <source>Mined balance that has not yet matured</source>
-        <translation>Jumlah saldo yang ditambang belum cukup dewasa</translation>
+        <translation>Jumlah saldo yang tertambang yang belum cukup dewasa</translation>
     </message>
     <message>
         <source>Balances</source>
-        <translation>Saldo:</translation>
+        <translation>Saldo</translation>
     </message>
     <message>
         <source>Total:</source>
@@ -1197,7 +1264,7 @@ da</translation>
     </message>
     <message>
         <source>Your current balance in watch-only addresses</source>
-        <translation>Jumlah saldo pada alamat "hanya-menonton".</translation>
+        <translation>Jumlah saldo Anda pada alamat &quot;hanya-menonton&quot;</translation>
     </message>
     <message>
         <source>Spendable:</source>
@@ -1205,19 +1272,178 @@ da</translation>
     </message>
     <message>
         <source>Recent transactions</source>
-        <translation>Transaksi terakhir</translation>
+        <translation>Transaksi terkini</translation>
     </message>
     <message>
         <source>Unconfirmed transactions to watch-only addresses</source>
-        <translation>Transaksi belum terkonfirmasi dari alamat "hanya-menonton"</translation>
+        <translation>Transaksi belum terkonfirmasi dari alamat &quot;hanya-menonton&quot;</translation>
     </message>
     <message>
         <source>Mined balance in watch-only addresses that has not yet matured</source>
-        <translation>Jumlah saldo tertambang dari alamat "hanya-menonton" yang belum dewasa</translation>
+        <translation>Jumlah saldo tertambang dari alamat &quot;hanya-menonton&quot; yang belum dewasa</translation>
     </message>
     <message>
         <source>Current total balance in watch-only addresses</source>
-        <translation>Jumlah saldo keseluruhan dari alamat "hanya-menonton"</translation>
+        <translation>Jumlah saldo keseluruhan dari alamat &quot;hanya-menonton&quot;</translation>
+    </message>
+</context>
+<context>
+    <name>PaperWalletDialog</name>
+    <message>
+        <source>Print Your Paper Wallets</source>
+        <translation>Cetak Dompet Kertasmu</translation>
+    </message>
+    <message>
+        <source>Very New Address</source>
+        <translation>Alamat Baru Banget</translation>
+    </message>
+    <message>
+        <source>So Print</source>
+        <translation>Cetak Sekali</translation>
+    </message>
+    <message>
+        <source>Many Wallets?</source>
+        <translation>Banyak Dompet?</translation>
+    </message>
+    <message>
+        <source>1</source>
+        <translation>1</translation>
+    </message>
+    <message>
+        <source>2</source>
+        <translation>2</translation>
+    </message>
+    <message>
+        <source>3</source>
+        <translation>3</translation>
+    </message>
+    <message>
+        <source>4</source>
+        <translation>4</translation>
+    </message>
+    <message>
+        <source>5</source>
+        <translation>5</translation>
+    </message>
+    <message>
+        <source>6</source>
+        <translation>6</translation>
+    </message>
+    <message>
+        <source>7</source>
+        <translation>7</translation>
+    </message>
+    <message>
+        <source>8</source>
+        <translation>8</translation>
+    </message>
+    <message>
+        <source>9</source>
+        <translation>9</translation>
+    </message>
+    <message>
+        <source>10</source>
+        <translation>10</translation>
+    </message>
+    <message>
+        <source>11</source>
+        <translation>11</translation>
+    </message>
+    <message>
+        <source>12</source>
+        <translation>12</translation>
+    </message>
+    <message>
+        <source>Public Key:</source>
+        <translation>Kunci Publik:</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Tutup</translation>
+    </message>
+    <message>
+        <source>It is recommended to disconnect from the internet before printing paper wallets. Even though paper wallets are generated on your local computer, it is still possible to unknowingly have malware that transmits your screen to a remote location. It is also recommended to print to a local printer vs a network printer since that network traffic can be monitored. Some advanced printers also store copies of each printed document. Proceed with caution relative to the amount of value you plan to store on each address.</source>
+        <translation>Dianjurkan untuk memutuskan koneksi dari internet sebelum mencetak dompet kertas. Meskipun dompet kertas dibuat di komputer lokal, masih ada kemungkinan malware menyadap layar Anda. Juga disarankan untuk mencetak melalui printer lokal karena transmisi pada printer jaringan dapat dipantau. Beberapa printer canggih  juga menyimpan salinan dari setiap dokumen yang dicetak. Lanjutkan tahap ini dengan hati-hati, terutama terkait jumlah nilai koin yang akan disimpan disetiap alamat.</translation>
+    </message>
+    <message>
+        <source>Error encoding Address into QR Code.</source>
+        <translation>Gagal saat proses penyandian Alamat kedalam Kode QR.</translation>
+    </message>
+    <message>
+        <source>Error encoding private key into QR Code.</source>
+        <translation>Gagal saat proses penyandian Kunci Privat kedalam Kode QR.</translation>
+    </message>
+    <message>
+        <source>failed to open file, is it writable?</source>
+        <translation>Gagal membuka berkas, apakah berkas dapat ditulis?</translation>
+    </message>
+    <message>
+        <source>Load Paper Wallets</source>
+        <translation>Muat Dompet Kertas</translation>
+    </message>
+    <message>
+        <source>The paper wallet printing process has begun.&lt;br/&gt;Please wait for the wallets to print completely and verify that everything printed correctly.&lt;br/&gt;Check for misalignments, ink bleeding, smears, or anything else that could make the private keys unreadable.&lt;br/&gt;Now, enter the number of DOGE you wish to send to each wallet:</source>
+        <translation>Proses pencetakan dompet kertas telah dimulai.&lt;br/&gt;Harap tunggu sampai dompet sepenuhnya telah dicetak dan pastikan semua bagian sudah tercetak dengan benar.&lt;br/&gt;Periksa juga barangkali ada ketidak sejajaran, tinta bercampur, bercak, atau apapun yang membuat kunci privat tidak terbaca.&lt;br/&gt;Sekarang, masukan berapa banyak DOGE yang mau dikirim kesetiap dompet:</translation>
+    </message>
+    <message>
+        <source>Paper wallet %1</source>
+        <translation>Dompet kertas %1</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;%1&lt;/b&gt; to Paper Wallet &lt;span style=&apos;font-family: monospace;&apos;&gt;%2&lt;/span&gt;</source>
+        <translation>&lt;b&gt;%1&lt;/b&gt; ke Dompet Kertas &lt;span style=&apos;font-family: monospace;&apos;&gt;%2&lt;/span&gt;</translation>
+    </message>
+    <message>
+        <source>Send Coins</source>
+        <translation>Kirim Koin</translation>
+    </message>
+    <message>
+        <source>The recipient address is not valid, please recheck.</source>
+        <translation>Alamat penerima tidak valid, periksa lagi.</translation>
+    </message>
+    <message>
+        <source>The amount to pay must be larger than 0</source>
+        <translation>Jumlah yang mau dikirim harus lebih besar dari 0</translation>
+    </message>
+    <message>
+        <source>The amount exceeds your balance.</source>
+        <translation>Jumlah melebihi saldomu.</translation>
+    </message>
+    <message>
+        <source>The total exceeds your balance when the transaction fee is included</source>
+        <translation>Total jumlah melebihi saldo kamu kalau biaya transaksi ikut dihitung</translation>
+    </message>
+    <message>
+        <source>Duplicate address found, can only send to each address once per send operation.</source>
+        <translation>Ditemukan alamat yang sama, kamu cuma bisa mengirim ke satu alamat disetiap operasi pengiriman.</translation>
+    </message>
+    <message>
+        <source>Transaction creation failed!</source>
+        <translation>Gagal membuat transaksi!</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to send?</source>
+        <translation>Apakah kamu yakin mau mengirim?</translation>
+    </message>
+    <message>
+        <source>added as transaction fee</source>
+        <translation>menambahkan sebagai biaya transaksi</translation>
+    </message>
+    <message>
+        <source>Total Amount %1 (= %2)</source>
+        <translation>Total Jumlah %1 (= %2)</translation>
+    </message>
+    <message>
+        <source>or</source>
+        <translation>atau</translation>
+    </message>
+    <message>
+        <source>Confirm send coins</source>
+        <translation>Konfirmasi pengiriman koin</translation>
+    </message>
+    <message>
+        <source>The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
+        <translation>Aduh! Transaksi ditolak! Mungkin in terjadi kalau beberapa koin di dompetmu sudah dibelanjakan, seperti kalau kamu menggunakan salinan dari wallet.dat dan koin didalamnya tidak ditandai kalau digunakan disini.</translation>
     </message>
 </context>
 <context>
@@ -1227,8 +1453,8 @@ da</translation>
         <translation>Permintaan pembayaran gagal</translation>
     </message>
     <message>
-        <source>Cannot start bitcoin: click-to-pay handler</source>
-        <translation>Tidak bisa memulai bitcoin: penanganan ketuk-untuk-bayar</translation>
+        <source>Cannot start dogecoin: click-to-pay handler</source>
+        <translation>Tidak bisa memulai dogecoin: penanganan ketuk-untuk-bayar</translation>
     </message>
     <message>
         <source>URI handling</source>
@@ -1259,7 +1485,7 @@ da</translation>
         <translation>Permintaan pembayaran ditolak</translation>
     </message>
     <message>
-        <source>Payment request network doesn't match client network.</source>
+        <source>Payment request network doesn&apos;t match client network.</source>
         <translation>Permintaan pembayaran tidak cocok dengan jaringan klien.</translation>
     </message>
     <message>
@@ -1299,6 +1525,16 @@ da</translation>
         <translation>Permintaan pembayaran tidak dapat diterjemahkan!</translation>
     </message>
     <message>
+        <location line="+13"/>
+        <source>Bad response from server %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Network request error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Payment acknowledged</source>
         <translation>Pembayaran diakui</translation>
     </message>
@@ -1312,6 +1548,10 @@ da</translation>
     <message>
         <source>Node/Service</source>
         <translation>Node/Layanan</translation>
+    </message>
+    <message>
+        <source>NodeId</source>
+        <translation>IdNode</translation>
     </message>
     <message>
         <source>Ping</source>
@@ -1330,7 +1570,7 @@ da</translation>
     </message>
     <message>
         <source>%1 d</source>
-        <translation>%1 d</translation>
+        <translation>%1 hari</translation>
     </message>
     <message>
         <source>%1 h</source>
@@ -1339,6 +1579,14 @@ da</translation>
     <message>
         <source>%1 m</source>
         <translation>%1 menit</translation>
+    </message>
+    <message>
+        <source>%1 s</source>
+        <translation>%1 detik</translation>
+    </message>
+    <message>
+        <source>None</source>
+        <translation>Tidak Ada</translation>
     </message>
     <message>
         <source>N/A</source>
@@ -1370,15 +1618,27 @@ da</translation>
     </message>
     <message>
         <source>%1 and %2</source>
-        <translation>%1 e %2</translation>
+        <translation>%1 dan %2</translation>
     </message>
     <message numerus="yes">
         <source>%n year(s)</source>
         <translation><numerusform>%n tahun</numerusform><numerusform>%n tahun</numerusform></translation>
     </message>
-    </context>
+    <message>
+        <source>%1 didn&apos;t yet exit safely...</source>
+        <translation>%1 belum juga keluar dengan aman...</translation>
+    </message>
+</context>
 <context>
     <name>QObject::QObject</name>
+    <message>
+        <source>Error: Specified data directory &quot;%1&quot; does not exist.</source>
+        <translation>Galat: Direktori yang ditentukan &quot;%1&quot; tidak ada.</translation>
+    </message>
+    <message>
+        <source>Error: Cannot parse configuration file: %1. Only use key=value syntax.</source>
+        <translation>Galat: Tidak berhasil menerjemahkan berkas konfigurasi: %1. Hanya menggunakan sintaks kunci=nilai.</translation>
+    </message>
     <message>
         <source>Error: %1</source>
         <translation>Galat: %1</translation>
@@ -1388,7 +1648,7 @@ da</translation>
     <name>QRImageWidget</name>
     <message>
         <source>&amp;Save Image...</source>
-        <translation>&amp;Simpan Gambar</translation>
+        <translation>&amp;Simpan Gambar...</translation>
     </message>
     <message>
         <source>&amp;Copy Image</source>
@@ -1407,7 +1667,7 @@ da</translation>
     <name>RPCConsole</name>
     <message>
         <source>N/A</source>
-        <translation>T/S</translation>
+        <translation>N/A</translation>
     </message>
     <message>
         <source>Client version</source>
@@ -1427,7 +1687,7 @@ da</translation>
     </message>
     <message>
         <source>Using BerkeleyDB version</source>
-        <translation>Menggunakan versi BerkeleyDB</translation>
+        <translation>Menggunakan BerkeleyDB versi</translation>
     </message>
     <message>
         <source>Datadir</source>
@@ -1491,7 +1751,7 @@ da</translation>
     </message>
     <message>
         <source>Whitelisted</source>
-        <translation>Daftar Izinkan</translation>
+        <translation>Daftar Putih</translation>
     </message>
     <message>
         <source>Direction</source>
@@ -1626,6 +1886,14 @@ da</translation>
         <translation>&amp;Putuskan Hubungan</translation>
     </message>
     <message>
+        <source>Ban for</source>
+        <translation>Blokir untuk</translation>
+    </message>
+    <message>
+        <source>&amp;Unban</source>
+        <translation>Batal Blokir</translation>
+    </message>
+    <message>
         <source>Welcome to the %1 RPC console.</source>
         <translation>Selamat datang di konsol RPC %1.</translation>
     </message>
@@ -1636,6 +1904,14 @@ da</translation>
     <message>
         <source>Type &lt;b&gt;help&lt;/b&gt; for an overview of available commands.</source>
         <translation>Ketik &lt;b&gt;help&lt;/b&gt; untuk menampilkan perintah yang tersedia.</translation>
+    </message>
+    <message>
+        <source>WARNING: Scammers have been active, telling users to type commands here, stealing their wallet contents. Do not use this console without fully understanding the ramification of a command.</source>
+        <translation>PERINGATAN: Scammer sedang marak, dengan modus menyuruh orang untuk mengetikan perintah disini, untuk mencuri isi dompet. Jangan gunakan konsol ini tanpa pengetahuan yang cukup.</translation>
+    </message>
+    <message>
+        <source>Network activity disabled</source>
+        <translation>Aktifitas jaringan dinonaktifkan</translation>
     </message>
     <message>
         <source>%1 B</source>
@@ -1813,11 +2089,19 @@ da</translation>
     </message>
     <message>
         <source>Label</source>
-        <translation>Label</translation>`
+        <translation>Label</translation>
     </message>
     <message>
         <source>Message</source>
         <translation>Pesan</translation>
+    </message>
+    <message>
+        <source>Resulting URI too long, try to reduce the text for label / message.</source>
+        <translation>URI yang dihasilkan terlalu panjang, coba kurangi teks untuk label / pesan.</translation>
+    </message>
+    <message>
+        <source>Error encoding URI into QR Code.</source>
+        <translation>Terjadi kesalahan saat melakukan penyandian URI ke dalam Kode QR.</translation>
     </message>
 </context>
 <context>
@@ -1871,7 +2155,7 @@ da</translation>
     </message>
     <message>
         <source>Insufficient funds!</source>
-        <translation>Saldo tidak mencukupi!</translation>
+        <translation>Saldo tidak cukup!</translation>
     </message>
     <message>
         <source>Quantity:</source>
@@ -1918,28 +2202,28 @@ da</translation>
         <translation>tutup pengaturan biaya</translation>
     </message>
     <message>
+        <source>If the custom fee is set to 1000 satoshis and the transaction is only 250 bytes, then &quot;per kilobyte&quot; only pays 250 satoshis in fee, while &quot;total at least&quot; pays 1000 satoshis. For transactions bigger than a kilobyte both pay by kilobyte.</source>
+        <translation>Jika biaya khusus diatur menjadi 1000 koinu dan transaksi hanya 250 bytes, maka &quot;per kilobyte&quot; nya hanya bayar 250 koinu, dimana &quot;total sedikitnya&quot; membayar 1000 koinu. Untuk transaksi yang lebih besar dari satu kilobyte dihitung membayar per kilobyte.</translation>
+    </message>
+    <message>
         <source>per kilobyte</source>
         <translation>per kilobyte</translation>
     </message>
     <message>
-        <source>If the custom fee is set to 1000 koinu and the transaction is only 250 bytes, then "per kilobyte" only pays 250 koinu in fee, while "total at least" pays 1000 koinu. For transactions bigger than a kilobyte both pay by kilobyte.</source>
-        <translation>Jika biaya custom diatur menjadi 1000 koinu dan transaksi hanya 250 bytes, maka "per kilobyte" nya hanya bayar 250 koinu, dimana "total sedikitnya" membayar 1000 koinu. Untuk transaksi yang lebih besar dari satu kilobyte dihitung membayar per kilobyte.</translation>
-    </message>
-    <message>
         <source>Hide</source>
-        <translation>Nascondi</translation>
+        <translation>Sembunyikan</translation>
     </message>
     <message>
         <source>total at least</source>
-        <translation>somma almeno</translation>
-    </message>
-    <message>
-        <source>Paying only the minimum fee is just fine as long as there is less transaction volume than space in the blocks. But be aware that this can end up in a never confirming transaction once there is more demand for dogecoin transactions than the network can process.</source>
-        <translation>Non vi è alcuna controindicazione a pagare la commissione minima, a patto che il volume delle transazioni sia inferiore allo spazio disponibile nei blocchi. Occorre comunque essere consapevoli che ciò potrebbe impedire la conferma delle transazioni nel caso in cui la rete risultasse satura.</translation>
+        <translation>jumlah paling sedikit</translation>
     </message>
     <message>
         <source>(read the tooltip)</source>
-        <translation>(leggi il suggerimento)</translation>
+        <translation>(baca tooltip)</translation>
+    </message>
+    <message>
+        <source>(read the tooltip)</source>
+        <translation>(baca tooltip)</translation>
     </message>
     <message>
         <source>Recommended:</source>
@@ -1947,7 +2231,7 @@ da</translation>
     </message>
     <message>
         <source>Custom:</source>
-        <translation>Custom:</translation>
+        <translation>Khusus:</translation>
     </message>
     <message>
         <source>(Smart fee not initialized yet. This usually takes a few blocks...)</source>
@@ -1978,6 +2262,14 @@ da</translation>
         <translation>Dust:</translation>
     </message>
     <message>
+        <source>Paying only the minimum fee is just fine as long as there is less transaction volume than space in the blocks. But be aware that this can end up in a never confirming transaction once there is more demand for dogecoin transactions than the network can process.</source>
+        <translation>Boleh saja membayar hanya biaya minimum selama volume transaksi lebih sedikit daripada ruang di blok yang tersedia. Tetapi ketahuilah bahwa ini bisa menyebabkan transaksimu tidak pernah terkonfirmasi kalau permintaan untuk transaksi terus meningkat melebihi kapasitas jaringan dogecoin.</translation>
+    </message>
+    <message>
+        <source>Confirmation time target:</source>
+        <translation>Target waktu konfirmasi:</translation>
+    </message>
+    <message>
         <source>Clear &amp;All</source>
         <translation>Hapus &amp;Semua</translation>
     </message>
@@ -1994,8 +2286,120 @@ da</translation>
         <translation>K&amp;irim</translation>
     </message>
     <message>
+        <source>Copy quantity</source>
+        <translation>Salin kuantitas</translation>
+    </message>
+    <message>
+        <source>Copy amount</source>
+        <translation>Salin jumlah</translation>
+    </message>
+    <message>
         <source>Copy fee</source>
         <translation>Salin biaya</translation>
+    </message>
+    <message>
+        <source>Copy after fee</source>
+        <translation>Salin biaya setelahnya</translation>
+    </message>
+    <message>
+        <source>Copy bytes</source>
+        <translation>Salin bytes</translation>
+    </message>
+    <message>
+        <source>Copy dust</source>
+        <translation>Salin dust</translation>
+    </message>
+    <message>
+        <source>Copy change</source>
+        <translation>Salin kembalian</translation>
+    </message>
+    <message>
+        <source>%1 to %2</source>
+        <translation>%1 sampai %2</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to send?</source>
+        <translation>Kamu yakin jadi mengirim?</translation>
+    </message>
+    <message>
+        <source>added as transaction fee</source>
+        <translation>ditambahkan sebagai biaya transaksi</translation>
+    </message>
+    <message>
+        <source>Total Amount %1</source>
+        <translation>Total Jumlah %1</translation>
+    </message>
+    <message>
+        <source>or</source>
+        <translation>atau</translation>
+    </message>
+    <message>
+        <source>Confirm send coins</source>
+        <translation>Konfirmasi mengirim koin</translation>
+    </message>
+    <message>
+        <source>The recipient address is not valid. Please recheck.</source>
+        <translation>Alamat penerima tidak valid. Mohon periksa lagi.</translation>
+    </message>
+    <message>
+        <source>The amount to pay must be larger than 0.</source>
+        <translation>Jumlah yang mau dibayarkan harus lebih besar dari 0.</translation>
+    </message>
+    <message>
+        <source>The amount exceeds your balance.</source>
+        <translation>Jumlah melebihi saldomu.</translation>
+    </message>
+    <message>
+        <source>The total exceeds your balance when the %1 transaction fee is included.</source>
+        <translation>Jumlah total melebihi saldo jika biaya transaksi %1 ikut dihitung.</translation>
+    </message>
+    <message>
+        <source>Duplicate address found: addresses should only be used once each.</source>
+        <translation>Alamat ditemukan duplikat: alamat seharusnya hanya digunakan sekali sepanjang operasi.</translation>
+    </message>
+    <message>
+        <source>Transaction creation failed!</source>
+        <translation>Gagal membuat transaksi!</translation>
+    </message>
+    <message>
+        <source>The transaction was rejected with the following reason: %1</source>
+        <translation>Transaksi ditolak dengan alasan: %1</translation>
+    </message>
+    <message>
+        <source>A fee higher than %1 is considered an absurdly high fee.</source>
+        <translation>Biaya yang lebih tinggi dari %1 termasuk biaya yang sangat tinggi.</translation>
+    </message>
+    <message>
+        <source>Payment request expired.</source>
+        <translation>Permintaan pembayaran kedaluwarsa.</translation>
+    </message>
+    <message>
+        <source>%n block(s)</source>
+        <translation>%n blok</translation>
+    </message>
+    <message>
+        <source>Pay only the required fee of %1</source>
+        <translation>Cuma membayar biaya yang dibutuhkan dari %1</translation>
+    </message>
+    <message>
+        <source>Estimated to begin confirmation within %n block(s).</source>
+        <translation>Kira-kira akan memulai konfirmasi dalam %n blok</translation>
+    </message>
+    <message>
+        <source>Warning: Invalid Dogecoin address</source>
+        <translation>Peringatan: Alamat Dogecoin tidak valid</translation>
+    </message>
+    <message>
+        <source>Warning: Unknown change address</source>
+        <translation>Peringatan: Alamat pengembalian tidak diketahui</translation>
+    </message>
+    <message>
+        <source>Confirm custom change address</source>
+        <translation>Konfirmasi alamat pengembalian khusus</translation>
+    </message>
+    <message>
+        <source>The address you selected for change is not part of this wallet. Any or all funds in your wallet may be sent to this address. Are you sure?</source>
+        <translation>Alamat yang Anda pilih untuk kembalian bukan bagian dari dompet ini. Beberapa atau semua dana yang ada di dompetmu akan dikirim ke alamat ini. Apakah kamu yakin?</translation>
     </message>
     <message>
         <source>(no label)</source>
@@ -2025,12 +2429,16 @@ da</translation>
         <translation>Ini adalah pembayaran normal.</translation>
     </message>
     <message>
+        <source>The Dogecoin address to send the payment to</source>
+        <translation>Alamat Dogecoin yang akan dikirimkan bayaran</translation>
+    </message>
+    <message>
         <source>Alt+A</source>
         <translation>Alt+J</translation>
     </message>
     <message>
         <source>Paste address from clipboard</source>
-        <translation>Tempel alamat dari salinan</translation>
+        <translation>Tempel alamat dari papan klip (clipboard)</translation>
     </message>
     <message>
         <source>Alt+P</source>
@@ -2041,12 +2449,32 @@ da</translation>
         <translation>Hapus masukan ini</translation>
     </message>
     <message>
+        <source>The fee will be deducted from the amount being sent. The recipient will receive less dogecoins than you enter in the amount field. If multiple recipients are selected, the fee is split equally.</source>
+        <translation>Biaya tersebut akan dipotong dari jumlah yang dikirimkan. Penerima akan menerima dogecoin lebih sedikit daripada yang Anda masukkan diisian jumlah. Jika beberapa penerima dipilih sekaligus, biayanya akan dibagi rata.</translation>
+    </message>
+    <message>
+        <source>S&amp;ubtract fee from amount</source>
+        <translation>Kurangkan biaya dari jumlah</translation>
+    </message>
+    <message>
         <source>Message:</source>
         <translation>Pesan:</translation>
     </message>
     <message>
+        <source>This is an unauthenticated payment request.</source>
+        <translation>Ini adalah permintaan pembayaran yang tidak terauntentikasi.</translation>
+    </message>
+    <message>
+        <source>This is an authenticated payment request.</source>
+        <translation>Ini adalah permintaan pembayaran yang terauntentikasi.</translation>
+    </message>
+    <message>
         <source>Enter a label for this address to add it to the list of used addresses</source>
         <translation>Masukkan label untuk alamat ini agar dimasukan ke dalam daftar alamat yang pernah digunakan</translation>
+    </message>
+    <message>
+        <source>A message that was attached to the dogecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
+        <translation>Pesan yang dilampirkan ke dogecoin: URI yang akan disimpan dengan transaksi untuk referensi Anda. Catatan: Pesan ini tidak akan dikirim bersama dengan pembayaran melalui jaringan Dogecoin.</translation>
     </message>
     <message>
         <source>Pay To:</source>
@@ -2056,15 +2484,27 @@ da</translation>
         <source>Memo:</source>
         <translation>Catatan:</translation>
     </message>
-    </context>
+    <message>
+        <source>Enter a label for this address to add it to your address book</source>
+        <translation>Masukkan label untuk alamat ini untuk ditambahkan ke buku alamatmu</translation>
+    </message>
+</context>
 <context>
     <name>SendConfirmationDialog</name>
-    </context>
+    <message>
+        <source>Yes</source>
+        <translation>Ya</translation>
+    </message>
+</context>
 <context>
     <name>ShutdownWindow</name>
     <message>
+        <source>%1 is shutting down...</source>
+        <translation>%1 sedang dimatikan...</translation>
+    </message>
+    <message>
         <source>Do not shut down the computer until this window disappears.</source>
-        <translation>Kamu tidak dapat mematikan komputer sebelum jendela ini tertutup.</translation>
+        <translation>Jangan mematikan komputer sebelum jendela ini tertutup.</translation>
     </message>
 </context>
 <context>
