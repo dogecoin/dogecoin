@@ -614,79 +614,79 @@
         <source>Copy label</source>
         <translation>Salin label</translation>
     </message>
-<message>
-<source>Copy amount</source>
-<translation>Salin Jumlah</translation>
-</message>
-<message>
-<source>Copy transaction ID</source>
-<translation>Salin ID transaksi</translation>
-</message>
-<message>
-<source>Lock unspent</source>
-<translation>Kunci jumlah yang belum terpakai</translation>
-</message>
-<message>
-<source>Unlock unspent</source>
-<translation>Buka kunci jumlah yang belum terpakai</translation>
-</message>
-<message>
-<source>Copy quantity</source>
-<translation>Salin Kuantitas</translation>
-</message>
+    <message>
+        <source>Copy amount</source>
+        <translation>Salin Jumlah</translation>
+    </message>
+    <message>
+        <source>Copy transaction ID</source>
+        <translation>Salin ID transaksi</translation>
+    </message>
+    <message>
+        <source>Lock unspent</source>
+        <translation>Kunci jumlah yang belum terpakai</translation>
+    </message>
+    <message>
+        <source>Unlock unspent</source>
+        <translation>Buka kunci jumlah yang belum terpakai</translation>
+    </message>
+    <message>
+        <source>Copy quantity</source>
+        <translation>Salin Kuantitas</translation>
+    </message>
     <message>
         <source>Copy fee</source>
         <translation>Salin biaya</translation>
     </message>
-<message>
-<source>Copy after fee</source>
-<translation>Salin dengan biaya</translation>
-</message>
-<message>
-<source>Copy bytes</source>
-<translation>Salin bytes</translation>
-</message>
-<message>
-<source>Copy dust</source>
-<translation>Salin dust</translation>
-</message>
-<message>
-<source>Copy change</source>
-<translation>Salin kembalian</translation>
-</message>
-<message>
-<source>(%1 locked)</source>
-<translation>(%1 terkunci)</translation>
-</message>
-<message>
-<source>yes</source>
-<translation>ya</translation>
-</message>
-<message>
-<source>no</source>
-<translation>tidak</translation>
-</message>
-<message>
-<source>This label turns red if any recipient receives an amount smaller than the current dust threshold.</source>
-<translation>Label ini berubah merah jika penerima mendapat jumlah yang lebih sedikit dari batas dust saat ini.</translation>
-</message>
-<message>
-<source>Can vary +/- %1 satoshi(s) per input.</source>
-<translation>Nilai bisa bervariasi +/- %1 satoshi per masukan.</translation>
-</message>
+    <message>
+        <source>Copy after fee</source>
+        <translation>Salin dengan biaya</translation>
+    </message>
+    <message>
+        <source>Copy bytes</source>
+        <translation>Salin bytes</translation>
+    </message>
+    <message>
+        <source>Copy dust</source>
+        <translation>Salin dust</translation>
+    </message>
+    <message>
+        <source>Copy change</source>
+        <translation>Salin kembalian</translation>
+    </message>
+    <message>
+        <source>(%1 locked)</source>
+        <translation>(%1 terkunci)</translation>
+    </message>
+    <message>
+        <source>yes</source>
+        <translation>ya</translation>
+    </message>
+    <message>
+        <source>no</source>
+        <translation>tidak</translation>
+    </message>
+    <message>
+        <source>This label turns red if any recipient receives an amount smaller than the current dust threshold.</source>
+        <translation>Label ini berubah merah jika penerima mendapat jumlah yang lebih sedikit dari batas dust saat ini.</translation>
+    </message>
+    <message>
+        <source>Can vary +/- %1 satoshi(s) per input.</source>
+        <translation>Nilai bisa bervariasi +/- %1 satoshi per masukan.</translation>
+    </message>
     <message>
         <source>(no label)</source>
         <translation>(tidak ada label)</translation>
     </message>
-<message>
-<source>change from %1 (%2)</source>
-<translation>ubah dari %1 (%2)</translation>
-</message>
-<message>
-<source>(change)</source>
-<translation>(ubah)</translation>
-</message>
-    </context>
+    <message>
+        <source>change from %1 (%2)</source>
+        <translation>ubah dari %1 (%2)</translation>
+    </message>
+    <message>
+        <source>(change)</source>
+        <translation>(ubah)</translation>
+    </message>
+</context>
 <context>
     <name>EditAddressDialog</name>
     <message>
@@ -709,39 +709,39 @@
         <source>&amp;Address</source>
         <translation>&amp;Alamat</translation>
     </message>
-<message>
-<source>New receiving address</source>
-<translation>Alamat penerimaan baru</translation>
-</message>
-<message>
-<source>New sending address</source>
-<translation>Alamat pengiriman baru</translation>
-</message>
-<message>
-<source>Edit receiving address</source>
-<translation>Ubah alamat penerimaan</translation>
-</message>
-<message>
-<source>Edit sending address</source>
-<translation>Ubah alamat pengiriman</translation>
-</message>
-<message>
-<source>The entered address "%1" is not a valid Dogecoin address.</source>
-<translation>Kamu memasukan alamat "%1" yang bukan alamat Dogecoin yang valid.</translation>
-</message>
-<message>
-<source>The entered address "%1" is already in the address book.</source>
-<translation>Alamat yang kamu masukan "%1" sudah ada di daftar alamat.</translation>
-</message>
-<message>
-<source>Could not unlock wallet.</source>
-<translation>Tidak bisa membuka kunci dompet.</translation>
-</message>
-<message>
-<source>New key generation failed.</source>
-<translation>Pembuatan kunci baru gagal.</translation>
-</message>
-    </context>
+    <message>
+        <source>New receiving address</source>
+        <translation>Alamat penerimaan baru</translation>
+    </message>
+    <message>
+        <source>New sending address</source>
+        <translation>Alamat pengiriman baru</translation>
+    </message>
+    <message>
+        <source>Edit receiving address</source>
+        <translation>Ubah alamat penerimaan</translation>
+    </message>
+    <message>
+        <source>Edit sending address</source>
+        <translation>Ubah alamat pengiriman</translation>
+    </message>
+    <message>
+        <source>The entered address "%1" is not a valid Dogecoin address.</source>
+        <translation>Kamu memasukan alamat "%1" yang bukan alamat Dogecoin yang valid.</translation>
+    </message>
+    <message>
+        <source>The entered address "%1" is already in the address book.</source>
+        <translation>Alamat yang kamu masukan "%1" sudah ada di daftar alamat.</translation>
+    </message>
+    <message>
+        <source>Could not unlock wallet.</source>
+        <translation>Tidak bisa membuka kunci dompet.</translation>
+    </message>
+    <message>
+        <source>New key generation failed.</source>
+        <translation>Pembuatan kunci baru gagal.</translation>
+    </message>
+</context>
 <context>
     <name>FreespaceChecker</name>
     <message>
@@ -775,10 +775,10 @@
         <source>(%1-bit)</source>
         <translation>(%1-bit)</translation>
     </message>
-<message>
-<source>About %1</source>
-<translation>Tentang %1</translation>
-</message>
+    <message>
+        <source>About %1</source>
+        <translation>Tentang %1</translation>
+    </message>
     <message>
         <source>Command-line options</source>
         <translation>Pilihan Command-line</translation>
@@ -815,29 +815,29 @@
         <source>Show splash screen on startup (default: %u)</source>
         <translation>Tampilkan layar kilat saat memulai (default: %u)</translation>
     </message>
-<message>
-<source>Reset all settings changed in the GUI</source>
-<translation>Atur ulang semua pengaturan yang berubah di tampilan GUI</translation>
-</message>
-    </context>
+    <message>
+        <source>Reset all settings changed in the GUI</source>
+        <translation>Atur ulang semua pengaturan yang berubah di tampilan GUI</translation>
+    </message>
+</context>
 <context>
     <name>Intro</name>
     <message>
         <source>Welcome</source>
         <translation>Selamat Datang</translation>
     </message>
-<message>
-<source>Welcome to %1.</source>
-<translation>Selamat datang di %1.</translation>
-</message>
-<message>
-<source>As this is the first time the program is launched, you can choose where %1 will store its data.</source>
-<translation>Berhubung ini pertama kali program dijalankan, kamu bisa memilih dimana %1 akan menyimpan datanya.</translation>
-</message>
-<message>
-<source>%1 will download and store a copy of the Dogecoin block chain. At least %2GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
-<translation>%1 akan mengunduh dan menyimpan salinan dari rantai blok Dogecoin. Sedikitnya %2GB akan disimpan pada direktori ini, dan akan bertambah secara berkala. Dompet juga akan disimpan dalam direktori ini.</translation>
-</message>
+    <message>
+        <source>Welcome to %1.</source>
+        <translation>Selamat datang di %1.</translation>
+    </message>
+    <message>
+        <source>As this is the first time the program is launched, you can choose where %1 will store its data.</source>
+        <translation>Berhubung ini pertama kali program dijalankan, kamu bisa memilih dimana %1 akan menyimpan datanya.</translation>
+    </message>
+    <message>
+        <source>%1 will download and store a copy of the Dogecoin block chain. At least %2GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
+        <translation>%1 akan mengunduh dan menyimpan salinan dari rantai blok Dogecoin. Sedikitnya %2GB akan disimpan pada direktori ini, dan akan bertambah secara berkala. Dompet juga akan disimpan dalam direktori ini.</translation>
+    </message>
     <message>
         <source>Use the default data directory</source>
         <translation>Gunakan direktori data default.</translation>
@@ -869,27 +869,27 @@
         <source>Form</source>
         <translation>Formulir</translation>
     </message>
-<message>
-<source>Number of blocks left</source>
-<translation>Jumlah dari blok yang tersisa</translation>
-</message>
-<message>
-<source>Unknown...</source>
-<translation>Tidak diketahui...</translation>
-</message>
+    <message>
+        <source>Number of blocks left</source>
+        <translation>Jumlah dari blok yang tersisa</translation>
+    </message>
+    <message>
+        <source>Unknown...</source>
+        <translation>Tidak diketahui...</translation>
+    </message>
     <message>
         <source>Last block time</source>
         <translation>Waktu blok terakhir</translation>
     </message>
-<message>
-<source>Progress</source>
-<translation>Proses</translation>
-</message>
-<message>
-<source>Hide</source>
-<translation>Sembunyi</translation>
-</message>
-    </context>
+    <message>
+        <source>Progress</source>
+        <translation>Proses</translation>
+    </message>
+    <message>
+        <source>Hide</source>
+        <translation>Sembunyi</translation>
+    </message>
+</context>
 <context>
     <name>OpenURIDialog</name>
     <message>
@@ -908,11 +908,11 @@
         <source>Select payment request file</source>
         <translation>Pilih data permintaan pembayaran</translation>
     </message>
-<message>
-<source>Select payment request file to open</source>
-<translation>Pilih nerkas permintaan pembayaran untuk membuka</translation>
-</message>
-    </context>
+    <message>
+        <source>Select payment request file to open</source>
+        <translation>Pilih nerkas permintaan pembayaran untuk membuka</translation>
+    </message>
+</context>
 <context>
     <name>OptionsDialog</name>
     <message>
@@ -923,14 +923,14 @@
         <source>&amp;Main</source>
         <translation>&amp;Utama</translation>
     </message>
-<message>
-<source>Automatically start %1 after logging in to the system.</source>
-<translation>Otomatis memulai %1 setelah dicatat dalam sistem.</translation>
-</message>
-<message>
-<source>&amp;Start %1 on system login</source>
-<translation>&amp;Memulai %1 saat masuk kedalam sistem</translation>
-</message>
+    <message>
+        <source>Automatically start %1 after logging in to the system.</source>
+        <translation>Otomatis memulai %1 setelah dicatat dalam sistem.</translation>
+    </message>
+    <message>
+        <source>&amp;Start %1 on system login</source>
+        <translation>&amp;Memulai %1 saat masuk kedalam sistem</translation>
+    </message>
     <message>
         <source>Size of &amp;database cache</source>
         <translation>Ukuran cache &amp;database</translation>
@@ -1019,10 +1019,10 @@
         <source>Connect to the Dogecoin network through a SOCKS5 proxy.</source>
         <translation>Hubungkan ke jaringan Dogecoin melalui proxy SOCKS5.</translation>
     </message>
-<message>
-<source>&amp;Connect through SOCKS5 proxy (default proxy):</source>
-<translation>&amp;Hubungkan melalui proxy SOCKS5 (default proxy):</translation>
-</message>
+    <message>
+        <source>&amp;Connect through SOCKS5 proxy (default proxy):</source>
+        <translation>&amp;Hubungkan melalui proxy SOCKS5 (default proxy):</translation>
+    </message>
     <message>
         <source>Proxy &amp;IP:</source>
         <translation>IP Proxy:</translation>
@@ -1035,14 +1035,14 @@
         <source>Port of the proxy (e.g. 9050)</source>
         <translation>Port proxy (cth. 9050)</translation>
     </message>
-<message>
-<source>Used for reaching peers via:</source>
-<translation>Digunakan untuk menggapai para rekan (peers) melalui:</translation>
-</message>
-<message>
-<source>Shows, if the supplied default SOCKS5 proxy is used to reach peers via this network type.</source>
-<translation>Tampilkan, jika proxy SOCKS5 digunakan untuk menggapai para rekan (peers) malalui jenis jaringan ini.</translation>
-</message>
+    <message>
+        <source>Used for reaching peers via:</source>
+        <translation>Digunakan untuk menggapai para rekan (peers) melalui:</translation>
+    </message>
+    <message>
+        <source>Shows, if the supplied default SOCKS5 proxy is used to reach peers via this network type.</source>
+        <translation>Tampilkan, jika proxy SOCKS5 digunakan untuk menggapai para rekan (peers) malalui jenis jaringan ini.</translation>
+    </message>
     <message>
         <source>IPv4</source>
         <translation>IPv4</translation>
@@ -1056,20 +1056,36 @@
         <translation>Tor</translation>
     </message>
     <message>
+        <source>Connect to the Dogecoin network through a separate SOCKS5 proxy for Tor hidden services.</source>
+        <translation>Terhubung ke jaringan Dogecoin melalui proxy SOCKS5 yang terpisah untuk layanan tersembunyi Tor.</translation>
+    </message>
+    <message>
+        <source>Use separate SOCKS5 proxy to reach peers via Tor hidden services:</source>
+        <translation>Gunakan proxy SOCKS5 yang terpisah untuk terhubung ke para rekan (peers) melalui layanan tersembunyi Tor:</translation>
+    </message>
+    <message>
         <source>&amp;Window</source>
         <translation>&amp;Jendela</translation>
     </message>
     <message>
+        <source>&amp;Hide the icon from the system tray.</source>
+        <translation>&amp;Sembunyikan ikon dari baki sistem (system tray).</translation>
+    </message>
+    <message>
+        <source>Hide tray icon</source>
+        <translation>Sembunyikan ikon pada baki</translation>
+    </message>
+    <message>
         <source>Show only a tray icon after minimizing the window.</source>
-        <translation>Tampilkan hanya ikon pada tray setelah meminilisasi jendela</translation>
+        <translation>Tampilkan ikon saja pada baki (tray) setelah meminimalisasi jendela.</translation>
     </message>
     <message>
         <source>&amp;Minimize to the tray instead of the taskbar</source>
-        <translation>&amp;Meminilisasi kedalam tray daripada kedalam taskbar</translation>
+        <translation>&amp;Meminimalisasi kedalam baki (tray) daripada ke dalam taskbar</translation>
     </message>
     <message>
         <source>M&amp;inimize on close</source>
-        <translation>M&amp;eminilisasi saat menutup</translation>
+        <translation>M&amp;eminimalisasi saat menutup</translation>
     </message>
     <message>
         <source>&amp;Display</source>
@@ -1079,10 +1095,10 @@
         <source>User Interface &amp;language:</source>
         <translation>&amp;Bahasa Antarmuka Pengguna:</translation>
     </message>
-<message>
-<source>The user interface language can be set here. This setting will take effect after restarting %1.</source>
-<translation>Bahasa yang digunakan dalam bisa diatur disini. Efek pengaturan terjadi setelah melakukan muat ulang %1.</translation>
-</message>
+    <message>
+        <source>The user interface language can be set here. This setting will take effect after restarting %1.</source>
+        <translation>Bahasa yang digunakan dalam bisa diatur disini. Efek pengaturan terjadi setelah melakukan muat ulang %1.</translation>
+    </message>
     <message>
         <source>&amp;Unit to show amounts in:</source>
         <translation>&amp;Unit untuk menunjukkan nilai:</translation>
@@ -1156,7 +1172,8 @@
     </message>
     <message>
         <source>Pending:</source>
-        <translation>Ditunda</translation>
+        <translation>Ditun
+da</translation>
     </message>
     <message>
         <source>Total of transactions that have yet to be confirmed, and do not yet count toward the spendable balance</source>
@@ -1206,7 +1223,7 @@
         <source>Current total balance in watch-only addresses</source>
         <translation>Jumlah saldo keseluruhan dari alamat "hanya-menonton"</translation>
     </message>
-    </context>
+</context>
 <context>
     <name>PaymentServer</name>
     <message>
@@ -1304,7 +1321,7 @@
         <source>Ping</source>
         <translation>Ping</translation>
     </message>
-    </context>
+</context>
 <context>
     <name>QObject</name>
     <message>
@@ -1489,14 +1506,68 @@
         <translation>Versi</translation>
     </message>
     <message>
+        <source>Starting Block</source>
+        <translation>Blok Pertama</translation>
+    </message>
+    <message>
+        <source>Synced Headers</source>
+        <translation>Header Tersinkron</translation>
+    </message>
+    <message>
+        <source>Synced Blocks</source>
+        <translation>Blok Tersinkron</translation>
+    </message>
+    <message>
         <source>User Agent</source>
-        <translation>Agen Pengguna
-
-</translation>
+        <translation>User Agent</translation>
+    </message>
+    <message>
+        <source>Open the %1 debug log file from the current data directory. This can take a few seconds for large log files.</source>
+        <translation>Buka dengan %1 berkas catatan debug dari direktori saat ini. Mungkin memakan beberapa detik untuk ukuran berkas catatan yang besar.</translation>
+    </message>
+    <message>
+        <source>Decrease font size</source>
+        <translation>Kurangi ukuran huruf</translation>
+    </message>
+    <message>
+        <source>Increase font size</source>
+        <translation>Tingkatkan ukuran huruf</translation>
     </message>
     <message>
         <source>Services</source>
         <translation>Layanan</translation>
+    </message>
+    <message>
+        <source>Ban Score</source>
+        <translation>Skor Blokir</translation>
+    </message>
+    <message>
+        <source>Connection Time</source>
+        <translation>Waktu Koneksi</translation>
+    </message>
+    <message>
+        <source>Last Send</source>
+        <translation>Terakhir Kirim</translation>
+    </message>
+    <message>
+        <source>Last Receive</source>
+        <translation>Terakhir Diterima</translation>
+    </message>
+    <message>
+        <source>Ping Time</source>
+        <translation>Waktu Ping</translation>
+    </message>
+    <message>
+        <source>The duration of a currently outstanding ping.</source>
+        <translation>Durasi dari ping luar biasa.</translation>
+    </message>
+    <message>
+        <source>Ping Wait</source>
+        <translation>Waktu Tunggu Ping</translation>
+    </message>
+    <message>
+        <source>Time Offset</source>
+        <translation>Selisih Waktu</translation>
     </message>
     <message>
         <source>Last block time</source>
@@ -1555,6 +1626,14 @@
         <translation>1 &amp;tahun</translation>
     </message>
     <message>
+        <source>&amp;Disconnect</source>
+        <translation>&amp;Putuskan Hubungan</translation>
+    </message>
+    <message>
+        <source>Welcome to the %1 RPC console.</source>
+        <translation>Selamat datang di konsol RPC %1.</translation>
+    </message>
+    <message>
         <source>Use up and down arrows to navigate history, and &lt;b&gt;Ctrl-L&lt;/b&gt; to clear screen.</source>
         <translation>Gunakan panah keatas dan kebawah untuk menampilkan riwayat, dan &lt;b&gt;Ctrl-L&lt;/b&gt; untuk membersihkan layar.</translation>
     </message>
@@ -1577,6 +1656,26 @@
     <message>
         <source>%1 GB</source>
         <translation>%1 GB</translation>
+    </message>
+    <message>
+        <source>(node id: %1)</source>
+        <translation>(id node: %1)</translation>
+    </message>
+    <message>
+        <source>via %1</source>
+        <translation>melalui %1</translation>
+    </message>
+    <message>
+        <source>never</source>
+        <translation>tidak pernah</translation>
+    </message>
+    <message>
+        <source>Inbound</source>
+        <translation>Masuk</translation>
+    </message>
+    <message>
+        <source>Outbound</source>
+        <translation>Keluar</translation>
     </message>
     <message>
         <source>Yes</source>
@@ -1606,8 +1705,16 @@
         <translation>&amp;Pesan:</translation>
     </message>
     <message>
+        <source>Reuse one of the previously used receiving addresses. Reusing addresses has security and privacy issues. Do not use this unless re-generating a payment request made before.</source>
+        <translation>Gunakan alamat penerimaan yang sebelumnya pernah dipakai. Menggunakan kembali alamat punya potensi isu keamanan dan privasi. Jangan gunakan lagi kecuali sebelumnya sudah membuat ulang permintaan pembayaran.</translation>
+    </message>
+    <message>
         <source>R&amp;euse an existing receiving address (not recommended)</source>
         <translation>Gunakan lagi alamat penerima yang ada (tidak disarankan)</translation>
+    </message>
+    <message>
+        <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Dogecoin network.</source>
+        <translation>Pesan tidak wajib yang dilampirkan dalam permintaan pembayaran, yang akan ditampilkan ketika permintaan telah dibuka. Catatan: Pesan ini tidak akan dikirim bersama dengan pembayaran melalui jaringan Dogecoin.</translation>
     </message>
     <message>
         <source>An optional label to associate with the new receiving address.</source>
@@ -1654,10 +1761,22 @@
         <translation>Menghapus</translation>
     </message>
     <message>
+        <source>Copy URI</source>
+        <translation>Salin URI</translation>
+    </message>
+    <message>
         <source>Copy label</source>
         <translation>Salin label</translation>
     </message>
-    </context>
+    <message>
+        <source>Copy message</source>
+        <translation>Salin pesan</translation>
+    </message>
+    <message>
+        <source>Copy amount</source>
+        <translation>Salin Jumlah</translation>
+    </message>
+</context>
 <context>
     <name>ReceiveRequestDialog</name>
     <message>
@@ -1674,7 +1793,19 @@
     </message>
     <message>
         <source>&amp;Save Image...</source>
-        <translation>&amp;Simpan Gambaran...</translation>
+        <translation>&amp;Simpan Gambar...</translation>
+    </message>
+    <message>
+        <source>Request payment to %1</source>
+        <translation>Minta pembayaran ke %1</translation>
+    </message>
+    <message>
+        <source>Payment information</source>
+        <translation>Informasi pembayaran/translation>
+    </message>
+    <message>
+        <source>URI</source>
+        <translation>URI</translation>
     </message>
     <message>
         <source>Address</source>
@@ -1686,20 +1817,44 @@
     </message>
     <message>
         <source>Label</source>
-        <translation>Label</translation>
+        <translation>Label</translation>`
     </message>
-    </context>
+    <message>
+        <source>Message</source>
+        <translation>Pesan</translation>
+    </message>
+</context>
 <context>
     <name>RecentRequestsTableModel</name>
+    <message>
+        <source>Date</source>
+        <translation>Tanggal</translation>
+    </message>
     <message>
         <source>Label</source>
         <translation>Label</translation>
     </message>
     <message>
+        <source>Message</source>
+        <translation>Pesan</translation>
+    </message>
+    <message>
         <source>(no label)</source>
         <translation>(tidak ada label)</translation>
     </message>
-    </context>
+    <message>
+        <source>(no message)</source>
+        <translation>(tidak ada pesan)</translation>
+    </message>
+    <message>
+        <source>(no amount requested)</source>
+        <translation>(tidak jumlah yang diminta)</translation>
+    </message>
+    <message>
+        <source>Requested</source>
+        <translation>Diminta</translation>
+    </message>
+</context>
 <context>
     <name>SendCoinsDialog</name>
     <message>
@@ -1759,8 +1914,48 @@
         <translation>Biaya Transaksi:</translation>
     </message>
     <message>
+        <source>Choose...</source>
+        <translation>Pilih...</translation>
+    </message>
+    <message>
+        <source>collapse fee-settings</source>
+        <translation>tutup pengaturan biaya</translation>
+    </message>
+    <message>
+        <source>per kilobyte</source>
+        <translation>per kilobyte</translation>
+    </message>
+    <message>
+        <source>If the custom fee is set to 1000 koinu and the transaction is only 250 bytes, then "per kilobyte" only pays 250 koinu in fee, while "total at least" pays 1000 koinu. For transactions bigger than a kilobyte both pay by kilobyte.</source>
+        <translation>Jika biaya custom diatur menjadi 1000 koinu dan transaksi hanya 250 bytes, maka "per kilobyte" nya hanya bayar 250 koinu, dimana "total sedikitny" membayar 1000 koinu. Untuk transaksi yang lebih besar dari satu kilobyte dihitung membayar per kilobyte.</translation>
+    </message>
+    <message>
+        <source>Hide</source>
+        <translation>Nascondi</translation>
+    </message>
+    <message>
+        <source>total at least</source>
+        <translation>somma almeno</translation>
+    </message>
+    <message>
+        <source>Paying only the minimum fee is just fine as long as there is less transaction volume than space in the blocks. But be aware that this can end up in a never confirming transaction once there is more demand for dogecoin transactions than the network can process.</source>
+        <translation>Non vi è alcuna controindicazione a pagare la commissione minima, a patto che il volume delle transazioni sia inferiore allo spazio disponibile nei blocchi. Occorre comunque essere consapevoli che ciò potrebbe impedire la conferma delle transazioni nel caso in cui la rete risultasse satura.</translation>
+    </message>
+    <message>
+        <source>(read the tooltip)</source>
+        <translation>(leggi il suggerimento)</translation>
+    </message>
+    <message>
         <source>Recommended:</source>
         <translation>Disarankan:</translation>
+    </message>
+    <message>
+        <source>Custom:</source>
+        <translation>Custom:</translation>
+    </message>
+    <message>
+        <source>(Smart fee not initialized yet. This usually takes a few blocks...)</source>
+        <translation>(Biaya cerdas belum diatur. Biasanya membutuhkan beberapa blok...)</translation>
     </message>
     <message>
         <source>normal</source>
@@ -1960,6 +2155,126 @@
 <context>
     <name>TransactionDesc</name>
     <message>
+        <source>%1/offline</source>
+        <translation>%1/offline</translation>
+    </message>
+    <message>
+        <source>0/unconfirmed, %1</source>
+        <translation>0/belum terkonfirmasi, %1</translation>
+    </message>
+    <message>
+        <source>abandoned</source>
+        <translation>ditinggalkan</translation>
+    </message>
+    <message>
+        <source>%1/unconfirmed</source>
+        <translation>%1/belum terkonfirmasi</translation>
+    </message>
+    <message>
+        <source>%1 confirmations</source>
+        <translation>%1 konfirmasi</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>Status</translation>
+    </message>
+    <message>
+        <source>, has not been successfully broadcast yet</source>
+        <translation>, saat ini belum berhasil disiarkan</translation>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation>Data</translation>
+    </message>
+    <message>
+        <source>Source</source>
+        <translation>Sorgente</translation>
+    </message>
+    <message>
+        <source>Generated</source>
+        <translation>Generato</translation>
+    </message>
+    <message>
+        <source>From</source>
+        <translation>Da</translation>
+    </message>
+    <message>
+        <source>unknown</source>
+        <translation>sconosciuto</translation>
+    </message>
+    <message>
+        <source>To</source>
+        <translation>A</translation>
+    </message>
+    <message>
+        <source>own address</source>
+        <translation>proprio indirizzo</translation>
+    </message>
+    <message>
+        <source>watch-only</source>
+        <translation>sola lettura</translation>
+    </message>
+    <message>
+        <source>label</source>
+        <translation>etichetta</translation>
+    </message>
+    <message>
+        <source>Credit</source>
+        <translation>Credito</translation>
+    </message>
+    <message>
+        <source>not accepted</source>
+        <translation>non accettate</translation>
+    </message>
+    <message>
+        <source>Debit</source>
+        <translation>Debito</translation>
+    </message>
+    <message>
+        <source>Total debit</source>
+        <translation>Debito totale</translation>
+    </message>
+    <message>
+        <source>Total credit</source>
+        <translation>Credito totale</translation>
+    </message>
+    <message>
+        <source>Transaction fee</source>
+        <translation>Commissione transazione</translation>
+    </message>
+    <message>
+        <source>Net amount</source>
+        <translation>Importo netto</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Messaggio</translation>
+    </message>
+    <message>
+        <source>Comment</source>
+        <translation>Commento</translation>
+    </message>
+    <message>
+        <source>Transaction ID</source>
+        <translation>ID della transazione</translation>
+    </message>
+    <message>
+        <source>Merchant</source>
+        <translation>Commerciante</translation>
+    </message>
+    <message>
+        <source>Debug information</source>
+        <translation>Informazione di debug</translation>
+    </message>
+    <message>
+        <source>Transaction</source>
+        <translation>Transazione</translation>
+    </message>
+    <message>
+        <source>Inputs</source>
+        <translation>Input</translation>
+    </message>
+    <message>
         <source>Amount</source>
         <translation>Jumlah</translation>
     </message>
@@ -1974,6 +2289,14 @@
 <context>
     <name>TransactionTableModel</name>
     <message>
+        <source>Date</source>
+        <translation>Tanggal</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Tipe</translation>
+    </message>
+    <message>
         <source>Label</source>
         <translation>Label</translation>
     </message>
@@ -1984,6 +2307,62 @@
     </context>
 <context>
     <name>TransactionView</name>
+    <message>
+        <source>All</source>
+        <translation>Semua</translation>
+    </message>
+    <message>
+        <source>Today</source>
+        <translation>Hari ini</translation>
+    </message>
+    <message>
+        <source>This week</source>
+        <translation>Minggu ini</translation>
+    </message>
+    <message>
+        <source>This month</source>
+        <translation>Bulan ini</translation>
+    </message>
+    <message>
+        <source>Last month</source>
+        <translation>Bulan lalu</translation>
+    </message>
+    <message>
+        <source>This year</source>
+        <translation>Tahun ini</translation>
+    </message>
+    <message>
+        <source>Range...</source>
+        <translation>Rentang...</translation>
+    </message>
+    <message>
+        <source>Received with</source>
+        <translation>Diterima dengan</translation>
+    </message>
+    <message>
+        <source>Sent to</source>
+        <translation>Terkirim ke</translation>
+    </message>
+    <message>
+        <source>To yourself</source>
+        <translation>Kepada diri sendiri</translation>
+    </message>
+    <message>
+        <source>Mined</source>
+        <translation>Tertambang</translation>
+    </message>
+    <message>
+        <source>Other</source>
+        <translation>Lainnya</translation>
+    </message>
+    <message>
+        <source>Enter address or label to search</source>
+        <translation>Masukan alamat atau label untuk mencari</translation>
+    </message>
+    <message>
+        <source>Min amount</source>
+        <translation>Jumlah Minimal</translation>
+    </message>
     <message>
         <source>Copy address</source>
         <translation>Salin alamat</translation>
@@ -2148,8 +2527,24 @@
         <translation>Opsi server RPC:</translation>
     </message>
     <message>
+        <source>Reducing -maxconnections from %d to %d, because of system limitations.</source>
+        <translation>Riduzione -maxconnections da %d a %d a causa di limitazioni di sistema.</translation>
+    </message>
+    <message>
+        <source>Rescan the block chain for missing wallet transactions on startup</source>
+        <translation>Ripete la scansione della block chain per individuare le transazioni che mancano dal wallet all'avvio</translation>
+    </message>
+    <message>
         <source>Send trace/debug info to console instead of debug.log file</source>
         <translation>Kirim info jejak/debug ke konsol bukan ke berkas debug.log</translation>
+    </message>
+    <message>
+        <source>Send transactions as zero-fee transactions if possible (default: %u)</source>
+        <translation>Jika memungkin, kirim transaksi sebagai trasaksi bebas biaya (default: %u)</translation>
+    </message>
+    <message>
+        <source>Show all debugging options (usage: --help -help-debug)</source>
+        <translation>Tampilkan semua opsi debug (penggunaan: --help -help-debug)</translation>
     </message>
     <message>
         <source>Shrink debug.log file on client startup (default: 1 when no -debug)</source>
