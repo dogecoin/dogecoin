@@ -1,7 +1,7 @@
-# Dogecoin Core 1.8.1
+# Garudacoin Core 1.8.1
 
-Dogecoin Core 1.8.1 is primarily a bugfix release, bringing Dogecoin Core in
-line with Bitcoin 0.9.3. Dogecoin Core 1.8.1 also adds in support for printing
+Garudacoin Core 1.8.1 is primarily a bugfix release, bringing Garudacoin Core in
+line with Bitcoin 0.9.3. Garudacoin Core 1.8.1 also adds in support for printing
 paper wallets, and disables connections to pre-1.8 clients. This is a RECOMMENDED
 upgrade due to the large number of bug fixes, but is not a required one.
 
@@ -15,13 +15,13 @@ computer that's disconnected from the Internet. While the wallet generator
 does not save the keys it generates, this ensures there is no risk of a virus
 or similar capturing the key from memory or interfering with its generation.
 
-## Dogecoin Core Release Notes
+## Garudacoin Core Release Notes
 
 * Translation improvements and corrections
-* Disable Transifex based translation process (not used by Dogecoin Core)
+* Disable Transifex based translation process (not used by Garudacoin Core)
 * Add checkpoints around AuxPoW switchover block (371,337)
-* Disable connections from pre-1.8 Dogecoin Core clients
-* Use HTTPS with dogechain.info
+* Disable connections from pre-1.8 Garudacoin Core clients
+* Use HTTPS with garudachain.info
 * Remove unreachable code introduced with AuxPoW support
 * "blocknotify" option now supports %i as a format parameter, which is replaced by block height
 * New option "maxoutconnections" to set the maximum number of outbound peer connections. Defaults to 8, minimum is 2, maximum is whatever "maxconnections" is set to (default 125).
@@ -40,20 +40,20 @@ below:
 
 ## Known Issues
 
-There is a known issue with quantities in JSON used by the RPC interface (https://github.com/dogecoin/dogecoin/issues/134).
+There is a known issue with quantities in JSON used by the RPC interface (https://github.com/garudacoin/garudacoin/issues/134).
 This stems from the use of a floating point precision number to hold fixed precision data.
 Currently looking at solutions, which primarily either involve JSON which is not compliant
 to the specification, or making the RPC layer slightly incompatible with the conventional
 Bitcoin API.
 
-This only affects values significantly below 1 Doge, however merchants may wish to round to
-the nearest Doge on all transactions for now.
+This only affects values significantly below 1 Garuda, however merchants may wish to round to
+the nearest Garuda on all transactions for now.
 
 ## Credits
 
 Listed in strictly alphabetical order, using name listed in Github. This
 includes those whose contributions to Bitcoin Core have been merged
-into Dogecoin Core:
+into Garudacoin Core:
 
 * Abderraouf Adjal
 * Andymeows

@@ -1,0 +1,67 @@
+#!/bin/bash
+#
+#  garudacoind The garudacoin core server.
+#
+#
+# chkconfig: 345 80 20
+# description: garudacoind
+# processname: garudacoind
+#
+
+# Source function library.
+. /etc/init.d/functions
+
+# you can override defaults in /etc/sysconfig/garudacoind, see below
+if [ -f /etc/sysconfig/garudacoind ]; then
+        . /etc/sysconfig/garudacoind
+fi
+
+RETVAL=0
+
+prog=garudacoind
+# you can override the lockfile via DOGECOIND_LOCKFILE in /etc/sysconfig/garudacoind
+lockfile=${DOGECOIND_LOCKFILE-/var/lock/subsys/garudacoind}
+
+# garudacoind defaults to /usr/bin/garudacoind, override with DOGECOIND_BIN
+garudacoind=${DOGECOIND_BIN-/usr/bin/garudacoind}
+
+# garudacoind opts default to -disablewallet, override with DOGECOIND_OPTS
+garudacoind_opts=${DOGECOIND_OPTS--disablewallet}
+
+start() {
+    echo -n $"Starting $prog: "
+    daemon $DAEMONOPTS $garudacoind $garudacoind_opts
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && touch $lockfile
+    return $RETVAL
+}
+
+stop() {
+    echo -n $"Stopping $prog: "
+    killproc $prog
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && rm -f $lockfile
+    return $RETVAL
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+        status $prog
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    *)
+        echo "Usage: service $prog {start|stop|status|restart}"
+        exit 1
+        ;;
+esac

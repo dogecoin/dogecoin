@@ -1,21 +1,21 @@
 
 Debian
 ====================
-This directory contains files used to package dogecoind/dogecoin-qt
-for Debian-based Linux systems. If you compile dogecoind/dogecoin-qt yourself, there are some useful files here.
+This directory contains files used to package garudacoind/garudacoin-qt
+for Debian-based Linux systems. If you compile garudacoind/garudacoin-qt yourself, there are some useful files here.
 
-## dogecoin: URI support ##
+## garudacoin: URI support ##
 
 
-dogecoin-qt.desktop  (Gnome / Open Desktop)
+garudacoin-qt.desktop  (Gnome / Open Desktop)
 To install:
 
-	sudo desktop-file-install dogecoin-qt.desktop
+	sudo desktop-file-install garudacoin-qt.desktop
 	sudo update-desktop-database
 
 If you build yourself, you will either need to modify the paths in
-the .desktop file or copy or symlink your dogecoin-qt binary to `/usr/bin`
+the .desktop file or copy or symlink your garudacoin-qt binary to `/usr/bin`
 and the `../../share/pixmaps/bitcoin128.png` to `/usr/share/pixmaps`
 
-dogecoin-qt.protocol (KDE)
+garudacoin-qt.protocol (KDE)
 

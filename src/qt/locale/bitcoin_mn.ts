@@ -60,7 +60,7 @@
     <name>BanTableModel</name>
     </context>
 <context>
-    <name>DogecoinGUI</name>
+    <name>GarudacoinGUI</name>
     <message>
         <source>Sign &amp;message...</source>
         <translation>&amp;Зурвас хавсаргах...</translation>
@@ -126,7 +126,7 @@
         <translation>Оношилгоо ба засварын консолыг онгойлго</translation>
     </message>
     <message>
-        <source>Dogecoin</source>
+        <source>Garudacoin</source>
         <translation>Биткойн</translation>
     </message>
     <message>
@@ -546,7 +546,7 @@
     <name>WalletView</name>
     </context>
 <context>
-    <name>dogecoin-core</name>
+    <name>garudacoin-core</name>
     <message>
         <source>Options:</source>
         <translation>Сонголтууд:</translation>

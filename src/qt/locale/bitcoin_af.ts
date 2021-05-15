@@ -62,12 +62,12 @@
         <translation>Ontvanger adresse</translation>
     </message>
     <message>
-        <source>These are your Dogecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>Hierdie is die adresse vanwaar u Dogecoin betalings stuur. U moet altyd die bedrag en die adres van die ontvanger nagaan voordat u enige munte stuur.</translation>
+        <source>These are your Garudacoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <translation>Hierdie is die adresse vanwaar u Garudacoin betalings stuur. U moet altyd die bedrag en die adres van die ontvanger nagaan voordat u enige munte stuur.</translation>
     </message>
     <message>
-        <source>These are your Dogecoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation>Hierdie is die adresse waar u Dogecoins sal ontvang. Ons beveel aan dat u 'n nuwe adres kies vir elke transaksie</translation>
+        <source>These are your Garudacoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
+        <translation>Hierdie is die adresse waar u Garudacoins sal ontvang. Ons beveel aan dat u 'n nuwe adres kies vir elke transaksie</translation>
     </message>
     <message>
         <source>&amp;Copy Address</source>
@@ -228,7 +228,7 @@
     </message>
 </context>
 <context>
-    <name>DogecoinGUI</name>
+    <name>GarudacoinGUI</name>
     <message>
         <source>Sign &amp;message...</source>
         <translation>Teken &amp;boodskap...</translation>
@@ -330,8 +330,8 @@
         <translation>Besig met herindeksering van blokke op hardeskyf...</translation>
     </message>
     <message>
-        <source>Send coins to a Dogecoin address</source>
-        <translation>Stuur munte na 'n Dogecoin adres</translation>
+        <source>Send coins to a Garudacoin address</source>
+        <translation>Stuur munte na 'n Garudacoin adres</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -350,8 +350,8 @@
         <translation>Maak ontfouting en diagnostiese konsole oop</translation>
     </message>
     <message>
-        <source>Dogecoin</source>
-        <translation>Dogecoin</translation>
+        <source>Garudacoin</source>
+        <translation>Garudacoin</translation>
     </message>
     <message>
         <source>Wallet</source>
@@ -378,12 +378,12 @@
         <translation>Kodifiseer die private sleutes wat aan jou beursie gekoppel is.</translation>
     </message>
     <message>
-        <source>Sign messages with your Dogecoin addresses to prove you own them</source>
-        <translation>Onderteken boodskappe met u Dogecoin adresse om u eienaarskap te bewys</translation>
+        <source>Sign messages with your Garudacoin addresses to prove you own them</source>
+        <translation>Onderteken boodskappe met u Garudacoin adresse om u eienaarskap te bewys</translation>
     </message>
     <message>
-        <source>Verify messages to ensure they were signed with specified Dogecoin addresses</source>
-        <translation>Verifieër boodskappe om seker te maak dat dit met die gespesifiseerde Dogecoin adresse</translation>
+        <source>Verify messages to ensure they were signed with specified Garudacoin addresses</source>
+        <translation>Verifieër boodskappe om seker te maak dat dit met die gespesifiseerde Garudacoin adresse</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -398,8 +398,8 @@
         <translation>Orebalk</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and dogecoin: URIs)</source>
-        <translation>Versoek betalings (genereer QR-kodes en dogecoin: URI's)</translation>
+        <source>Request payments (generates QR codes and garudacoin: URIs)</source>
+        <translation>Versoek betalings (genereer QR-kodes en garudacoin: URI's)</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -410,8 +410,8 @@
         <translation>Vertoon die lys van gebruikte ontvangers-adresse en etikette</translation>
     </message>
     <message>
-        <source>Open a dogecoin: URI or payment request</source>
-        <translation>Skep 'n dogecoin: URI of betalingsversoek</translation>
+        <source>Open a garudacoin: URI or payment request</source>
+        <translation>Skep 'n garudacoin: URI of betalingsversoek</translation>
     </message>
     <message>
         <source>Indexing blocks on disk...</source>
@@ -946,10 +946,10 @@
     </message>
     </context>
 <context>
-    <name>dogecoin-core</name>
+    <name>garudacoin-core</name>
     <message>
-        <source>Dogecoin Core</source>
-        <translation>Dogecoin Kern</translation>
+        <source>Garudacoin Core</source>
+        <translation>Garudacoin Kern</translation>
     </message>
     <message>
         <source>Information</source>

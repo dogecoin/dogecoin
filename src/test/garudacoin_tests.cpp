@@ -4,33 +4,33 @@
 
 #include "arith_uint256.h"
 #include "chainparams.h"
-#include "dogecoin.h"
+#include "garudacoin.h"
 #include "test/test_bitcoin.h"
 
 #include <boost/test/unit_test.hpp>
 
-BOOST_FIXTURE_TEST_SUITE(dogecoin_tests, TestingSetup)
+BOOST_FIXTURE_TEST_SUITE(garudacoin_tests, TestingSetup)
 
 /**
  * the maximum block reward at a given height for a block without fees
  */
 uint64_t expectedMaxSubsidy(int height) {
     if (height < 100000) {
-        return 1000000 * COIN;
+        return 1000 * COIN;
     } else if (height < 145000) {
-        return 500000 * COIN;
+        return 500 * COIN;
     } else if (height < 200000) {
-        return 250000 * COIN;
+        return 250 * COIN;
     } else if (height < 300000) {
-        return 125000 * COIN;
+        return 125 * COIN;
     } else if (height < 400000) {
-        return  62500 * COIN;
+        return  62 * COIN;
     } else if (height < 500000) {
-        return  31250 * COIN;
+        return  31 * COIN;
     } else if (height < 600000) {
-        return  15625 * COIN;
+        return  15 * COIN;
     } else {
-        return  10000 * COIN;
+        return  10 * COIN;
     }
 }
 
@@ -44,17 +44,17 @@ uint64_t expectedMinSubsidy(int height) {
     } else if (height < 145000) {
         return 0;
     } else if (height < 200000) {
-        return 250000 * COIN;
+        return 250 * COIN;
     } else if (height < 300000) {
-        return 125000 * COIN;
+        return 125 * COIN;
     } else if (height < 400000) {
-        return  62500 * COIN;
+        return  62 * COIN;
     } else if (height < 500000) {
-        return  31250 * COIN;
+        return  31 * COIN;
     } else if (height < 600000) {
-        return  15625 * COIN;
+        return  15 * COIN;
     } else {
-        return  10000 * COIN;
+        return  10 * COIN;
     }
 }
 
@@ -68,21 +68,21 @@ BOOST_AUTO_TEST_CASE(subsidy_limit_test)
 
     for (nHeight = 0; nHeight <= 100000; nHeight++) {
         const Consensus::Params& params = mainParams.GetConsensus(nHeight);
-        CAmount nSubsidy = GetDogecoinBlockSubsidy(nHeight, params, prevHash);
+        CAmount nSubsidy = GetGarudacoinBlockSubsidy(nHeight, params, prevHash);
         BOOST_CHECK(MoneyRange(nSubsidy));
-        BOOST_CHECK(nSubsidy <= 1000000 * COIN);
+        BOOST_CHECK(nSubsidy <= 1000 * COIN);
         nSum += nSubsidy * nStepSize;
     }
     for (; nHeight <= 145000; nHeight++) {
         const Consensus::Params& params = mainParams.GetConsensus(nHeight);
-        CAmount nSubsidy = GetDogecoinBlockSubsidy(nHeight, params, prevHash);
+        CAmount nSubsidy = GetGarudacoinBlockSubsidy(nHeight, params, prevHash);
         BOOST_CHECK(MoneyRange(nSubsidy));
-        BOOST_CHECK(nSubsidy <= 500000 * COIN);
+        BOOST_CHECK(nSubsidy <= 500 * COIN);
         nSum += nSubsidy * nStepSize;
     }
     for (; nHeight < 600000; nHeight++) {
         const Consensus::Params& params = mainParams.GetConsensus(nHeight);
-        CAmount nSubsidy = GetDogecoinBlockSubsidy(nHeight, params, prevHash);
+        CAmount nSubsidy = GetGarudacoinBlockSubsidy(nHeight, params, prevHash);
         CAmount nExpectedSubsidy = (500000 >> (nHeight / 100000)) * COIN;
         BOOST_CHECK(MoneyRange(nSubsidy));
         BOOST_CHECK_EQUAL(nSubsidy, nExpectedSubsidy);
@@ -90,19 +90,19 @@ BOOST_AUTO_TEST_CASE(subsidy_limit_test)
     }
 
     //test sum +- ~10billion
-    arith_uint256 upperlimit = arith_uint256("95e14ec776380000"); //108 billion doge
+    arith_uint256 upperlimit = arith_uint256("95e14ec776380000"); //108 billion garuda
     BOOST_CHECK(nSum <= upperlimit);
 
-    arith_uint256 lowerlimit = arith_uint256("7a1fe16027700000"); //88 billion doge
+    arith_uint256 lowerlimit = arith_uint256("7a1fe16027700000"); //88 billion garuda
     BOOST_CHECK(nSum >= lowerlimit);
 
     // Test reward at 600k+ is constant
     const Consensus::Params& params = mainParams.GetConsensus(nHeight);
-    CAmount nConstantSubsidy = GetDogecoinBlockSubsidy(nHeight, params, prevHash);
-    BOOST_CHECK_EQUAL(nConstantSubsidy, 10000 * COIN);
+    CAmount nConstantSubsidy = GetGarudacoinBlockSubsidy(nHeight, params, prevHash);
+    BOOST_CHECK_EQUAL(nConstantSubsidy, 10 * COIN);
 
-    nConstantSubsidy = GetDogecoinBlockSubsidy(700000, params, prevHash);
-    BOOST_CHECK_EQUAL(nConstantSubsidy, 10000 * COIN);
+    nConstantSubsidy = GetGarudacoinBlockSubsidy(700000, params, prevHash);
+    BOOST_CHECK_EQUAL(nConstantSubsidy, 10 * COIN);
 }
 
 BOOST_AUTO_TEST_CASE(get_next_work_difficulty_limit)
@@ -116,7 +116,7 @@ BOOST_AUTO_TEST_CASE(get_next_work_difficulty_limit)
     pindexLast.nHeight = 239;
     pindexLast.nTime = 1386475638; // Block #239
     pindexLast.nBits = 0x1e0ffff0;
-    BOOST_CHECK_EQUAL(CalculateDogecoinNextWorkRequired(&pindexLast, nLastRetargetTime, params), 0x1e00ffff);
+    BOOST_CHECK_EQUAL(CalculateGarudacoinNextWorkRequired(&pindexLast, nLastRetargetTime, params), 0x1e00ffff);
 }
 
 BOOST_AUTO_TEST_CASE(get_next_work_pre_digishield)
@@ -130,7 +130,7 @@ BOOST_AUTO_TEST_CASE(get_next_work_pre_digishield)
     pindexLast.nHeight = 9599;
     pindexLast.nTime = 1386954113;
     pindexLast.nBits = 0x1c1a1206;
-    BOOST_CHECK_EQUAL(CalculateDogecoinNextWorkRequired(&pindexLast, nLastRetargetTime, params), 0x1c15ea59);
+    BOOST_CHECK_EQUAL(CalculateGarudacoinNextWorkRequired(&pindexLast, nLastRetargetTime, params), 0x1c15ea59);
 }
 
 BOOST_AUTO_TEST_CASE(get_next_work_digishield)
@@ -145,7 +145,7 @@ BOOST_AUTO_TEST_CASE(get_next_work_digishield)
     pindexLast.nHeight = 145000;
     pindexLast.nTime = 1395094679;
     pindexLast.nBits = 0x1b499dfd;
-    BOOST_CHECK_EQUAL(CalculateDogecoinNextWorkRequired(&pindexLast, nLastRetargetTime, params), 0x1b671062);
+    BOOST_CHECK_EQUAL(CalculateGarudacoinNextWorkRequired(&pindexLast, nLastRetargetTime, params), 0x1b671062);
 }
 
 BOOST_AUTO_TEST_CASE(get_next_work_digishield_modulated_upper)
@@ -160,7 +160,7 @@ BOOST_AUTO_TEST_CASE(get_next_work_digishield_modulated_upper)
     pindexLast.nHeight = 145107;
     pindexLast.nTime = 1395101360;
     pindexLast.nBits = 0x1b3439cd;
-    BOOST_CHECK_EQUAL(CalculateDogecoinNextWorkRequired(&pindexLast, nLastRetargetTime, params), 0x1b4e56b3);
+    BOOST_CHECK_EQUAL(CalculateGarudacoinNextWorkRequired(&pindexLast, nLastRetargetTime, params), 0x1b4e56b3);
 }
 
 BOOST_AUTO_TEST_CASE(get_next_work_digishield_modulated_lower)
@@ -175,7 +175,7 @@ BOOST_AUTO_TEST_CASE(get_next_work_digishield_modulated_lower)
     pindexLast.nHeight = 149423;
     pindexLast.nTime = 1395380447;
     pindexLast.nBits = 0x1b446f21;
-    BOOST_CHECK_EQUAL(CalculateDogecoinNextWorkRequired(&pindexLast, nLastRetargetTime, params), 0x1b335358);
+    BOOST_CHECK_EQUAL(CalculateGarudacoinNextWorkRequired(&pindexLast, nLastRetargetTime, params), 0x1b335358);
 }
 
 BOOST_AUTO_TEST_CASE(get_next_work_digishield_rounding)
@@ -191,7 +191,7 @@ BOOST_AUTO_TEST_CASE(get_next_work_digishield_rounding)
     pindexLast.nHeight = 145001;
     pindexLast.nTime = 1395094727;
     pindexLast.nBits = 0x1b671062;
-    BOOST_CHECK_EQUAL(CalculateDogecoinNextWorkRequired(&pindexLast, nLastRetargetTime, params), 0x1b6558a4);
+    BOOST_CHECK_EQUAL(CalculateGarudacoinNextWorkRequired(&pindexLast, nLastRetargetTime, params), 0x1b6558a4);
 }
 
 BOOST_AUTO_TEST_CASE(hardfork_parameters)

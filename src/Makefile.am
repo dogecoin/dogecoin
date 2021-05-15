@@ -24,23 +24,23 @@ BITCOIN_INCLUDES=-I$(builddir) -I$(builddir)/obj $(BDB_CPPFLAGS) $(BOOST_CPPFLAG
 BITCOIN_INCLUDES += -I$(srcdir)/secp256k1/include
 BITCOIN_INCLUDES += $(UNIVALUE_CFLAGS)
 
-LIBDOGECOIN_SERVER=libdogecoin_server.a
-LIBDOGECOIN_COMMON=libdogecoin_common.a
-LIBDOGECOIN_CONSENSUS=libdogecoin_consensus.a
-LIBDOGECOIN_CLI=libdogecoin_cli.a
-LIBDOGECOIN_UTIL=libdogecoin_util.a
-LIBDOGECOIN_CRYPTO=crypto/libdogecoin_crypto.a
-LIBDOGECOINQT=qt/libdogecoinqt.a
+LIBDOGECOIN_SERVER=libgarudacoin_server.a
+LIBDOGECOIN_COMMON=libgarudacoin_common.a
+LIBDOGECOIN_CONSENSUS=libgarudacoin_consensus.a
+LIBDOGECOIN_CLI=libgarudacoin_cli.a
+LIBDOGECOIN_UTIL=libgarudacoin_util.a
+LIBDOGECOIN_CRYPTO=crypto/libgarudacoin_crypto.a
+LIBDOGECOINQT=qt/libgarudacoinqt.a
 LIBSECP256K1=secp256k1/libsecp256k1.la
 
 if ENABLE_ZMQ
-LIBDOGECOIN_ZMQ=libdogecoin_zmq.a
+LIBDOGECOIN_ZMQ=libgarudacoin_zmq.a
 endif
 if BUILD_BITCOIN_LIBS
-LIBDOGECOINCONSENSUS=libdogecoinconsensus.la
+LIBDOGECOINCONSENSUS=libgarudacoinconsensus.la
 endif
 if ENABLE_WALLET
-LIBDOGECOIN_WALLET=libdogecoin_wallet.a
+LIBDOGECOIN_WALLET=libgarudacoin_wallet.a
 endif
 
 $(LIBSECP256K1): $(wildcard secp256k1/src/*) $(wildcard secp256k1/include/*)
@@ -66,11 +66,11 @@ TESTS =
 BENCHMARKS =
 
 if BUILD_BITCOIND
-  bin_PROGRAMS += dogecoind
+  bin_PROGRAMS += garudacoind
 endif
 
 if BUILD_BITCOIN_UTILS
-  bin_PROGRAMS += dogecoin-cli dogecoin-tx
+  bin_PROGRAMS += garudacoin-cli garudacoin-tx
 endif
 
 .PHONY: FORCE check-symbols check-security
@@ -100,8 +100,8 @@ BITCOIN_CORE_H = \
   core_io.h \
   core_memusage.h \
   cuckoocache.h \
-  dogecoin.cpp \
-  dogecoin.h \
+  garudacoin.cpp \
+  garudacoin.h \
   httprpc.h \
   httpserver.h \
   indirectmap.h \
@@ -175,12 +175,12 @@ obj/build.h: FORCE
 	@$(MKDIR_P) $(builddir)/obj
 	@$(top_srcdir)/share/genbuild.sh $(abs_top_builddir)/src/obj/build.h \
 	  $(abs_top_srcdir)
-libdogecoin_util_a-clientversion.$(OBJEXT): obj/build.h
+libgarudacoin_util_a-clientversion.$(OBJEXT): obj/build.h
 
 # server: shared between bitcoind and bitcoin-qt
-libdogecoin_server_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(MINIUPNPC_CPPFLAGS) $(EVENT_CFLAGS) $(EVENT_PTHREADS_CFLAGS)
-libdogecoin_server_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-libdogecoin_server_a_SOURCES = \
+libgarudacoin_server_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(MINIUPNPC_CPPFLAGS) $(EVENT_CFLAGS) $(EVENT_PTHREADS_CFLAGS)
+libgarudacoin_server_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libgarudacoin_server_a_SOURCES = \
   addrman.cpp \
   addrdb.cpp \
   alert.cpp \
@@ -220,9 +220,9 @@ libdogecoin_server_a_SOURCES = \
   $(BITCOIN_CORE_H)
 
 if ENABLE_ZMQ
-libdogecoin_zmq_a_CPPFLAGS = $(BITCOIN_INCLUDES) $(ZMQ_CFLAGS)
-libdogecoin_zmq_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-libdogecoin_zmq_a_SOURCES = \
+libgarudacoin_zmq_a_CPPFLAGS = $(BITCOIN_INCLUDES) $(ZMQ_CFLAGS)
+libgarudacoin_zmq_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libgarudacoin_zmq_a_SOURCES = \
   zmq/zmqabstractnotifier.cpp \
   zmq/zmqnotificationinterface.cpp \
   zmq/zmqpublishnotifier.cpp
@@ -231,9 +231,9 @@ endif
 
 # wallet: shared between bitcoind and bitcoin-qt, but only linked
 # when wallet enabled
-libdogecoin_wallet_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-libdogecoin_wallet_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-libdogecoin_wallet_a_SOURCES = \
+libgarudacoin_wallet_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+libgarudacoin_wallet_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libgarudacoin_wallet_a_SOURCES = \
   wallet/crypter.cpp \
   wallet/db.cpp \
   wallet/rpcdump.cpp \
@@ -244,9 +244,9 @@ libdogecoin_wallet_a_SOURCES = \
   $(BITCOIN_CORE_H)
 
 # crypto primitives library
-crypto_libdogecoin_crypto_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_CONFIG_INCLUDES)
-crypto_libdogecoin_crypto_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-crypto_libdogecoin_crypto_a_SOURCES = \
+crypto_libgarudacoin_crypto_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_CONFIG_INCLUDES)
+crypto_libgarudacoin_crypto_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+crypto_libgarudacoin_crypto_a_SOURCES = \
   crypto/aes.cpp \
   crypto/aes.h \
   crypto/common.h \
@@ -266,9 +266,9 @@ crypto_libdogecoin_crypto_a_SOURCES = \
   crypto/sha512.h
 
 # consensus: shared between all executables that validate any consensus rules.
-libdogecoin_consensus_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-libdogecoin_consensus_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-libdogecoin_consensus_a_SOURCES = \
+libgarudacoin_consensus_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+libgarudacoin_consensus_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libgarudacoin_consensus_a_SOURCES = \
   amount.h \
   arith_uint256.cpp \
   arith_uint256.h \
@@ -303,9 +303,9 @@ libdogecoin_consensus_a_SOURCES = \
   version.h
 
 # common: shared between bitcoind, and bitcoin-qt and non-server tools
-libdogecoin_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-libdogecoin_common_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-libdogecoin_common_a_SOURCES = \
+libgarudacoin_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+libgarudacoin_common_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libgarudacoin_common_a_SOURCES = \
   alert.cpp \
   amount.cpp \
   arith_uint256.cpp \
@@ -333,9 +333,9 @@ libdogecoin_common_a_SOURCES = \
 # util: shared between all executables.
 # This library *must* be included to make sure that the glibc
 # backward-compatibility objects and their sanity checks are linked.
-libdogecoin_util_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-libdogecoin_util_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-libdogecoin_util_a_SOURCES = \
+libgarudacoin_util_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+libgarudacoin_util_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libgarudacoin_util_a_SOURCES = \
   support/lockedpool.cpp \
   chainparamsbase.cpp \
   clientversion.cpp \
@@ -354,30 +354,30 @@ libdogecoin_util_a_SOURCES = \
   $(BITCOIN_CORE_H)
 
 if GLIBC_BACK_COMPAT
-libdogecoin_util_a_SOURCES += compat/glibc_compat.cpp
+libgarudacoin_util_a_SOURCES += compat/glibc_compat.cpp
 endif
 
 # cli: shared between bitcoin-cli and bitcoin-qt
-libdogecoin_cli_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-libdogecoin_cli_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-libdogecoin_cli_a_SOURCES = \
+libgarudacoin_cli_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+libgarudacoin_cli_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libgarudacoin_cli_a_SOURCES = \
   rpc/client.cpp \
   $(BITCOIN_CORE_H)
 
-nodist_libdogecoin_util_a_SOURCES = $(srcdir)/obj/build.h
+nodist_libgarudacoin_util_a_SOURCES = $(srcdir)/obj/build.h
 #
 
 # bitcoind binary #
-dogecoind_SOURCES = bitcoind.cpp
-dogecoind_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-dogecoind_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-dogecoind_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+garudacoind_SOURCES = bitcoind.cpp
+garudacoind_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+garudacoind_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+garudacoind_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-dogecoind_SOURCES += bitcoind-res.rc
+garudacoind_SOURCES += bitcoind-res.rc
 endif
 
-dogecoind_LDADD = \
+garudacoind_LDADD = \
   $(LIBDOGECOIN_SERVER) \
   $(LIBDOGECOIN_COMMON) \
   $(LIBUNIVALUE) \
@@ -390,38 +390,38 @@ dogecoind_LDADD = \
   $(LIBMEMENV) \
   $(LIBSECP256K1)
 
-dogecoind_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS) $(ZMQ_LIBS)
+garudacoind_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS) $(ZMQ_LIBS)
 
 # bitcoin-cli binary #
-dogecoin_cli_SOURCES = bitcoin-cli.cpp
-dogecoin_cli_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(EVENT_CFLAGS)
-dogecoin_cli_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-dogecoin_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+garudacoin_cli_SOURCES = bitcoin-cli.cpp
+garudacoin_cli_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(EVENT_CFLAGS)
+garudacoin_cli_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+garudacoin_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-dogecoin_cli_SOURCES += bitcoin-cli-res.rc
+garudacoin_cli_SOURCES += bitcoin-cli-res.rc
 endif
 
-dogecoin_cli_LDADD = \
+garudacoin_cli_LDADD = \
   $(LIBDOGECOIN_CLI) \
   $(LIBUNIVALUE) \
   $(LIBDOGECOIN_UTIL) \
   $(LIBDOGECOIN_CRYPTO)
 
-dogecoin_cli_LDADD += $(BOOST_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(EVENT_LIBS)
+garudacoin_cli_LDADD += $(BOOST_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(EVENT_LIBS)
 #
 
 # bitcoin-tx binary #
-dogecoin_tx_SOURCES = bitcoin-tx.cpp
-dogecoin_tx_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-dogecoin_tx_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-dogecoin_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+garudacoin_tx_SOURCES = bitcoin-tx.cpp
+garudacoin_tx_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+garudacoin_tx_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+garudacoin_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-dogecoin_tx_SOURCES += bitcoin-tx-res.rc
+garudacoin_tx_SOURCES += bitcoin-tx-res.rc
 endif
 
-dogecoin_tx_LDADD = \
+garudacoin_tx_LDADD = \
   $(LIBUNIVALUE) \
   $(LIBDOGECOIN_COMMON) \
   $(LIBDOGECOIN_UTIL) \
@@ -429,22 +429,22 @@ dogecoin_tx_LDADD = \
   $(LIBDOGECOIN_CRYPTO) \
   $(LIBSECP256K1)
 
-dogecoin_tx_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS)
+garudacoin_tx_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS)
 #
 
 # bitcoinconsensus library #
 if BUILD_BITCOIN_LIBS
 include_HEADERS = script/bitcoinconsensus.h
-libdogecoinconsensus_la_SOURCES = $(crypto_libdogecoin_crypto_a_SOURCES) $(libdogecoin_consensus_a_SOURCES)
+libgarudacoinconsensus_la_SOURCES = $(crypto_libgarudacoin_crypto_a_SOURCES) $(libgarudacoin_consensus_a_SOURCES)
 
 if GLIBC_BACK_COMPAT
-  libdogecoinconsensus_la_SOURCES += compat/glibc_compat.cpp
+  libgarudacoinconsensus_la_SOURCES += compat/glibc_compat.cpp
 endif
 
-libdogecoinconsensus_la_LDFLAGS = $(AM_LDFLAGS) -no-undefined $(RELDFLAGS)
-libdogecoinconsensus_la_LIBADD = $(LIBSECP256K1)
-libdogecoinconsensus_la_CPPFLAGS = $(AM_CPPFLAGS) -I$(builddir)/obj -I$(srcdir)/secp256k1/include -DBUILD_BITCOIN_INTERNAL
-libdogecoinconsensus_la_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libgarudacoinconsensus_la_LDFLAGS = $(AM_LDFLAGS) -no-undefined $(RELDFLAGS)
+libgarudacoinconsensus_la_LIBADD = $(LIBSECP256K1)
+libgarudacoinconsensus_la_CPPFLAGS = $(AM_CPPFLAGS) -I$(builddir)/obj -I$(srcdir)/secp256k1/include -DBUILD_BITCOIN_INTERNAL
+libgarudacoinconsensus_la_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 
 endif
 #

@@ -1,0 +1,22 @@
+[Unit]
+Description=Garudacoin's distributed currency daemon
+After=network.target
+
+[Service]
+User=garudacoin
+Group=garudacoin
+
+Type=forking
+PIDFile=/var/lib/garudacoind/garudacoind.pid
+ExecStart=/usr/bin/garudacoind -daemon -pid=/var/lib/garudacoind/garudacoind.pid \
+-conf=/etc/garudacoin/garudacoin.conf -datadir=/var/lib/garudacoind -disablewallet
+
+Restart=always
+PrivateTmp=true
+TimeoutStopSec=60s
+TimeoutStartSec=2s
+StartLimitInterval=120s
+StartLimitBurst=5
+
+[Install]
+WantedBy=multi-user.target

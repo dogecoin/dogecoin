@@ -1,6 +1,6 @@
 [Protocol]
-exec=dogecoin-qt '%u'
-protocol=dogecoin
+exec=garudacoin-qt '%u'
+protocol=garudacoin
 input=none
 output=none
 helper=true

@@ -2,26 +2,26 @@
 
 # backward compatibility for existing gentoo layout 
 #
-if [ -d "/var/lib/dogecoin/.dogecoin" ]; then
-	BITCOIND_DEFAULT_DATADIR="/var/lib/dogecoin/.dogecoin"
+if [ -d "/var/lib/garudacoin/.garudacoin" ]; then
+	BITCOIND_DEFAULT_DATADIR="/var/lib/garudacoin/.garudacoin"
 else
-	BITCOIND_DEFAULT_DATADIR="/var/lib/dogecoind"
+	BITCOIND_DEFAULT_DATADIR="/var/lib/garudacoind"
 fi
 
-BITCOIND_CONFIGFILE=${BITCOIND_CONFIGFILE:-/etc/dogecoin/dogecoin.conf}
-BITCOIND_PIDDIR=${BITCOIND_PIDDIR:-/var/run/dogecoind}
-BITCOIND_PIDFILE=${BITCOIND_PIDFILE:-${BITCOIND_PIDDIR}/dogecoind.pid}
+BITCOIND_CONFIGFILE=${BITCOIND_CONFIGFILE:-/etc/garudacoin/garudacoin.conf}
+BITCOIND_PIDDIR=${BITCOIND_PIDDIR:-/var/run/garudacoind}
+BITCOIND_PIDFILE=${BITCOIND_PIDFILE:-${BITCOIND_PIDDIR}/garudacoind.pid}
 BITCOIND_DATADIR=${BITCOIND_DATADIR:-${BITCOIND_DEFAULT_DATADIR}}
-BITCOIND_USER=${BITCOIND_USER:-${BITCOIN_USER:-dogecoin}}
-BITCOIND_GROUP=${BITCOIND_GROUP:-dogecoin}
-BITCOIND_BIN=${BITCOIND_BIN:-/usr/bin/dogecoind}
+BITCOIND_USER=${BITCOIND_USER:-${BITCOIN_USER:-garudacoin}}
+BITCOIND_GROUP=${BITCOIND_GROUP:-garudacoin}
+BITCOIND_BIN=${BITCOIND_BIN:-/usr/bin/garudacoind}
 BITCOIND_NICE=${BITCOIND_NICE:-${NICELEVEL:-0}}
 BITCOIND_OPTS="${BITCOIND_OPTS:-${BITCOIN_OPTS}}"
 
 name="Bitcoin Core Daemon"
 description="Bitcoin cryptocurrency P2P network daemon"
 
-command="/usr/bin/dogecoind"
+command="/usr/bin/garudacoind"
 command_args="-pid=\"${BITCOIND_PIDFILE}\" \
 		-conf=\"${BITCOIND_CONFIGFILE}\" \
 		-datadir=\"${BITCOIND_DATADIR}\" \
@@ -71,7 +71,7 @@ checkconfig()
 {
 	if ! grep -qs '^rpcpassword=' "${BITCOIND_CONFIGFILE}" ; then
 		eerror ""
-		eerror "ERROR: You must set a secure rpcpassword to run dogecoind."
+		eerror "ERROR: You must set a secure rpcpassword to run garudacoind."
 		eerror "The setting must appear in ${BITCOIND_CONFIGFILE}"
 		eerror ""
 		eerror "This password is security critical to securing wallets "

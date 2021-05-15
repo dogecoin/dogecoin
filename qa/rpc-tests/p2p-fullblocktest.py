@@ -1246,7 +1246,7 @@ class FullBlockTest(ComparisonTestFramework):
         #  Test re-org of a week's worth of blocks (1088 blocks)
         #  This test takes a minute or two and can be accomplished in memory
         #
-        # Dogecoin: Currently this causes a node disconnect, and I'm not even sure that's wrong.
+        # Garudacoin: Currently this causes a node disconnect, and I'm not even sure that's wrong.
         # TODO: Investigate if this fails correctly, or needs fixing
         if self.options.runbarelyexpensive:
             tip(88)

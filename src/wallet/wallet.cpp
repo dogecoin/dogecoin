@@ -8,7 +8,7 @@
 #include "base58.h"
 #include "checkpoints.h"
 #include "chain.h"
-#include "dogecoin.h"
+#include "garudacoin.h"
 #include "wallet/coincontrol.h"
 #include "consensus/consensus.h"
 #include "consensus/validation.h"
@@ -2842,8 +2842,8 @@ bool CWallet::AddAccountingEntry(const CAccountingEntry& acentry, CWalletDB *pwa
 
 CAmount CWallet::GetRequiredFee(const CMutableTransaction& tx, unsigned int nTxBytes)
 {
-    // Dogecoin: Add an increased fee for each dust output
-    return std::max(minTxFee.GetFee(nTxBytes) + GetDogecoinDustFee(tx.vout, minTxFee), ::minRelayTxFee.GetFee(nTxBytes));
+    // Garudacoin: Add an increased fee for each dust output
+    return std::max(minTxFee.GetFee(nTxBytes) + GetGarudacoinDustFee(tx.vout, minTxFee), ::minRelayTxFee.GetFee(nTxBytes));
 }
 
 CAmount CWallet::GetRequiredFee(unsigned int nTxBytes)
@@ -2869,7 +2869,7 @@ CAmount CWallet::GetMinimumFee(const CMutableTransaction& tx, unsigned int nTxBy
             nFeeNeeded = fallbackFee.GetFee(nTxBytes);
     }
     // prevent user from paying a fee below minRelayTxFee or minTxFee
-    // Dogecoin: Drop the smart fee estimate, use GetRequiredFee
+    // Garudacoin: Drop the smart fee estimate, use GetRequiredFee
     // nFeeNeeded = std::max(nFeeNeeded, GetRequiredFee(tx, nTxBytes));
     nFeeNeeded = GetRequiredFee(tx, nTxBytes);
     // But always obey the maximum

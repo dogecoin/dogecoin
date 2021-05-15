@@ -128,7 +128,7 @@
     </message>
 </context>
 <context>
-    <name>DogecoinGUI</name>
+    <name>GarudacoinGUI</name>
     <message>
         <source>Sign &amp;message...</source>
         <translation>Signer &amp;message...</translation>
@@ -218,8 +218,8 @@
         <translation>Réindexer les blocs sur le disque...</translation>
     </message>
     <message>
-        <source>Send coins to a Dogecoin address</source>
-        <translation>Envoyer des pièces à une adresse Dogecoin</translation>
+        <source>Send coins to a Garudacoin address</source>
+        <translation>Envoyer des pièces à une adresse Garudacoin</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -242,8 +242,8 @@
         <translation>&amp;Vérification du message</translation>
     </message>
     <message>
-        <source>Dogecoin</source>
-        <translation>Dogecoin</translation>
+        <source>Garudacoin</source>
+        <translation>Garudacoin</translation>
     </message>
     <message>
         <source>Wallet</source>
@@ -270,8 +270,8 @@
         <translation>Crypter les clé privées qui appartiennent votre portefeuille</translation>
     </message>
     <message>
-        <source>Sign messages with your Dogecoin addresses to prove you own them</source>
-        <translation>Signer vos messages avec vos adresses Dogecoin pour prouver que vous les détenez</translation>
+        <source>Sign messages with your Garudacoin addresses to prove you own them</source>
+        <translation>Signer vos messages avec vos adresses Garudacoin pour prouver que vous les détenez</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -290,24 +290,24 @@
         <translation>Barre d'outils des onglets</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and dogecoin: URIs)</source>
-        <translation>Demander des paiements (générer QR codes et dogecoin: URIs)</translation>
+        <source>Request payments (generates QR codes and garudacoin: URIs)</source>
+        <translation>Demander des paiements (générer QR codes et garudacoin: URIs)</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
         <translation>Montrer la liste des adresses d'envois utilisées et les étiquettes</translation>
     </message>
     <message>
-        <source>Open a dogecoin: URI or payment request</source>
-        <translation>Ouvrir un dogecoin: URI ou demande de paiement</translation>
+        <source>Open a garudacoin: URI or payment request</source>
+        <translation>Ouvrir un garudacoin: URI ou demande de paiement</translation>
     </message>
     <message>
         <source>&amp;Command-line options</source>
         <translation>&amp;Options de ligne de commande</translation>
     </message>
     <message numerus="yes">
-        <source>%n active connection(s) to Dogecoin network</source>
-        <translation><numerusform>%n connexion active au réseau Dogecoin</numerusform><numerusform>%n connexions actives au réseau Dogecoin</numerusform></translation>
+        <source>%n active connection(s) to Garudacoin network</source>
+        <translation><numerusform>%n connexion active au réseau Garudacoin</numerusform><numerusform>%n connexions actives au réseau Garudacoin</numerusform></translation>
     </message>
     <message>
         <source>Indexing blocks on disk...</source>
@@ -684,8 +684,8 @@
         <translation>Expert</translation>
     </message>
     <message>
-        <source>Automatically open the Dogecoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Ouvrir le port du client Dogecoin automatiquement sur le routeur. Cela ne fonctionne que si votre routeur supporte l'UPnP et si la fonctionnalité est activée.</translation>
+        <source>Automatically open the Garudacoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <translation>Ouvrir le port du client Garudacoin automatiquement sur le routeur. Cela ne fonctionne que si votre routeur supporte l'UPnP et si la fonctionnalité est activée.</translation>
     </message>
     <message>
         <source>Map port using &amp;UPnP</source>
@@ -844,8 +844,8 @@
         <translation>Montant</translation>
     </message>
     <message>
-        <source>Enter a Dogecoin address (e.g. %1)</source>
-        <translation>Entrer une adresse Dogecoin (e.g. %1)</translation>
+        <source>Enter a Garudacoin address (e.g. %1)</source>
+        <translation>Entrer une adresse Garudacoin (e.g. %1)</translation>
     </message>
     <message>
         <source>%1 d</source>
@@ -1636,7 +1636,7 @@
     <name>WalletView</name>
     </context>
 <context>
-    <name>dogecoin-core</name>
+    <name>garudacoin-core</name>
     <message>
         <source>Options:</source>
         <translation>Options :</translation>
@@ -1662,8 +1662,8 @@
         <translation>Impossible de démarrer le serveur HTTP. Voir le journal de débogage pour plus de détails.</translation>
     </message>
     <message>
-        <source>Dogecoin Core</source>
-        <translation>Dogecoin Core</translation>
+        <source>Garudacoin Core</source>
+        <translation>Garudacoin Core</translation>
     </message>
     <message>
         <source>&lt;category&gt; can be:</source>

@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Garudacoin Core
+Comment=Connect to the Garudacoin P2P Network
+Comment[de]=Verbinde mit dem Garudacoin peer-to-peer Netzwerk
+Comment[fr]=Garudacoin, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=Garudacoin, eşten eşe kriptografik sanal para birimi
+Exec=garudacoin-qt %u
+Terminal=false
+Type=Application
+Icon=garudacoin128
+MimeType=x-scheme-handler/garudacoin;
+Categories=Office;Finance;

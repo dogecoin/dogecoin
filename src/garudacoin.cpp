@@ -7,7 +7,7 @@
 
 #include "policy/policy.h"
 #include "arith_uint256.h"
-#include "dogecoin.h"
+#include "garudacoin.h"
 #include "txmempool.h"
 #include "util.h"
 #include "validation.h"
@@ -19,7 +19,7 @@ int static generateMTRandom(unsigned int s, int range)
     return dist(gen);
 }
 
-// Dogecoin: Normally minimum difficulty blocks can only occur in between
+// Garudacoin: Normally minimum difficulty blocks can only occur in between
 // retarget blocks. However, once we introduce Digishield every block is
 // a retarget, so we need to handle minimum difficulty on all blocks.
 bool AllowDigishieldMinDifficultyForBlock(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params& params)
@@ -37,7 +37,7 @@ bool AllowDigishieldMinDifficultyForBlock(const CBlockIndex* pindexLast, const C
     return (pblock->GetBlockTime() > pindexLast->GetBlockTime() + params.nPowTargetSpacing*2);
 }
 
-unsigned int CalculateDogecoinNextWorkRequired(const CBlockIndex* pindexLast, int64_t nFirstBlockTime, const Consensus::Params& params)
+unsigned int CalculateGarudacoinNextWorkRequired(const CBlockIndex* pindexLast, int64_t nFirstBlockTime, const Consensus::Params& params)
 {
     int nHeight = pindexLast->nHeight + 1;
     const int64_t retargetTimespan = params.nPowTargetTimespan;
@@ -122,7 +122,7 @@ bool CheckAuxPowProofOfWork(const CBlockHeader& block, const Consensus::Params& 
     return true;
 }
 
-CAmount GetDogecoinBlockSubsidy(int nHeight, const Consensus::Params& consensusParams, uint256 prevHash)
+CAmount GetGarudacoinBlockSubsidy(int nHeight, const Consensus::Params& consensusParams, uint256 prevHash)
 {
     int halvings = nHeight / consensusParams.nSubsidyHalvingInterval;
 
@@ -139,14 +139,14 @@ CAmount GetDogecoinBlockSubsidy(int nHeight, const Consensus::Params& consensusP
         return (1 + rand) * COIN;
     } else if (nHeight < (6 * consensusParams.nSubsidyHalvingInterval)) {
         // New-style constant rewards for each halving interval
-        return (50 * COIN) >> halvings;
+        return (500 * COIN) >> halvings;
     } else {
         // Constant inflation
         return 10 * COIN;
     }
 }
 
-CAmount GetDogecoinMinRelayFee(const CTransaction& tx, unsigned int nBytes, bool fAllowFree)
+CAmount GetGarudacoinMinRelayFee(const CTransaction& tx, unsigned int nBytes, bool fAllowFree)
 {
     {
         LOCK(mempool.cs);
@@ -159,7 +159,7 @@ CAmount GetDogecoinMinRelayFee(const CTransaction& tx, unsigned int nBytes, bool
     }
 
     CAmount nMinFee = ::minRelayTxFee.GetFee(nBytes);
-    nMinFee += GetDogecoinDustFee(tx.vout, ::minRelayTxFee);
+    nMinFee += GetGarudacoinDustFee(tx.vout, ::minRelayTxFee);
 
     if (fAllowFree)
     {
@@ -176,7 +176,7 @@ CAmount GetDogecoinMinRelayFee(const CTransaction& tx, unsigned int nBytes, bool
     return nMinFee;
 }
 
-CAmount GetDogecoinDustFee(const std::vector<CTxOut> &vout, CFeeRate &baseFeeRate) {
+CAmount GetGarudacoinDustFee(const std::vector<CTxOut> &vout, CFeeRate &baseFeeRate) {
     CAmount nFee = 0;
 
     // To limit dust spam, add base fee for each output less than a COIN

@@ -81,7 +81,7 @@ class WalletTest (BitcoinTestFramework):
         self.nodes[1].generate(60)
         self.sync_all()
 
-        # node0 should end up with 1.000.000 doge in block rewards plus fees, but
+        # node0 should end up with 1.000.000 garuda in block rewards plus fees, but
         # minus the 210.000 plus fees sent to node2
         assert_equal(self.nodes[0].getbalance(), 1000000-210000)
         assert_equal(self.nodes[2].getbalance(), 210000)
