@@ -15,11 +15,11 @@
     </message>
     <message>
         <source>Copy the currently selected address to the system clipboard</source>
-        <translation>Salin alamat yang dipilih ke clipboard</translation>
+        <translation>Salin alamat terpilih ke papan klip (clipboard)</translation>
     </message>
     <message>
         <source>&amp;Copy</source>
-        <translation>&amp;Menyalin</translation>
+        <translation>&amp;Salin</translation>
     </message>
     <message>
         <source>C&amp;lose</source>
@@ -27,7 +27,7 @@
     </message>
     <message>
         <source>Delete the currently selected address from the list</source>
-        <translation>Hapus alamat yang sementara dipilih dari daftar</translation>
+        <translation>Hapus alamat terpilih dari daftar</translation>
     </message>
     <message>
         <source>Export the data in the current tab to a file</source>
@@ -43,11 +43,11 @@
     </message>
     <message>
         <source>Choose the address to send coins to</source>
-        <translation>Pilih alamat untuk mengirim koin</translation>
+        <translation>Pilih alamat untuk mengirim koin ke</translation>
     </message>
     <message>
         <source>Choose the address to receive coins with</source>
-        <translation>Piih alamat untuk menerima koin</translation>
+        <translation>Pilih alamat untuk menerima koin dengan</translation>
     </message>
     <message>
         <source>C&amp;hoose</source>
@@ -58,16 +58,16 @@
         <translation>Alamat-alamat pengirim</translation>
     </message>
     <message>
-        <source>Receiving addresses</source>
+        <source>Much Receiving addresses</source>
         <translation>Alamat-alamat penerima</translation>
     </message>
     <message>
         <source>These are your Dogecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>Ini adalah alamat - alamat Dogecoin Anda untuk mengirimkan pembayaran. Selalu periksa jumlah dan alamat penerima sebelum mengirimkan koin.</translation>
+        <translation>Berikut merupakan alamat - alamat Dogecoin Anda yang berguna untuk mengirimkan pembayaran. Selalu periksa jumlah dan alamat penerima sebelum mengirimkan koin.</translation>
     </message>
     <message>
         <source>These are your Dogecoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation>Ini adalah alamat - alamat Dogecoin Anda untuk menerima pembayaran. Dianjurkan untuk menggunakan alamat penerima yang baru setiap melakukan transaksi.</translation>
+        <translation>Berikut merupakan alamat - alamat Dogecoin Anda yang berguna untuk menerima pembayaran. Dianjurkan untuk menggunakan alamat penerima yang baru setiap kali melakukan transaksi.</translation>
     </message>
     <message>
         <source>&amp;Copy Address</source>
@@ -91,9 +91,13 @@
     </message>
     <message>
         <source>Exporting Failed</source>
-        <translation>Mengekspor Gagal</translation>
+        <translation>Gagal Mengekspor</translation>
     </message>
-    </context>
+    <message>
+        <source>There was an error trying to save the address list to %1. Please try again.</source>
+        <translation>Terjadi kesalahan saat berusaha untuk menyimpan alamat ke dalam daftar %1. Mohon ulangi kembali.</translation>
+    </message>
+</context>
 <context>
     <name>AddressTableModel</name>
     <message>
@@ -197,7 +201,7 @@
     </message>
     <message>
         <source>Wallet unlock failed</source>
-        <translation>Membuka dompet gagal</translation>
+        <translation>Gagal membuka kunci dompet</translation>
     </message>
     <message>
         <source>The passphrase entered for the wallet decryption was incorrect.</source>
@@ -224,14 +228,14 @@
     </message>
     <message>
         <source>Banned Until</source>
-        <translation>Diblokir sampai</translation>
+        <translation>Diblokir Sampai</translation>
     </message>
 </context>
 <context>
     <name>DogecoinGUI</name>
     <message>
-        <source>Sign &amp;message...</source>
-        <translation>Pesan &amp;penanda...</translation>
+        <source>Wallet</source>
+        <translation>Dompet</translation>
     </message>
     <message>
         <source>Synchronizing with network...</source>
@@ -239,15 +243,27 @@
     </message>
     <message>
         <source>&amp;Wow</source>
-        <translation>&amp;Kilasan</translation>
-    </message>
-    <message>
-        <source>Node</source>
-        <translation>Node</translation>
+        <translation>&amp;Wow</translation>
     </message>
     <message>
         <source>Show general overview of wallet</source>
         <translation>Tampilkan gambaran umum dompet Anda</translation>
+    </message>
+    <message>
+        <source>&amp;Such Send</source>
+        <translation>&amp;Kirim Aja</translation>
+    </message>
+    <message>
+        <source>Send coins to a Dogecoin address</source>
+        <translation>Kirim koin ke alamat Dogecoin</translation>
+    </message>
+    <message>
+        <source>&amp;Much Receive</source>
+        <translation>&amp;Terima Banget</translation>
+    </message>
+    <message>
+        <source>Request payments (generates QR codes and dogecoin: URIs)</source>
+        <translation>Minta pembayaran (bikin kode QR dan dogecoin: URI)</translation>
     </message>
     <message>
         <source>&amp;Transactions</source>
@@ -255,7 +271,7 @@
     </message>
     <message>
         <source>Browse transaction history</source>
-        <translation>Lihat riwayat transaksi</translation>
+        <translation>Melihat riwayat transaksi</translation>
     </message>
     <message>
         <source>E&amp;xit</source>
@@ -279,7 +295,7 @@
     </message>
     <message>
         <source>Show information about Qt</source>
-        <translation>Tampilkan informasi mengenai Qt</translation>
+        <translation>Tampilkan informasi tentang Qt</translation>
     </message>
     <message>
         <source>&amp;Options...</source>
@@ -287,91 +303,7 @@
     </message>
     <message>
         <source>Modify configuration options for %1</source>
-        <translation>Pengubahan opsi konfigurasi untuk %1</translation>
-    </message>
-    <message>
-        <source>&amp;Encrypt Wallet...</source>
-        <translation>&amp;Enkripsi Dompet...</translation>
-    </message>
-    <message>
-        <source>&amp;Backup Wallet...</source>
-        <translation>&amp;Cadangkan Dompet...</translation>
-    </message>
-    <message>
-        <source>&amp;Change Passphrase...</source>
-        <translation>&amp;Ubah Kata Sandi...</translation>
-    </message>
-    <message>
-        <source>&amp;Such sending addresses...</source>
-        <translation>&amp;Alamat-alamat untuk mengirim...</translation>
-    </message>
-    <message>
-        <source>&amp;Much receiving addresses...</source>
-        <translation>&amp;Alamat-alamat untuk menerima...</translation>
-    </message>
-    <message>
-        <source>Open &amp;URI...</source>
-        <translation>Buka &amp;URI</translation>
-    </message>
-    <message>
-        <source>Click to disable network activity.</source>
-        <translation>Klik untuk menonaktifkan aktivitas jaringan.</translation>
-    </message>
-    <message>
-        <source>Network activity disabled.</source>
-        <translation>Aktivitas jaringan dinonaktifkan.</translation>
-    </message>
-    <message>
-        <source>Click to enable network activity again.</source>
-        <translation>Klik untuk mengaktifkan aktivitas jaringan lagi.</translation>
-    </message>
-    <message>
-        <source>Syncing Headers (%1%)...</source>
-        <translation>Menyinkronkan Header (%1%) ...</translation>
-    </message>
-    <message>
-        <source>Reindexing blocks on disk...</source>
-        <translation>Mengindeks ulang blok di dalam disk...</translation>
-    </message>
-    <message>
-        <source>Send coins to a Dogecoin address</source>
-        <translation>Kirim koin ke alamat Dogecoin</translation>
-    </message>
-    <message>
-        <source>Backup wallet to another location</source>
-        <translation>Cadangkan dompet ke lokasi lain</translation>
-    </message>
-    <message>
-        <source>Change the passphrase used for wallet encryption</source>
-        <translation>Ubah kata kunci yang digunakan untuk enkripsi dompet</translation>
-    </message>
-    <message>
-        <source>&amp;Debug window</source>
-        <translation>&amp;Jendela Debug</translation>
-    </message>
-    <message>
-        <source>Open debugging and diagnostic console</source>
-        <translation>Buka konsol debug dan diagnosa</translation>
-    </message>
-    <message>
-        <source>&amp;Verify message...</source>
-        <translation>&amp;Verifikasi pesan...</translation>
-    </message>
-    <message>
-        <source>Dogecoin</source>
-        <translation>Dogecoin</translation>
-    </message>
-    <message>
-        <source>Wallet</source>
-        <translation>Dompet</translation>
-    </message>
-    <message>
-        <source>&amp;Such Send</source>
-        <translation>&amp;Kirim</translation>
-    </message>
-    <message>
-        <source>&amp;Much Receive</source>
-        <translation>&amp;Menerima</translation>
+        <translation>Pengubahan konfigurasi untuk %1</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>
@@ -382,16 +314,96 @@
         <translation>Tampilkan atau sembunyikan jendela utama</translation>
     </message>
     <message>
+        <source>&amp;Encrypt Wallet...</source>
+        <translation>&amp;Enkripsi Dompet...</translation>
+    </message>
+    <message>
         <source>Encrypt the private keys that belong to your wallet</source>
         <translation>Enkripsi private key yang dimiliki dompet Anda</translation>
+    </message>
+    <message>
+        <source>&amp;Backup Wallet...</source>
+        <translation>&amp;Cadangkan Dompet...</translation>
+    </message>
+    <message>
+        <source>Click to disable network activity.</source>
+        <translation>Klik untuk menonaktifkan aktivitas jaringan.</translation>
+    </message>
+    <message>
+        <source>&amp;Change Passphrase...</source>
+        <translation>&amp;Ubah Kata Sandi...</translation>
+    </message>
+    <message>
+        <source>Change the passphrase used for wallet encryption</source>
+        <translation>Ubah kata kunci yang digunakan untuk enkripsi dompet</translation>
+    </message>
+    <message>
+        <source>Sign &amp;message...</source>
+        <translation>Tandatangani &amp;pesan...</translation>
     </message>
     <message>
         <source>Sign messages with your Dogecoin addresses to prove you own them</source>
         <translation>Tanda tangani sebuah pesan menggunakan alamat Dogecoin Anda untuk membuktikan bahwa Anda adalah pemilik alamat tersebut</translation>
     </message>
     <message>
+        <source>Send coins to a Dogecoin address</source>
+        <translation>Kirim koin ke alamat Dogecoin</translation>
+    </message>
+    <message>
         <source>Verify messages to ensure they were signed with specified Dogecoin addresses</source>
-        <translation>Verifikasi pesan untuk memastikan bahwa pesan tersebut ditanda tangani oleh suatu alamat Dogecoin tertentu</translation>
+        <translation>Verifikasi pesan untuk memastikan bahwa pesan tersebut ditandatangani oleh suatu alamat Dogecoin tertentu</translation>
+    </message>
+    <message>
+        <source>&amp;Print paper wallePrint paper walletsts</source>
+        <translation>&amp;Cetak dompet kertas</translation>
+    </message>
+    <message>
+        <source>Print paper wallets</source>
+        <translation>Cetak dompet kertas</translation>
+    </message>
+    <message>
+        <source>&amp;Debug window</source>
+        <translation>&amp;Jendela Debug</translation>
+    </message>
+    <message>
+        <source>Open debugging and diagnostic console</source>
+        <translation>Buka konsol debug dan diagnosa</translation>
+    </message>
+    <message>
+        <source>Dogecoin</source>
+        <translation>Dogecoin</translation>
+    </message>
+    <message>
+        <source>Wallet</source>
+        <translation>Dompet</translation>
+    </message>
+    <message>
+        <source>&amp;Much receiving addresses...</source>
+        <translation>&amp;Alamat-alamat untuk menerima...</translation>
+    </message>
+    <message>
+        <source>Show the list of used receiving addresses and labels</source>
+        <translation>Tampilkan daftar alamat dan label yang diterima</translation>
+    </message>
+    <message>
+        <source>Open &amp;URI...</source>
+        <translation>Buka &amp;URI</translation>
+    </message>
+    <message>
+        <source>Open a dogecoin: URI or payment request</source>
+        <translation>Buka URI dogecoin: atau permintaan pembayaran</translation>
+    </message>
+    <message>
+        <source>&amp;Command-line options</source>
+        <translation>&amp;pilihan Command-line</translation>
+    </message>
+    <message>
+        <source>Show the %1 help message to get a list with possible Dogecoin command-line options</source>
+        <translation>Tampilkan %1 pesan bantuan untuk mendapatkan daftar opsi baris perintah Dogecoin yang memungkinkan</translation>
+    </message>
+    <message>
+        <source>Encrypt the private keys that belong to your wallet</source>
+        <translation>Enkripsi private key yang dimiliki dompet Anda</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -416,18 +428,6 @@
     <message>
         <source>Show the list of used sending addresses and labels</source>
         <translation>Tampilkan daftar alamat dan label yang terkirim</translation>
-    </message>
-    <message>
-        <source>Show the list of used receiving addresses and labels</source>
-        <translation>Tampilkan daftar alamat dan label yang diterima</translation>
-    </message>
-    <message>
-        <source>Open a dogecoin: URI or payment request</source>
-        <translation>Buka URI dogecoin: atau permintaan pembayaran</translation>
-    </message>
-    <message>
-        <source>&amp;Command-line options</source>
-        <translation>&amp;pilihan Command-line</translation>
     </message>
     <message numerus="yes">
         <source>%n active connection(s) to Dogecoin network</source>
@@ -472,10 +472,6 @@
     <message>
         <source>Up to date</source>
         <translation>Terbaru</translation>
-    </message>
-    <message>
-        <source>Show the %1 help message to get a list with possible Dogecoin command-line options</source>
-        <translation>Tampilkan %1 pesan bantuan untuk mendapatkan daftar opsi baris perintah Dogecoin yang memungkinkan</translation>
     </message>
     <message>
         <source>%1 client</source>
@@ -805,7 +801,7 @@
     </message>
     <message>
         <source>Start minimized</source>
-        <translation>Minimalkan Saat Mulai</translation>
+        <translation>Meminimalkan Saat Mulai</translation>
     </message>
     <message>
         <source>Set SSL root certificates for payment request (default: -system-)</source>
@@ -910,7 +906,7 @@
     </message>
     <message>
         <source>Select payment request file to open</source>
-        <translation>Pilih nerkas permintaan pembayaran untuk membuka</translation>
+        <translation>Pilih berkas permintaan pembayaran untuk membuka</translation>
     </message>
 </context>
 <context>
@@ -929,7 +925,7 @@
     </message>
     <message>
         <source>&amp;Start %1 on system login</source>
-        <translation>&amp;Memulai %1 saat masuk kedalam sistem</translation>
+        <translation>&amp;Memulai %1 saat masuk ke dalam sistem</translation>
     </message>
     <message>
         <source>Size of &amp;database cache</source>
@@ -961,7 +957,7 @@
     </message>
     <message>
         <source>Third party URLs (e.g. a block explorer) that appear in the transactions tab as context menu items. %s in the URL is replaced by transaction hash. Multiple URLs are separated by vertical bar |.</source>
-        <translation>URL pihak ketika (misalnya sebuah block explorer) yang muncul dalam tab transaksi sebagai konteks menu. %s dalam URL diganti dengan kode transaksi. URL dipisahkan dengan tanda vertikal |.</translation>
+        <translation>URL pihak ketiga (misalnya sebuah block explorer) yang muncul dalam tab transaksi sebagai konteks menu. %s dalam URL diganti dengan kode transaksi. URL dipisahkan dengan tanda vertikal |.</translation>
     </message>
     <message>
         <source>Third party transaction URLs</source>
@@ -1041,7 +1037,7 @@
     </message>
     <message>
         <source>Shows, if the supplied default SOCKS5 proxy is used to reach peers via this network type.</source>
-        <translation>Tampilkan, jika proxy SOCKS5 digunakan untuk menggapai para rekan (peers) malalui jenis jaringan ini.</translation>
+        <translation>Tampilkan, jika proxy SOCKS5 digunakan untuk menggapai para rekan (peers) melalui jenis jaringan ini.</translation>
     </message>
     <message>
         <source>IPv4</source>
@@ -1081,7 +1077,7 @@
     </message>
     <message>
         <source>&amp;Minimize to the tray instead of the taskbar</source>
-        <translation>&amp;Meminimalisasi kedalam baki (tray) daripada ke dalam taskbar</translation>
+        <translation>&amp;Meminimalisasi ke dalam baki (tray) daripada ke dalam taskbar</translation>
     </message>
     <message>
         <source>M&amp;inimize on close</source>
@@ -1125,7 +1121,7 @@
     </message>
     <message>
         <source>none</source>
-        <translation>tidak satupun</translation>
+        <translation>tidak satu pun</translation>
     </message>
     <message>
         <source>Confirm options reset</source>
@@ -1156,7 +1152,7 @@
     </message>
     <message>
         <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Dogecoin network after a connection is established, but this process has not completed yet.</source>
-        <translation>Informasi terlampir mungkin sudah kadaluwarsa. Dompet Anda secara otomatis mensinkronisasi dengan jaringan Dogecoin ketika sebuah hubungan terbentuk, namun proses ini belum selesai.</translation>
+        <translation>Informasi terlampir mungkin sudah kedaluwarsa. Dompet Anda secara otomatis mensinkronisasi dengan jaringan Dogecoin ketika sebuah hubungan terbentuk, namun proses ini belum selesai.</translation>
     </message>
     <message>
         <source>Watch-only:</source>
@@ -1268,11 +1264,11 @@ da</translation>
     </message>
     <message>
         <source>Payment request expired.</source>
-        <translation>Permintaan pembayaran kadaluwarsa.</translation>
+        <translation>Permintaan pembayaran kedaluwarsa.</translation>
     </message>
     <message>
         <source>Payment request is not initialized.</source>
-        <translation>Permmintaan pembayaran belum diinisiasi.</translation>
+        <translation>Permintaan pembayaran belum diinisiasi.</translation>
     </message>
     <message>
         <source>Unverified payment requests to custom payment scripts are unsupported.</source>
@@ -1396,7 +1392,7 @@ da</translation>
     </message>
     <message>
         <source>&amp;Copy Image</source>
-        <translation>&ampSalin Gambar</translation>
+        <translation>&amp;Salin Gambar</translation>
     </message>
     <message>
         <source>Save QR Code</source>
@@ -1495,7 +1491,7 @@ da</translation>
     </message>
     <message>
         <source>Whitelisted</source>
-        <translation>Daftar Izinakan</translation>
+        <translation>Daftar Izinkan</translation>
     </message>
     <message>
         <source>Direction</source>
@@ -1801,7 +1797,7 @@ da</translation>
     </message>
     <message>
         <source>Payment information</source>
-        <translation>Informasi pembayaran/translation>
+        <translation>Informasi pembayaran</translation>
     </message>
     <message>
         <source>URI</source>
@@ -1927,7 +1923,7 @@ da</translation>
     </message>
     <message>
         <source>If the custom fee is set to 1000 koinu and the transaction is only 250 bytes, then "per kilobyte" only pays 250 koinu in fee, while "total at least" pays 1000 koinu. For transactions bigger than a kilobyte both pay by kilobyte.</source>
-        <translation>Jika biaya custom diatur menjadi 1000 koinu dan transaksi hanya 250 bytes, maka "per kilobyte" nya hanya bayar 250 koinu, dimana "total sedikitny" membayar 1000 koinu. Untuk transaksi yang lebih besar dari satu kilobyte dihitung membayar per kilobyte.</translation>
+        <translation>Jika biaya custom diatur menjadi 1000 koinu dan transaksi hanya 250 bytes, maka "per kilobyte" nya hanya bayar 250 koinu, dimana "total sedikitnya" membayar 1000 koinu. Untuk transaksi yang lebih besar dari satu kilobyte dihitung membayar per kilobyte.</translation>
     </message>
     <message>
         <source>Hide</source>
@@ -2111,7 +2107,7 @@ da</translation>
     </message>
     <message>
         <source>Sign the message to prove you own this Dogecoin address</source>
-        <translation>Tandai pesan untuk menyetujui kamu pemiliki alamat Dogecoin ini</translation>
+        <translation>Tandai pesan untuk menyetujui kamu pemilik alamat Dogecoin ini</translation>
     </message>
     <message>
         <source>Sign &amp;Message</source>
@@ -2184,91 +2180,91 @@ da</translation>
     </message>
     <message>
         <source>Date</source>
-        <translation>Data</translation>
+        <translation>Tanggal</translation>
     </message>
     <message>
         <source>Source</source>
-        <translation>Sorgente</translation>
+        <translation>Sumber</translation>
     </message>
     <message>
         <source>Generated</source>
-        <translation>Generato</translation>
+        <translation>Tercipta</translation>
     </message>
     <message>
         <source>From</source>
-        <translation>Da</translation>
+        <translation>Dari</translation>
     </message>
     <message>
         <source>unknown</source>
-        <translation>sconosciuto</translation>
+        <translation>tidak diketahui</translation>
     </message>
     <message>
         <source>To</source>
-        <translation>A</translation>
+        <translation>Ke</translation>
     </message>
     <message>
         <source>own address</source>
-        <translation>proprio indirizzo</translation>
+        <translation>memiliki alamat</translation>
     </message>
     <message>
         <source>watch-only</source>
-        <translation>sola lettura</translation>
+        <translation>hanya-menyimak</translation>
     </message>
     <message>
         <source>label</source>
-        <translation>etichetta</translation>
+        <translation>label</translation>
     </message>
     <message>
         <source>Credit</source>
-        <translation>Credito</translation>
+        <translation>Kredit</translation>
     </message>
     <message>
         <source>not accepted</source>
-        <translation>non accettate</translation>
+        <translation>tidak diterima</translation>
     </message>
     <message>
         <source>Debit</source>
-        <translation>Debito</translation>
+        <translation>Debit</translation>
     </message>
     <message>
         <source>Total debit</source>
-        <translation>Debito totale</translation>
+        <translation>Total debit</translation>
     </message>
     <message>
         <source>Total credit</source>
-        <translation>Credito totale</translation>
+        <translation>Total kredit</translation>
     </message>
     <message>
         <source>Transaction fee</source>
-        <translation>Commissione transazione</translation>
+        <translation>Biaya Transaksi</translation>
     </message>
     <message>
         <source>Net amount</source>
-        <translation>Importo netto</translation>
+        <translation>Net amount</translation>
     </message>
     <message>
         <source>Message</source>
-        <translation>Messaggio</translation>
+        <translation>Pesan</translation>
     </message>
     <message>
         <source>Comment</source>
-        <translation>Commento</translation>
+        <translation>Komentar</translation>
     </message>
     <message>
         <source>Transaction ID</source>
-        <translation>ID della transazione</translation>
+        <translation>ID Transaksi</translation>
     </message>
     <message>
         <source>Merchant</source>
-        <translation>Commerciante</translation>
+        <translation>Merchant</translation>
     </message>
     <message>
         <source>Debug information</source>
-        <translation>Informazione di debug</translation>
+        <translation>Informasi Debug</translation>
     </message>
     <message>
         <source>Transaction</source>
-        <translation>Transazione</translation>
+        <translation>Transaksi</translation>
     </message>
     <message>
         <source>Inputs</source>
@@ -2496,7 +2492,7 @@ da</translation>
     </message>
     <message>
         <source>Specify wallet file (within data directory)</source>
-        <translation>Tentukan berkas dompet (didalam direktori data)</translation>
+        <translation>Tentukan berkas dompet (di dalam direktori data)</translation>
     </message>
     <message>
         <source>Verifying blocks...</source>
@@ -2508,7 +2504,7 @@ da</translation>
     </message>
     <message>
         <source>Wallet %s resides outside data directory %s</source>
-        <translation>Dompet %s ada diluar direktori data %s</translation>
+        <translation>Dompet %s ada di luar direktori data %s</translation>
     </message>
     <message>
         <source>Wallet options:</source>
@@ -2528,11 +2524,11 @@ da</translation>
     </message>
     <message>
         <source>Reducing -maxconnections from %d to %d, because of system limitations.</source>
-        <translation>Riduzione -maxconnections da %d a %d a causa di limitazioni di sistema.</translation>
+        <translation>Mengurangi -maxconnections dari %d ke %d dikarenakan keterbatasan sistem.</translation>
     </message>
     <message>
         <source>Rescan the block chain for missing wallet transactions on startup</source>
-        <translation>Ripete la scansione della block chain per individuare le transazioni che mancano dal wallet all'avvio</translation>
+        <translation>Pindai ulang block chain saat memulai, untuk menemukan transaksi yang hilang</translation>
     </message>
     <message>
         <source>Send trace/debug info to console instead of debug.log file</source>
@@ -2540,7 +2536,7 @@ da</translation>
     </message>
     <message>
         <source>Send transactions as zero-fee transactions if possible (default: %u)</source>
-        <translation>Jika memungkin, kirim transaksi sebagai trasaksi bebas biaya (default: %u)</translation>
+        <translation>Jika memungkinkan, kirim transaksi sebagai transaksi bebas biaya (default: %u)</translation>
     </message>
     <message>
         <source>Show all debugging options (usage: --help -help-debug)</source>
