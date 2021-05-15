@@ -2667,12 +2667,28 @@
 <context>
     <name>TransactionDesc</name>
     <message>
+        <source>Open for %n more block(s)</source>
+        <translation>Buka untuk %n blok lagi</translation>
+    </message>
+    <message>
+        <source>Open until %1</source>
+        <translation>Buka sampai %1</translation>
+    </message>
+    <message>
+        <source>conflicted with a transaction with %1 confirmations</source>
+        <translation>bentrok dengan sebuah transaksi dengan %1 konfirmasi</translation>
+    </message>
+    <message>
         <source>%1/offline</source>
         <translation>%1/offline</translation>
     </message>
     <message>
         <source>0/unconfirmed, %1</source>
         <translation>0/belum terkonfirmasi, %1</translation>
+    </message>
+    <message>
+        <source>in memory pool</source>
+        <translation>dalam memory pool</translation>
     </message>
     <message>
         <source>abandoned</source>
@@ -2693,6 +2709,10 @@
     <message>
         <source>, has not been successfully broadcast yet</source>
         <translation>, saat ini belum berhasil disiarkan</translation>
+    </message>
+    <message>
+        <source>, broadcast through %n node(s)</source>
+        <translation>, disiarkan melalui %n node</translation>
     </message>
     <message>
         <source>Date</source>
@@ -2724,7 +2744,7 @@
     </message>
     <message>
         <source>watch-only</source>
-        <translation>hanya-menyimak</translation>
+        <translation>hanya-menonton</translation>
     </message>
     <message>
         <source>label</source>
@@ -2733,6 +2753,10 @@
     <message>
         <source>Credit</source>
         <translation>Kredit</translation>
+    </message>
+    <message>
+        <source>matures in %n more block(s)</source>
+        <translation>dewasa dalam %n blok lagi</translation>
     </message>
     <message>
         <source>not accepted</source>
@@ -2771,8 +2795,20 @@
         <translation>ID Transaksi</translation>
     </message>
     <message>
+        <source>Transaction total size</source>
+        <translation>Total ukuran transaksi</translation>
+    </message>
+    <message>
+        <source>Output index</source>
+        <translation>Indeks Luaran</translation>
+    </message>
+    <message>
         <source>Merchant</source>
         <translation>Merchant</translation>
+    </message>
+    <message>
+        <source>Generated coins must mature %1 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
+        <translation>Koin yang dihasilkan harus menjadi dewasa %1 blok sebelum dapat digunakan. Saat Anda membuat blok ini, blok disiarkan ke jaringan untuk ditambahkan ke rantai blok (blockchain). Jika gagal masuk ke rantai, statusnya akan berubah menjadi &quot; tidak diterima &quot; dan itu tidak akan bisa dibelanjakan. Terkadang dapat terjadi jika node lain menghasilkan blok beberapa detik lebih cepat darimu.</translation>
     </message>
     <message>
         <source>Debug information</source>
@@ -2790,14 +2826,26 @@
         <source>Amount</source>
         <translation>Jumlah</translation>
     </message>
-    </context>
+    <message>
+        <source>true</source>
+        <translation>benar</translation>
+    </message>
+    <message>
+        <source>false</source>
+        <translation>salah</translation>
+    </message>
+</context>
 <context>
     <name>TransactionDescDialog</name>
     <message>
         <source>This pane shows a detailed description of the transaction</source>
         <translation>Jendela ini menampilkan deskripsi rinci transaksi tersebut</translation>
     </message>
-    </context>
+    <message>
+        <source>Details for %1</source>
+        <translation>Detail untuk %1</translation>
+    </message>
+</context>
 <context>
     <name>TransactionTableModel</name>
     <message>
@@ -2813,10 +2861,109 @@
         <translation>Label</translation>
     </message>
     <message>
+        <source>Open for %n more block(s)</source>
+        <translation>Buka untuk %n blok lagi</translation>
+    </message>
+    <message>
+        <source>Open until %1</source>
+        <translation>Buka sampai %1</translation>
+    </message>
+    <message>
+        <source>Offline</source>
+        <translation>Luring</translation>
+    </message>
+    <message>
+        <source>Unconfirmed</source>
+        <translation>Belum Terkonfirmasi</translation>
+    </message>
+    <message>
+        <source>Abandoned</source>
+        <translation>Ditinggalkan</translation>
+    </message>
+    <message>
+        <source>Confirming (%1 of %2 recommended confirmations)</source>
+        <translation>Mengkonfirmasi (%1 dari %2 konfirmasi yang disarankan)</translation>
+    </message>
+    <message>
+        <source>Confirmed (%1 confirmations)</source>
+        <translation>Terkonfirmasi (%1 konfirmasi)</translation>
+    </message>
+    <message>
+        <source>Conflicted</source>
+        <translation>Bentrok</translation>
+    </message>
+    <message>
+        <source>Immature (%1 confirmations, will be available after %2)</source>
+        <translation>Belum dewasa (%1 konfirmasi, akan tersedia setelah %2)</translation>
+    </message>
+    <message>
+        <source>This block was not received by any other nodes and will probably not be accepted!</source>
+        <translation>Blok ini tidak diterima oleh node manapun dan mungkin tidak akan diterima!</translation>
+    </message>
+    <message>
+        <source>Generated but not accepted</source>
+        <translation>Diciptakan tapi tidak disetujui</translation>
+    </message>
+    <message>
+        <source>Received with</source>
+        <translation>Diterima dengan</translation>
+    </message>
+    <message>
+        <source>Received from</source>
+        <translation>Diterima dari</translation>
+    </message>
+    <message>
+        <source>Sent to</source>
+        <translation>Dikirim ke</translation>
+    </message>
+    <message>
+        <source>Payment to yourself</source>
+        <translation>Pembayaran ke diri sendiri</translation>
+    </message>
+    <message>
+        <source>Mined</source>
+        <translation>Ditambang</translation>
+    </message>
+    <message>
+        <source>watch-only</source>
+        <translation>hanya-menonton</translation>
+    </message>
+    <message>
+        <source>(n/a)</source>
+        <translation>(n/a)</translation>
+    </message>
+        <source>(n/a)</source>
+        <translation>(n/a)</translation>
+    </message>
+    <message>
         <source>(no label)</source>
         <translation>(tidak ada label)</translation>
     </message>
-    </context>
+    <message>
+        <source>Transaction status. Hover over this field to show number of confirmations.</source>
+        <translation>Status transaksi. Arahkan kursor ke bidang ini untuk menunjukkan jumlah konfirmasi.</translation>
+    </message>
+    <message>
+        <source>Date and time that the transaction was received.</source>
+        <translation>Tanggal dan waktu saat transaksi diterima.</translation>
+    </message>
+    <message>
+        <source>Type of transaction.</source>
+        <translation>Tipe transaksi.</translation>
+    </message>
+    <message>
+        <source>Whether or not a watch-only address is involved in this transaction.</source>
+        <translation>Apakah sebuah alamat &quot; hanya-menonton &quot; terlibat dalam transaksi ini.</translation>
+    </message>
+    <message>
+        <source>User-defined intent/purpose of the transaction.</source>
+        <translation>Maksud / tujuan transaksi yang ditentukan pengguna.</translation>
+    </message>
+    <message>
+        <source>Amount removed from or added to balance.</source>
+        <translation>Jumlah saldo yang dihilangkan atau ditambahkan.</translation>
+    </message>
+</context>
 <context>
     <name>TransactionView</name>
     <message>
@@ -2861,7 +3008,7 @@
     </message>
     <message>
         <source>Mined</source>
-        <translation>Tertambang</translation>
+        <translation>Ditambang</translation>
     </message>
     <message>
         <source>Other</source>
@@ -2876,6 +3023,10 @@
         <translation>Jumlah Minimal</translation>
     </message>
     <message>
+        <source>Abandon transaction</source>
+        <translation>Tinggalkan Transaksi</translation>
+    </message>
+    <message>
         <source>Copy address</source>
         <translation>Salin alamat</translation>
     </message>
@@ -2884,8 +3035,52 @@
         <translation>Salin label</translation>
     </message>
     <message>
+        <source>Copy amount</source>
+        <translation>Salin jumlah</translation>
+    </message>
+    <message>
+        <source>Copy transaction ID</source>
+        <translation>Salin ID transaksi</translation>
+    </message>
+    <message>
+        <source>Copy raw transaction</source>
+        <translation>Salin transaksi mentah</translation>
+    </message>
+    <message>
+        <source>Copy full transaction details</source>
+        <translation>Salin tdetail lengkap transaksi</translation>
+    </message>
+    <message>
+        <source>Edit label</source>
+        <translation>Ubah Label</translation>
+    </message>
+    <message>
+        <source>Show transaction details</source>
+        <translation>Tampilkan detail transaksi</translation>
+    </message>
+    <message>
+        <source>Export Transaction History</source>
+        <translation>Ekspor Riwayat Transaksi</translation>
+    </message>
+    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Comma separated file (*.csv)</translation>
+    </message>
+    <message>
+        <source>Confirmed</source>
+        <translation>Terkonfirmasi</translation>
+    </message>
+    <message>
+        <source>Watch-only</source>
+        <translation>Hanya-menonton</translation>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation>Tanggal</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Tipe</translation>
     </message>
     <message>
         <source>Label</source>
@@ -2896,24 +3091,212 @@
         <translation>Alamat</translation>
     </message>
     <message>
+        <source>ID</source>
+        <translation>ID</translation>
+    </message>
+    <message>
         <source>Exporting Failed</source>
         <translation>Gagal Mengekspor</translation>
     </message>
-    </context>
+    <message>
+        <source>There was an error trying to save the transaction history to %1.</source>
+        <translation>Terjadi kesalahan saat mencoba untuk menyimpan riwayat transaksi ke %1.</translation>
+    </message>
+    <message>
+        <source>Exporting Successful</source>
+        <translation>Eskspor Berhasil</translation>
+    </message>
+    <message>
+        <source>The transaction history was successfully saved to %1.</source>
+        <translation>Riwayat transaksi telah berhasil disimpan ke %1</translation>
+    </message>
+    <message>
+        <source>Range:</source>
+        <translation>Rentang:</translation>
+    </message>
+    <message>
+        <source>to</source>
+        <translation>ke</translation>
+    </message>
+</context>
 <context>
     <name>UnitDisplayStatusBarControl</name>
-    </context>
+    <message>
+        <source>Unit to show amounts in. Click to select another unit.</source>
+        <translation>Unit untuk menampilkan jumlah. Klik untuk memilih unit lain.</translation>
+    </message>
+</context>
 <context>
     <name>WalletFrame</name>
-    </context>
+    <message>
+        <source>No wallet has been loaded.</source>
+        <translation>Tidak ada dompet termuat.</translation>
+    </message>
+</context>
 <context>
     <name>WalletModel</name>
-    </context>
+    <message>
+        <source>Send Coins</source>
+        <translation>Kirim Koin</translation>
+    </message>
+</context>
 <context>
     <name>WalletView</name>
-    </context>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Ekspor</translation>
+    </message>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Ekspor data di tab ini ke sebuah berkas</translation>
+    </message>
+    <message>
+        <source>Backup Wallet</source>
+        <translation>Cadangkan Dompet</translation>
+    </message>
+    <message>
+        <source>Wallet Data (*.dat)</source>
+        <translation>Data Dompet (*.dat)</translation>
+    </message>
+    <message>
+        <source>Backup Failed</source>
+        <translation>Gagal Mencadangkan Dompet</translation>
+    </message>
+    <message>
+        <source>There was an error trying to save the wallet data to %1.</source>
+        <translation>Terjadi kesalahan saat mencoba untuk menyimpan data dompet ke %1.</translation>
+    </message>
+    <message>
+        <source>Backup Successful</source>
+        <translation>Pencadangan Berhasil</translation>
+    </message>
+    <message>
+        <source>The wallet data was successfully saved to %1.</source>
+        <translation>Dompet terlah berhasil tersimpan di %1.</translation>
+    </message>
+</context>
 <context>
     <name>dogecoin-core</name>
+    <message>
+        <source>Dogecoin Core</source>
+        <translation>Dogecoin Core</translation>
+    </message>
+    <message>
+        <source>The %s developers</source>
+        <translation>%s pengembang</translation>
+    </message>
+    <message>
+        <source>(1 = keep tx meta data e.g. account owner and payment request information, 2 = drop tx meta data)</source>
+        <translation>(1 = keep tx meta data e.g. account owner and payment request information, 2 = drop tx meta data)</translation>
+    </message>
+    <message>
+        <source>-maxtxfee is set very high! Fees this large could be paid on a single transaction.</source>
+        <translation>-maxtxfee diatur sangat tinggi! Biaya yang besar ini bisa dibayar dalam satu kali transaksi.</translation>
+    </message>
+    <message>
+        <source>A fee rate (in %s/kB) that will be used when fee estimation has insufficient data (default: %s)</source>
+        <translation>Sebuah biaya rate (di %s/kB) yang akan digunakan ketika estimasi biaya memilik data yang kurang (default: %s)</translation>
+    </message>
+    <message>
+        <source>Accept connections from outside (default: 1 if no -proxy or -connect/-noconnect)</source>
+        <translation>Terima koneksi dari luar (default: 1 jika tidak -proxy atau -connect/-noconnect)</translation>
+    </message>
+    <message>
+        <source>Accept relayed transactions received from whitelisted peers even when not relaying transactions (default: %d)</source>
+        <translation>Setujui transaksi terusan yang diterima dari rekan yang masuk daftar putih meskipun tidak menyampaikan transaksi (default: %d)</translation>
+    </message>
+    <message>
+        <source>Allow JSON-RPC connections from specified source. Valid for &lt;ip&gt; are a single IP (e.g. 1.2.3.4), a network/netmask (e.g. 1.2.3.4/255.255.255.0) or a network/CIDR (e.g. 1.2.3.4/24). This option can be specified multiple times</source>
+        <translation>Izinkan koneksi JSON-RPC dari sumber tertentu. Valid untuk &lt;ip&gt; tunggal (e.g. 1.2.3.4), network/netmask (e.g. 1.2.3.4/255.255.255.0) atau network/CIDR (e.g. 1.2.3.4/24). Opsi ini bisa dispesifikan beberapa kali</translation>
+    </message>
+    <message>
+        <source>Bind to given address and always listen on it. Use [host]:port notation for IPv6</source>
+        <translation>Bind to given address and always listen on it. Use [host]:port notation for IPv6</translation>
+    </message>
+    <message>
+        <source>Bind to given address and whitelist peers connecting to it. Use [host]:port notation for IPv6/source>
+        <translation>Bind to given address and whitelist peers connecting to it. Use [host]:port notation for IPv6</translation>
+    </message>
+    <message>
+        <source>Bind to given address to listen for JSON-RPC connections. Use [host]:port notation for IPv6. This option can be specified multiple times (default: bind to all interfaces)</source>
+        <translation>Bind to given address to listen for JSON-RPC connections. Use [host]:port notation for IPv6. This option can be specified multiple times (default: bind to all interfaces)</translation>
+    </message>
+    <message>
+        <source>Bind to given address to listen for JSON-RPC connections. Use [host]:port notation for IPv6. This option can be specified multiple times (default: bind to all interfaces)</source>
+        <translation>Bind to given address to listen for JSON-RPC connections. Use [host]:port notation for IPv6. This option can be specified multiple times (default: bind to all interfaces)</translation>
+    </message>
+    <message>
+        <source>Cannot obtain a lock on data directory %s. %s is probably already running.</source>
+        <translation>Cannot obtain a lock on data directory %s. %s is probably already running.</translation>
+    </message>
+    <message>
+        <source>Connect only to the specified node(s); -noconnect or -connect=0 alone to disable automatic connections</source>
+        <translation>Connect only to the specified node(s); -noconnect or -connect=0 alone to disable automatic connections</translation>
+    </message>
+    <message>
+        <source>Create new files with system default permissions, instead of umask 077 (only effective with disabled wallet functionality)</source>
+        <translation>Create new files with system default permissions, instead of umask 077 (only effective with disabled wallet functionality)</translation>
+    </message>
+    <message>
+        <source>Delete all wallet transactions and only recover those parts of the blockchain through -rescan on startup</source>
+        <translation>Delete all wallet transactions and only recover those parts of the blockchain through -rescan on startup</translation>
+    </message>
+    <message>
+        <source>Discover own IP addresses (default: 1 when listening and no -externalip or -proxy)</source>
+        <translation>Discover own IP addresses (default: 1 when listening and no -externalip or -proxy)</translation>
+    </message>
+    <message>
+        <source>Distributed under the MIT software license, see the accompanying file %s or %s</source>
+        <translation>Distributed under the MIT software license, see the accompanying file %s or %s</translation>
+    </message>
+    <message>
+        <source>Do not keep transactions in the mempool longer than &lt;n&gt; hours (default: %u)</source>
+        <translation>Do not keep transactions in the mempool longer than &lt;n&gt; hours (default: %u)</translation>
+    </message>
+    <message>
+        <source>Equivalent bytes per sigop in transactions for relay and mining (default: %u)</source>
+        <translation>Equivalent bytes per sigop in transactions for relay and mining (default: %u)</translation>
+    </message>
+    <message>
+        <source>Error loading %s: You can&apos;t enable HD on a already existing non-HD wallet</source>
+        <translation>Error loading %s: You can&apos;t enable HD on a already existing non-HD wallet</translation>
+    </message>
+    <message>
+        <source>Error reading %s! All keys read correctly, but transaction data or address book entries might be missing or incorrect.</source>
+        <translation>Error reading %s! All keys read correctly, but transaction data or address book entries might be missing or incorrect.</translation>
+    </message>
+    <message>
+        <source>Error: Listening for incoming connections failed (listen returned error %s)</source>
+        <translation>Error: Listening for incoming connections failed (listen returned error %s)</translation>
+    </message>
+    <message>
+        <source>Execute command when a relevant alert is received or we see a really long fork (%s in cmd is replaced by message)</source>
+        <translation>Execute command when a relevant alert is received or we see a really long fork (%s in cmd is replaced by message)</translation>
+    </message>
+    <message>
+        <source>Execute command when a wallet transaction changes (%s in cmd is replaced by TxID)</source>
+        <translation>Execute command when a wallet transaction changes (%s in cmd is replaced by TxID)</translation>
+    </message>
+    <message>
+        <source>Execute command when the best block changes (%s in cmd is replaced by block hash)</source>
+        <translation>Execute command when the best block changes (%s in cmd is replaced by block hash)</translation>
+    </message>
+    <message>
+        <source>Extra transactions to keep in memory for compact block reconstructions (default: %u)</source>
+        <translation>Extra transactions to keep in memory for compact block reconstructions (default: %u)</translation>
+    </message>
+    <message>
+        <source>Fees (in %s/kB) smaller than this are considered zero fee for relaying, mining and transaction creation (default: %s)</source>
+        <translation>Fees (in %s/kB) smaller than this are considered zero fee for relaying, mining and transaction creation (default: %s)</translation>
+    </message>
+    <message>
+        <source>Fees (in %s/kB) smaller than this are considered zero fee for transaction creation (default: %s)</source>
+        <translation>Fees (in %s/kB) smaller than this are considered zero fee for transaction creation (default: %s)</translation>
+    </message>
+    <message>
+        <source>Force relay of transactions from whitelisted peers even if they violate local relay policy (default: %d)</source>
+        <translation>Force relay of transactions from whitelisted peers even if they violate local relay policy (default: %d)</translation>
+    </message>
     <message>
         <source>Options:</source>
         <translation>Pilihan:</translation>
