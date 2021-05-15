@@ -197,7 +197,7 @@
     </message>
     <message>
         <source>The supplied passphrases do not match.</source>
-        <translation>提供的密码不yi'zhi。</translation>
+        <translation>提供的密码不一致。</translation>
     </message>
     <message>
         <source>Wallet unlock failed</source>
@@ -2971,8 +2971,7 @@
     </message>
     <message>
         <source>Accept command line and JSON-RPC commands</source>
-        <translation>接受命令行和 JSON-RPC 命令
-</translation>
+        <translation>接受命令行和 JSON-RPC 命令</translation>
     </message>
     <message>
         <source>If &lt;category&gt; is not supplied or if &lt;category&gt; = 1, output all debugging information.</source>
@@ -3004,9 +3003,7 @@
     </message>
     <message>
         <source>Run in the background as a daemon and accept commands</source>
-        <translation>在后台运行并接受命令
-
-</translation>
+        <translation>在后台运行并接受命令</translation>
     </message>
     <message>
         <source>Unable to start HTTP server. See debug log for details.</source>
@@ -3454,8 +3451,7 @@
     </message>
     <message>
         <source>Password for JSON-RPC connections</source>
-        <translation>JSON-RPC 连接密码
-</translation>
+        <translation>JSON-RPC 连接密码</translation>
     </message>
     <message>
         <source>Execute command when the best block changes (%s in cmd is replaced by block hash)</source>
