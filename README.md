@@ -11,7 +11,7 @@ Dogecoin currently employs a simplified variant of scrypt.
 
 ## License – Much license ⚖️
 Dogecoin Core is released under the terms of the MIT license. See
-[COPYING](COPYING) for more information or see
+[COPYING](COPYING) for more information or see :
 [opensource.org](https://opensource.org/licenses/MIT)
 
 ## Development and contributions – omg developers
@@ -60,7 +60,7 @@ secure the network and make up for lost wallets on hard drives/phones/lost
 encryption passwords/etc.
 
 
-### Such mining information ⛏
+### Such mining information ⛏ 
 
 Dogecoin uses a simplified variant of the scrypt key derivation function as its
 proof of work with a target time of one minute per block and difficulty
@@ -113,7 +113,7 @@ lessen the impact of sudden increases and decreases of network hashing rate.
 
 600,000+: 10,000 Dogecoin
 
-### Wow plz make dogecoind/dogecoin-cli/dogecoin-qt
+### Wow please make dogecoind/dogecoin-cli/dogecoin-qt
 
   The following are developer notes on how to build Dogecoin on your native platform. They are not complete guides, but include notes on the necessary libraries, compile flags, etc.
 
