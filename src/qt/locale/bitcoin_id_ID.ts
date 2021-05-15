@@ -63,11 +63,11 @@
     </message>
     <message>
         <source>These are your Dogecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>Berikut merupakan alamat - alamat Dogecoin Anda yang berguna untuk mengirimkan pembayaran. Selalu periksa jumlah dan alamat penerima sebelum mengirimkan koin.</translation>
+        <translation>Berikut merupakan alamat - alamat Dogecoinmu yang berguna untuk mengirimkan pembayaran. Selalu periksa jumlah dan alamat penerima sebelum mengirimkan koin.</translation>
     </message>
     <message>
         <source>These are your Dogecoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation>Berikut merupakan alamat - alamat Dogecoin Anda yang berguna untuk menerima pembayaran. Dianjurkan untuk menggunakan alamat penerima yang baru setiap kali melakukan transaksi.</translation>
+        <translation>Berikut merupakan alamat - alamat Dogecoinmu yang berguna untuk menerima pembayaran. Dianjurkan untuk menggunakan alamat penerima yang baru setiap kali melakukan transaksi.</translation>
     </message>
     <message>
         <source>&amp;Copy Address</source>
@@ -141,7 +141,7 @@
     </message>
     <message>
         <source>This operation needs your wallet passphrase to unlock the wallet.</source>
-        <translation>Operasi ini memerlukan kata sandi dompet Anda untuk membuka dompet.</translation>
+        <translation>Operasi ini memerlukan kata sandi dompetmu untuk membuka dompet.</translation>
     </message>
     <message>
         <source>Unlock wallet</source>
@@ -149,7 +149,7 @@
     </message>
     <message>
         <source>This operation needs your wallet passphrase to decrypt the wallet.</source>
-        <translation>Operasi ini memerlukan kata sandi dompet Anda untuk mendekripsikan dompet.</translation>
+        <translation>Operasi ini memerlukan kata sandi dompetmu untuk mendekripsikan dompet.</translation>
     </message>
     <message>
         <source>Decrypt wallet</source>
@@ -169,11 +169,11 @@
     </message>
     <message>
         <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DOGECOINS&lt;/b&gt;!</source>
-        <translation>Peringatan: Jika Anda mengenkripsi dompet Anda dan melupakan kata sandi anda, Anda akan &lt;b&gt;KEHILANGAN SEMUA DOGECOIN ANDA&lt;/b&gt;!</translation>
+        <translation>Peringatan: Jika kamu mengenkripsi dompet ini dan melupakan kata sandi anda, Kamu akan &lt;b&gt;KEHILANGAN SEMUA DOGECOIN ANDA&lt;/b&gt;!</translation>
     </message>
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
-        <translation>Apakah Anda yakin ingin mengenkripsi dompet Anda?</translation>
+        <translation>Apakah kamu yakin ingin mengenkripsi dompet ini?</translation>
     </message>
     <message>
         <source>Wallet encrypted</source>
@@ -181,11 +181,11 @@
     </message>
     <message>
         <source>%1 will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your dogecoins from being stolen by malware infecting your computer.</source>
-        <translation>%1 sekarang akan tertutup untuk menyelesaikan proses enkripsi. Ingatlah bahwa mengenkripsi dompet Anda tidak dapat sepenuhnya melindungi dari pencurian dogecoin oleh malware yang menginfeksi komputer Anda.</translation>
+        <translation>%1 sekarang akan tertutup untuk menyelesaikan proses enkripsi. Ingatlah bahwa mengenkripsi dompetmu tidak dapat sepenuhnya melindungi dari pencurian dogecoin oleh malware yang menginfeksi komputer Anda.</translation>
     </message>
     <message>
         <source>IMPORTANT: Any previous backups you have made of your wallet file should be replaced with the newly generated, encrypted wallet file. For security reasons, previous backups of the unencrypted wallet file will become useless as soon as you start using the new, encrypted wallet.</source>
-        <translation>PENTING: Cadangan data yang pernah Anda buat harus diganti dengan berkas dompet terenkripsi yang baru dibuat. Demi keamanan, cadangan berkas dompet sebelumnya yang tidak dienkripsi itu akan menjadi tidak berguna begitu Anda mulai menggunakan dompet terenkripsi yang baru.</translation>
+        <translation>PENTING: Cadangan data yang pernah kamu buat harus diganti dengan berkas dompet terenkripsi yang baru dibuat. Demi keamanan, cadangan berkas dompet sebelumnya yang tidak dienkripsi itu akan menjadi tidak berguna begitu kamu mulai menggunakan dompet terenkripsi yang baru.</translation>
     </message>
     <message>
         <source>Wallet encryption failed</source>
@@ -193,7 +193,7 @@
     </message>
     <message>
         <source>Wallet encryption failed due to an internal error. Your wallet was not encrypted.</source>
-        <translation>Pengenkripsian dompet gagal karena kesalahan internal. Dompet Anda tidak dienkripsi.</translation>
+        <translation>Pengenkripsian dompet gagal karena kesalahan internal. Dompetmu tidak dienkripsi.</translation>
     </message>
     <message>
         <source>The supplied passphrases do not match.</source>
@@ -343,7 +343,7 @@
     </message>
     <message>
         <source>Sign messages with your Dogecoin addresses to prove you own them</source>
-        <translation>Tanda tangani sebuah pesan menggunakan alamat Dogecoin Anda untuk membuktikan bahwa Anda adalah pemilik alamat tersebut</translation>
+        <translation>Tanda tangani sebuah pesan menggunakan alamat Dogecoinmu untuk membuktikan bahwa kamu adalah benar-benar pemilik alamat tersebut</translation>
     </message>
     <message>
         <source>Send coins to a Dogecoin address</source>
@@ -794,7 +794,7 @@
     </message>
     <message>
         <source>Directory already exists. Add %1 if you intend to create a new directory here.</source>
-        <translation>Direktori sudah ada. Tambahlah %1 apabila Anda menginginkan membuat direktori baru disini.</translation>
+        <translation>Direktori sudah ada. Tambahlah %1 apabila kamu menginginkan membuat direktori baru disini.</translation>
     </message>
     <message>
         <source>Path already exists, and is not a directory.</source>
@@ -1021,7 +1021,7 @@
     </message>
     <message>
         <source>Minimize instead of exit the application when the window is closed. When this option is enabled, the application will be closed only after selecting Exit in the menu.</source>
-        <translation>Minimalisasi aplikasi ketika jendela ditutup. Ketika pilihan ini dipilih, aplikasi akan menutup seluruhnya jika anda memilih Keluar di menu yang tersedia.</translation>
+        <translation>Minimalisasi aplikasi ketika jendela ditutup. Ketika pilihan ini dipilih, aplikasi akan menutup seluruhnya jika kamu memilih Keluar di menu yang tersedia.</translation>
     </message>
     <message>
         <source>Third party URLs (e.g. a block explorer) that appear in the transactions tab as context menu items. %s in the URL is replaced by transaction hash. Multiple URLs are separated by vertical bar |.</source>
@@ -1065,7 +1065,7 @@
     </message>
     <message>
         <source>If you disable the spending of unconfirmed change, the change from a transaction cannot be used until that transaction has at least one confirmation. This also affects how your balance is computed.</source>
-        <translation>Jika Anda menonaktifkan pengeluaran dari transaksi yang belum dikonfirmasi, perubahan dari transaksi tidak dapat dilakukan sampai transaksi memiliki setidaknya satu konfirmasi. Hal ini juga mempengaruhi bagaimana saldo Anda dihitung.</translation>
+        <translation>Jika kamu menonaktifkan pengeluaran dari transaksi yang belum dikonfirmasi, perubahan dari transaksi tidak dapat dilakukan sampai transaksi memiliki setidaknya satu konfirmasi. Hal ini juga mempengaruhi bagaimana saldomu dihitung.</translation>
     </message>
     <message>
         <source>&amp;Spend unconfirmed change</source>
@@ -1073,7 +1073,7 @@
     </message>
     <message>
         <source>Automatically open the Dogecoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Otomatis membuka port klien Dogecoin di router. Hanya berjalan apabila router anda mendukung UPnP dan diaktifkan.</translation>
+        <translation>Otomatis membuka port klien Dogecoin di router. Hanya berjalan apabila router kami mendukung UPnP dan sudah diaktifkan.</translation>
     </message>
     <message>
         <source>Map port using &amp;UPnP</source>
@@ -1201,7 +1201,7 @@
     </message>
     <message>
         <source>Client will be shut down. Do you want to proceed?</source>
-        <translation>Aplikasi klien akan dimatikan, apakah anda hendak melanjutkan?</translation>
+        <translation>Aplikasi klien akan dimatikan, apakah kamu mau melanjutkan?</translation>
     </message>
     <message>
         <source>This change would require a client restart.</source>
@@ -1220,7 +1220,7 @@
     </message>
     <message>
         <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Dogecoin network after a connection is established, but this process has not completed yet.</source>
-        <translation>Informasi terlampir mungkin sudah kedaluwarsa. Dompet Anda secara otomatis mensinkronisasi dengan jaringan Dogecoin ketika sebuah hubungan terbentuk, namun proses ini belum selesai.</translation>
+        <translation>Informasi terlampir mungkin sudah kedaluwarsa. Dompetmu secara otomatis mensinkronisasi dengan jaringan Dogecoin ketika sebuah hubungan terbentuk, namun proses ini belum selesai.</translation>
     </message>
     <message>
         <source>Watch-only:</source>
@@ -1232,7 +1232,7 @@
     </message>
     <message>
         <source>Your current spendable balance</source>
-        <translation>Jumlah saldo yang bisa Anda pakai saat ini</translation>
+        <translation>Jumlah saldo yang bisa kamu pakai saat ini</translation>
     </message>
     <message>
         <source>Pending:</source>
@@ -1264,7 +1264,7 @@
     </message>
     <message>
         <source>Your current balance in watch-only addresses</source>
-        <translation>Jumlah saldo Anda pada alamat &quot;hanya-menonton&quot;</translation>
+        <translation>Jumlah saldo kamu di alamat &quot;hanya-menonton&quot;</translation>
     </message>
     <message>
         <source>Spendable:</source>
@@ -1363,7 +1363,7 @@
     </message>
     <message>
         <source>It is recommended to disconnect from the internet before printing paper wallets. Even though paper wallets are generated on your local computer, it is still possible to unknowingly have malware that transmits your screen to a remote location. It is also recommended to print to a local printer vs a network printer since that network traffic can be monitored. Some advanced printers also store copies of each printed document. Proceed with caution relative to the amount of value you plan to store on each address.</source>
-        <translation>Dianjurkan untuk memutuskan koneksi dari internet sebelum mencetak dompet kertas. Meskipun dompet kertas dibuat di komputer lokal, masih ada kemungkinan malware menyadap layar Anda. Juga disarankan untuk mencetak melalui printer lokal karena transmisi pada printer jaringan dapat dipantau. Beberapa printer canggih  juga menyimpan salinan dari setiap dokumen yang dicetak. Lanjutkan tahap ini dengan hati-hati, terutama terkait jumlah nilai koin yang akan disimpan disetiap alamat.</translation>
+        <translation>Dianjurkan untuk memutuskan koneksi dari internet sebelum mencetak dompet kertas. Meskipun dompet kertas dibuat di komputer lokal, masih ada kemungkinan malware menyadap layarmu. Juga disarankan untuk mencetak melalui printer lokal karena transmisi pada printer jaringan dapat dipantau. Beberapa printer canggih  juga menyimpan salinan dari setiap dokumen yang dicetak. Lanjutkan tahap ini dengan hati-hati, terutama terkait jumlah nilai koin yang akan disimpan disetiap alamat.</translation>
     </message>
     <message>
         <source>Error encoding Address into QR Code.</source>
@@ -2010,7 +2010,7 @@
     </message>
     <message>
         <source>Requested payments history</source>
-        <translation>Riwayat pembayaran yang Anda minta</translation>
+        <translation>Riwayat permintaan pembayaranmu</translation>
     </message>
     <message>
         <source>&amp;Request payment</source>
@@ -2128,7 +2128,7 @@
     </message>
     <message>
         <source>(no amount requested)</source>
-        <translation>(tidak jumlah yang diminta)</translation>
+        <translation>(tidak ada jumlah yang diminta)</translation>
     </message>
     <message>
         <source>Requested</source>
@@ -2399,7 +2399,7 @@
     </message>
     <message>
         <source>The address you selected for change is not part of this wallet. Any or all funds in your wallet may be sent to this address. Are you sure?</source>
-        <translation>Alamat yang Anda pilih untuk kembalian bukan bagian dari dompet ini. Beberapa atau semua dana yang ada di dompetmu akan dikirim ke alamat ini. Apakah kamu yakin?</translation>
+        <translation>Alamat yang kamu pilih untuk kembalian bukan bagian dari dompet ini. Beberapa atau semua dana yang ada di dompetmu akan dikirim ke alamat ini. Apakah kamu yakin?</translation>
     </message>
     <message>
         <source>(no label)</source>
@@ -2450,7 +2450,7 @@
     </message>
     <message>
         <source>The fee will be deducted from the amount being sent. The recipient will receive less dogecoins than you enter in the amount field. If multiple recipients are selected, the fee is split equally.</source>
-        <translation>Biaya tersebut akan dipotong dari jumlah yang dikirimkan. Penerima akan menerima dogecoin lebih sedikit daripada yang Anda masukkan diisian jumlah. Jika beberapa penerima dipilih sekaligus, biayanya akan dibagi rata.</translation>
+        <translation>Biaya tersebut akan dipotong dari jumlah yang dikirimkan. Penerima akan menerima dogecoin lebih sedikit daripada yang kamu masukkan diisian jumlah. Jika beberapa penerima dipilih sekaligus, biayanya akan dibagi rata.</translation>
     </message>
     <message>
         <source>S&amp;ubtract fee from amount</source>
@@ -2474,7 +2474,7 @@
     </message>
     <message>
         <source>A message that was attached to the dogecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
-        <translation>Pesan yang dilampirkan ke dogecoin: URI yang akan disimpan dengan transaksi untuk referensi Anda. Catatan: Pesan ini tidak akan dikirim bersama dengan pembayaran melalui jaringan Dogecoin.</translation>
+        <translation>Pesan yang dilampirkan ke dogecoin: URI yang akan disimpan dengan transaksi sebagai referensi kamu. Catatan: Pesan ini tidak akan dikirim bersama dengan pembayaran melalui jaringan Dogecoin.</translation>
     </message>
     <message>
         <source>Pay To:</source>
@@ -2852,7 +2852,7 @@
     </message>
     <message>
         <source>Specify your own public address</source>
-        <translation>Tentukan alamat publik Anda sendiri</translation>
+        <translation>Tentukan alamat publik kamu sendiri</translation>
     </message>
     <message>
         <source>Accept command line and JSON-RPC commands</source>
@@ -2888,7 +2888,7 @@
     </message>
     <message>
         <source>Do you want to rebuild the block database now?</source>
-        <translation>Apakah Anda ingin membangun kembali basis data blok sekarang?</translation>
+        <translation>Apakah kamu ingin membangun kembali basis data blok sekarang?</translation>
     </message>
     <message>
         <source>Error initializing block database</source>
