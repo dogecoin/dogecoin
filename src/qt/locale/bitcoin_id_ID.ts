@@ -2518,8 +2518,20 @@
         <translation>&amp;Tandakan Pesan</translation>
     </message>
     <message>
+        <source>You can sign messages/agreements with your addresses to prove you can receive dogecoins sent to them. Be careful not to sign anything vague or random, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</source>
+        <translation>Kamu bisa menandatangani pesan / perjanjian dengan alamat tujuan untuk membuktikan bahwa kamu dapat menerima dogecoin. Berhati-hatilah untuk tidak menandatangani apa pun yang samar atau acak, karena serangan phishing mungkin mencoba menipumy agar menyerahkan identitas. Tetap wasapada dan hanya tanda tangani pernyataan yang detail dan kamu pahami. </translation>
+    </message>
+    <message>
         <source>Choose previously used address</source>
         <translation>Pilih alamat yang digunakan sebelumnya</translation>
+    </message>
+    <message>
+        <source>The Dogecoin address to sign the message with</source>
+        <translation>Alamat Dogecoin untuk menanda tangani pesan dengan</translation>
+    </message>
+    <message>
+        <source>Choose previously used address</source>
+        <translation>Gunakan alamat yang pernah digunakan</translation>
     </message>
     <message>
         <source>Alt+A</source>
@@ -2527,7 +2539,7 @@
     </message>
     <message>
         <source>Paste address from clipboard</source>
-        <translation>Tempel alamat dari salinan</translation>
+        <translation>Tempel alamat dari papan klip</translation>
     </message>
     <message>
         <source>Alt+P</source>
@@ -2566,6 +2578,18 @@
         <translation>&amp;Verifikasi Pesan</translation>
     </message>
     <message>
+        <source>Enter the receiver&apos;s address, message (ensure you copy line breaks, spaces, tabs, etc. exactly) and signature below to verify the message. Be careful not to read more into the signature than what is in the signed message itself, to avoid being tricked by a man-in-the-middle attack. Note that this only proves the signing party receives with the address, it cannot prove sendership of any transaction!</source>
+        <translation>Masukkan alamat penerima, pesan (pastikan menyalin jeda baris, spasi, tab, dll dengan tepat) dan tanda tangan di bawah ini untuk memverifikasi pesan. Berhati-hatilah untuk tidak membaca lebih banyak ke dalam tanda tangan daripada apa yang ada di pesan yang ditandatangani itu sendiri, untuk menghindari tertipu oleh serangan man-in-the-middle. Perhatikan bahwa ini hanya membuktikan bahwa pihak yang menandatangani menerima dengan alamat tersebut, tidak dapat membuktikan pengiriman transaksi apa pun!</translation>
+    </message>
+    <message>
+        <source>The Dogecoin address the message was signed with</source>
+        <translation>Alamat Dogecoin yang digunakan telah ditandatangani dengan</translation>
+    </message>
+    <message>
+        <source>Verify the message to ensure it was signed with the specified Dogecoin address</source>
+        <translation>Verifikasi pesan untuk memastikan telah ditandatangani dengan alamat Dogecoin</translation>
+    </message>
+    <message>
         <source>Verify &amp;Message</source>
         <translation>Verifikasi &amp;Pesan</translation>
     </message>
@@ -2573,7 +2597,59 @@
         <source>Reset all verify message fields</source>
         <translation>Hapus semua bidang verifikasi pesan</translation>
     </message>
-    </context>
+    <message>
+        <source>Click &quot;Sign Message&quot; to generate signature</source>
+        <translation>Klik &quot; Tanda Tangani Pesan &quot; untuk menghasilkan tanda tangan</translation>
+    </message>
+    <message>
+        <source>The entered address is invalid.</source>
+        <translation>Alamat yang dimasukan tidak valid.</translation>
+    </message>
+    <message>
+        <source>Please check the address and try again.</source>
+        <translation>Mohon periksa dan ulangi lagi</translation>
+    </message>
+    <message>
+        <source>The entered address does not refer to a key.</source>
+        <translation>Alamat yang dimasukan tidak merujuk ke sebuah kunci.</translation>
+    </message>
+    <message>
+        <source>Wallet unlock was cancelled.</source>
+        <translation>Pembukaan kunci dompet dibatalkan.</translation>
+    </message>
+    <message>
+        <source>Private key for the entered address is not available.</source>
+        <translation>Kunci Privat untuk alamat yang dimasukan tidak tersedia.</translation>
+    </message>
+    <message>
+        <source>Message signing failed.</source>
+        <translation>Gagal menandatangani pesan.</translation>
+    </message>
+    <message>
+        <source>Message signed.</source>
+        <translation>Pesan berhasil ditandatangani.</translation>
+    </message>
+    <message>
+        <source>The signature could not be decoded.</source>
+        <translation>Tanda tangan tidak bisa diartikan.</translation>
+    </message>
+    <message>
+        <source>Please check the signature and try again.</source>
+        <translation>Periksa lagi tandatangan dan coba lagi.</translation>
+    </message>
+    <message>
+        <source>The signature did not match the message digest.</source>
+        <translation>Tanda tangan tidak cocok dengan isi pesan.</translation>
+    </message>
+    <message>
+        <source>Message verification failed.</source>
+        <translation>Verifikasi pesan gagal.</translation>
+    </message>
+    <message>
+        <source>Message verified.</source>
+        <translation>Pesan terverifikasi.</translation>
+    </message>
+</context>
 <context>
     <name>SplashScreen</name>
     <message>
