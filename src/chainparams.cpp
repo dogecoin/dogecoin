@@ -93,6 +93,7 @@ public:
 
         consensus.nMinimumChainWork = uint256S("0x00000000000000000000000000000000000000001533efd8d716a517fe2c5008");
         consensus.defaultAssumeValid = uint256S("0x0000000000000000000b9d2ec5a352ecba0592946514a92f14319dc2b367fc72"); // 654683
+        consensus.nAssumeValidMinTime = 60 * 60 * 24 * 7 * 2;
 
         consensus.fShortEarlyCoinbase = true;
 
@@ -208,6 +209,7 @@ public:
 
         consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000001db6ec4ac88cf2272c6");
         consensus.defaultAssumeValid = uint256S("0x000000000000006433d1efec504c53ca332b64963c425395515b01977bd7b3b0"); // 1864000
+        consensus.nAssumeValidMinTime = 60 * 60 * 24 * 7 * 2;
 
         consensus.fShortEarlyCoinbase = true;
 
@@ -326,6 +328,7 @@ public:
         consensus.nPowTargetSpacing = 60; // 1 minute
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
+        consensus.nAssumeValidMinTime = 60 * 60 * 24 * 7 * 2;
         consensus.nRuleChangeActivationThreshold = 1900; // 95% of 2000
         consensus.nMinerConfirmationWindow = 2000; // nPowTargetTimespan / nPowTargetSpacing
         consensus.MinBIP9WarningHeight = 0;
@@ -408,6 +411,7 @@ public:
 
         consensus.nMinimumChainWork = uint256{};
         consensus.defaultAssumeValid = uint256{};
+        consensus.nAssumeValidMinTime = 60 * 60 * 24 * 7 * 2 / 10; // One tenth of main/test networks
 
         consensus.fShortEarlyCoinbase = false;
 
