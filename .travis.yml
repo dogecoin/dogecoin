@@ -1,4 +1,4 @@
-dist: trusty
+dist: bionic
 os: linux
 language: minimal
 cache:
