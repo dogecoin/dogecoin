@@ -24,7 +24,7 @@ class CreateTxWalletTest(BitcoinTestFramework):
     def run_test(self):
         self.log.info('Create some old blocks')
         self.nodes[0].setmocktime(TIME_GENESIS_BLOCK)
-        self.nodes[0].generate(200)
+        self.nodes[0].generate(250)
         self.nodes[0].setmocktime(0)
 
         self.test_anti_fee_sniping()
@@ -32,7 +32,7 @@ class CreateTxWalletTest(BitcoinTestFramework):
 
     def test_anti_fee_sniping(self):
         self.log.info('Check that we have some (old) blocks and that anti-fee-sniping is disabled')
-        assert_equal(self.nodes[0].getblockchaininfo()['blocks'], 200)
+        assert_equal(self.nodes[0].getblockchaininfo()['blocks'], 250)
         txid = self.nodes[0].sendtoaddress(self.nodes[0].getnewaddress(), 1)
         tx = self.nodes[0].decoderawtransaction(self.nodes[0].gettransaction(txid)['hex'])
         assert_equal(tx['locktime'], 0)
@@ -41,7 +41,7 @@ class CreateTxWalletTest(BitcoinTestFramework):
         self.nodes[0].generate(1)
         txid = self.nodes[0].sendtoaddress(self.nodes[0].getnewaddress(), 1)
         tx = self.nodes[0].decoderawtransaction(self.nodes[0].gettransaction(txid)['hex'])
-        assert 0 < tx['locktime'] <= 201
+        assert 0 < tx['locktime'] <= 251
 
     def test_tx_size_too_large(self):
         # More than 10kB of outputs, so that we hit -maxtxfee with a high feerate

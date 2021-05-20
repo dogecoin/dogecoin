@@ -75,7 +75,7 @@ class CBrokenBlock(CBlock):
         return super().serialize()
 
 
-DUPLICATE_COINBASE_SCRIPT_SIG = b'\x01\x78'  # Valid for block at height 120
+DUPLICATE_COINBASE_SCRIPT_SIG = b'\x02\x01\x04'  # Valid for block at height 260
 
 
 class FullBlockTest(BitcoinTestFramework):
@@ -102,6 +102,8 @@ class FullBlockTest(BitcoinTestFramework):
         # Create a new block
         b_dup_cb = self.next_block('dup_cb')
         b_dup_cb.vtx[0].vin[0].scriptSig = DUPLICATE_COINBASE_SCRIPT_SIG
+        # Dogecoin: Duplicate is used after block 150, so reward is halved
+        b_dup_cb.vtx[0].vout[0].nValue = 25
         b_dup_cb.vtx[0].rehash()
         duplicate_tx = b_dup_cb.vtx[0]
         b_dup_cb = self.update_block('dup_cb', [])
@@ -113,7 +115,7 @@ class FullBlockTest(BitcoinTestFramework):
 
         # These constants chosen specifically to trigger an immature coinbase spend
         # at a certain time below.
-        NUM_BUFFER_BLOCKS_TO_GENERATE = 99
+        NUM_BUFFER_BLOCKS_TO_GENERATE = 239
         NUM_OUTPUTS_TO_COLLECT = 33
 
         # Allow the block to mature
@@ -814,6 +816,8 @@ class FullBlockTest(BitcoinTestFramework):
         self.move_tip(60)
         b61 = self.next_block(61)
         b61.vtx[0].vin[0].scriptSig = DUPLICATE_COINBASE_SCRIPT_SIG
+        # Dogecoin: Copy the duplicate transaction output as the generation changes
+        b61.vtx[0].vout[0] = duplicate_tx.vout[0]
         b61.vtx[0].rehash()
         b61 = self.update_block(61, [])
         assert_equal(duplicate_tx.serialize(), b61.vtx[0].serialize())
@@ -835,10 +839,12 @@ class FullBlockTest(BitcoinTestFramework):
 
         b_dup_2 = self.next_block('dup_2')
         b_dup_2.vtx[0].vin[0].scriptSig = DUPLICATE_COINBASE_SCRIPT_SIG
+        # Dogecoin: Copy the duplicate transaction output as the generation changes
+        b_dup_2.vtx[0].vout[0] = duplicate_tx.vout[0]
         b_dup_2.vtx[0].rehash()
         b_dup_2 = self.update_block('dup_2', [])
         assert_equal(duplicate_tx.serialize(), b_dup_2.vtx[0].serialize())
-        assert_equal(self.nodes[0].gettxout(txid=duplicate_tx.hash, n=0)['confirmations'], 119)
+        assert_equal(self.nodes[0].gettxout(txid=duplicate_tx.hash, n=0)['confirmations'], 259)
         self.send_blocks([b_spend_dup_cb, b_dup_2], success=True)
         # The duplicate has less confirmations
         assert_equal(self.nodes[0].gettxout(txid=duplicate_tx.hash, n=0)['confirmations'], 1)

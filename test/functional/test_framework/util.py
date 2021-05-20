@@ -440,7 +440,7 @@ def find_output(node, txid, amount, *, blockhash=None):
 # Helper to create at least "count" utxos
 # Pass in a fee that is sufficient for relay and mining new transactions.
 def create_confirmed_utxos(fee, node, count):
-    to_generate = int(0.5 * count) + 101
+    to_generate = int(0.5 * count) + 241
     while to_generate > 0:
         node.generate(min(25, to_generate))
         to_generate -= 25

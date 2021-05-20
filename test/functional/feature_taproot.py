@@ -1439,7 +1439,7 @@ class TaprootTest(BitcoinTestFramework):
     def run_test(self):
         # Post-taproot activation tests go first (pre-taproot tests' blocks are invalid post-taproot).
         self.log.info("Post-activation tests...")
-        self.nodes[1].generate(101)
+        self.nodes[1].generate(241)
         self.test_spenders(self.nodes[1], spenders_taproot_active(), input_counts=[1, 2, 2, 2, 2, 3])
 
         # Transfer value of the largest 500 coins to pre-taproot node.

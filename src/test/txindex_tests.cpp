@@ -12,7 +12,7 @@
 
 BOOST_AUTO_TEST_SUITE(txindex_tests)
 
-BOOST_FIXTURE_TEST_CASE(txindex_initial_sync, TestChain100Setup)
+BOOST_FIXTURE_TEST_CASE(txindex_initial_sync, TestChain240Setup)
 {
     TxIndex txindex(1 << 20, true);
 
