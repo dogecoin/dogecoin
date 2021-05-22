@@ -80,6 +80,9 @@ struct Params {
     bool fStrictChainId;
     bool fAllowLegacyBlocks;
 
+    /** AuxPow ChainId Change */
+    // int nChainIdChangeHeight; // ToDo
+
     /** Height-aware consensus parameters */
     uint32_t nHeightEffective; // When these parameters come into use
     struct Params *pLeft = nullptr;      // Left hand branch

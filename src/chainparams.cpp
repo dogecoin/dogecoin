@@ -80,10 +80,10 @@ public:
         consensus.nMajorityRejectBlockOutdated = 1900;
         consensus.nMajorityWindow = 2000;
         // BIP34 is never enforced in Dingocoin v2 blocks, so we enforce from v3
-        consensus.BIP34Height = 1034383;
+        consensus.BIP34Height = 129999;
         consensus.BIP34Hash = uint256S("0x00");
-        consensus.BIP65Height = 9999999; // Disable until activated
-        consensus.BIP66Height = 9999999; // Disable until activated
+        consensus.BIP65Height = 197999;
+        consensus.BIP66Height = 198999;
         consensus.powLimit = uint256S("0x00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~uint256(0) >> 20;
         consensus.nPowTargetTimespan = 4 * 60 * 60; // pre-digishield: 4 hours
         consensus.nPowTargetSpacing = 60; // 1 minute
@@ -101,19 +101,19 @@ public:
         // Deployment of BIP68, BIP112, and BIP113.
         // XXX: BIP heights and hashes all need to be updated to Dingocoin values
         consensus.vDeployments[Consensus::DEPLOYMENT_CSV].bit = 0;
-        consensus.vDeployments[Consensus::DEPLOYMENT_CSV].nStartTime = 1462060800; // May 1st, 2016
-        consensus.vDeployments[Consensus::DEPLOYMENT_CSV].nTimeout = 0; // Disabled
+        consensus.vDeployments[Consensus::DEPLOYMENT_CSV].nStartTime = 1651494979; // May 5th, 2022
+        consensus.vDeployments[Consensus::DEPLOYMENT_CSV].nTimeout = 1683030979; // May 5th, 2023
 
         // Deployment of SegWit (BIP141, BIP143, and BIP147)
         consensus.vDeployments[Consensus::DEPLOYMENT_SEGWIT].bit = 1;
-        consensus.vDeployments[Consensus::DEPLOYMENT_SEGWIT].nStartTime = 1479168000; // November 15th, 2016.
-        consensus.vDeployments[Consensus::DEPLOYMENT_SEGWIT].nTimeout = 0; // Disabled
+        consensus.vDeployments[Consensus::DEPLOYMENT_SEGWIT].nStartTime = 1651494979; // May 5th, 2022
+        consensus.vDeployments[Consensus::DEPLOYMENT_SEGWIT].nTimeout = 1683030979; // May 5th, 2023
 
         // The best chain should have at least this much work.
-        consensus.nMinimumChainWork = uint256S("0x00000000000000000000000000000000000000000000000000000003b86849a6");
+        consensus.nMinimumChainWork = uint256S("0x000000000000000000000000000000000000000000000000004c84b0730f44bd");
 
         // By default assume that the signatures in ancestors of this block are valid.
-        consensus.defaultAssumeValid = uint256S("0xd2fe4ee046feaa1d175ff7120cd2e3d1ea07088745b5f52bc13df98cf8eb5094"); // 6250
+        consensus.defaultAssumeValid = uint256S("0x58c8b4c5c07efafaeb602b93ca0a46f4c442871964d43b26b76a281883f9d2e2"); // 37486
 
         // AuxPoW parameters
         consensus.nAuxpowChainId = 0x0062; // 98 - Josh Wise!
@@ -161,10 +161,10 @@ public:
         assert(genesis.hashMerkleRoot == uint256S("0x5b2a3f53f605d62c53e62932dac6925e3d74afa5a4b459745c36d42d0ed26a69"));
 
         // Note that of those with the service bits flag, most only support a subset of possible options
-        vSeeds.push_back(CDNSSeedData("mint.australiacash.org", "mint.australiacash.org", true));
-        vSeeds.push_back(CDNSSeedData("45.76.120.169", "45.76.120.169"));
-        vSeeds.push_back(CDNSSeedData("139.180.173.59", "139.180.173.59"));
-        vSeeds.push_back(CDNSSeedData("165.232.173.117", "165.232.173.117"));
+        vSeeds.push_back(CDNSSeedData("139.180.181.92", "139.180.181.92", true));
+        vSeeds.push_back(CDNSSeedData("45.76.120.169", "45.76.120.169", true));
+        vSeeds.push_back(CDNSSeedData("139.180.173.59", "139.180.173.59", true));
+        vSeeds.push_back(CDNSSeedData("165.232.173.117", "165.232.173.117", true));
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,30);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,22);
@@ -187,13 +187,14 @@ public:
             (      1, uint256S("0x594a42d8fe16382085dc982135df72cf8fcea12d34e6efd566e2f9e442e2136f")) // First block mined within the Dingocoin Blockchain 03/04/2021
             (   4999, uint256S("0x2a17ca5b715be5cb5322b5c4e13fa2509744728fde377eeb3dc2eff69fec79e4")) // Final block before Digishield activation
             (   6250, uint256S("0xd2fe4ee046feaa1d175ff7120cd2e3d1ea07088745b5f52bc13df98cf8eb5094"))
+            (  37486, uint256S("0x58c8b4c5c07efafaeb602b93ca0a46f4c442871964d43b26b76a281883f9d2e2"))
         };
 
         chainTxData = ChainTxData{
             // Data as of block 594a42d8fe16382085dc982135df72cf8fcea12d34e6efd566e2f9e442e2136f (height 1).
             // Tx estimate based on average of year 2021 (~40k transactions per day)
-            1617957014, // * UNIX timestamp of last checkpoint block
-            8500,   // * total number of transactions between genesis and last checkpoint
+            1619948541, // * UNIX timestamp of last checkpoint block
+            42154,   // * total number of transactions between genesis and last checkpoint
                         //   (the tx=... number in the SetBestChain debug.log lines)
             0.06        // * estimated number of transactions per second after checkpoint
         };
@@ -261,6 +262,9 @@ public:
         consensus.fStrictChainId = false;
         consensus.nHeightEffective = 0;
         consensus.fAllowLegacyBlocks = true;
+
+        // AuxPow ChainId Conversion
+        // consensus.nChainIdChangeHeight = 1210; // Switch chain Id at block 1210 ToDo
 
         // Blocks 145000 - 157499 are Digishield without minimum difficulty on all blocks
         digishieldConsensus = consensus;
