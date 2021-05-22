@@ -50,8 +50,9 @@ private:
 
 public:
 
-    static const unsigned int SIZE=65;
-    static const unsigned int COMPRESSED_SIZE=33;
+ static constexpr unsigned int SIZE                   = 65;
+ static constexpr unsigned int COMPRESSED_SIZE        = 33;
+
 
     //! Construct an invalid private key.
     CKey() : fValid(false), fCompressed(false)
