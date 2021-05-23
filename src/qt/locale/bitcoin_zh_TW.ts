@@ -190,7 +190,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
     </message>
     <message>
         <source>Remember that encrypting your wallet cannot fully protect your Dogecoins from being stolen by malware infecting your computer.</source>
-        <translation>請記得, 即使將錢包加密, 也不能完全防止因惡意軟體入侵, 而導致位元幣被偷.</translation>
+        <translation>請記住！即便將錢包加密，也不能完全防止惡意軟體入侵來竊取你的狗狗幣。</translation>
     </message>
     <message>
         <source>Wallet to be encrypted</source>
