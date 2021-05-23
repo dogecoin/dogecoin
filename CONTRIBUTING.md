@@ -1,4 +1,7 @@
 # Contributing to Dogecoin Core
+=======
+Contributing to Dogecoin Core
+============================
 
 The Dogecoin Core project operates an open contributor model where anyone is
 welcome to contribute towards development in the form of peer review, testing
@@ -56,11 +59,12 @@ the pull request affects. Valid areas as:
   - *Consensus* for changes to consensus critical code
   - *Docs* for changes to the documentation
   - *Qt* for changes to dogecoin-qt
+  - *Qt* for changes to Dogecoin-qt
   - *Mining* for changes to the mining code
   - *Net* or *P2P* for changes to the peer-to-peer network code
   - *RPC/REST/ZMQ* for changes to the RPC, REST or ZMQ APIs
   - *Scripts and tools* for changes to the scripts and tools
-  - *Tests* for changes to the dogecoin unit tests or QA tests
+  - *Tests* for changes to the Dogecoin unit tests or QA tests
   - *Trivial* should **only** be used for PRs that do not change generated
     executable code. Notably, refactors (change of function arguments and code
     reorganization) and changes in behavior should **not** be marked as trivial.
@@ -74,7 +78,7 @@ the pull request affects. Valid areas as:
 
 Examples:
 
-    Consensus: Add new opcode for BIP-XXXX OP_CHECKAWESOMESIG
+    Consensus: Add new opcode for ISSUE # [####] OP_CHECKAWESOMESIG
     Net: Automatically create hidden service, listen on Tor
     Qt: Add feed bump button
     Trivial: Fix typo in init.cpp
@@ -178,7 +182,7 @@ In general, all pull requests must:
 
 Patches that change Dogecoin consensus rules are considerably more involved than
 normal because they affect the entire ecosystem and so must be preceded by
-extensive mailing list discussions and have a numbered BIP. While each case will
+extensive discussions and have a numbered issue/new feature request in github. While each case will
 be different, one should be prepared to expend more time and effort than for
 other kinds of patches because of increased peer review and consensus building
 requirements.
@@ -219,14 +223,13 @@ of consensus critical code.
 
 Where a patch set proposes to change the Dogecoin consensus, it must have been
 discussed extensively on the mailing list and IRC, be accompanied by a widely
-discussed BIP and have a generally widely perceived technical consensus of being
+discussed issue/feature request and have a generally widely perceived technical consensus of being
 a worthwhile change based on the judgement of the maintainers.
 
 
 ## Release Policy
 
 The project leader is the release manager for each Dogecoin Core release.
-
 
 ## Copyright
 
