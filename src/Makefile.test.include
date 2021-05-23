@@ -75,6 +75,7 @@ RAW_TEST_FILES = test/data/alertTests.raw
 
 GENERATED_TEST_FILES = $(JSON_TEST_FILES:.json=.json.h) $(RAW_TEST_FILES:.raw=.raw.h)
 
+
 # test_bitcoin binary #
 BITCOIN_TESTS =\
   test/arith_uint256_tests.cpp \
@@ -98,6 +99,7 @@ BITCOIN_TESTS =\
   test/cuckoocache_tests.cpp \
   test/DoS_tests.cpp \
   test/dogecoin_tests.cpp \
+  test/dogequirks_tests.cpp \
   test/getarg_tests.cpp \
   test/hash_tests.cpp \
   test/key_tests.cpp \
