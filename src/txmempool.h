@@ -44,6 +44,8 @@ inline bool AllowFree(double dPriority)
 
 /** Fake height value used in CCoins to signify they are only in the memory pool (since 0.8) */
 static const unsigned int MEMPOOL_HEIGHT = 0x7FFFFFFF;
+// Set to non-zero to use this instead of halving at full moon (see 1991)
+static const unsigned int PROPOSED_TX_FEE = 0;
 
 struct LockPoints
 {
