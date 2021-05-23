@@ -67,12 +67,12 @@
     </message>
     <message>
         <source>These are your Dogecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>這些是你要發送過去的 狗狗幣地址。在發送幣之前，務必要檢查金額和接收地址是否正確。</translation>
+        <translation>這些是你要發送過去的狗狗幣地址。在發送幣之前，務必要檢查金額和接收地址是否正確。</translation>
     </message>
     <message>
         <source>These are your Dogecoin addresses for receiving payments. Use the 'Create new receiving address' button in the receive tab to create new addresses.
 Signing is only possible with addresses of the type 'legacy'.</source>
-        <translation>這些是您的狗狗幣接收地址。使用“接收”標籤中的“產生新的接收地址”按鈕產生新的地址。只能使用“傳統”類型的地址進行簽名。</translation>
+        <translation>這些是您的狗狗幣接收地址。使用「接收」標籤中的「產生新的接收地址」按鈕產生新的地址。只能使用「傳統」類型的地址進行簽名。</translation>
     </message>
     <message>
         <source>&amp;Copy Address</source>
@@ -170,7 +170,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
     </message>
     <message>
         <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DOGECOINS&lt;/b&gt;!</source>
-        <translation>警告: 如果把錢包加密後又忘記密碼，你就會從此&lt;b&gt;失去其中所有的 Dogecoin 了&lt;/b&gt;！</translation>
+        <translation>警告：如果把錢包加密後又忘記密碼，您將從此&lt;b&gt;失去所有的狗狗幣&lt;/b&gt;！</translation>
     </message>
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
@@ -392,7 +392,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
     </message>
     <message>
         <source>Encrypt the private keys that belong to your wallet</source>
-        <translation>將錢包中之密鑰加密</translation>
+        <translation>將錢包的密鑰加密</translation>
     </message>
     <message>
         <source>Sign messages with your Dogecoin addresses to prove you own them</source>
@@ -420,7 +420,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
     </message>
     <message>
         <source>Request payments (generates QR codes and dogecoin: URIs)</source>
-        <translation>要求付款(產生 QR Code 和 Dogecoin 付款協議的資源識別碼: URI)</translation>
+        <translation>要求付款(產生二維條碼和付款地址 dogecoin: URIs)</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -436,7 +436,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
     </message>
     <message numerus="yes">
         <source>%n active connection(s) to Dogecoin network</source>
-        <translation><numerusform>%n 個運作中的 Dogecoin 網路連線</numerusform></translation>
+        <translation><numerusform>%n 個運作中的狗狗幣網路連線</numerusform></translation>
     </message>
     <message>
         <source>Indexing blocks on disk...</source>
@@ -1048,11 +1048,11 @@ Signing is only possible with addresses of the type 'legacy'.</source>
     </message>
     <message>
         <source>Recent transactions may not yet be visible, and therefore your wallet's balance might be incorrect. This information will be correct once your wallet has finished synchronizing with the Dogecoin network, as detailed below.</source>
-        <translation>最近的交易可能還看不到，因此錢包餘額可能不正確。在錢包軟體完成跟 Dogecoin 網路的同步後，這裡的資訊就會正確。詳情請見下面。</translation>
+        <translation>最近的交易可能還看不到，因此錢包餘額可能不正確。在錢包完成跟狗狗幣網路的同步後，這裡的資訊就會正確。詳情請見下面。</translation>
     </message>
     <message>
         <source>Attempting to spend Dogecoins that are affected by not-yet-displayed transactions will not be accepted by the network.</source>
-        <translation>使用還沒顯示出來的交易所影響到的 Dogecoin 可能會不被網路所接受。</translation>
+        <translation>使用還沒顯示出來的交易所影響到的狗狗幣可能會不被網路所接受。</translation>
     </message>
     <message>
         <source>Number of blocks left</source>
@@ -1241,7 +1241,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
     </message>
     <message>
         <source>Automatically open the Dogecoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>自動在路由器上開放 Dogecoin 的客戶端通訊埠。只有在你的路由器支援且開啓「通用即插即用」協定(UPnP)時才有作用。</translation>
+        <translation>自動在路由器上開放狗狗幣客戶端的通訊埠。只有在你的路由器支援且開啓「通用即插即用」協定(UPnP)時才有作用。</translation>
     </message>
     <message>
         <source>Map port using &amp;UPnP</source>
@@ -1257,7 +1257,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
     </message>
     <message>
         <source>Connect to the Dogecoin network through a SOCKS5 proxy.</source>
-        <translation>透過 SOCKS5 代理伺服器來連線到 Dogecoin 網路。</translation>
+        <translation>透過 SOCKS5 代理伺服器來連線到狗狗幣網路。</translation>
     </message>
     <message>
         <source>&amp;Connect through SOCKS5 proxy (default proxy):</source>
@@ -1333,7 +1333,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
     </message>
     <message>
         <source>Connect to the Dogecoin network through a separate SOCKS5 proxy for Tor onion services.</source>
-        <translation>通過用於Tor洋蔥服務個別的SOCKS5代理連接到狗狗幣網路。</translation>
+        <translation>通過用於 Tor 洋蔥服務個別的 SOCKS5 代理連接到狗狗幣網路。</translation>
     </message>
     <message>
         <source>Use separate SOCKS&amp;5 proxy to reach peers via Tor onion services:</source>
@@ -1408,7 +1408,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
     </message>
     <message>
         <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Dogecoin network after a connection is established, but this process has not completed yet.</source>
-        <translation>顯示的資訊可能是過期的。跟 Dogecoin 網路的連線建立後，你的錢包會自動和網路同步，但是這個步驟還沒完成。</translation>
+        <translation>顯示的資訊可能是過期的。跟狗狗幣網路的連線建立後，你的錢包會自動和網路同步，但是這個步驟還沒完成。</translation>
     </message>
     <message>
         <source>Watch-only:</source>
@@ -1582,7 +1582,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
     </message>
     <message>
         <source>Cannot start dogecoin: click-to-pay handler</source>
-        <translation>沒辦法啟動 Dogecoin 協議的「按就付」處理器</translation>
+        <translation>沒辦法啟動狗狗幣協議的「一鍵付款」處理常式</translation>
     </message>
     <message>
         <source>URI handling</source>
@@ -1652,7 +1652,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
     </message>
     <message>
         <source>Enter a Dogecoin address (e.g. %1)</source>
-        <translation>輸入 狗狗幣地址 (比如說 %1)</translation>
+        <translation>輸入狗狗幣地址(例如： %1)</translation>
     </message>
     <message>
         <source>%1 d</source>
@@ -2109,7 +2109,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
     </message>
     <message>
         <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Dogecoin network.</source>
-        <translation>附加在付款要求中的訊息，可以不填，打開要求內容時會顯示。注意: 這個訊息不會隨著付款送到 Dogecoin 網路上。</translation>
+        <translation>(選填)附加在付款要求中的訊息，打開要求內容時會顯示。注意: 這個訊息不會隨著付款送到狗狗幣網路上。</translation>
     </message>
     <message>
         <source>An optional label to associate with the new receiving address.</source>
@@ -2390,7 +2390,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
     </message>
     <message>
         <source>When there is less transaction volume than space in the blocks, miners as well as relaying nodes may enforce a minimum fee. Paying only this minimum fee is just fine, but be aware that this can result in a never confirming transaction once there is more demand for Dogecoin transactions than the network can process.</source>
-        <translation>当交易量小于可用区块空间时，矿工和中继节点可能会执行最低手续费率限制。按照这个最低费率来支付手续费也是可以的，但请注意，一旦交易需求超出比特币网络能处理的限度，你的交易可能永远也无法确认。</translation>
+        <translation>當交易量小於區塊可容納的空間時，只支付最低手續費並沒有什麼問題。然而，一旦交易量超出狗狗幣網路能夠處理的範圍時，您的交易可能將永遠無法被確認。</translation>
     </message>
     <message>
         <source>A too low fee might result in a never confirming transaction (read the tooltip)</source>
@@ -2574,11 +2574,11 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
     </message>
     <message numerus="yes">
         <source>Estimated to begin confirmation within %n block(s).</source>
-        <translation><numerusform>预计在等待 %n 个区块后会有第一个确认。</numerusform></translation>
+        <translation><numerusform>交易預計將在第 %n 個區塊後開始確認。</numerusform></translation>
     </message>
     <message>
         <source>Warning: Invalid Dogecoin address</source>
-        <translation>警告: 狗狗幣地址無效</translation>
+        <translation>警告：無效的狗狗幣地址</translation>
     </message>
     <message>
         <source>Warning: Unknown change address</source>
@@ -2641,7 +2641,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
     </message>
     <message>
         <source>The fee will be deducted from the amount being sent. The recipient will receive less Dogecoins than you enter in the amount field. If multiple recipients are selected, the fee is split equally.</source>
-        <translation>手續費會從要付款出去的金額中扣掉。因此收款人會收到比輸入的金額還要少的 Dogecoin</translation>
+        <translation>手續費會從要付款出去的金額中扣除，因此收款人會收到比輸入的金額還要少的狗狗幣。</translation>
     </message>
     <message>
         <source>S&amp;ubtract fee from amount</source>
@@ -2669,7 +2669,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
     </message>
     <message>
         <source>A message that was attached to the dogecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
-        <translation>附加在 Dogecoin 付款協議的資源識別碼(URI)中的訊息，會和交易內容一起存起來，給你自己做參考。注意: 這個訊息不會送到 Dogecoin 網路上。</translation>
+        <translation>附加在付款地址 dogecoin: URI 上的訊息，將會和交易內容一同被儲存來供您參照。注意: 這個訊息不會送到狗狗幣網路上。</translation>
     </message>
     <message>
         <source>Pay To:</source>
@@ -2707,7 +2707,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
     </message>
     <message>
         <source>The Dogecoin address to sign the message with</source>
-        <translation>用來簽名訊息的 狗狗幣地址</translation>
+        <translation>用來簽名訊息的狗狗幣地址</translation>
     </message>
     <message>
         <source>Choose previously used address</source>
@@ -2739,7 +2739,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
     </message>
     <message>
         <source>Sign the message to prove you own this Dogecoin address</source>
-        <translation>簽名這個訊息來證明這個狗狗幣地址是你的</translation>
+        <translation>請簽署這個訊息來證明您持有這個狗狗幣地址</translation>
     </message>
     <message>
         <source>Sign &amp;Message</source>
@@ -2759,11 +2759,11 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
     </message>
     <message>
         <source>Enter the receiver's address, message (ensure you copy line breaks, spaces, tabs, etc. exactly) and signature below to verify the message. Be careful not to read more into the signature than what is in the signed message itself, to avoid being tricked by a man-in-the-middle attack. Note that this only proves the signing party receives with the address, it cannot prove sendership of any transaction!</source>
-        <translation>請在下面輸入收款人的地址，訊息(請確定完整複製了所包含的換行、空格、tabs...等)，以及簽名，來驗證這個訊息。請小心，除了訊息內容以外，不要對簽名本身過度解讀，以避免被用「中間人攻擊法」詐騙。請注意，通過驗證的簽名只能證明簽名人確實可以從該地址收款，不能證明任何交易中的付款人身份！</translation>
+        <translation>請在下面輸入收款人的地址、訊息(請確定完整複製了所包含的換行、空格、tabs...等)以及簽名來驗證這個訊息。請小心，除了訊息內容以外，不要對簽名本身過度解讀，以避免被用「中間人攻擊法」詐騙。請注意，通過驗證的簽名只能證明簽名人確實可以從該地址收款，不能證明任何交易中的付款人身份！</translation>
     </message>
     <message>
         <source>The Dogecoin address the message was signed with</source>
-        <translation>簽名這個訊息的 狗狗幣地址</translation>
+        <translation>簽名這個訊息的狗狗幣地址</translation>
     </message>
     <message>
         <source>The signed message to verify</source>
@@ -2771,7 +2771,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
     </message>
     <message>
         <source>The signature given when the message was signed</source>
-        <translation>簽名訊息時給出的簽名</translation>
+        <translation>簽署訊息時給出的簽章</translation>
     </message>
     <message>
         <source>Verify the message to ensure it was signed with the specified Dogecoin address</source>
