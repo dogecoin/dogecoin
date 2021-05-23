@@ -490,6 +490,7 @@ libbitcoin_common_a_SOURCES = \
   compressor.cpp \
   core_read.cpp \
   core_write.cpp \
+  dogequirks.cpp \
   key.cpp \
   key_io.cpp \
   merkleblock.cpp \
