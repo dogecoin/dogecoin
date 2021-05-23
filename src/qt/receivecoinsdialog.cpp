@@ -7,6 +7,7 @@
 
 #include "addressbookpage.h"
 #include "addresstablemodel.h"
+#include "askmultisigdialog.h"
 #include "bitcoinunits.h"
 #include "guiutil.h"
 #include "optionsmodel.h"
@@ -36,11 +37,13 @@ ReceiveCoinsDialog::ReceiveCoinsDialog(const PlatformStyle *_platformStyle, QWid
         ui->receiveButton->setIcon(QIcon());
         ui->showRequestButton->setIcon(QIcon());
         ui->removeRequestButton->setIcon(QIcon());
+        ui->multisigButton->setIcon(QIcon());
     } else {
         ui->clearButton->setIcon(_platformStyle->SingleColorIcon(":/icons/remove"));
         ui->receiveButton->setIcon(_platformStyle->SingleColorIcon(":/icons/receiving_addresses"));
         ui->showRequestButton->setIcon(_platformStyle->SingleColorIcon(":/icons/edit"));
         ui->removeRequestButton->setIcon(_platformStyle->SingleColorIcon(":/icons/remove"));
+        ui->multisigButton->setIcon(_platformStyle->SingleColorIcon(":/icons/multisig"));
     }
 
     // context menu actions
@@ -130,12 +133,40 @@ void ReceiveCoinsDialog::updateDisplayUnit()
 
 void ReceiveCoinsDialog::on_receiveButton_clicked()
 {
+    receiveOrMultisig(false);
+}
+
+void ReceiveCoinsDialog::on_multisigButton_clicked()
+{
+    receiveOrMultisig(true);
+}
+
+void ReceiveCoinsDialog::receiveOrMultisig(bool multisig)
+{
     if(!model || !model->getOptionsModel() || !model->getAddressTableModel() || !model->getRecentRequestsTableModel())
         return;
 
     QString address;
     QString label = ui->reqLabel->text();
-    if(ui->reuseAddress->isChecked())
+    QString redeemScript;
+    if(multisig)
+    {
+        AskMultisigDialog dlg(this);
+        dlg.setModel(model->getAddressTableModel());
+        if(dlg.exec())
+        {
+            address = dlg.generateAddress(label);
+            if(address.isEmpty()) return; /* empty address = dialog's displayed error message */
+            if(label.isEmpty()) /* If no label provided, generate generic one */
+            {
+                label = dlg.getLabel();
+            }
+            redeemScript = dlg.getRedeemScript();
+        } else {
+            return;
+        }
+    }
+    else if(ui->reuseAddress->isChecked())
     {
         /* Choose existing receiving address */
         AddressBookPage dlg(platformStyle, AddressBookPage::ForSelection, AddressBookPage::ReceivingTab, this);
@@ -154,8 +185,8 @@ void ReceiveCoinsDialog::on_receiveButton_clicked()
         /* Generate new receiving address */
         address = model->getAddressTableModel()->addRow(AddressTableModel::Receive, label, "");
     }
-    SendCoinsRecipient info(address, label,
-        ui->reqAmount->value(), ui->reqMessage->text());
+    SendCoinsRecipient info(address, label, ui->reqAmount->value(), ui->reqMessage->text());
+    if(multisig) info.redeemScript = redeemScript;
     ReceiveRequestDialog *dialog = new ReceiveRequestDialog(this);
     dialog->setAttribute(Qt::WA_DeleteOnClose);
     dialog->setModel(model->getOptionsModel());

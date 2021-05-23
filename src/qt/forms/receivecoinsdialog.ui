@@ -147,6 +147,23 @@
            </widget>
           </item>
           <item>
+           <widget class="QPushButton" name="multisigButton">
+            <property name="minimumSize">
+             <size>
+              <width>150</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>&amp;Multisig payment</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../bitcoin.qrc">
+              <normaloff>:/icons/multisig</normaloff>:/icons/multisig</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QPushButton" name="clearButton">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -326,6 +343,7 @@
   <tabstop>reqMessage</tabstop>
   <tabstop>reuseAddress</tabstop>
   <tabstop>receiveButton</tabstop>
+  <tabstop>multisigButton</tabstop>
   <tabstop>clearButton</tabstop>
   <tabstop>recentRequestsView</tabstop>
   <tabstop>showRequestButton</tabstop>

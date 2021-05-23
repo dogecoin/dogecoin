@@ -5,6 +5,9 @@
 #ifndef BITCOIN_QT_ADDRESSTABLEMODEL_H
 #define BITCOIN_QT_ADDRESSTABLEMODEL_H
 
+#include "pubkey.h"
+#include "script/standard.h"
+
 #include <QAbstractTableModel>
 #include <QStringList>
 
@@ -73,6 +76,10 @@ public:
     int lookupAddress(const QString &address) const;
 
     EditStatus getEditStatus() const { return editStatus; }
+
+    CPubKey getRawPubKey();
+    QString getRawPubKeyString();
+    void saveReceiveScript(CScript script, CScriptID scriptID, QString label);
 
 private:
     WalletModel *walletModel;

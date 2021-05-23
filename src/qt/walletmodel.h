@@ -51,6 +51,8 @@ public:
     CAmount amount;
     // If from a payment request, this is used for storing the memo
     QString message;
+    // Redeem script (used if an address is multisig address)
+    QString redeemScript;
 
     // If from a payment request, paymentRequest.IsInitialized() will be true
     PaymentRequestPlus paymentRequest;
@@ -69,16 +71,30 @@ public:
         std::string sAddress = address.toStdString();
         std::string sLabel = label.toStdString();
         std::string sMessage = message.toStdString();
+        std::string sRedeemScript = redeemScript.toStdString();
         std::string sPaymentRequest;
         if (!ser_action.ForRead() && paymentRequest.IsInitialized())
             paymentRequest.SerializeToString(&sPaymentRequest);
         std::string sAuthenticatedMerchant = authenticatedMerchant.toStdString();
 
+        if(!ser_action.ForRead() && (this->nVersion == 1) && !redeemScript.isEmpty()) {
+            this->nVersion = 2;
+        }
+
         READWRITE(this->nVersion);
         READWRITE(sAddress);
         READWRITE(sLabel);
         READWRITE(amount);
-        READWRITE(sMessage);
+
+        // Sort of a hack but allows backward compatibility:
+        if(!ser_action.ForRead() && (nVersion > 1)) {
+            sRedeemScript += '\t';
+            sRedeemScript += sMessage;
+            READWRITE(sRedeemScript);
+        } else {
+            READWRITE(sMessage);
+        }
+
         READWRITE(sPaymentRequest);
         READWRITE(sAuthenticatedMerchant);
 
@@ -86,7 +102,18 @@ public:
         {
             address = QString::fromStdString(sAddress);
             label = QString::fromStdString(sLabel);
+
+            // Sort of a hack but allows backward compatibility:
+            if(nVersion > 1) {
+                size_t offset = sMessage.find('\t');
+                if(offset != std::string::npos) {
+                    sRedeemScript = sMessage.substr(0, offset);
+                    sMessage.erase(0, offset + 1);
+                }
+            }
+
             message = QString::fromStdString(sMessage);
+            redeemScript = QString::fromStdString(sRedeemScript);
             if (!sPaymentRequest.empty())
                 paymentRequest.parse(QByteArray::fromRawData(sPaymentRequest.data(), sPaymentRequest.size()));
             authenticatedMerchant = QString::fromStdString(sAuthenticatedMerchant);

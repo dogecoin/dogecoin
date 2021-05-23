@@ -8,12 +8,14 @@
 #include "walletmodel.h"
 
 #include "base58.h"
+#include "utilstrencodings.h"
 #include "wallet/wallet.h"
 
 #include <boost/foreach.hpp>
 
 #include <QFont>
 #include <QDebug>
+#include <stdexcept>
 
 const QString AddressTableModel::Send = "S";
 const QString AddressTableModel::Receive = "R";
@@ -401,6 +403,27 @@ QString AddressTableModel::addRow(const QString &type, const QString &label, con
     return QString::fromStdString(strAddress);
 }
 
+void AddressTableModel::saveReceiveScript(CScript script, CScriptID scriptID, QString label) {
+    editStatus = OK;
+
+    // Check for duplicate addresses
+    {
+        LOCK(wallet->cs_wallet);
+        if(wallet->mapAddressBook.count(scriptID))
+        {
+            editStatus = DUPLICATE_ADDRESS;
+            return;
+        }
+    }
+
+    // Add entry
+    {
+        LOCK(wallet->cs_wallet);
+        wallet->AddCScript(script);
+        wallet->SetAddressBook(scriptID, label.toStdString(), "receive");
+    }
+}
+
 bool AddressTableModel::removeRows(int row, int count, const QModelIndex &parent)
 {
     Q_UNUSED(parent);
@@ -451,4 +474,25 @@ int AddressTableModel::lookupAddress(const QString &address) const
 void AddressTableModel::emitDataChanged(int idx)
 {
     Q_EMIT dataChanged(index(idx, 0, QModelIndex()), index(idx, columns.length()-1, QModelIndex()));
+}
+
+CPubKey AddressTableModel::getRawPubKey()
+{
+    CPubKey newKey;
+    if(!wallet->GetKeyFromPool(newKey))
+    {
+        WalletModel::UnlockContext ctx(walletModel->requestUnlock());
+        if(!ctx.isValid() || !wallet->GetKeyFromPool(newKey))
+            throw std::runtime_error("Unable to get a new key from keypool.");
+    }
+    return newKey;
+}
+
+QString AddressTableModel::getRawPubKeyString()
+{
+    try {
+        return QString::fromStdString(HexStr(getRawPubKey()));
+    } catch(std::runtime_error) {
+        return QString();
+    }
 }
