@@ -191,15 +191,16 @@ public:
             (   4999, uint256S("0x2a17ca5b715be5cb5322b5c4e13fa2509744728fde377eeb3dc2eff69fec79e4")) // Final block before Digishield activation
             (   6250, uint256S("0xd2fe4ee046feaa1d175ff7120cd2e3d1ea07088745b5f52bc13df98cf8eb5094"))
             (  37486, uint256S("0x58c8b4c5c07efafaeb602b93ca0a46f4c442871964d43b26b76a281883f9d2e2"))
+            (  65694, uint256S("0x71d55f53676a85567e96020194d66736751a4330814142c86a4bac9972109c3d"))
         };
 
         chainTxData = ChainTxData{
             // Data as of block 594a42d8fe16382085dc982135df72cf8fcea12d34e6efd566e2f9e442e2136f (height 1).
             // Tx estimate based on average of year 2021 (~40k transactions per day)
-            1619948541, // * UNIX timestamp of last checkpoint block
-            42154,   // * total number of transactions between genesis and last checkpoint
+            1621736539, // * UNIX timestamp of last checkpoint block
+            71283,   // * total number of transactions between genesis and last checkpoint
                         //   (the tx=... number in the SetBestChain debug.log lines)
-            0.06        // * estimated number of transactions per second after checkpoint
+            0.16        // * estimated number of transactions per second after checkpoint
         };
     }
 };
