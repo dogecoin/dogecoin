@@ -1,0 +1,168 @@
+cabal-version: 2.4
+
+name:                   cardano-node-chairman
+version:                1.27.0
+description:            The cardano full node
+author:                 IOHK
+maintainer:             operations@iohk.io
+license:                Apache-2.0
+license-files:          LICENSE
+                        NOTICE
+build-type:             Simple
+
+common base                         { build-depends: base                             >= 4.14       && < 4.15     }
+
+common project-config
+  default-language:     Haskell2010
+  default-extensions:   NoImplicitPrelude
+
+  ghc-options:          -Wall
+                        -Wcompat
+                        -Wincomplete-record-updates
+                        -Wincomplete-uni-patterns
+                        -Wno-unticked-promoted-constructors
+                        -Wpartial-fields
+                        -Wredundant-constraints
+                        -Wunused-packages
+
+common maybe-unix
+  if !os(windows)
+      build-depends:    unix
+
+common maybe-Win32
+  if os(windows)
+     build-depends:     Win32
+
+common maybe-Win32-network
+  if os(windows)
+     build-depends:     Win32-network
+
+common common-modules
+  hs-source-dirs:       src
+  other-modules:        Test.Base
+                        Test.Process
+                        Testnet.Byron
+                        Testnet.ByronShelley
+                        Testnet.Conf
+                        Testnet.List
+                        Testnet.Shelley
+
+executable cardano-node-chairman
+  import:               base, project-config
+                      , common-modules
+                      , maybe-unix
+
+  hs-source-dirs:       app
+  main-is:              cardano-node-chairman.hs
+  other-modules:        Cardano.Chairman
+                        Cardano.Chairman.Commands
+                        Cardano.Chairman.Commands.Version
+                        Cardano.Chairman.Commands.Run
+                        Paths_cardano_node_chairman
+  ghc-options:          -threaded
+                        -rtsopts
+                        "-with-rtsopts=-T"
+  build-depends:        aeson             >= 1.5.6.0
+                      , bytestring
+                      , cardano-api
+                      , cardano-config
+                      , cardano-ledger-byron
+                      , cardano-node
+                      , cardano-prelude
+                      , containers
+                      , contra-tracer
+                      , directory
+                      , exceptions
+                      , filepath
+                      , hedgehog
+                      , hedgehog-extras
+                      , io-sim-classes
+                      , network-mux
+                      , optparse-applicative
+                      , ouroboros-consensus
+                      , ouroboros-network
+                      , ouroboros-network-framework
+                      , process
+                      , random
+                      , resourcet
+                      , text
+                      , time
+                      , unordered-containers
+
+test-suite chairman-tests
+  import:               base, project-config
+                      , common-modules
+                      , maybe-unix
+
+  hs-source-dirs:       test
+
+  main-is:              Main.hs
+
+  type:                 exitcode-stdio-1.0
+
+  build-depends:        aeson             >= 1.5.6.0
+                      , containers
+                      , directory
+                      , exceptions
+                      , filepath
+                      , hedgehog
+                      , hedgehog-extras
+                      , network
+                      , process
+                      , random
+                      , resourcet
+                      , tasty
+                      , tasty-hedgehog
+                      , text
+                      , time
+                      , unliftio
+                      , unordered-containers
+
+  other-modules:        Spec.Chairman.Chairman
+                        Spec.Chairman.Byron
+                        Spec.Chairman.ByronShelley
+                        Spec.Chairman.Shelley
+                        Spec.Network
+
+  ghc-options:          -threaded -rtsopts -with-rtsopts=-N -with-rtsopts=-T
+
+  build-tool-depends:   cardano-node:cardano-node
+                      , cardano-cli:cardano-cli
+                      , cardano-node-chairman:cardano-node-chairman
+
+executable cardano-testnet
+  import:               base, project-config
+                      , maybe-unix
+                      , common-modules
+
+  hs-source-dirs:       testnet
+
+  main-is:              Main.hs
+
+  build-depends:        aeson             >= 1.5.6.0
+                      , ansi-terminal
+                      , cardano-config
+                      , containers
+                      , directory
+                      , exceptions
+                      , filepath
+                      , hedgehog
+                      , hedgehog-extras
+                      , optparse-applicative
+                      , process
+                      , random
+                      , resourcet
+                      , stm
+                      , text
+                      , time
+                      , unordered-containers
+
+  other-modules:        Paths_cardano_node_chairman
+                        Testnet.Commands
+                        Testnet.Commands.Byron
+                        Testnet.Commands.ByronShelley
+                        Testnet.Commands.Shelley
+                        Testnet.Commands.Version
+                        Testnet.Run
+
+  ghc-options:          -threaded -rtsopts -with-rtsopts=-N -with-rtsopts=-T

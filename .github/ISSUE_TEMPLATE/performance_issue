@@ -1,0 +1,34 @@
+---
+name: Bug report
+about: Report a bug to help us improve
+title: "[PERF] - "
+labels: Pioneer, performance
+assignees: ''
+
+---
+
+**Internal/Exernal**
+*Internal*   if an IOHK staff member.
+*External*   otherwise.
+
+**Area**
+*Token Locking*    Related to Token Locking (Allegra).
+*Native Tokens*    Related to Native Tokens (Mary).
+*Other*   Any other topic (Delegation, Ranking, ...).
+
+**Summary**
+A clear and specific description of the performance issue.
+
+**Steps to reproduce**
+Steps to reproduce the behavior.
+
+**System info (please complete the following information):**
+- OS: [e.g. Ubuntu]
+- Version [e.g. 20.04]
+- Node version
+
+**Screenshots and attachments**
+- If applicable, add screenshots, config files and/or logs to help explain the problem.
+
+**Additional context**
+Add any other context about the performance issue here.

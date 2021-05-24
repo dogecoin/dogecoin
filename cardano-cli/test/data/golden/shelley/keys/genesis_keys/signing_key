@@ -1,0 +1,5 @@
+{
+    "type": "GenesisSigningKey_ed25519",
+    "description": "Genesis Signing Key",
+    "cborHex": "5820628addf353526b42ae555dc2e4d19cc91f8cd2698a7331c334b6d5fe5404e2eb"
+}

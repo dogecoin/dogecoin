@@ -1,40 +1,44 @@
 ---
-name: 🐜 Bug Report
-about: Create a report to help us improve
-title: '[bug] '
+name: Bug report
+about: Report a bug to help us improve
+title: "[BUG] - "
+labels: bug
+assignees: ''
+
 ---
 
-<!-- Please make sure you are posting an technical issue related to Dogecoin Core. --> 
+**Internal/External**
+*Internal*   if an IOHK staff member.
+*External*   otherwise.
 
-<!-- For general questions about Dogecoin or wallet recovery please use one of the various communities:
-* [Dogeducation on reddit](https://www.reddit.com/r/dogeducation/)
-* [Discord](https://discord.com/invite/dogecoin) -->
+**Area**
+*Token Locking*    Related to Token Locking (Allegra).
+*Native Tokens*    Related to Native Tokens (Mary).
+*Other*   Any other topic (Delegation, Ranking, ...).
 
-<!-- ISSUES MISSING IMPORTANT INFORMATION MAY BE CLOSED WITHOUT INVESTIGATION. -->
+**Summary**
+A clear and specific description of what the bug is.
 
-# Bug Report
-
-**Current behavior:**
-<!-- Describe how the bug manifests. -->
+**Steps to reproduce**
+Steps to reproduce the behavior:
+1. Go to '...'
+2. Click on '....'
+3. Scroll down to '....'
+4. See error
 
 **Expected behavior**
-<!-- Describe what the behavior would be without the bug. -->
+A clear and concise description of what you expected to happen.
 
-**Steps to reproduce:**
-<!--  Please explain the steps required to duplicate the issue, especially if you are able to provide a sample application or sample code -->
+**System info (please complete the following information):**
+- OS Name: [e.g. Ubuntu]
+- OS Version [e.g. 20.04]
+- Node version (output of `cardano-node --version`)
+- CLI version  (output of `cardano-cli --version`)
 
-**Screenshots**
-<!-- If the issue is related to the GUI, screenshots can be added to this issue via drag & drop. -->
+If the git revision is reported to be `0000000000000000000000000000000000000000`, please use `cabal build` instead of `cabal install` to build the binaries because `cabal install` does not record the git revision in the binaries.
 
-**Dogecoin Core version**
-<!-- List the version number/commit ID, and if it is an official binary, self compiled or a distribution package such as PPA. -->
+**Screenshots and attachments**
+- If applicable, add screenshots, config files and/or logs to help explain the problem.
 
-**Machine specs**
-- OS:
-- CPU:
-- RAM:
-- Disk size:
-- Disk Type (HD/SDD):
-
-**Extra information**
-<!-- This is normally the contents of a `debug.log` or `config.log` file. Raw text or a link to a pastebin type site are preferred. -->
+**Additional context**
+Add any other context about the problem here.

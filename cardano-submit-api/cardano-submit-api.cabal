@@ -1,0 +1,123 @@
+cabal-version: 2.4
+
+name:                   cardano-submit-api
+version:                3.1.2
+synopsis:               A web server that allows transactions to be POSTed to the cardano chain
+description:
+homepage:               https://github.com/input-output-hk/cardano-node
+bug-reports:            https://github.com/input-output-hk/cardano-node/issues
+license:                Apache-2.0
+license-file:           LICENSE
+author:                 IOHK Engineering Team
+maintainer:             operations@iohk.io
+copyright:              (c) 2019-2021 IOHK
+category:               Language
+build-type:             Simple
+extra-source-files:     CHANGELOG.md
+
+common base                         { build-depends: base                             >= 4.14       && < 4.15     }
+
+common cardano-api                  { build-depends: cardano-api                                                  }
+common cardano-submit-api           { build-depends: cardano-submit-api                                           }
+
+common aeson                        { build-depends: aeson                            >= 1.5.5.1                  }
+common async                        { build-depends: async                            >= 2.2.2                    }
+common bytestring                   { build-depends: bytestring                       >= 0.10.8.2                 }
+common cardano-binary               { build-depends: cardano-binary                   >= 1.5.0                    }
+common cardano-crypto-class         { build-depends: cardano-crypto-class             >= 2.0.0                    }
+common cardano-ledger-byron         { build-depends: cardano-ledger-byron             >= 0.1.0.0                  }
+common formatting                   { build-depends: formatting                       >= 6.3.7                    }
+common http-media                   { build-depends: http-media                       >= 0.8.0.0                  }
+common iohk-monitoring              { build-depends: iohk-monitoring                  >= 0.1.10.1                 }
+common mtl                          { build-depends: mtl                              >= 2.2.2                    }
+common network                      { build-depends: network                          >= 3.1.2.1                  }
+common optparse-applicative         { build-depends: optparse-applicative             >= 0.16.1.0                 }
+common ouroboros-consensus-cardano  { build-depends: ouroboros-consensus-cardano      >= 0.1.0.0                  }
+common ouroboros-network            { build-depends: ouroboros-network                >= 0.1.0.0                  }
+common prometheus                   { build-depends: prometheus                       >= 2.2.2                    }
+common protolude                    { build-depends: protolude                        >= 0.3.0                    }
+common servant                      { build-depends: servant                          >= 0.18.2                   }
+common servant-server               { build-depends: servant-server                   >= 0.18.2                   }
+common streaming-commons            { build-depends: streaming-commons                >= 0.2.2.1                  }
+common text                         { build-depends: text                             >= 1.2.3.2                  }
+common transformers-except          { build-depends: transformers-except              >= 0.1.1                    }
+common warp                         { build-depends: warp                             >= 3.3.13                   }
+common yaml                         { build-depends: yaml                             >= 0.11.5.0                 }
+
+common project-config
+  default-language:     Haskell2010
+  
+  ghc-options:          -Wall
+                        -Wcompat
+                        -Werror
+                        -Wincomplete-record-updates
+                        -Wincomplete-uni-patterns
+                        -Wno-all-missed-specialisations
+                        -Wno-implicit-prelude
+                        -Wno-missing-import-lists
+                        -Wno-safe
+                        -Wno-unsafe
+                        -Wunused-packages
+
+                        -XNoImplicitPrelude
+
+                        -fwarn-incomplete-patterns
+                        -fwarn-redundant-constraints
+
+library
+  import:               base, project-config
+                      , aeson
+                      , async
+                      , bytestring
+                      , cardano-api
+                      , cardano-binary
+                      , cardano-crypto-class
+                      , cardano-ledger-byron
+                      , formatting
+                      , http-media
+                      , iohk-monitoring
+                      , mtl
+                      , network
+                      , optparse-applicative
+                      , ouroboros-consensus-cardano
+                      , ouroboros-network
+                      , prometheus
+                      , protolude
+                      , servant
+                      , servant-server
+                      , streaming-commons
+                      , text
+                      , transformers-except
+                      , warp
+                      , yaml
+
+  hs-source-dirs:       src
+
+  exposed-modules:      Cardano.TxSubmit
+
+  other-modules:        Cardano.TxSubmit.CLI.Parsers
+                      , Cardano.TxSubmit.CLI.Types
+                      , Cardano.TxSubmit.Config
+                      , Cardano.TxSubmit.ErrorRender
+                      , Cardano.TxSubmit.Metrics
+                      , Cardano.TxSubmit.Rest.Parsers
+                      , Cardano.TxSubmit.Rest.Types
+                      , Cardano.TxSubmit.Rest.Web
+                      , Cardano.TxSubmit.Tracing.ToObjectOrphans
+                      , Cardano.TxSubmit.Types
+                      , Cardano.TxSubmit.Util
+                      , Cardano.TxSubmit.Web
+
+executable cardano-submit-api
+  import:               base, project-config
+                      , cardano-submit-api
+                      , optparse-applicative
+  main-is:              Main.hs
+  hs-source-dirs:       app
+  ghc-options:          -threaded -rtsopts "-with-rtsopts=-T -I0"
+
+test-suite unit
+  import:               base, project-config
+  type:                 exitcode-stdio-1.0
+  main-is:              test.hs
+  hs-source-dirs:       test

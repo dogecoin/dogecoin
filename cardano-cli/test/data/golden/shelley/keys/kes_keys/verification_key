@@ -1,0 +1,5 @@
+{
+    "type": "KesVerificationKey_ed25519_kes_2^6",
+    "description": "KES Verification Key",
+    "cborHex": "5820db9a67e7a991341c95d2afb4be90bc6cf80ee60339e51145f163ba4394f5b64d"
+}

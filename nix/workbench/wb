@@ -1,0 +1,102 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC1090,SC2046,SC2206,SC2207
+
+set -euo pipefail
+
+global_basedir=${global_basedir:-$(realpath "$(dirname "$0")")}
+global_mode='unknown'
+
+. "$global_basedir"/lib.sh
+. "$global_basedir"/env.sh
+. "$global_basedir"/profile.sh
+. "$global_basedir"/genesis.sh
+. "$global_basedir"/topology.sh
+. "$global_basedir"/run.sh
+. "$global_basedir"/explain-mode.sh
+
+. "$global_basedir"/backend.sh
+
+usage_main() {
+    test $# -lt 1 ||
+        msg "Unknown op: $1"
+     __usage "OP" "Main OPs" <<EOF
+    env          (e)      Environment configuration
+    genesis      (g)      Genesis
+    topology     (t)      Topology generation
+    profile      (p)      Cluster profile ops.  Default op is 'list'
+    cluster      (c)      Cluster state ops
+    run          (r)      Managing cluster runs.  Default op is 'list'
+
+    explain-mode (x)      Explain current mode
+
+  Options:
+
+    --trace / --debug     set -x
+    --help                This short help
+    --help-full           Extended help
+EOF
+}
+
+usage_extra() {
+    cat >&2 <<EOF
+  Other OPs:
+
+    call ARGS..           Call internal functions with arguments
+    mode                  Report mode set by --set-mode
+
+  Extra options:
+
+    --cls                 Clear screen, before acting further.
+    --set-mode MODE       Set mode.  Only has effect on 'mode' OP
+
+EOF
+}
+
+while test $# -gt 0
+do case "$1" in
+       --cls )
+           echo -en "\ec">&2;;
+       --trace | --debug )
+           set -x;;
+       --set-mode )
+           global_mode=$2; shift;;
+       --help )
+           usage_main; exit 1;;
+       --help-full | --help-all | --help-extra )
+           usage_main; usage_extra; exit 1;;
+       * ) break;; esac; shift; done
+
+main() {
+    local op=${1:?$(usage_main)}; shift
+
+    case "$op" in
+        ## Public:
+        #
+        env | e )
+            env "$@";;
+        genesis | g )
+            genesis "$@";;
+        topology | topo | t )
+            topology "$@";;
+        profile | profiles | prof | ps | p )
+            profile "$@";;
+        cluster | c )
+            cluster "$@";;
+        run | runs | r )
+            run "$@";;
+
+        explain-mode | x )
+            explain-mode $global_mode;;
+
+        ## Internals:
+        #
+        backend )
+            backend "$@";;
+        call )
+            "$@";;
+        mode )
+            echo -n      $global_mode;;
+        * ) usage_main "$op"; exit 1;; esac
+}
+
+main "$@"

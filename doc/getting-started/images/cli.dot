@@ -1,0 +1,208 @@
+digraph G {
+
+    rankdir = LR;
+
+    node [shape = rectangle, style = filled, color = black, fillcolor = white, fontsize = 24];
+    edge [penwidth = 3];
+
+    cli     [label = "cardano-cli"];
+
+    subgraph cluster_byron {
+
+        style = filled;
+        fillcolor = "/greens4/4";
+        node [fillcolor = "/greens4/1"];
+
+        byron   [label = "byron", fillcolor = "/greens4/3"];
+
+        bnode   [label = "node", fillcolor = "/greens4/2"];
+
+        bncup   [label = "create-update-proposal"]
+        bncpv   [label = "create-proposal-vote"]
+        bnsup   [label = "submit-update-proposal"]
+        bnspv   [label = "submit-proposal-vote"]
+    }
+
+    subgraph cluster_shelley {
+
+        style = filled;
+        fillcolor = "/orrd4/4";
+        node [fillcolor = "/orrd4/1"];
+
+        shelley [label = "shelley", fillcolor = "/orrd4/3"];
+
+        shaddr  [label = "address", fillcolor = "/orrd4/2"]
+        shsaddr [label = "stake-address", fillcolor = "/orrd4/2"]
+        shtx    [label = "transaction", fillcolor = "/orrd4/2"]
+        shnode  [label = "node", fillcolor = "/orrd4/2"]
+        shsp    [label = "stake-pool", fillcolor = "/orrd4/2"]
+        shq     [label = "query", fillcolor = "/orrd4/2"]
+        shblock [label = "block", fillcolor = "/orrd4/2"]
+        shsys   [label = "system", fillcolor = "/orrd4/2"]
+        shdo    [label = "devops", fillcolor = "/orrd4/2"]
+        shg     [label = "genesis", fillcolor = "/orrd4/2"]
+
+        adkg    [label = "key-gen"]
+        adkh    [label = "key-hash"]
+        adb     [label = "build"]
+        adbms   [label = "build-multisig"]
+        adi     [label = "info"]
+
+        sadr    [label = "register"]
+        sadd    [label = "delegate"]
+        saddr   [label = "de-register"]
+
+        txbr    [label = "build-raw"]
+        txs     [label = "sign"]
+        txw     [label = "witness"]
+        txsw    [label = "sign-witness"]
+        txc     [label = "check"]
+        txsub   [label = "submit"]
+        txi     [label = "info"]
+
+        nodkg   [label = "key-gen"]
+        nodkgk  [label = "key-gen-KES"]
+        nodkgv  [label = "key-gen-VRF"]
+        nodioc  [label = "issue-op-cert"]
+
+        shspreg [label = "register"]
+        shsprr  [label = "re-register"]
+        shspret [label = "retire"]
+
+        qpid    [label = "pool-id"]
+        qpp     [label = "protocol-parameters"]
+        qtip    [label = "tip"]
+        qfu     [label = "filtered-utxo"]
+        qv      [label = "version"]
+        qs      [label = "status"]
+    
+        shbi    [label = "info"]
+
+        sysstrt [label = "start"]
+        sysstop [label = "stop"]
+
+        dopu    [label = "protocol-update"]
+        dock    [label = "cold-keys"]
+
+        shgkgg  [label = "key-gen-genesis"];
+        shgkgd  [label = "key-gen-delegate"];
+        shgkgu  [label = "key-gen-utxo"];
+        shgkh   [label = "key-hash"];
+        shggvk  [label = "get.ver.key"];
+        shgia   [label = "initial-addr"];
+        shgitxi [label = "initial-txin"];
+        shgcg   [label = "create-genesis"];
+    }
+
+    subgraph cluster_other {
+
+        style = filled
+        fillcolor = "/greys3/3";
+        node [fillcolor = "/greys3/2"];
+
+        genesis [label = "genesis"];
+        pgh     [label = "print-genesis-hash"];
+        kg      [label = "keygen"];
+        tv      [label = "to-verification"];
+        skp     [label = "signing-key-public"];
+        ska     [label = "signing-key-address"];
+        mdkf    [label = "migrate-delegate-key-from"];
+        idc     [label = "issue-delegation-certificate"];
+        cd      [label = "check-delegation"];
+        stx     [label = "submit-tx"];
+        igue    [label = "issue-genesis-utxo-expenditure"];
+        iue     [label = "issue-utxo-expenditure"];
+        gt      [label = "get-tip"];
+        vcbor   [label = "validate-cbor"];
+        version [label = "version"];
+        ppcbor  [label = "pretty-print-cbor"];
+    }
+
+    cli -> byron;
+    cli -> genesis;
+    cli -> pgh;
+    cli -> kg;
+    cli -> tv;
+    cli -> skp;
+    cli -> ska;
+    cli -> mdkf;
+    cli -> idc;
+    cli -> cd;
+    cli -> stx;
+    cli -> igue;
+    cli -> iue;
+    cli -> gt;
+    cli -> vcbor;
+    cli -> version;
+    cli -> ppcbor;
+    cli -> shelley;
+
+    byron -> bnode;
+
+    bnode -> bncup;
+    bnode -> bncpv;
+    bnode -> bnsup;
+    bnode -> bnspv;
+
+    shelley -> shaddr;
+    shelley -> shsaddr;
+    shelley -> shtx;
+    shelley -> shnode;
+    shelley -> shsp;
+    shelley -> shq;
+    shelley -> shblock;
+    shelley -> shsys;
+    shelley -> shdo;
+    shelley -> shg;
+
+    shaddr -> adkg;
+    shaddr -> adkh;
+    shaddr -> adb;
+    shaddr -> adbms;
+    shaddr -> adi;
+
+    shsaddr -> sadr;
+    shsaddr -> sadd;
+    shsaddr -> saddr;
+
+    shtx -> txbr;
+    shtx -> txs;
+    shtx -> txw;
+    shtx -> txsw;
+    shtx -> txc;
+    shtx -> txsub;
+    shtx -> txi;
+
+    shnode -> nodkg;
+    shnode -> nodkgk;
+    shnode -> nodkgv;
+    shnode -> nodioc;
+
+    shsp -> shspreg;
+    shsp -> shsprr;
+    shsp -> shspret;
+
+    shq -> qpid;
+    shq -> qpp;
+    shq -> qtip;
+    shq -> qfu;
+    shq -> qv;
+    shq -> qs;
+
+    shblock -> shbi;
+
+    shsys -> sysstrt;
+    shsys -> sysstop;
+
+    shdo -> dopu;
+    shdo -> dock;
+
+    shg -> shgkgg;
+    shg -> shgkgd;
+    shg -> shgkgu;
+    shg -> shgkh;
+    shg -> shggvk;
+    shg -> shgia;
+    shg -> shgitxi;
+    shg -> shgcg;
+}

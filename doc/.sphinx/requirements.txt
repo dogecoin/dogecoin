@@ -1,0 +1,31 @@
+Sphinx==3.1.1
+sphinx-intl==2.0.1
+transifex-client==0.13.10
+testresources==2.0.1
+-e git+https://github.com/input-output-hk/sphinx_rtd_theme.git#egg=sphinx_rtd_theme
+recommonmark==0.6
+## The following requirements were added by pip freeze:
+alabaster==0.7.12
+Babel==2.8.0
+certifi==2020.4.5.2
+chardet==3.0.4
+click==7.1.2
+sphinxcontrib-mermaid==0.4.0
+sphinxemoji==0.1.6
+sphinx_markdown_tables==0.0.15
+CommonMark==0.9.1
+docutils==0.16
+future==0.18.2
+idna==2.9
+imagesize==1.2.0
+Jinja2==2.11.3
+jsonpointer==2.0
+jsonref==0.2
+MarkupSafe==1.1.1
+Pygments==2.7.4
+pytz==2020.1
+requests==2.24.0
+six==1.15.0
+snowballstemmer==2.0.0
+sphinxcontrib-websupport==1.2.2
+urllib3==1.25.9

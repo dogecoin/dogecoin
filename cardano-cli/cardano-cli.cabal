@@ -1,0 +1,276 @@
+cabal-version: 2.4
+
+name:                   cardano-cli
+version:                1.27.0
+description:            The Cardano command-line interface.
+author:                 IOHK
+maintainer:             operations@iohk.io
+license:                Apache-2.0
+license-files:          LICENSE
+                        NOTICE
+build-type:             Simple
+extra-source-files:     README.md
+
+Flag unexpected_thunks
+  Description:   Turn on unexpected thunks checks
+  Default:       False
+
+common base
+  build-depends: base >= 4.14 && < 4.15
+
+common project-config
+  default-language:     Haskell2010
+
+  default-extensions:   NoImplicitPrelude
+                        OverloadedStrings
+
+  ghc-options:          -Wall
+                        -Wcompat
+                        -Wincomplete-record-updates
+                        -Wincomplete-uni-patterns
+                        -Wpartial-fields
+                        -Wredundant-constraints
+                        -Wunused-packages
+
+common maybe-unix
+  if !os(windows)
+     build-depends:    unix
+
+common maybe-Win32
+  if os(windows)
+     build-depends:    Win32
+
+library
+  import:               base, project-config
+                      , maybe-unix
+                      , maybe-Win32
+
+  if flag(unexpected_thunks)
+    cpp-options: -DUNEXPECTED_THUNKS
+
+  hs-source-dirs:       src
+
+  exposed-modules:      Cardano.CLI.Helpers
+                        Cardano.CLI.Parsers
+                        Cardano.CLI.Run
+                        Cardano.CLI.Run.Friendly
+                        Cardano.CLI.Types
+
+                        Cardano.CLI.Environment
+
+                        Cardano.CLI.Byron.Commands
+                        Cardano.CLI.Byron.Parsers
+                        Cardano.CLI.Byron.Run
+                        Cardano.CLI.Byron.Delegation
+                        Cardano.CLI.Byron.Genesis
+                        Cardano.CLI.Byron.Key
+                        Cardano.CLI.Byron.Legacy
+                        Cardano.CLI.Byron.Tx
+                        Cardano.CLI.Byron.Query
+                        Cardano.CLI.Byron.UpdateProposal
+                        Cardano.CLI.Byron.Vote
+
+                        Cardano.CLI.Shelley.Commands
+                        Cardano.CLI.Shelley.Key
+                        Cardano.CLI.Shelley.Orphans
+                        Cardano.CLI.Shelley.Parsers
+                        Cardano.CLI.Shelley.Run
+                        Cardano.CLI.Shelley.Run.Address
+                        Cardano.CLI.Shelley.Run.Address.Info
+                        Cardano.CLI.Shelley.Run.Genesis
+                        Cardano.CLI.Shelley.Run.Governance
+                        Cardano.CLI.Shelley.Run.Key
+                        Cardano.CLI.Shelley.Run.Node
+                        Cardano.CLI.Shelley.Run.Pool
+                        Cardano.CLI.Shelley.Run.Query
+                        Cardano.CLI.Shelley.Run.StakeAddress
+                        Cardano.CLI.Shelley.Run.TextView
+                        Cardano.CLI.Shelley.Run.Transaction
+                        Cardano.CLI.Shelley.Script
+
+                        Cardano.CLI.Mary.RenderValue
+                        Cardano.CLI.Mary.TxOutParser
+                        Cardano.CLI.Mary.ValueParser
+
+                        Cardano.CLI.TopHandler
+
+  other-modules:        Paths_cardano_cli
+
+  build-depends:        aeson             >= 1.5.6.0
+                      , aeson-pretty      >= 0.8.5
+                      , ansi-terminal
+                      , attoparsec
+                      , bech32            >= 1.1.0
+                      , binary
+                      , bytestring
+                      , base16-bytestring >= 1.0
+                      , cardano-api
+                      , cardano-binary
+                      , cardano-config
+                      , cardano-crypto
+                      , cardano-crypto-class
+                      , cardano-crypto-wrapper
+                      , cardano-ledger-alonzo
+                      , cardano-ledger-byron
+                      , cardano-ledger-core
+                      , cardano-ledger-shelley-ma
+                      , cardano-prelude
+                      , contra-tracer
+                      , cborg >= 0.2.4 && < 0.3
+                      , containers
+                      , cryptonite
+                      , directory
+                      , filepath
+                      , formatting
+                      , iproute
+                      , network
+                      , optparse-applicative
+                      , ouroboros-consensus
+                      , ouroboros-consensus-byron
+                      , ouroboros-consensus-cardano
+                      , ouroboros-consensus-shelley
+                      , ouroboros-network
+                      , parsec
+                      , plutus-core
+                      , plutus-ledger-api
+                      , shelley-spec-ledger
+                      , small-steps
+                      , split
+                      , strict-containers
+                      , text
+                      , time
+                      , transformers-except
+                      , utf8-string
+                      , unordered-containers
+                      , vector
+                      , yaml
+
+executable cardano-cli
+  import:               base, project-config
+                      , maybe-unix
+  hs-source-dirs:       app
+  main-is:              cardano-cli.hs
+  ghc-options:          -threaded -rtsopts "-with-rtsopts=-T"
+
+  build-depends:        cardano-cli
+                      , cardano-crypto-class
+                      , cardano-prelude
+                      , optparse-applicative
+                      , transformers-except
+
+test-suite cardano-cli-test
+  import:               base, project-config
+
+  hs-source-dirs:       test
+  main-is:              cardano-cli-test.hs
+  type:                 exitcode-stdio-1.0
+
+  build-depends:        bech32            >= 1.1.0
+                      , bytestring
+                      , base16-bytestring
+                      , cardano-api
+                      , cardano-api-test
+                      , cardano-cli
+                      , cardano-node
+                      , cardano-prelude
+                      , exceptions
+                      , hedgehog
+                      , hedgehog-extras
+                      , parsec
+                      , text
+
+  other-modules:        Test.Cli.FilePermissions
+                        Test.Cli.ITN
+                        Test.Cli.MultiAssetParsing
+                        Test.Cli.Pioneers.Exercise1
+                        Test.Cli.Pioneers.Exercise2
+                        Test.Cli.Pioneers.Exercise3
+                        Test.Cli.Pioneers.Exercise4
+                        Test.Cli.Pioneers.Exercise5
+                        Test.Cli.Pioneers.Exercise6
+                        Test.OptParse
+
+  ghc-options:          -threaded -rtsopts -with-rtsopts=-N -with-rtsopts=-T
+
+test-suite cardano-cli-golden
+  import:               base, project-config
+
+  hs-source-dirs:       test
+  main-is:              cardano-cli-golden.hs
+  type:                 exitcode-stdio-1.0
+
+  build-depends:        aeson             >= 1.5.6.0
+                      , bytestring
+                      , cardano-api
+                      , cardano-cli
+                      , cardano-crypto-wrapper
+                      , cardano-ledger-byron
+                      , cardano-prelude
+                      , cborg
+                      , containers
+                      , Diff
+                      , directory
+                      , exceptions
+                      , hedgehog
+                      , hedgehog-extras
+                      , text
+                      , time
+                      , unordered-containers
+  build-tool-depends:   cardano-cli:cardano-cli
+
+  other-modules:        Test.Golden.Byron.SigningKeys
+                        Test.Golden.Byron.Tx
+                        Test.Golden.Byron.TxBody
+                        Test.Golden.Byron.UpdateProposal
+                        Test.Golden.Byron.Vote
+                        Test.Golden.Byron.Witness
+                        Test.Golden.Shelley
+                        Test.Golden.Shelley.Address.Build
+                        Test.Golden.Shelley.Address.Info
+                        Test.Golden.Shelley.Address.KeyGen
+                        Test.Golden.Shelley.Genesis.Create
+                        Test.Golden.Shelley.Genesis.InitialTxIn
+                        Test.Golden.Shelley.Genesis.KeyGenDelegate
+                        Test.Golden.Shelley.Genesis.KeyGenGenesis
+                        Test.Golden.Shelley.Genesis.KeyGenUtxo
+                        Test.Golden.Shelley.Genesis.KeyHash
+                        Test.Golden.Shelley.Key.ConvertCardanoAddressKey
+                        Test.Golden.Shelley.Metadata.StakePoolMetadata
+                        Test.Golden.Shelley.MultiSig.Address
+                        Test.Golden.Shelley.Node.IssueOpCert
+                        Test.Golden.Shelley.Node.KeyGen
+                        Test.Golden.Shelley.Node.KeyGenKes
+                        Test.Golden.Shelley.Node.KeyGenVrf
+                        Test.Golden.Shelley.StakeAddress.Build
+                        Test.Golden.Shelley.StakeAddress.DeregistrationCertificate
+                        Test.Golden.Shelley.StakeAddress.KeyGen
+                        Test.Golden.Shelley.StakeAddress.RegistrationCertificate
+                        Test.Golden.Shelley.StakePool.RegistrationCertificate
+                        Test.Golden.Shelley.TextEnvelope.Certificates.GenesisKeyDelegationCertificate
+                        Test.Golden.Shelley.TextEnvelope.Certificates.MIRCertificate
+                        Test.Golden.Shelley.TextEnvelope.Certificates.OperationalCertificate
+                        Test.Golden.Shelley.TextEnvelope.Certificates.StakeAddressCertificates
+                        Test.Golden.Shelley.TextEnvelope.Certificates.StakePoolCertificates
+                        Test.Golden.Shelley.TextEnvelope.Keys.ExtendedPaymentKeys
+                        Test.Golden.Shelley.TextEnvelope.Keys.GenesisDelegateKeys
+                        Test.Golden.Shelley.TextEnvelope.Keys.GenesisKeys
+                        Test.Golden.Shelley.TextEnvelope.Keys.GenesisUTxOKeys
+                        Test.Golden.Shelley.TextEnvelope.Keys.KESKeys
+                        Test.Golden.Shelley.TextEnvelope.Keys.PaymentKeys
+                        Test.Golden.Shelley.TextEnvelope.Keys.StakeKeys
+                        Test.Golden.Shelley.TextEnvelope.Keys.VRFKeys
+                        Test.Golden.Shelley.TextEnvelope.Tx.Tx
+                        Test.Golden.Shelley.TextEnvelope.Tx.TxBody
+                        Test.Golden.Shelley.TextEnvelope.Tx.Witness
+                        Test.Golden.Shelley.TextView.DecodeCbor
+                        Test.Golden.Shelley.Transaction.Assemble
+                        Test.Golden.Shelley.Transaction.Build
+                        Test.Golden.Shelley.Transaction.CalculateMinFee
+                        Test.Golden.Shelley.Transaction.CreateWitness
+                        Test.Golden.Shelley.Transaction.Sign
+                        Test.Golden.TxView
+                        Test.Golden.Version
+                        Test.OptParse
+                        Test.Utilities
+
+  ghc-options:          -threaded -rtsopts -with-rtsopts=-N -with-rtsopts=-T

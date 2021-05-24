@@ -1,0 +1,16 @@
+# This config is used by cluster nodes (core, relay, explorer)
+
+rotation:
+    logLimit: 16777216
+    keepFiles: 20
+
+loggerTree:
+  severity: Debug+
+
+  handlers:
+    - { name: "JSON"
+      , filepath: "node.json"
+      , logsafety: SecretLogLevel
+      , severity: Debug+
+      , backend: FileJsonBE }
+

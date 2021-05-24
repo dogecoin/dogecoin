@@ -1,0 +1,56 @@
+swagger: '2.0'
+schemes: ["http"]
+host: localhost
+basePath: /
+info:
+  title: cardano-submit-api
+  version: 3.1.0
+  license:
+    name: Apache-2.0
+    url: https://github.com/input-output-hk/cardano-rest/blob/master/submit-api/LICENSE
+  description: |
+    <p align="right"><img style="position: relative; top: -10em; margin-bottom: -12em;" width="20%" src="https://cardanodocs.com/img/cardano.png"></img></p>
+
+x-tagGroups: []
+
+definitions: {}
+
+paths:
+  /api/submit/tx:
+    post:
+      operationId: postTransaction
+      summary: Submit Tx
+      description: Submit an already serialized transaction to the network.
+      parameters:
+        - in: header
+          name: Content-Type
+          required: true
+          type: string
+          enum: ["application/cbor"]
+
+      x-code-samples:
+        - lang: "Shell"
+          label: "cURL"
+          source: |
+            # Assuming `data` is a serialized transaction on the file-system.
+            curl -X POST \
+                --header "Content-Type: application/cbor" \
+                --data-binary @data http://localhost:8101/api/submit/tx
+      produces:
+        - "application/json"
+      responses:
+        202:
+          description: Ok
+          schema:
+            description: The transaction id.
+            type: string
+            format: hex
+            minLength: 64
+            maxLength: 64
+            example: 92bcd06b25dfbd89b578d536b4d3b7dd269b7c2aa206ed518012cffe0444d67f
+
+        400:
+          description: Bad Request
+          schema:
+            type: string
+            description: An error message.

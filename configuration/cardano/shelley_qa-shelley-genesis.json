@@ -1,0 +1,60 @@
+{
+    "activeSlotsCoeff": 5.0e-2,
+    "protocolParams": {
+        "protocolVersion": {
+            "minor": 0,
+            "major": 2
+        },
+        "decentralisationParam": 1,
+        "eMax": 18,
+        "extraEntropy": {
+            "tag": "NeutralNonce"
+        },
+        "maxTxSize": 16384,
+        "maxBlockBodySize": 65536,
+        "maxBlockHeaderSize": 1100,
+        "minFeeA": 44,
+        "minFeeB": 155381,
+        "minUTxOValue": 1000000,
+        "poolDeposit": 500000000,
+        "minPoolCost": 340000000,
+        "keyDeposit": 2000000,
+        "nOpt": 150,
+        "rho": 0.003,
+        "tau": 0.20,
+        "a0": 0.3
+    },
+    "genDelegs": {
+        "489c900ca42a9e690678f777552f70cabcb49e28ad4126a902e1fbfa": {
+            "delegate": "a38dcd095ad126eac1f64d99ec64c3de63b14e90009f5e4b4e451b86",
+            "vrf": "df85ffa44aed49ef1e9dda28dab48592143668ac0fb1f1df1a8ec6b771223b53"
+        },
+        "fe4a70e2858afa3487ac582eb7f8a9fb2538d186e71263beb497d017": {
+            "delegate": "399752c39cdc628950ec4a62c09482b6ba8d65f79bcd41d7ff620273",
+            "vrf": "64f241c7929da8e8fb5af2b4f7779fbb18e06e6240276fb54efdddda5b7d427b"
+        },
+        "a5f87e4f6eac5fcfcaf18beadf14f4142e7bd26bac9e4951b2918811": {
+            "delegate": "ea6a83bfaba85ebf3dcf4fe9a701c991fabc2e229217734fea6ec5e2",
+            "vrf": "524fb631fd92ae561f09f7631a1c6239dc40f242b5f7bcc3a7840aac6b403643"
+        }
+    },
+    "updateQuorum": 3,
+    "networkId": "Testnet",
+    "initialFunds": {},
+    "maxLovelaceSupply": 45000000000000000,
+    "networkMagic": 3,
+    "epochLength": 7200,
+    "systemStart": "2020-08-17T13:00:00Z",
+    "slotsPerKESPeriod": 129600,
+    "slotLength": 1,
+    "maxKESEvolutions": 62,
+    "securityParam": 36,
+
+    "adaPerUTxOWord": 42,
+    "executionPrices": 42,
+    "maxTxExUnits": 42,
+    "maxBlockExUnits": 42,
+    "maxValueSize": 42,
+    "costModels": "configuration/cardano/alonzo/shelley_qa_cost-model.json"
+
+}

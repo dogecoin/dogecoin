@@ -1,0 +1,37 @@
+{
+    "scripts": [
+        {
+            "keyHash": "e09d36c79dec9bd1b3d9e152247701cd0bb860b5ebfd1de8abb6735a",
+            "type": "sig"
+        },
+        {
+            "keyHash": "a687dcc24e00dd3caafbeb5e68f97ca8ef269cb6fe971345eb951756",
+            "type": "sig"
+        },
+        {
+            "keyHash": "0bd1d702b2e6188fe0857a6dc7ffb0675229bab58c86638ffa87ed6d",
+            "type": "sig"
+        },
+        {
+            "keyHash": "dd0044a26cf7d4491ecea720fda11afb59d5725b53afa605fdf695e6",
+            "type": "sig"
+        },
+        {
+            "keyHash": "cf223afe150cc8e89f11edaacbbd55b011ba44fbedef66fbd37d8c9d",
+            "type": "sig"
+        },
+        {
+            "keyHash": "372643e7ef4b41fd2649ada30a89d35cb90b7c14cb5de252e6ce6cb7",
+            "type": "sig"
+        },
+        {
+            "keyHash": "aa453dc184c5037d60e3fbbadb023f4a41bac112f249b76be9bb37ad",
+            "type": "sig"
+        },
+        {
+            "keyHash": "6b732c60c267bab894854d6dd57a04a94e603fcc4c36274c9ed75952",
+            "type": "sig"
+        }
+    ],
+    "type": "all"
+}

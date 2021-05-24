@@ -1,0 +1,24 @@
+name: Post Release
+
+on:
+  release:
+    types:
+      - published
+  push:
+    tags:
+      - '**'
+
+jobs:
+    test-job:
+      name: "Tag / Build / Push Container"
+      runs-on: ubuntu-latest
+      steps:
+      - name: Trigger Buildkite Pipeline
+        uses: buildkite/trigger-pipeline-action@v1.2.0
+        env:
+          BUILDKITE_API_ACCESS_TOKEN: ${{ secrets.Buildkite_Token }}
+          PIPELINE: ${{ github.repository }}
+          COMMIT: ${{ github.sha }}
+          BRANCH: "master"
+          MESSAGE: ":github: Triggered from a GitHub Action"
+          BUILD_ENV_VARS: "{\"GITHUB_REF\": \"${{ github.ref }}\", \"GITHUB_EVENT_NAME\": \"${{ github.event_name }}\" }"

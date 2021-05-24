@@ -1,0 +1,27 @@
+auxiliary data: null
+auxiliary data hash: null
+certificates: []
+era: Mary
+fee: 139
+inputs:
+- fe5dd07fb576bff960d6e066eade5b26cdb5afebe29f76ea58d0a098bce5d891#135
+mint:
+  lovelace: 0
+  policies:
+    69596718df8203759c0f9e86f3f79d1dd45bc9d34109a4fccc824e02:
+      '': 142
+outputs:
+- address:
+    Bech32: addr_test1qrefnr4k09pvge6dq83v6s67ruter8sftmky8qrmkqqsxy7q5psgn8tgqmupq4r79jmxlyk4eqt6z6hj5g8jd8393msqaw47f4
+    credential:
+      key hash: f2998eb67942c4674d01e2cd435e1f17919e095eec43807bb0010313
+    network: Testnet
+    stake reference: StakeRefBase (KeyHashObj (KeyHash "c0a060899d6806f810547e2cb66f92d5c817a16af2a20f269e258ee0"))
+  amount:
+    lovelace: 138
+    policies: {}
+update: null
+validity interval:
+  invalid before: 140
+  invalid hereafter: null
+withdrawals: []

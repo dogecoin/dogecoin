@@ -1,0 +1,9 @@
+{
+   "Producers": [
+     {
+       "addr": "relays-new.cardano-testnet.iohkdev.io",
+       "port": 3001,
+       "valency": 1
+     }
+   ]
+ }

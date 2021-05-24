@@ -1,0 +1,9 @@
+{
+   "Producers": [
+     {
+       "addr": "relays-new.awstest.iohkdev.io",
+       "port": 3001,
+       "valency": 1
+     }
+   ]
+ }

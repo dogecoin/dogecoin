@@ -1,0 +1,217 @@
+##########################################################
+############### Cardano Node Configuration ###############
+##########################################################
+
+
+##### Locations #####
+
+GenesisFile: genesis.json
+
+#TODO: These parameters cannot yet be used in the config file, only on the CLI:
+#DatabasePath: db/
+#Topology: configuration/mainnet-topology.json
+#Port 7776
+
+##### Core protocol parameters #####
+
+# This is the instance of the Ouroboros family that we are running.
+# "RealPBFT" is the real (permissive) OBFT protocol, which is what we use on
+# mainnet in Byron era.
+Protocol: RealPBFT
+
+# The mainnet does not include the network magic into addresses. Testnets do.
+RequiresNetworkMagic: RequiresNoMagic
+
+
+##### Update system parameters #####
+
+# This protocol version number gets used by block producing nodes as part
+# of the system for agreeing on and synchronising protocol updates.
+LastKnownBlockVersion-Major: 0
+LastKnownBlockVersion-Minor: 2
+LastKnownBlockVersion-Alt: 0
+
+# In the Byron era some software versions are also published on the chain.
+# We do this only for Byron compatibility now.
+ApplicationName: cardano-sl
+ApplicationVersion: 1
+
+
+##### Logging configuration #####
+
+# Enable or disable logging overall
+TurnOnLogging: True
+
+# Enable the collection of various OS metrics such as memory and CPU use.
+# These metrics can be directed to the logs or monitoring backends.
+TurnOnLogMetrics: True
+
+# Global logging severity filter. Messages must have at least this severity to
+# pass. Typical values would be Warning, Notice, Info or Debug.
+minSeverity: Notice
+
+# Log items can be rendered with more or less verbose detail.
+# The verbosity can be: MinimalVerbosity, NormalVerbosity
+TracingVerbosity: NormalVerbosity
+
+# The system supports a number of backends for logging and monitoring.
+# This setting lists the backends that will be available to use in the
+# configuration below. The logging backend is called Katip. Also enable the EKG
+# backend if you want to use the EKG or Prometheus monitoring interfaces.
+setupBackends:
+  - KatipBK
+# - EKGViewBK
+
+# This specifies the default backends that trace output is sent to if it
+# is not specifically configured to be sent to other backends.
+defaultBackends:
+  - KatipBK
+
+# EKG is a simple metrics monitoring system. Uncomment the following to listen
+# on the given local port and point your web browser to http://localhost:12788/
+# for a live view. The same URL can also serve JSON output.
+# hasEKG: 12788
+
+# The Prometheus monitoring system can also be used. Uncomment the following
+# to listen on the given port
+# hasPrometheus: 12789
+
+# For the Katip logging backend we must set up outputs (called scribes)
+# The available types of scribe are:
+#   FileSK for files
+#   StdoutSK/StdoutSK for stdout/stderr
+#   JournalSK for systemd's journal system
+#   DevNullSK
+# The scribe output format can be ScText or ScJson. Log rotation settings can
+# be specified in the defaults below or overidden on a per-scribe basis here.
+setupScribes:
+  - scKind: FileSK
+    scName: "logs/mainnet-via-fetcher.log"
+    scFormat: ScText
+
+  - scKind: StdoutSK
+    scName: stdout
+    scFormat: ScText
+    scRotation: null
+
+# For the Katip logging backend this specifies the default scribes that trace
+# output is sent to if it is not configured to be sent to other scribes.
+defaultScribes:
+  - - FileSK
+    - "logs/mainnet-via-fetcher.log"
+
+  - - StdoutSK
+    - stdout
+
+# The default file rotation settings for katip scribes, unless overridden
+# in the setupScribes above for specific scribes.
+rotation:
+  rpLogLimitBytes: 5000000
+  rpKeepFilesNum:  3
+  rpMaxAgeHours:   24
+
+
+##### Coarse grained logging control #####
+
+# Trace output from whole subsystems can be enabled/disabled using the following
+# settings. This provides fairly coarse grained control, but it is relatively
+# efficient at filtering out unwanted trace output.
+
+# Trace BlockFetch client.
+TraceBlockFetchClient: False
+
+# Trace BlockFetch decisions made by the BlockFetch client.
+TraceBlockFetchDecisions: False
+
+# Trace BlockFetch protocol messages.
+TraceBlockFetchProtocol: False
+
+# Serialised Trace BlockFetch protocol messages.
+TraceBlockFetchProtocolSerialised: False
+
+# Trace BlockFetch server.
+TraceBlockFetchServer: False
+
+# Trace BlockchainTime.
+TraceBlockchainTime: False
+
+# Verbose tracer of ChainDB
+TraceChainDb: True
+
+# Trace ChainSync client.
+TraceChainSyncClient: False
+
+# Trace ChainSync server (blocks).
+TraceChainSyncBlockServer: False
+
+# Trace ChainSync server (headers).
+TraceChainSyncHeaderServer: False
+
+# Trace ChainSync protocol messages.
+TraceChainSyncProtocol: False
+
+# Trace DNS Resolver messages.
+TraceDNSResolver: True
+
+# Trace DNS Subscription messages.
+TraceDNSSubscription: True
+
+# Trace error policy resolution.
+TraceErrorPolicy: True
+
+# Trace local error policy resolution.
+TraceLocalErrorPolicy: True
+
+# Trace block forging.
+TraceForge: True
+
+# Trace Handshake protocol messages.
+TraceHandshake: False
+
+# Trace IP Subscription messages.
+TraceIpSubscription: True
+
+# Trace local ChainSync protocol messages.
+TraceLocalChainSyncProtocol: False
+
+# Trace local Handshake protocol messages.
+TraceLocalHandshake: False
+
+# Trace local TxSubmission protocol messages.
+TraceLocalTxSubmissionProtocol: False
+
+# Trace local TxSubmission server.
+TraceLocalTxSubmissionServer: False
+
+# Trace mempool.
+TraceMempool: True
+
+# Trace Mux Events.
+TraceMux: False
+
+# Trace TxSubmission server (inbound transactions).
+TraceTxInbound: False
+
+# Trace TxSubmission client (outbound transactions).
+TraceTxOutbound: False
+
+# Trace TxSubmission protocol messages.
+TraceTxSubmissionProtocol: False
+
+
+##### Fine grained logging control #####
+
+# It is also possible to have more fine grained control over filtering of
+# trace output, and to match and route trace output to particular backends.
+# This is less efficient than the coarse trace filters above but provides
+# much more precise control.
+
+options:
+
+  # This routes metrics matching specific names to particular backends.
+  # This overrides the defaultBackends listed above. And note that it is
+  # an override and not an extension so anything matched here will not
+  # go to the default backend, only to the explicitly listed backends.
+  mapBackends:
+    cardano.node.metrics:
+      - EKGViewBK

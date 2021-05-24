@@ -1,0 +1,190 @@
+cabal-version: 2.4
+
+name:                   cardano-api
+version:                1.27.0
+description:            The cardano api
+author:                 IOHK
+maintainer:             operations@iohk.io
+license:                Apache-2.0
+license-files:          LICENSE
+                        NOTICE
+build-type:             Simple
+extra-source-files:     README.md, ChangeLog.md
+
+common base                         { build-depends: base                             >= 4.14       && < 4.15     }
+
+common project-config
+  default-language:     Haskell2010
+  default-extensions:   NoImplicitPrelude
+                        OverloadedStrings
+
+  ghc-options:          -Wall
+                        -Wcompat
+                        -Wincomplete-record-updates
+                        -Wincomplete-uni-patterns
+                        -Wpartial-fields
+                        -Wredundant-constraints
+                        -Wunused-packages
+
+library
+  import:               base, project-config
+
+  hs-source-dirs:       src
+
+  exposed-modules:      Cardano.Api
+                        Cardano.Api.Byron
+                        Cardano.Api.Crypto.Ed25519Bip32
+                        Cardano.Api.Shelley
+                        Cardano.Api.ChainSync.Client
+                        Cardano.Api.ChainSync.ClientPipelined
+
+                        -- TODO: Eliminate in the future when
+                        -- we create wrapper types for the ledger types
+                        -- in this modulde
+                        Cardano.Api.Orphans
+                        --TODO: Remove all Cardano.Api.Protocol.x
+                        -- when new IPC is integrated with cardano-node-chairman
+                        Cardano.Api.Protocol.Byron
+                        Cardano.Api.Protocol.Cardano
+                        Cardano.Api.Protocol.Shelley
+                        Cardano.Api.Protocol.Types
+
+  other-modules:
+                        -- Splitting up the big Typed module:
+                        Cardano.Api.Address
+                        Cardano.Api.Block
+                        Cardano.Api.Certificate
+                        Cardano.Api.Eras
+                        Cardano.Api.Error
+                        Cardano.Api.Fees
+                        Cardano.Api.Hash
+                        Cardano.Api.HasTypeProxy
+                        Cardano.Api.IPC
+                        Cardano.Api.Key
+                        Cardano.Api.KeysByron
+                        Cardano.Api.KeysPraos
+                        Cardano.Api.KeysShelley
+                        Cardano.Api.LedgerState
+                        Cardano.Api.Modes
+                        Cardano.Api.NetworkId
+                        Cardano.Api.OperationalCertificate
+                        Cardano.Api.ProtocolParameters
+                        Cardano.Api.Query
+                        Cardano.Api.Script
+                        Cardano.Api.SerialiseBech32
+                        Cardano.Api.SerialiseCBOR
+                        Cardano.Api.SerialiseJSON
+                        Cardano.Api.SerialiseRaw
+                        Cardano.Api.SerialiseTextEnvelope
+                        Cardano.Api.Shelley.Genesis
+                        Cardano.Api.SpecialByron
+                        Cardano.Api.StakePoolMetadata
+                        Cardano.Api.Tx
+                        Cardano.Api.TxBody
+                        Cardano.Api.TxInMode
+                        Cardano.Api.TxMetadata
+                        Cardano.Api.TxSubmit.ErrorRender
+                        Cardano.Api.TxSubmit.Types
+                        Cardano.Api.Utils
+                        Cardano.Api.Value
+
+  build-depends:        aeson             >= 1.5.6.0
+                      , aeson-pretty      >= 0.8.5
+                      , attoparsec
+                      , base16-bytestring >= 1.0
+                      , base58-bytestring
+                      , bech32 >= 1.1.0
+                      , bytestring
+                      , cardano-binary
+                      , cardano-crypto
+                      , cardano-crypto-class
+                      , cardano-crypto-wrapper
+                      , cardano-ledger-alonzo
+                      , cardano-ledger-byron
+                      , cardano-ledger-core
+                      , cardano-ledger-shelley-ma
+                      , cardano-prelude
+                      , cardano-slotting
+                      , cborg
+                      , contra-tracer
+                      , containers
+                      , cryptonite
+                      , deepseq
+                      , directory
+                      , filepath
+                      , formatting
+                      , iproute
+                      , memory
+                      , network
+                      , nothunks
+                      , ouroboros-consensus
+                      , ouroboros-consensus-byron
+                      , ouroboros-consensus-cardano
+                      , ouroboros-consensus-shelley
+                      , ouroboros-network
+                      , ouroboros-network-framework
+                      , plutus-ledger-api
+                      , scientific
+                      , shelley-spec-ledger
+                      , small-steps
+                      , stm
+                      , strict-containers
+                      , text
+                      , time
+                      , transformers
+                      , transformers-except
+                      , typed-protocols
+                      , unordered-containers >= 0.2.11
+                      , vector
+                      , yaml
+
+test-suite cardano-api-test
+  import:               base, project-config
+  hs-source-dirs:       test
+  main-is:              cardano-api-test.hs
+  type:                 exitcode-stdio-1.0
+
+  build-depends:        aeson             >= 1.5.6.0
+                      , base16-bytestring
+                      , bytestring
+                      , cardano-api
+                      , cardano-binary
+                      , cardano-crypto
+                      , cardano-crypto-class
+                      , cardano-crypto-test
+                      , cardano-crypto-tests
+                      , cardano-ledger-byron-test
+                      , cardano-ledger-core
+                      , cardano-prelude
+                      , cardano-slotting
+                      , containers
+                      , hedgehog
+                      , hedgehog-extras
+                      , ouroboros-consensus
+                      , ouroboros-consensus-shelley
+                      , QuickCheck
+                      , shelley-spec-ledger
+                      , shelley-spec-ledger-test
+                      , tasty
+                      , tasty-hedgehog
+                      , tasty-quickcheck
+                      , text
+                      , time
+
+  other-modules:        Test.Cardano.Api.Crypto
+                        Test.Cardano.Api.Gen
+                        Test.Cardano.Api.Genesis
+                        Test.Cardano.Api.Ledger
+                        Test.Cardano.Api.Metadata
+                        Test.Cardano.Api.Typed.Bech32
+                        Test.Cardano.Api.Typed.CBOR
+                        Test.Cardano.Api.Typed.Envelope
+                        Test.Cardano.Api.Typed.Gen
+                        Test.Cardano.Api.Typed.JSON
+                        Test.Cardano.Api.Typed.Orphans
+                        Test.Cardano.Api.Typed.RawBytes
+                        Test.Cardano.Api.Typed.Script
+                        Test.Cardano.Api.Typed.Value
+                        Test.Tasty.Hedgehog.Group
+
+  ghc-options:          -threaded -rtsopts -with-rtsopts=-N -with-rtsopts=-T

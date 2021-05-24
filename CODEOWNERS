@@ -1,0 +1,37 @@
+# Technical writers
+doc                                                           @fsancheziohk @nahern @olgahryniuk
+README.*                                                      @fsancheziohk @nahern @olgahryniuk
+cardano-cli/README.md                                         @fsancheziohk @nahern @olgahryniuk
+
+# Release manager added for notification on dependency updates
+cabal.project                                                 @LaurenceIO
+
+# General reviewers per PR
+#                       David          Duncan   Jordan     Erik   John
+*                       @DavidEichmann @dcoutts @Jimbo4350 @erikd @newhoggy
+
+# Specific reviewers for code pieces
+# NB - The last matching pattern takes precedence
+
+
+
+# /doc folder and README.* needs to be owned by @docs-access
+doc                                                           @docs-access
+README.*                                                      @docs-access
+
+
+nix/workbench                                                 @deepfire @denisshevchenko @jutaro @MarcFontaine
+nix/supervisord-cluster                                       @deepfire @denisshevchenko @jutaro @MarcFontaine
+
+.buildkite                                                    @devops
+.github                                                       @devops
+ci                                                            @devops
+configuration                                                 @devops
+nix                                                           @devops
+*.nix                                                         @devops
+flake.lock                                                    @devops
+bors.toml                                                     @devops
+cardano-node/src/Cardano/Tracing/OrphanInstances/Network.hs   @devops
+cardano-node/src/Cardano/Node/Configuration/Logging.hs        @devops
+cardano-node/src/Cardano/Node/Configuration/Socket.hs         @devops
+cardano-node/src/Cardano/Node/Run.hs                          @devops

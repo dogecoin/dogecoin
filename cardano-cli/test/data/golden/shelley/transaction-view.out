@@ -1,0 +1,18 @@
+auxiliary data: null
+certificates: []
+era: Shelley
+fee: 32
+inputs:
+- fe5dd07fb576bff960d6e066eade5b26cdb5afebe29f76ea58d0a098bce5d891#29
+metadata hash: null
+outputs:
+- address:
+    Bech32: addr1v9wmu83pzajplrtpsq6tsqdgwr98x888trpmah2u0ezznsge7del3
+    credential:
+      key hash: 5dbe1e2117641f8d618034b801a870ca731ce758c3bedd5c7e4429c1
+    network: Mainnet
+    stake reference: StakeRefNull
+  amount: 31
+time to live: 33
+update: null
+withdrawals: []

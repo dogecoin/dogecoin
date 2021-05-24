@@ -1,0 +1,22 @@
+{
+    "extraPraosEntropy": null,
+    "stakePoolTargetNum": 100,
+    "poolRetireMaxEpoch": 18,
+    "decentralization": 0.6,
+    "stakePoolDeposit": 0,
+    "maxBlockHeaderSize": 1100,
+    "maxBlockBodySize": 65536,
+    "maxTxSize": 16384,
+    "treasuryCut": 0.4,
+    "minPoolCost": 0,
+    "monetaryExpansion": 0.1,
+    "stakeAddressDeposit": 0,
+    "poolPledgeInfluence": 0.5,
+    "protocolVersion": {
+        "major": 1,
+        "minor": 0
+    },
+    "txFeeFixed": 100,
+    "txFeePerByte": 1000,
+    "minUTxOValue": 1234556
+}

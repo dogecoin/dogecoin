@@ -1,0 +1,228 @@
+index-state: 2021-03-15T00:00:00Z
+
+packages:
+    cardano-api
+    cardano-api/test
+    cardano-cli
+    cardano-client-demo
+    cardano-config
+    cardano-node
+    cardano-node-chairman
+    cardano-submit-api
+    nix/workbench/cardano-topology
+
+package cardano-api
+  ghc-options: -Werror
+
+package cardano-cli
+  ghc-options: -Werror
+
+package cardano-config
+  ghc-options: -Werror
+
+package cardano-node
+  ghc-options: -Werror
+
+package cardano-node-chairman
+  ghc-options: -Werror
+
+package cryptonite
+  -- Using RDRAND instead of /dev/urandom as an entropy source for key
+  -- generation is dubious. Set the flag so we use /dev/urandom by default.
+  flags: -support_rdrand
+
+-- ---------------------------------------------------------
+-- Disable all tests by default
+
+tests: False
+
+test-show-details: direct
+
+-- Then enable specific tests in this repo
+
+package cardano-api
+  tests: True
+
+package cardano-cli
+  tests: True
+
+package cardano-node
+  tests: True
+
+package cardano-node-chairman
+  tests: True
+
+-- The following is needed because Nix is doing something crazy.
+package byron-spec-ledger
+  tests: False
+
+package iohk-monitoring
+  tests: False
+
+package ouroboros-consensus-test
+  tests: False
+
+package ouroboros-consensus-cardano-test
+  tests: False
+
+package ouroboros-network
+  tests: False
+
+package ouroboros-network-framework
+  tests: False
+
+package plutus-tx
+  tests: False
+
+package prettyprinter-configurable
+  tests: False
+
+package small-steps
+  tests: False
+
+package small-steps-test
+  tests: False
+
+package goblins
+  tests: False
+
+package io-sim-classes
+  tests: False
+
+-- ---------------------------------------------------------
+
+-- The two following one-liners will cut off / restore the remainder of this file (for nix-shell users):
+-- when using the "cabal" wrapper script provided by nix-shell.
+-- --------------------------- 8< --------------------------
+-- Please do not put any `source-repository-package` clause above this line.
+
+source-repository-package
+  type: git
+  location: https://github.com/input-output-hk/hedgehog-extras
+  tag: 8bcd3c9dc22cc44f9fcfe161f4638a384fc7a187
+  --sha256: 12viwpahjdfvlqpnzdgjp40nw31rvyznnab1hml9afpaxd6ixh70
+
+source-repository-package
+  type: git
+  location: https://github.com/input-output-hk/cardano-base
+  tag: a715c7f420770b70bbe95ca51d3dec83866cb1bd
+  --sha256: 06l06mmb8cd4q37bnvfpgx1c5zgsl4xaf106dqva98738i8asj7j
+  subdir:
+    binary
+    binary/test
+    cardano-crypto-class
+    cardano-crypto-praos
+    cardano-crypto-tests
+    slotting
+    strict-containers
+
+source-repository-package
+  type: git
+  location: https://github.com/input-output-hk/cardano-crypto
+  tag: ce8f1934e4b6252084710975bd9bbc0a4648ece4
+  --sha256: 1v2laq04piyj511b2m77hxjh9l1yd6k9kc7g6bjala4w3zdwa4ni
+
+source-repository-package
+  type: git
+  location: https://github.com/input-output-hk/cardano-ledger-specs
+  tag: 41b02e51d3e0a4826264fc4ae595a9dd6a7d8849
+  --sha256: 0gn3qiq4n8xgb038qravwiikjf26i5fshkh7w16s3gax6z7c9i3b
+  subdir:
+    alonzo/impl
+    byron/chain/executable-spec
+    byron/crypto
+    byron/crypto/test
+    byron/ledger/executable-spec
+    byron/ledger/impl
+    byron/ledger/impl/test
+    cardano-ledger-core
+    semantics/executable-spec
+    semantics/small-steps-test
+    shelley/chain-and-ledger/dependencies/non-integer
+    shelley/chain-and-ledger/executable-spec
+    shelley/chain-and-ledger/shelley-spec-ledger-test
+    shelley-ma/shelley-ma-test
+    shelley-ma/impl
+    shelley-ma/shelley-ma-test
+
+source-repository-package
+  type: git
+  location: https://github.com/input-output-hk/cardano-prelude
+  tag: fd773f7a58412131512b9f694ab95653ac430852
+  --sha256: 02jddik1yw0222wd6q0vv10f7y8rdgrlqaiy83ph002f9kjx7mh6
+  subdir:
+    cardano-prelude
+    cardano-prelude-test
+
+source-repository-package
+  type: git
+  location: https://github.com/input-output-hk/goblins
+  tag: cde90a2b27f79187ca8310b6549331e59595e7ba
+  --sha256: 17c88rbva3iw82yg9srlxjv2ia5wjb9cyqw44hik565f5v9svnyg
+
+source-repository-package
+  type: git
+  location: https://github.com/input-output-hk/iohk-monitoring-framework
+  tag: 808724ff8a19a33d0ed06f9ef59fbd900b08553c
+  --sha256: 0298dpl29gxzs9as9ha6y0w18hqwc00ipa3hzkxv7nlfrjjz8hmz
+  subdir:
+    contra-tracer
+    iohk-monitoring
+    plugins/backend-aggregation
+    plugins/backend-ekg
+    plugins/backend-monitoring
+    plugins/backend-trace-forwarder
+    plugins/scribe-systemd
+    tracer-transformers
+
+source-repository-package
+  type: git
+  location: https://github.com/input-output-hk/Win32-network
+  tag: 82f4afb8c240b8446a1db6c6b50901a42028ce0f
+  --sha256: 0ljxjzywk6xh9n4mfg21am65z65anlrq47z6zyzcav3h6iasvfq2
+
+source-repository-package
+  type: git
+  location: https://github.com/input-output-hk/ouroboros-network
+  tag: 8bbded8a3a6e967ce67fbcaf50579d3719e52bef
+  --sha256: 1j9vdfvqkdl6qs6xp9n19y9hvfnxqii6awqwrf1ahlfbk9r3fwmb
+  subdir:
+    io-sim
+    io-sim-classes
+    network-mux
+    ouroboros-consensus
+    ouroboros-consensus-byron
+    ouroboros-consensus-cardano
+    ouroboros-consensus-shelley
+    ouroboros-network
+    ouroboros-network-framework
+    ouroboros-network-testing
+    typed-protocols
+    typed-protocols-examples
+
+source-repository-package
+  type: git
+  location: https://github.com/input-output-hk/plutus
+  tag: 530d3f7940319788a49c7ecb017f8366994990b0
+  --sha256: 01jzrl04zyp63c9sxd1qgdy4nxbnaz7n2g1pw4x2d5y9562mrq6v
+  subdir:
+    plutus-core
+    plutus-ledger-api
+    plutus-tx
+    prettyprinter-configurable
+
+constraints:
+    hedgehog >= 1.0
+  , bimap >= 0.4.0
+  , libsystemd-journal >= 1.4.4
+  , systemd >= 2.3.0
+    -- systemd-2.3.0 requires at least network 3.1.1.0 but it doesn't declare
+    -- that dependency
+  , network >= 3.1.1.0
+
+package comonad
+  flags: -test-doctests
+
+allow-newer:
+  monoidal-containers:aeson,
+  size-based:template-haskell

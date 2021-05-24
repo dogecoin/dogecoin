@@ -1,0 +1,39 @@
+cabal-version: 2.4
+
+name:                  cardano-topology
+version:               1.27.0
+description:           A cardano topology generator
+author:                IOHK
+maintainer:            operations@iohk.io
+license:               Apache-2.0
+license-files:         LICENSE
+                       NOTICE
+build-type:            Simple
+
+common base                         { build-depends: base                             >= 4.14       && < 4.15     }
+
+common project-config
+  default-language:     Haskell2010
+  default-extensions:   NoImplicitPrelude
+  ghc-options:          -Wall
+                        -Wcompat
+                        -Wincomplete-record-updates
+                        -Wincomplete-uni-patterns
+                        -Wno-unticked-promoted-constructors
+                        -Wpartial-fields
+                        -Wredundant-constraints
+
+executable cardano-topology
+  import:               base, project-config
+  hs-source-dirs:       .
+  main-is:              cardano-topology.hs
+  ghc-options:          -threaded
+                        -rtsopts
+                        "-with-rtsopts=-T"
+  build-depends:        aeson
+                      , bytestring
+                      , containers
+                      , graphviz
+                      , optparse-applicative
+                      , split
+                      , text

@@ -1,0 +1,199 @@
+cabal-version: 2.4
+
+name:                   cardano-node
+version:                1.27.0
+description:            The cardano full node
+author:                 IOHK
+maintainer:             operations@iohk.io
+license:                Apache-2.0
+license-files:          LICENSE
+                        NOTICE
+build-type:             Simple
+extra-source-files:     ChangeLog.md
+
+Flag unexpected_thunks
+  Description:    Turn on unexpected thunks checks
+  Default:        False
+
+flag systemd
+  description:    Enable systemd support
+  default:        True
+  manual:         False
+
+common base                         { build-depends: base                             >= 4.14       && < 4.15     }
+
+common project-config
+  default-language:     Haskell2010
+
+  default-extensions:   NoImplicitPrelude
+                        OverloadedStrings
+
+  ghc-options:          -Wall
+                        -Wcompat
+                        -Wincomplete-record-updates
+                        -Wincomplete-uni-patterns
+                        -Wno-unticked-promoted-constructors
+                        -Wpartial-fields
+                        -Wredundant-constraints
+                        -Wunused-packages
+
+common maybe-Win32
+  if os(windows)
+    build-depends:      Win32
+
+common maybe-unix
+  if !os(windows)
+    build-depends:      unix
+
+library
+  import:               base, project-config
+                      , maybe-unix
+                      , maybe-Win32
+  if flag(unexpected_thunks)
+    cpp-options: -DUNEXPECTED_THUNKS
+
+  if os(linux) && flag(systemd)
+    cpp-options: -DSYSTEMD
+    build-depends:     lobemo-scribe-systemd
+                     , systemd
+
+  hs-source-dirs:      src
+
+  exposed-modules:     Cardano.Node.Configuration.Logging
+                       Cardano.Node.Configuration.POM
+                       Cardano.Node.Configuration.Topology
+                       Cardano.Node.Handlers.Shutdown
+                       Cardano.Node.Handlers.TopLevel
+                       Cardano.Node.Orphans
+                       Cardano.Node.Protocol
+                       Cardano.Node.Protocol.Alonzo
+                       Cardano.Node.Protocol.Byron
+                       Cardano.Node.Protocol.Cardano
+                       Cardano.Node.Protocol.Shelley
+                       Cardano.Node.Protocol.Types
+                       Cardano.Node.Parsers
+                       Cardano.Node.Run
+                       Cardano.Node.STM
+                       Cardano.Node.Types
+                       Cardano.Tracing.Config
+                       Cardano.Tracing.Constraints
+                       Cardano.Tracing.ConvertTxId
+                       Cardano.Tracing.Kernel
+                       Cardano.Tracing.Metrics
+                       Cardano.Tracing.Peer
+                       Cardano.Tracing.Queries
+                       Cardano.Tracing.Render
+                       Cardano.Tracing.Tracers
+                       Cardano.Tracing.OrphanInstances.Byron
+                       Cardano.Tracing.OrphanInstances.Common
+                       Cardano.Tracing.OrphanInstances.Consensus
+                       Cardano.Tracing.OrphanInstances.HardFork
+                       Cardano.Tracing.OrphanInstances.Network
+                       Cardano.Tracing.OrphanInstances.Shelley
+
+  other-modules:       Paths_cardano_node
+                       Cardano.Node.Configuration.Socket
+
+  build-depends:        aeson             >= 1.5.6.0
+                      , async
+                      , base16-bytestring
+                      , bytestring
+                      , deepseq
+                      , cardano-api
+                      , cardano-config
+                      , cardano-crypto-class
+                      , cardano-crypto-wrapper
+                      , cardano-ledger-alonzo
+                      , cardano-ledger-byron
+                      , cardano-ledger-core
+                      , cardano-ledger-shelley-ma
+                      , cardano-prelude
+                      , cardano-slotting
+                      , contra-tracer
+                      , cborg >= 0.2.4 && < 0.3
+                      , containers
+                      , directory
+                      , dns
+                      , ekg
+                      , ekg-core
+                      , filepath
+                      , generic-data
+                      , hostname
+                      , iproute
+                      , io-sim-classes
+                      , iohk-monitoring
+                      , lobemo-backend-aggregation
+                      , lobemo-backend-ekg
+                      , lobemo-backend-monitoring
+                      , lobemo-backend-trace-forwarder
+                      , network
+                      , network-mux
+                      , nothunks
+                      , optparse-applicative
+                      , ouroboros-consensus
+                      , ouroboros-consensus-byron
+                      , ouroboros-consensus-cardano
+                      , ouroboros-consensus-shelley
+                      , ouroboros-network
+                      , ouroboros-network-framework
+                      , plutus-core
+                      , process
+                      , safe-exceptions
+                      , scientific
+                      , shelley-spec-ledger
+                      , small-steps
+                      , stm
+                      , text
+                      , time
+                      , tracer-transformers
+                      , transformers
+                      , transformers-except
+                      , unordered-containers
+                      , yaml
+
+executable cardano-node
+  import:               base, project-config
+  hs-source-dirs:       app
+  main-is:              cardano-node.hs
+  ghc-options:          -threaded
+                        -rtsopts
+
+  if arch(arm)
+    ghc-options:        "-with-rtsopts=-T -I0 -A16m -N1 --disable-delayed-os-memory-return"
+  else
+    ghc-options:        "-with-rtsopts=-T -I0 -A16m -N2 --disable-delayed-os-memory-return"
+
+  other-modules:        Paths_cardano_node
+
+  build-depends:        cardano-config
+                      , cardano-node
+                      , cardano-prelude
+                      , optparse-applicative
+                      , text
+
+test-suite cardano-node-test
+  import:               base, project-config
+                      , maybe-unix
+  hs-source-dirs:       test
+  main-is:              cardano-node-test.hs
+  type:                 exitcode-stdio-1.0
+
+  build-depends:        aeson             >= 1.5.6.0
+                      , cardano-api
+                      , cardano-node
+                      , cardano-prelude
+                      , cardano-slotting
+                      , directory
+                      , hedgehog
+                      , hedgehog-corpus
+                      , iproute
+                      , ouroboros-consensus
+                      , ouroboros-network
+                      , time
+
+  other-modules:        Test.Cardano.Node.FilePermissions
+                        Test.Cardano.Node.Gen
+                        Test.Cardano.Node.Json
+                        Test.Cardano.Node.POM
+
+  ghc-options:          -threaded -rtsopts -with-rtsopts=-N -with-rtsopts=-T

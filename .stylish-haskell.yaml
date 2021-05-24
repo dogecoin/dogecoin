@@ -1,0 +1,102 @@
+# Stylish-haskell configuration file.
+
+# Principles:
+#
+# 1. Amount of indent should not be dependent on the length of the previous line
+# 2. Imports lists should be compact
+# 3. All linting rules that delete comments should be disabled
+# 4. No inline indenting, for example indent of ->, =, <-, as
+# 5. Redunant imports and pragmas should be removed
+# 6. Consistent syntax
+# 7. No trailing whitespaces
+# 8. Slightly generous screen with assumed
+# 9. All Haskell files in the project are subject to code formatting style
+
+steps:
+  # Principle 4
+  - simple_align:
+      cases: false
+      top_level_patterns: false
+      # Principle 3
+      records: false
+
+  # Import cleanup
+  - imports:
+      align: global
+
+      # Principle 1,2
+      list_align: with_module_name
+
+      # Principle 4
+      pad_module_names: false
+
+      # Principle 2
+      long_list_align: inline
+
+      empty_list_align: inherit
+
+      list_padding: 2
+
+      separate_lists: true
+
+      space_surround: false
+
+  - language_pragmas:
+      style: vertical
+
+      align: false
+
+      # Principle 5
+      remove_redundant: true
+
+      # Principle 6
+      language_prefix: LANGUAGE
+
+  # Principle 7
+  - trailing_whitespace: {}
+
+# Principle 8
+columns: 100
+
+newline: native
+
+# Principle 9
+#
+# These syntax-affecting language extensions are enabled so that
+# stylish-haskell wouldn't fail with parsing errors when processing files
+# in projects that have those extensions enabled in the .cabal file
+# rather than locally.
+#
+# In particular language extensions with British and American spellings
+# that we use should be included here until stylish-haskell supports
+# the British spelling.
+language_extensions:
+  - BangPatterns
+  - ConstraintKinds
+  - DataKinds
+  - DefaultSignatures
+  - DeriveDataTypeable
+  - DeriveGeneric
+  - ExistentialQuantification
+  - FlexibleContexts
+  - FlexibleInstances
+  - FunctionalDependencies
+  - GADTs
+  - GeneralizedNewtypeDeriving
+  - LambdaCase
+  - MultiParamTypeClasses
+  - MultiWayIf
+  - NoImplicitPrelude
+  - OverloadedStrings
+  - PolyKinds
+  - RecordWildCards
+  - ScopedTypeVariables
+  - StandaloneDeriving
+  - TemplateHaskell
+  - TupleSections
+  - TypeApplications
+  - TypeFamilies
+  - ViewPatterns
+  - ExplicitNamespaces
+
+cabal: true

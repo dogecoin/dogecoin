@@ -1,0 +1,69 @@
+cabal-version:       2.4
+name:                cardano-client-demo
+version:             0.1.0.0
+synopsis:            A simple demo cardano-node client application
+description:         This is intended to demonstrate how to write simple
+                     applications that interact with the cardano-node,
+                     using the cardano-api.
+license:             Apache-2.0
+license-file:        LICENSE
+author:              IOHK
+maintainer:          operations@iohk.io
+license-files:
+  LICENSE
+  NOTICE
+extra-source-files:  CHANGELOG.md
+
+common base                         { build-depends: base                             >= 4.14       && < 4.15     }
+
+common project-config
+  default-language:     Haskell2010
+
+executable scan-blocks
+  import:               base, project-config
+  main-is:              ScanBlocks.hs
+  build-depends:        cardano-api
+                      , filepath
+                      , time
+
+executable scan-blocks-pipelined
+  import:               base, project-config
+  main-is:              ScanBlocksPipelined.hs
+  build-depends:        cardano-api
+                      , cardano-ledger-byron
+                      , cardano-slotting
+                      , filepath
+                      , time
+
+executable ledger-state
+  import:              base, project-config
+  main-is:             LedgerState.hs
+  build-depends:       aeson,
+                       base16-bytestring,
+                       bytestring,
+                       containers,
+                       filepath,
+                       memory,
+                       mtl,
+                       text,
+                       time,
+                       transformers,
+                       transformers-except,
+                       yaml,
+
+                       cryptonite,
+                       cardano-api,
+                       cardano-binary,
+                       cardano-crypto-class,
+                       cardano-crypto-wrapper,
+                       cardano-ledger-byron,
+                       cardano-node,
+                       cardano-slotting,
+                       iohk-monitoring,
+                       ouroboros-network,
+                       ouroboros-consensus,
+                       ouroboros-consensus-cardano,
+                       ouroboros-consensus-byron,
+                       ouroboros-consensus-shelley,
+                       shelley-spec-ledger,
+                       typed-protocols,

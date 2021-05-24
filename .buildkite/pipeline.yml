@@ -1,0 +1,28 @@
+steps:
+  - label: 'check-cabal-project'
+    command: 'nix-build ./nix -A iohkNix.checkCabalProject -o check-cabal-project.sh && ./check-cabal-project.sh'
+    agents:
+      system: x86_64-linux
+
+# newParallelJobControl: not a sensible number of jobs: 0
+# CallStack (from HasCallStack):
+#   error, called at ./Distribution/Client/JobControl.hs:101:3 in main:Distribution.Client.JobControl
+## This check triggers the above error in Cabal -- re-enable once resolved.
+#   - label: 'Check Cabal Configure'
+#     command: 'nix-shell --run "cabal v2-update && cabal v2-configure || true"'
+#     agents:
+#       system: x86_64-linux
+
+# FIXME:
+#  - label: 'dependencies-at-master'
+#    command: 'ci/check-dependencies-merged-to-master.sh'
+#    agents:
+#      system: x86_64-linux
+
+  - label: 'Docker Image'
+    command:
+      - ".buildkite/release-docker-push.sh"
+    agents:
+      system: x86_64-linux
+    soft_fail:
+      - exit_status: '*'

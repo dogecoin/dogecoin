@@ -1,0 +1,168 @@
+# global filter; messages must have at least this severity to pass:
+minSeverity: Debug
+
+# global file rotation settings:
+rotation:
+  rpLogLimitBytes: 5000000
+  rpKeepFilesNum:  10
+  rpMaxAgeHours:   24
+
+# these backends are initialized:
+setupBackends:
+  - KatipBK
+
+# if not indicated otherwise, then messages are passed to these backends:
+defaultBackends:
+  - KatipBK
+
+# if wanted, the EKG interface is listening on this port:
+#hasEKG: 12783
+
+#hasPrometheus:
+#  - "127.0.0.1"
+#  - 13790
+
+# here we set up outputs of logging in 'katip':
+setupScribes:
+  - scKind: FileSK
+    scName: "logs/node-2.log"
+    scFormat: ScText
+  - scKind: StdoutSK
+    scName: stdout
+    scFormat: ScText
+    scRotation: null
+
+# if not indicated otherwise, then log output is directed to this:
+defaultScribes:
+  - - FileSK
+    - "logs/node-2.log"
+  - - StdoutSK
+    - stdout
+
+# more options which can be passed as key-value pairs:
+options:
+  mapBackends:
+    cardano.node.metrics:
+      - EKGViewBK
+
+# Uncomment it to forward node's metrics to remote socket '127.0.0.1:2999'.
+# traceForwardTo:
+#   tag: RemoteSocket
+#   contents:
+#     - "127.0.0.1"
+#     - "2999"
+
+##########################################################
+############### Cardano Node Configuration ###############
+##########################################################
+
+
+Protocol: RealPBFT
+GenesisFile: genesis/genesis.json
+NumCoreNodes: 1
+RequiresNetworkMagic: RequiresMagic
+PBftSignatureThreshold: 0.4
+TurnOnLogging: True
+TurnOnLogMetrics: True
+SocketPath:
+
+
+
+#####    Update Parameters    #####
+
+ApplicationName: cardano-sl
+ApplicationVersion: 1
+LastKnownBlockVersion-Major: 0
+LastKnownBlockVersion-Minor: 2
+LastKnownBlockVersion-Alt: 0
+
+#####         Tracing         #####
+
+# MinimalVerbosity: Minimal level of the rendering of captured items
+# MaximalVerbosity: Maximal level of the rendering of captured items
+# NormalVerbosity: the default level of the rendering of captured items
+TracingVerbosity: NormalVerbosity
+
+# Trace BlockFetch client.
+TraceBlockFetchClient: True
+
+# Trace BlockFetch decisions made by the BlockFetch client.
+TraceBlockFetchDecisions: True
+
+# Trace BlockFetch protocol messages.
+TraceBlockFetchProtocol: True
+
+# Serialised Trace BlockFetch protocol messages.
+TraceBlockFetchProtocolSerialised: False
+
+# Trace BlockFetch server.
+TraceBlockFetchServer: True
+
+# Trace BlockchainTime.
+TraceBlockchainTime: False
+
+# Verbose tracer of ChainDB.
+TraceChainDb: True
+
+# Trace ChainSync client.
+TraceChainSyncClient: False
+
+# Trace ChainSync server (blocks).
+TraceChainSyncBlockServer: False
+
+# Trace ChainSync server (headers).
+TraceChainSyncHeaderServer: False
+
+# Trace ChainSync protocol messages.
+TraceChainSyncProtocol: True
+
+# Trace diffusion initialization messages
+TraceDiffusionInitialization: True
+
+# Trace DNS Resolver messages.
+TraceDNSResolver: False
+
+# Trace DNS Subscription messages.
+TraceDNSSubscription: False
+
+# Trace error policy resolution.
+TraceErrorPolicy: False
+
+# Trace local error policy resolution.
+TraceLocalErrorPolicy: True
+
+# Trace block forging.
+TraceForge: True
+
+# Trace Handshake protocol messages.
+TraceHandshake: False
+
+# Trace IP Subscription messages.
+TraceIpSubscription: False
+
+# Trace local ChainSync protocol messages.
+TraceLocalChainSyncProtocol: True
+
+# Trace local Handshake protocol messages.
+TraceLocalHandshake: False
+
+# Trace local TxSubmission protocol messages.
+TraceLocalTxSubmissionProtocol: True
+
+# Trace local TxSubmission server.
+TraceLocalTxSubmissionServer: True
+
+# Trace mempool.
+TraceMempool: True
+
+# Trace Mux Events.
+TraceMux: False
+
+# Trace TxSubmission server (inbound transactions).
+TraceTxInbound: True
+
+# Trace TxSubmission client (outbound transactions).
+TraceTxOutbound: True
+
+# Trace TxSubmission protocol messages.
+TraceTxSubmissionProtocol: True

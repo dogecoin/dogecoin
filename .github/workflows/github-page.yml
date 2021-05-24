@@ -1,0 +1,111 @@
+name: "Haddock documentation"
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    defaults:
+      run:
+        shell: bash
+
+    strategy:
+      fail-fast: false
+      matrix:
+        ghc: ["8.10.4"]
+        os: [ubuntu-latest]
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Set cache version
+      run: echo "CACHE_VERSION=UN37rUo" >> $GITHUB_ENV
+
+    - name: Add build script path
+      run: echo "$(pwd)/.github/bin" >> $GITHUB_PATH
+
+    - uses: haskell/actions/setup@v1
+      id: setup-haskell
+      with:
+        ghc-version: ${{ matrix.ghc }}
+        cabal-version: 3.4.0.0
+
+    - name: Haskell versions
+      run: |
+        ghc --version
+        cabal --version
+
+    - name: Install build environment
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        sudo apt-get update
+        sudo apt-get -y install libsodium23 libsodium-dev
+        sudo apt-get -y install libsystemd0 libsystemd-dev
+        sudo apt-get -y remove --purge software-properties-common
+        sudo apt-get -y autoremove
+
+    - name: Cabal update
+      run: cabal update
+
+    - name: Disable reorder goals on MacOS and Linux
+      # Avoid reorder goals for platforms that don't need it because re-order goals can take up to 10 minutes
+      if: matrix.os == 'macos-latest' || matrix.os == 'ubuntu-latest'
+      run: |
+        cat cabal.project | sed 's|reorder-goals: True|reorder-goals: False|g' > cabal.project.tmp
+        mv cabal.project.tmp cabal.project
+
+    - name: Use cabal.project.local.github-pages
+      run: cp .github/workflows/cabal.project.local.github-pages cabal.project.local
+
+    - name: Dry run
+      run: |
+        cabal build all --dependencies-only --dry-run
+        mkdir ./haddocks
+        DRY_RUN=1 ./scripts/haddocs.sh ./haddocks true
+
+    - name: Record dependencies
+      run: |
+        cat ${{ env.PLAN_JSON }} | jq -r '."install-plan"[].id' | sort | uniq > dependencies.txt
+
+    - uses: actions/cache@v2
+      name: Cache cabal store
+      with:
+        path: ${{ steps.setup-haskell.outputs.cabal-store }}
+        key: cache-${{ env.CACHE_VERSION }}-${{ runner.os }}-${{ matrix.ghc }}-${{ hashFiles('dependencies.txt') }}
+        restore-keys: |
+          cache-${{ env.CACHE_VERSION }}-${{ runner.os }}-${{ matrix.ghc }}-${{ hashFiles('dependencies.txt') }}
+          cache-${{ env.CACHE_VERSION }}-${{ runner.os }}-${{ matrix.ghc }}-
+
+    - name: Install dependencies
+      run: cabal build all --only-dependencies
+
+    - name: Build Haddock documentation 🔧
+      run: ./scripts/haddocs.sh ./haddocks true
+
+    - name: View HTML files
+      run: |
+        find "dist-newstyle/build" -name '*.html' | xargs grep html
+
+    - name: Upload documentation
+      uses: actions/upload-artifact@v2
+      if: ${{ always() }}
+      continue-on-error: true
+      with:
+        name: haddocks-${{ matrix.os }}-${{ matrix.ghc }}
+        path: ./haddocks
+
+    - name: Deploy documentation to gh-pages 🚀
+      if: github.ref == 'refs/heads/master'
+      run: |
+        git fetch origin gh-pages:gh-pages
+        git config --local user.email "operations@iohk.io"
+        git config --local user.name  "Input Output HK"
+        git add .
+        git stash
+        git checkout gh-pages
+        cp -r ./haddocks/* ./
+        rm -rf haddocks
+        git add -A
+        git commit -m "Deployed haddocks" || true
+        git push https://${{ github.actor }}:${{ github.token }}@github.com/${{ github.repository }}.git HEAD:gh-pages

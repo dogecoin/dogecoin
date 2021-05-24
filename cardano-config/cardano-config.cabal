@@ -1,0 +1,44 @@
+cabal-version: 2.4
+
+name:                   cardano-config
+version:                0.1.0.0
+author:                 IOHK
+maintainer:             operations@iohk.io
+license:                Apache-2.0
+license-files:          LICENSE
+                        NOTICE
+build-type:             Simple
+extra-source-files:     README.md
+
+flag systemd
+  description: Enable systemd support
+  default:     True
+  manual:      False
+
+common base                         { build-depends: base                             >= 4.14       && < 4.15     }
+
+common project-config
+  default-language:     Haskell2010
+  default-extensions:   NoImplicitPrelude
+
+  ghc-options:          -Wall
+                        -Wcompat
+                        -Wincomplete-record-updates
+                        -Wincomplete-uni-patterns
+                        -Wpartial-fields
+                        -Wredundant-constraints
+                        -Wunused-packages
+
+library
+  import:               base, project-config
+
+  hs-source-dirs:       src
+
+  exposed-modules:      Cardano.Config.Git.Rev
+                        Cardano.Config.Git.RevFromGit
+
+  build-depends:        cardano-prelude
+                      , file-embed
+                      , process
+                      , template-haskell
+                      , text

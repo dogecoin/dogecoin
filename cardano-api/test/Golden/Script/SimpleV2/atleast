@@ -1,0 +1,18 @@
+{
+    "required": 1,
+    "scripts": [
+        {
+            "type": "sig",
+            "keyHash": "2f3d4cf10d0471a1db9f2d2907de867968c27bca6272f062cd1c2413"
+        },
+        {
+            "type": "sig",
+            "keyHash": "f856c0c5839bab22673747d53f1ae9eed84afafb085f086e8e988614"
+        },
+        {
+            "slot": 42,
+            "type": "before"
+        }
+    ],
+    "type": "atLeast"
+}

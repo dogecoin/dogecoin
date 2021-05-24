@@ -1,0 +1,5 @@
+{
+    "type": "CertificateShelley",
+    "description": "Stake Pool Retirement Certificate",
+    "cborHex": "8304581c8ffff1f19a1b751ff9ecb0504cab3d3d34952ac735f92da54c67f9fa182a"
+}

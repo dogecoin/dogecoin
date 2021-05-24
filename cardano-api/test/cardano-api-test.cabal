@@ -1,0 +1,51 @@
+cabal-version: 2.4
+
+name:                   cardano-api-test
+version:                1.24.0
+description:            Library for utilities used in testing the Cardano API.
+author:                 IOHK
+maintainer:             operations@iohk.io
+license:                Apache-2.0
+license-files:          LICENSE
+                        NOTICE
+build-type:             Simple
+
+common base                         { build-depends: base                             >= 4.14       && < 4.15     }
+
+common project-config
+  default-language:     Haskell2010
+  default-extensions:   NoImplicitPrelude
+                        OverloadedStrings
+
+  ghc-options:          -Wall
+                        -Wcompat
+                        -Wincomplete-record-updates
+                        -Wincomplete-uni-patterns
+                        -Wpartial-fields
+                        -Wredundant-constraints
+                        -Wunused-packages
+
+library
+  import:               base, project-config
+
+  exposed-modules:      Test.Cardano.Api.Typed.Gen
+
+  other-modules:        Test.Cardano.Api.Metadata
+                        Test.Tasty.Hedgehog.Group
+
+  build-depends:        aeson             >= 1.5.6.0
+                      , base16-bytestring
+                      , bytestring
+                      , cardano-api
+                      , cardano-binary
+                      , cardano-crypto-class
+                      , cardano-crypto-test
+                      , cardano-ledger-byron-test
+                      , cardano-ledger-core
+                      , cardano-prelude
+                      , containers
+                      , hedgehog
+                      , shelley-spec-ledger
+                      , tasty
+                      , tasty-hedgehog
+                      , text

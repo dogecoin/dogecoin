@@ -1,0 +1,5 @@
+{
+    "type": "CertificateShelley",
+    "description": "Move Instantaneous Rewards Certificate",
+    "cborHex": "82068200a18200581cee475cade27e95faf1093541b0783498016cdcfba0d6441055b2dfcb1903e8"
+}
