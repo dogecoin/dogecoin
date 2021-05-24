@@ -693,7 +693,7 @@ bool CNode::ReceiveMsgBytes(const char *pch, unsigned int nBytes, bool& complete
         // get current incomplete message, or create a new one
         if (vRecvMsg.empty() ||
             vRecvMsg.back().complete())
-            vRecvMsg.emplace_back(CNetMessage(Params().MessageStart(), SER_NETWORK, INIT_PROTO_VERSION));
+            vRecvMsg.emplace_back(Params().MessageStart(), SER_NETWORK, INIT_PROTO_VERSION);
 
         CNetMessage& msg = vRecvMsg.back();
 
@@ -2111,7 +2111,7 @@ bool CConnman::BindListenPort(const CService &addrBind, std::string& strError, b
         return false;
     }
 
-    vhListenSocket.emplace_back(ListenSocket(hListenSocket, fWhitelisted));
+    vhListenSocket.emplace_back(hListenSocket, fWhitelisted);
 
     if (addrBind.IsRoutable() && fDiscover && !fWhitelisted)
         AddLocal(addrBind, LOCAL_BIND);
