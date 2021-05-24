@@ -9,6 +9,7 @@
 #include "bitcoingui.h"
 #include "clientmodel.h"
 #include "guiutil.h"
+#include "importkeysdialog.h"
 #include "optionsmodel.h"
 #include "overviewpage.h"
 #include "platformstyle.h"
@@ -64,6 +65,8 @@ WalletView::WalletView(const PlatformStyle *_platformStyle, QWidget *parent):
     addWidget(transactionsPage);
     addWidget(receiveCoinsPage);
     addWidget(sendCoinsPage);
+
+    importKeysDialog = new ImportKeysDialog(platformStyle);
 
     // Clicking on a transaction on the overview pre-selects the transaction on the transaction history page
     connect(overviewPage, SIGNAL(transactionClicked(QModelIndex)), transactionView, SLOT(focusTransaction(QModelIndex)));
@@ -217,6 +220,11 @@ void WalletView::gotoVerifyMessageTab(QString addr)
         signVerifyMessageDialog->setAddress_VM(addr);
 }
 
+void WalletView::gotoImportKeysDialog()
+{
+    setCurrentWidget(importKeysDialog);
+}
+
 bool WalletView::handlePaymentRequest(const SendCoinsRecipient& recipient)
 {
     return sendCoinsPage->handlePaymentRequest(recipient);
@@ -300,6 +308,16 @@ void WalletView::usedReceivingAddresses()
     usedReceivingAddressesPage->show();
     usedReceivingAddressesPage->raise();
     usedReceivingAddressesPage->activateWindow();
+}
+
+void WalletView::importPrivateKey()
+{
+    if(!walletModel)
+        return;
+
+    importKeysDialog->show();
+    importKeysDialog->raise();
+    importKeysDialog->activateWindow();
 }
 
 void WalletView::showProgress(const QString &title, int nProgress)
