@@ -10,7 +10,7 @@
 - **网址:** [dogecoin.com.](https://dogecoin.com)
 
 ## 证书 – 炫酷的证书 ⚖️
-狗狗币在MIT liscence的条款下发行。详情请参见
+狗狗币在MIT license的条款下发行。详情请参见
 [COPYING](COPYING) 或者
 [opensource.org](https://opensource.org/licenses/MIT)。
 
