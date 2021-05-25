@@ -12,6 +12,14 @@ title: '[feat] '
 
 <!-- ISSUES MISSING IMPORTANT INFORMATION MAY BE CLOSED WITHOUT INVESTIGATION. -->
 
+<!-- The easiest way to get your issue closed and locked is:
+
+* Suggesting forks or code writes
+* Suggesting protocol changes without a specific use case
+* Trolling
+* Spamming the same request -->
+
+
 # Feature Request
 
 **Describe the Feature Request**
