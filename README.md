@@ -4,8 +4,7 @@
 
 [![Build Status](https://travis-ci.com/dogecoin/dogecoin.svg?branch=master)](https://travis-ci.com/dogecoin/dogecoin)
 
-Select Doc Language: ENG | [CN_simplified](./README_zh_CN.md) | [more...](./README.md)
-
+Select Doc Language: ENG | [CN_simplified](./README_zh_CN.md)
 Dogecoin is a cryptocurrency like Bitcoin, although it does not use SHA256 as
 its proof of work (POW). Taking development cues from Tenebrix and Litecoin,
 Dogecoin currently employs a simplified variant of scrypt.
