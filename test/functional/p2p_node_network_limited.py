@@ -60,7 +60,7 @@ class NodeNetworkLimitedTest(BitcoinTestFramework):
         self.log.info("Mine enough blocks to reach the NODE_NETWORK_LIMITED range.")
         self.connect_nodes(0, 1)
         blocks = self.nodes[1].generatetoaddress(292, self.nodes[1].get_deterministic_priv_key().address)
-        self.sync_blocks([self.nodes[0], self.nodes[1]])
+        self.sync_blocks([self.nodes[0], self.nodes[1]], timeout=5)
 
         self.log.info("Make sure we can max retrieve block at tip-288.")
         node.send_getdata_for_block(blocks[1])  # last block in valid range
@@ -95,7 +95,7 @@ class NodeNetworkLimitedTest(BitcoinTestFramework):
         self.connect_nodes(1, 2)
 
         # sync must be possible
-        self.sync_blocks()
+        self.sync_blocks(timeout=5)
 
         # disconnect all peers
         self.disconnect_all()
@@ -107,7 +107,7 @@ class NodeNetworkLimitedTest(BitcoinTestFramework):
         self.connect_nodes(0, 1)
 
         # sync must be possible, node 1 is no longer in IBD and should therefore connect to node 0 (NODE_NETWORK_LIMITED)
-        self.sync_blocks([self.nodes[0], self.nodes[1]])
+        self.sync_blocks([self.nodes[0], self.nodes[1]], timeout=5)
 
 if __name__ == '__main__':
     NodeNetworkLimitedTest().main()
