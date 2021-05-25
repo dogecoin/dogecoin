@@ -96,6 +96,11 @@ results in `Autoconf` configure scripts being able to execute Windows Portable E
 unexpected behaviour during the build, such as Win32 error dialogs for missing libraries. The recommended approach
 is to temporarily disable WSL support for Win32 applications.
 
+Note that if you are are running into the following errors (see below) while executing `make HOST=x86_64-w64-mingw32`, ensure that your Line endings are set to LF (Linux) and not CRLF (Windows) on the `config.guess` and `config.sub` files found in the depends folder:
+```
+./config.sub: 80: Syntax error: word unexpected (expecting "in")
+```
+
 Build using:
 
     PATH=$(echo "$PATH" | sed -e 's/:\/mnt.*//g') # strip out problematic Windows %PATH% imported var
