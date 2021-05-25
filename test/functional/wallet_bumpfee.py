@@ -66,6 +66,7 @@ class BumpFeeTest(BitcoinTestFramework):
         # fund rbf node with 10 coins of 0.001 btc (100,000 satoshis)
         self.log.info("Mining blocks...")
         peer_node.generate(110)
+        self.sync_all()
         # Dogecoin: Coinbase maturity is much higher, so we mine to the RBF node for funding
         rbf_node.generate(140)
         self.sync_all()
