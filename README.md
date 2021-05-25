@@ -7,7 +7,7 @@
 Dogecoin is a cryptocurrency like Bitcoin, although it does not use SHA256 as
 its proof of work (POW). Taking development cues from Tenebrix and Litecoin,
 Dogecoin currently employs a simplified variant of scrypt.
-- **Website:** [dogecoin.com.](https://dogecoin.com)
+- **Website:** [dogecoin.com](https://dogecoin.com)
 
 ## License – Much license ⚖️
 Dogecoin Core is released under the terms of the MIT license. See
