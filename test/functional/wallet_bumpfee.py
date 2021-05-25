@@ -65,9 +65,7 @@ class BumpFeeTest(BitcoinTestFramework):
 
         # fund rbf node with 10 coins of 0.001 btc (100,000 satoshis)
         self.log.info("Mining blocks...")
-        peer_node.generate(110)
-        # Dogecoin: Coinbase maturity is much higher, so we mine to the RBF node for funding
-        rbf_node.generate(140)
+        peer_node.generate(250)
         self.sync_all()
         for _ in range(25):
             peer_node.sendtoaddress(rbf_node_address, 0.001)
@@ -510,7 +508,7 @@ def test_unconfirmed_not_spendable(self, rbf_node, rbf_node_address):
 def test_bumpfee_metadata(self, rbf_node, dest_address):
     self.log.info('Test that bumped txn metadata persists to new txn record')
     assert(rbf_node.getbalance() < 49)
-    rbf_node.generatetoaddress(101, rbf_node.getnewaddress())
+    rbf_node.generatetoaddress(241, rbf_node.getnewaddress())
     rbfid = rbf_node.sendtoaddress(dest_address, 49, "comment value", "to value")
     bumped_tx = rbf_node.bumpfee(rbfid)
     bumped_wtx = rbf_node.gettransaction(bumped_tx["txid"])
