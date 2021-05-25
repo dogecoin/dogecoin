@@ -1,18 +1,18 @@
 # Contributing to Dogecoin Core
 
-The Dogecoin Core project operates an open contributor model where anyone is
-welcome to contribute towards development in the form of peer review, testing
-and patches. This document explains the practical process and guidelines for
-contributing.
+Dogecoin Core is an open source project, and we would welcome contributions which provably
+improve the state of the software. For those wanting to discuss changes, or look for work
+that needs doing, please see:
 
-Firstly in terms of structure, there is no particular concept of "Core
-developers" in the sense of privileged people. Open source often naturally
-revolves around meritocracy where longer term contributors gain more trust from
-the developer community. However, some hierarchy is necessary for practical
-purposes. As such there are repository "maintainers" who are responsible for
-merging pull requests as well as a "lead maintainer" who is responsible for the
-release cycle, overall merging, moderation and appointment of maintainers.
+* [Projects](https://github.com/dogecoin/dogecoin/projects)
+* [Dogecoindev on reddit](https://www.reddit.com/r/dogecoindev/)
+* [Discord](https://discord.gg/dogecoin) (in particular the #core-dev channel)
 
+## Branch Strategy
+
+Dogecoin Core's default branch is intentionally a stable release, so that anyone downloading the code and compiling it gets a stable release.
+Active development occurs on branches named after the version they are targetting, for example the 1.14.4 branch is named `1.14.4-dev`.
+When raising PRs, please raise against the relevant development branch, **not** against the `master` branch.
 
 ## Contributor Workflow
 
@@ -22,9 +22,15 @@ facilitates social contribution, easy testing and peer review.
 
 To contribute a patch, the workflow is as follows:
 
-  - Fork repository
-  - Create topic branch
-  - Commit patches
+  - Fork repository in GitHub, and clone it your development machine.
+  - Create topic branch from the relevant development branch.
+    - As these branches are in the contributor's local repository, naming is not critical,
+      although it is recommended that you include the target version. If the change relates
+      to an issue, including its number in the branch name is also a good idea.
+  - Commit patches to the branch.
+  - Test your changes, which **must** include the unit and RPC tests passing. Changes will not be accepted if they do not pass tests.
+  - Push topic branch to your copy of the repository.
+  - Raise PR via GitHub.
 
 The project coding conventions in the [developer notes](doc/developer-notes.md)
 must be adhered to.
@@ -49,39 +55,6 @@ about Git.
 
   - Push changes to your fork
   - Create pull request
-
-The title of the pull request should be prefixed by the component or area that
-the pull request affects. Valid areas as:
-
-  - *Consensus* for changes to consensus critical code
-  - *Docs* for changes to the documentation
-  - *Qt* for changes to dogecoin-qt
-  - *Mining* for changes to the mining code
-  - *Net* or *P2P* for changes to the peer-to-peer network code
-  - *RPC/REST/ZMQ* for changes to the RPC, REST or ZMQ APIs
-  - *Scripts and tools* for changes to the scripts and tools
-  - *Tests* for changes to the dogecoin unit tests or QA tests
-  - *Trivial* should **only** be used for PRs that do not change generated
-    executable code. Notably, refactors (change of function arguments and code
-    reorganization) and changes in behavior should **not** be marked as trivial.
-    Examples of trivial PRs are changes to:
-    - comments
-    - whitespace
-    - variable names
-    - logging and messages
-  - *Utils and libraries* for changes to the utils and libraries
-  - *Wallet* for changes to the wallet code
-
-Examples:
-
-    Consensus: Add new opcode for BIP-XXXX OP_CHECKAWESOMESIG
-    Net: Automatically create hidden service, listen on Tor
-    Qt: Add feed bump button
-    Trivial: Fix typo in init.cpp
-
-If a pull request is specifically not to be considered for merging (yet) please
-prefix the title with [WIP] or use [Tasks Lists](https://help.github.com/articles/basic-writing-and-formatting-syntax/#task-lists)
-in the body of the pull request to indicate tasks are pending.
 
 The body of the pull request should contain enough description about what the
 patch does together with any justification/reasoning. You should include
@@ -154,12 +127,12 @@ where possible keep them short, uncomplex and easy to verify.
 
 ## "Decision Making" Process
 
-The following applies to code changes to the Dogecoin Core project (and related
-projects such as libsecp256k1), and is not to be confused with overall Dogecoin
+The following applies to code changes to the Dogecoin Core project, and is not
+to be confused with overall Dogecoin
 Network Protocol consensus changes.
 
 Whether a pull request is merged into Dogecoin Core rests with the project merge
-maintainers and ultimately the project lead.
+maintainers.
 
 Maintainers will take into consideration if a patch is in line with the general
 principles of the project; meets the minimum standards for inclusion; and will
