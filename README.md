@@ -95,22 +95,6 @@ lessen the impact of sudden increases and decreases of network hashing rate.
 
 600,000+: 10,000 Dogecoin
 
-**The original block reward schedule, with one-minute block targets and four-hour difficulty readjustment:**
-
-1–99,999: 0–1,000,000 Dogecoin
-
-100,000–199,999: 0–500,000 Dogecoin
-
-200,000–299,999: 0–250,000 Dogecoin
-
-300,000–399,999: 0–125,000 Dogecoin
-
-400,000–499,999: 0–62,500 Dogecoin
-
-500,000–599,999: 0–31,250 Dogecoin
-
-600,000+: 10,000 Dogecoin
-
 ### Wow plz make dogecoind/dogecoin-cli/dogecoin-qt
 
   The following are developer notes on how to build Dogecoin on your native platform. They are not complete guides, but include notes on the necessary libraries, compile flags, etc.
