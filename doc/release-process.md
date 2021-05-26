@@ -244,7 +244,7 @@ rm SHA256SUMS
 (the digest algorithm is forced to sha256 to avoid confusion of the `Hash:` header that GPG adds with the SHA256 used for the files)
 Note: check that SHA256SUMS itself doesn't end up in SHA256SUMS, which is a spurious/nonsensical entry.
 
-- Upload zips and installers, as well as `SHA256SUMS.asc` from last step, to the dogecoin.com Github repo
+- Upload zips and installers, as well as `SHA256SUMS.asc` from the last step, to the dogecoin.com Github repo
 
 - Create a [new GitHub release](https://github.com/dogecoin/dogecoin/releases/new) with a link to the archived release notes.
 
