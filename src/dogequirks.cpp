@@ -2,8 +2,20 @@
 // Portiosn Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 // Inspired from Original althorithm posted to voidware.com/moon_phase.htm. 
-#include "dogequirks.h"
+// Details Original Althrithim below can be found on https://www.subsystems.us/free-resources.html
+// PDF: https://www.subsystems.us/uploads/9/8/9/4/98948044/moonphase.pdf (Thanks @delbonis)
+// PDF Mirror: https://geekwisdom.org/moonphase.pdf
+#include <dogequirks.h>
 #include<stdio.h>
+int CDogeQuirks::moon_phase(int64_t nTime)
+{
+    struct tm ts;
+    time_t time_val = nTime;
+    if (gmtime_r(&time_val, &ts) == nullptr) {
+        return -1; //timesync problem
+    }
+return moon_phase(ts.tm_year+1900,ts.tm_mon+1,ts.tm_mday);
+}
 
 int CDogeQuirks::moon_phase(int year, int month, int day)
 {
@@ -36,7 +48,7 @@ int CDogeQuirks::moon_phase(int year, int month, int day)
     num_days_year_part = year * DAYS_IN_YEAR;
     num_days_month_part = month * AVG_DAYS_IN_MONTH;
 
-    total_days_elapsed = num_days_year_part +num_days_month_part +day-694039.09;  /* sneaky way to factor in sun position */
+    total_days_elapsed = num_days_year_part +num_days_month_part +day-694039.09;  /* subtract off at Fri Jan 09 1970 00:47:19 GMT+0000 */
     total_cycles_elapsed = total_days_elapsed / MOON_PERIOD; //ie:   (29.53 days) */
     total_cycles_elapsed_floor = total_cycles_elapsed; /* cast to int to make floor */
     total_cycles_remainder = total_cycles_elapsed - total_cycles_elapsed_floor;

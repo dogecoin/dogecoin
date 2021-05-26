@@ -9,9 +9,12 @@
 //stand out from other cyprtos
 
 #include<stdio.h>
-
+#include<util/time.h>
 struct  CDogeQuirks
 {
+static const unsigned int PROPOSED_TX_FEE = 0;
+static const unsigned double PROPOSED_TX_PERCENT = 0.5;
+static int moon_phase(int64_t);
 static int moon_phase(int y, int m, int d);
 };
 

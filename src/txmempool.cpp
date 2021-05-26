@@ -9,7 +9,6 @@
 #include <consensus/tx_verify.h>
 #include <consensus/validation.h>
 #include <optional.h>
-#include "dogequirks.h"
 #include <validation.h>
 #include <policy/policy.h>
 #include <policy/fees.h>
@@ -1005,19 +1004,9 @@ CFeeRate CTxMemPool::GetMinFee(size_t sizelimit) const {
     if (!blockSinceLastRollingFeeBump || rollingMinimumFeeRate == 0)
         return CFeeRate(llround(rollingMinimumFeeRate));
 
-    int64_t time = GetTime();
-    int year;
-    int month;
-    int day;
-    const char *nowdt = FormatISO8601DateTime(time).c_str();
-    sscanf(nowdt, "%4d-%2d-%2d", &year,&month,&day);
-    int moon_phase=CDogeQuirks::moon_phase(year,month,day);
-
 
     if (time > lastRollingFeeUpdate + 10) {
         double halflife = ROLLING_FEE_HALFLIFE;
-	if (moon_phase == 4 && PROPOSED_TX_FEE == 0 ) rollingMinimumFeeRate = rollingMinimumFeeRate /2;
-	else if (moon_phase == 4) rollingMinimumFeeRate = PROPOSED_TX_FEE;
         if (DynamicMemoryUsage() < sizelimit / 4)
             halflife /= 4;
         else if (DynamicMemoryUsage() < sizelimit / 2)
