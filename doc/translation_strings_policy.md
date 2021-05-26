@@ -1,7 +1,7 @@
 Translation Strings Policy
 ===========================
 
-This document provides guidelines for internationalization of the Dogecoin Core software.
+This document provides guidelines for the internationalization of the Dogecoin Core software.
 
 How to translate?
 ------------------
@@ -61,7 +61,7 @@ Avoid dividing up a message into fragments. Translators see every string separat
 
 ### Avoid HTML in translation strings
 
-There have been difficulties with use of HTML in translation strings; translators should not be able to accidentally affect the formatting of messages.
+There have been difficulties with the use of HTML in translation strings; translators should not be able to accidentally affect the formatting of messages.
 This may sometimes be at conflict with the recommendation in the previous section.
 
 ### Plurals
@@ -100,7 +100,7 @@ versus
 
     WARNING: check your network connection, less blocks (%d) were received in the last %n hours than expected (%d).
 
-The second example reduces the number of pluralized words that translators have to handle from three to one, at no cost to comprehensibility of the sentence.
+The second example reduces the number of pluralized words that translators have to handle from three to one, at no cost to the comprehensibility of the sentence.
 
 ### String freezes
 
