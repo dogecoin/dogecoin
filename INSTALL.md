@@ -1,4 +1,4 @@
-## Building Dogecoin
+# Building Dogecoin Core
 
 Development is ongoing, and the development team, as well as other volunteers,
 can freely work in their own trees and submit pull requests when features or
