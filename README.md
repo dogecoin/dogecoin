@@ -11,10 +11,6 @@ its proof of work (POW). Taking development cues from Tenebrix and Litecoin,
 Dogecoin currently employs a simplified variant of scrypt.
 - **Website:** [dogecoin.com.](https://dogecoin.com)
 
-## License – Much license ⚖️
-Dogecoin Core is released under the terms of the MIT license. See
-[COPYING](COPYING) for more information or see
-[opensource.org](https://opensource.org/licenses/MIT)
 
 ## Development and contributions – omg developers
 Development is ongoing, and the development team, as well as other volunteers,
@@ -161,3 +157,8 @@ Dogecoin Core is a multithreaded application, and deadlocks or other multithread
 can be very difficult to track down. Compiling with `-DDEBUG_LOCKORDER` (`configure
 CXXFLAGS="-DDEBUG_LOCKORDER -g"`) inserts run-time checks to keep track of which locks
 are held, and adds warnings to the debug.log file if inconsistencies are detected.
+
+## License – Much license ⚖️
+Dogecoin Core is released under the terms of the MIT license. See
+[COPYING](COPYING) for more information or see
+[opensource.org](https://opensource.org/licenses/MIT)
