@@ -10,7 +10,7 @@ router", implementing the dogecoin wire protocol and relay, making
 consensus decisions, maintaining the local blockchain database,
 broadcasting locally generated transactions into the network, and
 providing a queryable RPC interface to interact on a polled basis for
-requesting blockchain related data. However, there exists only a
+requesting blockchain-related data. However, there exists only a
 limited service to notify external software of events like the arrival
 of new blocks or transactions.
 
@@ -27,7 +27,7 @@ connections made between two endpoints will be automatically restored
 after an outage, and either end may be freely started or stopped in
 any order.
 
-Because ZeroMQ is message oriented, subscribers receive transactions
+Because ZeroMQ is message-oriented, subscribers receive transactions
 and blocks all-at-once and do not need to implement any sort of
 buffering or reassembly.
 
@@ -37,13 +37,13 @@ The ZeroMQ feature in Dogecoin Core requires ZeroMQ API version 4.x or
 newer. Typically, it is packaged by distributions as something like
 *libzmq3-dev*. The C++ wrapper for ZeroMQ is *not* needed.
 
-In order to run the example Python client scripts in contrib/ one must
+In order to run the example, Python client scripts in contrib/ one must
 also install *python3-zmq*, though this is not necessary for daemon
 operation.
 
 ## Enabling
 
-By default, the ZeroMQ feature is automatically compiled in if the
+By default, the ZeroMQ feature is automatically compiled if the
 necessary prerequisites are found.  To disable, use --disable-zmq
 during the *configure* step of building dogecoind:
 
@@ -80,7 +80,7 @@ These options can also be provided in dogecoin.conf.
 ZeroMQ endpoint specifiers for TCP (and others) are documented in the
 [ZeroMQ API](http://api.zeromq.org/4-0:_start).
 
-Client side, then, the ZeroMQ subscriber socket must have the
+Client-side, then, the ZeroMQ subscriber socket must have the
 ZMQ_SUBSCRIBE option set to one or either of these prefixes (for
 instance, just `hash`); without doing so will result in no messages
 arriving. Please see `contrib/zmq/zmq_sub.py` for a working example.
@@ -96,11 +96,11 @@ No authentication or authorization is done on connecting clients; it
 is assumed that the ZeroMQ port is exposed only to trusted entities,
 using other means such as firewalling.
 
-Note that when the block chain tip changes, a reorganisation may occur
+Note that when the blockchain tip changes, a reorganization may occur
 and just the tip will be notified. It is up to the subscriber to
 retrieve the chain from the last known block to the new tip.
 
 There are several possibilities that ZMQ notification can get lost
-during transmission depending on the communication type your are
+during transmission depending on the communication type you are
 using. Dogecoind appends an up-counting sequence number to each
 notification which allows listeners to detect lost notifications.
