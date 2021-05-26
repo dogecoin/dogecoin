@@ -3,7 +3,7 @@ Developer Notes
 
 Various coding styles have been used during the history of the codebase,
 and the result is not very consistent. However, we're now trying to converge to
-a single style, so please use it in new code. Old code will be converted
+a single style, so please use it in the new code. Old code will be converted
 gradually and you are encouraged to use the provided
 [clang-format-diff script](/contrib/devtools/README.md#clang-format-diffpy)
 to clean up the patch automatically before submitting a pull request.
@@ -264,7 +264,7 @@ General C++
 
 - Assertions should not have side-effects
 
-  - *Rationale*: Even though the source code is set to to refuse to compile
+  - *Rationale*: Even though the source code is set to refuse to compile
     with assertions disabled, having side-effects in assertions is unexpected and
     makes the code harder to understand
 
@@ -362,7 +362,7 @@ AddressBookPage::AddressBookPage(Mode _mode) :
 ...
 ```
 
-When using nested cycles, do not name the inner cycle variable the same as in
+When using nested cycles, do not name the inner cycle variable the same as in the
 upper cycle etc.
 
 
