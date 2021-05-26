@@ -224,9 +224,9 @@ and enter to restart SSH. Logout by typing 'logout' and pressing 'enter'.
 Connecting to the VM
 ----------------------
 
-After the VM has booted you can connect to it using SSH, and files can be copied from and to the VM using a SFTP utility.
+After the VM has booted you can connect to it using SSH, and files can be copied from and to the VM using an SFTP utility.
 Connect to `localhost`, port `22222` (or the port configured when installing the VM).
-On Windows you can use [putty](http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html) and [WinSCP](http://winscp.net/eng/index.php).
+On Windows, you can use [putty](http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html) and [WinSCP](http://winscp.net/eng/index.php).
 
 For example, to connect as `root` from a Linux command prompt use
 
@@ -245,12 +245,12 @@ For example, to connect as `root` from a Linux command prompt use
     permitted by applicable law.
     root@debian:~#
 
-Replace `root` with `debian` to log in as user.
+Replace `root` with `debian` to log in as a user.
 
 Setting up Debian for Gitian building
 --------------------------------------
 
-In this section we will be setting up the Debian installation for Gitian building.
+In this section, we will be setting up the Debian installation for Gitian building.
 
 First we need to log in as `root` to set up dependencies and make sure that our
 user can use the sudo command. Type/paste the following in the terminal:
@@ -282,14 +282,14 @@ echo 'export LXC_GUEST_IP=10.0.3.5' >> /home/debian/.profile
 reboot
 ```
 
-At the end the VM is rebooted to make sure that the changes take effect. The steps in this
+In the end, the VM is rebooted to make sure that the changes take effect. The steps in this
 section only need to be performed once.
 
 Installing Gitian
 ------------------
 
 Re-login as the user `debian` that was created during installation.
-The rest of the steps in this guide will be performed as that user.
+The rest of the steps in this guide will be performed by that user.
 
 There is no `python-vm-builder` package in Debian, so we need to install it from source ourselves,
 
