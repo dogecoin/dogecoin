@@ -73,7 +73,7 @@ Build BDB 5.1.29
     $sudo chown $(whoami):admin /usr/local/BerkeleyDB.5.1
     $sudo make install
 
-### Set some environment variables and links for bdb and openssl ###
+### Set some environment variables and links for bdb and openSSL ###
 
     $export LDFLAGS=-L/usr/local/BerkeleyDB.5.1/lib
     $export CPPFLAGS=-I/usr/local/BerkeleyDB.5.1/include
