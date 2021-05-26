@@ -3,7 +3,7 @@ Expectations for DNS Seed operators
 
 Dogecoin Core attempts to minimize the level of trust in DNS seeds,
 but DNS seeds still pose a small amount of risk for the network.
-As such, DNS seeds must be run by entities which have some minimum
+As such, DNS seeds must be run by entities that have some minimum
 level of trust within the Dogecoin community.
 
 Other implementations of Dogecoin software may also use the same
@@ -30,7 +30,7 @@ for the operation of the service or urgent health of the Dogecoin
 network and must not be retained longer than necessary nor disclosed
 to any third party.
 
-5. Information gathered as a result of the operators node-spidering
+5. Information gathered as a result of the operator's node-spidering
 (not from DNS queries) may be freely published or retained, but only
 if this data was not made more complete by biasing node connectivity
 (a violation of expectation (1)).
