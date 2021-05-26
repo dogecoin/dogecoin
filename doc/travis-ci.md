@@ -31,7 +31,7 @@ cached and re-used when possible. Changes in the dependency-generator will
 trigger cache-invalidation and rebuilds as necessary.
 
 These caches can be manually removed if necessary. This is one of the very few
-manual operations that is possible with Travis, and it can be done by the
+manual operations that are possible with Travis, and it can be done by the
 Dogecoin Core committer via the Travis web interface.
 
 In some cases, secure strings may be needed for hiding sensitive info such as
