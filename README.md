@@ -11,6 +11,26 @@ its proof of work (POW). Taking development cues from Tenebrix and Litecoin,
 Dogecoin currently employs a simplified variant of scrypt.
 - **Website:** [dogecoin.com.](https://dogecoin.com)
 
+## Ongoing development - Moon plan
+
+For those wanting to discuss changes, or look for work that needs doing, please see:
+
+* [Help requests](https://github.com/dogecoin/dogecoin/labels/help%20wanted)
+* [Projects](https://github.com/dogecoin/dogecoin/projects)
+* [Dogecoindev on reddit](https://www.reddit.com/r/dogecoindev/)
+To get information about current development, to discuss changes or look for work that needs doing, please see :
+* [Projects](https://github.com/dogecoin/dogecoin/projects)
+* [Dogecoindev on reddit](https://www.reddit.com/r/dogecoindev/)
+* [Discord](https://discord.gg/dogecoin) (in particular the #core-dev channel)
+
+## Contribute
+
+Dogecoin Core is open source software, and we would welcome contributions
+which improve the state of the software.
+
+Look at [CONTRIBUTING.md](CONTRIBUTING.md) to see how you can participate !
+
+Do not limitate yourself to guidelines, feel free to contribute in your own way 🚀.
 
 ## Development and contributions – omg developers
 Development is ongoing, and the development team, as well as other volunteers,
