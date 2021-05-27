@@ -19,6 +19,7 @@ from test_framework.blocktools import (
 from test_framework.messages import (
     CBlock,
     CBlockHeader,
+    CHAIN_ID,
     BLOCK_HEADER_SIZE,
     VERSION_CHAIN_START,
 )
@@ -63,11 +64,10 @@ class MiningTest(BitcoinTestFramework):
         self.log.info('test blockversion')
         self.restart_node(0, extra_args=['-mocktime={}'.format(t), '-blockversion=133'])
         self.connect_nodes(0, 1)
-        assert_equal(133, self.nodes[0].getblocktemplate(NORMAL_GBT_REQUEST_PARAMS)['version'])
+        assert_equal(133, self.nodes[0].getblocktemplate(NORMAL_GBT_REQUEST_PARAMS)['version'] % VERSION_CHAIN_START)
         self.restart_node(0, extra_args=['-mocktime={}'.format(t)])
         self.connect_nodes(0, 1)
-        # Dogecoin: Replace '0' with 'CHAIN_ID' once AuxPoW blocks are added and the chain ID is set.
-        assert_equal(0, self.nodes[0].getblocktemplate(NORMAL_GBT_REQUEST_PARAMS)['version'] // VERSION_CHAIN_START)
+        assert_equal(CHAIN_ID, self.nodes[0].getblocktemplate(NORMAL_GBT_REQUEST_PARAMS)['version'] // VERSION_CHAIN_START)
         self.restart_node(0)
         self.connect_nodes(0, 1)
 

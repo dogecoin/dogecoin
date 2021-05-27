@@ -14,7 +14,6 @@ from struct import pack, unpack
 import http.client
 import urllib.parse
 
-from test_framework import auxpow
 from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import (
     assert_equal,
@@ -23,6 +22,7 @@ from test_framework.util import (
     hex_str_to_bytes,
 )
 
+from test_framework.auxpow_testing import mineAuxpowBlock
 from test_framework.messages import BLOCK_HEADER_SIZE
 
 class ReqType(Enum):
@@ -186,13 +186,7 @@ class RESTTest (BitcoinTestFramework):
         assert_equal(len(json_obj['utxos']), 0)
 
         self.nodes[0].generate(1)
-
-        json_request = json_request.rstrip("/")
-        response = http_post_call(url.hostname, url.port, '/rest/getutxos'+json_request+self.FORMAT_SEPARATOR+'json', '', True)
-        assert_equal(response.status, 200) #must be a 200 because we are within the limits
-
         self.sync_all()
-        bb_hash = self.nodes[0].getbestblockhash()
 
         json_obj = self.test_rest_request("/getutxos/{}-{}".format(*spending))
         assert_equal(len(json_obj['utxos']), 1)
@@ -214,6 +208,7 @@ class RESTTest (BitcoinTestFramework):
 
         mineAuxpowBlock(self.nodes[0])  # generate block to not affect upcoming tests
         self.sync_all()
+        bb_hash = self.nodes[0].getbestblockhash()
 
         self.log.info("Test the /block, /blockhashbyheight and /headers URIs")
         bb_hash = self.nodes[0].getbestblockhash()

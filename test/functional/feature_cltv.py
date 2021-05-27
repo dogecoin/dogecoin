@@ -110,7 +110,7 @@ class BIP65Test(BitcoinTestFramework):
         block.set_base_version(3)
         block.solve()
 
-        with self.nodes[0].assert_debug_log(expected_msgs=['{}, bad-version(0x00000003)'.format(block.hash)]):
+        with self.nodes[0].assert_debug_log(expected_msgs=['{}, bad-version(0x00620003)'.format(block.hash)]):
             peer.send_and_ping(msg_block(block))
             assert_equal(int(self.nodes[0].getbestblockhash(), 16), tip)
             peer.sync_with_ping()

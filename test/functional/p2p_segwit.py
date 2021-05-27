@@ -414,11 +414,12 @@ class SegWitTest(BitcoinTestFramework):
         assert self.test_node.last_message["getdata"].inv[0].type == blocktype
         test_witness_block(self.nodes[0], self.test_node, block2, True)
 
-        block3 = self.build_next_block(version=(VB_TOP_BITS | (1 << 15)))
-        block3.solve()
-        self.test_node.announce_block_and_wait_for_getdata(block3, use_header=True)
-        assert self.test_node.last_message["getdata"].inv[0].type == blocktype
-        test_witness_block(self.nodes[0], self.test_node, block3, True)
+        # Dogecoin: Version bits interfere with AuxPoW, so this test can't be run.
+        # block3 = self.build_next_block(version=(VB_TOP_BITS | (1 << 15)))
+        # block3.solve()
+        # self.test_node.announce_block_and_wait_for_getdata(block3, use_header=True)
+        # assert self.test_node.last_message["getdata"].inv[0].type == blocktype
+        # test_witness_block(self.nodes[0], self.test_node, block3, True)
 
         # Check that we can getdata for witness blocks or regular blocks,
         # and the right thing happens.
