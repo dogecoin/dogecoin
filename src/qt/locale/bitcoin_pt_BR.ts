@@ -680,7 +680,7 @@
     </message>
     <message>
         <source>This label turns red if any recipient receives an amount smaller than the current dust threshold.</source>
-        <translation>Este texto fica vermelho se qualquer destinatário receber uma quantidade menor que que a poeira.</translation>
+        <translation>Este texto fica vermelho se qualquer destinatário receber uma quantidade menor que a poeira.</translation>
     </message>
     <message>
         <source>Can vary +/- %1 koinu(s) per input.</source>
