@@ -7,7 +7,7 @@
     </message>
     <message>
         <source>Create a new address</source>
-        <translation>Criar novo endereço</translation>
+        <translation>Criar um novo endereço</translation>
     </message>
     <message>
         <source>&amp;New</source>
@@ -63,7 +63,7 @@
     </message>
     <message>
         <source>These are your Dogecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>Estes são os seus endereços para enviar pagamentos. Sempre cheque a quantia e o endereço do destinatário antes de enviar moedas.</translation>
+        <translation>Estes são os seus endereços para enviar pagamentos. Sempre verifique a quantia e o endereço do destinatário antes de enviar moedas.</translation>
     </message>
     <message>
         <source>These are your Dogecoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
@@ -87,7 +87,7 @@
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
-        <translation>Comma separated file (*.csv)</translation>
+        <translation>Arquivo com valores separados por vírgula. (*.csv)</translation>
     </message>
     <message>
         <source>Exporting Failed</source>
@@ -117,7 +117,7 @@
     <name>AskPassphraseDialog</name>
     <message>
         <source>Passphrase Dialog</source>
-        <translation>Janela da Frase de Segurança</translation>
+        <translation>Frase de Segurança</translation>
     </message>
     <message>
         <source>Enter passphrase</source>
@@ -141,7 +141,7 @@
     </message>
     <message>
         <source>This operation needs your wallet passphrase to unlock the wallet.</source>
-        <translation>Esta operação precisa da sua senha para desbloquear a carteira.</translation>
+        <translation>Para prosseguir com a operação será necessário desbloquear sua carteira utilizando sua senha.</translation>
     </message>
     <message>
         <source>Unlock wallet</source>
@@ -149,7 +149,7 @@
     </message>
     <message>
         <source>This operation needs your wallet passphrase to decrypt the wallet.</source>
-        <translation>Esta operação precisa da sua senha para descriptografar a carteira</translation>
+        <translation>Para prosseguir com a operação será necessário descriptografar sua carteira utilizando sua senha.</translation>
     </message>
     <message>
         <source>Decrypt wallet</source>
@@ -165,7 +165,7 @@
     </message>
     <message>
         <source>Confirm wallet encryption</source>
-        <translation>Confirmar criptografia da carteira</translation>
+        <translation>Confirme a criptografia da carteira</translation>
     </message>
     <message>
         <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DOGECOINS&lt;/b&gt;!</source>
@@ -213,7 +213,7 @@
     </message>
     <message>
         <source>Warning: The Caps Lock key is on!</source>
-        <translation>Aviso: Tecla Caps Lock ativa!</translation>
+        <translation>Aviso: A tecla Caps Lock está ativa!</translation>
     </message>
 </context>
 <context>
@@ -379,7 +379,7 @@
     </message>
     <message>
         <source>Show or hide the main Window</source>
-        <translation>Mostrar ou esconder a Janela Principal.</translation>
+        <translation>Mostrar ou esconder Janela.</translation>
     </message>
     <message>
         <source>Encrypt the private keys that belong to your wallet</source>
@@ -411,7 +411,7 @@
     </message>
     <message>
         <source>Request payments (generates QR codes and dogecoin: URIs)</source>
-        <translation>Solicitações de pagamentos (gera códigos QR e dogecoin: URIs)</translation>
+        <translation>Solicitar pagamentos (gerar códigos QR e dogecoin: URIs)</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -423,7 +423,7 @@
     </message>
     <message>
         <source>Open a dogecoin: URI or payment request</source>
-        <translation>Abrir um dogecoin: URI ou cobrança</translation>
+        <translation>Abrir um endereço dogecoin: URI ou cobrança</translation>
     </message>
     <message>
         <source>&amp;Command-line options</source>
@@ -680,11 +680,11 @@
     </message>
     <message>
         <source>This label turns red if any recipient receives an amount smaller than the current dust threshold.</source>
-        <translation>Este texto fica vermelho se qualquer destinatário receber uma quantidade menor que que o dust.</translation>
+        <translation>Este texto fica vermelho se qualquer destinatário receber uma quantidade menor que a poeira.</translation>
     </message>
     <message>
         <source>Can vary +/- %1 koinu(s) per input.</source>
-        <translation>Pode variar +/- %1 koinu(s) por entrada</translation>
+        <translation>Pode variar +/- %1 moeda(s) por entrada</translation>
     </message>
     <message>
         <source>(no label)</source>
@@ -1841,7 +1841,7 @@
     </message>
     <message>
         <source>Remove the selected entries from the list</source>
-        <translation>Remove o registro selecionado da lista</translation>
+        <translation>Remover o registro selecionado da lista</translation>
     </message>
     <message>
         <source>Remove</source>
@@ -2058,7 +2058,7 @@
     </message>
     <message>
         <source>fast</source>
-        <translation>rápido </translation>
+        <translation>rápido</translation>
     </message>
     <message>
         <source>Send to multiple recipients at once</source>
