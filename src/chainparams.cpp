@@ -91,8 +91,8 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].nStartTime = 1199145601; // January 1, 2008
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].nTimeout = 1230767999; // December 31, 2008
 
-        consensus.nMinimumChainWork = uint256S("0x00000000000000000000000000000000000000001533efd8d716a517fe2c5008");
-        consensus.defaultAssumeValid = uint256S("0x0000000000000000000b9d2ec5a352ecba0592946514a92f14319dc2b367fc72"); // 654683
+        consensus.nMinimumChainWork = uint256S("0x00000000000000000000000000000000000000000000051737530b00a8ed4e3e");
+        consensus.defaultAssumeValid = uint256S("0x014c0753de886b81dffa11e99f37416930b67d55bda17589d886aeb053414942"); // 3,692,828
         consensus.nAssumeValidMinTime = 60 * 60 * 24 * 7 * 2;
 
         consensus.fShortEarlyCoinbase = true;
@@ -213,8 +213,8 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].nStartTime = 1199145601; // January 1, 2008
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].nTimeout = 1230767999; // December 31, 2008
 
-        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000001db6ec4ac88cf2272c6");
-        consensus.defaultAssumeValid = uint256S("0x000000000000006433d1efec504c53ca332b64963c425395515b01977bd7b3b0"); // 1864000
+        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000006e68e7ec07b3d");
+        consensus.defaultAssumeValid = uint256S("0x1f19a9290d1f83a59bd8e05c5b1216dca14fc580fe548f64150575cad98d4714"); // 3149245
         consensus.nAssumeValidMinTime = 60 * 60 * 24 * 7 * 2;
 
         consensus.fShortEarlyCoinbase = true;
