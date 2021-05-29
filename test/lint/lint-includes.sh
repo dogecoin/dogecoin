@@ -64,6 +64,8 @@ EXPECTED_BOOST_INCLUDES=(
     boost/preprocessor/cat.hpp
     boost/preprocessor/stringize.hpp
     boost/process.hpp
+    boost/random/mersenne_twister.hpp
+    boost/random/uniform_int.hpp
     boost/signals2/connection.hpp
     boost/signals2/optional_last_value.hpp
     boost/signals2/signal.hpp

@@ -315,7 +315,7 @@ class RawTransactionsTest(BitcoinTestFramework):
             self.sync_all()
             self.nodes[0].generate(1)
             self.sync_all()
-            assert_equal(self.nodes[0].getbalance(), bal+Decimal('50.00000000')+Decimal('2.19000000')) #block reward + tx
+            assert_equal(self.nodes[0].getbalance(), bal+Decimal('500000.00000000')+Decimal('2.19000000')) #block reward + tx
 
             # 2of2 test for combining transactions
             bal = self.nodes[2].getbalance()
@@ -360,7 +360,7 @@ class RawTransactionsTest(BitcoinTestFramework):
             self.sync_all()
             self.nodes[0].generate(1)
             self.sync_all()
-            assert_equal(self.nodes[0].getbalance(), bal+Decimal('50.00000000')+Decimal('2.19000000')) #block reward + tx
+            assert_equal(self.nodes[0].getbalance(), bal+Decimal('500000.00000000')+Decimal('2.19000000')) #block reward + tx
 
         # decoderawtransaction tests
         # witness transaction

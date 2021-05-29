@@ -66,7 +66,7 @@ public:
         strNetworkID = CBaseChainParams::MAIN;
         consensus.signet_blocks = false;
         consensus.signet_challenge.clear();
-        consensus.nSubsidyHalvingInterval = 210000;
+        consensus.nSubsidyHalvingInterval = 100000;
         consensus.BIP16Exception = uint256();
         // BIP34 is never enforced in Dogecoin v2 blocks, so we enforce from v3
         consensus.BIP34Height = 1034383;
@@ -96,6 +96,7 @@ public:
         consensus.defaultAssumeValid = uint256S("0x014c0753de886b81dffa11e99f37416930b67d55bda17589d886aeb053414942"); // 3,692,828
         consensus.nAssumeValidMinTime = 60 * 60 * 24 * 7 * 2;
 
+        consensus.fSimplifiedRewards = false;
         consensus.fShortEarlyCoinbase = true;
 
         /**
@@ -112,10 +113,10 @@ public:
         m_assumed_blockchain_size = 350;
         m_assumed_chain_state_size = 6;
 
-        genesis = CreateGenesisBlock(1231006505, 2083236893, 0x1d00ffff, 1, 50 * COIN);
+        genesis = CreateGenesisBlock(1386325540, 1930484355, 0x1d00ffff, 1, 88 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f"));
-        assert(genesis.hashMerkleRoot == uint256S("0x4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b"));
+        assert(consensus.hashGenesisBlock == uint256S("0x000000007610a818e726d4f943b5936e750de86c142a5f59606456c945350ec3"));
+        assert(genesis.hashMerkleRoot == uint256S("0x13abc7dbaf8e00e9e128cb4977e3a9d15ea5d4ff249dd625ee607f6023cdb3df"));
 
         // Note that of those which support the service bits prefix, most only support a subset of
         // possible options.
@@ -189,7 +190,7 @@ public:
         strNetworkID = CBaseChainParams::TESTNET;
         consensus.signet_blocks = false;
         consensus.signet_challenge.clear();
-        consensus.nSubsidyHalvingInterval = 210000;
+        consensus.nSubsidyHalvingInterval = 100000;
         consensus.BIP16Exception = uint256();
         // BIP34 is never enforced in Dogecoin v2 blocks, so we enforce from v3
         consensus.BIP34Height = 708658;
@@ -219,6 +220,7 @@ public:
         consensus.defaultAssumeValid = uint256S("0x1f19a9290d1f83a59bd8e05c5b1216dca14fc580fe548f64150575cad98d4714"); // 3149245
         consensus.nAssumeValidMinTime = 60 * 60 * 24 * 7 * 2;
 
+        consensus.fSimplifiedRewards = false;
         consensus.fShortEarlyCoinbase = true;
 
         pchMessageStart[0] = 0xfc;
@@ -230,10 +232,11 @@ public:
         m_assumed_blockchain_size = 40;
         m_assumed_chain_state_size = 2;
 
-        genesis = CreateGenesisBlock(1296688602, 414098458, 0x1d00ffff, 1, 50 * COIN);
+        // Dogecoin: Note timestamp is tweaked for SHA256 interim mining, will need correcting for Scrypt
+        genesis = CreateGenesisBlock(1391503288, 1182687315, 0x1d00ffff, 1, 88 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x000000000933ea01ad0ee984209779baaec3ced90fa3f408719526f8d77f4943"));
-        assert(genesis.hashMerkleRoot == uint256S("0x4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b"));
+        assert(consensus.hashGenesisBlock == uint256S("0x00000000543fd974f37140a6192f890d744f220bd82ae428dbe684c7588347ad"));
+        assert(genesis.hashMerkleRoot == uint256S("0x13abc7dbaf8e00e9e128cb4977e3a9d15ea5d4ff249dd625ee607f6023cdb3df"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
@@ -337,7 +340,7 @@ public:
         strNetworkID = CBaseChainParams::SIGNET;
         consensus.signet_blocks = true;
         consensus.signet_challenge.assign(bin.begin(), bin.end());
-        consensus.nSubsidyHalvingInterval = 210000;
+        consensus.nSubsidyHalvingInterval = 100000;
         consensus.BIP16Exception = uint256{};
         consensus.BIP34Height = 1;
         consensus.BIP34Hash = uint256{};
@@ -363,6 +366,7 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].nStartTime = Consensus::BIP9Deployment::ALWAYS_ACTIVE;
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].nTimeout = Consensus::BIP9Deployment::NO_TIMEOUT;
 
+        consensus.fSimplifiedRewards = true;
         consensus.fShortEarlyCoinbase = true;
 
         // message start is defined as the first 4 bytes of the sha256d of the block script
@@ -434,6 +438,7 @@ public:
         consensus.defaultAssumeValid = uint256{};
         consensus.nAssumeValidMinTime = 60 * 60 * 24 * 7 * 2 / 10; // One tenth of main/test networks
 
+        consensus.fSimplifiedRewards = true;
         consensus.fShortEarlyCoinbase = false;
 
         pchMessageStart[0] = 0xfa;
@@ -447,10 +452,10 @@ public:
 
         UpdateActivationParametersFromArgs(args);
 
-        genesis = CreateGenesisBlock(1296688602, 2, 0x207fffff, 1, 50 * COIN);
+        genesis = CreateGenesisBlock(1296688602, 2, 0x207fffff, 1, 88 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206"));
-        assert(genesis.hashMerkleRoot == uint256S("0x4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b"));
+        assert(consensus.hashGenesisBlock == uint256S("0x4ebcb24a7efa4e2050e74d6c95f1ee318ed2b4df2b6f28b0d6b8318cb43762e8"));
+        assert(genesis.hashMerkleRoot == uint256S("0x13abc7dbaf8e00e9e128cb4977e3a9d15ea5d4ff249dd625ee607f6023cdb3df"));
 
         vFixedSeeds.clear(); //!< Regtest mode doesn't have any fixed seeds.
         vSeeds.clear();      //!< Regtest mode doesn't have any DNS seeds.

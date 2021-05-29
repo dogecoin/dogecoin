@@ -67,8 +67,14 @@ CBlock BuildChainTestingSetup::CreateBlock(const CBlockIndex* prev,
     block.hashPrevBlock = prev->GetBlockHash();
     block.nTime = prev->nTime + 1;
 
+    // Dogecoin: Fix rewards at a low value we know is always acceptable, rather than use pseudo-random rewards.
+    CMutableTransaction txCoinbase(*block.vtx[0]);
+    txCoinbase.vout[0].nValue = 10000 * COIN;
+
     // Replace mempool-selected txns with just coinbase plus passed-in txns:
-    block.vtx.resize(1);
+    block.vtx.clear();
+    block.vtx.push_back(MakeTransactionRef(txCoinbase));
+
     for (const CMutableTransaction& tx : txns) {
         block.vtx.push_back(MakeTransactionRef(tx));
     }
