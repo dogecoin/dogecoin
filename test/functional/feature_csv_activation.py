@@ -106,7 +106,7 @@ def create_bip112emptystack(node, input, txversion, address):
     return signtx
 
 def send_generic_input_tx(node, coinbases, address):
-    return node.sendrawtransaction(ToHex(sign_transaction(node, create_transaction(node, node.getblock(coinbases.pop())['tx'][0], address, amount=Decimal("49.99")))))
+    return node.sendrawtransaction(ToHex(sign_transaction(node, create_transaction(node, node.getblock(coinbases.pop())['tx'][0], address, amount=Decimal("499999.99")))))
 
 def create_bip68txs(node, bip68inputs, txversion, address, locktime_delta=0):
     """Returns a list of bip68 transactions with different bits set."""
@@ -114,7 +114,7 @@ def create_bip68txs(node, bip68inputs, txversion, address, locktime_delta=0):
     assert len(bip68inputs) >= 16
     for i, (sdf, srhb, stf, srlb) in enumerate(product(*[[True, False]] * 4)):
         locktime = relative_locktime(sdf, srhb, stf, srlb)
-        tx = create_transaction(node, bip68inputs[i], address, amount=Decimal("49.98"))
+        tx = create_transaction(node, bip68inputs[i], address, amount=Decimal("499999.98"))
         tx.nVersion = txversion
         tx.vin[0].nSequence = locktime + locktime_delta
         tx = sign_transaction(node, tx)
@@ -129,7 +129,7 @@ def create_bip112txs(node, bip112inputs, varyOP_CSV, txversion, address, locktim
     assert len(bip112inputs) >= 16
     for i, (sdf, srhb, stf, srlb) in enumerate(product(*[[True, False]] * 4)):
         locktime = relative_locktime(sdf, srhb, stf, srlb)
-        tx = create_transaction(node, bip112inputs[i], address, amount=Decimal("49.98"))
+        tx = create_transaction(node, bip112inputs[i], address, amount=Decimal("499999.98"))
         if (varyOP_CSV):  # if varying OP_CSV, nSequence is fixed
             tx.vin[0].nSequence = BASE_RELATIVE_LOCKTIME + locktime_delta
         else:  # vary nSequence instead, OP_CSV is fixed

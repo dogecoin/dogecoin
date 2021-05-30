@@ -12,6 +12,61 @@
 
 BOOST_FIXTURE_TEST_SUITE(dogecoin_tests, TestingSetup)
 
+BOOST_AUTO_TEST_CASE(subsidy_test)
+{
+    const int nHeight = 36;
+    const auto chainParams = CreateChainParams(*m_node.args, CBaseChainParams::MAIN);
+    const auto params = chainParams->GetConsensus();
+    uint256 prevHash = uint256S("0x4eb7c3f5914a84a25ea0ae12c39d1e5390a8ea576490035b63dcd03fcc14d106"); // Block 35
+
+    CAmount nSubsidy = GetDogecoinBlockSubsidy(nHeight, params, prevHash);
+    BOOST_CHECK_EQUAL(nSubsidy, 228450 * COIN);
+}
+
+BOOST_AUTO_TEST_CASE(subsidy_limit_test)
+{
+    int nHeight = 0;
+    int nStepSize= 1;
+    const auto chainParams = CreateChainParams(*m_node.args, CBaseChainParams::MAIN);
+    const auto params = chainParams->GetConsensus();
+    CAmount nSum = 0;
+    uint256 prevHash = uint256S("0");
+
+    for (nHeight = 0; nHeight <= 100000; nHeight++) {
+        CAmount nSubsidy = GetDogecoinBlockSubsidy(nHeight, params, prevHash);
+        BOOST_CHECK(MoneyRange(nSubsidy));
+        BOOST_CHECK(nSubsidy <= 1000000 * COIN);
+        nSum += nSubsidy * nStepSize;
+    }
+    for (; nHeight <= 145000; nHeight++) {
+        CAmount nSubsidy = GetDogecoinBlockSubsidy(nHeight, params, prevHash);
+        BOOST_CHECK(MoneyRange(nSubsidy));
+        BOOST_CHECK(nSubsidy <= 500000 * COIN);
+        nSum += nSubsidy * nStepSize;
+    }
+    for (; nHeight < 600000; nHeight++) {
+        CAmount nSubsidy = GetDogecoinBlockSubsidy(nHeight, params, prevHash);
+        CAmount nExpectedSubsidy = (500000 >> (nHeight / 100000)) * COIN;
+        BOOST_CHECK(MoneyRange(nSubsidy));
+        BOOST_CHECK_EQUAL(nSubsidy, nExpectedSubsidy);
+        nSum += nSubsidy * nStepSize;
+    }
+
+    //test sum +- ~10billion
+    arith_uint256 upperlimit = arith_uint256("95e14ec776380000"); //108 billion doge
+    BOOST_CHECK(nSum <= upperlimit);
+
+    arith_uint256 lowerlimit = arith_uint256("7a1fe16027700000"); //88 billion doge
+    BOOST_CHECK(nSum >= lowerlimit);
+
+    // Test reward at 600k+ is constant
+    CAmount nConstantSubsidy = GetDogecoinBlockSubsidy(600000, params, prevHash);
+    BOOST_CHECK_EQUAL(nConstantSubsidy, 10000 * COIN);
+
+    nConstantSubsidy = GetDogecoinBlockSubsidy(700000, params, prevHash);
+    BOOST_CHECK_EQUAL(nConstantSubsidy, 10000 * COIN);
+}
+
 BOOST_AUTO_TEST_CASE(get_next_work_difficulty_limit)
 {
     SelectParams(CBaseChainParams::MAIN);

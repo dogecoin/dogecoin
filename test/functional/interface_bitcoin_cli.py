@@ -13,11 +13,11 @@ from test_framework.util import (
     get_auth_cookie,
 )
 
-# The block reward of coinbaseoutput.nValue (50) DOGE/block matures after
+# The block reward of coinbaseoutput.nValue (500,000) DOGE/block matures after
 # COINBASE_MATURITY (240) blocks. Therefore, after mining 241 blocks we expect
-# node 0 to have a balance of (BLOCKS - COINBASE_MATURITY) * 50 DOGE/block.
+# node 0 to have a balance of (BLOCKS - COINBASE_MATURITY) * 500,000 DOGE/block.
 BLOCKS = 241
-BALANCE = (BLOCKS - 240) * 50
+BALANCE = (BLOCKS - 240) * 500000
 
 JSON_PARSING_ERROR = 'error: Error parsing JSON: foo'
 BLOCKS_VALUE_OF_ZERO = 'error: the first argument (number of blocks to generate, default: 1) must be an integer value greater than zero'
@@ -96,7 +96,7 @@ class TestBitcoinCli(BitcoinTestFramework):
 
             # Setup to test -getinfo, -generate, and -rpcwallet= with multiple wallets.
             wallets = [self.default_wallet_name, 'Encrypted', 'secret']
-            amounts = [BALANCE + Decimal('9.999928'), Decimal(9), Decimal(31)]
+            amounts = [BALANCE + Decimal('90000.999928'), Decimal(99999), Decimal(310000)]
             self.nodes[0].createwallet(wallet_name=wallets[1])
             self.nodes[0].createwallet(wallet_name=wallets[2])
             w1 = self.nodes[0].get_wallet_rpc(wallets[0])

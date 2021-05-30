@@ -60,15 +60,15 @@ class WalletTest(BitcoinTestFramework):
         self.nodes[0].generate(1)
 
         walletinfo = self.nodes[0].getwalletinfo()
-        assert_equal(walletinfo['immature_balance'], 50)
+        assert_equal(walletinfo['immature_balance'], 500000)
         assert_equal(walletinfo['balance'], 0)
 
         self.sync_all(self.nodes[0:3])
         self.nodes[1].generate(241)
         self.sync_all(self.nodes[0:3])
 
-        assert_equal(self.nodes[0].getbalance(), 50)
-        assert_equal(self.nodes[1].getbalance(), 50)
+        assert_equal(self.nodes[0].getbalance(), 500000)
+        assert_equal(self.nodes[1].getbalance(), 500000)
         assert_equal(self.nodes[2].getbalance(), 0)
 
         # Check that only first and second nodes have UTXOs
@@ -82,9 +82,9 @@ class WalletTest(BitcoinTestFramework):
         # First, outputs that are unspent both in the chain and in the
         # mempool should appear with or without include_mempool
         txout = self.nodes[0].gettxout(txid=confirmed_txid, n=confirmed_index, include_mempool=False)
-        assert_equal(txout['value'], 50)
+        assert_equal(txout['value'], 500000)
         txout = self.nodes[0].gettxout(txid=confirmed_txid, n=confirmed_index, include_mempool=True)
-        assert_equal(txout['value'], 50)
+        assert_equal(txout['value'], 500000)
 
         # Send 21 BTC from 0 to 2 using sendtoaddress call.
         self.nodes[0].sendtoaddress(self.nodes[2].getnewaddress(), 11)
@@ -94,7 +94,7 @@ class WalletTest(BitcoinTestFramework):
         # utxo spent in mempool should be visible if you exclude mempool
         # but invisible if you include mempool
         txout = self.nodes[0].gettxout(confirmed_txid, confirmed_index, False)
-        assert_equal(txout['value'], 50)
+        assert_equal(txout['value'], 500000)
         txout = self.nodes[0].gettxout(confirmed_txid, confirmed_index, True)
         assert txout is None
         # new utxo from mempool should be invisible if you exclude mempool
@@ -158,9 +158,9 @@ class WalletTest(BitcoinTestFramework):
         self.nodes[1].generate(240)
         self.sync_all(self.nodes[0:3])
 
-        # node0 should end up with 50 + 25 doge in block rewards plus fees, but
+        # node0 should end up with 500,000 + 250,000 doge in block rewards plus fees, but
         # minus the 21 plus fees sent to node2
-        assert_equal(self.nodes[0].getbalance(), 75 - 21)
+        assert_equal(self.nodes[0].getbalance(), 750000 - 21)
         assert_equal(self.nodes[2].getbalance(), 21)
 
         # Node0 should have two unspent outputs.
@@ -176,6 +176,7 @@ class WalletTest(BitcoinTestFramework):
             outputs = {}
             inputs.append({"txid": utxo["txid"], "vout": utxo["vout"]})
             outputs[self.nodes[2].getnewaddress()] = utxo["amount"] - 3
+            print("Sending " + str(utxo["amount"] - 3))
             raw_tx = self.nodes[0].createrawtransaction(inputs, outputs)
             txns_to_send.append(self.nodes[0].signrawtransactionwithwallet(raw_tx))
 
@@ -188,7 +189,7 @@ class WalletTest(BitcoinTestFramework):
         self.sync_all(self.nodes[0:3])
 
         assert_equal(self.nodes[0].getbalance(), 0)
-        assert_equal(self.nodes[2].getbalance(), 69)
+        assert_equal(self.nodes[2].getbalance(), 749994.00000000)
 
         # Verify that a spent output cannot be locked anymore
         spent_0 = {"txid": node0utxos[0]["txid"], "vout": node0utxos[0]["vout"]}
@@ -201,7 +202,8 @@ class WalletTest(BitcoinTestFramework):
         txid = self.nodes[2].sendtoaddress(address, 10, "", "", False)
         self.nodes[2].generate(1)
         self.sync_all(self.nodes[0:3])
-        node_2_bal = self.check_fee_amount(self.nodes[2].getbalance(), Decimal('59'), fee_per_byte, self.get_vsize(self.nodes[2].gettransaction(txid)['hex']))
+
+        node_2_bal = self.check_fee_amount(self.nodes[2].getbalance(), Decimal('749984'), fee_per_byte, self.get_vsize(self.nodes[2].gettransaction(txid)['hex']))
         assert_equal(self.nodes[0].getbalance(), Decimal('10'))
 
         # Send 10 BTC with subtract fee from amount
@@ -286,9 +288,10 @@ class WalletTest(BitcoinTestFramework):
         # 2. hex-changed one output to 0.0
         # 3. sign and send
         # 4. check if recipient (node0) can list the zero value tx
-        usp = self.nodes[1].listunspent(query_options={'minimumAmount': '49.998'})[0]
+        usp = self.nodes[1].listunspent(query_options={'minimumAmount': '499999.998'})[0]
         inputs = [{"txid": usp['txid'], "vout": usp['vout']}]
-        outputs = {self.nodes[1].getnewaddress(): 49.998, self.nodes[0].getnewaddress(): 11.11}
+        print(str(usp))
+        outputs = {self.nodes[1].getnewaddress(): 499999.998, self.nodes[0].getnewaddress(): 11.11}
 
         raw_tx = self.nodes[1].createrawtransaction(inputs, outputs).replace("c0833842", "00000000")  # replace 11.11 with 0.0 (int32)
         signed_raw_tx = self.nodes[1].signrawtransactionwithwallet(raw_tx)

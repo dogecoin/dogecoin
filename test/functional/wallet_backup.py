@@ -8,7 +8,7 @@ Test case is:
 4 nodes. 1 2 and 3 send transactions between each other,
 fourth node is a miner.
 1 2 3 each mine a block to start, then
-Miner creates 240 blocks so 1 2 3 each have 50 mature
+Miner creates 240 blocks so 1 2 3 each have 50,000 mature
 coins to spend.
 Then 5 iterations of 1/2/3 sending coins amongst
 themselves to get transactions in the wallets,
@@ -21,7 +21,7 @@ Miner then generates 241 more blocks, so any
 transaction fees paid mature.
 
 Sanity check:
-  Sum(1,2,3,4 balances) == (149 * 50) + (105 * 25)
+  Sum(1,2,3,4 balances) == (149 * 50,000) + (105 * 25,000)
 
 1/2/3 are shutdown, and their wallets erased.
 Then restore using wallet.dat backup. And
@@ -69,7 +69,7 @@ class WalletBackupTest(BitcoinTestFramework):
 
     def one_send(self, from_node, to_address):
         if (randint(1,2) == 1):
-            amount = Decimal(randint(1,10)) / Decimal(10)
+            amount = Decimal(randint(1,10))
             self.nodes[from_node].sendtoaddress(to_address, amount)
 
     def do_one_round(self):
@@ -126,9 +126,9 @@ class WalletBackupTest(BitcoinTestFramework):
         self.nodes[3].generate(240)
         self.sync_blocks()
 
-        assert_equal(self.nodes[0].getbalance(), 50)
-        assert_equal(self.nodes[1].getbalance(), 50)
-        assert_equal(self.nodes[2].getbalance(), 50)
+        assert_equal(self.nodes[0].getbalance(), 500000)
+        assert_equal(self.nodes[1].getbalance(), 500000)
+        assert_equal(self.nodes[2].getbalance(), 500000)
         assert_equal(self.nodes[3].getbalance(), 0)
 
         self.log.info("Creating transactions")
@@ -162,8 +162,8 @@ class WalletBackupTest(BitcoinTestFramework):
         total = balance0 + balance1 + balance2 + balance3
 
         # At this point, there are 494 blocks (243 for setup, then 10 rounds, then 241.)
-        # 254 are mature, so the sum of all wallets should be (149 * 50) + (105 * 25) = 10075.
-        assert_equal(total, 10075)
+        # 254 are mature, so the sum of all wallets should be (149 * 500000) + (105 * 250000) = 100750000.
+        assert_equal(total, 100750000)
 
         ##
         # Test restoring spender wallets from backups

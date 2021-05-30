@@ -118,7 +118,7 @@ class RpcCreateMultiSigTest(BitcoinTestFramework):
 
         height_remaining = node0.getblockchaininfo()["blocks"] - 240
         total = 0
-        reward = 50.0
+        reward = 500000.0
         while height_remaining > 0:
             total = total + min(149, height_remaining) * reward
             reward = reward / 2

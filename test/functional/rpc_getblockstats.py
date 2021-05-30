@@ -44,14 +44,14 @@ class GetblockstatsTest(BitcoinTestFramework):
         self.nodes[0].generate(241)
 
         address = self.nodes[0].get_deterministic_priv_key().address
-        self.nodes[0].sendtoaddress(address=address, amount=10, subtractfeefromamount=True)
+        self.nodes[0].sendtoaddress(address=address, amount=100000, subtractfeefromamount=True)
         self.nodes[0].generate(1)
         self.sync_all()
 
-        self.nodes[0].sendtoaddress(address=address, amount=10, subtractfeefromamount=True)
-        self.nodes[0].sendtoaddress(address=address, amount=10, subtractfeefromamount=False)
+        self.nodes[0].sendtoaddress(address=address, amount=100000, subtractfeefromamount=True)
+        self.nodes[0].sendtoaddress(address=address, amount=100000, subtractfeefromamount=False)
         self.nodes[0].settxfee(amount=0.003)
-        self.nodes[0].sendtoaddress(address=address, amount=1, subtractfeefromamount=True)
+        self.nodes[0].sendtoaddress(address=address, amount=10000, subtractfeefromamount=True)
         self.sync_all()
         self.nodes[0].generate(1)
 

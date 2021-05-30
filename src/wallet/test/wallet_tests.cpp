@@ -147,7 +147,8 @@ BOOST_FIXTURE_TEST_CASE(scan_for_wallet_transactions, TestChain240Setup)
         BOOST_CHECK_EQUAL(result.last_failed_block, oldTip->GetBlockHash());
         BOOST_CHECK_EQUAL(result.last_scanned_block, newTip->GetBlockHash());
         BOOST_CHECK_EQUAL(*result.last_scanned_height, newTip->nHeight);
-        BOOST_CHECK_EQUAL(wallet.GetBalance().m_mine_immature, 25 * COIN);
+	// Dogecoin: Scaled up by 10,000
+        BOOST_CHECK_EQUAL(wallet.GetBalance().m_mine_immature, 250000 * COIN);
     }
 
     // Prune the remaining block file.
@@ -339,7 +340,8 @@ BOOST_FIXTURE_TEST_CASE(coin_mark_dirty_immature_credit, TestChain240Setup)
     // credit amount is calculated.
     wtx.MarkDirty();
     BOOST_CHECK(spk_man->AddKeyPubKey(coinbaseKey, coinbaseKey.GetPubKey()));
-    BOOST_CHECK_EQUAL(wtx.GetImmatureCredit(), 25*COIN);
+    // Dogecoin: Scaled up by 10,000
+    BOOST_CHECK_EQUAL(wtx.GetImmatureCredit(), 250000*COIN);
 }
 
 static int64_t AddTx(ChainstateManager& chainman, CWallet& wallet, uint32_t lockTime, int64_t mockTime, int64_t blockTime)
