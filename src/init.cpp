@@ -973,6 +973,10 @@ bool AppInitParameterInteraction(const ArgsManager& args)
     // on the command line or in this network's section of the config file.
     std::string network = args.GetChainName();
     if (network == CBaseChainParams::SIGNET) {
+        // Dogecoin: Signet requires a challenge, but we can't halt when constructing the chainparams as they're constructed even if not used.
+        if (!args.IsArgSet("-signetchallenge")) {
+            return InitError(_("-signetchallenge must be specified when using -signet on Dogecoin as no default Signet is available."));
+        }
         LogPrintf("Signet derived magic (message start): %s\n", HexStr(chainparams.MessageStart()));
     }
     bilingual_str errors;

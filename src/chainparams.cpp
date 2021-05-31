@@ -5,7 +5,6 @@
 
 #include <chainparams.h>
 
-#include <arith_uint256.h>
 #include <chainparamsseeds.h>
 #include <consensus/merkle.h>
 #include <hash.h> // for signet block challenge hash
@@ -18,25 +17,6 @@
 
 #include <boost/algorithm/string/classification.hpp>
 #include <boost/algorithm/string/split.hpp>
-
-bool CheckProofOfWorkSimplified(uint256 hash, unsigned int nBits)
-{
-    bool fNegative;
-    bool fOverflow;
-    arith_uint256 bnTarget;
-
-    bnTarget.SetCompact(nBits, &fNegative, &fOverflow);
-
-    // Check range
-    if (fNegative || bnTarget == 0 || fOverflow)
-        return false;
-
-    // Check proof of work matches claimed amount
-    if (UintToArith256(hash) > bnTarget)
-        return false;
-
-    return true;
-}
 
 static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesisOutputScript, uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
 {
@@ -308,40 +288,26 @@ public:
         vSeeds.clear();
 
         if (!args.IsArgSet("-signetchallenge")) {
-            // Dogecoin: Replace these with new values
-            bin = ParseHex("512103ad5e0edad18cb1f0fc0d28a3d4f1f3e445640337489abb10404f2d1e086be430210359ef5021964fe22d6f8e05b2463c9540ce96883fe3b278760f048f5189f2e6c452ae");
-            vSeeds.emplace_back("178.128.221.177");
-            vSeeds.emplace_back("2a01:7c8:d005:390::5");
-            vSeeds.emplace_back("v7ajjeirttkbnt32wpy3c6w3emwnfr3fkla7hpxcfokr3ysd3kqtzmqd.onion:38333");
-
-            consensus.nMinimumChainWork = uint256S("0x00000000000000000000000000000000000000000000000000000019fd16269a");
-            consensus.defaultAssumeValid = uint256S("0x0000002a1de0f46379358c1fd09906f7ac59adf3712323ed90eb59e4c183c020"); // 9434
-            m_assumed_blockchain_size = 1;
-            m_assumed_chain_state_size = 0;
-            chainTxData = ChainTxData{
-                // Data from RPC: getchaintxstats 4096 0000002a1de0f46379358c1fd09906f7ac59adf3712323ed90eb59e4c183c020
-                /* nTime    */ 1603986000,
-                /* nTxCount */ 9582,
-                /* dTxRate  */ 0.00159272030651341,
-            };
+            // Dogecoin: Use OP_FALSE as challenge, as we have no default Signet
+            bin = ParseHex("50");
         } else {
             const auto signet_challenge = args.GetArgs("-signetchallenge");
             if (signet_challenge.size() != 1) {
                 throw std::runtime_error(strprintf("%s: -signetchallenge cannot be multiple values.", __func__));
             }
             bin = ParseHex(signet_challenge[0]);
-
-            consensus.nMinimumChainWork = uint256{};
-            consensus.defaultAssumeValid = uint256{};
-            m_assumed_blockchain_size = 0;
-            m_assumed_chain_state_size = 0;
-            chainTxData = ChainTxData{
-                0,
-                0,
-                0,
-            };
             LogPrintf("Signet with challenge %s\n", signet_challenge[0]);
         }
+
+        consensus.nMinimumChainWork = uint256{};
+        consensus.defaultAssumeValid = uint256{};
+        m_assumed_blockchain_size = 0;
+        m_assumed_chain_state_size = 0;
+        chainTxData = ChainTxData{
+            0,
+            0,
+            0,
+        };
 
         if (args.IsArgSet("-signetseednode")) {
             vSeeds = args.GetArgs("-signetseednode");
@@ -389,17 +355,7 @@ public:
         nPruneAfterHeight = 1000;
 
         genesis = CreateGenesisBlock(1622364566, 81621, 0x1f00f77a, 1, 50 * COIN);
-        genesis.nBits = UintToArith256(consensus.powLimit).GetCompact();
-        printf("Bits: %x\n", genesis.nBits);
-        while (!CheckProofOfWorkSimplified(genesis.GetPoWHash(), genesis.nBits)) {
-            genesis.nNonce++;
-            if (genesis.nNonce % 100000 == 0) {
-                printf("Interim nonce: %d\n", genesis.nNonce);
-            }
-        }
-        printf("Nonce: %d\n", genesis.nNonce);
         consensus.hashGenesisBlock = genesis.GetHash();
-        printf("Hash: %s\n", consensus.hashGenesisBlock.ToString().c_str());
         assert(consensus.hashGenesisBlock == uint256S("0xf21a2c00a3b58b3f1b245de5e30955c00784040a3e7042edb0d2eedd1fd085a5"));
         assert(genesis.hashMerkleRoot == uint256S("0xb60e6a649c2c43248d6d8da2fb19daa337511fabfe3875f382adb686474fc021"));
 
