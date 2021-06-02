@@ -1,2 +1,2 @@
 src/clientversion.cpp export-subst
-*.txt text eol=lf 
+depends/Makefile text eol=lf
