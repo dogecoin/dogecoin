@@ -1,2 +1,2 @@
 src/clientversion.cpp export-subst
-*.txt eol=lf
+*.txt text eol=lf 
