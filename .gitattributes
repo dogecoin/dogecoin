@@ -1,2 +1,6 @@
 src/clientversion.cpp export-subst
 depends/Makefile text eol=lf
+depends/*.mk text eol=lf
+depends/config.guess text eol=lf
+depends/config.sub text eol=lf
+depends/config.site.in text eol=lf
