@@ -11,7 +11,7 @@
 namespace benchmark {
 namespace data {
 
-extern const std::vector<uint8_t> block413567;
+extern const std::vector<uint8_t> block41385;
 
 } // namespace data
 } // namespace benchmark

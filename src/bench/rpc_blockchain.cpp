@@ -13,7 +13,7 @@
 
 static void BlockToJsonVerbose(benchmark::Bench& bench)
 {
-    CDataStream stream(benchmark::data::block413567, SER_NETWORK, PROTOCOL_VERSION);
+    CDataStream stream(benchmark::data::block41385, SER_NETWORK, PROTOCOL_VERSION);
     char a = '\0';
     stream.write(&a, 1); // Prevent compaction
 
