@@ -42,6 +42,8 @@ class TestStatus(Enum):
 TEST_EXIT_PASSED = 0
 TEST_EXIT_FAILED = 1
 TEST_EXIT_SKIPPED = 77
+# REDUCE WAIT LATENCY
+DEFAULT_WAIT = .1
 
 TMPDIR_PREFIX = "bitcoin_func_test_"
 
@@ -597,7 +599,7 @@ class BitcoinTestFramework(metaclass=BitcoinTestMetaClass):
         self.connect_nodes(1, 2)
         self.sync_all()
 
-    def sync_blocks(self, nodes=None, wait=1, timeout=60):
+    def sync_blocks(self, nodes=None, wait=DEFAULT_WAIT, timeout=60):
         """
         Wait until everybody has the same tip.
         sync_blocks needs to be called with an rpc_connections set that has least
@@ -619,7 +621,7 @@ class BitcoinTestFramework(metaclass=BitcoinTestMetaClass):
             "".join("\n  {!r}".format(b) for b in best_hash),
         ))
 
-    def sync_mempools(self, nodes=None, wait=1, timeout=60, flush_scheduler=True):
+    def sync_mempools(self, nodes=None, wait=DEFAULT_WAIT, timeout=60, flush_scheduler=True):
         """
         Wait until everybody has the same transactions in their memory
         pools
