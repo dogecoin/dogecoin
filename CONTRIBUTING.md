@@ -92,9 +92,9 @@ pull request to pull request.
 
 ## Pull Request Philosophy
 
-Patchsets should always be focused. For example, a pull request could add a
-feature, fix a bug, or refactor code; but not a mixture. Please also avoid super
-pull requests which attempt to do too much, are overly large, or overly complex
+Pull Requests should always be focused. For example, a pull request could add a
+feature, fix a bug, or refactor code; but not a mixture. Please avoid submitting
+pull requests that attempt to do too much, are overly large, or overly complex
 as this makes review difficult.
 
 
@@ -124,78 +124,60 @@ where possible keep them short, uncomplex and easy to verify.
 
 ## "Decision Making" Process
 
-The following applies to code changes to the Dogecoin Core project, and is not
-to be confused with overall Dogecoin
-Network Protocol consensus changes.
+The following applies to code changes to Dogecoin Core, and is not to be
+confused with overall Dogecoin Network Protocol consensus changes. All consensus
+changes **must** be ratified by miners; a proposal to implement protocol changes
+does not guarantee activation on the mainnet, not even when a binary gets
+released by maintainers.
 
-Whether a pull request is merged into Dogecoin Core rests with the project merge
+Whether a pull request is merged into Dogecoin Core rests with the repository
 maintainers.
 
 Maintainers will take into consideration if a patch is in line with the general
-principles of the project; meets the minimum standards for inclusion; and will
-judge the general consensus of contributors.
+principles of Dogecoin; meets the minimum standards for inclusion; and will
+take into account the consensus among frequent contributors.
 
 In general, all pull requests must:
 
   - have a clear use case, fix a demonstrable bug or serve the greater good of
-    the project (for example refactoring for modularisation);
-  - be well peer reviewed;
-  - have unit tests and functional tests where appropriate;
+    Dogecoin;
+  - be peer reviewed;
+  - have unit tests and functional tests;
   - follow code style guidelines;
   - not break the existing test suite;
   - where bugs are fixed, where possible, there should be unit tests
-    demonstrating the bug and also proving the fix. This helps prevent regression.
+    demonstrating the bug and also proving the fix. This helps prevent
+    regressions.
 
-Patches that change Dogecoin consensus rules are considerably more involved than
-normal because they affect the entire ecosystem and so must be preceded by
-extensive mailing list discussions and have a numbered BIP. While each case will
-be different, one should be prepared to expend more time and effort than for
-other kinds of patches because of increased peer review and consensus building
-requirements.
+The following patch types are expected to have significant discussion before
+approval and merge:
+
+- Consensus rule changes (through softfork or otherwise)
+- Policy changes
+
+While each case will be different, one should be prepared to expend more time
+and effort than for other kinds of patches because of increased peer review
+and consensus building requirements.
 
 
 ### Peer Review
 
 Anyone may participate in peer review which is expressed by comments in the pull
 request. Typically reviewers will review the code for obvious errors, as well as
-test out the patch set and opine on the technical merits of the patch. Project
-maintainers take into account the peer review when determining if there is
-consensus to merge a pull request (remember that discussions may have been
-spread out over GitHub, mailing list and IRC discussions). The following
-language is used within pull-request comments:
+test out the patch set and opine on the technical merits of the patch.
+Repository maintainers take into account the peer review when determining if
+there is consensus to merge a pull request.
 
-  - ACK means "I have tested the code and I agree it should be merged";
-  - NACK means "I disagree this should be merged", and must be accompanied by
-    sound technical justification (or in certain cases of copyright/patent/licensing
-    issues, legal justification). NACKs without accompanying reasoning may be
-    disregarded;
-  - utACK means "I have not tested the code, but I have reviewed it and it looks
-    OK, I agree it can be merged";
-  - Concept ACK means "I agree in the general principle of this pull request";
-  - Nit refers to trivial, often non-blocking issues.
-
-Reviewers should include the commit hash which they reviewed in their comments.
-
-Project maintainers reserve the right to weigh the opinions of peer reviewers
+Maintainers reserve the right to weigh the opinions of peer reviewers
 using common sense judgement and also may weight based on meritocracy: Those
-that have demonstrated a deeper commitment and understanding towards the project
+that have demonstrated a deeper commitment and understanding towards Dogecoin
 (over time) or have clear domain expertise may naturally have more weight, as
 one would expect in all walks of life.
 
-Where a patch set affects consensus critical code, the bar will be set much
-higher in terms of discussion and peer review requirements, keeping in mind that
-mistakes could be very costly to the wider community. This includes refactoring
-of consensus critical code.
-
 Where a patch set proposes to change the Dogecoin consensus, it must have been
-discussed extensively on the mailing list and IRC, be accompanied by a widely
-discussed BIP and have a generally widely perceived technical consensus of being
-a worthwhile change based on the judgement of the maintainers.
-
-
-## Release Policy
-
-The project leader is the release manager for each Dogecoin Core release.
+discussed extensively, be accompanied by widely discussed documentation and have
+a generally widely perceived technical consensus of being a worthwhile change,
+based on the judgement of the maintainers.
 
 ## Copyright
 
