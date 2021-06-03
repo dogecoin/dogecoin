@@ -22,15 +22,8 @@ EXPECTED_CIRCULAR_DEPENDENCIES=(
     "wallet/wallet -> wallet/walletdb -> wallet/wallet"
     "policy/fees -> txmempool -> validation -> policy/fees"
     "auxpow -> primitives/block -> auxpow"
-    "chain -> validation -> chain"
     "dogecoin -> pow -> dogecoin"
     "rpc/blockchain -> rpc/rawtransaction -> rpc/blockchain"
-    "chain -> validation -> consensus/tx_verify -> chain"
-    "chain -> validation -> dogecoin -> chain"
-    "chain -> validation -> pow -> chain"
-    "chain -> validation -> txdb -> chain"
-    "chain -> validation -> validationinterface -> chain"
-    "chain -> validation -> versionbits -> chain"
 )
 
 EXIT_CODE=0
