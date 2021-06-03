@@ -7,6 +7,7 @@
 #include <amount.h>
 #include <interfaces/chain.h>
 #include <interfaces/handler.h>
+#include <node/context.h>
 #include <policy/fees.h>
 #include <primitives/transaction.h>
 #include <rpc/server.h>
@@ -489,8 +490,9 @@ public:
 class WalletClientImpl : public WalletClient
 {
 public:
-    WalletClientImpl(Chain& chain, ArgsManager& args)
+    WalletClientImpl(NodeContext& node, Chain& chain, ArgsManager& args)
     {
+        m_context.nodeContext = &node;
         m_context.chain = &chain;
         m_context.args = &args;
     }
@@ -566,9 +568,9 @@ public:
 
 std::unique_ptr<Wallet> MakeWallet(const std::shared_ptr<CWallet>& wallet) { return wallet ? MakeUnique<WalletImpl>(wallet) : nullptr; }
 
-std::unique_ptr<WalletClient> MakeWalletClient(Chain& chain, ArgsManager& args)
+std::unique_ptr<WalletClient> MakeWalletClient(NodeContext& node, Chain& chain, ArgsManager& args)
 {
-    return MakeUnique<WalletClientImpl>(chain, args);
+    return MakeUnique<WalletClientImpl>(node, chain, args);
 }
 
 } // namespace interfaces
