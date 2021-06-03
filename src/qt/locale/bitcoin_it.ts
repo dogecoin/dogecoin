@@ -89,7 +89,7 @@ E' possibile firmare solo con indirizzi di tipo "legacy".</translation>
     </message>
     <message>
         <source>Export Address List</source>
-        <translation>Esporta elenco degli indirizzi</translation>
+        <translation>Esporta la lista degli indirizzi</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
