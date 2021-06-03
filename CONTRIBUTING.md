@@ -4,9 +4,9 @@ Dogecoin Core is an open source project, and we would welcome contributions whic
 improve the state of the software. For those wanting to discuss changes, or look for work
 that needs doing, please see:
 
+* [Help requests](https://github.com/dogecoin/dogecoin/labels/help%20wanted)
 * [Projects](https://github.com/dogecoin/dogecoin/projects)
 * [Dogecoindev on reddit](https://www.reddit.com/r/dogecoindev/)
-* [Discord](https://discord.gg/dogecoin) (in particular the #core-dev channel)
 
 ## Branch Strategy
 
