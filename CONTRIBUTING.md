@@ -97,7 +97,7 @@ When adding a new feature, thought must be given to the long term technical debt
 and maintenance that feature may require after inclusion. Before proposing a new
 feature that will require maintenance, please consider if you are willing to
 maintain it (including bug fixing). If features get orphaned with no maintainer
-in the future, they may be removed by the Repository Maintainer.
+in the future, they may be removed.
 
 
 ### Refactoring
