@@ -31,8 +31,8 @@ To contribute a patch, the workflow is as follows:
   - Push topic branch to your copy of the repository.
   - Raise a Pull Request via GitHub.
 
-The project coding conventions in the [developer notes](doc/developer-notes.md)
-must be adhered to.
+The coding conventions in the [developer notes](doc/developer-notes.md) must be
+adhered to.
 
 In general [commits should be atomic](https://en.wikipedia.org/wiki/Atomic_commit#Atomic_commit_convention)
 and diffs should be easy to read. For this reason do not mix any formatting
@@ -45,24 +45,15 @@ in init.cpp") then a single title line is sufficient. Commit messages should be
 helpful to people reading your code in the future, so explain the reasoning for
 your decisions. Further explanation [here](http://chris.beams.io/posts/git-commit/).
 
-If a particular commit references another issue, please add the reference, for
-example `refs #1234`, or `fixes #4321`. Using the `fixes` or `closes` keywords
-will cause the corresponding issue to be closed when the pull request is merged.
-
 Please refer to the [Git manual](https://git-scm.com/doc) for more information
 about Git.
-
-  - Push changes to your fork
-  - Create pull request
 
 The body of the pull request should contain enough description about what the
 patch does together with any justification/reasoning. You should include
 references to any discussions (for example other tickets or mailing list
-discussions).
-
-At this stage one should expect comments and review from other contributors. You
-can add more commits to your pull request by committing them locally and pushing
-to your fork until you have satisfied all feedback.
+discussions). At this stage one should expect comments and review from other
+contributors. You can add more commits to your pull request by committing them
+locally and pushing to your fork until you have satisfied feedback.
 
 
 ## Squashing Commits
