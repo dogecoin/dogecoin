@@ -102,17 +102,14 @@ in the future, they may be removed by the Repository Maintainer.
 
 ### Refactoring
 
-Refactoring is a necessary part of any software project's evolution. The
-following guidelines cover refactoring pull requests for the project.
+Dogecoin Core is a direct fork of Bitcoin Core and therefore benefits from as
+little refactoring as possible on code that is created upstream. If you see any
+structural issues with upstream code, please propose these fixes for
+[bitcoin/bitcoin](https://github.com/bitcoin/bitcoin) and future Dogecoin Core
+releases will automatically benefit from these.
 
-There are three categories of refactoring, code only moves, code style fixes,
-code refactoring. In general refactoring pull requests should not mix these
-three kinds of activity in order to make refactoring pull requests easy to
-review and uncontroversial. In all cases, refactoring PRs must not change the
-behaviour of code within the pull request (bugs must be preserved as is).
-
-Project maintainers aim for a quick turnaround on refactoring pull requests, so
-where possible keep them short, uncomplex and easy to verify.
+When refactoring Dogecoin-specific code, please keep refactoring requests short,
+low complexity and easy to verify.
 
 
 ## "Decision Making" Process
