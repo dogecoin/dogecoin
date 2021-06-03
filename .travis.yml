@@ -21,6 +21,7 @@ cache:
   directories:
     - $TRAVIS_BUILD_DIR/depends/built
     - $TRAVIS_BUILD_DIR/depends/sdk-sources
+    - $TRAVIS_BUILD_DIR/ci/scratch/qa-assets
     - $TRAVIS_BUILD_DIR/ci/scratch/.ccache
     - $TRAVIS_BUILD_DIR/releases/$HOST
 stages:
