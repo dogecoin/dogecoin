@@ -17,39 +17,6 @@
 #include <util/time.h>
 #include <validation.h>
 
-namespace
-{
-
-void auxMiningCheck(const JSONRPCRequest& request)
-{
-  NodeContext& node = EnsureNodeContext(request.context);
-  if (!node.connman)
-    throw JSONRPCError(RPC_CLIENT_P2P_DISABLED,
-                        "Error: Peer-to-peer functionality missing or"
-                        " disabled");
-
-  if (node.connman->GetNodeCount(CConnman::CONNECTIONS_ALL) == 0
-        && !Params().MineBlocksOnDemand())
-    throw JSONRPCError(RPC_CLIENT_NOT_CONNECTED,
-                        "Dogecoin is not connected!");
-
-  if (::ChainstateActive().IsInitialBlockDownload()
-        && !Params().MineBlocksOnDemand())
-    throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD,
-                        "Dogecoin is downloading blocks...");
-
-  /* This should never fail, since the chain is already
-     past the point of merge-mining start.  Check nevertheless.  */
-  {
-    LOCK(cs_main);
-    const auto auxpowStart = Params().GetConsensus().nAuxPowHeight;
-    if (::ChainActive().Height() + 1 < auxpowStart)
-      throw std::runtime_error("mining auxblock method is not yet available");
-  }
-}
-
-}  // anonymous namespace
-
 const CBlock*
 AuxpowMiner::getCurrentBlock(const CTxMemPool& mempool,
                               const CScript& scriptPubKey, uint256& target)
@@ -118,12 +85,9 @@ AuxpowMiner::getCurrentBlock(const CTxMemPool& mempool,
 }
 
 const CBlock*
-AuxpowMiner::lookupSavedBlock(const std::string& hashHex) const
+AuxpowMiner::lookupSavedBlock(const uint256 hash) const
 {
   AssertLockHeld(cs);
-
-  uint256 hash;
-  hash.SetHex(hashHex);
 
   const auto iter = blocks.find(hash);
   if (iter == blocks.end())
@@ -133,13 +97,10 @@ AuxpowMiner::lookupSavedBlock(const std::string& hashHex) const
 }
 
 UniValue
-AuxpowMiner::createAuxBlock(const JSONRPCRequest& request,
-                             const CScript& scriptPubKey)
+AuxpowMiner::createAuxBlock(const CTxMemPool& mempool,
+                            const CScript& scriptPubKey)
 {
-  auxMiningCheck(request);
   LOCK(cs);
-
-  const auto& mempool = EnsureMemPool(request.context);
 
   uint256 target;
   const CBlock* pblock = getCurrentBlock(mempool, scriptPubKey, target);
@@ -158,17 +119,14 @@ AuxpowMiner::createAuxBlock(const JSONRPCRequest& request,
 }
 
 bool
-AuxpowMiner::submitAuxBlock(const JSONRPCRequest& request,
-                             const std::string& hashHex,
-                             const std::string& auxpowHex) const
+AuxpowMiner::submitAuxBlock(ChainstateManager& chainman,
+                            const uint256 hash,
+                            const std::string& auxpowHex) const
 {
-  auxMiningCheck(request);
-  auto& chainman = EnsureChainman(request.context);
-
   std::shared_ptr<CBlock> shared_block;
   {
     LOCK(cs);
-    const CBlock* pblock = lookupSavedBlock(hashHex);
+    const CBlock* pblock = lookupSavedBlock(hash);
     shared_block = std::make_shared<CBlock>(*pblock);
   }
 
@@ -177,7 +135,7 @@ AuxpowMiner::submitAuxBlock(const JSONRPCRequest& request,
   std::unique_ptr<CAuxPow> pow(new CAuxPow());
   ss >> *pow;
   shared_block->SetAuxpow(std::move(pow));
-  CHECK_NONFATAL(shared_block->GetHash().GetHex() == hashHex);
+  CHECK_NONFATAL(shared_block->GetHash() == hash);
 
   return chainman.ProcessNewBlock(Params(), shared_block, true, nullptr);
 }

@@ -600,8 +600,7 @@ BOOST_FIXTURE_TEST_CASE(auxpow_miner_createAndLookupBlock, TestChain240Setup)
     const CBlock* pblock = miner.getCurrentBlock(mempool, scriptPubKey, target);
     BOOST_CHECK(pblock != nullptr);
 
-    BOOST_CHECK(miner.lookupSavedBlock(pblock->GetHash().GetHex ()) == pblock);
-    BOOST_CHECK_THROW (miner.lookupSavedBlock("foobar"), UniValue);
+    BOOST_CHECK(miner.lookupSavedBlock(pblock->GetHash()) == pblock);
 }
 
 /* ************************************************************************** */

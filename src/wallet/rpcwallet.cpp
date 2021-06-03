@@ -4680,6 +4680,8 @@ static UniValue getauxblock(const JSONRPCRequest& request)
                 },
             }.ToString());
 
+    WalletContext& context = EnsureWalletContext(request.context);
+
     std::shared_ptr<CWallet> const wallet = GetWalletForJSONRPCRequest(request);
     if (!wallet) return NullUniValue;
     CWallet* const pwallet = wallet.get();
@@ -4688,25 +4690,39 @@ static UniValue getauxblock(const JSONRPCRequest& request)
         throw JSONRPCError(RPC_WALLET_ERROR, "Error: Private keys are disabled for this wallet");
     }
 
-    /* Create a new block */
+    NodeContext& node = *context.nodeContext;
+    if (!node.connman)
+        throw JSONRPCError(RPC_CLIENT_P2P_DISABLED, "Error: Peer-to-peer functionality missing or disabled");
+
+    if (node.connman->GetNodeCount(CConnman::CONNECTIONS_ALL) == 0)
+        throw JSONRPCError(RPC_CLIENT_NOT_CONNECTED, PACKAGE_NAME " is not connected!");
+
+    if (::ChainstateActive().IsInitialBlockDownload())
+        throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD, PACKAGE_NAME " is in initial sync and waiting for blocks...");
+
     if (request.params.size() == 0)
     {
+        /* Create a new block */
         const CScript coinbaseScript = g_mining_keys.GetCoinbaseScript(pwallet);
-        const UniValue res = AuxpowMiner::get().createAuxBlock(request, coinbaseScript);
-        g_mining_keys.AddBlockHash(pwallet, res["hash"].get_str ());
+        const CTxMemPool& mempool = EnsureMemPool(node);
+        const UniValue res = AuxpowMiner::get().createAuxBlock(mempool, coinbaseScript);
+        g_mining_keys.AddBlockHash(pwallet, res["hash"].get_str());
         return res;
+    } else {
+        /* Submit a block instead.  */
+        if (request.params.size() != 2) {
+            throw JSONRPCError(RPC_INVALID_PARAMETER, "getauxblock takes exactly 0 or 2 parameters.");
+        }
+        ChainstateManager& chainman = EnsureChainman(node);
+        uint256 hash(ParseHashV(request.params[0], "hash"));
+
+        const bool fAccepted
+            = AuxpowMiner::get().submitAuxBlock(chainman, hash, request.params[1].get_str());
+        if (fAccepted)
+            g_mining_keys.MarkBlockSubmitted(pwallet, hash.GetHex().c_str());
+
+        return fAccepted;
     }
-
-    /* Submit a block instead.  */
-    CHECK_NONFATAL(request.params.size() == 2);
-    const std::string& hash = request.params[0].get_str();
-
-    const bool fAccepted
-        = AuxpowMiner::get().submitAuxBlock(request, hash, request.params[1].get_str());
-    if (fAccepted)
-        g_mining_keys.MarkBlockSubmitted(pwallet, hash);
-
-    return fAccepted;
 }
 
 RPCHelpMan abortrescan();

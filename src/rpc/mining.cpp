@@ -1243,6 +1243,16 @@ static RPCHelpMan createauxblock()
         [&](const RPCHelpMan& self, const JSONRPCRequest& request) -> UniValue
 {
 
+    NodeContext& node = EnsureNodeContext(request.context);
+    if (!node.connman)
+        throw JSONRPCError(RPC_CLIENT_P2P_DISABLED, "Error: Peer-to-peer functionality missing or disabled");
+
+    if (node.connman->GetNodeCount(CConnman::CONNECTIONS_ALL) == 0)
+        throw JSONRPCError(RPC_CLIENT_NOT_CONNECTED, PACKAGE_NAME " is not connected!");
+
+    if (::ChainstateActive().IsInitialBlockDownload())
+        throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD, PACKAGE_NAME " is in initial sync and waiting for blocks...");
+
     // Check coinbase payout address
     const CTxDestination coinbaseScript
       = DecodeDestination(request.params[0].get_str());
@@ -1251,8 +1261,9 @@ static RPCHelpMan createauxblock()
                            "Error: Invalid coinbase payout address");
     }
     const CScript scriptPubKey = GetScriptForDestination(coinbaseScript);
+    const CTxMemPool& mempool = EnsureMemPool(request.context);
 
-    return AuxpowMiner::get ().createAuxBlock(request, scriptPubKey);
+    return AuxpowMiner::get().createAuxBlock(mempool, scriptPubKey);
 },
     };
 }
@@ -1275,9 +1286,21 @@ static RPCHelpMan submitauxblock()
         },
         [&](const RPCHelpMan& self, const JSONRPCRequest& request) -> UniValue
 {
-    return AuxpowMiner::get ().submitAuxBlock(request,
-                                              request.params[0].get_str(),
-                                              request.params[1].get_str());
+    NodeContext& node = EnsureNodeContext(request.context);
+    if (!node.connman)
+        throw JSONRPCError(RPC_CLIENT_P2P_DISABLED, "Error: Peer-to-peer functionality missing or disabled");
+
+    if (node.connman->GetNodeCount(CConnman::CONNECTIONS_ALL) == 0)
+        throw JSONRPCError(RPC_CLIENT_NOT_CONNECTED, PACKAGE_NAME " is not connected!");
+
+    if (::ChainstateActive().IsInitialBlockDownload())
+        throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD, PACKAGE_NAME " is in initial sync and waiting for blocks...");
+
+    ChainstateManager& chainman = EnsureChainman(request.context);
+    uint256 hash(ParseHashV(request.params[0], "hash"));
+    return AuxpowMiner::get().submitAuxBlock(chainman,
+                                             hash,
+                                             request.params[1].get_str());
 },
     };
 }

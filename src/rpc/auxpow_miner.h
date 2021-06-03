@@ -64,14 +64,14 @@ private:
    * that should be returned to a miner for working on at the moment.  Also
    * fills in the difficulty target value.
    */
-  const CBlock* getCurrentBlock (const CTxMemPool& mempool,
-                                 const CScript& scriptPubKey, uint256& target);
+  const CBlock* getCurrentBlock(const CTxMemPool& mempool,
+                                const CScript& scriptPubKey, uint256& target);
 
   /**
    * Looks up a previously constructed block by its (hex-encoded) hash.  If the
    * block is found, it is returned.  Otherwise, a JSONRPCError is thrown.
    */
-  const CBlock* lookupSavedBlock (const std::string& hashHex) const;
+  const CBlock* lookupSavedBlock(const uint256 hash) const;
 
   friend class auxpow_tests::AuxpowMinerForTest;
 
@@ -84,8 +84,8 @@ public:
    * to work on with the given address for the block reward and return the
    * necessary information for the miner to construct an auxpow for it.
    */
-  UniValue createAuxBlock (const JSONRPCRequest& request,
-                           const CScript& scriptPubKey);
+  UniValue createAuxBlock(const CTxMemPool& mempool,
+                          const CScript& scriptPubKey);
 
   /**
    * Performs the main work for the "submitauxblock" RPC:  Look up the block
@@ -93,9 +93,9 @@ public:
    * and try to submit it.  Returns true if all was successful and the block
    * was accepted.
    */
-  bool submitAuxBlock (const JSONRPCRequest& request,
-                       const std::string& hashHex,
-                       const std::string& auxpowHex) const;
+  bool submitAuxBlock(ChainstateManager& chainman,
+                      const uint256 hash,
+                      const std::string& auxpowHex) const;
 
   /**
    * Returns the singleton instance of AuxpowMiner that is used for RPCs.
