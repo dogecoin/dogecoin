@@ -22,15 +22,12 @@ facilitates social contribution, easy testing and peer review.
 
 To contribute a patch, the workflow is as follows:
 
-  - Fork repository in GitHub, and clone it your development machine.
-  - Create topic branch from the relevant development branch.
-    - As these branches are in the contributor's local repository, naming is not critical,
-      although it is recommended that you include the target version. If the change relates
-      to an issue, including its number in the branch name is also a good idea.
-  - Commit patches to the branch.
-  - Test your changes, which **must** include the unit and RPC tests passing. Changes will not be accepted if they do not pass tests.
+  - Fork the repository in GitHub, and clone it your development machine.
+  - Create a topic branch from the relevant development branch.
+  - Commit changes to the branch.
+  - Test your changes, which **must** include the unit and RPC tests passing.
   - Push topic branch to your copy of the repository.
-  - Raise PR via GitHub.
+  - Raise a Pull Request via GitHub.
 
 The project coding conventions in the [developer notes](doc/developer-notes.md)
 must be adhered to.
