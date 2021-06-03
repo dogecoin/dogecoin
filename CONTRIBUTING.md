@@ -1,7 +1,7 @@
 # Contributing to Dogecoin Core
 
 Dogecoin Core is open source software, and we would welcome contributions
-which improves the state of the software. For those wanting to discuss changes,
+which improve the state of the software. For those wanting to discuss changes,
 or look for work that needs doing, please see:
 
 * [Help requests](https://github.com/dogecoin/dogecoin/labels/help%20wanted)
