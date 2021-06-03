@@ -32,7 +32,6 @@ from test_framework.util import (
 
 from test_framework.auxpow_testing import computeAuxpow
 
-import codecs
 from io import BytesIO
 
 

@@ -7,14 +7,14 @@
 # getauxblock, createauxblock, submitauxblock
 
 from test_framework.test_framework import BitcoinTestFramework
-from test_framework.util import(
+from test_framework.util import (
   assert_equal,
   assert_greater_than_or_equal,
   assert_raises_rpc_error,
 )
 
 from test_framework.auxpow import reverseHex
-from test_framework.auxpow_testing import(
+from test_framework.auxpow_testing import (
   computeAuxpow,
   getCoinbaseAddr,
   mineAuxpowBlockWithMethods,
@@ -176,8 +176,10 @@ class AuxpowMiningTest(BitcoinTestFramework):
 
     # Fix a coinbase address and construct methods for it.
     coinbaseAddr = self.nodes[0].getnewaddress()
+
     def create():
       return self.nodes[0].createauxblock(coinbaseAddr)
+
     submit = self.nodes[0].submitauxblock
 
     # Run common tests.
