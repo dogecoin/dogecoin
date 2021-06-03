@@ -6,7 +6,6 @@
 #include <validation.h>
 
 #include <arith_uint256.h>
-#include <auxpow.h>
 #include <chain.h>
 #include <chainparams.h>
 #include <checkqueue.h>
