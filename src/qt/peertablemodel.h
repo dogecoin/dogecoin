@@ -1,4 +1,5 @@
 // Copyright (c) 2011-2016 The Bitcoin Core developers
+// Copyright (c) 2021 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -56,7 +57,9 @@ public:
         NetNodeId = 0,
         Address = 1,
         Subversion = 2,
-        Ping = 3
+        Ping = 3,
+        BytesSent = 4,
+        BytesReceived = 5
     };
 
     /** @name Methods overridden from QAbstractTableModel
