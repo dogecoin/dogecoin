@@ -32,6 +32,9 @@ class AuxpowMiningTest(BitcoinTestFramework):
                          action="store_true",
                          help="Test behaviour with SegWit active")
 
+  def skip_test_if_missing_module(self):
+    self.skip_if_no_wallet()
+
   def run_test(self):
     # Activate segwit if requested.
     if self.options.segwit:
