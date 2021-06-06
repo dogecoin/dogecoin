@@ -102,6 +102,7 @@ BitcoinGUI::BitcoinGUI(const PlatformStyle *_platformStyle, const NetworkStyle *
     sendCoinsMenuAction(0),
     usedSendingAddressesAction(0),
     usedReceivingAddressesAction(0),
+    importPrivateKeyAction(0),
     signMessageAction(0),
     verifyMessageAction(0),
     aboutAction(0),
@@ -392,6 +393,9 @@ void BitcoinGUI::createActions()
     openAction = new QAction(platformStyle->TextColorIcon(":/icons/open"), tr("Open &URI..."), this);
     openAction->setStatusTip(tr("Open a dogecoin: URI or payment request"));
 
+    importPrivateKeyAction = new QAction(platformStyle->TextColorIcon(":/icons/address-book"), tr("&Import Private Key..."), this);
+    importPrivateKeyAction->setStatusTip(tr("Import a Dogecoin private key"));
+
     showHelpMessageAction = new QAction(platformStyle->TextColorIcon(":/icons/info"), tr("&Command-line options"), this);
     showHelpMessageAction->setMenuRole(QAction::NoRole);
     showHelpMessageAction->setStatusTip(tr("Show the %1 help message to get a list with possible Dogecoin command-line options").arg(tr(PACKAGE_NAME)));
@@ -418,6 +422,7 @@ void BitcoinGUI::createActions()
         connect(usedReceivingAddressesAction, SIGNAL(triggered()), walletFrame, SLOT(usedReceivingAddresses()));
         connect(openAction, SIGNAL(triggered()), this, SLOT(openClicked()));
         connect(paperWalletAction, SIGNAL(triggered()), walletFrame, SLOT(printPaperWallets()));
+        connect(importPrivateKeyAction, SIGNAL(triggered()), walletFrame, SLOT(importPrivateKey()));
     }
 #endif // ENABLE_WALLET
 
@@ -445,6 +450,7 @@ void BitcoinGUI::createMenuBar()
         file->addAction(verifyMessageAction);
         file->addAction(paperWalletAction);
         file->addSeparator();
+        file->addAction(importPrivateKeyAction);
         file->addAction(usedSendingAddressesAction);
         file->addAction(usedReceivingAddressesAction);
         file->addSeparator();
