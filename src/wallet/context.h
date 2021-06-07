@@ -5,12 +5,12 @@
 #ifndef BITCOIN_WALLET_CONTEXT_H
 #define BITCOIN_WALLET_CONTEXT_H
 
+#include <node/context.h>
+
 class ArgsManager;
 namespace interfaces {
 class Chain;
 } // namespace interfaces
-
-struct NodeContext;
 
 //! WalletContext struct containing references to state shared between CWallet
 //! instances, like the reference to the chain interface, and the list of opened
