@@ -95,6 +95,11 @@ struct Params {
 
     bool fSimplifiedRewards;
     bool fShortEarlyCoinbase;
+
+    /** Auxpow parameters */
+    int32_t nAuxpowChainId;
+    bool fStrictChainId;
+    int nAuxPowHeight; // 0 for "always on"
 };
 } // namespace Consensus
 
