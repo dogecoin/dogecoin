@@ -6,6 +6,7 @@
 #define BITCOIN_CORE_IO_H
 
 #include <amount.h>
+#include <arith_uint256.h>
 #include <attributes.h>
 
 #include <string>
@@ -40,6 +41,7 @@ int ParseSighashString(const UniValue& sighash);
 
 // core_write.cpp
 UniValue ValueFromAmount(const CAmount& amount);
+UniValue ValueFromAmount(const arith_uint256& amount);
 std::string FormatScript(const CScript& script);
 std::string EncodeHexTx(const CTransaction& tx, const int serializeFlags = 0);
 std::string SighashToStr(unsigned char sighash_type);
