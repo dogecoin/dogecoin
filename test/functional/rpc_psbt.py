@@ -374,8 +374,9 @@ class PSBTTest(BitcoinTestFramework):
 
         # Make sure the wallet's change type is respected by default
         small_output = {self.nodes[0].getnewaddress():0.1}
-        psbtx_native = self.nodes[0].walletcreatefundedpsbt([], [small_output])
-        self.assert_change_type(psbtx_native, "witness_v0_keyhash")
+        psbtx_default = self.nodes[0].walletcreatefundedpsbt([], [small_output])
+        # Dogecoin: Default is pubkeyhash, so both nodes generate pubkeyhash change
+        self.assert_change_type(psbtx_default, "pubkeyhash")
         psbtx_legacy = self.nodes[1].walletcreatefundedpsbt([], [small_output])
         self.assert_change_type(psbtx_legacy, "pubkeyhash")
 

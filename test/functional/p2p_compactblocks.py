@@ -246,7 +246,10 @@ class CompactBlocksTest(BitcoinTestFramework):
         # Generate a bunch of transactions.
         node.generate(241)
         num_transactions = 25
-        address = node.getnewaddress()
+        if use_witness_address:
+            address = node.getnewaddress(address_type="bech32")
+        else:
+            address = node.getnewaddress()
 
         segwit_tx_generated = False
         for _ in range(num_transactions):
