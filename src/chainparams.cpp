@@ -101,7 +101,7 @@ public:
 
         consensus.nAuxpowChainId = 0x0062; // 98 - Josh Wise!
         consensus.fStrictChainId = true;
-        consensus.nLegacyBlocksBefore = 371337;
+        consensus.nAuxPowHeight = 371337;
 
         /**
          * The message start string is designed to be unlikely to occur in normal data.
@@ -222,7 +222,7 @@ public:
 
         consensus.nAuxpowChainId = 0x0062; // 98 - Josh Wise!
         consensus.fStrictChainId = false;
-        consensus.nLegacyBlocksBefore = 158100;
+        consensus.nAuxPowHeight = 158100;
 
         pchMessageStart[0] = 0xfc;
         pchMessageStart[1] = 0xc1;
@@ -355,7 +355,7 @@ public:
 
         consensus.nAuxpowChainId = 0x0062; // 98 - Josh Wise!
         consensus.fStrictChainId = true;
-        consensus.nLegacyBlocksBefore = 0;
+        consensus.nAuxPowHeight = 0;
 
         // message start is defined as the first 4 bytes of the sha256d of the block script
         CHashWriter h(SER_DISK, 0);
@@ -431,7 +431,7 @@ public:
 
         consensus.nAuxpowChainId = 0x0062; // 98 - Josh Wise!
         consensus.fStrictChainId = true;
-        consensus.nLegacyBlocksBefore = 0;
+        consensus.nAuxPowHeight = 0;
 
         pchMessageStart[0] = 0xfa;
         pchMessageStart[1] = 0xbf;
