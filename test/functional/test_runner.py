@@ -83,11 +83,12 @@ EXTENDED_SCRIPTS = [
     'feature_dbcrash.py',
 ]
 
-# Scripts which use Bitcoin blockchain data
-# TODO: Identify an equivalent scenario in Dogecoin testnet, or generate an equivalent scenario if none occurs naturally
+# Scripts which are specific to Bitcoin
 BITCOIN_ONLY_SCRIPTS = [
     # These tests are not run by default.
     # Longest test should go first, to favor running tests in parallel
+    # Dogecoin: This uses bitcoin blocks.
+    # TODO: Identify an equivalent scenario in Dogecoin testnet, or generate an equivalent scenario if none occurs naturally
     'p2p_dos_header_tree.py',
 ]
 

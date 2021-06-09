@@ -4,6 +4,7 @@
 
 #include <core_io.h>
 
+#include <arith_uint256.h>
 #include <consensus/consensus.h>
 #include <consensus/validation.h>
 #include <key_io.h>
@@ -23,6 +24,16 @@ UniValue ValueFromAmount(const CAmount& amount)
     int64_t remainder = n_abs % COIN;
     return UniValue(UniValue::VNUM,
             strprintf("%s%d.%08d", sign ? "-" : "", quotient, remainder));
+}
+
+// Dogecoin: Added to support very large total coin values, although this has a limitation that it doesn't support above 2^64 Doge.
+UniValue ValueFromAmount(const arith_uint256& amount)
+{
+    // uint256 is unsigned, so we never worry about sign.
+    arith_uint256 quotient = amount / COIN;
+    arith_uint256 remainder = amount - (quotient * COIN);
+    return UniValue(UniValue::VNUM,
+            strprintf("%d.%08d", ArithToUint256(quotient).GetUint64(0), ArithToUint256(remainder).GetUint64(0)));
 }
 
 std::string FormatScript(const CScript& script)

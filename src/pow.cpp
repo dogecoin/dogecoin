@@ -9,6 +9,7 @@
 #include <chain.h>
 #include <dogecoin.h>
 #include <primitives/block.h>
+#include <util/system.h>
 #include <uint256.h>
 
 unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params& params)

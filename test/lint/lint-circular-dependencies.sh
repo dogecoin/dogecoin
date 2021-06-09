@@ -21,6 +21,8 @@ EXPECTED_CIRCULAR_DEPENDENCIES=(
     "wallet/fees -> wallet/wallet -> wallet/fees"
     "wallet/wallet -> wallet/walletdb -> wallet/wallet"
     "policy/fees -> txmempool -> validation -> policy/fees"
+    "dogecoin -> pow -> dogecoin"
+    "rpc/blockchain -> rpc/rawtransaction -> rpc/blockchain"
 )
 
 EXIT_CODE=0
