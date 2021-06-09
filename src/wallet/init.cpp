@@ -107,7 +107,7 @@ void WalletInit::Construct(NodeContext& node) const
         LogPrintf("Wallet disabled!\n");
         return;
     }
-    auto wallet_client = interfaces::MakeWalletClient(node, *node.chain, args);
+    auto wallet_client = interfaces::MakeWalletClient(node, args);
     node.wallet_client = wallet_client.get();
     node.chain_clients.emplace_back(std::move(wallet_client));
 }

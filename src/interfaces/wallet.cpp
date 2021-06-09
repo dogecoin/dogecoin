@@ -568,9 +568,9 @@ public:
 
 std::unique_ptr<Wallet> MakeWallet(const std::shared_ptr<CWallet>& wallet) { return wallet ? MakeUnique<WalletImpl>(wallet) : nullptr; }
 
-std::unique_ptr<WalletClient> MakeWalletClient(NodeContext& node, Chain& chain, ArgsManager& args)
+std::unique_ptr<WalletClient> MakeWalletClient(NodeContext& node, ArgsManager& args)
 {
-    return MakeUnique<WalletClientImpl>(node, chain, args);
+    return MakeUnique<WalletClientImpl>(node, *node.chain, args);
 }
 
 } // namespace interfaces
