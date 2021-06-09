@@ -125,8 +125,10 @@ std::unique_ptr<CBlockTemplate> BlockAssembler::CreateNewBlock(const CScript& sc
     pblock->nVersion = ComputeBlockVersion(pindexPrev, chainparams.GetConsensus());
     // -regtest only: allow overriding block.nVersion with
     // -blockversion=N to test forking scenarios
-    if (chainparams.MineBlocksOnDemand())
-        pblock->nVersion = gArgs.GetArg("-blockversion", pblock->nVersion);
+    if (chainparams.MineBlocksOnDemand()) {
+        const int32_t nOverrideVersion = gArgs.GetArg("-blockversion", pblock->GetBaseVersion());
+        pblock->SetBaseVersion(nOverrideVersion, nChainId);
+    }
 
     pblock->nTime = GetAdjustedTime();
     const int64_t nMedianTimePast = pindexPrev->GetMedianTimePast();
