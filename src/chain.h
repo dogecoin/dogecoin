@@ -10,6 +10,7 @@
 #include <consensus/params.h>
 #include <flatfile.h>
 #include <primitives/block.h>
+#include <primitives/pureheader.h>
 #include <tinyformat.h>
 #include <uint256.h>
 
