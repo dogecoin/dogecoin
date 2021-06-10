@@ -1,0 +1,18 @@
+Run configure with the 
+--enable
+-debug
+option, 
+then 
+make
+. 
+Or
+run_configure
+with
+CXXFLAGS=
+"-g
+-ggdb
+-O0
+"
+or 
+debug 
+flags 
