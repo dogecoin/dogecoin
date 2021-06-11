@@ -1,13 +1,23 @@
-# Dogecoin Core [DOGE, Ð]
+<h1 align="center">
+Dogecoin Core [DOGE, Ð]  
+<br/><br/>
+<img src="https://static.tumblr.com/ppdj5y9/Ae9mxmxtp/300coin.png" alt="Dogecoin" width="300"/>
+</h1>
 
-![Dogecoin](https://static.tumblr.com/ppdj5y9/Ae9mxmxtp/300coin.png)
+<div align="center">
 
+[![DogecoinBadge](https://img.shields.io/badge/Doge-Coin-yellow.svg)](https://dogecoin.com)
 [![Build Status](https://travis-ci.com/dogecoin/dogecoin.svg?branch=master)](https://travis-ci.com/dogecoin/dogecoin)
+[![MuchWow](https://img.shields.io/badge/Much-Wow-yellow.svg)](https://dogecoin.com)
+
+</div>
+
+Select Doc Language: ENG | [CN_simplified](./README_zh_CN.md) | [more...](./README.md)
 
 Dogecoin is a cryptocurrency like Bitcoin, although it does not use SHA256 as
 its proof of work (POW). Taking development cues from Tenebrix and Litecoin,
 Dogecoin currently employs a simplified variant of scrypt.
-- **Website:** [dogecoin.com.](https://dogecoin.com)
+- **Website:** [dogecoin.com](https://dogecoin.com)
 
 ## License – Much license ⚖️
 Dogecoin Core is released under the terms of the MIT license. See
@@ -53,7 +63,7 @@ not straightforward.
 ## Very Much Frequently Asked Questions ❓
 
 ### How much doge can exist? – So many puppies! 🐕
-Early 2015 (approximately a year and a half after release) there will be
+Early 2015 (approximately a year and a half after release) there were
 approximately 100,000,000,000 coins.
 Each subsequent block will grant 10,000 coins to encourage miners to continue to
 secure the network and make up for lost wallets on hard drives/phones/lost
