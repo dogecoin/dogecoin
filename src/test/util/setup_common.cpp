@@ -254,3 +254,12 @@ CBlock getBlock13b8a()
     stream >> block;
     return block;
 }
+
+//! equality test
+bool operator==(const Coin &a, const Coin &b) {
+    // Empty Coin objects are always equal.
+    if (a.IsSpent() && b.IsSpent()) return true;
+    return a.fCoinBase == b.fCoinBase &&
+           a.nHeight == b.nHeight &&
+           a.out == b.out;
+}

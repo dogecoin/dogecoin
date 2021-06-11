@@ -189,6 +189,7 @@ BITCOIN_CORE_H = \
   rpc/client.h \
   rpc/mining.h \
   rpc/protocol.h \
+  rpc/rawtransaction.h \
   rpc/rawtransaction_util.h \
   rpc/register.h \
   rpc/request.h \
@@ -463,6 +464,8 @@ libbitcoin_consensus_a_SOURCES = \
   prevector.h \
   primitives/block.cpp \
   primitives/block.h \
+  primitives/pureheader.cpp \
+  primitives/pureheader.h \
   primitives/transaction.cpp \
   primitives/transaction.h \
   pubkey.cpp \
