@@ -38,6 +38,8 @@
 
 #include <memory>
 #include <stdint.h>
+#include <string>
+#include <utility>
 
 /**
  * Return average network hashes per second based on the last 'lookup' blocks,
@@ -128,7 +130,7 @@ static bool GenerateBlock(ChainstateManager& chainman, CBlock& block, uint64_t& 
     }
 
     std::shared_ptr<const CBlock> shared_pblock = std::make_shared<const CBlock>(block);
-    if (!chainman.ProcessNewBlock(chainparams, shared_pblock, true, nullptr)) {
+    if (!chainman.ProcessNewBlock(Params(), shared_pblock, true, nullptr)) {
         throw JSONRPCError(RPC_INTERNAL_ERROR, "ProcessNewBlock, block not accepted");
     }
 
@@ -660,7 +662,7 @@ static RPCHelpMan getblocktemplate()
         throw JSONRPCError(RPC_INVALID_PARAMETER, "Invalid mode");
 
     NodeContext& node = EnsureNodeContext(request.context);
-    if(!node.connman)
+    if (!node.connman)
         throw JSONRPCError(RPC_CLIENT_P2P_DISABLED, "Error: Peer-to-peer functionality missing or disabled");
 
     if (node.connman->GetNodeCount(CConnman::CONNECTIONS_ALL) == 0)
