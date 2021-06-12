@@ -5,6 +5,8 @@
 #ifndef BITCOIN_WALLET_CONTEXT_H
 #define BITCOIN_WALLET_CONTEXT_H
 
+#include <node/context.h>
+
 class ArgsManager;
 namespace interfaces {
 class Chain;
@@ -23,6 +25,9 @@ class Chain;
 struct WalletContext {
     interfaces::Chain* chain{nullptr};
     ArgsManager* args{nullptr};
+
+    //! Dogecoin: getauxwork is a wallet RPC but actually needs the NodeContext.
+    NodeContext* nodeContext{nullptr};
 
     //! Declare default constructor and destructor that are not inline, so code
     //! instantiating the WalletContext struct doesn't need to #include class

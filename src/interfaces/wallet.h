@@ -411,7 +411,7 @@ std::unique_ptr<Wallet> MakeWallet(const std::shared_ptr<CWallet>& wallet);
 
 //! Return implementation of ChainClient interface for a wallet client. This
 //! function will be undefined in builds where ENABLE_WALLET is false.
-std::unique_ptr<WalletClient> MakeWalletClient(Chain& chain, ArgsManager& args);
+std::unique_ptr<WalletClient> MakeWalletClient(NodeContext& node, ArgsManager& args);
 
 } // namespace interfaces
 
