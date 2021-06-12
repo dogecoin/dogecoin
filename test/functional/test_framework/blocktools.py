@@ -6,7 +6,6 @@
 
 from binascii import a2b_hex
 import struct
-import time
 import unittest
 
 from .address import (
