@@ -416,7 +416,7 @@ class WalletTest(BitcoinTestFramework):
             self.log.info("Test sendtoaddress with fee_rate param (explicit fee rate in koinu/vB)")
             prebalance = self.nodes[2].getbalance()
             assert prebalance > 2
-            address = self.nodes[1].getnewaddress()
+            address = self.nodes[1].getnewaddress(address_type="bech32")
             amount = 3
             fee_rate_sat_vb = 2
             fee_rate_btc_kvb = fee_rate_sat_vb * 1e3 / 1e8

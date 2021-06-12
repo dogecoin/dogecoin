@@ -19,6 +19,8 @@ class CreateWalletTest(BitcoinTestFramework):
     def set_test_params(self):
         self.setup_clean_chain = False
         self.num_nodes = 1
+        # Dogecoin: Force BECH32 addresses so descriptors work
+        self.extra_args = [['-addresstype=bech32']] * self.num_nodes
 
     def skip_test_if_missing_module(self):
         self.skip_if_no_wallet()

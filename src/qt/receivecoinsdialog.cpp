@@ -96,6 +96,9 @@ void ReceiveCoinsDialog::setModel(WalletModel *_model)
             ui->useBech32->setCheckState(Qt::Checked);
         } else {
             ui->useBech32->setCheckState(Qt::Unchecked);
+            // Dogecoin: Don't allow the user to generate BECH32 addresses as we don't support them except for test networks.
+            // If you need to test, override the default on the command line.
+            ui->useBech32->setEnabled(false);
         }
 
         // Set the button to be enabled or disabled based on whether the wallet can give out new addresses.
