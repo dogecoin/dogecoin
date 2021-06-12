@@ -7,7 +7,7 @@
     </message>
     <message>
         <source>Copy the currently selected address to the system clipboard</source>
-        <translation>Copier l'adresse surligné a votre presse-papier</translation>
+        <translation>Copier l'adresse surlignée à votre presse-papier</translation>
     </message>
     <message>
         <source>&amp;Delete</source>
@@ -21,15 +21,15 @@
     <name>AskPassphraseDialog</name>
     <message>
         <source>Enter passphrase</source>
-        <translation>Entrer Mot de Passe</translation>
+        <translation>Entrer le mot de passe</translation>
     </message>
     <message>
         <source>New passphrase</source>
-        <translation>Nouveau Mot de passe</translation>
+        <translation>Nouveau mot de passe</translation>
     </message>
     <message>
         <source>Repeat new passphrase</source>
-        <translation>Répéter Mot de Passe</translation>
+        <translation>Répéter le nouveau mot de passe</translation>
     </message>
     </context>
 <context>
@@ -42,18 +42,18 @@
     <name>CoinControlDialog</name>
     <message>
         <source>(un)select all</source>
-        <translation>Toute sélectionner </translation>
+        <translation>Tout (dé)sélectionner</translation>
     </message>
     </context>
 <context>
     <name>EditAddressDialog</name>
     <message>
         <source>&amp;Label</source>
-        <translation>Record</translation>
+        <translation>Étiquette</translation>
     </message>
     <message>
         <source>&amp;Address</source>
-        <translation>Addresse</translation>
+        <translation>Adresse</translation>
     </message>
     </context>
 <context>
@@ -66,7 +66,7 @@
     <name>Intro</name>
     <message>
         <source>Welcome</source>
-        <translation>Bienvenue </translation>
+        <translation>Bienvenue</translation>
     </message>
     </context>
 <context>
