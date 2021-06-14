@@ -1,40 +1,143 @@
-name: ci
+name: Continuous Integration
 
-on: [push, pull_request]
+on:
+  - push
+  - pull_request
 
 jobs:
   build:
     name: ${{ matrix.name }}
 
+    env:
+      MAKEJOBS: "-j3"
+      CHECK_DOC: "0"
+      CCACHE_SIZE: "100M"
+      CCACHE_TEMPDIR: /tmp/.ccache-temp
+      CCACHE_COMPRESS: "1"
+      PYTHON_DEBUG: "1"
+      WINEDEBUG: fixme-all
+
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         name:
-          - Ubuntu 18.04 GCC
+          - armhf-linux
+          - i686-linux
+          - i686-win
+          - x86_64-linux-dbg
+          - x86_64-linux-nowallet
+          - x86_64-win
         include:
-          - name: Ubuntu 18.04 GCC
-            os: ubuntu-18.04
-            compiler: gcc
-            cpp-compiler: g++
-            build-dir: build
-            build-src-dir: ..
+          - name: i686-linux
+            host: i686-pc-linux-gnu
+            os: ubuntu-20.04
+            packages: g++-multilib bc python3-zmq
+            run-tests: true
+            dep-opts: "NO_QT=1"
+            config-opts: "--enable-zmq --enable-glibc-back-compat --enable-reduce-exports LDFLAGS=-static-libstdc++"
+            goal: install
+          - name: armhf-linux
+            host: arm-linux-gnueabihf
+            os: ubuntu-20.04
+            packages: g++-arm-linux-gnueabihf
+            run-tests: false
+            dep-opts: "NO_QT=1"
+            config-opts: "--enable-glibc-back-compat --enable-reduce-exports --disable-tests"
+            goal: install
+          - name: x86_64-linux-nowallet
+            host: x86_64-unknown-linux-gnu
+            os: ubuntu-20.04
+            packages: python3
+            run-tests: true
+            dep-opts: "NO_WALLET=1"
+            config-opts: "--enable-glibc-back-compat --enable-reduce-exports --disable-wallet"
+            goal: install
+          - name: x86_64-linux-dbg
+            host: x86_64-unknown-linux-gnu
+            os: ubuntu-20.04
+            packages: bc python3-zmq
+            run-tests: true
+            dep-opts: "DEBUG=1"
+            config-opts: "--enable-zmq --enable-glibc-back-compat --enable-reduce-exports CPPFLAGS=-DDEBUG_LOCKORDER"
+            goal: install
+          - name: i686-win
+            host: i686-w64-mingw32
+            arch: "i386"
+            os: ubuntu-20.04
+            packages: python3 nsis g++-mingw-w64-i686 wine bc wine-binfmt
+            postinstall: |
+              sudo update-alternatives --set i686-w64-mingw32-gcc /usr/bin/i686-w64-mingw32-gcc-posix
+              sudo update-alternatives --set i686-w64-mingw32-g++  /usr/bin/i686-w64-mingw32-g++-posix
+              sudo update-binfmts --import /usr/share/binfmts/wine
+            run-tests: false
+            dep-opts: ""
+            config-opts: "--enable-reduce-exports"
+            goal: install
+          - name: x86_64-win
+            host: x86_64-w64-mingw32
+            arch: "i386"
+            os: ubuntu-20.04
+            packages: python3 nsis g++-mingw-w64-x86-64 wine64 bc wine-binfmt
+            postinstall: |
+              sudo update-alternatives --set x86_64-w64-mingw32-gcc  /usr/bin/x86_64-w64-mingw32-gcc-posix
+              sudo update-alternatives --set x86_64-w64-mingw32-g++  /usr/bin/x86_64-w64-mingw32-g++-posix
+              sudo update-binfmts --import /usr/share/binfmts/wine
+            run-tests: false
+            dep-opts: ""
+            config-opts: "--enable-reduce-exports"
+            goal: install
 
     runs-on: ${{ matrix.os }}
 
     steps:
-      - name: Install packages (Ubuntu)
-        if: runner.os == 'Linux'
+      - name: Add architecture
+        if: ${{ matrix.arch }}
+        run: |
+          sudo dpkg --add-architecture "${{ matrix.arch }}"
+
+      - name: Install packages
         run: |
           sudo apt-get update
-          sudo apt-get install libdb++-dev libboost-all-dev libevent-dev ${{ matrix.packages }}
+          sudo apt-get install build-essential libtool autotools-dev automake pkg-config bsdmainutils curl ca-certificates ccache python3 rsync git procps bison
+          sudo apt-get install ${{ matrix.packages }}
+
+      - name: Post install
+        if: ${{ matrix.postinstall }}
+        run: ${{ matrix.postinstall }}
+
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Generate project files
-        run: |
-          ./autogen.sh
-          ./configure  --disable-wallet
+      - name: Dependency cache
+        uses: actions/cache@v2
+        env:
+          cache-name: depends
+        with:
+          path: ./depends/built
+          key: ${{ matrix.name }}-${{ env.cache-name }}-${{ hashFiles('depends/packages/*') }}
 
-      - name: Compile source code
+      - name: Build depends
         run: |
-          make -j2
+          make $MAKEJOBS -C depends HOST=${{ matrix.host }} ${{ matrix.dep-opts }}
+
+      - name: CCache
+        uses: actions/cache@v2
+        env:
+          cache-name: ccache
+        with:
+          path: ~/.ccache
+          key: ${{ matrix.name }}-${{ env.cache-name }}-${{ hashFiles('**/configure.ac') }}
+
+      - name: Build Dogecoin
+        run: |
+          depends/${{ matrix.host }}/native/bin/ccache --max-size=$CCACHE_SIZE
+          ./autogen.sh
+          ./configure --prefix=`pwd`/depends/${{ matrix.host }} ${{ matrix.config-opts }} || ( cat config.log && false)
+          make $MAKEJOBS ${{ matrix.goal }} || ( echo "Build failure. Verbose build follows." && make ${{ matrix.goal }} V=1 ; false )
+
+      - name: Run tests
+        if: ${{ matrix.run-tests }}
+        run: |
+          make check $MAKEJOBS VERBOSE=1
+          qa/pull-tester/install-deps.sh
+          qa/pull-tester/rpc-tests.py --coverage
