@@ -129,6 +129,9 @@ OverviewPage::OverviewPage(const PlatformStyle *platformStyle, QWidget *parent) 
     ui->labelTransactionsStatus->setIcon(icon);
     ui->labelWalletStatus->setIcon(icon);
 
+    // Set tip of the day
+    UpdateTip();
+
     // Recent transactions
     ui->listTransactions->setItemDelegate(txdelegate);
     ui->listTransactions->setIconSize(QSize(DECORATION_SIZE, DECORATION_SIZE));
@@ -141,6 +144,18 @@ OverviewPage::OverviewPage(const PlatformStyle *platformStyle, QWidget *parent) 
     showOutOfSyncWarning(true);
     connect(ui->labelWalletStatus, SIGNAL(clicked()), this, SLOT(handleOutOfSyncWarningClicks()));
     connect(ui->labelTransactionsStatus, SIGNAL(clicked()), this, SLOT(handleOutOfSyncWarningClicks()));
+}
+
+void OverviewPage::UpdateTip()
+{
+    QStringList tips = {
+        "Never share your wallet.dat file/your private key with anyone",
+        "Make sure to always update to the newest version",
+        "Backup your wallet.dat/private key to prevent losing your coins"
+    };
+
+    int i = rand() % tips.length();
+    ui->label_tip->setText(tips[i]);
 }
 
 void OverviewPage::handleTransactionClicked(const QModelIndex &index)
