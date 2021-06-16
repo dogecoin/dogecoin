@@ -3722,7 +3722,7 @@ void PeerManager::ProcessMessage(CNode& pfrom, const std::string& msg_type, CDat
     if (msg_type == NetMsgType::FEEFILTER) {
         CAmount newFeeFilter = 0;
         vRecv >> newFeeFilter;
-        if (MoneyRange(newFeeFilter)) {
+        if (FeeRange(newFeeFilter)) {
             if (pfrom.m_tx_relay != nullptr) {
                 LOCK(pfrom.m_tx_relay->cs_feeFilter);
                 pfrom.m_tx_relay->minFeeFilter = newFeeFilter;

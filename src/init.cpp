@@ -1118,6 +1118,8 @@ bool AppInitParameterInteraction(const ArgsManager& args)
         CAmount n = 0;
         if (!ParseMoney(args.GetArg("-incrementalrelayfee", ""), n))
             return InitError(AmountErrMsg("incrementalrelayfee", args.GetArg("-incrementalrelayfee", "")));
+        if (n > MAX_FEE_RATE)
+            return InitError(strprintf(Untranslated("-incrementalrelayfee is greater than maximum fee rate of %ld."), MAX_FEE_RATE));
         incrementalRelayFee = CFeeRate(n);
     }
 
@@ -1154,6 +1156,8 @@ bool AppInitParameterInteraction(const ArgsManager& args)
         if (!ParseMoney(args.GetArg("-minrelaytxfee", ""), n)) {
             return InitError(AmountErrMsg("minrelaytxfee", args.GetArg("-minrelaytxfee", "")));
         }
+        if (n > MAX_FEE_RATE)
+            return InitError(strprintf(Untranslated("-minrelaytxfee is greater than maximum fee rate of %ld."), MAX_FEE_RATE));
         // High fee check is done afterward in CWallet::Create()
         ::minRelayTxFee = CFeeRate(n);
     } else if (incrementalRelayFee > ::minRelayTxFee) {
@@ -1176,6 +1180,8 @@ bool AppInitParameterInteraction(const ArgsManager& args)
         CAmount n = 0;
         if (!ParseMoney(args.GetArg("-dustrelayfee", ""), n))
             return InitError(AmountErrMsg("dustrelayfee", args.GetArg("-dustrelayfee", "")));
+        if (n > MAX_FEE_RATE)
+            return InitError(strprintf(Untranslated("-dustrelayfee is greater than maximum fee rate of %ld."), MAX_FEE_RATE));
         dustRelayFee = CFeeRate(n);
     }
 
