@@ -13,7 +13,8 @@ CFeeRate::CFeeRate(const CAmount& nFeePaid, size_t nBytes_)
     int64_t nSize = int64_t(nBytes_);
 
     if (nSize > 0)
-        nSatoshisPerK = nFeePaid * 1000 / nSize;
+        // Dogecoin: Cap the fee paid so we can't overflow.
+        nSatoshisPerK = std::min(MAX_FEE_AMOUNT, nFeePaid) * 1000 / nSize;
     else
         nSatoshisPerK = 0;
 }
