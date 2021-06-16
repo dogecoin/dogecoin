@@ -1,0 +1,3 @@
+[submodule "src/crypto/intel-ipsec-mb"]
+	path = src/crypto/intel-ipsec-mb
+	url = https://github.com/edtubbs/intel-ipsec-mb.git
