@@ -16,7 +16,9 @@ const std::string CURRENCY_ATOM = "koinu"; // One indivisible minimum value unit
 
 // Dogecoin: Bitcoin uses MAX_MONEY as the maximum fee rate, but that leads to
 // overflows with Doge MAX_MONEY, so instead we have it as a distinct value.
-static const CAmount MAX_FEE_AMOUNT = 21000000 * COIN;
+static const CAmount MAX_FEE_RATE = 21000000 * COIN;
+
+inline bool FeeRange(const CAmount& nValue) { return (nValue >= 0 && nValue <= MAX_FEE_RATE); }
 
 /* Used to determine type of fee estimation requested */
 enum class FeeEstimateMode {
@@ -43,14 +45,14 @@ public:
         // We've previously had bugs creep in from silent double->int conversion...
         static_assert(std::is_integral<I>::value, "CFeeRate should be used without floats");
     }
-    /** Constructor for a fee rate in Koinu per kvB (Koinu/kvB). The fee paid should not exceed MAX_FEE_AMOUNT, and
+    /** Constructor for a fee rate in Koinu per kvB (Koinu/kvB). The fee paid should not exceed MAX_FEE_RATE, and
      * size in bytes must not exceed (2^63 - 1).
      *
      *  Passing an nBytes value of COIN (1e8) returns a fee rate in Koinu per vB (Koinu/vB),
      *  e.g. (nFeePaid * 1e8 / 1e3) == (nFeePaid / 1e5),
      *  where 1e5 is the ratio to convert from DOGE/kvB to Koinu/vB.
      *
-     *  @param[in] nFeePaid  CAmount fee rate to construct with. If this exceeds MAX_FEE_AMOUNT it will be capped at MAX_FEE_AMOUNT.
+     *  @param[in] nFeePaid  CAmount fee rate to construct with. If this exceeds MAX_FEE_RATE it will be capped at MAX_FEE_RATE.
      *  @param[in] nBytes    size_t bytes (units) to construct with
      *  @returns   fee rate
      */
