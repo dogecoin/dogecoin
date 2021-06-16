@@ -785,6 +785,13 @@ fi
 
 fi
 
+case $host in
+   x86_64-*-linux*)
+  AC_CHECK_LIB([IPSec_MB],[sha1_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
+  AC_CHECK_LIB([IPSec_MB],[sha256_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
+  AC_CHECK_LIB([IPSec_MB],[sha512_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
+esac
+
 if test x$use_pkgconfig = xyes; then
   : dnl
   m4_ifdef(
