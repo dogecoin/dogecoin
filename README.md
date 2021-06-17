@@ -13,15 +13,25 @@ Dogecoin currently employs a simplified variant of scrypt.
 
 ## Ongoing development - Moon plan 🌒
 
-For those wanting to discuss changes, or look for work that needs doing, please see:
+Dogecoin Core is an open source and community driven software.  
+Developement process is done publicly. Anyone can see, discuss and work on them.  
 
-* [Help requests](https://github.com/dogecoin/dogecoin/labels/help%20wanted)
-* [Projects](https://github.com/dogecoin/dogecoin/projects)
-* [Dogecoindev on reddit](https://www.reddit.com/r/dogecoindev/)
-To get information about current development, to discuss changes or look for work that needs doing, please see :
-* [Projects](https://github.com/dogecoin/dogecoin/projects)
-* [Dogecoindev on reddit](https://www.reddit.com/r/dogecoindev/)
-* [Discord](https://discord.gg/dogecoin) (in particular the #core-dev channel)
+Main tools used for the core development :
+
+* [Github Projects](https://github.com/dogecoin/dogecoin/projects) to see all developments and [Github Discussion](https://github.com/dogecoin/dogecoin/discussions) to discuss them
+* [Dogecoin Improvement Proposals (DIPs)](https://github.com/dogecoin/dips) for major improvements
+* [Dogecoin Devs Twitter](https://twitter.com/dogecoin_devs)
+
+## Community 🚀🍾
+
+You can join the community on different social media !
+To see what's going on, meet people & discuss, find latest meme, learn about dogecoin,
+give or receive any kind of help or to share your projects... some places to visit !
+
+* [Discord](https://discord.gg/dogecoin)
+* [Dogecoin subreddit](https://www.reddit.com/r/dogecoin/)
+* [Dogecoindev subreddit](https://www.reddit.com/r/dogecoindev/)
+* [Dogeducation subreddit](https://www.reddit.com/r/dogeducation/)
 
 ## Contribute 🤝
 
