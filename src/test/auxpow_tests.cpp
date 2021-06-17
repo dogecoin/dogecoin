@@ -518,7 +518,7 @@ class AuxpowMinerForTest : public AuxpowMiner
 
 public:
 
-  using AuxpowMiner::cs;
+  using AuxpowMiner::cs_auxpow_miner;
 
   using AuxpowMiner::getCurrentBlock;
   using AuxpowMiner::lookupSavedBlock;
@@ -529,7 +529,7 @@ BOOST_FIXTURE_TEST_CASE(auxpow_miner_blockRegeneration, TestChain240Setup)
 {
     CTxMemPool mempool;
     AuxpowMinerForTest miner;
-    LOCK (miner.cs);
+    LOCK (miner.cs_auxpow_miner);
 
     /* We use mocktime so that we can control GetTime() as it is used in the
         logic that determines whether or not to reconstruct a block.  The "base"
@@ -593,7 +593,7 @@ BOOST_FIXTURE_TEST_CASE(auxpow_miner_createAndLookupBlock, TestChain240Setup)
 {
     CTxMemPool mempool;
     AuxpowMinerForTest miner;
-    LOCK (miner.cs);
+    LOCK (miner.cs_auxpow_miner);
 
     CScript scriptPubKey;
     uint256 target;

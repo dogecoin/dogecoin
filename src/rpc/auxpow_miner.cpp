@@ -21,7 +21,7 @@ const CBlock*
 AuxpowMiner::getCurrentBlock(const CTxMemPool& mempool,
                               const CScript& scriptPubKey, uint256& target)
 {
-  AssertLockHeld(cs);
+  AssertLockHeld(cs_auxpow_miner);
   const CBlock* pblockCur = nullptr;
 
   {
@@ -87,7 +87,7 @@ AuxpowMiner::getCurrentBlock(const CTxMemPool& mempool,
 const CBlock*
 AuxpowMiner::lookupSavedBlock(const uint256 hash) const
 {
-  AssertLockHeld(cs);
+  AssertLockHeld(cs_auxpow_miner);
 
   const auto iter = blocks.find(hash);
   if (iter == blocks.end())
@@ -100,7 +100,7 @@ UniValue
 AuxpowMiner::createAuxBlock(const CTxMemPool& mempool,
                             const CScript& scriptPubKey)
 {
-  LOCK(cs);
+  LOCK(cs_auxpow_miner);
 
   uint256 target;
   const CBlock* pblock = getCurrentBlock(mempool, scriptPubKey, target);
@@ -125,7 +125,7 @@ AuxpowMiner::submitAuxBlock(ChainstateManager& chainman,
 {
   std::shared_ptr<CBlock> shared_block;
   {
-    LOCK(cs);
+    LOCK(cs_auxpow_miner);
     const CBlock* pblock = lookupSavedBlock(hash);
     shared_block = std::make_shared<CBlock>(*pblock);
   }
