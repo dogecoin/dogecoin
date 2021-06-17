@@ -617,7 +617,7 @@
         <translation>Вітаем</translation>
     </message>
     <message>
-        <source>Bitcoin</source>
+        <source>Dogecoin</source>
         <translation>Біткойн</translation>
     </message>
     <message>
