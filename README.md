@@ -14,7 +14,7 @@ Dogecoin currently employs a simplified variant of scrypt.
 ## Ongoing development - Moon plan 🌒
 
 Dogecoin Core is an open source and community driven software.  
-Developement process is done publicly. Anyone can see, discuss and work on them.  
+Development process is done publicly. Anyone can see, discuss and work on them.  
 
 Main tools used for the core development :
 
@@ -22,10 +22,20 @@ Main tools used for the core development :
 * [Dogecoin Improvement Proposals (DIPs)](https://github.com/dogecoin/dips) for major improvements
 * [Dogecoin Devs Twitter](https://twitter.com/dogecoin_devs)
 
+## Installation – omg developers 👨‍💻
+
+To get all information to setup Dogecoin Core locally, see [INSTALL.md](INSTALL.md).
+
+## Contribute 🤝
+
+Look at [CONTRIBUTING.md](CONTRIBUTING.md) to see how you can participate !
+
+Do not limitate yourself to guidelines, feel free to contribute in your own way 🚀.
+
 ## Community 🚀🍾
 
 You can join the community on different social media !
-To see what's going on, meet people & discuss, find latest meme, learn about dogecoin,
+To see what's going on, meet people & discuss, find the lastest meme, learn about dogecoin,
 give or receive any kind of help or to share your projects... some places to visit !
 
 * [Discord](https://discord.gg/dogecoin)
@@ -33,22 +43,9 @@ give or receive any kind of help or to share your projects... some places to vis
 * [Dogecoindev subreddit](https://www.reddit.com/r/dogecoindev/)
 * [Dogeducation subreddit](https://www.reddit.com/r/dogeducation/)
 
-## Contribute 🤝
-
-Dogecoin Core is open source software, and we would welcome contributions
-which improve the state of the software.
-
-Look at [CONTRIBUTING.md](CONTRIBUTING.md) to see how you can participate !
-
-Do not limitate yourself to guidelines, feel free to contribute in your own way 🚀.
-
 ## Very Much Frequently Asked Questions ❓
 
 You have a question regarding dogecoin ? An answer is perhaps already in the [FAQ](doc/FAQ.md) !
-
-## Installation – omg developers 👨‍💻
-
-To get all information to setup Dogecoin Core locally, see [INSTALL.md](INSTALL.md).
 
 ## License – Much license ⚖️
 Dogecoin Core is released under the terms of the MIT license. See
