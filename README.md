@@ -20,7 +20,7 @@ Main tools used for the core development :
 
 * [Github Projects](https://github.com/dogecoin/dogecoin/projects) to see all developments and [Github Discussion](https://github.com/dogecoin/dogecoin/discussions) to discuss them
 * [Dogecoin Improvement Proposals (DIPs)](https://github.com/dogecoin/dips) for major improvements
-* [Dogecoin Devs Twitter](https://twitter.com/dogecoin_devs)
+* [Dogecoindev subreddit](https://www.reddit.com/r/dogecoindev/)
 
 ## Installation – omg developers 👨‍💻
 
@@ -36,12 +36,12 @@ Do not limitate yourself to guidelines, feel free to contribute in your own way 
 
 You can join the community on different social media !
 To see what's going on, meet people & discuss, find the lastest meme, learn about dogecoin,
-give or receive any kind of help or to share your projects... some places to visit !
+give or ask different type of help, to share your project... some places to visit !
 
 * [Discord](https://discord.gg/dogecoin)
 * [Dogecoin subreddit](https://www.reddit.com/r/dogecoin/)
-* [Dogecoindev subreddit](https://www.reddit.com/r/dogecoindev/)
 * [Dogeducation subreddit](https://www.reddit.com/r/dogeducation/)
+* [Dogecoin Devs Twitter](https://twitter.com/dogecoin_devs)
 
 ## Very Much Frequently Asked Questions ❓
 
