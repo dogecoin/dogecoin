@@ -24,38 +24,38 @@ BITCOIN_INCLUDES=-I$(builddir) -I$(srcdir)/secp256k1/include $(BDB_CPPFLAGS) $(B
 
 BITCOIN_INCLUDES += $(UNIVALUE_CFLAGS)
 
-LIBDOGECOIN_SERVER=libbitcoin_server.a
-LIBDOGECOIN_COMMON=libbitcoin_common.a
-LIBDOGECOIN_CONSENSUS=libbitcoin_consensus.a
-LIBDOGECOIN_CLI=libbitcoin_cli.a
-LIBDOGECOIN_UTIL=libbitcoin_util.a
-LIBDOGECOIN_CRYPTO_BASE=crypto/libbitcoin_crypto_base.a
-LIBDOGECOINQT=qt/libbitcoinqt.a
+LIBBITCOIN_SERVER=libbitcoin_server.a
+LIBBITCOIN_COMMON=libbitcoin_common.a
+LIBBITCOIN_CONSENSUS=libbitcoin_consensus.a
+LIBBITCOIN_CLI=libbitcoin_cli.a
+LIBBITCOIN_UTIL=libbitcoin_util.a
+LIBBITCOIN_CRYPTO_BASE=crypto/libbitcoin_crypto_base.a
+LIBBITCOINQT=qt/libbitcoinqt.a
 LIBSECP256K1=secp256k1/libsecp256k1.la
 
 if ENABLE_ZMQ
-LIBDOGECOIN_ZMQ=libbitcoin_zmq.a
+LIBBITCOIN_ZMQ=libbitcoin_zmq.a
 endif
 if BUILD_BITCOIN_LIBS
-LIBDOGECOINCONSENSUS=libbitcoinconsensus.la
+LIBBITCOINCONSENSUS=libbitcoinconsensus.la
 endif
 if ENABLE_WALLET
-LIBDOGECOIN_WALLET=libbitcoin_wallet.a
-LIBDOGECOIN_WALLET_TOOL=libbitcoin_wallet_tool.a
+LIBBITCOIN_WALLET=libbitcoin_wallet.a
+LIBBITCOIN_WALLET_TOOL=libbitcoin_wallet_tool.a
 endif
 
-LIBDOGECOIN_CRYPTO= $(LIBDOGECOIN_CRYPTO_BASE)
+LIBBITCOIN_CRYPTO= $(LIBBITCOIN_CRYPTO_BASE)
 if ENABLE_SSE41
-LIBDOGECOIN_CRYPTO_SSE41 = crypto/libbitcoin_crypto_sse41.a
-LIBDOGECOIN_CRYPTO += $(LIBDOGECOIN_CRYPTO_SSE41)
+LIBBITCOIN_CRYPTO_SSE41 = crypto/libbitcoin_crypto_sse41.a
+LIBBITCOIN_CRYPTO += $(LIBBITCOIN_CRYPTO_SSE41)
 endif
 if ENABLE_AVX2
-LIBDOGECOIN_CRYPTO_AVX2 = crypto/libbitcoin_crypto_avx2.a
-LIBDOGECOIN_CRYPTO += $(LIBDOGECOIN_CRYPTO_AVX2)
+LIBBITCOIN_CRYPTO_AVX2 = crypto/libbitcoin_crypto_avx2.a
+LIBBITCOIN_CRYPTO += $(LIBBITCOIN_CRYPTO_AVX2)
 endif
 if ENABLE_SHANI
-LIBDOGECOIN_CRYPTO_SHANI = crypto/libbitcoin_crypto_shani.a
-LIBDOGECOIN_CRYPTO += $(LIBDOGECOIN_CRYPTO_SHANI)
+LIBBITCOIN_CRYPTO_SHANI = crypto/libbitcoin_crypto_shani.a
+LIBBITCOIN_CRYPTO += $(LIBBITCOIN_CRYPTO_SHANI)
 endif
 
 $(LIBSECP256K1): $(wildcard secp256k1/src/*.h) $(wildcard secp256k1/src/*.c) $(wildcard secp256k1/include/*)
@@ -64,17 +64,17 @@ $(LIBSECP256K1): $(wildcard secp256k1/src/*.h) $(wildcard secp256k1/src/*.c) $(w
 # Make is not made aware of per-object dependencies to avoid limiting building parallelization
 # But to build the less dependent modules first, we manually select their order here:
 EXTRA_LIBRARIES += \
-  $(LIBDOGECOIN_CRYPTO) \
-  $(LIBDOGECOIN_UTIL) \
-  $(LIBDOGECOIN_COMMON) \
-  $(LIBDOGECOIN_CONSENSUS) \
-  $(LIBDOGECOIN_SERVER) \
-  $(LIBDOGECOIN_CLI) \
-  $(LIBDOGECOIN_WALLET) \
-  $(LIBDOGECOIN_WALLET_TOOL) \
-  $(LIBDOGECOIN_ZMQ)
+  $(LIBBITCOIN_CRYPTO) \
+  $(LIBBITCOIN_UTIL) \
+  $(LIBBITCOIN_COMMON) \
+  $(LIBBITCOIN_CONSENSUS) \
+  $(LIBBITCOIN_SERVER) \
+  $(LIBBITCOIN_CLI) \
+  $(LIBBITCOIN_WALLET) \
+  $(LIBBITCOIN_WALLET_TOOL) \
+  $(LIBBITCOIN_ZMQ)
 
-lib_LTLIBRARIES = $(LIBDOGECOINCONSENSUS)
+lib_LTLIBRARIES = $(LIBBITCOINCONSENSUS)
 
 bin_PROGRAMS =
 noinst_PROGRAMS =
@@ -595,14 +595,14 @@ endif
 
 # FIXME: Remove SERVER once we have cleaned up getauxblock.
 dogecoin_bin_ldadd = \
-  $(LIBDOGECOIN_WALLET) \
-  $(LIBDOGECOIN_SERVER) \
-  $(LIBDOGECOIN_COMMON) \
-  $(LIBDOGECOIN_UTIL) \
+  $(LIBBITCOIN_WALLET) \
+  $(LIBBITCOIN_SERVER) \
+  $(LIBBITCOIN_COMMON) \
+  $(LIBBITCOIN_UTIL) \
   $(LIBUNIVALUE) \
-  $(LIBDOGECOIN_ZMQ) \
-  $(LIBDOGECOIN_CONSENSUS) \
-  $(LIBDOGECOIN_CRYPTO) \
+  $(LIBBITCOIN_ZMQ) \
+  $(LIBBITCOIN_CONSENSUS) \
+  $(LIBBITCOIN_CRYPTO) \
   $(LIBLEVELDB) \
   $(LIBLEVELDB_SSE42) \
   $(LIBMEMENV) \
@@ -614,13 +614,13 @@ dogecoind_SOURCES = $(dogecoin_daemon_sources)
 dogecoind_CPPFLAGS = $(dogecoin_bin_cppflags)
 dogecoind_CXXFLAGS = $(dogecoin_bin_cxxflags)
 dogecoind_LDFLAGS = $(dogecoin_bin_ldflags)
-dogecoind_LDADD = $(LIBDOGECOIN_SERVER) $(dogecoin_bin_ldadd)
+dogecoind_LDADD = $(LIBBITCOIN_SERVER) $(dogecoin_bin_ldadd)
 
 dogecoin_node_SOURCES = $(dogecoin_daemon_sources)
 dogecoin_node_CPPFLAGS = $(dogecoin_bin_cppflags)
 dogecoin_node_CXXFLAGS = $(dogecoin_bin_cxxflags)
 dogecoin_node_LDFLAGS = $(dogecoin_bin_ldflags)
-dogecoin_node_LDADD = $(LIBDOGECOIN_SERVER) $(dogecoin_bin_ldadd)
+dogecoin_node_LDADD = $(LIBBITCOIN_SERVER) $(dogecoin_bin_ldadd)
 
 # bitcoin-cli binary #
 dogecoin_cli_SOURCES = bitcoin-cli.cpp
@@ -633,10 +633,10 @@ dogecoin_cli_SOURCES += bitcoin-cli-res.rc
 endif
 
 dogecoin_cli_LDADD = \
-  $(LIBDOGECOIN_CLI) \
+  $(LIBBITCOIN_CLI) \
   $(LIBUNIVALUE) \
-  $(LIBDOGECOIN_UTIL) \
-  $(LIBDOGECOIN_CRYPTO)
+  $(LIBBITCOIN_UTIL) \
+  $(LIBBITCOIN_CRYPTO)
 
 dogecoin_cli_LDADD += $(BOOST_LIBS) $(EVENT_LIBS)
 #
@@ -653,10 +653,10 @@ endif
 
 dogecoin_tx_LDADD = \
   $(LIBUNIVALUE) \
-  $(LIBDOGECOIN_COMMON) \
-  $(LIBDOGECOIN_UTIL) \
-  $(LIBDOGECOIN_CONSENSUS) \
-  $(LIBDOGECOIN_CRYPTO) \
+  $(LIBBITCOIN_COMMON) \
+  $(LIBBITCOIN_UTIL) \
+  $(LIBBITCOIN_CONSENSUS) \
+  $(LIBBITCOIN_CRYPTO) \
   $(LIBSECP256K1)
 
 dogecoin_tx_LDADD += $(BOOST_LIBS)
@@ -667,7 +667,7 @@ dogecoin_wallet_SOURCES = bitcoin-wallet.cpp
 dogecoin_wallet_CPPFLAGS = $(dogecoin_bin_cppflags)
 dogecoin_wallet_CXXFLAGS = $(dogecoin_bin_cxxflags)
 dogecoin_wallet_LDFLAGS = $(dogecoin_bin_ldflags)
-dogecoin_wallet_LDADD = $(LIBDOGECOIN_WALLET_TOOL) $(dogecoin_bin_ldadd)
+dogecoin_wallet_LDADD = $(LIBBITCOIN_WALLET_TOOL) $(dogecoin_bin_ldadd)
 
 if TARGET_WINDOWS
 dogecoin_wallet_SOURCES += bitcoin-wallet-res.rc
