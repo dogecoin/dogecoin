@@ -2723,12 +2723,18 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
                 continue;
             }
         }
+        // Unordered transaction inputs
+        txNew.vin.clear();
+        std::vector<pair<const CWalletTx*,unsigned int>> selectedCoins(setCoins.begin(), setCoins.end());
+        random_shuffle(selectedCoins.begin(), selectedCoins.end(), GetRandInt);
+        for (const auto& coin : selectedCoins)
+            txNew.vin.push_back(CTxIn(coin.first->GetHash(),coin.second,CScript(), std::numeric_limits<unsigned int>::max() - (fWalletRbf ? 2 : 1)));
 
         if (sign)
         {
             CTransaction txNewConst(txNew);
             int nIn = 0;
-            for (const auto& coin : setCoins)
+            for (const auto& coin : selectedCoins)
             {
                 const CScript& scriptPubKey = coin.first->tx->vout[coin.second].scriptPubKey;
                 SignatureData sigdata;
