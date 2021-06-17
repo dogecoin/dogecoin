@@ -19,7 +19,7 @@
 
 const CBlock*
 AuxpowMiner::getCurrentBlock(const CTxMemPool& mempool,
-                              const CScript& scriptPubKey, uint256& target)
+                              const CScript& scriptPubKey, uint256& target) EXCLUSIVE_LOCKS_REQUIRED(cs)
 {
   AssertLockHeld(cs);
   const CBlock* pblockCur = nullptr;
@@ -85,7 +85,7 @@ AuxpowMiner::getCurrentBlock(const CTxMemPool& mempool,
 }
 
 const CBlock*
-AuxpowMiner::lookupSavedBlock(const uint256 hash) const
+AuxpowMiner::lookupSavedBlock(const uint256 hash) const EXCLUSIVE_LOCKS_REQUIRED(cs)
 {
   AssertLockHeld(cs);
 
