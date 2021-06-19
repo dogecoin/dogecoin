@@ -32,7 +32,8 @@
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/thread.hpp>
-
+#include <random>
+#include <chrono>
 using namespace std;
 
 CWallet* pwalletMain = NULL;
@@ -2726,7 +2727,9 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
         // Unordered transaction inputs
         txNew.vin.clear();
         std::vector<pair<const CWalletTx*,unsigned int>> selectedCoins(setCoins.begin(), setCoins.end());
-        random_shuffle(selectedCoins.begin(), selectedCoins.end(), GetRandInt);
+        unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+        std::shuffle(selectedCoins.begin(), selectedCoins.end(), std::default_random_engine(seed));
+
         for (const auto& coin : selectedCoins)
             txNew.vin.push_back(CTxIn(coin.first->GetHash(),coin.second,CScript(), std::numeric_limits<unsigned int>::max() - (fWalletRbf ? 2 : 1)));
 
