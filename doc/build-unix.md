@@ -1,20 +1,23 @@
-# Unix Build Notes
-1. [Install dependencies](#dependencies)
- - [Ubuntu & Debian](#ubuntu)
- - [Fedora](#Fedora)
- - [FreeBSD](#FreeBSD)
+# Unix Build of Dogecoin Core
+1. [Install dependencies](#install-dependencies)
+    * [Ubuntu & Debian](#ubuntu--debian)
+    * [Fedora](#Fedora)
+    * [FreeBSD](#FreeBSD)
 2. [Build steps](#build-steps)
-3. [Build configuration](#configure-build)
- - [Enable Qt Gui](#enable-qt-gui)
- - [Incompatible BerkeleyDB](#incompatible-berkleydb)
- - [Disable Wallet](#diable-wallet)
- - [Miniupnpc](#miniupnpc)
- - [Security](#security)
+3. [Build configuration](#build-configuration)
+    * [Enable Qt GUI](#enable-qt-gui)
+    * [Wallet](#wallet)
+    * [Disable-wallet mode](#disable-wallet-mode)
+    * [Miniupnpc](#miniupnpc)
+    * [Security](#security)
+    * [Memory requirements](#memory-requirements)
+4. [ARM Cross-compilation](#arm-cross-compilation)
 
 ## Install dependencies
 
-You must install required dependencies to run a basic Dogecoin daemon.  
-Optional dependencies may vary depending on your build specifications.
+You must install required dependencies to build a basic Dogecoin daemon, optional dependencies may vary according to your requirements.
+
+Wallet is optional to run a node, see [Wallet](#wallet) section to enable them.
 
 **Required dependencies :**
 
@@ -38,32 +41,22 @@ Optional dependencies may vary depending on your build specifications.
 
 For the versions used in the release, see [release-process.md](release-process.md) under *Fetch and build inputs*.
 
-Memory Requirements
---------------------
-
-C++ compilers are memory-hungry. It is recommended to have at least 1.5 GB of
-memory available when compiling Dogecoin Core. On systems with less, gcc can be
-tuned to conserve memory with additional CXXFLAGS:
-
-    ./configure CXXFLAGS="--param ggc-min-expand=1 --param ggc-min-heapsize=32768"
 
 ### Ubuntu & Debian
 
 **Required dependencies** :
-```
+```bash
 sudo apt-get install build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils
+sudo apt-get install libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-program-options-dev libboost-test-dev libboost-thread-dev
 ```
 
 **Optional dependencies** :  
-```
+```bash
 # Qt (required for dogecoin-qt GUI)
 sudo apt-get install libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler libqrencode-dev
 
-# BerkeleyDB
-sudo apt-get install libdb5.1-dev libdb5.1++-dev
-
-# Boost
-sudo apt-get install libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-program-options-dev libboost-test-dev libboost-thread-dev
+# BerkeleyDB (version 5.3)
+sudo apt install libdb5.3++-dev libdb5.3++ libdb5.3-dev
 
 # ZMQ (provides ZMQ API 4.x)
 sudo apt-get install libzmq3-dev
@@ -75,11 +68,11 @@ sudo apt-get install libminiupnpc-dev
 ### Fedora
 
 **Required dependencies :**
-```
+```bash
 sudo dnf install gcc-c++ libtool make autoconf automake openssl-devel libevent-devel boost-devel libdb4-devel libdb4-cxx-devel
 ```
 **Optional dependencies :**
-```
+```bash
 # Qt (required for dogecoin-qt GUI)
 sudo dnf install qt5-qttools-devel qt5-qtbase-devel protobuf-devel qrencode-devel
 
@@ -90,11 +83,11 @@ sudo dnf install miniupnpc-devel
 ## FreeBSD
 
 **Required dependencies :**
-```
+```bash
 sudo dnf install gcc-c++ libtool make autoconf automake openssl-devel libevent-devel boost-devel libdb4-devel libdb4-cxx-devel
 ```
 **Optional dependencies :**
-```
+```bash
 # BerkeleyDB
 pkg install db5
 ```
@@ -108,27 +101,58 @@ According to installed dependencies, the following steps will compile `dogecoind
 make
 make install # optional
 ```
-See [Build configuration](#build-configuration) section for extra settings.
+See [Build configuration](#build-configuration) for extra settings.
 
 ## Build configuration
-You can see all available options with `./configure --help`
+
+Configurations are done during the `./configure` step. Use `--help` to see all available options.
 
 #### Enable Qt GUI
 Create `dogecoin-qt`, the core wallet GUI.
-```
+```bash
 ./configure --with-gui
 ```
 
-#### Incompatible BerkeleyDB
-If you're using any other BerkeleyDB version than 4.8 :
+#### Wallet
+BerkeleyDB is required for wallet functionality and use the `wallet.dat` file.
+
+By default, **Dogecoin Core expect BerkeleyDB 5.1**.  
+You can use a different version by specifying `--with-incompatible-bdb` flag.
+
+If no package is available for your distribution  in optional dependencies, you can build BerkeleyDB from source :
+```bash
+# Install script for BerkeleyDB 5.1
+
+# BerkeleyDB installation directory
+BDB_PREFIX=$(pwd)/bdb
+mkdir $BDB_PREFIX
+
+# Fetch the source and verify shasum
+wget 'http://download.oracle.com/berkeley-db/db-5.1.29.NC.tar.gz'
+echo '08238e59736d1aacdd47cfb8e68684c695516c37f4fbe1b8267dde58dc3a576c db-5.1.29.NC.tar.gz' | sha256sum -c
+
+# Extract sources
+tar -xzvf db-5.1.29.NC.tar.gz
+cd db-5.1.29.NC/build_unix/
+
+# Apply patch (see https://gist.github.com/danieldk/5700533)
+sed -i  's/__atomic_compare_exchange/__atomic_compare_exchange_db/g' ../src/dbinc/atomic.h
+
+# Note: Do a static build so that it can be embedded into the executable, instead of having to find a .so at runtime
+../dist/configure --prefix=$BDB_PREFIX --enable-cxx --disable-shared --with-pic
+make install
 ```
-./configure --with-incompatible-bdb
+
+Then use `LDFLAGS` and `CPPFLAGS` during configuration to link the database :
+```bash
+./configure  LDFLAGS="-L${BDB_PREFIX}/lib/" CPPFLAGS="-I${BDB_PREFIX}/include/"
 ```
+
 #### Disable-wallet mode
 When the intention is to run only a P2P node without a wallet, Dogecoin may be compiled in
 disable-wallet mode with:
 
-```
+```bash
 ./configure --disable-wallet
 ```
 
@@ -141,10 +165,10 @@ call, not `getwork`.
 http://miniupnp.tuxfamily.org/files/).  UPnP support is compiled in and
 turned off by default.  See the configure options for upnp behavior desired:
 
-```
---without-miniupnpc      No UPnP support miniupnp not required
---disable-upnp-default   (the default) UPnP support turned off by default at runtime
---enable-upnp-default    UPnP support turned on by default at runtime
+```bash
+--without-miniupnpc      #No UPnP support miniupnp not required
+--disable-upnp-default   #(the default) UPnP support turned off by default at runtime
+--enable-upnp-default    #UPnP support turned on by default at runtime
 ```
 
 #### Security
@@ -153,10 +177,10 @@ exploit even if a vulnerability is found, binaries are hardened by default.
 This can be disabled with:
 
 Hardening Flags:
-
-	./configure --enable-hardening
-	./configure --disable-hardening
-
+```bash
+./configure --enable-hardening
+./configure --disable-hardening
+```
 
 Hardening enables the following features:
 
@@ -168,16 +192,15 @@ Hardening enables the following features:
     randomly located as well.
 
     On an AMD64 processor where a library was not compiled with -fPIC, this will cause an error
-    such as: "relocation R_X86_64_32 against `......' can not be used when making a shared object;"
+    such as: `relocation R_X86_64_32 against '......' can not be used when making a shared object;`
 
     To test that you have built PIE executable, install scanelf, part of paxutils, and use:
 
-	scanelf -e ./dogecoin
+	`scanelf -e ./dogecoin`
 
     The output should contain:
 
-     TYPE
-    ET_DYN
+    `TYPE ET_DYN`
 
 * Non-executable Stack
     If the stack is executable, trivial stack-based buffer overflow exploits are possible if
@@ -190,31 +213,39 @@ Hardening enables the following features:
     `scanelf -e ./dogecoin`
 
     the output should contain:
-	STK/REL/PTL
-	RW- R-- RW-
+    `STK/REL/PTL RW- R-- RW-`
 
-    The STK RW- means that the stack is readable and writeable, but not executable.
-
+    The `STK RW-` means that the stack is readable and writeable, but not executable.
 
 
+#### Memory Requirements
 
-ARM Cross-compilation
--------------------
+C++ compilers are memory-hungry. It is recommended to have at
+least 1.5 GB of memory available when compiling Dogecoin Core.
+On systems with less, gcc can be tuned to conserve memory with additional CXXFLAGS:
+
+```bash
+./configure CXXFLAGS="--param ggc-min-expand=1 --param ggc-min-heapsize=32768"
+```
+
+## ARM Cross-compilation
+
 These steps can be performed on, for example, an Ubuntu VM. The depends system
 will also work on other Linux distributions, however the commands for
 installing the toolchain will be different.
 
 Make sure you install the build requirements mentioned above.
 Then, install the toolchain and curl:
-
-    sudo apt-get install g++-arm-linux-gnueabihf curl
+```bash
+sudo apt-get install g++-arm-linux-gnueabihf curl
+```
 
 To build executables for ARM:
-
-    cd depends
-    make HOST=arm-linux-gnueabihf NO_QT=1
-    cd ..
-    ./configure --prefix=$PWD/depends/arm-linux-gnueabihf --enable-glibc-back-compat --enable-reduce-exports LDFLAGS=-static-libstdc++
-    make
-
+```bash
+cd depends
+make HOST=arm-linux-gnueabihf NO_QT=1
+cd ..
+./configure --prefix=$PWD/depends/arm-linux-gnueabihf --enable-glibc-back-compat --enable-reduce-exports LDFLAGS=-static-libstdc++
+make
+```
 For further documentation on the depends system see [README.md](../depends/README.md) in the depends directory.
