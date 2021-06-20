@@ -69,7 +69,7 @@ jobs:
               sudo update-alternatives --set i686-w64-mingw32-gcc /usr/bin/i686-w64-mingw32-gcc-posix
               sudo update-alternatives --set i686-w64-mingw32-g++  /usr/bin/i686-w64-mingw32-g++-posix
               sudo update-binfmts --import /usr/share/binfmts/wine
-            run-tests: false
+            run-tests: true
             dep-opts: ""
             config-opts: "--enable-reduce-exports"
             goal: install
@@ -82,7 +82,7 @@ jobs:
               sudo update-alternatives --set x86_64-w64-mingw32-gcc  /usr/bin/x86_64-w64-mingw32-gcc-posix
               sudo update-alternatives --set x86_64-w64-mingw32-g++  /usr/bin/x86_64-w64-mingw32-g++-posix
               sudo update-binfmts --import /usr/share/binfmts/wine
-            run-tests: false
+            run-tests: true
             dep-opts: ""
             config-opts: "--enable-reduce-exports"
             goal: install
