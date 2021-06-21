@@ -1782,6 +1782,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     // GetAdjustedTime() to go backward).
     if (!CheckBlock(block, state, !fJustCheck, !fJustCheck)) {
         if (state.CorruptionPossible()) {
+            LogPrintf("%s: Attempt to connect corrupted block %s.\n", __func__, block.GetHash().ToString());
             // We don't write down blocks to disk if they may have been
             // corrupted, so this should be impossible unless we're having hardware
             // problems.
