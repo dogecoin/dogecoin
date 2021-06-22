@@ -150,16 +150,14 @@ void OverviewPage::UpdateTip()
 {
     QStringList tips = {
         tr("Never share your wallet.dat file/your private key with anyone"),
-        tr("Make sure to always update to the newest version"),
-        tr("Backup your wallet.dat/private key to prevent losing your coins"),
-        tr("To find your Dogecoin Core data directory go to 'Help' -> 'Debug Window'"),
-        tr("Make sure to backup your wallet"),
-        tr("To backup your wallet go to 'File' -> 'Backup Wallet...' and make sure to save the .dat file"),
         tr("For more advanced settings use the console in 'Help' -> 'Debug Window'"),
         tr("Encrypt your wallet with a strong passphrase for maximum security"),
         tr("Make sure to keep your wallet updated."),
-        tr("Never share your private key or your wallet.dat with anyone"),
+        tr("Backup your private key to recover your coins, using 'File' > 'Backup Wallet'"),
         tr("Always do your own research before using an external cryptocurrency service"),
+        tr("Never share your private key to an untrustworthy person."),
+        tr("Who own the private keys own the coins."),
+        tr("To see ongoing development and contribute, checkout Dogecoin repository on GitHub!"),
         tr("Services that claim to double your dogecoins are always ponzi schemes")
     };
 
