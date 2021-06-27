@@ -1,8 +1,14 @@
 name: Continuous Integration
 
 on:
-  - push
-  - pull_request
+  push:
+    paths-ignore:
+      - '**/*.md'
+  pull_request:
+    paths-ignore:
+      - 'doc/**'
+      - 'contrib/**'
+      - '**/*.md'
 
 jobs:
   build:
