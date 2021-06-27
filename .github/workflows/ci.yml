@@ -141,3 +141,10 @@ jobs:
           make check $MAKEJOBS VERBOSE=1
           qa/pull-tester/install-deps.sh
           qa/pull-tester/rpc-tests.py --coverage
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: dogecoin-${{ github.sha }}-${{ matrix.name }}
+          path: |
+            depends/${{ matrix.host }}/bin/dogecoin*
