@@ -1,5 +1,13 @@
 ### Usage
 
+## Requirements
+
+On debian you will need 
+
+   sudo apt-get install build-essential curl pkg-config libtool automake python3
+
+## Build
+
 To build dependencies for the current arch+OS:
 
     make
