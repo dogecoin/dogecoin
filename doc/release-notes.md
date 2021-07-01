@@ -1,62 +1,116 @@
-0.21.1 Release Notes
-====================
+Dogecoin Core version 1.14.3 is now available from:
 
-Bitcoin Core version 0.21.1 is now available from:
+  <https://github.com/dogecoin/dogecoin/releases/tag/v1.14.3/>
 
-  <https://bitcoincore.org/bin/bitcoin-core-0.21.1/>
+This is a new minor version release, including various bugfixes and performance improvements. It is a recommended
+update for all users.
 
-This minor release includes various bug fixes and performance
-improvements, as well as updated translations.
+Please report bugs using the issue tracker at github:
 
-Please report bugs using the issue tracker at GitHub:
+  <https://github.com/dogecoin/dogecoin/issues>
 
-  <https://github.com/bitcoin/bitcoin/issues>
+To receive security and update notifications, please watch reddit or Twitter:
 
-To receive security and update notifications, please subscribe to:
+  * https://www.reddit.com/r/dogecoin/
+  * @Dogecoin on Twitter for high priority announcements
+  * @dogecoin\_devs on Twitter for updates on development work
 
-  <https://bitcoincore.org/en/list/announcements/join/>
+The developers also maintain personal Twitter accounts:
 
-How to Upgrade
-==============
-
-If you are running an older version, shut it down. Wait until it has completely
-shut down (which might take a few minutes in some cases), then run the
-installer (on Windows) or just copy over `/Applications/Bitcoin-Qt` (on Mac)
-or `bitcoind`/`bitcoin-qt` (on Linux).
-
-Upgrading directly from a version of Bitcoin Core that has reached its EOL is
-possible, but it might take some time if the data directory needs to be migrated. Old
-wallet versions of Bitcoin Core are generally supported.
+  * @langer\_hans
+  * @JRossNicoll
 
 Compatibility
 ==============
 
-Bitcoin Core is supported and extensively tested on operating systems
-using the Linux kernel, macOS 10.12+, and Windows 7 and newer.  Bitcoin
-Core should also work on most other Unix-like systems but is not as
-frequently tested on them.  It is not recommended to use Bitcoin Core on
-unsupported systems.
+Dogecoin Core is extensively tested on Ubuntu Server LTS, Mac OS X and Windows 10.
 
-From Bitcoin Core 0.20.0 onwards, macOS versions earlier than 10.12 are no
-longer supported. Additionally, Bitcoin Core does not yet change appearance
-when macOS "dark mode" is activated.
+Microsoft ended support for Windows XP on [April 8th, 2014](https://www.microsoft.com/en-us/WindowsForBusiness/end-of-xp-support),
+No attempt is made to prevent installing or running the software on Windows XP, you
+can still do so at your own risk but be aware that there are known instabilities and issues.
+Please do not report issues about Windows XP to the issue tracker.
+
+Dogecoin Core should also work on most other Unix-like systems but is not
+frequently tested on them.
 
 Notable changes
 ===============
 
-RPC
----
+Reduce CPU usage during sync
+----------------------------
 
+When loading block headers to send to a peer, the block was revalidated by calculating its proof of work. This is expensive and led to a bottleneck in the sync process where nodes were CPU rather than IO bound in sending blocks to ther peers.
 
-0.21.1 change log
-=================
+All block headers are already checked when they are accepted, and they will be checked again on the receiving node.
 
+Reduce default mempool expiry time
+----------------------------------
+
+Reduces DEFAULT_MEMPOOL_EXPIRY from 336 hours to 24 hours. Motivation is that while blocks are empty, un-relayable tx are stuck in mempools for a long time and effectively locking utxo for 2 weeks until they can be respent, if no RBF opt-in was performed (most wallet implementations do not do RBF opt-in.)
+
+As the expectation is that block space will not be fully utilized for the foreseeable future, and therefore, as long as this is the case, no valid transaction should ever live in the mempool for more than a couple of minutes.
+
+This default setting can be overridden with the -mempoolexpiry parameter by individual node operators to a value (expressed in hours) that makes the most sense for the use cases the node serves.
+
+Increase block download timeouts
+--------------------------------
+
+Block download timeouts are expressed as a multiple of block interval, and as such Dogecoin block download times were relatively aggressive, leading to a high number of timeouts. Increased the timeouts to be more flexible to real world conditions.
+
+Add size_on_disk, prune_target_size, automatic_pruning to getblockchaininfo
+---------------------------------------------------------------------------
+
+* Fix pruneheight help text.
+* Move fPruneMode block to match output ordering with help text.
+* Add functional tests for new fields in getblockchaininfo.
+
+Add query options to listunspent RPC call
+-----------------------------------------
+
+* Return unspents greater or equal than a specific amount in DOGE: minimumAmount (default = 0).
+* Return unspents lower or equal than a specific amount in DOGE: maximumAmount (default=unlimited).
+* Return unspents with a total number lower or equal than a specific number: maximumCount (default=0=unlimited).
+* Return unspents which total is greater or equal than a specific amount in DOGE: minimumSumAmount (default=unlimited).
+
+Minor changes
+=============
+
+* Set BIP65 softfork heights in chainparams.cpp.
+* Update package links for OSX cross compilation.
+* Change IPC prefix from `bitcoin:` to `dogecoin:`.
+* Locale independent sorting.
+* Corrections to Italian translation.
+* Refresh main and test network checkpoints and seeds.
+* Do not print an error on connection timeouts through proxy.
+* Numerous fixes to automated tests.
+* Numerous fixes to documentation.
 
 Credits
 =======
 
 Thanks to everyone who directly contributed to this release:
 
-
-As well as to everyone that helped with translations on
-[Transifex](https://www.transifex.com/bitcoin/bitcoin/).
+- Anthony Chen
+- Bertrand Jacquin
+- BT
+- Daniel Edgecumbe
+- Demon
+- Dennis Field
+- fluteds
+- Ikko Ashimine
+- John-Gee
+- Jonathan
+- Kent
+- leuqarte
+- Luis-Johannes Schubert
+- Marco
+- marcuswin
+- Max Keller
+- Patrick Lodder
+- Pedro Branco
+- Primo
+- Reiner Herrmann
+- Ross Nicoll
+- Shibe
+- tnaka
+- Vertian
