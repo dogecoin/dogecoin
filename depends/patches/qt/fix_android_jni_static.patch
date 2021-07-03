@@ -1,0 +1,20 @@
+cherry-pickable through fa416cea84d8f1528fc7ecf9a04654aae75ac3f5
+
+--- old/qtbase/src/plugins/platforms/android/androidjnimain.cpp
++++ new/qtbase/src/plugins/platforms/android/androidjnimain.cpp
+@@ -898,6 +898,14 @@
+         __android_log_print(ANDROID_LOG_FATAL, "Qt", "registerNatives failed");
+         return -1;
+     }
++
++    const jint ret = QT_PREPEND_NAMESPACE(QtAndroidPrivate::initJNI(vm, env));
++    if (ret != 0)
++    {
++        __android_log_print(ANDROID_LOG_FATAL, "Qt", "initJNI failed");
++        return ret;
++    }
++
+     QWindowSystemInterfacePrivate::TabletEvent::setPlatformSynthesizesMouse(false);
+ 
+     m_javaVM = vm;
+
