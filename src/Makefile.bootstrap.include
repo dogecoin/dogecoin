@@ -1,0 +1,20 @@
+# Copyright (c) 2021-2021 Dogecoin core developers
+# Distributed under the MIT software license, see the accompanying
+# file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
+bin_PROGRAMS += bootstrap/dogecoin-bootstrap
+
+bootstrap_dogecoin_bootstrap_CPPFLAGS = $(AM_CPPFLAGS)
+bootstrap_dogecoin_bootstrap_CXXFLAGS = $(AM_CXXFLAGS)
+
+bootstrap_dogecoin_bootstrap_SOURCES = bootstrap/bootstrap.cpp
+bootstrap_dogecoin_bootstrap_LDADD = $(LIBDOGECOIN_COMMON) $(LIBDOGECOIN_UTIL) \
+  $(LIBDOGECOIN_CONSENSUS) $(LIBDOGECOIN_CRYPTO) $(LIBTORRENT_LIBS) \
+  $(BOOST_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS)
+bootstrap_dogecoin_bootstrap_LDFLAGS = $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+bootstrap_dogecoin_bootstrap_LIBTOOLFLAGS = --tag CXX
+
+dogecoin_bootstrap_clean: FORCE
+	rm -f $(CLEAN_QT) $(bootstrap_dogecoin_bootstrap_OBJECTS) bootstrap/dogecoin-bootstrap$(EXEEXT)
+
+dogecoin_bootstrap : bootstrap/dogecoin-bootstrap$(EXEEXT)
