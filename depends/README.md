@@ -2,9 +2,13 @@
 
 ## Requirements
 
-On debian you will need 
+Before attempting to build these dependencies you should first follow the build instructions for your operating system, under the root folder:
 
-   sudo apt-get install build-essential curl pkg-config libtool automake python3
+* `doc/build-unix.md`
+* `doc/build-osx.md`
+* `doc/build-windows.md`
+
+These contain up to date lists for each operating system.
 
 ## Build
 
@@ -64,4 +68,3 @@ Additional targets:
 
 - [description.md](description.md): General description of the depends system
 - [packages.md](packages.md): Steps for adding packages
-
