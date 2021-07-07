@@ -66,13 +66,13 @@
         <translation>Imenik prejemnih naslovov</translation>
     </message>
     <message>
-        <source>These are your Bitcoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>To so vaši bitcoin-naslovi za pošiljanje. Pred pošiljanjem vedno preverite količino in prejemnikov naslov.</translation>
+        <source>These are your Dogecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <translation>To so vaši dogecoin-naslovi za pošiljanje. Pred pošiljanjem vedno preverite količino in prejemnikov naslov.</translation>
     </message>
     <message>
-        <source>These are your Bitcoin addresses for receiving payments. Use the 'Create new receiving address' button in the receive tab to create new addresses.
+        <source>These are your Dogecoin addresses for receiving payments. Use the 'Create new receiving address' button in the receive tab to create new addresses.
 Signing is only possible with addresses of the type 'legacy'.</source>
-        <translation>To so vaši bitcoin-naslovi, ki jih uporabljate za prejemanje plačil. Za tvorbo novega naslova uporabite gumb "Ustvari nov prejemni naslov" v zavihku Prejmi.
+        <translation>To so vaši dogecoin-naslovi, ki jih uporabljate za prejemanje plačil. Za tvorbo novega naslova uporabite gumb "Ustvari nov prejemni naslov" v zavihku Prejmi.
 Podpisovanje je možno le s podedovanimi ("legacy") naslovi.</translation>
     </message>
     <message>
@@ -170,8 +170,8 @@ Podpisovanje je možno le s podedovanimi ("legacy") naslovi.</translation>
         <translation>Potrdi šifriranje denarnice</translation>
     </message>
     <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR BITCOINS&lt;/b&gt;!</source>
-        <translation>Opozorilo: V primeru izgube gesla šifrirane denarnice boste &lt;b&gt;IZGUBILI VSE SVOJE BITCOINE&lt;/b&gt;!</translation>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DOGECOINS&lt;/b&gt;!</source>
+        <translation>Opozorilo: V primeru izgube gesla šifrirane denarnice boste &lt;b&gt;IZGUBILI VSE SVOJE DOGECOINE&lt;/b&gt;!</translation>
     </message>
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
@@ -190,8 +190,8 @@ Podpisovanje je možno le s podedovanimi ("legacy") naslovi.</translation>
         <translation>Vnesite staro geslo in novo geslo za denarnico.</translation>
     </message>
     <message>
-        <source>Remember that encrypting your wallet cannot fully protect your bitcoins from being stolen by malware infecting your computer.</source>
-        <translation>Pomnite, da šifriranje denarnice ne more preprečiti kraje bitcoinov preko morebitnih virusov na vašem računalniku.</translation>
+        <source>Remember that encrypting your wallet cannot fully protect your dogecoins from being stolen by malware infecting your computer.</source>
+        <translation>Pomnite, da šifriranje denarnice ne more preprečiti kraje dogecoinov preko morebitnih virusov na vašem računalniku.</translation>
     </message>
     <message>
         <source>Wallet to be encrypted</source>
@@ -254,7 +254,7 @@ Podpisovanje je možno le s podedovanimi ("legacy") naslovi.</translation>
     </message>
 </context>
 <context>
-    <name>BitcoinGUI</name>
+    <name>DogecoinGUI</name>
     <message>
         <source>Sign &amp;message...</source>
         <translation>Podpiši &amp;sporočilo ...</translation>
@@ -364,8 +364,8 @@ Podpisovanje je možno le s podedovanimi ("legacy") naslovi.</translation>
         <translation>Posredniški strežnik je &lt;b&gt;omogočen&lt;/b&gt;: %1</translation>
     </message>
     <message>
-        <source>Send coins to a Bitcoin address</source>
-        <translation>Izvedite plačilo na bitcoin-naslov</translation>
+        <source>Send coins to a Dogecoin address</source>
+        <translation>Izvedite plačilo na dogecoin-naslov</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -400,12 +400,12 @@ Podpisovanje je možno le s podedovanimi ("legacy") naslovi.</translation>
         <translation>Šifrirajte zasebne ključe, ki se nahajajo v denarnici</translation>
     </message>
     <message>
-        <source>Sign messages with your Bitcoin addresses to prove you own them</source>
-        <translation>Podpišite poljubno sporočilo z enim svojih bitcoin-naslovov, da prejemniku sporočila dokažete, da je ta naslov v vaši lasti.</translation>
+        <source>Sign messages with your Dogecoin addresses to prove you own them</source>
+        <translation>Podpišite poljubno sporočilo z enim svojih dogecoin-naslovov, da prejemniku sporočila dokažete, da je ta naslov v vaši lasti.</translation>
     </message>
     <message>
-        <source>Verify messages to ensure they were signed with specified Bitcoin addresses</source>
-        <translation>Preverite, če je bilo prejeto sporočilo podpisano z določenim bitcoin-naslovom.</translation>
+        <source>Verify messages to ensure they were signed with specified Dogecoin addresses</source>
+        <translation>Preverite, če je bilo prejeto sporočilo podpisano z določenim dogecoin-naslovom.</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -424,8 +424,8 @@ Podpisovanje je možno le s podedovanimi ("legacy") naslovi.</translation>
         <translation>Orodna vrstica zavihkov</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and bitcoin: URIs)</source>
-        <translation>Zahtevajte plačilo (ustvarite zahtevek s kodo QR in URI tipa bitcoin)</translation>
+        <source>Request payments (generates QR codes and dogecoin: URIs)</source>
+        <translation>Zahtevajte plačilo (ustvarite zahtevek s kodo QR in URI tipa dogecoin)</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -440,8 +440,8 @@ Podpisovanje je možno le s podedovanimi ("legacy") naslovi.</translation>
         <translation>Možnosti &amp;ukazne vrstice</translation>
     </message>
     <message numerus="yes">
-        <source>%n active connection(s) to Bitcoin network</source>
-        <translation><numerusform>%n aktivna povezava v omrežje Bitcoin</numerusform><numerusform>%n aktivni povezavi v omrežje Bitcoin</numerusform><numerusform>%n aktivne povezave v omrežje Bitcoin</numerusform><numerusform>%n aktivnih povezav v omrežje Bitcoin</numerusform></translation>
+        <source>%n active connection(s) to Dogecoin network</source>
+        <translation><numerusform>%n aktivna povezava v omrežje Dogecoin</numerusform><numerusform>%n aktivni povezavi v omrežje Dogecoin</numerusform><numerusform>%n aktivne povezave v omrežje Dogecoin</numerusform><numerusform>%n aktivnih povezav v omrežje Dogecoin</numerusform></translation>
     </message>
     <message>
         <source>Indexing blocks on disk...</source>
@@ -488,16 +488,16 @@ Podpisovanje je možno le s podedovanimi ("legacy") naslovi.</translation>
         <translation>Na&amp;loži DPBT iz datoteke...</translation>
     </message>
     <message>
-        <source>Load Partially Signed Bitcoin Transaction</source>
-        <translation>Naloži delno podpisano bitcoin-transakcijo</translation>
+        <source>Load Partially Signed Dogecoin Transaction</source>
+        <translation>Naloži delno podpisano dogecoin-transakcijo</translation>
     </message>
     <message>
         <source>Load PSBT from clipboard...</source>
         <translation>Naloži DPBT z odložišča...</translation>
     </message>
     <message>
-        <source>Load Partially Signed Bitcoin Transaction from clipboard</source>
-        <translation>Naloži delno podpisano bitcoin-transakcijo z odložišča</translation>
+        <source>Load Partially Signed Dogecoin Transaction from clipboard</source>
+        <translation>Naloži delno podpisano dogecoin-transakcijo z odložišča</translation>
     </message>
     <message>
         <source>Node window</source>
@@ -516,8 +516,8 @@ Podpisovanje je možno le s podedovanimi ("legacy") naslovi.</translation>
         <translation>&amp;Naslovi za prejemanje</translation>
     </message>
     <message>
-        <source>Open a bitcoin: URI</source>
-        <translation>Odpri URI tipa bitcoin:</translation>
+        <source>Open a dogecoin: URI</source>
+        <translation>Odpri URI tipa dogecoin:</translation>
     </message>
     <message>
         <source>Open Wallet</source>
@@ -544,7 +544,7 @@ Podpisovanje je možno le s podedovanimi ("legacy") naslovi.</translation>
         <translation>Zapri vse denarnice</translation>
     </message>
     <message>
-        <source>Show the %1 help message to get a list with possible Bitcoin command-line options</source>
+        <source>Show the %1 help message to get a list with possible Dogecoin command-line options</source>
         <translation>Pokaži %1 sporočilo za pomoč s seznamom vseh možnosti v ukazni vrstici</translation>
     </message>
     <message>
@@ -924,8 +924,8 @@ Podpisovanje je možno le s podedovanimi ("legacy") naslovi.</translation>
         <translation>Uredi naslov za pošiljanje</translation>
     </message>
     <message>
-        <source>The entered address "%1" is not a valid Bitcoin address.</source>
-        <translation>Vnešeni naslov "%1" ni veljaven bitcoin-naslov.</translation>
+        <source>The entered address "%1" is not a valid Dogecoin address.</source>
+        <translation>Vnešeni naslov "%1" ni veljaven dogecoin-naslov.</translation>
     </message>
     <message>
         <source>Address "%1" already exists as a receiving address with label "%2" and so cannot be added as a sending address.</source>
@@ -1021,8 +1021,8 @@ Podpisovanje je možno le s podedovanimi ("legacy") naslovi.</translation>
         <translation>Uporabi to podatkovno mapo:</translation>
     </message>
     <message>
-        <source>Bitcoin</source>
-        <translation>Bitcoin</translation>
+        <source>Dogecoin</source>
+        <translation>Dogecoin</translation>
     </message>
     <message>
         <source>Discard blocks after verification, except most recent %1 GB (prune)</source>
@@ -1037,7 +1037,7 @@ Podpisovanje je možno le s podedovanimi ("legacy") naslovi.</translation>
         <translation>Približno %1 GB podatkov bo shranjenih v tem direktoriju.</translation>
     </message>
     <message>
-        <source>%1 will download and store a copy of the Bitcoin block chain.</source>
+        <source>%1 will download and store a copy of the Dogecoin block chain.</source>
         <translation>%1 bo prenesel in shranil kopijo verige blokov.</translation>
     </message>
     <message>
@@ -1072,12 +1072,12 @@ Podpisovanje je možno le s podedovanimi ("legacy") naslovi.</translation>
         <translation>Oblika</translation>
     </message>
     <message>
-        <source>Recent transactions may not yet be visible, and therefore your wallet's balance might be incorrect. This information will be correct once your wallet has finished synchronizing with the bitcoin network, as detailed below.</source>
-        <translation>Zadnje transakcije morda še niso vidne, zato je prikazano stanje v denarnici lahko napačno. Pravilni podatki bodo prikazani, ko bo vaša denarnica končala s sinhronizacijo z bitcoin omrežjem; glejte podrobnosti spodaj.</translation>
+        <source>Recent transactions may not yet be visible, and therefore your wallet's balance might be incorrect. This information will be correct once your wallet has finished synchronizing with the dogecoin network, as detailed below.</source>
+        <translation>Zadnje transakcije morda še niso vidne, zato je prikazano stanje v denarnici lahko napačno. Pravilni podatki bodo prikazani, ko bo vaša denarnica končala s sinhronizacijo z dogecoin omrežjem; glejte podrobnosti spodaj.</translation>
     </message>
     <message>
-        <source>Attempting to spend bitcoins that are affected by not-yet-displayed transactions will not be accepted by the network.</source>
-        <translation>Poskusa pošiljanja bitcoinov, na katere vplivajo še ne prikazane transakcije, omrežje ne bo sprejelo.</translation>
+        <source>Attempting to spend dogecoins that are affected by not-yet-displayed transactions will not be accepted by the network.</source>
+        <translation>Poskusa pošiljanja dogecoinov, na katere vplivajo še ne prikazane transakcije, omrežje ne bo sprejelo.</translation>
     </message>
     <message>
         <source>Number of blocks left</source>
@@ -1127,8 +1127,8 @@ Podpisovanje je možno le s podedovanimi ("legacy") naslovi.</translation>
 <context>
     <name>OpenURIDialog</name>
     <message>
-        <source>Open bitcoin URI</source>
-        <translation>Odpri bitcoin-URI</translation>
+        <source>Open dogecoin URI</source>
+        <translation>Odpri dogecoin-URI</translation>
     </message>
     <message>
         <source>URI:</source>
@@ -1269,7 +1269,7 @@ Podpisovanje je možno le s podedovanimi ("legacy") naslovi.</translation>
         <translation>Omogoči &amp;trošenje vračila iz še nepotrjenih plačil</translation>
     </message>
     <message>
-        <source>Automatically open the Bitcoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <source>Automatically open the Dogecoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
         <translation>Program samodejno odpre ustrezna vrata na usmerjevalniku. To deluje samo, če vaš usmerjevalnik podpira in ima omogočen UPnP.</translation>
     </message>
     <message>
@@ -1285,8 +1285,8 @@ Podpisovanje je možno le s podedovanimi ("legacy") naslovi.</translation>
         <translation>Dovoli &amp;dohodne povezave</translation>
     </message>
     <message>
-        <source>Connect to the Bitcoin network through a SOCKS5 proxy.</source>
-        <translation>Poveži se v omrežje Bitcoin preko posredniškega strežnika SOCKS5.</translation>
+        <source>Connect to the Dogecoin network through a SOCKS5 proxy.</source>
+        <translation>Poveži se v omrežje Dogecoin preko posredniškega strežnika SOCKS5.</translation>
     </message>
     <message>
         <source>&amp;Connect through SOCKS5 proxy (default proxy):</source>
@@ -1361,8 +1361,8 @@ Podpisovanje je možno le s podedovanimi ("legacy") naslovi.</translation>
         <translation>Omogoči dodatno možnost podrobnega nadzora nad posameznimi kovanci v transakcijah.</translation>
     </message>
     <message>
-        <source>Connect to the Bitcoin network through a separate SOCKS5 proxy for Tor onion services.</source>
-        <translation>Poveži se v omrežje Bitcoin prek ločenega posredniškega strežnika SOCKS5 za storitve onion (Tor).</translation>
+        <source>Connect to the Dogecoin network through a separate SOCKS5 proxy for Tor onion services.</source>
+        <translation>Poveži se v omrežje Dogecoin prek ločenega posredniškega strežnika SOCKS5 za storitve onion (Tor).</translation>
     </message>
     <message>
         <source>Use separate SOCKS&amp;5 proxy to reach peers via Tor onion services:</source>
@@ -1436,8 +1436,8 @@ Podpisovanje je možno le s podedovanimi ("legacy") naslovi.</translation>
         <translation>Oblika</translation>
     </message>
     <message>
-        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Bitcoin network after a connection is established, but this process has not completed yet.</source>
-        <translation>Prikazani podatki so morda zastareli. Program ob vzpostavitvi povezave samodejno sinhronizira denarnico z omrežjem Bitcoin, a trenutno ta proces še ni zaključen.</translation>
+        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Dogecoin network after a connection is established, but this process has not completed yet.</source>
+        <translation>Prikazani podatki so morda zastareli. Program ob vzpostavitvi povezave samodejno sinhronizira denarnico z omrežjem Dogecoin, a trenutno ta proces še ni zaključen.</translation>
     </message>
     <message>
         <source>Watch-only:</source>
@@ -1576,7 +1576,7 @@ Podpisovanje je možno le s podedovanimi ("legacy") naslovi.</translation>
     </message>
     <message>
         <source>Partially Signed Transaction (Binary) (*.psbt)</source>
-        <translation>Delno podpisana bitcoin-transakcija (binarno) (*.psbt)</translation>
+        <translation>Delno podpisana dogecoin-transakcija (binarno) (*.psbt)</translation>
     </message>
     <message>
         <source>PSBT saved to disk.</source>
@@ -1638,16 +1638,16 @@ Podpisovanje je možno le s podedovanimi ("legacy") naslovi.</translation>
         <translation>Napaka pri zahtevi plačila</translation>
     </message>
     <message>
-        <source>Cannot start bitcoin: click-to-pay handler</source>
-        <translation>Ni mogoče zagnati rokovalca plačilnih povezav tipa bitcoin:.</translation>
+        <source>Cannot start dogecoin: click-to-pay handler</source>
+        <translation>Ni mogoče zagnati rokovalca plačilnih povezav tipa dogecoin:.</translation>
     </message>
     <message>
         <source>URI handling</source>
         <translation>Rokovanje z URI</translation>
     </message>
     <message>
-        <source>'bitcoin://' is not a valid URI. Use 'bitcoin:' instead.</source>
-        <translation>'bitcoin://' ni veljaven URI. Uporabite raje 'bitcoin:' .</translation>
+        <source>'dogecoin://' is not a valid URI. Use 'dogecoin:' instead.</source>
+        <translation>'dogecoin://' ni veljaven URI. Uporabite raje 'dogecoin:' .</translation>
     </message>
     <message>
         <source>Cannot process payment request because BIP70 is not supported.</source>
@@ -1666,8 +1666,8 @@ Podpisovanje je možno le s podedovanimi ("legacy") naslovi.</translation>
         <translation>Neveljaven naslov za plačilo %1</translation>
     </message>
     <message>
-        <source>URI cannot be parsed! This can be caused by an invalid Bitcoin address or malformed URI parameters.</source>
-        <translation>URI je neprepoznaven! Možno je, da je bitcoin-naslov neveljaven ali pa so parametri URI-ja napačno oblikovani.</translation>
+        <source>URI cannot be parsed! This can be caused by an invalid Dogecoin address or malformed URI parameters.</source>
+        <translation>URI je neprepoznaven! Možno je, da je dogecoin-naslov neveljaven ali pa so parametri URI-ja napačno oblikovani.</translation>
     </message>
     <message>
         <source>Payment request file handling</source>
@@ -1708,8 +1708,8 @@ Podpisovanje je možno le s podedovanimi ("legacy") naslovi.</translation>
         <translation>Znesek</translation>
     </message>
     <message>
-        <source>Enter a Bitcoin address (e.g. %1)</source>
-        <translation>Vnesite bitcoin-naslov (npr. %1)</translation>
+        <source>Enter a Dogecoin address (e.g. %1)</source>
+        <translation>Vnesite dogecoin-naslov (npr. %1)</translation>
     </message>
     <message>
         <source>%1 d</source>
@@ -2169,8 +2169,8 @@ Podpisovanje je možno le s podedovanimi ("legacy") naslovi.</translation>
         <translation>&amp;Sporočilo:</translation>
     </message>
     <message>
-        <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Bitcoin network.</source>
-        <translation>Neobvezno sporočilo kot priponka zahtevku za plačilo, ki bo prikazano, ko bo zahtevek odprt. Opomba: Opravljeno plačilo.prek omrežja Bitcoin tega sporočila ne bo vsebovalo.</translation>
+        <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Dogecoin network.</source>
+        <translation>Neobvezno sporočilo kot priponka zahtevku za plačilo, ki bo prikazano, ko bo zahtevek odprt. Opomba: Opravljeno plačilo.prek omrežja Dogecoin tega sporočila ne bo vsebovalo.</translation>
     </message>
     <message>
         <source>An optional label to associate with the new receiving address.</source>
@@ -2454,8 +2454,8 @@ Opomba: Ker se provizija izračuna na bajt, bi provizija "100 satoshijev na kB" 
         <translation>Skrij nastavitve transakcijske provizije</translation>
     </message>
     <message>
-        <source>When there is less transaction volume than space in the blocks, miners as well as relaying nodes may enforce a minimum fee. Paying only this minimum fee is just fine, but be aware that this can result in a never confirming transaction once there is more demand for bitcoin transactions than the network can process.</source>
-        <translation>Kadar je v blokih manj prostora, kot je zahtev po transakcijah, lahko rudarji in posredovalna vozlišča zahtevajo minimalno provizijo. Plačilo le te minimalne provizije je čisto v redu, vendar se zavedajte, da lahko to povzroči, da se transakcija nikoli ne potrdi, če bo povpraševanje po bitcoin transakcijah večje, kot ga omrežje lahko obdela.</translation>
+        <source>When there is less transaction volume than space in the blocks, miners as well as relaying nodes may enforce a minimum fee. Paying only this minimum fee is just fine, but be aware that this can result in a never confirming transaction once there is more demand for dogecoin transactions than the network can process.</source>
+        <translation>Kadar je v blokih manj prostora, kot je zahtev po transakcijah, lahko rudarji in posredovalna vozlišča zahtevajo minimalno provizijo. Plačilo le te minimalne provizije je čisto v redu, vendar se zavedajte, da lahko to povzroči, da se transakcija nikoli ne potrdi, če bo povpraševanje po dogecoin transakcijah večje, kot ga omrežje lahko obdela.</translation>
     </message>
     <message>
         <source>A too low fee might result in a never confirming transaction (read the tooltip)</source>
@@ -2526,8 +2526,8 @@ Opomba: Ker se provizija izračuna na bajt, bi provizija "100 satoshijev na kB" 
         <translation>Ustvari n&amp;epodpisano</translation>
     </message>
     <message>
-        <source>Creates a Partially Signed Bitcoin Transaction (PSBT) for use with e.g. an offline %1 wallet, or a PSBT-compatible hardware wallet.</source>
-        <translation>Ustvari delno podpisano bitcoin-transakcijo (DPBT, angl. PSBT), ki jo lahko skopirate in potem podpišete n.pr. z nepovezano (offline) %1 denarnico ali pa s hardversko denarnico, ki podpira DPBT.</translation>
+        <source>Creates a Partially Signed Dogecoin Transaction (PSBT) for use with e.g. an offline %1 wallet, or a PSBT-compatible hardware wallet.</source>
+        <translation>Ustvari delno podpisano dogecoin-transakcijo (DPBT, angl. PSBT), ki jo lahko skopirate in potem podpišete n.pr. z nepovezano (offline) %1 denarnico ali pa s hardversko denarnico, ki podpira DPBT.</translation>
     </message>
     <message>
         <source> from wallet '%1'</source>
@@ -2559,7 +2559,7 @@ Opomba: Ker se provizija izračuna na bajt, bi provizija "100 satoshijev na kB" 
     </message>
     <message>
         <source>Partially Signed Transaction (Binary) (*.psbt)</source>
-        <translation>Delno podpisana bitcoin-transakcija (binarno) (*.psbt)</translation>
+        <translation>Delno podpisana dogecoin-transakcija (binarno) (*.psbt)</translation>
     </message>
     <message>
         <source>PSBT saved</source>
@@ -2574,8 +2574,8 @@ Opomba: Ker se provizija izračuna na bajt, bi provizija "100 satoshijev na kB" 
         <translation>Provizijo lahko zvišate kasneje (signali Replace-By-Fee, BIP-125).</translation>
     </message>
     <message>
-        <source>Please, review your transaction proposal. This will produce a Partially Signed Bitcoin Transaction (PSBT) which you can save or copy and then sign with e.g. an offline %1 wallet, or a PSBT-compatible hardware wallet.</source>
-        <translation>Prosimo, preglejte predlog za transakcijo. Ustvarjena bo delno podpisana bitcoin-transakcija (DPBT), ki jo lahko shranite ali skopirate in potem podpišete n.pr. z nepovezano (offline) %1 denarnico ali pa s hardversko denarnico, ki podpira DPBT.</translation>
+        <source>Please, review your transaction proposal. This will produce a Partially Signed Dogecoin Transaction (PSBT) which you can save or copy and then sign with e.g. an offline %1 wallet, or a PSBT-compatible hardware wallet.</source>
+        <translation>Prosimo, preglejte predlog za transakcijo. Ustvarjena bo delno podpisana dogecoin-transakcija (DPBT), ki jo lahko shranite ali skopirate in potem podpišete n.pr. z nepovezano (offline) %1 denarnico ali pa s hardversko denarnico, ki podpira DPBT.</translation>
     </message>
     <message>
         <source>Please, review your transaction.</source>
@@ -2650,8 +2650,8 @@ Opomba: Ker se provizija izračuna na bajt, bi provizija "100 satoshijev na kB" 
         <translation><numerusform>Predviden začetek potrditev po %n najdenemu bloku.</numerusform><numerusform>Predviden začetek potrditev po %n najdenih blokih.</numerusform><numerusform>Predviden začetek potrditev po %n najdenih blokih.</numerusform><numerusform>Prva predvidena potrditev v naslednjih %n blokih.</numerusform></translation>
     </message>
     <message>
-        <source>Warning: Invalid Bitcoin address</source>
-        <translation>Opozorilo: Neveljaven bitcoin-naslov</translation>
+        <source>Warning: Invalid Dogecoin address</source>
+        <translation>Opozorilo: Neveljaven dogecoin-naslov</translation>
     </message>
     <message>
         <source>Warning: Unknown change address</source>
@@ -2689,8 +2689,8 @@ Opomba: Ker se provizija izračuna na bajt, bi provizija "100 satoshijev na kB" 
         <translation>Izberite enega od že uporabljenih naslovov</translation>
     </message>
     <message>
-        <source>The Bitcoin address to send the payment to</source>
-        <translation>Bitcoin-naslov, na katerega bo plačilo poslano</translation>
+        <source>The Dogecoin address to send the payment to</source>
+        <translation>Dogecoin-naslov, na katerega bo plačilo poslano</translation>
     </message>
     <message>
         <source>Alt+A</source>
@@ -2713,7 +2713,7 @@ Opomba: Ker se provizija izračuna na bajt, bi provizija "100 satoshijev na kB" 
         <translation>Znesek za pošiljanje v izbrani enoti</translation>
     </message>
     <message>
-        <source>The fee will be deducted from the amount being sent. The recipient will receive less bitcoins than you enter in the amount field. If multiple recipients are selected, the fee is split equally.</source>
+        <source>The fee will be deducted from the amount being sent. The recipient will receive less dogecoins than you enter in the amount field. If multiple recipients are selected, the fee is split equally.</source>
         <translation>Znesek plačila bo zmanjšan za znesek provizije. Prejemnik bo prejel manjše število kovancev, kot je bil vnešeni znesek. Če je prejemnikov več, bo provizija med njih enakomerno porazdeljena.</translation>
     </message>
     <message>
@@ -2741,8 +2741,8 @@ Opomba: Ker se provizija izračuna na bajt, bi provizija "100 satoshijev na kB" 
         <translation>Če vnesete oznako za zgornji naslov, se bo skupaj z naslovom shranila v imenk že uporabljenih naslovov</translation>
     </message>
     <message>
-        <source>A message that was attached to the bitcoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Bitcoin network.</source>
-        <translation>Sporočilo, ki je bilo pripeto na URI tipa bitcoin: in bo shranjeno skupaj s podatki o transakciji. Opomba: Sporočilo ne bo poslano preko omrežja Bitcoin.</translation>
+        <source>A message that was attached to the dogecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
+        <translation>Sporočilo, ki je bilo pripeto na URI tipa dogecoin: in bo shranjeno skupaj s podatki o transakciji. Opomba: Sporočilo ne bo poslano preko omrežja Dogecoin.</translation>
     </message>
     <message>
         <source>Pay To:</source>
@@ -2775,12 +2775,12 @@ Opomba: Ker se provizija izračuna na bajt, bi provizija "100 satoshijev na kB" 
         <translation>&amp;Podpiši sporočilo</translation>
     </message>
     <message>
-        <source>You can sign messages/agreements with your addresses to prove you can receive bitcoins sent to them. Be careful not to sign anything vague or random, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</source>
+        <source>You can sign messages/agreements with your addresses to prove you can receive dogecoins sent to them. Be careful not to sign anything vague or random, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</source>
         <translation>S svojimi naslovi lahko podpisujete sporočila ali dogovore in s tem dokazujete, da na teh naslovih lahko prejemate kovance. Bodite previdni in ne podpisujte ničesar nejasnega ali naključnega, ker vas zlikovci preko ribarjenja (phishing) lahko prelisičijo, da na njih prepišete svojo identiteto. Podpisujte samo podrobno opisane izjave, s katerimi se strinjate.</translation>
     </message>
     <message>
-        <source>The Bitcoin address to sign the message with</source>
-        <translation>Bitcoin-naslov, s katerim podpisujete sporočilo</translation>
+        <source>The Dogecoin address to sign the message with</source>
+        <translation>Dogecoin-naslov, s katerim podpisujete sporočilo</translation>
     </message>
     <message>
         <source>Choose previously used address</source>
@@ -2811,7 +2811,7 @@ Opomba: Ker se provizija izračuna na bajt, bi provizija "100 satoshijev na kB" 
         <translation>Kopiranje trenutnega podpisa v sistemsko odložišče.</translation>
     </message>
     <message>
-        <source>Sign the message to prove you own this Bitcoin address</source>
+        <source>Sign the message to prove you own this Dogecoin address</source>
         <translation>Podpišite sporočilo, da dokažete lastništvo zgornjega naslova.</translation>
     </message>
     <message>
@@ -2835,8 +2835,8 @@ Opomba: Ker se provizija izračuna na bajt, bi provizija "100 satoshijev na kB" 
         <translation>Da preverite verodostojnost sporočila, spodaj vnesite: prejemnikov naslov, prejeto sporočilo (pazljivo skopirajte vse prelome vrstic, presledke, tabulatorje itd.) in prejeti podpis. Da se izognete napadom tipa man-in-the-middle, vedite, da iz veljavnega podpisa ne sledi nič drugega, kot tisto, kar je navedeno v sporočilu. Podpis samo potrjuje dejstvo, da ima podpisnik v lasti prejemni naslov, ne more pa dokazati vira nobene transakcije!</translation>
     </message>
     <message>
-        <source>The Bitcoin address the message was signed with</source>
-        <translation>Bitcoin-naslov, s katerim je bilo sporočilo podpisano</translation>
+        <source>The Dogecoin address the message was signed with</source>
+        <translation>Dogecoin-naslov, s katerim je bilo sporočilo podpisano</translation>
     </message>
     <message>
         <source>The signed message to verify</source>
@@ -2847,8 +2847,8 @@ Opomba: Ker se provizija izračuna na bajt, bi provizija "100 satoshijev na kB" 
         <translation>Podpis, ustvarjen ob podpisovanju sporočila</translation>
     </message>
     <message>
-        <source>Verify the message to ensure it was signed with the specified Bitcoin address</source>
-        <translation>Preverite, ali je bilo sporočilo v resnici podpisano z navedenim bitcoin-naslovom.</translation>
+        <source>Verify the message to ensure it was signed with the specified Dogecoin address</source>
+        <translation>Preverite, ali je bilo sporočilo v resnici podpisano z navedenim dogecoin-naslovom.</translation>
     </message>
     <message>
         <source>Verify &amp;Message</source>
@@ -3538,7 +3538,7 @@ Za odpiranje denarnice kliknite Datoteka &gt; Odpri denarnico
     </message>
 </context>
 <context>
-    <name>bitcoin-core</name>
+    <name>dogecoin-core</name>
     <message>
         <source>Distributed under the MIT software license, see the accompanying file %s or %s</source>
         <translation>Distribuirano v okviru programske licence MIT. Podrobnosti so navedene v  priloženi datoteki %s ali %s</translation>
@@ -3840,8 +3840,8 @@ Za odpiranje denarnice kliknite Datoteka &gt; Odpri denarnico
         <translation>Napaka: Ni mogoče sprejemati dohodnih povezav (vrnjena napaka: %s)</translation>
     </message>
     <message>
-        <source>%s corrupt. Try using the wallet tool bitcoin-wallet to salvage or restoring a backup.</source>
-        <translation>%s je okvarjena. Lahko jo poskusite popraviti z orodjem bitcoin-wallet ali pa jo obnovite iz varnostne kopije.</translation>
+        <source>%s corrupt. Try using the wallet tool dogecoin-wallet to salvage or restoring a backup.</source>
+        <translation>%s je okvarjena. Lahko jo poskusite popraviti z orodjem dogecoin-wallet ali pa jo obnovite iz varnostne kopije.</translation>
     </message>
     <message>
         <source>Invalid amount for -maxtxfee=&lt;amount&gt;: '%s' (must be at least the minrelay fee of %s to prevent stuck transactions)</source>

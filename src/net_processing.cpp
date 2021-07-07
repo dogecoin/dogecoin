@@ -1571,7 +1571,7 @@ void static ProcessGetBlockData(CNode& pfrom, const CChainParams& chainparams, c
         } else {
             // Send block from disk
             std::shared_ptr<CBlock> pblockRead = std::make_shared<CBlock>();
-            if (!ReadBlockFromDisk(*pblockRead, pindex, consensusParams))
+            if (!ReadBlockFromDisk(*pblockRead, pindex, consensusParams, false))
                 assert(!"cannot load block from disk");
             pblock = pblockRead;
         }
@@ -2847,7 +2847,7 @@ void PeerManager::ProcessMessage(CNode& pfrom, const std::string& msg_type, CDat
 
             if (pindex->nHeight >= ::ChainActive().Height() - MAX_BLOCKTXN_DEPTH) {
                 CBlock block;
-                bool ret = ReadBlockFromDisk(block, pindex, m_chainparams.GetConsensus());
+                bool ret = ReadBlockFromDisk(block, pindex, m_chainparams.GetConsensus(), false);
                 assert(ret);
 
                 SendBlockTransactions(pfrom, block, req);
@@ -2917,7 +2917,7 @@ void PeerManager::ProcessMessage(CNode& pfrom, const std::string& msg_type, CDat
         LogPrint(BCLog::NET, "getheaders %d to %s from peer=%d\n", (pindex ? pindex->nHeight : -1), hashStop.IsNull() ? "end" : hashStop.ToString(), pfrom.GetId());
         for (; pindex; pindex = ::ChainActive().Next(pindex))
         {
-            vHeaders.push_back(pindex->GetBlockHeader());
+            vHeaders.push_back(pindex->GetBlockHeader(m_chainparams.GetConsensus(), false));
             if (--nLimit <= 0 || pindex->GetBlockHash() == hashStop)
                 break;
         }
@@ -3722,7 +3722,7 @@ void PeerManager::ProcessMessage(CNode& pfrom, const std::string& msg_type, CDat
     if (msg_type == NetMsgType::FEEFILTER) {
         CAmount newFeeFilter = 0;
         vRecv >> newFeeFilter;
-        if (MoneyRange(newFeeFilter)) {
+        if (FeeRange(newFeeFilter)) {
             if (pfrom.m_tx_relay != nullptr) {
                 LOCK(pfrom.m_tx_relay->cs_feeFilter);
                 pfrom.m_tx_relay->minFeeFilter = newFeeFilter;
@@ -4212,14 +4212,14 @@ bool PeerManager::SendMessages(CNode* pto)
                     pBestIndex = pindex;
                     if (fFoundStartingHeader) {
                         // add this to the headers message
-                        vHeaders.push_back(pindex->GetBlockHeader());
+                        vHeaders.push_back(pindex->GetBlockHeader(consensusParams, false));
                     } else if (PeerHasHeader(&state, pindex)) {
                         continue; // keep looking for the first new block
                     } else if (pindex->pprev == nullptr || PeerHasHeader(&state, pindex->pprev)) {
                         // Peer doesn't have this header but they do have the prior one.
                         // Start sending headers.
                         fFoundStartingHeader = true;
-                        vHeaders.push_back(pindex->GetBlockHeader());
+                        vHeaders.push_back(pindex->GetBlockHeader(consensusParams, false));
                     } else {
                         // Peer doesn't have this header or the prior one -- nothing will
                         // connect, so bail out.
@@ -4252,7 +4252,7 @@ bool PeerManager::SendMessages(CNode* pto)
                     }
                     if (!fGotBlockFromCache) {
                         CBlock block;
-                        bool ret = ReadBlockFromDisk(block, pBestIndex, consensusParams);
+                        bool ret = ReadBlockFromDisk(block, pBestIndex, consensusParams, false);
                         assert(ret);
                         CBlockHeaderAndShortTxIDs cmpctblock(block, state.fWantsCmpctWitness);
                         m_connman.PushMessage(pto, msgMaker.Make(nSendFlags, NetMsgType::CMPCTBLOCK, cmpctblock));

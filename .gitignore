@@ -51,11 +51,11 @@ src/qt/forms/ui_*.h
 
 src/qt/test/moc*.cpp
 
-src/qt/bitcoin-qt.config
-src/qt/bitcoin-qt.creator
-src/qt/bitcoin-qt.creator.user
-src/qt/bitcoin-qt.files
-src/qt/bitcoin-qt.includes
+src/qt/dogecoin-qt.config
+src/qt/dogecoin-qt.creator
+src/qt/dogecoin-qt.creator.user
+src/qt/dogecoin-qt.files
+src/qt/dogecoin-qt.includes
 
 .deps
 .dirstamp
@@ -101,7 +101,7 @@ Makefile.am.user
 
 # Unit-tests
 Makefile.test
-bitcoin-qt_test
+dogecoin-qt_test
 
 # Resources cpp
 qrc_*.cpp

@@ -133,7 +133,7 @@ void BumpFee(TransactionView& view, const uint256& txid, bool expectDisabled, st
 //     QT_QPA_PLATFORM=cocoa   src/qt/test/test_bitcoin-qt  # macOS
 void TestGUI(interfaces::Node& node)
 {
-    // Set up wallet and chain with 105 blocks (5 mature blocks for spending).
+    // Set up wallet and chain with 245 blocks (5 mature blocks for spending).
     TestChain240Setup test;
     for (int i = 0; i < 5; ++i) {
         test.CreateAndProcessBlock({}, GetScriptForRawPubKey(test.coinbaseKey.GetPubKey()));
@@ -231,7 +231,7 @@ void TestGUI(interfaces::Node& node)
             QCOMPARE(receiveRequestDialog->QObject::findChild<QLabel*>("payment_header")->text(), QString("Payment information"));
             QCOMPARE(receiveRequestDialog->QObject::findChild<QLabel*>("uri_tag")->text(), QString("URI:"));
             QString uri = receiveRequestDialog->QObject::findChild<QLabel*>("uri_content")->text();
-            QCOMPARE(uri.count("bitcoin:"), 2);
+            QCOMPARE(uri.count("dogecoin:"), 2);
             QCOMPARE(receiveRequestDialog->QObject::findChild<QLabel*>("address_tag")->text(), QString("Address:"));
 
             QCOMPARE(uri.count("amount=0.00000001"), 2);

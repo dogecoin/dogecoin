@@ -132,10 +132,12 @@ private:
     // Configuration parameters for the block size
     bool fIncludeWitness;
     unsigned int nBlockMaxWeight;
+    bool fNeedSizeAccounting;
     CFeeRate blockMinFeeRate;
 
     // Information on the current status of the block
     uint64_t nBlockWeight;
+    uint64_t nBlockSize;
     uint64_t nBlockTx;
     uint64_t nBlockSigOpsCost;
     CAmount nFees;
@@ -200,6 +202,7 @@ private:
 /** Modify the extranonce in a block */
 void IncrementExtraNonce(CBlock* pblock, const CBlockIndex* pindexPrev, unsigned int& nExtraNonce);
 int64_t UpdateTime(CBlockHeader* pblock, const Consensus::Params& consensusParams, const CBlockIndex* pindexPrev);
+bool ProcessBlockFound(const CBlock* pblock, const CChainParams& chainParams);
 
 /** Update an old GenerateCoinbaseCommitment from CreateNewBlock after the block txs have changed */
 void RegenerateCommitments(CBlock& block);
