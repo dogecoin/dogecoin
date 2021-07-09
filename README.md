@@ -81,37 +81,28 @@ lessen the impact of sudden increases and decreases of network hashing rate.
 
 **The current block reward schedule:**
 
-1–99,999: 0–1,000,000 Dogecoin
-
-100,000–144,999: 0–500,000 Dogecoin
-
-145,000–199,999: 250,000 Dogecoin
-
-200,000–299,999: 125,000 Dogecoin
-
-300,000–399,999: 62,500 Dogecoin
-
-400,000–499,999: 31,250 Dogecoin
-
-500,000–599,999: 15,625 Dogecoin
-
-600,000+: 10,000 Dogecoin
+|Block |Reward
+--- | ---
+1–99,999 | 0–1,000,000 Dogecoin
+100,000–144,999 | 0–500,000 Dogecoin
+145,000–199,999 | 250,000 Dogecoin
+200,000–299,999 | 125,000 Dogecoin
+300,000–399,999 | 62,500 Dogecoin
+400,000–499,999 | 31,250 Dogecoin
+500,000–599,999 | 15,625 Dogecoin
+600,000+ | 10,000 Dogecoin
 
 **The original block reward schedule, with one-minute block targets and four-hour difficulty readjustment:**
 
-1–99,999: 0–1,000,000 Dogecoin
-
-100,000–199,999: 0–500,000 Dogecoin
-
-200,000–299,999: 0–250,000 Dogecoin
-
-300,000–399,999: 0–125,000 Dogecoin
-
-400,000–499,999: 0–62,500 Dogecoin
-
-500,000–599,999: 0–31,250 Dogecoin
-
-600,000+: 10,000 Dogecoin
+|Block |Reward
+--- | ---
+1–99,999 | 0–1,000,000 Dogecoin
+100,000–199,999 | 0–500,000 Dogecoin
+200,000–299,999 | 0–250,000 Dogecoin
+300,000–399,999 | 0–125,000 Dogecoin
+400,000–499,999 | 0–62,500 Dogecoin
+500,000–599,999 | 0–31,250 Dogecoin
+600,000+ | 10,000 Dogecoin
 
 ### Wow plz make dogecoind/dogecoin-cli/dogecoin-qt
 
@@ -128,12 +119,12 @@ lessen the impact of sudden increases and decreases of network hashing rate.
 
 ## Development tips and tricks
 
-**compiling for debugging**
+### Compiling for debugging
 
 Run `configure` with the `--enable-debug` option, then `make`. Or run `configure` with
 `CXXFLAGS="-g -ggdb -O0"` or whatever debug flags you need.
 
-**debug.log**
+### Debug.log
 
 If the code is behaving strangely, take a look in the debug.log file in the data directory;
 error and debugging messages are written there.
@@ -144,7 +135,7 @@ on all categories (and give you a very large debug.log file).
 The Qt code routes `qDebug()` output to debug.log under category "qt": run with `-debug=qt`
 to see it.
 
-**testnet and regtest modes**
+### Testnet and regtest modes
 
 Run with the `-testnet` option to run with "play dogecoins" on the test network, if you
 are testing multi-machine code that needs to operate across the internet.
@@ -153,7 +144,7 @@ If you are testing something that can run on one machine, run with the `-regtest
 In regression test mode, blocks can be created on-demand; see qa/rpc-tests/ for tests
 that run in `-regtest` mode.
 
-**DEBUG_LOCKORDER**
+### DEBUG_LOCKORDER
 
 Dogecoin Core is a multithreaded application, and deadlocks or other multithreading bugs
 can be very difficult to track down. Compiling with `-DDEBUG_LOCKORDER` (`configure
