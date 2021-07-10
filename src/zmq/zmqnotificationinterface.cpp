@@ -50,7 +50,7 @@ CZMQNotificationInterface* CZMQNotificationInterface::Create()
             CZMQAbstractNotifier *notifier = factory();
             notifier->SetType(i->first);
             notifier->SetAddress(address);
-            notifiers.push_back(notifier);
+            notifiers.emplace_back(notifier);
         }
     }
 

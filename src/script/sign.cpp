@@ -33,7 +33,7 @@ bool TransactionSignatureCreator::CreateSig(std::vector<unsigned char>& vchSig, 
     uint256 hash = SignatureHash(scriptCode, *txTo, nIn, nHashType, amount, sigversion);
     if (!key.Sign(hash, vchSig))
         return false;
-    vchSig.push_back((unsigned char)nHashType);
+    vchSig.emplace_back((unsigned char)nHashType);
     return true;
 }
 
@@ -42,7 +42,7 @@ static bool Sign1(const CKeyID& address, const BaseSignatureCreator& creator, co
     vector<unsigned char> vchSig;
     if (!creator.CreateSig(vchSig, address, scriptCode, sigversion))
         return false;
-    ret.push_back(vchSig);
+    ret.emplace_back(vchSig);
     return true;
 }
 
@@ -94,28 +94,28 @@ static bool SignStep(const BaseSignatureCreator& creator, const CScript& scriptP
         {
             CPubKey vch;
             creator.KeyStore().GetPubKey(keyID, vch);
-            ret.push_back(ToByteVector(vch));
+            ret.emplace_back(ToByteVector(vch));
         }
         return true;
     case TX_SCRIPTHASH:
         if (creator.KeyStore().GetCScript(uint160(vSolutions[0]), scriptRet)) {
-            ret.push_back(std::vector<unsigned char>(scriptRet.begin(), scriptRet.end()));
+            ret.emplace_back(std::vector<unsigned char>(scriptRet.begin(), scriptRet.end()));
             return true;
         }
         return false;
 
     case TX_MULTISIG:
-        ret.push_back(valtype()); // workaround CHECKMULTISIG bug
+        ret.emplace_back(valtype()); // workaround CHECKMULTISIG bug
         return (SignN(vSolutions, creator, scriptPubKey, ret, sigversion));
 
     case TX_WITNESS_V0_KEYHASH:
-        ret.push_back(vSolutions[0]);
+        ret.emplace_back(vSolutions[0]);
         return true;
 
     case TX_WITNESS_V0_SCRIPTHASH:
         CRIPEMD160().Write(&vSolutions[0][0], vSolutions[0].size()).Finalize(h160.begin());
         if (creator.KeyStore().GetCScript(h160, scriptRet)) {
-            ret.push_back(std::vector<unsigned char>(scriptRet.begin(), scriptRet.end()));
+            ret.emplace_back(std::vector<unsigned char>(scriptRet.begin(), scriptRet.end()));
             return true;
         }
         return false;
@@ -175,13 +175,13 @@ bool ProduceSignature(const BaseSignatureCreator& creator, const CScript& fromPu
         CScript witnessscript(result[0].begin(), result[0].end());
         txnouttype subType;
         solved = solved && SignStep(creator, witnessscript, result, subType, SIGVERSION_WITNESS_V0) && subType != TX_SCRIPTHASH && subType != TX_WITNESS_V0_SCRIPTHASH && subType != TX_WITNESS_V0_KEYHASH;
-        result.push_back(std::vector<unsigned char>(witnessscript.begin(), witnessscript.end()));
+        result.emplace_back(std::vector<unsigned char>(witnessscript.begin(), witnessscript.end()));
         sigdata.scriptWitness.stack = result;
         result.clear();
     }
 
     if (P2SH) {
-        result.push_back(std::vector<unsigned char>(subscript.begin(), subscript.end()));
+        result.emplace_back(std::vector<unsigned char>(subscript.begin(), subscript.end()));
     }
     sigdata.scriptSig = PushAll(result);
 
@@ -267,18 +267,18 @@ static vector<valtype> CombineMultisig(const CScript& scriptPubKey, const BaseSi
     }
     // Now build a merged CScript:
     unsigned int nSigsHave = 0;
-    std::vector<valtype> result; result.push_back(valtype()); // pop-one-too-many workaround
+    std::vector<valtype> result; result.emplace_back(valtype()); // pop-one-too-many workaround
     for (unsigned int i = 0; i < nPubKeys && nSigsHave < nSigsRequired; i++)
     {
         if (sigs.count(vSolutions[i+1]))
         {
-            result.push_back(sigs[vSolutions[i+1]]);
+            result.emplace_back(sigs[vSolutions[i+1]]);
             ++nSigsHave;
         }
     }
     // Fill any missing with OP_0:
     for (unsigned int i = nSigsHave; i < nSigsRequired; i++)
-        result.push_back(valtype());
+        result.emplace_back(valtype());
 
     return result;
 }
@@ -345,7 +345,7 @@ static Stacks CombineSignatures(const CScript& scriptPubKey, const BaseSignature
             sigs1.script.pop_back();
             sigs2.script.pop_back();
             Stacks result = CombineSignatures(pubKey2, checker, txType2, vSolutions2, sigs1, sigs2, sigversion);
-            result.script.push_back(spk);
+            result.script.emplace_back(spk);
             return result;
         }
     case TX_MULTISIG:
@@ -371,7 +371,7 @@ static Stacks CombineSignatures(const CScript& scriptPubKey, const BaseSignature
             Stacks result = CombineSignatures(pubKey2, checker, txType2, vSolutions2, sigs1, sigs2, SIGVERSION_WITNESS_V0);
             result.witness = result.script;
             result.script.clear();
-            result.witness.push_back(valtype(pubKey2.begin(), pubKey2.end()));
+            result.witness.emplace_back(valtype(pubKey2.begin(), pubKey2.end()));
             return result;
         }
     default:

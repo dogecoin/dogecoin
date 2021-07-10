@@ -24,12 +24,12 @@ CMerkleBlock::CMerkleBlock(const CBlock& block, CBloomFilter& filter)
         const uint256& hash = block.vtx[i]->GetHash();
         if (filter.IsRelevantAndUpdate(*block.vtx[i]))
         {
-            vMatch.push_back(true);
-            vMatchedTxn.push_back(std::make_pair(i, hash));
+            vMatch.emplace_back(true);
+            vMatchedTxn.emplace_back(std::make_pair(i, hash));
         }
         else
-            vMatch.push_back(false);
-        vHashes.push_back(hash);
+            vMatch.emplace_back(false);
+        vHashes.emplace_back(hash);
     }
 
     txn = CPartialMerkleTree(vHashes, vMatch);
@@ -49,10 +49,10 @@ CMerkleBlock::CMerkleBlock(const CBlock& block, const std::set<uint256>& txids)
     {
         const uint256& hash = block.vtx[i]->GetHash();
         if (txids.count(hash))
-            vMatch.push_back(true);
+            vMatch.emplace_back(true);
         else
-            vMatch.push_back(false);
-        vHashes.push_back(hash);
+            vMatch.emplace_back(false);
+        vHashes.emplace_back(hash);
     }
 
     txn = CPartialMerkleTree(vHashes, vMatch);
@@ -81,10 +81,10 @@ void CPartialMerkleTree::TraverseAndBuild(int height, unsigned int pos, const st
     for (unsigned int p = pos << height; p < (pos+1) << height && p < nTransactions; p++)
         fParentOfMatch |= vMatch[p];
     // store as flag bit
-    vBits.push_back(fParentOfMatch);
+    vBits.emplace_back(fParentOfMatch);
     if (height==0 || !fParentOfMatch) {
         // if at height 0, or nothing interesting below, store hash and stop
-        vHash.push_back(CalcHash(height, pos, vTxid));
+        vHash.emplace_back(CalcHash(height, pos, vTxid));
     } else {
         // otherwise, don't store any hash, but descend into the subtrees
         TraverseAndBuild(height-1, pos*2, vTxid, vMatch);
@@ -109,8 +109,8 @@ uint256 CPartialMerkleTree::TraverseAndExtract(int height, unsigned int pos, uns
         }
         const uint256 &hash = vHash[nHashUsed++];
         if (height==0 && fParentOfMatch) { // in case of height 0, we have a matched txid
-            vMatch.push_back(hash);
-            vnIndex.push_back(pos);
+            vMatch.emplace_back(hash);
+            vnIndex.emplace_back(pos);
         }
         return hash;
     } else {

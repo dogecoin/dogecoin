@@ -142,8 +142,8 @@ std::unique_ptr<CBlockTemplate> BlockAssembler::CreateNewBlock(const CScript& sc
 
     // Add dummy coinbase tx as first transaction
     pblock->vtx.emplace_back();
-    pblocktemplate->vTxFees.push_back(-1); // updated at end
-    pblocktemplate->vTxSigOpsCost.push_back(-1); // updated at end
+    pblocktemplate->vTxFees.emplace_back(-1); // updated at end
+    pblocktemplate->vTxSigOpsCost.emplace_back(-1); // updated at end
 
     LOCK2(cs_main, mempool.cs);
     CBlockIndex* pindexPrev = chainActive.Tip();
@@ -333,8 +333,8 @@ bool BlockAssembler::TestForBlock(CTxMemPool::txiter iter)
 void BlockAssembler::AddToBlock(CTxMemPool::txiter iter)
 {
     pblock->vtx.emplace_back(iter->GetSharedTx());
-    pblocktemplate->vTxFees.push_back(iter->GetFee());
-    pblocktemplate->vTxSigOpsCost.push_back(iter->GetSigOpCost());
+    pblocktemplate->vTxFees.emplace_back(iter->GetFee());
+    pblocktemplate->vTxSigOpsCost.emplace_back(iter->GetSigOpCost());
     if (fNeedSizeAccounting) {
         nBlockSize += ::GetSerializeSize(iter->GetTx(), SER_NETWORK, PROTOCOL_VERSION);
     }
@@ -579,7 +579,7 @@ void BlockAssembler::addPriorityTxs()
         double dPriority = mi->GetPriority(nHeight);
         CAmount dummy;
         mempool.ApplyDeltas(mi->GetTx().GetHash(), dPriority, dummy);
-        vecPriority.push_back(TxCoinAgePriority(dPriority, mi));
+        vecPriority.emplace_back(TxCoinAgePriority(dPriority, mi));
     }
     std::make_heap(vecPriority.begin(), vecPriority.end(), pricomparer);
 
@@ -623,7 +623,7 @@ void BlockAssembler::addPriorityTxs()
             {
                 waitPriIter wpiter = waitPriMap.find(child);
                 if (wpiter != waitPriMap.end()) {
-                    vecPriority.push_back(TxCoinAgePriority(wpiter->second,child));
+                    vecPriority.emplace_back(TxCoinAgePriority(wpiter->second,child));
                     std::push_heap(vecPriority.begin(), vecPriority.end(), pricomparer);
                     waitPriMap.erase(wpiter);
                 }

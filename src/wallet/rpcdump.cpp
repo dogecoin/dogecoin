@@ -336,7 +336,7 @@ UniValue removeprunedfunds(const JSONRPCRequest& request)
     uint256 hash;
     hash.SetHex(request.params[0].get_str());
     vector<uint256> vHash;
-    vHash.push_back(hash);
+    vHash.emplace_back(hash);
     vector<uint256> vHashOut;
 
     if(pwalletMain->ZapSelectTx(vHash, vHashOut) != DB_LOAD_OK) {
@@ -583,7 +583,7 @@ UniValue dumpwallet(const JSONRPCRequest& request)
     std::vector<std::pair<int64_t, CKeyID> > vKeyBirth;
     for (const auto& entry : mapKeyBirth) {
         if (const CKeyID* keyID = boost::get<CKeyID>(&entry.first)) { // set and test
-            vKeyBirth.push_back(std::make_pair(entry.second, *keyID));
+            vKeyBirth.emplace_back(std::make_pair(entry.second, *keyID));
         }
     }
     mapKeyBirth.clear();

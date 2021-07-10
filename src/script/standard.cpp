@@ -64,7 +64,7 @@ bool Solver(const CScript& scriptPubKey, txnouttype& typeRet, vector<vector<unsi
     {
         typeRet = TX_SCRIPTHASH;
         vector<unsigned char> hashBytes(scriptPubKey.begin()+2, scriptPubKey.begin()+22);
-        vSolutionsRet.push_back(hashBytes);
+        vSolutionsRet.emplace_back(hashBytes);
         return true;
     }
 
@@ -73,12 +73,12 @@ bool Solver(const CScript& scriptPubKey, txnouttype& typeRet, vector<vector<unsi
     if (scriptPubKey.IsWitnessProgram(witnessversion, witnessprogram)) {
         if (witnessversion == 0 && witnessprogram.size() == 20) {
             typeRet = TX_WITNESS_V0_KEYHASH;
-            vSolutionsRet.push_back(witnessprogram);
+            vSolutionsRet.emplace_back(witnessprogram);
             return true;
         }
         if (witnessversion == 0 && witnessprogram.size() == 32) {
             typeRet = TX_WITNESS_V0_SCRIPTHASH;
-            vSolutionsRet.push_back(witnessprogram);
+            vSolutionsRet.emplace_back(witnessprogram);
             return true;
         }
         return false;
@@ -133,7 +133,7 @@ bool Solver(const CScript& scriptPubKey, txnouttype& typeRet, vector<vector<unsi
             {
                 while (vch1.size() >= 33 && vch1.size() <= 65)
                 {
-                    vSolutionsRet.push_back(vch1);
+                    vSolutionsRet.emplace_back(vch1);
                     if (!script1.GetOp(pc1, opcode1, vch1))
                         break;
                 }
@@ -147,13 +147,13 @@ bool Solver(const CScript& scriptPubKey, txnouttype& typeRet, vector<vector<unsi
             {
                 if (vch1.size() < 33 || vch1.size() > 65)
                     break;
-                vSolutionsRet.push_back(vch1);
+                vSolutionsRet.emplace_back(vch1);
             }
             else if (opcode2 == OP_PUBKEYHASH)
             {
                 if (vch1.size() != sizeof(uint160))
                     break;
-                vSolutionsRet.push_back(vch1);
+                vSolutionsRet.emplace_back(vch1);
             }
             else if (opcode2 == OP_SMALLINTEGER)
             {   // Single-byte small integer pushed onto vSolutions
@@ -161,7 +161,7 @@ bool Solver(const CScript& scriptPubKey, txnouttype& typeRet, vector<vector<unsi
                     (opcode1 >= OP_1 && opcode1 <= OP_16))
                 {
                     char n = (char)CScript::DecodeOP_N(opcode1);
-                    vSolutionsRet.push_back(valtype(1, n));
+                    vSolutionsRet.emplace_back(valtype(1, n));
                 }
                 else
                     break;
@@ -231,7 +231,7 @@ bool ExtractDestinations(const CScript& scriptPubKey, txnouttype& typeRet, vecto
                 continue;
 
             CTxDestination address = pubKey.GetID();
-            addressRet.push_back(address);
+            addressRet.emplace_back(address);
         }
 
         if (addressRet.empty())
@@ -243,7 +243,7 @@ bool ExtractDestinations(const CScript& scriptPubKey, txnouttype& typeRet, vecto
         CTxDestination address;
         if (!ExtractDestination(scriptPubKey, address))
            return false;
-        addressRet.push_back(address);
+        addressRet.emplace_back(address);
     }
 
     return true;

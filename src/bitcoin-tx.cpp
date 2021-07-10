@@ -233,7 +233,7 @@ static void MutateTxAddInput(CMutableTransaction& tx, const std::string& strInpu
 
     // append to transaction input list
     CTxIn txin(txid, vout, CScript(), nSequenceIn);
-    tx.vin.push_back(txin);
+    tx.vin.emplace_back(txin);
 }
 
 static void MutateTxAddOutAddr(CMutableTransaction& tx, const std::string& strInput)
@@ -258,7 +258,7 @@ static void MutateTxAddOutAddr(CMutableTransaction& tx, const std::string& strIn
 
     // construct TxOut, append to transaction output list
     CTxOut txout(value, scriptPubKey);
-    tx.vout.push_back(txout);
+    tx.vout.emplace_back(txout);
 }
 
 static void MutateTxAddOutPubKey(CMutableTransaction& tx, const std::string& strInput)
@@ -302,7 +302,7 @@ static void MutateTxAddOutPubKey(CMutableTransaction& tx, const std::string& str
 
     // construct TxOut, append to transaction output list
     CTxOut txout(value, scriptPubKey);
-    tx.vout.push_back(txout);
+    tx.vout.emplace_back(txout);
 }
 
 static void MutateTxAddOutMultiSig(CMutableTransaction& tx, const std::string& strInput)
@@ -338,7 +338,7 @@ static void MutateTxAddOutMultiSig(CMutableTransaction& tx, const std::string& s
         CPubKey pubkey(ParseHex(vStrInputParts[pos + 2]));
         if (!pubkey.IsFullyValid())
             throw std::runtime_error("invalid TX output pubkey");
-        pubkeys.push_back(pubkey);
+        pubkeys.emplace_back(pubkey);
     }
 
     // Extract FLAGS
@@ -369,7 +369,7 @@ static void MutateTxAddOutMultiSig(CMutableTransaction& tx, const std::string& s
 
     // construct TxOut, append to transaction output list
     CTxOut txout(value, scriptPubKey);
-    tx.vout.push_back(txout);
+    tx.vout.emplace_back(txout);
 }
 
 static void MutateTxAddOutData(CMutableTransaction& tx, const std::string& strInput)
@@ -396,7 +396,7 @@ static void MutateTxAddOutData(CMutableTransaction& tx, const std::string& strIn
     std::vector<unsigned char> data = ParseHex(strData);
 
     CTxOut txout(value, CScript() << OP_RETURN << data);
-    tx.vout.push_back(txout);
+    tx.vout.emplace_back(txout);
 }
 
 static void MutateTxAddOutScript(CMutableTransaction& tx, const std::string& strInput)
@@ -433,7 +433,7 @@ static void MutateTxAddOutScript(CMutableTransaction& tx, const std::string& str
 
     // construct TxOut, append to transaction output list
     CTxOut txout(value, scriptPubKey);
-    tx.vout.push_back(txout);
+    tx.vout.emplace_back(txout);
 }
 
 static void MutateTxDelInput(CMutableTransaction& tx, const std::string& strInIdx)
@@ -526,7 +526,7 @@ static void MutateTxSign(CMutableTransaction& tx, const std::string& flagStr)
             throw std::runtime_error("unknown sighash flag/sign option");
 
     std::vector<CTransaction> txVariants;
-    txVariants.push_back(tx);
+    txVariants.emplace_back(tx);
 
     // mergedTx will end up with all the signatures; it
     // starts as a clone of the raw tx:
