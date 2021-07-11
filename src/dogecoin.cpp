@@ -9,6 +9,9 @@
 #include <dogecoin.h>
 #include <logging.h>
 
+#ifdef __clang__
+__attribute__((no_sanitize("unsigned-integer-overflow")))
+#endif // __clang__
 int static generateMTRandom(unsigned int s, int range)
 {
     boost::mt19937 gen(s);
