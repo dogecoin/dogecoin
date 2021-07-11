@@ -72,8 +72,13 @@ static BlockAssembler::Options DefaultOptions()
     BlockAssembler::Options options;
     options.nBlockMaxWeight = gArgs.GetArg("-blockmaxweight", DEFAULT_BLOCK_MAX_WEIGHT);
     CAmount n = 0;
-    if (gArgs.IsArgSet("-blockmintxfee") && ParseMoney(gArgs.GetArg("-blockmintxfee", ""), n) && n <= MAX_FEE_RATE) {
-        options.blockMinFeeRate = CFeeRate(n);
+    if (gArgs.IsArgSet("-blockmintxfee")) {
+        if (ParseMoney(gArgs.GetArg("-blockmintxfee", ""), n) && n <= MAX_FEE_RATE) {
+            options.blockMinFeeRate = CFeeRate(n);
+        } else {
+            LogPrintf("DefaultOptions(): Specified -blockmintxfee is either not a valid amount, or is greater than the maximum fee rate %d.\n", MAX_FEE_RATE);
+            options.blockMinFeeRate = CFeeRate(DEFAULT_BLOCK_MIN_TX_FEE);
+        }
     } else {
         options.blockMinFeeRate = CFeeRate(DEFAULT_BLOCK_MIN_TX_FEE);
     }
