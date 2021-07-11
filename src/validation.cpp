@@ -1143,7 +1143,12 @@ static bool WriteBlockToDisk(const CBlock& block, FlatFilePos& pos, const CMessa
     return true;
 }
 
-bool ReadBlockFromDisk(CBlock& block, const FlatFilePos& pos, const Consensus::Params& consensusParams)
+
+/* Generic implementation of block reading that can handle
+   both a block and its header.  */
+
+template<typename T>
+static bool ReadBlockOrHeader(T& block, const FlatFilePos& pos, const Consensus::Params& consensusParams, const bool fCheckPOW)
 {
     block.SetNull();
 
@@ -1161,7 +1166,7 @@ bool ReadBlockFromDisk(CBlock& block, const FlatFilePos& pos, const Consensus::P
     }
 
     // Check the header
-    if (!CheckProofOfWork(block.GetPoWHash(), block.nBits, consensusParams))
+    if (fCheckPOW && !CheckAuxPowProofOfWork(block, consensusParams))
         return error("ReadBlockFromDisk: Errors in block header at %s", pos.ToString());
 
     // Signet only: check block solution
@@ -1172,7 +1177,8 @@ bool ReadBlockFromDisk(CBlock& block, const FlatFilePos& pos, const Consensus::P
     return true;
 }
 
-bool ReadBlockFromDisk(CBlock& block, const CBlockIndex* pindex, const Consensus::Params& consensusParams)
+template<typename T>
+static bool ReadBlockOrHeader(T& block, const CBlockIndex* pindex, const Consensus::Params& consensusParams, bool fCheckPOW)
 {
     FlatFilePos blockPos;
     {
@@ -1180,12 +1186,27 @@ bool ReadBlockFromDisk(CBlock& block, const CBlockIndex* pindex, const Consensus
         blockPos = pindex->GetBlockPos();
     }
 
-    if (!ReadBlockFromDisk(block, blockPos, consensusParams))
+    if (!ReadBlockOrHeader(block, blockPos, consensusParams, fCheckPOW))
         return false;
     if (block.GetHash() != pindex->GetBlockHash())
         return error("ReadBlockFromDisk(CBlock&, CBlockIndex*): GetHash() doesn't match index for %s at %s",
                 pindex->ToString(), pindex->GetBlockPos().ToString());
     return true;
+}
+
+bool ReadBlockFromDisk(CBlock& block, const FlatFilePos& pos, const Consensus::Params& consensusParams, const bool fCheckPOW)
+{
+    return ReadBlockOrHeader(block, pos, consensusParams, fCheckPOW);
+}
+
+bool ReadBlockFromDisk(CBlock& block, const CBlockIndex* pindex, const Consensus::Params& consensusParams, const bool fCheckPOW)
+{
+    return ReadBlockOrHeader(block, pindex, consensusParams, fCheckPOW);
+}
+
+bool ReadBlockHeaderFromDisk(CBlockHeader& block, const CBlockIndex* pindex, const Consensus::Params& consensusParams, const bool fCheckPOW)
+{
+    return ReadBlockOrHeader(block, pindex, consensusParams, fCheckPOW);
 }
 
 bool ReadRawBlockFromDisk(std::vector<uint8_t>& block, const FlatFilePos& pos, const CMessageHeader::MessageStartChars& message_start)
@@ -2478,7 +2499,7 @@ static void UpdateTip(CTxMemPool& mempool, const CBlockIndex* pindexNew, const C
         for (int i = 0; i < 100 && pindex != nullptr; i++)
         {
             int32_t nExpectedVersion = ComputeBlockVersion(pindex->pprev, chainParams.GetConsensus());
-            if (pindex->nVersion > VERSIONBITS_LAST_OLD_BLOCK_VERSION && (pindex->nVersion & ~nExpectedVersion) != 0)
+            if (pindex->GetBaseVersion() > VERSIONBITS_LAST_OLD_BLOCK_VERSION && (pindex->GetBaseVersion() & ~nExpectedVersion) != 0)
                 ++num_unexpected_version;
             pindex = pindex->pprev;
         }
@@ -3342,7 +3363,7 @@ static bool FindUndoPos(BlockValidationState &state, int nFile, FlatFilePos &pos
 static bool CheckBlockHeader(const CBlockHeader& block, BlockValidationState& state, const Consensus::Params& consensusParams, bool fCheckPOW = true)
 {
     // Check proof of work matches claimed amount
-    if (fCheckPOW && !CheckProofOfWork(block.GetPoWHash(), block.nBits, consensusParams))
+    if (fCheckPOW && !CheckAuxPowProofOfWork(block, consensusParams))
         return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "high-hash", "proof of work failed");
 
     return true;
@@ -3498,9 +3519,24 @@ static bool ContextualCheckBlockHeader(const CBlockHeader& block, BlockValidatio
 {
     assert(pindexPrev != nullptr);
     const int nHeight = pindexPrev->nHeight + 1;
+    const Consensus::Params& consensusParams = params.GetConsensus();
+
+    // Disallow legacy blocks after merge-mining start.
+    if (nHeight >= consensusParams.nAuxPowHeight) {
+        if (block.IsLegacy())
+            return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER,
+                                 "late-legacy-block",
+                                 "legacy block after auxpow start");
+    } else {
+        // Dogecoin: Disallow AuxPow blocks before it is activated.
+        if (block.IsAuxpow()) {
+            return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER,
+                                "early-auxpow-block",
+                                "auxpow block before auxpow start");
+        }
+    }
 
     // Check proof of work
-    const Consensus::Params& consensusParams = params.GetConsensus();
     if (block.nBits != GetNextWorkRequired(pindexPrev, &block, consensusParams))
         return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "bad-diffbits", "incorrect proof of work");
 
@@ -3527,8 +3563,8 @@ static bool ContextualCheckBlockHeader(const CBlockHeader& block, BlockValidatio
     // Reject outdated version blocks when 95% (75% on testnet) of the network has upgraded:
     // check for version 2, 3 and 4 upgrades
     // Dogecoin: Version 2 enforcement was never used
-    if((block.nVersion < 3 && nHeight >= consensusParams.BIP66Height) ||
-       (block.nVersion < 4 && nHeight >= consensusParams.BIP65Height))
+    if ((block.GetBaseVersion() < 3 && nHeight >= consensusParams.BIP66Height) ||
+       (block.GetBaseVersion() < 4 && nHeight >= consensusParams.BIP65Height))
             return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, strprintf("bad-version(0x%08x)", block.nVersion),
                                  strprintf("rejected nVersion=0x%08x block", block.nVersion));
 

@@ -6,7 +6,6 @@
 #define BITCOIN_DOGECOIN_H
 
 #include <amount.h>
-#include <chain.h>
 #include <chainparams.h>
 #include <uint256.h>
 
