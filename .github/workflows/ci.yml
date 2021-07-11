@@ -22,6 +22,7 @@ jobs:
       CCACHE_COMPRESS: "1"
       PYTHON_DEBUG: "1"
       WINEDEBUG: fixme-all
+      SDK_URL: https://bitcoincore.org/depends-sources/sdks
 
     strategy:
       fail-fast: false
@@ -32,6 +33,7 @@ jobs:
           - i686-win
           - x86_64-linux-dbg
           - x86_64-linux-nowallet
+          - x86_64-macos
           - x86_64-win
         include:
           - name: i686-linux
@@ -92,6 +94,15 @@ jobs:
             dep-opts: ""
             config-opts: "--enable-reduce-exports"
             goal: install
+          - name: x86_64-macos
+            host: x86_64-apple-darwin11
+            os: ubuntu-18.04
+            packages: cmake imagemagick libcap-dev librsvg2-bin libz-dev libtiff-tools libtinfo5 python3-setuptools xorriso libtinfo5
+            run-tests: false
+            dep-opts: ""
+            config-opts: "--enable-gui --enable-reduce-exports"
+            goal: deploy
+            sdk: 10.11
 
     runs-on: ${{ matrix.os }}
 
@@ -113,6 +124,23 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v2
+
+      - name: SDK cache
+        if: ${{ matrix.sdk }}
+        uses: actions/cache@v2
+        env:
+          cache-name: sdk
+        with:
+          path: ./depends/sdk-sources
+          key: ${{ matrix.name }}-${{ env.cache-name }}
+
+      - name: Install SDK
+        if: ${{ matrix.sdk }}
+        run: |
+          mkdir -p ./depends/sdk-sources
+          mkdir -p ./depends/SDKs
+          curl --location --fail $SDK_URL/MacOSX${{ matrix.sdk }}.sdk.tar.gz -o depends/sdk-sources/MacOSX${{ matrix.sdk }}.sdk.tar.gz
+          tar -C depends/SDKs -xf depends/sdk-sources/MacOSX${{ matrix.sdk }}.sdk.tar.gz
 
       - name: Dependency cache
         uses: actions/cache@v2
@@ -154,3 +182,4 @@ jobs:
           name: dogecoin-${{ github.sha }}-${{ matrix.name }}
           path: |
             depends/${{ matrix.host }}/bin/dogecoin*
+            dist/Dogecoin-Qt.app
