@@ -47,11 +47,11 @@
     </message>
     <message>
         <source>Choose the address to send coins to</source>
-        <translation>Wählen Sie die Adresse aus, an die Sie Bitcoins senden möchten</translation>
+        <translation>Wählen Sie die Adresse aus, an die Sie Dogecoins senden möchten</translation>
     </message>
     <message>
         <source>Choose the address to receive coins with</source>
-        <translation>Wählen Sie die Adresse aus, mit der Sie Bitcoins empfangen wollen</translation>
+        <translation>Wählen Sie die Adresse aus, mit der Sie Dogecoins empfangen wollen</translation>
     </message>
     <message>
         <source>C&amp;hoose</source>
@@ -62,17 +62,17 @@
         <translation>Sendeadressen</translation>
     </message>
     <message>
-        <source>Receiving addresses</source>
+        <source>Much receiving addresses</source>
         <translation>Empfangsadressen</translation>
     </message>
     <message>
-        <source>These are your Bitcoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>Dies sind Ihre Bitcoin-Adressen zum Tätigen von Überweisungen. Bitte prüfen Sie den Betrag und die Adresse des Empfängers, bevor Sie Bitcoins überweisen.</translation>
+        <source>These are your Dogecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <translation>Dies sind Ihre Dogecoin-Adressen zum Tätigen von Überweisungen. Bitte prüfen Sie den Betrag und die Adresse des Empfängers, bevor Sie Dogecoins überweisen.</translation>
     </message>
     <message>
-        <source>These are your Bitcoin addresses for receiving payments. Use the 'Create new receiving address' button in the receive tab to create new addresses.
+        <source>These are your Dogecoin addresses for receiving payments. Use the 'Create new receiving address' button in the receive tab to create new addresses.
 Signing is only possible with addresses of the type 'legacy'.</source>
-        <translation>Dies sind Ihre Bitcoin-Adressen für den Empfang von Zahlungen. Verwenden Sie die 'Neue Empfangsadresse erstellen' Taste auf der Registerkarte "Empfangen", um neue Adressen zu erstellen.
+        <translation>Dies sind Ihre Dogecoin-Adressen für den Empfang von Zahlungen. Verwenden Sie die 'Neue Empfangsadresse erstellen' Taste auf der Registerkarte "Empfangen", um neue Adressen zu erstellen.
 Das Signieren ist nur mit Adressen vom Typ 'Legacy' möglich.</translation>
     </message>
     <message>
@@ -170,8 +170,8 @@ Das Signieren ist nur mit Adressen vom Typ 'Legacy' möglich.</translation>
         <translation>Wallet-Verschlüsselung bestätigen</translation>
     </message>
     <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR BITCOINS&lt;/b&gt;!</source>
-        <translation>Warnung: Wenn Sie Ihre Wallet verschlüsseln und Ihre Passphrase verlieren, werden Sie &lt;b&gt;ALLE IHRE BITCOINS VERLIEREN&lt;/b&gt;!</translation>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DOGECOINS&lt;/b&gt;!</source>
+        <translation>Warnung: Wenn Sie Ihre Wallet verschlüsseln und Ihre Passphrase verlieren, werden Sie &lt;b&gt;ALLE IHRE DOGECOINS VERLIEREN&lt;/b&gt;!</translation>
     </message>
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
@@ -190,8 +190,8 @@ Das Signieren ist nur mit Adressen vom Typ 'Legacy' möglich.</translation>
         <translation>Geben Sie die alte und die neue Wallet-Passphrase ein.</translation>
     </message>
     <message>
-        <source>Remember that encrypting your wallet cannot fully protect your bitcoins from being stolen by malware infecting your computer.</source>
-        <translation>Beachten Sie, dass das Verschlüsseln Ihrer Wallet nicht komplett vor Diebstahl Ihrer Bitcoins durch Malware schützt, die Ihren Computer infiziert hat.</translation>
+        <source>Remember that encrypting your wallet cannot fully protect your dogecoins from being stolen by malware infecting your computer.</source>
+        <translation>Beachten Sie, dass das Verschlüsseln Ihrer Wallet nicht komplett vor Diebstahl Ihrer Dogecoins durch Malware schützt, die Ihren Computer infiziert hat.</translation>
     </message>
     <message>
         <source>Wallet to be encrypted</source>
@@ -254,7 +254,7 @@ Das Signieren ist nur mit Adressen vom Typ 'Legacy' möglich.</translation>
     </message>
 </context>
 <context>
-    <name>BitcoinGUI</name>
+    <name>DogecoinGUI</name>
     <message>
         <source>Sign &amp;message...</source>
         <translation>Nachricht s&amp;ignieren...</translation>
@@ -264,7 +264,7 @@ Das Signieren ist nur mit Adressen vom Typ 'Legacy' möglich.</translation>
         <translation>Synchronisiere mit Netzwerk...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>&amp;Übersicht</translation>
     </message>
     <message>
@@ -364,8 +364,8 @@ Das Signieren ist nur mit Adressen vom Typ 'Legacy' möglich.</translation>
         <translation>Proxy ist &lt;b&gt;aktiviert&lt;/b&gt;: %1</translation>
     </message>
     <message>
-        <source>Send coins to a Bitcoin address</source>
-        <translation>Bitcoins an eine Bitcoin-Adresse überweisen</translation>
+        <source>Send coins to a Dogecoin address</source>
+        <translation>Dogecoins an eine Dogecoin-Adresse überweisen</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -384,7 +384,7 @@ Das Signieren ist nur mit Adressen vom Typ 'Legacy' möglich.</translation>
         <translation>&amp;Überweisen</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>&amp;Empfangen</translation>
     </message>
     <message>
@@ -400,12 +400,12 @@ Das Signieren ist nur mit Adressen vom Typ 'Legacy' möglich.</translation>
         <translation>Verschlüsselt die zu Ihrer Wallet gehörenden privaten Schlüssel</translation>
     </message>
     <message>
-        <source>Sign messages with your Bitcoin addresses to prove you own them</source>
-        <translation>Nachrichten signieren, um den Besitz Ihrer Bitcoin-Adressen zu beweisen</translation>
+        <source>Sign messages with your Dogecoin addresses to prove you own them</source>
+        <translation>Nachrichten signieren, um den Besitz Ihrer Dogecoin-Adressen zu beweisen</translation>
     </message>
     <message>
-        <source>Verify messages to ensure they were signed with specified Bitcoin addresses</source>
-        <translation>Nachrichten verifizieren, um sicherzustellen, dass diese mit den angegebenen Bitcoin-Adressen signiert wurden</translation>
+        <source>Verify messages to ensure they were signed with specified Dogecoin addresses</source>
+        <translation>Nachrichten verifizieren, um sicherzustellen, dass diese mit den angegebenen Dogecoin-Adressen signiert wurden</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -424,8 +424,8 @@ Das Signieren ist nur mit Adressen vom Typ 'Legacy' möglich.</translation>
         <translation>Registerkartenleiste</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and bitcoin: URIs)</source>
-        <translation>Zahlungen anfordern (erzeugt QR-Codes und "bitcoin:"-URIs)</translation>
+        <source>Request payments (generates QR codes and dogecoin: URIs)</source>
+        <translation>Zahlungen anfordern (erzeugt QR-Codes und "dogecoin:"-URIs)</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -440,8 +440,8 @@ Das Signieren ist nur mit Adressen vom Typ 'Legacy' möglich.</translation>
         <translation>&amp;Kommandozeilenoptionen</translation>
     </message>
     <message numerus="yes">
-        <source>%n active connection(s) to Bitcoin network</source>
-        <translation><numerusform>%n aktive Verbindung zum Bitcoin-Netzwerk</numerusform><numerusform>%n aktive Verbindungen zum Bitcoin-Netzwerk</numerusform></translation>
+        <source>%n active connection(s) to Dogecoin network</source>
+        <translation><numerusform>%n aktive Verbindung zum Dogecoin-Netzwerk</numerusform><numerusform>%n aktive Verbindungen zum Dogecoin-Netzwerk</numerusform></translation>
     </message>
     <message>
         <source>Indexing blocks on disk...</source>
@@ -488,16 +488,16 @@ Das Signieren ist nur mit Adressen vom Typ 'Legacy' möglich.</translation>
         <translation>&amp;Lade PSBT aus Datei...</translation>
     </message>
     <message>
-        <source>Load Partially Signed Bitcoin Transaction</source>
-        <translation>Lade teilsignierte Bitcoin-Transaktion</translation>
+        <source>Load Partially Signed Dogecoin Transaction</source>
+        <translation>Lade teilsignierte Dogecoin-Transaktion</translation>
     </message>
     <message>
         <source>Load PSBT from clipboard...</source>
         <translation>Lade PSBT aus Zwischenablage</translation>
     </message>
     <message>
-        <source>Load Partially Signed Bitcoin Transaction from clipboard</source>
-        <translation>Lade teilsignierte Bitcoin-Transaktion aus Zwischenablage</translation>
+        <source>Load Partially Signed Dogecoin Transaction from clipboard</source>
+        <translation>Lade teilsignierte Dogecoin-Transaktion aus Zwischenablage</translation>
     </message>
     <message>
         <source>Node window</source>
@@ -516,8 +516,8 @@ Das Signieren ist nur mit Adressen vom Typ 'Legacy' möglich.</translation>
         <translation>&amp;Empfangsadressen</translation>
     </message>
     <message>
-        <source>Open a bitcoin: URI</source>
-        <translation>bitcoin: URI öffnen</translation>
+        <source>Open a dogecoin: URI</source>
+        <translation>dogecoin: URI öffnen</translation>
     </message>
     <message>
         <source>Open Wallet</source>
@@ -544,7 +544,7 @@ Das Signieren ist nur mit Adressen vom Typ 'Legacy' möglich.</translation>
         <translation>Schließe alle Brieftaschen</translation>
     </message>
     <message>
-        <source>Show the %1 help message to get a list with possible Bitcoin command-line options</source>
+        <source>Show the %1 help message to get a list with possible Dogecoin command-line options</source>
         <translation>Zeige den "%1"-Hilfetext, um eine Liste mit möglichen Kommandozeilenoptionen zu erhalten</translation>
     </message>
     <message>
@@ -807,8 +807,8 @@ Das Signieren ist nur mit Adressen vom Typ 'Legacy' möglich.</translation>
         <translation>Diese Bezeichnung wird rot, wenn irgendein Empfänger einen Betrag kleiner als die derzeitige "Staubgrenze" erhält.</translation>
     </message>
     <message>
-        <source>Can vary +/- %1 satoshi(s) per input.</source>
-        <translation>Kann pro Eingabe um +/- %1 Satoshi(s) abweichen.</translation>
+        <source>Can vary +/- %1 koinu(s) per input.</source>
+        <translation>Kann pro Eingabe um +/- %1 Koinu(s) abweichen.</translation>
     </message>
     <message>
         <source>(no label)</source>
@@ -924,8 +924,8 @@ Das Signieren ist nur mit Adressen vom Typ 'Legacy' möglich.</translation>
         <translation>Zahlungsadresse bearbeiten</translation>
     </message>
     <message>
-        <source>The entered address "%1" is not a valid Bitcoin address.</source>
-        <translation>Die eingegebene Adresse "%1" ist keine gültige Bitcoin-Adresse.</translation>
+        <source>The entered address "%1" is not a valid Dogecoin address.</source>
+        <translation>Die eingegebene Adresse "%1" ist keine gültige Dogecoin-Adresse.</translation>
     </message>
     <message>
         <source>Address "%1" already exists as a receiving address with label "%2" and so cannot be added as a sending address.</source>
@@ -1021,8 +1021,8 @@ Das Signieren ist nur mit Adressen vom Typ 'Legacy' möglich.</translation>
         <translation>Ein benutzerdefiniertes Datenverzeichnis verwenden:</translation>
     </message>
     <message>
-        <source>Bitcoin</source>
-        <translation>Bitcoin</translation>
+        <source>Dogecoin</source>
+        <translation>Dogecoin</translation>
     </message>
     <message>
         <source>Discard blocks after verification, except most recent %1 GB (prune)</source>
@@ -1037,8 +1037,8 @@ Das Signieren ist nur mit Adressen vom Typ 'Legacy' möglich.</translation>
         <translation>Etwa %1 GB Daten werden in diesem Verzeichnis gespeichert.</translation>
     </message>
     <message>
-        <source>%1 will download and store a copy of the Bitcoin block chain.</source>
-        <translation>%1 wird eine Kopie der Bitcoin-Blockchain herunterladen und speichern.</translation>
+        <source>%1 will download and store a copy of the Dogecoin block chain.</source>
+        <translation>%1 wird eine Kopie der Dogecoin-Blockchain herunterladen und speichern.</translation>
     </message>
     <message>
         <source>The wallet will also be stored in this directory.</source>
@@ -1072,12 +1072,12 @@ Das Signieren ist nur mit Adressen vom Typ 'Legacy' möglich.</translation>
         <translation>Formular</translation>
     </message>
     <message>
-        <source>Recent transactions may not yet be visible, and therefore your wallet's balance might be incorrect. This information will be correct once your wallet has finished synchronizing with the bitcoin network, as detailed below.</source>
-        <translation>Neueste Transaktionen werden eventuell noch nicht angezeigt, daher könnte Ihr Kontostand veraltet sein. Er wird korrigiert, sobald Ihr Wallet die Synchronisation mit dem Bitcoin-Netzwerk erfolgreich abgeschlossen hat. Details dazu finden sich weiter unten.</translation>
+        <source>Recent transactions may not yet be visible, and therefore your wallet's balance might be incorrect. This information will be correct once your wallet has finished synchronizing with the dogecoin network, as detailed below.</source>
+        <translation>Neueste Transaktionen werden eventuell noch nicht angezeigt, daher könnte Ihr Kontostand veraltet sein. Er wird korrigiert, sobald Ihr Wallet die Synchronisation mit dem Dogecoin-Netzwerk erfolgreich abgeschlossen hat. Details dazu finden sich weiter unten.</translation>
     </message>
     <message>
-        <source>Attempting to spend bitcoins that are affected by not-yet-displayed transactions will not be accepted by the network.</source>
-        <translation>Versuche, Bitcoins aus noch nicht angezeigten Transaktionen auszugeben, werden vom Netzwerk nicht akzeptiert.</translation>
+        <source>Attempting to spend dogecoins that are affected by not-yet-displayed transactions will not be accepted by the network.</source>
+        <translation>Versuche, Dogecoins aus noch nicht angezeigten Transaktionen auszugeben, werden vom Netzwerk nicht akzeptiert.</translation>
     </message>
     <message>
         <source>Number of blocks left</source>
@@ -1127,8 +1127,8 @@ Das Signieren ist nur mit Adressen vom Typ 'Legacy' möglich.</translation>
 <context>
     <name>OpenURIDialog</name>
     <message>
-        <source>Open bitcoin URI</source>
-        <translation>Öffne bitcoin URI</translation>
+        <source>Open dogecoin URI</source>
+        <translation>Öffne dogecoin URI</translation>
     </message>
     <message>
         <source>URI:</source>
@@ -1269,8 +1269,8 @@ Das Signieren ist nur mit Adressen vom Typ 'Legacy' möglich.</translation>
         <translation>&amp;Unbestätigtes Wechselgeld darf ausgegeben werden</translation>
     </message>
     <message>
-        <source>Automatically open the Bitcoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Automatisch den Bitcoin-Clientport auf dem Router öffnen. Dies funktioniert nur, wenn Ihr Router UPnP unterstützt und dies aktiviert ist.</translation>
+        <source>Automatically open the Dogecoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <translation>Automatisch den Dogecoin-Clientport auf dem Router öffnen. Dies funktioniert nur, wenn Ihr Router UPnP unterstützt und dies aktiviert ist.</translation>
     </message>
     <message>
         <source>Map port using &amp;UPnP</source>
@@ -1285,8 +1285,8 @@ Das Signieren ist nur mit Adressen vom Typ 'Legacy' möglich.</translation>
         <translation>Erlaube eingehende Verbindungen</translation>
     </message>
     <message>
-        <source>Connect to the Bitcoin network through a SOCKS5 proxy.</source>
-        <translation>Über einen SOCKS5-Proxy mit dem Bitcoin-Netzwerk verbinden.</translation>
+        <source>Connect to the Dogecoin network through a SOCKS5 proxy.</source>
+        <translation>Über einen SOCKS5-Proxy mit dem Dogecoin-Netzwerk verbinden.</translation>
     </message>
     <message>
         <source>&amp;Connect through SOCKS5 proxy (default proxy):</source>
@@ -1354,15 +1354,15 @@ Das Signieren ist nur mit Adressen vom Typ 'Legacy' möglich.</translation>
     </message>
     <message>
         <source>Choose the default subdivision unit to show in the interface and when sending coins.</source>
-        <translation>Wählen Sie die standardmäßige Untereinheit, die in der Benutzeroberfläche und beim Überweisen von Bitcoins angezeigt werden soll.</translation>
+        <translation>Wählen Sie die standardmäßige Untereinheit, die in der Benutzeroberfläche und beim Überweisen von Dogecoins angezeigt werden soll.</translation>
     </message>
     <message>
         <source>Whether to show coin control features or not.</source>
         <translation>Legt fest, ob die "Coin Control"-Funktionen angezeigt werden.</translation>
     </message>
     <message>
-        <source>Connect to the Bitcoin network through a separate SOCKS5 proxy for Tor onion services.</source>
-        <translation>Verbinde mit dem Bitcoin-Netzwerk über einen separaten SOCKS5-Proxy für Tor-Onion-Dienste.</translation>
+        <source>Connect to the Dogecoin network through a separate SOCKS5 proxy for Tor onion services.</source>
+        <translation>Verbinde mit dem Dogecoin-Netzwerk über einen separaten SOCKS5-Proxy für Tor-Onion-Dienste.</translation>
     </message>
     <message>
         <source>&amp;Third party transaction URLs</source>
@@ -1432,8 +1432,8 @@ Das Signieren ist nur mit Adressen vom Typ 'Legacy' möglich.</translation>
         <translation>Formular</translation>
     </message>
     <message>
-        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Bitcoin network after a connection is established, but this process has not completed yet.</source>
-        <translation>Die angezeigten Informationen sind möglicherweise nicht mehr aktuell. Ihre Wallet wird automatisch synchronisiert, nachdem eine Verbindung zum Bitcoin-Netzwerk hergestellt wurde. Dieser Prozess ist jedoch derzeit noch nicht abgeschlossen.</translation>
+        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Dogecoin network after a connection is established, but this process has not completed yet.</source>
+        <translation>Die angezeigten Informationen sind möglicherweise nicht mehr aktuell. Ihre Wallet wird automatisch synchronisiert, nachdem eine Verbindung zum Dogecoin-Netzwerk hergestellt wurde. Dieser Prozess ist jedoch derzeit noch nicht abgeschlossen.</translation>
     </message>
     <message>
         <source>Watch-only:</source>
@@ -1634,16 +1634,16 @@ Das Signieren ist nur mit Adressen vom Typ 'Legacy' möglich.</translation>
         <translation>Fehler bei der Zahlungsanforderung</translation>
     </message>
     <message>
-        <source>Cannot start bitcoin: click-to-pay handler</source>
-        <translation>Kann Bitcoin nicht starten: Klicken-zum-Bezahlen-Handler</translation>
+        <source>Cannot start dogecoin: click-to-pay handler</source>
+        <translation>Kann Dogecoin nicht starten: Klicken-zum-Bezahlen-Handler</translation>
     </message>
     <message>
         <source>URI handling</source>
         <translation>URI-Verarbeitung</translation>
     </message>
     <message>
-        <source>'bitcoin://' is not a valid URI. Use 'bitcoin:' instead.</source>
-        <translation>'bitcoin://' ist kein gültiger URL. Bitte 'bitcoin:' nutzen.</translation>
+        <source>'dogecoin://' is not a valid URI. Use 'dogecoin:' instead.</source>
+        <translation>'dogecoin://' ist kein gültiger URL. Bitte 'dogecoin:' nutzen.</translation>
     </message>
     <message>
         <source>Cannot process payment request because BIP70 is not supported.</source>
@@ -1662,8 +1662,8 @@ Das Signieren ist nur mit Adressen vom Typ 'Legacy' möglich.</translation>
         <translation>Ungültige Zahlungsadresse %1</translation>
     </message>
     <message>
-        <source>URI cannot be parsed! This can be caused by an invalid Bitcoin address or malformed URI parameters.</source>
-        <translation>URI kann nicht analysiert werden! Dies kann durch eine ungültige Bitcoin-Adresse oder fehlerhafte URI-Parameter verursacht werden.</translation>
+        <source>URI cannot be parsed! This can be caused by an invalid Dogecoin address or malformed URI parameters.</source>
+        <translation>URI kann nicht analysiert werden! Dies kann durch eine ungültige Dogecoin-Adresse oder fehlerhafte URI-Parameter verursacht werden.</translation>
     </message>
     <message>
         <source>Payment request file handling</source>
@@ -1704,8 +1704,8 @@ Das Signieren ist nur mit Adressen vom Typ 'Legacy' möglich.</translation>
         <translation>Betrag</translation>
     </message>
     <message>
-        <source>Enter a Bitcoin address (e.g. %1)</source>
-        <translation>Bitcoin-Adresse eingeben (z.B. %1)</translation>
+        <source>Enter a Dogecoin address (e.g. %1)</source>
+        <translation>Dogecoin-Adresse eingeben (z.B. %1)</translation>
     </message>
     <message>
         <source>%1 d</source>
@@ -2165,8 +2165,8 @@ Das Signieren ist nur mit Adressen vom Typ 'Legacy' möglich.</translation>
         <translation>&amp;Nachricht:</translation>
     </message>
     <message>
-        <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Bitcoin network.</source>
-        <translation>Eine optionale Nachricht, die an die Zahlungsanforderung angehängt wird. Sie wird angezeigt, wenn die Anforderung geöffnet wird. Hinweis: Diese Nachricht wird nicht mit der Zahlung über das Bitcoin-Netzwerk gesendet.</translation>
+        <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Dogecoin network.</source>
+        <translation>Eine optionale Nachricht, die an die Zahlungsanforderung angehängt wird. Sie wird angezeigt, wenn die Anforderung geöffnet wird. Hinweis: Diese Nachricht wird nicht mit der Zahlung über das Dogecoin-Netzwerk gesendet.</translation>
     </message>
     <message>
         <source>An optional label to associate with the new receiving address.</source>
@@ -2335,7 +2335,7 @@ Das Signieren ist nur mit Adressen vom Typ 'Legacy' möglich.</translation>
     <name>SendCoinsDialog</name>
     <message>
         <source>Send Coins</source>
-        <translation>Bitcoins überweisen</translation>
+        <translation>Dogecoins überweisen</translation>
     </message>
     <message>
         <source>Coin Control Features</source>
@@ -2450,8 +2450,8 @@ Hinweis: Eine Gebühr von "100 Satoshis pro kB" bei einer Größe der Transaktio
         <translation>Einstellungen für Transaktionsgebühr nicht anzeigen</translation>
     </message>
     <message>
-        <source>When there is less transaction volume than space in the blocks, miners as well as relaying nodes may enforce a minimum fee. Paying only this minimum fee is just fine, but be aware that this can result in a never confirming transaction once there is more demand for bitcoin transactions than the network can process.</source>
-        <translation>Nur die minimale Gebühr zu bezahlen ist so lange in Ordnung, wie weniger Transaktionsvolumen als Platz in den Blöcken vorhanden ist. Aber Vorsicht, diese Option kann dazu führen, dass Transaktionen nicht bestätigt werden, wenn mehr Bedarf an Bitcoin-Transaktionen besteht als das Netzwerk verarbeiten kann.</translation>
+        <source>When there is less transaction volume than space in the blocks, miners as well as relaying nodes may enforce a minimum fee. Paying only this minimum fee is just fine, but be aware that this can result in a never confirming transaction once there is more demand for dogecoin transactions than the network can process.</source>
+        <translation>Nur die minimale Gebühr zu bezahlen ist so lange in Ordnung, wie weniger Transaktionsvolumen als Platz in den Blöcken vorhanden ist. Aber Vorsicht, diese Option kann dazu führen, dass Transaktionen nicht bestätigt werden, wenn mehr Bedarf an Dogecoin-Transaktionen besteht als das Netzwerk verarbeiten kann.</translation>
     </message>
     <message>
         <source>A too low fee might result in a never confirming transaction (read the tooltip)</source>
@@ -2522,8 +2522,8 @@ Hinweis: Eine Gebühr von "100 Satoshis pro kB" bei einer Größe der Transaktio
         <translation>Unsigniert erzeugen</translation>
     </message>
     <message>
-        <source>Creates a Partially Signed Bitcoin Transaction (PSBT) for use with e.g. an offline %1 wallet, or a PSBT-compatible hardware wallet.</source>
-        <translation>Erzeugt eine teilsignierte Bitcoin Transaktion (PSBT) zur Benutzung mit z.B. einem Offline %1 Wallet, oder einem kompatiblen Hardware Wallet.</translation>
+        <source>Creates a Partially Signed Dogecoin Transaction (PSBT) for use with e.g. an offline %1 wallet, or a PSBT-compatible hardware wallet.</source>
+        <translation>Erzeugt eine teilsignierte Dogecoin Transaktion (PSBT) zur Benutzung mit z.B. einem Offline %1 Wallet, oder einem kompatiblen Hardware Wallet.</translation>
     </message>
     <message>
         <source> from wallet '%1'</source>
@@ -2642,8 +2642,8 @@ Hinweis: Eine Gebühr von "100 Satoshis pro kB" bei einer Größe der Transaktio
         <translation><numerusform>Voraussichtlicher Beginn der Bestätigung innerhalb von %n Block</numerusform><numerusform>Voraussichtlicher Beginn der Bestätigung innerhalb von %n Blöcken.</numerusform></translation>
     </message>
     <message>
-        <source>Warning: Invalid Bitcoin address</source>
-        <translation>Warnung: Ungültige Bitcoin-Adresse</translation>
+        <source>Warning: Invalid Dogecoin address</source>
+        <translation>Warnung: Ungültige Dogecoin-Adresse</translation>
     </message>
     <message>
         <source>Warning: Unknown change address</source>
@@ -2681,7 +2681,7 @@ Hinweis: Eine Gebühr von "100 Satoshis pro kB" bei einer Größe der Transaktio
         <translation>Bereits verwendete Adresse auswählen</translation>
     </message>
     <message>
-        <source>The Bitcoin address to send the payment to</source>
+        <source>The Dogecoin address to send the payment to</source>
         <translation>Die Zahlungsadresse der Überweisung</translation>
     </message>
     <message>
@@ -2705,8 +2705,8 @@ Hinweis: Eine Gebühr von "100 Satoshis pro kB" bei einer Größe der Transaktio
         <translation>Zu sendender Betrag in der ausgewählten Einheit</translation>
     </message>
     <message>
-        <source>The fee will be deducted from the amount being sent. The recipient will receive less bitcoins than you enter in the amount field. If multiple recipients are selected, the fee is split equally.</source>
-        <translation>Die Gebühr wird vom zu überweisenden Betrag abgezogen. Der Empfänger wird also weniger Bitcoins erhalten, als Sie im Betrags-Feld eingegeben haben. Falls mehrere Empfänger ausgewählt wurden, wird die Gebühr gleichmäßig verteilt.</translation>
+        <source>The fee will be deducted from the amount being sent. The recipient will receive less dogecoins than you enter in the amount field. If multiple recipients are selected, the fee is split equally.</source>
+        <translation>Die Gebühr wird vom zu überweisenden Betrag abgezogen. Der Empfänger wird also weniger Dogecoins erhalten, als Sie im Betrags-Feld eingegeben haben. Falls mehrere Empfänger ausgewählt wurden, wird die Gebühr gleichmäßig verteilt.</translation>
     </message>
     <message>
         <source>S&amp;ubtract fee from amount</source>
@@ -2733,8 +2733,8 @@ Hinweis: Eine Gebühr von "100 Satoshis pro kB" bei einer Größe der Transaktio
         <translation>Adressbezeichnung eingeben, die dann zusammen mit der Adresse der Liste bereits verwendeter Adressen hinzugefügt wird.</translation>
     </message>
     <message>
-        <source>A message that was attached to the bitcoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Bitcoin network.</source>
-        <translation>Eine an die "bitcoin:"-URI angefügte Nachricht, die zusammen mit der Transaktion gespeichert wird. Hinweis: Diese Nachricht wird nicht über das Bitcoin-Netzwerk gesendet.</translation>
+        <source>A message that was attached to the dogecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
+        <translation>Eine an die "dogecoin:"-URI angefügte Nachricht, die zusammen mit der Transaktion gespeichert wird. Hinweis: Diese Nachricht wird nicht über das Dogecoin-Netzwerk gesendet.</translation>
     </message>
     <message>
         <source>Pay To:</source>
@@ -2767,12 +2767,12 @@ Hinweis: Eine Gebühr von "100 Satoshis pro kB" bei einer Größe der Transaktio
         <translation>Nachricht &amp;signieren</translation>
     </message>
     <message>
-        <source>You can sign messages/agreements with your addresses to prove you can receive bitcoins sent to them. Be careful not to sign anything vague or random, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</source>
-        <translation>Sie können Nachrichten/Vereinbarungen mit Hilfe Ihrer Adressen signieren, um zu beweisen, dass Sie Bitcoins empfangen können, die an diese Adressen überwiesen werden. Seien Sie vorsichtig und signieren Sie nichts Vages oder Willkürliches, um Ihre Indentität vor Phishingangriffen zu schützen. Signieren Sie nur vollständig-detaillierte Aussagen, mit denen Sie auch einverstanden sind.</translation>
+        <source>You can sign messages/agreements with your addresses to prove you can receive dogecoins sent to them. Be careful not to sign anything vague or random, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</source>
+        <translation>Sie können Nachrichten/Vereinbarungen mit Hilfe Ihrer Adressen signieren, um zu beweisen, dass Sie Dogecoins empfangen können, die an diese Adressen überwiesen werden. Seien Sie vorsichtig und signieren Sie nichts Vages oder Willkürliches, um Ihre Indentität vor Phishingangriffen zu schützen. Signieren Sie nur vollständig-detaillierte Aussagen, mit denen Sie auch einverstanden sind.</translation>
     </message>
     <message>
-        <source>The Bitcoin address to sign the message with</source>
-        <translation>Die Bitcoin-Adresse mit der die Nachricht signiert wird</translation>
+        <source>The Dogecoin address to sign the message with</source>
+        <translation>Die Dogecoin-Adresse mit der die Nachricht signiert wird</translation>
     </message>
     <message>
         <source>Choose previously used address</source>
@@ -2803,8 +2803,8 @@ Hinweis: Eine Gebühr von "100 Satoshis pro kB" bei einer Größe der Transaktio
         <translation>Aktuelle Signatur in die Zwischenablage kopieren</translation>
     </message>
     <message>
-        <source>Sign the message to prove you own this Bitcoin address</source>
-        <translation>Die Nachricht signieren, um den Besitz dieser Bitcoin-Adresse zu beweisen</translation>
+        <source>Sign the message to prove you own this Dogecoin address</source>
+        <translation>Die Nachricht signieren, um den Besitz dieser Dogecoin-Adresse zu beweisen</translation>
     </message>
     <message>
         <source>Sign &amp;Message</source>
@@ -2827,8 +2827,8 @@ Hinweis: Eine Gebühr von "100 Satoshis pro kB" bei einer Größe der Transaktio
         <translation>Geben Sie die Zahlungsadresse des Empfängers, Nachricht (achten Sie darauf Zeilenumbrüche, Leerzeichen, Tabulatoren usw. exakt zu kopieren) und Signatur unten ein, um die Nachricht zu verifizieren. Vorsicht, interpretieren Sie nicht mehr in die Signatur hinein, als in der signierten Nachricht selber enthalten ist, um nicht von einem Man-in-the-middle-Angriff hinters Licht geführt zu werden. Beachten Sie dass dies nur beweist, dass die signierende Partei über diese Adresse Überweisungen empfangen kann.</translation>
     </message>
     <message>
-        <source>The Bitcoin address the message was signed with</source>
-        <translation>Die Bitcoin-Adresse mit der die Nachricht signiert wurde</translation>
+        <source>The Dogecoin address the message was signed with</source>
+        <translation>Die Dogecoin-Adresse mit der die Nachricht signiert wurde</translation>
     </message>
     <message>
         <source>The signed message to verify</source>
@@ -2839,8 +2839,8 @@ Hinweis: Eine Gebühr von "100 Satoshis pro kB" bei einer Größe der Transaktio
         <translation>Die beim Signieren der Nachricht geleistete Signatur</translation>
     </message>
     <message>
-        <source>Verify the message to ensure it was signed with the specified Bitcoin address</source>
-        <translation>Die Nachricht verifizieren, um sicherzustellen, dass diese mit der angegebenen Bitcoin-Adresse signiert wurde</translation>
+        <source>Verify the message to ensure it was signed with the specified Dogecoin address</source>
+        <translation>Die Nachricht verifizieren, um sicherzustellen, dass diese mit der angegebenen Dogecoin-Adresse signiert wurde</translation>
     </message>
     <message>
         <source>Verify &amp;Message</source>
@@ -3058,7 +3058,7 @@ Hinweis: Eine Gebühr von "100 Satoshis pro kB" bei einer Größe der Transaktio
     </message>
     <message>
         <source>Generated coins must mature %1 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to "not accepted" and it won't be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
-        <translation>Erzeugte Bitcoins müssen %1 Blöcke lang reifen, bevor sie ausgegeben werden können. Als Sie diesen Block erzeugten, wurde er an das Netzwerk übertragen, um ihn der Blockchain hinzuzufügen. Falls dies fehlschlägt wird der Status in "nicht angenommen" geändert und Sie werden keine Bitcoins gutgeschrieben bekommen. Das kann gelegentlich passieren, wenn ein anderer Knoten einen Block fast zeitgleich erzeugt.</translation>
+        <translation>Erzeugte Dogecoins müssen %1 Blöcke lang reifen, bevor sie ausgegeben werden können. Als Sie diesen Block erzeugten, wurde er an das Netzwerk übertragen, um ihn der Blockchain hinzuzufügen. Falls dies fehlschlägt wird der Status in "nicht angenommen" geändert und Sie werden keine Dogecoins gutgeschrieben bekommen. Das kann gelegentlich passieren, wenn ein anderer Knoten einen Block fast zeitgleich erzeugt.</translation>
     </message>
     <message>
         <source>Debug information</source>
@@ -3411,7 +3411,7 @@ Gehen Sie zu Datei &gt; Öffnen Sie die Brieftasche, um eine Brieftasche zu lade
     <name>WalletModel</name>
     <message>
         <source>Send Coins</source>
-        <translation>Bitcoins überweisen</translation>
+        <translation>Dogecoins überweisen</translation>
     </message>
     <message>
         <source>Fee bump error</source>
@@ -3530,7 +3530,7 @@ Gehen Sie zu Datei &gt; Öffnen Sie die Brieftasche, um eine Brieftasche zu lade
     </message>
 </context>
 <context>
-    <name>bitcoin-core</name>
+    <name>dogecoin-core</name>
     <message>
         <source>Distributed under the MIT software license, see the accompanying file %s or %s</source>
         <translation>Veröffentlicht unter der MIT-Softwarelizenz, siehe beiliegende Datei %s oder %s.</translation>
@@ -3842,8 +3842,8 @@ Verifikations-Error: %s</translation>
         <translation>Fehler: Abhören nach eingehenden Verbindungen fehlgeschlagen (listen meldete Fehler %s)</translation>
     </message>
     <message>
-        <source>%s corrupt. Try using the wallet tool bitcoin-wallet to salvage or restoring a backup.</source>
-        <translation>%s korrupt. Versuche mit dem Wallet-Werkzeug bitcoin-wallet zu retten, oder eine Sicherung wiederherzustellen.</translation>
+        <source>%s corrupt. Try using the wallet tool dogecoin-wallet to salvage or restoring a backup.</source>
+        <translation>%s korrupt. Versuche mit dem Wallet-Werkzeug dogecoin-wallet zu retten, oder eine Sicherung wiederherzustellen.</translation>
     </message>
     <message>
         <source>Cannot upgrade a non HD split wallet without upgrading to support pre split keypool. Please use version 169900 or no version specified.</source>

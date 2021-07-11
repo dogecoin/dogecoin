@@ -233,7 +233,7 @@ RPCHelpMan importaddress()
             "as change, and not show up in many RPCs.\n"
             "Note: Use \"getwalletinfo\" to query the scanning progress.\n",
                 {
-                    {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "The Bitcoin address (or hex-encoded script)"},
+                    {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "The Dogecoin address (or hex-encoded script)"},
                     {"label", RPCArg::Type::STR, /* default */ "\"\"", "An optional label"},
                     {"rescan", RPCArg::Type::BOOL, /* default */ "true", "Rescan the wallet for transactions"},
                     {"p2sh", RPCArg::Type::BOOL, /* default */ "false", "Add the P2SH version of the script as well"},
@@ -306,7 +306,7 @@ RPCHelpMan importaddress()
 
             pwallet->ImportScriptPubKeys(strLabel, scripts, false /* have_solving_data */, true /* apply_label */, 1 /* timestamp */);
         } else {
-            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Bitcoin address or script");
+            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Dogecoin address or script");
         }
     }
     if (fRescan)
@@ -672,7 +672,7 @@ RPCHelpMan dumpprivkey()
                 "\nReveals the private key corresponding to 'address'.\n"
                 "Then the importprivkey can be used with this output\n",
                 {
-                    {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "The bitcoin address for the private key"},
+                    {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "The dogecoin address for the private key"},
                 },
                 RPCResult{
                     RPCResult::Type::STR, "key", "The private key"
@@ -697,7 +697,7 @@ RPCHelpMan dumpprivkey()
     std::string strAddress = request.params[0].get_str();
     CTxDestination dest = DecodeDestination(strAddress);
     if (!IsValidDestination(dest)) {
-        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Bitcoin address");
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Dogecoin address");
     }
     auto keyid = GetKeyForDestination(spk_man, dest);
     if (keyid.IsNull()) {
@@ -781,7 +781,7 @@ RPCHelpMan dumpwallet()
     std::sort(vKeyBirth.begin(), vKeyBirth.end());
 
     // produce output
-    file << strprintf("# Wallet dump created by Bitcoin %s\n", CLIENT_BUILD);
+    file << strprintf("# Wallet dump created by Dogecoin %s\n", CLIENT_BUILD);
     file << strprintf("# * Created on %s\n", FormatISO8601DateTime(GetTime()));
     file << strprintf("# * Best block at time of backup was %i (%s),\n", wallet.GetLastBlockHeight(), wallet.GetLastBlockHash().ToString());
     int64_t block_time = 0;
@@ -1431,7 +1431,7 @@ RPCHelpMan importmulti()
                                       "block from time %d, which is after or within %d seconds of key creation, and "
                                       "could contain transactions pertaining to the key. As a result, transactions "
                                       "and coins using this key may not appear in the wallet. This error could be "
-                                      "caused by pruning or data corruption (see bitcoind log for details) and could "
+                                      "caused by pruning or data corruption (see dogecoind log for details) and could "
                                       "be dealt with by downloading and rescanning the relevant blocks (see -reindex "
                                       "and -rescan options).",
                                 GetImportTimestamp(request, now), scannedTime - TIMESTAMP_WINDOW - 1, TIMESTAMP_WINDOW)));
@@ -1726,7 +1726,7 @@ RPCHelpMan importdescriptors()
                                       "block from time %d, which is after or within %d seconds of key creation, and "
                                       "could contain transactions pertaining to the desc. As a result, transactions "
                                       "and coins using this desc may not appear in the wallet. This error could be "
-                                      "caused by pruning or data corruption (see bitcoind log for details) and could "
+                                      "caused by pruning or data corruption (see dogecoind log for details) and could "
                                       "be dealt with by downloading and rescanning the relevant blocks (see -reindex "
                                       "and -rescan options).",
                                 GetImportTimestamp(request, now), scanned_time - TIMESTAMP_WINDOW - 1, TIMESTAMP_WINDOW)));

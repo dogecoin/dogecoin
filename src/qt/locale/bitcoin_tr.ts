@@ -62,8 +62,8 @@
         <translation>Alıcı adresler</translation>
     </message>
     <message>
-        <source>These are your Bitcoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>Bunlar Bitcoinleriniz için gönderici adreslerinizdir.
+        <source>These are your Dogecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <translation>Bunlar Dogecoinleriniz için gönderici adreslerinizdir.
 Gönderim yapmadan önce her zaman tutarı ve alıcı adresi kontrol ediniz.</translation>
     </message>
     <message>
@@ -198,7 +198,7 @@ Cüzdan kilidini aç.</translation>
     </message>
 </context>
 <context>
-    <name>BitcoinGUI</name>
+    <name>DogecoinGUI</name>
     <message>
         <source>Sign &amp;message...</source>
         <translation>&amp;Mesajı imzala ...</translation>
@@ -529,8 +529,8 @@ Cüzdan kilidini aç.</translation>
         <translation>Hoş geldiniz </translation>
     </message>
     <message>
-        <source>Bitcoin</source>
-        <translation>Bitcoin</translation>
+        <source>Dogecoin</source>
+        <translation>Dogecoin</translation>
     </message>
     <message>
         <source>Error</source>
@@ -918,7 +918,7 @@ Cüzdan kilidini aç.</translation>
     </message>
     </context>
 <context>
-    <name>bitcoin-core</name>
+    <name>dogecoin-core</name>
     <message>
         <source>Verifying wallet(s)...</source>
         <translation>Cüzdan(lar) kontrol ediliyor...</translation>

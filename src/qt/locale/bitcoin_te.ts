@@ -66,7 +66,7 @@
         <translation>అందుకునే చిరునామాలు</translation>
     </message>
     <message>
-        <source>These are your Bitcoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <source>These are your Dogecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
         <translation>ఇవి మీరు పంపే చెల్లింపుల బిట్‌కాయిన్ చిరునామాలు. నాణేలు పంపే ముందు ప్రతిసారి అందుకునే చిరునామా మరియు చెల్లింపు మొత్తం సరిచూసుకోండి.</translation>
     </message>
     <message>
@@ -164,7 +164,7 @@
         <translation>వాలెట్ గుప్తీకరణను నిర్ధారించండి</translation>
     </message>
     <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR BITCOINS&lt;/b&gt;!</source>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DOGECOINS&lt;/b&gt;!</source>
         <translation>హెచ్చరిక: మీ జోలెని సంకేతపరిచి మీ సంకేతపదము కోల్పోతే, &lt;b&gt;మీ బిట్‌కాయిన్లు అన్నీ కోల్పోతారు&lt;/b&gt;</translation>
     </message>
     <message>
@@ -184,7 +184,7 @@
         <translation>Enter the old passphrase and new passphrase for the wallet.</translation>
     </message>
     <message>
-        <source>Remember that encrypting your wallet cannot fully protect your bitcoins from being stolen by malware infecting your computer.</source>
+        <source>Remember that encrypting your wallet cannot fully protect your dogecoins from being stolen by malware infecting your computer.</source>
         <translation>మీ వాలెట్‌ను గుప్తీకరించడం వల్ల మీ కంప్యూటర్‌కు హాని కలిగించే మాల్వేర్ దొంగిలించకుండా మీ బిట్‌కాయిన్‌లను పూర్తిగా రక్షించలేమని గుర్తుంచుకోండి.</translation>
     </message>
     <message>
@@ -204,7 +204,7 @@
     <name>BanTableModel</name>
     </context>
 <context>
-    <name>BitcoinGUI</name>
+    <name>DogecoinGUI</name>
     <message>
         <source>E&amp;xit</source>
         <translation>నిష్క్రమించు</translation>
@@ -271,7 +271,7 @@
 <context>
     <name>Intro</name>
     <message>
-        <source>Bitcoin</source>
+        <source>Dogecoin</source>
         <translation>బిట్కోయిన్</translation>
     </message>
     <message>
@@ -472,6 +472,6 @@
     </message>
     </context>
 <context>
-    <name>bitcoin-core</name>
+    <name>dogecoin-core</name>
     </context>
 </TS>

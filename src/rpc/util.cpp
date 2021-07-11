@@ -18,7 +18,7 @@
 #include <boost/algorithm/string/split.hpp>
 
 const std::string UNIX_EPOCH_TIME = "UNIX epoch time";
-const std::string EXAMPLE_ADDRESS[2] = {"bc1q09vm5lfy0j5reeulh4x5752q25uqqvz34hufdl", "bc1q02ad21edsxd23d32dfgqqsz4vv4nmtfzuklhy3"};
+const std::string EXAMPLE_ADDRESS[2] = {"DRF7yvmFHR5gMXRtijkbkPzmLYnMfTYMGZ", "DH9fPpKHLiP5eaAD3pXxxUZmPktGNGTFp6"};
 
 void RPCTypeCheck(const UniValue& params,
                   const std::list<UniValueType>& typesExpected,
@@ -132,7 +132,7 @@ CoinStatsHashType ParseHashType(const UniValue& param, const CoinStatsHashType d
 
 std::string HelpExampleCli(const std::string& methodname, const std::string& args)
 {
-    return "> bitcoin-cli " + methodname + " " + args + "\n";
+    return "> dogecoin-cli " + methodname + " " + args + "\n";
 }
 
 std::string HelpExampleRpc(const std::string& methodname, const std::string& args)

@@ -31,7 +31,8 @@ void test_one_input(const std::vector<uint8_t>& buffer)
     (void)disk_block_index->IsValid();
     (void)disk_block_index->ToString();
 
-    const CBlockHeader block_header = disk_block_index->GetBlockHeader();
+    const Consensus::Params& params = Params().GetConsensus();
+    const CBlockHeader block_header = disk_block_index->GetBlockHeader(params);
     (void)CDiskBlockIndex{*disk_block_index};
     (void)disk_block_index->BuildSkip();
 

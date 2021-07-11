@@ -48,7 +48,7 @@
     <name>BanTableModel</name>
     </context>
 <context>
-    <name>BitcoinGUI</name>
+    <name>DogecoinGUI</name>
     <message>
         <source>&amp;Transactions</source>
         <translation>&amp;Транзакциялар</translation>
@@ -74,7 +74,7 @@
         <translation>Жіберу</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>Алу</translation>
     </message>
     <message>
@@ -167,7 +167,7 @@
 <context>
     <name>Intro</name>
     <message>
-        <source>Bitcoin</source>
+        <source>Dogecoin</source>
         <translation>Биткоин</translation>
     </message>
     <message>
@@ -340,7 +340,7 @@
     </message>
     </context>
 <context>
-    <name>bitcoin-core</name>
+    <name>dogecoin-core</name>
     <message>
         <source>Transaction amount too small</source>
         <translation>Транзакция өте кішкентай</translation>

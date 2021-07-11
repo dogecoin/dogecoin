@@ -66,7 +66,7 @@
         <translation>स्वीकृती पत्ते</translation>
     </message>
     <message>
-        <source>These are your Bitcoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <source>These are your Dogecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
         <translation>पैसे पाठविण्यासाठीचे हे तुमचे बिटकॉईन पत्त्ते आहेत. नाणी पाठविण्यापूर्वी नेहमी रक्कम आणि प्राप्त होणारा पत्ता तपासून पहा.</translation>
     </message>
     <message>
@@ -112,7 +112,7 @@
     <name>BanTableModel</name>
     </context>
 <context>
-    <name>BitcoinGUI</name>
+    <name>DogecoinGUI</name>
     </context>
 <context>
     <name>CoinControlDialog</name>
@@ -264,6 +264,6 @@
     </message>
     </context>
 <context>
-    <name>bitcoin-core</name>
+    <name>dogecoin-core</name>
     </context>
 </TS>

@@ -64,7 +64,7 @@
     </message>
 </context>
 <context>
-    <name>BitcoinGUI</name>
+    <name>DogecoinGUI</name>
     <message>
         <source>E&amp;xit</source>
         <translation>Buda</translation>
@@ -155,8 +155,8 @@
 <context>
     <name>Intro</name>
     <message>
-        <source>Bitcoin</source>
-        <translation>Bitcoin</translation>
+        <source>Dogecoin</source>
+        <translation>Dogecoin</translation>
     </message>
     </context>
 <context>
@@ -190,8 +190,8 @@
         <translation>Marii</translation>
     </message>
     <message>
-        <source>Enter a Bitcoin address (e.g. %1)</source>
-        <translation>Nyora kero ye Bitcoin (sekuti %1)</translation>
+        <source>Enter a Dogecoin address (e.g. %1)</source>
+        <translation>Nyora kero ye Dogecoin (sekuti %1)</translation>
     </message>
     <message>
         <source>%1 d</source>
@@ -328,6 +328,6 @@
     <name>WalletView</name>
     </context>
 <context>
-    <name>bitcoin-core</name>
+    <name>dogecoin-core</name>
     </context>
 </TS>

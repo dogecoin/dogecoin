@@ -44,6 +44,7 @@
 #include <QComboBox>
 #include <QDateTime>
 #include <QDragEnterEvent>
+#include <QFontDatabase>
 #include <QListWidget>
 #include <QMenu>
 #include <QMenuBar>
@@ -113,6 +114,21 @@ BitcoinGUI::BitcoinGUI(interfaces::Node& node, const PlatformStyle *_platformSty
     }
 
     modalOverlay = new ModalOverlay(enableWallet, this->centralWidget());
+
+    // Dogecoin: load fallback font in case Comic Sans is not availble on the system
+    QFontDatabase::addApplicationFont(":fonts/ComicNeue-Bold");
+    QFontDatabase::addApplicationFont(":fonts/ComicNeue-Bold-Oblique");
+    QFontDatabase::addApplicationFont(":fonts/ComicNeue-Light");
+    QFontDatabase::addApplicationFont(":fonts/ComicNeue-Light-Oblique");
+    QFontDatabase::addApplicationFont(":fonts/ComicNeue-Regular");
+    QFontDatabase::addApplicationFont(":fonts/ComicNeue-Regular-Oblique");
+    QFont::insertSubstitution("Comic Sans MS", "Comic Neue");
+
+    // Dogecoin: Specify Comic Sans as new font.
+    QFont newFont("Comic Sans MS", 10);
+
+    // Dogecoin: Set new application font
+    QApplication::setFont(newFont);
 
     // Accept D&D of URIs
     setAcceptDrops(true);
@@ -241,7 +257,7 @@ void BitcoinGUI::createActions()
     QActionGroup *tabGroup = new QActionGroup(this);
     connect(modalOverlay, &ModalOverlay::triggered, tabGroup, &QActionGroup::setEnabled);
 
-    overviewAction = new QAction(platformStyle->SingleColorIcon(":/icons/overview"), tr("&Overview"), this);
+    overviewAction = new QAction(platformStyle->SingleColorIcon(":/icons/overview"), tr("&Wow"), this);
     overviewAction->setStatusTip(tr("Show general overview of wallet"));
     overviewAction->setToolTip(overviewAction->statusTip());
     overviewAction->setCheckable(true);

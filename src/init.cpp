@@ -38,6 +38,7 @@
 #include <policy/policy.h>
 #include <policy/settings.h>
 #include <protocol.h>
+#include <rpc/auxpow_miner.h>
 #include <rpc/blockchain.h>
 #include <rpc/register.h>
 #include <rpc/server.h>
@@ -598,7 +599,7 @@ void SetupServerArgs(NodeContext& node)
 
 std::string LicenseInfo()
 {
-    const std::string URL_SOURCE_CODE = "<https://github.com/bitcoin/bitcoin>";
+    const std::string URL_SOURCE_CODE = "<https://github.com/dogecoin/dogecoin>";
 
     return CopyrightHolders(strprintf(_("Copyright (C) %i-%i").translated, 2009, COPYRIGHT_YEAR) + " ") + "\n" +
            "\n" +
@@ -1118,6 +1119,8 @@ bool AppInitParameterInteraction(const ArgsManager& args)
         CAmount n = 0;
         if (!ParseMoney(args.GetArg("-incrementalrelayfee", ""), n))
             return InitError(AmountErrMsg("incrementalrelayfee", args.GetArg("-incrementalrelayfee", "")));
+        if (n > MAX_FEE_RATE)
+            return InitError(strprintf(Untranslated("-incrementalrelayfee is greater than maximum fee rate of %ld."), MAX_FEE_RATE));
         incrementalRelayFee = CFeeRate(n);
     }
 
@@ -1154,6 +1157,8 @@ bool AppInitParameterInteraction(const ArgsManager& args)
         if (!ParseMoney(args.GetArg("-minrelaytxfee", ""), n)) {
             return InitError(AmountErrMsg("minrelaytxfee", args.GetArg("-minrelaytxfee", "")));
         }
+        if (n > MAX_FEE_RATE)
+            return InitError(strprintf(Untranslated("-minrelaytxfee is greater than maximum fee rate of %ld."), MAX_FEE_RATE));
         // High fee check is done afterward in CWallet::Create()
         ::minRelayTxFee = CFeeRate(n);
     } else if (incrementalRelayFee > ::minRelayTxFee) {
@@ -1176,6 +1181,8 @@ bool AppInitParameterInteraction(const ArgsManager& args)
         CAmount n = 0;
         if (!ParseMoney(args.GetArg("-dustrelayfee", ""), n))
             return InitError(AmountErrMsg("dustrelayfee", args.GetArg("-dustrelayfee", "")));
+        if (n > MAX_FEE_RATE)
+            return InitError(strprintf(Untranslated("-dustrelayfee is greater than maximum fee rate of %ld."), MAX_FEE_RATE));
         dustRelayFee = CFeeRate(n);
     }
 
@@ -1315,9 +1322,9 @@ bool AppInitMain(const util::Ref& context, NodeContext& node, interfaces::BlockA
     // Warn about relative -datadir path.
     if (args.IsArgSet("-datadir") && !fs::path(args.GetArg("-datadir", "")).is_absolute()) {
         LogPrintf("Warning: relative datadir option '%s' specified, which will be interpreted relative to the " /* Continued */
-                  "current working directory '%s'. This is fragile, because if bitcoin is started in the future "
+                  "current working directory '%s'. This is fragile, because if dogecoin is started in the future "
                   "from a different location, it will be unable to locate the current data files. There could "
-                  "also be data loss if bitcoin is started while in a temporary directory.\n",
+                  "also be data loss if dogecoin is started while in a temporary directory.\n",
                   args.GetArg("-datadir", ""), fs::current_path().string());
     }
 

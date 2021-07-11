@@ -42,8 +42,8 @@
         <translation>Ukuthola amakheli</translation>
     </message>
     <message>
-        <source>These are your Bitcoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>Lawa amakheli akho e-Bitcoin okuthumela izinkokhelo. Njalo hlola inani nekheli elitholwayo ngaphambi kokuthumela izinhlamvu zemali.</translation>
+        <source>These are your Dogecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <translation>Lawa amakheli akho e-Dogecoin okuthumela izinkokhelo. Njalo hlola inani nekheli elitholwayo ngaphambi kokuthumela izinhlamvu zemali.</translation>
     </message>
     <message>
         <source>Export Address List</source>
@@ -124,9 +124,9 @@
         <translation>Qinisekisa ukubethelwa kwe-wallet</translation>
     </message>
     <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR BITCOINS&lt;/b&gt;!</source>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DOGECOINS&lt;/b&gt;!</source>
         <translation>Isexwayiso: Uma ubhala ngemfihlo isikhwama sakho futhi ulahlekelwe umushwana wakho wokungena, uzokwazi
-Lahla YONKE IBITCOIN YAKHO!</translation>
+Lahla YONKE IDOGECOIN YAKHO!</translation>
     </message>
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
@@ -141,7 +141,7 @@ Lahla YONKE IBITCOIN YAKHO!</translation>
     <name>BanTableModel</name>
     </context>
 <context>
-    <name>BitcoinGUI</name>
+    <name>DogecoinGUI</name>
     </context>
 <context>
     <name>CoinControlDialog</name>
@@ -277,6 +277,6 @@ Lahla YONKE IBITCOIN YAKHO!</translation>
     </message>
     </context>
 <context>
-    <name>bitcoin-core</name>
+    <name>dogecoin-core</name>
     </context>
 </TS>

@@ -66,8 +66,8 @@
         <translation>Adrese primalaca</translation>
     </message>
     <message>
-        <source>These are your Bitcoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>Ovo su vaše Bitcoin adrese za slanje novca. Uvijek provjerite iznos i adresu primaoca prije slanja novca.</translation>
+        <source>These are your Dogecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <translation>Ovo su vaše Dogecoin adrese za slanje novca. Uvijek provjerite iznos i adresu primaoca prije slanja novca.</translation>
     </message>
     <message>
         <source>&amp;Copy Address</source>
@@ -108,7 +108,7 @@
     <name>BanTableModel</name>
     </context>
 <context>
-    <name>BitcoinGUI</name>
+    <name>DogecoinGUI</name>
     </context>
 <context>
     <name>CoinControlDialog</name>
@@ -131,8 +131,8 @@
 <context>
     <name>Intro</name>
     <message>
-        <source>Bitcoin</source>
-        <translation>Bitcoin</translation>
+        <source>Dogecoin</source>
+        <translation>Dogecoin</translation>
     </message>
     </context>
 <context>
@@ -272,6 +272,6 @@
     </message>
     </context>
 <context>
-    <name>bitcoin-core</name>
+    <name>dogecoin-core</name>
     </context>
 </TS>

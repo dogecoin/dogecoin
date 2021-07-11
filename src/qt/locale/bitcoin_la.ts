@@ -30,7 +30,7 @@
         <translation>&amp;Dele</translation>
     </message>
     <message>
-        <source>These are your Bitcoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <source>These are your Dogecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
         <translation>Hae sunt inscriptiones mittendi pensitationes.  Semper inspice quantitatem et inscriptionem accipiendi antequam nummos mittis.</translation>
     </message>
     <message>
@@ -112,7 +112,7 @@
         <translation>Confirma cifrationem cassidilis</translation>
     </message>
     <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR BITCOINS&lt;/b&gt;!</source>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DOGECOINS&lt;/b&gt;!</source>
         <translation>Monitio: Si cassidile tuum cifras et tesseram amittis, tu &lt;b&gt;AMITTES OMNES TUOS NUMMOS BITOS&lt;/b&gt;!</translation>
     </message>
     <message>
@@ -164,7 +164,7 @@
     <name>BanTableModel</name>
     </context>
 <context>
-    <name>BitcoinGUI</name>
+    <name>DogecoinGUI</name>
     <message>
         <source>Sign &amp;message...</source>
         <translation>Signa &amp;nuntium...</translation>
@@ -174,7 +174,7 @@
         <translation>Synchronizans cum rete...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
+        <source>&amp;Wow</source>
         <translation>&amp;Summarium</translation>
     </message>
     <message>
@@ -226,8 +226,8 @@
         <translation>Recreans indicem frustorum in disco...</translation>
     </message>
     <message>
-        <source>Send coins to a Bitcoin address</source>
-        <translation>Mitte nummos ad inscriptionem Bitcoin</translation>
+        <source>Send coins to a Dogecoin address</source>
+        <translation>Mitte nummos ad inscriptionem Dogecoin</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -246,7 +246,7 @@
         <translation>&amp;Mitte</translation>
     </message>
     <message>
-        <source>&amp;Receive</source>
+        <source>&amp;Much Receive</source>
         <translation>&amp;Accipe</translation>
     </message>
     <message>
@@ -262,12 +262,12 @@
         <translation>Cifra claves privatas quae cassidili tui sunt</translation>
     </message>
     <message>
-        <source>Sign messages with your Bitcoin addresses to prove you own them</source>
-        <translation>Signa nuntios cum tuis inscriptionibus Bitcoin ut demonstres te eas possidere</translation>
+        <source>Sign messages with your Dogecoin addresses to prove you own them</source>
+        <translation>Signa nuntios cum tuis inscriptionibus Dogecoin ut demonstres te eas possidere</translation>
     </message>
     <message>
-        <source>Verify messages to ensure they were signed with specified Bitcoin addresses</source>
-        <translation>Verifica nuntios ut certus sis eos signatos esse cum specificatis inscriptionibus Bitcoin</translation>
+        <source>Verify messages to ensure they were signed with specified Dogecoin addresses</source>
+        <translation>Verifica nuntios ut certus sis eos signatos esse cum specificatis inscriptionibus Dogecoin</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -414,8 +414,8 @@
         <translation>Muta inscriptionem mittendi</translation>
     </message>
     <message>
-        <source>The entered address "%1" is not a valid Bitcoin address.</source>
-        <translation>Inscriptio inserta "%1" non valida inscriptio Bitcoin est.</translation>
+        <source>The entered address "%1" is not a valid Dogecoin address.</source>
+        <translation>Inscriptio inserta "%1" non valida inscriptio Dogecoin est.</translation>
     </message>
     <message>
         <source>Could not unlock wallet.</source>
@@ -443,8 +443,8 @@
 <context>
     <name>Intro</name>
     <message>
-        <source>Bitcoin</source>
-        <translation>Bitcoin</translation>
+        <source>Dogecoin</source>
+        <translation>Dogecoin</translation>
     </message>
     <message>
         <source>Error</source>
@@ -495,8 +495,8 @@
         <translation>Cassidile</translation>
     </message>
     <message>
-        <source>Automatically open the Bitcoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Aperi per se portam clientis Bitcoin in itineratore.  Hoc tantum effectivum est si itineratrum tuum supportat UPnP et id activum est.</translation>
+        <source>Automatically open the Dogecoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <translation>Aperi per se portam clientis Dogecoin in itineratore.  Hoc tantum effectivum est si itineratrum tuum supportat UPnP et id activum est.</translation>
     </message>
     <message>
         <source>Map port using &amp;UPnP</source>
@@ -578,8 +578,8 @@
         <translation>Schema</translation>
     </message>
     <message>
-        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Bitcoin network after a connection is established, but this process has not completed yet.</source>
-        <translation>Monstrata informatio fortasse non recentissima est.  Tuum cassidile per se synchronizat cum rete Bitcoin postquam conexio constabilita est, sed hoc actio nondum perfecta est.</translation>
+        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Dogecoin network after a connection is established, but this process has not completed yet.</source>
+        <translation>Monstrata informatio fortasse non recentissima est.  Tuum cassidile per se synchronizat cum rete Dogecoin postquam conexio constabilita est, sed hoc actio nondum perfecta est.</translation>
     </message>
     <message>
         <source>Immature:</source>
@@ -596,8 +596,8 @@
 <context>
     <name>PaymentServer</name>
     <message>
-        <source>Cannot start bitcoin: click-to-pay handler</source>
-        <translation>Bitcoin incipere non potest: cliccare-ad-pensandum handler</translation>
+        <source>Cannot start dogecoin: click-to-pay handler</source>
+        <translation>Dogecoin incipere non potest: cliccare-ad-pensandum handler</translation>
     </message>
     <message>
         <source>URI handling</source>
@@ -897,8 +897,8 @@
         <translation>Copia signationem in latibulum systematis</translation>
     </message>
     <message>
-        <source>Sign the message to prove you own this Bitcoin address</source>
-        <translation>Signa nuntium ut demonstres hanc inscriptionem Bitcoin a te possessa esse</translation>
+        <source>Sign the message to prove you own this Dogecoin address</source>
+        <translation>Signa nuntium ut demonstres hanc inscriptionem Dogecoin a te possessa esse</translation>
     </message>
     <message>
         <source>Sign &amp;Message</source>
@@ -917,8 +917,8 @@
         <translation>&amp;Verifica Nuntium</translation>
     </message>
     <message>
-        <source>Verify the message to ensure it was signed with the specified Bitcoin address</source>
-        <translation>Verifica nuntium ut cures signatum esse cum specifica inscriptione Bitcoin</translation>
+        <source>Verify the message to ensure it was signed with the specified Dogecoin address</source>
+        <translation>Verifica nuntium ut cures signatum esse cum specifica inscriptione Dogecoin</translation>
     </message>
     <message>
         <source>Verify &amp;Message</source>
@@ -1332,7 +1332,7 @@
     </message>
     </context>
 <context>
-    <name>bitcoin-core</name>
+    <name>dogecoin-core</name>
     <message>
         <source>This is a pre-release test build - use at your own risk - do not use for mining or merchant applications</source>
         <translation>Hoc est prae-dimittum experimentala aedes - utere eo periculo tuo proprio - nolite utere fodendo vel applicationibus mercatoriis</translation>
