@@ -7,6 +7,7 @@
 #include <core_io.h>
 #include <interfaces/chain.h>
 #include <key_io.h>
+#include <net.h>
 #include <node/context.h>
 #include <optional.h>
 #include <outputtype.h>
@@ -14,12 +15,14 @@
 #include <policy/fees.h>
 #include <policy/policy.h>
 #include <policy/rbf.h>
+#include <rpc/blockchain.h>
 #include <rpc/rawtransaction_util.h>
 #include <rpc/server.h>
 #include <rpc/util.h>
 #include <script/descriptor.h>
 #include <script/sign.h>
 #include <util/bip32.h>
+#include <util/check.h>
 #include <util/fees.h>
 #include <util/message.h> // For MessageSign()
 #include <util/moneystr.h>
@@ -4520,6 +4523,121 @@ static RPCHelpMan upgradewallet()
 },
     };
 }
+
+namespace
+{
+
+/**
+ * Helper class that keeps track of reserved keys that are used for mining
+ * coinbases.  We also keep track of the block hash(es) that have been
+ * constructed based on the key, so that we can mark it as keep and get a
+ * fresh one when one of those blocks is submitted.
+ */
+class ReservedKeysForMining
+{
+
+private:
+
+  /**
+   * The per-wallet data that we store.
+   */
+  struct PerWallet
+  {
+
+    /**
+     * The current coinbase script.  This has been taken out of the wallet
+     * already (and marked as "keep"), but is reused until a block actually
+     * using it is submitted successfully.
+     */
+    CScript coinbaseScript;
+
+    /** All block hashes (in hex) that are based on the current script.  */
+    std::set<std::string> blockHashes;
+
+    explicit PerWallet (const CScript& scr)
+      : coinbaseScript(scr)
+    {}
+
+    PerWallet (PerWallet&&) = default;
+
+  };
+
+  /**
+   * Data for each wallet that we have.  This is keyed by CWallet::GetName,
+   * which is not perfect; but it will likely work in most cases, and even
+   * when two different wallets are loaded with the same name (after each
+   * other), the worst that can happen is that we mine to an address from
+   * the other wallet.
+   */
+  std::map<std::string, PerWallet> data;
+
+  /** Lock for this instance.  */
+  mutable RecursiveMutex cs;
+
+public:
+
+  ReservedKeysForMining () = default;
+
+  /**
+   * Retrieves the key to use for mining at the moment.
+   */
+  CScript
+  GetCoinbaseScript (CWallet* pwallet)
+  {
+    LOCK2 (cs, pwallet->cs_wallet);
+
+    const auto mit = data.find (pwallet->GetName ());
+    if (mit != data.end ())
+      return mit->second.coinbaseScript;
+
+    ReserveDestination rdest(pwallet, pwallet->m_default_address_type);
+    CTxDestination dest;
+    if (!rdest.GetReservedDestination (dest, false))
+      throw JSONRPCError (RPC_WALLET_KEYPOOL_RAN_OUT,
+                          "Error: Keypool ran out,"
+                          " please call keypoolrefill first");
+    rdest.KeepDestination ();
+
+    const CScript res = GetScriptForDestination (dest);
+    data.emplace (pwallet->GetName (), PerWallet (res));
+    return res;
+  }
+
+  /**
+   * Adds the block hash (given as hex string) of a newly constructed block
+   * to the set of blocks for the current key.
+   */
+  void
+  AddBlockHash (const CWallet* pwallet, const std::string& hashHex)
+  {
+    LOCK (cs);
+
+    const auto mit = data.find (pwallet->GetName ());
+    CHECK_NONFATAL(mit != data.end ());
+    mit->second.blockHashes.insert (hashHex);
+  }
+
+  /**
+   * Marks a block as submitted, releasing the key for it (if any).
+   */
+  void
+  MarkBlockSubmitted (const CWallet* pwallet, const std::string& hashHex)
+  {
+    LOCK (cs);
+
+    const auto mit = data.find (pwallet->GetName ());
+    if (mit == data.end ())
+      return;
+
+    if (mit->second.blockHashes.count (hashHex) > 0)
+      data.erase (mit);
+  }
+
+};
+
+ReservedKeysForMining g_mining_keys;
+
+} // anonymous namespace
 
 RPCHelpMan abortrescan();
 RPCHelpMan dumpprivkey();
