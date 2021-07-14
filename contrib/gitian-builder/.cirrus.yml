@@ -1,0 +1,98 @@
+### Global defaults
+env:
+  URL: https://github.com/dogecoin/dogecoin
+  BRANCH: 1.14.3
+  PACKAGE_MANAGER_INSTALL: "apt-get update && apt-get install -y"
+
+timeout_in: 120m  # https://cirrus-ci.org/faq/#instance-timed-out
+container:
+  # https://cirrus-ci.org/faq/#are-there-any-limits
+  # Each project has 16 CPU in total, assign 2 to each container, so that 8 tasks run in parallel
+  cpu: 2
+  memory: 2G  # Set to 8GB to avoid OOM. https://cirrus-ci.org/guide/linux/#linux-containers
+  kvm: true  # Use kvm to avoid spurious CI failures in the default virtualization cluster, see https://github.com/bitcoin/bitcoin/issues/20093
+
+
+# https://cirrus-ci.org/guide/tips-and-tricks/#sharing-configuration-between-tasks
+global_task_template: &GLOBAL_TASK_TEMPLATE
+  only_if: $CIRRUS_BRANCH !=~ 'build_.*'
+  ci_script:
+    - ./setup/setup.sh --force
+
+global_compute_template: &GLOBAL_COMPUTE_TEMPLATE
+  image_project: cirrus-images
+  image: family/docker-builder
+  platform: linux
+  cpu: 8
+  memory: 8G
+
+build_task_template: &BUILD_TASK_TEMPLATE
+  only_if: $CIRRUS_BRANCH =~ 'build_.*'
+  prescript:
+    - bash -c "$PACKAGE_MANAGER_INSTALL git"
+  script:
+    - echo 'y' | ./gitian-build.sh --init
+    - ./gitian-build.sh --setup
+    - ./gitian-build.sh -j 8 -m 8192 -u $URL --commit -o $OS --build cirrus $BRANCH
+
+task:
+  name: 'UBUNTU'
+  << : *GLOBAL_TASK_TEMPLATE
+  container:
+    image: ubuntu:latest
+
+task:
+  name: 'DEBIAN'
+  << : *GLOBAL_TASK_TEMPLATE
+  container:
+    image: debian:latest
+
+task:
+  name: 'CENTOS'
+  << : *GLOBAL_TASK_TEMPLATE
+  container:
+    image: centos:latest
+
+task:
+  name: 'FEDORA'
+  << : *GLOBAL_TASK_TEMPLATE
+  container:
+    image: fedora:latest
+
+task:
+  name: 'ARCHLINUX'
+  << : *GLOBAL_TASK_TEMPLATE
+  container:
+    image: archlinux:latest
+
+task:
+  name: 'BIGSUR'
+  << : *GLOBAL_TASK_TEMPLATE
+  macos_instance:
+    image: big-sur-base
+
+
+task:
+  name: 'BUILD LINUX'
+  << : *BUILD_TASK_TEMPLATE
+  env:
+      OS: 'l'
+  compute_engine_instance:
+    << : *GLOBAL_COMPUTE_TEMPLATE
+
+
+task:
+  name: 'BUILD WINDOWS'
+  << : *BUILD_TASK_TEMPLATE
+  env:
+      OS: 'w'
+  compute_engine_instance:
+    <<: *GLOBAL_COMPUTE_TEMPLATE
+
+task:
+  name: 'BUILD MAC'
+  << : *BUILD_TASK_TEMPLATE
+  env:
+      OS: 'x'
+  compute_engine_instance:
+    <<: *GLOBAL_COMPUTE_TEMPLATE

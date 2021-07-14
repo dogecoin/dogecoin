@@ -1,0 +1,103 @@
+From f9aa17728860f64e963ee40f9a62e075c7c41a8e Mon Sep 17 00:00:00 2001
+From: Micael Malta <mmicael@gmail.com>
+Date: Sat, 10 Jul 2021 12:37:47 -0400
+Subject: [PATCH] Docker apt-cacher
+
+---
+ bin/make-base-vm     | 25 ++++++++++++++++++-------
+ libexec/start-target |  2 +-
+ 2 files changed, 19 insertions(+), 8 deletions(-)
+
+diff --git a/bin/make-base-vm b/bin/make-base-vm
+index 30e4fbf..d6b3ac5 100755
+--- a/bin/make-base-vm
++++ b/bin/make-base-vm
+@@ -9,6 +9,7 @@ LXC=0
+ VBOX=0
+ DOCKER=0
+ DOCKER_IMAGE_HASH=""
++APT_CACHER_DEFAULT=0
+
+ usage() {
+   echo "Usage: ${0##*/} [OPTION]..."
+@@ -24,6 +25,7 @@ usage() {
+   --vbox                    use VirtualBox instead of kvm
+   --docker                  use docker instead of kvm
+   --docker-image-hash D     digest of the docker image to build from
++  --enable-apt-cacher       enable APT Cacher
+
+   The MIRROR_HOST environment variable can be used to change the
+   apt-cacher host.  It should be something that both the host and the
+@@ -88,6 +90,10 @@ if [ $# != 0 ] ; then
+         DOCKER=1
+         shift 1
+         ;;
++      --enable-apt-cacher)
++        APT_CACHER=1
++        shift 1
++        ;;
+       --docker-image-digest)
+         DOCKER_IMAGE_HASH="$2"
+         shift 2
+@@ -103,13 +109,11 @@ if [ $# != 0 ] ; then
+   done
+ fi
+
+-if [ $DOCKER = "1" ]; then
+-  MIRROR_DEFAULT=172.17.0.1
+-else
+-  MIRROR_DEFAULT=127.0.0.1
+-fi
++MIRROR_DEFAULT=127.0.0.1
+ MIRROR_BASE=http://${MIRROR_HOST:-$MIRROR_DEFAULT}:3142
+
++APT_CACHER=${APT_CACHER:-$APT_CACHER_DEFAULT}
++
+ if [ $DISTRO = "ubuntu" ]; then
+   MIRROR=$MIRROR_BASE/archive.ubuntu.com/ubuntu
+   SECURITY_MIRROR=$MIRROR_BASE/security.ubuntu.com/ubuntu
+@@ -193,12 +197,19 @@ if [ $DOCKER = "1" ]; then
+     base_image="$DISTRO:$SUITE"
+   fi
+
++  apt_cacher=""
++  if [ "$APT_CACHER" = 1 ]; then
++    apt_cacher="RUN echo 'Acquire::http { Proxy "$MIRROR_BASE"; };' > /etc/apt/apt.conf.d/50cacher"
++  fi
++
+   # Generate the dockerfile
+   cat << EOF > $OUT.Dockerfile
+ FROM $base_image
+
+ ENV DEBIAN_FRONTEND=noninteractive
+-RUN echo 'Acquire::http { Proxy "$MIRROR_BASE"; };' > /etc/apt/apt.conf.d/50cacher
++# DELETE ESM Files: W: Failed to fetch https://esm.ubuntu.com/ubuntu/dists/trusty-infra-security/main/binary-amd64/Packages  Received HTTP code 403 from proxy after CONNECT
++RUN [ -f /etc/apt/sources.list.d/*esm*.list ] && rm /etc/apt/sources.list.d/*esm*.list
++$apt_cacher
+ RUN apt-get update && apt-get --no-install-recommends -y install $addpkg
+
+ RUN useradd -ms /bin/bash -U $DISTRO
+@@ -208,7 +219,7 @@ WORKDIR /home/$DISTRO
+ CMD ["sleep", "infinity"]
+ EOF
+
+-  docker build --pull -f $OUT.Dockerfile -t $OUT .
++  docker build --network host --pull -f $OUT.Dockerfile -t $OUT .
+
+   exit 0
+ fi
+diff --git a/libexec/start-target b/libexec/start-target
+index 0b20f06..f0f5974 100755
+--- a/libexec/start-target
++++ b/libexec/start-target
+@@ -37,6 +37,6 @@ case $VMSW in
+     echo "Gitian-${2}" > var/target.vmname
+     ;;
+   DOCKER)
+-    docker run -d --name gitian-target base-$SUFFIX:latest > /dev/null
++    docker run --network host -d --name gitian-target base-$SUFFIX:latest > /dev/null
+     ;;
+ esac
+--
+2.32.0
+
