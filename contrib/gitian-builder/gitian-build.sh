@@ -394,7 +394,8 @@ if [[ $build == true ]]; then
 
   BUILD_FILES=('dogecoin-*.tar.gz' 'src/dogecoin-*.tar.gz' 'dogecoin-*.zip' 'dogecoin-*.exe' 'dogecoin-*.dmg')
   for build_file in "${BUILD_FILES[@]}"; do
-    mv build/out/"$build_file" ../dogecoin-binaries/"$VERSION" 2>/dev/null
+    echo "Moving build/out/${build_file} to ../dogecoin-binaries/${VERSION}"
+    mv build/out/"$build_file" ../dogecoin-binaries/"$VERSION"/ 2>/dev/null
   done
 
   popd  || exit 1
