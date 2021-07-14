@@ -113,3 +113,9 @@ contrib/devtools/split-debug.sh
 
 .idea/
 .vscode/*
+
+# Snapcraft
+parts/
+prime/
+stage/
+*.snap
