@@ -37,10 +37,10 @@ parts:
       wget https://github.com/dogecoin/dogecoin/releases/download/v${SNAPCRAFT_PROJECT_VERSION}/dogecoin-${SNAPCRAFT_PROJECT_VERSION}-${SNAPCRAFT_ARCH_TRIPLET}.tar.gz
       wget https://github.com/dogecoin/gitian.sigs/archive/refs/heads/master.zip
       unzip master.zip
-      echo "Verifying signatures..."
+      echo "Verifying secure hash matches signed values..."
       checksum=$(sha256sum dogecoin-${SNAPCRAFT_PROJECT_VERSION}-${SNAPCRAFT_ARCH_TRIPLET}.tar.gz)
       if ! grep -r $checksum *; then
-        echo "Signature not verified."
+        echo "Secure hash not verified."
         return
       fi
       tar -xvf dogecoin-${SNAPCRAFT_PROJECT_VERSION}-${SNAPCRAFT_ARCH_TRIPLET}.tar.gz
