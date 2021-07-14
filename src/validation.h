@@ -54,8 +54,7 @@ static const bool DEFAULT_WHITELISTRELAY = true;
 /** Default for DEFAULT_WHITELISTFORCERELAY. */
 static const bool DEFAULT_WHITELISTFORCERELAY = true;
 /** Default for -minrelaytxfee, minimum relay fee for transactions */
-// rnicoll 7/2021: using proposed value from https://github.com/dogecoin/dogecoin/discussions/2347
-static const unsigned int DEFAULT_MIN_RELAY_TX_FEE = COIN / 1000;
+static const unsigned int DEFAULT_MIN_RELAY_TX_FEE = COIN;
 //mlumin 5/2021: adding a minimum Wallet fee vs relay, currently still 1 COIN, to be reduced.
 static const unsigned int DEFAULT_MIN_WALLET_TX_FEE = COIN;
 //! -maxtxfee default
