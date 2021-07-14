@@ -1,0 +1,19 @@
+--- old-boost/tools/build/src/tools/darwin.jam	2016-12-22 07:33:21.000000000 -0500
++++ new-boost/tools/build/src/tools/darwin.jam	2021-07-14 14:05:00.000000000 -0400
+@@ -137,13 +137,14 @@
+     # - Set the toolset generic common options.
+     common.handle-options darwin : $(condition) : $(command) : $(options) ;
+     
++    real-version = [ regex.split $(real-version) \\. ] ;
+     # - GCC 4.0 and higher in Darwin does not have -fcoalesce-templates.
+-    if $(real-version) < "4.0.0"
++    if [ version.version-less $(real-version) : 4 0 ]
+     {
+         flags darwin.compile.c++ OPTIONS $(condition) : -fcoalesce-templates ;
+     }
+     # - GCC 4.2 and higher in Darwin does not have -Wno-long-double.
+-    if $(real-version) < "4.2.0"
++    if [ version.version-less $(real-version) : 4 2 ]
+     {
+         flags darwin.compile OPTIONS $(condition) : -Wno-long-double ;
+     }

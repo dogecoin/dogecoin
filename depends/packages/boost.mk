@@ -3,6 +3,7 @@ $(package)_version=1_63_0
 $(package)_download_path=https://sourceforge.net/projects/boost/files/boost/1.63.0
 $(package)_file_name=$(package)_$($(package)_version).tar.bz2
 $(package)_sha256_hash=beae2529f759f6b3bf3f4969a19c2e9d6f0c503edcb2de4a61d1428519fcb3b0
+$(package)_patches=execcmd.patch execnt.patch filent.patch filesys.patch fileunix.patch jam.patch make.patch path.patch darwin.patch fpclassify.patch
 
 define $(package)_set_vars
 $(package)_config_opts_release=variant=release
@@ -25,7 +26,17 @@ $(package)_cxxflags_linux=-fPIC
 endef
 
 define $(package)_preprocess_cmds
-  echo "using $(boost_toolset_$(host_os)) : : $($(package)_cxx) : <cxxflags>\"$($(package)_cxxflags) $($(package)_cppflags)\" <linkflags>\"$($(package)_ldflags)\" <archiver>\"$(boost_archiver_$(host_os))\" <striper>\"$(host_STRIP)\"  <ranlib>\"$(host_RANLIB)\" <rc>\"$(host_WINDRES)\" : ;" > user-config.jam
+  echo "using $(boost_toolset_$(host_os)) : : $($(package)_cxx) : <cxxflags>\"$($(package)_cxxflags) $($(package)_cppflags)\" <linkflags>\"$($(package)_ldflags)\" <archiver>\"$(boost_archiver_$(host_os))\" <striper>\"$(host_STRIP)\"  <ranlib>\"$(host_RANLIB)\" <rc>\"$(host_WINDRES)\" : ;" > user-config.jam && \
+  patch -p1 < $($(package)_patch_dir)/execcmd.patch && \
+  patch -p1 < $($(package)_patch_dir)/execnt.patch && \
+  patch -p1 < $($(package)_patch_dir)/filent.patch && \
+  patch -p1 < $($(package)_patch_dir)/filesys.patch && \
+  patch -p1 < $($(package)_patch_dir)/fileunix.patch && \
+  patch -p1 < $($(package)_patch_dir)/jam.patch && \
+  patch -p1 < $($(package)_patch_dir)/make.patch && \
+  patch -p1 < $($(package)_patch_dir)/path.patch && \
+  patch -p1 < $($(package)_patch_dir)/darwin.patch && \
+  patch -p1 < $($(package)_patch_dir)/fpclassify.patch
 endef
 
 define $(package)_config_cmds
