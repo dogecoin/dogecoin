@@ -2932,6 +2932,7 @@
         <source>(n/a)</source>
         <translation>(n/a)</translation>
     </message>
+    <message>
         <source>(n/a)</source>
         <translation>(n/a)</translation>
     </message>
@@ -3214,7 +3215,7 @@
         <translation>Bind to given address and always listen on it. Use [host]:port notation for IPv6</translation>
     </message>
     <message>
-        <source>Bind to given address and whitelist peers connecting to it. Use [host]:port notation for IPv6/source>
+        <source>Bind to given address and whitelist peers connecting to it. Use [host]:port notation for IPv6</source>
         <translation>Bind to given address and whitelist peers connecting to it. Use [host]:port notation for IPv6</translation>
     </message>
     <message>
