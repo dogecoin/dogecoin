@@ -28,7 +28,7 @@ More independent Gitian builders are needed, which is why this guide exists. It 
 ## AUTOMATED INSTALL
     1. Launch automated script (ONLY ONCE)
 
-        ./gitian-build.sh --init
+        ./dogecoin/contrib/gitian/gitian-build.sh --init
 
 ## MANUAL INSTALL
     1. Install Docker
@@ -43,46 +43,45 @@ More independent Gitian builders are needed, which is why this guide exists. It 
 
         sudo git make wget brew(MACOS ONLY)
 
-    
 ## SETUP  (ONLY ONCE)
-    ./gitian-build.sh --setup
+    ./dogecoin/contrib/gitian/gitian-build.sh --setup
 
 ## BUILD
-    ./gitian-build.sh -j <jobs> -m <mem> --build <signer_name:required> <version:required>
+    ./dogecoin/contrib/gitian/gitian-build.sh -j <jobs> -m <mem> --build <signer_name:required> <version:required>
 
 ## VERIFY
-    ./gitian-build.sh --verify <signer_name:required> <version:required>
+    ./dogecoin/contrib/gitian/gitian-build.sh --verify <signer_name:required> <version:required>
 
 ## VERSION vs COMMIT
   For release version: omit `v` 
 
-    ./gitian-build.sh -j <jobs> -m <mem> --build <signer_name:required> 1.14.3
+    ./dogecoin/contrib/gitian/gitian-build.sh -j <jobs> -m <mem> --build <signer_name:required> 1.14.3
 
   For commit or branch: use `--commit`
     
-    ./gitian-build.sh -j <jobs> -m <mem> --commit --build <signer_name:required> <branch|hash>
+    ./dogecoin/contrib/gitian/gitian-build.sh -j <jobs> -m <mem> --commit --build <signer_name:required> <branch|hash>
 
 ## PUSH SIGN TO gitian.sigs
-    ./gitian-build.sh --push
+    ./dogecoin/contrib/gitian/gitian-build.sh --push
 
 ## CUSTOM REPOSITORY
-    ./gitian-build.sh -j <jobs> -m <mem> --build -u <repo_url> <signer_name:required> <version:required>
+    ./dogecoin/contrib/gitian/gitian-build.sh -j <jobs> -m <mem> --build -u <repo_url> <signer_name:required> <version:required>
 
 ## COMPLETE LIST OF PARAMETERS
-    ./gitian-build.sh --help
+    ./dogecoin/contrib/gitian/gitian-build.sh --help
 
 ## Examples:
-    ./gitian-build.sh --setup
+    ./dogecoin/contrib/gitian/gitian-build.sh --setup
     
-    ./gitian-build.sh -j 8 -m 8192 -u https://github.com/micaelmalta/dogecoin --build mmicael 1.14.3
+    ./dogecoin/contrib/gitian/gitian-build.sh -j 8 -m 8192 -u https://github.com/micaelmalta/dogecoin --build mmicael 1.14.3
 
-    ./gitian-build.sh -j 8 -m 8192 --build mmicael 1.14.3
+    ./dogecoin/contrib/gitian/gitian-build.sh -j 8 -m 8192 --build mmicael 1.14.3
 
     or
 
-    ./gitian-build.sh -j 8 -m 8192 --commit --build mmicael 1.14.4-dev
+    ./dogecoin/contrib/gitian/gitian-build.sh -j 8 -m 8192 --commit --build mmicael 1.14.4-dev
 
-    ./gitian-build.sh --push
+    ./dogecoin/contrib/gitian/gitian-build.sh --push
 
 ## CI TESTING
 
