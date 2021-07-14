@@ -31,14 +31,11 @@ Install Brew. (If you already have Brew installed, perform a 'brew update'.)
 
 Install dependencies via Brew.
 
-    $brew install autoconf automake libtool miniupnpc openssl pkg-config protobuf qt5 zeromq qrencode librsvg boost
+    $brew install autoconf automake libtool miniupnpc openssl pkg-config protobuf qt5 zeromq qrencode librsvg
 
-Install Boost lib via Brew from source, and link it to be sure:
+### Compile BOOST 1.63.0 ###
 
-**note** Boost version may have changed by the time you're reading this, from 167.
-
-    $brew install boost --build-from-source --HEAD
-    $brew link boost167
+    $make -C depends boost
 
 ### Get, Patch And Compile BDB 5.1 ###
 
