@@ -270,11 +270,9 @@ if [[ $setup == true ]]; then
 fi
 
 function download_descriptor() {
-  descriptor_name="${1/signed/signer}" # UGLY FIX BECAUSE OF INCONSISTENT NAMING
-
-  uri="${url/github.com/raw.githubusercontent.com}"/"$2"/contrib/gitian-descriptors/gitian-"$descriptor_name".yml
-  echo "Downloading descriptor ${descriptor_name} ${uri}"
-  wget $uri -O gitian-"$descriptor_name".yml || exit 1
+  uri="${url/github.com/raw.githubusercontent.com}"/"$2"/contrib/gitian-descriptors/gitian-"$1".yml
+  echo "Downloading descriptor ${1} ${uri}"
+  wget $uri -O gitian-"$1".yml || exit 1
 }
 
 #############################
