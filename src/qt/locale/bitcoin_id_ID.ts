@@ -3131,7 +3131,7 @@
     <name>WalletFrame</name>
     <message>
         <source>No wallet has been loaded.</source>
-        <translation>Tidak ada dompet termuat.</translation>
+        <translation>Belum ada dompet termuat.</translation>
     </message>
 </context>
 <context>
@@ -3149,7 +3149,7 @@
     </message>
     <message>
         <source>Export the data in the current tab to a file</source>
-        <translation>Ekspor data di tab ini ke sebuah berkas</translation>
+        <translation>Ekspor data dari tab ini ke dalam sebuah berkas</translation>
     </message>
     <message>
         <source>Backup Wallet</source>
@@ -3173,7 +3173,7 @@
     </message>
     <message>
         <source>The wallet data was successfully saved to %1.</source>
-        <translation>Dompet terlah berhasil tersimpan di %1.</translation>
+        <translation>Dompet terlah berhasil tersimpan pada %1.</translation>
     </message>
 </context>
 <context>
@@ -3188,115 +3188,111 @@
     </message>
     <message>
         <source>(1 = keep tx meta data e.g. account owner and payment request information, 2 = drop tx meta data)</source>
-        <translation>(1 = keep tx meta data e.g. account owner and payment request information, 2 = drop tx meta data)</translation>
+        <translation>(1 = pertahankan meta data pengiriman (tx) contohnya akun pemilik dan informasi permintaan pembayaran, 2 = hapus meta data pengiriman (tx))</translation>
     </message>
     <message>
         <source>-maxtxfee is set very high! Fees this large could be paid on a single transaction.</source>
-        <translation>-maxtxfee diatur sangat tinggi! Biaya yang besar ini bisa dibayar dalam satu kali transaksi.</translation>
+        <translation>-maxtxfee diatur sangat tinggi! Biaya besar ini seharusnya bisa dibayar dalam satu kali transaksi.</translation>
     </message>
     <message>
         <source>A fee rate (in %s/kB) that will be used when fee estimation has insufficient data (default: %s)</source>
-        <translation>Sebuah biaya rate (di %s/kB) yang akan digunakan ketika estimasi biaya memilik data yang kurang (default: %s)</translation>
+        <translation>Kurs biaya (di %s/kB) yang akan digunakan ketika estimasi biaya kekurangan data (bawaan: %s)</translation>
     </message>
     <message>
         <source>Accept connections from outside (default: 1 if no -proxy or -connect/-noconnect)</source>
-        <translation>Terima koneksi dari luar (default: 1 jika tidak -proxy atau -connect/-noconnect)</translation>
+        <translation>Terima koneksi dari luar (bawaan: 1 jika tanpa -proxy atau -connect/-noconnect)</translation>
     </message>
     <message>
         <source>Accept relayed transactions received from whitelisted peers even when not relaying transactions (default: %d)</source>
-        <translation>Setujui transaksi terusan yang diterima dari rekan yang masuk daftar putih meskipun tidak menyampaikan transaksi (default: %d)</translation>
+        <translation>Terima transaksi tersiar dari rekan yang masuk dalam daftar putih meskipun ketika sedang tidak menyiarkan transaksi (bawaan: %d)</translation>
     </message>
     <message>
         <source>Allow JSON-RPC connections from specified source. Valid for &lt;ip&gt; are a single IP (e.g. 1.2.3.4), a network/netmask (e.g. 1.2.3.4/255.255.255.0) or a network/CIDR (e.g. 1.2.3.4/24). This option can be specified multiple times</source>
-        <translation>Izinkan koneksi JSON-RPC dari sumber tertentu. Valid untuk &lt;ip&gt; tunggal (e.g. 1.2.3.4), network/netmask (e.g. 1.2.3.4/255.255.255.0) atau network/CIDR (e.g. 1.2.3.4/24). Opsi ini bisa dispesifikan beberapa kali</translation>
+        <translation>Terima koneksi JSON-RPC dari sumber tertentu. Sah untuk &lt;ip&gt; tunggal (contoh. 1.2.3.4), network/netmask (e.g. 1.2.3.4/255.255.255.0) atau network/CIDR (e.g. 1.2.3.4/24). Opsi ini bisa dikhususkan beberapa kali</translation>
     </message>
     <message>
         <source>Bind to given address and always listen on it. Use [host]:port notation for IPv6</source>
-        <translation>Bind to given address and always listen on it. Use [host]:port notation for IPv6</translation>
+        <translation>Kaitkan pada alamat yang diberika ndan selalu mendegarkannya. Gunakan anotasi [host]:port untuk IPv6</translation>
     </message>
     <message>
         <source>Bind to given address and whitelist peers connecting to it. Use [host]:port notation for IPv6</source>
-        <translation>Bind to given address and whitelist peers connecting to it. Use [host]:port notation for IPv6</translation>
+        <translation>Kaitkan pada alamat yang diberikan dan rekan (peers) dapat terhubung dengannya. Guanakan notasi [host]:port untuk IPv6</translation>
     </message>
     <message>
         <source>Bind to given address to listen for JSON-RPC connections. Use [host]:port notation for IPv6. This option can be specified multiple times (default: bind to all interfaces)</source>
-        <translation>Bind to given address to listen for JSON-RPC connections. Use [host]:port notation for IPv6. This option can be specified multiple times (default: bind to all interfaces)</translation>
-    </message>
-    <message>
-        <source>Bind to given address to listen for JSON-RPC connections. Use [host]:port notation for IPv6. This option can be specified multiple times (default: bind to all interfaces)</source>
-        <translation>Bind to given address to listen for JSON-RPC connections. Use [host]:port notation for IPv6. This option can be specified multiple times (default: bind to all interfaces)</translation>
+        <translation>Kaitkan pada alamat yang diberikan untuk mendengar koneksi JSON-RPC. Gunakan anotasi [host]:port untuk IPv6. Opsi ini dapat dikhususkan beberapa kali (bawaan: kaitkan dengan semua antarmuka)</translation>
     </message>
     <message>
         <source>Cannot obtain a lock on data directory %s. %s is probably already running.</source>
-        <translation>Cannot obtain a lock on data directory %s. %s is probably already running.</translation>
+        <translation>Tidak dapat memperoleh kunci dari direktori data %s. %s is kemungkinan karena sudah berjalan.</translation>
     </message>
     <message>
         <source>Connect only to the specified node(s); -noconnect or -connect=0 alone to disable automatic connections</source>
-        <translation>Connect only to the specified node(s); -noconnect or -connect=0 alone to disable automatic connections</translation>
+        <translation>Hubungkan pada node(s) tertentu; -noconnect atau -connect=0 sendiri untuk mematikan koneksi otomatis</translation>
     </message>
     <message>
         <source>Create new files with system default permissions, instead of umask 077 (only effective with disabled wallet functionality)</source>
-        <translation>Create new files with system default permissions, instead of umask 077 (only effective with disabled wallet functionality)</translation>
+        <translation>Buat berkas baru dengan hak akses bawaan, dibandingkan dengan mengatur 077 (efektif hanya untuk fungsi dompet yang dimatikan)</translation>
     </message>
     <message>
         <source>Delete all wallet transactions and only recover those parts of the blockchain through -rescan on startup</source>
-        <translation>Delete all wallet transactions and only recover those parts of the blockchain through -rescan on startup</translation>
+        <translation>Hapus semua transaksi dompet dan hanya memulihkan bagian rantaiblok melalui -rescan saat aplikasi dimulai</translation>
     </message>
     <message>
         <source>Discover own IP addresses (default: 1 when listening and no -externalip or -proxy)</source>
-        <translation>Discover own IP addresses (default: 1 when listening and no -externalip or -proxy)</translation>
+        <translation>Temukan alamat IP milik sendiri (bawaan: 1 ketika mendengarkan dan -externalip atau -proxy)</translation>
     </message>
     <message>
         <source>Distributed under the MIT software license, see the accompanying file %s or %s</source>
-        <translation>Distributed under the MIT software license, see the accompanying file %s or %s</translation>
+        <translation>Distribusikan dibawah lisensi perangkat lunak MIT, lihat berkas %s atau %s</translation>
     </message>
     <message>
         <source>Do not keep transactions in the mempool longer than &lt;n&gt; hours (default: %u)</source>
-        <translation>Do not keep transactions in the mempool longer than &lt;n&gt; hours (default: %u)</translation>
+        <translation>Jangan biarkan transaksi dalam mempool bertahan lebih dari &lt;n&gt; jam (bawaan: %u)</translation>
     </message>
     <message>
         <source>Equivalent bytes per sigop in transactions for relay and mining (default: %u)</source>
-        <translation>Equivalent bytes per sigop in transactions for relay and mining (default: %u)</translation>
+        <translation>Kesetaraan bytes per sigop dalam transaksi penyiaran dan menambangan (bawaan: %u)</translation>
     </message>
     <message>
         <source>Error loading %s: You can&apos;t enable HD on a already existing non-HD wallet</source>
-        <translation>Error loading %s: You can&apos;t enable HD on a already existing non-HD wallet</translation>
+        <translation>Gagal memuat %s: Kamu bisa mengaktifkan HD dalam dompet non-HD</translation>
     </message>
     <message>
         <source>Error reading %s! All keys read correctly, but transaction data or address book entries might be missing or incorrect.</source>
-        <translation>Error reading %s! All keys read correctly, but transaction data or address book entries might be missing or incorrect.</translation>
+        <translation>Gagal membaca %s! Semua kunci terbaca dengan benar, namun data transaksi atau isi alamat buku mungkin hilang atau salah.</translation>
     </message>
     <message>
         <source>Error: Listening for incoming connections failed (listen returned error %s)</source>
-        <translation>Error: Listening for incoming connections failed (listen returned error %s)</translation>
+        <translation>Kesalahan: Gagal mendengarkan koneksi yang masuk (menghasilkan kesalahan %s)</translation>
     </message>
     <message>
         <source>Execute command when a relevant alert is received or we see a really long fork (%s in cmd is replaced by message)</source>
-        <translation>Execute command when a relevant alert is received or we see a really long fork (%s in cmd is replaced by message)</translation>
+        <translation>Jalankan perintah ketika peringatan yang relevan diterima atau ketika fork yang sangat penjang ditemukan (%s dalam cmd akan digantikan dengan sebuah pesan)</translation>
     </message>
     <message>
         <source>Execute command when a wallet transaction changes (%s in cmd is replaced by TxID)</source>
-        <translation>Execute command when a wallet transaction changes (%s in cmd is replaced by TxID)</translation>
+        <translation>Jalankan perintah ketika sebuah transaksi berubah pada dompet (%s dalam cmd akan digantikan dengan TxID)</translation>
     </message>
     <message>
         <source>Execute command when the best block changes (%s in cmd is replaced by block hash)</source>
-        <translation>Execute command when the best block changes (%s in cmd is replaced by block hash)</translation>
+        <translation>Jalankan perintah ketika blok terbaik berubah (%s dalam cmd akan digantikan dengan hash blok)</translation>
     </message>
     <message>
         <source>Extra transactions to keep in memory for compact block reconstructions (default: %u)</source>
-        <translation>Extra transactions to keep in memory for compact block reconstructions (default: %u)</translation>
+        <translation>Transaksi ekstra agar tetap terjaga di memori untuk rekonstruksi blok yang padat (bawaan: %u)</translation>
     </message>
     <message>
         <source>Fees (in %s/kB) smaller than this are considered zero fee for relaying, mining and transaction creation (default: %s)</source>
-        <translation>Fees (in %s/kB) smaller than this are considered zero fee for relaying, mining and transaction creation (default: %s)</translation>
+        <translation>Biaya (dalam %s/kB) lebih kecil dari nilai ini, dianggap bebas biaya untuk penyiaran, penambangan dan pembuatan transaksi (bawaan: %s)</translation>
     </message>
     <message>
         <source>Fees (in %s/kB) smaller than this are considered zero fee for transaction creation (default: %s)</source>
-        <translation>Fees (in %s/kB) smaller than this are considered zero fee for transaction creation (default: %s)</translation>
+        <translation>Biaya (dalam %s/kB) yang lebih kecil dari nilai ini, dianggap bebas biaya untuk pembuatan transaksi (bawaan: %s)</translation>
     </message>
     <message>
         <source>Force relay of transactions from whitelisted peers even if they violate local relay policy (default: %d)</source>
-        <translation>Force relay of transactions from whitelisted peers even if they violate local relay policy (default: %d)</translation>
+        <translation>Pasa penyiaran transaksi dari rekan (peers) yang masuk daftar putih, meskipun mereka melanggar aturan kepenyiaran lokal (bawaan: %d)</translation>
     </message>
     <message>
         <source>Options:</source>
@@ -3308,19 +3304,19 @@
     </message>
     <message>
         <source>Connect to a node to retrieve peer addresses, and disconnect</source>
-        <translation>Hubungkan ke node untuk menerima alamat rekan (peer), dan putuskan</translation>
+        <translation>Hubungkan ke node untuk menerima alamat rekan (peer), dan kemudian putuskan hubungan</translation>
     </message>
     <message>
         <source>Specify your own public address</source>
-        <translation>Tentukan alamat publik kamu sendiri</translation>
+        <translation>Tentukan alamat publik-mu sendiri</translation>
     </message>
     <message>
         <source>Accept command line and JSON-RPC commands</source>
-        <translation>Menerima baris perintah dan JSON-RPC</translation>
+        <translation>Terima command line dan perintah JSON-RPC</translation>
     </message>
     <message>
         <source>Run in the background as a daemon and accept commands</source>
-        <translation>Berjalan dibelakang sebagai daemon dan menerima perintah</translation>
+        <translation>Berjalan pada latar belakang sebagai daemon dan menerima perintah</translation>
     </message>
     <message>
         <source>Dogecoin Core</source>
@@ -3336,11 +3332,11 @@
     </message>
     <message>
         <source>Connection options:</source>
-        <translation>Pilih koneksi:</translation>
+        <translation>Pilihan koneksi:</translation>
     </message>
     <message>
         <source>Corrupted block database detected</source>
-        <translation>Menemukan basis data blok yang rusak</translation>
+        <translation>Terdeteksi basis data blok yang rusak</translation>
     </message>
     <message>
         <source>Do not load the wallet and disable wallet RPC calls</source>
@@ -3348,27 +3344,27 @@
     </message>
     <message>
         <source>Do you want to rebuild the block database now?</source>
-        <translation>Apakah kamu ingin membangun kembali basis data blok sekarang?</translation>
+        <translation>Apakah kamu ingin membangun kembali blokbasis data sekarang?</translation>
     </message>
     <message>
         <source>Error initializing block database</source>
-        <translation>Kesalahan menginisialisasi basis data blok</translation>
+        <translation>Kesalahan menginisialisasi blok basis data</translation>
     </message>
     <message>
         <source>Error initializing wallet database environment %s!</source>
-        <translation>Kesalahan saat menginisialisasi basis data lingkungan dompet %s!</translation>
+        <translation>Kesalahan saat menginisialisasi basis data pada lingkungan dompet %s!</translation>
     </message>
     <message>
         <source>Error loading block database</source>
-        <translation>Gagal memuat basis data blok</translation>
+        <translation>Gagal memuat blok basis data</translation>
     </message>
     <message>
         <source>Error opening block database</source>
-        <translation>Gagal saat membukakan basis data blok</translation>
+        <translation>Gagal saat membukakan blok basis data</translation>
     </message>
     <message>
         <source>Error: Disk space is low!</source>
-        <translation>Gagal: Ruang penyimpan hampir penuh!</translation>
+        <translation>Gagal: Kekurangan ruang penyimpan!</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -3376,7 +3372,7 @@
     </message>
     <message>
         <source>Incorrect or no genesis block found. Wrong datadir for network?</source>
-        <translation>Tidak bisa menemukan atau ada kesalahan pada blok penciptaan. Mungkin saja kesalahan mengatur lokasi direktori data untuk jaringan?</translation>
+        <translation>Ada kesalahan atau blok penciptaan tidak ditemukan. Mungkin saja salah mengatur lokasi direktori data jaringan?</translation>
     </message>
     <message>
         <source>Invalid -onion address: '%s'</source>
@@ -3384,11 +3380,11 @@
     </message>
     <message>
         <source>Not enough file descriptors available.</source>
-        <translation>Tidak tersedia berkas deskripsi yang cukup.</translation>
+        <translation>Tidak tersedia berkas descriptor yang cukup.</translation>
     </message>
     <message>
         <source>Set maximum block size in bytes (default: %d)</source>
-        <translation>Atur ukuran maksimal untuk blok dalam byte (default: %d)</translation>
+        <translation>Atur ukuran maksimal blok dalam byte (bawaan: %d)</translation>
     </message>
     <message>
         <source>Specify wallet file (within data directory)</source>
@@ -3396,7 +3392,7 @@
     </message>
     <message>
         <source>Verifying blocks...</source>
-        <translation>Blok-blok sedang diverifikasi...</translation>
+        <translation>Memverifikasi beberapa blok...</translation>
     </message>
     <message>
         <source>Verifying wallet...</source>
@@ -3404,7 +3400,7 @@
     </message>
     <message>
         <source>Wallet %s resides outside data directory %s</source>
-        <translation>Dompet %s ada di luar direktori data %s</translation>
+        <translation>Dompet %s berada di luar direktori data %s</translation>
     </message>
     <message>
         <source>Wallet options:</source>
@@ -3428,27 +3424,27 @@
     </message>
     <message>
         <source>Rescan the block chain for missing wallet transactions on startup</source>
-        <translation>Pindai ulang block chain saat memulai, untuk menemukan transaksi yang hilang</translation>
+        <translation>Pindai ulang rantai blok saat memulai, untuk menemukan transaksi yang hilang</translation>
     </message>
     <message>
         <source>Send trace/debug info to console instead of debug.log file</source>
-        <translation>Kirim info jejak/debug ke konsol bukan ke berkas debug.log</translation>
+        <translation>Kirimkan informasi jejak/informasi debug ke konsol bukan ke berkas debug.log</translation>
     </message>
     <message>
         <source>Send transactions as zero-fee transactions if possible (default: %u)</source>
-        <translation>Jika memungkinkan, kirim transaksi sebagai transaksi bebas biaya (default: %u)</translation>
+        <translation>Jika memungkinkan, kirim transaksi sebagai transaksi bebas biaya (bawaan: %u)</translation>
     </message>
     <message>
         <source>Show all debugging options (usage: --help -help-debug)</source>
-        <translation>Tampilkan semua opsi debug (penggunaan: --help -help-debug)</translation>
+        <translation>Tampilkan semua opsi debug (cara penggunaan: --help -help-debug)</translation>
     </message>
     <message>
         <source>Shrink debug.log file on client startup (default: 1 when no -debug)</source>
-        <translation>Kecilkan berkas debug.log saat klien memulai (default: 1 jika tidak -debug)</translation>
+        <translation>Kecilkan berkas debug.log saat aplikasi klien dimulai (bawaan: 1 jika tanpa -debug)</translation>
     </message>
     <message>
         <source>Signing transaction failed</source>
-        <translation>Tanda tangani transaksi gagal</translation>
+        <translation>Penandatanganan transaksi gagal</translation>
     </message>
     <message>
         <source>Transaction amount too small</source>
@@ -3476,7 +3472,7 @@
     </message>
     <message>
         <source>Execute command when the best block changes (%s in cmd is replaced by block hash)</source>
-        <translation>Menjalankan perintah ketika perubahan terjadi pada blok terbaik (%s dalam cmd digantikan oleh hash blok)</translation>
+        <translation>Menjalankan perintah ketika perubahan terjadi pada blok terbaik (%s dalam cmd akan digantikan oleh blok hash)</translation>
     </message>
     <message>
         <source>Allow DNS lookups for -addnode, -seednode and -connect</source>
@@ -3484,7 +3480,7 @@
     </message>
     <message>
         <source>Loading addresses...</source>
-        <translation>Memuat alamat...</translation>
+        <translation>Memuat daftar alamat...</translation>
     </message>
     <message>
         <source>Invalid -proxy address: '%s'</source>
@@ -3492,7 +3488,7 @@
     </message>
     <message>
         <source>Unknown network specified in -onlynet: '%s'</source>
-        <translation>Jaringan tidak diketahui dalam -onlynet: '%s'</translation>
+        <translation>Sebuah jaringan tak dikenal dalam -onlynet: '%s'</translation>
     </message>
     <message>
         <source>Insufficient funds</source>
@@ -3516,7 +3512,7 @@
     </message>
     <message>
         <source>Cannot write default address</source>
-        <translation>Tidak dapat menyimpan alamat standar</translation>
+        <translation>Tidak dapat menyimpan alamat bawaan</translation>
     </message>
     <message>
         <source>Rescanning...</source>
@@ -3524,7 +3520,7 @@
     </message>
     <message>
         <source>Done loading</source>
-        <translation>Memuat selesai</translation>
+        <translation>Selesai memuat</translation>
     </message>
     <message>
         <source>Error</source>
