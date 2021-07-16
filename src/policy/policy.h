@@ -45,13 +45,13 @@ static const unsigned int MAX_STANDARD_P2WSH_SCRIPT_SIZE = 3600;
  * standard and should be done with care and ideally rarely. It makes sense to
  * only increase the dust limit after prior releases were already not creating
  * outputs below the new threshold */
-static const unsigned int DUST_RELAY_TX_FEE = 1000;
+static const unsigned int DUST_RELAY_TX_FEE = COIN / 100000;
 /**
  * Dogecoin: Default dust limit that is evaluated when considering whether a
  * transaction output is required to pay additional fee for relay and inclusion
  * in blocks. Overridden by -dustlimit
  */
-static const unsigned int DEFAULT_DUST_LIMIT = 100000000;
+static const unsigned int DEFAULT_DUST_LIMIT = COIN / 1;
 
 /**
  * Standard script verification flags that standard transactions will comply
