@@ -30,7 +30,7 @@ function download_file() {
 function process_file() {
   if [[ ! -f $(basename -- $1) || ! $(check_file $2 $1) ]]; then
     download_file "$1"
-    check_file "$2" "$1" || { echo "Signature for $(basename -- $1) don't match"; exit 1; }
+    [[ $(check_file "$2" "$1") ]] || { echo "Signature for $(basename -- $1) don't match"; exit 1; }
   fi
 
 }
