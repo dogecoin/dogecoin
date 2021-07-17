@@ -58,7 +58,7 @@ jobs:
             packages: python3
             run-tests: true
             dep-opts: "NO_WALLET=1"
-            config-opts: "--enable-glibc-back-compat --enable-reduce-exports --disable-wallet"
+            config-opts: "--enable-gui=qt5 --enable-glibc-back-compat --enable-reduce-exports --disable-wallet"
             goal: install
           - name: x86_64-linux-dbg
             host: x86_64-unknown-linux-gnu
@@ -66,7 +66,7 @@ jobs:
             packages: bc python3-zmq
             run-tests: true
             dep-opts: "DEBUG=1"
-            config-opts: "--enable-zmq --enable-glibc-back-compat --enable-reduce-exports CPPFLAGS=-DDEBUG_LOCKORDER"
+            config-opts: "--enable-gui=qt5 --enable-zmq --enable-glibc-back-compat --enable-reduce-exports CPPFLAGS=-DDEBUG_LOCKORDER"
             goal: install
           - name: i686-win
             host: i686-w64-mingw32
@@ -79,7 +79,7 @@ jobs:
               sudo update-binfmts --import /usr/share/binfmts/wine
             run-tests: true
             dep-opts: ""
-            config-opts: "--enable-reduce-exports"
+            config-opts: "--enable-reduce-exports --enable-gui=qt5"
             goal: install
           - name: x86_64-win
             host: x86_64-w64-mingw32
@@ -92,7 +92,7 @@ jobs:
               sudo update-binfmts --import /usr/share/binfmts/wine
             run-tests: true
             dep-opts: ""
-            config-opts: "--enable-reduce-exports"
+            config-opts: "--enable-reduce-exports --enable-gui=qt5"
             goal: install
           - name: x86_64-macos
             host: x86_64-apple-darwin11
@@ -100,7 +100,7 @@ jobs:
             packages: cmake imagemagick libcap-dev librsvg2-bin libz-dev libtiff-tools libtinfo5 python3-setuptools xorriso libtinfo5
             run-tests: false
             dep-opts: ""
-            config-opts: "--enable-gui --enable-reduce-exports"
+            config-opts: "--enable-gui=qt5 --enable-reduce-exports"
             goal: deploy
             sdk: 10.11
 
