@@ -40,43 +40,15 @@ Install Boost lib via Brew from source, and link it to be sure:
     $brew install boost --build-from-source --HEAD
     $brew link boost167
 
-### Get, Patch And Compile BDB 5.1 ###
-
-Download bdb 5.1.29 source from Oracle.
-
-    $curl -o db-5.1.29.tar.gz http://download.oracle.com/berkeley-db/db-5.1.29.tar.gz
-    $tar xvfz db-5.1.29.tar.gz
-    $cd db-5.1.29
-
-Patch bdb 5.1.29 from our patchfiles
-
-    $cd src
-    $cd dbinc
-    $patch -b atomic.h ~/dogecoin/depends/patches/bdb-5.1.29-clang-osx/atomic.h.patch
-    $cd ..
-    $cd mp
-    $patch -b mp_fget.c ~/dogecoin/depends/patches/bdb-5.1.29-clang-osx/mp_fget.c.patch
-    $patch -b mp_mvcc.c ~/dogecoin/depends/patches/bdb-5.1.29-clang-osx/mp_mvcc.c.patch
-    $patch -b mp_region.c ~/dogecoin/depends/patches/bdb-5.1.29-clang-osx/mp_region.c.patch
-    $cd ..
-    $cd mutex
-    $patch -b mut_method.c ~/dogecoin/depends/patches/bdb-5.1.29-clang-osx/mut_method.c.patch
-    $patch -b mut_tas.c ~/dogecoin/depends/patches/bdb-5.1.29-clang-osx/mut_tas.c.patch
-
-Build BDB 5.1.29
-
-    $cd ../.. 
-    $cd build_unix
-    $../dist/configure CXX=clang++ --enable-cxx
-    $make
-    $sudo mkdir /usr/local/BerkeleyDB.5.1
-    $sudo chown $(whoami):admin /usr/local/BerkeleyDB.5.1
-    $sudo make install
+### Compile BDB 5.1 ###
+    
+    $ make -C depends bdb
 
 ### Set some environment variables and links for bdb and openssl ###
-
-    $export LDFLAGS=-L/usr/local/BerkeleyDB.5.1/lib
-    $export CPPFLAGS=-I/usr/local/BerkeleyDB.5.1/include
+    
+    $export BDB_PREFIX="/usr/local/BerkeleyDB.5.1"
+    $export BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx"
+    $export BDB_CFLAGS="-I${BDB_PREFIX}/include"
     
    _**NOTE:** for MacOS BigSur (11.1) or later, and possibly Catalina (10.15) you will also have to include the "OBJC_OLD_DISPATCH_PROTOTYPES=1" flag._
    
