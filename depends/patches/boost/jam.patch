@@ -1,0 +1,10 @@
+--- old-boost/tools/build/src/engine/jam.c	2021-07-14 12:57:33.000000000 -0400
++++ new-boost/tools/build/src/engine/jam.c	2021-07-14 12:49:56.000000000 -0400
+@@ -120,6 +120,7 @@
+ #include "strings.h"
+ #include "timestamp.h"
+ #include "variable.h"
++#include "execcmd.h"
+
+ /* Macintosh is "special" */
+ #ifdef OS_MAC

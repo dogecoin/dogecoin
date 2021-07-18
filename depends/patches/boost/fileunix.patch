@@ -1,0 +1,10 @@
+--- old-boost/tools/build/src/engine/fileunix.c	2021-07-14 13:41:40.000000000 -0400
++++ new-boost/tools/build/src/engine/fileunix.c	2021-07-14 13:53:24.000000000 -0400
+@@ -219,6 +219,7 @@
+     timestamp_init( t, 1, 0 );
+ }
+
++int file_collect_archive_content_( file_archive_info_t * const archive );
+
+ /*
+  * file_archscan() - scan an archive for files

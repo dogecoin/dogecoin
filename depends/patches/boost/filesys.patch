@@ -1,0 +1,11 @@
+--- old-boost/tools/build/src/engine/filesys.h	2016-12-22 07:33:21.000000000 -0500
++++ new-boost/tools/build/src/engine/filesys.h	2021-07-14 12:49:33.000000000 -0400
+@@ -96,6 +96,8 @@
+ file_info_t * filelist_front(  FILELIST * list );
+ file_info_t * filelist_back(  FILELIST * list );
+
++int filelist_empty( FILELIST * list );
++
+ #define FL0 ((FILELIST *)0)
+
+
