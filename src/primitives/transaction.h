@@ -15,6 +15,8 @@ static const int SERIALIZE_TRANSACTION_NO_WITNESS = 0x40000000;
 
 static const int WITNESS_SCALE_FACTOR = 4;
 
+extern unsigned int nDustLimit;
+
 /** An outpoint - a combination of a transaction hash and an index n into its vout */
 class COutPoint
 {
@@ -195,7 +197,7 @@ public:
         */
 
         // Dogecoin: Anything below 1 DOGE is always dust
-        return COIN;
+        return nDustLimit;
     }
 
     bool IsDust(const CFeeRate &minRelayTxFee) const
