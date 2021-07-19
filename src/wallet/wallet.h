@@ -45,12 +45,12 @@ extern bool fWalletRbf;
 
 static const unsigned int DEFAULT_KEYPOOL_SIZE = 100;
 //! -paytxfee default
-static const CAmount DEFAULT_TRANSACTION_FEE = COIN/10;
+static const CAmount DEFAULT_TRANSACTION_FEE = COIN;
 //! -fallbackfee default
 //mlumin: 5/2021 scaled minimum, this likely will have to change for fee reduction
 static const CAmount DEFAULT_FALLBACK_FEE = COIN/10;
 //! -mintxfee default
-static const CAmount DEFAULT_TRANSACTION_MINFEE = COIN/10;
+static const CAmount DEFAULT_TRANSACTION_MINFEE = COIN;
 //! minimum recommended increment for BIP 125 replacement txs
 static const CAmount WALLET_INCREMENTAL_RELAY_FEE = COIN/10 * 5;
 //! target minimum change amount
