@@ -161,7 +161,7 @@ public:
         return (nValue == -1);
     }
 
-    CAmount GetDustThreshold(const CFeeRate &minRelayTxFee) const
+    CAmount GetDustThreshold(const CFeeRate &minRelayTxFeeRate) const
     {
         // "Dust" is defined in terms of CTransaction::minRelayTxFee,
         // which has units satoshis-per-kilobyte.
@@ -198,9 +198,9 @@ public:
         return COIN;
     }
 
-    bool IsDust(const CFeeRate &minRelayTxFee) const
+    bool IsDust(const CFeeRate &minRelayTxFeeRate) const
     {
-        return (nValue < GetDustThreshold(minRelayTxFee));
+        return (nValue < GetDustThreshold(minRelayTxFeeRate));
     }
 
     friend bool operator==(const CTxOut& a, const CTxOut& b)

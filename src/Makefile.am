@@ -102,6 +102,8 @@ BITCOIN_CORE_H = \
   cuckoocache.h \
   dogecoin.cpp \
   dogecoin.h \
+  dogecoin-fees.cpp \
+  dogecoin-fees.h \
   httprpc.h \
   httpserver.h \
   indirectmap.h \
