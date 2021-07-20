@@ -49,6 +49,11 @@ private:
     bool static Check(const unsigned char* vch);
 
 public:
+
+ static constexpr unsigned int SIZE                   = 65;
+ static constexpr unsigned int COMPRESSED_SIZE        = 33;
+
+
     //! Construct an invalid private key.
     CKey() : fValid(false), fCompressed(false)
     {
