@@ -1,17 +1,5 @@
 ### Usage
 
-## Requirements
-
-Before attempting to build these dependencies you should first follow the build instructions for your operating system, under the root folder:
-
-* `doc/build-unix.md`
-* `doc/build-osx.md`
-* `doc/build-windows.md`
-
-These contain up to date lists for each operating system.
-
-## Build
-
 To build dependencies for the current arch+OS:
 
     make
@@ -68,3 +56,4 @@ Additional targets:
 
 - [description.md](description.md): General description of the depends system
 - [packages.md](packages.md): Steps for adding packages
+
