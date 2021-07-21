@@ -1,0 +1,11 @@
+diff -dur a/src/clock.cpp b/src/clock.cpp
+--- a/src/clock.cpp	2021-07-12 21:15:35.111146311 +0000
++++ b/src/clock.cpp	2021-07-12 21:22:09.059753013 +0000
+@@ -194,6 +194,7 @@
+ #else
+
+     //  Use POSIX gettimeofday function to get precise time.
++    LIBZMQ_UNUSED (nsecs_per_usec);
+     struct timeval tv;
+     int rc = gettimeofday (&tv, NULL);
+     errno_assert (rc == 0);

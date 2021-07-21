@@ -1,0 +1,29 @@
+From 6e6b47d5ab381c3df3b30bb0b0a6cf210dfb1eba Mon Sep 17 00:00:00 2001
+From: Cory Fields <cory-nospam-@coryfields.com>
+Date: Mon, 5 Mar 2018 14:22:05 -0500
+Subject: [PATCH] disable pthread_set_name_np
+
+pthread_set_name_np adds a Glibc requirement on >= 2.12.
+---
+ src/thread.cpp | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+--- zeromq-4.3.4-orig/src/thread.cpp	2021-01-03 21:46:01.000000000 +0000
++++ zeromq-4.3.4/src/thread.cpp	2021-07-01 22:42:49.850117319 +0100
+@@ -393,6 +393,7 @@
+     return;
+ #endif
+ 
++#if 0
+ #if defined(ZMQ_HAVE_PTHREAD_SETNAME_1)
+     int rc = pthread_setname_np (_name);
+     if (rc)
+@@ -408,6 +409,8 @@
+ #elif defined(ZMQ_HAVE_PTHREAD_SET_NAME)
+     pthread_set_name_np (pthread_self (), _name);
+ #endif
++#endif
++    return;
+ }
+ 
+ #endif
