@@ -129,6 +129,9 @@ OverviewPage::OverviewPage(const PlatformStyle *platformStyle, QWidget *parent) 
     ui->labelTransactionsStatus->setIcon(icon);
     ui->labelWalletStatus->setIcon(icon);
 
+    // Set tip of the day
+    UpdateTip();
+
     // Recent transactions
     ui->listTransactions->setItemDelegate(txdelegate);
     ui->listTransactions->setIconSize(QSize(DECORATION_SIZE, DECORATION_SIZE));
@@ -141,6 +144,25 @@ OverviewPage::OverviewPage(const PlatformStyle *platformStyle, QWidget *parent) 
     showOutOfSyncWarning(true);
     connect(ui->labelWalletStatus, SIGNAL(clicked()), this, SLOT(handleOutOfSyncWarningClicks()));
     connect(ui->labelTransactionsStatus, SIGNAL(clicked()), this, SLOT(handleOutOfSyncWarningClicks()));
+}
+
+void OverviewPage::UpdateTip()
+{
+    QStringList tips = {
+        tr("Never share your wallet.dat file/your private key with anyone"),
+        tr("For more advanced settings use the console in 'Help' -> 'Debug Window'"),
+        tr("Encrypt your wallet with a strong passphrase for maximum security"),
+        tr("Make sure to keep your wallet updated."),
+        tr("Backup your private key to recover your coins, using 'File' > 'Backup Wallet'"),
+        tr("Always do your own research before using an external cryptocurrency service"),
+        tr("Never share your private key to an untrustworthy person."),
+        tr("Who own the private keys own the coins."),
+        tr("To see ongoing development and contribute, checkout Dogecoin repository on GitHub!"),
+        tr("Services that claim to double your dogecoins are always ponzi schemes")
+    };
+
+    int i = rand() % tips.length();
+    ui->label_tip->setText(tips[i]);
 }
 
 void OverviewPage::handleTransactionClicked(const QModelIndex &index)
