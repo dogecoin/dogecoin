@@ -159,6 +159,7 @@ testScripts = [
     'rpcnamedargs.py',
     'listsinceblock.py',
     'p2p-leaktests.py',
+    'replace-by-fee.py',
 ]
 if ENABLE_ZMQ:
     testScripts.append('zmq_test.py')
@@ -190,7 +191,6 @@ testScriptsExt = [
     'invalidateblock.py',
     'maxblocksinflight.py',
     'p2p-acceptblock.py',
-    'replace-by-fee.py',
 ]
 
 
