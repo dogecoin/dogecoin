@@ -56,7 +56,7 @@ First, install the general dependencies:
     
 If you want to build with the wallet and Qt GUI you also want to install the following (this example is under Ubuntu):
 
-    sudo apt-get install libssl-dev libboost-all-dev qt5-default libprotobuf-dev libqrencode4 libdb++-dev libdb-dev miniupnpc
+    sudo apt-get install libssl-dev libboost-all-dev qt5-default libprotobuf-dev libevent-dev libdb++-dev libdb-dev miniupnpc
 
 A host toolchain (`build-essential`) is necessary because some dependency
 packages (such as `protobuf`) need to build host utilities that are used in the
@@ -100,7 +100,7 @@ If using WSL 2 then you should be able to build just with:
     make HOST=x86_64-w64-mingw32
     cd ..
     ./autogen.sh # not required when building from tarball
-    CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=/
+    CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=/ --with-incompatible-bdb
     make
     
 ## Building for 32-bit Windows
@@ -130,4 +130,4 @@ executables to a directory on the windows drive in the same directory structure
 as they appear in the release `.zip` archive. This can be done in the following
 way. This will install to `c:\workspace\dogecoin`, for example:
 
-    make install DESTDIR=/mnt/c/workspace/dogecoin
+    sudo make install DESTDIR=/mnt/c/workspace/dogecoin
