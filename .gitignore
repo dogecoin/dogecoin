@@ -5,6 +5,7 @@ src/dogecoin
 src/dogecoind
 src/dogecoin-cli
 src/dogecoin-tx
+src/bench
 src/test/test_dogecoin
 src/test/test_dogecoin_fuzzy
 src/qt/test/test_dogecoin-qt
@@ -102,6 +103,7 @@ linux-coverage-build
 linux-build
 win32-build
 qa/pull-tester/tests_config.py
+qa/pull-tester/ltc-scrypt-master/
 qa/cache/*
 
 !src/leveldb*/Makefile
