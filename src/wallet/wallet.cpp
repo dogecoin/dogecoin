@@ -9,6 +9,7 @@
 #include "checkpoints.h"
 #include "chain.h"
 #include "dogecoin.h"
+#include "dogecoin-fees.h"
 #include "wallet/coincontrol.h"
 #include "consensus/consensus.h"
 #include "consensus/validation.h"
@@ -38,6 +39,8 @@ using namespace std;
 CWallet* pwalletMain = NULL;
 /** Transaction fee set by the user */
 CFeeRate payTxFee(DEFAULT_TRANSACTION_FEE);
+//mlumin 5/2021: Add minimum wallet tx fee. This really should be expressed as a rate not a final fee.
+CFeeRate minWalletTxFeeRate = CFeeRate(DEFAULT_MIN_WALLET_TX_FEE);
 unsigned int nTxConfirmTarget = DEFAULT_TX_CONFIRM_TARGET;
 bool bSpendZeroConfChange = DEFAULT_SPEND_ZEROCONF_CHANGE;
 bool fSendFreeTransactions = DEFAULT_SEND_FREE_TRANSACTIONS;
@@ -2680,7 +2683,7 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
 
                 // If we made it here and we aren't even able to meet the relay fee on the next pass, give up
                 // because we must be at the maximum allowed fee.
-                if (nFeeNeeded < ::minRelayTxFee.GetFee(nBytes))
+                if (nFeeNeeded < ::minRelayTxFeeRate.GetFee(nBytes))
                 {
                     strFailReason = _("Transaction too large for fee policy");
                     return false;
@@ -2843,12 +2846,12 @@ bool CWallet::AddAccountingEntry(const CAccountingEntry& acentry, CWalletDB *pwa
 CAmount CWallet::GetRequiredFee(const CMutableTransaction& tx, unsigned int nTxBytes)
 {
     // Dogecoin: Add an increased fee for each dust output
-    return std::max(minTxFee.GetFee(nTxBytes) + GetDogecoinDustFee(tx.vout, minTxFee), ::minRelayTxFee.GetFee(nTxBytes));
+    return std::max(minTxFee.GetFee(nTxBytes) + GetDogecoinDustFee(tx.vout, minTxFee), ::minRelayTxFeeRate.GetFee(nTxBytes));
 }
 
 CAmount CWallet::GetRequiredFee(unsigned int nTxBytes)
 {
-    return std::max(minTxFee.GetFee(nTxBytes), ::minRelayTxFee.GetFee(nTxBytes));
+    return std::max(minTxFee.GetFee(nTxBytes), ::minRelayTxFeeRate.GetFee(nTxBytes));
 }
 
 CAmount CWallet::GetMinimumFee(const CMutableTransaction& tx, unsigned int nTxBytes, unsigned int nConfirmTarget, const CTxMemPool& pool)
@@ -3852,7 +3855,7 @@ bool CWallet::ParameterInteraction()
     if (GetArg("-prune", 0) && GetBoolArg("-rescan", false))
         return InitError(_("Rescans are not possible in pruned mode. You will need to use -reindex which will download the whole blockchain again."));
 
-    if (::minRelayTxFee.GetFeePerK() > HIGH_TX_FEE_PER_KB)
+    if (::minRelayTxFeeRate.GetFeePerK() > HIGH_TX_FEE_PER_KB)
         InitWarning(AmountHighWarn("-minrelaytxfee") + " " +
                     _("The wallet will avoid paying less than the minimum relay fee."));
 
@@ -3886,10 +3889,10 @@ bool CWallet::ParameterInteraction()
                         _("This is the transaction fee you will pay if you send a transaction."));
 
         payTxFee = CFeeRate(nFeePerK, 1000);
-        if (payTxFee < ::minRelayTxFee)
+        if (payTxFee < ::minRelayTxFeeRate)
         {
             return InitError(strprintf(_("Invalid amount for -paytxfee=<amount>: '%s' (must be at least %s)"),
-                                       GetArg("-paytxfee", ""), ::minRelayTxFee.ToString()));
+                                       GetArg("-paytxfee", ""), ::minRelayTxFeeRate.ToString()));
         }
     }
     if (IsArgSet("-maxtxfee"))
@@ -3900,10 +3903,10 @@ bool CWallet::ParameterInteraction()
         if (nMaxFee > HIGH_MAX_TX_FEE)
             InitWarning(_("-maxtxfee is set very high! Fees this large could be paid on a single transaction."));
         maxTxFee = nMaxFee;
-        if (CFeeRate(maxTxFee, 1000) < ::minRelayTxFee)
+        if (CFeeRate(maxTxFee, 1000) < ::minRelayTxFeeRate)
         {
             return InitError(strprintf(_("Invalid amount for -maxtxfee=<amount>: '%s' (must be at least the minrelay fee of %s to prevent stuck transactions)"),
-                                       GetArg("-maxtxfee", ""), ::minRelayTxFee.ToString()));
+                                       GetArg("-maxtxfee", ""), ::minRelayTxFeeRate.ToString()));
         }
     }
     nTxConfirmTarget = GetArg("-txconfirmtarget", DEFAULT_TX_CONFIRM_TARGET);
