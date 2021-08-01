@@ -194,7 +194,7 @@ public:
         return 3 * minRelayTxFee.GetFee(nSize);
         */
 
-        // Dogecoin: Anything below 1 DOGE is always dust
+        // Dogecoin: Anything below 1 COINGREEN is always dust
         return COIN;
     }
 
