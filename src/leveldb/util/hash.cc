@@ -1,6 +1,7 @@
 // Copyright (c) 2011 The LevelDB Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file. See the AUTHORS file for names of contributors.
+// Copyright (c) 2021      CoinGreen Core developers
 
 #include <string.h>
 #include "util/coding.h"
@@ -32,6 +33,10 @@ uint32_t Hash(const char* data, size_t n, uint32_t seed) {
   }
 
   // Pick up remaining bytes
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wimplicit-fallthrough"
+#endif 
   switch (limit - data) {
     case 3:
       h += static_cast<unsigned char>(data[2]) << 16;
@@ -45,6 +50,9 @@ uint32_t Hash(const char* data, size_t n, uint32_t seed) {
       h ^= (h >> r);
       break;
   }
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif 
   return h;
 }
 

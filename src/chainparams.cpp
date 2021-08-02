@@ -1,6 +1,6 @@
 // Copyright (c) 2010 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin Core developers
-// Copyright (c) 2021      CoinGreen developers 
+// Copyright (c) 2021      CoinGreen Core developers 
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -42,6 +42,9 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesi
  * Build the genesis block. Note that the output of its generation
  * transaction cannot be spent since it did not originally exist in the
  * database.
+ * 
+ * Generated with GenesisH0 script
+ * https://github.com/bitflate/GenesisH0
  */
 static CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
 {
@@ -147,14 +150,14 @@ public:
         nDefaultPort = 22556;
         nPruneAfterHeight = 100000;
 
-        genesis = CreateGenesisBlock(1627165281, 28513, 0x1e0ffff0, 1, 88 * COIN);
+        genesis = CreateGenesisBlock(1627165281, 774980, 0x1e0ffff0, 1, 88 * COIN);
                                      
         consensus.hashGenesisBlock = genesis.GetHash();
         digishieldConsensus.hashGenesisBlock = consensus.hashGenesisBlock;
         auxpowConsensus.hashGenesisBlock = consensus.hashGenesisBlock;
 
         assert(genesis.hashMerkleRoot == uint256S("0x8d92c90adacac4d30083b56726716392cb433c2ec61fb5b3920705a0673ddf22"));
-        assert(consensus.hashGenesisBlock == uint256S("0x76bde789b41da5f66957b8fe3ece748e52e5422d536a6bee295be623916f98b1"));
+        assert(consensus.hashGenesisBlock == uint256S("0xdda48247df4e38ae666048683301c7e0b3dd938018980cf1731a53dee7f81315"));
 
 
         // Note that of those with the service bits flag, most only support a subset of possible options
@@ -178,13 +181,13 @@ public:
 
         checkpointData = (CCheckpointData) {
             boost::assign::map_list_of
-            (      0, uint256S("0x76bde789b41da5f66957b8fe3ece748e52e5422d536a6bee295be623916f98b1"))
+            (      0, uint256S("0xdda48247df4e38ae666048683301c7e0b3dd938018980cf1731a53dee7f81315"))
         };
 
         chainTxData = ChainTxData{
             // Data as of block 954c7c66dee51f0a3fb1edb26200b735f5275fe54d9505c76ebd2bcabac36f1e (height 3606083).
             // Tx estimate based on average of year 2021 (~40k transactions per day)
-            1613217680, // * UNIX timestamp of last checkpoint block
+            1613217681, // * UNIX timestamp of last checkpoint block
             0,          // * total number of transactions between genesis and last checkpoint
                         //   (the tx=... number in the SetBestChain debug.log lines)
             0.01        // * estimated number of transactions per second after checkpoint
@@ -194,7 +197,6 @@ public:
 static CMainParams mainParams;
 
 /**
- * >>>>>>>> CoinGreen test net is not implemented <<<<<<< 
  * This is just dogecoin code
  * Testnet (v3)  
  */
