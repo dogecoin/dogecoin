@@ -3,13 +3,13 @@ Description=Dogecoin's distributed currency daemon
 After=network.target
 
 [Service]
-User=dogecoin
-Group=dogecoin
+User=coingreen
+Group=coingreen
 
 Type=forking
-PIDFile=/var/lib/dogecoind/dogecoind.pid
-ExecStart=/usr/bin/dogecoind -daemon -pid=/var/lib/dogecoind/dogecoind.pid \
--conf=/etc/dogecoin/dogecoin.conf -datadir=/var/lib/dogecoind -disablewallet
+PIDFile=/var/lib/coingreend/coingreend.pid
+ExecStart=/usr/bin/coingreend -daemon -pid=/var/lib/coingreend/coingreend.pid \
+-conf=/etc/coingreen/coingreen.conf -datadir=/var/lib/coingreend -disablewallet
 
 Restart=always
 PrivateTmp=true

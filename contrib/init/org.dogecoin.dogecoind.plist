@@ -3,10 +3,10 @@
 <plist version="1.0">
 <dict>
 	<key>Label</key>
-	<string>org.dogecoin.dogecoind</string>
+	<string>org.coingreen.coingreend</string>
 	<key>ProgramArguments</key>
 	<array>
-		<string>/usr/local/bin/dogecoind</string>
+		<string>/usr/local/bin/coingreend</string>
 		<string>-daemon</string>
 	</array>
 	<key>RunAtLoad</key>

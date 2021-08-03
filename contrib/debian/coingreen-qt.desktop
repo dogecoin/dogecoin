@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=CoinGreen Core
+Comment=Connect to the CoinGreen P2P Network
+Comment[de]=Verbinde mit dem CoinGreen peer-to-peer Netzwerk
+Comment[fr]=CoinGreen, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=CoinGreen, eşten eşe kriptografik sanal para birimi
+Exec=coingreen-qt %u
+Terminal=false
+Type=Application
+Icon=dogecoin128
+MimeType=x-scheme-handler/coingreen;
+Categories=Office;Finance;

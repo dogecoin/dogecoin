@@ -1,36 +1,36 @@
 #!/bin/bash
 #
-#  dogecoind The dogecoin core server.
+#  coingreend The CoinGreen core server.
 #
 #
 # chkconfig: 345 80 20
-# description: dogecoind
-# processname: dogecoind
+# description: coingreend
+# processname: coingreend
 #
 
 # Source function library.
 . /etc/init.d/functions
 
-# you can override defaults in /etc/sysconfig/dogecoind, see below
-if [ -f /etc/sysconfig/dogecoind ]; then
-        . /etc/sysconfig/dogecoind
+# you can override defaults in /etc/sysconfig/coingreend, see below
+if [ -f /etc/sysconfig/coingreend ]; then
+        . /etc/sysconfig/coingreend
 fi
 
 RETVAL=0
 
-prog=dogecoind
-# you can override the lockfile via DOGECOIND_LOCKFILE in /etc/sysconfig/dogecoind
-lockfile=${DOGECOIND_LOCKFILE-/var/lock/subsys/dogecoind}
+prog=coingreend
+# you can override the lockfile via COINGREEND_LOCKFILE in /etc/sysconfig/coingreend
+lockfile=${COINGREEND_LOCKFILE-/var/lock/subsys/coingreend}
 
-# dogecoind defaults to /usr/bin/dogecoind, override with DOGECOIND_BIN
-dogecoind=${DOGECOIND_BIN-/usr/bin/dogecoind}
+# coingreend defaults to /usr/bin/coingreend, override with COINGREEND_BIN
+coingreend=${COINGREEND_BIN-/usr/bin/coingreend}
 
-# dogecoind opts default to -disablewallet, override with DOGECOIND_OPTS
-dogecoind_opts=${DOGECOIND_OPTS--disablewallet}
+# coingreend opts default to -disablewallet, override with COINGREEND_OPTS
+coingreend_opts=${COINGREEND_OPTS--disablewallet}
 
 start() {
     echo -n $"Starting $prog: "
-    daemon $DAEMONOPTS $dogecoind $dogecoind_opts
+    daemon $DAEMONOPTS $coingreend $coingreend_opts
     RETVAL=$?
     echo
     [ $RETVAL -eq 0 ] && touch $lockfile
