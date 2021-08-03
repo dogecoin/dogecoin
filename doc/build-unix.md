@@ -294,31 +294,9 @@ Clone and enter the repo:
     $ git clone https://github.com/dogecoin/dogecoin
     $ cd dogecoin
 
-Creating a file in the root of the repository called `shell.nix` with the following contents:
-
-```nix
-{ pkgs ? import <nixpkgs> {} }:
-  with pkgs; mkShell {
-    nativeBuildInputs = [
-      pkg-config
-      autoreconfHook
-      openssl
-      db5
-      util-linux
-      boost
-      zlib
-      libevent
-      miniupnpc
-      qt4
-      protobuf
-      qrencode
-    ];
-}
-```
-
 Enter the `nix-shell` environment with all the Dogecoin dependencies present:
 
-    $ nix-shell
+    $ nix-shell ./contrib/nixos/shell.nix
 
 Run the build steps with flags necessary for NixOS:
 
