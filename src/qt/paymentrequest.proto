@@ -1,25 +1,25 @@
 //
-// Simple Dogecoin Payment Protocol messages
+// Simple CoinGreen Payment Protocol messages
 // Derived from the Bitcoin Payment Protocol
 //
 // Use fields 100+ for extensions;
 // to avoid conflicts, register extensions via pull-req at:
-// https://github.com/dogecoin/dips
+// https://github.com/coingreen/dips
 //
 
 syntax = "proto2";
 
 package payments;
-option java_package = "com.dogecoin.protocols.payments";
+option java_package = "com.coingreen.protocols.payments";
 option java_outer_classname = "Protos";
 
-// Generalized form of "send payment to this/these dogecoin addresses"
+// Generalized form of "send payment to this/these coingreen addresses"
 message Output {
         optional uint64 amount = 1 [default = 0]; // amount is integer-number-of-satoshis
         required bytes script = 2; // usually one of the standard Script forms
 }
 message PaymentDetails {
-        optional string genesis = 1 [default = "1a91e3dace36e2be3bf030a65679fe821aa1d6ef92e7c9902eb318182c355691"]; // Hash of the network genesis block
+        optional string genesis = 1 [default = "dda48247df4e38ae666048683301c7e0b3dd938018980cf1731a53dee7f81315"]; // Hash of the network genesis block
         repeated Output outputs = 2;        // Where payment should be sent
         required uint64 time = 3;           // Timestamp; when payment request created
         optional uint64 expires = 4;        // Timestamp; when this request should be considered invalid

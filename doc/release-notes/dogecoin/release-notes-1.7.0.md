@@ -28,7 +28,7 @@ Following in the footsteps of Bitcoin (Core), the Dogecoin reference client
 has been rebranded as "Dogecoin Core". This helps separate its identity
 from Dogecoin (the network).
 
-coingreen-cli
+dogecoin-cli
 ------------
 
 Where previously commands were sent to dogecoind by running
