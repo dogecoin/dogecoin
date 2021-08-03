@@ -1,9 +1,9 @@
 #!/usr/bin/make -f
 # -*- mode: makefile; coding: utf-8 -*-
 
-#DEB_MAKE_CHECK_TARGET = test_dogecoin
-#build/dogecoind::
-#	$(if $(filter nocheck,$(DEB_BUILD_OPTIONS)),,src/test_dogecoin)
+#DEB_MAKE_CHECK_TARGET = test_coingreen
+#build/coingreend::
+#	$(if $(filter nocheck,$(DEB_BUILD_OPTIONS)),,src/test_coingreen)
 
 %:
 	dh --with bash-completion $@

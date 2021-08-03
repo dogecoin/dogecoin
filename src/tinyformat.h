@@ -1,5 +1,6 @@
 // tinyformat.h
 // Copyright (C) 2011, Chris Foster [chris42f (at) gmail (d0t) com]
+// Copyright (c) 2021  CoinGreen Core developers 
 //
 // Boost Software License - Version 1.0
 //
@@ -693,6 +694,10 @@ inline const char* streamStateFromFormat(std::ostream& out, bool& spacePadPositi
     // Set stream flags based on conversion specifier (thanks to the
     // boost::format class for forging the way here).
     bool intConversion = false;
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wimplicit-fallthrough"
+#endif 
     switch(*c)
     {
         case 'u': case 'd': case 'i':
@@ -751,6 +756,9 @@ inline const char* streamStateFromFormat(std::ostream& out, bool& spacePadPositi
         default:
             break;
     }
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
     if(intConversion && precisionSet && !widthSet)
     {
         // "precision" for integers gives the minimum number of digits (to be

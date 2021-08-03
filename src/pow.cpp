@@ -1,5 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin Core developers
+// Copyright (c) 2021 CoinGreen Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -8,7 +9,7 @@
 #include "auxpow.h"
 #include "arith_uint256.h"
 #include "chain.h"
-#include "dogecoin.h"
+#include "coingreen.h"
 #include "primitives/block.h"
 #include "uint256.h"
 #include "util.h"
@@ -123,10 +124,12 @@ bool CheckProofOfWork(uint256 hash, unsigned int nBits, const Consensus::Params&
     // Check range
     if (fNegative || bnTarget == 0 || fOverflow || bnTarget > UintToArith256(params.powLimit))
         return false;
-
+ 
+    // [maxirmx] std::cout << "Checkpoint: " << UintToArith256(hash).GetHex() << " ? " << bnTarget.GetHex() << std::endl;
     // Check proof of work matches claimed amount
     if (UintToArith256(hash) > bnTarget)
         return false;
 
     return true;
+
 }

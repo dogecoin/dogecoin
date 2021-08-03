@@ -1,4 +1,5 @@
 # Copyright (c) 2013-2016 The Bitcoin Core developers
+# Copyright (c) 2021      CoinGreen Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -24,23 +25,23 @@ BITCOIN_INCLUDES=-I$(builddir) -I$(builddir)/obj $(BDB_CPPFLAGS) $(BOOST_CPPFLAG
 BITCOIN_INCLUDES += -I$(srcdir)/secp256k1/include
 BITCOIN_INCLUDES += $(UNIVALUE_CFLAGS)
 
-LIBDOGECOIN_SERVER=libdogecoin_server.a
-LIBDOGECOIN_COMMON=libdogecoin_common.a
-LIBDOGECOIN_CONSENSUS=libdogecoin_consensus.a
-LIBDOGECOIN_CLI=libdogecoin_cli.a
-LIBDOGECOIN_UTIL=libdogecoin_util.a
-LIBDOGECOIN_CRYPTO=crypto/libdogecoin_crypto.a
+LIBCOINGREEN_SERVER=libcoingreen_server.a
+LIBCOINGREEN_COMMON=libcoingreen_common.a
+LIBCOINGREEN_CONSENSUS=libcoingreen_consensus.a
+LIBCOINGREEN_CLI=libcoingreen_cli.a
+LIBCOINGREEN_UTIL=libcoingreen_util.a
+LIBCOINGREEN_CRYPTO=crypto/libcoingreen_crypto.a
 LIBDOGECOINQT=qt/libdogecoinqt.a
 LIBSECP256K1=secp256k1/libsecp256k1.la
 
 if ENABLE_ZMQ
-LIBDOGECOIN_ZMQ=libdogecoin_zmq.a
+LIBCOINGREEN_ZMQ=libcoingreen_zmq.a
 endif
 if BUILD_BITCOIN_LIBS
 LIBDOGECOINCONSENSUS=libdogecoinconsensus.la
 endif
 if ENABLE_WALLET
-LIBDOGECOIN_WALLET=libdogecoin_wallet.a
+LIBCOINGREEN_WALLET=libcoingreen_wallet.a
 endif
 
 $(LIBSECP256K1): $(wildcard secp256k1/src/*) $(wildcard secp256k1/include/*)
@@ -49,14 +50,14 @@ $(LIBSECP256K1): $(wildcard secp256k1/src/*) $(wildcard secp256k1/include/*)
 # Make is not made aware of per-object dependencies to avoid limiting building parallelization
 # But to build the less dependent modules first, we manually select their order here:
 EXTRA_LIBRARIES += \
-  $(LIBDOGECOIN_CRYPTO) \
-  $(LIBDOGECOIN_UTIL) \
-  $(LIBDOGECOIN_COMMON) \
-  $(LIBDOGECOIN_CONSENSUS) \
-  $(LIBDOGECOIN_SERVER) \
-  $(LIBDOGECOIN_CLI) \
-  $(LIBDOGECOIN_WALLET) \
-  $(LIBDOGECOIN_ZMQ)
+  $(LIBCOINGREEN_CRYPTO) \
+  $(LIBCOINGREEN_UTIL) \
+  $(LIBCOINGREEN_COMMON) \
+  $(LIBCOINGREEN_CONSENSUS) \
+  $(LIBCOINGREEN_SERVER) \
+  $(LIBCOINGREEN_CLI) \
+  $(LIBCOINGREEN_WALLET) \
+  $(LIBCOINGREEN_ZMQ)
 
 lib_LTLIBRARIES = $(LIBDOGECOINCONSENSUS)
 
@@ -66,11 +67,11 @@ TESTS =
 BENCHMARKS =
 
 if BUILD_BITCOIND
-  bin_PROGRAMS += dogecoind
+  bin_PROGRAMS += coingreend
 endif
 
 if BUILD_BITCOIN_UTILS
-  bin_PROGRAMS += dogecoin-cli dogecoin-tx
+  bin_PROGRAMS += coingreen-cli coingreen-tx
 endif
 
 .PHONY: FORCE check-symbols check-security
@@ -100,8 +101,8 @@ BITCOIN_CORE_H = \
   core_io.h \
   core_memusage.h \
   cuckoocache.h \
-  dogecoin.cpp \
-  dogecoin.h \
+  coingreen.cpp \
+  coingreen.h \
   httprpc.h \
   httpserver.h \
   indirectmap.h \
@@ -175,12 +176,12 @@ obj/build.h: FORCE
 	@$(MKDIR_P) $(builddir)/obj
 	@$(top_srcdir)/share/genbuild.sh $(abs_top_builddir)/src/obj/build.h \
 	  $(abs_top_srcdir)
-libdogecoin_util_a-clientversion.$(OBJEXT): obj/build.h
+libcoingreen_util_a-clientversion.$(OBJEXT): obj/build.h
 
 # server: shared between bitcoind and bitcoin-qt
-libdogecoin_server_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(MINIUPNPC_CPPFLAGS) $(EVENT_CFLAGS) $(EVENT_PTHREADS_CFLAGS)
-libdogecoin_server_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-libdogecoin_server_a_SOURCES = \
+libcoingreen_server_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(MINIUPNPC_CPPFLAGS) $(EVENT_CFLAGS) $(EVENT_PTHREADS_CFLAGS)
+libcoingreen_server_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libcoingreen_server_a_SOURCES = \
   addrman.cpp \
   addrdb.cpp \
   alert.cpp \
@@ -220,9 +221,9 @@ libdogecoin_server_a_SOURCES = \
   $(BITCOIN_CORE_H)
 
 if ENABLE_ZMQ
-libdogecoin_zmq_a_CPPFLAGS = $(BITCOIN_INCLUDES) $(ZMQ_CFLAGS)
-libdogecoin_zmq_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-libdogecoin_zmq_a_SOURCES = \
+libcoingreen_zmq_a_CPPFLAGS = $(BITCOIN_INCLUDES) $(ZMQ_CFLAGS)
+libcoingreen_zmq_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libcoingreen_zmq_a_SOURCES = \
   zmq/zmqabstractnotifier.cpp \
   zmq/zmqnotificationinterface.cpp \
   zmq/zmqpublishnotifier.cpp
@@ -231,9 +232,9 @@ endif
 
 # wallet: shared between bitcoind and bitcoin-qt, but only linked
 # when wallet enabled
-libdogecoin_wallet_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-libdogecoin_wallet_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-libdogecoin_wallet_a_SOURCES = \
+libcoingreen_wallet_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+libcoingreen_wallet_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libcoingreen_wallet_a_SOURCES = \
   wallet/crypter.cpp \
   wallet/db.cpp \
   wallet/rpcdump.cpp \
@@ -244,9 +245,9 @@ libdogecoin_wallet_a_SOURCES = \
   $(BITCOIN_CORE_H)
 
 # crypto primitives library
-crypto_libdogecoin_crypto_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_CONFIG_INCLUDES)
-crypto_libdogecoin_crypto_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-crypto_libdogecoin_crypto_a_SOURCES = \
+crypto_libcoingreen_crypto_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_CONFIG_INCLUDES)
+crypto_libcoingreen_crypto_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+crypto_libcoingreen_crypto_a_SOURCES = \
   crypto/aes.cpp \
   crypto/aes.h \
   crypto/common.h \
@@ -266,9 +267,9 @@ crypto_libdogecoin_crypto_a_SOURCES = \
   crypto/sha512.h
 
 # consensus: shared between all executables that validate any consensus rules.
-libdogecoin_consensus_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-libdogecoin_consensus_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-libdogecoin_consensus_a_SOURCES = \
+libcoingreen_consensus_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+libcoingreen_consensus_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libcoingreen_consensus_a_SOURCES = \
   amount.h \
   arith_uint256.cpp \
   arith_uint256.h \
@@ -303,9 +304,9 @@ libdogecoin_consensus_a_SOURCES = \
   version.h
 
 # common: shared between bitcoind, and bitcoin-qt and non-server tools
-libdogecoin_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-libdogecoin_common_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-libdogecoin_common_a_SOURCES = \
+libcoingreen_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+libcoingreen_common_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libcoingreen_common_a_SOURCES = \
   alert.cpp \
   amount.cpp \
   arith_uint256.cpp \
@@ -333,9 +334,9 @@ libdogecoin_common_a_SOURCES = \
 # util: shared between all executables.
 # This library *must* be included to make sure that the glibc
 # backward-compatibility objects and their sanity checks are linked.
-libdogecoin_util_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-libdogecoin_util_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-libdogecoin_util_a_SOURCES = \
+libcoingreen_util_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+libcoingreen_util_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libcoingreen_util_a_SOURCES = \
   support/lockedpool.cpp \
   chainparamsbase.cpp \
   clientversion.cpp \
@@ -354,88 +355,88 @@ libdogecoin_util_a_SOURCES = \
   $(BITCOIN_CORE_H)
 
 if GLIBC_BACK_COMPAT
-libdogecoin_util_a_SOURCES += compat/glibc_compat.cpp
+libcoingreen_util_a_SOURCES += compat/glibc_compat.cpp
 endif
 
 # cli: shared between bitcoin-cli and bitcoin-qt
-libdogecoin_cli_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-libdogecoin_cli_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-libdogecoin_cli_a_SOURCES = \
+libcoingreen_cli_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+libcoingreen_cli_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libcoingreen_cli_a_SOURCES = \
   rpc/client.cpp \
   $(BITCOIN_CORE_H)
 
-nodist_libdogecoin_util_a_SOURCES = $(srcdir)/obj/build.h
+nodist_libcoingreen_util_a_SOURCES = $(srcdir)/obj/build.h
 #
 
 # bitcoind binary #
-dogecoind_SOURCES = bitcoind.cpp
-dogecoind_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-dogecoind_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-dogecoind_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+coingreend_SOURCES = bitcoind.cpp
+coingreend_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+coingreend_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+coingreend_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-dogecoind_SOURCES += bitcoind-res.rc
+coingreend_SOURCES += bitcoind-res.rc
 endif
 
-dogecoind_LDADD = \
-  $(LIBDOGECOIN_SERVER) \
-  $(LIBDOGECOIN_COMMON) \
+coingreend_LDADD = \
+  $(LIBCOINGREEN_SERVER) \
+  $(LIBCOINGREEN_COMMON) \
   $(LIBUNIVALUE) \
-  $(LIBDOGECOIN_UTIL) \
-  $(LIBDOGECOIN_WALLET) \
-  $(LIBDOGECOIN_ZMQ) \
-  $(LIBDOGECOIN_CONSENSUS) \
-  $(LIBDOGECOIN_CRYPTO) \
+  $(LIBCOINGREEN_UTIL) \
+  $(LIBCOINGREEN_WALLET) \
+  $(LIBCOINGREEN_ZMQ) \
+  $(LIBCOINGREEN_CONSENSUS) \
+  $(LIBCOINGREEN_CRYPTO) \
   $(LIBLEVELDB) \
   $(LIBMEMENV) \
   $(LIBSECP256K1)
 
-dogecoind_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS) $(ZMQ_LIBS)
+coingreend_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS) $(ZMQ_LIBS)
 
-# bitcoin-cli binary #
-dogecoin_cli_SOURCES = bitcoin-cli.cpp
-dogecoin_cli_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(EVENT_CFLAGS)
-dogecoin_cli_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-dogecoin_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+# coingreen-cli binary #
+coingreen_cli_SOURCES = bitcoin-cli.cpp
+coingreen_cli_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(EVENT_CFLAGS)
+coingreen_cli_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+coingreen_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-dogecoin_cli_SOURCES += bitcoin-cli-res.rc
+coingreen_cli_SOURCES += bitcoin-cli-res.rc
 endif
 
-dogecoin_cli_LDADD = \
-  $(LIBDOGECOIN_CLI) \
+coingreen_cli_LDADD = \
+  $(LIBCOINGREEN_CLI) \
   $(LIBUNIVALUE) \
-  $(LIBDOGECOIN_UTIL) \
-  $(LIBDOGECOIN_CRYPTO)
+  $(LIBCOINGREEN_UTIL) \
+  $(LIBCOINGREEN_CRYPTO)
 
-dogecoin_cli_LDADD += $(BOOST_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(EVENT_LIBS)
+coingreen_cli_LDADD += $(BOOST_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(EVENT_LIBS)
 #
 
-# bitcoin-tx binary #
-dogecoin_tx_SOURCES = bitcoin-tx.cpp
-dogecoin_tx_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-dogecoin_tx_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-dogecoin_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+# coingreen-tx binary #
+coingreen_tx_SOURCES = bitcoin-tx.cpp
+coingreen_tx_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+coingreen_tx_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+coingreen_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-dogecoin_tx_SOURCES += bitcoin-tx-res.rc
+coingreen_tx_SOURCES += bitcoin-tx-res.rc
 endif
 
-dogecoin_tx_LDADD = \
+coingreen_tx_LDADD = \
   $(LIBUNIVALUE) \
-  $(LIBDOGECOIN_COMMON) \
-  $(LIBDOGECOIN_UTIL) \
-  $(LIBDOGECOIN_CONSENSUS) \
-  $(LIBDOGECOIN_CRYPTO) \
+  $(LIBCOINGREEN_COMMON) \
+  $(LIBCOINGREEN_UTIL) \
+  $(LIBCOINGREEN_CONSENSUS) \
+  $(LIBCOINGREEN_CRYPTO) \
   $(LIBSECP256K1)
 
-dogecoin_tx_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS)
+coingreen_tx_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS)
 #
 
 # bitcoinconsensus library #
 if BUILD_BITCOIN_LIBS
 include_HEADERS = script/bitcoinconsensus.h
-libdogecoinconsensus_la_SOURCES = $(crypto_libdogecoin_crypto_a_SOURCES) $(libdogecoin_consensus_a_SOURCES)
+libdogecoinconsensus_la_SOURCES = $(crypto_libcoingreen_crypto_a_SOURCES) $(libcoingreen_consensus_a_SOURCES)
 
 if GLIBC_BACK_COMPAT
   libdogecoinconsensus_la_SOURCES += compat/glibc_compat.cpp

@@ -1,4 +1,4 @@
-Source: dogecoin
+Source: coingreen
 Section: utils
 Priority: optional
 Maintainer: Matt Corallo <matt@mattcorallo.com>
@@ -26,15 +26,15 @@ Build-Depends: debhelper,
  python,
  libzmq3-dev
 Standards-Version: 3.9.2
-Homepage: http://www.dogecoin.com/
-Vcs-Git: git://github.com/dogecoin/dogecoin.git
-Vcs-Browser: http://github.com/dogecoin/dogecoin
+Homepage: http://www.coingreen.com/
+Vcs-Git: git://github.com/coin-green/coingreen.git
+Vcs-Browser: http://github.com/coin-green/coingreen
 
-Package: dogecoind
+Package: coingreend
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: peer-to-peer network based digital currency - daemon
- Dogecoin is a free open source peer-to-peer electronic cash system that
+ CoinGreen is a free open source peer-to-peer electronic cash system that
  is completely decentralized, without the need for a central server or
  trusted parties.  Users hold the crypto keys to their own money and
  transact directly with each other, with the help of a P2P network to
@@ -43,31 +43,31 @@ Description: peer-to-peer network based digital currency - daemon
  Full transaction history is stored locally at each client.  This
  requires 20+ GB of space, slowly growing.
  .
- This package provides the daemon, dogecoind, and the CLI tool
- dogecoin-cli to interact with the daemon.
+ This package provides the daemon, coingreend, and the CLI tool
+ coingreen-cli to interact with the daemon.
 
-Package: dogecoin-qt
+Package: coingreen-qt
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: peer-to-peer network based digital currency - Qt GUI
- Dogecoin is a free open source peer-to-peer electronic cash system that
+ CoinGreen is a free open source peer-to-peer electronic cash system that
  is completely decentralized, without the need for a central server or
  trusted parties.  Users hold the crypto keys to their own money and
  transact directly with each other, with the help of a P2P network to
  check for double-spending.
  .
- This package provides Dogecoin-Qt, a GUI for Dogecoin based on Qt.
+ This package provides CoinGreen-Qt, a GUI for CoinGreen based on Qt.
 
-Package: dogecoin-tx
+Package: coingreen-tx
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: peer-to-peer digital currency - standalone transaction tool
- Dogecoin is a free open source peer-to-peer electronic cash system that
+ CoinGreen is a free open source peer-to-peer electronic cash system that
  is completely decentralized, without the need for a central server or
  trusted parties.  Users hold the crypto keys to their own money and
  transact directly with each other, with the help of a P2P network to
  check for double-spending.
  .
- This package provides dogecoin-tx, a command-line transaction creation
- tool which can be used without a dogecoin daemon.  Some means of
+ This package provides coingreen-tx, a command-line transaction creation
+ tool which can be used without a coingreen daemon.  Some means of
  exchanging minimal transaction data with peers is still required.

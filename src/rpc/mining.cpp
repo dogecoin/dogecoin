@@ -1,5 +1,6 @@
 // Copyright (c) 2010 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin Core developers
+// Copyright (c) 2021      CoinGreen Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -635,7 +636,11 @@ UniValue getblocktemplate(const JSONRPCRequest& request)
             case THRESHOLD_FAILED:
                 // Not exposed to GBT at all
                 break;
-            case THRESHOLD_LOCKED_IN:
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wimplicit-fallthrough"
+#endif 
+           case THRESHOLD_LOCKED_IN:
                 // Ensure bit is set in block version
                 pblock->nVersion |= VersionBitsMask(consensusParams, pos);
                 // FALL THROUGH to get vbavailable set...
@@ -651,6 +656,9 @@ UniValue getblocktemplate(const JSONRPCRequest& request)
                 }
                 break;
             }
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif 
             case THRESHOLD_ACTIVE:
             {
                 // Add to rules only

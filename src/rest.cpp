@@ -1,5 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin Core developers
+// Copyright (c) 2021      CoinGreen Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -456,6 +457,10 @@ static bool rest_getutxos(HTTPRequest* req, const std::string& strURIPart)
     }
 
     switch (rf) {
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wimplicit-fallthrough"
+#endif 
     case RF_HEX: {
         // convert hex to bin, continue then with bin part
         std::vector<unsigned char> strRequestV = ParseHex(strRequestMutable);
@@ -481,6 +486,9 @@ static bool rest_getutxos(HTTPRequest* req, const std::string& strURIPart)
         }
         break;
     }
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif 
 
     case RF_JSON: {
         if (!fInputParsed)

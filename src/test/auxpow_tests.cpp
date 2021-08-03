@@ -1,4 +1,5 @@
 // Copyright (c) 2014-2015 Daniel Kraft
+// Copyright (c) 2021 CoinGreen Core developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -6,7 +7,7 @@
 #include "chainparams.h"
 #include "coins.h"
 #include "consensus/merkle.h"
-#include "dogecoin.h"
+#include "coingreen.h"
 #include "primitives/block.h"
 #include "script/script.h"
 #include "uint256.h"

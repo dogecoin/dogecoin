@@ -33,7 +33,7 @@ dogecoin-cli
 
 Where previously commands were sent to dogecoind by running
 "dogecoind <command>", 1.7 adopts the model from Bitcoin Core 0.9 where there is
-a separate "dogecoin-cli" executable which is used instead. This avoids the risk
+a separate "coingreen-cli" executable which is used instead. This avoids the risk
 of accidentally trying to start two daemons at the same time, for example.
 
 

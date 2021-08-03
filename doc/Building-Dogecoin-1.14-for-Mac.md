@@ -1,4 +1,4 @@
-### Building dogecoin-qt 1.14 on modern macs. ###
+### Building coingreen-qt 1.14 on modern macs. ###
 
 Note that this requires changes made by michilumin on the 1.14-dev branch as well as some changes to BDB.
 
@@ -97,7 +97,7 @@ Go have another beverage.
 
 Run it.
 
-	$/usr/local/bin/dogecoin-qt
+	$/usr/local/bin/coingreen-qt
 
 
 
