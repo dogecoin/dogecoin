@@ -124,7 +124,7 @@ bool CheckProofOfWork(uint256 hash, unsigned int nBits, const Consensus::Params&
     if (fNegative || bnTarget == 0 || fOverflow || bnTarget > UintToArith256(params.powLimit))
         return false;
  
-    std::cout << "Checkpoint: " << UintToArith256(hash).GetHex() << " ? " << bnTarget.GetHex() << std::endl;
+    // [maxirmx] std::cout << "Checkpoint: " << UintToArith256(hash).GetHex() << " ? " << bnTarget.GetHex() << std::endl;
     // Check proof of work matches claimed amount
     if (UintToArith256(hash) > bnTarget)
         return false;

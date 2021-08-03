@@ -5,10 +5,10 @@ src/dogecoin
 src/dogecoind
 src/dogecoin-cli
 src/dogecoin-tx
-src/test/test_dogecoin
-src/test/test_dogecoin_fuzzy
-src/qt/test/test_dogecoin-qt
-src/bench/bench_dogecoin
+src/test/test_coingreen
+src/test/test_coingreen_fuzzy
+src/qt/test/test_coingreen-qt
+src/bench/bench_coingreen
 
 # autoreconf
 Makefile.in
