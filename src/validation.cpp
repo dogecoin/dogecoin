@@ -2504,9 +2504,6 @@ bool ActivateBestChain(CValidationState &state, const CChainParams& chainparams,
     CBlockIndex *pindexMostWork = NULL;
     CBlockIndex *pindexNewTip = NULL;
     do {
-        boost::this_thread::interruption_point();
-        if (ShutdownRequested())
-            break;
 
         const CBlockIndex *pindexFork;
         ConnectTrace connectTrace;
@@ -2566,6 +2563,15 @@ bool ActivateBestChain(CValidationState &state, const CChainParams& chainparams,
         if (pindexFork != pindexNewTip) {
             uiInterface.NotifyBlockTip(fInitialDownload, pindexNewTip);
         }
+
+        // Perform the shutdown detection to the end of the loop to prevent
+        // pindexNewTip being nil
+        boost::this_thread::interruption_point();
+        if (ShutdownRequested()) {
+            LogPrintf("ActivateBestChain: shutdown requested, breaking loop\n");
+            break;
+        }
+
     } while (pindexNewTip != pindexMostWork);
     CheckBlockIndex(chainparams.GetConsensus(pindexNewTip->nHeight));
 
