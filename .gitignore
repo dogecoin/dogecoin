@@ -9,6 +9,7 @@ src/test/test_coingreen
 src/test/test_coingreen_fuzzy
 src/qt/test/test_coingreen-qt
 src/bench/bench_coingreen
+src/wallet.backup
 
 # autoreconf
 Makefile.in
