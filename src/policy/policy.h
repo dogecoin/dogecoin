@@ -45,7 +45,14 @@ static const unsigned int MAX_STANDARD_P2WSH_SCRIPT_SIZE = 3600;
  * standard and should be done with care and ideally rarely. It makes sense to
  * only increase the dust limit after prior releases were already not creating
  * outputs below the new threshold */
-static const unsigned int DUST_RELAY_TX_FEE = 1000;
+static const unsigned int DUST_RELAY_TX_FEE = COIN / 100000;
+/**
+ * Dogecoin: Default dust limit that is evaluated when considering whether a
+ * transaction output is required to pay additional fee for relay and inclusion
+ * in blocks. Overridden by -dustlimit
+ */
+static const unsigned int DEFAULT_DUST_LIMIT = COIN / 1;
+
 /**
  * Standard script verification flags that standard transactions will comply
  * with. However scripts violating these flags may still be present in valid
@@ -96,6 +103,7 @@ bool IsWitnessStandard(const CTransaction& tx, const CCoinsViewCache& mapInputs)
 extern CFeeRate incrementalRelayFee;
 extern CFeeRate dustRelayFee;
 extern unsigned int nBytesPerSigOp;
+extern unsigned int nDustLimit;
 
 /** Compute the virtual transaction size (weight reinterpreted as bytes). */
 int64_t GetVirtualTransactionSize(int64_t nWeight, int64_t nSigOpCost);
