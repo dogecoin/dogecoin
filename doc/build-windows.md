@@ -74,7 +74,8 @@ Then build using:
     CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=/
     make
     
-if the above fails run "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
+Most like above line fails. If so run "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
+as discussed here: https://github.com/bitcoin/bitcoin/issues/10269
 
 ## Building for 32-bit Windows
 
