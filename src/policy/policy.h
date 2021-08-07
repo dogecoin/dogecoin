@@ -103,7 +103,7 @@ bool IsWitnessStandard(const CTransaction& tx, const CCoinsViewCache& mapInputs)
 extern CFeeRate incrementalRelayFee;
 extern CFeeRate dustRelayFee;
 extern unsigned int nBytesPerSigOp;
-extern unsigned int nDustLimit;
+extern CAmount nDustLimit;
 
 /** Compute the virtual transaction size (weight reinterpreted as bytes). */
 int64_t GetVirtualTransactionSize(int64_t nWeight, int64_t nSigOpCost);
