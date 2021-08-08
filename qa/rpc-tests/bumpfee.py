@@ -58,6 +58,7 @@ class BumpFeeTest(BitcoinTestFramework):
 
         print("Running tests")
         dest_address = peer_node.getnewaddress()
+        test_bumpfee_metadata(rbf_node, dest_address)
         test_small_output_fails(rbf_node, dest_address)
         test_dust_to_fee(rbf_node, dest_address)
         test_simple_bumpfee_succeeds(rbf_node, peer_node, dest_address)
@@ -69,7 +70,6 @@ class BumpFeeTest(BitcoinTestFramework):
         test_rebumping(rbf_node, dest_address)
         test_rebumping_not_replaceable(rbf_node, dest_address)
         test_unconfirmed_not_spendable(rbf_node, rbf_node_address)
-        test_bumpfee_metadata(rbf_node, dest_address)
         test_locked_wallet_fails(rbf_node, dest_address)
         print("Success")
 

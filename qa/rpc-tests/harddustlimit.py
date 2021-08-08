@@ -33,7 +33,7 @@ class HardDustLimitTest(BitcoinTestFramework):
 
     def run_test(self):
 
-        self.fee = Decimal("1")
+        self.fee = Decimal("0.001")
         self.seed = 1000
         self.coinselector = {'minimumAmount': self.fee * 10, 'maximumAmount': self.seed}
 
