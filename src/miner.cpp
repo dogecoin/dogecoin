@@ -490,7 +490,7 @@ void BlockAssembler::addPackageTxs(int &nPackagesSelected, int &nDescendantsUpda
             packageSigOpsCost = modit->nSigOpCostWithAncestors;
         }
 
-        if (packageFees < blockMinFeeRate.GetFee(packageSize)) {
+        if (packageFees < blockMinFeeRate.GetRelayFee(packageSize)) {
             // Everything else we might consider has a lower fee rate
             return;
         }

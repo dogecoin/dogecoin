@@ -46,7 +46,7 @@ CAmount GetDogecoinMinRelayFee(const CTransaction& tx, unsigned int nBytes, bool
             return 0;
     }
 
-    CAmount nMinFee = ::minRelayTxFeeRate.GetFee(nBytes);
+    CAmount nMinFee = ::minRelayTxFeeRate.GetRelayFee(nBytes);
     nMinFee += GetDogecoinDustFee(tx.vout, ::minRelayTxFeeRate);
 
     if (fAllowFree)
