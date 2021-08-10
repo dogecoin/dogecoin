@@ -47,9 +47,9 @@ jobs:
         make HOST=x86_64-w64-mingw32
         cd ${{github.workspace}}    
     
+#        update-alternatives --set /usr/bin/x86_64-w64-mingw32-g++ /usr/bin/x86_64-w64-mingw32-c++-posix
     - name: Build CoinGreen
       run: |
-#        update-alternatives --set /usr/bin/x86_64-w64-mingw32-g++ /usr/bin/x86_64-w64-mingw32-c++-posix
         cd ${{github.workspace}}
         ./autogen.sh
         CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=/
