@@ -25,6 +25,7 @@ jobs:
          fetch-depth: 1
 
     - name: Cache dependencies
+      id: cache
       uses : actions/cache@v2
       with:
          path: | 
@@ -40,10 +41,10 @@ jobs:
              automake pkg-config bsdmainutils curl g++-mingw-w64-x86-64 mingw-w64-x86-64-dev
     
     - name: Build and install dependencies
+      if: steps.cache.outputs.cache-hit != 'true'
       run: |
         cd ${{github.workspace}}/depends
         make HOST=x86_64-w64-mingw32
-        ls -l 
         cd ${{github.workspace}}    
     
     - name: Build CoinGreen
