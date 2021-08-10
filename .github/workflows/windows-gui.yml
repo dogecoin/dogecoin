@@ -55,17 +55,15 @@ jobs:
         ./autogen.sh
         CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=/
         make
+        mkdir ${{github.workspace}}/deploy
+        cp ${{github.workspace}}/src/qt/coingreen-qt.exe ${{github.workspace}}/deploy/coingreen.exe
 
 #    - name: Run tests
 #      run: |
 #        cd ${{github.workspace}}
 #        make check
 
-#    - name: Install
-#      run: |
-#        cd ${{github.workspace}}
-#        sudo make install
-
     - uses: actions/upload-artifact@v2
       with:
-         path: ${{github.workspace}}/src/qt/*.exe
+         name: coingreen
+         path: ${{github.workspace}}/deploy/coingreen.exe
