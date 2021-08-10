@@ -1,0 +1,58 @@
+name: Ubuntu build
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Release
+  BDB_PREFIX: /usr/local
+
+jobs:
+  Ubuntu-build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+#    - name: Cache BDB
+#      uses: actions/cache@v2
+#      with:
+#        path: ${{github.workspace}}/bootstrap
+#        key: ${{runner.os}}-bdb-5.1.29-v1
+
+    - name: Install packages Ubuntu
+      run: | 
+        sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq libevent-dev libboost-system-dev \
+             libboost-filesystem-dev libboost-chrono-dev libboost-program-options-dev libboost-test-dev  \
+             libboost-thread-dev qt5-default build-essential libtool autotools-dev automake pkg-config \
+             bsdmainutils curl g++-mingw-w64-x86-64 mingw-w64-x86-64-dev
+    
+    - name: Install dependencies
+      run: |
+        cd ${{github.workspace}}/depends
+        make HOST=x86_64-w64-mingw32
+        cd ${{github.workspace}}    
+    
+    - name: Build CoinGreen
+      run: |
+        cd ${{github.workspace}}
+        ./autogen.sh
+        CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=/
+        make
+
+#    - name: Run tests
+#      run: |
+#        cd ${{github.workspace}}
+#        make check
+
+#    - name: Install
+#      run: |
+#        cd ${{github.workspace}}
+#        sudo make install
