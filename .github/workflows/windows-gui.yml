@@ -1,0 +1,69 @@
+name: Windows GUI build
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Release
+  BDB_PREFIX: /usr/local
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout the repo
+      uses: actions/checkout@v2
+      with:
+         fetch-depth: 1
+
+    - name: Cache dependencies
+      id: cache
+      uses : actions/cache@v2
+      with:
+         path: | 
+          ${{github.workspace}}/depends/sources
+          ${{github.workspace}}/depends/work
+          ${{github.workspace}}/depends/x86_64-w64-mingw32
+          ${{github.workspace}}/depends/built
+         key: ${{ runner.os }}-x86_64-w64-mingw32-${{ hashFiles('**/depends/Makefile') }}
+
+    - name: Install packages Ubuntu
+      run: | 
+        sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq build-essential libtool autotools-dev \
+             automake pkg-config bsdmainutils curl g++-mingw-w64-x86-64 mingw-w64-x86-64-dev
+    
+    - name: Build and install dependencies
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: |
+        cd ${{github.workspace}}/depends
+        make HOST=x86_64-w64-mingw32
+        cd ${{github.workspace}}    
+    
+#        update-alternatives --set /usr/bin/x86_64-w64-mingw32-g++ /usr/bin/x86_64-w64-mingw32-c++-posix
+    - name: Build CoinGreen
+      run: |
+        sudo update-alternatives --install /usr/bin/x86_64-w64-mingw32-g++ x86_64-w64-mingw32-g++ /usr/bin/x86_64-w64-mingw32-c++-posix 1100
+        cd ${{github.workspace}}
+        ./autogen.sh
+        CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=/
+        make
+        mkdir ${{github.workspace}}/deploy
+        cp ${{github.workspace}}/src/qt/coingreen-qt.exe ${{github.workspace}}/deploy/coingreen.exe
+
+#    - name: Run tests
+#      run: |
+#        cd ${{github.workspace}}
+#        make check
+
+    - uses: actions/upload-artifact@v2
+      with:
+         name: coingreen
+         path: ${{github.workspace}}/deploy/coingreen.exe

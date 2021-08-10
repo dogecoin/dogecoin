@@ -1,10 +1,9 @@
-name: Ubuntu build
+name: Ubuntu Backbone build
 
 on:
   push:
     branches:
     - master
-    - genesis
   pull_request:
 
   # Allows you to run this workflow manually from the Actions tab
@@ -16,16 +15,20 @@ env:
   BDB_PREFIX: /usr/local
 
 jobs:
-  Ubuntu-build:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout the repo
+      uses: actions/checkout@v2
+      with:
+         fetch-depth: 1
 
     - name: Create BDB bootstrap folder
       run: mkdir ${{github.workspace}}/bootstrap
 
-    - uses: actions/cache@v2
+    - name: Check cache Berkley DB
+      uses: actions/cache@v2
       with:
         path: ${{github.workspace}}/bootstrap
         key: ${{runner.os}}-bdb-5.1.29-v1
@@ -36,9 +39,12 @@ jobs:
 #            libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-program-options-dev 
 #            libboost-test-dev libboost-thread-dev
     - name: Install packages Ubuntu
-      run: sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq libevent-dev libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-program-options-dev libboost-test-dev libboost-thread-dev qt5-default
+      run: |
+        sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq libevent-dev libboost-system-dev \
+             libboost-filesystem-dev libboost-chrono-dev libboost-program-options-dev libboost-test-dev \
+             libboost-thread-dev
     
-    - name: Install Berkley DB
+    - name: (Build and) install Berkley DB
       run: |
         cd ${{github.workspace}}/bootstrap
         if [[ -e "db-5.1.29.NC" ]]; then 
