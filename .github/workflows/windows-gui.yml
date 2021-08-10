@@ -1,4 +1,4 @@
-name: Ubuntu build
+name: Windows GUI build
 
 on:
   push:
@@ -15,11 +15,14 @@ env:
   BDB_PREFIX: /usr/local
 
 jobs:
-  Ubuntu-build:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout the repo
+      uses: actions/checkout@v2
+      with:
+         fetch-depth: 1
 
 #    - name: Cache BDB
 #      uses: actions/cache@v2
@@ -29,12 +32,10 @@ jobs:
 
     - name: Install packages Ubuntu
       run: | 
-        sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq libevent-dev libboost-system-dev \
-             libboost-filesystem-dev libboost-chrono-dev libboost-program-options-dev libboost-test-dev  \
-             libboost-thread-dev qt5-default build-essential libtool autotools-dev automake pkg-config \
-             bsdmainutils curl g++-mingw-w64-x86-64 mingw-w64-x86-64-dev
+        sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq build-essential libtool autotools-dev \
+             automake pkg-config bsdmainutils curl g++-mingw-w64-x86-64 mingw-w64-x86-64-dev
     
-    - name: Install dependencies
+    - name: Build and install dependencies
       run: |
         cd ${{github.workspace}}/depends
         make HOST=x86_64-w64-mingw32
@@ -56,3 +57,7 @@ jobs:
 #      run: |
 #        cd ${{github.workspace}}
 #        sudo make install
+
+    - uses: actions/upload-artifact@v2
+      with:
+         path: ${{github.workspace}}/src/qt/*.exe
