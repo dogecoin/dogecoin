@@ -1,4 +1,5 @@
 // Copyright (c) 2013-2016 The Bitcoin Core developers
+// Copyright (c) 2021      CoinGreen Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -46,6 +47,10 @@ unsigned int MurmurHash3(unsigned int nHashSeed, const std::vector<unsigned char
 
         uint32_t k1 = 0;
 
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wimplicit-fallthrough"
+#endif 
         switch (vDataToHash.size() & 3) {
         case 3:
             k1 ^= tail[2] << 16;
@@ -58,6 +63,9 @@ unsigned int MurmurHash3(unsigned int nHashSeed, const std::vector<unsigned char
             k1 *= c2;
             h1 ^= k1;
         }
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif 
     }
 
     //----------

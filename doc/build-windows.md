@@ -73,6 +73,19 @@ Then build using:
     ./autogen.sh # not required when building from tarball
     CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=/
     make
+    
+Most likely above line will fail. If so run "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
+as discussed here: https://github.com/bitcoin/bitcoin/issues/10269
+
+Use POSIX threading model for MINGW as discussed here: 
+https://stackoverflow.com/questions/14191566/c-mutex-in-namespace-std-does-not-name-a-type
+
+$ sudo update-alternatives --config x86_64-w64-mingw32-gcc
+<choose x86_64-w64-mingw32-gcc-posix from the list>
+
+$ sudo update-alternatives --config x86_64-w64-mingw32-g++
+<choose x86_64-w64-mingw32-g++-posix from the list>
+
 
 ## Building for 32-bit Windows
 
@@ -88,6 +101,20 @@ Then build using:
     ./autogen.sh # not required when building from tarball
     CONFIG_SITE=$PWD/depends/i686-w64-mingw32/share/config.site ./configure --prefix=/
     make
+
+
+Most likely above line will fail. If so run "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
+as discussed here: https://github.com/bitcoin/bitcoin/issues/10269
+
+Use POSIX threading model for MINGW as discussed here: 
+https://stackoverflow.com/questions/14191566/c-mutex-in-namespace-std-does-not-name-a-type
+
+$ sudo update-alternatives --config i686-w64-mingw32-gcc
+<choose i686-w64-mingw32-gcc-posix from the list>
+
+$ sudo update-alternatives --config i686-w64-mingw32-g++
+<choose i686-w64-mingw32-g++-posix from the list>
+
 
 ## Depends system
 
