@@ -54,7 +54,7 @@ jobs:
         cd ${{github.workspace}}
         ./autogen.sh
         CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=/
-        make  -D'CPPFLAGS=--posix'
+        make
 
 #    - name: Run tests
 #      run: |
