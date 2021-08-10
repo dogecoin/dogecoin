@@ -29,11 +29,11 @@ jobs:
       uses : actions/cache@v2
       with:
          path: | 
-          ${{github.workspace}}/dependencies/sources
-          ${{github.workspace}}/dependencies/work
-          ${{github.workspace}}/dependencies/x86_64-w64-mingw32
-          ${{github.workspace}}/dependencies/built
-         key: ${{ runner.os }}-x86_64-w64-mingw32-${{ hashFiles('${{github.workspace}}/dependencies/Makefile') }}
+          ${{github.workspace}}/depends/sources
+          ${{github.workspace}}/depends/work
+          ${{github.workspace}}/depends/x86_64-w64-mingw32
+          ${{github.workspace}}/depends/built
+         key: ${{ runner.os }}-x86_64-w64-mingw32-${{ hashFiles('${{github.workspace}}/depends/Makefile') }}
 
     - name: Install packages Ubuntu
       run: | 
