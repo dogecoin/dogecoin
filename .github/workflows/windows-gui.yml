@@ -33,7 +33,7 @@ jobs:
           ${{github.workspace}}/depends/work
           ${{github.workspace}}/depends/x86_64-w64-mingw32
           ${{github.workspace}}/depends/built
-         key: ${{ runner.os }}-x86_64-w64-mingw32-${{ hashFiles('${{github.workspace}}/depends/Makefile') }}
+         key: ${{ runner.os }}-x86_64-w64-mingw32-${{ hashFiles('**/depends/Makefile') }}
 
     - name: Install packages Ubuntu
       run: | 
