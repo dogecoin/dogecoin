@@ -4,7 +4,6 @@ on:
   push:
     branches:
     - master
-    - genesis
   pull_request:
 
   # Allows you to run this workflow manually from the Actions tab
@@ -22,50 +21,38 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Create BDB bootstrap folder
-      run: mkdir ${{github.workspace}}/bootstrap
+#    - name: Cache BDB
+#      uses: actions/cache@v2
+#      with:
+#        path: ${{github.workspace}}/bootstrap
+#        key: ${{runner.os}}-bdb-5.1.29-v1
 
-    - uses: actions/cache@v2
-      with:
-        path: ${{github.workspace}}/bootstrap
-        key: ${{runner.os}}-bdb-5.1.29-v1
-
-
-# Full list of dependencies:
-#            git wget build-essential libtool autotools-dev automake libssl-dev libevent-dev bsdmainutils pkg-config 
-#            libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-program-options-dev 
-#            libboost-test-dev libboost-thread-dev
     - name: Install packages Ubuntu
-      run: sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq libevent-dev libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-program-options-dev libboost-test-dev libboost-thread-dev qt5-default
+      run: | 
+        sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq libevent-dev libboost-system-dev \
+             libboost-filesystem-dev libboost-chrono-dev libboost-program-options-dev libboost-test-dev  \
+             libboost-thread-dev qt5-default build-essential libtool autotools-dev automake pkg-config \
+             bsdmainutils curl g++-mingw-w64-x86-64 mingw-w64-x86-64-dev
     
-    - name: Install Berkley DB
+    - name: Install dependencies
       run: |
-        cd ${{github.workspace}}/bootstrap
-        if [[ -e "db-5.1.29.NC" ]]; then 
-          cd db-5.1.29.NC/build_unix 
-        else
-          wget http://download.oracle.com/berkeley-db/db-5.1.29.NC.tar.gz
-          tar xvfz db-5.1.29.NC.tar.gz && cd db-5.1.29.NC
-          sed -i.old 's/__atomic_compare_exchange/__atomic_compare_exchange_db/' src/dbinc/atomic.h
-          cd build_unix
-          ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=${{env.BDB_PREFIX}}
-          make
-        fi
-        sudo make install
+        cd ${{github.workspace}}/depends
+        make HOST=x86_64-w64-mingw32
+        cd ${{github.workspace}}    
     
     - name: Build CoinGreen
       run: |
         cd ${{github.workspace}}
         ./autogen.sh
-        ./configure
+        CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=/
         make
 
-    - name: Run tests
-      run: |
-        cd ${{github.workspace}}
-        make check
+#    - name: Run tests
+#      run: |
+#        cd ${{github.workspace}}
+#        make check
 
-    - name: Install
-      run: |
-        cd ${{github.workspace}}
-        sudo make install
+#    - name: Install
+#      run: |
+#        cd ${{github.workspace}}
+#        sudo make install
