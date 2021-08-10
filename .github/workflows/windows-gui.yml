@@ -52,8 +52,8 @@ jobs:
         cd ${{github.workspace}}
         ./autogen.sh
         CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=/
-        update-alternatives --display x86_64-w64-mingw32-g++
-#        make
+        update-alternatives --set x86_64-w64-mingw32-g++ x86_64-w64-mingw32-g++-posix
+        make
 
 #    - name: Run tests
 #      run: |
