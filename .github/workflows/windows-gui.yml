@@ -24,11 +24,15 @@ jobs:
       with:
          fetch-depth: 1
 
-#    - name: Cache BDB
-#      uses: actions/cache@v2
-#      with:
-#        path: ${{github.workspace}}/bootstrap
-#        key: ${{runner.os}}-bdb-5.1.29-v1
+    - name: Cache dependencies
+      uses : actions/cache@v2
+      with:
+         path: | 
+          ${{github.workspace}}/dependencies/sources
+          ${{github.workspace}}/dependencies/work
+          ${{github.workspace}}/dependencies/x86_64-w64-mingw32
+          ${{github.workspace}}/dependencies/built
+         key: ${{ runner.os }}-x86_64-w64-mingw32-${{ hashFiles('${{github.workspace}}/dependencies/Makefile') }}
 
     - name: Install packages Ubuntu
       run: | 
@@ -47,7 +51,7 @@ jobs:
         cd ${{github.workspace}}
         ./autogen.sh
         CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=/
-        make
+#        make
 
 #    - name: Run tests
 #      run: |
@@ -59,6 +63,6 @@ jobs:
 #        cd ${{github.workspace}}
 #        sudo make install
 
-    - uses: actions/upload-artifact@v2
-      with:
-         path: ${{github.workspace}}/src/qt/*.exe
+#    - uses: actions/upload-artifact@v2
+#      with:
+#         path: ${{github.workspace}}/src/qt/*.exe
