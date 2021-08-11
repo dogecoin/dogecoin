@@ -946,14 +946,14 @@ void RPCConsole::on_removePeer_clicked()
     {
         QString address = ips[0].data().toString();
 
-        if(QMessageBox::Yes == QMessageBox::question(this, "Remove Peer", "Are you sure you want to remove the peer: " + address + "?", QMessageBox::Yes | QMessageBox::No))
+        if(QMessageBox::Yes == QMessageBox::question(this, tr("Remove Peer"), tr("Are you sure you want to remove the peer: ") + address + "?", QMessageBox::Yes | QMessageBox::No))
         {
-            QMessageBox::information(this, "Remove Peer", PeerTools::ManagePeer("remove", address), QMessageBox::Ok, QMessageBox::Ok);
+            QMessageBox::information(this, tr("Remove Peer"), PeerTools::ManagePeer("remove", address), QMessageBox::Ok, QMessageBox::Ok);
         }
 
     } else 
     {
-        QMessageBox::information(this, "Remove Peer", "No peer was selected.", QMessageBox::Ok, QMessageBox::Ok);
+        QMessageBox::information(this, tr("Remove Peer"), tr("No peer was selected."), QMessageBox::Ok, QMessageBox::Ok);
     }
 }
 
