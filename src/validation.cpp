@@ -14,6 +14,7 @@
 #include "consensus/merkle.h"
 #include "consensus/validation.h"
 #include "dogecoin.h"
+#include "dogecoin-fees.h"
 #include "hash.h"
 #include "init.h"
 #include "policy/fees.h"
@@ -83,10 +84,11 @@ bool fEnableReplacement = DEFAULT_ENABLE_REPLACEMENT;
 
 uint256 hashAssumeValid;
 
-CFeeRate minRelayTxFee = CFeeRate(DEFAULT_MIN_RELAY_TX_FEE);
+//mlumin 5/2021: Changing this variable to a fee rate, because that's what it is, not a fee. Confusion bad.
+CFeeRate minRelayTxFeeRate = CFeeRate(DEFAULT_MIN_RELAY_TX_FEE);
 CAmount maxTxFee = DEFAULT_TRANSACTION_MAXFEE;
 
-CTxMemPool mempool(::minRelayTxFee);
+CTxMemPool mempool(::minRelayTxFeeRate);
 
 /**
  * Returns true if there are nRequired or more blocks of minVersion or above
@@ -767,7 +769,7 @@ bool AcceptToMemoryPoolWorker(CTxMemPool& pool, CValidationState& state, const C
         CAmount mempoolRejectFee = pool.GetMinFee(GetArg("-maxmempool", DEFAULT_MAX_MEMPOOL_SIZE) * 1000000).GetFee(nSize);
         if (mempoolRejectFee > 0 && nModifiedFees < mempoolRejectFee) {
             return state.DoS(0, false, REJECT_INSUFFICIENTFEE, "mempool min fee not met", false, strprintf("%d < %d", nFees, mempoolRejectFee));
-        } else if (GetBoolArg("-relaypriority", DEFAULT_RELAYPRIORITY) && nModifiedFees < ::minRelayTxFee.GetFee(nSize) && !AllowFree(entry.GetPriority(chainActive.Height() + 1))) {
+        } else if (GetBoolArg("-relaypriority", DEFAULT_RELAYPRIORITY) && nModifiedFees < ::minRelayTxFeeRate.GetFee(nSize) && !AllowFree(entry.GetPriority(chainActive.Height() + 1))) {
             // Require that free transactions have sufficient priority to be mined in the next block.
             return state.DoS(0, false, REJECT_INSUFFICIENTFEE, "insufficient priority");
         }
@@ -2502,9 +2504,6 @@ bool ActivateBestChain(CValidationState &state, const CChainParams& chainparams,
     CBlockIndex *pindexMostWork = NULL;
     CBlockIndex *pindexNewTip = NULL;
     do {
-        boost::this_thread::interruption_point();
-        if (ShutdownRequested())
-            break;
 
         const CBlockIndex *pindexFork;
         ConnectTrace connectTrace;
@@ -2564,8 +2563,21 @@ bool ActivateBestChain(CValidationState &state, const CChainParams& chainparams,
         if (pindexFork != pindexNewTip) {
             uiInterface.NotifyBlockTip(fInitialDownload, pindexNewTip);
         }
+
+        // Perform the shutdown detection to the end of the loop to prevent
+        // pindexNewTip being nil
+        boost::this_thread::interruption_point();
+        if (ShutdownRequested()) {
+            LogPrintf("ActivateBestChain: shutdown requested, breaking loop\n");
+            break;
+        }
+
     } while (pindexNewTip != pindexMostWork);
-    CheckBlockIndex(chainparams.GetConsensus(pindexNewTip->nHeight));
+    if (pindexNewTip != NULL) {
+        CheckBlockIndex(chainparams.GetConsensus(pindexNewTip->nHeight));
+    } else {
+        CheckBlockIndex(chainparams.GetConsensus(0));
+    }
 
     // Write changes periodically to disk, after relay.
     if (!FlushStateToDisk(state, FLUSH_STATE_PERIODIC)) {

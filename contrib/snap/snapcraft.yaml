@@ -1,0 +1,68 @@
+name: dogecoin-core # you probably want to 'snapcraft register <name>'
+version: '1.14.4'
+summary: Reference client of Dogecoin, a peer-to-peer digital currency like Bitcoin.
+description: |
+  Dogecoin is a cryptocurrency like Bitcoin, although it does not use SHA256 as its proof of work (POW). Taking development cues from Tenebrix and Litecoin, Dogecoin currently employs a simplified variant of scrypt. MIT licenced.
+
+base: core18
+grade: stable
+confinement: strict
+architectures:
+  - build-on: [amd64, i386, arm64]
+
+apps:
+  d:
+    command: dogecoind
+    plugs: [home, removable-media, network, network-bind]
+    environment:
+    # Override HOME so the datadir is located at ~/snap/dogecoin-core/common/.dogecoin/ instead of ~/snap/dogecoin-core/current/.dogecoin/, and each new version of the snap won't have a different data directory: https://docs.snapcraft.io/environment-variables/7983
+      HOME: $SNAP_USER_COMMON
+  qt:
+    command: qt4-launch dogecoin-qt
+    plugs: [home, removable-media, network, network-bind, desktop, x11, unity7]
+    environment:
+      HOME: $SNAP_USER_COMMON
+      DISABLE_WAYLAND: 1
+  cli:
+    command: dogecoin-cli
+    plugs: [home, removable-media, network]
+    environment:
+      HOME: $SNAP_USER_COMMON
+
+parts:
+  dogecoin-core:
+    plugin: nil
+    override-build: |
+      echo "Downloading files..."
+      wget https://github.com/dogecoin/dogecoin/releases/download/v${SNAPCRAFT_PROJECT_VERSION}/dogecoin-${SNAPCRAFT_PROJECT_VERSION}-${SNAPCRAFT_ARCH_TRIPLET}.tar.gz
+      wget https://github.com/dogecoin/gitian.sigs/archive/refs/heads/master.zip
+      unzip master.zip
+      echo "Verifying secure hash matches signed values..."
+      checksum=$(sha256sum dogecoin-${SNAPCRAFT_PROJECT_VERSION}-${SNAPCRAFT_ARCH_TRIPLET}.tar.gz)
+      if ! grep -r $checksum *; then
+        echo "Secure hash not verified."
+        return
+      fi
+      tar -xvf dogecoin-${SNAPCRAFT_PROJECT_VERSION}-${SNAPCRAFT_ARCH_TRIPLET}.tar.gz
+      echo "Running tests..."
+      dogecoin-${SNAPCRAFT_PROJECT_VERSION}/bin/test_dogecoin
+      echo "Installing Dogecoin..."
+      install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin dogecoin-${SNAPCRAFT_PROJECT_VERSION}/bin/dogecoind
+      install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin dogecoin-${SNAPCRAFT_PROJECT_VERSION}/bin/dogecoin-qt
+      install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin dogecoin-${SNAPCRAFT_PROJECT_VERSION}/bin/dogecoin-cli
+      wget https://raw.githubusercontent.com/dogecoin/dogecoin/v${SNAPCRAFT_PROJECT_VERSION}/share/pixmaps/bitcoin128.png
+      install -m 0644 -D -t $SNAPCRAFT_PART_INSTALL/share/pixmaps bitcoin128.png
+    build-packages:
+      - unzip
+      - wget
+    stage-packages:
+      - libfreetype6
+      - libpng16-16
+      - libx11-xcb1
+      - libx11-6
+      - libfontconfig
+  qt4conf:
+    build-packages:
+      - dpkg-dev
+    plugin: make
+    source: https://github.com/kyrofa/qt4conf.git

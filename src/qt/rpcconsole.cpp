@@ -2,11 +2,13 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
+#include "bitcoingui.h"
 #if defined(HAVE_CONFIG_H)
 #include "config/bitcoin-config.h"
 #endif
 
 #include "rpcconsole.h"
+#include "peerdialog.h"
 #include "ui_debugwindow.h"
 
 #include "bantablemodel.h"
@@ -14,6 +16,7 @@
 #include "guiutil.h"
 #include "platformstyle.h"
 #include "bantablemodel.h"
+#include "utilitydialog.h"
 
 #include "chainparams.h"
 #include "netbase.h"
@@ -39,6 +42,7 @@
 #include <QTime>
 #include <QTimer>
 #include <QStringList>
+#include <QThread>
 
 #if QT_VERSION < 0x050000
 #include <QUrl>
@@ -440,6 +444,15 @@ RPCConsole::RPCConsole(const PlatformStyle *_platformStyle, QWidget *parent) :
     connect(ui->fontBiggerButton, SIGNAL(clicked()), this, SLOT(fontBigger()));
     connect(ui->fontSmallerButton, SIGNAL(clicked()), this, SLOT(fontSmaller()));
     connect(ui->btnClearTrafficGraph, SIGNAL(clicked()), ui->trafficGraph, SLOT(clear()));
+
+    // Allow user to add new peer
+    connect(ui->peerAdd, SIGNAL(clicked()), this, SLOT(on_addPeer_clicked()));
+
+    // Allow user to remove peer
+    connect(ui->peerRemove, SIGNAL(clicked()), this, SLOT(on_removePeer_clicked()));
+
+    // Allow user to test peer
+    connect(ui->peerTest, SIGNAL(clicked()), this, SLOT(on_testPeer_clicked()));
 
     // set library version labels
 #ifdef ENABLE_WALLET
@@ -908,6 +921,54 @@ void RPCConsole::on_tabWidget_currentChanged(int index)
 void RPCConsole::on_openDebugLogfileButton_clicked()
 {
     GUIUtil::openDebugLogfile();
+}
+
+void RPCConsole::on_addPeer_clicked() 
+{
+
+    QWidget *win = new AddPeerDialog(0);
+
+    win->showNormal();
+    win->show();
+    win->raise();
+    win->activateWindow();
+
+    /** Center window */
+    const QPoint global = ui->tabWidget->mapToGlobal(ui->tabWidget->rect().center());
+    win->move(global.x() - win->width() / 2, global.y() - win->height() / 2);
+}
+
+void RPCConsole::on_removePeer_clicked() 
+{    
+    QList<QModelIndex> ips = GUIUtil::getEntryData(ui->peerWidget, PeerTableModel::Address);
+
+    if(ips.size() != 0)
+    {
+        QString address = ips[0].data().toString();
+
+        if(QMessageBox::Yes == QMessageBox::question(this, "Remove Peer", "Are you sure you want to remove the peer: " + address + "?", QMessageBox::Yes | QMessageBox::No))
+        {
+            QMessageBox::information(this, "Remove Peer", PeerTools::ManagePeer("remove", address), QMessageBox::Ok, QMessageBox::Ok);
+        }
+
+    } else 
+    {
+        QMessageBox::information(this, "Remove Peer", "No peer was selected.", QMessageBox::Ok, QMessageBox::Ok);
+    }
+}
+
+void RPCConsole::on_testPeer_clicked() 
+{
+    QWidget *win = new TestPeerDialog(0);
+
+    win->showNormal();
+    win->show();
+    win->raise();
+    win->activateWindow();
+
+    /** Center window */
+    const QPoint global = ui->tabWidget->mapToGlobal(ui->tabWidget->rect().center());
+    win->move(global.x() - win->width() / 2, global.y() - win->height() / 2);
 }
 
 void RPCConsole::scrollToEnd()

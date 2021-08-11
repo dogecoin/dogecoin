@@ -2830,6 +2830,10 @@ UniValue bumpfee(const JSONRPCRequest& request)
 
     // Calculate the expected size of the new transaction.
     int64_t txSize = GetVirtualTransactionSize(*(wtx.tx));
+    // Doge: Round txSize up to nearest 1kB
+    if (txSize % 1024 != 0) {
+        txSize = txSize + 1024 - (txSize % 1024);
+    }
     const int64_t maxNewTxSize = CalculateMaximumSignedTxSize(*wtx.tx);
 
     // optional parameters
@@ -2896,9 +2900,9 @@ UniValue bumpfee(const JSONRPCRequest& request)
         if (specifiedConfirmTarget) {
             nNewFee = CWallet::GetMinimumFee(*wtx.tx, maxNewTxSize, newConfirmTarget, mempool, CAmount(0));
         }
-        // otherwise use the regular wallet logic to select payTxFee or default confirm target
+        // otherwise bump the fee by 1 DOGE.
         else {
-            nNewFee = CWallet::GetMinimumFee(*wtx.tx, maxNewTxSize, newConfirmTarget, mempool);
+            nNewFee = nOldFee + walletIncrementalRelayFee.GetFeePerK();
         }
 
         nNewFeeRate = CFeeRate(nNewFee, maxNewTxSize);

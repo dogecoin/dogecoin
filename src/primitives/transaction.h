@@ -15,6 +15,9 @@ static const int SERIALIZE_TRANSACTION_NO_WITNESS = 0x40000000;
 
 static const int WITNESS_SCALE_FACTOR = 4;
 
+/** An amount smaller than this is considered dust */
+extern CAmount nDustLimit;
+
 /** An outpoint - a combination of a transaction hash and an index n into its vout */
 class COutPoint
 {
@@ -161,7 +164,7 @@ public:
         return (nValue == -1);
     }
 
-    CAmount GetDustThreshold(const CFeeRate &minRelayTxFee) const
+    CAmount GetDustThreshold(const CFeeRate &minRelayTxFeeRate) const
     {
         // "Dust" is defined in terms of CTransaction::minRelayTxFee,
         // which has units satoshis-per-kilobyte.
@@ -195,12 +198,12 @@ public:
         */
 
         // Dogecoin: Anything below 1 DOGE is always dust
-        return COIN;
+        return nDustLimit;
     }
 
-    bool IsDust(const CFeeRate &minRelayTxFee) const
+    bool IsDust(const CFeeRate &minRelayTxFeeRate) const
     {
-        return (nValue < GetDustThreshold(minRelayTxFee));
+        return (nValue < GetDustThreshold(minRelayTxFeeRate));
     }
 
     friend bool operator==(const CTxOut& a, const CTxOut& b)

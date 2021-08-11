@@ -38,6 +38,8 @@ extern CWallet* pwalletMain;
  * Settings
  */
 extern CFeeRate payTxFee;
+//mlumin 5/2021: add minWalletTxFee to separate out wallet and relay.
+extern CFeeRate minWalletTxFeeRate;
 extern unsigned int nTxConfirmTarget;
 extern bool bSpendZeroConfChange;
 extern bool fSendFreeTransactions;
@@ -45,13 +47,16 @@ extern bool fWalletRbf;
 
 static const unsigned int DEFAULT_KEYPOOL_SIZE = 100;
 //! -paytxfee default
-static const CAmount DEFAULT_TRANSACTION_FEE = 0;
+static const CAmount DEFAULT_TRANSACTION_FEE = COIN;
 //! -fallbackfee default
+//mlumin: 5/2021 scaled minimum, this likely will have to change for fee reduction
 static const CAmount DEFAULT_FALLBACK_FEE = COIN;
 //! -mintxfee default
 static const CAmount DEFAULT_TRANSACTION_MINFEE = COIN;
+//mlumin 5/2021: adding a minimum Wallet fee vs relay, currently still 1 COIN, to be reduced.
+static const CAmount DEFAULT_MIN_WALLET_TX_FEE = COIN;
 //! minimum recommended increment for BIP 125 replacement txs
-static const CAmount WALLET_INCREMENTAL_RELAY_FEE = COIN * 5;
+static const CAmount WALLET_INCREMENTAL_RELAY_FEE = COIN/10 * 5;
 //! target minimum change amount
 static const CAmount MIN_CHANGE = COIN;
 //! final minimum change amount after paying for fees

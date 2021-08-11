@@ -1,0 +1,185 @@
+name: Continuous Integration
+
+on:
+  push:
+    paths-ignore:
+      - '**/*.md'
+  pull_request:
+    paths-ignore:
+      - 'doc/**'
+      - 'contrib/**'
+      - '**/*.md'
+
+jobs:
+  build:
+    name: ${{ matrix.name }}
+
+    env:
+      MAKEJOBS: "-j3"
+      CHECK_DOC: "0"
+      CCACHE_SIZE: "100M"
+      CCACHE_TEMPDIR: /tmp/.ccache-temp
+      CCACHE_COMPRESS: "1"
+      PYTHON_DEBUG: "1"
+      WINEDEBUG: fixme-all
+      SDK_URL: https://bitcoincore.org/depends-sources/sdks
+
+    strategy:
+      fail-fast: false
+      matrix:
+        name:
+          - armhf-linux
+          - i686-linux
+          - i686-win
+          - x86_64-linux-dbg
+          - x86_64-linux-nowallet
+          - x86_64-macos
+          - x86_64-win
+        include:
+          - name: i686-linux
+            host: i686-pc-linux-gnu
+            os: ubuntu-20.04
+            packages: g++-multilib bc python3-zmq
+            run-tests: true
+            dep-opts: "NO_QT=1"
+            config-opts: "--enable-zmq --enable-glibc-back-compat --enable-reduce-exports LDFLAGS=-static-libstdc++"
+            goal: install
+          - name: armhf-linux
+            host: arm-linux-gnueabihf
+            os: ubuntu-20.04
+            packages: g++-arm-linux-gnueabihf
+            run-tests: false
+            dep-opts: "NO_QT=1"
+            config-opts: "--enable-glibc-back-compat --enable-reduce-exports --disable-tests"
+            goal: install
+          - name: x86_64-linux-nowallet
+            host: x86_64-unknown-linux-gnu
+            os: ubuntu-20.04
+            packages: python3
+            run-tests: true
+            dep-opts: "NO_WALLET=1"
+            config-opts: "--enable-gui=qt5 --enable-glibc-back-compat --enable-reduce-exports --disable-wallet"
+            goal: install
+          - name: x86_64-linux-dbg
+            host: x86_64-unknown-linux-gnu
+            os: ubuntu-20.04
+            packages: bc python3-zmq
+            run-tests: true
+            dep-opts: "DEBUG=1"
+            config-opts: "--enable-gui=qt5 --enable-zmq --enable-glibc-back-compat --enable-reduce-exports CPPFLAGS=-DDEBUG_LOCKORDER"
+            goal: install
+          - name: i686-win
+            host: i686-w64-mingw32
+            arch: "i386"
+            os: ubuntu-20.04
+            packages: python3 nsis g++-mingw-w64-i686 wine bc wine-binfmt
+            postinstall: |
+              sudo update-alternatives --set i686-w64-mingw32-gcc /usr/bin/i686-w64-mingw32-gcc-posix
+              sudo update-alternatives --set i686-w64-mingw32-g++  /usr/bin/i686-w64-mingw32-g++-posix
+              sudo update-binfmts --import /usr/share/binfmts/wine
+            run-tests: true
+            dep-opts: ""
+            config-opts: "--enable-reduce-exports --enable-gui=qt5"
+            goal: install
+          - name: x86_64-win
+            host: x86_64-w64-mingw32
+            arch: "i386"
+            os: ubuntu-20.04
+            packages: python3 nsis g++-mingw-w64-x86-64 wine64 bc wine-binfmt
+            postinstall: |
+              sudo update-alternatives --set x86_64-w64-mingw32-gcc  /usr/bin/x86_64-w64-mingw32-gcc-posix
+              sudo update-alternatives --set x86_64-w64-mingw32-g++  /usr/bin/x86_64-w64-mingw32-g++-posix
+              sudo update-binfmts --import /usr/share/binfmts/wine
+            run-tests: true
+            dep-opts: ""
+            config-opts: "--enable-reduce-exports --enable-gui=qt5"
+            goal: install
+          - name: x86_64-macos
+            host: x86_64-apple-darwin11
+            os: ubuntu-18.04
+            packages: cmake imagemagick libcap-dev librsvg2-bin libz-dev libtiff-tools libtinfo5 python3-setuptools xorriso libtinfo5
+            run-tests: false
+            dep-opts: ""
+            config-opts: "--enable-gui=qt5 --enable-reduce-exports"
+            goal: deploy
+            sdk: 10.11
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Add architecture
+        if: ${{ matrix.arch }}
+        run: |
+          sudo dpkg --add-architecture "${{ matrix.arch }}"
+
+      - name: Install packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install build-essential libtool autotools-dev automake pkg-config bsdmainutils curl ca-certificates ccache python3 rsync git procps bison
+          sudo apt-get install ${{ matrix.packages }}
+
+      - name: Post install
+        if: ${{ matrix.postinstall }}
+        run: ${{ matrix.postinstall }}
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: SDK cache
+        if: ${{ matrix.sdk }}
+        uses: actions/cache@v2
+        env:
+          cache-name: sdk
+        with:
+          path: ./depends/sdk-sources
+          key: ${{ matrix.name }}-${{ env.cache-name }}
+
+      - name: Install SDK
+        if: ${{ matrix.sdk }}
+        run: |
+          mkdir -p ./depends/sdk-sources
+          mkdir -p ./depends/SDKs
+          curl --location --fail $SDK_URL/MacOSX${{ matrix.sdk }}.sdk.tar.gz -o depends/sdk-sources/MacOSX${{ matrix.sdk }}.sdk.tar.gz
+          tar -C depends/SDKs -xf depends/sdk-sources/MacOSX${{ matrix.sdk }}.sdk.tar.gz
+
+      - name: Dependency cache
+        uses: actions/cache@v2
+        env:
+          cache-name: depends
+        with:
+          path: ./depends/built
+          key: ${{ matrix.name }}-${{ env.cache-name }}-${{ hashFiles('depends/packages/*') }}
+
+      - name: Build depends
+        run: |
+          make $MAKEJOBS -C depends HOST=${{ matrix.host }} ${{ matrix.dep-opts }}
+
+      - name: CCache
+        uses: actions/cache@v2
+        env:
+          cache-name: ccache
+        with:
+          path: ~/.ccache
+          key: ${{ matrix.name }}-${{ env.cache-name }}-${{ hashFiles('**/configure.ac') }}
+
+      - name: Build Dogecoin
+        run: |
+          depends/${{ matrix.host }}/native/bin/ccache --max-size=$CCACHE_SIZE
+          ./autogen.sh
+          ./configure --prefix=`pwd`/depends/${{ matrix.host }} ${{ matrix.config-opts }} || ( cat config.log && false)
+          make $MAKEJOBS ${{ matrix.goal }} || ( echo "Build failure. Verbose build follows." && make ${{ matrix.goal }} V=1 ; false )
+
+      - name: Run tests
+        if: ${{ matrix.run-tests }}
+        run: |
+          make check $MAKEJOBS VERBOSE=1
+          qa/pull-tester/install-deps.sh
+          qa/pull-tester/rpc-tests.py --coverage
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: dogecoin-${{ github.sha }}-${{ matrix.name }}
+          path: |
+            depends/${{ matrix.host }}/bin/dogecoin*
+            dist/Dogecoin-Qt.app

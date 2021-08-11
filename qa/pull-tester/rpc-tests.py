@@ -153,12 +153,14 @@ testScripts = [
     'signmessages.py',
     # 'nulldummy.py',
     'import-rescan.py',
+    'harddustlimit.py',
     # While fee bumping should work in Doge, these tests depend on free transactions, which we don't support.
     # Disable until we can do a full rewrite of the tests (possibly upstream), or revise fee schedule, or something
-    # 'bumpfee.py',
+    'bumpfee.py',
     'rpcnamedargs.py',
     'listsinceblock.py',
     'p2p-leaktests.py',
+    'replace-by-fee.py',
 ]
 if ENABLE_ZMQ:
     testScripts.append('zmq_test.py')
@@ -190,7 +192,6 @@ testScriptsExt = [
     'invalidateblock.py',
     'maxblocksinflight.py',
     'p2p-acceptblock.py',
-    'replace-by-fee.py',
 ]
 
 

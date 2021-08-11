@@ -116,3 +116,11 @@ contrib/devtools/split-debug.sh
 *.iws
 *.iml
 *.ipr
+
+.vscode/*
+
+# Snapcraft
+parts/
+prime/
+stage/
+*.snap
