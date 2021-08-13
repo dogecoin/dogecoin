@@ -116,6 +116,7 @@ testScripts = [
     'wallet-dump.py',
     'listtransactions.py',
     # vv Tests less than 60s vv
+    'p2p-acceptblock.py',
     'sendheaders.py',
     'zapwallettxes.py',
     'importmulti.py',
@@ -191,7 +192,6 @@ testScriptsExt = [
     'forknotify.py',
     'invalidateblock.py',
     'maxblocksinflight.py',
-    'p2p-acceptblock.py',
 ]
 
 

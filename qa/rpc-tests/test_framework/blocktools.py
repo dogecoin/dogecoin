@@ -11,7 +11,7 @@ from .script import CScript, OP_TRUE, OP_CHECKSIG, OP_RETURN
 def create_block(hashprev, coinbase, nTime=None):
     block = CBlock()
     # Dogecoin: Create a non-AuxPoW block but include chain ID
-    block.nVersion = 0x620003
+    block.nVersion = 0x620004
     if nTime is None:
         import time
         block.nTime = int(time.time()+600)
