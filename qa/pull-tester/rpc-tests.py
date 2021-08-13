@@ -128,7 +128,7 @@ testScripts = [
     'reindex.py',
     # vv Tests less than 30s vv
     'mempool_resurrect_test.py',
-    #'txn_doublespend.py --mineblock',
+    'txn_doublespend.py --mineblock',
     'txn_clone.py',
     'getchaintips.py',
     'rest.py',
