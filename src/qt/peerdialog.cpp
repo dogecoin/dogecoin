@@ -118,7 +118,7 @@ void AddPeerDialog::on_addPeer_clicked()
 
     if(!PeerTools::CheckPeerAddress(address))
     {
-        QMessageBox::critical(this, tr("Add Peer"), tr("Please enter a vaild peer address."), QMessageBox::Ok, QMessageBox::Ok);
+        QMessageBox::critical(this, tr("Add Peer"), tr("Please enter a valid peer address."), QMessageBox::Ok, QMessageBox::Ok);
         return;
     }
 
@@ -165,7 +165,7 @@ void TestPeerDialog::on_testPeer_clicked()
 
     if(!PeerTools::CheckPeerAddress(address))
     {
-        QMessageBox::critical(this, tr("Test Peer"), tr("Please enter a vaild peer address."), QMessageBox::Ok, QMessageBox::Ok);
+        QMessageBox::critical(this, tr("Test Peer"), tr("Please enter a valid peer address."), QMessageBox::Ok, QMessageBox::Ok);
         return;
     }
 
