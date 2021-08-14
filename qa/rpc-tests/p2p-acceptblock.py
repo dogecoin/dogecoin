@@ -39,7 +39,7 @@ The test:
    it's missing an intermediate block.
    Node1 should reorg to this longer chain.
 
-4b.Send 288 more blocks on the longer chain.
+4b.Send 1440 more blocks on the longer chain.
    Node0 should process all but the last block (too far ahead in height).
    Send all headers to Node1, and then send the last block in that chain.
    Node1 should accept the block because it's coming from a whitelisted peer.
@@ -206,14 +206,14 @@ class AcceptBlockTest(BitcoinTestFramework):
         assert_equal(self.nodes[1].getblockcount(), 3)
         print("Successfully reorged to length 3 chain from whitelisted peer")
 
-        # 4b. Now mine 288 more blocks and deliver; all should be processed but
+        # 4b. Now mine 1440 more blocks and deliver; all should be processed but
         # the last (height-too-high) on node0.  Node1 should process the tip if
         # we give it the headers chain leading to the tip.
         tips = blocks_h3
         headers_message = msg_headers()
         all_blocks = []   # node0's blocks
         for j in range(2):
-            for i in range(288):
+            for i in range(1440):
                 next_block = create_block(tips[j].sha256, create_coinbase(i + 4), tips[j].nTime+1)
                 next_block.solve()
                 if j==0:
@@ -224,7 +224,7 @@ class AcceptBlockTest(BitcoinTestFramework):
                 tips[j] = next_block
 
         time.sleep(2)
-        # Blocks 1-287 should be accepted, block 288 should be ignored because it's too far ahead
+        # Blocks 1-1439 should be accepted, block 1440 should be ignored because it's too far ahead
         for x in all_blocks[:-1]:
             self.nodes[0].getblock(x.hash)
         assert_raises_jsonrpc(-1, "Block not found on disk", self.nodes[0].getblock, all_blocks[-1].hash)
@@ -270,7 +270,7 @@ class AcceptBlockTest(BitcoinTestFramework):
         test_node.send_message(msg_block(blocks_h2f[0]))
 
         test_node.sync_with_ping()
-        assert_equal(self.nodes[0].getblockcount(), 290)
+        assert_equal(self.nodes[0].getblockcount(), 1442)
         print("Successfully reorged to longer chain from non-whitelisted peer")
 
         [ c.disconnect_node() for c in connections ]
