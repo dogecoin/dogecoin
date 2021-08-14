@@ -510,6 +510,7 @@ public:
     double dMinPing;
     std::string addrLocal;
     CAddress addr;
+    CAmount minFeeFilter;
 };
 
 
