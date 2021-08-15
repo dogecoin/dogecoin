@@ -119,3 +119,9 @@ parts/
 prime/
 stage/
 *.snap
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
