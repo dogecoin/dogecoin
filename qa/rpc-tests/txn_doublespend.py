@@ -49,7 +49,7 @@ class TxnMallTest(BitcoinTestFramework):
 
         # First: use raw transaction API to send 7440000 DOGE to node1_address,
         # but don't broadcast:
-        doublespend_fee = Decimal('-120')
+        doublespend_fee = Decimal('-1.20')
         rawtx_input_0 = {}
         rawtx_input_0["txid"] = fund_foo_txid
         rawtx_input_0["vout"] = find_output(self.nodes[0], fund_foo_txid, 7314000)

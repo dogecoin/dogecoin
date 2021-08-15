@@ -209,7 +209,7 @@ def test_settxfee(rbf_node, dest_address):
 def test_rebumping(rbf_node, dest_address):
     # check that re-bumping the original tx fails, but bumping the bumper succeeds
     rbf_node.settxfee(Decimal("10.00000000"))
-    rbfid = create_fund_sign_send(rbf_node, {dest_address: 7.00000000})
+    rbfid = create_fund_sign_send(rbf_node, {dest_address: 8.00000000})
     bumped = rbf_node.bumpfee(rbfid, {"totalFee": 1050000000})
     assert_raises_jsonrpc(-4, "already bumped", rbf_node.bumpfee, rbfid, {"totalFee": 11000})
     rbf_node.bumpfee(bumped["txid"], {"totalFee": 1100000000})
