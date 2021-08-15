@@ -51,7 +51,7 @@ static const CAmount DUST_RELAY_TX_FEE = COIN / 100000;
  * transaction output is required to pay additional fee for relay and inclusion
  * in blocks. Overridden by -dustlimit
  */
-static const CAmount DEFAULT_DUST_LIMIT = COIN / 1;
+static const CAmount DEFAULT_DUST_LIMIT = COIN / 100;
 
 /**
  * Standard script verification flags that standard transactions will comply
