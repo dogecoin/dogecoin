@@ -64,9 +64,9 @@ class PayTxFeeTest(BitcoinTestFramework):
         tx2 = self.nodes[0].getrawtransaction(txid2, True)
         tx3 = self.nodes[0].getrawtransaction(txid3, True)
 
-        assert_equal(tx1['vout'][0]['value'] + tx1['vout'][1]['value'], Decimal("999.9"))
-        assert_equal(tx2['vout'][0]['value'] + tx2['vout'][1]['value'], Decimal("999"))
-        assert_equal(tx3['vout'][0]['value'] + tx3['vout'][1]['value'], Decimal("999.9"))
+        assert_equal(tx1['vout'][0]['value'] + tx1['vout'][1]['value'], Decimal("999.9774"))
+        assert_equal(tx2['vout'][0]['value'] + tx2['vout'][1]['value'], Decimal("999.774"))
+        assert_equal(tx3['vout'][0]['value'] + tx3['vout'][1]['value'], Decimal("999.9774"))
 
         # mine a block
         self.nodes[0].generate(1);
@@ -76,7 +76,7 @@ class PayTxFeeTest(BitcoinTestFramework):
         block = self.nodes[0].getblock(self.nodes[0].getbestblockhash())
         coinbaseTx = self.nodes[0].getrawtransaction(block['tx'][0], True)
 
-        assert_equal(coinbaseTx['vout'][0]['value'], Decimal("500001.2"))
+        assert_equal(coinbaseTx['vout'][0]['value'], Decimal("500000.2712"))
 
 if __name__ == '__main__':
     PayTxFeeTest().main()
