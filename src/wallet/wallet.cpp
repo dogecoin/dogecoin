@@ -2865,19 +2865,24 @@ CAmount CWallet::GetMinimumFee(const CMutableTransaction& tx, unsigned int nTxBy
     CAmount nFeeNeeded = targetFee;
     // User didn't set: use -txconfirmtarget to estimate...
     if (nFeeNeeded == 0) {
-        int estimateFoundTarget = nConfirmTarget;
-        nFeeNeeded = pool.estimateSmartFee(nConfirmTarget, &estimateFoundTarget).GetFee(nTxBytes);
-        // ... unless we don't have enough mempool data for estimatefee, then use fallbackFee
-        if (nFeeNeeded == 0)
-            nFeeNeeded = fallbackFee.GetFee(nTxBytes);
+        //int estimateFoundTarget = nConfirmTarget;
+        //nFeeNeeded = pool.estimateSmartFee(nConfirmTarget, &estimateFoundTarget).GetFee(nTxBytes);
+        //// ... unless we don't have enough mempool data for estimatefee, then use fallbackFee
+        //if (nFeeNeeded == 0)
+        //    nFeeNeeded = fallbackFee.GetFee(nTxBytes);
+
+        // Dogecoin: Drop the smart fee estimate, use GetRequiredFee
+        nFeeNeeded = GetRequiredFee(tx, nTxBytes);
     }
     // prevent user from paying a fee below minRelayTxFee or minTxFee
-    // Dogecoin: Drop the smart fee estimate, use GetRequiredFee
-    // nFeeNeeded = std::max(nFeeNeeded, GetRequiredFee(tx, nTxBytes));
-    nFeeNeeded = GetRequiredFee(tx, nTxBytes);
+    // Dogecoin: as we're adapting minTxFee to never be higher than
+    //           payTxFee unless explicitly set, this should be fine
+    nFeeNeeded = std::max(nFeeNeeded, GetRequiredFee(tx, nTxBytes));
+
     // But always obey the maximum
     if (nFeeNeeded > maxTxFee)
         nFeeNeeded = maxTxFee;
+
     return nFeeNeeded;
 }
 
