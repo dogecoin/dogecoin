@@ -67,13 +67,14 @@ The test:
 # TestNode: bare-bones "peer".  Used mostly as a conduit for a test to sending
 # p2p messages to a node, generating the messages in the main testing logic.
 class TestNode(NodeConnCB):
-    def __init__(self):
+    def __init__(self, timeout_factor=1):
         NodeConnCB.__init__(self)
         self.connection = None
         self.ping_counter = 1
         self.last_pong = msg_pong()
 
     def add_connection(self, conn):
+        self.has_been_disconnected = False
         self.connection = conn
 
     # Track the last getdata message we receive (used in the test)
@@ -112,6 +113,17 @@ class TestNode(NodeConnCB):
         self.ping_counter += 1
         return received_pong
 
+    # wait for the socket to be in a closed state
+    def wait_for_disconnect(self, timeout=60):
+        if self.connection == None:
+            return True
+        sleep_time = 0.05
+        is_closed = self.connection.state == "closed"
+        while not is_closed and timeout > 0:
+            time.sleep(sleep_time)
+            timeout -= sleep_time
+            is_closed = self.connection.state == "closed"
+        return is_closed
 
 class AcceptBlockTest(BitcoinTestFramework):
     def add_options(self, parser):
@@ -324,39 +336,36 @@ class AcceptBlockTest(BitcoinTestFramework):
 
         test_node.send_message(msg_block(block_1443))
 
-        # At this point we've sent an obviously-bogus block, wait for full processing
-        # without assuming whether we will be disconnected or not
-        try:
-            # Only wait a short while so the test doesn't take forever if we do get
-            # disconnected
-            test_node.sync_with_ping(timeout=1)
-        except AssertionError:
-            test_node.wait_for_disconnect()
+        # At this point we've sent an obviously-bogus block,
+        # and we must get disconnected
+        assert_equal(test_node.wait_for_disconnect(), True)
+        print("Successfully got disconnected after sending an invalid block")
 
-            test_node = TestNode()   # connects to node (not whitelisted)
-            connections[0] = NodeConn('127.0.0.1', p2p_port(0), self.nodes[0], test_node)
-            test_node.add_connection(connections[0])
-
-            NetworkThread().start() # Start up network handling in another thread
-            test_node.wait_for_verack()
+        # recreate our malicious node
+        test_node = TestNode()   # connects to node (not whitelisted)
+        connections[0] = NodeConn('127.0.0.1', p2p_port(0), self.nodes[0], test_node)
+        test_node.add_connection(connections[0])
+        test_node.wait_for_verack()
 
         # We should have failed reorg and switched back to 1442 (but have block 1443)
         assert_equal(self.nodes[0].getblockcount(), 1442)
         assert_equal(self.nodes[0].getbestblockhash(), all_blocks[1438].hash)
         assert_equal(self.nodes[0].getblock(block_1443.hash)["confirmations"], -1)
 
-        # Now send a new header on the invalid chain, indicating we're forked off, and expect to get disconnected
+        # Now send a new header on the invalid chain, indicating we're forked
+        # off, and expect to get disconnected
         block_1445 = create_block(block_1444.sha256, create_coinbase(1445), block_1444.nTime+1)
         block_1445.solve()
         headers_message = msg_headers()
         headers_message.headers.append(CBlockHeader(block_1445))
         test_node.send_message(headers_message)
-        test_node.wait_for_disconnect()
+        assert_equal(test_node.wait_for_disconnect(), True)
+        print("Successfully got disconnected after building on an invalid block")
 
         # 9. Connect node1 to node0 and ensure it is able to sync
         connect_nodes(self.nodes[0], 1)
         sync_blocks([self.nodes[0], self.nodes[1]])
-        self.log.info("Successfully synced nodes 1 and 0")
+        print("Successfully synced nodes 1 and 0")
 
         [ c.disconnect_node() for c in connections ]
 
