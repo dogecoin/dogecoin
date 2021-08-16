@@ -2648,11 +2648,11 @@ bool InvalidateBlock(CValidationState& state, const CChainParams& chainparams, C
     // are no blocks that meet the "have data and are not invalid per
     // nStatus" criteria for inclusion in setBlockIndexCandidates).
 
-    bool pindex_was_in_chain = false;
-    CBlockIndex *invalid_walk_tip = chainActive.Tip();
+    bool findexWasInChain = false;
+    CBlockIndex *invalidWalkTip = chainActive.Tip();
 
     while (chainActive.Contains(pindex)) {
-        pindex_was_in_chain = true;
+        findexWasInChain = true;
         // ActivateBestChain considers blocks already in chainActive
         // unconditionally valid already, so force disconnect away from it.
         if (!DisconnectTip(state, chainparams)) {
@@ -2661,13 +2661,19 @@ bool InvalidateBlock(CValidationState& state, const CChainParams& chainparams, C
         }
     }
 
+    // Debug print the invalid parent's hash, later list the child hashes.
+    LogPrintf("Invalid Block %s.", pindex->GetBlockHash().ToString() );
+
     // Now mark the blocks we just disconnected as descendants invalid
-    // (note this may not be all descendants).
-    while (pindex_was_in_chain && invalid_walk_tip != pindex) {
-        invalid_walk_tip->nStatus |= BLOCK_FAILED_CHILD;
-        setDirtyBlockIndex.insert(invalid_walk_tip);
-        setBlockIndexCandidates.erase(invalid_walk_tip);
-        invalid_walk_tip = invalid_walk_tip->pprev;
+    // Note: this may not be all descendants, e.g. the disconnected block
+    // may be the root of competing block chains that have not settled into
+    // one single block chain yet.
+    while (findexWasInChain && invalidWalkTip != pindex) {
+        LogPrintf("  Invalid Child Block %s.", invalidWalkTip->GetBlockHash().ToString() );
+        invalidWalkTip->nStatus |= BLOCK_FAILED_CHILD;
+        setDirtyBlockIndex.insert(invalidWalkTip);
+        setBlockIndexCandidates.erase(invalidWalkTip);
+        invalidWalkTip = invalidWalkTip->pprev;
     }
 
     // Mark the block itself as invalid.
@@ -3223,12 +3229,14 @@ static bool AcceptBlockHeader(const CBlockHeader& block, CValidationState& state
             for (const CBlockIndex* failedit : gFailedBlocks) {
                 if (pindexPrev->GetAncestor(failedit->nHeight) == failedit) {
                     assert(failedit->nStatus & BLOCK_FAILED_VALID);
-                    CBlockIndex* invalid_walk = pindexPrev;
-                    while (invalid_walk != failedit) {
-                        invalid_walk->nStatus |= BLOCK_FAILED_CHILD;
-                        setDirtyBlockIndex.insert(invalid_walk);
-                        invalid_walk = invalid_walk->pprev;
+                    CBlockIndex* invalidWalk = pindexPrev;
+                    while (invalidWalk != failedit) {
+                        invalidWalk->nStatus |= BLOCK_FAILED_CHILD;
+                        setDirtyBlockIndex.insert(invalidWalk);
+                        invalidWalk = invalidWalk->pprev;
                     }
+
+                    LogPrintf( "AcceptBlockHeader(): Invalid block %s, rejected child hash %s.", invalidWalk->GetBlockHash().ToString(), hash.ToString()  );
                     return state.DoS(100, error("%s: prev block invalid", __func__), REJECT_INVALID, "bad-prevblk");
                 }
             }
@@ -3654,6 +3662,7 @@ bool static LoadBlockIndexDB(const CChainParams& chainparams)
                 pindex->nChainTx = pindex->nTx;
             }
             if (!(pindex->nStatus & BLOCK_FAILED_MASK) && pindex->pprev && (pindex->pprev->nStatus & BLOCK_FAILED_MASK)) {
+                LogPrintf("Invalid Block %s.", pindex->GetBlockHash().ToString() );
                 pindex->nStatus |= BLOCK_FAILED_CHILD;
                 setDirtyBlockIndex.insert(pindex);
             }
