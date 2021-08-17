@@ -54,6 +54,7 @@ Synchronization Improvements
 
 * Disconnect peers which do not respond to requests for headers in a timely manner, to optimise synchronization rate.
 * Dogecoin Core will no longer request further headers from a peer it is already downloading headers from. This stops Dogecoin Core from requesting the same headers more than once, and reduces network bandwidth wasted.
+* Proactively reject block headers which would build on an invalid chain.
 
 GUI Improvements
 ----------------
@@ -80,8 +81,9 @@ Minor Changes
 * Update libevent to 2.1.11
 * Update ZMQ to 4.3.4
 * Correctly set fixed seeds on startup.
-* Add build instructions for NixOS
+* Add build instructions for NixOS.
 * Fix a rare crash bug on shutdown due to ActivateBestChain() being called when there is no best chain.
+* Fix port numbers in `contrib/seeds/generate-seeds.py`.
 
 Credits
 =======
@@ -97,6 +99,7 @@ Credits
 * David Millard
 * Demon
 * Dídac Coll Pujals
+* Escanor Liones
 * fanquake
 * Florian Schade
 * fmhc
@@ -106,6 +109,7 @@ Credits
 * Ikko Ashimine
 * Jeroen Ooms
 * Jerry Park
+* Joakim Taule Kartveit
 * katzenmalen
 * Khakim Hudaya
 * kregerl
