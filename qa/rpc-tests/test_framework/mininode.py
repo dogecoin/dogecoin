@@ -1684,6 +1684,10 @@ class NodeConn(asyncore.dispatcher):
             if len(t) > 0:
                 self.recvbuf += t
                 self.got_data()
+            else:
+                self.show_debug_msg("MiniNode: Closing connection to %s:%d after peer disconnect..."
+                                    % (self.dstaddr, self.dstport))
+                self.handle_close()
         except:
             pass
 
