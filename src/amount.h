@@ -46,9 +46,13 @@ public:
     CFeeRate(const CAmount& nFeePaid, size_t nBytes);
     CFeeRate(const CFeeRate& other) { nSatoshisPerK = other.nSatoshisPerK; }
     /**
-     * Return the fee in satoshis for the given size in bytes.
+     * Return the wallet fee in koinus for the given size in bytes.
      */
     CAmount GetFee(size_t nBytes) const;
+    /**
+     * Return the relay fee in koinus for the given size in bytes.
+     */
+    CAmount GetRelayFee(size_t nBytes) const;
     /**
      * Return the fee in satoshis for a size of 1000 bytes
      */

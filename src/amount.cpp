@@ -30,6 +30,16 @@ CAmount CFeeRate::GetFee(size_t nBytes_) const
         nSize = nSize + 1000 - (nSize % 1000);
     }
 
+    return GetRelayFee(nSize);
+}
+
+// Dogecoin: Specifically for 1.14.4 we lower accepted relay fees by removing rounding,
+// in 1.14.5 we should unify the GetFee() functions again.
+CAmount CFeeRate::GetRelayFee(size_t nBytes_) const
+{
+    assert(nBytes_ <= uint64_t(std::numeric_limits<int64_t>::max()));
+    int64_t nSize = int64_t(nBytes_);
+
     CAmount nFee = nSatoshisPerK * nSize / 1000;
 
     if (nFee == 0 && nSize != 0) {
