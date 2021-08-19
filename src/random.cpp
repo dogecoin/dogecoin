@@ -94,6 +94,19 @@ static void RandAddSeedPerfmon()
 /** Get 32 bytes of system entropy. */
 static void GetOSRand(unsigned char *ent32)
 {
+    //  This function needs cryptographically secure random number generator (CSRNG) 
+    //  as the private keys for wallets are created from these random bits.
+
+    // /dev/urandom provides computationally secure entropy, but not cryptographic
+    // secure entropy while /dev/random provides cryptographically secure random bits..
+
+    //See: https://github.com/torvalds/linux/blob/a4a78bc8ead44c3cdb470c6e1f37afcabdddfc14/drivers/char/random.c#L110
+
+    //First we attempt to read from the cryptographically secure /dev/random
+    //in a non-blocking fashion. This will return to us the number of bytes
+    //we request, or however many bytes are available. In the latter case,
+    //we default back to /dev/urandom.
+
 #ifdef WIN32
     HCRYPTPROV hProvider;
     int ret = CryptAcquireContextW(&hProvider, NULL, NULL, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT);
@@ -106,7 +119,29 @@ static void GetOSRand(unsigned char *ent32)
     }
     CryptReleaseContext(hProvider, 0);
 #else
-    int f = open("/dev/urandom", O_RDONLY);
+    int f = open("/dev/random", O_RDONLY | O_NONBLOCK);
+
+    // if /dev/random has bytes, try to get 32 bytes
+    if (f != -1) {
+        int have = 0;
+        do {
+            ssize_t n = read(f, ent32 + have, 32 - have);
+            if (n <= 0 || n + have > 32) {
+                have += n;
+                break;
+            }
+            have += n;
+        } while (have < 32);
+        close(f);
+
+        // if we have 32 bytes and read return no errors
+        // we are done.
+        if( (have == 32) && ( n >= 0) ) return;
+    }
+
+    // if we get here, /dev/random failed to have enough bytes.
+    // default to /dev/urandom.
+    f = open("/dev/urandom", O_RDONLY);
     if (f == -1) {
         RandFailure();
     }
@@ -119,6 +154,7 @@ static void GetOSRand(unsigned char *ent32)
         have += n;
     } while (have < 32);
     close(f);
+}
 #endif
 }
 
