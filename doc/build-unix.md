@@ -1,9 +1,12 @@
 # Unix Build of Dogecoin Core
 
+This installation guide serves as a basis for all UNIX and UNIX-like operating
+systems. All examples in this guide are illustrated using an Ubuntu/Debian OS,
+and guides for different OSs can be found in separate documentation, as listed
+below.
+
 1. [Install dependencies](#install-dependencies)
-    * [Ubuntu & Debian](#ubuntu--debian)
-    * [Fedora](#Fedora)
-    * [FreeBSD](#FreeBSD)
+    * [Ubuntu & Debian example](#ubuntu--debian-example)
 2. [Build steps](#build-steps)
 3. [Build configuration](#build-configuration)
     * [Enable Qt GUI](#enable-qt-gui)
@@ -13,6 +16,12 @@
     * [Security](#security)
     * [Memory requirements](#memory-requirements)
 4. [ARM Cross-compilation](#arm-cross-compilation)
+5. OS-specific documentation:
+    * [Archlinux](build-archlinux.md)
+    * [Fedora](build-fedora.md)
+    * [FreeBSD](build-freebsd.md)
+    * [NixOs](build-nixos.md)
+    * [OpenBSD](build-openbsd.md)
 
 ## Install dependencies
 
@@ -43,7 +52,7 @@ Wallet is optional to run a node, see [Wallet](#wallet) section to enable them.
 For the versions used in the release, see [release-process.md](release-process.md) under *Fetch and build inputs*.
 
 
-### Ubuntu & Debian
+### Ubuntu & Debian example
 
 **Required dependencies** :
 ```bash
