@@ -1,5 +1,8 @@
 Arch Linux build guide
 -----------------------------------
+
+***NOTE: This documentation is outdated and needs to be updated***
+
 This example lists the steps necessary to setup and build a command line only, non-wallet distribution of the latest changes on Arch Linux:
 
     pacman -S git base-devel boost libevent python

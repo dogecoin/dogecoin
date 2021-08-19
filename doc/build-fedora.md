@@ -1,6 +1,8 @@
 Fedora build dependencies
 --------------------------
 
+***NOTE: This documentation is outdated and needs to be updated***
+
 Build requirements:
 
     sudo dnf install gcc-c++ libtool make autoconf automake openssl-devel libevent-devel boost-devel libdb4-devel libdb4-cxx-devel

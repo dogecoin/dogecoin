@@ -1,5 +1,8 @@
 OpenBSD build guide
 ======================
+
+***NOTE: This documentation is outdated and needs to be updated***
+
 (updated for OpenBSD 6.0)
 
 This guide describes how to build dogecoind and command-line utilities on OpenBSD.
