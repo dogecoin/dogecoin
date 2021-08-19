@@ -124,8 +124,9 @@ static void GetOSRand(unsigned char *ent32)
     // if /dev/random has bytes, try to get 32 bytes
     if (f != -1) {
         int have = 0;
+        ssize_t n = 0;
         do {
-            ssize_t n = read(f, ent32 + have, 32 - have);
+            n = read(f, ent32 + have, 32 - have);
             if (n <= 0 || n + have > 32) {
                 have += n;
                 break;
@@ -154,7 +155,6 @@ static void GetOSRand(unsigned char *ent32)
         have += n;
     } while (have < 32);
     close(f);
-}
 #endif
 }
 
