@@ -123,24 +123,6 @@ libqrencode (optional) can be installed with:
 Once these are installed, they will be found by configure and a dogecoin-qt executable will be
 built by default.
 
-Dependency Build Instructions: Fedora
--------------------------------------
-Build requirements:
-
-    sudo dnf install gcc-c++ libtool make autoconf automake openssl-devel libevent-devel boost-devel libdb4-devel libdb4-cxx-devel
-
-Optional:
-
-    sudo dnf install miniupnpc-devel
-
-To build with Qt 5 (recommended) you need the following:
-
-    sudo dnf install qt5-qttools-devel qt5-qtbase-devel protobuf-devel
-
-libqrencode (optional) can be installed with:
-
-    sudo dnf install qrencode-devel
-
 Notes
 -----
 The release is built with GCC and then "strip dogecoind" to strip the debug
@@ -267,47 +249,6 @@ A list of additional configure flags can be displayed with:
     ./configure --help
 
 
-Setup and Build Example: Arch Linux
------------------------------------
-This example lists the steps necessary to setup and build a command line only, non-wallet distribution of the latest changes on Arch Linux:
-
-    pacman -S git base-devel boost libevent python
-    git clone https://github.com/bitcoin/bitcoin.git
-    cd bitcoin/
-    ./autogen.sh
-    ./configure --disable-wallet --without-gui --without-miniupnpc
-    make check
-
-Note:
-Enabling wallet support requires either compiling against a Berkeley DB newer than 4.8 (package `db`) using `--with-incompatible-bdb`,
-or building and depending on a local version of Berkeley DB 4.8. The readily available Arch Linux packages are currently built using
-`--with-incompatible-bdb` according to the [PKGBUILD](https://projects.archlinux.org/svntogit/community.git/tree/bitcoin/trunk/PKGBUILD).
-As mentioned above, when maintaining portability of the wallet between the standard Dogecoin Core distributions and independently built
-node software is desired, Berkeley DB 4.8 must be used.
-
-Setup and Build Example: NixOS
-------------------------------
-This example lists the steps necessary to setup and build a full GUI distribution of the latest changes on NixOS.
-
-Clone and enter the repo:
-
-    $ git clone https://github.com/dogecoin/dogecoin
-    $ cd dogecoin
-
-Enter the `nix-shell` environment with all the Dogecoin dependencies present:
-
-    $ nix-shell ./contrib/nixos/shell.nix
-
-Run the build steps with flags necessary for NixOS:
-
-    $ ./autogen.sh
-    $ ./configure --with-incompatible-bdb --with-boost-libdir="$(nix eval --raw nixpkgs.boost.out)/lib" --with-gui
-    $ make
-
-Start the GUI!
-
-    $ ./src/qt/dogecoin-qt
-
 ARM Cross-compilation
 -------------------
 These steps can be performed on, for example, an Ubuntu VM. The depends system
@@ -329,37 +270,3 @@ To build executables for ARM:
 
 
 For further documentation on the depends system see [README.md](../depends/README.md) in the depends directory.
-
-Building on FreeBSD
---------------------
-
-(Updated as of FreeBSD 11.0)
-
-Clang is installed by default as `cc` compiler, this makes it easier to get
-started than on [OpenBSD](build-openbsd.md). Installing dependencies:
-
-    pkg install autoconf automake libtool pkgconf
-    pkg install boost-libs openssl libevent
-    pkg install gmake
-
-You need to use GNU make (`gmake`) instead of `make`.
-(`libressl` instead of `openssl` will also work)
-
-For the wallet (optional):
-
-    pkg install db5
-
-This will give a warning "configure: WARNING: Found Berkeley DB other
-than 4.8; wallets opened by this build will not be portable!", but as FreeBSD never
-had a binary release, this may not matter. If backwards compatibility
-with 4.8-built Dogecoin Core is needed follow the steps under "Berkeley DB" above.
-
-Then build using:
-
-    ./autogen.sh
-    ./configure --with-incompatible-bdb BDB_CFLAGS="-I/usr/local/include/db5" BDB_LIBS="-L/usr/local/lib -ldb_cxx-5"
-    gmake
-
-*Note on debugging*: The version of `gdb` installed by default is [ancient and considered harmful](https://wiki.freebsd.org/GdbRetirement).
-It is not suitable for debugging a multi-threaded C++ program, not even for getting backtraces. Please install the package `gdb` and
-use the versioned gdb command e.g. `gdb7111`.
