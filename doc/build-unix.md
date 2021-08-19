@@ -6,6 +6,7 @@ and guides for different OSs can be found in separate documentation, as listed
 below.
 
 1. [Install dependencies](#install-dependencies)
+    * [Using packaged dependencies](#using-packaged-dependencies)
     * [Ubuntu & Debian example](#ubuntu--debian-example)
 2. [Build steps](#build-steps)
 3. [Build configuration](#build-configuration)
@@ -51,6 +52,13 @@ Wallet is optional to run a node, see [Wallet](#wallet) section to enable them.
 
 For the versions used in the release, see [release-process.md](release-process.md) under *Fetch and build inputs*.
 
+### Using packaged dependencies
+
+Dogecoin Core's released binaries are built using the "depends system", which
+contains exact, tested versions of all dependencies. To create binaries that are
+using only fully tested dependencies, see the documentation in the
+[depends directory](../depends/README.md) and the
+[Release process documentation](release-process.md).
 
 ### Ubuntu & Debian example
 
