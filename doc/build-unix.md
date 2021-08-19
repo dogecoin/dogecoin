@@ -84,7 +84,7 @@ sudo dnf install miniupnpc-devel
 
 **Required dependencies :**
 ```bash
-sudo dnf install gcc-c++ libtool make autoconf automake openssl-devel libevent-devel boost-devel libdb4-devel libdb4-cxx-devel
+pkg install autoconf automake libtool pkgconf boost-libs openssl libevent gmake
 ```
 **Optional dependencies :**
 ```bash
