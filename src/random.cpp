@@ -91,36 +91,104 @@ static void RandAddSeedPerfmon()
 #endif
 }
 
-/** Get 32 bytes of system entropy. */
-static void GetOSRand(unsigned char *ent32)
+#ifndef WIN32
+/** Fallback: get 32 bytes of system entropy from /dev/urandom. The most
+ * compatible way to get cryptographic randomness on UNIX-ish platforms.
+ */
+static void GetDevURandom(unsigned char *ent32)
 {
-#ifdef WIN32
-    HCRYPTPROV hProvider;
-    int ret = CryptAcquireContextW(&hProvider, NULL, NULL, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT);
-    if (!ret) {
-        RandFailure();
-    }
-    ret = CryptGenRandom(hProvider, 32, ent32);
-    if (!ret) {
-        RandFailure();
-    }
-    CryptReleaseContext(hProvider, 0);
-#else
     int f = open("/dev/urandom", O_RDONLY);
     if (f == -1) {
         RandFailure();
-    }
+    }   
     int have = 0;
     do {
-        ssize_t n = read(f, ent32 + have, 32 - have);
-        if (n <= 0 || n + have > 32) {
+        ssize_t n = read(f, ent32 + have, NUM_OS_RANDOM_BYTES - have);
+        if (n <= 0 || n + have > NUM_OS_RANDOM_BYTES) {
+            close(f);
             RandFailure();
         }
         have += n;
-    } while (have < 32);
+    } while (have < NUM_OS_RANDOM_BYTES);
     close(f);
+}
+#endif
+
+/** Get 32 bytes of system entropy. */
+void GetOSRand(unsigned char *ent32)
+{
+#if defined(WIN32)
+    HCRYPTPROV hProvider;
+    int ret = CryptAcquireContextW(&hProvider, nullptr, nullptr, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT);
+    if (!ret) {
+        RandFailure();
+    }   
+    ret = CryptGenRandom(hProvider, NUM_OS_RANDOM_BYTES, ent32);
+    if (!ret) {
+        RandFailure();
+    }   
+    CryptReleaseContext(hProvider, 0); 
+#elif defined(HAVE_SYS_GETRANDOM)
+    /* Linux. From the getrandom(2) man page:
+     * "If the urandom source has been initialized, reads of up to 256 bytes
+     * will always return as many bytes as requested and will not be
+     * interrupted by signals."
+     */
+    int rv = syscall(SYS_getrandom, ent32, NUM_OS_RANDOM_BYTES, 0); 
+    if (rv != NUM_OS_RANDOM_BYTES) {
+        if (rv < 0 && errno == ENOSYS) {
+            /* Fallback for kernel <3.17: the return value will be -1 and errno
+             * ENOSYS if the syscall is not available, in that case fall back
+             * to /dev/urandom.
+             */
+            GetDevURandom(ent32);
+        } else {
+            RandFailure();
+        }   
+    }   
+#elif defined(HAVE_GETENTROPY) && defined(__OpenBSD__)
+    /* On OpenBSD this can return up to 256 bytes of entropy, will return an
+     * error if more are requested.
+     * The call cannot return less than the requested number of bytes.
+       getentropy is explicitly limited to openbsd here, as a similar (but not
+       the same) function may exist on other platforms via glibc.
+     */
+    if (getentropy(ent32, NUM_OS_RANDOM_BYTES) != 0) {
+        RandFailure();
+    }   
+    // Silence a compiler warning about unused function.
+    (void)GetDevURandom;
+#elif defined(HAVE_GETENTROPY_RAND) && defined(MAC_OSX)
+    /* getentropy() is available on macOS 10.12 and later.
+     */
+    if (getentropy(ent32, NUM_OS_RANDOM_BYTES) != 0) {
+        RandFailure();
+    }   
+    // Silence a compiler warning about unused function.
+    (void)GetDevURandom;
+#elif defined(HAVE_SYSCTL_ARND)
+    /* FreeBSD, NetBSD and similar. It is possible for the call to return less
+     * bytes than requested, so need to read in a loop.
+     */
+    static int name[2] = {CTL_KERN, KERN_ARND};
+    int have = 0;
+    do {
+        size_t len = NUM_OS_RANDOM_BYTES - have;
+        if (sysctl(name, ARRAYLEN(name), ent32 + have, &len, nullptr, 0) != 0) {
+            RandFailure();
+        }
+        have += len;
+    } while (have < NUM_OS_RANDOM_BYTES);
+    // Silence a compiler warning about unused function.
+    (void)GetDevURandom;
+#else
+    /* Fall back to /dev/urandom if there is no specific method implemented to
+     * get system entropy for this OS.
+     */
+    GetDevURandom(ent32);
 #endif
 }
+
 
 void GetRandBytes(unsigned char* buf, int num)
 {
