@@ -73,9 +73,25 @@ their wallets with the `-paytxfee=<amount per kb>` option.
 Synchronization Improvements
 ----------------------------
 
-* Disconnect peers which do not respond to requests for headers in a timely manner, to optimise synchronization rate.
-* Dogecoin Core will no longer request further headers from a peer it is already downloading headers from. This stops Dogecoin Core from requesting the same headers more than once, and reduces network bandwidth wasted.
-* Proactively reject block headers which would build on an invalid chain.
+This release removes a bug in the network layer where a 1.14 node would open
+many parallel requests for headers to its peers, increasing the total data
+transferred during initial block download up to 50 times the required data, per
+peer, unnecessarily. As a result, synchronization has time has been reduced by
+around 2.5 times.
+
+Additionally, when a node is in initial synchronization and a peer takes too
+long to respond to a new header request, it is now aggressively disconnected,
+to free connection slots for faster peers and not add more stress to already
+overloaded peers.
+
+Security enhancements
+---------------------
+
+* Proactively disconnect peers sending block headers which would build on an
+  invalid chain.
+* Improve handling and logging of invalid blocks and their descendants
+* Fix a bug that was preventing nodes to load a fixed peer list in case DNS
+  services are unreachable.
 
 GUI Improvements
 ----------------
@@ -101,7 +117,6 @@ Minor Changes
 * Modify Scrypt code so it's compatible with Alpine Linux's musl library.
 * Update libevent to 2.1.11
 * Update ZMQ to 4.3.4
-* Correctly set fixed seeds on startup.
 * Add build instructions for NixOS.
 * Fix a rare crash bug on shutdown due to ActivateBestChain() being called when there is no best chain.
 * Fix port numbers in `contrib/seeds/generate-seeds.py`.
