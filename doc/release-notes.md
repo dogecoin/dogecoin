@@ -26,11 +26,6 @@ Compatibility
 
 Dogecoin Core is extensively tested on Ubuntu Server LTS, Mac OS X and Windows 10.
 
-Microsoft ended support for Windows XP on [April 8th, 2014](https://www.microsoft.com/en-us/WindowsForBusiness/end-of-xp-support),
-No attempt is made to prevent installing or running the software on Windows XP, you
-can still do so at your own risk but be aware that there are known instabilities and issues.
-Please do not report issues about Windows XP to the issue tracker.
-
 Dogecoin Core should also work on most other Unix-like systems but is not
 frequently tested on them.
 
