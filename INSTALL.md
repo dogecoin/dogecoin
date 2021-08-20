@@ -1,6 +1,17 @@
 # Installing Dogecoin Core
 
-### Pre-compiled binaries
+1. [Pre-compiled binaries](#pre-compiled-binaries)
+2. [Compile it yourself](#compile-it-yourself)
+    * [Using packaged dependencies](#using-packaged-dependencies)
+    * [Using system-provided libraries](#using-system-provided-libraries)
+    * [Testing](#testing)
+3. [Tips and Tricks](#tips-and-tricks)
+    * [Enable debug](#enable-debug)
+    * [debug.log](#debuglog)
+    * [Testnet and regtest modes](#testnet-and-regtest-modes)
+    * [DEBUG_LOCKORDER](#DEBUG_LOCKORDER)
+
+## Pre-compiled binaries
 
 The easiest way to install the latest version of the Dogecoin Core software is
 by to download the latest precompiled binaries for your platform from the
@@ -17,7 +28,9 @@ ensure honest and malware-free releases. See
 [the gitian building documentation](doc/gitian-building.md) for more information
 regarding that process.
 
-### Compiling using packaged dependencies
+## Compile it yourself
+
+### Using packaged dependencies
 
 It is possible to build your own copy of Dogecoin Core with the exact, tested,
 dependencies, as used for the binary releases, by using the
@@ -25,7 +38,7 @@ dependencies, as used for the binary releases, by using the
 [depends README](depends/README.md) for instructions to build Dogecoin using
 these dependencies.
 
-### Compiling using system-provided libraries
+### Using system-provided libraries
 
   The following are developer notes on how to build Dogecoin on your native
   platform, using the dependencies as provided by your system's package manager.
@@ -45,14 +58,14 @@ There are also [regression and integration tests](/qa) written in Python, that
 are run automatically on the build server. These tests can be run (if the
 [test dependencies](/qa) are installed) with: `qa/pull-tester/rpc-tests.py`
 
-### Tips and tricks
+## Tips and tricks
 
-**compiling for debugging**
+#### Enable debug
 
 Run `configure` with the `--enable-debug` option, then `make`. Or run `configure` with
 `CXXFLAGS="-g -ggdb -O0"` or whatever debug flags you need.
 
-**debug.log**
+#### debug.log
 
 If the code is behaving strangely, take a look in the debug.log file in the data directory;
 error and debugging messages are written there.
@@ -63,7 +76,7 @@ on all categories (and give you a very large debug.log file).
 The Qt code routes `qDebug()` output to debug.log under category "qt": run with `-debug=qt`
 to see it.
 
-**testnet and regtest modes**
+#### Testnet and regtest modes
 
 Run with the `-testnet` option to run with "play dogecoins" on the test network, if you
 are testing multi-machine code that needs to operate across the internet.
@@ -72,7 +85,7 @@ If you are testing something that can run on one machine, run with the `-regtest
 In regression test mode, blocks can be created on-demand; see qa/rpc-tests/ for tests
 that run in `-regtest` mode.
 
-**DEBUG_LOCKORDER**
+#### DEBUG_LOCKORDER
 
 Dogecoin Core is a multithreaded application, and deadlocks or other multithreading bugs
 can be very difficult to track down. Compiling with `-DDEBUG_LOCKORDER` (`configure
