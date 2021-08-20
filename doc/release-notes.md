@@ -15,12 +15,6 @@ To receive security and update notifications, please watch reddit or Twitter:
   * @Dogecoin on Twitter for high priority announcements
   * @dogecoin\_devs on Twitter for updates on development work
 
-The developers also maintain personal Twitter accounts:
-
-  * @langer\_hans
-  * @JRossNicoll
-  * @michilumin
-
 Compatibility
 ==============
 
