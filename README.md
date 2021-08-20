@@ -19,6 +19,24 @@ Dogecoin currently employs a simplified variant of scrypt.
 
 **Website:** [dogecoin.com](https://dogecoin.com)
 
+## Installation 💻
+
+Please see [the installation guide](INSTALL.md) for information about installing
+Dogecoin Core.
+
+### Such ports
+
+Dogecoin Core by default uses port `22556` for peer-to-peer communication that
+is needed to synchronize the "mainnet" blockchain and stay informed of new
+transactions and blocks. Additionally, a JSONRPC port can be opened, which
+defaults to port `22555` for mainnet nodes. It is strongly recommended to not
+expose RPC ports to the public internet.
+
+| Function | mainnet | testnet | regtest |
+| :------- | ------: | ------: | ------: |
+| P2P      |   22556 |   44556 |   18444 |
+| RPC      |   22555 |   44555 |   18332 |
+
 ## Ongoing development - Moon plan 🌒
 
 Dogecoin Core is an open source and community driven software. The development
@@ -48,24 +66,6 @@ There are 3 types of branches in this repository:
 *releases will always have a development branch and pull requests should be*
 *submitted against those. Maintenance branches are there for **bug fixes only,***
 *please submit new features against the development branch with the highest version.*
-
-## Installation 💻
-
-Please see [the installation guide](INSTALL.md) for information about installing
-Dogecoin Core.
-
-### Such ports
-
-Dogecoin Core by default uses port `22556` for peer-to-peer communication that
-is needed to synchronize the "mainnet" blockchain and stay informed of new
-transactions and blocks. Additionally, a JSONRPC port can be opened, which
-defaults to port `22555` for mainnet nodes. It is strongly recommended to not
-expose RPC ports to the public internet.
-
-| Function | mainnet | testnet | regtest |
-| :------- | ------: | ------: | ------: |
-| P2P      |   22556 |   44556 |   18444 |
-| RPC      |   22555 |   44555 |   18332 |
 
 ## Contributing 🤝
 
