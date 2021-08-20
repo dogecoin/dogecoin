@@ -96,11 +96,15 @@ Security enhancements
 GUI Improvements
 ----------------
 
-* Add menu option to import a private key, "Import Private Key" from the "File" menu.
+* Add menu option to import a private key, "Import Private Key" from the "File"
+  menu.
 * Improve displayed result when commands in the debug console return null.
-* Fix text overflow in the paper wallet generator.
-* Add column to peers table showing bytes sent/received, accessible via "Debug Window" from the "Help" menu.
-* Add GUI for adding peers manually, accessible from the peers table of the Debug Window.
+* Fix text overflow on printed keys and address fields in the paper wallet
+  generator.
+* Add column to peers table showing bytes sent/received, accessible via
+  "Debug Window" from the "Help" menu.
+* Add GUI for adding peers manually, accessible from the peers table of the
+  Debug Window.
 
 RPC Improvements
 ----------------
