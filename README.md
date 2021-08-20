@@ -13,9 +13,7 @@ Dogecoin Core [DOGE, Ð]
 
 Select language: EN | [CN](./README_zh_CN.md)
 
-Dogecoin is a cryptocurrency like Bitcoin, although it does not use SHA256 as
-its proof of work (POW). Taking development cues from Tenebrix and Litecoin,
-Dogecoin currently employs a simplified variant of scrypt.
+Dogecoin is a cryptocurrency based on a Shiba Inu meme. Descendant of Bitcoin and Litecoin, it's a proof of work crypto who use a scrypt algorithm. Dogecoin Core software allows shibes to run a node of the network.
 
 **Website:** [dogecoin.com](https://dogecoin.com)
 
