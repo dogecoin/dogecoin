@@ -14,7 +14,7 @@ Dogecoin uses a simplified variant of the scrypt key derivation function as its
 proof of work with a target time of one minute per block and difficulty
 readjustment after every block. The block rewards are fixed and halve every
 100,000 blocks. Starting with the 600,000th block, a permanent reward of
-10,000 Dogecoin per block will be issued.  
+10,000 Dogecoin per block will be issued.
 
 Originally, a different payout scheme was envisioned with block rewards being
 determined by taking the maximum reward as per the block schedule and applying
@@ -29,18 +29,26 @@ lessen the impact of sudden increases and decreases of network hashing rate.
 
 **The current block reward schedule:**
 
-1–99,999: 0–1,000,000 Dogecoin
+| Block                | Reward in Dogecoin |
+| :------------------- | -----------------: |
+| 1–99,999             |        0–1,000,000 |
+| 100,000–144,999      |          0–500,000 |
+| 145,000–199,999      |            250,000 |
+| 200,000–299,999      |            125,000 |
+| 300,000–399,999      |             62,500 |
+| 400,000–499,999      |             31,250 |
+| 500,000–599,999      |             15,625 |
+| 600,000+             |             10,000 |
 
-100,000–144,999: 0–500,000 Dogecoin
+**The original block reward schedule, with one-minute block targets and
+four-hour difficulty readjustment:**
 
-145,000–199,999: 250,000 Dogecoin
-
-200,000–299,999: 125,000 Dogecoin
-
-300,000–399,999: 62,500 Dogecoin
-
-400,000–499,999: 31,250 Dogecoin
-
-500,000–599,999: 15,625 Dogecoin
-
-600,000+: 10,000 Dogecoin
+| Block                | Reward in Dogecoin |
+| :------------------- | -----------------: |
+| 1–99,999             |        0–1,000,000 |
+| 100,000–199,999      |          0–500,000 |
+| 200,000–299,999      |          0–250,000 |
+| 300,000–399,999      |          0–125,000 |
+| 400,000–499,999      |           0–62,500 |
+| 500,000–599,999      |           0–31,250 |
+| 600,000+             |             10,000 |

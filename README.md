@@ -7,55 +7,97 @@ Dogecoin Core [DOGE, Ð]
 <div align="center">
 
 [![DogecoinBadge](https://img.shields.io/badge/Doge-Coin-yellow.svg)](https://dogecoin.com)
-[![Build Status](https://travis-ci.com/dogecoin/dogecoin.svg?branch=master)](https://travis-ci.com/dogecoin/dogecoin)
 [![MuchWow](https://img.shields.io/badge/Much-Wow-yellow.svg)](https://dogecoin.com)
 
 </div>
 
-Select Doc Language: ENG | [CN_simplified](./README_zh_CN.md) | [more...](./README.md)
+Select language: EN | [CN](./README_zh_CN.md)
 
 Dogecoin is a cryptocurrency like Bitcoin, although it does not use SHA256 as
 its proof of work (POW). Taking development cues from Tenebrix and Litecoin,
 Dogecoin currently employs a simplified variant of scrypt.
-- **Website:** [dogecoin.com](https://dogecoin.com)
+
+**Website:** [dogecoin.com](https://dogecoin.com)
 
 ## Ongoing development - Moon plan 🌒
 
-Dogecoin Core is an open source and community driven software.  
-Development process is done publicly. Anyone can see, discuss and work on them.  
+Dogecoin Core is an open source and community driven software. The development
+process is open and publicly visible; anyone can see, discuss and work on the
+software.
 
-Main tools used for the core development :
+Main development resources:
 
-* [Github Projects](https://github.com/dogecoin/dogecoin/projects) to see all developments and [Github Discussion](https://github.com/dogecoin/dogecoin/discussions) to discuss them
-* [Dogecoin Improvement Proposals (DIPs)](https://github.com/dogecoin/dips) for major improvements
+* [Github Projects](https://github.com/dogecoin/dogecoin/projects) is used to
+  follow planned and in-progress work for upcoming releases.
+* [Github Discussion](https://github.com/dogecoin/dogecoin/discussions) is used
+  to discuss features, planned and unplanned, related to both the development of
+  the Dogecoin Core software, the underlying protocols and the DOGE asset.  
 * [Dogecoindev subreddit](https://www.reddit.com/r/dogecoindev/)
 
-## Installation – omg developers 👨‍💻
+### Version strategy
+Version numbers are following ```major.minor.patch``` semantics.
 
-To get all information to setup Dogecoin Core locally, see [INSTALL.md](INSTALL.md).
+### Branches
+There are 3 types of branches in this repository:
 
-## Contribute 🤝
+- **master:** Stable, contains the latest version of the latest *major.minor* release.
+- **maintenance:** Stable, contains the latest version of previous releases, which are still under active maintenance. Format: ```<version>-maint```
+- **development:** Unstable, contains new code for planned releases. Format: ```<version>-dev```
 
-Look at [CONTRIBUTING.md](CONTRIBUTING.md) to see how you can participate !
+*Master and maintenance branches are exclusively mutable by release. Planned*
+*releases will always have a development branch and pull requests should be*
+*submitted against those. Maintenance branches are there for **bug fixes only,***
+*please submit new features against the development branch with the highest version.*
 
-Do not limitate yourself to guidelines, feel free to contribute in your own way 🚀.
+## Installation 💻
 
-## Community 🚀🍾
+Please see [the installation guide](INSTALL.md) for information about installing
+Dogecoin Core.
 
-You can join the community on different social media !
-To see what's going on, meet people & discuss, find the lastest meme, learn about dogecoin,
-give or ask different type of help, to share your project... some places to visit !
+### Such ports
 
-* [Discord](https://discord.gg/dogecoin)
+Dogecoin Core by default uses port `22556` for peer-to-peer communication that
+is needed to synchronize the "mainnet" blockchain and stay informed of new
+transactions and blocks. Additionally, a JSONRPC port can be opened, which
+defaults to port `22555` for mainnet nodes. It is strongly recommended to not
+expose RPC ports to the public internet.
+
+| Function | mainnet | testnet | regtest |
+| :------- | ------: | ------: | ------: |
+| P2P      |   22556 |   44556 |   18444 |
+| RPC      |   22555 |   44555 |   18332 |
+
+## Contributing 🤝
+
+If you find a bug or experience issues with this software, please report it
+using the [issue system](https://github.com/dogecoin/dogecoin/issues/new?assignees=&labels=bug&template=bug_report.md&title=%5Bbug%5D+).
+
+Please see [the contribution guide](CONTRIBUTING.md) to see how you can
+participate in the development of Dogecoin Core. There are often
+[topics seeking help](https://github.com/dogecoin/dogecoin/labels/help%20wanted)
+where your contributions will have high impact and get very appreciation. wow.
+
+## Communities 🚀🍾
+
+You can join the communities on different social media.
+To see what's going on, meet people & discuss, find the lastest meme, learn
+about Dogecoin, give or ask for help, to share your project.
+
+Here are some places to visit:
+
 * [Dogecoin subreddit](https://www.reddit.com/r/dogecoin/)
 * [Dogeducation subreddit](https://www.reddit.com/r/dogeducation/)
-* [Dogecoin Devs Twitter](https://twitter.com/dogecoin_devs)
+* [Discord](https://discord.gg/dogecoin)
+* [Dogecoin Twitter](https://twitter.com/dogecoin)
 
 ## Very Much Frequently Asked Questions ❓
 
-You have a question regarding dogecoin ? An answer is perhaps already in the [FAQ](doc/FAQ.md) !
+Do you have a question regarding Dogecoin? An answer is perhaps already in the
+[FAQ](doc/FAQ.md) or the
+[Q&A section](https://github.com/dogecoin/dogecoin/discussions/categories/q-a)
+of the discussion board!
 
-## License – Much license ⚖️
+## License - Much license ⚖️
 Dogecoin Core is released under the terms of the MIT license. See
 [COPYING](COPYING) for more information or see
 [opensource.org](https://opensource.org/licenses/MIT)
