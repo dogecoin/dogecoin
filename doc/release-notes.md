@@ -32,17 +32,43 @@ frequently tested on them.
 Notable changes
 ===============
 
-Enable Reduced Fees
--------------------
+Enabling Future Fee Reductions
+-------------------------------
 
-1.14.4 is more permissive about fees on transactions, as part of a two-stage update to the recommended fees.
-The main highlights for this are:
+This release preparing the network for a reduction of the recommended fees by
+reducing the default fee requirement 1000x for transaction relay and 100x for
+mining. At the same time it increases freedom for miner, wallet and node
+operators to agree on fees regardless of defaults coded into the Dogecoin Core
+software by solidifying fine-grained controls for operators to deviate from
+built-in defaults.
 
-* Transaction sizes are no longer rounded up to the nearest kilobyte when deciding if a transaction can be accepted from another node.
-* The default fee used when deciding if a transaction should be accepted from a node is 0.001 DOGE (reduced from 1 DOGE).
-* Dust limit is now configurable via the `-dustlimit` option.
+This realizes the first part of a two-stage update to lower the fee
+recommendation.
 
-These will not be immediately user visible, as the recommended fees do not change, in order to retain backwards compatibilty while the network upgrades. We will release 1.14.5 to reduce the recommended fees, shortly, or you can run Dogecoin Core with `-paytxfee=0.001` to reduce your default fees manually.
+The main highlights for these enhancements are:
+
+* Transaction sizes are no longer rounded up to the nearest kilobyte when
+  deciding if a transaction can be accepted from another node and in applying
+  fee-filter requests from peers, when relaying transactions.
+* The default setting shipped with dogecoin core for relay fee has been reduced
+  to 0.001 DOGE (was: 1 DOGE). This can be changed by operators using the
+  `-mintxrelayfee=<amount>` option.
+* Spam management has been delegated to miners, where currently a default fee
+  of 0.01 DOGE has been set as a recommended default, to prevent spam on the
+  blockchain. Miners can change this setting to their liking using the
+  `-blockmintxfee` option.
+* The relay dust limit has been reduced 100x to 0.01 DOGE and is now
+  configurable via the `-dustlimit` option.
+
+For this release, the recommended fees and dust limits, as implemented in the
+wallet, remain at 1 DOGE per kilobyte, inclusive of the rounding up to the
+nearest kilobyte, as miners and the relay network will upgrade gradually,
+requiring time for transactions with lower fees to be able to be relayed and
+mined. Not doing this would result in all transactions being rejected by old
+nodes. A subsequent release will finalize the second stage and lower the
+recommended fees implemented in the wallet by default. Wallet operators can
+however, at their own judgement and convenience, change the fees paid from
+their wallets with the `-paytxfee=<amount per kb>` option.
 
 Synchronization Improvements
 ----------------------------
