@@ -128,6 +128,7 @@ Minor Changes
 Credits
 =======
 
+* AbcSxyZ
 * Ahmed Castro
 * Alan Rudolf
 * cg
