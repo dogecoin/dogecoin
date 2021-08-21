@@ -3,10 +3,13 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "crypto/sha512.h"
-
+#include <iostream>
 #include "crypto/common.h"
-
+#include <iostream>
 #include <string.h>
+#include <iomanip>
+#include <openssl/evp.h>
+
 
 // Internal implementation code.
 namespace
@@ -167,17 +170,21 @@ CSHA512& CSHA512::Write(const unsigned char* data, size_t len)
         data += 128 - bufsize;
         sha512::Transform(s, buf);
         bufsize = 0;
+        //std::cout << "SHA512::WRITE Path 1: Executed" << std::endl;
     }
     while (end >= data + 128) {
         // Process full chunks directly from the source.
         sha512::Transform(s, data);
         data += 128;
         bytes += 128;
+        //std::cout << "SHA512::WRITE Path 2: Executed" << std::endl;
     }
     if (end > data) {
         // Fill the buffer with what remains.
         memcpy(buf + bufsize, data, end - data);
         bytes += end - data;
+        //std::cout << "SHA512::WRITE Path 3: Executed";
+        //std::cout << "| SHA512:buf = " << std::dec << data[0] << std::hex << data[ 0 ] << std::endl;
     }
     return *this;
 }
@@ -205,3 +212,43 @@ CSHA512& CSHA512::Reset()
     sha512::Initialize(s);
     return *this;
 }
+
+int main(){
+
+
+    //Prepare test data
+    unsigned char buf[64] = {0};
+    buf[0] = 0xff;
+    buf[1] = 0xff;
+    buf[2] = 0xff;
+    uint64_t      *prt;
+    prt = (uint64_t*) buf;
+
+    //Initialize digest and process buffer
+    CSHA512 hasher;
+    hasher.Write(buf, 3);   //Tried both 3 and 64
+
+    //Finalize digest
+    hasher.Finalize(buf);
+
+    //Print final digest 
+    std::cout << "Dogecoin's Bitcoin Sha512 Implementation (Input = 0xffffff )" << std::endl; 
+    std::cout << "Digest is: "; 
+    for( int kk=0; kk < 8; kk++){
+        std::cout << std::hex
+                  << std::noshowbase
+                  << std::setw(16)
+                  << std::setfill('0') 
+                  << prt[ kk ];
+    }
+
+    std::cout << std::endl;
+
+
+    return 0;
+}
+
+
+
+
+
