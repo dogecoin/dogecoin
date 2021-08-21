@@ -321,6 +321,12 @@ if [[ $build == true ]]; then
 
   pushd ./gitian-builder || exit 1
 
+  # CLEAN dogecoin git directory because of old caching
+  if [[ -d inputs/dogecoin/ ]]; then
+    echo "Cleaning Dogecoin directory..."
+    rm -rf inputs/dogecoin/
+  fi
+
   for descriptor in "${DESCRIPTORS[@]}"; do
     echo ""
     echo "Compiling ${VERSION} ${descriptor}"
