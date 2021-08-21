@@ -1,5 +1,5 @@
 name: dogecoin-core # you probably want to 'snapcraft register <name>'
-version: '1.14.4'
+version: '1.14.5'
 summary: Reference client of Dogecoin, a peer-to-peer digital currency like Bitcoin.
 description: |
   Dogecoin is a cryptocurrency like Bitcoin, although it does not use SHA256 as its proof of work (POW). Taking development cues from Tenebrix and Litecoin, Dogecoin currently employs a simplified variant of scrypt. MIT licenced.
@@ -39,19 +39,26 @@ parts:
       unzip master.zip
       echo "Verifying secure hash matches signed values..."
       checksum=$(sha256sum dogecoin-${SNAPCRAFT_PROJECT_VERSION}-${SNAPCRAFT_ARCH_TRIPLET}.tar.gz)
-      if ! grep -r $checksum *; then
+      if ! (grep -r $checksum * | grep dogecoin-${SNAPCRAFT_PROJECT_VERSION}-${SNAPCRAFT_ARCH_TRIPLET}.tar.gz); then
         echo "Secure hash not verified."
         return
+      else
+        echo "Secure hash verified."
       fi
       tar -xvf dogecoin-${SNAPCRAFT_PROJECT_VERSION}-${SNAPCRAFT_ARCH_TRIPLET}.tar.gz
       echo "Running tests..."
-      dogecoin-${SNAPCRAFT_PROJECT_VERSION}/bin/test_dogecoin
+      if ! (dogecoin-${SNAPCRAFT_PROJECT_VERSION}/bin/test_dogecoin); then
+        echo "Dogecoin tests failed."
+        return
+      else
+        echo "Dogecoin tests passed."
+      fi
       echo "Installing Dogecoin..."
       install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin dogecoin-${SNAPCRAFT_PROJECT_VERSION}/bin/dogecoind
       install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin dogecoin-${SNAPCRAFT_PROJECT_VERSION}/bin/dogecoin-qt
       install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin dogecoin-${SNAPCRAFT_PROJECT_VERSION}/bin/dogecoin-cli
-      wget https://raw.githubusercontent.com/dogecoin/dogecoin/v${SNAPCRAFT_PROJECT_VERSION}/share/pixmaps/bitcoin128.png
-      install -m 0644 -D -t $SNAPCRAFT_PART_INSTALL/share/pixmaps bitcoin128.png
+      wget https://raw.githubusercontent.com/dogecoin/dogecoin/master/share/pixmaps/dogecoin128.png
+      install -m 0644 -D -t $SNAPCRAFT_PART_INSTALL/share/pixmaps dogecoin128.png
     build-packages:
       - unzip
       - wget
