@@ -1,0 +1,13 @@
+diff --git a/src/dbinc/win_db.h b/src/dbinc/win_db.h
+index 6544558..6cb6878 100644
+--- a/src/dbinc/win_db.h
++++ b/src/dbinc/win_db.h
+@@ -46,7 +46,7 @@
+ #include <windows.h>
+ #include <winsock2.h>
+ #ifndef DB_WINCE
+-#include <WinIoCtl.h>
++#include <winioctl.h>
+ #endif
+ 
+ #ifdef HAVE_GETADDRINFO
