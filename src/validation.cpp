@@ -14,6 +14,7 @@
 #include "consensus/merkle.h"
 #include "consensus/validation.h"
 #include "dogecoin.h"
+#include "dogecoin-fees.h"
 #include "hash.h"
 #include "init.h"
 #include "policy/fees.h"
@@ -83,10 +84,11 @@ bool fEnableReplacement = DEFAULT_ENABLE_REPLACEMENT;
 
 uint256 hashAssumeValid;
 
-CFeeRate minRelayTxFee = CFeeRate(DEFAULT_MIN_RELAY_TX_FEE);
+//mlumin 5/2021: Changing this variable to a fee rate, because that's what it is, not a fee. Confusion bad.
+CFeeRate minRelayTxFeeRate = CFeeRate(DEFAULT_MIN_RELAY_TX_FEE);
 CAmount maxTxFee = DEFAULT_TRANSACTION_MAXFEE;
 
-CTxMemPool mempool(::minRelayTxFee);
+CTxMemPool mempool(::minRelayTxFeeRate);
 
 /**
  * Returns true if there are nRequired or more blocks of minVersion or above
@@ -157,6 +159,26 @@ namespace {
     int32_t nBlockReverseSequenceId = -1;
     /** chainwork for the last block that preciousblock has been applied to. */
     arith_uint256 nLastPreciousChainwork = 0;
+
+    /** In order to efficiently track invalidity of headers, we keep the set of
+      * blocks which we tried to connect and found to be invalid here (ie which
+      * were set to BLOCK_FAILED_VALID since the last restart). We can then
+      * walk this set and check if a new header is a descendant of something in
+      * this set, preventing us from having to walk mapBlockIndex when we try
+      * to connect a bad block and fail.
+      *
+      * While this is more complicated than marking everything which descends
+      * from an invalid block as invalid at the time we discover it to be
+      * invalid, doing so would require walking all of mapBlockIndex to find all
+      * descendants. Since this case should be very rare, keeping track of all
+      * BLOCK_FAILED_VALID blocks in a set should be just fine and work just as
+      * well.
+      *
+      * Because we already walk mapBlockIndex in height-order at startup, we go
+      * ahead and mark descendants of invalid blocks as FAILED_CHILD at that time,
+      * instead of putting things in this set.
+      */
+    std::set<CBlockIndex*> gFailedBlocks;
 
     /** Dirty block index entries. */
     std::set<CBlockIndex*> setDirtyBlockIndex;
@@ -764,10 +786,10 @@ bool AcceptToMemoryPoolWorker(CTxMemPool& pool, CValidationState& state, const C
             return state.DoS(0, false, REJECT_NONSTANDARD, "bad-txns-too-many-sigops", false,
                 strprintf("%d", nSigOpsCost));
 
-        CAmount mempoolRejectFee = pool.GetMinFee(GetArg("-maxmempool", DEFAULT_MAX_MEMPOOL_SIZE) * 1000000).GetFee(nSize);
+        CAmount mempoolRejectFee = pool.GetMinFee(GetArg("-maxmempool", DEFAULT_MAX_MEMPOOL_SIZE) * 1000000).GetRelayFee(nSize);
         if (mempoolRejectFee > 0 && nModifiedFees < mempoolRejectFee) {
             return state.DoS(0, false, REJECT_INSUFFICIENTFEE, "mempool min fee not met", false, strprintf("%d < %d", nFees, mempoolRejectFee));
-        } else if (GetBoolArg("-relaypriority", DEFAULT_RELAYPRIORITY) && nModifiedFees < ::minRelayTxFee.GetFee(nSize) && !AllowFree(entry.GetPriority(chainActive.Height() + 1))) {
+        } else if (GetBoolArg("-relaypriority", DEFAULT_RELAYPRIORITY) && nModifiedFees < ::minRelayTxFeeRate.GetRelayFee(nSize) && !AllowFree(entry.GetPriority(chainActive.Height() + 1))) {
             // Require that free transactions have sufficient priority to be mined in the next block.
             return state.DoS(0, false, REJECT_INSUFFICIENTFEE, "insufficient priority");
         }
@@ -944,14 +966,14 @@ bool AcceptToMemoryPoolWorker(CTxMemPool& pool, CValidationState& state, const C
             // Finally in addition to paying more fees than the conflicts the
             // new transaction must pay for its own bandwidth.
             CAmount nDeltaFees = nModifiedFees - nConflictingFees;
-            if (nDeltaFees < ::incrementalRelayFee.GetFee(nSize))
+            if (nDeltaFees < ::incrementalRelayFee.GetRelayFee(nSize))
             {
                 return state.DoS(0, false,
                         REJECT_INSUFFICIENTFEE, "insufficient fee", false,
                         strprintf("rejecting replacement %s, not enough additional fees to relay; %s < %s",
                               hash.ToString(),
                               FormatMoney(nDeltaFees),
-                              FormatMoney(::incrementalRelayFee.GetFee(nSize))));
+                              FormatMoney(::incrementalRelayFee.GetRelayFee(nSize))));
             }
         }
 
@@ -1336,6 +1358,7 @@ void static InvalidChainFound(CBlockIndex* pindexNew)
 void static InvalidBlockFound(CBlockIndex *pindex, const CValidationState &state) {
     if (!state.CorruptionPossible()) {
         pindex->nStatus |= BLOCK_FAILED_VALID;
+        gFailedBlocks.insert(pindex);
         setDirtyBlockIndex.insert(pindex);
         setBlockIndexCandidates.erase(pindex);
         InvalidChainFound(pindex);
@@ -2502,9 +2525,6 @@ bool ActivateBestChain(CValidationState &state, const CChainParams& chainparams,
     CBlockIndex *pindexMostWork = NULL;
     CBlockIndex *pindexNewTip = NULL;
     do {
-        boost::this_thread::interruption_point();
-        if (ShutdownRequested())
-            break;
 
         const CBlockIndex *pindexFork;
         ConnectTrace connectTrace;
@@ -2516,7 +2536,7 @@ bool ActivateBestChain(CValidationState &state, const CChainParams& chainparams,
               // state of transactions in our wallet is currently cleared when we
               // receive another notification and there is a race condition where
               // notification of a connected conflict might cause an outside process
-              // to abandon a transaction and then have it inadvertantly cleared by
+              // to abandon a transaction and then have it inadvertently cleared by
               // the notification that the conflicted transaction was evicted.
             MemPoolConflictRemovalTracker mrt(mempool);
             CBlockIndex *pindexOldTip = chainActive.Tip();
@@ -2564,8 +2584,21 @@ bool ActivateBestChain(CValidationState &state, const CChainParams& chainparams,
         if (pindexFork != pindexNewTip) {
             uiInterface.NotifyBlockTip(fInitialDownload, pindexNewTip);
         }
+
+        // Perform the shutdown detection to the end of the loop to prevent
+        // pindexNewTip being nil
+        boost::this_thread::interruption_point();
+        if (ShutdownRequested()) {
+            LogPrintf("ActivateBestChain: shutdown requested, breaking loop\n");
+            break;
+        }
+
     } while (pindexNewTip != pindexMostWork);
-    CheckBlockIndex(chainparams.GetConsensus(pindexNewTip->nHeight));
+    if (pindexNewTip != NULL) {
+        CheckBlockIndex(chainparams.GetConsensus(pindexNewTip->nHeight));
+    } else {
+        CheckBlockIndex(chainparams.GetConsensus(0));
+    }
 
     // Write changes periodically to disk, after relay.
     if (!FlushStateToDisk(state, FLUSH_STATE_PERIODIC)) {
@@ -2609,16 +2642,17 @@ bool InvalidateBlock(CValidationState& state, const CChainParams& chainparams, C
 {
     AssertLockHeld(cs_main);
 
-    // Mark the block itself as invalid.
-    pindex->nStatus |= BLOCK_FAILED_VALID;
-    setDirtyBlockIndex.insert(pindex);
-    setBlockIndexCandidates.erase(pindex);
+    // We first disconnect backwards and then mark the blocks as invalid.
+    // This prevents a case where pruned nodes may fail to invalidateblock
+    // and be left unable to start as they have no tip candidates (as there
+    // are no blocks that meet the "have data and are not invalid per
+    // nStatus" criteria for inclusion in setBlockIndexCandidates).
+
+    bool findexWasInChain = false;
+    CBlockIndex *invalidWalkTip = chainActive.Tip();
 
     while (chainActive.Contains(pindex)) {
-        CBlockIndex *pindexWalk = chainActive.Tip();
-        pindexWalk->nStatus |= BLOCK_FAILED_CHILD;
-        setDirtyBlockIndex.insert(pindexWalk);
-        setBlockIndexCandidates.erase(pindexWalk);
+        findexWasInChain = true;
         // ActivateBestChain considers blocks already in chainActive
         // unconditionally valid already, so force disconnect away from it.
         if (!DisconnectTip(state, chainparams)) {
@@ -2626,6 +2660,27 @@ bool InvalidateBlock(CValidationState& state, const CChainParams& chainparams, C
             return false;
         }
     }
+
+    // Debug print the invalid parent's hash, later list the child hashes.
+    LogPrintf("Invalid Block %s.", pindex->GetBlockHash().ToString() );
+
+    // Now mark the blocks we just disconnected as descendants invalid
+    // Note: this may not be all descendants, e.g. the disconnected block
+    // may be the root of competing block chains that have not settled into
+    // one single block chain yet.
+    while (findexWasInChain && invalidWalkTip != pindex) {
+        LogPrintf("  Invalid Child Block %s.", invalidWalkTip->GetBlockHash().ToString() );
+        invalidWalkTip->nStatus |= BLOCK_FAILED_CHILD;
+        setDirtyBlockIndex.insert(invalidWalkTip);
+        setBlockIndexCandidates.erase(invalidWalkTip);
+        invalidWalkTip = invalidWalkTip->pprev;
+    }
+
+    // Mark the block itself as invalid.
+    pindex->nStatus |= BLOCK_FAILED_VALID;
+    setDirtyBlockIndex.insert(pindex);
+    setBlockIndexCandidates.erase(pindex);
+    gFailedBlocks.insert(pindex);
 
     LimitMempoolSize(mempool, GetArg("-maxmempool", DEFAULT_MAX_MEMPOOL_SIZE) * 1000000, GetArg("-mempoolexpiry", DEFAULT_MEMPOOL_EXPIRY) * 60 * 60);
 
@@ -2635,6 +2690,7 @@ bool InvalidateBlock(CValidationState& state, const CChainParams& chainparams, C
     while (it != mapBlockIndex.end()) {
         if (it->second->IsValid(BLOCK_VALID_TRANSACTIONS) && it->second->nChainTx && !setBlockIndexCandidates.value_comp()(it->second, chainActive.Tip())) {
             setBlockIndexCandidates.insert(it->second);
+            gFailedBlocks.erase(it->second);
         }
         it++;
     }
@@ -3168,6 +3224,23 @@ static bool AcceptBlockHeader(const CBlockHeader& block, CValidationState& state
 
         if (!ContextualCheckBlockHeader(block, state, pindexPrev, GetAdjustedTime()))
             return error("%s: Consensus::ContextualCheckBlockHeader: %s, %s", __func__, hash.ToString(), FormatStateMessage(state));
+
+        if (!pindexPrev->IsValid(BLOCK_VALID_SCRIPTS)) {
+            for (const CBlockIndex* failedit : gFailedBlocks) {
+                if (pindexPrev->GetAncestor(failedit->nHeight) == failedit) {
+                    assert(failedit->nStatus & BLOCK_FAILED_VALID);
+                    CBlockIndex* invalidWalk = pindexPrev;
+                    while (invalidWalk != failedit) {
+                        invalidWalk->nStatus |= BLOCK_FAILED_CHILD;
+                        setDirtyBlockIndex.insert(invalidWalk);
+                        invalidWalk = invalidWalk->pprev;
+                    }
+
+                    LogPrintf( "AcceptBlockHeader(): Invalid block %s, rejected child hash %s.", invalidWalk->GetBlockHash().ToString(), hash.ToString()  );
+                    return state.DoS(100, error("%s: prev block invalid", __func__), REJECT_INVALID, "bad-prevblk");
+                }
+            }
+        }
     }
     if (pindex == NULL)
         pindex = AddToBlockIndex(block);
@@ -3588,6 +3661,11 @@ bool static LoadBlockIndexDB(const CChainParams& chainparams)
             } else {
                 pindex->nChainTx = pindex->nTx;
             }
+            if (!(pindex->nStatus & BLOCK_FAILED_MASK) && pindex->pprev && (pindex->pprev->nStatus & BLOCK_FAILED_MASK)) {
+                LogPrintf("Invalid Block %s.", pindex->GetBlockHash().ToString() );
+                pindex->nStatus |= BLOCK_FAILED_CHILD;
+                setDirtyBlockIndex.insert(pindex);
+            }
         }
         if (pindex->IsValid(BLOCK_VALID_TRANSACTIONS) && (pindex->nChainTx || pindex->pprev == NULL))
             setBlockIndexCandidates.insert(pindex);
@@ -3867,6 +3945,7 @@ void UnloadBlockIndex()
     nLastBlockFile = 0;
     nBlockSequenceId = 1;
     setDirtyBlockIndex.clear();
+    gFailedBlocks.clear();
     setDirtyFileInfo.clear();
     versionbitscache.Clear();
     for (int b = 0; b < VERSIONBITS_NUM_BITS; b++) {

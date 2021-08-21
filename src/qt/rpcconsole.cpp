@@ -2,11 +2,13 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
+#include "bitcoingui.h"
 #if defined(HAVE_CONFIG_H)
 #include "config/bitcoin-config.h"
 #endif
 
 #include "rpcconsole.h"
+#include "peerdialog.h"
 #include "ui_debugwindow.h"
 
 #include "bantablemodel.h"
@@ -14,6 +16,7 @@
 #include "guiutil.h"
 #include "platformstyle.h"
 #include "bantablemodel.h"
+#include "utilitydialog.h"
 
 #include "chainparams.h"
 #include "netbase.h"
@@ -39,6 +42,7 @@
 #include <QTime>
 #include <QTimer>
 #include <QStringList>
+#include <QThread>
 
 #if QT_VERSION < 0x050000
 #include <QUrl>
@@ -441,6 +445,15 @@ RPCConsole::RPCConsole(const PlatformStyle *_platformStyle, QWidget *parent) :
     connect(ui->fontSmallerButton, SIGNAL(clicked()), this, SLOT(fontSmaller()));
     connect(ui->btnClearTrafficGraph, SIGNAL(clicked()), ui->trafficGraph, SLOT(clear()));
 
+    // Allow user to add new peer
+    connect(ui->peerAdd, SIGNAL(clicked()), this, SLOT(on_addPeer_clicked()));
+
+    // Allow user to remove peer
+    connect(ui->peerRemove, SIGNAL(clicked()), this, SLOT(on_removePeer_clicked()));
+
+    // Allow user to test peer
+    connect(ui->peerTest, SIGNAL(clicked()), this, SLOT(on_testPeer_clicked()));
+
     // set library version labels
 #ifdef ENABLE_WALLET
     ui->berkeleyDBVersion->setText(DbEnv::version(0, 0, 0));
@@ -752,10 +765,19 @@ void RPCConsole::message(int category, const QString &message, bool html)
     out += "<table><tr><td class=\"time\" width=\"65\">" + timeString + "</td>";
     out += "<td class=\"icon\" width=\"32\"><img src=\"" + categoryClass(category) + "\"></td>";
     out += "<td class=\"message " + categoryClass(category) + "\" valign=\"middle\">";
+
+    QString interpretedMessage;
+    if(category == CMD_REPLY && message == "null")
+    {
+        interpretedMessage = "Empty response";
+    } else {
+        interpretedMessage = message;
+    }
+
     if(html)
-        out += message;
+        out += interpretedMessage;
     else
-        out += GUIUtil::HtmlEscape(message, false);
+        out += GUIUtil::HtmlEscape(interpretedMessage, false);
     out += "</td></tr></table>";
     ui->messagesWidget->append(out);
 }
@@ -818,7 +840,7 @@ void RPCConsole::on_lineEdit_returnPressed()
                 throw std::runtime_error("Invalid command line");
             }
         } catch (const std::exception& e) {
-            QMessageBox::critical(this, "Error", QString("Error: ") + QString::fromStdString(e.what()));
+            QMessageBox::critical(this, tr("Error"), QString("Error: ") + QString::fromStdString(e.what()));
             return;
         }
 
@@ -899,6 +921,54 @@ void RPCConsole::on_tabWidget_currentChanged(int index)
 void RPCConsole::on_openDebugLogfileButton_clicked()
 {
     GUIUtil::openDebugLogfile();
+}
+
+void RPCConsole::on_addPeer_clicked() 
+{
+
+    QWidget *win = new AddPeerDialog(0);
+
+    win->showNormal();
+    win->show();
+    win->raise();
+    win->activateWindow();
+
+    /** Center window */
+    const QPoint global = ui->tabWidget->mapToGlobal(ui->tabWidget->rect().center());
+    win->move(global.x() - win->width() / 2, global.y() - win->height() / 2);
+}
+
+void RPCConsole::on_removePeer_clicked() 
+{    
+    QList<QModelIndex> ips = GUIUtil::getEntryData(ui->peerWidget, PeerTableModel::Address);
+
+    if(ips.size() != 0)
+    {
+        QString address = ips[0].data().toString();
+
+        if(QMessageBox::Yes == QMessageBox::question(this, tr("Remove Peer"), tr("Are you sure you want to remove the peer: ") + address + "?", QMessageBox::Yes | QMessageBox::No))
+        {
+            QMessageBox::information(this, tr("Remove Peer"), PeerTools::ManagePeer("remove", address), QMessageBox::Ok, QMessageBox::Ok);
+        }
+
+    } else 
+    {
+        QMessageBox::information(this, tr("Remove Peer"), tr("No peer was selected."), QMessageBox::Ok, QMessageBox::Ok);
+    }
+}
+
+void RPCConsole::on_testPeer_clicked() 
+{
+    QWidget *win = new TestPeerDialog(0);
+
+    win->showNormal();
+    win->show();
+    win->raise();
+    win->activateWindow();
+
+    /** Center window */
+    const QPoint global = ui->tabWidget->mapToGlobal(ui->tabWidget->rect().center());
+    win->move(global.x() - win->width() / 2, global.y() - win->height() / 2);
 }
 
 void RPCConsole::scrollToEnd()

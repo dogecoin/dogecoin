@@ -82,14 +82,14 @@
    <property name="geometry">
     <rect>
      <x>212</x>
-     <y>20</y>
+     <y>10</y>
      <width>31</width>
-     <height>341</height>
+     <height>361</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <family>Monospace</family>
+     <family>Courier</family>
      <pointsize>12</pointsize>
      <weight>75</weight>
      <italic>false</italic>
@@ -117,7 +117,7 @@
    </property>
    <property name="font">
     <font>
-     <family>Monospace</family>
+     <family>Courier</family>
      <pointsize>8</pointsize>
      <weight>50</weight>
      <italic>false</italic>

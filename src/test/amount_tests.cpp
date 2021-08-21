@@ -19,13 +19,21 @@ BOOST_AUTO_TEST_CASE(GetFeeTest)
     BOOST_CHECK_EQUAL(feeRate.GetFee(1e5), 0);
 
     feeRate = CFeeRate(1000);
-    // Must always just return the arg
+    // Wallet fees are rounded up
     BOOST_CHECK_EQUAL(feeRate.GetFee(0), 0);
     BOOST_CHECK_EQUAL(feeRate.GetFee(1), 1000);
     BOOST_CHECK_EQUAL(feeRate.GetFee(121), 1000);
     BOOST_CHECK_EQUAL(feeRate.GetFee(999), 1000);
     BOOST_CHECK_EQUAL(feeRate.GetFee(1e3), 1000);
     BOOST_CHECK_EQUAL(feeRate.GetFee(9e3), 9000);
+
+    // Relay fees must always just return the arg
+    BOOST_CHECK_EQUAL(feeRate.GetRelayFee(0), 0);
+    BOOST_CHECK_EQUAL(feeRate.GetRelayFee(1), 1);
+    BOOST_CHECK_EQUAL(feeRate.GetRelayFee(121), 121);
+    BOOST_CHECK_EQUAL(feeRate.GetRelayFee(999), 999);
+    BOOST_CHECK_EQUAL(feeRate.GetRelayFee(1e3), 1e3);
+    BOOST_CHECK_EQUAL(feeRate.GetRelayFee(9e3), 9e3);
 
     feeRate = CFeeRate(-1000);
     // Must always just return -1 * arg

@@ -1,4 +1,5 @@
 // Copyright (c) 2011-2016 The Bitcoin Core developers
+// Copyright (c) 2021 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -79,6 +80,9 @@ extern double NSAppKitVersionNumber;
 #if !defined(NSAppKitVersionNumber10_9)
 #define NSAppKitVersionNumber10_9 1265
 #endif
+#include <QProcess>
+
+void ForceActivation();
 #endif
 
 namespace GUIUtil {
@@ -402,6 +406,23 @@ bool isObscured(QWidget *w)
         && checkPoint(QPoint(0, w->height() - 1), w)
         && checkPoint(QPoint(w->width() - 1, w->height() - 1), w)
         && checkPoint(QPoint(w->width() / 2, w->height() / 2), w));
+}
+
+void bringToFront(QWidget* w)
+{
+    #ifdef Q_OS_MAC
+        ForceActivation();
+    #endif
+    if (w) {
+        // activateWindow() (sometimes) helps with keyboard focus on Windows
+        if (w->isMinimized()) {
+            w->showNormal();
+        } else {
+            w->show();
+        }
+        w->activateWindow();
+        w->raise();
+    }
 }
 
 void openDebugLogfile()
@@ -939,6 +960,38 @@ QString formatServicesStr(quint64 mask)
 QString formatPingTime(double dPingTime)
 {
     return (dPingTime == std::numeric_limits<int64_t>::max()/1e6 || dPingTime == 0) ? QObject::tr("N/A") : QString(QObject::tr("%1 ms")).arg(QString::number((int)(dPingTime * 1000), 10));
+}
+
+QString formatDataSizeValue(uint64_t uValue)
+{
+    // Why handle these comparisons directly, instead of a clever algorithm?
+    // This is likely to be called in a tight loop, so avoid the overhead of
+    // setting up a constant list and walking an iterator.
+    static const uint64_t TERABYTE_SIZE = UINT64_C(1024*1024*1024*1024);
+    static const uint64_t GIGABYTE_SIZE = UINT64_C(1024*1024*1024);
+    static const uint64_t MEGABYTE_SIZE = UINT64_C(1024*1024);
+    static const uint64_t KILOBYTE_SIZE = UINT64_C(1024);
+
+    QString unitFormat = QObject::tr("%1 B");
+
+    if (uValue == std::numeric_limits<int64_t>::max()/1e6 || uValue == 0)
+        return QObject::tr("N/A");
+
+    if (uValue > TERABYTE_SIZE) {
+        unitFormat = QObject::tr("%1 TB");
+        uValue /= TERABYTE_SIZE;
+    } else if (uValue > GIGABYTE_SIZE) {
+        unitFormat = QObject::tr("%1 GB");
+        uValue /= GIGABYTE_SIZE;
+    } else if (uValue > MEGABYTE_SIZE) {
+        unitFormat = QObject::tr("%1 MB");
+        uValue /= MEGABYTE_SIZE;
+    } else if (uValue > KILOBYTE_SIZE) {
+        unitFormat = QObject::tr("%1 KB");
+        uValue /= KILOBYTE_SIZE;
+    }
+
+    return QString(unitFormat).arg(QString::number(uValue), 10);
 }
 
 QString formatTimeOffset(int64_t nTimeOffset)

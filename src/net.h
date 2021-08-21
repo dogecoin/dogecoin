@@ -510,6 +510,7 @@ public:
     double dMinPing;
     std::string addrLocal;
     CAddress addr;
+    CAmount minFeeFilter;
 };
 
 
@@ -680,6 +681,9 @@ public:
     CCriticalSection cs_feeFilter;
     CAmount lastSentFeeFilter;
     int64_t nextSendTimeFeeFilter;
+
+    // Counts getheaders requests sent to this peer
+    std::atomic<int64_t> nPendingHeaderRequests;
 
     // Alert relay
     std::vector<CAlert> vAlertToSend;

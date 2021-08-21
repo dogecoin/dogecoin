@@ -101,6 +101,7 @@ QT_FORMS_UI = \
   qt/forms/editaddressdialog.ui \
   qt/forms/helpmessagedialog.ui \
   qt/forms/intro.ui \
+  qt/forms/importkeysdialog.ui \
   qt/forms/modaloverlay.ui \
   qt/forms/openuridialog.ui \
   qt/forms/optionsdialog.ui \
@@ -109,6 +110,8 @@ QT_FORMS_UI = \
   qt/forms/receivecoinsdialog.ui \
   qt/forms/receiverequestdialog.ui \
   qt/forms/debugwindow.ui \
+  qt/forms/addpeerdialog.ui \
+  qt/forms/testpeerdialog.ui \
   qt/forms/sendcoinsdialog.ui \
   qt/forms/sendcoinsentry.ui \
   qt/forms/signverifymessagedialog.ui \
@@ -130,6 +133,7 @@ QT_MOC_CPP = \
   qt/moc_editaddressdialog.cpp \
   qt/moc_guiutil.cpp \
   qt/moc_intro.cpp \
+  qt/moc_importkeysdialog.cpp \
   qt/moc_macdockiconhandler.cpp \
   qt/moc_macnotificationhandler.cpp \
   qt/moc_modaloverlay.cpp \
@@ -157,6 +161,7 @@ QT_MOC_CPP = \
   qt/moc_transactiontablemodel.cpp \
   qt/moc_transactionview.cpp \
   qt/moc_utilitydialog.cpp \
+  qt/moc_peerdialog.cpp \
   qt/moc_verticallabel.cpp \
   qt/moc_walletframe.cpp \
   qt/moc_walletmodel.cpp \
@@ -169,6 +174,7 @@ BITCOIN_MM = \
 QT_MOC = \
   qt/bitcoin.moc \
   qt/bitcoinamountfield.moc \
+  qt/importkeysdialog.moc \
   qt/intro.moc \
   qt/overviewpage.moc \
   qt/rpcconsole.moc
@@ -199,6 +205,7 @@ BITCOIN_QT_H = \
   qt/guiconstants.h \
   qt/guiutil.h \
   qt/intro.h \
+  qt/importkeysdialog.h \
   qt/macdockiconhandler.h \
   qt/macnotificationhandler.h \
   qt/modaloverlay.h \
@@ -230,6 +237,7 @@ BITCOIN_QT_H = \
   qt/transactiontablemodel.h \
   qt/transactionview.h \
   qt/utilitydialog.h \
+  qt/peerdialog.h \
   qt/verticallabel.h \
   qt/walletframe.h \
   qt/walletmodel.h \
@@ -320,6 +328,7 @@ BITCOIN_QT_BASE_CPP = \
   qt/splashscreen.cpp \
   qt/trafficgraphwidget.cpp \
   qt/utilitydialog.cpp \
+  qt/peerdialog.cpp \
   qt/verticallabel.cpp
 
 BITCOIN_QT_WINDOWS_CPP = qt/winshutdownmonitor.cpp
@@ -331,6 +340,7 @@ BITCOIN_QT_WALLET_CPP = \
   qt/coincontroldialog.cpp \
   qt/coincontroltreewidget.cpp \
   qt/editaddressdialog.cpp \
+  qt/importkeysdialog.cpp \
   qt/openuridialog.cpp \
   qt/overviewpage.cpp \
   qt/paymentrequestplus.cpp \

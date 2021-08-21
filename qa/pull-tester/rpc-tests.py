@@ -116,6 +116,7 @@ testScripts = [
     'wallet-dump.py',
     'listtransactions.py',
     # vv Tests less than 60s vv
+    'p2p-acceptblock.py',
     'sendheaders.py',
     'zapwallettxes.py',
     'importmulti.py',
@@ -128,7 +129,7 @@ testScripts = [
     'reindex.py',
     # vv Tests less than 30s vv
     'mempool_resurrect_test.py',
-    #'txn_doublespend.py --mineblock',
+    'txn_doublespend.py --mineblock',
     'txn_clone.py',
     'getchaintips.py',
     'rest.py',
@@ -153,12 +154,16 @@ testScripts = [
     'signmessages.py',
     # 'nulldummy.py',
     'import-rescan.py',
+    'harddustlimit.py',
+    'paytxfee.py',
+    'feelimit.py',
     # While fee bumping should work in Doge, these tests depend on free transactions, which we don't support.
     # Disable until we can do a full rewrite of the tests (possibly upstream), or revise fee schedule, or something
-    # 'bumpfee.py',
+    'bumpfee.py',
     'rpcnamedargs.py',
     'listsinceblock.py',
     'p2p-leaktests.py',
+    'replace-by-fee.py',
 ]
 if ENABLE_ZMQ:
     testScripts.append('zmq_test.py')
@@ -189,8 +194,6 @@ testScriptsExt = [
     'forknotify.py',
     'invalidateblock.py',
     'maxblocksinflight.py',
-    'p2p-acceptblock.py',
-    'replace-by-fee.py',
 ]
 
 

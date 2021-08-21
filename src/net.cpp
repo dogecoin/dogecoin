@@ -658,6 +658,7 @@ void CNode::copyStats(CNodeStats &stats)
         X(nRecvBytes);
     }
     X(fWhitelisted);
+    X(minFeeFilter);
 
     // It is common for nodes with good ping times to suddenly become lagged,
     // due to a new block arriving or other large transfer.
@@ -2704,6 +2705,7 @@ CNode::CNode(NodeId idIn, ServiceFlags nLocalServicesIn, int nMyStartingHeightIn
     fPauseRecv = false;
     fPauseSend = false;
     nProcessQueueSize = 0;
+    nPendingHeaderRequests = 0;
 
     BOOST_FOREACH(const std::string &msg, getAllNetMessageTypes())
         mapRecvBytesPerMsgCmd[msg] = 0;

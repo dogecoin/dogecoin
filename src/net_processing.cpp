@@ -169,6 +169,8 @@ struct CNodeState {
     int nUnconnectingHeaders;
     //! Whether we've started headers synchronization with this peer.
     bool fSyncStarted;
+    //! When to potentially disconnect peer for stalling headers download
+    int64_t nHeadersSyncTimeout;
     //! Since when we're stalling block download progress (in microseconds), or 0.
     int64_t nStallingSince;
     std::list<QueuedBlock> vBlocksInFlight;
@@ -208,6 +210,7 @@ struct CNodeState {
         pindexBestHeaderSent = NULL;
         nUnconnectingHeaders = 0;
         fSyncStarted = false;
+        nHeadersSyncTimeout = 0;
         nStallingSince = 0;
         nDownloadingSince = 0;
         nBlocksInFlight = 0;
@@ -728,6 +731,25 @@ void Misbehaving(NodeId pnode, int howmuch)
 }
 
 
+// Dogecoin -  1.14 specific fix: do not request headers from a peer we are
+//             already requesting headers from, unless forced.
+void RequestHeadersFrom(CNode* pto, CConnman& connman, const CBlockIndex* pindex, uint256 untilHash, bool fforceQuery)
+{
+  if (pto->nPendingHeaderRequests > 0) {
+    if (fforceQuery) {
+      LogPrint("net", "forcing getheaders request (%d) to peer=%d (%d open)\n",
+                pindex->nHeight, pto->id, pto->nPendingHeaderRequests);
+    } else {
+      LogPrint("net", "dropped getheaders request (%d) to peer=%d\n", pindex->nHeight, pto->id);
+      return;
+    }
+  }
+
+  const CNetMsgMaker msgMaker(pto->GetSendVersion());
+  connman.PushMessage(pto, msgMaker.Make(NetMsgType::GETHEADERS, chainActive.GetLocator(pindex), untilHash));
+  pto->nPendingHeaderRequests += 1;
+
+}
 
 
 
@@ -1557,7 +1579,8 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
                     // fell back to inv we probably have a reorg which we should get the headers for first,
                     // we now only provide a getheaders response here. When we receive the headers, we will
                     // then ask for the blocks we need.
-                    connman.PushMessage(pfrom, msgMaker.Make(NetMsgType::GETHEADERS, chainActive.GetLocator(pindexBestHeader), inv.hash));
+                    // Dogecoin: We force this check, in case we're only connected to nodes that send invs
+                    RequestHeadersFrom(pfrom, connman, pindexBestHeader, inv.hash, true);
                     LogPrint("net", "getheaders (%d) %s to peer=%d\n", pindexBestHeader->nHeight, inv.hash.ToString(), pfrom->id);
                 }
             }
@@ -1965,7 +1988,7 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
         if (mapBlockIndex.find(cmpctblock.header.hashPrevBlock) == mapBlockIndex.end()) {
             // Doesn't connect (or is genesis), instead of DoSing in AcceptBlockHeader, request deeper headers
             if (!IsInitialBlockDownload())
-                connman.PushMessage(pfrom, msgMaker.Make(NetMsgType::GETHEADERS, chainActive.GetLocator(pindexBestHeader), uint256()));
+                RequestHeadersFrom(pfrom, connman, pindexBestHeader, uint256(), true);
             return true;
         }
         }
@@ -2222,6 +2245,9 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
     {
         std::vector<CBlockHeader> headers;
 
+        if (pfrom->nPendingHeaderRequests > 0)
+          pfrom->nPendingHeaderRequests -= 1;
+
         // Bypass the normal CBlock deserialization, as we don't want to risk deserializing 2000 full blocks.
         unsigned int nCount = ReadCompactSize(vRecv);
         if (nCount > MAX_HEADERS_RESULTS) {
@@ -2255,7 +2281,8 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
         //   nUnconnectingHeaders gets reset back to 0.
         if (mapBlockIndex.find(headers[0].hashPrevBlock) == mapBlockIndex.end() && nCount < MAX_BLOCKS_TO_ANNOUNCE) {
             nodestate->nUnconnectingHeaders++;
-            connman.PushMessage(pfrom, msgMaker.Make(NetMsgType::GETHEADERS, chainActive.GetLocator(pindexBestHeader), uint256()));
+            // Dogecoin: allow a single getheaders query before triggering DoS
+            RequestHeadersFrom(pfrom, connman, pindexBestHeader, uint256(), true);
             LogPrint("net", "received header %s: missing prev block %s, sending getheaders (%d) to end (peer=%d, nUnconnectingHeaders=%d)\n",
                     headers[0].GetHash().ToString(),
                     headers[0].hashPrevBlock.ToString(),
@@ -2309,8 +2336,12 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
             // Headers message had its maximum size; the peer may have more headers.
             // TODO: optimize: if pindexLast is an ancestor of chainActive.Tip or pindexBestHeader, continue
             // from there instead.
+            //
+            // Dogecoin: do not allow multiple getheader queries in parallel at
+            // this point - makes sure that any parallel queries will end here,
+            // preventing "getheaders" spam.
             LogPrint("net", "more getheaders (%d) to end to peer=%d (startheight:%d)\n", pindexLast->nHeight, pfrom->id, pfrom->nStartingHeight);
-            connman.PushMessage(pfrom, msgMaker.Make(NetMsgType::GETHEADERS, chainActive.GetLocator(pindexLast), uint256()));
+            RequestHeadersFrom(pfrom, connman, pindexLast, uint256(), false);
         }
 
         bool fCanDirectFetch = CanDirectFetch(chainparams.GetConsensus(0));
@@ -2536,7 +2567,7 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
                 // Relay
                 pfrom->setKnown.insert(alertHash);
                 {
-                    
+
                     connman.ForEachNode([&alert](CNode* pnode)
                     {
                         pnode->PushAlert(alert);
@@ -2899,6 +2930,7 @@ bool SendMessages(CNode* pto, CConnman& connman, const std::atomic<bool>& interr
             // Only actively request headers from a single peer, unless we're close to today.
             if ((nSyncStarted == 0 && fFetch) || pindexBestHeader->GetBlockTime() > GetAdjustedTime() - 24 * 60 * 60) {
                 state.fSyncStarted = true;
+                state.nHeadersSyncTimeout = GetTimeMicros() + HEADERS_DOWNLOAD_TIMEOUT_BASE + HEADERS_DOWNLOAD_TIMEOUT_PER_HEADER * (GetAdjustedTime() - pindexBestHeader->GetBlockTime())/(consensusParams.nPowTargetSpacing);
                 nSyncStarted++;
                 const CBlockIndex *pindexStart = pindexBestHeader;
                 /* If possible, start at the block preceding the currently
@@ -2908,10 +2940,13 @@ bool SendMessages(CNode* pto, CConnman& connman, const std::atomic<bool>& interr
                    the peer's known best block.  This wouldn't be possible
                    if we requested starting at pindexBestHeader and
                    got back an empty response.  */
+                // Dogecoin: make sure that if we are already processing an inv
+                // or header message from this peer caused by a new block being
+                // mined at chaintip, we do not send another getheaders request
                 if (pindexStart->pprev)
                     pindexStart = pindexStart->pprev;
                 LogPrint("net", "initial getheaders (%d) to peer=%d (startheight:%d)\n", pindexStart->nHeight, pto->id, pto->nStartingHeight);
-                connman.PushMessage(pto, msgMaker.Make(NetMsgType::GETHEADERS, chainActive.GetLocator(pindexStart), uint256()));
+                RequestHeadersFrom(pto, connman, pindexStart, uint256(), false);
             }
         }
 
@@ -3197,7 +3232,6 @@ bool SendMessages(CNode* pto, CConnman& connman, const std::atomic<bool>& interr
         }
         if (!vInv.empty())
             connman.PushMessage(pto, msgMaker.Make(NetMsgType::INV, vInv));
-
         // Detect whether we're stalling
         nNow = GetTimeMicros();
         if (state.nStallingSince && state.nStallingSince < nNow - 1000000 * BLOCK_STALLING_TIMEOUT) {
@@ -3222,7 +3256,38 @@ bool SendMessages(CNode* pto, CConnman& connman, const std::atomic<bool>& interr
                 return true;
             }
         }
-
+        // Check for headers sync timeouts
+        if (state.fSyncStarted && state.nHeadersSyncTimeout < std::numeric_limits<int64_t>::max()) {
+            // Detect whether this is a stalling initial-headers-sync peer
+            if (pindexBestHeader->GetBlockTime() <= GetAdjustedTime() - 24*60*60) {
+                if (nNow > state.nHeadersSyncTimeout && nSyncStarted == 1 && (nPreferredDownload - state.fPreferredDownload >= 1)) {
+                    // Disconnect a (non-whitelisted) peer if it is our only sync peer,
+                    // and we have others we could be using instead.
+                    // Note: If all our peers are inbound, then we won't
+                    // disconnect our sync peer for stalling; we have bigger
+                    // problems if we can't get any outbound peers.
+                    if (!pto->fWhitelisted) {
+                        LogPrintf("Timeout downloading headers from peer=%d, disconnecting\n", pto->GetId());
+                        pto->fDisconnect = true;
+                        return true;
+                    } else {
+                        LogPrintf("Timeout downloading headers from whitelisted peer=%d, not disconnecting\n", pto->GetId());
+                        // Reset the headers sync state so that we have a
+                        // chance to try downloading from a different peer.
+                        // Note: this will also result in at least one more
+                        // getheaders message to be sent to
+                        // this peer (eventually).
+                        state.fSyncStarted = false;
+                        nSyncStarted--;
+                        state.nHeadersSyncTimeout = 0;
+                    }
+                }
+            } else {
+                // After we've caught up once, reset the timeout so we can't trigger
+                // disconnect later.
+                state.nHeadersSyncTimeout = std::numeric_limits<int64_t>::max();
+            }
+        }
         //
         // Message: getdata (blocks)
         //
@@ -3283,9 +3348,9 @@ bool SendMessages(CNode* pto, CConnman& connman, const std::atomic<bool>& interr
                 static CFeeRate default_feerate(DEFAULT_MIN_RELAY_TX_FEE);
                 static FeeFilterRounder filterRounder(default_feerate);
                 CAmount filterToSend = filterRounder.round(currentFilter);
-                // If we don't allow free transactions, then we always have a fee filter of at least minRelayTxFee
+                // If we don't allow free transactions, then we always have a fee filter of at least minRelayTxFeeRate
                 if (GetArg("-limitfreerelay", DEFAULT_LIMITFREERELAY) <= 0)
-                    filterToSend = std::max(filterToSend, ::minRelayTxFee.GetFeePerK());
+                    filterToSend = std::max(filterToSend, ::minRelayTxFeeRate.GetFeePerK());
                 if (filterToSend != pto->lastSentFeeFilter) {
                     connman.PushMessage(pto, msgMaker.Make(NetMsgType::FEEFILTER, filterToSend));
                     pto->lastSentFeeFilter = filterToSend;

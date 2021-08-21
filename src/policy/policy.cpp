@@ -209,6 +209,7 @@ bool IsWitnessStandard(const CTransaction& tx, const CCoinsViewCache& mapInputs)
 CFeeRate incrementalRelayFee = CFeeRate(DEFAULT_INCREMENTAL_RELAY_FEE);
 CFeeRate dustRelayFee = CFeeRate(DUST_RELAY_TX_FEE);
 unsigned int nBytesPerSigOp = DEFAULT_BYTES_PER_SIGOP;
+CAmount nDustLimit = DEFAULT_DUST_LIMIT;
 
 int64_t GetVirtualTransactionSize(int64_t nWeight, int64_t nSigOpCost)
 {

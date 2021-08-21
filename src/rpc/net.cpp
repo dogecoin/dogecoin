@@ -16,6 +16,7 @@
 #include "timedata.h"
 #include "ui_interface.h"
 #include "util.h"
+#include "utilmoneystr.h"
 #include "utilstrencodings.h"
 #include "version.h"
 
@@ -95,6 +96,7 @@ UniValue getpeerinfo(const JSONRPCRequest& request)
             "    \"inbound\": true|false,     (boolean) Inbound (true) or Outbound (false)\n"
             "    \"addnode\": true|false,     (boolean) Whether connection was due to addnode and is using an addnode slot\n"
             "    \"startingheight\": n,       (numeric) The starting height (block) of the peer\n"
+            "    \"feefilter\": \"decimal\",  (string)  The value of the last feefilter set by this peer, in DOGE\n"
             "    \"banscore\": n,             (numeric) The ban score\n"
             "    \"synced_headers\": n,       (numeric) The last header we have in common with this peer\n"
             "    \"synced_blocks\": n,        (numeric) The last block we have in common with this peer\n"
@@ -157,6 +159,7 @@ UniValue getpeerinfo(const JSONRPCRequest& request)
         obj.push_back(Pair("inbound", stats.fInbound));
         obj.push_back(Pair("addnode", stats.fAddnode));
         obj.push_back(Pair("startingheight", stats.nStartingHeight));
+        obj.push_back(Pair("feefilter", FormatMoney(stats.minFeeFilter)));
         if (fStateStats) {
             obj.push_back(Pair("banscore", statestats.nMisbehavior));
             obj.push_back(Pair("synced_headers", statestats.nSyncHeight));
@@ -448,7 +451,7 @@ UniValue getnetworkinfo(const JSONRPCRequest& request)
         obj.push_back(Pair("connections",   (int)g_connman->GetNodeCount(CConnman::CONNECTIONS_ALL)));
     }
     obj.push_back(Pair("networks",      GetNetworksInfo()));
-    obj.push_back(Pair("relayfee",      ValueFromAmount(::minRelayTxFee.GetFeePerK())));
+    obj.push_back(Pair("relayfee",      ValueFromAmount(::minRelayTxFeeRate.GetFeePerK())));
     obj.push_back(Pair("incrementalfee", ValueFromAmount(::incrementalRelayFee.GetFeePerK())));
     UniValue localAddresses(UniValue::VARR);
     {

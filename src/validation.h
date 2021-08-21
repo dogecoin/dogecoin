@@ -54,13 +54,15 @@ static const bool DEFAULT_WHITELISTRELAY = true;
 /** Default for DEFAULT_WHITELISTFORCERELAY. */
 static const bool DEFAULT_WHITELISTFORCERELAY = true;
 /** Default for -minrelaytxfee, minimum relay fee for transactions */
-static const unsigned int DEFAULT_MIN_RELAY_TX_FEE = COIN;
+static const CAmount DEFAULT_MIN_RELAY_TX_FEE = COIN / 1000;
 //! -maxtxfee default
 static const CAmount DEFAULT_TRANSACTION_MAXFEE = 400 * COIN;
 //! Discourage users to set fees higher than this amount (in satoshis) per kB
-static const CAmount HIGH_TX_FEE_PER_KB = 25 * COIN;
+//mlumin: 5/2021 adjusted downward for fee revisions
+static const CAmount HIGH_TX_FEE_PER_KB = 10 * COIN;
 //! -maxtxfee will warn if called with a higher fee than this amount (in satoshis)
-static const CAmount HIGH_MAX_TX_FEE = 10 * HIGH_TX_FEE_PER_KB;
+//mlumin: 5/2021 adjusted max upward in terms of coin
+static const CAmount HIGH_MAX_TX_FEE = 100 * HIGH_TX_FEE_PER_KB;
 /** Default for -limitancestorcount, max number of in-mempool ancestors */
 static const unsigned int DEFAULT_ANCESTOR_LIMIT = 25;
 /** Default for -limitancestorsize, maximum kilobytes of tx + all in-mempool ancestors */
@@ -175,7 +177,8 @@ extern bool fCheckBlockIndex;
 extern bool fCheckpointsEnabled;
 extern size_t nCoinCacheUsage;
 /** A fee rate smaller than this is considered zero fee (for relaying, mining and transaction creation) */
-extern CFeeRate minRelayTxFee;
+//mlumin 5/2021: changing variable name to Rate vs Fee because thats what it is.
+extern CFeeRate minRelayTxFeeRate;
 /** Absolute maximum transaction fee (in satoshis) used by wallet and mempool (rejects high fee in sendrawtransaction) */
 extern CAmount maxTxFee;
 extern bool fAlerts;

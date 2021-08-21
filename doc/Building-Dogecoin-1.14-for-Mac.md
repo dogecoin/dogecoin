@@ -2,7 +2,7 @@
 
 Note that this requires changes made by michilumin on the 1.14-dev branch as well as some changes to BDB.
 
-Tested on OSX 10.11 El Capitan and 10.13 High Sierra.
+Tested on OSX 10.11 El Capitan, 10.13 High Sierra and 11.1 Big Sur.
 
 **Paper wallet printing support seems to work fine through this method as well.**
 
@@ -25,7 +25,7 @@ Make sure frameworks dir is properly owned...
     $sudo mkdir /usr/local/Frameworks
     $sudo chown $(whoami):admin /usr/local/Frameworks
 
-Install Brew.
+Install Brew. (If you already have Brew installed, perform a 'brew update'.)
 
     $/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
@@ -77,6 +77,15 @@ Build BDB 5.1.29
 
     $export LDFLAGS=-L/usr/local/BerkeleyDB.5.1/lib
     $export CPPFLAGS=-I/usr/local/BerkeleyDB.5.1/include
+    
+   _**NOTE:** for MacOS BigSur (11.1) or later, and possibly Catalina (10.15) you will also have to include the "OBJC_OLD_DISPATCH_PROTOTYPES=1" flag._
+   
+   _So in this case you want the above export to be:_
+    
+    $export CPPFLAGS="-I/usr/local/BerkeleyDB.5.1/include -DOBJC_OLD_DISPATCH_PROTOTYPES=1"
+   
+   _(Note that the quotes are required.)_
+	
     $export INCPATHS=-I/usr/local/opt/openssl/include
     $export LIBPATHS=-L/usr/local/opt/openssl/lib
     $cd /usr/local/include 

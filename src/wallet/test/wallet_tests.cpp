@@ -36,6 +36,8 @@ std::vector<std::unique_ptr<CWalletTx>> wtxn;
 
 typedef set<pair<const CWalletTx*,unsigned int> > CoinSet;
 
+extern CAmount nDustLimit;
+
 BOOST_FIXTURE_TEST_SUITE(wallet_tests, WalletTestingSetup)
 
 static const CWallet wallet;
@@ -524,6 +526,18 @@ BOOST_AUTO_TEST_CASE(GetMinimumFee_dust_test)
     BOOST_CHECK_EQUAL(CWallet::GetMinimumFee(tx, 963, 0, pool), 2 * nMinTxFee);
     BOOST_CHECK_EQUAL(CWallet::GetMinimumFee(tx, 1000, 0, pool), 2 * nMinTxFee);
     BOOST_CHECK_EQUAL(CWallet::GetMinimumFee(tx, 1999, 0, pool), 3 * nMinTxFee);
+
+    // change the hard dust limit
+
+    nDustLimit = COIN / 10;
+
+    // Confirm dust penalty fees are not added
+
+    BOOST_CHECK_EQUAL(CWallet::GetMinimumFee(tx, 963, 0, pool), 1 * nMinTxFee);
+    BOOST_CHECK_EQUAL(CWallet::GetMinimumFee(tx, 1000, 0, pool), 1 * nMinTxFee);
+    BOOST_CHECK_EQUAL(CWallet::GetMinimumFee(tx, 1999, 0, pool), 2 * nMinTxFee);
+
+    nDustLimit = COIN;
 }
 
 BOOST_AUTO_TEST_SUITE_END()

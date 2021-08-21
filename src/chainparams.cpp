@@ -170,9 +170,7 @@ public:
         base58Prefixes[EXT_PUBLIC_KEY] = boost::assign::list_of(0x02)(0xfa)(0xca)(0xfd).convert_to_container<std::vector<unsigned char> >();
         base58Prefixes[EXT_SECRET_KEY] = boost::assign::list_of(0x02)(0xfa)(0xc3)(0x98).convert_to_container<std::vector<unsigned char> >();
 
-        //TODO: fix this for dogecoin -- plddr
-        //vFixedSeeds = std::vector<SeedSpec6>(pnSeed6_main, pnSeed6_main + ARRAYLEN(pnSeed6_main));
-        vFixedSeeds.clear();
+        vFixedSeeds = std::vector<SeedSpec6>(pnSeed6_main, pnSeed6_main + ARRAYLEN(pnSeed6_main));
 
         fMiningRequiresPeers = true;
         fDefaultConsistencyChecks = false;
@@ -200,13 +198,14 @@ public:
             ( 3250000, uint256S("0x7f3e28bf9e309c4b57a4b70aa64d3b2ea5250ae797af84976ddc420d49684034"))
             ( 3500000, uint256S("0xeaa303b93c1c64d2b3a2cdcf6ccf21b10cc36626965cc2619661e8e1879abdfb"))
             ( 3606083, uint256S("0x954c7c66dee51f0a3fb1edb26200b735f5275fe54d9505c76ebd2bcabac36f1e"))
+            ( 3854173, uint256S("0xe4b4ecda4c022406c502a247c0525480268ce7abbbef632796e8ca1646425e75"))
         };
 
         chainTxData = ChainTxData{
-            // Data as of block 954c7c66dee51f0a3fb1edb26200b735f5275fe54d9505c76ebd2bcabac36f1e (height 3606083).
+            // Data as of block e4b4ecda4c022406c502a247c0525480268ce7abbbef632796e8ca1646425e75 (height 3854173).
             // Tx estimate based on average of year 2021 (~40k transactions per day)
-            1613217680, // * UNIX timestamp of last checkpoint block
-            71035468,   // * total number of transactions between genesis and last checkpoint
+            1628934997, // * UNIX timestamp of last checkpoint block
+            77616340,   // * total number of transactions between genesis and last checkpoint
                         //   (the tx=... number in the SetBestChain debug.log lines)
             0.46        // * estimated number of transactions per second after checkpoint
         };
@@ -318,7 +317,6 @@ public:
         assert(consensus.hashGenesisBlock == uint256S("0xbb0a78264637406b6360aad926284d544d7049f45189db5664f3c4d07350559e"));
         assert(genesis.hashMerkleRoot == uint256S("0x5b2a3f53f605d62c53e62932dac6925e3d74afa5a4b459745c36d42d0ed26a69"));
 
-        vFixedSeeds.clear();
         vSeeds.clear();
         // nodes with support for servicebits filtering should be at the top
         vSeeds.push_back(CDNSSeedData("jrn.me.uk", "testseed.jrn.me.uk"));
@@ -329,8 +327,7 @@ public:
         base58Prefixes[EXT_PUBLIC_KEY] = boost::assign::list_of(0x04)(0x35)(0x87)(0xcf).convert_to_container<std::vector<unsigned char> >();
         base58Prefixes[EXT_SECRET_KEY] = boost::assign::list_of(0x04)(0x35)(0x83)(0x94).convert_to_container<std::vector<unsigned char> >();
 
-        //TODO: fix this for dogecoin -- plddr
-        //vFixedSeeds = std::vector<SeedSpec6>(pnSeed6_test, pnSeed6_test + ARRAYLEN(pnSeed6_test));
+        vFixedSeeds = std::vector<SeedSpec6>(pnSeed6_test, pnSeed6_test + ARRAYLEN(pnSeed6_test));
 
         fMiningRequiresPeers = true;
         fDefaultConsistencyChecks = false;
@@ -354,14 +351,14 @@ public:
             ( 2500000, uint256S("0x3a66ec4933fbb348c9b1889aaf2f732fe429fd9a8f74fee6895eae061ac897e2"))
             ( 2750000, uint256S("0x473ea9f625d59f534ffcc9738ffc58f7b7b1e0e993078614f5484a9505885563"))
             ( 3062910, uint256S("0x113c41c00934f940a41f99d18b2ad9aefd183a4b7fe80527e1e6c12779bd0246"))
-
+            ( 3286675, uint256S("0x07fef07a255d510297c9189dc96da5f4e41a8184bc979df8294487f07fee1cf3"))
         };
 
         chainTxData = ChainTxData{
-            // Data as of block a113c41c00934f940a41f99d18b2ad9aefd183a4b7fe80527e1e6c12779bd024 (height 3062910)
-            1613217942, // * UNIX timestamp of last checkpoint block
-            4186373,    // * total number of transactions between genesis and last checkpoint
-            0.05        // * estimated number of transactions per second after that timestamp
+            // Data as of block 07fef07a255d510297c9189dc96da5f4e41a8184bc979df8294487f07fee1cf3 (height 3286675)
+            1628932841, // * UNIX timestamp of last checkpoint block
+            4469050,    // * total number of transactions between genesis and last checkpoint
+            0.02        // * estimated number of transactions per second after that timestamp
         };
 
     }
