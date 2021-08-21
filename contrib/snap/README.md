@@ -4,15 +4,21 @@ All the commands I used for building and pushing to Snapcraft. I've only tested 
 
 ## Building Locally
 
+```
 sudo apt install snapd
 sudo snap install --classic snapcraft
 snapcraft
+```
 
 ### To Install Locally
+```
 snap install \*.snap --devmode
+```
 
 ### To Push to Snapcraft
+```
 snapcraft login
 snapcraft register dogecoin-core
 snapcraft push \*.snap --release=edge
 sudo snap install dogecoin-core --channel=edge
+```
