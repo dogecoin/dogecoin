@@ -13,7 +13,7 @@ echo " "
 
 #Build dogecoin's Bitcoin Sha512 Implementation with the same block message ( 0xffffff )
 cd src/crypto
-g++ -I.. sha512.cpp  -o dogesha512
+g++ -I.. -I../config/  sha512.cpp  -o dogesha512
 
 #Run dogecoin's Bitcoin Sha512 Implementation
 ./dogesha512
