@@ -218,15 +218,11 @@ int main(){
 
     //Prepare test data
     unsigned char buf[64] = {0};
-    buf[0] = 0xff;
-    buf[1] = 0xff;
-    buf[2] = 0xff;
     uint64_t      *prt;
     prt = (uint64_t*) buf;
 
     //Initialize digest and process buffer
     CSHA512 hasher;
-    hasher.Write(buf, 3);   //Tried both 3 and 64
 
     //Finalize digest
     hasher.Finalize(buf);
@@ -247,8 +243,3 @@ int main(){
 
     return 0;
 }
-
-
-
-
-

@@ -6,10 +6,7 @@ int  main(int argc, char *argv[])
 {
     EVP_MD_CTX *mdctx;
     const EVP_MD *md;
-    char mess1[3];;
-    mess1[0] = 0xff;
-    mess1[1] = 0xff;
-    mess1[2] = 0xff;
+    char mess1[3] = {0};
     unsigned char md_value[EVP_MAX_MD_SIZE];
     unsigned int md_len, i;
     
