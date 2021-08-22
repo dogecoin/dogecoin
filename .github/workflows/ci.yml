@@ -162,20 +162,6 @@ jobs:
           path: ~/.ccache
           key: ${{ matrix.name }}-${{ env.cache-name }}-${{ hashFiles('**/configure.ac') }}
 
-      - name: Build nasm
-        run: |
-          cd src/crypto/intel-ipsec-mb/nasm/
-          ./autogen.sh
-          ./configure
-          make $MAKEJOBS install
-
-      - name: Build intel-ipsec-mb
-        run: |
-          cd src/crypto/intel-ipsec-mb/
-          ./autogen.sh
-          ./configure
-          make $MAKEJOBS install
-
       - name: Build Dogecoin
         run: |
           depends/${{ matrix.host }}/native/bin/ccache --max-size=$CCACHE_SIZE
