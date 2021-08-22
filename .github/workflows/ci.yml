@@ -42,7 +42,7 @@ jobs:
             packages: g++-multilib bc python3-zmq
             run-tests: true
             dep-opts: "NO_QT=1"
-            config-opts: "--enable-zmq --enable-glibc-back-compat --enable-reduce-exports LDFLAGS=-static-libstdc++"
+            config-opts: "LIBS=-lIPSec_MB --enable-zmq --enable-glibc-back-compat --enable-reduce-exports LDFLAGS=-static-libstdc++"
             goal: install
           - name: armhf-linux
             host: arm-linux-gnueabihf
@@ -166,7 +166,7 @@ jobs:
         run: |
           depends/${{ matrix.host }}/native/bin/ccache --max-size=$CCACHE_SIZE
           ./autogen.sh
-          ./configure LIBS="-lIPSec_MB" --prefix=`pwd`/depends/${{ matrix.host }} ${{ matrix.config-opts }} || ( cat config.log && false)
+          ./configure --prefix=`pwd`/depends/${{ matrix.host }} ${{ matrix.config-opts }} || ( cat config.log && false)
           make $MAKEJOBS ${{ matrix.goal }} || ( echo "Build failure. Verbose build follows." && make ${{ matrix.goal }} V=1 ; false )
 
       - name: Run tests
