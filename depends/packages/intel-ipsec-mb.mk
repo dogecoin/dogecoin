@@ -10,7 +10,7 @@ define $(package)_preprocess_cmds
 endef
 
 define $(package)_build_cmds
-  $(MAKE)
+  $(MAKE) SHARED=n
 endef
 
 define $(package)_stage_cmds
