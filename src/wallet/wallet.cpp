@@ -3904,7 +3904,7 @@ bool CWallet::ParameterInteraction()
 	    if (!IsArgSet("-mintxfee") && payTxFee < CWallet::minTxFee)
         {
             LogPrintf("%s: parameter interaction: -paytxfee=%s -> setting -mintxfee=%s\n", __func__, GetArg("-paytxfee",""), GetArg("-paytxfee",""));        
-            CWallet:minTxFee = CFeeRate(nFeePerK,1000);
+            CWallet::minTxFee = CFeeRate(nFeePerK,1000);
         }
     }
     if (IsArgSet("-maxtxfee"))
