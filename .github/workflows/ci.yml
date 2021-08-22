@@ -42,7 +42,7 @@ jobs:
             packages: g++-multilib bc python3-zmq
             run-tests: true
             dep-opts: "NO_QT=1"
-            config-opts: "LIBS=-lIPSec_MB --enable-zmq --enable-glibc-back-compat --enable-reduce-exports LDFLAGS=-static-libstdc++"
+            config-opts: "--enable-zmq --enable-glibc-back-compat --enable-reduce-exports LDFLAGS=-static-libstdc++"
             goal: install
           - name: armhf-linux
             host: arm-linux-gnueabihf
