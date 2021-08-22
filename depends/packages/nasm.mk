@@ -4,12 +4,8 @@ $(package)_download_path=http://nasm.us/pub/nasm/releasebuilds/2.15.05/
 $(package)_file_name=$(package)-$($(package)_version).tar.bz2
 $(package)_sha256_hash=3c4b8339e5ab54b1bcb2316101f8985a5da50a3f9e504d43fa6f35668bee2fd0
 
-define $(package)_set_vars
-$(package)_config_opts=--disable-shared
-endef
-
 define $(package)_config_cmds
-  $($(package)_autoconf)
+  ./configure --prefix=$(host_prefix)
 endef
 
 define $(package)_build_cmds
