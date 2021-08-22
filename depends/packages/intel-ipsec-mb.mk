@@ -1,7 +1,7 @@
 package=intel-ipsec-mb
 $(package)_version=1.0
 $(package)_download_path=https://github.com/intel/intel-ipsec-mb/archive/refs/tags
-$(package)_file_name=v$(package)_version).tar.gz
+$(package)_file_name=v$(package)_version.tar.gz
 $(package)_sha256_hash=03501aea472d3c8fdf8f1f207816eefeaf5e4ebbdc71d88dcb26b2519841bb74
 
 define $(package)_set_vars
