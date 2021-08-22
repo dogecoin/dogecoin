@@ -19,18 +19,40 @@
 #include <boost/test/unit_test.hpp>
 #include <openssl/aes.h>
 #include <openssl/evp.h>
+#include <iostream>
+#include <iomanip>
 
 BOOST_FIXTURE_TEST_SUITE(crypto_tests, BasicTestingSetup)
 
 template<typename Hasher, typename In, typename Out>
 void TestVector(const Hasher &h, const In &in, const Out &out) {
+
+    bool test = true;
+
     Out hash;
     BOOST_CHECK(out.size() == h.OUTPUT_SIZE);
     hash.resize(out.size());
     {
+                if( test ){
+                    std::cout << "Pre: " << std::endl;
+                    for(int kk = 0 ; kk < out.size(); kk++){ std::cout << std::setw(2) << std::setfill('0') << std::hex << (int)out[kk]; }    
+                    std::cout << std::endl;
+                    for(int kk = 0 ; kk < out.size(); kk++){ std::cout << std::setw(2) << std::setfill('0') << std::hex << (int)hash[kk]; }    
+                    std::cout << std::endl << std::endl;
+                }
+
         // Test that writing the whole input string at once works.
         Hasher(h).Write((unsigned char*)&in[0], in.size()).Finalize(&hash[0]);
         BOOST_CHECK(hash == out);
+                if( test ){
+                    std::cout << "Post: " << std::endl;
+                    for(int kk = 0 ; kk < out.size(); kk++){ std::cout << std::setw(2) << std::setfill('0') << std::hex << (int)out[kk]; }    
+                    std::cout << std::endl;
+                    for(int kk = 0 ; kk < out.size(); kk++){ std::cout << std::setw(2) << std::setfill('0') << std::hex << (int)hash[kk]; }    
+                    std::cout << std::endl << "------------------------------------------------------------------" << std::endl << std::endl;
+                    test = false;
+                }
+
     }
     for (int i=0; i<32; i++) {
         // Test that writing the string broken up in random pieces works.

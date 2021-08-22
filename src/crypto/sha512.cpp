@@ -213,33 +213,33 @@ CSHA512& CSHA512::Reset()
     return *this;
 }
 
-int main(){
-
-
-    //Prepare test data
-    unsigned char buf[64] = {0};
-    uint64_t      *prt;
-    prt = (uint64_t*) buf;
-
-    //Initialize digest and process buffer
-    CSHA512 hasher;
-
-    //Finalize digest
-    hasher.Finalize(buf);
-
-    //Print final digest 
-    std::cout << "Dogecoin's Bitcoin Sha512 Implementation (Input = 0xffffff )" << std::endl; 
-    std::cout << "Digest is: "; 
-    for( int kk=0; kk < 8; kk++){
-        std::cout << std::hex
-                  << std::noshowbase
-                  << std::setw(16)
-                  << std::setfill('0') 
-                  << prt[ kk ];
-    }
-
-    std::cout << std::endl;
-
-
-    return 0;
-}
+//int main(){
+//
+//
+//    //Prepare test data
+//    unsigned char buf[64] = {0};
+//    uint64_t      *prt;
+//    prt = (uint64_t*) buf;
+//
+//    //Initialize digest and process buffer
+//    CSHA512 hasher;
+//
+//    //Finalize digest
+//    hasher.Finalize(buf);
+//
+//    //Print final digest 
+//    std::cout << "Dogecoin's Bitcoin Sha512 Implementation (Input = 0xffffff )" << std::endl; 
+//    std::cout << "Digest is: "; 
+//    for( int kk=0; kk < 8; kk++){
+//        std::cout << std::hex
+//                  << std::noshowbase
+//                  << std::setw(16)
+//                  << std::setfill('0') 
+//                  << prt[ kk ];
+//    }
+//
+//    std::cout << std::endl;
+//
+//
+//    return 0;
+//}
