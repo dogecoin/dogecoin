@@ -166,7 +166,7 @@ jobs:
         run: |
           depends/${{ matrix.host }}/native/bin/ccache --max-size=$CCACHE_SIZE
           ./autogen.sh
-          ./configure LIBS="-lIPSec_MB" --prefix=`pwd`/depends/${{ matrix.host }} ${{ matrix.config-opts }} || ( cat config.log && false)
+          ./configure --prefix=`pwd`/depends/${{ matrix.host }} ${{ matrix.config-opts }} || ( cat config.log && false)
           make $MAKEJOBS ${{ matrix.goal }} || ( echo "Build failure. Verbose build follows." && make ${{ matrix.goal }} V=1 ; false )
 
       - name: Run tests
