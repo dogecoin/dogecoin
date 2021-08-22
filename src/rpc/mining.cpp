@@ -155,8 +155,8 @@ UniValue generateBlocks(boost::shared_ptr<CReserveScript> coinbaseScript, int nG
             if (nMineAuxPow) {
                 continue;
             }
-            else { 
-                throw JSONRPCError(RPC_INTERNAL_ERROR, "ProcessNewBlock, block not accepted"); 
+            else {
+                throw JSONRPCError(RPC_INTERNAL_ERROR, "ProcessNewBlock, block not accepted");
             }
         }
         ++nHeight;
