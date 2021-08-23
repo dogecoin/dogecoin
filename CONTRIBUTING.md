@@ -153,7 +153,7 @@ and consensus building requirements.
 ### Peer Review
 
 Anyone may participate in peer review which is expressed by comments in the pull
-request. Typically reviewers will review the code for obvious errors, as well as
+request. Typically, reviewers will review the code for obvious errors, as well as
 test out the patch set and opine on the technical merits of the patch.
 Repository maintainers take into account the peer review when determining if
 there is consensus to merge a pull request.
