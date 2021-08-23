@@ -99,6 +99,7 @@ if ENABLE_ZMQ:
         raise
 
 testScripts = [
+    'pruning.py',
     # longest test should go first, to favor running tests in parallel
     'wallet-hd.py',
     'walletbackup.py',
