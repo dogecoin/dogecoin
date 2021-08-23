@@ -10,9 +10,9 @@ define $(package)_preprocess_cmds
 endef
 
 define $(package)_build_cmds
-  $(MAKE) SHARED=n
+  $(MAKE)
 endef
 
 define $(package)_stage_cmds
-  $(MAKE) PREFIX=$($(package)_staging_dir) install
+  $(MAKE) PREFIX=$($(package)_staging_dir) SHARED=n install
 endef
