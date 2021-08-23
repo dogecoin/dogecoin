@@ -170,7 +170,6 @@ if ENABLE_ZMQ:
     testScripts.append('zmq_test.py')
 
 testScriptsExt = [
-    'pruning.py',
     # vv Tests less than 20m vv
     'smartfees.py',
     # vv Tests less than 5m vv
