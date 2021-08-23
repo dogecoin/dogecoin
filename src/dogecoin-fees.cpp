@@ -23,6 +23,7 @@ CAmount GetDogecoinWalletFee(size_t nBytes_)
 {
     //mlumin: super simple fee calc for dogecoin
     CAmount nFee=GetDogecoinWalletFeeRate().GetFee(nBytes_);
+    return nFee;
 }
 
 //mlumin 5/2021: Establish a wallet rate of n koinu per kb.

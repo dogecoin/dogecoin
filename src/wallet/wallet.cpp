@@ -3900,11 +3900,11 @@ bool CWallet::ParameterInteraction()
                                        GetArg("-paytxfee", ""), ::minRelayTxFeeRate.ToString()));
         }
 
-	    // if -mintxfee is not set, then a lower payTxFee overrides minTxFee
-	    if (!IsArgSet("-mintxfee") && payTxFee < CWallet::minTxFee)
+        // if -mintxfee is not set, then a lower payTxFee overrides minTxFee
+        if (!IsArgSet("-mintxfee") && payTxFee < CWallet::minTxFee)
         {
-            LogPrintf("%s: parameter interaction: -paytxfee=%s -> setting -mintxfee=%s\n", __func__, GetArg("-paytxfee",""), GetArg("-paytxfee",""));        
-            CWallet:minTxFee = CFeeRate(nFeePerK,1000);
+            LogPrintf("%s: parameter interaction: -paytxfee=%s -> setting -mintxfee=%s\n", __func__, GetArg("-paytxfee",""), GetArg("-paytxfee",""));
+            CWallet::minTxFee = CFeeRate(nFeePerK,1000);
         }
     }
     if (IsArgSet("-maxtxfee"))
