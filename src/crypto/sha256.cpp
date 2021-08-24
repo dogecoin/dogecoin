@@ -8,7 +8,7 @@
 
 #include <string.h>
 
-#if defined(__x86_64__)
+#if defined(__linux__) || defined(_WIN64) && !(defined(__APPLE__))
 #define USE_AVX2
 #include <intel-ipsec-mb.h>
 #endif
