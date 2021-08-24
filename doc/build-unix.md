@@ -43,7 +43,7 @@ Wallet is optional to run a node, see [Wallet](#wallet) section to enable them.
  Library     | Purpose          | Description
  ------------|------------------|----------------------
  miniupnpc   | UPnP Support     | Firewall-jumping support
- libdb5.1    | Berkeley DB      | Wallet storage (only needed when wallet enabled)
+ libdb5.3    | Berkeley DB      | Wallet storage (only needed when wallet enabled)
  qt          | GUI              | GUI toolkit (only needed when GUI enabled)
  protobuf    | Payments in GUI  | Data interchange format used for payment protocol (only needed when GUI enabled)
  libqrencode | QR codes in GUI  | Optional for generating QR codes (only needed when GUI enabled)
@@ -108,24 +108,24 @@ Create `dogecoin-qt`, the core wallet GUI.
 #### Wallet
 BerkeleyDB is required for wallet functionality and use the `wallet.dat` file.
 
-By default, **Dogecoin Core expect BerkeleyDB 5.1**.  
+By default, **Dogecoin Core expect BerkeleyDB 5.3**.
 You can use a different version by specifying `--with-incompatible-bdb` flag.
 
 If no package is available for your distribution  in optional dependencies, you can build BerkeleyDB from source :
 ```bash
-# Install script for BerkeleyDB 5.1
+# Install script for BerkeleyDB 5.3
 
 # BerkeleyDB installation directory
 BDB_PREFIX=$(pwd)/bdb
 mkdir $BDB_PREFIX
 
 # Fetch the source and verify shasum
-wget 'http://download.oracle.com/berkeley-db/db-5.1.29.NC.tar.gz'
-echo '08238e59736d1aacdd47cfb8e68684c695516c37f4fbe1b8267dde58dc3a576c db-5.1.29.NC.tar.gz' | sha256sum -c
+wget 'http://download.oracle.com/berkeley-db/db-5.3.28.NC.tar.gz'
+echo '76a25560d9e52a198d37a31440fd07632b5f1f8f9f2b6d5438f4bc3e7c9013efdb-5.3.28.NC.tar.gz' | sha256sum -c
 
 # Extract sources
-tar -xzvf db-5.1.29.NC.tar.gz
-cd db-5.1.29.NC/build_unix/
+tar -xzvf db-5.3.28.NC.tar.gz
+cd db-5.3.28.NC/build_unix/
 
 # Apply patch (see https://gist.github.com/danieldk/5700533)
 sed -i  's/__atomic_compare_exchange/__atomic_compare_exchange_db/g' ../src/dbinc/atomic.h
