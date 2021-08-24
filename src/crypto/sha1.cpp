@@ -8,9 +8,9 @@
 
 #include <string.h>
 
-#if define (__ia64__) &&
-     ((defined(__linux__) || defined(_WIN64)) &&
-     !(defined(__APPLE__)))
+#if defined(__ia64__) && \
+    (defined(__linux__) || defined(_WIN64)) && \
+    !defined(__APPLE__)
 #define USE_AVX2
 #include <intel-ipsec-mb.h>
 #endif
