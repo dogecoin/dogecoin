@@ -11,7 +11,7 @@ define $(package)_preprocess_cmds
 endef
 
 define $(package)_build_cmds
-  $(MAKE)
+  $(MAKE) NASM=$(host_prefix)/bin/nasm
 endef
 
 define $(package)_stage_cmds
