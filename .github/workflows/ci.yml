@@ -38,7 +38,7 @@ jobs:
         include:
           - name: i686-linux
             host: i686-pc-linux-gnu
-            os: ubuntu-20.04
+            os: ubuntu-18.04
             packages: g++-multilib bc python3-zmq
             run-tests: true
             dep-opts: "NO_QT=1"
@@ -46,7 +46,7 @@ jobs:
             goal: install
           - name: armhf-linux
             host: arm-linux-gnueabihf
-            os: ubuntu-20.04
+            os: ubuntu-18.04
             packages: g++-arm-linux-gnueabihf
             run-tests: false
             dep-opts: "NO_QT=1"
@@ -54,7 +54,7 @@ jobs:
             goal: install
           - name: x86_64-linux-nowallet
             host: x86_64-unknown-linux-gnu
-            os: ubuntu-20.04
+            os: ubuntu-18.04
             packages: python3
             run-tests: true
             dep-opts: "NO_WALLET=1"
@@ -62,7 +62,7 @@ jobs:
             goal: install
           - name: x86_64-linux-dbg
             host: x86_64-unknown-linux-gnu
-            os: ubuntu-20.04
+            os: ubuntu-18.04
             packages: bc python3-zmq
             run-tests: true
             dep-opts: "DEBUG=1"
@@ -71,8 +71,8 @@ jobs:
           - name: i686-win
             host: i686-w64-mingw32
             arch: "i386"
-            os: ubuntu-20.04
-            packages: python3 nsis g++-mingw-w64-i686 wine bc wine-binfmt
+            os: ubuntu-18.04
+            packages: python3 nsis g++-mingw-w64-i686 wine-stable bc wine-binfmt
             postinstall: |
               sudo update-alternatives --set i686-w64-mingw32-gcc /usr/bin/i686-w64-mingw32-gcc-posix
               sudo update-alternatives --set i686-w64-mingw32-g++  /usr/bin/i686-w64-mingw32-g++-posix
@@ -84,7 +84,7 @@ jobs:
           - name: x86_64-win
             host: x86_64-w64-mingw32
             arch: "i386"
-            os: ubuntu-20.04
+            os: ubuntu-18.04
             packages: python3 nsis g++-mingw-w64-x86-64 wine64 bc wine-binfmt
             postinstall: |
               sudo update-alternatives --set x86_64-w64-mingw32-gcc  /usr/bin/x86_64-w64-mingw32-gcc-posix
