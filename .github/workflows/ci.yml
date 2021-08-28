@@ -78,7 +78,7 @@ jobs:
               sudo update-alternatives --set i686-w64-mingw32-g++  /usr/bin/i686-w64-mingw32-g++-posix
               sudo update-binfmts --import /usr/share/binfmts/wine
             run-tests: true
-            dep-opts: ""
+            dep-opts: "LIBS=-lIPSec_MB"
             config-opts: "--enable-reduce-exports --enable-gui=qt5"
             goal: install
           - name: x86_64-win
