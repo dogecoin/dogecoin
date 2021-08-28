@@ -388,7 +388,6 @@ case $host in
      ;;
    *linux*)
      TARGET_OS=linux
-     AC_CHECK_LIB([IPSec_MB],      [main],IPSEC_MB_LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
      LEVELDB_TARGET_FLAGS="-DOS_LINUX"
      ;;
    *freebsd*)
@@ -785,6 +784,10 @@ if test x$boost_sleep != xyes; then
 fi
 
 fi
+
+AC_CHECK_LIB([IPSec_MB],[sha1_one_block_avx2],IPSEC_MB_LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
+AC_CHECK_LIB([IPSec_MB],[sha256_one_block_avx2],IPSEC_MB_LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
+AC_CHECK_LIB([IPSec_MB],[sha512_one_block_avx2],IPSEC_MB_LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
 
 if test x$use_pkgconfig = xyes; then
   : dnl
