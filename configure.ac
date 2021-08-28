@@ -786,7 +786,7 @@ fi
 fi
 
 case $host in
-   *-*-linux-gnu)
+   x86_64-*)
   AC_CHECK_LIB([IPSec_MB],[sha1_one_block_avx2],IPSEC_MB_LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
   AC_CHECK_LIB([IPSec_MB],[sha256_one_block_avx2],IPSEC_MB_LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
   AC_CHECK_LIB([IPSec_MB],[sha512_one_block_avx2],IPSEC_MB_LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
