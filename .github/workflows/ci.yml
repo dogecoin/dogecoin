@@ -58,7 +58,7 @@ jobs:
             packages: python3
             run-tests: true
             dep-opts: "NO_WALLET=1"
-            config-opts: "--enable-gui=qt5 --enable-glibc-back-compat --enable-reduce-exports --disable-wallet"
+            config-opts: "--enable-gui=qt5 --enable-glibc-back-compat --enable-reduce-exports --disable-wallet LIBS=-lIPSec_MB"
             goal: install
           - name: x86_64-linux-dbg
             host: x86_64-unknown-linux-gnu
@@ -66,7 +66,7 @@ jobs:
             packages: bc python3-zmq
             run-tests: true
             dep-opts: "DEBUG=1"
-            config-opts: "--enable-gui=qt5 --enable-zmq --enable-glibc-back-compat --enable-reduce-exports CPPFLAGS=-DDEBUG_LOCKORDER"
+            config-opts: "--enable-gui=qt5 --enable-zmq --enable-glibc-back-compat --enable-reduce-exports CPPFLAGS=-DDEBUG_LOCKORDER LIBS=-lIPSec_MB"
             goal: install
           - name: i686-win
             host: i686-w64-mingw32
@@ -92,7 +92,7 @@ jobs:
               sudo update-binfmts --import /usr/share/binfmts/wine
             run-tests: true
             dep-opts: ""
-            config-opts: "--enable-reduce-exports --enable-gui=qt5"
+            config-opts: "--enable-reduce-exports --enable-gui=qt5 LIBS=-lIPSec_MB"
             goal: install
           - name: x86_64-macos
             host: x86_64-apple-darwin11
