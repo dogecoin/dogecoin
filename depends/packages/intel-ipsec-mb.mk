@@ -15,5 +15,5 @@ define $(package)_build_cmds
 endef
 
 define $(package)_stage_cmds
-  $(MAKE) NASM=$(host_prefix)/bin/nasm PREFIX=$($(package)_staging_prefix_dir) SHARED=n install
+  $(MAKE) NASM=$(host_prefix)/bin/nasm PREFIX=$($(package)_staging_prefix_dir) install
 endef
