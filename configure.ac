@@ -283,7 +283,6 @@ case $host in
      AC_CHECK_LIB([shlwapi],      [main],, AC_MSG_ERROR(lib missing))
      AC_CHECK_LIB([iphlpapi],      [main],, AC_MSG_ERROR(lib missing))
      AC_CHECK_LIB([crypt32],      [main],, AC_MSG_ERROR(lib missing))
-     AC_CHECK_LIB([IPSec_MB],      [main],, AC_MSG_ERROR(lib missing))
 
      # -static is interpreted by libtool, where it has a different meaning.
      # In libtool-speak, it's -all-static.
@@ -389,6 +388,7 @@ case $host in
      ;;
    *linux*)
      TARGET_OS=linux
+     AC_CHECK_LIB([IPSec_MB],      [main],IPSEC_MB_LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
      LEVELDB_TARGET_FLAGS="-DOS_LINUX"
      ;;
    *freebsd*)
@@ -1105,6 +1105,7 @@ AC_SUBST(TESTDEFS)
 AC_SUBST(LEVELDB_TARGET_FLAGS)
 AC_SUBST(MINIUPNPC_CPPFLAGS)
 AC_SUBST(MINIUPNPC_LIBS)
+AC_SUBST(IPSEC_MB_LIBS)
 AC_SUBST(CRYPTO_LIBS)
 AC_SUBST(SSL_LIBS)
 AC_SUBST(EVENT_LIBS)
