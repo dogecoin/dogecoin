@@ -1,12 +1,11 @@
 Building on FreeBSD
 --------------------
 
-***NOTE: This documentation is outdated and needs to be updated***
-
-(Updated as of FreeBSD 11.0)
+**Last tested with:** 1.14.5-dev (as of 18dbe32)
+**Tested on:** FreeBSD 11.4
 
 Clang is installed by default as `cc` compiler, this makes it easier to get
-started than on [OpenBSD](build-openbsd.md). Installing dependencies:
+started than on other distros. Installing dependencies:
 
     pkg install autoconf automake libtool pkgconf
     pkg install boost-libs openssl libevent
@@ -19,16 +18,19 @@ For the wallet (optional):
 
     pkg install db5
 
-This will give a warning "configure: WARNING: Found Berkeley DB other
-than 4.8; wallets opened by this build will not be portable!", but as FreeBSD never
-had a binary release, this may not matter. If backwards compatibility
-with 4.8-built Dogecoin Core is needed follow the steps under "Berkeley DB" above.
+As of writing, the default hardening routines will fail on the scrypt code, so
+currently, no hardened executables can be built, and the `--disable-hardening`
+flag is needed for successful compilation.
 
 Then build using:
 
-    ./autogen.sh
-    ./configure --with-incompatible-bdb BDB_CFLAGS="-I/usr/local/include/db5" BDB_LIBS="-L/usr/local/lib -ldb_cxx-5"
-    gmake
+```bash
+  ./autogen.sh
+  ./configure --disable-hardening MAKE="gmake" \
+      CFLAGS="-I/usr/local/include" CXXFLAGS="-I/usr/local/include -I/usr/local/include/db5" \
+      LDFLAGS="-L/usr/local/lib -L/usr/local/lib/db5"
+  gmake
+```
 
 *Note on debugging*: The version of `gdb` installed by default is [ancient and considered harmful](https://wiki.freebsd.org/GdbRetirement).
 It is not suitable for debugging a multi-threaded C++ program, not even for getting backtraces. Please install the package `gdb` and
