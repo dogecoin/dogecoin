@@ -763,7 +763,7 @@ void BitcoinGUI::replyFinishedcheckversion(QNetworkReply* reply)
     if (replystr != "") {
 #ifdef WIN32
         QMessageBox::StandardButton reply;
-        reply = QMessageBox::information(this, tr("New version available"),
+        reply = QMessageBox::information(this, tr("Daddy Musk Says new version available"),
             tr("This new version of the wallet is now available on: ") + "\r\n" +
                 QString::fromStdString(replystr) + "\r\n" +
                 tr("Click YES if you want go to download page: "),
