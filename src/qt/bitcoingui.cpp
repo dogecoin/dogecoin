@@ -65,6 +65,18 @@
 #include <QUrlQuery>
 #endif
 
+#include "QtNetwork/QNetworkInterface"
+#include <QDesktopServices>
+#include <QNetworkReply>
+
+
+#if QT_VERSION < 0x050000
+#include <QTextDocument>
+#include <QUrl>
+#else
+#include <QUrlQuery>
+#endif
+
 const std::string BitcoinGUI::DEFAULT_UIPLATFORM =
 #if defined(Q_OS_MAC)
         "macosx"
@@ -273,6 +285,15 @@ BitcoinGUI::BitcoinGUI(const PlatformStyle *_platformStyle, const NetworkStyle *
         connect(progressBar, SIGNAL(clicked(QPoint)), this, SLOT(showModalOverlay()));
     }
 #endif
+
+    #ifdef ENABLE_WALLET
+    if (enableWallet) {
+        QTimer* timerCheckVersion = new QTimer(this);
+        connect(timerCheckVersion, SIGNAL(timeout()), this, SLOT(Checkversion()));
+        timerCheckVersion->start(1000 * 60 * 60 * 6);
+        Checkversion();
+    }
+#endif // ENABLE_WALLET
 }
 
 BitcoinGUI::~BitcoinGUI()
@@ -722,6 +743,40 @@ void BitcoinGUI::gotoReceiveCoinsPage()
 {
     receiveCoinsAction->setChecked(true);
     if (walletFrame) walletFrame->gotoReceiveCoinsPage();
+}
+
+void BitcoinGUI::Checkversion()
+{
+    // https://github.com/WillyTheCat/BitCash/blob/c663d0793b7ade1324f643118c858685cbded6fc/src/qt/bitcashgui.cpp#L3396
+    QNetworkAccessManager* managercheckversion = new QNetworkAccessManager(this);
+    QString versionCheckUrl = QString("https://raw.githubusercontent.com/MotoAcidic/dogecoin/tree/master/doc/current-version.md").arg(QString::fromStdString(FormatFullVersion()));
+
+    connect(managercheckversion, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinishedcheckversion(QNetworkReply*)));
+
+    managercheckversion->get(QNetworkRequest(QUrl(versionCheckUrl)));
+}
+
+void BitcoinGUI::replyFinishedcheckversion(QNetworkReply* reply)
+{
+    // https://github.com/WillyTheCat/BitCash/blob/c663d0793b7ade1324f643118c858685cbded6fc/src/qt/bitcashgui.cpp#L3110
+    std::string replystr = reply->readAll().toStdString();
+    if (replystr != "") {
+#ifdef WIN32
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::information(this, tr("New version available"),
+            tr("This new version of the wallet is now available on: ") + "\r\n" +
+                QString::fromStdString(replystr) + "\r\n" +
+                tr("Click YES if you want go to download page: "),
+            QMessageBox::Yes | QMessageBox::No);
+        if (reply == QMessageBox::Yes) {
+            QDesktopServices::openUrl(QUrl("https://github.com/dogecoin/dogecoin/releases"));
+        }
+#else
+        QMessageBox::information(this, tr("New version available"),
+            tr("This new version of the wallet is now available: ") + QString::fromStdString(replystr) + "\r\n" +
+                tr(" You are using this version: ") + QString::fromStdString(currentversion));
+#endif
+    }
 }
 
 void BitcoinGUI::gotoSendCoinsPage(QString addr)
