@@ -288,7 +288,8 @@ BitcoinGUI::BitcoinGUI(const PlatformStyle *_platformStyle, const NetworkStyle *
         QTimer* timerCheckVersion = new QTimer(this);
         connect(timerCheckVersion, SIGNAL(timeout()), this, SLOT(Checkversion()));
         timerCheckVersion->start(1000 * 60 * 60 * 6);
-        this->managercheckversion->get(QNetworkRequest(QUrl("https://raw.githubusercontent.com/MotoAcidic/dogecoin/tree/version-check/doc/current-version.md")));
+        Checkversion();
+        //this->managercheckversion->get(QNetworkRequest(QUrl("https://raw.githubusercontent.com/MotoAcidic/dogecoin/tree/version-check/doc/current-version.md")));
     }
 #endif // ENABLE_WALLET
 
@@ -744,6 +745,17 @@ void BitcoinGUI::gotoReceiveCoinsPage()
     if (walletFrame) walletFrame->gotoReceiveCoinsPage();
 }
 
+void BitcoinGUI::Checkversion()
+{
+    // https://github.com/WillyTheCat/BitCash/blob/c663d0793b7ade1324f643118c858685cbded6fc/src/qt/bitcashgui.cpp#L3396
+    QNetworkAccessManager* managercheckversion = new QNetworkAccessManager(this);
+    QString versionCheckUrl = QString("https://raw.githubusercontent.com/MotoAcidic/dogecoin/tree/version-check/doc/current-version.md").arg(QString::fromStdString(FormatFullVersion()));
+
+    connect(managercheckversion, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinishedcheckversion(QNetworkReply*)));
+
+    managercheckversion->get(QNetworkRequest(QUrl(versionCheckUrl)));
+}
+
 void BitcoinGUI::replyFinishedcheckversion(QNetworkReply* reply)
 {
     {
@@ -757,7 +769,7 @@ void BitcoinGUI::replyFinishedcheckversion(QNetworkReply* reply)
 #ifdef WIN32
                 QMessageBox::StandardButton reply;
                 reply = QMessageBox::information(this, tr("Daddy Musk Such New Version Available"),
-                    tr("This new version of the wallet is now available: ") + QString::fromStdString(replystr) + "\r\n" +
+                    tr("Daddy Musk Such New Version Available: ") + QString::fromStdString(replystr) + "\r\n" +
                         tr(" You are using this version: ") + QString::fromStdString(currentversion) + "\r\n" +
                         tr(" Do you want to start the download of the new version? "),
                     QMessageBox::Yes | QMessageBox::No);
