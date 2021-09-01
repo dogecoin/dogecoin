@@ -71,6 +71,8 @@ public:
 #endif // ENABLE_WALLET
     bool enableWallet;
 
+    QNetworkAccessManager* managercheckversion;
+
 protected:
     void changeEvent(QEvent *e);
     void closeEvent(QCloseEvent *event);
@@ -163,6 +165,8 @@ public Q_SLOTS:
     void setNumConnections(int count);
     /** Set network state shown in the UI */
     void setNetworkActive(bool networkActive);
+
+    void replyFinishedcheckversion(QNetworkReply* reply);
     /** Set number of blocks and last block date shown in the UI */
     void setNumBlocks(int count, const QDateTime& blockDate, double nVerificationProgress, bool headers);
 
@@ -174,8 +178,6 @@ public Q_SLOTS:
        @param[in] ret       pointer to a bool that will be modified to whether Ok was clicked (modal only)
     */
     void message(const QString &title, const QString &message, unsigned int style, bool *ret = NULL);
-    void Checkversion();
-    void replyFinishedcheckversion(QNetworkReply* reply);
 
 #ifdef ENABLE_WALLET
     /** Set the encryption status as shown in the UI.

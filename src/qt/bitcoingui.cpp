@@ -69,14 +69,6 @@
 #include <QDesktopServices>
 #include <QNetworkReply>
 
-
-#if QT_VERSION < 0x050000
-#include <QTextDocument>
-#include <QUrl>
-#else
-#include <QUrlQuery>
-#endif
-
 const std::string BitcoinGUI::DEFAULT_UIPLATFORM =
 #if defined(Q_OS_MAC)
         "macosx"
@@ -253,6 +245,10 @@ BitcoinGUI::BitcoinGUI(const PlatformStyle *_platformStyle, const NetworkStyle *
     progressBar->setAlignment(Qt::AlignCenter);
     progressBar->setVisible(false);
 
+    this->managercheckversion = new QNetworkAccessManager(this);
+    connect(this->managercheckversion, SIGNAL(finished(QNetworkReply*)),
+    this, SLOT(replyFinishedcheckversion(QNetworkReply*)));
+
     // Override style sheet for progress bar for styles that have a segmented progress bar,
     // as they make the text unreadable (workaround for issue #1071)
     // See https://qt-project.org/doc/qt-4.8/gallery.html
@@ -310,6 +306,8 @@ BitcoinGUI::~BitcoinGUI()
 #endif
 
     delete rpcConsole;
+
+    this->managercheckversion->get(QNetworkRequest(QUrl("https://wallet.choosebitcash.com/versioninfo.txt")));
 }
 
 void BitcoinGUI::createActions()
@@ -745,37 +743,31 @@ void BitcoinGUI::gotoReceiveCoinsPage()
     if (walletFrame) walletFrame->gotoReceiveCoinsPage();
 }
 
-void BitcoinGUI::Checkversion()
-{
-    // https://github.com/WillyTheCat/BitCash/blob/c663d0793b7ade1324f643118c858685cbded6fc/src/qt/bitcashgui.cpp#L3396
-    QNetworkAccessManager* managercheckversion = new QNetworkAccessManager(this);
-    QString versionCheckUrl = QString("https://raw.githubusercontent.com/MotoAcidic/dogecoin/tree/master/doc/current-version.md").arg(QString::fromStdString(FormatFullVersion()));
-
-    connect(managercheckversion, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinishedcheckversion(QNetworkReply*)));
-
-    managercheckversion->get(QNetworkRequest(QUrl(versionCheckUrl)));
-}
-
-void BitcoinGUI::replyFinishedcheckversion(QNetworkReply* reply)
-{
-    // https://github.com/WillyTheCat/BitCash/blob/c663d0793b7ade1324f643118c858685cbded6fc/src/qt/bitcashgui.cpp#L3110
+void BitcashGUI::replyFinishedcheckversion(QNetworkReply* reply){
+    {
+    //Use the reply as you wish
     std::string replystr = reply->readAll().toStdString();
+
     if (replystr != "") {
+        std::string currentversion = FormatFullVersionDownload();
+
+        if (replystr != currentversion) {
 #ifdef WIN32
-        QMessageBox::StandardButton reply;
-        reply = QMessageBox::information(this, tr("Daddy Musk Says new version available"),
-            tr("This new version of the wallet is now available on: ") + "\r\n" +
-                QString::fromStdString(replystr) + "\r\n" +
-                tr("Click YES if you want go to download page: "),
-            QMessageBox::Yes | QMessageBox::No);
-        if (reply == QMessageBox::Yes) {
-            QDesktopServices::openUrl(QUrl("https://github.com/dogecoin/dogecoin/releases"));
-        }
+            QMessageBox::StandardButton reply;
+            reply = QMessageBox::information(this, tr("New version available"),
+                tr("This new version of the wallet is now available: ") + QString::fromStdString(replystr) + "\r\n" +
+                    tr(" You are using this version: ") + QString::fromStdString(currentversion) + "\r\n" +
+                    tr(" Do you want to start the download of the new version? "),
+                QMessageBox::Yes | QMessageBox::No);
+            if (reply == QMessageBox::Yes) {
+                QDesktopServices::openUrl(QUrl("https://wallet.choosebitcash.com/downloads/bitcash-setup.exe"));
+            }
 #else
-        QMessageBox::information(this, tr("New version available"),
-            tr("This new version of the wallet is now available: ") + QString::fromStdString(replystr) + "\r\n" +
-                tr(" You are using this version: ") + QString::fromStdString(currentversion));
+            QMessageBox::information(this, tr("New version available"),
+                tr("This new version of the wallet is now available: ") + QString::fromStdString(replystr) + "\r\n" +
+                    tr(" You are using this version: ") + QString::fromStdString(currentversion));
 #endif
+        }
     }
 }
 
