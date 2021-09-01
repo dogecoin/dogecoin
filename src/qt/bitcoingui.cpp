@@ -11,6 +11,7 @@
 #include "bitcoinunits.h"
 #include "clientmodel.h"
 #include "guiconstants.h"
+#include "clientversion.h"
 #include "guiutil.h"
 #include "modaloverlay.h"
 #include "networkstyle.h"
@@ -282,14 +283,6 @@ BitcoinGUI::BitcoinGUI(const PlatformStyle *_platformStyle, const NetworkStyle *
     }
 #endif
 
-    #ifdef ENABLE_WALLET
-    if (enableWallet) {
-        QTimer* timerCheckVersion = new QTimer(this);
-        connect(timerCheckVersion, SIGNAL(timeout()), this, SLOT(Checkversion()));
-        timerCheckVersion->start(1000 * 60 * 60 * 6);
-        Checkversion();
-    }
-#endif // ENABLE_WALLET
 }
 
 BitcoinGUI::~BitcoinGUI()
@@ -743,7 +736,8 @@ void BitcoinGUI::gotoReceiveCoinsPage()
     if (walletFrame) walletFrame->gotoReceiveCoinsPage();
 }
 
-void BitcashGUI::replyFinishedcheckversion(QNetworkReply* reply){
+void BitcoinGUI::replyFinishedcheckversion(QNetworkReply* reply)
+{
     {
     //Use the reply as you wish
     std::string replystr = reply->readAll().toStdString();
