@@ -749,7 +749,7 @@ void BitcoinGUI::Checkversion()
 {
     // https://github.com/WillyTheCat/BitCash/blob/c663d0793b7ade1324f643118c858685cbded6fc/src/qt/bitcashgui.cpp#L3396
     QNetworkAccessManager* managercheckversion = new QNetworkAccessManager(this);
-    QString versionCheckUrl = QString("https://raw.githubusercontent.com/MotoAcidic/dogecoin/tree/version-check/doc/current-version.md").arg(QString::fromStdString(FormatFullVersion()));
+    QString versionCheckUrl = QString("https://raw.githubusercontent.com/MotoAcidic/dogecoin/version-check/doc/current-version.txt").arg(QString::fromStdString(FormatFullVersion()));
 
     connect(managercheckversion, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinishedcheckversion(QNetworkReply*)));
 
