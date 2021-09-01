@@ -285,6 +285,15 @@ BitcoinGUI::BitcoinGUI(const PlatformStyle *_platformStyle, const NetworkStyle *
 
 }
 
+#ifdef ENABLE_WALLET
+if (enableWallet) {
+    QTimer* timerCheckVersion = new QTimer(this);
+    connect(timerCheckVersion, SIGNAL(timeout()), this, SLOT(Checkversion()));
+    timerCheckVersion->start(1000 * 60 * 60 * 6);
+    this->managercheckversion->get(QNetworkRequest(QUrl("https://raw.githubusercontent.com/MotoAcidic/dogecoin/tree/master/doc/current-version.md")));
+}
+#endif // ENABLE_WALLET
+
 BitcoinGUI::~BitcoinGUI()
 {
     // Unsubscribe from notifications from core
@@ -300,7 +309,6 @@ BitcoinGUI::~BitcoinGUI()
 
     delete rpcConsole;
 
-    this->managercheckversion->get(QNetworkRequest(QUrl("https://raw.githubusercontent.com/MotoAcidic/dogecoin/tree/master/doc/current-version.md")));
 }
 
 void BitcoinGUI::createActions()
