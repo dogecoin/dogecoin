@@ -739,28 +739,29 @@ void BitcoinGUI::gotoReceiveCoinsPage()
 void BitcoinGUI::replyFinishedcheckversion(QNetworkReply* reply)
 {
     {
-    //Use the reply as you wish
-    std::string replystr = reply->readAll().toStdString();
+        //Use the reply as you wish
+        std::string replystr = reply->readAll().toStdString();
 
-    if (replystr != "") {
-        std::string currentversion = FormatFullVersionDownload();
+        if (replystr != "") {
+            std::string currentversion = FormatFullVersionDownload();
 
-        if (replystr != currentversion) {
+            if (replystr != currentversion) {
 #ifdef WIN32
-            QMessageBox::StandardButton reply;
-            reply = QMessageBox::information(this, tr("New version available"),
-                tr("This new version of the wallet is now available: ") + QString::fromStdString(replystr) + "\r\n" +
-                    tr(" You are using this version: ") + QString::fromStdString(currentversion) + "\r\n" +
-                    tr(" Do you want to start the download of the new version? "),
-                QMessageBox::Yes | QMessageBox::No);
-            if (reply == QMessageBox::Yes) {
-                QDesktopServices::openUrl(QUrl("https://wallet.choosebitcash.com/downloads/bitcash-setup.exe"));
-            }
+                QMessageBox::StandardButton reply;
+                reply = QMessageBox::information(this, tr("New version available"),
+                    tr("This new version of the wallet is now available: ") + QString::fromStdString(replystr) + "\r\n" +
+                        tr(" You are using this version: ") + QString::fromStdString(currentversion) + "\r\n" +
+                        tr(" Do you want to start the download of the new version? "),
+                    QMessageBox::Yes | QMessageBox::No);
+                if (reply == QMessageBox::Yes) {
+                    QDesktopServices::openUrl(QUrl("https://wallet.choosebitcash.com/downloads/bitcash-setup.exe"));
+                }
 #else
-            QMessageBox::information(this, tr("New version available"),
-                tr("This new version of the wallet is now available: ") + QString::fromStdString(replystr) + "\r\n" +
-                    tr(" You are using this version: ") + QString::fromStdString(currentversion));
+                QMessageBox::information(this, tr("New version available"),
+                    tr("This new version of the wallet is now available: ") + QString::fromStdString(replystr) + "\r\n" +
+                        tr(" You are using this version: ") + QString::fromStdString(currentversion));
 #endif
+            }
         }
     }
 }
