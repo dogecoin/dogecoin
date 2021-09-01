@@ -288,7 +288,7 @@ BitcoinGUI::BitcoinGUI(const PlatformStyle *_platformStyle, const NetworkStyle *
         QTimer* timerCheckVersion = new QTimer(this);
         connect(timerCheckVersion, SIGNAL(timeout()), this, SLOT(Checkversion()));
         timerCheckVersion->start(1000 * 60 * 60 * 6);
-        this->managercheckversion->get(QNetworkRequest(QUrl("https://raw.githubusercontent.com/MotoAcidic/dogecoin/tree/master/doc/current-version.md")));
+        this->managercheckversion->get(QNetworkRequest(QUrl("https://raw.githubusercontent.com/MotoAcidic/dogecoin/tree/version-check/doc/current-version.md")));
     }
 #endif // ENABLE_WALLET
 
