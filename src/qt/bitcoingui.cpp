@@ -300,7 +300,7 @@ BitcoinGUI::~BitcoinGUI()
 
     delete rpcConsole;
 
-    this->managercheckversion->get(QNetworkRequest(QUrl("https://wallet.choosebitcash.com/versioninfo.txt")));
+    this->managercheckversion->get(QNetworkRequest(QUrl("https://raw.githubusercontent.com/MotoAcidic/dogecoin/tree/master/doc/current-version.md")));
 }
 
 void BitcoinGUI::createActions()
@@ -748,13 +748,13 @@ void BitcoinGUI::replyFinishedcheckversion(QNetworkReply* reply)
             if (replystr != currentversion) {
 #ifdef WIN32
                 QMessageBox::StandardButton reply;
-                reply = QMessageBox::information(this, tr("New version available"),
+                reply = QMessageBox::information(this, tr("Daddy Musk Such New Version Available"),
                     tr("This new version of the wallet is now available: ") + QString::fromStdString(replystr) + "\r\n" +
                         tr(" You are using this version: ") + QString::fromStdString(currentversion) + "\r\n" +
                         tr(" Do you want to start the download of the new version? "),
                     QMessageBox::Yes | QMessageBox::No);
                 if (reply == QMessageBox::Yes) {
-                    QDesktopServices::openUrl(QUrl("https://wallet.choosebitcash.com/downloads/bitcash-setup.exe"));
+                    QDesktopServices::openUrl(QUrl("https://github.com/dogecoin/dogecoin/releases"));
                 }
 #else
                 QMessageBox::information(this, tr("New version available"),
