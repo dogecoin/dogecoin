@@ -2081,7 +2081,7 @@
         <translation>ダスト：</translation>
     </message>
     <message>
-        <source>Confirmation time target:</source>
+        <source>Speed:</source>
         <translation>検証時間のターゲット:</translation>
     </message>
     <message>

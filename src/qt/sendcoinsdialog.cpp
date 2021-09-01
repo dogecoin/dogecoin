@@ -17,6 +17,7 @@
 
 #include "base58.h"
 #include "chainparams.h"
+#include "dogecoin-fees.h"
 #include "wallet/coincontrol.h"
 #include "validation.h" // mempool and minRelayTxFeeRate
 #include "ui_interface.h"
@@ -122,7 +123,7 @@ void SendCoinsDialog::setClientModel(ClientModel *_clientModel)
     this->clientModel = _clientModel;
 
     if (_clientModel) {
-        connect(_clientModel, SIGNAL(numBlocksChanged(int,QDateTime,double,bool)), this, SLOT(updateSmartFeeLabel()));
+        connect(_clientModel, SIGNAL(numBlocksChanged(int,QDateTime,double,bool)), this, SLOT(updateFeeLabel()));
     }
 }
 
@@ -154,7 +155,7 @@ void SendCoinsDialog::setModel(WalletModel *_model)
         coinControlUpdateLabels();
 
         // fee section
-        connect(ui->sliderSmartFee, SIGNAL(valueChanged(int)), this, SLOT(updateSmartFeeLabel()));
+        connect(ui->sliderSmartFee, SIGNAL(valueChanged(int)), this, SLOT(updateFeeLabel()));
         connect(ui->sliderSmartFee, SIGNAL(valueChanged(int)), this, SLOT(updateGlobalFeeVariables()));
         connect(ui->sliderSmartFee, SIGNAL(valueChanged(int)), this, SLOT(coinControlUpdateLabels()));
         connect(ui->groupFee, SIGNAL(buttonClicked(int)), this, SLOT(updateFeeSectionControls()));
@@ -171,7 +172,7 @@ void SendCoinsDialog::setModel(WalletModel *_model)
         ui->customFee->setSingleStep(CWallet::GetRequiredFee(1000));
         updateFeeSectionControls();
         updateMinFeeLabel();
-        updateSmartFeeLabel();
+        updateFeeLabel();
         updateGlobalFeeVariables();
 
         // set the smartfee-sliders default value (wallets default conf.target or last stored value)
@@ -243,9 +244,9 @@ void SendCoinsDialog::on_sendButton_clicked()
     if (model->getOptionsModel()->getCoinControlFeatures())
         ctrl = *CoinControlDialog::coinControl;
     if (ui->radioSmartFee->isChecked())
-        ctrl.nConfirmTarget = ui->sliderSmartFee->maximum() - ui->sliderSmartFee->value() + 2;
+        ctrl.nSpeed = static_cast<TransactionSpeed>(ui->sliderSmartFee->value());
     else
-        ctrl.nConfirmTarget = 0;
+        ctrl.nSpeed = NORMAL;
 
     prepareStatus = model->prepareTransaction(currentTransaction, &ctrl);
 
@@ -502,7 +503,7 @@ void SendCoinsDialog::updateDisplayUnit()
     setBalance(model->getBalance(), 0, 0, 0, 0, 0);
     ui->customFee->setDisplayUnit(model->getOptionsModel()->getDisplayUnit());
     updateMinFeeLabel();
-    updateSmartFeeLabel();
+    updateFeeLabel();
 }
 
 void SendCoinsDialog::processSendCoinsReturn(const WalletModel::SendCoinsReturn &sendCoinsReturn, const QString &msgArg)
@@ -590,9 +591,8 @@ void SendCoinsDialog::updateFeeSectionControls()
     ui->labelSmartFee3          ->setEnabled(ui->radioSmartFee->isChecked());
     ui->labelFeeEstimation      ->setEnabled(ui->radioSmartFee->isChecked());
     ui->labelSmartFeeNormal     ->setEnabled(ui->radioSmartFee->isChecked());
+    ui->labelSmartFeeRidiculous ->setEnabled(ui->radioSmartFee->isChecked());
     ui->labelSmartFeeFast       ->setEnabled(ui->radioSmartFee->isChecked());
-    //mlumin: 5/2021 - this label actually gates the 'slider and smart fee' functionality, so turn it off for dogecoin.
-    ui->confirmationTargetLabel ->setEnabled(ui->radioSmartFee->isChecked());
     ui->checkBoxMinimumFee      ->setEnabled(ui->radioCustomFee->isChecked());
     ui->labelMinFeeWarning      ->setEnabled(ui->radioCustomFee->isChecked());
     ui->radioCustomPerKilobyte  ->setEnabled(ui->radioCustomFee->isChecked() && !ui->checkBoxMinimumFee->isChecked());
@@ -609,10 +609,6 @@ void SendCoinsDialog::updateGlobalFeeVariables()
 
         // set nMinimumTotalFee to 0 to not accidentally pay a custom fee
         CoinControlDialog::coinControl->nMinimumTotalFee = 0;
-
-        // show the estimated required time for confirmation
-        // Dogecoin: We manually set height well past the last hard fork here
-        ui->confirmationTargetLabel->setText(GUIUtil::formatDurationStr(nConfirmTarget * Params().GetConsensus(400000).nPowTargetSpacing) + " / " + tr("%n block(s)", "", nConfirmTarget));
     }
     else
     {
@@ -645,14 +641,13 @@ void SendCoinsDialog::updateMinFeeLabel()
         );
 }
 
-void SendCoinsDialog::updateSmartFeeLabel()
+void SendCoinsDialog::updateFeeLabel()
 {
     if(!model || !model->getOptionsModel())
         return;
 
-    int nBlocksToConfirm = ui->sliderSmartFee->maximum() - ui->sliderSmartFee->value() + 2;
-    int estimateFoundAtBlocks = nBlocksToConfirm;
-    CFeeRate feeRate = mempool.estimateSmartFee(nBlocksToConfirm, &estimateFoundAtBlocks);
+    int nSpeed = ui->sliderSmartFee->value();
+    CFeeRate feeRate = GetDogecoinFeeRate(nSpeed);
     if (feeRate <= CFeeRate(0)) // not enough data => minfee
     {
         ui->labelSmartFee->setText(BitcoinUnits::formatWithUnit(model->getOptionsModel()->getDisplayUnit(),
@@ -670,7 +665,9 @@ void SendCoinsDialog::updateSmartFeeLabel()
         ui->labelSmartFee->setText(BitcoinUnits::formatWithUnit(model->getOptionsModel()->getDisplayUnit(),
                                                                 std::max(feeRate.GetFeePerK(), CWallet::GetRequiredFee(1000))) + "/kB");
         ui->labelSmartFee2->hide();
-        ui->labelFeeEstimation->setText(tr("Estimated to begin confirmation within %n block(s).", "", estimateFoundAtBlocks));
+        // Dogecoin: We don't use smart fees, so we don't have the data to estimate when it will get in
+        ui->labelFeeEstimation->setText("");
+        // ui->labelFeeEstimation->setText(tr("Estimated to begin confirmation within %n block(s).", "", estimateFoundAtBlocks));
         ui->fallbackFeeWarningLabel->setVisible(false);
     }
 

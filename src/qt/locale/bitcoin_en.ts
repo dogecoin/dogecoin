@@ -2942,7 +2942,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location line="+143"/>
-        <source>Confirmation time target:</source>
+        <source>Speed:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

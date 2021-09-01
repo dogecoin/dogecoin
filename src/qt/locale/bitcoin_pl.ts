@@ -1945,7 +1945,7 @@
         <translation>Pył:</translation>
     </message>
     <message>
-        <source>Confirmation time target:</source>
+        <source>Speed:</source>
         <translation>Docelowy czas potwierdzenia:</translation>
     </message>
     <message>

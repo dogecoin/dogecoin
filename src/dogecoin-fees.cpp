@@ -18,6 +18,24 @@
 #endif
 
 #ifdef ENABLE_WALLET
+
+CFeeRate GetDogecoinFeeRate(int speed)
+{
+    switch(speed)
+    {
+    case LUDRICOUS_SPEED:
+        return CFeeRate(::minWalletTxFeeRate.GetFeePerK() * 10);
+    case RIDICULOUS_SPEED:
+        return CFeeRate(::minWalletTxFeeRate.GetFeePerK() * 5);
+    case LIGHT_SPEED:
+        return CFeeRate(::minWalletTxFeeRate.GetFeePerK() * 2.5);
+    case NORMAL:
+    default:
+        break;
+    }
+    return ::minWalletTxFeeRate;
+}
+
 //mlumin 5/2021: walletfees, all attached to GetDogecoinWalletFeeRate which is just the newly exposed ::minWalletTxFee
 CAmount GetDogecoinWalletFee(size_t nBytes_)
 {

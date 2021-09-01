@@ -2081,7 +2081,7 @@
         <translation>Пыль:</translation>
     </message>
     <message>
-        <source>Confirmation time target:</source>
+        <source>Speed:</source>
         <translation>Время подтверждения:</translation>
     </message>
     <message>

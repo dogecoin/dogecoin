@@ -2081,7 +2081,7 @@
         <translation>Toz:</translation>
     </message>
     <message>
-        <source>Confirmation time target:</source>
+        <source>Speed:</source>
         <translation>Doğrulama süresi hedefi:</translation>
     </message>
     <message>

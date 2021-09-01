@@ -2077,7 +2077,7 @@
         <translation>"Dust":</translation>
     </message>
     <message>
-        <source>Confirmation time target:</source>
+        <source>Speed:</source>
         <translation>Gewünschte Bestätigungszeit:</translation>
     </message>
     <message>

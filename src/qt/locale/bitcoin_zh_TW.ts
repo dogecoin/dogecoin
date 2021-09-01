@@ -2081,7 +2081,7 @@
         <translation>零散錢:</translation>
     </message>
     <message>
-        <source>Confirmation time target:</source>
+        <source>Speed:</source>
         <translation>目標確認時間:</translation>
     </message>
     <message>

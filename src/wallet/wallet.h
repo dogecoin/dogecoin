@@ -8,6 +8,7 @@
 
 #include "amount.h"
 #include "auxpow.h"
+#include "dogecoin-fees.h"
 #include "streams.h"
 #include "tinyformat.h"
 #include "ui_interface.h"
@@ -761,6 +762,14 @@ public:
      * then fee estimation for nConfirmTarget
      */
     static CAmount GetMinimumFee(const CMutableTransaction& tx, unsigned int nTxBytes, unsigned int nConfirmTarget, const CTxMemPool& pool, CAmount targetFee);
+    /**
+     * Dogecoin: Get a fee targetting a specific transaction speed.
+     */
+    CAmount GetDogecoinSpeedFee(const CMutableTransaction& tx, unsigned int nTxBytes, TransactionSpeed nSpeed);
+    /**
+     * Dogecoin: Get a fee targetting a specific transaction speed.
+     */
+    static CAmount GetDogecoinSpeedFee(const CMutableTransaction& tx, unsigned int nTxBytes, TransactionSpeed nSpeed, CAmount targetFee);
     /**
      * Return the minimum required fee taking into account the
      * floating relay fee and user set minimum transaction fee

@@ -2077,7 +2077,7 @@
         <translation>Poeira:</translation>
     </message>
     <message>
-        <source>Confirmation time target:</source>
+        <source>Speed:</source>
         <translation>Confirmando tempo alvo:</translation>
     </message>
     <message>

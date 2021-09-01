@@ -2266,7 +2266,7 @@
         <translation>Boleh saja membayar hanya biaya minimum selama volume transaksi lebih sedikit daripada ruang di blok yang tersedia. Tetapi ketahuilah bahwa ini bisa menyebabkan transaksimu tidak pernah terkonfirmasi kalau permintaan untuk transaksi terus meningkat melebihi kapasitas jaringan dogecoin.</translation>
     </message>
     <message>
-        <source>Confirmation time target:</source>
+        <source>Speed:</source>
         <translation>Target waktu konfirmasi:</translation>
     </message>
     <message>

@@ -1053,7 +1053,7 @@
                    <item>
                     <widget class="QLabel" name="labelSmartFee3">
                      <property name="text">
-                      <string>Confirmation time target:</string>
+                      <string>Speed:</string>
                      </property>
                      <property name="margin">
                       <number>2</number>
@@ -1086,7 +1086,7 @@
                       <number>0</number>
                      </property>
                      <property name="maximum">
-                      <number>23</number>
+                      <number>3</number>
                      </property>
                      <property name="pageStep">
                       <number>1</number>
@@ -1131,9 +1131,9 @@
                       </spacer>
                      </item>
                      <item>
-                      <widget class="QLabel" name="confirmationTargetLabel">
+                      <widget class="QLabel" name="labelSmartFeeRidiculous">
                        <property name="text">
-                        <string notr="true">(count)</string>
+                        <string>ridiculous</string>
                        </property>
                       </widget>
                      </item>
@@ -1153,7 +1153,7 @@
                      <item>
                       <widget class="QLabel" name="labelSmartFeeFast">
                        <property name="text">
-                        <string>fast</string>
+                        <string>ludricous</string>
                        </property>
                       </widget>
                      </item>

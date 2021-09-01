@@ -1997,7 +1997,7 @@
         <translation>Polvo:</translation>
     </message>
     <message>
-        <source>Confirmation time target:</source>
+        <source>Speed:</source>
         <translation>Tiempo objetivo de confirmación:</translation>
     </message>
     <message>

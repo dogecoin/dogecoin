@@ -2081,7 +2081,7 @@
         <translation>더스트:</translation>
     </message>
     <message>
-        <source>Confirmation time target:</source>
+        <source>Speed:</source>
         <translation>승인 시간 목표:</translation>
     </message>
     <message>

@@ -2062,7 +2062,7 @@
         <translation>Prach:</translation>
     </message>
     <message>
-        <source>Confirmation time target:</source>
+        <source>Speed:</source>
         <translation>Cieľový čas potvrdenia:</translation>
     </message>
     <message>

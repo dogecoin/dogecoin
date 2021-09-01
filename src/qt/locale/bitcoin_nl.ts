@@ -2081,7 +2081,7 @@
         <translation>Stof:</translation>
     </message>
     <message>
-        <source>Confirmation time target:</source>
+        <source>Speed:</source>
         <translation>Bevestigingstijddoel:</translation>
     </message>
     <message>

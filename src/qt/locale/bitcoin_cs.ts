@@ -2081,7 +2081,7 @@
         <translation>Prach:</translation>
     </message>
     <message>
-        <source>Confirmation time target:</source>
+        <source>Speed:</source>
         <translation>Časové cílování potvrzení:</translation>
     </message>
     <message>

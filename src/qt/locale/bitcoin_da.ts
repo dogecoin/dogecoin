@@ -2081,7 +2081,7 @@
         <translation>Støv:</translation>
     </message>
     <message>
-        <source>Confirmation time target:</source>
+        <source>Speed:</source>
         <translation>Mål for bekræftelsestid:</translation>
     </message>
     <message>

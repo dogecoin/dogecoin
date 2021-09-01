@@ -2081,7 +2081,7 @@
         <translation>Polvo:</translation>
     </message>
     <message>
-        <source>Confirmation time target:</source>
+        <source>Speed:</source>
         <translation>Objetivo de tiempo de confirmación</translation>
     </message>
     <message>
