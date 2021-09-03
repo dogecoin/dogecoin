@@ -138,9 +138,9 @@ class WalletLabelsTest(BitcoinTestFramework):
         node.createwallet(wallet_name='watch_only', disable_private_keys=True)
         wallet_watch_only = node.get_wallet_rpc('watch_only')
         BECH32_VALID = {
-            '✔️_VER15_PROG40': 'dcrt10qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqackwkw',
-            '✔️_VER16_PROG03': 'dcrt1sqqqqqhcxwrg',
-            '✔️_VER16_PROB02': 'dcrt1sqqqq5dnvsc',
+            '✔️_VER15_PROG40': 'dcrt10qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqgyxznv',
+            '✔️_VER16_PROG03': 'dcrt1sqqqqqzykzx2',
+            '✔️_VER16_PROB02': 'dcrt1sqqqqp3rq46',
         }
         BECH32_INVALID = {
             '❌_VER15_PROG41': 'dcrt10qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqzc7xyq',
