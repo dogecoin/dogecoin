@@ -461,6 +461,7 @@ static bool rest_getutxos(HTTPRequest* req, const std::string& strURIPart)
         std::vector<unsigned char> strRequestV = ParseHex(strRequestMutable);
         strRequestMutable.assign(strRequestV.begin(), strRequestV.end());
     }
+    // Falls through
 
     case RF_BINARY: {
         try {
