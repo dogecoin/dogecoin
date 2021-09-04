@@ -1469,8 +1469,8 @@
         <translation>Alamat pembayaran tidak valid %1</translation>
     </message>
     <message>
-        <source>URI cannot be parsed! This can be caused by an invalid Bitcoin address or malformed URI parameters.</source>
-        <translation>URI tidak bisa diterjemahkan! Bisa disebabkan karena alamat Bitcoin yang salah atau parameter URI yang tidak benar.</translation>
+        <source>URI cannot be parsed! This can be caused by an invalid Dogecoin address or malformed URI parameters.</source>
+        <translation>URI tidak bisa diterjemahkan! Bisa disebabkan karena alamat Dogecoin yang salah atau parameter URI yang tidak benar.</translation>
     </message>
     <message>
         <source>Payment request file handling</source>
