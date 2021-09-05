@@ -106,7 +106,7 @@ class WalletTest(BitcoinTestFramework):
         # note the mempool tx will have randomly assigned indices
         # but 10 will go to node2 and the rest will go to node0
         balance = self.nodes[0].getbalance()
-        assert_equal(set([txout1['value'], txout2['value']]), set([10, balance]))
+        assert_equal({txout1['value'], txout2['value']}, {10, balance})
         walletinfo = self.nodes[0].getwalletinfo()
         assert_equal(walletinfo['immature_balance'], 0)
 
@@ -629,17 +629,17 @@ class WalletTest(BitcoinTestFramework):
 
         self.log.debug("Testing gettransaction response without verbose")
         tx = self.nodes[0].gettransaction(txid=txid)
-        assert_equal(set([*tx]), expected_fields)
+        assert_equal({*tx}, expected_fields)
         assert_array_result(tx["details"], {"category": "receive"}, expected_receive_vout)
 
         self.log.debug("Testing gettransaction response with verbose set to False")
         tx = self.nodes[0].gettransaction(txid=txid, verbose=False)
-        assert_equal(set([*tx]), expected_fields)
+        assert_equal({*tx}, expected_fields)
         assert_array_result(tx["details"], {"category": "receive"}, expected_receive_vout)
 
         self.log.debug("Testing gettransaction response with verbose set to True")
         tx = self.nodes[0].gettransaction(txid=txid, verbose=True)
-        assert_equal(set([*tx]), expected_verbose_fields)
+        assert_equal({*tx}, expected_verbose_fields)
         assert_array_result(tx["details"], {"category": "receive"}, expected_receive_vout)
         assert_equal(tx[verbose_field], self.nodes[0].decoderawtransaction(tx["hex"]))
 
