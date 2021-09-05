@@ -614,7 +614,7 @@ class BitcoinTestFramework(metaclass=BitcoinTestMetaClass):
             if best_hash.count(best_hash[0]) == len(rpc_connections):
                 return
             # Check that each peer has at least one connection
-            assert (all([len(x.getpeerinfo()) for x in rpc_connections]))
+            assert (all(len(x.getpeerinfo()) for x in rpc_connections))
             time.sleep(wait)
         raise AssertionError("Block sync timed out after {}s:{}".format(
             timeout,
@@ -637,7 +637,7 @@ class BitcoinTestFramework(metaclass=BitcoinTestMetaClass):
                         r.syncwithvalidationinterfacequeue()
                 return
             # Check that each peer has at least one connection
-            assert (all([len(x.getpeerinfo()) for x in rpc_connections]))
+            assert (all(len(x.getpeerinfo()) for x in rpc_connections))
             time.sleep(wait)
         raise AssertionError("Mempool sync timed out after {}s:{}".format(
             timeout,
