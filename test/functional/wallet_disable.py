@@ -22,9 +22,9 @@ class DisableWalletTest (BitcoinTestFramework):
         # Make sure wallet is really disabled
         assert_raises_rpc_error(-32601, 'Method not found', self.nodes[0].getwalletinfo)
         x = self.nodes[0].validateaddress('A8tPcraiJcyw6k8tLrK36vc6DSAsXwu8f7')
-        assert x['isvalid'] == False
+        assert x['isvalid'] is False
         x = self.nodes[0].validateaddress('nbKkSz78JGfsPqitXGcqgHhrDrgizjB3bW')
-        assert x['isvalid'] == True
+        assert x['isvalid'] is True
 
         # Checking mining to an address without a wallet. Generating to a valid address should succeed
         # but generating to an invalid address will fail.

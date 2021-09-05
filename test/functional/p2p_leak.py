@@ -129,9 +129,9 @@ class P2PLeakTest(BitcoinTestFramework):
         self.nodes[0].disconnect_p2ps()
 
         # Make sure no unexpected messages came in
-        assert no_version_disconnect_peer.unexpected_msg == False
-        assert no_version_idle_peer.unexpected_msg == False
-        assert no_verack_idle_peer.unexpected_msg == False
+        assert no_version_disconnect_peer.unexpected_msg is False
+        assert no_version_idle_peer.unexpected_msg is False
+        assert no_verack_idle_peer.unexpected_msg is False
 
         self.log.info('Check that the version message does not leak the local address of the node')
         p2p_version_store = self.nodes[0].add_p2p_connection(P2PVersionStore())
