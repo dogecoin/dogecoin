@@ -14,9 +14,9 @@
 enum TransactionSpeed
 {
     NORMAL,
-    LIGHT_SPEED,
-    RIDICULOUS_SPEED,
-    LUDICROUS_SPEED
+    WOW,
+    MUCH_SPEED,
+    SUCH_FAST
 };
 
 /** Estimate fee rate needed to get into the next nBlocks */

@@ -1111,7 +1111,7 @@
                    <item>
                     <layout class="QHBoxLayout" name="horizontalLayoutFee10">
                      <item>
-                      <widget class="QLabel" name="labelSmartFeeNormal">
+                      <widget class="QLabel" name="labelSpeedNormal">
                        <property name="text">
                         <string>normal</string>
                        </property>
@@ -1124,16 +1124,36 @@
                        </property>
                        <property name="sizeHint" stdset="0">
                         <size>
-                         <width>40</width>
+                         <width>20</width>
                          <height>20</height>
                         </size>
                        </property>
                       </spacer>
                      </item>
                      <item>
-                      <widget class="QLabel" name="labelSmartFeeRidiculous">
+                      <widget class="QLabel" name="labelSpeedWow">
                        <property name="text">
-                        <string>ridiculous</string>
+                        <string>wow</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <spacer name="horizontalSpacer_8">
+                       <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                       </property>
+                       <property name="sizeHint" stdset="0">
+                        <size>
+                         <width>20</width>
+                         <height>20</height>
+                        </size>
+                       </property>
+                      </spacer>
+                     </item>
+                     <item>
+                      <widget class="QLabel" name="labelSpeedMuch">
+                       <property name="text">
+                        <string>much speed</string>
                        </property>
                       </widget>
                      </item>
@@ -1151,9 +1171,9 @@
                       </spacer>
                      </item>
                      <item>
-                      <widget class="QLabel" name="labelSmartFeeFast">
+                      <widget class="QLabel" name="labelSpeedFast">
                        <property name="text">
-                        <string>ludicrous</string>
+                        <string>such fast</string>
                        </property>
                       </widget>
                      </item>
