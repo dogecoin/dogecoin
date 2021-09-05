@@ -18,10 +18,10 @@ class CreateCache(BitcoinTestFramework):
         self.num_nodes = 0
 
     def setup_network(self):
-        pass
+        raise NotImplementedError()
 
     def run_test(self):
-        pass
+        raise NotImplementedError()
 
 if __name__ == '__main__':
     CreateCache().main()

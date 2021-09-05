@@ -17,10 +17,10 @@ class TestShell:
 
     class __TestShell(BitcoinTestFramework):
         def set_test_params(self):
-            pass
+            raise NotImplementedError()
 
         def run_test(self):
-            pass
+            raise NotImplementedError()
 
         def setup(self, **kwargs):
             if self.running:

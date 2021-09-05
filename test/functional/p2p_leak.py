@@ -69,7 +69,7 @@ class NoVerackIdlePeer(LazyPeer):
         self.version_received = False
         super().__init__()
 
-    def on_verack(self, message): pass
+    def on_verack(self, message): raise NotImplementedError()
     # When version is received, don't reply with a verack. Instead, see if the
     # node will give us a message that it shouldn't. This is not an exhaustive
     # list!

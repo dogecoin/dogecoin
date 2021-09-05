@@ -55,7 +55,7 @@ class BaseNode(P2PInterface):
 
     def on_inv(self, message):
         """Override the standard on_inv callback"""
-        pass
+        raise NotImplementedError()
 
 def custom_function():
     """Do some custom behaviour

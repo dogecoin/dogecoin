@@ -27,7 +27,7 @@ class NodePongAdd1(P2PInterface):
 
 class NodeNoPong(P2PInterface):
     def on_ping(self, message):
-        pass
+        raise NotImplementedError()
 
 
 class PingPongTest(BitcoinTestFramework):

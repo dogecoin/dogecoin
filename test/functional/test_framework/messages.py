@@ -1090,10 +1090,10 @@ class msg_verack:
     msgtype = b"verack"
 
     def __init__(self):
-        pass
+        raise NotImplementedError()
 
     def deserialize(self, f):
-        pass
+        raise NotImplementedError()
 
     def serialize(self):
         return b""
@@ -1141,10 +1141,10 @@ class msg_sendaddrv2:
     msgtype = b"sendaddrv2"
 
     def __init__(self):
-        pass
+        raise NotImplementedError()
 
     def deserialize(self, f):
-        pass
+        raise NotImplementedError()
 
     def serialize(self):
         return b""
@@ -1235,10 +1235,10 @@ class msg_wtxidrelay:
     msgtype = b"wtxidrelay"
 
     def __init__(self):
-        pass
+        raise NotImplementedError()
 
     def deserialize(self, f):
-        pass
+        raise NotImplementedError()
 
     def serialize(self):
         return b""
@@ -1301,10 +1301,10 @@ class msg_getaddr:
     msgtype = b"getaddr"
 
     def __init__(self):
-        pass
+        raise NotImplementedError()
 
     def deserialize(self, f):
-        pass
+        raise NotImplementedError()
 
     def serialize(self):
         return b""
@@ -1356,10 +1356,10 @@ class msg_mempool:
     msgtype = b"mempool"
 
     def __init__(self):
-        pass
+        raise NotImplementedError()
 
     def deserialize(self, f):
-        pass
+        raise NotImplementedError()
 
     def serialize(self):
         return b""
@@ -1390,10 +1390,10 @@ class msg_sendheaders:
     msgtype = b"sendheaders"
 
     def __init__(self):
-        pass
+        raise NotImplementedError()
 
     def deserialize(self, f):
-        pass
+        raise NotImplementedError()
 
     def serialize(self):
         return b""
@@ -1526,10 +1526,10 @@ class msg_filterclear:
     msgtype = b"filterclear"
 
     def __init__(self):
-        pass
+        raise NotImplementedError()
 
     def deserialize(self, f):
-        pass
+        raise NotImplementedError()
 
     def serialize(self):
         return b""

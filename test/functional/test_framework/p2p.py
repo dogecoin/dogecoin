@@ -345,38 +345,38 @@ class P2PInterface(P2PConnection):
     # cases to provide custom message handling behaviour.
 
     def on_open(self):
-        pass
+        raise NotImplementedError()
 
     def on_close(self):
-        pass
+        raise NotImplementedError()
 
-    def on_addr(self, message): pass
-    def on_addrv2(self, message): pass
-    def on_block(self, message): pass
-    def on_blocktxn(self, message): pass
-    def on_cfcheckpt(self, message): pass
-    def on_cfheaders(self, message): pass
-    def on_cfilter(self, message): pass
-    def on_cmpctblock(self, message): pass
-    def on_feefilter(self, message): pass
-    def on_filteradd(self, message): pass
-    def on_filterclear(self, message): pass
-    def on_filterload(self, message): pass
-    def on_getaddr(self, message): pass
-    def on_getblocks(self, message): pass
-    def on_getblocktxn(self, message): pass
-    def on_getdata(self, message): pass
-    def on_getheaders(self, message): pass
-    def on_headers(self, message): pass
-    def on_mempool(self, message): pass
-    def on_merkleblock(self, message): pass
-    def on_notfound(self, message): pass
-    def on_pong(self, message): pass
-    def on_sendaddrv2(self, message): pass
-    def on_sendcmpct(self, message): pass
-    def on_sendheaders(self, message): pass
-    def on_tx(self, message): pass
-    def on_wtxidrelay(self, message): pass
+    def on_addr(self, message): raise NotImplementedError()
+    def on_addrv2(self, message): raise NotImplementedError()
+    def on_block(self, message): raise NotImplementedError()
+    def on_blocktxn(self, message): raise NotImplementedError()
+    def on_cfcheckpt(self, message): raise NotImplementedError()
+    def on_cfheaders(self, message): raise NotImplementedError()
+    def on_cfilter(self, message): raise NotImplementedError()
+    def on_cmpctblock(self, message): raise NotImplementedError()
+    def on_feefilter(self, message): raise NotImplementedError()
+    def on_filteradd(self, message): raise NotImplementedError()
+    def on_filterclear(self, message): raise NotImplementedError()
+    def on_filterload(self, message): raise NotImplementedError()
+    def on_getaddr(self, message): raise NotImplementedError()
+    def on_getblocks(self, message): raise NotImplementedError()
+    def on_getblocktxn(self, message): raise NotImplementedError()
+    def on_getdata(self, message): raise NotImplementedError()
+    def on_getheaders(self, message): raise NotImplementedError()
+    def on_headers(self, message): raise NotImplementedError()
+    def on_mempool(self, message): raise NotImplementedError()
+    def on_merkleblock(self, message): raise NotImplementedError()
+    def on_notfound(self, message): raise NotImplementedError()
+    def on_pong(self, message): raise NotImplementedError()
+    def on_sendaddrv2(self, message): raise NotImplementedError()
+    def on_sendcmpct(self, message): raise NotImplementedError()
+    def on_sendheaders(self, message): raise NotImplementedError()
+    def on_tx(self, message): raise NotImplementedError()
+    def on_wtxidrelay(self, message): raise NotImplementedError()
 
     def on_inv(self, message):
         want = msg_getdata()
@@ -390,7 +390,7 @@ class P2PInterface(P2PConnection):
         self.send_message(msg_pong(message.nonce))
 
     def on_verack(self, message):
-        pass
+        raise NotImplementedError()
 
     def on_version(self, message):
         assert message.nVersion >= MIN_VERSION_SUPPORTED, "Version {} received. Test framework only supports versions greater than {}".format(message.nVersion, MIN_VERSION_SUPPORTED)
