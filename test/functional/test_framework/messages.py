@@ -1095,7 +1095,8 @@ class msg_verack:
     def deserialize(self, f):
         pass
 
-    def serialize(self):
+    @staticmethod
+    def serialize():
         return b""
 
     def __repr__(self):
@@ -1146,7 +1147,8 @@ class msg_sendaddrv2:
     def deserialize(self, f):
         pass
 
-    def serialize(self):
+    @staticmethod
+    def serialize():
         return b""
 
     def __repr__(self):
@@ -1240,7 +1242,8 @@ class msg_wtxidrelay:
     def deserialize(self, f):
         pass
 
-    def serialize(self):
+    @staticmethod
+    def serialize():
         return b""
 
     def __repr__(self):
@@ -1306,7 +1309,8 @@ class msg_getaddr:
     def deserialize(self, f):
         pass
 
-    def serialize(self):
+    @staticmethod
+    def serialize():
         return b""
 
     def __repr__(self):
@@ -1361,7 +1365,8 @@ class msg_mempool:
     def deserialize(self, f):
         pass
 
-    def serialize(self):
+    @staticmethod
+    def serialize():
         return b""
 
     def __repr__(self):
@@ -1395,7 +1400,8 @@ class msg_sendheaders:
     def deserialize(self, f):
         pass
 
-    def serialize(self):
+    @staticmethod
+    def serialize():
         return b""
 
     def __repr__(self):
@@ -1531,7 +1537,8 @@ class msg_filterclear:
     def deserialize(self, f):
         pass
 
-    def serialize(self):
+    @staticmethod
+    def serialize():
         return b""
 
     def __repr__(self):

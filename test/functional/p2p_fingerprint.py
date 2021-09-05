@@ -31,7 +31,8 @@ class P2PFingerprintTest(BitcoinTestFramework):
         self.num_nodes = 1
 
     # Build a chain of blocks on top of given one
-    def build_chain(self, nblocks, prev_hash, prev_height, prev_median_time):
+    @staticmethod
+    def build_chain(nblocks, prev_hash, prev_height, prev_median_time):
         blocks = []
         for _ in range(nblocks):
             coinbase = create_coinbase(prev_height + 1)
@@ -46,24 +47,28 @@ class P2PFingerprintTest(BitcoinTestFramework):
         return blocks
 
     # Send a getdata request for a given block hash
-    def send_block_request(self, block_hash, node):
+    @staticmethod
+    def send_block_request(block_hash, node):
         msg = msg_getdata()
         msg.inv.append(CInv(MSG_BLOCK, block_hash))
         node.send_message(msg)
 
     # Send a getheaders request for a given single block hash
-    def send_header_request(self, block_hash, node):
+    @staticmethod
+    def send_header_request(block_hash, node):
         msg = msg_getheaders()
         msg.hashstop = block_hash
         node.send_message(msg)
 
     # Check whether last block received from node has a given hash
-    def last_block_equals(self, expected_hash, node):
+    @staticmethod
+    def last_block_equals(expected_hash, node):
         block_msg = node.last_message.get("block")
         return block_msg and block_msg.block.rehash() == expected_hash
 
     # Check whether last block header received from node has a given hash
-    def last_header_equals(self, expected_hash, node):
+    @staticmethod
+    def last_header_equals(expected_hash, node):
         headers_msg = node.last_message.get("headers")
         return (headers_msg and
                 headers_msg.headers and

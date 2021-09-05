@@ -79,7 +79,8 @@ class AssumeValidTest(BitcoinTestFramework):
                 assert not p2p_conn.is_connected
                 break
 
-    def assert_blockchain_height(self, node, height):
+    @staticmethod
+    def assert_blockchain_height(node, height):
         """Wait until the blockchain is no longer advancing and verify it's reached the expected height."""
         last_height = node.getblock(node.getbestblockhash())['height']
         timeout = 10

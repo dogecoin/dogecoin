@@ -103,7 +103,8 @@ class ProxyTest(BitcoinTestFramework):
         self.add_nodes(self.num_nodes, extra_args=args)
         self.start_nodes()
 
-    def network_test(self, node, addr, network):
+    @staticmethod
+    def network_test(node, addr, network):
         for peer in node.getpeerinfo():
             if peer["addr"] == addr:
                 assert_equal(peer["network"], network)

@@ -596,7 +596,8 @@ class TestNodeCLI():
     def __getattr__(self, command):
         return TestNodeCLIAttr(self, command)
 
-    def batch(self, requests):
+    @staticmethod
+    def batch(requests):
         results = []
         for request in requests:
             try:

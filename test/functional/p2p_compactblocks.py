@@ -103,7 +103,8 @@ class CompactBlocksTest(BitcoinTestFramework):
     def skip_test_if_missing_module(self):
         self.skip_if_no_wallet()
 
-    def build_block_on_tip(self, node, segwit=False):
+    @staticmethod
+    def build_block_on_tip(node, segwit=False):
         block = create_block(tmpl=node.getblocktemplate(NORMAL_GBT_REQUEST_PARAMS))
         if segwit:
             add_witness_commitment(block)
@@ -303,7 +304,8 @@ class CompactBlocksTest(BitcoinTestFramework):
             header_and_shortids = HeaderAndShortIDs(test_node.last_message["cmpctblock"].header_and_shortids)
         self.check_compactblock_construction_from_block(version, header_and_shortids, block_hash, block)
 
-    def check_compactblock_construction_from_block(self, version, header_and_shortids, block_hash, block):
+    @staticmethod
+    def check_compactblock_construction_from_block(version, header_and_shortids, block_hash, block):
         # Check that we got the right block!
         header_and_shortids.header.calc_sha256()
         assert_equal(header_and_shortids.header.sha256, block_hash)
