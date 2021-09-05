@@ -94,8 +94,7 @@ def b58decode_chk(v):
         return None
     if result[-4:] == checksum(result[:-4]):
         return result[:-4]
-    else:
-        return None
+    return None
 
 def get_bcaddress_version(strAddress):
     """ Returns None if strAddress is invalid.  Otherwise returns integer version of address. """

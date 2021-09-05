@@ -158,8 +158,7 @@ def default_hashtype(ctx):
     mode = get(ctx, "mode")
     if mode == "taproot":
         return SIGHASH_DEFAULT
-    else:
-        return SIGHASH_ALL
+    return SIGHASH_ALL
 
 def default_tapleaf(ctx):
     """Default expression for "tapleaf": looking up leaf in tap[2]."""
@@ -204,8 +203,7 @@ def default_sighash(ctx):
             leaf_ver = get(ctx, "leafversion")
             script = get(ctx, "script_taproot")
             return TaprootSignatureHash(tx, utxos, hashtype, idx, scriptpath=True, script=script, leaf_ver=leaf_ver, codeseparator_pos=codeseppos, annex=annex)
-        else:
-            return TaprootSignatureHash(tx, utxos, hashtype, idx, scriptpath=False, annex=annex)
+        return TaprootSignatureHash(tx, utxos, hashtype, idx, scriptpath=False, annex=annex)
     elif mode == "witv0":
         # BIP143 signature hash
         scriptcode = get(ctx, "scriptcode")
@@ -228,8 +226,7 @@ def default_key_tweaked(ctx):
     tweak = get(ctx, "tweak")
     if tweak is None:
         return key
-    else:
-        return tweak_add_privkey(key, tweak)
+    return tweak_add_privkey(key, tweak)
 
 def default_signature(ctx):
     """Default expression for "signature": BIP340 signature or ECDSA signature depending on mode."""
@@ -239,9 +236,8 @@ def default_signature(ctx):
         flip_r = get(ctx, "flag_flip_r")
         flip_p = get(ctx, "flag_flip_p")
         return sign_schnorr(key, sighash, flip_r=flip_r, flip_p=flip_p)
-    else:
-        key = get(ctx, "key")
-        return key.sign_ecdsa(sighash)
+    key = get(ctx, "key")
+    return key.sign_ecdsa(sighash)
 
 def default_hashtype_actual(ctx):
     """Default expression for "hashtype_actual": hashtype, unless mismatching SIGHASH_SINGLE in taproot."""
@@ -275,8 +271,7 @@ def default_witness_taproot(ctx):
         suffix_annex = [annex]
     if get(ctx, "leaf") is None:
         return get(ctx, "inputs_keypath") + suffix_annex
-    else:
-        return get(ctx, "inputs") + [bytes(get(ctx, "script_taproot")), get(ctx, "controlblock")] + suffix_annex
+    return get(ctx, "inputs") + [bytes(get(ctx, "script_taproot")), get(ctx, "controlblock")] + suffix_annex
 
 def default_witness_witv0(ctx):
     """Default expression for "witness_witv0", consisting of inputs and witness script, as needed."""
@@ -284,18 +279,16 @@ def default_witness_witv0(ctx):
     inputs = get(ctx, "inputs")
     if script is None:
         return inputs
-    else:
-        return inputs + [script]
+    return inputs + [script]
 
 def default_witness(ctx):
     """Default expression for "witness", delegating to "witness_taproot" or "witness_witv0" as needed."""
     mode = get(ctx, "mode")
     if mode == "taproot":
         return get(ctx, "witness_taproot")
-    elif mode == "witv0":
+    if mode == "witv0":
         return get(ctx, "witness_witv0")
-    else:
-        return []
+    return []
 
 def default_scriptsig(ctx):
     """Default expression for "scriptsig", consisting of inputs and redeemscript, as needed."""
@@ -404,8 +397,7 @@ def spend(tx, idx, utxos, **kwargs):
         """If fed a CScript, return it; if fed bytes, return a CScript that pushes it."""
         if isinstance(elem, CScript):
             return elem
-        else:
-            return CScript([elem])
+        return CScript([elem])
 
     scriptsig_list = flatten(get(ctx, "scriptsig"))
     scriptsig = CScript(b"".join(bytes(to_script(elem)) for elem in scriptsig_list))
@@ -501,9 +493,8 @@ def make_spender(comment, *, tap=None, witv0=False, script=None, pkh=None, p2sh=
     def sat_fn(tx, idx, utxos, valid):
         if valid:
             return spend(tx, idx, utxos, **conf)
-        else:
-            assert failure is not None
-            return spend(tx, idx, utxos, **{**conf, **failure})
+        assert failure is not None
+        return spend(tx, idx, utxos, **{**conf, **failure})
 
     return Spender(script=spk, comment=comment, is_standard=standard, sat_function=sat_fn, err_msg=err_msg, sigops_weight=sigops_weight, no_fail=failure is None, need_vin_vout_mismatch=need_vin_vout_mismatch)
 

@@ -121,8 +121,7 @@ class AuthServiceProxy():
                 self.__conn.close()
                 self.__conn.request(method, path, postdata, headers)
                 return self._get_response()
-            else:
-                raise
+            raise
 
     def get_request(self, *args, **argsn):
         AuthServiceProxy.__id_count += 1

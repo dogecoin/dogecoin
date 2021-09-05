@@ -124,9 +124,8 @@ class ChainstateWriteCrashTest(BitcoinTestFramework):
             if e.errno in [errno.EPIPE, errno.ECONNREFUSED, errno.ECONNRESET]:
                 # The node has likely crashed
                 return False
-            else:
-                # Unexpected exception, raise
-                raise
+            # Unexpected exception, raise
+            raise
 
     def sync_node3blocks(self, block_hashes):
         """Use submitblock to sync node3's chain with the other nodes

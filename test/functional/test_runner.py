@@ -673,9 +673,9 @@ class TestResult():
     def sort_key(self):
         if self.status == "Passed":
             return 0, self.name.lower()
-        elif self.status == "Failed":
+        if self.status == "Failed":
             return 2, self.name.lower()
-        elif self.status == "Skipped":
+        if self.status == "Skipped":
             return 1, self.name.lower()
 
     def __repr__(self):
@@ -753,9 +753,8 @@ class RPCCoverage():
             print("Uncovered RPC commands:")
             print("".join(("  - %s\n" % command) for command in sorted(uncovered)))
             return False
-        else:
-            print("All RPC commands covered.")
-            return True
+        print("All RPC commands covered.")
+        return True
 
     def cleanup(self):
         return shutil.rmtree(self.dir)
