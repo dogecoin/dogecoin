@@ -153,7 +153,7 @@ class BaseNode(P2PInterface):
         self.last_blockhash_announced = message.inv[-1].hash
 
     def on_headers(self, message):
-        if len(message.headers):
+        if message.headers:
             self.block_announced = True
             for x in message.headers:
                 x.calc_sha256()

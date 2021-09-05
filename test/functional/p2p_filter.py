@@ -49,7 +49,7 @@ class P2PBloomFilter(P2PInterface):
                 want.inv.append(CInv(MSG_FILTERED_BLOCK, i.hash))
             else:
                 want.inv.append(i)
-        if len(want.inv):
+        if want.inv:
             self.send_message(want)
 
     def on_merkleblock(self, message):
