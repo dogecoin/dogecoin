@@ -1153,7 +1153,7 @@
                      <item>
                       <widget class="QLabel" name="labelSmartFeeFast">
                        <property name="text">
-                        <string>ludricous</string>
+                        <string>ludicrous</string>
                        </property>
                       </widget>
                      </item>

@@ -23,7 +23,7 @@ CFeeRate GetDogecoinFeeRate(int speed)
 {
     switch(speed)
     {
-    case LUDRICOUS_SPEED:
+    case LUDICROUS_SPEED:
         return CFeeRate(::minWalletTxFeeRate.GetFeePerK() * 10);
     case RIDICULOUS_SPEED:
         return CFeeRate(::minWalletTxFeeRate.GetFeePerK() * 5);
