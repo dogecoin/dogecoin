@@ -501,10 +501,12 @@ class TestNode():
                         if re.fullmatch(expected_msg, stderr) is None:
                             self._raise_assertion_error(
                                 'Expected message "{}" does not fully match stderr:\n"{}"'.format(expected_msg, stderr))
-                    elif match == ErrorMatch.FULL_TEXT:
-                        if expected_msg != stderr:
-                            self._raise_assertion_error(
-                                'Expected message "{}" does not fully match stderr:\n"{}"'.format(expected_msg, stderr))
+                    elif (
+                        match == ErrorMatch.FULL_TEXT
+                        and expected_msg != stderr
+                    ):
+                        self._raise_assertion_error(
+                            'Expected message "{}" does not fully match stderr:\n"{}"'.format(expected_msg, stderr))
             else:
                 if expected_msg is None:
                     assert_msg = "dogecoind should have exited with an error"

@@ -467,15 +467,17 @@ class ZMQTest (BitcoinTestFramework):
         r_gap = 0
         for _ in range(num_txs + 2 + 1 + 1):
             (hash_str, label, mempool_sequence) = seq.receive_sequence()
-            if mempool_sequence is not None:
-                if mempool_sequence != expected_sequence:
-                    # Detected "R" gap, means this a conflict eviction, and mempool tx are being evicted before its
-                    # position in the incoming block message "C"
-                    if label == "R":
-                        assert mempool_sequence > expected_sequence
-                        r_gap += mempool_sequence - expected_sequence
-                    else:
-                        raise Exception("WARNING: txhash has unexpected mempool sequence value: {} vs expected {}".format(mempool_sequence, expected_sequence))
+            if (
+                mempool_sequence is not None
+                and mempool_sequence != expected_sequence
+            ):
+                # Detected "R" gap, means this a conflict eviction, and mempool tx are being evicted before its
+                # position in the incoming block message "C"
+                if label == "R":
+                    assert mempool_sequence > expected_sequence
+                    r_gap += mempool_sequence - expected_sequence
+                else:
+                    raise Exception("WARNING: txhash has unexpected mempool sequence value: {} vs expected {}".format(mempool_sequence, expected_sequence))
             if label == "A":
                 assert hash_str not in mempool_view
                 mempool_view.add(hash_str)
