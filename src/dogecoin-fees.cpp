@@ -24,11 +24,11 @@ CFeeRate GetDogecoinFeeRate(int speed)
     switch(speed)
     {
     case SUCH_FAST:
-        return CFeeRate(::minWalletTxFeeRate.GetFeePerK() * 10);
+        return CFeeRate(::minWalletTxFeeRate.GetFeePerK() * 100);
     case MUCH_SPEED:
-        return CFeeRate(::minWalletTxFeeRate.GetFeePerK() * 5);
+        return CFeeRate(::minWalletTxFeeRate.GetFeePerK() * 50);
     case WOW:
-        return CFeeRate(::minWalletTxFeeRate.GetFeePerK() * 2.5);
+        return CFeeRate(::minWalletTxFeeRate.GetFeePerK() * 25);
     case NORMAL:
     default:
         break;
