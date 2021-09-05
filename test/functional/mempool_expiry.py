@@ -86,12 +86,10 @@ class MempoolExpiryTest(BitcoinTestFramework):
                                 node.getmempoolentry, child_txid)
 
     def run_test(self):
-        self.log.info('Test default mempool expiry timeout of %d hours.' %
-                      DEFAULT_MEMPOOL_EXPIRY)
+        self.log.info('Test default mempool expiry timeout of %d hours.', DEFAULT_MEMPOOL_EXPIRY)
         self.test_transaction_expiry(DEFAULT_MEMPOOL_EXPIRY)
 
-        self.log.info('Test custom mempool expiry timeout of %d hours.' %
-                      CUSTOM_MEMPOOL_EXPIRY)
+        self.log.info('Test custom mempool expiry timeout of %d hours.', CUSTOM_MEMPOOL_EXPIRY)
         self.restart_node(0, ['-mempoolexpiry=%d' % CUSTOM_MEMPOOL_EXPIRY])
         self.test_transaction_expiry(CUSTOM_MEMPOOL_EXPIRY)
 

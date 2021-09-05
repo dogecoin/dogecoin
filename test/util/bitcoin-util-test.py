@@ -100,7 +100,7 @@ def bctest(testDir, testObj, buildenv):
             logging.error("Output data missing for " + outputFn)
             raise Exception
         if not outputType:
-            logging.error("Output file %s does not have a file extension" % outputFn)
+            logging.error("Output file %s does not have a file extension", outputFn)
             raise Exception
 
     # Run the test
@@ -117,12 +117,12 @@ def bctest(testDir, testObj, buildenv):
         try:
             a_parsed = parse_output(outs[0], outputType)
         except Exception as e:
-            logging.error('Error parsing command output as %s: %s' % (outputType, e))
+            logging.error('Error parsing command output as %s: %s', outputType, e)
             raise
         try:
             b_parsed = parse_output(outputData, outputType)
         except Exception as e:
-            logging.error('Error parsing expected output %s as %s: %s' % (outputFn, outputType, e))
+            logging.error('Error parsing expected output %s as %s: %s', outputFn, outputType, e)
             raise
         # Compare data
         if a_parsed != b_parsed:

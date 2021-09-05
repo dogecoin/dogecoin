@@ -107,7 +107,7 @@ class GetblockstatsTest(BitcoinTestFramework):
         assert_equal(stats[self.max_stat_pos]['height'], self.start_height + self.max_stat_pos)
 
         for i in range(self.max_stat_pos+1):
-            self.log.info('Checking block %d\n' % (i))
+            self.log.info('Checking block %d\n', (i))
             assert_equal(stats[i], self.expected_stats[i])
 
             # Check selecting block by hash too
@@ -121,8 +121,7 @@ class GetblockstatsTest(BitcoinTestFramework):
                 result = self.nodes[0].getblockstats(hash_or_height=self.start_height + i, stats=[stat])
                 assert_equal(list(result.keys()), [stat])
                 if result[stat] != self.expected_stats[i][stat]:
-                    self.log.info('result[%s] (%d) failed, %r != %r' % (
-                        stat, i, result[stat], self.expected_stats[i][stat]))
+                    self.log.info('result[%s] (%d) failed, %r != %r', stat, i, result[stat], self.expected_stats[i][stat])
                 assert_equal(result[stat], self.expected_stats[i][stat])
 
         # Make sure only the selected statistics are included (more than one)

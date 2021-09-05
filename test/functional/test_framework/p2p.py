@@ -148,7 +148,7 @@ class P2PConnection(asyncio.Protocol):
         self.on_connection_send_msg = None
         self.recvbuf = b""
         self.magic_bytes = MAGIC_BYTES[net]
-        logger.debug('Connecting to Bitcoin Node: %s:%d' % (self.dstaddr, self.dstport))
+        logger.debug('Connecting to Bitcoin Node: %s:%d', self.dstaddr, self.dstport)
 
         loop = NetworkThread.network_event_loop
         conn_gen_unsafe = loop.create_connection(lambda: self, host=self.dstaddr, port=self.dstport)
@@ -164,7 +164,7 @@ class P2PConnection(asyncio.Protocol):
     def connection_made(self, transport):
         """asyncio callback when a connection is opened."""
         assert not self._transport
-        logger.debug("Connected & Listening: %s:%d" % (self.dstaddr, self.dstport))
+        logger.debug("Connected & Listening: %s:%d", self.dstaddr, self.dstport)
         self._transport = transport
         if self.on_connection_send_msg:
             self.send_message(self.on_connection_send_msg)
@@ -176,7 +176,7 @@ class P2PConnection(asyncio.Protocol):
         if exc:
             logger.warning("Connection lost to {}:{} due to {}".format(self.dstaddr, self.dstport, exc))
         else:
-            logger.debug("Closed connection to: %s:%d" % (self.dstaddr, self.dstport))
+            logger.debug("Closed connection to: %s:%d", self.dstaddr, self.dstport)
         self._transport = None
         self.recvbuf = b""
         self.on_close()
