@@ -6,6 +6,7 @@
 #include <chainparams.h>
 #include <consensus/merkle.h>
 #include <pow.h>
+#include <primitives/pureheader.h>
 #include <streams.h>
 
 #include <test/util/setup_common.h>
@@ -26,7 +27,7 @@ static CBlock BuildBlockTestCase() {
 
     block.vtx.resize(3);
     block.vtx[0] = MakeTransactionRef(tx);
-    block.nVersion = 42;
+    block.SetBaseVersion(42);
     block.hashPrevBlock = InsecureRand256();
     block.nBits = 0x207fffff;
 
@@ -268,7 +269,7 @@ BOOST_AUTO_TEST_CASE(EmptyBlockRoundTripTest)
     CBlock block;
     block.vtx.resize(1);
     block.vtx[0] = MakeTransactionRef(std::move(coinbase));
-    block.nVersion = 42;
+    block.SetBaseVersion(42);
     block.hashPrevBlock = InsecureRand256();
     block.nBits = 0x207fffff;
 

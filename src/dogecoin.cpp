@@ -6,6 +6,7 @@
 #include <boost/random/uniform_int.hpp>
 
 #include <arith_uint256.h>
+#include <chain.h>
 #include <dogecoin.h>
 #include <logging.h>
 
