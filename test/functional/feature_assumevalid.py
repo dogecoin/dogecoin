@@ -151,7 +151,7 @@ class AssumeValidTest(BitcoinTestFramework):
         # Bury the assumed valid block 2240 deep
         for _ in range(2240):
             block = create_block(self.tip, create_coinbase(height), self.block_time)
-            block.nVersion = 4
+            block.set_base_version(4)
             block.solve()
             self.blocks.append(block)
             self.tip = block.sha256
