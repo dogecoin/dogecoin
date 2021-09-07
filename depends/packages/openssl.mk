@@ -7,7 +7,7 @@ $(package)_sha256_hash=892a0875b9872acd04a9fde79b1f943075d5ea162415de3047c327df3
 
 define $(package)_set_vars
 $(package)_config_env=AR="$($(package)_ar)" RANLIB="$($(package)_ranlib)" CC="$($(package)_cc)"
-$(package)_config_opts=--prefix=$(host_prefix) --openssldir=$(host_prefix)/etc/openssl
+$(package)_config_opts=--prefix=$(host_prefix) --openssldir=$(host_prefix)/etc/openssl -Wl,--enable-new-dtags,-rpath,'$(LIBRPATH)'
 $(package)_config_opts+=no-camellia
 $(package)_config_opts+=no-capieng
 $(package)_config_opts+=no-cast
@@ -53,7 +53,7 @@ define $(package)_config_cmds
 endef
 
 define $(package)_stage_cmds
-  $(MAKE) INSTALL_PREFIX=$($(package)_staging_dir) -j1 install_sw
+  $(MAKE) INSTALL_PREFIX=$($(package)_staging_dir) -j1 install
 endef
 
 define $(package)_postprocess_cmds
