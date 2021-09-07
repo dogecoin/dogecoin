@@ -8,23 +8,29 @@ $(package)_sha256_hash=ecd0c6ffb493dd06707d38b14bb4d8c2288bb7033735606569d8f90f8
 define $(package)_set_vars
 $(package)_config_env=AR="$($(package)_ar)" RANLIB="$($(package)_ranlib)" CC="$($(package)_cc)"
 $(package)_config_opts=--prefix=$(host_prefix) --openssldir=$(host_prefix)/etc/openssl
+$(package)_config_opts+=no-camellia
 $(package)_config_opts+=no-capieng
+$(package)_config_opts+=no-cast
+$(package)_config_opts+=no-comp
 $(package)_config_opts+=no-dso
 $(package)_config_opts+=no-dtls1
 $(package)_config_opts+=no-ec_nistp_64_gcc_128
 $(package)_config_opts+=no-gost
 $(package)_config_opts+=no-gmp
 $(package)_config_opts+=no-heartbeats
+$(package)_config_opts+=no-idea
 $(package)_config_opts+=no-jpake
 $(package)_config_opts+=no-krb5
 $(package)_config_opts+=no-libunbound
 $(package)_config_opts+=no-md2
 $(package)_config_opts+=no-mdc2
+$(package)_config_opts+=no-rc4
 $(package)_config_opts+=no-rc5
 $(package)_config_opts+=no-rdrand
 $(package)_config_opts+=no-rfc3779
 $(package)_config_opts+=no-rsax
 $(package)_config_opts+=no-sctp
+$(package)_config_opts+=no-seed
 $(package)_config_opts+=no-sha0
 $(package)_config_opts+=no-shared
 $(package)_config_opts+=no-ssl-trace
@@ -57,7 +63,8 @@ define $(package)_preprocess_cmds
 endef
 
 define $(package)_config_cmds
-  ./Configure $($(package)_config_opts)
+  ./Configure $($(package)_config_opts) && \
+  make depend
 endef
 
 define $(package)_build_cmds
