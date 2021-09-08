@@ -24,7 +24,6 @@ $(package)_config_opts+=no-krb5
 $(package)_config_opts+=no-libunbound
 $(package)_config_opts+=no-md2
 $(package)_config_opts+=no-mdc2
-$(package)_config_opts+=no-rc4
 $(package)_config_opts+=no-rc5
 $(package)_config_opts+=no-rdrand
 $(package)_config_opts+=no-rfc3779
