@@ -1,9 +1,9 @@
 package=openssl
-$(package)_version=1.1.1
-$(package)_version_suffix=k
+$(package)_version=1.0.2
+$(package)_version_suffix=
 $(package)_download_path=https://www.openssl.org/source/old/$($(package)_version)
 $(package)_file_name=$(package)-$($(package)_version)$($(package)_version_suffix).tar.gz
-$(package)_sha256_hash=892a0875b9872acd04a9fde79b1f943075d5ea162415de3047c327df33fbaee5
+$(package)_sha256_hash=8c48baf3babe0d505d16cfc0cf272589c66d3624264098213db0fb00034728e9
 
 define $(package)_set_vars
 $(package)_config_env=AR="$($(package)_ar)" RANLIB="$($(package)_ranlib)" CC="$($(package)_cc)"
@@ -16,19 +16,26 @@ $(package)_config_opts+=no-dso
 $(package)_config_opts+=no-dtls1
 $(package)_config_opts+=no-ec_nistp_64_gcc_128
 $(package)_config_opts+=no-gost
+$(package)_config_opts+=no-gmp
 $(package)_config_opts+=no-heartbeats
 $(package)_config_opts+=no-idea
+$(package)_config_opts+=no-jpake
 $(package)_config_opts+=no-md2
 $(package)_config_opts+=no-mdc2
 $(package)_config_opts+=no-rc4
 $(package)_config_opts+=no-rc5
+$(package)_config_opts+=no-rdrand
 $(package)_config_opts+=no-rfc3779
+$(package)_config_opts+=no-rsax
 $(package)_config_opts+=no-sctp
 $(package)_config_opts+=no-seed
-$(package)_config_opts+=shared
+$(package)_config_opts+=no-sha0
+$(package)_config_opts+=no-shared
 $(package)_config_opts+=no-ssl-trace
 $(package)_config_opts+=no-ssl2
 $(package)_config_opts+=no-ssl3
+$(package)_config_opts+=no-static_engine
+$(package)_config_opts+=no-store
 $(package)_config_opts+=no-unit-test
 $(package)_config_opts+=no-weak-ssl-ciphers
 $(package)_config_opts+=no-whirlpool
@@ -48,12 +55,21 @@ $(package)_config_opts_x86_64_mingw32=mingw64
 $(package)_config_opts_i686_mingw32=mingw
 endef
 
+define $(package)_preprocess_cmds 
+  sed -i.old "/define DATE/d" util/mkbuildinf.pl && \ 
+  sed -i.old "s|engines apps test|engines|" Makefile.org
+endef
+
 define $(package)_config_cmds
   ./Configure $($(package)_config_opts)
 endef
 
+define $(package)_build_cmds 
+  $(MAKE) -j1 build_libs libcrypto.pc libssl.pc openssl.pc
+endef
+
 define $(package)_stage_cmds
-  $(MAKE) INSTALL_PREFIX=$($(package)_staging_dir) -j1 install
+  $(MAKE) INSTALL_PREFIX=$($(package)_staging_dir) -j1 install_sw
 endef
 
 define $(package)_postprocess_cmds
