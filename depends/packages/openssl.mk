@@ -17,7 +17,6 @@ $(package)_config_opts+=no-ec_nistp_64_gcc_128
 $(package)_config_opts+=no-gost
 $(package)_config_opts+=no-gmp
 $(package)_config_opts+=no-heartbeats
-$(package)_config_opts+=no-idea
 $(package)_config_opts+=no-jpake
 $(package)_config_opts+=no-krb5
 $(package)_config_opts+=no-libunbound
