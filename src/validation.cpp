@@ -1143,14 +1143,19 @@ static bool WriteBlockToDisk(const CBlock& block, FlatFilePos& pos, const CMessa
     return true;
 }
 
-bool ReadBlockFromDisk(CBlock& block, const FlatFilePos& pos, const Consensus::Params& consensusParams)
+
+/* Generic implementation of block reading that can handle
+   both a block and its header.  */
+
+template<typename T>
+static bool ReadBlockOrHeader(T& block, const FlatFilePos& pos, const Consensus::Params& consensusParams, const bool fCheckPOW)
 {
     block.SetNull();
 
     // Open history file to read
     CAutoFile filein(OpenBlockFile(pos, true), SER_DISK, CLIENT_VERSION);
     if (filein.IsNull())
-        return error("ReadBlockFromDisk: OpenBlockFile failed for %s", pos.ToString());
+        return error("ReadBlockOrHeader: OpenBlockFile failed for %s", pos.ToString());
 
     // Read block
     try {
@@ -1161,18 +1166,19 @@ bool ReadBlockFromDisk(CBlock& block, const FlatFilePos& pos, const Consensus::P
     }
 
     // Check the header
-    if (!CheckProofOfWork(block.GetPoWHash(), block.nBits, consensusParams))
-        return error("ReadBlockFromDisk: Errors in block header at %s", pos.ToString());
+    if (fCheckPOW && !CheckProofOfWork(block.GetPoWHash(), block.nBits, consensusParams))
+        return error("ReadBlockOrHeader: Errors in block header at %s", pos.ToString());
 
     // Signet only: check block solution
     if (consensusParams.signet_blocks && !CheckSignetBlockSolution(block, consensusParams)) {
-        return error("ReadBlockFromDisk: Errors in block solution at %s", pos.ToString());
+        return error("ReadBlockOrHeader: Errors in block solution at %s", pos.ToString());
     }
 
     return true;
 }
 
-bool ReadBlockFromDisk(CBlock& block, const CBlockIndex* pindex, const Consensus::Params& consensusParams)
+template<typename T>
+static bool ReadBlockOrHeader(T& block, const CBlockIndex* pindex, const Consensus::Params& consensusParams, bool fCheckPOW)
 {
     FlatFilePos blockPos;
     {
@@ -1180,12 +1186,27 @@ bool ReadBlockFromDisk(CBlock& block, const CBlockIndex* pindex, const Consensus
         blockPos = pindex->GetBlockPos();
     }
 
-    if (!ReadBlockFromDisk(block, blockPos, consensusParams))
+    if (!ReadBlockOrHeader(block, blockPos, consensusParams, fCheckPOW))
         return false;
     if (block.GetHash() != pindex->GetBlockHash())
-        return error("ReadBlockFromDisk(CBlock&, CBlockIndex*): GetHash() doesn't match index for %s at %s",
+        return error("ReadBlockOrHeader(CBlock&, CBlockIndex*): GetHash() doesn't match index for %s at %s",
                 pindex->ToString(), pindex->GetBlockPos().ToString());
     return true;
+}
+
+bool ReadBlockFromDisk(CBlock& block, const FlatFilePos& pos, const Consensus::Params& consensusParams, const bool fCheckPOW)
+{
+    return ReadBlockOrHeader(block, pos, consensusParams, fCheckPOW);
+}
+
+bool ReadBlockFromDisk(CBlock& block, const CBlockIndex* pindex, const Consensus::Params& consensusParams, const bool fCheckPOW)
+{
+    return ReadBlockOrHeader(block, pindex, consensusParams, fCheckPOW);
+}
+
+bool ReadBlockHeaderFromDisk(CBlockHeader& block, const CBlockIndex* pindex, const Consensus::Params& consensusParams, const bool fCheckPOW)
+{
+    return ReadBlockOrHeader(block, pindex, consensusParams, fCheckPOW);
 }
 
 bool ReadRawBlockFromDisk(std::vector<uint8_t>& block, const FlatFilePos& pos, const CMessageHeader::MessageStartChars& message_start)
