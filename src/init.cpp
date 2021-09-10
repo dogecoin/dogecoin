@@ -37,6 +37,7 @@
 #include <policy/fees.h>
 #include <policy/policy.h>
 #include <policy/settings.h>
+#include <primitives/pureheader.h>
 #include <protocol.h>
 #include <rpc/blockchain.h>
 #include <rpc/register.h>
@@ -59,6 +60,7 @@
 #include <util/threadnames.h>
 #include <util/translation.h>
 #include <validation.h>
+#include <versionbits.h>
 
 #include <validationinterface.h>
 #include <walletinitinterface.h>
@@ -1172,6 +1174,15 @@ bool AppInitParameterInteraction(const ArgsManager& args)
         CAmount n = 0;
         if (!ParseMoney(args.GetArg("-blockmintxfee", ""), n))
             return InitError(AmountErrMsg("blockmintxfee", args.GetArg("-blockmintxfee", "")));
+    }
+    if (args.IsArgSet("-blockversion")) {
+        const int32_t nOverrideVersion = gArgs.GetArg("-blockversion", VERSIONBITS_LAST_OLD_BLOCK_VERSION);
+        if (nOverrideVersion < 1) {
+            return InitError(strprintf(Untranslated("%s: block version too low: %d"), __func__, nOverrideVersion));
+        }
+        if (nOverrideVersion >= CPureBlockHeader::VERSION_AUXPOW) {
+            return InitError(strprintf(Untranslated("%s: block version too high: %d"), __func__, nOverrideVersion));
+        }
     }
 
     // Feerate used to define dust.  Shouldn't be changed lightly as old

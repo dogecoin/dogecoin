@@ -17,6 +17,7 @@
 #include <policy/feerate.h>
 #include <policy/policy.h>
 #include <pow.h>
+#include <primitives/pureheader.h>
 #include <primitives/transaction.h>
 #include <timedata.h>
 #include <util/moneystr.h>
@@ -127,11 +128,23 @@ std::unique_ptr<CBlockTemplate> BlockAssembler::CreateNewBlock(const CScript& sc
     assert(pindexPrev != nullptr);
     nHeight = pindexPrev->nHeight + 1;
 
-    pblock->SetBaseVersion(ComputeBlockVersion(pindexPrev, chainparams.GetConsensus()));
+    const int32_t nChainId = chainparams.GetConsensus().nAuxpowChainId;
+    // Dogecoin: Force version 4 to disable BIP 9 version bits
+    const int32_t nVersion = VERSIONBITS_LAST_OLD_BLOCK_VERSION;
+    pblock->SetBaseVersion(nVersion, nChainId);
     // -regtest only: allow overriding block.nVersion with
     // -blockversion=N to test forking scenarios
-    if (chainparams.MineBlocksOnDemand())
-        pblock->SetBaseVersion(gArgs.GetArg("-blockversion", pblock->nVersion));
+    if (chainparams.MineBlocksOnDemand()) {
+        // Copy the constant to a local constant as otherwise LogPrintf grumbles
+        const int32_t nMaxVersion = CPureBlockHeader::VERSION_AUXPOW;
+        const int32_t nOverrideVersion = gArgs.GetArg("-blockversion", pblock->GetBaseVersion());
+        if (nOverrideVersion >= 1 && nOverrideVersion < nMaxVersion) {
+            pblock->SetBaseVersion(nOverrideVersion, nChainId);
+        } else {
+            LogPrintf("DefaultOptions(): Specified -blockversion is either below 1, or above AuxPoW version %d.\n", nMaxVersion);
+            pblock->SetBaseVersion(pblock->GetBaseVersion(), nChainId);
+        }
+    }
 
     pblock->nTime = GetAdjustedTime();
     const int64_t nMedianTimePast = pindexPrev->GetMedianTimePast();

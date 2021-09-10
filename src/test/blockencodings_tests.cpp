@@ -18,6 +18,7 @@ std::vector<std::pair<uint256, CTransactionRef>> extra_txn;
 BOOST_FIXTURE_TEST_SUITE(blockencodings_tests, RegTestingSetup)
 
 static CBlock BuildBlockTestCase() {
+    const int32_t nChainId = Params().GetConsensus().nAuxpowChainId;
     CBlock block;
     CMutableTransaction tx;
     tx.vin.resize(1);
@@ -27,7 +28,7 @@ static CBlock BuildBlockTestCase() {
 
     block.vtx.resize(3);
     block.vtx[0] = MakeTransactionRef(tx);
-    block.SetBaseVersion(42);
+    block.SetBaseVersion(42, nChainId);
     block.hashPrevBlock = InsecureRand256();
     block.nBits = 0x207fffff;
 
@@ -259,6 +260,7 @@ BOOST_AUTO_TEST_CASE(SufficientPreforwardRTTest)
 
 BOOST_AUTO_TEST_CASE(EmptyBlockRoundTripTest)
 {
+    const int32_t nChainId = Params().GetConsensus().nAuxpowChainId;
     CTxMemPool pool;
     CMutableTransaction coinbase;
     coinbase.vin.resize(1);
@@ -269,7 +271,7 @@ BOOST_AUTO_TEST_CASE(EmptyBlockRoundTripTest)
     CBlock block;
     block.vtx.resize(1);
     block.vtx[0] = MakeTransactionRef(std::move(coinbase));
-    block.SetBaseVersion(42);
+    block.SetBaseVersion(42, nChainId);
     block.hashPrevBlock = InsecureRand256();
     block.nBits = 0x207fffff;
 

@@ -83,12 +83,15 @@ EXTENDED_SCRIPTS = [
     'feature_dbcrash.py',
 ]
 
-# Scripts which use Bitcoin blockchain data
-# TODO: Identify an equivalent scenario in Dogecoin testnet, or generate an equivalent scenario if none occurs naturally
+# Scripts which are specific to Bitcoin
 BITCOIN_ONLY_SCRIPTS = [
     # These tests are not run by default.
     # Longest test should go first, to favor running tests in parallel
+    # Dogecoin: This uses bitcoin blocks.
+    # TODO: Identify an equivalent scenario in Dogecoin testnet, or generate an equivalent scenario if none occurs naturally
     'p2p_dos_header_tree.py',
+    # Dogecoin: BIP9 version bits are incompatible with AuxPoW versions.
+    'feature_versionbits_warning.py',
 ]
 
 COMPATIBILITY_SCRIPTS = [
@@ -222,7 +225,6 @@ BASE_SCRIPTS = [
     'mempool_package_onemore.py',
     'rpc_createmultisig.py',
     'rpc_createmultisig.py --descriptors',
-    'feature_versionbits_warning.py',
     'rpc_preciousblock.py',
     'wallet_importprunedfunds.py',
     'wallet_importprunedfunds.py --descriptors',
@@ -700,7 +702,7 @@ class TestResult():
 def check_script_prefixes():
     """Check that test scripts start with one of the allowed name prefixes."""
 
-    good_prefixes_re = re.compile("^(example|feature|interface|mempool|mining|p2p|rpc|wallet|tool)_")
+    good_prefixes_re = re.compile("^(example|feature|interface|mempool|mining|p2p|rpc|wallet|tool|auxpow)_")
     bad_script_names = [script for script in ALL_SCRIPTS if good_prefixes_re.match(script) is None]
 
     if bad_script_names:
