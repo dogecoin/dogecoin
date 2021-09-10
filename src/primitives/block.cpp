@@ -10,6 +10,19 @@
 #include <crypto/common.h>
 #include <crypto/scrypt.h>
 
+void CBlockHeader::SetAuxpow (std::unique_ptr<CAuxPow> apow)
+{
+    if (apow != nullptr)
+    {
+        auxpow.reset(apow.release());
+        SetAuxpowFlag(true);
+    } else
+    {
+        auxpow.reset();
+        SetAuxpowFlag(false);
+    }
+}
+
 std::string CBlock::ToString() const
 {
     std::stringstream s;

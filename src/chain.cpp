@@ -5,6 +5,10 @@
 
 #include <chain.h>
 
+// Dogecoin: Include the single function signature we need, to avoid the entire
+// validation.h being pulled in and creating a cyclic include loop
+bool ReadBlockHeaderFromDisk(CBlockHeader& block, const CBlockIndex* pindex, const Consensus::Params& consensusParams, const bool fCheckPOW = true);
+
 /* Moved here from the header, because we need auxpow and the logic
    becomes more involved.  */
 CBlockHeader CBlockIndex::GetBlockHeader(const Consensus::Params& consensusParams, bool fCheckPOW) const
@@ -12,6 +16,15 @@ CBlockHeader CBlockIndex::GetBlockHeader(const Consensus::Params& consensusParam
     CBlockHeader block;
 
     block.nVersion       = nVersion;
+
+    /* The CBlockIndex object's block header is missing the auxpow.
+       So if this is an auxpow block, read it from disk instead.  We only
+       have to read the actual *header*, not the full block.  */
+    if (block.IsAuxpow())
+    {
+        ReadBlockHeaderFromDisk(block, this, consensusParams, fCheckPOW);
+        return block;
+    }
 
     if (pprev)
         block.hashPrevBlock = pprev->GetBlockHash();
