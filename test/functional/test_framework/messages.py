@@ -622,7 +622,8 @@ class CBlockHeader:
             self.calc_sha256()
 
     def set_null(self):
-        self.nVersion = 1
+        self.set_base_version(1)
+
         self.hashPrevBlock = 0
         self.hashMerkleRoot = 0
         self.nTime = 0
@@ -631,6 +632,9 @@ class CBlockHeader:
         self.sha256 = None
         self.hash = None
         self.scrypt256 = None
+
+    def set_base_version(self, n):
+        self.nVersion = n
 
     def deserialize(self, f):
         self.nVersion = struct.unpack("<i", f.read(4))[0]
