@@ -7,6 +7,7 @@
 #include <core_io.h>
 #include <interfaces/chain.h>
 #include <key_io.h>
+#include <net.h>
 #include <node/context.h>
 #include <optional.h>
 #include <outputtype.h>
@@ -14,12 +15,15 @@
 #include <policy/fees.h>
 #include <policy/policy.h>
 #include <policy/rbf.h>
+#include <rpc/auxpow_miner.h>
+#include <rpc/blockchain.h>
 #include <rpc/rawtransaction_util.h>
 #include <rpc/server.h>
 #include <rpc/util.h>
 #include <script/descriptor.h>
 #include <script/sign.h>
 #include <util/bip32.h>
+#include <util/check.h>
 #include <util/fees.h>
 #include <util/message.h> // For MessageSign()
 #include <util/moneystr.h>
@@ -4527,6 +4531,206 @@ static RPCHelpMan upgradewallet()
     };
 }
 
+namespace
+{
+
+/**
+ * Helper class that keeps track of reserved keys that are used for mining
+ * coinbases.  We also keep track of the block hash(es) that have been
+ * constructed based on the key, so that we can mark it as keep and get a
+ * fresh one when one of those blocks is submitted.
+ */
+class ReservedKeysForMining
+{
+
+private:
+
+  /**
+   * The per-wallet data that we store.
+   */
+  struct PerWallet
+  {
+
+    /**
+     * The current coinbase script.  This has been taken out of the wallet
+     * already (and marked as "keep"), but is reused until a block actually
+     * using it is submitted successfully.
+     */
+    CScript coinbaseScript;
+
+    /** All block hashes (in hex) that are based on the current script.  */
+    std::set<std::string> blockHashes;
+
+    explicit PerWallet (const CScript& scr)
+      : coinbaseScript(scr)
+    {}
+
+    PerWallet (PerWallet&&) = default;
+
+  };
+
+  /**
+   * Data for each wallet that we have.  This is keyed by CWallet::GetName,
+   * which is not perfect; but it will likely work in most cases, and even
+   * when two different wallets are loaded with the same name (after each
+   * other), the worst that can happen is that we mine to an address from
+   * the other wallet.
+   */
+  std::map<std::string, PerWallet> data;
+
+  /** Lock for this instance.  */
+  mutable RecursiveMutex cs;
+
+public:
+
+  ReservedKeysForMining () = default;
+
+  /**
+   * Retrieves the key to use for mining at the moment.
+   */
+  CScript
+  GetCoinbaseScript (CWallet* pwallet)
+  {
+    LOCK2 (cs, pwallet->cs_wallet);
+
+    const auto mit = data.find (pwallet->GetName ());
+    if (mit != data.end ())
+      return mit->second.coinbaseScript;
+
+    ReserveDestination rdest(pwallet, pwallet->m_default_address_type);
+    CTxDestination dest;
+    if (!rdest.GetReservedDestination (dest, false))
+      throw JSONRPCError (RPC_WALLET_KEYPOOL_RAN_OUT,
+                          "Error: Keypool ran out,"
+                          " please call keypoolrefill first");
+    rdest.KeepDestination ();
+
+    const CScript res = GetScriptForDestination (dest);
+    data.emplace (pwallet->GetName (), PerWallet (res));
+    return res;
+  }
+
+  /**
+   * Adds the block hash (given as hex string) of a newly constructed block
+   * to the set of blocks for the current key.
+   */
+  void
+  AddBlockHash (const CWallet* pwallet, const std::string& hashHex)
+  {
+    LOCK (cs);
+
+    const auto mit = data.find (pwallet->GetName ());
+    CHECK_NONFATAL(mit != data.end ());
+    mit->second.blockHashes.insert (hashHex);
+  }
+
+  /**
+   * Marks a block as submitted, releasing the key for it (if any).
+   */
+  void
+  MarkBlockSubmitted (const CWallet* pwallet, const std::string& hashHex)
+  {
+    LOCK (cs);
+
+    const auto mit = data.find (pwallet->GetName ());
+    if (mit == data.end ())
+      return;
+
+    if (mit->second.blockHashes.count (hashHex) > 0)
+      data.erase (mit);
+  }
+
+};
+
+ReservedKeysForMining g_mining_keys;
+
+} // anonymous namespace
+
+static UniValue getauxblock(const JSONRPCRequest& request)
+{
+    /* RPCHelpMan::Check is not applicable here since we have the
+       custom check for exactly zero or two arguments.  */
+    if (request.fHelp
+          || (request.params.size() != 0 && request.params.size() != 2))
+        throw std::runtime_error(
+            RPCHelpMan{"getauxblock",
+                "\nCreate or submits a merge-mined block.\n"
+                "\nWithout arguments, creates a new block and returns information\n"
+                "required to merge-mine it.  With arguments, submits a solved\n"
+                "auxpow for a previously returned block.\n",
+                {
+                    {"hash", RPCArg::Type::STR_HEX, RPCArg::Optional::OMITTED_NAMED_ARG, "Hash of the block to submit"},
+                    {"auxpow", RPCArg::Type::STR_HEX, RPCArg::Optional::OMITTED_NAMED_ARG, "Serialised auxpow found"},
+                },
+                {
+                  RPCResult{"without arguments",
+                      RPCResult::Type::OBJ, "", "",
+                      {
+                          {RPCResult::Type::STR_HEX, "hash", "hash of the created block"},
+                          {RPCResult::Type::NUM, "chainid", "chain ID for this block"},
+                          {RPCResult::Type::STR_HEX, "previousblockhash", "hash of the previous block"},
+                          {RPCResult::Type::NUM, "coinbasevalue", "value of the block's coinbase"},
+                          {RPCResult::Type::STR_HEX, "bits", "compressed target of the block"},
+                          {RPCResult::Type::NUM, "height", "height of the block"},
+                          {RPCResult::Type::STR_HEX, "target", "target in reversed byte order"},
+                      },
+                  },
+                  {"with arguments",
+                      RPCResult::Type::BOOL, "", "whether the submitted block was correct"
+                  },
+                },
+                RPCExamples{
+                    HelpExampleCli("getauxblock", "")
+                    + HelpExampleCli("getauxblock", "\"hash\" \"serialised auxpow\"")
+                    + HelpExampleRpc("getauxblock", "")
+                },
+            }.ToString());
+
+    WalletContext& context = EnsureWalletContext(request.context);
+
+    std::shared_ptr<CWallet> const wallet = GetWalletForJSONRPCRequest(request);
+    if (!wallet) return NullUniValue;
+    CWallet* const pwallet = wallet.get();
+
+    if (pwallet->IsWalletFlagSet(WALLET_FLAG_DISABLE_PRIVATE_KEYS)) {
+        throw JSONRPCError(RPC_WALLET_ERROR, "Error: Private keys are disabled for this wallet");
+    }
+
+    NodeContext& node = *context.nodeContext;
+    if (!node.connman)
+        throw JSONRPCError(RPC_CLIENT_P2P_DISABLED, "Error: Peer-to-peer functionality missing or disabled");
+
+    if (node.connman->GetNodeCount(CConnman::CONNECTIONS_ALL) == 0)
+        throw JSONRPCError(RPC_CLIENT_NOT_CONNECTED, PACKAGE_NAME " is not connected!");
+
+    if (::ChainstateActive().IsInitialBlockDownload())
+        throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD, PACKAGE_NAME " is in initial sync and waiting for blocks...");
+
+    if (request.params.size() == 0)
+    {
+        /* Create a new block */
+        const CScript coinbaseScript = g_mining_keys.GetCoinbaseScript(pwallet);
+        const CTxMemPool& mempool = EnsureMemPool(node);
+        const UniValue res = AuxpowMiner::get().createAuxBlock(mempool, coinbaseScript);
+        g_mining_keys.AddBlockHash(pwallet, res["hash"].get_str());
+        return res;
+    } else {
+        /* Submit a block instead.  */
+        if (request.params.size() != 2) {
+            throw JSONRPCError(RPC_INVALID_PARAMETER, "getauxblock takes exactly 0 or 2 parameters.");
+        }
+        ChainstateManager& chainman = EnsureChainman(node);
+        uint256 hash(ParseHashV(request.params[0], "hash"));
+
+        const bool fAccepted
+            = AuxpowMiner::get().submitAuxBlock(chainman, hash, request.params[1].get_str());
+        if (fAccepted)
+            g_mining_keys.MarkBlockSubmitted(pwallet, hash.GetHex().c_str());
+
+        return fAccepted;
+    }
+}
+
 RPCHelpMan abortrescan();
 RPCHelpMan dumpprivkey();
 RPCHelpMan importprivkey();
@@ -4558,6 +4762,7 @@ static const CRPCCommand commands[] =
     { "wallet",             "encryptwallet",                    &encryptwallet,                 {"passphrase"} },
     { "wallet",             "getaddressesbylabel",              &getaddressesbylabel,           {"label"} },
     { "wallet",             "getaddressinfo",                   &getaddressinfo,                {"address"} },
+    { "mining",             "getauxblock",                      &getauxblock,                   {"hash", "auxpow"} },
     { "wallet",             "getbalance",                       &getbalance,                    {"dummy","minconf","include_watchonly","avoid_reuse"} },
     { "wallet",             "getnewaddress",                    &getnewaddress,                 {"label","address_type"} },
     { "wallet",             "getrawchangeaddress",              &getrawchangeaddress,           {"address_type"} },

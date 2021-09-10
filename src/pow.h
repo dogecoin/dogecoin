@@ -20,4 +20,12 @@ unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nF
 /** Check whether a block hash satisfies the proof-of-work requirement specified by nBits */
 bool CheckProofOfWork(uint256 hash, unsigned int nBits, const Consensus::Params&);
 
+/**
+ * Check proof-of-work of a block header, taking auxpow into account.
+ * @param block The block header.
+ * @param params Consensus parameters.
+ * @return True iff the PoW is correct.
+ */
+bool CheckAuxPowProofOfWork(const CBlockHeader& block, const Consensus::Params& params);
+
 #endif // BITCOIN_POW_H
