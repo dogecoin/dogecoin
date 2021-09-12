@@ -759,6 +759,7 @@
             </item>
            </layout>
           </item>
+          <!--
           <item>
            <widget class="QLabel" name="fallbackFeeWarningLabel">
             <property name="toolTip">
@@ -778,6 +779,7 @@
             </property>
            </widget>
           </item>
+          -->
           <item>
            <spacer name="horizontalSpacer_4">
             <property name="orientation">
@@ -896,14 +898,20 @@
                 <layout class="QHBoxLayout" name="horizontalLayoutFee8">
                  <item>
                   <widget class="QCheckBox" name="checkBoxMinimumFee">
+                   <!--
                    <property name="toolTip">
                     <string>Paying only the minimum fee is just fine as long as there is less transaction volume than space in the blocks. But be aware that this can end up in a never confirming transaction once there is more demand for dogecoin transactions than the network can process.</string>
                    </property>
+                     -->
                    <property name="text">
                     <string/>
                    </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
                   </widget>
                  </item>
+                 <!--
                  <item>
                   <widget class="QLabel" name="labelMinFeeWarning">
                    <property name="enabled">
@@ -920,6 +928,7 @@
                    </property>
                   </widget>
                  </item>
+                   -->
                  <item>
                   <spacer name="horizontalSpacer_2">
                    <property name="orientation">
@@ -944,8 +953,8 @@
                  <property name="text">
                   <string>Recommended:</string>
                  </property>
-                 <property name="checked">
-                  <bool>true</bool>
+                 <property name="enabled">
+                  <bool>false</bool>
                  </property>
                  <attribute name="buttonGroup">
                   <string notr="true">groupFee</string>
@@ -973,6 +982,9 @@
                 <widget class="QRadioButton" name="radioCustomFee">
                  <property name="text">
                   <string>Custom:</string>
+                 </property>
+                 <property name="enabled">
+                  <bool>false</bool>
                  </property>
                  <attribute name="buttonGroup">
                   <string notr="true">groupFee</string>
