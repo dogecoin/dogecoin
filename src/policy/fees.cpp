@@ -449,6 +449,10 @@ CFeeRate CBlockPolicyEstimator::estimateSmartFee(int confTarget, int *answerFoun
     if (median < 0)
         return CFeeRate(0);
 
+    if (abs(median - SMOOTHING_TARGET) < SMOOTHING_TOLERANCE) {
+        return CFeeRate(SMOOTHING_TARGET);
+    }
+
     return CFeeRate(median);
 }
 

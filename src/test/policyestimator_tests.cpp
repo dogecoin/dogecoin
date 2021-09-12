@@ -16,10 +16,10 @@ BOOST_FIXTURE_TEST_SUITE(policyestimator_tests, BasicTestingSetup)
 
 BOOST_AUTO_TEST_CASE(BlockPolicyEstimates)
 {
-    CTxMemPool mpool(CFeeRate(1000));
+    CTxMemPool mpool(CFeeRate(100000));
     TestMemPoolEntryHelper entry;
-    CAmount basefee(2000);
-    CAmount deltaFee(100);
+    CAmount basefee(200000);
+    CAmount deltaFee(10000);
     std::vector<CAmount> feeV;
 
     // Populate vectors of increasing fees
@@ -48,10 +48,10 @@ BOOST_AUTO_TEST_CASE(BlockPolicyEstimates)
     std::vector<CTransactionRef> block;
     int blocknum = 0;
 
-    // Loop through 200 blocks
-    // At a decay .998 and 4 fee transactions per block
+    // Loop through 2000 blocks
+    // At a decay .9998 and 4 fee transactions per block
     // This makes the tx count about 1.33 per bucket, above the 1 threshold
-    while (blocknum < 200) {
+    while (blocknum < 2000) {
         for (int j = 0; j < 10; j++) { // For each fee
             for (int k = 0; k < 4; k++) { // add 4 fee txs
                 tx.vin[0].prevout.n = 10000*blocknum+100*j+k; // make transaction unique
@@ -74,7 +74,7 @@ BOOST_AUTO_TEST_CASE(BlockPolicyEstimates)
         }
         mpool.removeForBlock(block, ++blocknum);
         block.clear();
-        if (blocknum == 30) {
+        if (blocknum == 300) {
             // At this point we should need to combine 5 buckets to get enough data points
             // So estimateFee(1,2,3) should fail and estimateFee(4) should return somewhere around
             // 8*baserate.  estimateFee(4) %'s are 100,100,100,100,90 = average 98%
@@ -113,9 +113,9 @@ BOOST_AUTO_TEST_CASE(BlockPolicyEstimates)
         }
     }
 
-    // Mine 50 more blocks with no transactions happening, estimates shouldn't change
+    // Mine 640 more blocks with no transactions happening, estimates shouldn't change
     // We haven't decayed the moving average enough so we still have enough data points in every bucket
-    while (blocknum < 250)
+    while (blocknum < 2640)
         mpool.removeForBlock(block, ++blocknum);
 
     BOOST_CHECK(mpool.estimateFee(1) == CFeeRate(0));
@@ -127,7 +127,7 @@ BOOST_AUTO_TEST_CASE(BlockPolicyEstimates)
 
     // Mine 15 more blocks with lots of transactions happening and not getting mined
     // Estimates should go up
-    while (blocknum < 265) {
+    while (blocknum < 2655) {
         for (int j = 0; j < 10; j++) { // For each fee multiple
             for (int k = 0; k < 4; k++) { // add 4 fee txs
                 tx.vin[0].prevout.n = 10000*blocknum+100*j+k;
@@ -155,16 +155,16 @@ BOOST_AUTO_TEST_CASE(BlockPolicyEstimates)
             txHashes[j].pop_back();
         }
     }
-    mpool.removeForBlock(block, 265);
+    mpool.removeForBlock(block, 2655);
     block.clear();
     BOOST_CHECK(mpool.estimateFee(1) == CFeeRate(0));
     for (int i = 2; i < 10;i++) {
         BOOST_CHECK(mpool.estimateFee(i).GetFeePerK() > origFeeEst[i-1] - deltaFee);
     }
 
-    // Mine 200 more blocks where everything is mined every block
+    // Mine 2000 more blocks where everything is mined every block
     // Estimates should be below original estimates
-    while (blocknum < 465) {
+    while (blocknum < 4655) {
         for (int j = 0; j < 10; j++) { // For each fee multiple
             for (int k = 0; k < 4; k++) { // add 4 fee txs
                 tx.vin[0].prevout.n = 10000*blocknum+100*j+k;

@@ -169,18 +169,24 @@ public:
 /** Track confirm delays up to 25 blocks, can't estimate beyond that */
 static const unsigned int MAX_BLOCK_CONFIRMS = 25;
 
-/** Decay of .998 is a half-life of 346 blocks or about 2.4 days */
-static const double DEFAULT_DECAY = .998;
+/** Decay of .9998 is a half-life of 3465 blocks or about 2.4 days */
+static const double DEFAULT_DECAY = .9998;
 
 /** Require greater than 95% of X feerate transactions to be confirmed within Y blocks for X to be big enough */
 static const double MIN_SUCCESS_PCT = .95;
+
+// Dogecoin: Smooth estimated fee so if it's close to 1.14.5 default, we use that default instead.
+// This avoids floating point math causing the estimate to drop just below the default inclusion
+// rate, while retaining the ability to use fees below 1.14.5 default.
+static const double SMOOTHING_TARGET = COIN / 100;
+static const double SMOOTHING_TOLERANCE = COIN / 100000;
 
 /** Require an avg of 1 tx in the combined feerate bucket per block to have stat significance */
 static const double SUFFICIENT_FEETXS = 1;
 
 // Minimum and Maximum values for tracking feerates
-static constexpr double MIN_FEERATE = 10;
-static const double MAX_FEERATE = 1e7;
+static constexpr double MIN_FEERATE = COIN / 1000;
+static const double MAX_FEERATE = COIN * 10.0;
 static const double INF_FEERATE = MAX_MONEY;
 static const double INF_PRIORITY = 1e9 * MAX_MONEY;
 
