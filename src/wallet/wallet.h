@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_WALLET_WALLET_H
-#define BITCOIN_WALLET_WALLET_H
+#ifndef DOGECOIN_WALLET_WALLET_H
+#define DOGECOIN_WALLET_WALLET_H
 
 #include "amount.h"
 #include "auxpow.h"
@@ -47,21 +47,20 @@ extern bool fWalletRbf;
 
 static const unsigned int DEFAULT_KEYPOOL_SIZE = 100;
 //! -paytxfee default
-static const CAmount DEFAULT_TRANSACTION_FEE = COIN / 100;
+static const CAmount DEFAULT_TRANSACTION_FEE = COIN;
 //! -fallbackfee default
 //mlumin: 5/2021 scaled minimum, this likely will have to change for fee reduction
-//rnicoll: 8/2021 reduce to 1,000,000 Koinu
-static const CAmount DEFAULT_FALLBACK_FEE = COIN / 100;
+static const CAmount DEFAULT_FALLBACK_FEE = COIN;
 //! -mintxfee default
-static const CAmount DEFAULT_TRANSACTION_MINFEE = COIN / 100;
+static const CAmount DEFAULT_TRANSACTION_MINFEE = COIN;
 //mlumin 5/2021: adding a minimum Wallet fee vs relay, currently still 1 COIN, to be reduced.
-static const CAmount DEFAULT_MIN_WALLET_TX_FEE = COIN / 100;
+static const CAmount DEFAULT_MIN_WALLET_TX_FEE = COIN;
 //! minimum recommended increment for BIP 125 replacement txs
 static const CAmount WALLET_INCREMENTAL_RELAY_FEE = COIN/10 * 5;
 //! target minimum change amount
-static const CAmount MIN_CHANGE = COIN / 100;
+static const CAmount MIN_CHANGE = COIN;
 //! final minimum change amount after paying for fees
-static const CAmount MIN_FINAL_CHANGE = COIN / 100;
+static const CAmount MIN_FINAL_CHANGE = COIN;
 //! Default for -spendzeroconfchange
 static const bool DEFAULT_SPEND_ZEROCONF_CHANGE = true;
 //! Default for -sendfreetransactions
@@ -1009,4 +1008,4 @@ bool CWallet::DummySignTx(CMutableTransaction &txNew, const ContainerType &coins
     }
     return true;
 }
-#endif // BITCOIN_WALLET_WALLET_H
+#endif // DOGECOIN_WALLET_WALLET_H
