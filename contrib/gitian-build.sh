@@ -41,10 +41,18 @@ outputDir=$(pwd)/gitian-output
 
 # Help message
 read -r -d '' usage <<-EOF
-Usage: $scriptName [-c|u|v|b|s|B|o|h|j|m|] version
-Run this script from the directory containing the dogecoin, gitian-builder, gitian.sigs, and dogecoin-detached-sigs.
+Usage: $scriptName [options] version
+
+Standalone script to perform the gitian build of Dogecoin Core. Perform
+deterministic build for multiples Operating System, using Docker, LXC or
+KVM for virtualization. Sign binaries using PGP.
+
+Use https://github.com/devrandom/gitian-builder to manage the process.
+
 Arguments:
-version         Version number, commit, or branch to build. If building a commit or branch, the -c option must be specified
+version             Version number, commit, or branch to build. If building a
+                    commit or branch, the -c option must be specified
+
 Options:
 -c|--commit         Indicate that the version argument is for a commit or branch
 -u|--url repo       Specify the URL of the repository. Default is https://github.com/dogecoin/dogecoin
@@ -139,7 +147,7 @@ while :; do
                 exit 1
             fi
             ;;
-        # kvm
+        # lxc
         --lxc)
             USE_LXC=1
             ;;
