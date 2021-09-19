@@ -57,7 +57,7 @@ Options:
 --setup             Setup the gitian building environment. Uses Docker
 -b|--build          Do the gitian build
 -B|--build-signed   Build signed binaries for MacOS and Windows
--s|--sign name      Sign builded executables with GPG
+-s|--sign name      Sign builded executables with GPG using user ID
 -v|--verify         Verify the gitian build
 --lxc               Use LXC instead of KVM
 --docker            Use Docker instead of KVM
