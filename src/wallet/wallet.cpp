@@ -39,8 +39,6 @@ using namespace std;
 CWallet* pwalletMain = NULL;
 /** Transaction fee set by the user */
 CFeeRate payTxFee(DEFAULT_TRANSACTION_FEE);
-//mlumin 5/2021: Add minimum wallet tx fee. This really should be expressed as a rate not a final fee.
-CFeeRate minWalletTxFeeRate = CFeeRate(DEFAULT_MIN_WALLET_TX_FEE);
 unsigned int nTxConfirmTarget = DEFAULT_TX_CONFIRM_TARGET;
 bool bSpendZeroConfChange = DEFAULT_SPEND_ZEROCONF_CHANGE;
 bool fSendFreeTransactions = DEFAULT_SEND_FREE_TRANSACTIONS;
@@ -2661,8 +2659,11 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
 
                 // Allow to override the default confirmation target over the CoinControl instance
                 int currentConfirmationTarget = nTxConfirmTarget;
-                if (coinControl && coinControl->nConfirmTarget > 0)
-                    currentConfirmationTarget = coinControl->nConfirmTarget;
+                FeeRatePreset nPriority;
+                if (coinControl && coinControl->nPriority > 0)
+                    nPriority = coinControl->nPriority;
+                else
+                    nPriority = MINIMUM;
 
                 // Can we complete this as a free transaction?
                 if (fSendFreeTransactions && nBytes <= MAX_FREE_TRANSACTION_CREATE_SIZE)
@@ -2674,7 +2675,13 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
                         break;
                 }
 
-                CAmount nFeeNeeded = GetMinimumFee(txNew, nBytes, currentConfirmationTarget, mempool);
+                CAmount nFeeNeeded;
+                if (nPriority == MINIMUM) {
+                    nFeeNeeded = GetMinimumFee(txNew, nBytes, currentConfirmationTarget, mempool);
+                } else {
+                    // Force the fee rate higher
+                    nFeeNeeded = GetDogecoinPriorityFee(txNew, nBytes, nPriority);
+                }
                 if (coinControl && nFeeNeeded > 0 && coinControl->nMinimumTotalFee > nFeeNeeded) {
                     nFeeNeeded = coinControl->nMinimumTotalFee;
                 }
@@ -2873,6 +2880,31 @@ CAmount CWallet::GetMinimumFee(const CMutableTransaction& tx, unsigned int nTxBy
 
         // Dogecoin: Drop the smart fee estimate, use GetRequiredFee
         nFeeNeeded = GetRequiredFee(tx, nTxBytes);
+    }
+    // prevent user from paying a fee below minRelayTxFee or minTxFee
+    // Dogecoin: as we're adapting minTxFee to never be higher than
+    //           payTxFee unless explicitly set, this should be fine
+    nFeeNeeded = std::max(nFeeNeeded, GetRequiredFee(tx, nTxBytes));
+
+    // But always obey the maximum
+    if (nFeeNeeded > maxTxFee)
+        nFeeNeeded = maxTxFee;
+
+    return nFeeNeeded;
+}
+
+
+CAmount CWallet::GetDogecoinPriorityFee(const CMutableTransaction& tx, unsigned int nTxBytes, FeeRatePreset nPriority)
+{
+    // payTxFee is the user-set global for desired feerate
+    return GetDogecoinPriorityFee(tx, nTxBytes, nPriority, payTxFee.GetFee(nTxBytes));
+}
+CAmount CWallet::GetDogecoinPriorityFee(const CMutableTransaction& tx, unsigned int nTxBytes, FeeRatePreset nPriority, CAmount targetFee)
+{
+    CAmount nFeeNeeded = targetFee;
+    // User didn't set: use -txconfirmtarget to estimate...
+    if (nFeeNeeded == 0) {
+        nFeeNeeded = GetDogecoinFeeRate(nPriority).GetFee(nTxBytes);
     }
     // prevent user from paying a fee below minRelayTxFee or minTxFee
     // Dogecoin: as we're adapting minTxFee to never be higher than
