@@ -29,6 +29,7 @@ build=false
 buildSigned=false
 commit=false
 test=false
+enableCache=false
 
 # Other Basic variables
 SIGNER=
@@ -65,6 +66,8 @@ Options:
                     l for Linux, w for Windows, x for MacOS
 -j proc             Number of processes to use. Default $proc
 -m n                Memory to allocate in MiB. Default $mem
+--enable-cache      Use local apt-cacher server. If you need to specify host, use
+                    MIRROR_HOST environment variable
 -c|--commit         Indicate that the version argument is for a commit or branch
 -u|--url repo       Specify the URL of the repository. Default is https://github.com/dogecoin/dogecoin
 --test              CI TEST. Uses Docker
@@ -154,6 +157,10 @@ while :; do
         # docker
         --docker)
             USE_DOCKER=1
+            ;;
+        # apt cacher
+        --enable-cache)
+            enableCache=true
             ;;
         # URL
         -u)
@@ -280,15 +287,20 @@ if [[ $setup == true ]]; then
 
     popd
 
+    #Check if apt-cacher should be enabled
+    if [ -z "$MIRROR_HOST" ] && [[ $enableCache = false ]]; then
+        cacher_option="--disable-apt-cacher"
+    fi
+
     #Prepare containers depending of virtualization solution: lxc, docker, kvm
     if [ "$USE_LXC" -eq 1 ]
     then
         sudo apt-get install -y lxc
-        bin/make-base-vm --suite trusty --arch amd64 --lxc --disable-apt-cacher
+        bin/make-base-vm --suite trusty --arch amd64 --lxc $(echo $cacher_option)
     elif [ "$USE_DOCKER" -eq 1 ]; then
-        bin/make-base-vm --suite trusty --arch amd64 --docker --disable-apt-cacher
+        bin/make-base-vm --suite trusty --arch amd64 --docker $(echo $cacher_option)
     else
-        bin/make-base-vm --suite trusty --arch amd64 --disable-apt-cacher
+        bin/make-base-vm --suite trusty --arch amd64 $(echo $cacher_option)
     fi
     popd
 fi

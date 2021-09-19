@@ -17,6 +17,7 @@ Participate and help to secure the process by following this guide.
     * [Docker](#docker)
     * [LXC](#lxc)
     * [KVM](#kvm)
+    * [Apt-cacher](#apt-cacher)
 2. [Usage](#usage)
     * [Syntax](#syntax)
     * [Example](#example)
@@ -71,6 +72,19 @@ Then use `--lxc` option with `gitian-build.sh`.
 
 [Documentation not available, help is welcome]
 
+### Apt-cacher
+
+Disabled by default, `apt-cacher` enable to cache locally downloaded dependencies to save resources.
+
+You will need the following package :
+```
+apache2 apt-cacher-ng
+```
+
+You can use your local server by using `--enable-apt-cacher`, or define `MIRROR_HOST` if you need to specify the server address.
+
+> **Be nice:** Please use cache for intensive ressource usage to save mirrors bandwith.
+
 ## Usage
 
 `gitian-build.sh` is a standalone script, it can be downloaded and run outside of Dogecoin Core repository.
@@ -102,6 +116,9 @@ Options:
                     l for Linux, w for Windows, x for MacOS
 -j proc             Number of processes to use. Default 2
 -m n                Memory to allocate in MiB. Default 2000
+--enable-cache      Use local apt-cacher server. If you need to specify host, use
+                    MIRROR_HOST environment variable
+
 -c|--commit         Indicate that the version argument is for a commit or branch
 -u|--url repo       Specify the URL of the repository. Default is https://github.com/dogecoin/dogecoin
 --test              CI TEST. Uses Docker
