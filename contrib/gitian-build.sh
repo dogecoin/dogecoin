@@ -54,7 +54,7 @@ version             Version number, commit, or branch to build. If building a
                     commit or branch, the -c option must be specified
 
 Options:
---setup             Setup the gitian building environment. Uses Docker
+--setup             Setup the gitian building environment.
 -b|--build          Do the gitian build
 -B|--build-signed   Build signed binaries for MacOS and Windows
 -s|--sign name      Sign builded executables with GPG using user ID
