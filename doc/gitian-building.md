@@ -20,6 +20,7 @@ Participate and help to secure the process by following this guide.
 2. [Usage](#usage)
     * [Syntax](#syntax)
     * [Example](#example)
+    * [Signing externally](#signing-externally)
 3. [Publish signatures](#publish-signatures)
 
 ## Install dependencies
@@ -125,6 +126,25 @@ Or to do everything at once :
 ```bash
 $ ./gitian-build.sh --docker --setup --build --sign SIGNER --verify 1.14.4
 ```
+
+### Signing externally
+
+If you want to do the PGP signing on another device, that's also possible; just define `SIGNER` as mentioned
+and follow the steps in the build process as normal.
+
+```bash
+$ gpg: skipped "laanwj": secret key not available
+```
+
+When you execute `gsign` you will get an error from GPG, which can be ignored. Copy the resulting `.assert` files in `gitian.sigs` to your signing machine and do
+
+```bash
+    gpg --detach-sign ${VERSION}-linux/${SIGNER}/dogecoin-linux-build.assert
+    gpg --detach-sign ${VERSION}-win/${SIGNER}/dogecoin-win-build.assert
+    gpg --detach-sign ${VERSION}-osx-unsigned/${SIGNER}/dogecoin-osx-build.assert
+```
+
+This will create the `.sig` files that can be committed together with the `.assert` files to assert your Gitian build.
 
 ## Publish signatures
 

@@ -334,7 +334,7 @@ if [[ $build == true ]]; then
 
         if [ -n "$SIGNER" ]; then
             ./bin/gsign --signer "$SIGNER" --release "$VERSION"-"$descriptor" \
-                --destination $outputDir/sigs/ ../gitian-descriptors/gitian-"$descriptor".yml || exit 1
+                --destination $outputDir/sigs/ ../gitian-descriptors/gitian-"$descriptor".yml
         fi
         move_build_files
     done
@@ -353,7 +353,7 @@ if [[ $buildSigned == true ]]; then
         ./bin/gbuild --skip-image --upgrade --commit signature="$COMMIT" ../gitian-descriptors/gitian-"$sign_descriptor".yml || exit 1
         if [ -n "$SIGNER" ]; then
             ./bin/gsign --signer "$SIGNER" --release "$VERSION"-"$sign_descriptor" \
-                --destination $outputDir/sigs/ ../gitian-descriptors/gitian-"$sign_descriptor".yml || exit 1
+                --destination $outputDir/sigs/ ../gitian-descriptors/gitian-"$sign_descriptor".yml
         fi
         move_build_files
     done
