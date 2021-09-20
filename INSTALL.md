@@ -31,6 +31,11 @@ Host your node in a container ! To use it, first follow their [Get Docker](https
 
 #### How to use the image
 
+> **Warning:** Even if it's optional, mapping of the data directory with a volume is highly recommended, to avoid redownloading the blockchain at each container restart.
+> ```
+> sudo docker run -v  $(pwd)/data:/dogecoin/.dogecoin dogecoin
+> ```
+
 Example to launch a node and start using `dogecoin-cli` :
 ```bash
 #Get Dockerfile & script
@@ -39,7 +44,7 @@ $ wget https://raw.githubusercontent.com/dogecoin/dogecoin/master/Dockerfile
 
 #Build image & run
 $ sudo docker build -t dogecoin .
-$ sudo docker run --name doge-container dogecoin
+$ sudo docker run --name doge-container -v $(pwd)/data:/dogecoin/.dogecoin dogecoin
 
 #Use dogecoin-cli within container
 $ sudo docker exec doge-container dogecoin-cli help
