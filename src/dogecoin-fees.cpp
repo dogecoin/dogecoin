@@ -18,6 +18,50 @@
 #endif
 
 #ifdef ENABLE_WALLET
+
+CFeeRate GetDogecoinFeeRate(int priority)
+{
+    switch(priority)
+    {
+    case SUCH_EXPENSIVE:
+        return CFeeRate(COIN / 100 * 521); // 5.21 DOGE, but very carefully avoiding floating point maths
+    case MANY_GENEROUS:
+        return CFeeRate(CWallet::minTxFee.GetFeePerK() * 100);
+    case AMAZE:
+        return CFeeRate(CWallet::minTxFee.GetFeePerK() * 10);
+    case WOW:
+        return CFeeRate(CWallet::minTxFee.GetFeePerK() * 5);
+    case MORE:
+        return CFeeRate(CWallet::minTxFee.GetFeePerK() * 2);
+    case MINIMUM:
+    default:
+        break;
+    }
+    return CWallet::minTxFee;
+}
+
+const std::string GetDogecoinPriorityLabel(int priority)
+{
+    switch(priority)
+    {
+    case SUCH_EXPENSIVE:
+        return _("Such expensive");
+    case MANY_GENEROUS:
+        return _("Many generous");
+    case AMAZE:
+        return _("Amaze");
+    case WOW:
+        return _("Wow");
+    case MORE:
+        return _("More");
+    case MINIMUM:
+        return _("Minimum");
+    default:
+        break;
+    }
+    return _("Default");
+}
+
 //mlumin 5/2021: walletfees, all attached to GetDogecoinWalletFeeRate which is just the newly exposed ::minWalletTxFee
 CAmount GetDogecoinWalletFee(size_t nBytes_)
 {
@@ -31,7 +75,7 @@ CAmount GetDogecoinWalletFee(size_t nBytes_)
 CFeeRate GetDogecoinWalletFeeRate()
 {
     //mlumin 5/2021: currently 1x COIN or 1 dogecoin or 100,000,000 koinu
-    return ::minWalletTxFeeRate;
+    return CWallet::minTxFee;
 }
 #endif
 

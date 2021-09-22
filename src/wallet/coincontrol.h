@@ -6,6 +6,7 @@
 #define BITCOIN_WALLET_COINCONTROL_H
 
 #include "primitives/transaction.h"
+#include "dogecoin-fees.h"
 
 /** Coin Control Features. */
 class CCoinControl
@@ -22,8 +23,8 @@ public:
     bool fOverrideFeeRate;
     //! Feerate to use if overrideFeeRate is true
     CFeeRate nFeeRate;
-    //! Override the default confirmation target, 0 = use default
-    int nConfirmTarget;
+    //! Override the default transaction speed, 0 = use default
+    FeeRatePreset nPriority;
 
     CCoinControl()
     {
@@ -39,7 +40,7 @@ public:
         nMinimumTotalFee = 0;
         nFeeRate = CFeeRate(0);
         fOverrideFeeRate = false;
-        nConfirmTarget = 0;
+        nPriority = MINIMUM;
     }
 
     bool HasSelected() const

@@ -8,6 +8,7 @@
 
 #include "amount.h"
 #include "auxpow.h"
+#include "dogecoin-fees.h"
 #include "streams.h"
 #include "tinyformat.h"
 #include "ui_interface.h"
@@ -54,8 +55,6 @@ static const CAmount DEFAULT_TRANSACTION_FEE = COIN / 100;
 static const CAmount DEFAULT_FALLBACK_FEE = COIN / 100;
 //! -mintxfee default
 static const CAmount DEFAULT_TRANSACTION_MINFEE = COIN / 100;
-//mlumin 5/2021: adding a minimum Wallet fee vs relay, currently still 1 COIN, to be reduced.
-static const CAmount DEFAULT_MIN_WALLET_TX_FEE = COIN / 100;
 //! minimum recommended increment for BIP 125 replacement txs
 static const CAmount WALLET_INCREMENTAL_RELAY_FEE = COIN/10 * 5;
 //! target minimum change amount
@@ -761,6 +760,14 @@ public:
      * then fee estimation for nConfirmTarget
      */
     static CAmount GetMinimumFee(const CMutableTransaction& tx, unsigned int nTxBytes, unsigned int nConfirmTarget, const CTxMemPool& pool, CAmount targetFee);
+    /**
+     * Dogecoin: Get a fee targetting a specific transaction speed.
+     */
+    CAmount GetDogecoinPriorityFee(const CMutableTransaction& tx, unsigned int nTxBytes, FeeRatePreset nSpeed);
+    /**
+     * Dogecoin: Get a fee targetting a specific transaction speed.
+     */
+    static CAmount GetDogecoinPriorityFee(const CMutableTransaction& tx, unsigned int nTxBytes, FeeRatePreset nSpeed, CAmount targetFee);
     /**
      * Return the minimum required fee taking into account the
      * floating relay fee and user set minimum transaction fee

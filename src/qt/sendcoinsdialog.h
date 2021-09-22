@@ -91,7 +91,7 @@ private Q_SLOTS:
     void setMinimumFee();
     void updateFeeSectionControls();
     void updateMinFeeLabel();
-    void updateSmartFeeLabel();
+    void updateFeeLabel();
     void updateGlobalFeeVariables();
 
 Q_SIGNALS:
