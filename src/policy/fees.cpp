@@ -12,6 +12,8 @@
 #include "streams.h"
 #include "txmempool.h"
 #include "util.h"
+// Dogecoin: This is only used for the fee smoothing logging, and can be cut once that's removed
+#include "utilmoneystr.h"
 
 void TxConfirmStats::Initialize(std::vector<double>& defaultBuckets,
                                 unsigned int maxConfirms, double _decay)
@@ -298,11 +300,12 @@ bool CBlockPolicyEstimator::removeTx(uint256 hash)
     }
 }
 
-CBlockPolicyEstimator::CBlockPolicyEstimator(const CFeeRate& _minRelayFee)
+CBlockPolicyEstimator::CBlockPolicyEstimator(const CFeeRate& _minRelayFee, const CFeeRate& _minReasonableInclusionFee)
     : nBestSeenHeight(0), trackedTxs(0), untrackedTxs(0)
 {
     static_assert(MIN_FEERATE > 0, "Min feerate must be nonzero");
     minTrackedFee = _minRelayFee < CFeeRate(MIN_FEERATE) ? CFeeRate(MIN_FEERATE) : _minRelayFee;
+    minReasonableInclusionFee = _minReasonableInclusionFee;
     std::vector<double> vfeelist;
     for (double bucketBoundary = minTrackedFee.GetFeePerK(); bucketBoundary <= MAX_FEERATE; bucketBoundary *= FEE_SPACING) {
         vfeelist.push_back(bucketBoundary);
@@ -449,8 +452,11 @@ CFeeRate CBlockPolicyEstimator::estimateSmartFee(int confTarget, int *answerFoun
     if (median < 0)
         return CFeeRate(0);
 
-    if (abs(median - SMOOTHING_TARGET) < SMOOTHING_TOLERANCE) {
-        return CFeeRate(SMOOTHING_TARGET);
+    // Dogecoin: If we're very close to the expected minimum inclusion fee, round to it.
+    // This smooths out minor differences arising from floating point arithmetic.
+    if (abs(median - minReasonableInclusionFee.GetFeePerK()) < (minReasonableInclusionFee.GetFeePerK() / 1000)) {
+        LogPrint("estimatefee", "Median %12.5g smoothed to minimum reasonable block inclusion rate %s\n", median, FormatMoney(minReasonableInclusionFee.GetFeePerK()));
+        return minReasonableInclusionFee;
     }
 
     return CFeeRate(median);

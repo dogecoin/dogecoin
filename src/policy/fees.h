@@ -175,12 +175,6 @@ static const double DEFAULT_DECAY = .998;
 /** Require greater than 95% of X feerate transactions to be confirmed within Y blocks for X to be big enough */
 static const double MIN_SUCCESS_PCT = .95;
 
-// Dogecoin: Smooth estimated fee so if it's close to 1.14.5 default, we use that default instead.
-// This avoids floating point math causing the estimate to drop just below the default inclusion
-// rate, while retaining the ability to use fees below 1.14.5 default.
-static const double SMOOTHING_TARGET = COIN / 100;
-static const double SMOOTHING_TOLERANCE = COIN / 100000;
-
 /** Require an avg of 1 tx in the combined feerate bucket per block to have stat significance */
 static const double SUFFICIENT_FEETXS = 1;
 
@@ -205,7 +199,7 @@ class CBlockPolicyEstimator
 {
 public:
     /** Create new BlockPolicyEstimator and initialize stats tracking classes with default values */
-    CBlockPolicyEstimator(const CFeeRate& minRelayFee);
+    CBlockPolicyEstimator(const CFeeRate& minRelayFee, const CFeeRate& minReasonableInclusionFee);
 
     /** Process all the transactions that have been included in a block */
     void processBlock(unsigned int nBlockHeight,
@@ -251,6 +245,7 @@ public:
 
 private:
     CFeeRate minTrackedFee;    //!< Passed to constructor to avoid dependency on main
+    CFeeRate minReasonableInclusionFee;    //!< Passed to constructor to avoid dependency on main
     unsigned int nBestSeenHeight;
     struct TxStatsInfo
     {

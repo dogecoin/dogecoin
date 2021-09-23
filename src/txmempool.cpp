@@ -354,7 +354,16 @@ CTxMemPool::CTxMemPool(const CFeeRate& _minReasonableRelayFee) :
     // of transactions in the pool
     nCheckFrequency = 0;
 
-    minerPolicyEstimator = new CBlockPolicyEstimator(_minReasonableRelayFee);
+    CFeeRate _minReasonableInclusionFee;
+    if (IsArgSet("-blockmintxfee")) {
+        CAmount n = 0;
+        ParseMoney(GetArg("-blockmintxfee", ""), n);
+        _minReasonableInclusionFee = CFeeRate(n);
+    } else {
+        _minReasonableInclusionFee = CFeeRate(DEFAULT_BLOCK_MIN_TX_FEE);
+    }
+
+    minerPolicyEstimator = new CBlockPolicyEstimator(_minReasonableRelayFee, _minReasonableInclusionFee);
 }
 
 CTxMemPool::~CTxMemPool()
