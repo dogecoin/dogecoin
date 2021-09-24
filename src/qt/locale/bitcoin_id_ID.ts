@@ -232,7 +232,7 @@
     </message>
 </context>
 <context>
-    <name>DogecoinGUI</name>
+    <name>BitcoinGUI</name>
     <message>
         <source>Wallet</source>
         <translation>Dompet</translation>
@@ -3177,7 +3177,7 @@
     </message>
 </context>
 <context>
-    <name>dogecoin-core</name>
+    <name>bitcoin-core</name>
     <message>
         <source>Dogecoin Core</source>
         <translation>Dogecoin Core</translation>

@@ -232,7 +232,7 @@
     </message>
 </context>
 <context>
-    <name>DogecoinGUI</name>
+    <name>BitcoinGUI</name>
     <message>
         <source>Sign &amp;message...</source>
         <translation>메시지 서명(&amp;M)...</translation>
@@ -2988,7 +2988,7 @@
     </message>
 </context>
 <context>
-    <name>dogecoin-core</name>
+    <name>bitcoin-core</name>
     <message>
         <source>Options:</source>
         <translation>옵션:</translation>
