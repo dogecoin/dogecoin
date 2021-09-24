@@ -199,13 +199,14 @@ public:
             ( 3500000, uint256S("0xeaa303b93c1c64d2b3a2cdcf6ccf21b10cc36626965cc2619661e8e1879abdfb"))
             ( 3606083, uint256S("0x954c7c66dee51f0a3fb1edb26200b735f5275fe54d9505c76ebd2bcabac36f1e"))
             ( 3854173, uint256S("0xe4b4ecda4c022406c502a247c0525480268ce7abbbef632796e8ca1646425e75"))
+            ( 3910810, uint256S("0xeb5832ed82e4ca12895a6ec5b04f11f6e93e69b53ac50de864a84e098d5f8d73"))
         };
 
         chainTxData = ChainTxData{
             // Data as of block e4b4ecda4c022406c502a247c0525480268ce7abbbef632796e8ca1646425e75 (height 3854173).
             // Tx estimate based on average of year 2021 (~40k transactions per day)
-            1628934997, // * UNIX timestamp of last checkpoint block
-            77616340,   // * total number of transactions between genesis and last checkpoint
+            1632519436, // * UNIX timestamp of last checkpoint block
+            78516954,   // * total number of transactions between genesis and last checkpoint
                         //   (the tx=... number in the SetBestChain debug.log lines)
             0.46        // * estimated number of transactions per second after checkpoint
         };
@@ -352,12 +353,13 @@ public:
             ( 2750000, uint256S("0x473ea9f625d59f534ffcc9738ffc58f7b7b1e0e993078614f5484a9505885563"))
             ( 3062910, uint256S("0x113c41c00934f940a41f99d18b2ad9aefd183a4b7fe80527e1e6c12779bd0246"))
             ( 3286675, uint256S("0x07fef07a255d510297c9189dc96da5f4e41a8184bc979df8294487f07fee1cf3"))
+            ( 3345537, uint256S("0x3480f9504909dc0e223e7f0aac41ed95101323c529d1cd8d5bac15ad2c710f6e"))
         };
 
         chainTxData = ChainTxData{
             // Data as of block 07fef07a255d510297c9189dc96da5f4e41a8184bc979df8294487f07fee1cf3 (height 3286675)
-            1628932841, // * UNIX timestamp of last checkpoint block
-            4469050,    // * total number of transactions between genesis and last checkpoint
+            1632519872, // * UNIX timestamp of last checkpoint block
+            4609417,    // * total number of transactions between genesis and last checkpoint
             0.02        // * estimated number of transactions per second after that timestamp
         };
 
