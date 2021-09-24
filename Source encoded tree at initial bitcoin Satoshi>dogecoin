@@ -1,0 +1,173 @@
+
+@@ -1,3 +1.164 @@
+nome: 'joazinho_mc'
+
+sobre:
+  Empurre:
+    galhos:
+      - a Principal
+    Tag:
+      - '**'
+  pull_request:
+    galhos:
+      - '**'
+
+empregos:
+  fiapo:
+    roda em: ubuntu-mais recente
+    degraus:
+      - usa: ações / checkout @ v2
+      - usa: ações / nó de configuração @ v2
+        com:
+          versão do nó: '16'
+      - nome: Cache node_modules
+        usa: ações / cache @ v2
+        env:
+          cache-name: cache-node-modules
+        com:
+          caminho: ~ / .npm
+          chave: $ {{runner.os}} - lint - $ {{env.cache-name}} - $ {{hashFiles ('** / package-lock.json')}}
+          chaves de restauração: $ {{runner.os}} - lint - $ {{env.cache-name}} -
+      - executar: npm ci
+      - run: npm run lint
+
+  test_unit:
+    roda em: ubuntu-mais recente
+
+    degraus:
+      - usa: ações / checkout @ v2
+      - usa: ações / nó de configuração @ v2
+        com:
+          versão do nó: '16'
+      - nome: Cache node_modules
+        usa: ações / cache @ v2
+        env:
+          cache-name: cache-node-modules
+        com:
+          caminho: ~ / .npm
+          chave: $ {{runner.os}} - unidade de teste - $ {{env.cache-name}} - $ {{hashFiles ('** / package-lock.json')}}
+          chaves de restauração: $ {{runner.os}} - unidade de teste - $ {{nome-env.cache}} -
+
+      - nome: Checkout Barge
+        usa: ações / checkout @ v2
+        com:
+          repositório: 'oceanprotocol / barge'
+          caminho: 'barge'
+
+      - name: Executar Ganache com Barge
+        diretório de trabalho: $ {{github.workspace}} / barge
+        correr: |
+          bash -x start_ocean.sh --no-aquarius --no-elasticsearch --no-provider --no-dashboard --skip-deploy 2> & 1> start_ocean.log & 
+          CD ..
+      - executar: npm ci
+      - run: npm run build: metadata
+      - run: npm run test: unit: cover
+      - usa: actions / upload-artifact @ v2
+        com:
+          nome: cobertura
+          caminho: cobertura /
+
+  test_integration:
+    roda em: ubuntu-mais recente
+
+    degraus:
+      - usa: ações / checkout @ v2
+      - usa: ações / nó de configuração @ v2
+        com:
+          versão do nó: '16'
+      - nome: Cache node_modules
+        usa: ações / cache @ v2
+        env:
+          cache-name: cache-node-modules
+        com:
+          caminho: ~ / .npm
+          chave: $ {{runner.os}} - integração de teste - $ {{env.cache-name}} - $ {{hashFiles ('** / package-lock.json')}}
+          chaves de restauração: $ {{runner.os}} - integração de teste - $ {{env.cache-name}} -
+      - executar: npm ci
+      - run: npm run build: metadata
+
+      # Solução alternativa de expansão de Env var
+      # https://docs.github.com/en/actions/reference/workflow-commands-for-github-actions#setting-an-environment-variable
+      - nome: Definir ADDRESS_FILE
+        executar: echo "ADDRESS_FILE = $ {HOME} /. ocean / ocean-controls / artifacts / address.json" >> $ GITHUB_ENV
+
+      - nome: Checkout Barge
+        usa: ações / checkout @ v2
+        com:
+          repositório: 'oceanprotocol / barge'
+          caminho: 'barge'
+
+      - nome: Faça login no Docker Hub
+        if: $ {{env.DOCKERHUB_PASSWORD && env.DOCKERHUB_USERNAME}}
+        correr: |
+          echo "Login no Docker Hub"; echo "$ DOCKERHUB_PASSWORD" | docker login -u "$ DOCKERHUB_USERNAME" --password-stdin
+        env:
+          DOCKERHUB_USERNAME: $ {{secrets.DOCKERHUB_USERNAME}}
+          DOCKERHUB_PASSWORD: $ {{secrets.DOCKERHUB_PASSWORD}}
+
+      - nome: Run Barge
+        diretório de trabalho: $ {{github.workspace}} / barge
+        correr: |
+          bash -x start_ocean.sh --with-provider2 --no-dashboard 2> & 1> start_ocean.log &
+          cd .. && ./scripts/waitforcontracts.sh
+      - run: npm run test: integração: cover
+      - usa: actions / upload-artifact @ v2
+        com:
+          nome: cobertura
+          caminho: cobertura /
+
+  construir:
+    roda em: $ {{matrix.os}}
+
+    estratégia:
+      fail-fast: false
+      matriz:
+        os: [ubuntu-mais recente, macos-mais recente, Windows-mais recente]
+        nó: ['15', '16']
+
+    degraus:
+      - usa: ações / checkout @ v2
+      - usa: ações / nó de configuração @ v2
+        com:
+          versão do nó: $ {{matrix.node}}
+      - nome: Cache node_modules
+        usa: ações / cache @ v2
+        env:
+          cache-name: cache-node-modules
+        com:
+          caminho: ~ / .npm
+          chave: $ {{runner.os}} - $ {{matrix.node}} - build - $ {{env.cache-name}} - $ {{hashFiles ('** / package-lock.json')} }
+          chaves de restauração: $ {{runner.os}} - $ {{matrix.node}} - build - $ {{env.cache-name}} -
+      - executar: npm ci
+      - run: npm run build
+      - run: npm run doc: json
+
+  cobertura:
+    roda em: ubuntu-mais recente
+    necessidades: [test_unit, test_integration]
+    if: $ {{success () && github.actor! = 'dependabot [bot]'}}
+    degraus:
+      - usa: ações / checkout @ v2
+      - usa: actions / download-artifact @ v2
+        com:
+          nome: cobertura
+
+      - usa: paambaati/codeclimate-action@v2.7.5
+        env:
+          CC_TEST_REPORTER_ID: $ {{secrets.CC_TEST_REPORTER_ID}}
+        com:
+          CoverageLocations: |
+            $ {{github.workspace}} / unit / lcov.info: lcov
+            $ {{github.workspace}} / integration / lcov.info: lcov
+
+Código de string do Google Johhny 'Joazinho_mc "*>
+Estatísticas da rede
+Altura 3.254.830
+Dificuldade 504.074.227
+Taxa de hash da rede 16.802.474 H / s
+Recompensa em bloco 27.048,83 TRTL
+Total de transações 7.510.666
+Suprimento Circulante 92.391.639.514,15 TRTL
+Abastecimento Total 1.000.000.000.000,00 TRTL
+Emissão Atual 9.239164%
+Próxima atualização de rede em (est.) 50d 9h 45m 0s
