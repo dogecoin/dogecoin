@@ -845,6 +845,10 @@ Podpisovanje je možno le s podedovanimi ("legacy") naslovi.</translation>
         <translation>Ustvari denarnico</translation>
     </message>
     <message>
+        <source>Wallet</source>
+        <translation>Denarnica</translation>
+    </message>
+    <message>
         <source>Wallet Name</source>
         <translation>Ime denarnice</translation>
     </message>
@@ -855,6 +859,10 @@ Podpisovanje je možno le s podedovanimi ("legacy") naslovi.</translation>
     <message>
         <source>Encrypt Wallet</source>
         <translation>Šifriraj denarnico</translation>
+    </message>
+    <message>
+        <source>Advanced Options</source>
+        <translation>Napredne možnosti</translation>
     </message>
     <message>
         <source>Disable private keys for this wallet. Wallets with private keys disabled will have no private keys and cannot have an HD seed or imported private keys. This is ideal for watch-only wallets.</source>
@@ -3576,6 +3584,10 @@ Za odpiranje denarnice kliknite Datoteka &gt; Odpri denarnico
         <translation>Napaka pri branju %s! Vsi ključi so bili prebrani pravilno, vendar so lahko vnosi o transakcijah ali vnosi naslovov nepravilni ali manjkajo.</translation>
     </message>
     <message>
+        <source>More than one onion bind address is provided. Using %s for the automatically created Tor onion service.</source>
+        <translation>Nastavljen je več kot en onion-naslov. Za samodejno ustvarjeno storitev na Toru uporabljam %s.</translation>
+    </message>
+    <message>
         <source>Please check that your computer's date and time are correct! If your clock is wrong, %s will not work properly.</source>
         <translation>Opozorilo: Preverite, če sta datum in ura na vašem računalniku točna! %s ne bo deloval pravilno, če je nastavljeni čas nepravilen.</translation>
     </message>
@@ -3702,6 +3714,10 @@ Za odpiranje denarnice kliknite Datoteka &gt; Odpri denarnico
     <message>
         <source>Failed to verify database</source>
         <translation>Preverba podatkovne baze je spodletela.</translation>
+    </message>
+    <message>
+        <source>Ignoring duplicate -wallet %s.</source>
+        <translation>Podvojen -wallet %s -- ne upoštevam.</translation>
     </message>
     <message>
         <source>Importing...</source>
@@ -3854,6 +3870,10 @@ Za odpiranje denarnice kliknite Datoteka &gt; Odpri denarnico
     <message>
         <source>This error could occur if this wallet was not shutdown cleanly and was last loaded using a build with a newer version of Berkeley DB. If so, please use the software that last loaded this wallet</source>
         <translation>Ta napaka se lahko pojavi, če denarnica ni bila pravilno zaprta in je bila nazadnje naložena s programsko opremo z novejšo verzijo Berkely DB. Če je temu tako, prosimo uporabite programsko opremo, s katero je bila ta denarnica nazadnje naložena.</translation>
+    </message>
+    <message>
+        <source>This is the maximum transaction fee you pay (in addition to the normal fee) to prioritize partial spend avoidance over regular coin selection.</source>
+        <translation>To je najvišja transakcijska provizija, ki jo plačate (poleg običajne provizije) za prednostno izogibanje delni porabi pred rednim izbiranjem kovancev.</translation>
     </message>
     <message>
         <source>Transaction needs a change address, but we can't generate it. Please call keypoolrefill first.</source>

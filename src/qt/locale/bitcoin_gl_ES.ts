@@ -419,7 +419,7 @@
     </message>
     <message>
         <source>Request payments (generates QR codes and bitcoin: URIs)</source>
-        <translation>Solicita pagamentos (xera un código QR e bitocin : URIs)</translation>
+        <translation>Solicita pagamentos (xera un código QR e bitcoin : URIs)</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -797,6 +797,10 @@
     <message>
         <source>Create Wallet</source>
         <translation>Crea unha Carteira</translation>
+    </message>
+    <message>
+        <source>Wallet</source>
+        <translation>Wallet</translation>
     </message>
     <message>
         <source>Wallet Name</source>
@@ -1440,6 +1444,14 @@
     </context>
 <context>
     <name>PSBTOperationsDialog</name>
+    <message>
+        <source>Save...</source>
+        <translation>Gardar...</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Pechar</translation>
+    </message>
     <message>
         <source>Total Amount</source>
         <translation>Total Amount</translation>

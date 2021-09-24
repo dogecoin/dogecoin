@@ -515,7 +515,6 @@ def add_spender(spenders, *args, **kwargs):
 
 def random_checksig_style(pubkey):
     """Creates a random CHECKSIG* tapscript that would succeed with only the valid signature on witness stack."""
-    return bytes(CScript([pubkey, OP_CHECKSIG]))
     opcode = random.choice([OP_CHECKSIG, OP_CHECKSIGVERIFY, OP_CHECKSIGADD])
     if (opcode == OP_CHECKSIGVERIFY):
         ret = CScript([pubkey, opcode, OP_1])
@@ -1441,6 +1440,10 @@ class TaprootTest(BitcoinTestFramework):
         self.log.info("Post-activation tests...")
         self.nodes[1].generate(241)
         self.test_spenders(self.nodes[1], spenders_taproot_active(), input_counts=[1, 2, 2, 2, 2, 3])
+
+        # Re-connect nodes in case they have been disconnected
+        self.disconnect_nodes(0, 1)
+        self.connect_nodes(0, 1)
 
         # Transfer value of the largest 500 coins to pre-taproot node.
         addr = self.nodes[0].getnewaddress()

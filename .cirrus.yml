@@ -109,14 +109,14 @@ task:
 #   env:
 #     FILE_ENV: "./ci/test/00_setup_env_native_asan.sh"
 
-# This test does not pass in Bitcoin Core 0.21 as forked. We should resolve the breakage, but it's not a blocker for Dogecoin.
-# task:
-#   name: 'x86_64 Linux  [GOAL: install]  [focal]  [no depends, only system libs, sanitizers: fuzzer,address,undefined]'
-#   << : *GLOBAL_TASK_TEMPLATE
-#   container:
-#     image: ubuntu:focal
-#   env:
-#     FILE_ENV: "./ci/test/00_setup_env_native_fuzz.sh"
+task:
+  name: 'x86_64 Linux  [GOAL: install]  [focal]  [no depends, only system libs, sanitizers: fuzzer,address,undefined]'
+  only_if: $CIRRUS_BRANCH == $CIRRUS_DEFAULT_BRANCH || $CIRRUS_BASE_BRANCH == $CIRRUS_DEFAULT_BRANCH
+  << : *GLOBAL_TASK_TEMPLATE
+  container:
+    image: ubuntu:focal
+  env:
+    FILE_ENV: "./ci/test/00_setup_env_native_fuzz.sh"
 
 task:
   name: 'x86_64 Linux [GOAL: install]  [focal]  [multiprocess]'
@@ -135,10 +135,10 @@ task:
     FILE_ENV: "./ci/test/00_setup_env_mac.sh"
 
 task:
-  name: 'macOS 11 native [gui] [no depends]'
+  name: 'macOS 10.14 native [GOAL: install] [GUI] [no depends]'
   brew_install_script:
     - brew update
-    - brew install boost libevent berkeley-db4 qt@5 miniupnpc libnatpmp ccache zeromq qrencode sqlite libtool automake pkg-config gnu-getopt
+    - brew install boost libevent berkeley-db4 qt@5 miniupnpc ccache zeromq qrencode sqlite libtool automake pkg-config gnu-getopt
   << : *GLOBAL_TASK_TEMPLATE
   osx_instance:
     # Use latest image, but hardcode version to avoid silent upgrades (and breaks)

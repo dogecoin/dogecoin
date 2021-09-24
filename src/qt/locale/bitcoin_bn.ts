@@ -3,7 +3,7 @@
     <name>AddressBookPage</name>
     <message>
         <source>Right-click to edit address or label</source>
-        <translation>ঠিকানা কিংবা লেভেল সম্পাদনার জন্য রাইট-ক্লিক করুন</translation>
+        <translation>Right-click to edit address or label</translation>
     </message>
     <message>
         <source>Create a new address</source>
@@ -68,6 +68,11 @@
     <message>
         <source>These are your Bitcoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
         <translation>These are your Bitcoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</translation>
+    </message>
+    <message>
+        <source>These are your Bitcoin addresses for receiving payments. Use the 'Create new receiving address' button in the receive tab to create new addresses.
+Signing is only possible with addresses of the type 'legacy'.</source>
+        <translation>পেমেন্ট পাওয়ার জন্য এটি আপনার বিটকয়েন ঠিকানা। নতুন ঠিকানা তৈরী করতে "নতুন গ্রহণের ঠিকানা তৈরী করুন" বোতাম ব্যবহার করুন। সাইন ইন করা শুধুমাত্র "উত্তরাধিকার" ঠিকানার মাধ্যমেই সম্ভব।</translation>
     </message>
     <message>
         <source>&amp;Copy Address</source>
@@ -478,6 +483,22 @@
         <translation>Up to date</translation>
     </message>
     <message>
+        <source>&amp;Load PSBT from file...</source>
+        <translation>ফাইল থেকে পিএসবিটি লোড করুন ...</translation>
+    </message>
+    <message>
+        <source>Load Partially Signed Bitcoin Transaction</source>
+        <translation>আংশিক স্বাক্ষরিত বিটকয়েন লেনদেন লোড করুন</translation>
+    </message>
+    <message>
+        <source>Load PSBT from clipboard...</source>
+        <translation>ক্লিপবোর্ড থেকে পিএসবিটি লোড করুন ...</translation>
+    </message>
+    <message>
+        <source>Load Partially Signed Bitcoin Transaction from clipboard</source>
+        <translation>ক্লিপবোর্ড থেকে আংশিক স্বাক্ষরিত বিটকয়েন লেনদেন লোড করুন</translation>
+    </message>
+    <message>
         <source>Node window</source>
         <translation>Node window</translation>
     </message>
@@ -797,6 +818,10 @@
     <message>
         <source>Create Wallet</source>
         <translation>Create Wallet</translation>
+    </message>
+    <message>
+        <source>Wallet</source>
+        <translation>Wallet</translation>
     </message>
     <message>
         <source>Wallet Name</source>
