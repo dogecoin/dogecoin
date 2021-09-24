@@ -5,7 +5,8 @@
     * [Using packaged dependencies](#using-packaged-dependencies)
     * [Using system-provided libraries](#using-system-provided-libraries)
     * [Testing](#testing)
-3. [Tips and Tricks](#tips-and-tricks)
+3. [Used ports](#used-ports)
+4. [Tips and Tricks](#tips-and-tricks)
     * [Enable debug](#enable-debug)
     * [debug.log](#debuglog)
     * [Testnet and regtest modes](#testnet-and-regtest-modes)
@@ -57,6 +58,19 @@ and extending unit tests can be found in [/src/test/README.md](/src/test/README.
 There are also [regression and integration tests](/qa) written in Python, that
 are run automatically on the build server. These tests can be run (if the
 [test dependencies](/qa) are installed) with: `qa/pull-tester/rpc-tests.py`
+
+## Used ports
+
+Dogecoin Core by default uses port `22556` for peer-to-peer communication that
+is needed to synchronize the "mainnet" blockchain and stay informed of new
+transactions and blocks. Additionally, a JSONRPC port can be opened, which
+defaults to port `22555` for mainnet nodes. It is strongly recommended to not
+expose RPC ports to the public internet.
+
+| Function | mainnet | testnet | regtest |
+| :------- | ------: | ------: | ------: |
+| P2P      |   22556 |   44556 |   18444 |
+| RPC      |   22555 |   44555 |   18332 |
 
 ## Tips and tricks
 
