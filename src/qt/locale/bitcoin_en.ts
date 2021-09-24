@@ -3092,7 +3092,7 @@ p, li { white-space: pre-wrap; }
     <name>SendCoinsDialog</name>
     <message>
         <location filename="../forms/sendcoinsdialog.ui" line="+14"/>
-        <location filename="../sendcoinsdialog.cpp" line="+555"/>
+        <location filename="../sendcoinsdialog.cpp" line="+553"/>
         <source>Send Coins</source>
         <translation>Send Coins</translation>
     </message>
@@ -3218,22 +3218,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+52"/>
-        <source>(Smart fee not initialized yet. This usually takes a few blocks...)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+89"/>
-        <source>normal</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+40"/>
-        <source>fast</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+102"/>
+        <location line="+274"/>
         <source>Send to multiple recipients at once</source>
         <translation>Send to multiple recipients at once</translation>
     </message>
@@ -3248,7 +3233,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-898"/>
+        <location line="-889"/>
         <source>Dust:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3259,12 +3244,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+143"/>
-        <source>Confirmation time target:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+188"/>
+        <location line="+322"/>
         <source>Clear &amp;All</source>
         <translation>Clear &amp;All</translation>
     </message>
@@ -3279,12 +3259,27 @@ p, li { white-space: pre-wrap; }
         <translation>Confirm the send action</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="-159"/>
+        <source>Priority:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+60"/>
+        <source>low</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+40"/>
+        <source>high</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+62"/>
         <source>S&amp;end</source>
         <translation>S&amp;end</translation>
     </message>
     <message>
-        <location filename="../sendcoinsdialog.cpp" line="-486"/>
+        <location filename="../sendcoinsdialog.cpp" line="-483"/>
         <source>Copy quantity</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3319,7 +3314,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+205"/>
+        <location line="+202"/>
         <location line="+5"/>
         <location line="+5"/>
         <location line="+4"/>
@@ -3396,29 +3391,13 @@ p, li { white-space: pre-wrap; }
         <source>Payment request expired.</source>
         <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <location line="+69"/>
-        <source>%n block(s)</source>
-        <translation>
-            <numerusform>%n block</numerusform>
-            <numerusform>%n blocks</numerusform>
-        </translation>
-    </message>
     <message>
-        <location line="+28"/>
+        <location line="+97"/>
         <source>Pay only the required fee of %1</source>
         <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <location line="+30"/>
-        <source>Estimated to begin confirmation within %n block(s).</source>
-        <translation>
-            <numerusform>Estimated to begin confirmation within %n block.</numerusform>
-            <numerusform>Estimated to begin confirmation within %n blocks.</numerusform>
-        </translation>
-    </message>
     <message>
-        <location line="+103"/>
+        <location line="+134"/>
         <source>Warning: Invalid Dogecoin address</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4499,6 +4478,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location line="+1"/>
+        <source>Bitcoin Core and Dogecoin Core</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>(1 = keep tx meta data e.g. account owner and payment request information, 2 = drop tx meta data)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4529,6 +4513,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location line="+4"/>
+        <source>Amount under which a transaction output is considered dust, in %s (default: %s)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Bind to given address and always listen on it. Use [host]:port notation for IPv6</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4608,12 +4597,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Execute command when the best block changes (%s in cmd is replaced by block hash)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+6"/>
         <source>Extra transactions to keep in memory for compact block reconstructions (default: %u)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4773,12 +4757,17 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+2"/>
-        <source>This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit %s and cryptographic software written by Eric Young and UPnP software written by Thomas Bernard.</source>
+        <location line="-99"/>
+        <source>Execute command when the best block changes (%s in cmd is replaced by block hash, %i is replaced by block number)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+101"/>
+        <source>This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit %s and cryptographic software written by Eric Young and UPnP software written by Thomas Bernard. Paper wallet art provided by Anacoluthia.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Total length of network version string (%i) exceeds maximum length (%i). Reduce the number or size of uacomments.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4924,6 +4913,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location line="+1"/>
+        <source>Amaze</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Append comment to the user agent string</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4995,6 +4989,11 @@ p, li { white-space: pre-wrap; }
     <message>
         <location line="+1"/>
         <source>Debugging/Testing options:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5239,12 +5238,27 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location line="+1"/>
+        <source>Many generous</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Maximum per-connection receive buffer, &lt;n&gt;*1000 bytes (default: %u)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Maximum per-connection send buffer, &lt;n&gt;*1000 bytes (default: %u)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Minimum</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>More</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5320,6 +5334,11 @@ p, li { white-space: pre-wrap; }
     <message>
         <location line="+1"/>
         <source>Rebuild chain state from the currently indexed blocks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Receive and display P2P network alerts (default: %u)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5450,6 +5469,11 @@ p, li { white-space: pre-wrap; }
     <message>
         <location line="+1"/>
         <source>Starting network threads...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Such expensive</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5630,6 +5654,11 @@ p, li { white-space: pre-wrap; }
     <message>
         <location line="+1"/>
         <source>Whether to operate in a blocks only mode (default: %u)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Wow</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
