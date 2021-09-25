@@ -29,11 +29,12 @@ these dependencies.
 
 Host your node in a container ! To use it, first follow their [Get Docker](https://docs.docker.com/get-docker/) instructions to install Docker on your computer.
 
+For security reasons, to avoid running `docker` commands with `sudo` rights, add your user in the `docker` group. See [Manage Docker as a non-root user](https://docs.docker.com/engine/install/linux-postinstall/).
 #### How to use the image
 
 > **Warning:** Even if it's optional, mapping of the data directory with a volume is highly recommended, to avoid redownloading the blockchain at each container restart.
-> ```
-> sudo docker run -v  $(pwd)/data:/dogecoin/.dogecoin dogecoin
+> ```bash
+> $ docker run -v  $(pwd)/data:/dogecoin/.dogecoin dogecoin
 > ```
 
 Example to launch a node and start using `dogecoin-cli` :
@@ -43,11 +44,11 @@ $ wget https://raw.githubusercontent.com/dogecoin/dogecoin/master/docker-entrypo
 $ wget https://raw.githubusercontent.com/dogecoin/dogecoin/master/Dockerfile
 
 #Build image & run
-$ sudo docker build -t dogecoin .
-$ sudo docker run --name doge-container -v $(pwd)/data:/dogecoin/.dogecoin dogecoin
+$ docker build -t dogecoin .
+$ docker run --name doge-container -v $(pwd)/data:/dogecoin/.dogecoin dogecoin
 
 #Use dogecoin-cli within container
-$ sudo docker exec doge-container dogecoin-cli help
+$ docker exec doge-container dogecoin-cli help
 ```
 
 #### Command syntax
@@ -63,7 +64,7 @@ docker run  [docker_options] image [dogecoin-binary] [binary-arguments]
 You can provide node configuration using `dogecoin.conf` within a volume, directly as arguments to `bitcoind` or as environment variables, like :
 
 ```shell
-$ sudo docker run -e RPCUSER=Shibetoshi -e RPCPASSWORD=Nakamoto dogecoin
+$ docker run -e RPCUSER=Shibetoshi -e RPCPASSWORD=Nakamoto dogecoin
 ```
 ### Compiling using system-provided libraries
 
