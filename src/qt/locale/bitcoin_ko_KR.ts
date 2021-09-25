@@ -5,15 +5,15 @@
     <name>AddPeerDialog</name>
     <message>
         <source>Add Peer</source>
-        <translation type="unfinished"></translation>
+        <translation>피어 추가</translation>
     </message>
     <message>
         <source>Enter the peer details below.</source>
-        <translation type="unfinished"></translation>
+        <translation>아래에 피어 상세내용을 입력하세요</translation>
     </message>
     <message>
         <source>Be careful! Do not blindly trust anyone that tells you to add their node.</source>
-        <translation type="unfinished"></translation>
+        <translation>조심하세요! 본인의 노드를 추가해달라는 사람의 말을 신뢰하지 마세요!</translation>
     </message>
     <message>
         <source>Enter the peer&apos;s address</source>
@@ -25,15 +25,15 @@
     </message>
     <message>
         <source>Add!</source>
-        <translation type="unfinished"></translation>
+        <translation>추가!</translation>
     </message>
     <message>
         <source>Please enter an address.</source>
-        <translation type="unfinished"></translation>
+        <translation>주소 입력해주세요</translation>
     </message>
     <message>
         <source>Please enter a valid peer address.</source>
-        <translation type="unfinished"></translation>
+        <translation>올바른 피어 주소 입력해주세요</translation>
     </message>
 </context>
 <context>
@@ -594,7 +594,7 @@
     </message>
     <message>
         <source>Print paper wallets</source>
-        <translation type="unfinished"></translation>
+        <translation>종이 지갑 출력</translation>
     </message>
     <message>
         <source>&amp;Import Private Key...</source>
@@ -602,7 +602,7 @@
     </message>
     <message>
         <source>Import a Dogecoin private key</source>
-        <translation type="unfinished"></translation>
+        <translation>도지코인 비밀 키 가져오기</translation>
     </message>
     <message>
         <source>Runaway exception</source>
@@ -610,14 +610,14 @@
     </message>
     <message>
         <source>A fatal error occurred. Dogecoin can no longer continue safely and will quit.</source>
-        <translation type="unfinished"></translation>
+        <translation>치명 에러 발생. 도지코인 안전한 작동이 어려우며 종료 예정입니다</translation>
     </message>
 </context>
 <context>
     <name>ClientModel</name>
     <message>
         <source>Network Alert</source>
-        <translation type="unfinished"></translation>
+        <translation>네트워크 알림</translation>
     </message>
 </context>
 <context>
@@ -1755,7 +1755,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Error: Node already added</source>
-        <translation type="unfinished"></translation>
+        <translation>에러: 이미 노드가 추가 되었습니다</translation>
     </message>
     <message>
         <source>Node not found in connected nodes</source>
@@ -1763,7 +1763,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Disconnected the node: </source>
-        <translation type="unfinished"></translation>
+        <translation>노드 연결해제 완료: </translation>
     </message>
     <message>
         <source>Returned OK.</source>
@@ -2211,15 +2211,15 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Connected peers</source>
-        <translation type="unfinished"></translation>
+        <translation>연결된 피어</translation>
     </message>
     <message>
         <source>Add new peer</source>
-        <translation type="unfinished"></translation>
+        <translation>피어 추가</translation>
     </message>
     <message>
         <source>Remove peer</source>
-        <translation type="unfinished"></translation>
+        <translation>피어 삭제</translation>
     </message>
     <message>
         <source>One try peer</source>
@@ -2227,19 +2227,19 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Error</source>
-        <translation type="unfinished">오류</translation>
+        <translation>오류</translation>
     </message>
     <message>
         <source>Remove Peer</source>
-        <translation type="unfinished"></translation>
+        <translation>피어 삭제</translation>
     </message>
     <message>
         <source>Are you sure you want to remove the peer: </source>
-        <translation type="unfinished"></translation>
+        <translation>피어를 정말로 삭제하시겠습니까: </translation>
     </message>
     <message>
         <source>No peer was selected.</source>
-        <translation type="unfinished"></translation>
+        <translation>피어가 선택되지 않았습니다</translation>
     </message>
 </context>
 <context>
@@ -2655,7 +2655,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Warning: Fee estimation is currently not possible.</source>
-        <translation type="unfinished"></translation>
+        <translation>경고: 수수료 예측 불가합니다.</translation>
     </message>
     <message>
         <source>If the custom fee is set to 1000 satoshis and the transaction is only 250 bytes, then &quot;per kilobyte&quot; only pays 250 satoshis in fee, while &quot;total at least&quot; pays 1000 satoshis. For transactions bigger than a kilobyte both pay by kilobyte.</source>
@@ -2663,19 +2663,19 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Priority:</source>
-        <translation type="unfinished"></translation>
+        <translation>우선권:</translation>
     </message>
     <message>
         <source>low</source>
-        <translation type="unfinished"></translation>
+        <translation>낮음</translation>
     </message>
     <message>
         <source>high</source>
-        <translation type="unfinished"></translation>
+        <translation>높음</translation>
     </message>
     <message>
         <source>Warning: Invalid Dogecoin address</source>
-        <translation type="unfinished"></translation>
+        <translation>경고: 올바르지 않은 도지코인 주소</translation>
     </message>
 </context>
 <context>
@@ -2929,15 +2929,15 @@ p, li { white-space: pre-wrap; }
     <name>TestPeerDialog</name>
     <message>
         <source>Test Peer</source>
-        <translation type="unfinished"></translation>
+        <translation>피어 시범</translation>
     </message>
     <message>
         <source>Enter the peer details below.</source>
-        <translation type="unfinished"></translation>
+        <translation>아래에 피어 상세사항 입력하세요.</translation>
     </message>
     <message>
         <source>Be careful! Do not blindly trust anyone that tells you to add their node.</source>
-        <translation type="unfinished"></translation>
+        <translation>조심하세요! 본인의 노드를 추가해달라는 사람의 말을 신뢰하지 마세요.</translation>
     </message>
     <message>
         <source>Enter the peer&apos;s address</source>
@@ -2949,19 +2949,19 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Test!</source>
-        <translation type="unfinished"></translation>
+        <translation>시범!</translation>
     </message>
     <message>
         <source>Please enter an address.</source>
-        <translation type="unfinished"></translation>
+        <translation>주소 입력하세요</translation>
     </message>
     <message>
         <source>Please enter a valid peer address.</source>
-        <translation type="unfinished"></translation>
+        <translation>올바른 피어 주소 입력하세요</translation>
     </message>
     <message>
         <source>Try Peer</source>
-        <translation type="unfinished"></translation>
+        <translation>피어 시도</translation>
     </message>
 </context>
 <context>
@@ -4399,7 +4399,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Bitcoin Core and Dogecoin Core</source>
-        <translation type="unfinished"></translation>
+        <translation>비트코인 코어와 도지코인 코어</translation>
     </message>
     <message>
         <source>Amount under which a transaction output is considered dust, in %s (default: %s)</source>
@@ -4423,23 +4423,23 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Amaze</source>
-        <translation type="unfinished"></translation>
+        <translation>우왕</translation>
     </message>
     <message>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>기본값</translation>
     </message>
     <message>
         <source>Many generous</source>
-        <translation type="unfinished"></translation>
+        <translation>많이 너그러움</translation>
     </message>
     <message>
         <source>Minimum</source>
-        <translation type="unfinished"></translation>
+        <translation>최소</translation>
     </message>
     <message>
         <source>More</source>
-        <translation type="unfinished"></translation>
+        <translation>추가</translation>
     </message>
     <message>
         <source>Receive and display P2P network alerts (default: %u)</source>
@@ -4447,7 +4447,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Such expensive</source>
-        <translation type="unfinished"></translation>
+        <translation>완전 비싸</translation>
     </message>
     <message>
         <source>Unable to bind to %s on this computer (bind returned error %s)</source>
