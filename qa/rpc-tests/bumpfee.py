@@ -70,6 +70,7 @@ class BumpFeeTest(BitcoinTestFramework):
         test_rebumping(rbf_node, dest_address)
         test_rebumping_not_replaceable(rbf_node, dest_address)
         test_unconfirmed_not_spendable(rbf_node, rbf_node_address)
+        test_dogecoin_wallet_minchange(rbf_node, dest_address)
         test_locked_wallet_fails(rbf_node, dest_address)
         print("Success")
 
@@ -276,6 +277,25 @@ def test_locked_wallet_fails(rbf_node, dest_address):
     assert_raises_jsonrpc(-13, "Please enter the wallet passphrase with walletpassphrase first.",
                           rbf_node.bumpfee, rbfid)
 
+def test_dogecoin_wallet_minchange(rbf_node, dest_address):
+    input = Decimal("10.00000000")
+    min_change = Decimal("0.01000000")
+    min_fee = Decimal("0.01000000")
+    bumpfee = Decimal("0.001")
+    est_tx_size = Decimal("0.193")
+    destamount = input - min_change - min_fee * est_tx_size
+    rbfid = spend_one_input(rbf_node,
+                            input,
+                            {dest_address: destamount,
+                             get_change_address(rbf_node): min_change})
+    bumped_tx = rbf_node.bumpfee(rbfid)
+    assert_equal(bumped_tx["fee"], min_fee * est_tx_size + bumpfee)
+    newfee = int((input - destamount - min_fee - bumpfee / 2 ) * 100000000)
+    bumped_tx = rbf_node.bumpfee(bumped_tx["txid"], {"totalFee": newfee})
+    assert_equal(bumped_tx["fee"], input - destamount - min_fee - bumpfee / 2)
+    bumped_tx = rbf_node.bumpfee(bumped_tx["txid"])
+    assert_equal(bumped_tx["fee"], input - destamount)
+    rbf_node.settxfee(Decimal("0.00000000"))
 
 def create_fund_sign_send(node, outputs):
     rawtx = node.createrawtransaction([], outputs)
