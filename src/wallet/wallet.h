@@ -57,7 +57,15 @@ static const CAmount DEFAULT_FALLBACK_FEE = RECOMMENDED_MIN_TX_FEE;
 //! -mintxfee default
 static const CAmount DEFAULT_TRANSACTION_MINFEE = RECOMMENDED_MIN_TX_FEE;
 //! minimum recommended increment for BIP 125 replacement txs
-static const CAmount WALLET_INCREMENTAL_RELAY_FEE = RECOMMENDED_MIN_TX_FEE * 50;
+/*
+ * Dogecoin: Scaled to 1/10th of the recommended transaction fee to make RBF
+ * cheaper than CPFP. This reduces onchain pollution by encouraging transactions
+ * to be replaced in the mempool, rather than be respent by another transaction
+ * which then both would have to be mined, taking up block space and increasing
+ * the amount of data that needs to be synchronized when validating the chain.
+ * This way, replacements for fee bumps are transient rather than persisted.
+ */
+static const CAmount WALLET_INCREMENTAL_RELAY_FEE = RECOMMENDED_MIN_TX_FEE / 10;
 //! target minimum change amount
 static const CAmount MIN_CHANGE = RECOMMENDED_MIN_TX_FEE;
 //! final minimum change amount after paying for fees
