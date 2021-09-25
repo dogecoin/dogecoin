@@ -1,6 +1,6 @@
 FROM debian:latest
 
-ARG VERSION=1.14.3
+ARG VERSION=1.14.5
 ENV USER=dogecoin
 ENV DATADIR=/${USER}/.dogecoin
 
