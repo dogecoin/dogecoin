@@ -14,6 +14,13 @@
 
 class CCoinsViewCache;
 
+/** Recommended transaction fee by Dogecoin Core developers
+  *
+  * All fee defaults used throughout the client derive their
+  * value from this base default.
+  */
+static const CAmount RECOMMENDED_MIN_TX_FEE = COIN / 100;
+
 /** Default for -blockmaxsize, which controls the maximum size of block the mining code will create **/
 static const unsigned int DEFAULT_BLOCK_MAX_SIZE = 750000;
 /** Default for -blockprioritysize, maximum space for zero/low-fee transactions **/
@@ -21,7 +28,7 @@ static const unsigned int DEFAULT_BLOCK_PRIORITY_SIZE = 27000;
 /** Default for -blockmaxweight, which controls the range of block weights the mining code will create **/
 static const unsigned int DEFAULT_BLOCK_MAX_WEIGHT = 3000000;
 /** Default for -blockmintxfee, which sets the minimum feerate for a transaction in blocks created by mining code **/
-static const unsigned int DEFAULT_BLOCK_MIN_TX_FEE = COIN / 100;
+static const unsigned int DEFAULT_BLOCK_MIN_TX_FEE = (unsigned int) RECOMMENDED_MIN_TX_FEE;
 /** The maximum weight for transactions we're willing to relay/mine */
 static const unsigned int MAX_STANDARD_TX_WEIGHT = 400000;
 /** Maximum number of signature check operations in an IsStandard() P2SH script */
@@ -31,7 +38,7 @@ static const unsigned int MAX_STANDARD_TX_SIGOPS_COST = MAX_BLOCK_SIGOPS_COST/5;
 /** Default for -maxmempool, maximum megabytes of mempool memory usage */
 static const unsigned int DEFAULT_MAX_MEMPOOL_SIZE = 300;
 /** Default for -incrementalrelayfee, which sets the minimum feerate increase for mempool limiting or BIP 125 replacement **/
-static const CAmount DEFAULT_INCREMENTAL_RELAY_FEE = 1000;
+static const CAmount DEFAULT_INCREMENTAL_RELAY_FEE = RECOMMENDED_MIN_TX_FEE / 1000;
 /** Default for -bytespersigop */
 static const unsigned int DEFAULT_BYTES_PER_SIGOP = 20;
 /** The maximum number of witness stack items in a standard P2WSH script */
@@ -45,13 +52,13 @@ static const unsigned int MAX_STANDARD_P2WSH_SCRIPT_SIZE = 3600;
  * standard and should be done with care and ideally rarely. It makes sense to
  * only increase the dust limit after prior releases were already not creating
  * outputs below the new threshold */
-static const CAmount DUST_RELAY_TX_FEE = COIN / 100000;
+static const CAmount DUST_RELAY_TX_FEE = RECOMMENDED_MIN_TX_FEE / 1000;
 /**
  * Dogecoin: Default dust limit that is evaluated when considering whether a
  * transaction output is required to pay additional fee for relay and inclusion
  * in blocks. Overridden by -dustlimit
  */
-static const CAmount DEFAULT_DUST_LIMIT = COIN / 100;
+static const CAmount DEFAULT_DUST_LIMIT = RECOMMENDED_MIN_TX_FEE;
 
 /**
  * Standard script verification flags that standard transactions will comply

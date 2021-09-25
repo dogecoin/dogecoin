@@ -14,6 +14,7 @@
 #include "ui_interface.h"
 #include "utilstrencodings.h"
 #include "validationinterface.h"
+#include "policy/policy.h"
 #include "script/ismine.h"
 #include "script/sign.h"
 #include "wallet/crypter.h"
@@ -48,19 +49,19 @@ extern bool fWalletRbf;
 
 static const unsigned int DEFAULT_KEYPOOL_SIZE = 100;
 //! -paytxfee default
-static const CAmount DEFAULT_TRANSACTION_FEE = COIN / 100;
+static const CAmount DEFAULT_TRANSACTION_FEE = RECOMMENDED_MIN_TX_FEE;
 //! -fallbackfee default
 //mlumin: 5/2021 scaled minimum, this likely will have to change for fee reduction
 //rnicoll: 8/2021 reduce to 1,000,000 Koinu
-static const CAmount DEFAULT_FALLBACK_FEE = COIN / 100;
+static const CAmount DEFAULT_FALLBACK_FEE = RECOMMENDED_MIN_TX_FEE;
 //! -mintxfee default
-static const CAmount DEFAULT_TRANSACTION_MINFEE = COIN / 100;
+static const CAmount DEFAULT_TRANSACTION_MINFEE = RECOMMENDED_MIN_TX_FEE;
 //! minimum recommended increment for BIP 125 replacement txs
-static const CAmount WALLET_INCREMENTAL_RELAY_FEE = COIN/10 * 5;
+static const CAmount WALLET_INCREMENTAL_RELAY_FEE = RECOMMENDED_MIN_TX_FEE * 50;
 //! target minimum change amount
-static const CAmount MIN_CHANGE = COIN / 100;
+static const CAmount MIN_CHANGE = RECOMMENDED_MIN_TX_FEE;
 //! final minimum change amount after paying for fees
-static const CAmount MIN_FINAL_CHANGE = COIN / 100;
+static const CAmount MIN_FINAL_CHANGE = RECOMMENDED_MIN_TX_FEE;
 //! Default for -spendzeroconfchange
 static const bool DEFAULT_SPEND_ZEROCONF_CHANGE = true;
 //! Default for -sendfreetransactions
