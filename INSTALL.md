@@ -39,9 +39,12 @@ For security reasons, to avoid running `docker` commands with `sudo` rights, add
 
 Example to launch a node and start using `dogecoin-cli` :
 ```bash
-#Get Dockerfile & script
-$ wget https://raw.githubusercontent.com/dogecoin/dogecoin/master/docker-entrypoint.py
-$ wget https://raw.githubusercontent.com/dogecoin/dogecoin/master/Dockerfile
+# With the repository, go to Dockerfile & docker-entrypoint.py location
+$ cd contrib/docker
+
+# Alternatively, download Dockerfile & the script
+$ wget https://raw.githubusercontent.com/dogecoin/dogecoin/master/contrib/docker/docker-entrypoint.py
+$ wget https://raw.githubusercontent.com/dogecoin/dogecoin/master/contrib/docker/Dockerfile
 
 #Build image & run
 $ docker build -t dogecoin .
