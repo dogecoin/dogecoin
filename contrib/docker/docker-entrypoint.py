@@ -6,13 +6,6 @@ import shutil
 import sys
 import subprocess
 
-def container_executable_path():
-    return "/{}/bin/{}".format(os.environ['USER'], EXECUTABLE)
-
-def container_executable_man():
-    user = os.environ['USER']
-    return "/{}/share/man/man1/{}.1".format(user, EXECUTABLE)
-
 def container_executable():
     """
     Get the executable used as a docker command, or
@@ -38,9 +31,8 @@ def executable_options():
     Allow to use existing options as environment variables.
     """
     # Use dogecoind --help menu to find available options
-    man_path = container_executable_man()
     raw_options = subprocess.check_output(
-            f"bash -c \"man {man_path} | grep '^ *-'\"",
+            f"bash -c \"man {EXECUTABLE} | grep '^ *-'\"",
             shell=True
             ).decode().strip()
 
@@ -112,7 +104,7 @@ def run_daemon(executable_args):
         executable_args.append("-printtoconsole")
 
     gosu_executable = shutil.which("gosu")
-    dogecoin_executable = container_executable_path()
+    dogecoin_executable = shutil.which(EXECUTABLE)
     gosu_args = [gosu_executable, os.environ['USER'], dogecoin_executable]
     gosu_args += executable_args
 

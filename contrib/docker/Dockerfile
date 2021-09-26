@@ -4,25 +4,28 @@ ARG VERSION=1.14.5
 ENV USER=dogecoin
 ENV DATADIR=/${USER}/.dogecoin
 
-# Update root env, to behave like user when using executables
-ENV PATH=$PATH:/${USER}/bin
-ENV HOME=/${USER}
-
-RUN apt update
-
-# Install dogecoin from github releases (https://github.com/dogecoin/dogecoin/releases)
-RUN apt install -y wget gosu python3 man
-
-RUN wget https://github.com/dogecoin/dogecoin/releases/download/v${VERSION}/dogecoin-${VERSION}-x86_64-linux-gnu.tar.gz && \
-    mkdir ${USER} && \
-    tar -xvf dogecoin-${VERSION}-x86_64-linux-gnu.tar.gz -C ${USER}  --strip-components=1
-    
 # User configuration
 WORKDIR /${USER}
+RUN adduser ${USER} --home /${USER} --disabled-password --gecos ""
+# Root configuration to mimic user
+ENV HOME=/${USER}
 
-RUN adduser ${USER} --home /${USER} --disabled-password --gecos "" && \
-    chown -R ${USER}:${USER} .
-    
+# Dependencies install
+RUN apt update
+RUN apt install -y wget gosu python3 man
+
+# Download Dogecoin Core from github releases (https://github.com/dogecoin/dogecoin/releases)
+# Move downloaded binaries and man path in the system
+# Setuid on binaries with $USER rights, to limit root usage.
+RUN cd /tmp && \
+    wget https://github.com/dogecoin/dogecoin/releases/download/v${VERSION}/dogecoin-${VERSION}-x86_64-linux-gnu.tar.gz && \
+    tar -xvf dogecoin-${VERSION}-x86_64-linux-gnu.tar.gz --strip-components=1 && \
+    cp share/man/man1/*.1 /usr/share/man/man1 && \
+    cp bin/dogecoin* /usr/local/bin && \
+    chown ${USER}:${USER} /usr/local/bin/dogecoin* && \
+    chmod 4555 /usr/local/bin/dogecoin* && \
+    rm -rf /tmp/*
+
 COPY docker-entrypoint.py /entrypoint.py
 
 ENTRYPOINT ["python3", "/entrypoint.py"]
