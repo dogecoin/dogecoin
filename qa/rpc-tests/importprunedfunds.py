@@ -15,7 +15,7 @@ class ImportPrunedFundsTest(BitcoinTestFramework):
         self.num_nodes = 2
 
     def setup_network(self, split=False):
-        self.nodes = start_nodes(self.num_nodes, self.options.tmpdir)
+        self.nodes = start_nodes(self.num_nodes, self.options.tmpdir, [['-spendzeroconfchange=0'], None])
         connect_nodes_bi(self.nodes,0,1)
         self.is_network_split=False
         self.sync_all()
@@ -25,7 +25,7 @@ class ImportPrunedFundsTest(BitcoinTestFramework):
         self.nodes[0].generate(101)
 
         self.sync_all()
-        
+
         # address
         address1 = self.nodes[0].getnewaddress()
         # pubkey
@@ -59,18 +59,18 @@ class ImportPrunedFundsTest(BitcoinTestFramework):
 
         #Send funds to self
         txnid1 = self.nodes[0].sendtoaddress(address1, 0.1)
-        self.nodes[0].generate(1)
         rawtxn1 = self.nodes[0].gettransaction(txnid1)['hex']
-        proof1 = self.nodes[0].gettxoutproof([txnid1])
 
         txnid2 = self.nodes[0].sendtoaddress(address2, 0.05)
-        self.nodes[0].generate(1)
         rawtxn2 = self.nodes[0].gettransaction(txnid2)['hex']
-        proof2 = self.nodes[0].gettxoutproof([txnid2])
 
         txnid3 = self.nodes[0].sendtoaddress(address3, 0.025)
-        self.nodes[0].generate(1)
         rawtxn3 = self.nodes[0].gettransaction(txnid3)['hex']
+
+        self.nodes[0].generate(1)
+
+        proof1 = self.nodes[0].gettxoutproof([txnid1])
+        proof2 = self.nodes[0].gettxoutproof([txnid2])
         proof3 = self.nodes[0].gettxoutproof([txnid3])
 
         self.sync_all()
