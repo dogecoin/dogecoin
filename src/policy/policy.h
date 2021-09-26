@@ -37,8 +37,22 @@ static const unsigned int MAX_P2SH_SIGOPS = 15;
 static const unsigned int MAX_STANDARD_TX_SIGOPS_COST = MAX_BLOCK_SIGOPS_COST/5;
 /** Default for -maxmempool, maximum megabytes of mempool memory usage */
 static const unsigned int DEFAULT_MAX_MEMPOOL_SIZE = 300;
-/** Default for -incrementalrelayfee, which sets the minimum feerate increase for mempool limiting or BIP 125 replacement **/
-static const CAmount DEFAULT_INCREMENTAL_RELAY_FEE = RECOMMENDED_MIN_TX_FEE / 1000;
+/** Default for -incrementalrelayfee, which sets the minimum feerate increase
+ *  for mempool limiting or BIP 125 replacement
+ *
+ *  Dogecoin:    Increment mempool limits and accept RBF in steps of 0.0001 DOGE
+ *  Calculation: DEFAULT_MIN_RELAY_TX_FEE = RECOMMENDED_MIN_TX_FEE / 10
+ *               DEFAULT_INCREMENTAL_RELAY_FEE = DEFAULT_MIN_RELAY_TX_FEE / 10
+ *
+ *  Rationale:   This implements a smaller granularity than the wallet
+ *               implementation for fee increments by default, leaving room for
+ *               alternative increment strategies, yet limiting the amount of
+ *               ineffective RBF spam we expose the network to. This also makes
+ *               an RBF fee bump 10x cheaper than a CPFP transaction, because
+ *               RBF leaves no on-chain waste, whereas CPFP adds another
+ *               transaction to the chain.
+ */
+static const CAmount DEFAULT_INCREMENTAL_RELAY_FEE = RECOMMENDED_MIN_TX_FEE / 100;
 /** Default for -bytespersigop */
 static const unsigned int DEFAULT_BYTES_PER_SIGOP = 20;
 /** The maximum number of witness stack items in a standard P2WSH script */

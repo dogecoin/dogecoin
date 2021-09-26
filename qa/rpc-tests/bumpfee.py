@@ -202,7 +202,7 @@ def test_settxfee(rbf_node, dest_address):
     rbftx = rbf_node.gettransaction(rbfid)
     rbf_node.settxfee(Decimal("5.00000000"))
     bumped_tx = rbf_node.bumpfee(rbfid)
-    assert_equal(bumped_tx["fee"], abs(rbftx["fee"]) + Decimal("0.50000000"))
+    assert_equal(bumped_tx["fee"], abs(rbftx["fee"]) + Decimal("0.00100000"))
     rbf_node.settxfee(Decimal("0.00000000"))  # unset paytxfee
 
 
@@ -210,18 +210,18 @@ def test_rebumping(rbf_node, dest_address):
     # check that re-bumping the original tx fails, but bumping the bumper succeeds
     rbf_node.settxfee(Decimal("10.00000000"))
     rbfid = create_fund_sign_send(rbf_node, {dest_address: 8.00000000})
-    bumped = rbf_node.bumpfee(rbfid, {"totalFee": 1050000000})
-    assert_raises_jsonrpc(-4, "already bumped", rbf_node.bumpfee, rbfid, {"totalFee": 11000})
-    rbf_node.bumpfee(bumped["txid"], {"totalFee": 1100000000})
+    bumped = rbf_node.bumpfee(rbfid, {"totalFee": 1000100000})
+    assert_raises_jsonrpc(-4, "already bumped", rbf_node.bumpfee, rbfid, {"totalFee": 1000100000})
+    rbf_node.bumpfee(bumped["txid"], {"totalFee": 1000200000})
     rbf_node.settxfee(Decimal("0.00000000"))
 
 
 def test_rebumping_not_replaceable(rbf_node, dest_address):
     # check that re-bumping a non-replaceable bump tx fails
     rbfid = create_fund_sign_send(rbf_node, {dest_address: 7.00000000})
-    bumped = rbf_node.bumpfee(rbfid, {"totalFee": 150000000, "replaceable": False})
+    bumped = rbf_node.bumpfee(rbfid, {"totalFee": 100100000, "replaceable": False})
     assert_raises_jsonrpc(-4, "Transaction is not BIP 125 replaceable", rbf_node.bumpfee, bumped["txid"],
-                          {"totalFee": 200000000})
+                          {"totalFee": 100200000})
 
 
 def test_unconfirmed_not_spendable(rbf_node, rbf_node_address):
