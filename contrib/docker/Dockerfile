@@ -1,6 +1,7 @@
 FROM ubuntu:bionic
 
-ARG VERSION=1.14.5
+ARG VERSION=1.14.4
+ARG VERSION_HASH=6266235abe4bcbd41ea57bdf42f11ef89aa69f0386e8c8846d5228af69e7fa13
 ENV USER=dogecoin
 ENV DATADIR=/${USER}/.dogecoin
 
@@ -19,6 +20,7 @@ RUN apt install -y wget gosu python3 man
 # Setuid on binaries with $USER rights, to limit root usage.
 RUN cd /tmp && \
     wget https://github.com/dogecoin/dogecoin/releases/download/v${VERSION}/dogecoin-${VERSION}-x86_64-linux-gnu.tar.gz && \
+    echo "${VERSION_HASH} dogecoin-${VERSION}-x86_64-linux-gnu.tar.gz" | sha256sum -c && \
     tar -xvf dogecoin-${VERSION}-x86_64-linux-gnu.tar.gz --strip-components=1 && \
     cp share/man/man1/*.1 /usr/share/man/man1 && \
     cp bin/dogecoin* /usr/local/bin && \
