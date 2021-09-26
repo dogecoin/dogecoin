@@ -279,7 +279,7 @@ def test_locked_wallet_fails(rbf_node, dest_address):
 
 def test_dogecoin_wallet_minchange(rbf_node, dest_address):
     input = Decimal("10.00000000")
-    min_change = Decimal("0.01000000")
+    min_change = Decimal("0.03000000")
     min_fee = Decimal("0.01000000")
     bumpfee = Decimal("0.001")
     est_tx_size = Decimal("0.193")

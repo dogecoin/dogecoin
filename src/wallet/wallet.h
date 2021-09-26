@@ -66,10 +66,44 @@ static const CAmount DEFAULT_TRANSACTION_MINFEE = RECOMMENDED_MIN_TX_FEE;
  * This way, replacements for fee bumps are transient rather than persisted.
  */
 static const CAmount WALLET_INCREMENTAL_RELAY_FEE = RECOMMENDED_MIN_TX_FEE / 10;
+
+/*
+ * Dogecoin: Creating change outputs at exactly the dustlimit is counter-
+ * productive because it leaves no space to bump the fee up, so we make the
+ * MIN_CHANGE parameter higher than the MIN_FINAL_CHANGE parameter.
+ *
+ * When RBF is not a default policy, we need to scale for both that and CPFP,
+ * to have a facility for those that did not manually enable RBF, yet need to
+ * bump a fee for their transaction to get mined.
+ *
+ * Using bumpfee currently will add WALLET_INCREMENTAL_RELAY_FEE as a fixed
+ * increment, and CPFP would need the spending fee for at least 147 bytes
+ * (1 input, 1 output), and additional space for actually increasing the fee
+ * for both transactions.
+ *
+ * Because the change calculation is currently not taking into account feerate
+ * or transaction size, we assume that most transactions are < 1kb, leading
+ * to the following when planning for a replacements with 2x original fee:
+ *
+ * RBF: MIN_CHANGE = dust limit + min fee or
+ * CPFP: MIN_CHANGE = dust limit + 2 * min fee * 0.147 + min fee
+ *
+ * Where the CPFP requirement is higher than the RBF one to lead to the same
+ * result.
+ *
+ * This can be rounded up to the nearest multiple of RECOMMENDED_MIN_TX_FEE as:
+ *
+ * MIN_CHANGE = DEFAULT_DUST_LIMIT + 2 * RECOMMENDED_MIN_TX_FEE
+ *
+ * The MIN_FINAL_CHANGE parameter can stay equal to DEFAULT_DUST_LIMIT as this
+ * influences when the wallet will discard all remaining dust as fee instead of
+ * change.
+ */
 //! target minimum change amount
-static const CAmount MIN_CHANGE = RECOMMENDED_MIN_TX_FEE;
+static const CAmount MIN_CHANGE = DEFAULT_DUST_LIMIT + 2 * RECOMMENDED_MIN_TX_FEE;
 //! final minimum change amount after paying for fees
-static const CAmount MIN_FINAL_CHANGE = RECOMMENDED_MIN_TX_FEE;
+static const CAmount MIN_FINAL_CHANGE = DEFAULT_DUST_LIMIT;
+
 //! Default for -spendzeroconfchange
 static const bool DEFAULT_SPEND_ZEROCONF_CHANGE = true;
 //! Default for -sendfreetransactions
