@@ -8,7 +8,7 @@ import subprocess
 
 def container_executable():
     """
-    Get the executable used as a docker command, or
+    Get the executable used in the docker command, or
     use dogecoind by default.
     """
     dogecoin_executables = [
@@ -27,16 +27,13 @@ def container_executable():
 def executable_options():
     """
     Retrieve available options for container executable, using his man.
-
-    Allow to use existing options as environment variables.
     """
-    # Use dogecoind --help menu to find available options
     raw_options = subprocess.check_output(
             f"bash -c \"man {EXECUTABLE} | grep '^ *-'\"",
             shell=True
             ).decode().strip()
 
-    #Cleanup options fields, keep name and remove description
+    #Cleanup options fields
     options = []
     for option_entry in raw_options.split("\n"):
         option_entry = option_entry.strip().split("=")[0]
@@ -46,32 +43,33 @@ def executable_options():
 
 def create_datadir():
     """
-    Create data directory user by dogecoind.
-    Get configuration from arguments or environment variables.
+    Create data directory used by dogecoin daemon.
 
-    Do not let dogecoind create the directory,
-    allow creation for docker volumes while root.
+    Create manually the directory while root at container creation,
+    root rights needed to create folder with host volume.
+
+    Use of `gosu` instead of USER instruction in Dockerfile
+    for this particular reason.
     """
-    #Find datadir within argv
+    #Try to get datadir from argv
     parser = argparse.ArgumentParser(add_help=False)
     parser.add_argument("-datadir", "--datadir")
     argv, _ = parser.parse_known_args()
 
-    #Select between datadir from argv or environment, env by default
+    #Try to get datadir from environment
     datadir = argv.datadir or os.environ.get("DATADIR")
 
     os.makedirs(datadir, exist_ok=True)
 
-    #Grant user rights to dogecoind datadir
     user = os.environ["USER"]
     subprocess.run(["chown", "-R", f"{user}:{user}", datadir])
 
 def convert_env():
     """
-    Convert environment variables into dogecoind arguments.
+    Convert existing environment variables into command line arguments.
 
-    Environment variables used for configuration are options from dogecoind
-    man, in upper case and "-" convert to "_".
+    Options from executable man pages are searched in the environment,
+    converting options in upper case and convert "-" to "_".
 
     Exemple:
     -rpcuser is RPCUSER
@@ -94,11 +92,11 @@ def convert_env():
 
     return cli_arguments
 
-def run_daemon(executable_args):
+def run_executable(executable_args):
     """
-    Run dogecoind with given arguments.
-    Use container user (dogecoin by default), use
-    gosu to manage permission.
+    Run selected dogecoin executable with arguments from environment and
+    command line. Use `gosu` to switch from root needed at startup
+    to unprivileged user.
     """
     if EXECUTABLE in ["dogecoind", "dogecoin-qt"]:
         executable_args.append("-printtoconsole")
@@ -118,4 +116,4 @@ if __name__ == "__main__":
     EXECUTABLE_ARGS = convert_env()
     EXECUTABLE_ARGS += sys.argv[1:]
 
-    run_daemon(EXECUTABLE_ARGS)
+    run_executable(EXECUTABLE_ARGS)
