@@ -30,4 +30,12 @@ RUN cd /tmp && \
 
 COPY docker-entrypoint.py /entrypoint.py
 
+# P2P network (mainnet, testnet & regnet respectively)
+EXPOSE 22556 44556 18444
+
+# RPC interface (mainnet, testnet & regnet respectively)
+EXPOSE 22555 44555 18332
+
+VOLUME ["/dogecoin/.dogecoin"]
+
 ENTRYPOINT ["python3", "/entrypoint.py"]
