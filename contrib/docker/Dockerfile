@@ -1,5 +1,6 @@
 FROM ubuntu:bionic
 
+# To improve : static hash make dynamic build of versions impossible.
 ARG VERSION=1.14.4
 ARG VERSION_HASH=6266235abe4bcbd41ea57bdf42f11ef89aa69f0386e8c8846d5228af69e7fa13
 
