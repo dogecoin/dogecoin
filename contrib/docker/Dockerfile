@@ -12,8 +12,11 @@ RUN adduser ${USER} --home /${USER} --disabled-password --gecos ""
 ENV HOME=/${USER}
 
 # Dependencies install
-RUN apt update
-RUN apt install -y wget gosu python3 man
+RUN apt update && apt install -y \
+    wget \
+    python3 \
+    man \
+    && rm -rf /var/lib/apt/lists/*
 
 # Download Dogecoin Core from github releases (https://github.com/dogecoin/dogecoin/releases)
 # Move downloaded binaries and man path in the system

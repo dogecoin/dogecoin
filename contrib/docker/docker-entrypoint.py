@@ -2,6 +2,7 @@
 
 import argparse
 import os
+import pwd
 import shutil
 import sys
 import subprocess
@@ -47,9 +48,6 @@ def create_datadir():
 
     Create manually the directory while root at container creation,
     root rights needed to create folder with host volume.
-
-    Use of `gosu` instead of USER instruction in Dockerfile
-    for this particular reason.
     """
     #Try to get datadir from argv
     parser = argparse.ArgumentParser(add_help=False)
@@ -95,18 +93,28 @@ def convert_env():
 def run_executable(executable_args):
     """
     Run selected dogecoin executable with arguments from environment and
-    command line. Use `gosu` to switch from root needed at startup
+    command line. Switch manually from root rights needed at startup
     to unprivileged user.
+
+    Manually execve + setuid/setgid to run process as pid 1,
+    to manage a single process in a container & more predictive
+    signal handling.
     """
     if EXECUTABLE in ["dogecoind", "dogecoin-qt"]:
         executable_args.append("-printtoconsole")
 
-    gosu_executable = shutil.which("gosu")
-    dogecoin_executable = shutil.which(EXECUTABLE)
-    gosu_args = [gosu_executable, os.environ['USER'], dogecoin_executable]
-    gosu_args += executable_args
+    #Switch process from root to user.
+    #Equivalent to use gosu or su-exec
+    user_info = pwd.getpwnam(os.environ['USER'])
+    os.setgid(user_info.pw_gid)
+    os.setuid(user_info.pw_uid)
 
-    os.execve(gosu_executable, gosu_args, os.environ)
+    #Prepare execve(2) arguments
+    dogecoin_executable = shutil.which(EXECUTABLE)
+    execve_args = [dogecoin_executable] + executable_args
+
+    #Run process and remove environment by security.
+    os.execve(dogecoin_executable, execve_args, {})
 
 if __name__ == "__main__":
     EXECUTABLE = container_executable()
