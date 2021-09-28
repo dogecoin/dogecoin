@@ -100,18 +100,18 @@ def run_executable(executable_args):
     to manage a single process in a container & more predictive
     signal handling.
     """
+    #Prepare execve(2) arguments
     if EXECUTABLE in ["dogecoind", "dogecoin-qt"]:
         executable_args.append("-printtoconsole")
+
+    dogecoin_executable = shutil.which(EXECUTABLE)
+    execve_args = [dogecoin_executable] + executable_args
 
     #Switch process from root to user.
     #Equivalent to use gosu or su-exec
     user_info = pwd.getpwnam(os.environ['USER'])
     os.setgid(user_info.pw_gid)
     os.setuid(user_info.pw_uid)
-
-    #Prepare execve(2) arguments
-    dogecoin_executable = shutil.which(EXECUTABLE)
-    execve_args = [dogecoin_executable] + executable_args
 
     #Run process and remove environment by security.
     os.execve(dogecoin_executable, execve_args, {})
