@@ -32,7 +32,10 @@ $ wget https://raw.githubusercontent.com/dogecoin/dogecoin/master/contrib/docker
 $ wget https://raw.githubusercontent.com/dogecoin/dogecoin/master/contrib/docker/Dockerfile
 
 # Build the image & start a node
+# Use `--build-arg VERSION=x.y.z` to specify a version
 $ docker build -t dogecoin .
+
+# Launch your container
 $ docker run --name doge-container -v $(pwd)/data:/dogecoin/.dogecoin dogecoin
 
 # Use dogecoin-cli within the container

@@ -2,25 +2,28 @@ FROM ubuntu:bionic
 
 ARG VERSION=1.14.4
 ARG VERSION_HASH=6266235abe4bcbd41ea57bdf42f11ef89aa69f0386e8c8846d5228af69e7fa13
+
 ENV USER=dogecoin
 ENV DATADIR=/${USER}/.dogecoin
 
-# User configuration
-WORKDIR /${USER}
-RUN adduser ${USER} --home /${USER} --disabled-password --gecos ""
 # Root configuration to mimic user
 ENV HOME=/${USER}
 
+RUN useradd ${USER} --home-dir ${HOME}
+
 # Dependencies install
 RUN apt update && apt install -y \
-    wget \
-    python3 \
     man \
+    python3 \
+    wget \
     && rm -rf /var/lib/apt/lists/*
 
-# Download Dogecoin Core from github releases (https://github.com/dogecoin/dogecoin/releases)
-# Move downloaded binaries and man path in the system
+# Download Dogecoin Core from github releases.
+# Move downloaded binaries and man pages in the container system.
 # Setuid on binaries with $USER rights, to limit root usage.
+#
+# Security: more secure way than check hash for download,
+# see https://github.com/docker-library/official-images#security
 RUN cd /tmp && \
     wget https://github.com/dogecoin/dogecoin/releases/download/v${VERSION}/dogecoin-${VERSION}-x86_64-linux-gnu.tar.gz && \
     echo "${VERSION_HASH} dogecoin-${VERSION}-x86_64-linux-gnu.tar.gz" | sha256sum -c && \
@@ -31,7 +34,9 @@ RUN cd /tmp && \
     chmod 4555 /usr/local/bin/dogecoin* && \
     rm -rf /tmp/*
 
-COPY docker-entrypoint.py /entrypoint.py
+COPY docker-entrypoint.py /usr/local/bin/docker-entrypoint
+
+WORKDIR /${USER}
 
 # P2P network (mainnet, testnet & regnet respectively)
 EXPOSE 22556 44556 18444
@@ -41,4 +46,4 @@ EXPOSE 22555 44555 18332
 
 VOLUME ["/dogecoin/.dogecoin"]
 
-ENTRYPOINT ["python3", "/entrypoint.py"]
+ENTRYPOINT ["docker-entrypoint"]
