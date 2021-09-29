@@ -9,7 +9,7 @@ work.
 
 ```
 sudo apt-get install autoconf automake binutils-gold ca-certificates curl \
-                     faketime git-core libtool pkg-config python
+                     faketime git-core libtool pkg-config python bison
 ```
 
 #### Generic linux: i686-pc-linux-gnu and x86_64-linux-gnu

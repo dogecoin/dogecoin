@@ -40,7 +40,8 @@ MAX_VERSIONS = {
 'GCC':     (4,4,0),
 'CXXABI':  (1,3,3),
 'GLIBCXX': (3,4,13),
-'GLIBC':   (2,11)
+'GLIBC':   (2,11),
+'V':       (0,5,0) # xkb (qt only)
 }
 # See here for a description of _IO_stdin_used:
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=634261#109
@@ -66,6 +67,8 @@ b'ld-linux.so.2', # 32-bit dynamic linker
 b'libX11-xcb.so.1', # part of X11
 b'libX11.so.6', # part of X11
 b'libxcb.so.1', # part of X11
+b'libxkbcommon.so.0', # keyboard keymapping
+b'libxkbcommon-x11.so.0', # keyboard keymapping
 b'libfontconfig.so.1', # font support
 b'libfreetype.so.6', # font parsing
 b'libdl.so.2' # programming interface to dynamic linker
@@ -160,5 +163,3 @@ if __name__ == '__main__':
                 retval = 1
 
     exit(retval)
-
-
