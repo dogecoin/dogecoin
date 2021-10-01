@@ -35,6 +35,7 @@ jobs:
           - x86_64-linux-nowallet
           - x86_64-macos
           - x86_64-win
+          - x86_64-linux-experimental
         include:
           - name: i686-linux
             host: i686-pc-linux-gnu
@@ -92,7 +93,7 @@ jobs:
               sudo update-binfmts --import /usr/share/binfmts/wine
             run-tests: true
             dep-opts: ""
-            config-opts: "CC=x86_64-w64-mingw32-gcc LIBS=-lIPSec_MB --enable-reduce-exports --enable-gui=qt5"
+            config-opts: "--enable-reduce-exports --enable-gui=qt5"
             goal: install
           - name: x86_64-macos
             host: x86_64-apple-darwin11
@@ -103,6 +104,14 @@ jobs:
             config-opts: "--enable-gui=qt5 --enable-reduce-exports"
             goal: deploy
             sdk: 10.11
+          - name: x86_64-linux-experimental
+            host: x86_64-unknown-linux-gnu
+            os: ubuntu-20.04
+            packages: bc python3-zmq
+            run-tests: true
+            dep-opts: "AVX2=1"
+            config-opts: "--with-intel-avx2 --enable-gui=qt5 --enable-zmq --enable-glibc-back-compat --enable-reduce-exports"
+            goal: install
 
     runs-on: ${{ matrix.os }}
 
@@ -115,7 +124,7 @@ jobs:
       - name: Install packages
         run: |
           sudo apt-get update
-          sudo apt-get install build-essential libtool autotools-dev automake pkg-config bsdmainutils curl ca-certificates ccache python3 rsync git procps bison nasm
+          sudo apt-get install build-essential libtool autotools-dev automake pkg-config bsdmainutils curl ca-certificates ccache python3 rsync git procps bison
           sudo apt-get install ${{ matrix.packages }}
 
       - name: Post install
