@@ -522,7 +522,7 @@ BOOST_AUTO_TEST_CASE(GetMinimumFee_dust_test)
     CAmount nMinTxFee = COIN / 100;
 
     // Confirm dust penalty fees are added on
-    CAmount nDustPenalty = COIN / 100;
+    CAmount nDustPenalty = COIN;
 
     BOOST_CHECK_EQUAL(CWallet::GetMinimumFee(tx, 963, 0, pool), nDustPenalty + (nMinTxFee * 0.963));
     BOOST_CHECK_EQUAL(CWallet::GetMinimumFee(tx, 1000, 0, pool), nDustPenalty + (nMinTxFee * 1.000));

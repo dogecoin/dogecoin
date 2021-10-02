@@ -201,6 +201,13 @@ public:
         return nDustLimit;
     }
 
+    // Dogecoin: Pull this out in 1.14.6, this is just here so 1.14.5 creates transactions
+    // which 1.14.4 will relay.
+    bool IsLegacyDust() const
+    {
+        return nValue < COIN;
+    }
+
     bool IsDust(const CFeeRate &minRelayTxFeeRate) const
     {
         return (nValue < GetDustThreshold(minRelayTxFeeRate));

@@ -792,6 +792,9 @@ public:
     bool DummySignTx(CMutableTransaction &txNew, const ContainerType &coins);
 
     static CFeeRate minTxFee;
+    //rnicoll 10/2021: add temporary legacyDustTxFeeRate for backwards compatibility 1.14.5 to 1.14.4
+    // Should be able to remove in 1.14.6 as 1.14.5 doesn't require this for relay
+    static CFeeRate legacyDustTxFee;
     static CFeeRate fallbackFee;
     /**
      * Estimate the minimum fee considering user set parameters
