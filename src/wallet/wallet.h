@@ -105,8 +105,6 @@ static const CAmount WALLET_INCREMENTAL_RELAY_FEE = RECOMMENDED_MIN_TX_FEE / 10;
  */
 //! target minimum change amount
 static const CAmount MIN_CHANGE = DEFAULT_DISCARD_THRESHOLD + 2 * RECOMMENDED_MIN_TX_FEE;
-//! final minimum change amount after paying for fees
-static const CAmount MIN_FINAL_CHANGE = DEFAULT_DISCARD_THRESHOLD;
 
 //! Default for -spendzeroconfchange
 static const bool DEFAULT_SPEND_ZEROCONF_CHANGE = true;

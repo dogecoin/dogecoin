@@ -2735,7 +2735,16 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
                     CAmount additionalFeeNeeded = nFeeNeeded - nFeeRet;
                     vector<CTxOut>::iterator change_position = txNew.vout.begin()+nChangePosInOut;
                     // Only reduce change if remaining amount is still a large enough output.
-                    if (change_position->nValue >= MIN_FINAL_CHANGE + additionalFeeNeeded) {
+                    /* Dogecoin: this has been changed from a static MIN_FINAL_CHANGE that
+                     * followed DEFAULT_DISCARD_THRESHOLD to instead use the configurable
+                     * discard threshold.
+                     *
+                     * Note:
+                     * If MIN_CHANGE ever becomes configurable or otherwise changes to no
+                     * longer be derived from DEFAULT_DISCARD_THRESHOLD, then this check
+                     * must be adapted.
+                     */
+                    if (change_position->nValue >= discardThreshold + additionalFeeNeeded) {
                         change_position->nValue -= additionalFeeNeeded;
                         nFeeRet += additionalFeeNeeded;
                         break; // Done, able to increase fee from change
