@@ -59,10 +59,13 @@ static const CAmount DEFAULT_MIN_RELAY_TX_FEE = RECOMMENDED_MIN_TX_FEE / 10;
 //! -maxtxfee default
 //rnicoll: 8/2021 scaled down as recommended fee is lowered
 static const CAmount DEFAULT_TRANSACTION_MAXFEE = RECOMMENDED_MIN_TX_FEE * 10000;
+
 //! Discourage users to set fees higher than this amount (in satoshis) per kB
-//mlumin: 5/2021 adjusted downward for fee revisions
-//rnicoll: 8/2021 scale further down as recommended fee is lowered
-static const CAmount HIGH_TX_FEE_PER_KB = RECOMMENDED_MIN_TX_FEE * 100;
+/* Dogecoin: Set the high tx fee to be higher than the default values
+ *           implemented by the wallet.
+ */
+static const CAmount HIGH_TX_FEE_PER_KB = RECOMMENDED_MIN_TX_FEE * 1000;
+
 //! -maxtxfee will warn if called with a higher fee than this amount (in satoshis)
 //mlumin: 5/2021 adjusted max upward in terms of coin
 static const CAmount HIGH_MAX_TX_FEE = 100 * HIGH_TX_FEE_PER_KB;
