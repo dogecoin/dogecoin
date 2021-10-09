@@ -57,7 +57,12 @@ static const CAmount DEFAULT_FALLBACK_FEE = RECOMMENDED_MIN_TX_FEE;
 //! -mintxfee default
 static const CAmount DEFAULT_TRANSACTION_MINFEE = RECOMMENDED_MIN_TX_FEE;
 //! -discardthreshold default
-static const CAmount DEFAULT_DISCARD_THRESHOLD = DEFAULT_DUST_LIMIT;
+/* 1.14.5: set the wallet's discard threshold to 1 DOGE because that's what 97%
+ *         of the network currently implements as the hard dust limit. This
+ *         value can be changed when a significant portion of the relay network
+ *         and miners have adopted a different hard dust limit.
+ */
+static const CAmount DEFAULT_DISCARD_THRESHOLD = COIN;
 
 //! minimum recommended increment for BIP 125 replacement txs
 /*
