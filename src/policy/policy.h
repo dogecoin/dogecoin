@@ -73,6 +73,12 @@ static const CAmount DUST_RELAY_TX_FEE = RECOMMENDED_MIN_TX_FEE / 1000;
  * in blocks. Overridden by -dustlimit
  */
 static const CAmount DEFAULT_DUST_LIMIT = RECOMMENDED_MIN_TX_FEE;
+/**
+ * Dogecoin: Default hard dust limit that is evaluated when considering whether
+ * a transaction is standard. Transactions under this limit will not be accepted
+ * to the mempool and thus not relayed. Can be overridden by -harddustlimit
+ */
+static const CAmount DEFAULT_HARD_DUST_LIMIT = DEFAULT_DUST_LIMIT / 10;
 
 /**
  * Standard script verification flags that standard transactions will comply
@@ -125,6 +131,7 @@ extern CFeeRate incrementalRelayFee;
 extern CFeeRate dustRelayFee;
 extern unsigned int nBytesPerSigOp;
 extern CAmount nDustLimit;
+extern CAmount nHardDustLimit;
 
 /** Compute the virtual transaction size (weight reinterpreted as bytes). */
 int64_t GetVirtualTransactionSize(int64_t nWeight, int64_t nSigOpCost);
