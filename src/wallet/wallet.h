@@ -74,11 +74,10 @@ static const CAmount DEFAULT_DISCARD_THRESHOLD = COIN;
  * This way, replacements for fee bumps are transient rather than persisted.
  */
 static const CAmount WALLET_INCREMENTAL_RELAY_FEE = RECOMMENDED_MIN_TX_FEE / 10;
-
 /*
  * Dogecoin: Creating change outputs at exactly the dustlimit is counter-
  * productive because it leaves no space to bump the fee up, so we make the
- * MIN_CHANGE parameter higher than the DEFAULT_DISCARD_THRESHOLD parameter.
+ * minimum change higher than the discard threshold.
  *
  * When RBF is not a default policy, we need to scale for both that and CPFP,
  * to have a facility for those that did not manually enable RBF, yet need to
@@ -93,18 +92,18 @@ static const CAmount WALLET_INCREMENTAL_RELAY_FEE = RECOMMENDED_MIN_TX_FEE / 10;
  * or transaction size, we assume that most transactions are < 1kb, leading
  * to the following when planning for a replacements with 2x original fee:
  *
- * RBF: MIN_CHANGE = DEFAULT_DISCARD_THRESHOLD + min fee or
- * CPFP: MIN_CHANGE = DEFAULT_DISCARD_THRESHOLD + 2 * min fee * 0.147 + min fee
+ * RBF: min change = discardThreshold + minTxFee(1000) or
+ * CPFP: min change = discardThreshold + 2 * minTxFee(147) + minTxFee(1000)
  *
  * Where the CPFP requirement is higher than the RBF one to lead to the same
  * result.
  *
- * This can be rounded up to the nearest multiple of RECOMMENDED_MIN_TX_FEE as:
+ * This can be rounded up to the nearest multiple of minTxFee(1000) as:
  *
- * MIN_CHANGE = DEFAULT_DISCARD_THRESHOLD + 2 * RECOMMENDED_MIN_TX_FEE
+ * min change = discardThreshold + 2 * minTxFee(1000)
  */
-//! target minimum change amount
-static const CAmount MIN_CHANGE = DEFAULT_DISCARD_THRESHOLD + 2 * RECOMMENDED_MIN_TX_FEE;
+//! target minimum change fee multiplier
+static const CAmount MIN_CHANGE_FEE_MULTIPLIER = 2;
 
 //! Default for -spendzeroconfchange
 static const bool DEFAULT_SPEND_ZEROCONF_CHANGE = true;
@@ -796,6 +795,12 @@ public:
     static CFeeRate minTxFee;
     static CFeeRate fallbackFee;
     static CAmount discardThreshold;
+
+    /**
+     * Minimum change as a function of discardThreshold
+     */
+    static CAmount GetMinChange();
+
     /**
      * Estimate the minimum fee considering user set parameters
      * and the required fee
