@@ -41,6 +41,8 @@ jobs:
             os: ubuntu-18.04
             packages: g++-multilib bc python3-zmq
             run-tests: true
+            check-security: true
+            check-symbols: true
             dep-opts: "NO_QT=1"
             config-opts: "--enable-zmq --enable-glibc-back-compat LDFLAGS=-static-libstdc++"
             goal: install
@@ -49,6 +51,8 @@ jobs:
             os: ubuntu-18.04
             packages: g++-arm-linux-gnueabihf
             run-tests: false
+            check-security: true
+            check-symbols: false
             dep-opts: "NO_QT=1"
             config-opts: "--enable-glibc-back-compat --disable-tests LDFLAGS=-static-libstdc++"
             goal: install
@@ -57,6 +61,8 @@ jobs:
             os: ubuntu-18.04
             packages: python3
             run-tests: true
+            check-security: true
+            check-symbols: true
             dep-opts: "NO_WALLET=1"
             config-opts: "--enable-gui=qt5 --enable-glibc-back-compat --disable-wallet LDFLAGS=-static-libstdc++"
             goal: install
@@ -65,6 +71,8 @@ jobs:
             os: ubuntu-18.04
             packages: bc python3-zmq
             run-tests: true
+            check-security: true
+            check-symbols: false
             dep-opts: "DEBUG=1"
             config-opts: "--enable-gui=qt5 --enable-zmq --enable-glibc-back-compat CPPFLAGS=-DDEBUG_LOCKORDER"
             goal: install
@@ -78,6 +86,8 @@ jobs:
               sudo update-alternatives --set i686-w64-mingw32-g++  /usr/bin/i686-w64-mingw32-g++-posix
               sudo update-binfmts --import /usr/share/binfmts/wine
             run-tests: true
+            check-security: true
+            check-symbols: false
             dep-opts: ""
             config-opts: "--enable-gui=qt5"
             goal: install
@@ -91,6 +101,8 @@ jobs:
               sudo update-alternatives --set x86_64-w64-mingw32-g++  /usr/bin/x86_64-w64-mingw32-g++-posix
               sudo update-binfmts --import /usr/share/binfmts/wine
             run-tests: true
+            check-security: true
+            check-symbols: false
             dep-opts: ""
             config-opts: "--enable-gui=qt5"
             goal: install
@@ -99,6 +111,8 @@ jobs:
             os: ubuntu-18.04
             packages: cmake imagemagick libcap-dev librsvg2-bin libz-dev libtiff-tools libtinfo5 python3-setuptools xorriso libtinfo5
             run-tests: false
+            check-security: false
+            check-symbols: false
             dep-opts: ""
             config-opts: "--enable-gui=qt5"
             goal: deploy
@@ -175,6 +189,14 @@ jobs:
           make check $MAKEJOBS VERBOSE=1
           qa/pull-tester/install-deps.sh
           qa/pull-tester/rpc-tests.py --coverage
+
+      - name: Check security
+        if: ${{ matrix.check-security }}
+        run: make -C src check-security
+
+      - name: Check symbols
+        if: ${{ matrix.check-symbols }}
+        run: make -C src check-symbols
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
