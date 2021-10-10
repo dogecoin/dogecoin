@@ -507,14 +507,14 @@ class RawTransactionsTest(BitcoinTestFramework):
         self.nodes[0].generate(1)
         self.sync_all()
 
-        for i in range(0,20):
+        for i in range(0,22):
             self.nodes[0].sendtoaddress(self.nodes[1].getnewaddress(), 1.1)
         self.nodes[0].generate(1)
         self.sync_all()
 
-        #fund a tx with ~20 small inputs
+        #fund a tx with ~20 small inputs, by spending in combination the 22 DOGE we just sent
         inputs = []
-        outputs = {self.nodes[0].getnewaddress():1.15,self.nodes[0].getnewaddress():1.04}
+        outputs = {self.nodes[0].getnewaddress():16.0,self.nodes[0].getnewaddress():5.9}
         rawTx = self.nodes[1].createrawtransaction(inputs, outputs)
         fundedTx = self.nodes[1].fundrawtransaction(rawTx)
 
@@ -537,7 +537,7 @@ class RawTransactionsTest(BitcoinTestFramework):
         self.nodes[0].generate(1)
         self.sync_all()
 
-        for i in range(0,20):
+        for i in range(0,22):
             self.nodes[0].sendtoaddress(self.nodes[1].getnewaddress(), 1.1)
         self.nodes[0].generate(1)
         self.sync_all()
@@ -546,7 +546,7 @@ class RawTransactionsTest(BitcoinTestFramework):
         oldBalance = self.nodes[0].getbalance()
 
         inputs = []
-        outputs = {self.nodes[0].getnewaddress():1.15,self.nodes[0].getnewaddress():1.04}
+        outputs = {self.nodes[0].getnewaddress():16.0,self.nodes[0].getnewaddress():5.9}
         rawTx = self.nodes[1].createrawtransaction(inputs, outputs)
         fundedTx = self.nodes[1].fundrawtransaction(rawTx)
         fundedAndSignedTx = self.nodes[1].signrawtransaction(fundedTx['hex'])
@@ -554,7 +554,7 @@ class RawTransactionsTest(BitcoinTestFramework):
         self.sync_all()
         self.nodes[0].generate(1)
         self.sync_all()
-        assert_equal(oldBalance+Decimal('500002.19000'), self.nodes[0].getbalance()) #2.19+block reward
+        assert_equal(oldBalance+Decimal('500021.9000'), self.nodes[0].getbalance()) #2.19+block reward
 
         #####################################################
         # test fundrawtransaction with OP_RETURN and no vin #
