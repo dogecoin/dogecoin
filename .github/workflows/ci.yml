@@ -125,7 +125,7 @@ jobs:
             check-security: false
             check-symbols: false
             dep-opts: ""
-            config-opts: "--enable-gui=qt5"
+            config-opts: "--enable-gui=qt5 --disable-tests"
             goal: deploy
             sdk: 10.11
 
