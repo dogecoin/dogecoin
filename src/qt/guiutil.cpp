@@ -18,6 +18,10 @@
 #include "script/standard.h"
 #include "util.h"
 
+#ifdef ENABLE_WALLET
+#include "wallet/wallet.h"
+#endif
+
 #ifdef WIN32
 #ifdef _WIN32_WINNT
 #undef _WIN32_WINNT
@@ -248,13 +252,15 @@ QString formatBitcoinURI(const SendCoinsRecipient &info)
     return ret;
 }
 
+#ifdef ENABLE_WALLET
 bool isDust(const QString& address, const CAmount& amount)
 {
     CTxDestination dest = CBitcoinAddress(address.toStdString()).Get();
     CScript script = GetScriptForDestination(dest);
     CTxOut txOut(amount, script);
-    return txOut.IsDust(dustRelayFee);
+    return txOut.IsDust(CWallet::discardThreshold);
 }
+#endif
 
 QString HtmlEscape(const QString& str, bool fMultiLine)
 {

@@ -473,9 +473,9 @@ std::string HelpMessage(HelpMessageMode mode)
     if (showDebug) {
         strUsage += HelpMessageOpt("-acceptnonstdtxn", strprintf("Relay and mine \"non-standard\" transactions (%sdefault: %u)", "testnet/regtest only; ", !Params(CBaseChainParams::TESTNET).RequireStandard()));
         strUsage += HelpMessageOpt("-incrementalrelayfee=<amt>", strprintf("Fee rate (in %s/kB) used to define cost of relay, used for mempool limiting and BIP 125 replacement. (default: %s)", CURRENCY_UNIT, FormatMoney(DEFAULT_INCREMENTAL_RELAY_FEE)));
-        strUsage += HelpMessageOpt("-dustrelayfee=<amt>", strprintf("Fee rate (in %s/kB) used to defined dust, the value of an output such that it will cost about 1/3 of its value in fees at this fee rate to spend it. (default: %s)", CURRENCY_UNIT, FormatMoney(DUST_RELAY_TX_FEE)));
     }
     strUsage += HelpMessageOpt("-dustlimit=<amt>", strprintf(_("Amount under which a transaction output is considered dust, in %s (default: %s)"), CURRENCY_UNIT, FormatMoney(DEFAULT_DUST_LIMIT)));
+    strUsage += HelpMessageOpt("-harddustlimit=<amt>", strprintf(_("Amount under which a transaction output is considered non-standard and will not be accepted or relayed, in %s (default: %s)"), CURRENCY_UNIT, FormatMoney(DEFAULT_HARD_DUST_LIMIT)));
     strUsage += HelpMessageOpt("-bytespersigop", strprintf(_("Equivalent bytes per sigop in transactions for relay and mining (default: %u)"), DEFAULT_BYTES_PER_SIGOP));
     strUsage += HelpMessageOpt("-datacarrier", strprintf(_("Relay and mine data carrier transactions (default: %u)"), DEFAULT_ACCEPT_DATACARRIER));
     strUsage += HelpMessageOpt("-datacarriersize", strprintf(_("Maximum size of data in data carrier transactions we relay and mine (default: %u)"), MAX_OP_RETURN_RELAY));
@@ -1029,26 +1029,31 @@ bool AppInitParameterInteraction()
             return InitError(AmountErrMsg("blockmintxfee", GetArg("-blockmintxfee", "")));
     }
 
-    // Feerate used to define dust.  Shouldn't be changed lightly as old
-    // implementations may inadvertently create non-standard transactions
-    if (IsArgSet("-dustrelayfee"))
-    {
-        CAmount n = 0;
-        if (!ParseMoney(GetArg("-dustrelayfee", ""), n) || 0 == n)
-            return InitError(AmountErrMsg("dustrelayfee", GetArg("-dustrelayfee", "")));
-        dustRelayFee = CFeeRate(n);
-    }
-
     fRequireStandard = !GetBoolArg("-acceptnonstdtxn", !chainparams.RequireStandard());
     if (chainparams.RequireStandard() && !fRequireStandard)
         return InitError(strprintf("acceptnonstdtxn is not currently supported for %s chain", chainparams.NetworkIDString()));
     nBytesPerSigOp = GetArg("-bytespersigop", nBytesPerSigOp);
+
+    if (IsArgSet("-harddustlimit"))
+    {
+        CAmount n = nHardDustLimit;
+        if (!ParseMoney(GetArg("-harddustlimit", ""), n))
+            return InitError(AmountErrMsg("harddustlimit", GetArg("-harddustlimit", "")));
+        nHardDustLimit = n;
+    }
 
     if (IsArgSet("-dustlimit"))
     {
         CAmount n = nDustLimit;
         if (!ParseMoney(GetArg("-dustlimit", ""), n))
             return InitError(AmountErrMsg("dustlimit", GetArg("-dustlimit", "")));
+
+        if (n < nHardDustLimit)
+        {
+          n = nHardDustLimit;
+          LogPrintf("Increasing -dustlimit to %s to match -harddustlimit\n", FormatMoney(nHardDustLimit));
+        }
+
         nDustLimit = n;
     }
 

@@ -61,18 +61,23 @@ static const unsigned int MAX_STANDARD_P2WSH_STACK_ITEMS = 100;
 static const unsigned int MAX_STANDARD_P2WSH_STACK_ITEM_SIZE = 80;
 /** The maximum size of a standard witnessScript */
 static const unsigned int MAX_STANDARD_P2WSH_SCRIPT_SIZE = 3600;
-/** Min feerate for defining dust. Historically this has been the same as the
- * minRelayTxFee, however changing the dust limit changes which transactions are
- * standard and should be done with care and ideally rarely. It makes sense to
- * only increase the dust limit after prior releases were already not creating
- * outputs below the new threshold */
-static const CAmount DUST_RELAY_TX_FEE = RECOMMENDED_MIN_TX_FEE / 1000;
 /**
  * Dogecoin: Default dust limit that is evaluated when considering whether a
  * transaction output is required to pay additional fee for relay and inclusion
  * in blocks. Overridden by -dustlimit
  */
 static const CAmount DEFAULT_DUST_LIMIT = RECOMMENDED_MIN_TX_FEE;
+/**
+ * Dogecoin: Default hard dust limit that is evaluated when considering whether
+ * a transaction is standard. Transactions under this limit will not be accepted
+ * to the mempool and thus not relayed. Can be overridden by -harddustlimit
+ *
+ * Changing the hard dust limit changes which transactions are standard and
+ * should be done with care and ideally rarely. It makes sense to only increase
+ * this limit after prior releases were already not creating outputs below the
+ * new threshold
+ */
+static const CAmount DEFAULT_HARD_DUST_LIMIT = DEFAULT_DUST_LIMIT / 10;
 
 /**
  * Standard script verification flags that standard transactions will comply
@@ -125,6 +130,7 @@ extern CFeeRate incrementalRelayFee;
 extern CFeeRate dustRelayFee;
 extern unsigned int nBytesPerSigOp;
 extern CAmount nDustLimit;
+extern CAmount nHardDustLimit;
 
 /** Compute the virtual transaction size (weight reinterpreted as bytes). */
 int64_t GetVirtualTransactionSize(int64_t nWeight, int64_t nSigOpCost);

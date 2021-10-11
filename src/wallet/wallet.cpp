@@ -58,6 +58,12 @@ CFeeRate CWallet::minTxFee = CFeeRate(DEFAULT_TRANSACTION_MINFEE);
  * Override with -fallbackfee
  */
 CFeeRate CWallet::fallbackFee = CFeeRate(DEFAULT_FALLBACK_FEE);
+/**
+ * Dogecoin: Effective dust limit for the wallet
+ * - Outputs smaller than this get rejected
+ * - Change smaller than this gets discarded to fee
+ */
+CAmount CWallet::discardThreshold = DEFAULT_DISCARD_THRESHOLD;
 
 /** @defgroup mapWallet
  *
@@ -2500,7 +2506,15 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
                         }
                     }
 
-                    if (txout.IsDust(dustRelayFee))
+                    /*
+                     * Dogecoin: check all outputs against the discard threshold
+                     *           to make sure that the wallet's dust policy gets
+                     *           followed rather than the current relay rules,
+                     *           because the larger network may settle on a
+                     *           higher hard limit than the current version's
+                     *           soft limit.
+                     */
+                    if (txout.IsDust(discardThreshold))
                     {
                         if (recipient.fSubtractFeeFromAmount && nFeeRet > 0)
                         {
@@ -2578,16 +2592,16 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
                     // We do not move dust-change to fees, because the sender would end up paying more than requested.
                     // This would be against the purpose of the all-inclusive feature.
                     // So instead we raise the change and deduct from the recipient.
-                    if (nSubtractFeeFromAmount > 0 && newTxOut.IsDust(dustRelayFee))
+                    if (nSubtractFeeFromAmount > 0 && newTxOut.IsDust(discardThreshold))
                     {
-                        CAmount nDust = newTxOut.GetDustThreshold(dustRelayFee) - newTxOut.nValue;
-                        newTxOut.nValue += nDust; // raise change until no more dust
+                        CAmount changeDelta = discardThreshold - newTxOut.nValue;
+                        newTxOut.nValue += changeDelta; // raise change until we reach the discard threshold
                         for (unsigned int i = 0; i < vecSend.size(); i++) // subtract from first recipient
                         {
                             if (vecSend[i].fSubtractFeeFromAmount)
                             {
-                                txNew.vout[i].nValue -= nDust;
-                                if (txNew.vout[i].IsDust(dustRelayFee))
+                                txNew.vout[i].nValue -= changeDelta;
+                                if (txNew.vout[i].IsDust(discardThreshold))
                                 {
                                     strFailReason = _("The transaction amount is too small to send after the fee has been deducted");
                                     return false;
@@ -2597,9 +2611,9 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
                         }
                     }
 
-                    // Never create dust outputs; if we would, just
-                    // add the dust to the fee.
-                    if (newTxOut.IsDust(dustRelayFee))
+                    // Never create change under the discard threshold;
+                    // if we would, just discard the change to the fee.
+                    if (newTxOut.IsDust(discardThreshold))
                     {
                         nChangePosInOut = -1;
                         nFeeRet += nChange;
@@ -2852,8 +2866,8 @@ bool CWallet::AddAccountingEntry(const CAccountingEntry& acentry, CWalletDB *pwa
 
 CAmount CWallet::GetRequiredFee(const CMutableTransaction& tx, unsigned int nTxBytes)
 {
-    // Dogecoin: Add an increased fee for each dust output
-    return std::max(minTxFee.GetFee(nTxBytes) + GetDogecoinDustFee(tx.vout, minTxFee), ::minRelayTxFeeRate.GetFee(nTxBytes));
+    // Dogecoin: Add an increased fee for each output that is lower than the discard threshold
+    return std::max(minTxFee.GetFee(nTxBytes) + GetDogecoinDustFee(tx.vout, discardThreshold, minTxFee), ::minRelayTxFeeRate.GetFee(nTxBytes));
 }
 
 CAmount CWallet::GetRequiredFee(unsigned int nTxBytes)
@@ -3620,6 +3634,8 @@ std::string CWallet::GetWalletHelpString(bool showDebug)
     std::string strUsage = HelpMessageGroup(_("Wallet options:"));
     strUsage += HelpMessageOpt("-disablewallet", _("Do not load the wallet and disable wallet RPC calls"));
     strUsage += HelpMessageOpt("-keypool=<n>", strprintf(_("Set key pool size to <n> (default: %u)"), DEFAULT_KEYPOOL_SIZE));
+    strUsage += HelpMessageOpt("-discardthreshold=<amt>", strprintf(_("The minimum transaction output size (in %s) used to validate wallet transactions and discard change (to fee) (default: %s)"),
+                                                                    CURRENCY_UNIT, FormatMoney(DEFAULT_DISCARD_THRESHOLD)));
     strUsage += HelpMessageOpt("-fallbackfee=<amt>", strprintf(_("A fee rate (in %s/kB) that will be used when fee estimation has insufficient data (default: %s)"),
                                                                CURRENCY_UNIT, FormatMoney(DEFAULT_FALLBACK_FEE)));
     strUsage += HelpMessageOpt("-mintxfee=<amt>", strprintf(_("Fees (in %s/kB) smaller than this are considered zero fee for transaction creation (default: %s)"),
@@ -3952,6 +3968,22 @@ bool CWallet::ParameterInteraction()
             return InitError(strprintf(_("Invalid amount for -maxtxfee=<amount>: '%s' (must be at least the minrelay fee of %s to prevent stuck transactions)"),
                                        GetArg("-maxtxfee", ""), ::minRelayTxFeeRate.ToString()));
         }
+    }
+    if (IsArgSet("-discardthreshold"))
+    {
+        CAmount nDiscardThreshold = 0;
+        if (!ParseMoney(GetArg("-discardthreshold", ""), nDiscardThreshold))
+            return InitError(AmountErrMsg("discardthreshold", GetArg("-discardthreshold", "")));
+
+        if (nDiscardThreshold < nDustLimit)
+        {
+            return InitError(strprintf(_("Invalid amount for -discardthreshold=<amount>: '%s' (must be at least the dust limit of %s to prevent stuck transactions)"),
+                                       GetArg("-discardthreshold", ""), FormatMoney(nDustLimit)));
+        }
+        if (nDiscardThreshold > HIGH_TX_FEE_PER_KB)
+            InitWarning(_("-discardthreshold is set very high! This is the output amount that the wallet will discard (to fee) if it is smaller than this setting."));
+
+        CWallet::discardThreshold = nDiscardThreshold;
     }
     nTxConfirmTarget = GetArg("-txconfirmtarget", DEFAULT_TX_CONFIRM_TARGET);
     bSpendZeroConfChange = GetBoolArg("-spendzeroconfchange", DEFAULT_SPEND_ZEROCONF_CHANGE);
