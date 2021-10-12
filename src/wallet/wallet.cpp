@@ -2179,6 +2179,14 @@ static void ApproximateBestSubset(vector<pair<CAmount, pair<const CWalletTx*,uns
     }
 }
 
+// Dogecoin: MIN_CHANGE as a function of discardThreshold and minTxFee(1000)
+// Makes the wallet change output minimums configurable instead of hardcoded
+// defaults.
+CAmount CWallet::GetMinChange()
+{
+  return discardThreshold + minTxFee.GetFeePerK() * MIN_CHANGE_FEE_MULTIPLIER;
+}
+
 bool CWallet::SelectCoinsMinConf(const CAmount& nTargetValue, const int nConfMine, const int nConfTheirs, const uint64_t nMaxAncestors, vector<COutput> vCoins,
                                  set<pair<const CWalletTx*,unsigned int> >& setCoinsRet, CAmount& nValueRet) const
 {
@@ -2218,7 +2226,7 @@ bool CWallet::SelectCoinsMinConf(const CAmount& nTargetValue, const int nConfMin
             nValueRet += coin.first;
             return true;
         }
-        else if (n < nTargetValue + MIN_CHANGE)
+        else if (n < nTargetValue + GetMinChange())
         {
             vValue.push_back(coin);
             nTotalLower += n;
@@ -2255,13 +2263,13 @@ bool CWallet::SelectCoinsMinConf(const CAmount& nTargetValue, const int nConfMin
     CAmount nBest;
 
     ApproximateBestSubset(vValue, nTotalLower, nTargetValue, vfBest, nBest);
-    if (nBest != nTargetValue && nTotalLower >= nTargetValue + MIN_CHANGE)
-        ApproximateBestSubset(vValue, nTotalLower, nTargetValue + MIN_CHANGE, vfBest, nBest);
+    if (nBest != nTargetValue && nTotalLower >= nTargetValue + GetMinChange())
+        ApproximateBestSubset(vValue, nTotalLower, nTargetValue + GetMinChange(), vfBest, nBest);
 
     // If we have a bigger coin and (either the stochastic approximation didn't find a good solution,
     //                                   or the next bigger coin is closer), return the bigger coin
     if (coinLowestLarger.second.first &&
-        ((nBest != nTargetValue && nBest < nTargetValue + MIN_CHANGE) || coinLowestLarger.first <= nBest))
+        ((nBest != nTargetValue && nBest < nTargetValue + GetMinChange()) || coinLowestLarger.first <= nBest))
     {
         setCoinsRet.insert(coinLowestLarger.second);
         nValueRet += coinLowestLarger.first;
@@ -2735,7 +2743,16 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
                     CAmount additionalFeeNeeded = nFeeNeeded - nFeeRet;
                     vector<CTxOut>::iterator change_position = txNew.vout.begin()+nChangePosInOut;
                     // Only reduce change if remaining amount is still a large enough output.
-                    if (change_position->nValue >= MIN_FINAL_CHANGE + additionalFeeNeeded) {
+                    /* Dogecoin: this has been changed from a static MIN_FINAL_CHANGE that
+                     * followed DEFAULT_DISCARD_THRESHOLD to instead use the configurable
+                     * discard threshold.
+                     *
+                     * Note:
+                     * If GetMinChange() ever becomes configurable or otherwise changes to no
+                     * longer be derived from DEFAULT_DISCARD_THRESHOLD, then this check
+                     * must be adapted.
+                     */
+                    if (change_position->nValue >= discardThreshold + additionalFeeNeeded) {
                         change_position->nValue -= additionalFeeNeeded;
                         nFeeRet += additionalFeeNeeded;
                         break; // Done, able to increase fee from change
