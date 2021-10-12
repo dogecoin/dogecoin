@@ -1048,13 +1048,13 @@ bool AppInitParameterInteraction()
         if (!ParseMoney(GetArg("-dustlimit", ""), n))
             return InitError(AmountErrMsg("dustlimit", GetArg("-dustlimit", "")));
 
-        if (n < nHardDustLimit)
-        {
-          n = nHardDustLimit;
-          LogPrintf("Increasing -dustlimit to %s to match -harddustlimit\n", FormatMoney(nHardDustLimit));
-        }
-
         nDustLimit = n;
+    }
+
+    if (nDustLimit < nHardDustLimit)
+    {
+      nDustLimit = nHardDustLimit;
+      LogPrintf("Increasing -dustlimit to %s to match -harddustlimit\n", FormatMoney(nHardDustLimit));
     }
 
 #ifdef ENABLE_WALLET
