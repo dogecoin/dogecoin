@@ -28,6 +28,6 @@ CFeeRate GetDogecoinWalletFeeRate();
 CAmount GetDogecoinMinWalletFee(unsigned int nBytes_);
 #endif // ENABLE_WALLET
 CAmount GetDogecoinMinRelayFee(const CTransaction& tx, unsigned int nBytes, bool fAllowFree);
-CAmount GetDogecoinDustFee(const std::vector<CTxOut> &vout, const CAmount dustLimit, CFeeRate &baseFeeRate);
+CAmount GetDogecoinDustFee(const std::vector<CTxOut> &vout, const CAmount dustLimit);
 
 #endif // BITCOIN_DOGECOIN_FEES_H

@@ -140,25 +140,25 @@ class P2PPolicyTests(BitcoinTestFramework):
 
         # test soft dust limit with sufficient fee
         amount = soft_dust_limit - koinu
-        change = ten - amount - relay_fee_per_byte * 226 - relay_fee
+        change = ten - amount - relay_fee_per_byte * 226 - soft_dust_limit
         output = { self.tgtAddr : amount, self.srcAddr: change }
         self.run_relay_test(output, None)
 
         # test soft dust limit with insufficient fee
         amount = soft_dust_limit - koinu
-        change = ten - amount - relay_fee_per_byte * 225 - relay_fee + koinu
+        change = ten - amount - relay_fee_per_byte * 225 - soft_dust_limit + koinu
         output = { self.tgtAddr : amount, self.srcAddr: change }
         self.run_relay_test(output, 66)
 
         # test a 1 koinu output with sufficient fee
         amount = koinu
-        change = ten - amount - relay_fee_per_byte * 226 - relay_fee
+        change = ten - amount - relay_fee_per_byte * 226 - soft_dust_limit
         output = { self.tgtAddr : amount, self.srcAddr: change }
         self.run_relay_test(output, 64) # 64 = dust
 
         # test a 1 koinu output with insufficient fee
         amount = koinu
-        change = ten - amount - relay_fee_per_byte * 225 - relay_fee + koinu
+        change = ten - amount - relay_fee_per_byte * 225 - soft_dust_limit + koinu
         output = { self.tgtAddr : amount, self.srcAddr: change }
         self.run_relay_test(output, 64)
 
