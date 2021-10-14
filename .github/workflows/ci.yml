@@ -29,6 +29,7 @@ jobs:
       matrix:
         name:
           - aarch64-linux
+          - aarch64-linux-experimental
           - armhf-linux
           - i686-linux
           - i686-win
