@@ -183,6 +183,12 @@ AC_ARG_WITH([intel-avx2],
   [intel_avx2=$withval],
   [intel_avx2=no])
 
+AC_ARG_WITH([armv8-crypto],
+  [AS_HELP_STRING([--with-armv8-crypto],
+  [Build with armv8 crypto (default is no)])],
+  [armv8_crypto=$withval],
+  [armv8_crypto=no])
+
 AC_ARG_WITH([protoc-bindir],[AS_HELP_STRING([--with-protoc-bindir=BIN_DIR],[specify protoc bin path])], [protoc_bin_path=$withval], [])
 
 AC_ARG_ENABLE(man,
@@ -801,6 +807,13 @@ if test x$intel_avx2 = xyes; then
     AC_CHECK_LIB([IPSec_MB],[sha512_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
     AC_DEFINE(USE_AVX2, 1, [Define this symbol if intel axv2 works])
 esac
+fi
+
+if test x$armv8_crypto = xyes; then
+  AC_MSG_CHECKING([whether to build with armv8 crypto])
+  AC_MSG_RESULT(yes)
+  AC_DEFINE(USE_ARMV8, 1, [Define this symbol if armv8 crypto works])
+  CXXFLAGS="$CXXFLAGS -march=armv8-a+crypto"
 fi
 
 if test x$use_pkgconfig = xyes; then
