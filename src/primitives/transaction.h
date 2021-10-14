@@ -206,6 +206,15 @@ public:
         return (nValue < GetDustThreshold(minRelayTxFeeRate));
     }
 
+    // Dogecoin: allow comparison against different dustlimit parameters
+    bool IsDust(const CAmount dustLimit) const
+    {
+      if (scriptPubKey.IsUnspendable())
+          return false;
+
+      return (nValue < dustLimit);
+    }
+
     friend bool operator==(const CTxOut& a, const CTxOut& b)
     {
         return (a.nValue       == b.nValue &&

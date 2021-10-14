@@ -279,20 +279,32 @@ def test_locked_wallet_fails(rbf_node, dest_address):
 
 def test_dogecoin_wallet_minchange(rbf_node, dest_address):
     input = Decimal("10.00000000")
-    min_change = Decimal("0.03000000")
-    min_fee = Decimal("0.01000000")
-    bumpfee = Decimal("0.001")
-    est_tx_size = Decimal("0.193")
+    discard_threshold = Decimal("1.00000000")    # DEFAULT_DISCARD_THRESHOLD
+    min_fee = Decimal("0.01000000")              # DEFAULT_TRANSACTION_FEE
+    min_change = discard_threshold + 2 * min_fee # MIN_CHANGE
+    bumpfee = Decimal("0.001")                   # WALLET_INCREMENTAL_RELAY_FEE
+    est_tx_size = Decimal("0.226")               # 1 in, 2 out
+
+    # create a transaction with minimum fees
     destamount = input - min_change - min_fee * est_tx_size
     rbfid = spend_one_input(rbf_node,
                             input,
                             {dest_address: destamount,
                              get_change_address(rbf_node): min_change})
+
+    # bump the fee with the default incremental fee; this should add 0.001 DOGE
     bumped_tx = rbf_node.bumpfee(rbfid)
     assert_equal(bumped_tx["fee"], min_fee * est_tx_size + bumpfee)
-    newfee = int((input - destamount - min_fee - bumpfee / 2 ) * 100000000)
+
+    # bump the fee to only have a change output with the discard threshold
+    # plus half the incremental fee
+    newfee = int((input - destamount - discard_threshold - bumpfee / 2 ) * 100000000)
     bumped_tx = rbf_node.bumpfee(bumped_tx["txid"], {"totalFee": newfee})
-    assert_equal(bumped_tx["fee"], input - destamount - min_fee - bumpfee / 2)
+    assert_equal(bumped_tx["fee"], input - destamount - discard_threshold - bumpfee / 2)
+
+    # now bump with the default incremental fee again; as the resulting change
+    # output will be under the discard threshold, this must discard all change
+    # to fee
     bumped_tx = rbf_node.bumpfee(bumped_tx["txid"])
     assert_equal(bumped_tx["fee"], input - destamount)
     rbf_node.settxfee(Decimal("0.00000000"))

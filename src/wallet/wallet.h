@@ -56,6 +56,14 @@ static const CAmount DEFAULT_TRANSACTION_FEE = RECOMMENDED_MIN_TX_FEE;
 static const CAmount DEFAULT_FALLBACK_FEE = RECOMMENDED_MIN_TX_FEE;
 //! -mintxfee default
 static const CAmount DEFAULT_TRANSACTION_MINFEE = RECOMMENDED_MIN_TX_FEE;
+//! -discardthreshold default
+/* 1.14.5: set the wallet's discard threshold to 1 DOGE because that's what 97%
+ *         of the network currently implements as the hard dust limit. This
+ *         value can be changed when a significant portion of the relay network
+ *         and miners have adopted a different hard dust limit.
+ */
+static const CAmount DEFAULT_DISCARD_THRESHOLD = COIN;
+
 //! minimum recommended increment for BIP 125 replacement txs
 /*
  * Dogecoin: Scaled to 1/10th of the recommended transaction fee to make RBF
@@ -66,11 +74,10 @@ static const CAmount DEFAULT_TRANSACTION_MINFEE = RECOMMENDED_MIN_TX_FEE;
  * This way, replacements for fee bumps are transient rather than persisted.
  */
 static const CAmount WALLET_INCREMENTAL_RELAY_FEE = RECOMMENDED_MIN_TX_FEE / 10;
-
 /*
  * Dogecoin: Creating change outputs at exactly the dustlimit is counter-
  * productive because it leaves no space to bump the fee up, so we make the
- * MIN_CHANGE parameter higher than the MIN_FINAL_CHANGE parameter.
+ * minimum change higher than the discard threshold.
  *
  * When RBF is not a default policy, we need to scale for both that and CPFP,
  * to have a facility for those that did not manually enable RBF, yet need to
@@ -85,24 +92,18 @@ static const CAmount WALLET_INCREMENTAL_RELAY_FEE = RECOMMENDED_MIN_TX_FEE / 10;
  * or transaction size, we assume that most transactions are < 1kb, leading
  * to the following when planning for a replacements with 2x original fee:
  *
- * RBF: MIN_CHANGE = dust limit + min fee or
- * CPFP: MIN_CHANGE = dust limit + 2 * min fee * 0.147 + min fee
+ * RBF: min change = discardThreshold + minTxFee(1000) or
+ * CPFP: min change = discardThreshold + 2 * minTxFee(147) + minTxFee(1000)
  *
  * Where the CPFP requirement is higher than the RBF one to lead to the same
  * result.
  *
- * This can be rounded up to the nearest multiple of RECOMMENDED_MIN_TX_FEE as:
+ * This can be rounded up to the nearest multiple of minTxFee(1000) as:
  *
- * MIN_CHANGE = DEFAULT_DUST_LIMIT + 2 * RECOMMENDED_MIN_TX_FEE
- *
- * The MIN_FINAL_CHANGE parameter can stay equal to DEFAULT_DUST_LIMIT as this
- * influences when the wallet will discard all remaining dust as fee instead of
- * change.
+ * min change = discardThreshold + 2 * minTxFee(1000)
  */
-//! target minimum change amount
-static const CAmount MIN_CHANGE = DEFAULT_DUST_LIMIT + 2 * RECOMMENDED_MIN_TX_FEE;
-//! final minimum change amount after paying for fees
-static const CAmount MIN_FINAL_CHANGE = DEFAULT_DUST_LIMIT;
+//! target minimum change fee multiplier
+static const CAmount MIN_CHANGE_FEE_MULTIPLIER = 2;
 
 //! Default for -spendzeroconfchange
 static const bool DEFAULT_SPEND_ZEROCONF_CHANGE = true;
@@ -793,6 +794,13 @@ public:
 
     static CFeeRate minTxFee;
     static CFeeRate fallbackFee;
+    static CAmount discardThreshold;
+
+    /**
+     * Minimum change as a function of discardThreshold
+     */
+    static CAmount GetMinChange();
+
     /**
      * Estimate the minimum fee considering user set parameters
      * and the required fee
