@@ -420,23 +420,46 @@
         </spacer>
        </item>
        <item>
-        <widget class="QLabel" name="label_wallet_bgcoin">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="pixmap">
-          <pixmap resource="../bitcoin.qrc">:/icons/wallet_bgcoin</pixmap>
-         </property>
-         <property name="scaledContents">
-          <bool>false</bool>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-         <property name="margin">
-          <number>-2</number>
-         </property>
-        </widget>
+        <layout class="QGridLayout" name="logo_grid">
+          <item>
+            <widget class="QLabel" name="label_wallet_bgcoin">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="pixmap">
+              <pixmap resource="../bitcoin.qrc">:/icons/wallet_bgcoin</pixmap>
+             </property>
+             <property name="scaledContents">
+              <bool>false</bool>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+             <property name="margin">
+              <number>-2</number>
+             </property>
+            </widget>
+          </item>
+          <item>
+            <widget class="QLabel" name="label_wallet_version_overlay">
+              <property name="text">
+               <string></string>
+              </property>
+              <property name="pixmap">
+                <pixmap/>
+              </property>
+              <property name="scaledContents">
+               <bool>false</bool>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeft|Qt::AlignBottom</set>
+              </property>
+              <property name="margin">
+               <number>2</number>
+              </property>
+            </widget>
+          </item>
+        </layout>
        </item>
       </layout>
      </item>
