@@ -62,21 +62,6 @@ const std::string GetDogecoinPriorityLabel(int priority)
     return _("Default");
 }
 
-//mlumin 5/2021: walletfees, all attached to GetDogecoinWalletFeeRate which is just the newly exposed ::minWalletTxFee
-CAmount GetDogecoinWalletFee(size_t nBytes_)
-{
-    //mlumin: super simple fee calc for dogecoin
-    CAmount nFee=GetDogecoinWalletFeeRate().GetFee(nBytes_);
-    return nFee;
-}
-
-//mlumin 5/2021: Establish a wallet rate of n koinu per kb.
-//mlumin: this is somewhat redundant to the globally exposed ::minWalletTxFee, but honestly I'd like to have both the rate and amount (with size) here
-CFeeRate GetDogecoinWalletFeeRate()
-{
-    //mlumin 5/2021: currently 1x COIN or 1 dogecoin or 100,000,000 koinu
-    return CWallet::minTxFee;
-}
 #endif
 
 CAmount GetDogecoinMinRelayFee(const CTransaction& tx, unsigned int nBytes, bool fAllowFree)

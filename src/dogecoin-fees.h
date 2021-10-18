@@ -24,8 +24,6 @@ enum FeeRatePreset
 /** Estimate fee rate needed to get into the next nBlocks */
 CFeeRate GetDogecoinFeeRate(int priority);
 const std::string GetDogecoinPriorityLabel(int priority);
-CFeeRate GetDogecoinWalletFeeRate();
-CAmount GetDogecoinMinWalletFee(unsigned int nBytes_);
 #endif // ENABLE_WALLET
 CAmount GetDogecoinMinRelayFee(const CTransaction& tx, unsigned int nBytes, bool fAllowFree);
 CAmount GetDogecoinDustFee(const std::vector<CTxOut> &vout, const CAmount dustLimit);
