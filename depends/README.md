@@ -1,6 +1,6 @@
 ### Prerequisites
 
-The depends system is maintained and tested using Ubuntu Trusty. Both generic
+The depends system is maintained and tested using Ubuntu Bionic. Both generic
 apt packages, and packages specific to the target architecture are required to
 successfully compile all dependencies. Listed packages are tested and known to
 work.
@@ -15,21 +15,21 @@ sudo apt-get install autoconf automake binutils-gold ca-certificates curl \
 #### Generic linux: i686-pc-linux-gnu and x86_64-linux-gnu
 
 ```
-sudo apt-get install g++-4.8-multilib gcc-4.8-multilib
+sudo apt-get install g++-7-multilib gcc-7-multilib
 ```
 
 #### ARM7 32bit: arm-linux-gnueabihf
 
 ```
-sudo apt-get install g++-arm-linux-gnueabihf g++-4.8-arm-linux-gnueabihf \
-                     gcc-4.8-arm-linux-gnueabihf binutils-arm-linux-gnueabihf
+sudo apt-get install g++-arm-linux-gnueabihf g++-7-arm-linux-gnueabihf \
+                     gcc-7-arm-linux-gnueabihf binutils-arm-linux-gnueabihf
 ```
 
 #### ARM 64bit: aarch64-linux-gnu
 
 ```
-sudo apt-get install g++-aarch64-linux-gnu g++-4.8-aarch64-linux-gnu \
-                     gcc-4.8-aarch64-linux-gnu binutils-aarch64-linux-gnu
+sudo apt-get install g++-aarch64-linux-gnu g++-7-aarch64-linux-gnu \
+                     gcc-7-aarch64-linux-gnu binutils-aarch64-linux-gnu
 ```
 
 #### Windows: i686-w64-mingw32 and x86_64-w64-mingw32
