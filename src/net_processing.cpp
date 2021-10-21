@@ -3250,7 +3250,12 @@ bool SendMessages(CNode* pto, CConnman& connman, const std::atomic<bool>& interr
         if (state.vBlocksInFlight.size() > 0) {
             QueuedBlock &queuedBlock = state.vBlocksInFlight.front();
             int nOtherPeersWithValidatedDownloads = nPeersWithValidatedDownloads - (state.nBlocksInFlightValidHeaders > 0);
-            if (nNow > state.nDownloadingSince + consensusParams.nPowTargetSpacing * (BLOCK_DOWNLOAD_TIMEOUT_BASE + BLOCK_DOWNLOAD_TIMEOUT_PER_PEER * nOtherPeersWithValidatedDownloads)) {
+            int64_t nCalculatedDlWindow = std::max(consensusParams.nPowTargetSpacing, MIN_BLOCK_DOWNLOAD_MULTIPLIER) *
+                (BLOCK_DOWNLOAD_TIMEOUT_BASE + BLOCK_DOWNLOAD_TIMEOUT_PER_PEER * nOtherPeersWithValidatedDownloads);
+            if (nNow > state.nDownloadingSince + nCalculatedDlWindow) {
+                LogPrint("net", "Timeout downloading block: window=%d; inFlight=%d; validHeaders=%d; otherDlPeers=%d;",
+                    nCalculatedDlWindow, state.vBlocksInFlight.size(), 
+                    state.nBlocksInFlightValidHeaders, nOtherPeersWithValidatedDownloads);
                 LogPrintf("Timeout downloading block %s from peer=%d, disconnecting\n", queuedBlock.hash.ToString(), pto->id);
                 pto->fDisconnect = true;
                 return true;
