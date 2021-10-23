@@ -1,10 +1,10 @@
-# This variant of the unit file is for package installations.
+# This variant of the unit file is for local installations that are installed with `make install`.
 #
 # The relevant paths are:
 #
-#/usr/bin/dogecoind
-#/etc/dogecoin/
-#/var/lib/dogecoin/
+#/usr/local/bin/dogecoind
+#/usr/local/etc/dogecoin/
+#/var/local/dogecoin/
 
 [Unit]
 Description=Dogecoin's distributed currency daemon
@@ -12,7 +12,7 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/dogecoind -conf=/etc/dogecoin/dogecoin.conf -datadir=/var/lib/dogecoin
+ExecStart=/usr/local/bin/dogecoind -conf=/usr/local/etc/dogecoin/dogecoin.conf -datadir=/var/local/dogecoin
 
 KillSignal=SIGINT
 Restart=always
@@ -40,8 +40,8 @@ TemporaryFileSystem=/:ro
 BindReadOnlyPaths=/etc/ /lib/ /lib64/
 
 # Add daemon paths
-BindReadOnlyPaths=/usr/bin/dogecoind /etc/dogecoin/
-BindPaths=/var/lib/dogecoin
+BindReadOnlyPaths=/usr/local/bin/dogecoind /usr/local/etc/dogecoin/
+BindPaths=/var/local/dogecoin/
 
 ### Restrict access to system.
 
