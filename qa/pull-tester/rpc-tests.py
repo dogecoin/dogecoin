@@ -151,6 +151,7 @@ testScripts = [
     # 'p2p-versionbits-warning.py',
     'preciousblock.py',
     'importprunedfunds.py',
+    'createauxblock.py',
     'signmessages.py',
     # 'nulldummy.py',
     'import-rescan.py',
