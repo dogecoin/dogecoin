@@ -17,7 +17,7 @@ jobs:
     env:
       MAKEJOBS: "-j3"
       CHECK_DOC: "0"
-      CCACHE_SIZE: "100M"
+      CCACHE_SIZE: "100000M"
       CCACHE_TEMPDIR: /tmp/.ccache-temp
       CCACHE_COMPRESS: "1"
       PYTHON_DEBUG: "1"
