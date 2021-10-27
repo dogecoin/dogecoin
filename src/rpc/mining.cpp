@@ -1008,16 +1008,27 @@ static UniValue AuxMiningCreateBlock(const CScript& scriptPubKey)
     static unsigned nTransactionsUpdatedLast;
     static const CBlockIndex* pindexPrev = nullptr;
     static uint64_t nStart;
-    static CBlock* pblock = nullptr;
+    static std::map<CScriptID, CBlock*> curBlocks;
     static unsigned nExtraNonce = 0;
 
     // Dogecoin: Never mine witness tx
     const bool fMineWitnessTx = false;
 
-    // Update block
+    /* Search for cached blocks with given scriptPubKey and assign it to pBlock
+     * if we find a match. This allows for creating multiple aux templates with
+     * a single dogecoind instance, for example when a pool runs multiple sub-
+     * pools with different payout strategies.
+     */
+    CBlock* pblock = nullptr;
+    CScriptID scriptID (scriptPubKey);
+    auto iter = curBlocks.find(scriptID);
+    if (iter != curBlocks.end()) pblock = iter->second;
+
     {
         LOCK(cs_main);
-        if (pindexPrev != chainActive.Tip()
+
+        // Update block
+        if (pblock == nullptr || pindexPrev != chainActive.Tip()
             || (mempool.GetTransactionsUpdated() != nTransactionsUpdatedLast
                 && GetTime() - nStart > 60))
         {
@@ -1026,6 +1037,7 @@ static UniValue AuxMiningCreateBlock(const CScript& scriptPubKey)
                 // Clear old blocks since they're obsolete now.
                 mapNewBlock.clear();
                 vNewBlockTemplate.clear();
+                curBlocks.clear();
                 pblock = nullptr;
             }
 
@@ -1046,6 +1058,7 @@ static UniValue AuxMiningCreateBlock(const CScript& scriptPubKey)
 
             // Save
             pblock = &newBlock->block;
+            curBlocks[scriptID] = pblock;
             mapNewBlock[pblock->GetHash()] = pblock;
             vNewBlockTemplate.push_back(std::move(newBlock));
         }

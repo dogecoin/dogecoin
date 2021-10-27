@@ -72,8 +72,7 @@ class CreateAuxBlockTest(BitcoinTestFramework):
     auxblock3 = self.nodes[0].createauxblock(dummy_addr2)
 
     # ... must give another block because the coinbase recipient differs  ...
-    # TODO: Need to cache per address on createauxblock for this to work
-    # assert auxblock3["hash"] != auxblock["hash"]
+    assert auxblock3["hash"] != auxblock["hash"]
 
     # ... but must have retained the same parameterization otherwise
     assert_equal(auxblock["coinbasevalue"], auxblock3["coinbasevalue"])
@@ -133,8 +132,10 @@ class CreateAuxBlockTest(BitcoinTestFramework):
     # check the mined block and transaction
     self.check_mined_block(auxblock, apow, dummy_p2pkh_addr, Decimal("500000"), txid)
 
-    # Mine to a p2sh address
+    # Mine to a p2sh address while having multiple cached aux block templates
+    auxblock1 = self.nodes[0].createauxblock(dummy_p2pkh_addr)
     auxblock2 = self.nodes[0].createauxblock(dummy_p2sh_addr)
+    auxblock3 = self.nodes[0].createauxblock(dummy_addr2)
     reversedTarget = auxpow.reverseHex(auxblock2["target"])
     apow = auxpow.computeAuxpowWithChainId(auxblock2["hash"], reversedTarget, "98", True)
     res = self.nodes[0].submitauxblock(auxblock2["hash"], apow)
@@ -144,6 +145,30 @@ class CreateAuxBlockTest(BitcoinTestFramework):
 
     # check the mined block
     self.check_mined_block(auxblock2, apow, dummy_p2sh_addr, Decimal("500000"))
+
+    # Solve the first p2pkh template before requesting a new auxblock
+    # this succeeds but creates a chaintip fork
+    reversedTarget = auxpow.reverseHex(auxblock1["target"])
+    apow = auxpow.computeAuxpowWithChainId(auxblock1["hash"], reversedTarget, "98", True)
+    res = self.nodes[0].submitauxblock(auxblock1["hash"], apow)
+    assert res
+
+    chaintips = self.nodes[0].getchaintips()
+    tipsFound = 0;
+    for ct in chaintips:
+      if ct["hash"] in [ auxblock1["hash"], auxblock2["hash"] ]:
+        tipsFound += 1
+    assert_equal(tipsFound, 2)
+
+    # Solve the last p2pkh template after requesting a new auxblock - this fails
+    self.nodes[0].createauxblock(dummy_p2pkh_addr)
+    reversedTarget = auxpow.reverseHex(auxblock3["target"])
+    apow = auxpow.computeAuxpowWithChainId(auxblock3["hash"], reversedTarget, "98", True)
+    try:
+      self.nodes[0].submitauxblock(auxblock3["hash"], apow)
+      raise AssertionError("Outdated blockhash accepted")
+    except JSONRPCException as exc:
+      assert_equal(exc.error["code"], -8)
 
   def check_mined_block(self, auxblock, apow, addr, min_value, txid=None):
     # Call getblock and verify the auxpow field.
