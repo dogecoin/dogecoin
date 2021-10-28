@@ -59,6 +59,12 @@ class DustLimitTest(BitcoinTestFramework):
 
     def run_test(self):
 
+        # make sure the dust limits got configured
+        self.check_dust_config(self.nodes[0], Decimal("1.0"), Decimal("0.0"))
+        self.check_dust_config(self.nodes[1], Decimal("1.0"), Decimal("1.0"))
+        self.check_dust_config(self.nodes[2], Decimal("0.01"), Decimal("0.001"))
+        self.check_dust_config(self.nodes[3], Decimal("0.0"), Decimal("0.0"))
+
         # set up 10 seeded addresses for node 0-2
         addrs = []
         for i in range(3):
@@ -161,6 +167,11 @@ class DustLimitTest(BitcoinTestFramework):
     def get_dust_rejection(self, n, dust, fee):
         rawtx = self.create_dusty_tx(n, dust, fee)
         assert_raises_jsonrpc(-26, "dust", n.sendrawtransaction, rawtx['hex'])
+
+    def check_dust_config(self, n, soft, hard):
+        networkinfo = n.getnetworkinfo()
+        assert_equal(networkinfo["softdustlimit"], soft)
+        assert_equal(networkinfo["harddustlimit"], hard)
 
 if __name__ == '__main__':
     DustLimitTest().main()

@@ -422,6 +422,8 @@ UniValue getnetworkinfo(const JSONRPCRequest& request)
             "  ],\n"
             "  \"relayfee\": x.xxxxxxxx,                (numeric) minimum relay fee for non-free transactions in " + CURRENCY_UNIT + "/kB\n"
             "  \"incrementalfee\": x.xxxxxxxx,          (numeric) minimum fee increment for mempool limiting or BIP 125 replacement in " + CURRENCY_UNIT + "/kB\n"
+            "  \"softdustlimit\": x.xxxxxxxx,           (numeric) minimum output value under which this value needs to be added to fee, in " + CURRENCY_UNIT + "\n"
+            "  \"harddustlimit\": x.xxxxxxxx,           (numeric) minimum output value under which the node will no longer relay, in " + CURRENCY_UNIT + "\n"
             "  \"localaddresses\": [                    (array) list of local addresses\n"
             "  {\n"
             "    \"address\": \"xxxx\",                 (string) network address\n"
@@ -453,6 +455,8 @@ UniValue getnetworkinfo(const JSONRPCRequest& request)
     obj.pushKV("networks",      GetNetworksInfo());
     obj.pushKV("relayfee",      ValueFromAmount(::minRelayTxFeeRate.GetFeePerK()));
     obj.pushKV("incrementalfee", ValueFromAmount(::incrementalRelayFee.GetFeePerK()));
+    obj.pushKV("softdustlimit",  ValueFromAmount(nDustLimit));
+    obj.pushKV("harddustlimit",  ValueFromAmount(nHardDustLimit));
     UniValue localAddresses(UniValue::VARR);
     {
         LOCK(cs_mapLocalHost);
