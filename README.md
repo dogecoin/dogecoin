@@ -19,7 +19,7 @@ Dogecoin is a community-driven cryptocurrency that was inspired by a Shiba Inu m
 
 ## Dogecoin Policy 📜
 
-Current blockchain consensus of the Dogecoin network. Such fees and such speed !
+Current blockchain consensus of the Dogecoin network. Such fees, such speed !
 
 | Parameter       | Value     |
 | :-------------- | ---------:|
