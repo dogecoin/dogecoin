@@ -13,6 +13,14 @@ AC_CONFIG_SRCDIR([src/validation.cpp])
 AC_CONFIG_HEADERS([src/config/bitcoin-config.h])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([build-aux/m4])
+dnl Magnet link for the bootstrap.dat file. The torrent file can be downloaded
+dnl here:
+dnl https://dogecoin.gg/bootstrap
+dnl And can be converted to a magnet link here:
+dnl https://nutbread.github.io/t2m/
+AC_DEFINE([BOOTSTRAP_MAGNET],
+  ["magnet:?xt=urn:btih:DCNFN7O2NPUGBDPTYYVRSFNQDANM7BDO&dn=dogecoin-bootstrap-2021-05-09&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80"],
+  [Magnet link for the bootstrap torrent file])
 
 BITCOIN_DAEMON_NAME=dogecoind
 BITCOIN_GUI_NAME=dogecoin-qt
@@ -176,6 +184,12 @@ AC_ARG_ENABLE([zmq],
   [disable ZMQ notifications])],
   [use_zmq=$enableval],
   [use_zmq=yes])
+
+AC_ARG_ENABLE([libtorrent],
+  [AS_HELP_STRING([--disable-libtorrent],
+  [disable libtorrent for bootstrap])],
+  [use_libtorrent=$enableval],
+  [use_libtorrent=yes])
 
 AC_ARG_WITH([protoc-bindir],[AS_HELP_STRING([--with-protoc-bindir=BIN_DIR],[specify protoc bin path])], [protoc_bin_path=$withval], [])
 
@@ -861,6 +875,36 @@ else
   fi
 fi
 
+if test "x$use_libtorrent" = "xyes"; then
+   AC_CHECK_HEADER([libtorrent/version.hpp],
+     [AC_DEFINE([ENABLE_LIBTORRENT],[1],[Define to 1 to enable libtorrent functions])],
+     [AC_MSG_WARN([libtorrent/version.hpp not found, disabling libtorrent support])
+      use_libtorrent=no
+      AC_DEFINE([ENABLE_LIBTORRENT],[0],[Define to 1 to enable libtorrent functions])])
+   AC_LANG_PUSH([C++])
+
+   dnl We must check both libtorrent and libtorrent-rasterbar
+   AX_CXX_CHECK_LIB(torrent,[libtorrent::torrent_status],
+     [LIBTORRENT_LIBS=-ltorrent],
+     [AX_CXX_CHECK_LIB(torrent-rasterbar,[libtorrent::torrent_status],
+      [LIBTORRENT_LIBS=-ltorrent-rasterbar],
+      [AC_MSG_WARN([libtorrent not found, disabling libtorrent support])
+       use_libtorrent=no
+       AC_DEFINE([ENABLE_LIBTORRENT],[0],[Define to 1 to enable libtorrent functions])])])
+else
+  AC_DEFINE_UNQUOTED([ENABLE_LIBTORRENT],[0],[Define to 1 to enable libtorrent functions])
+fi
+
+if test "x$use_libtorrent" = "xyes"; then
+  dnl Assume liblibtorrent was built for static linking
+  case $host in
+    *mingw*)
+      LIBTORRENT_CFLAGS="$LIBTORRENT_CFLAGS -DLIBTORRENT_STATIC"
+    ;;
+  esac
+fi
+
+
 save_CXXFLAGS="${CXXFLAGS}"
 CXXFLAGS="${CXXFLAGS} ${CRYPTO_CFLAGS} ${SSL_CFLAGS}"
 AC_CHECK_DECLS([EVP_MD_CTX_new],,,[AC_INCLUDES_DEFAULT
@@ -1034,6 +1078,8 @@ fi
 
 AM_CONDITIONAL([ENABLE_ZMQ], [test "x$use_zmq" = "xyes"])
 
+AM_CONDITIONAL([ENABLE_LIBTORRENT], [test "x$use_libtorrent" = "xyes"])
+
 AC_MSG_CHECKING([whether to build test_dogecoin])
 if test x$use_tests = xyes; then
   AC_MSG_RESULT([yes])
@@ -1112,6 +1158,7 @@ AC_SUBST(SSL_LIBS)
 AC_SUBST(EVENT_LIBS)
 AC_SUBST(EVENT_PTHREADS_LIBS)
 AC_SUBST(ZMQ_LIBS)
+AC_SUBST(LIBTORRENT_LIBS)
 AC_SUBST(PROTOBUF_LIBS)
 AC_SUBST(QR_LIBS)
 AC_CONFIG_FILES([Makefile src/Makefile doc/man/Makefile share/setup.nsi share/qt/Info.plist src/test/buildenv.py])
@@ -1172,26 +1219,27 @@ esac
 
 echo 
 echo "Options used to compile and link:"
-echo "  with wallet   = $enable_wallet"
-echo "  with gui / qt = $bitcoin_enable_qt"
+echo "  with wallet     = $enable_wallet"
+echo "  with gui / qt   = $bitcoin_enable_qt"
 if test x$bitcoin_enable_qt != xno; then
-    echo "    qt version  = $bitcoin_qt_got_major_vers"
-    echo "    with qr     = $use_qr"
+    echo "    qt version    = $bitcoin_qt_got_major_vers"
+    echo "    with qr       = $use_qr"
 fi
-echo "  with zmq      = $use_zmq"
-echo "  with test     = $use_tests"
-echo "  with bench    = $use_bench"
-echo "  with upnp     = $use_upnp"
-echo "  debug enabled = $enable_debug"
-echo "  werror        = $enable_werror"
+echo "  with zmq        = $use_zmq"
+echo "  with libtorrent = $use_libtorrent"
+echo "  with test       = $use_tests"
+echo "  with bench      = $use_bench"
+echo "  with upnp       = $use_upnp"
+echo "  debug enabled   = $enable_debug"
+echo "  werror          = $enable_werror"
 echo 
-echo "  target os     = $TARGET_OS"
-echo "  build os      = $BUILD_OS"
+echo "  target os       = $TARGET_OS"
+echo "  build os        = $BUILD_OS"
 echo
-echo "  CC            = $CC"
-echo "  CFLAGS        = $CFLAGS"
-echo "  CPPFLAGS      = $CPPFLAGS"
-echo "  CXX           = $CXX"
-echo "  CXXFLAGS      = $CXXFLAGS"
-echo "  LDFLAGS       = $LDFLAGS"
+echo "  CC              = $CC"
+echo "  CFLAGS          = $CFLAGS"
+echo "  CPPFLAGS        = $CPPFLAGS"
+echo "  CXX             = $CXX"
+echo "  CXXFLAGS        = $CXXFLAGS"
+echo "  LDFLAGS         = $LDFLAGS"
 echo 
