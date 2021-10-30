@@ -49,7 +49,6 @@ UniValue GetNetworkHashPS(int lookup, int height) {
     // If lookup is -1, then use blocks since last difficulty change.
     if (lookup <= 0)
         lookup = pb->nHeight % Params().GetConsensus(pb->nHeight).DifficultyAdjustmentInterval() + 1;
-    // 
 
     // If lookup is larger than chain, then set it to chain length.
     if (lookup > pb->nHeight)
@@ -244,7 +243,7 @@ UniValue generatetoaddress(const JSONRPCRequest& request)
     CBitcoinAddress address(request.params[1].get_str());
     if (!address.IsValid())
         throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Error: Invalid address");
-    
+
     boost::shared_ptr<CReserveScript> coinbaseScript(new CReserveScript());
     coinbaseScript->reserveScript = GetScriptForDestination(address.Get());
 
@@ -1166,38 +1165,38 @@ UniValue getauxblockbip22(const JSONRPCRequest& request)
         // Dogecoin: Never mine witness tx
         const bool fMineWitnessTx = false;
         {
-        LOCK(cs_main);
-        if (pindexPrev != chainActive.Tip()
-            || (mempool.GetTransactionsUpdated() != nTransactionsUpdatedLast
-                && GetTime() - nStart > 60))
-        {
-            if (pindexPrev != chainActive.Tip())
+            LOCK(cs_main);
+            if (pindexPrev != chainActive.Tip()
+                || (mempool.GetTransactionsUpdated() != nTransactionsUpdatedLast
+                    && GetTime() - nStart > 60))
             {
-                // Clear old blocks since they're obsolete now.
-                mapNewBlock.clear();
-                vNewBlockTemplate.clear();
-                pblock = nullptr;
+                if (pindexPrev != chainActive.Tip())
+                {
+                    // Clear old blocks since they're obsolete now.
+                    mapNewBlock.clear();
+                    vNewBlockTemplate.clear();
+                    pblock = nullptr;
+                }
+
+                // Create new block with nonce = 0 and extraNonce = 1
+                std::unique_ptr<CBlockTemplate> newBlock(BlockAssembler(Params()).CreateNewBlock(coinbaseScript->reserveScript, fMineWitnessTx));
+                if (!newBlock)
+                    throw JSONRPCError(RPC_OUT_OF_MEMORY, "out of memory");
+
+                // Update state only when CreateNewBlock succeeded
+                nTransactionsUpdatedLast = mempool.GetTransactionsUpdated();
+                pindexPrev = chainActive.Tip();
+                nStart = GetTime();
+
+                // Finalise it by setting the version and building the merkle root
+                IncrementExtraNonce(&newBlock->block, pindexPrev, nExtraNonce);
+                newBlock->block.SetAuxpowFlag(true);
+
+                // Save
+                pblock = &newBlock->block;
+                mapNewBlock[pblock->GetHash()] = pblock;
+                vNewBlockTemplate.push_back(std::move(newBlock));
             }
-
-            // Create new block with nonce = 0 and extraNonce = 1
-            std::unique_ptr<CBlockTemplate> newBlock(BlockAssembler(Params()).CreateNewBlock(coinbaseScript->reserveScript, fMineWitnessTx));
-            if (!newBlock)
-                throw JSONRPCError(RPC_OUT_OF_MEMORY, "out of memory");
-
-            // Update state only when CreateNewBlock succeeded
-            nTransactionsUpdatedLast = mempool.GetTransactionsUpdated();
-            pindexPrev = chainActive.Tip();
-            nStart = GetTime();
-
-            // Finalise it by setting the version and building the merkle root
-            IncrementExtraNonce(&newBlock->block, pindexPrev, nExtraNonce);
-            newBlock->block.SetAuxpowFlag(true);
-
-            // Save
-            pblock = &newBlock->block;
-            mapNewBlock[pblock->GetHash()] = pblock;
-            vNewBlockTemplate.push_back(std::move(newBlock));
-        }
         }
 
         arith_uint256 target;
