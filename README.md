@@ -17,7 +17,7 @@ Dogecoin is a community-driven cryptocurrency that was inspired by a Shiba Inu m
 
 **Website:** [dogecoin.com](https://dogecoin.com)
 
-## Dogecoin Policy 🪙
+## Dogecoin Policy 📜
 
 Current blockchain consensus of the Dogecoin network.
 
