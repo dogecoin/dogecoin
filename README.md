@@ -17,6 +17,17 @@ Dogecoin is a community-driven cryptocurrency that was inspired by a Shiba Inu m
 
 **Website:** [dogecoin.com](https://dogecoin.com)
 
+## Dogecoin Policy 🪙
+
+Current blockchain consensus of the Dogecoin network.
+
+| Parameter       | Value     |
+| :-------------- | ---------:|
+| Transaction fee |   0.01 Ð  |
+| Minimum spend   |   0.01 Ð  |
+| Block time      | 1 minute  |
+| Block reward    | 10'000 Ð  |
+
 ## Installation 💻
 
 Please see [the installation guide](INSTALL.md) for information about installing
