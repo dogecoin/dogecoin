@@ -503,6 +503,7 @@ std::string HelpMessage(HelpMessageMode mode)
     if (showDebug) {
         strUsage += HelpMessageOpt("-rpcworkqueue=<n>", strprintf("Set the depth of the work queue to service RPC calls (default: %d)", DEFAULT_HTTP_WORKQUEUE));
         strUsage += HelpMessageOpt("-rpcservertimeout=<n>", strprintf("Timeout during HTTP requests (default: %d)", DEFAULT_HTTP_SERVER_TIMEOUT));
+        strUsage += HelpMessageOpt("-rpcnamecoinapi", strprintf(_("Use Namecoin-compatible AuxPow API structure, (default: %u)"), DEFAULT_USE_NAMECOIN_API));
     }
 
     return strUsage;
@@ -1061,6 +1062,9 @@ bool AppInitParameterInteraction()
     if (!CWallet::ParameterInteraction())
         return false;
 #endif
+
+    // Configure usage of the namecoin AuxPow API structure
+    fUseNamecoinApi = GetBoolArg("-rpcnamecoinapi", DEFAULT_USE_NAMECOIN_API);
 
     fIsBareMultisigStd = GetBoolArg("-permitbaremultisig", DEFAULT_PERMIT_BAREMULTISIG);
     fAcceptDatacarrier = GetBoolArg("-datacarrier", DEFAULT_ACCEPT_DATACARRIER);

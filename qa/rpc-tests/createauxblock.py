@@ -23,7 +23,7 @@ class CreateAuxBlockTest(BitcoinTestFramework):
   def setup_network(self):
       self.nodes = []
       self.nodes.append(start_node(0, self.options.tmpdir, ["-debug", "-txindex"]))
-      self.nodes.append(start_node(1, self.options.tmpdir, ["-debug"]))
+      self.nodes.append(start_node(1, self.options.tmpdir, ["-debug", "-rpcnamecoinapi"]))
       connect_nodes_bi(self.nodes, 0, 1)
       self.sync_all()
 
@@ -169,6 +169,25 @@ class CreateAuxBlockTest(BitcoinTestFramework):
       raise AssertionError("Outdated blockhash accepted")
     except JSONRPCException as exc:
       assert_equal(exc.error["code"], -8)
+
+    self.sync_all()
+
+    # Call createauxblock while using the Namecoin API
+    nmc_api_auxblock = self.nodes[1].createauxblock(dummy_p2pkh_addr)
+
+    # must not contain a "target" field, but a "_target" field
+    assert "target" not in nmc_api_auxblock
+    assert "_target" in nmc_api_auxblock
+
+    reversedTarget = auxpow.reverseHex(nmc_api_auxblock["_target"])
+    apow = auxpow.computeAuxpowWithChainId(nmc_api_auxblock["hash"], reversedTarget, "98", True)
+    res = self.nodes[1].submitauxblock(nmc_api_auxblock["hash"], apow)
+    assert res
+
+    self.sync_all()
+
+    # check the mined block
+    self.check_mined_block(nmc_api_auxblock, apow, dummy_p2pkh_addr, Decimal("500000"))
 
   def check_mined_block(self, auxblock, apow, addr, min_value, txid=None):
     # Call getblock and verify the auxpow field.
