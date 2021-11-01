@@ -8,12 +8,19 @@
 
 #include <string.h>
 
+#if (defined(__ia64__) || defined(__x86_64__)) && \
+    (defined(__linux__) && !defined(__APPLE__)) && \
+    (defined(USE_AVX2))
+#include <intel-ipsec-mb.h>
+#endif
+
 // Internal implementation code.
 namespace
 {
 /// Internal SHA-256 implementation.
 namespace sha256
 {
+#ifndef USE_AVX2
 uint32_t inline Ch(uint32_t x, uint32_t y, uint32_t z) { return z ^ (x & (y ^ z)); }
 uint32_t inline Maj(uint32_t x, uint32_t y, uint32_t z) { return (x & y) | (z & (x | y)); }
 uint32_t inline Sigma0(uint32_t x) { return (x >> 2 | x << 30) ^ (x >> 13 | x << 19) ^ (x >> 22 | x << 10); }
@@ -29,6 +36,7 @@ void inline Round(uint32_t a, uint32_t b, uint32_t c, uint32_t& d, uint32_t e, u
     d += t1;
     h = t1 + t2;
 }
+#endif
 
 /** Initialize SHA-256 state. */
 void inline Initialize(uint32_t* s)
@@ -46,6 +54,11 @@ void inline Initialize(uint32_t* s)
 /** Perform one SHA-256 transformation, processing a 64-byte chunk. */
 void Transform(uint32_t* s, const unsigned char* chunk)
 {
+#ifdef USE_AVX2
+    // Perform SHA256 one block (Intel AVX2)
+    sha256_one_block_avx2(chunk, s);
+#else
+    // Perform SHA256 one block (legacy)
     uint32_t a = s[0], b = s[1], c = s[2], d = s[3], e = s[4], f = s[5], g = s[6], h = s[7];
     uint32_t w0, w1, w2, w3, w4, w5, w6, w7, w8, w9, w10, w11, w12, w13, w14, w15;
 
@@ -125,6 +138,7 @@ void Transform(uint32_t* s, const unsigned char* chunk)
     s[5] += f;
     s[6] += g;
     s[7] += h;
+#endif
 }
 
 } // namespace sha256

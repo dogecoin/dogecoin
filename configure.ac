@@ -177,6 +177,12 @@ AC_ARG_ENABLE([zmq],
   [use_zmq=$enableval],
   [use_zmq=yes])
 
+AC_ARG_WITH([intel-avx2],
+  [AS_HELP_STRING([--with-intel-avx2],
+  [Build with intel avx2 (default is no)])],
+  [intel_avx2=$withval],
+  [intel_avx2=no])
+
 AC_ARG_WITH([protoc-bindir],[AS_HELP_STRING([--with-protoc-bindir=BIN_DIR],[specify protoc bin path])], [protoc_bin_path=$withval], [])
 
 AC_ARG_ENABLE(man,
@@ -785,6 +791,16 @@ if test x$boost_sleep != xyes; then
   AC_MSG_ERROR(No working boost sleep implementation found.)
 fi
 
+fi
+
+if test x$intel_avx2 = xyes; then
+  case $host in
+     x86_64-*-linux*)
+    AC_CHECK_LIB([IPSec_MB],[sha1_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
+    AC_CHECK_LIB([IPSec_MB],[sha256_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
+    AC_CHECK_LIB([IPSec_MB],[sha512_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
+    AC_DEFINE(USE_AVX2, 1, [Define this symbol if intel axv2 works])
+esac
 fi
 
 if test x$use_pkgconfig = xyes; then

@@ -36,6 +36,7 @@ jobs:
           - x86_64-linux-nowallet
           - x86_64-macos
           - x86_64-win
+          - x86_64-linux-experimental
         include:
           - name: i686-linux
             host: i686-pc-linux-gnu
@@ -128,6 +129,14 @@ jobs:
             config-opts: "--enable-gui=qt5 --disable-tests"
             goal: deploy
             sdk: 10.11
+          - name: x86_64-linux-experimental
+            host: x86_64-unknown-linux-gnu
+            os: ubuntu-20.04
+            packages: bc python3-zmq
+            run-tests: true
+            dep-opts: "AVX2=1"
+            config-opts: "--with-intel-avx2 --enable-gui=qt5 --enable-zmq --enable-glibc-back-compat --enable-reduce-exports"
+            goal: install
 
     runs-on: ${{ matrix.os }}
 

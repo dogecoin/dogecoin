@@ -14,6 +14,9 @@ wallet_packages=bdb
 
 upnp_packages=miniupnpc
 
+avx2_native_packages:=native_nasm
+avx2_x86_64_linux_packages:=intel-ipsec-mb
+
 darwin_native_packages = native_biplist native_ds_store native_mac_alias
 
 ifneq ($(build_os),darwin)
