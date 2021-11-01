@@ -16,6 +16,9 @@ QT_TRANSLATE_NOOP("bitcoin-core", ""
 "(1 = keep tx meta data e.g. account owner and payment request information, 2 "
 "= drop tx meta data)"),
 QT_TRANSLATE_NOOP("bitcoin-core", ""
+"-discardthreshold is set very high! This is the output amount that the "
+"wallet will discard (to fee) if it is smaller than this setting."),
+QT_TRANSLATE_NOOP("bitcoin-core", ""
 "-maxtxfee is set very high! Fees this large could be paid on a single "
 "transaction."),
 QT_TRANSLATE_NOOP("bitcoin-core", ""
@@ -34,6 +37,9 @@ QT_TRANSLATE_NOOP("bitcoin-core", ""
 QT_TRANSLATE_NOOP("bitcoin-core", ""
 "Amount under which a transaction output is considered dust, in %s (default: "
 "%s)"),
+QT_TRANSLATE_NOOP("bitcoin-core", ""
+"Amount under which a transaction output is considered non-standard and will "
+"not be accepted or relayed, in %s (default: %s)"),
 QT_TRANSLATE_NOOP("bitcoin-core", ""
 "Bind to given address and always listen on it. Use [host]:port notation for "
 "IPv6"),
@@ -106,6 +112,9 @@ QT_TRANSLATE_NOOP("bitcoin-core", ""
 "potentially skip their script verification (0 to verify all, default: %s, "
 "testnet: %s)"),
 QT_TRANSLATE_NOOP("bitcoin-core", ""
+"Invalid amount for -discardthreshold=<amount>: '%s' (must be at least the "
+"dust limit of %s to prevent stuck transactions)"),
+QT_TRANSLATE_NOOP("bitcoin-core", ""
 "Invalid amount for -maxtxfee=<amount>: '%s' (must be at least the minrelay "
 "fee of %s to prevent stuck transactions)"),
 QT_TRANSLATE_NOOP("bitcoin-core", ""
@@ -172,6 +181,9 @@ QT_TRANSLATE_NOOP("bitcoin-core", ""
 "This may be due to your computer's date and time being set incorrectly. Only "
 "rebuild the block database if you are sure that your computer's date and "
 "time are correct"),
+QT_TRANSLATE_NOOP("bitcoin-core", ""
+"The minimum transaction output size (in %s) used to validate wallet "
+"transactions and discard change (to fee) (default: %s)"),
 QT_TRANSLATE_NOOP("bitcoin-core", ""
 "The transaction amount is too small to send after the fee has been deducted"),
 QT_TRANSLATE_NOOP("bitcoin-core", ""
@@ -387,6 +399,7 @@ QT_TRANSLATE_NOOP("bitcoin-core", "Unsupported argument -benchmark ignored, use 
 QT_TRANSLATE_NOOP("bitcoin-core", "Unsupported argument -debugnet ignored, use -debug=net."),
 QT_TRANSLATE_NOOP("bitcoin-core", "Unsupported argument -tor found, use -onion."),
 QT_TRANSLATE_NOOP("bitcoin-core", "Upgrade wallet to latest format on startup"),
+QT_TRANSLATE_NOOP("bitcoin-core", "Use Namecoin-compatible AuxPow API structure, (default: %u)"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Use UPnP to map the listening port (default: %u)"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Use the test chain"),
 QT_TRANSLATE_NOOP("bitcoin-core", "User Agent comment (%s) contains unsafe characters."),

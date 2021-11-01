@@ -1689,10 +1689,6 @@ p, li { white-space: pre-wrap; }
         <translation>Richiesta di pagamento invalida</translation>
     </message>
     <message>
-        <source>Requested payment amount of %1 is too small (considered dust).</source>
-        <translation>L&apos;importo di pagamento di %1 richiesto è troppo basso (considerato come trascurabile).</translation>
-    </message>
-    <message>
         <source>Refund from %1</source>
         <translation>Rimborso da %1</translation>
     </message>
@@ -1718,6 +1714,10 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Network request error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Requested payment amount of %1 is too small (below discard threshold).</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4470,6 +4470,26 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Wow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>-discardthreshold is set very high! This is the output amount that the wallet will discard (to fee) if it is smaller than this setting.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Amount under which a transaction output is considered non-standard and will not be accepted or relayed, in %s (default: %s)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invalid amount for -discardthreshold=&lt;amount&gt;: &apos;%s&apos; (must be at least the dust limit of %s to prevent stuck transactions)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The minimum transaction output size (in %s) used to validate wallet transactions and discard change (to fee) (default: %s)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use Namecoin-compatible AuxPow API structure, (default: %u)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

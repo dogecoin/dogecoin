@@ -1677,12 +1677,12 @@
     </message>
     <message>
         <location line="+62"/>
-        <location line="+405"/>
+        <location line="+428"/>
         <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Dogecoin network after a connection is established, but this process has not completed yet.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-158"/>
+        <location line="-181"/>
         <source>Watch-only:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1742,7 +1742,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+68"/>
+        <location line="+91"/>
         <source>Recent transactions</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1757,7 +1757,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-444"/>
+        <location line="-467"/>
         <source>Unconfirmed transactions to watch-only addresses</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1772,7 +1772,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../overviewpage.cpp" line="+152"/>
+        <location filename="../overviewpage.cpp" line="+156"/>
         <source>Never share your wallet.dat file/your private key with anyone</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2132,7 +2132,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location line="-10"/>
-        <source>Requested payment amount of %1 is too small (considered dust).</source>
+        <source>Requested payment amount of %1 is too small (below discard threshold).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2246,12 +2246,12 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">Amount</translation>
     </message>
     <message>
-        <location filename="../guiutil.cpp" line="+132"/>
+        <location filename="../guiutil.cpp" line="+136"/>
         <source>Enter a Dogecoin address (e.g. %1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+779"/>
+        <location line="+781"/>
         <source>%1 d</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4487,7 +4487,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+6"/>
         <source>-maxtxfee is set very high! Fees this large could be paid on a single transaction.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4517,7 +4517,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+6"/>
         <source>Bind to given address and always listen on it. Use [host]:port notation for IPv6</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4637,7 +4637,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+7"/>
         <source>Invalid amount for -maxtxfee=&lt;amount&gt;: &apos;%s&apos; (must be at least the minrelay fee of %s to prevent stuck transactions)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4742,7 +4742,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+8"/>
         <source>The transaction amount is too small to send after the fee has been deducted</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4757,12 +4757,32 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-99"/>
+        <location line="-105"/>
         <source>Execute command when the best block changes (%s in cmd is replaced by block hash, %i is replaced by block number)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+101"/>
+        <location line="-69"/>
+        <source>-discardthreshold is set very high! This is the output amount that the wallet will discard (to fee) if it is smaller than this setting.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Amount under which a transaction output is considered non-standard and will not be accepted or relayed, in %s (default: %s)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+74"/>
+        <source>Invalid amount for -discardthreshold=&lt;amount&gt;: &apos;%s&apos; (must be at least the dust limit of %s to prevent stuck transactions)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+70"/>
+        <source>The minimum transaction output size (in %s) used to validate wallet transactions and discard change (to fee) (default: %s)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
         <source>This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit %s and cryptographic software written by Eric Young and UPnP software written by Thomas Bernard. Paper wallet art provided by Anacoluthia.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5589,6 +5609,11 @@ p, li { white-space: pre-wrap; }
     <message>
         <location line="+1"/>
         <source>Upgrade wallet to latest format on startup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Use Namecoin-compatible AuxPow API structure, (default: %u)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
