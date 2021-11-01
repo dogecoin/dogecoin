@@ -968,6 +968,8 @@ UniValue estimatesmartpriority(const JSONRPCRequest& request)
 /* ************************************************************************** */
 /* Merge mining.  */
 
+bool fUseNamecoinApi;
+
 /**
  * The variables below are used to keep track of created and not yet
  * submitted auxpow blocks.  Lock them to be sure even for multiple
@@ -1084,7 +1086,7 @@ static UniValue AuxMiningCreateBlock(const CScript& scriptPubKey)
     result.pushKV("coinbasevalue", (int64_t)pblock->vtx[0]->vout[0].nValue);
     result.pushKV("bits", strprintf("%08x", pblock->nBits));
     result.pushKV("height", static_cast<int64_t> (pindexPrev->nHeight + 1));
-    result.pushKV("target", HexStr(BEGIN(target), END(target)));
+    result.pushKV(fUseNamecoinApi ? "_target" : "target", HexStr(BEGIN(target), END(target)));
 
     return result;
 }
@@ -1141,8 +1143,12 @@ UniValue getauxblockbip22(const JSONRPCRequest& request)
             "  \"coinbasevalue\"      (numeric) value of the block's coinbase\n"
             "  \"bits\"               (string) compressed target of the block\n"
             "  \"height\"             (numeric) height of the block\n"
-            "  \"target\"             (string) target in reversed byte order\n"
-            "}\n"
+            + (std::string) (
+              fUseNamecoinApi
+              ? "  \"_target\"            (string) target in reversed byte order\n"
+              : "  \"target\"             (string) target in reversed byte order\n"
+            )
+            + "}\n"
             "\nResult (with arguments):\n"
             "xxxxx        (boolean) whether the submitted block was correct\n"
             "\nExamples:\n"
@@ -1225,7 +1231,7 @@ UniValue getauxblockbip22(const JSONRPCRequest& request)
         result.pushKV("coinbasevalue", (int64_t)pblock->vtx[0]->vout[0].nValue);
         result.pushKV("bits", strprintf("%08x", pblock->nBits));
         result.pushKV("height", static_cast<int64_t> (pindexPrev->nHeight + 1));
-        result.pushKV("target", HexStr(BEGIN(target), END(target)));
+        result.pushKV(fUseNamecoinApi ? "_target" : "target", HexStr(BEGIN(target), END(target)));
 
         return result;
     }
@@ -1279,8 +1285,12 @@ UniValue createauxblock(const JSONRPCRequest& request)
             "  \"coinbasevalue\"      (numeric) value of the block's coinbase\n"
             "  \"bits\"               (string) compressed target of the block\n"
             "  \"height\"             (numeric) height of the block\n"
-            "  \"target\"             (string) target in reversed byte order\n"
-            "}\n"
+            + (std::string) (
+              fUseNamecoinApi
+              ? "  \"_target\"            (string) target in reversed byte order\n"
+              : "  \"target\"             (string) target in reversed byte order\n"
+            )
+            + "}\n"
             "\nExamples:\n"
             + HelpExampleCli("createauxblock", "\"address\"")
             + HelpExampleRpc("createauxblock", "\"address\"")
