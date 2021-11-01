@@ -26,147 +26,64 @@ frequently tested on them.
 Notable changes
 ===============
 
-Enabling Future Fee Reductions
--------------------------------
+Fee Reductions
+--------------
 
-This release preparing the network for a reduction of the recommended fees by
-reducing the default fee requirement 1000x for transaction relay and 100x for
-mining. At the same time it increases freedom for miner, wallet and node
-operators to agree on fees regardless of defaults coded into the Dogecoin Core
-software by solidifying fine-grained controls for operators to deviate from
-built-in defaults.
+This release reduces the recommended fees, following reduction of the required fees
+in 1.14.4. The main highlights for the revised fee schedule are:
 
-This realizes the first part of a two-stage update to lower the fee
-recommendation.
+* The user interface for selecting fees when sending Dogecoins has been updated to
+  give an idea of how much is being spent, rather than a block target. As Dogecoin
+  blocks are not full, typically all transactions are mined in the next block, and
+  therefore the target estimation does not makes sense for Dogecoin.
+* Transaction sizes are no longer rounded up to the nearest kilobyte before
+  calculating fees, which significantly simplifies fee calculation logic. It is anticipated
+  this will also simplify fee calculation by third party wallets which typically use
+  Bitcoin-like fee calculation.
+* The default transaction fee is now 0.001 DOGE per kilobyte, although note you may see
+  transactions take 2-3 blocks to be confirmed while using low fees, until miners update.
 
-The main highlights for these enhancements are:
+BDB Updated to 5.3
+------------------
 
-* Transaction sizes are no longer rounded up to the nearest kilobyte when
-  deciding if a transaction can be accepted from another node and in applying
-  fee-filter requests from peers, when relaying transactions.
-* The default setting shipped with dogecoin core for relay fee has been reduced
-  to 0.001 DOGE (was: 1 DOGE). This can be changed by operators using the
-  `-mintxrelayfee=<amount>` option.
-* Spam management has been delegated to miners, where currently a default fee
-  of 0.01 DOGE has been set as a recommended default, to prevent spam on the
-  blockchain. Miners can change this setting to their liking using the
-  `-blockmintxfee` option.
-* The relay dust limit has been reduced 100x to 0.01 DOGE and is now
-  configurable via the `-dustlimit` option.
+The Berkley DB version used by Dogecoin Core has been updated to 5.3 (from 5.1) as 5.3 is now
+standard on many Linux distributions. In testing 5.1 and 5.3 files appear readily interchangeable,
+although we would recommend not attempting to open wallets from Dogecoin Core 1.14.5 in previous
+versions of Dogecoin Core, as a precaution.
 
-For this release, the recommended fees and dust limits, as implemented in the
-wallet, remain at 1 DOGE per kilobyte, inclusive of the rounding up to the
-nearest kilobyte, as miners and the relay network will upgrade gradually,
-requiring time for transactions with lower fees to be able to be relayed and
-mined. Not doing this would result in all transactions being rejected by old
-nodes. A subsequent release will finalize the second stage and lower the
-recommended fees implemented in the wallet by default. Wallet operators can
-however, at their own judgement and convenience, change the fees paid from
-their wallets with the `-paytxfee=<amount per kb>` option.
+Key Derivation
+--------------
 
-Synchronization Improvements
-----------------------------
+The BIP32 hierarchical deterministic key derivation path contained the wrong chain ID.
+Previously the chain ID 0 was used, it's now correctly set to 3 as per
+[SLIP44](https://github.com/satoshilabs/slips/blob/master/slip-0044.md).
 
-This release removes a bug in the network layer where a 1.14 node would open
-many parallel requests for headers to its peers, increasing the total data
-transferred during initial block download up to 50 times the required data, per
-peer, unnecessarily. As a result, synchronization has time has been reduced by
-around 2.5 times.
-
-Additionally, when a node is in initial synchronization and a peer takes too
-long to respond to a new header request, it is now aggressively disconnected,
-to free connection slots for faster peers and not add more stress to already
-overloaded peers.
-
-Security enhancements
----------------------
-
-* Proactively disconnect peers sending block headers which would build on an
-  invalid chain.
-* Improve handling and logging of invalid blocks and their descendants
-* Fix a bug that was preventing nodes to load a fixed peer list in case DNS
-  services are unreachable.
-
-GUI Improvements
-----------------
-
-* Add menu option to import a private key, "Import Private Key" from the "File"
-  menu.
-* Improve displayed result when commands in the debug console return null.
-* Fix text overflow on printed keys and address fields in the paper wallet
-  generator.
-* Add column to peers table showing bytes sent/received, accessible via
-  "Debug Window" from the "Help" menu.
-* Add GUI for adding peers manually, accessible from the peers table of the
-  Debug Window.
-
-RPC Improvements
-----------------
-
-`getpeerinfo` now includes `feefilter` value for each peer, to be able to diagnose transaction relay issues.
+This has a relatively minimal impact currently, however in future versions where expect more use
+of hierarchical deterministic keys, this is important to define consistently. In particular
+it is important that the key derivation paths used by Dogecoin Core and hardware wallets
+are consistent, so that extended keys from one can be used with the other. This will also simplify
+future compatibility with projects such as HWI, which could enable Dogecoin Core to use hardware
+wallets.
 
 Minor Changes
 =============
 
-* Corrections to French Canadian, Chinese, German, Indonesian, Korean, Polish and Portuguese translations.
-* Correct a bug that resulted in negative progress per hour being displayed during sync.
-* Regtest network can now generate AuxPoW blocks.
-* Add Snap packaging support.
-* Modify Scrypt code so it's compatible with Alpine Linux's musl library.
-* Update libevent to 2.1.11
-* Update ZMQ to 4.3.4
-* Add build instructions for NixOS.
-* Fix a rare crash bug on shutdown due to ActivateBestChain() being called when there is no best chain.
-* Fix port numbers in `contrib/seeds/generate-seeds.py`.
+* Fix compilation on FreeBSD, which was failing to compile the Scrypt code.
+* Refresh FreeBSD docs, see `doc/build-freebsd.md`.
+* Update to OpenSSL 1.0.2u.
+* Refresh translation files to simplify volunteer contributions to translations.
 
 Credits
 =======
 
 * AbcSxyZ
-* Ahmed Castro
-* Alan Rudolf
+* Carl Dong
 * cg
-* chey
 * chromatic
-* Cory Fields
-* creekhu
-* Dakoda Greaves
-* David Millard
-* Demon
-* Dídac Coll Pujals
-* Escanor Liones
-* fanquake
-* Florian Schade
-* fmhc
-* Gabriel Gosselin Roberge
-* Gabriel Pérez
-* geekwisdom
-* Ikko Ashimine
-* Jeroen Ooms
-* Jerry Park
-* Joakim Taule Kartveit
-* katzenmalen
-* Khakim Hudaya
-* kregerl
-* lee5378
-* lynklody
-* Malta Micael
-* Matheus Tavares
-* Matt Domko
-* Maximilian Keller
-* MD Islam
-* Mich De L'Orme
-* Michi Lumin
-* motz0815
-* nformant
+* Daksh Sharma
+* Dan Raviv
+* Ed Tubbs
+* Elvis Begovi
+* Micael Malta
 * Patrick Lodder
-* Piotr Zajączkowski
-* p-j01
-* rht
 * Ross Nicoll
-* sabotagebeats
-* Shafil Alam
-* stefanwouldgo
-* Will
-* xt3r
-* Zach Latta
