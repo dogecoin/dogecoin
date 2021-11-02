@@ -132,7 +132,7 @@ jobs:
             sdk: 10.11
           - name: x86_64-linux-experimental
             host: x86_64-unknown-linux-gnu
-            os: ubuntu-20.04
+            os: ubuntu-18.04
             packages: bc python3-zmq
             run-tests: true
             dep-opts: "AVX2=1"
