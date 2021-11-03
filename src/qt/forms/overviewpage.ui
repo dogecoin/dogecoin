@@ -446,7 +446,6 @@
                <string></string>
               </property>
               <property name="pixmap">
-                <pixmap/>
               </property>
               <property name="scaledContents">
                <bool>false</bool>
