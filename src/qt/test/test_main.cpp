@@ -33,6 +33,9 @@ Q_IMPORT_PLUGIN(qkrcodecs)
 
 extern void noui_connect();
 
+static int qt_argc = 1;
+static const char* qt_argv = "dogecoin-qt";
+
 // This is all you need to run all the tests
 int main(int argc, char *argv[])
 {
@@ -46,7 +49,7 @@ int main(int argc, char *argv[])
 
     // Don't remove this, it's needed to access
     // QCoreApplication:: in the tests
-    QCoreApplication app(argc, argv);
+    QCoreApplication app(qt_argc, const_cast<char **>(&qt_argv));
     app.setApplicationName("Bitcoin-Qt-test");
 
     SSL_library_init();
