@@ -72,14 +72,14 @@ You can list wallet addresses using `getaddressesbyaccount`:
 ```console
 shibetoshi:~$ dogecoin-cli getaddressesbyaccount ""
 [
-  "DBZc6qeBuo7g8La7L3Lhaf39MsJSgbzpMX"
+  "DA2fBazU8Y4epNJ2fQRZCcWpxKZY9HrhLN"
 ]
 ```
 
 Using `getnewaddress` will generate a new wallet address:
 ```console
 shibetoshi:~$ dogecoin-cli getnewaddress
-DC13A8qUgAu5rTWweb44TwXZNQbxDYhyo2
+DNnGtXk9khadE7EKCmQzxjnehenX92PKAv
 ```
 
 Private keys are stored in the `wallet.dat` file. You can use `backupwallet` to save a copy:
