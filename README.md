@@ -24,7 +24,7 @@ Current blockchain consensus of the Dogecoin network. Such fees, such speed !
 | Parameter       | Value     |
 | :-------------- | ---------:|
 | Transaction fee |   0.01 Ð/kb |
-| Minimum spend   |   0.01 Ð  |
+| Minimum output  |   1.02 Ð  |
 | Block time      | 1 minute  |
 | Block reward    | 10'000 Ð  |
 
