@@ -13,10 +13,10 @@ on:
     paths-ignore:
       - '**/*.md'
       - '**/*.txt'
-      - 'contrib'
-      - 'doc'
-      - 'share'
-      - 'qa'
+      - 'contrib/**'
+      - 'doc/**'
+      - 'share/**'
+      - 'qa/**'
 
 jobs:
   analyze:
