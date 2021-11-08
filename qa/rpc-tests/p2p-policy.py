@@ -37,6 +37,14 @@ class TestNode(NodeConnCB):
     def on_reject(self, conn, message):
         self.rejects.append(message)
 
+    # wait for a rejection message
+    def wait_for_reject(self, num_rejects=None):
+        if num_rejects is None:
+            num_rejects = len(self.rejects)
+        def reject_received():
+            return len(self.rejects) > num_rejects
+        return wait_until(reject_received, timeout=10)
+
     # wait for verack to make sure the node accepts our connection attempt
     def wait_for_verack(self):
         def veracked():
@@ -175,8 +183,8 @@ class P2PPolicyTests(BitcoinTestFramework):
             assert_equal(self.recvNode.wait_for_tx_inv(tx.hash), True)
             assert_equal(len(self.sendNode.rejects), num_rejects)
         else:
-            # test that there was a rejection received with the correct code
-            assert_greater_than(len(self.sendNode.rejects), num_rejects)
+            # wait until there was a rejection received with the correct code
+            assert_equal(self.sendNode.wait_for_reject(num_rejects), True)
             assert_equal(self.sendNode.rejects[-1].code, expected_reject_code)
 
         return tx
