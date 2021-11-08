@@ -21,6 +21,7 @@ jobs:
       CCACHE_TEMPDIR: /tmp/.ccache-temp
       CCACHE_COMPRESS: "1"
       PYTHON_DEBUG: "1"
+      CACHE_NONCE: "1"
       WINEDEBUG: fixme-all
       SDK_URL: https://bitcoincore.org/depends-sources/sdks
 
@@ -182,7 +183,7 @@ jobs:
           cache-name: depends
         with:
           path: ./depends/built
-          key: ${{ matrix.name }}-${{ env.cache-name }}-${{ hashFiles('depends/packages/*') }}
+          key: ${{ matrix.name }}-${{ env.cache-name }}-${{ hashFiles('depends/packages/*', '.github/workflows/ci.yml') }}
 
       - name: Build depends
         run: |
@@ -194,7 +195,7 @@ jobs:
           cache-name: ccache
         with:
           path: ~/.ccache
-          key: ${{ matrix.name }}-${{ env.cache-name }}-${{ hashFiles('**/configure.ac') }}
+          key: ${{ matrix.name }}-${{ env.cache-name }}-${{ hashFiles('**/configure.ac', '.github/workflows/ci.yml') }}
 
       - name: Build Dogecoin
         run: |
