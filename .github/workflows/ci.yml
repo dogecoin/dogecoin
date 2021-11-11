@@ -43,6 +43,7 @@ jobs:
             host: i686-pc-linux-gnu
             os: ubuntu-18.04
             packages: g++-multilib bc python3-zmq
+            run-bench: true
             run-tests: true
             check-security: true
             check-symbols: true
@@ -53,6 +54,7 @@ jobs:
             host: arm-linux-gnueabihf
             os: ubuntu-18.04
             packages: g++-arm-linux-gnueabihf
+            run-bench: false
             run-tests: false
             check-security: true
             check-symbols: false
@@ -63,6 +65,7 @@ jobs:
             host: aarch64-linux-gnu
             os: ubuntu-18.04
             packages: g++-aarch64-linux-gnu
+            run-bench: false
             run-tests: false
             check-security: true
             check-symbols: false
@@ -73,6 +76,7 @@ jobs:
             host: x86_64-unknown-linux-gnu
             os: ubuntu-18.04
             packages: python3
+            run-bench: true
             run-tests: true
             check-security: true
             check-symbols: true
@@ -83,6 +87,7 @@ jobs:
             host: x86_64-unknown-linux-gnu
             os: ubuntu-18.04
             packages: bc python3-zmq
+            run-bench: true
             run-tests: true
             check-security: true
             check-symbols: false
@@ -98,6 +103,7 @@ jobs:
               sudo update-alternatives --set i686-w64-mingw32-gcc /usr/bin/i686-w64-mingw32-gcc-posix
               sudo update-alternatives --set i686-w64-mingw32-g++  /usr/bin/i686-w64-mingw32-g++-posix
               sudo update-binfmts --import /usr/share/binfmts/wine
+            run-bench: false
             run-tests: true
             check-security: true
             check-symbols: false
@@ -113,6 +119,7 @@ jobs:
               sudo update-alternatives --set x86_64-w64-mingw32-gcc  /usr/bin/x86_64-w64-mingw32-gcc-posix
               sudo update-alternatives --set x86_64-w64-mingw32-g++  /usr/bin/x86_64-w64-mingw32-g++-posix
               sudo update-binfmts --import /usr/share/binfmts/wine
+            run-bench: false
             run-tests: true
             check-security: true
             check-symbols: false
@@ -123,6 +130,7 @@ jobs:
             host: x86_64-apple-darwin11
             os: ubuntu-18.04
             packages: cmake imagemagick libcap-dev librsvg2-bin libz-dev libtiff-tools libtinfo5 python3-setuptools xorriso libtinfo5
+            run-bench: false
             run-tests: false
             check-security: false
             check-symbols: false
@@ -134,6 +142,7 @@ jobs:
             host: x86_64-unknown-linux-gnu
             os: ubuntu-20.04
             packages: bc python3-zmq
+            run-bench: true
             run-tests: true
             dep-opts: "AVX2=1"
             config-opts: "--with-intel-avx2 --enable-gui=qt5 --enable-zmq --enable-glibc-back-compat --enable-reduce-exports"
@@ -204,6 +213,12 @@ jobs:
           ./configure --prefix=`pwd`/depends/${{ matrix.host }} ${{ matrix.config-opts }} --enable-reduce-exports || ( cat config.log && false)
           make $MAKEJOBS ${{ matrix.goal }} || ( echo "Build failure. Verbose build follows." && make ${{ matrix.goal }} V=1 ; false )
 
+      - name: Run benchmark
+        if: ${{ matrix.run-bench }}
+        run: |
+          src/bench/bench_dogecoin > ${{ matrix.name }}-bench.csv
+          cat ${{ matrix.name }}-bench.csv
+
       - name: Run tests
         if: ${{ matrix.run-tests }}
         run: |
@@ -226,3 +241,4 @@ jobs:
           path: |
             depends/${{ matrix.host }}/bin/dogecoin*
             dist/Dogecoin-Qt.app
+            ${{ matrix.name }}-bench.csv
