@@ -286,6 +286,8 @@ public:
 
     unsigned int GetReceiveFloodSize() const;
 
+    void SetMaxConnections(int newMaxConnections);
+
     void WakeMessageHandler();
 private:
     struct ListenSocket {
