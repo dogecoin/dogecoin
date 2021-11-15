@@ -142,8 +142,9 @@ class BlockchainTest(BitcoinTestFramework):
                         'period': 144,
                         'threshold': 108,
                         'elapsed': 57,
-                        'count': 57,
-                        'possible': True,
+                        # Dogecoin: BIP9 isn't compatible with AuxPoW, so these bits are never "seen"
+                        'count': 0,
+                        'possible': False,
                     },
                     'min_activation_height': 0,
                 },

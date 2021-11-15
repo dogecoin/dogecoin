@@ -96,7 +96,7 @@ class BIP66Test(BitcoinTestFramework):
         block.rehash()
         block.solve()
 
-        with self.nodes[0].assert_debug_log(expected_msgs=['{}, bad-version(0x00000002)'.format(block.hash)]):
+        with self.nodes[0].assert_debug_log(expected_msgs=['{}, bad-version(0x00620002)'.format(block.hash)]):
             peer.send_and_ping(msg_block(block))
             assert_equal(int(self.nodes[0].getbestblockhash(), 16), tip)
             peer.sync_with_ping()

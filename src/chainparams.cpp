@@ -361,7 +361,7 @@ public:
 
         consensus.nAuxpowChainId = 0x0062; // 98 - Josh Wise!
         consensus.fStrictChainId = true;
-        consensus.nAuxPowHeight = 0;
+        consensus.nAuxPowHeight = 20;
 
         // message start is defined as the first 4 bytes of the sha256d of the block script
         CHashWriter h(SER_DISK, 0);

@@ -243,7 +243,7 @@ class SegWitTest(BitcoinTestFramework):
         height = self.nodes[0].getblockcount() + 1
         block_time = self.nodes[0].getblockheader(tip)["mediantime"] + 1
         block = create_block(int(tip, 16), create_coinbase(height), block_time)
-        block.nVersion = version
+        block.set_base_version(version)
         block.rehash()
         return block
 
@@ -273,7 +273,9 @@ class SegWitTest(BitcoinTestFramework):
         self.segwit_active = False
 
         self.test_non_witness_transaction()
-        self.test_v0_outputs_arent_spendable()
+        # Dogecoin: Upstream Bitcoin backdated the script verification softfork,
+        # which we cannot do until segwit activates.
+        #self.test_v0_outputs_arent_spendable()
         self.test_block_relay()
         self.test_getblocktemplate_before_lockin()
         self.test_unnecessary_witness_before_segwit_activation()
@@ -370,7 +372,7 @@ class SegWitTest(BitcoinTestFramework):
         assert tx.sha256 != tx.calc_sha256(with_witness=True)
 
         # Construct a segwit-signaling block that includes the transaction.
-        block = self.build_next_block(version=(VB_TOP_BITS | (1 << VB_WITNESS_BIT)))
+        block = self.build_next_block()
         self.update_witness_block_with_transactions(block, [tx])
         # Sending witness data before activation is not allowed (anti-spam
         # rule).
@@ -412,11 +414,12 @@ class SegWitTest(BitcoinTestFramework):
         assert self.test_node.last_message["getdata"].inv[0].type == blocktype
         test_witness_block(self.nodes[0], self.test_node, block2, True)
 
-        block3 = self.build_next_block(version=(VB_TOP_BITS | (1 << 15)))
-        block3.solve()
-        self.test_node.announce_block_and_wait_for_getdata(block3, use_header=True)
-        assert self.test_node.last_message["getdata"].inv[0].type == blocktype
-        test_witness_block(self.nodes[0], self.test_node, block3, True)
+        # Dogecoin: Version bits interfere with AuxPoW, so this test can't be run.
+        # block3 = self.build_next_block(version=(VB_TOP_BITS | (1 << 15)))
+        # block3.solve()
+        # self.test_node.announce_block_and_wait_for_getdata(block3, use_header=True)
+        # assert self.test_node.last_message["getdata"].inv[0].type == blocktype
+        # test_witness_block(self.nodes[0], self.test_node, block3, True)
 
         # Check that we can getdata for witness blocks or regular blocks,
         # and the right thing happens.
