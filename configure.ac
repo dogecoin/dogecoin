@@ -189,11 +189,17 @@ AC_ARG_WITH([armv8-crypto],
   [armv8_crypto=$withval],
   [armv8_crypto=no])
 
-AC_ARG_WITH([armv82-crypto],
-  [AS_HELP_STRING([--with-armv82-crypto],
-  [Build with armv8.2 crypto sha512 (default is no)])],
-  [armv82_crypto=$withval],
-  [armv82_crypto=no])
+AC_ARG_WITH([armv82-crypto-cross],
+  [AS_HELP_STRING([--with-armv82-crypto-cross],
+  [Build with armv8.2 crypto sha512 cross (default is no)])],
+  [armv82_crypto_cross=$withval],
+  [armv82_crypto_cross=no])
+
+AC_ARG_WITH([armv82-crypto-native],
+  [AS_HELP_STRING([--with-armv82-crypto-native],
+  [Build with armv8.2 crypto sha512 native (default is no)])],
+  [armv82_crypto_native=$withval],
+  [armv82_crypto_native=no])
 
 AC_ARG_WITH([protoc-bindir],[AS_HELP_STRING([--with-protoc-bindir=BIN_DIR],[specify protoc bin path])], [protoc_bin_path=$withval], [])
 
@@ -822,8 +828,15 @@ if test x$armv8_crypto = xyes; then
   CXXFLAGS="$CXXFLAGS -march=armv8-a+crypto"
 fi
 
-if test x$armv82_crypto = xyes; then
-  AC_MSG_CHECKING([whether to build with armv8.2 crypto sha512])
+if test x$armv82_crypto_cross = xyes; then
+  AC_MSG_CHECKING([whether to build with armv8.2 crypto sha512 cross])
+  AC_MSG_RESULT(yes)
+  AC_DEFINE(USE_ARMV82, 1, [Define this symbol if armv8.2 crypto works])
+  CXXFLAGS="$CXXFLAGS -march=armv8-a+crypto"
+fi
+
+if test x$armv82_crypto_native = xyes; then
+  AC_MSG_CHECKING([whether to build with armv8.2 crypto sha512 native])
   AC_MSG_RESULT(yes)
   AC_DEFINE(USE_ARMV82, 1, [Define this symbol if armv8.2 crypto works])
   CXXFLAGS="$CXXFLAGS -march=armv8.2-a+crypto+sha3"
