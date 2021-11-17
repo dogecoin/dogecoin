@@ -31,6 +31,7 @@ jobs:
         name:
           - aarch64-linux
           - aarch64-linux-experimental
+          - aarch64-linux-sha512-experimental
           - armhf-linux
           - i686-linux
           - i686-win
@@ -69,6 +70,16 @@ jobs:
             check-symbols: false
             dep-opts: "NO_QT=1"
             config-opts: "--with-armv8-crypto --enable-zmq --enable-glibc-back-compat --disable-tests LDFLAGS=-static-libstdc++"
+            goal: install
+          - name: aarch64-linux-sha512-experimental
+            host: aarch64-linux-gnu
+            os: ubuntu-18.04
+            packages: g++-aarch64-linux-gnu
+            run-tests: false
+            check-security: true
+            check-symbols: false
+            dep-opts: "NO_QT=1"
+            config-opts: "--with-armv82-crypto --enable-zmq --enable-glibc-back-compat --disable-tests LDFLAGS=-static-libstdc++"
             goal: install
           - name: aarch64-linux
             host: aarch64-linux-gnu
