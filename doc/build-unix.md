@@ -68,7 +68,7 @@ sudo apt-get install build-essential libtool autotools-dev automake pkg-config l
 sudo apt-get install libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-program-options-dev libboost-test-dev libboost-thread-dev
 ```
 
-**Optional dependencies** :  
+**Optional dependencies** :
 ```bash
 # Qt (required for dogecoin-qt GUI)
 sudo apt-get install libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler libqrencode-dev
@@ -121,7 +121,7 @@ mkdir $BDB_PREFIX
 
 # Fetch the source and verify shasum
 wget 'http://download.oracle.com/berkeley-db/db-5.3.28.NC.tar.gz'
-echo '76a25560d9e52a198d37a31440fd07632b5f1f8f9f2b6d5438f4bc3e7c9013efdb-5.3.28.NC.tar.gz' | sha256sum -c
+echo '76a25560d9e52a198d37a31440fd07632b5f1f8f9f2b6d5438f4bc3e7c9013ef db-5.3.28.NC.tar.gz' | sha256sum -c
 
 # Extract sources
 tar -xzvf db-5.3.28.NC.tar.gz
