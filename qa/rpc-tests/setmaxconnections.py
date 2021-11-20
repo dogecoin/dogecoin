@@ -62,9 +62,14 @@ class SetMaxConnectionCountTest (BitcoinTestFramework):
 
     def run_test(self):
         self.test_rpc_argument_validation()
+
         self.test_node_connection_changes(5)
         self.test_node_connection_changes(10)
         self.test_node_connection_changes(3)
+
+        # max_count has to be at least 20
+        # min_count can be closer to 20
+        self.test_node_disconnections(40, 20)
 
     def test_rpc_argument_validation(self):
         first_node = self.nodes[0]
@@ -117,6 +122,43 @@ class SetMaxConnectionCountTest (BitcoinTestFramework):
         first_node.setmaxconnections(0)
         x = first_node.getconnectioncount()
         assert(x == 0)
+
+    def test_node_disconnections(self, max_count, min_count):
+        first_node = self.nodes[0]
+
+        attempted_nodes = []
+
+        # 9 is 8 outgoing connections plus 1 feeler
+        first_node.setmaxconnections(9 + max_count)
+        client_nodes = []
+
+        self.connect_nodes(client_nodes, max_count)
+        x = first_node.getconnectioncount()
+        assert(x == max_count)
+
+        first_node.setmaxconnections(min_count)
+
+        def nodes_disconnected():
+            disc_count = 0
+
+            for node in attempted_nodes:
+                if node.peer_disconnected:
+                    disc_count += 1
+                else:
+                    node.sync_with_ping(0.1)
+
+            if disc_count < max_count - min_count:
+                return False
+            return True
+        wait_until(nodes_disconnected, timeout=10)
+
+        # try asserting this two ways, for debugging the test
+        x = first_node.getconnectioncount()
+        assert(x < max_count)
+        assert(x == min_count)
+
+        for node in attempted_nodes:
+            node.close()
 
 if __name__ == '__main__':
     SetMaxConnectionCountTest().main()

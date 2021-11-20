@@ -317,6 +317,8 @@ private:
     bool IsWhitelistedRange(const CNetAddr &addr);
 
     void DeleteNode(CNode* pnode);
+    void DisconnectUnusedNodes();
+    void DeleteDisconnectedNodes();
 
     NodeId GetNewNodeId();
 

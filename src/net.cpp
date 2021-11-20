@@ -1107,6 +1107,56 @@ void CConnman::AcceptConnection(const ListenSocket& hListenSocket) {
     }
 }
 
+void CConnman::DisconnectUnusedNodes()
+{
+    LOCK(cs_vNodes);
+    // Disconnect unused nodes
+    std::vector<CNode*> vNodesCopy = vNodes;
+    BOOST_FOREACH(CNode* pnode, vNodesCopy)
+    {
+        if (pnode->fDisconnect)
+        {
+            // remove from vNodes
+            vNodes.erase(remove(vNodes.begin(), vNodes.end(), pnode), vNodes.end());
+
+            // release outbound grant (if any)
+            pnode->grantOutbound.Release();
+
+            // close socket and cleanup
+            pnode->CloseSocketDisconnect();
+
+            // hold in disconnected pool until all refs are released
+            pnode->Release();
+            vNodesDisconnected.push_back(pnode);
+        }
+    }
+}
+
+void CConnman::DeleteDisconnectedNodes()
+{
+    std::list<CNode*> vNodesDisconnectedCopy = vNodesDisconnected;
+    BOOST_FOREACH(CNode* pnode, vNodesDisconnectedCopy)
+    {
+        // wait until threads are done using it
+        if (pnode->GetRefCount() <= 0) {
+            bool fDelete = false;
+            {
+                TRY_LOCK(pnode->cs_inventory, lockInv);
+                if (lockInv) {
+                    TRY_LOCK(pnode->cs_vSend, lockSend);
+                    if (lockSend) {
+                        fDelete = true;
+                    }
+                }
+            }
+            if (fDelete) {
+                vNodesDisconnected.remove(pnode);
+                DeleteNode(pnode);
+            }
+        }
+    }
+}
+
 void CConnman::ThreadSocketHandler()
 {
     unsigned int nPrevNodeCount = 0;
@@ -1115,53 +1165,8 @@ void CConnman::ThreadSocketHandler()
         //
         // Disconnect nodes
         //
-        {
-            LOCK(cs_vNodes);
-            // Disconnect unused nodes
-            std::vector<CNode*> vNodesCopy = vNodes;
-            BOOST_FOREACH(CNode* pnode, vNodesCopy)
-            {
-                if (pnode->fDisconnect)
-                {
-                    // remove from vNodes
-                    vNodes.erase(remove(vNodes.begin(), vNodes.end(), pnode), vNodes.end());
-
-                    // release outbound grant (if any)
-                    pnode->grantOutbound.Release();
-
-                    // close socket and cleanup
-                    pnode->CloseSocketDisconnect();
-
-                    // hold in disconnected pool until all refs are released
-                    pnode->Release();
-                    vNodesDisconnected.push_back(pnode);
-                }
-            }
-        }
-        {
-            // Delete disconnected nodes
-            std::list<CNode*> vNodesDisconnectedCopy = vNodesDisconnected;
-            BOOST_FOREACH(CNode* pnode, vNodesDisconnectedCopy)
-            {
-                // wait until threads are done using it
-                if (pnode->GetRefCount() <= 0) {
-                    bool fDelete = false;
-                    {
-                        TRY_LOCK(pnode->cs_inventory, lockInv);
-                        if (lockInv) {
-                            TRY_LOCK(pnode->cs_vSend, lockSend);
-                            if (lockSend) {
-                                fDelete = true;
-                            }
-                        }
-                    }
-                    if (fDelete) {
-                        vNodesDisconnected.remove(pnode);
-                        DeleteNode(pnode);
-                    }
-                }
-            }
-        }
+        DisconnectUnusedNodes();
+        DeleteDisconnectedNodes();
         size_t vNodesSize;
         {
             LOCK(cs_vNodes);
@@ -1398,6 +1403,17 @@ void CConnman::ThreadSocketHandler()
                 }
             }
         }
+        //
+        // Reduce number of connections, if needed
+        //
+        if (vNodesCopy.size() > (size_t)nMaxConnections)
+        {
+            LogPrintf("%s: attempting to reduce connections: max=%u current=%u", __func__, vNodesCopy.size(), nMaxConnections);
+            DisconnectUnusedNodes();
+            DeleteDisconnectedNodes();
+            AttemptToEvictConnection();
+        }
+
         {
             LOCK(cs_vNodes);
             BOOST_FOREACH(CNode* pnode, vNodesCopy)
