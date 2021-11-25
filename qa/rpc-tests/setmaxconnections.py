@@ -6,6 +6,8 @@
 #
 # Exercise setmaxconnections RPC command
 #
+# from the constant MAX_ADDNODE_CONNECTIONS in src/net.h
+MINIMUM_CONNECTIONS = 8
 
 from test_framework.mininode import *
 from test_framework.test_framework import BitcoinTestFramework
@@ -63,9 +65,9 @@ class SetMaxConnectionCountTest (BitcoinTestFramework):
     def run_test(self):
         self.test_rpc_argument_validation()
 
-        self.test_node_connection_changes(5)
-        self.test_node_connection_changes(10)
-        self.test_node_connection_changes(3)
+        self.test_node_connection_changes(12)
+        self.test_node_connection_changes(20)
+        self.test_node_connection_changes(9)
 
         # max_count has to be at least 20
         # min_count can be closer to 20
@@ -78,7 +80,7 @@ class SetMaxConnectionCountTest (BitcoinTestFramework):
             first_node.setmaxconnections()
             raise AssertionError("Must check for no parameter provided")
         except JSONRPCException as e:
-            assert("1. \"maxconnectioncount\"" in e.error['message'])
+            assert("1. maxconnectioncount" in e.error['message'])
 
         try:
             first_node.setmaxconnections("good doge bad doge")
@@ -88,21 +90,27 @@ class SetMaxConnectionCountTest (BitcoinTestFramework):
 
         try:
             first_node.setmaxconnections(-1)
-            raise AssertionError("Must check for parameter value >= 0")
+            raise AssertionError(f"Must check for parameter value >= {MINIMUM_CONNECTIONS}")
         except JSONRPCException as e:
-            assert("maxconnectioncount must be >= 0" in e.error['message'])
+            assert(f"maxconnectioncount must be >= {MINIMUM_CONNECTIONS}" in e.error['message'])
 
         try:
-            first_node.setmaxconnections(0)
+            first_node.setmaxconnections(7)
+            raise AssertionError(f"Must check for parameter value >= {MINIMUM_CONNECTIONS}")
+        except JSONRPCException as e:
+            assert(f"maxconnectioncount must be >= {MINIMUM_CONNECTIONS}" in e.error['message'])
+
+        try:
+            first_node.setmaxconnections(MINIMUM_CONNECTIONS)
             assert(True)
         except JSONRPCException as e:
-            raise AssertionError("Must allow parameter value >= 0")
+            raise AssertionError(f"Must allow parameter value >= {MINIMUM_CONNECTIONS}")
 
     def test_node_connection_changes(self, extras):
         first_node = self.nodes[0]
 
-        # 9 is 8 outgoing connections plus 1 feeler
-        first_node.setmaxconnections(9 + extras)
+        # MINIMUM_CONNECTIONS outgoing connections plus 1 feeler
+        first_node.setmaxconnections(1 + MINIMUM_CONNECTIONS + extras)
         client_nodes = []
 
         self.connect_nodes(client_nodes, extras)
@@ -119,17 +127,17 @@ class SetMaxConnectionCountTest (BitcoinTestFramework):
         for node in client_nodes:
             node.close()
 
-        first_node.setmaxconnections(0)
+        first_node.setmaxconnections(MINIMUM_CONNECTIONS)
         x = first_node.getconnectioncount()
-        assert(x == 0)
+        assert(x <= MINIMUM_CONNECTIONS)
 
     def test_node_disconnections(self, max_count, min_count):
         first_node = self.nodes[0]
 
         attempted_nodes = []
 
-        # 9 is 8 outgoing connections plus 1 feeler
-        first_node.setmaxconnections(9 + max_count)
+        # MINIMUM_CONNECTIONS outgoing connections plus 1 feeler
+        first_node.setmaxconnections(1 + MINIMUM_CONNECTIONS + max_count)
         client_nodes = []
 
         self.connect_nodes(client_nodes, max_count)

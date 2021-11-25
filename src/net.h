@@ -140,6 +140,7 @@ public:
         int nMaxOutbound = 0;
         int nMaxAddnode = 0;
         int nMaxFeeler = 0;
+        int nAvailableFds = 0;
         int nBestHeight = 0;
         CClientUIInterface* uiInterface = nullptr;
         unsigned int nSendBufferMaxSize = 0;
@@ -388,6 +389,7 @@ private:
     int nMaxOutbound;
     int nMaxAddnode;
     int nMaxFeeler;
+    int nAvailableFds;
     std::atomic<int> nBestHeight;
     CClientUIInterface* clientInterface;
 

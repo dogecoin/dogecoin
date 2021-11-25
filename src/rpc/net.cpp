@@ -48,24 +48,25 @@ UniValue getconnectioncount(const JSONRPCRequest& request)
 UniValue setmaxconnections(const JSONRPCRequest& request)
 {
     int newMaxCount = 0;
+    const std::string minConnCount = to_string(MAX_ADDNODE_CONNECTIONS);
 
     if (request.fHelp || request.params.size() != 1)
         throw runtime_error(
             "setmaxconnections\n"
             "\nSets the maximum number of connections to other nodes.\n"
             "\nArguments:\n"
-            "1. \"maxconnectioncount\"     (numeric, required) The new maximum connection count (must be >= 0)\n"
+            "1. maxconnectioncount     (numeric, required) The new maximum connection count (must be >= " + minConnCount + ")\n"
             "\nResult:\n"
             "n          (boolean) True or false connection count\n"
             "\nExamples:\n"
             + HelpExampleCli("setmaxconnections", "20")
-            + HelpExampleRpc("setmaxconnections", "0")
+            + HelpExampleRpc("setmaxconnections", minConnCount)
         );
     else
         newMaxCount = request.params[0].get_int();
 
-    if (newMaxCount < 0)
-        throw JSONRPCError(RPC_INVALID_PARAMETER, "Error: maxconnectioncount must be >= 0");
+    if (newMaxCount < MAX_ADDNODE_CONNECTIONS)
+        throw JSONRPCError(RPC_INVALID_PARAMETER, "Error: maxconnectioncount must be >= " + minConnCount);
 
     if(!g_connman)
         throw JSONRPCError(RPC_CLIENT_P2P_DISABLED, "Error: Peer-to-peer functionality missing or disabled");

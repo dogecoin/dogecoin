@@ -1408,7 +1408,7 @@ void CConnman::ThreadSocketHandler()
         //
         if (vNodesCopy.size() > (size_t)nMaxConnections)
         {
-            LogPrintf("%s: attempting to reduce connections: max=%u current=%u", __func__, vNodesCopy.size(), nMaxConnections);
+            LogPrintf("%s: attempting to reduce connections: max=%u current=%u\n", __func__, nMaxConnections, vNodesCopy.size());
             DisconnectUnusedNodes();
             DeleteDisconnectedNodes();
             AttemptToEvictConnection();
@@ -1424,7 +1424,11 @@ void CConnman::ThreadSocketHandler()
 
 void CConnman::SetMaxConnections(int newMaxConnections)
 {
-    nMaxConnections = newMaxConnections;
+    newMaxConnections = std::max(newMaxConnections, MAX_ADDNODE_CONNECTIONS);
+    nMaxConnections = std::min(newMaxConnections, nAvailableFds);
+    if (nMaxConnections != newMaxConnections) {
+        LogPrintf("%s: capped new maxconnections request of %d to %d\n", __func__, newMaxConnections, nMaxConnections);
+    }
 }
 
 
@@ -2226,6 +2230,7 @@ CConnman::CConnman(uint64_t nSeed0In, uint64_t nSeed1In) : nSeed0(nSeed0In), nSe
     semAddnode = NULL;
     nMaxConnections = 0;
     nMaxOutbound = 0;
+    nAvailableFds = 0;
     nMaxAddnode = 0;
     nBestHeight = 0;
     clientInterface = NULL;
@@ -2248,6 +2253,7 @@ bool CConnman::Start(CScheduler& scheduler, std::string& strNodeError, Options c
     nMaxOutbound = std::min((connOptions.nMaxOutbound), nMaxConnections);
     nMaxAddnode = connOptions.nMaxAddnode;
     nMaxFeeler = connOptions.nMaxFeeler;
+    nAvailableFds = connOptions.nAvailableFds;
 
     nSendBufferMaxSize = connOptions.nSendBufferMaxSize;
     nReceiveFloodSize = connOptions.nReceiveFloodSize;
