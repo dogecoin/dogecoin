@@ -235,17 +235,6 @@ if [ $(($USE_LXC + $USE_DOCKER)) -ge 2 ]; then
     exit
 fi
 
-if [ -n "$SIGNER" ]; then
-    echo "Testing GPG Keys available..."
-    result=$(gpg --list-secret-keys --keyid-format=long | grep sec | grep -v revoked | grep "" -c)
-    if [[ $result == "" ]]; then
-        echo "No GPG keys available..."
-        echo "Please follow this documentation: https://docs.github.com/en/github/authenticating-to-github/managing-commit-signature-verification/generating-a-new-gpg-key"
-        exit 1
-    fi
-    mkdir -p $outputDir/sigs
-fi
-
 # Get version
 if [ -n "$1" ]; then
     VERSION=$1
@@ -334,7 +323,8 @@ if [[ $build == true ]]; then
 
         if [ -n "$SIGNER" ]; then
             ./bin/gsign --signer "$SIGNER" --release "$VERSION"-"$descriptor" \
-                --destination $outputDir/sigs/ ../gitian-descriptors/gitian-"$descriptor".yml
+                --destination $outputDir/sigs/ ../gitian-descriptors/gitian-"$descriptor".yml 2>&- || \
+                echo "$0: Error on signature, detached signing"
         fi
         move_build_files
     done
