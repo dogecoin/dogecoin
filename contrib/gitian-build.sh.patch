@@ -1,0 +1,65 @@
+diff --git a/contrib/gitian-build.sh b/contrib/gitian-build.sh
+index f396b143a..b2b2c87a7 100755
+--- a/contrib/gitian-build.sh
++++ b/contrib/gitian-build.sh
+@@ -29,6 +29,7 @@ build=false
+ buildSigned=false
+ commit=false
+ test=false
++disableCache=false
+ 
+ # Other Basic variables
+ SIGNER=
+@@ -65,6 +66,7 @@ Options:
+                     l for Linux, w for Windows, x for MacOS
+ -j proc             Number of processes to use. Default $proc
+ -m n                Memory to allocate in MiB. Default $mem
++--disable-cache     Disable apt-cacher
+ -c|--commit         Indicate that the version argument is for a commit or branch
+ -u|--url repo       Specify the URL of the repository. Default is https://github.com/dogecoin/dogecoin
+ --test              CI TEST. Uses Docker
+@@ -147,6 +149,10 @@ while :; do
+                 exit 1
+             fi
+             ;;
++        # apt cacher
++        --disable-cache)
++            disableCache=true
++            ;;
+         # lxc
+         --lxc)
+             USE_LXC=1
+@@ -257,6 +263,8 @@ if [[ $setup == true ]]; then
+     git clone https://github.com/dogecoin/dogecoin-detached-sigs.git
+     git clone https://github.com/devrandom/gitian-builder.git
+ 
++    cat gitian-builder.patch | git -C gitian-builder apply
++
+     pushd ./gitian-builder
+ 
+     #Download dependencies
+@@ -269,15 +277,21 @@ if [[ $setup == true ]]; then
+ 
+     popd
+ 
++    #Check if apt-cacher should be enabled
++    if [ -z "$MIRROR_HOST" ] && [[ "$disableCache" = true ]]; then
++        cacher_option="--disable-apt-cacher"
++    fi
++    echo $cacher_option
++
+     #Prepare containers depending of virtualization solution: lxc, docker, kvm
+     if [ "$USE_LXC" -eq 1 ]
+     then
+         sudo apt-get install -y lxc
+-        bin/make-base-vm --suite bionic --arch amd64 --lxc
++        bin/make-base-vm --suite bionic --arch amd64 --lxc $(echo $cacher_option)
+     elif [ "$USE_DOCKER" -eq 1 ]; then
+-        bin/make-base-vm --suite bionic --arch amd64 --docker
++        bin/make-base-vm --suite bionic --arch amd64 --docker $(echo $cacher_option)
+     else
+-        bin/make-base-vm --suite bionic --arch amd64
++        bin/make-base-vm --suite bionic --arch amd64 $(echo $cacher_option)
+     fi
+     popd
+ fi

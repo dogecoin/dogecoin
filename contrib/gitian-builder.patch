@@ -1,0 +1,98 @@
+diff --git a/bin/make-base-vm b/bin/make-base-vm
+index 30e4fbf..daf426e 100755
+--- a/bin/make-base-vm
++++ b/bin/make-base-vm
+@@ -9,6 +9,7 @@ LXC=0
+ VBOX=0
+ DOCKER=0
+ DOCKER_IMAGE_HASH=""
++export APT_CACHER=1
+ 
+ usage() {
+   echo "Usage: ${0##*/} [OPTION]..."
+@@ -24,6 +25,7 @@ usage() {
+   --vbox                    use VirtualBox instead of kvm
+   --docker                  use docker instead of kvm
+   --docker-image-hash D     digest of the docker image to build from
++  --disable-apt-cacher      disable APT Cacher
+ 
+   The MIRROR_HOST environment variable can be used to change the
+   apt-cacher host.  It should be something that both the host and the
+@@ -88,6 +90,10 @@ if [ $# != 0 ] ; then
+         DOCKER=1
+         shift 1
+         ;;
++      --disable-apt-cacher)
++        APT_CACHER=0
++        shift 1
++        ;;
+       --docker-image-digest)
+         DOCKER_IMAGE_HASH="$2"
+         shift 2
+@@ -193,12 +199,21 @@ if [ $DOCKER = "1" ]; then
+     base_image="$DISTRO:$SUITE"
+   fi
+ 
++  apt_cacher=""
++  if [ "$APT_CACHER" = 1 ]; then
++    apt_cacher="RUN echo 'Acquire::http { Proxy \"$MIRROR_BASE\"; };' > /etc/apt/apt.conf.d/50cacher"
++  fi
++
+   # Generate the dockerfile
+   cat << EOF > $OUT.Dockerfile
+ FROM $base_image
+ 
+ ENV DEBIAN_FRONTEND=noninteractive
+-RUN echo 'Acquire::http { Proxy "$MIRROR_BASE"; };' > /etc/apt/apt.conf.d/50cacher
++# DELETE ESM Files: W: Failed to fetch https://esm.ubuntu.com/ubuntu/dists/trusty-infra-security/main/binary-amd64/Packages  Received HTTP code 403 from proxy after CONNECT
++RUN if [ -f /etc/apt/sources.list.d/*esm*.list ]; \\
++        then rm /etc/apt/sources.list.d/*esm*.list; \\
++    fi
++$apt_cacher
+ RUN apt-get update && apt-get --no-install-recommends -y install $addpkg
+ 
+ RUN useradd -ms /bin/bash -U $DISTRO
+@@ -255,6 +270,7 @@ if [ $LXC = "1" ]; then
+     echo "sudo will preserve (some) env flags"
+     preserve_env=yes # if you would want to set false then unset this variable
+   fi
++  [ "$APT_CACHER" -eq 0 ] && MIRROR=""
+   env -i LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 DEBOOTSTRAP_DIR="$DEBOOTSTRAP_DIR" sudo ${preserve_env+--preserve-env} debootstrap --arch=$ARCH --include=$addpkg --exclude=$removepkg --components=$components $SUITE $OUT-bootstrap $MIRROR
+   # Fix lxc issue
+   if [ -f $OUT-bootstrap/usr/lib/lxc/lxc-init ]
+@@ -293,7 +309,8 @@ else
+   libexec/config-bootstrap-fixup
+ 
+   rm -rf $OUT
+-  env -i LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 sudo vmbuilder kvm $DISTRO --rootsize $DISKSIZE --arch=$ARCH --suite=$SUITE --addpkg=$addpkg --removepkg=$removepkg --ssh-key=var/id_rsa.pub --ssh-user-key=var/id_rsa.pub --mirror=$MIRROR --security-mirror=$SECURITY_MIRROR --dest=$OUT --flavour=$FLAVOUR --firstboot=`pwd`/target-bin/bootstrap-fixup
++  [ "$APT_CACHER" -eq 1 ] && mirror_options="--mirror=$MIRROR --security-mirror=$SECURITY_MIRROR"
++  env -i LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 sudo vmbuilder kvm $DISTRO --rootsize $DISKSIZE --arch=$ARCH --suite=$SUITE --addpkg=$addpkg --removepkg=$removepkg --ssh-key=var/id_rsa.pub --ssh-user-key=var/id_rsa.pub --dest=$OUT --flavour=$FLAVOUR --firstboot=`pwd`/target-bin/bootstrap-fixup $(echo $mirror_options)
+   mv $OUT/*.qcow2 $OUT.qcow2
+   rm -rf $OUT
+   # bootstrap-fixup is done on first boot
+diff --git a/libexec/config-bootstrap-fixup b/libexec/config-bootstrap-fixup
+index 61d69b0..72c67c4 100755
+--- a/libexec/config-bootstrap-fixup
++++ b/libexec/config-bootstrap-fixup
+@@ -12,4 +12,8 @@ if [ -z "$MIRROR_HOST" ] || [ "$MIRROR_HOST" == "127.0.0.1" ]; then
+   MIRROR_HOST=$GITIAN_HOST_IP
+ fi
+ 
+-sed "s;HOSTIP;$MIRROR_HOST;g" < target-bin/bootstrap-fixup.in > target-bin/bootstrap-fixup
++if [ "$APT_CACHER" = "1" ]; then
++    sed "s;HOSTIP;$MIRROR_HOST;g" < target-bin/bootstrap-fixup.in > target-bin/bootstrap-fixup
++else
++    sed "s;HOSTIP:3142/;;g" < target-bin/bootstrap-fixup.in > target-bin/bootstrap-fixup
++fi
+diff --git a/libexec/make-clean-vm b/libexec/make-clean-vm
+index 8f88a00..6fe936c 100755
+--- a/libexec/make-clean-vm
++++ b/libexec/make-clean-vm
+@@ -62,7 +62,6 @@ case $VMSW in
+     ;;
+   LXC)
+     cp -a --sparse=always $BASE $OUT
+-    libexec/config-bootstrap-fixup
+     on-target -u root bash < target-bin/bootstrap-fixup
+     ;;
+   VBOX)
