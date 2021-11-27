@@ -65,8 +65,6 @@ Options:
                     l for Linux, w for Windows, x for MacOS
 -j proc             Number of processes to use. Default $proc
 -m n                Memory to allocate in MiB. Default $mem
---enable-cache      Use local apt-cacher server. If you need to specify host, use
-                    MIRROR_HOST environment variable
 -c|--commit         Indicate that the version argument is for a commit or branch
 -u|--url repo       Specify the URL of the repository. Default is https://github.com/dogecoin/dogecoin
 --test              CI TEST. Uses Docker
