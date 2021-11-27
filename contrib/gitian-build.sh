@@ -7,7 +7,7 @@
 
 # Systems to build
 DESCRIPTORS=('osx' 'win' 'linux')
-SIGN_DESCRIPTORS=('win-signed' 'osx-signed')
+SIGN_DESCRIPTORS=('win-signer' 'osx-signer')
 
 # Gitian properties
 export USE_DOCKER=0
@@ -106,11 +106,11 @@ while :; do
                 fi
                 if [[ "$2" == *"w"* ]]; then
                     DESCRIPTORS+=('win')
-                    SIGN_DESCRIPTORS+=('win-signed')
+                    SIGN_DESCRIPTORS+=('win-signer')
                 fi
                 if [[ "$2" == *"x"* ]]; then
                     DESCRIPTORS+=('osx')
-                    SIGN_DESCRIPTORS+=('osx-signed')
+                    SIGN_DESCRIPTORS+=('osx-signer')
                 fi
                 shift
             else
