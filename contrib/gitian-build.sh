@@ -29,7 +29,6 @@ build=false
 buildSigned=false
 commit=false
 test=false
-enableCache=false
 
 # Other Basic variables
 SIGNER=
@@ -158,10 +157,6 @@ while :; do
         --docker)
             USE_DOCKER=1
             ;;
-        # apt cacher
-        --enable-cache)
-            enableCache=true
-            ;;
         # URL
         -u)
             if [ -n "$2" ]; then
@@ -287,20 +282,15 @@ if [[ $setup == true ]]; then
 
     popd
 
-    #Check if apt-cacher should be enabled
-    if [ -z "$MIRROR_HOST" ] && [[ $enableCache = false ]]; then
-        cacher_option="--disable-apt-cacher"
-    fi
-
     #Prepare containers depending of virtualization solution: lxc, docker, kvm
     if [ "$USE_LXC" -eq 1 ]
     then
         sudo apt-get install -y lxc
-        bin/make-base-vm --suite trusty --arch amd64 --lxc $(echo $cacher_option)
+        bin/make-base-vm --suite trusty --arch amd64 --lxc
     elif [ "$USE_DOCKER" -eq 1 ]; then
-        bin/make-base-vm --suite trusty --arch amd64 --docker $(echo $cacher_option)
+        bin/make-base-vm --suite trusty --arch amd64 --docker
     else
-        bin/make-base-vm --suite trusty --arch amd64 $(echo $cacher_option)
+        bin/make-base-vm --suite trusty --arch amd64
     fi
     popd
 fi

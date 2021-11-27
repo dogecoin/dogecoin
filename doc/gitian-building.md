@@ -17,7 +17,6 @@ Participate and help to secure the process by following this guide.
     * [Docker](#docker)
     * [LXC](#lxc)
     * [KVM](#kvm)
-    * [Apt-cacher](#apt-cacher)
 2. [Usage](#usage)
     * [Syntax](#syntax)
     * [Example](#example)
@@ -36,8 +35,9 @@ Use your packet manager to install them : `apt`, `brew`, `dnf`, `pacman`...
 
 Following dependencies are required to run `gitian-build.sh`:
 ```
-git ruby wget
+git ruby wget apache2 apt-cacher-ng
 ```
+You can define your `apt-cacher` host by specifying `MIRROR_HOST` environment variable.
 
 Optionally, to sign or verify binaries :
 ```
@@ -71,19 +71,6 @@ Then use `--lxc` option with `gitian-build.sh`.
 ### KVM
 
 [Documentation not available, help is welcome]
-
-### Apt-cacher
-
-Disabled by default, `apt-cacher` enable to cache locally downloaded dependencies to save resources.
-
-You will need the following package :
-```
-apache2 apt-cacher-ng
-```
-
-You can use your local server by using `--enable-apt-cacher`, or define `MIRROR_HOST` if you need to specify the server address.
-
-> **Be nice:** Please use cache for intensive ressource usage to save mirrors bandwith.
 
 ## Usage
 
