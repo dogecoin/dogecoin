@@ -84,29 +84,6 @@ shibetoshi:~$ ./gitian-build.sh [options] version
 
 #See help menu for available options
 shibetoshi:~$ ./gitian-build.sh --help
-Arguments:
-version             Version number, commit, or branch to build. If building a
-                    commit or branch, the -c option must be specified
-
-Options:
---setup             Setup dependencies for the gitian building environment. Uses Docker
--b|--build          Do the gitian build
--B|--build-signed   Build signed binaries for MacOS and Windows
--s|--sign name      Sign builded executables with GPG
--v|--verify         Verify the gitian build
---lxc               Use LXC instead of KVM
---docker            Use Docker instead of KVM
--o|--os lwx         Specify which Operating Systems the build is for. Default is lwx,
-                    l for Linux, w for Windows, x for MacOS
--j proc             Number of processes to use. Default 2
--m n                Memory to allocate in MiB. Default 2000
---enable-cache      Use local apt-cacher server. If you need to specify host, use
-                    MIRROR_HOST environment variable
-
--c|--commit         Indicate that the version argument is for a commit or branch
--u|--url repo       Specify the URL of the repository. Default is https://github.com/dogecoin/dogecoin
---test              CI TEST. Uses Docker
--h|--help           Print this help message
 ```
 
 ### Example
