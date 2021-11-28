@@ -35,14 +35,10 @@ Use your packet manager to install them : `apt`, `brew`, `dnf`, `pacman`...
 
 The following common dependencies are required regardless of virtualization:
 ```
-git ruby wget apache2 apt-cacher-ng
+git ruby wget apt-cacher-ng gpg
 ```
 You can define your `apt-cacher` host by specifying `MIRROR_HOST` environment variable.
 
-Optionally, to sign or verify binaries :
-```
-pgp
-```
 *To create a PGP key to sign files, see : https://gnupg.org/gph/en/manual.html#INTRO.  
 You will need to specify your [user ID](https://www.gnupg.org/documentation/manuals/gnupg/Specify-a-User-ID.html), find it using `gpg -k`.*
 
