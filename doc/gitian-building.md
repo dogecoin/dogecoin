@@ -47,11 +47,11 @@ You will need to specify your [user ID](https://www.gnupg.org/documentation/manu
 Please refer to the [official Docker documentation](https://docs.docker.com/engine/install/) to install it for your operating system.
 
 Make sure your user can run the `docker` command without root privilege by being in the docker group:
-```bash
-$ sudo usermod -aG docker $(whoami)
+```console
+shibetoshi:~$ sudo usermod -aG docker $(whoami)
 
 # Enable group without logging out
-$ newgrp docker
+shibetoshi:~$ newgrp docker
 ```
 
 You can now use the `--docker` option with `gitian-build.sh` in the [Usage](#usage) section of this guide.
@@ -74,16 +74,16 @@ Then use `--lxc` option with `gitian-build.sh`.
 
 It can download dependency files for the [Gitian](https://github.com/devrandom/gitian-builder), build and optionally sign binaries, or verify signatures.
 
-Binaries and signatures will be created in a `gitian-output` folder, relative to where the 
+Binaries and signatures will be created in a `gitian-output` folder, relative to where the
 `gitian-build.sh` script is ran.
 
 ### Syntax
 
-```bash
-$ ./gitian-build.sh [options] version
+```console
+shibetoshi:~$ ./gitian-build.sh [options] version
 
 # See help menu for available options
-$ ./gitian-build.sh --help
+shibetoshi:~$ ./gitian-build.sh --help
 Arguments:
 version             Version number, commit, or branch to build. If building a
                     commit or branch, the -c option must be specified
@@ -112,20 +112,20 @@ Options:
 ### Example
 
 The entire gitian flow can be performed step by step, example using docker :
-```bash
+```console
 # Download Gitian dependencies
-$ ./gitian-build.sh --docker --setup 1.14.4
+shibetoshi:~$ ./gitian-build.sh --docker --setup 1.14.4
 
 # Build & sign executables
-$ ./gitian-build.sh --docker --build --sign SIGNER 1.14.4
+shibetoshi:~$ ./gitian-build.sh --docker --build --sign SIGNER 1.14.4
 
 # Verify signatures
-$ ./gitian-build.sh --verify 1.14.4
+shibetoshi:~$ ./gitian-build.sh --verify 1.14.4
 ```
 
 Or to do everything at once :
-```bash
-$ ./gitian-build.sh --docker --setup --build --sign SIGNER --verify 1.14.4
+```console
+shibetoshi:~$ ./gitian-build.sh --docker --setup --build --sign SIGNER --verify 1.14.4
 ```
 
 ### Signing externally
@@ -133,16 +133,16 @@ $ ./gitian-build.sh --docker --setup --build --sign SIGNER --verify 1.14.4
 If you want to do the PGP signing on another device, that's also possible; just define `SIGNER` as mentioned
 and follow the steps in the build process as normal.
 
-```bash
-$ gpg: skipped "laanwj": secret key not available
+```console
+shibetoshi:~$ gpg: skipped "shibetoshi": secret key not available
 ```
 
 When you execute `gsign` you will get an error from GPG, which can be ignored. Copy the resulting `.assert` files in `gitian.sigs` to your signing machine and do
 
-```bash
-    gpg --detach-sign ${VERSION}-linux/${SIGNER}/dogecoin-linux-build.assert
-    gpg --detach-sign ${VERSION}-win/${SIGNER}/dogecoin-win-build.assert
-    gpg --detach-sign ${VERSION}-osx-unsigned/${SIGNER}/dogecoin-osx-build.assert
+```console
+shibetoshi:~$ gpg --detach-sign ${VERSION}-linux/${SIGNER}/dogecoin-linux-build.assert
+shibetoshi:~$ gpg --detach-sign ${VERSION}-win/${SIGNER}/dogecoin-win-build.assert
+shibetoshi:~$ gpg --detach-sign ${VERSION}-osx-unsigned/${SIGNER}/dogecoin-osx-build.assert
 ```
 
 This will create the `.sig` files that can be committed together with the `.assert` files to assert your Gitian build.
