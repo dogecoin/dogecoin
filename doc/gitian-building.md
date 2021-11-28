@@ -50,7 +50,7 @@ Make sure your user can run the `docker` command without root privilege by being
 ```console
 shibetoshi:~$ sudo usermod -aG docker $(whoami)
 
-# Enable group without logging out
+#Enable group without logging out
 shibetoshi:~$ newgrp docker
 ```
 
@@ -82,7 +82,7 @@ Binaries and signatures will be created in a `gitian-output` folder, relative to
 ```console
 shibetoshi:~$ ./gitian-build.sh [options] version
 
-# See help menu for available options
+#See help menu for available options
 shibetoshi:~$ ./gitian-build.sh --help
 Arguments:
 version             Version number, commit, or branch to build. If building a
@@ -113,13 +113,13 @@ Options:
 
 The entire gitian flow can be performed step by step, example using docker :
 ```console
-# Download Gitian dependencies
+#Download Gitian dependencies
 shibetoshi:~$ ./gitian-build.sh --docker --setup 1.14.4
 
-# Build & sign executables
+#Build & sign executables
 shibetoshi:~$ ./gitian-build.sh --docker --build --sign SIGNER 1.14.4
 
-# Verify signatures
+#Verify signatures
 shibetoshi:~$ ./gitian-build.sh --verify 1.14.4
 ```
 
