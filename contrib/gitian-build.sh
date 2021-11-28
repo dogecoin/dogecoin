@@ -47,7 +47,7 @@ Standalone script to perform the gitian build of Dogecoin Core. Perform
 deterministic build for multiples Operating System, using Docker, LXC or
 KVM for virtualization. Sign binaries using PGP.
 
-Use https://github.com/devrandom/gitian-builder to manage the process.
+Uses https://github.com/devrandom/gitian-builder to execute the build.
 
 Arguments:
 version             Version number, commit, or branch to build. If building a
@@ -57,10 +57,10 @@ Options:
 --setup             Setup the gitian building environment.
 -b|--build          Do the gitian build
 -B|--build-signed   Build signed binaries for MacOS and Windows
--s|--sign name      Sign builded executables with GPG using user ID
--v|--verify         Verify the gitian build
---lxc               Use LXC instead of KVM
---docker            Use Docker instead of KVM
+-s|--sign name      Sign built executables with GPG using user ID
+-v|--verify         Verify gitian built binaries
+--lxc               Use LXC virtualization
+--docker            Use Docker virtualization
 -o|--os lwx         Specify which Operating Systems the build is for. Default is lwx,
                     l for Linux, w for Windows, x for MacOS
 -j proc             Number of processes to use. Default $proc
