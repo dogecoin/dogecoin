@@ -150,6 +150,7 @@ while :; do
         # lxc
         --lxc)
             USE_LXC=1
+            export LXC_BRIDGE=${LXC_BRIDGE:-br0}
             ;;
         # docker
         --docker)
