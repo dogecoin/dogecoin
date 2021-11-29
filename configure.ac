@@ -390,10 +390,6 @@ case $host in
      CPPFLAGS="$CPPFLAGS -DMAC_OSX -DOBJC_OLD_DISPATCH_PROTOTYPES=0"
      OBJCXXFLAGS="$CXXFLAGS"
      ;;
-   *android*)
-     dnl make sure android stays above linux for hosts like *linux-android*
-     TARGET_OS=android
-     ;;
    *linux*)
      TARGET_OS=linux
      ;;
