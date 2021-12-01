@@ -73,13 +73,13 @@ jobs:
             goal: install
           - name: aarch64-linux-sha512-experimental
             host: aarch64-linux-gnu
-            os: ubuntu-18.04
+            os: ubuntu-20.04
             packages: g++-aarch64-linux-gnu
             run-tests: false
             check-security: true
             check-symbols: false
             dep-opts: "NO_QT=1"
-            config-opts: "--with-armv82-crypto-cross --enable-zmq --enable-glibc-back-compat --disable-tests LDFLAGS=-static-libstdc++"
+            config-opts: "--with-armv82-crypto --enable-zmq --enable-glibc-back-compat --disable-tests LDFLAGS=-static-libstdc++"
             goal: install
           - name: aarch64-linux
             host: aarch64-linux-gnu
