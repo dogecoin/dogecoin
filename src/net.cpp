@@ -1160,8 +1160,12 @@ void CConnman::DeleteDisconnectedNodes()
 void CConnman::ThreadSocketHandler()
 {
     unsigned int nPrevNodeCount = 0;
+    const unsigned int nUnevictableConnections = std::max(0, std::max(MAX_OUTBOUND_CONNECTIONS, MAX_ADDNODE_CONNECTIONS) + PROTECTED_INBOUND_PEERS);
+
     while (!interruptNet)
     {
+        unsigned int nWhitelistedConnections = 0;
+
         //
         // Disconnect nodes
         //
@@ -1286,6 +1290,9 @@ void CConnman::ThreadSocketHandler()
             if (interruptNet)
                 return;
 
+            if (pnode->fWhitelisted)
+                nWhitelistedConnections++;
+
             //
             // Receive
             //
@@ -1406,12 +1413,19 @@ void CConnman::ThreadSocketHandler()
         //
         // Reduce number of connections, if needed
         //
-        if (vNodesCopy.size() > (size_t)nMaxConnections)
+
+        long unsigned int nKeepConnections = nUnevictableConnections + nWhitelistedConnections;
+        long unsigned int nNodesCopy       = vNodesCopy.size();
+
+        if (nNodesCopy > nKeepConnections && (nNodesCopy > (long unsigned int)nMaxConnections))
         {
-            LogPrintf("%s: attempting to reduce connections: max=%u current=%u\n", __func__, nMaxConnections, vNodesCopy.size());
+            LogPrintf("%s: attempting to reduce connections: max=%u current=%u keep=%u\n", __func__, nMaxConnections, nNodesCopy, nKeepConnections);
             DisconnectUnusedNodes();
             DeleteDisconnectedNodes();
-            AttemptToEvictConnection();
+
+            if (!AttemptToEvictConnection()) {
+                LogPrint("net", "Failed to evict connections\n");
+            }
         }
 
         {
@@ -1424,8 +1438,9 @@ void CConnman::ThreadSocketHandler()
 
 void CConnman::SetMaxConnections(int newMaxConnections)
 {
-    newMaxConnections = std::max(newMaxConnections, MAX_ADDNODE_CONNECTIONS);
+    newMaxConnections = std::max(newMaxConnections, MAX_ADDNODE_CONNECTIONS + PROTECTED_INBOUND_PEERS);
     nMaxConnections = std::min(newMaxConnections, nAvailableFds);
+
     if (nMaxConnections != newMaxConnections) {
         LogPrintf("%s: capped new maxconnections request of %d to %d\n", __func__, newMaxConnections, nMaxConnections);
     }

@@ -63,6 +63,8 @@ static const unsigned int MAX_SUBVERSION_LENGTH = 256;
 static const int MAX_OUTBOUND_CONNECTIONS = 8;
 /** Maximum number of addnode outgoing nodes */
 static const int MAX_ADDNODE_CONNECTIONS = 8;
+/** Number of peers protected from eviction: 4 random, 8 with lowest ping, 4 that sent recent tx, 4 that sent recent blocks */
+static const int PROTECTED_INBOUND_PEERS = 4 + 8 + 4 + 4;
 /** -listen default */
 static const bool DEFAULT_LISTEN = true;
 /** -upnp default */

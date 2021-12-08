@@ -6,8 +6,11 @@
 #
 # Exercise setmaxconnections RPC command
 #
-# from the constant MAX_ADDNODE_CONNECTIONS in src/net.h
-MINIMUM_CONNECTIONS = 8
+# from the constants MAX_ADDNODE_CONNECTIONS and PROTECTED_INBOUND_PEERS in src/net.h
+MAX_ADDNODE_CONNECTIONS = 8
+PROTECTED_INBOUND_PEERS = 4 + 8 + 4 + 4
+MINIMUM_CONNECTIONS = MAX_ADDNODE_CONNECTIONS
+MINIMUM_CONNECTIONS_INTERNAL = MAX_ADDNODE_CONNECTIONS + PROTECTED_INBOUND_PEERS
 
 from test_framework.mininode import *
 from test_framework.test_framework import BitcoinTestFramework
@@ -65,9 +68,10 @@ class SetMaxConnectionCountTest (BitcoinTestFramework):
     def run_test(self):
         self.test_rpc_argument_validation()
 
-        self.test_node_connection_changes(12)
+        # these numbers must meet or exceed PROTECTED_INBOUND_CONNECTIONS
+        # otherwise there aren't enough nodes to disconnect
         self.test_node_connection_changes(20)
-        self.test_node_connection_changes(9)
+        self.test_node_connection_changes(30)
 
         # max_count has to be at least 20
         # min_count can be closer to 20
@@ -106,30 +110,41 @@ class SetMaxConnectionCountTest (BitcoinTestFramework):
         except JSONRPCException as e:
             raise AssertionError(f"Must allow parameter value >= {MINIMUM_CONNECTIONS}")
 
+    def wait_for_n_disconnections(self, nodes, count, timeout):
+        def disconnected():
+            closed_conns = [node.peer_disconnected for node in nodes]
+            print(f'Len {len(closed_conns)}, waiting for {count} of {len(nodes)} => {len(closed_conns) >= count}')
+            return len(closed_conns) >= count
+        return wait_until(disconnected, timeout=timeout)
+
     def test_node_connection_changes(self, extras):
         first_node = self.nodes[0]
 
         # MINIMUM_CONNECTIONS outgoing connections plus 1 feeler
-        first_node.setmaxconnections(1 + MINIMUM_CONNECTIONS + extras)
+        max_connections = 1 + MINIMUM_CONNECTIONS + extras
+        first_node.setmaxconnections(max_connections)
         client_nodes = []
 
         self.connect_nodes(client_nodes, extras)
         x = first_node.getconnectioncount()
-        assert(x == extras)
+        assert(x <= extras)
 
         # attempt to add more nodes
         self.connect_nodes(client_nodes, 3)
 
         # the new nodes should not increase the connection count
         x = first_node.getconnectioncount()
-        assert(x == extras)
-
-        for node in client_nodes:
-            node.close()
+        assert(x <= extras)
 
         first_node.setmaxconnections(MINIMUM_CONNECTIONS)
-        x = first_node.getconnectioncount()
-        assert(x <= MINIMUM_CONNECTIONS)
+
+
+        disconnectable_connections=max_connections - MINIMUM_CONNECTIONS_INTERNAL
+        assert(self.wait_for_n_disconnections(client_nodes, count=disconnectable_connections, timeout=30))
+
+        # disconnect to clean up for the next test
+        for node in client_nodes:
+            node.close()
 
     def test_node_disconnections(self, max_count, min_count):
         first_node = self.nodes[0]
@@ -137,12 +152,13 @@ class SetMaxConnectionCountTest (BitcoinTestFramework):
         attempted_nodes = []
 
         # MINIMUM_CONNECTIONS outgoing connections plus 1 feeler
-        first_node.setmaxconnections(1 + MINIMUM_CONNECTIONS + max_count)
+        # plus 20 connections protected from eviction
+        first_node.setmaxconnections(20 + 1 + MINIMUM_CONNECTIONS + max_count)
         client_nodes = []
 
         self.connect_nodes(client_nodes, max_count)
         x = first_node.getconnectioncount()
-        assert(x == max_count)
+        assert(x <= max_count)
 
         first_node.setmaxconnections(min_count)
 
@@ -158,13 +174,15 @@ class SetMaxConnectionCountTest (BitcoinTestFramework):
             if disc_count < max_count - min_count:
                 return False
             return True
-        wait_until(nodes_disconnected, timeout=10)
+        wait_until(nodes_disconnected, timeout=30)
 
         # try asserting this two ways, for debugging the test
         x = first_node.getconnectioncount()
         assert(x < max_count)
-        assert(x == min_count)
+        actual_min = max(min_count, MINIMUM_CONNECTIONS_INTERNAL)
+        assert(x == actual_min)
 
+        # disconnect to clean up for the next test
         for node in attempted_nodes:
             node.close()
 
