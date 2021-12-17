@@ -2217,8 +2217,6 @@ NodeId CConnman::GetNewNodeId()
 
 bool CConnman::Start(CScheduler& scheduler, std::string& strNodeError, Options connOptions)
 {
-    nTotalBytesRecv = 0;
-    nTotalBytesSent = 0;
     nMaxOutboundTotalBytesSentInCycle = 0;
     nMaxOutboundCycleStartTime = 0;
 

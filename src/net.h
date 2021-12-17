@@ -339,8 +339,8 @@ private:
     // Network usage totals
     CCriticalSection cs_totalBytesRecv;
     CCriticalSection cs_totalBytesSent;
-    uint64_t nTotalBytesRecv;
-    uint64_t nTotalBytesSent;
+    uint64_t nTotalBytesRecv = 0;
+    uint64_t nTotalBytesSent = 0;
 
     // outbound limit & stats
     uint64_t nMaxOutboundTotalBytesSentInCycle;
