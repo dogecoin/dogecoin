@@ -179,9 +179,9 @@ QVariant PeerTableModel::data(const QModelIndex &index, int role) const
         case Ping:
             return GUIUtil::formatPingTime(rec->nodeStats.dMinPing);
         case BytesSent:
-            return GUIUtil::formatDataSizeValue(rec->nodeStats.nSendBytes);
+            return GUIUtil::formatBytes(rec->nodeStats.nSendBytes);
         case BytesReceived:
-            return GUIUtil::formatDataSizeValue(rec->nodeStats.nRecvBytes);
+            return GUIUtil::formatBytes(rec->nodeStats.nRecvBytes);
         }
     } else if (role == Qt::TextAlignmentRole) {
         if (index.column() == Ping)
