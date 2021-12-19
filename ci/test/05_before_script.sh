@@ -33,7 +33,7 @@ fi
 
 if [[ $HOST = *-apple-darwin16 ]]; then
   # Use BDB compiled using install_db5.sh script as Brew does not supply BDB 5.3
-  DOCKER_EXEC "contrib/install_db5.sh \$(pwd)"
+  DOCKER_EXEC "contrib/install_db5.sh \$(pwd) --enable-posixmutexes"
 fi
 
 if [ -n "$XCODE_VERSION" ] && [ -f "$OSX_SDK_PATH" ]; then
