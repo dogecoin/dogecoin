@@ -336,5 +336,42 @@ class RESTTest (BitcoinTestFramework):
         json_obj = json.loads(json_string)
         assert_equal(json_obj['bestblockhash'], bb_hash)
 
+        ################
+        # /rest/blockhashbyheight/ #
+        ################
+
+        # check json format
+        blockhash_json_string = http_get_call(url.hostname, url.port, '/rest/blockhashbyheight/' + str(block_json_obj['height']) + self.FORMAT_SEPARATOR + 'json')
+        blockhash_json_obj = json.loads(blockhash_json_string)
+        assert_equal(blockhash_json_obj['blockhash'], block_json_obj['hash'])
+
+        # Check hex/bin format
+        resp_hex = http_get_call(url.hostname, url.port, '/rest/blockhashbyheight/' + str(block_json_obj['height']) + self.FORMAT_SEPARATOR + 'hex')
+        assert_equal( resp_hex.rstrip(), block_json_obj['hash'])
+
+        resp_bin = http_get_call(url.hostname, url.port, '/rest/blockhashbyheight/' + str(block_json_obj['height']) + self.FORMAT_SEPARATOR + 'bin', True)
+        assert_equal(resp_bin.status, 200)
+        assert_equal(int(resp_bin.getheader('content-length')), 32)
+        response_str = resp_bin.read().rstrip()
+        blockhash = response_str[::-1].hex()
+        assert_equal(blockhash, block_json_obj['hash'])
+
+        # Check invalid blockhashbyheight requests
+        resp = http_get_call(url.hostname, url.port, "/rest/blockhashbyheight/abc.json", True)
+        assert_equal(resp.status, 400)
+        assert_equal(resp.read().decode('utf-8').rstrip(), "Invalid height: abc")
+
+        resp = http_get_call(url.hostname, url.port, "/rest/blockhashbyheight/1000000.json", True)
+        assert_equal(resp.status, 404)
+        assert_equal(resp.read().decode('utf-8').rstrip(), "Block height out of range")
+
+        resp = http_get_call(url.hostname, url.port, "/rest/blockhashbyheight/-1.json", True)
+        assert_equal(resp.status, 400)
+        assert_equal(resp.read().decode('utf-8').rstrip(), "Invalid height: -1")
+
+        resp = http_get_call(url.hostname, url.port, "/rest/blockhashbyheight/", True)
+        assert_equal(resp.status, 400)
+
+
 if __name__ == '__main__':
     RESTTest ().main ()
