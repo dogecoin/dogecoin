@@ -553,13 +553,12 @@ int main(int argc, char *argv[])
     Q_INIT_RESOURCE(bitcoin);
     Q_INIT_RESOURCE(bitcoin_locale);
 
-    BitcoinApplication app;
 #if QT_VERSION > 0x050100
     // Generate high-dpi pixmaps
     QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 #endif
 #if QT_VERSION >= 0x050600
-    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
 #ifdef Q_OS_MAC
     QApplication::setAttribute(Qt::AA_DontShowIconsInMenus);
@@ -571,6 +570,8 @@ int main(int argc, char *argv[])
     sslconf.setProtocol(QSsl::TlsV1_0OrLater);
     QSslConfiguration::setDefaultConfiguration(sslconf);
 #endif
+
+    BitcoinApplication app;
 
     // Register meta types used for QMetaObject::invokeMethod
     qRegisterMetaType< bool* >();
