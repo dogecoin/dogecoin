@@ -1015,7 +1015,7 @@
     </message>
     <message>
         <source>Choose data directory</source>
-        <translation type="unfinished">데이터 </translation>
+        <translation>데이터 경로 지정</translation>
     </message>
 </context>
 <context>
