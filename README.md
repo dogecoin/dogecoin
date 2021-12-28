@@ -82,7 +82,7 @@ where your contributions will have high impact and get very appreciation. wow.
 ## Communities 🚀🍾
 
 You can join the communities on different social media.
-To see what's going on, meet people & discuss, find the lastest meme, learn
+To see what's going on, meet people & discuss, find the latest meme, learn
 about Dogecoin, give or ask for help, to share your project.
 
 Here are some places to visit:
