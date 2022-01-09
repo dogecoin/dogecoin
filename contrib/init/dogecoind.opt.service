@@ -1,0 +1,74 @@
+# This variant of the unit file is for "opt" add-on installations that do not form part of the default installation.
+# (i.e. out of band installations by the user, not installed by a system package manager like "apt")
+#
+# The relevant paths are:
+#
+#/opt/dogecoin/dogecoind
+#/etc/opt/dogecoin/
+#/var/opt/dogecoin/
+
+[Unit]
+Description=Dogecoin's distributed currency daemon
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/opt/dogecoin/bin/dogecoind -conf=/etc/opt/dogecoin/dogecoin.conf -datadir=/var/opt/dogecoin
+
+KillSignal=SIGINT
+Restart=always
+RestartSec=5
+TimeoutStopSec=60
+TimeoutStartSec=5
+StartLimitIntervalSec=120
+StartLimitBurst=5
+
+User=dogecoin
+Group=dogecoin
+
+### Restrict resource consumption
+MemoryAccounting=yes
+MemoryLimit=3g
+
+### Restrict access to host file system.
+#
+# Hide the entire root file system by default, and *only* mount in exactly what is needed.
+#
+
+TemporaryFileSystem=/:ro
+
+# Add core dependencies
+BindReadOnlyPaths=/etc/ /lib/ /lib64/
+
+# Add daemon paths
+BindReadOnlyPaths=/opt/dogecoin/ /etc/opt/dogecoin/
+BindPaths=/var/opt/dogecoin/
+
+### Restrict access to system.
+
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+PrivateUsers=true
+DevicePolicy=closed
+ProtectHome=true
+ProtectHostname=true
+ProtectControlGroups=true
+ProtectClock=true
+ProtectKernelModules=true
+ProtectKernelTunables=true
+ProtectKernelLogs=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK
+RestrictNamespaces=true
+RestrictRealtime=true
+RestrictSUIDSGID=true
+MemoryDenyWriteExecute=true
+LockPersonality=true
+
+# ProtectSystem=strict would normally be used, however it nullifies TemporaryFileSystem,
+# since it remounts root as read only over the top.
+# In this case, do not enable ProtectSystem.
+#ProtectSystem=strict
+
+[Install]
+WantedBy=multi-user.target

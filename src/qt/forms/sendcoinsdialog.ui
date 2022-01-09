@@ -1005,7 +1005,7 @@
                <item>
                 <layout class="QHBoxLayout" name="horizontalLayoutFee12">
                  <item>
-                  <widget class="QLabel" name="labelSmartFee">
+                  <widget class="QLabel" name="labelPriority">
                    <property name="text">
                     <string/>
                    </property>
@@ -1020,17 +1020,8 @@
                     <string/>
                    </property>
                   </widget>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="labelSmartFee2">
-                   <property name="text">
-                    <string>(Smart fee not initialized yet. This usually takes a few blocks...)</string>
-                   </property>
-                   <property name="margin">
-                    <number>2</number>
-                   </property>
-                  </widget>
-                 </item>
+	         </item>
+                 <!-- Dogecoin does not use smart fees, so we do not have the smart fee warning here -->
                  <item>
                   <spacer name="horizontalSpacer_5">
                    <property name="orientation">
@@ -1051,9 +1042,9 @@
                  <item>
                   <layout class="QVBoxLayout" name="verticalLayoutFee6">
                    <item>
-                    <widget class="QLabel" name="labelSmartFee3">
+                    <widget class="QLabel" name="labelPriority3">
                      <property name="text">
-                      <string>Confirmation time target:</string>
+                      <string>Priority:</string>
                      </property>
                      <property name="margin">
                       <number>2</number>
@@ -1086,7 +1077,7 @@
                       <number>0</number>
                      </property>
                      <property name="maximum">
-                      <number>23</number>
+                      <number>5</number>
                      </property>
                      <property name="pageStep">
                       <number>1</number>
@@ -1111,9 +1102,9 @@
                    <item>
                     <layout class="QHBoxLayout" name="horizontalLayoutFee10">
                      <item>
-                      <widget class="QLabel" name="labelSmartFeeNormal">
+                      <widget class="QLabel" name="labelPriorityLow">
                        <property name="text">
-                        <string>normal</string>
+                        <string>low</string>
                        </property>
                       </widget>
                      </item>
@@ -1151,9 +1142,9 @@
                       </spacer>
                      </item>
                      <item>
-                      <widget class="QLabel" name="labelSmartFeeFast">
+                      <widget class="QLabel" name="labelPriorityHigh">
                        <property name="text">
-                        <string>fast</string>
+                        <string>high</string>
                        </property>
                       </widget>
                      </item>

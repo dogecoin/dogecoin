@@ -1,22 +1,73 @@
+# This variant of the unit file is for package installations.
+#
+# The relevant paths are:
+#
+#/usr/bin/dogecoind
+#/etc/dogecoin/
+#/var/lib/dogecoin/
+
 [Unit]
 Description=Dogecoin's distributed currency daemon
 After=network.target
 
 [Service]
+Type=simple
+ExecStart=/usr/bin/dogecoind -conf=/etc/dogecoin/dogecoin.conf -datadir=/var/lib/dogecoin
+
+KillSignal=SIGINT
+Restart=always
+RestartSec=5
+TimeoutStopSec=60
+TimeoutStartSec=5
+StartLimitIntervalSec=120
+StartLimitBurst=5
+
 User=dogecoin
 Group=dogecoin
 
-Type=forking
-PIDFile=/var/lib/dogecoind/dogecoind.pid
-ExecStart=/usr/bin/dogecoind -daemon -pid=/var/lib/dogecoind/dogecoind.pid \
--conf=/etc/dogecoin/dogecoin.conf -datadir=/var/lib/dogecoind -disablewallet
+### Restrict resource consumption
+MemoryAccounting=yes
+MemoryLimit=3g
 
-Restart=always
+### Restrict access to host file system.
+#
+# Hide the entire root file system by default, and *only* mount in exactly what is needed.
+#
+
+TemporaryFileSystem=/:ro
+
+# Add core dependencies
+BindReadOnlyPaths=/etc/ /lib/ /lib64/
+
+# Add daemon paths
+BindReadOnlyPaths=/usr/bin/dogecoind /etc/dogecoin/
+BindPaths=/var/lib/dogecoin
+
+### Restrict access to system.
+
+NoNewPrivileges=true
 PrivateTmp=true
-TimeoutStopSec=60s
-TimeoutStartSec=2s
-StartLimitInterval=120s
-StartLimitBurst=5
+PrivateDevices=true
+PrivateUsers=true
+DevicePolicy=closed
+ProtectHome=true
+ProtectHostname=true
+ProtectControlGroups=true
+ProtectClock=true
+ProtectKernelModules=true
+ProtectKernelTunables=true
+ProtectKernelLogs=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK
+RestrictNamespaces=true
+RestrictRealtime=true
+RestrictSUIDSGID=true
+MemoryDenyWriteExecute=true
+LockPersonality=true
+
+# ProtectSystem=strict would normally be used, however it nullifies TemporaryFileSystem,
+# since it remounts root as read only over the top.
+# In this case, do not enable ProtectSystem.
+#ProtectSystem=strict
 
 [Install]
 WantedBy=multi-user.target

@@ -15,8 +15,8 @@
                 "reqSigs": 2,
                 "type": "multisig",
                 "addresses": [
-                    "DKwMZJ4jYfwAhJckKCMUFz2vrDqscXPMxB", 
-                    "DKfzXQG7RiH3wE9tNJEKd3PK3UdgQshoTP", 
+                    "DKwMZJ4jYfwAhJckKCMUFz2vrDqscXPMxB",
+                    "DKfzXQG7RiH3wE9tNJEKd3PK3UdgQshoTP",
                     "D8V18BYptwTpq6eUidbj2AtkL396fFAR4Y"
                 ]
             }

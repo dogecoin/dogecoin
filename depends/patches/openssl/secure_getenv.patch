@@ -1,0 +1,37 @@
+Solves export of glibc 2.17 secure_getenv because we support down to 2.11
+
+Patches openssl 1.0.2's usage of secure_getenv from glibc 2.17 to instead
+always use the fallback OPENSSL_issetugid(), which essentially does the
+same thing on linux, with the only difference that the glibc version makes
+decisions on startup, whereas the openssl version does the same check each
+time the environment is read.
+
+glibc check: https://sourceware.org/git/?p=glibc.git;a=blob;f=elf/enbl-secure.c;h=9e47526bd3e444e1a19a8ea9fd310b6f47c4db52;hb=HEAD
+glibc implementation: https://sourceware.org/git/?p=glibc.git;a=blob;f=stdlib/secure-getenv.c;h=a394eebcf794c1279d66e5bcb71d4b15725e6e5a;hb=HEAD
+
+openssl check: https://github.com/openssl/openssl/blob/OpenSSL_1_0_2u/crypto/uid.c
+
+This patch can be removed when glibc 2.17 is the minimum version supported
+
+Author: Patrick Lodder <patricklodder@users.noreply.github.com>
+
+diff -dur a/crypto/getenv.c b/crypto/getenv.c
+--- a/crypto/getenv.c	2019-12-20 13:02:41.000000000 +0000
++++ b/crypto/getenv.c	2021-09-20 03:02:04.125747397 +0000
+@@ -16,16 +16,7 @@
+
+ char *ossl_safe_getenv(const char *name)
+ {
+-#if defined(__GLIBC__) && defined(__GLIBC_PREREQ)
+-# if __GLIBC_PREREQ(2, 17)
+-#  define SECURE_GETENV
+-    return secure_getenv(name);
+-# endif
+-#endif
+-
+-#ifndef SECURE_GETENV
+     if (OPENSSL_issetugid())
+         return NULL;
+     return getenv(name);
+-#endif
+ }

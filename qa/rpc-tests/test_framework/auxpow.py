@@ -17,7 +17,7 @@ def computeAuxpow (block, target, ok):
 
   # Start by building the merge-mining coinbase.  The merkle tree
   # consists only of the block hash as root.
-  coinbase = "fabe" + binascii.hexlify ("m" * 2)
+  coinbase = "fabe" + binascii.hexlify("m" * 2)
   coinbase += block
   coinbase += "01000000" + ("00" * 4)
 
@@ -63,7 +63,7 @@ def mineAuxpowBlock (node):
   """
 
   auxblock = node.getauxblock ()
-  target = reverseHex (auxblock['_target'])
+  target = reverseHex (auxblock['target'])
   apow = computeAuxpow (auxblock['hash'], target, True)
   res = node.getauxblock (auxblock['hash'], apow)
   assert res
@@ -105,7 +105,7 @@ def reverseHex (data):
   Flip byte order in the given data (hex string).
   """
 
-  b = bytearray (bytes.fromhex(data))
+  b = bytearray (binascii.unhexlify(data))
   b.reverse ()
 
-  return b.hex()
+  return binascii.hexlify(b).decode("ascii")

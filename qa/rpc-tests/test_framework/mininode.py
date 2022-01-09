@@ -36,7 +36,7 @@ from threading import RLock
 from threading import Thread
 import logging
 import copy
-import litecoin_scrypt
+import ltc_scrypt
 from test_framework.siphash import siphash256
 
 BIP0031_VERSION = 60000
@@ -47,7 +47,7 @@ MY_RELAY = 1 # from version 70001 onwards, fRelay should be appended to version 
 MAX_INV_SZ = 50000
 MAX_BLOCK_BASE_SIZE = 1000000
 
-COIN = 100000000 # 1 btc in satoshis
+COIN = 100000000 # mlumin 5/2021: In terms of Dogecoin, 1 dogecoin or 100,000,000 koinu.
 
 NODE_NETWORK = (1 << 0)
 NODE_GETUTXO = (1 << 1)
@@ -583,7 +583,7 @@ class CBlockHeader(object):
             r += struct.pack("<I", self.nNonce)
             self.sha256 = uint256_from_str(hash256(r))
             self.hash = encode(hash256(r)[::-1], 'hex_codec').decode('ascii')
-            self.scrypt256 = uint256_from_str(litecoin_scrypt.getPoWHash(r))
+            self.scrypt256 = uint256_from_str(ltc_scrypt.getPoWHash(r))
 
     def rehash(self):
         self.sha256 = None
@@ -1684,6 +1684,10 @@ class NodeConn(asyncore.dispatcher):
             if len(t) > 0:
                 self.recvbuf += t
                 self.got_data()
+            else:
+                self.show_debug_msg("MiniNode: Closing connection to %s:%d after peer disconnect..."
+                                    % (self.dstaddr, self.dstport))
+                self.handle_close()
         except:
             pass
 

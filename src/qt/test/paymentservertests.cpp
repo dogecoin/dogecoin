@@ -191,6 +191,8 @@ void PaymentServerTests::paymentServerTests()
     QCOMPARE(PaymentServer::verifySize(tempFile.size()), false);
 
     // Payment request with amount overflow (amount is set to 21000001 BTC):
+    /* PL: This doesn't work for Dogecoin (as there is no actual maximum coins)
+     *     I'm disabling this test for now.
     data = DecodeBase64(paymentrequest5_cert2_BASE64);
     byteArray = QByteArray((const char*)&data[0], data.size());
     r.paymentRequest.parse(byteArray);
@@ -203,6 +205,7 @@ void PaymentServerTests::paymentServerTests()
         if (ExtractDestination(sendingTo.first, dest))
             QCOMPARE(PaymentServer::verifyAmount(sendingTo.second), false);
     }
+    */
 
     delete server;
 }

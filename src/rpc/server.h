@@ -21,6 +21,7 @@
 #include <univalue.h>
 
 static const unsigned int DEFAULT_RPC_SERIALIZE_VERSION = 1;
+static const bool DEFAULT_USE_NAMECOIN_API = false;
 
 class CRPCCommand;
 
@@ -210,5 +211,7 @@ void RPCNotifyBlockChange(bool ibd, const CBlockIndex *);
 
 // Retrieves any serialization flags requested in command line argument
 int RPCSerializationFlags();
+
+extern bool fUseNamecoinApi;
 
 #endif // BITCOIN_RPCSERVER_H

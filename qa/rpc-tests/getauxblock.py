@@ -12,9 +12,22 @@ from test_framework import scrypt_auxpow as auxpow
 
 class GetAuxBlockTest (BitcoinTestFramework):
 
+  def __init__(self):
+    super().__init__()
+    self.setup_clean_chain = True
+    self.num_nodes = 2
+    self.is_network_split = False
+
+  def setup_network(self):
+    self.nodes = []
+    self.nodes.append(start_node(0, self.options.tmpdir, ["-debug"]))
+    self.nodes.append(start_node(1, self.options.tmpdir, ["-debug", "-rpcnamecoinapi"]))
+    connect_nodes_bi(self.nodes, 0, 1)
+    self.sync_all()
+
   def run_test (self):
     # Generate a block so that we are not "downloading blocks".
-    self.nodes[0].generate (1)
+    self.nodes[0].generate(100)
 
     # Compare basic data of getauxblock to getblocktemplate.
     auxblock = self.nodes[0].getauxblock ()
@@ -116,6 +129,20 @@ class GetAuxBlockTest (BitcoinTestFramework):
     tx = self.nodes[1].getrawtransaction (blk['tx'][0], 1)
     coinbase = tx['vin'][0]['coinbase']
     assert_equal ("01%02x01" % auxblock['height'], coinbase[0 : 6]) # DOGE: We mine less blocks in these tests
+
+    # Call getauxblock while using the Namecoin API
+    nmc_api_auxblock = self.nodes[1].getauxblock()
+
+    # must not contain a "target" field, but a "_target" field
+    assert "target" not in nmc_api_auxblock
+    assert "_target" in nmc_api_auxblock
+
+    reversedTarget = auxpow.reverseHex(nmc_api_auxblock["_target"])
+    apow = auxpow.computeAuxpowWithChainId(nmc_api_auxblock["hash"], reversedTarget, "98", True)
+    res = self.nodes[1].getauxblock(nmc_api_auxblock["hash"], apow)
+    assert res
+
+    self.sync_all()
 
 if __name__ == '__main__':
   GetAuxBlockTest ().main ()

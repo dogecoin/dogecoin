@@ -7,7 +7,7 @@ from test_framework.mininode import *
 from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import *
 import time
-from test_framework.blocktools import create_block, create_coinbase
+from test_framework.blocktools import create_block, create_coinbase, create_transaction
 
 '''
 AcceptBlockTest -- test processing of unrequested blocks.
@@ -39,7 +39,7 @@ The test:
    it's missing an intermediate block.
    Node1 should reorg to this longer chain.
 
-4b.Send 288 more blocks on the longer chain.
+4b.Send 1440 more blocks on the longer chain.
    Node0 should process all but the last block (too far ahead in height).
    Send all headers to Node1, and then send the last block in that chain.
    Node1 should accept the block because it's coming from a whitelisted peer.
@@ -54,18 +54,27 @@ The test:
 
 7. Send Node0 the missing block again.
    Node0 should process and the tip should advance.
+
+8. Create a fork which is invalid at a height longer than the current chain
+   (ie to which the node will try to reorg) but which has headers built on top
+   of the invalid block. Check that we get disconnected if we send more headers
+   on the chain the node now knows to be invalid.
+
+9. Test Node1 is able to sync when connected to node0 (which should have sufficient
+   work on its chain).
 '''
 
 # TestNode: bare-bones "peer".  Used mostly as a conduit for a test to sending
 # p2p messages to a node, generating the messages in the main testing logic.
 class TestNode(NodeConnCB):
-    def __init__(self):
+    def __init__(self, timeout_factor=1):
         NodeConnCB.__init__(self)
         self.connection = None
         self.ping_counter = 1
         self.last_pong = msg_pong()
 
     def add_connection(self, conn):
+        self.has_been_disconnected = False
         self.connection = conn
 
     # Track the last getdata message we receive (used in the test)
@@ -104,6 +113,17 @@ class TestNode(NodeConnCB):
         self.ping_counter += 1
         return received_pong
 
+    # wait for the socket to be in a closed state
+    def wait_for_disconnect(self, timeout=60):
+        if self.connection == None:
+            return True
+        sleep_time = 0.05
+        is_closed = self.connection.state == "closed"
+        while not is_closed and timeout > 0:
+            time.sleep(sleep_time)
+            timeout -= sleep_time
+            is_closed = self.connection.state == "closed"
+        return is_closed
 
 class AcceptBlockTest(BitcoinTestFramework):
     def add_options(self, parser):
@@ -206,14 +226,14 @@ class AcceptBlockTest(BitcoinTestFramework):
         assert_equal(self.nodes[1].getblockcount(), 3)
         print("Successfully reorged to length 3 chain from whitelisted peer")
 
-        # 4b. Now mine 288 more blocks and deliver; all should be processed but
+        # 4b. Now mine 1440 more blocks and deliver; all should be processed but
         # the last (height-too-high) on node0.  Node1 should process the tip if
         # we give it the headers chain leading to the tip.
         tips = blocks_h3
         headers_message = msg_headers()
         all_blocks = []   # node0's blocks
         for j in range(2):
-            for i in range(288):
+            for i in range(1440):
                 next_block = create_block(tips[j].sha256, create_coinbase(i + 4), tips[j].nTime+1)
                 next_block.solve()
                 if j==0:
@@ -224,7 +244,7 @@ class AcceptBlockTest(BitcoinTestFramework):
                 tips[j] = next_block
 
         time.sleep(2)
-        # Blocks 1-287 should be accepted, block 288 should be ignored because it's too far ahead
+        # Blocks 1-1439 should be accepted, block 1440 should be ignored because it's too far ahead
         for x in all_blocks[:-1]:
             self.nodes[0].getblock(x.hash)
         assert_raises_jsonrpc(-1, "Block not found on disk", self.nodes[0].getblock, all_blocks[-1].hash)
@@ -270,8 +290,82 @@ class AcceptBlockTest(BitcoinTestFramework):
         test_node.send_message(msg_block(blocks_h2f[0]))
 
         test_node.sync_with_ping()
-        assert_equal(self.nodes[0].getblockcount(), 290)
+        assert_equal(self.nodes[0].getblockcount(), 1442)
+        self.nodes[0].getblock(all_blocks[1438].hash)
+        assert_equal(self.nodes[0].getbestblockhash(), all_blocks[1438].hash)
+        assert_raises_jsonrpc(-1, "Block not found on disk", self.nodes[0].getblock, all_blocks[1439].hash)
         print("Successfully reorged to longer chain from non-whitelisted peer")
+
+        # 8. Create a chain which is invalid at a height longer than the
+        # current chain, but which has more blocks on top of that
+        block_1441f = create_block(all_blocks[1436].sha256, create_coinbase(1441), all_blocks[1436].nTime+1)
+        block_1441f.solve()
+        block_1442f = create_block(block_1441f.sha256, create_coinbase(1440), block_1441f.nTime+1)
+        block_1442f.solve()
+        block_1443 = create_block(block_1442f.sha256, create_coinbase(1441), block_1442f.nTime+1)
+        # block_1443 spends a coinbase below maturity!
+        block_1443.vtx.append(create_transaction(block_1442f.vtx[0], 0, b"42", 1))
+        block_1443.hashMerkleRoot = block_1443.calc_merkle_root()
+        block_1443.solve()
+        block_1444 = create_block(block_1443.sha256, create_coinbase(1444), block_1443.nTime+1)
+        block_1444.solve()
+
+        # Now send all the headers on the chain and enough blocks to trigger reorg
+        headers_message = msg_headers()
+        headers_message.headers.append(CBlockHeader(block_1441f))
+        headers_message.headers.append(CBlockHeader(block_1442f))
+        headers_message.headers.append(CBlockHeader(block_1443))
+        headers_message.headers.append(CBlockHeader(block_1444))
+        test_node.send_message(headers_message)
+
+        test_node.sync_with_ping()
+        tip_entry_found = False
+        for x in self.nodes[0].getchaintips():
+            if x['hash'] == block_1444.hash:
+                assert_equal(x['status'], "headers-only")
+                tip_entry_found = True
+        assert(tip_entry_found)
+        assert_raises_jsonrpc(-1, "Block not found on disk", self.nodes[0].getblock, block_1444.hash)
+
+        test_node.send_message(msg_block(block_1441f))
+        test_node.send_message(msg_block(block_1442f))
+
+        test_node.sync_with_ping()
+        self.nodes[0].getblock(block_1441f.hash)
+        self.nodes[0].getblock(block_1442f.hash)
+
+        test_node.send_message(msg_block(block_1443))
+
+        # At this point we've sent an obviously-bogus block,
+        # and we must get disconnected
+        assert_equal(test_node.wait_for_disconnect(), True)
+        print("Successfully got disconnected after sending an invalid block")
+
+        # recreate our malicious node
+        test_node = TestNode()   # connects to node (not whitelisted)
+        connections[0] = NodeConn('127.0.0.1', p2p_port(0), self.nodes[0], test_node)
+        test_node.add_connection(connections[0])
+        test_node.wait_for_verack()
+
+        # We should have failed reorg and switched back to 1442 (but have block 1443)
+        assert_equal(self.nodes[0].getblockcount(), 1442)
+        assert_equal(self.nodes[0].getbestblockhash(), all_blocks[1438].hash)
+        assert_equal(self.nodes[0].getblock(block_1443.hash)["confirmations"], -1)
+
+        # Now send a new header on the invalid chain, indicating we're forked
+        # off, and expect to get disconnected
+        block_1445 = create_block(block_1444.sha256, create_coinbase(1445), block_1444.nTime+1)
+        block_1445.solve()
+        headers_message = msg_headers()
+        headers_message.headers.append(CBlockHeader(block_1445))
+        test_node.send_message(headers_message)
+        assert_equal(test_node.wait_for_disconnect(), True)
+        print("Successfully got disconnected after building on an invalid block")
+
+        # 9. Connect node1 to node0 and ensure it is able to sync
+        connect_nodes(self.nodes[0], 1)
+        sync_blocks([self.nodes[0], self.nodes[1]])
+        print("Successfully synced nodes 1 and 0")
 
         [ c.disconnect_node() for c in connections ]
 
