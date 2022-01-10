@@ -936,7 +936,7 @@
     </message>
     <message>
         <source>Reset all key management options to default.</source>
-        <translation type="unfinished"></translation>
+        <translation>모든 키 관리 설정을 초기화</translation>
     </message>
     <message>
         <source>&amp;Reset</source>
@@ -1526,7 +1526,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Public Key:</source>
-        <translation type="unfinished"></translation>
+        <translation>공개 키:</translation>
     </message>
     <message>
         <source>Close</source>
@@ -1558,7 +1558,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Load Paper Wallets</source>
-        <translation type="unfinished"></translation>
+        <translation>종이 지갑 가져오기</translation>
     </message>
     <message>
         <source>The paper wallet printing process has begun.&lt;br/&gt;Please wait for the wallets to print completely and verify that everything printed correctly.&lt;br/&gt;Check for misalignments, ink bleeding, smears, or anything else that could make the private keys unreadable.&lt;br/&gt;Now, enter the number of DOGE you wish to send to each wallet:</source>
@@ -1594,7 +1594,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Duplicate address found, can only send to each address once per send operation.</source>
-        <translation type="unfinished"></translation>
+        <translation>중복 주소 발견, 송금 건당 한 주소로 한번 송금 가능</translation>
     </message>
     <message>
         <source>Transaction creation failed!</source>
@@ -1618,7 +1618,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Confirm send coins</source>
-        <translation type="unfinished">코인 전송 확인</translation>
+        <translation>코인 전송 확인</translation>
     </message>
     <message>
         <source>The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
@@ -1736,11 +1736,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Bytes Sent</source>
-        <translation type="unfinished"></translation>
+        <translation>송출된 바이트 양</translation>
     </message>
     <message>
         <source>Bytes Received</source>
-        <translation type="unfinished"></translation>
+        <translation>받은 바이트 양</translation>
     </message>
 </context>
 <context>
