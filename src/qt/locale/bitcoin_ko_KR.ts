@@ -908,7 +908,7 @@
     <name>ImportKeysDialog</name>
     <message>
         <source>Import Private Key</source>
-        <translation type="unfinished"></translation>
+        <translation>개인 키 가져오기</translation>
     </message>
     <message>
         <source>&amp;Import Private Key</source>
@@ -916,27 +916,27 @@
     </message>
     <message>
         <source>Private Key:</source>
-        <translation type="unfinished"></translation>
+        <translation>개인 키:</translation>
     </message>
     <message>
         <source>Private key to import into your wallet</source>
-        <translation type="unfinished"></translation>
+        <translation>지갑으로 가져올 개인 키</translation>
     </message>
     <message>
         <source>Label for this private key in your wallet</source>
-        <translation type="unfinished"></translation>
+        <translation>지갑에 있는 개인 키를 위한 라벨</translation>
     </message>
     <message>
         <source>Label (optional):</source>
-        <translation type="unfinished"></translation>
+        <translation>라벨 (선택사항):</translation>
     </message>
     <message>
         <source>Rescan</source>
-        <translation type="unfinished"></translation>
+        <translation>재검색</translation>
     </message>
     <message>
         <source>Reset all key management options to default.</source>
-        <translation type="unfinished"></translation>
+        <translation>모든 키 관리 설정을 초기화</translation>
     </message>
     <message>
         <source>&amp;Reset</source>
@@ -952,19 +952,19 @@
     </message>
     <message>
         <source>Invalid private key; please check and try again!</source>
-        <translation type="unfinished"></translation>
+        <translation>올바르지 않은 개인 키; 확인 후 재시도 하기 바랍니다!</translation>
     </message>
     <message>
         <source>Invalid address generated from private key; please check and try again!</source>
-        <translation type="unfinished"></translation>
+        <translation>개인 키에서 생성된 주소기 올바르지 않습니다; 확인 후 재시도 하기 바랍니다!</translation>
     </message>
     <message>
         <source>Failed to add private key.</source>
-        <translation type="unfinished"></translation>
+        <translation>개인 키 가져오기 실패</translation>
     </message>
     <message>
         <source>Rescanning...</source>
-        <translation type="unfinished">재검색 중...</translation>
+        <translation>재검색 중...</translation>
     </message>
 </context>
 <context>
@@ -1015,7 +1015,7 @@
     </message>
     <message>
         <source>Choose data directory</source>
-        <translation type="unfinished"></translation>
+        <translation>데이터 경로 지정</translation>
     </message>
 </context>
 <context>
@@ -1042,7 +1042,7 @@
     </message>
     <message>
         <source>Progress</source>
-        <translation>진행</translation>
+        <translation>진행 상태</translation>
     </message>
     <message>
         <source>Progress increase per hour</source>
@@ -1403,15 +1403,15 @@
     </message>
     <message>
         <source>Helpful tip of the day:</source>
-        <translation type="unfinished"></translation>
+        <translation>오늘의 유용한 팁:</translation>
     </message>
     <message>
         <source>Tip</source>
-        <translation type="unfinished"></translation>
+        <translation>팁</translation>
     </message>
     <message>
         <source>Never share your wallet.dat file/your private key with anyone</source>
-        <translation type="unfinished"></translation>
+        <translation>절대로 남과 wallet.dat 파일/개인 키를 공유하지 마세요!</translation>
     </message>
     <message>
         <source>For more advanced settings use the console in &apos;Help&apos; -&gt; &apos;Debug Window&apos;</source>
@@ -1419,11 +1419,11 @@
     </message>
     <message>
         <source>Encrypt your wallet with a strong passphrase for maximum security</source>
-        <translation type="unfinished"></translation>
+        <translation>강한 보안을 위하여 지갑을 비밀문구로 암호화</translation>
     </message>
     <message>
         <source>Make sure to keep your wallet updated.</source>
-        <translation type="unfinished"></translation>
+        <translation>지갑을 업데이트하는 것을 잊지 마세요.</translation>
     </message>
     <message>
         <source>Backup your private key to recover your coins, using &apos;File&apos; &gt; &apos;Backup Wallet&apos;</source>
@@ -1431,42 +1431,42 @@
     </message>
     <message>
         <source>Always do your own research before using an external cryptocurrency service</source>
-        <translation type="unfinished"></translation>
+        <translation>외부 가상화폐 서비스 이용하기에 앞서 꼭 잘 알아보기 바랍니다</translation>
     </message>
     <message>
         <source>Never share your private key to an untrustworthy person.</source>
-        <translation type="unfinished"></translation>
+        <translation>신뢰할 수 없는 사람과 절대로 개인 키를 공유하지 마세요</translation>
     </message>
     <message>
         <source>Who own the private keys own the coins.</source>
-        <translation type="unfinished"></translation>
+        <translation>개인 키를 소유하는자는 가상화폐룰 소유한다.</translation>
     </message>
     <message>
         <source>To see ongoing development and contribute, checkout Dogecoin repository on GitHub!</source>
-        <translation type="unfinished"></translation>
+        <translation>진해중인 개발과정과 직접 개발과정에 기여하기를 하길 원한다면, 기트허브(Github)에 있는 Dogecoin Repository 확인하기 바랍니다!</translation>
     </message>
     <message>
         <source>Services that claim to double your dogecoins are always ponzi schemes</source>
-        <translation type="unfinished"></translation>
+        <translation>도지코인의 수를 배로 늘려주겠다고하는 서비스는 빠짐없이 다 사기입니다</translation>
     </message>
 </context>
 <context>
     <name>PaperWalletDialog</name>
     <message>
         <source>Print Your Paper Wallets</source>
-        <translation type="unfinished"></translation>
+        <translation>종이 지갑 출력</translation>
     </message>
     <message>
         <source>Very New Address</source>
-        <translation type="unfinished"></translation>
+        <translation>완전 새로운 주소</translation>
     </message>
     <message>
         <source>So Print</source>
-        <translation type="unfinished"></translation>
+        <translation>아주 출력</translation>
     </message>
     <message>
         <source>Many Wallets?</source>
-        <translation type="unfinished"></translation>
+        <translation>여러 지갑?</translation>
     </message>
     <message>
         <source>1</source>
@@ -1526,39 +1526,39 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Public Key:</source>
-        <translation type="unfinished"></translation>
+        <translation>공개 키:</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>닫기</translation>
     </message>
     <message>
         <source>Warning: Network Activity Detected</source>
-        <translation type="unfinished"></translation>
+        <translation>경고: 네트워크 활동 감지</translation>
     </message>
     <message>
         <source>It is recommended to disconnect from the internet before printing paper wallets. Even though paper wallets are generated on your local computer, it is still possible to unknowingly have malware that transmits your screen to a remote location. It is also recommended to print to a local printer vs a network printer since that network traffic can be monitored. Some advanced printers also store copies of each printed document. Proceed with caution relative to the amount of value you plan to store on each address.</source>
-        <translation type="unfinished"></translation>
+        <translation>종이 지갑 출력하기 이전에 인터넷과의 연결해제가 추천된다. 종이지갑은 로컬 컴퓨터에서 생성되지만, 외부에게 화면이 공유되는 맬웨어가 있을 수도 있다. 또한 네트워크 프린터가 아닌 로컬 프린터를 이용하는것이 추천된다. 어떤 프린터는 출력물을 저장하기도 한다. 해당 주소에 보관할 가상화폐의 양에 따라서 적절하게 주의해주시기 바랍니다.</translation>
     </message>
     <message>
         <source>Error encoding Address into QR Code.</source>
-        <translation type="unfinished"></translation>
+        <translation>주소에서 Qr코드 인코딩 오류.</translation>
     </message>
     <message>
         <source>Error encoding private key into QR Code.</source>
-        <translation type="unfinished"></translation>
+        <translation>개인 키에서 Qr코드 인코딩 오류.</translation>
     </message>
     <message>
         <source>Printing Error</source>
-        <translation type="unfinished"></translation>
+        <translation>출력 오류</translation>
     </message>
     <message>
         <source>failed to open file, is it writable?</source>
-        <translation type="unfinished"></translation>
+        <translation>파일 열기 실패, 쓰기권한이 부여되어 있나요?</translation>
     </message>
     <message>
         <source>Load Paper Wallets</source>
-        <translation type="unfinished"></translation>
+        <translation>종이 지갑 가져오기</translation>
     </message>
     <message>
         <source>The paper wallet printing process has begun.&lt;br/&gt;Please wait for the wallets to print completely and verify that everything printed correctly.&lt;br/&gt;Check for misalignments, ink bleeding, smears, or anything else that could make the private keys unreadable.&lt;br/&gt;Now, enter the number of DOGE you wish to send to each wallet:</source>
@@ -1574,11 +1574,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Send Coins</source>
-        <translation type="unfinished">코인 보내기</translation>
+        <translation>코인 보내기</translation>
     </message>
     <message>
         <source>The recipient address is not valid, please recheck.</source>
-        <translation type="unfinished"></translation>
+        <translation>받으실 주소가 올바르지 않습니다, 재확인 해주세요.</translation>
     </message>
     <message>
         <source>The amount to pay must be larger than 0</source>
@@ -1586,27 +1586,27 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>The amount exceeds your balance.</source>
-        <translation type="unfinished">잔고를 초과하였습니다.</translation>
+        <translation>잔고를 초과하였습니다.</translation>
     </message>
     <message>
         <source>The total exceeds your balance when the transaction fee is included</source>
-        <translation type="unfinished"></translation>
+        <translation>송금 수수료 포함할 경우에 잔고를 초과합니다</translation>
     </message>
     <message>
         <source>Duplicate address found, can only send to each address once per send operation.</source>
-        <translation type="unfinished"></translation>
+        <translation>중복 주소 발견, 송금 건당 한 주소로 한번 송금 가능</translation>
     </message>
     <message>
         <source>Transaction creation failed!</source>
-        <translation type="unfinished">거래 생성을 실패하였습니다!</translation>
+        <translation>거래 생성을 실패하였습니다!</translation>
     </message>
     <message>
         <source>Are you sure you want to send?</source>
-        <translation type="unfinished">정말로 보내시겠습니까?</translation>
+        <translation>정말로 보내시겠습니까?</translation>
     </message>
     <message>
         <source>added as transaction fee</source>
-        <translation type="unfinished">거래 수수료로 추가됨</translation>
+        <translation>거래 수수료로 추가됨</translation>
     </message>
     <message>
         <source>Total Amount %1 (= %2)</source>
@@ -1618,11 +1618,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Confirm send coins</source>
-        <translation type="unfinished">코인 전송 확인</translation>
+        <translation>코인 전송 확인</translation>
     </message>
     <message>
         <source>The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
-        <translation type="unfinished"></translation>
+        <translation>송금이 거부되었습니다! 지갑에 있는 코인이 이미 사용되었을 경우일 수도 있다, 예를 들어 wallet.dat의 복사본을 이용하여 코인을 사용했지만 여기에서 사용되었다고 표시가 되지 않은 경우.</translation>
     </message>
 </context>
 <context>
@@ -1736,11 +1736,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Bytes Sent</source>
-        <translation type="unfinished"></translation>
+        <translation>송출된 바이트 양</translation>
     </message>
     <message>
         <source>Bytes Received</source>
-        <translation type="unfinished"></translation>
+        <translation>받은 바이트 양</translation>
     </message>
 </context>
 <context>
@@ -1759,7 +1759,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Node not found in connected nodes</source>
-        <translation type="unfinished"></translation>
+        <translation>연결된 노드 중에 해당 노드가 발견되지 않음</translation>
     </message>
     <message>
         <source>Disconnected the node: </source>
@@ -4455,7 +4455,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Wow</source>
-        <translation type="unfinished"></translation>
+        <translation>우왕</translation>
     </message>
     <message>
         <source>-discardthreshold is set very high! This is the output amount that the wallet will discard (to fee) if it is smaller than this setting.</source>
