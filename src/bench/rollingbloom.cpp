@@ -18,10 +18,9 @@ static void RollingBloom(benchmark::State& state)
     uint64_t match = 0;
     while (state.KeepRunning()) {
         count++;
-        data[0] = count;
-        data[1] = count >> 8;
-        data[2] = count >> 16;
-        data[3] = count >> 24;
+        for(int i = 0;i <= 3; i++){
+            data[i] = count >> (8*i);
+        }
         if (countnow == nEntriesPerGeneration) {
             int64_t b = GetTimeMicros();
             filter.insert(data);
@@ -32,10 +31,9 @@ static void RollingBloom(benchmark::State& state)
             filter.insert(data);
         }
         countnow++;
-        data[0] = count >> 24;
-        data[1] = count >> 16;
-        data[2] = count >> 8;
-        data[3] = count;
+        for(int i = 3;i >= 0; i--){
+            data[i] = count >> (8*(3-i));
+        }
         match += filter.contains(data);
     }
 }
