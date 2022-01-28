@@ -233,7 +233,7 @@ Alihkan fail data ke dalam tab semasa</translation>
     </message>
 </context>
 <context>
-    <name>BitcoinGUI</name>
+    <name>DogecoinGUI</name>
     <message>
         <source>Sign &amp;message...</source>
         <translation>Tandatangan &amp; mesej...</translation>
@@ -500,6 +500,6 @@ Alihkan fail data ke dalam tab semasa</translation>
     </message>
     </context>
 <context>
-    <name>bitcoin-core</name>
+    <name>dogecoin-core</name>
     </context>
 </TS>
