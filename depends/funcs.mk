@@ -28,10 +28,12 @@ define fetch_file_inner
     rm -rf $$($(1)_download_dir) )
 endef
 
+# Dogecoin: fetch the target filename from our mirror instead of the source,
+#           because some of the tag archives from github are identical
 define fetch_file
     ( test -f $$($(1)_source_dir)/$(4) || \
     ( $(call fetch_file_inner,$(1),$(2),$(3),$(4),$(5)) || \
-      $(call fetch_file_inner,$(1),$(FALLBACK_DOWNLOAD_PATH),$(3),$(4),$(5))))
+      $(call fetch_file_inner,$(1),$(FALLBACK_DOWNLOAD_PATH),$(4),$(4),$(5))))
 endef
 
 define int_get_build_recipe_hash
