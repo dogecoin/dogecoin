@@ -23,7 +23,7 @@ jobs:
       PYTHON_DEBUG: "1"
       CACHE_NONCE: "1"
       WINEDEBUG: fixme-all
-      SDK_URL: https://bitcoincore.org/depends-sources/sdks
+      SDK_URL: https://depends.dogecoincore.org
 
     strategy:
       fail-fast: false
@@ -160,6 +160,7 @@ jobs:
             config-opts: "--enable-gui=qt5 --disable-tests"
             goal: deploy
             sdk: 10.11
+            sdk-shasum: "bec9d089ebf2e2dd59b1a811a38ec78ebd5da18cbbcd6ab39d1e59f64ac5033f"
           - name: x86_64-linux-experimental
             host: x86_64-unknown-linux-gnu
             os: ubuntu-18.04
@@ -198,15 +199,19 @@ jobs:
           cache-name: sdk
         with:
           path: ./depends/sdk-sources
-          key: ${{ matrix.name }}-${{ env.cache-name }}
+          key: ${{ matrix.name }}-${{ env.cache-name }}-${{ hashFiles('.github/workflows/ci.yml') }}
 
       - name: Install SDK
         if: ${{ matrix.sdk }}
+        env:
+          sdk-filename: MacOSX${{ matrix.sdk }}.sdk.tar.gz
         run: |
           mkdir -p ./depends/sdk-sources
           mkdir -p ./depends/SDKs
-          curl --location --fail $SDK_URL/MacOSX${{ matrix.sdk }}.sdk.tar.gz -o depends/sdk-sources/MacOSX${{ matrix.sdk }}.sdk.tar.gz
-          tar -C depends/SDKs -xf depends/sdk-sources/MacOSX${{ matrix.sdk }}.sdk.tar.gz
+          echo "${{ matrix.sdk-shasum }}  depends/sdk-sources/${{ env.sdk-filename }}" | sha256sum -c || \
+          curl --location --fail $SDK_URL/${{ env.sdk-filename }} -o depends/sdk-sources/${{ env.sdk-filename }} &&\
+          echo "${{ matrix.sdk-shasum }}  depends/sdk-sources/${{ env.sdk-filename }}" | sha256sum -c
+          tar -C depends/SDKs -xf depends/sdk-sources/${{ env.sdk-filename }}
 
       - name: Dependency cache
         uses: actions/cache@v2
