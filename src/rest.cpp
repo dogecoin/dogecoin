@@ -512,15 +512,21 @@ static bool rest_getutxos(HTTPRequest* req, const std::string& strURIPart)
         CCoinsViewCache& viewChain = *pcoinsTip;
         CCoinsViewMemPool viewMempool(&viewChain, mempool);
 
-        if (fCheckMemPool)
-            view.SetBackend(viewMempool); // switch cache backend to db+mempool in case user likes to query mempool
+        if (fCheckMemPool) {
+            view.SetBackend(viewMempool); // set cache backend to db+mempool in case user likes to query mempool
+        } else {
+            view.SetBackend(viewChain); // set cache backend to db only otherwise
+        }
 
         for (size_t i = 0; i < vOutPoints.size(); i++) {
             CCoins coins;
             uint256 hash = vOutPoints[i].hash;
             bool hit = false;
             if (view.GetCoins(hash, coins)) {
-                mempool.pruneSpent(hash, coins);
+                if (fCheckMemPool) {
+                    mempool.pruneSpent(hash, coins);
+                }
+
                 if (coins.IsAvailable(vOutPoints[i].n)) {
                     hit = true;
                     // Safe to index into vout here because IsAvailable checked if it's off the end of the array, or if
