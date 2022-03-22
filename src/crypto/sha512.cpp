@@ -24,7 +24,7 @@
 /** GCC and LLVM Clang, but not Apple Clang */
 # if defined(__GNUC__) && !defined(__apple_build_version__)
 #  if defined(__ARM_ACLE) || defined(__ARM_FEATURE_CRYPTO)
-#   include <arm_acle.h>
+#   include "compat/arm_acle_selector.h"
 #  endif
 # endif
 #endif  /** ARM Headers */
@@ -492,4 +492,3 @@ CSHA512& CSHA512::Reset()
     sha512::Initialize(s);
     return *this;
 }
-
