@@ -31,6 +31,11 @@ if [[ ${USE_MEMORY_SANITIZER} == "true" ]]; then
   DOCKER_EXEC "contrib/install_db5.sh \$(pwd) --enable-umrw CC=clang CXX=clang++ CFLAGS='${MSAN_FLAGS}' CXXFLAGS='${MSAN_AND_LIBCXX_FLAGS}'"
 fi
 
+if [[ $HOST = *-apple-darwin16 ]]; then
+  # Use BDB compiled using install_db5.sh script as Brew does not supply BDB 5.3
+  DOCKER_EXEC "contrib/install_db5.sh \$BASE_ROOT_DIR --enable-posixmutexes"
+fi
+
 if [ -n "$XCODE_VERSION" ] && [ -f "$OSX_SDK_PATH" ]; then
   DOCKER_EXEC tar -C "${DEPENDS_DIR}/SDKs" -xf "$OSX_SDK_PATH"
 fi
