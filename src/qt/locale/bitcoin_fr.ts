@@ -5,35 +5,35 @@
     <name>AddPeerDialog</name>
     <message>
         <source>Add Peer</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter un pair</translation>
     </message>
     <message>
         <source>Enter the peer details below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrez les détails du pair ci-dessous.</translation>
     </message>
     <message>
         <source>Be careful! Do not blindly trust anyone that tells you to add their node.</source>
-        <translation type="unfinished"></translation>
+        <translation>Soyez prudent ! Ne faites pas aveuglément confiance à une personne qui vous demande d&apos;ajouter son nœud.</translation>
     </message>
     <message>
         <source>Enter the peer&apos;s address</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrez l&apos;adresse du pair</translation>
     </message>
     <message>
         <source>Enter the peer&apos;s port</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrez le port du pair</translation>
     </message>
     <message>
         <source>Add!</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter!</translation>
     </message>
     <message>
         <source>Please enter an address.</source>
-        <translation type="unfinished"></translation>
+        <translation>Veuillez entrer une adresse.</translation>
     </message>
     <message>
         <source>Please enter a valid peer address.</source>
-        <translation type="unfinished"></translation>
+        <translation>Veuillez entrer une adresse de pair valide.</translation>
     </message>
 </context>
 <context>
@@ -276,7 +276,7 @@
     </message>
     <message>
         <source>Synchronizing with network...</source>
-        <translation>Synchronisation avec le réseau…</translation>
+        <translation>Synchronisation avec le réseau...</translation>
     </message>
     <message>
         <source>&amp;Wow</source>
@@ -324,7 +324,7 @@
     </message>
     <message>
         <source>&amp;Options...</source>
-        <translation>&amp;Options…</translation>
+        <translation>&amp;Options...</translation>
     </message>
     <message>
         <source>Modify configuration options for %1</source>
@@ -526,7 +526,7 @@
     </message>
     <message>
         <source>Catching up...</source>
-        <translation>Rattrapage…</translation>
+        <translation>Rattrapage...</translation>
     </message>
     <message>
         <source>Date: %1
@@ -588,38 +588,38 @@
     </message>
     <message>
         <source>&amp;Print paper wallets</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Imprimer des portefeuilles papier</translation>
     </message>
     <message>
         <source>Print paper wallets</source>
-        <translation type="unfinished"></translation>
+        <translation>Imprimer des portefeuilles papier</translation>
     </message>
     <message>
         <source>&amp;Such sending addresses...</source>
-        <translation type="unfinished"></translation>
+        <translation>Trop d&apos;adresses d&apos;envoi...</translation>
     </message>
     <message>
         <source>&amp;Much receiving addresses...</source>
-        <translation type="unfinished"></translation>
+        <translation>Trop d&apos;adresses de réception...</translation>
     </message>
     <message>
         <source>&amp;Import Private Key...</source>
-        <translation type="unfinished"></translation>
+        <translation>Importer une clé privée...</translation>
     </message>
     <message>
         <source>Import a Dogecoin private key</source>
-        <translation type="unfinished"></translation>
+        <translation>Importer une clé privée Dogecoin</translation>
     </message>
     <message>
         <source>Runaway exception</source>
-        <translation type="unfinished"></translation>
+        <translation>Runaway exception</translation>
     </message>
 </context>
 <context>
     <name>ClientModel</name>
     <message>
         <source>Network Alert</source>
-        <translation type="unfinished"></translation>
+        <translation>Alerte réseau</translation>
     </message>
 </context>
 <context>
@@ -910,63 +910,63 @@
     <name>ImportKeysDialog</name>
     <message>
         <source>Import Private Key</source>
-        <translation type="unfinished"></translation>
+        <translation>Importer une clé privée</translation>
     </message>
     <message>
         <source>&amp;Import Private Key</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Importer une clé privée</translation>
     </message>
     <message>
         <source>Private Key:</source>
-        <translation type="unfinished"></translation>
+        <translation>Clé privée :</translation>
     </message>
     <message>
         <source>Private key to import into your wallet</source>
-        <translation type="unfinished"></translation>
+        <translation>Clé privée à importer dans votre portefeuille</translation>
     </message>
     <message>
         <source>Label for this private key in your wallet</source>
-        <translation type="unfinished"></translation>
+        <translation>Label pour cette clé privée dans votre portefeuille</translation>
     </message>
     <message>
         <source>Label (optional):</source>
-        <translation type="unfinished"></translation>
+        <translation>Label (optionnel):</translation>
     </message>
     <message>
         <source>Rescan</source>
-        <translation type="unfinished"></translation>
+        <translation>Rescanner</translation>
     </message>
     <message>
         <source>Reset all key management options to default.</source>
-        <translation type="unfinished"></translation>
+        <translation>Réinitialiser toutes les options de gestion des clés par défaut.</translation>
     </message>
     <message>
         <source>&amp;Reset</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Réinitialiser</translation>
     </message>
     <message>
         <source>&amp;Import</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Importer</translation>
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">A&amp;nnuler</translation>
+        <translation>&amp;Annuler</translation>
     </message>
     <message>
         <source>Invalid private key; please check and try again!</source>
-        <translation type="unfinished"></translation>
+        <translation>Clé privée non valide; veuillez vérifier et réessayer !</translation>
     </message>
     <message>
         <source>Invalid address generated from private key; please check and try again!</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse invalide générée à partir de la clé privée; veuillez vérifier et réessayer !</translation>
     </message>
     <message>
         <source>Failed to add private key.</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de l&apos;ajout de la clé privée.</translation>
     </message>
     <message>
         <source>Rescanning...</source>
-        <translation type="unfinished">Nouvelle analyse…</translation>
+        <translation>Nouvelle analyse...</translation>
     </message>
 </context>
 <context>
@@ -3322,7 +3322,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Range...</source>
-        <translation>Plage…</translation>
+        <translation>Plage...</translation>
     </message>
     <message>
         <source>Received with</source>
@@ -4161,7 +4161,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Loading addresses...</source>
-        <translation>Chargement des adresses…</translation>
+        <translation>Chargement des adresses...</translation>
     </message>
     <message>
         <source>(1 = keep tx meta data e.g. account owner and payment request information, 2 = drop tx meta data)</source>
@@ -4389,7 +4389,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Loading block index...</source>
-        <translation>Chargement de l’index des blocs…</translation>
+        <translation>Chargement de l’index des blocs...</translation>
     </message>
     <message>
         <source>Add a node to connect to and attempt to keep the connection open</source>
@@ -4397,7 +4397,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Loading wallet...</source>
-        <translation>Chargement du porte-monnaie…</translation>
+        <translation>Chargement du porte-monnaie...</translation>
     </message>
     <message>
         <source>Cannot downgrade wallet</source>
@@ -4409,7 +4409,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Rescanning...</source>
-        <translation>Nouvelle analyse…</translation>
+        <translation>Nouvelle analyse...</translation>
     </message>
     <message>
         <source>Done loading</source>
@@ -4421,75 +4421,75 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Bitcoin Core and Dogecoin Core</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitcoin Core and Dogecoin Core</translation>
     </message>
     <message>
         <source>Amount under which a transaction output is considered dust, in %s (default: %s)</source>
-        <translation type="unfinished"></translation>
+        <translation>Montant en dessous duquel une transaction est considérée comme des poussières, en %s (default: %s)</translation>
     </message>
     <message>
         <source>Execute command when the best block changes (%s in cmd is replaced by block hash, %i is replaced by block number)</source>
-        <translation type="unfinished"></translation>
+        <translation>Exécuter la commande lorsque le meilleur bloc change (%s dans le cmd est remplacé par le hash du bloc, %i est remplacé par le numéro du bloc)</translation>
     </message>
     <message>
         <source>Extra transactions to keep in memory for compact block reconstructions (default: %u)</source>
-        <translation type="unfinished"></translation>
+        <translation>Transactions supplémentaires à garder en mémoire pour les reconstructions de blocs compacts (par défaut: %u)</translation>
     </message>
     <message>
         <source>This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit %s and cryptographic software written by Eric Young and UPnP software written by Thomas Bernard. Paper wallet art provided by Anacoluthia.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ce produit comprend un logiciel développé par le projet OpenSSL pour une utilisation dans la boîte à outils OpenSSL %s et un logiciel cryptographique écrit par Eric Young ainsi qu&apos;un logiciel UPnP écrit par Thomas Bernard. L&apos;art du portefeuille papier a été fourni par Anacoluthia.</translation>
     </message>
     <message>
         <source>Amaze</source>
-        <translation type="unfinished"></translation>
+        <translation>Étonnant</translation>
     </message>
     <message>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Défaut</translation>
     </message>
     <message>
         <source>Many generous</source>
-        <translation type="unfinished"></translation>
+        <translation>Très généreux</translation>
     </message>
     <message>
         <source>Minimum</source>
-        <translation type="unfinished"></translation>
+        <translation>Minimum</translation>
     </message>
     <message>
         <source>More</source>
-        <translation type="unfinished"></translation>
+        <translation>Plus</translation>
     </message>
     <message>
         <source>Receive and display P2P network alerts (default: %u)</source>
-        <translation type="unfinished"></translation>
+        <translation>Recevoir et afficher les alertes du réseau P2P (par défaut: %u)</translation>
     </message>
     <message>
         <source>Such expensive</source>
-        <translation type="unfinished"></translation>
+        <translation>Très coûteux</translation>
     </message>
     <message>
         <source>Wow</source>
-        <translation type="unfinished"></translation>
+        <translation>Waw</translation>
     </message>
     <message>
         <source>-discardthreshold is set very high! This is the output amount that the wallet will discard (to fee) if it is smaller than this setting.</source>
-        <translation type="unfinished"></translation>
+        <translation>-le seuil de rejet est fixé très haut ! Il s&apos;agit du montant de sortie que le portefeuille rejettera (aux frais) s&apos;il est inférieur à ce paramètre.</translation>
     </message>
     <message>
         <source>Amount under which a transaction output is considered non-standard and will not be accepted or relayed, in %s (default: %s)</source>
-        <translation type="unfinished"></translation>
+        <translation>Montant en dessous duquel transaction est considérée comme non standard et ne sera pas acceptée ou relayée, en %s (par défaut : %s)</translation>
     </message>
     <message>
         <source>Invalid amount for -discardthreshold=&lt;amount&gt;: &apos;%s&apos; (must be at least the dust limit of %s to prevent stuck transactions)</source>
-        <translation type="unfinished"></translation>
+        <translation>Montant invalide pour -le seuil de rejet=&lt;montant&gt;: &apos;%s&apos; (il doit être au moins égal à la limite poussière de %s pour éviter les transactions bloquées)</translation>
     </message>
     <message>
         <source>The minimum transaction output size (in %s) used to validate wallet transactions and discard change (to fee) (default: %s)</source>
-        <translation type="unfinished"></translation>
+        <translation>La taille minimale de sortie de la transaction (en %s) est utilisée pour valider les transactions du portefeuille et rejeter les changements (aux frais) (par défaut : %s).</translation>
     </message>
     <message>
         <source>Use Namecoin-compatible AuxPow API structure, (default: %u)</source>
-        <translation type="unfinished"></translation>
+        <translation>Utiliser la structure de l&apos;API AuxPow compatible avec Namecoin, (par défaut : %u)</translation>
     </message>
 </context>
 </TS>
