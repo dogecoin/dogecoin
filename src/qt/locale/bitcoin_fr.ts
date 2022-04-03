@@ -4421,7 +4421,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Bitcoin Core and Dogecoin Core</source>
-        <translation>Bitcoin Core and Dogecoin Core</translation>
+        <translation>Bitcoin Core et Dogecoin Core</translation>
     </message>
     <message>
         <source>Amount under which a transaction output is considered dust, in %s (default: %s)</source>
@@ -4473,7 +4473,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>-discardthreshold is set very high! This is the output amount that the wallet will discard (to fee) if it is smaller than this setting.</source>
-        <translation>-le seuil de rejet est fixé très haut ! Il s&apos;agit du montant de sortie que le portefeuille rejettera (aux frais) s&apos;il est inférieur à ce paramètre.</translation>
+        <translation>-discardthreshold est fixé très haut ! Il s&apos;agit du montant de sortie que le portefeuille rejettera (aux frais) s&apos;il est inférieur à ce paramètre.</translation>
     </message>
     <message>
         <source>Amount under which a transaction output is considered non-standard and will not be accepted or relayed, in %s (default: %s)</source>
