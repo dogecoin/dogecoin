@@ -1,6 +1,8 @@
-# 狗狗币核心 （Dogecoin Core） [DOGE, Ð]
-
-![Dogecoin](https://static.tumblr.com/ppdj5y9/Ae9mxmxtp/300coin.png)
+<h1 align="center">
+  <img align="center" src="https://static.tumblr.com/ppdj5y9/Ae9mxmxtp/300coin.png" width="300">
+  <br/><br/>
+  狗狗币核心 （Dogecoin Core） [DOGE, Ð]
+</h1>
 
 [![Build Status](https://travis-ci.com/dogecoin/dogecoin.svg?branch=master)](https://travis-ci.com/dogecoin/dogecoin)
 
