@@ -201,8 +201,7 @@ namespace GUIUtil
     /* Format a CNodeCombinedStats.dPingTime into a user-readable string or display N/A, if 0*/
     QString formatPingTime(double dPingTime);
 
-    /* Format a uint64_t into a user-readable data size string (KB, MB, GB, TB) or display N/A, if 0*/
-    QString formatDataSizeValue(uint64_t uValue);
+    QString formatBytes(uint64_t bytes);
 
     /* Format a CNodeCombinedStats.nTimeOffset into a user-readable string. */
     QString formatTimeOffset(int64_t nTimeOffset);
