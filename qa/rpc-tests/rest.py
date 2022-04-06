@@ -352,7 +352,7 @@ class RESTTest (BitcoinTestFramework):
         resp_bin = http_get_call(url.hostname, url.port, '/rest/blockhashbyheight/' + str(block_json_obj['height']) + self.FORMAT_SEPARATOR + 'bin', True)
         assert_equal(resp_bin.status, 200)
         assert_equal(int(resp_bin.getheader('content-length')), 32)
-        response_str = resp_bin.read().rstrip()
+        response_str = resp_bin.read()
         blockhash = response_str[::-1].hex()
         assert_equal(blockhash, block_json_obj['hash'])
 
