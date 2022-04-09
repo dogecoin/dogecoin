@@ -3,7 +3,7 @@
     <name>AddressBookPage</name>
     <message>
         <source>Right-click to edit address or label</source>
-        <translation>Click destro per modificare indirizzo o etichetta</translation>
+        <translation>Clicca pulsante destro per modificare indirizzo o etichetta</translation>
     </message>
     <message>
         <source>Create a new address</source>
@@ -84,7 +84,7 @@
     </message>
     <message>
         <source>Banned Until</source>
-        <translation>bannato fino </translation>
+        <translation>Bannato fino </translation>
     </message>
 </context>
 <context>
