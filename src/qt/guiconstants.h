@@ -5,6 +5,8 @@
 #ifndef BITCOIN_QT_GUICONSTANTS_H
 #define BITCOIN_QT_GUICONSTANTS_H
 
+#include "validation.h"
+
 /* Milliseconds between model updates */
 static const int MODEL_UPDATE_DELAY = 250;
 
@@ -52,5 +54,21 @@ static const int MAX_URI_LENGTH = 255;
 #define QAPP_ORG_DOMAIN "dogecoin.org"
 #define QAPP_APP_NAME_DEFAULT "Dogecoin-Qt"
 #define QAPP_APP_NAME_TESTNET "Dogecoin-Qt-testnet"
+
+/* One gigabyte (GB) in bytes */
+static constexpr uint64_t GB_BYTES{1000000000};
+
+/**
+ * Convert configured prune target bytes to displayed GB. Round up to avoid underestimating max disk usage.
+ */
+constexpr inline int PruneBytestoGB(uint64_t bytes) { return (bytes + GB_BYTES - 1) / GB_BYTES; }
+
+/**
+ * Convert displayed prune target GB to configured MiB. Round down so roundtrip GB -> MiB -> GB conversion is stable.
+ */
+constexpr inline int64_t PruneGBtoMiB(int gb) { return gb * GB_BYTES / 1024 / 1024; }
+
+// Default prune target displayed in GUI.
+static constexpr int DEFAULT_PRUNE_TARGET_GB{PruneBytestoGB(MIN_DISK_SPACE_FOR_BLOCK_FILES)};
 
 #endif // BITCOIN_QT_GUICONSTANTS_H
