@@ -333,9 +333,9 @@ std::vector<unsigned char> CNetAddr::GetGroup() const
     // for Teredo-tunnelled IPv6 addresses, use the encapsulated IPv4 address
     else if (IsRFC4380())
     {
-        vchRet.push_back(NET_IPV4);
-        vchRet.push_back(GetByte(3) ^ 0xFF);
-        vchRet.push_back(GetByte(2) ^ 0xFF);
+        vchRet.emplace_back(NET_IPV4);
+        vchRet.emplace_back(GetByte(3) ^ 0xFF);
+        vchRet.emplace_back(GetByte(2) ^ 0xFF);
         return vchRet;
     }
     else if (IsTor())
@@ -351,15 +351,15 @@ std::vector<unsigned char> CNetAddr::GetGroup() const
     else
         nBits = 32;
 
-    vchRet.push_back(nClass);
+    vchRet.emplace_back(nClass);
     while (nBits >= 8)
     {
-        vchRet.push_back(GetByte(15 - nStartByte));
+        vchRet.emplace_back(GetByte(15 - nStartByte));
         nStartByte++;
         nBits -= 8;
     }
     if (nBits > 0)
-        vchRet.push_back(GetByte(15 - nStartByte) | ((1 << (8 - nBits)) - 1));
+        vchRet.emplace_back(GetByte(15 - nStartByte) | ((1 << (8 - nBits)) - 1));
 
     return vchRet;
 }

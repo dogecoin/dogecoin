@@ -362,7 +362,7 @@ static void SendMoney(const CTxDestination &address, CAmount nValue, bool fSubtr
     vector<CRecipient> vecSend;
     int nChangePosRet = -1;
     CRecipient recipient = {scriptPubKey, nValue, fSubtractFeeFromAmount};
-    vecSend.push_back(recipient);
+    vecSend.emplace_back(recipient);
     if (!pwalletMain->CreateTransaction(vecSend, wtxNew, reservekey, nFeeRequired, nChangePosRet, strError)) {
         if (!fSubtractFeeFromAmount && nValue + nFeeRequired > curBalance)
             strError = strprintf("Error: This transaction requires a transaction fee of at least %s", FormatMoney(nFeeRequired));
@@ -964,7 +964,7 @@ UniValue sendmany(const JSONRPCRequest& request)
         }
 
         CRecipient recipient = {scriptPubKey, nAmount, fSubtractFeeFromAmount};
-        vecSend.push_back(recipient);
+        vecSend.emplace_back(recipient);
     }
 
     EnsureWalletIsUnlocked();

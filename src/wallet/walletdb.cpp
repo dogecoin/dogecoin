@@ -253,7 +253,7 @@ void CWalletDB::ListAccountCreditDebit(const string& strAccount, list<CAccountin
 
         ssValue >> acentry;
         ssKey >> acentry.nEntryNo;
-        entries.push_back(acentry);
+        entries.emplace_back(acentry);
     }
 
     pcursor->close();
@@ -326,7 +326,7 @@ ReadKeyValue(CWallet* pwallet, CDataStream& ssKey, CDataStream& ssValue,
                     strErr = strprintf("LoadWallet() repairing tx ver=%d %s", wtx.fTimeReceivedIsTxTime, hash.ToString());
                     wtx.fTimeReceivedIsTxTime = 0;
                 }
-                wss.vWalletUpgrade.push_back(hash);
+                wss.vWalletUpgrade.emplace_back(hash);
             }
 
             if (wtx.nOrderPos == -1)
@@ -706,8 +706,8 @@ DBErrors CWalletDB::FindWalletTx(CWallet* pwallet, vector<uint256>& vTxHash, vec
                 CWalletTx wtx;
                 ssValue >> wtx;
 
-                vTxHash.push_back(hash);
-                vWtx.push_back(wtx);
+                vTxHash.emplace_back(hash);
+                vWtx.emplace_back(wtx);
             }
         }
         pcursor->close();
@@ -754,7 +754,7 @@ DBErrors CWalletDB::ZapSelectTx(CWallet* pwallet, vector<uint256>& vTxHashIn, ve
                 LogPrint("db", "Transaction was found for deletion but returned database error: %s\n", hash.GetHex());
                 delerror = true;
             }
-            vTxHashOut.push_back(hash);
+            vTxHashOut.emplace_back(hash);
         }
     }
 

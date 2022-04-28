@@ -84,7 +84,7 @@ bool static LookupIntern(const char *pszName, std::vector<CNetAddr>& vIP, unsign
     {
         CNetAddr addr;
         if (addr.SetSpecial(std::string(pszName))) {
-            vIP.push_back(addr);
+            vIP.emplace_back(addr);
             return true;
         }
     }
@@ -111,14 +111,14 @@ bool static LookupIntern(const char *pszName, std::vector<CNetAddr>& vIP, unsign
         if (aiTrav->ai_family == AF_INET)
         {
             assert(aiTrav->ai_addrlen >= sizeof(sockaddr_in));
-            vIP.push_back(CNetAddr(((struct sockaddr_in*)(aiTrav->ai_addr))->sin_addr));
+            vIP.emplace_back(CNetAddr(((struct sockaddr_in*)(aiTrav->ai_addr))->sin_addr));
         }
 
         if (aiTrav->ai_family == AF_INET6)
         {
             assert(aiTrav->ai_addrlen >= sizeof(sockaddr_in6));
             struct sockaddr_in6* s6 = (struct sockaddr_in6*) aiTrav->ai_addr;
-            vIP.push_back(CNetAddr(s6->sin6_addr, s6->sin6_scope_id));
+            vIP.emplace_back(CNetAddr(s6->sin6_addr, s6->sin6_scope_id));
         }
 
         aiTrav = aiTrav->ai_next;
@@ -288,14 +288,14 @@ static bool Socks5(const std::string& strDest, int port, const ProxyCredentials 
     }
     // Accepted authentication methods
     std::vector<uint8_t> vSocks5Init;
-    vSocks5Init.push_back(0x05);
+    vSocks5Init.emplace_back(0x05);
     if (auth) {
-        vSocks5Init.push_back(0x02); // # METHODS
-        vSocks5Init.push_back(0x00); // X'00' NO AUTHENTICATION REQUIRED
-        vSocks5Init.push_back(0x02); // X'02' USERNAME/PASSWORD (RFC1929)
+        vSocks5Init.emplace_back(0x02); // # METHODS
+        vSocks5Init.emplace_back(0x00); // X'00' NO AUTHENTICATION REQUIRED
+        vSocks5Init.emplace_back(0x02); // X'02' USERNAME/PASSWORD (RFC1929)
     } else {
-        vSocks5Init.push_back(0x01); // # METHODS
-        vSocks5Init.push_back(0x00); // X'00' NO AUTHENTICATION REQUIRED
+        vSocks5Init.emplace_back(0x01); // # METHODS
+        vSocks5Init.emplace_back(0x00); // X'00' NO AUTHENTICATION REQUIRED
     }
     ssize_t ret = send(hSocket, (const char*)vSocks5Init.data(), vSocks5Init.size(), MSG_NOSIGNAL);
     if (ret != (ssize_t)vSocks5Init.size()) {
@@ -315,12 +315,12 @@ static bool Socks5(const std::string& strDest, int port, const ProxyCredentials 
     if (pchRet1[1] == 0x02 && auth) {
         // Perform username/password authentication (as described in RFC1929)
         std::vector<uint8_t> vAuth;
-        vAuth.push_back(0x01);
+        vAuth.emplace_back(0x01);
         if (auth->username.size() > 255 || auth->password.size() > 255)
             return error("Proxy username or password too long");
-        vAuth.push_back(auth->username.size());
+        vAuth.emplace_back(auth->username.size());
         vAuth.insert(vAuth.end(), auth->username.begin(), auth->username.end());
-        vAuth.push_back(auth->password.size());
+        vAuth.emplace_back(auth->password.size());
         vAuth.insert(vAuth.end(), auth->password.begin(), auth->password.end());
         ret = send(hSocket, (const char*)vAuth.data(), vAuth.size(), MSG_NOSIGNAL);
         if (ret != (ssize_t)vAuth.size()) {
@@ -344,14 +344,14 @@ static bool Socks5(const std::string& strDest, int port, const ProxyCredentials 
         return error("Proxy requested wrong authentication method %02x", pchRet1[1]);
     }
     std::vector<uint8_t> vSocks5;
-    vSocks5.push_back(0x05); // VER protocol version
-    vSocks5.push_back(0x01); // CMD CONNECT
-    vSocks5.push_back(0x00); // RSV Reserved
-    vSocks5.push_back(0x03); // ATYP DOMAINNAME
-    vSocks5.push_back(strDest.size()); // Length<=255 is checked at beginning of function
+    vSocks5.emplace_back(0x05); // VER protocol version
+    vSocks5.emplace_back(0x01); // CMD CONNECT
+    vSocks5.emplace_back(0x00); // RSV Reserved
+    vSocks5.emplace_back(0x03); // ATYP DOMAINNAME
+    vSocks5.emplace_back(strDest.size()); // Length<=255 is checked at beginning of function
     vSocks5.insert(vSocks5.end(), strDest.begin(), strDest.end());
-    vSocks5.push_back((port >> 8) & 0xFF);
-    vSocks5.push_back((port >> 0) & 0xFF);
+    vSocks5.emplace_back((port >> 8) & 0xFF);
+    vSocks5.emplace_back((port >> 0) & 0xFF);
     ret = send(hSocket, (const char*)vSocks5.data(), vSocks5.size(), MSG_NOSIGNAL);
     if (ret != (ssize_t)vSocks5.size()) {
         CloseSocket(hSocket);

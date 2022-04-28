@@ -84,7 +84,7 @@ CAddrInfo* CAddrMan::Create(const CAddress& addr, const CNetAddr& addrSource, in
     mapInfo[nId] = CAddrInfo(addr, addrSource);
     mapAddr[addr] = nId;
     mapInfo[nId].nRandomPos = vRandom.size();
-    vRandom.push_back(nId);
+    vRandom.emplace_back(nId);
     if (pnId)
         *pnId = nId;
     return &mapInfo[nId];
@@ -476,7 +476,7 @@ void CAddrMan::GetAddr_(std::vector<CAddress>& vAddr)
 
         const CAddrInfo& ai = mapInfo[vRandom[n]];
         if (!ai.IsTerrible())
-            vAddr.push_back(ai);
+            vAddr.emplace_back(ai);
     }
 }
 

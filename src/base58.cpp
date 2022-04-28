@@ -64,7 +64,7 @@ bool DecodeBase58(const char* psz, std::vector<unsigned char>& vch)
     vch.reserve(zeroes + (b256.end() - it));
     vch.assign(zeroes, 0x00);
     while (it != b256.end())
-        vch.push_back(*(it++));
+        vch.emplace_back(*(it++));
     return true;
 }
 
@@ -291,7 +291,7 @@ void CBitcoinSecret::SetKey(const CKey& vchSecret)
     assert(vchSecret.IsValid());
     SetData(Params().Base58Prefix(CChainParams::SECRET_KEY), vchSecret.begin(), vchSecret.size());
     if (vchSecret.IsCompressed())
-        vchData.push_back(1);
+        vchData.emplace_back(1);
 }
 
 CKey CBitcoinSecret::GetKey()

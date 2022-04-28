@@ -82,7 +82,7 @@ vector<unsigned char> ParseHex(const char* psz)
         if (c == (signed char)-1)
             break;
         n |= c;
-        vch.push_back(n);
+        vch.emplace_back(n);
     }
     return vch;
 }
@@ -184,19 +184,19 @@ vector<unsigned char> DecodeBase64(const char* p, bool* pfInvalid)
                  break;
 
               case 1: // we have 6 bits and keep 4
-                  vchRet.push_back((left<<2) | (dec>>4));
+                  vchRet.emplace_back((left<<2) | (dec>>4));
                   left = dec & 15;
                   mode = 2;
                   break;
 
              case 2: // we have 4 bits and get 6, we keep 2
-                 vchRet.push_back((left<<4) | (dec>>2));
+                 vchRet.emplace_back((left<<4) | (dec>>2));
                  left = dec & 3;
                  mode = 3;
                  break;
 
              case 3: // we have 2 bits and get 6
-                 vchRet.push_back((left<<6) | dec);
+                 vchRet.emplace_back((left<<6) | dec);
                  mode = 0;
                  break;
          }
@@ -337,7 +337,7 @@ vector<unsigned char> DecodeBase32(const char* p, bool* pfInvalid)
                  break;
 
               case 1: // we have 5 bits and keep 2
-                  vchRet.push_back((left<<3) | (dec>>2));
+                  vchRet.emplace_back((left<<3) | (dec>>2));
                   left = dec & 3;
                   mode = 2;
                   break;
@@ -348,13 +348,13 @@ vector<unsigned char> DecodeBase32(const char* p, bool* pfInvalid)
                  break;
 
              case 3: // we have 7 bits and keep 4
-                 vchRet.push_back((left<<1) | (dec>>4));
+                 vchRet.emplace_back((left<<1) | (dec>>4));
                  left = dec & 15;
                  mode = 4;
                  break;
 
              case 4: // we have 4 bits, and keep 1
-                 vchRet.push_back((left<<4) | (dec>>1));
+                 vchRet.emplace_back((left<<4) | (dec>>1));
                  left = dec & 1;
                  mode = 5;
                  break;
@@ -365,13 +365,13 @@ vector<unsigned char> DecodeBase32(const char* p, bool* pfInvalid)
                  break;
 
              case 6: // we have 6 bits, and keep 3
-                 vchRet.push_back((left<<2) | (dec>>3));
+                 vchRet.emplace_back((left<<2) | (dec>>3));
                  left = dec & 7;
                  mode = 7;
                  break;
 
              case 7: // we have 3 bits, and keep 0
-                 vchRet.push_back((left<<5) | dec);
+                 vchRet.emplace_back((left<<5) | dec);
                  mode = 0;
                  break;
          }
