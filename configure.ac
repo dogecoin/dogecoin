@@ -743,10 +743,9 @@ if test x$armv8_crypto = xyes; then
 fi
 
 if test x$armv82_crypto = xyes; then
-  AC_MSG_CHECKING([whether to build with armv8.2 crypto sha512])
-  AC_MSG_RESULT(yes)
-  AC_DEFINE(USE_ARMV82, 1, [Define this symbol if armv8.2 crypto works])
-  CXXFLAGS="$CXXFLAGS -march=armv8.2-a+crypto+sha3"
+  AC_CHECK_DECLS([vsha512su0q_u64],
+     [AC_DEFINE(USE_ARMV82, 1, [Define this symbol if armv8.2 crypto works])
+     CXXFLAGS="$CXXFLAGS -march=armv8.2-a+crypto+sha3"], AC_MSG_ERROR(sha512 missing), [#include <arm_neon.h>])
 fi
 
 if test x$use_pkgconfig = xyes; then
