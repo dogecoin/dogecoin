@@ -13,7 +13,7 @@
     </message>
     <message>
         <source>Be careful! Do not blindly trust anyone that tells you to add their node.</source>
-        <translation>Fai attenzione! Non fidarti ciecamente di qualcuno che ti chiede di aggiungere il suo nodo.</translation>
+        <translation>Fai attenzione! Non fidarti ciecamente di chi ti chiede di aggiungere il suo nodo.</translation>
     </message>
     <message>
         <source>Enter the peer&apos;s address</source>
@@ -64,7 +64,7 @@
     </message>
     <message>
         <source>Delete the currently selected address from the list</source>
-        <translation>Rimuove dalla lista l&apos;indirizzo attualmente selezionato</translation>
+        <translation>Rimuovi dalla lista l&apos;indirizzo attualmente selezionato</translation>
     </message>
     <message>
         <source>Export the data in the current tab to a file</source>
@@ -80,11 +80,11 @@
     </message>
     <message>
         <source>Choose the address to send coins to</source>
-        <translation>Scegli l&apos;indirizzo a cui inviare dogecoin</translation>
+        <translation>Scegli l&apos;indirizzo a cui inviare Dogecoin</translation>
     </message>
     <message>
         <source>Choose the address to receive coins with</source>
-        <translation>Scegli l&apos;indirizzo con cui ricevere dogecoin</translation>
+        <translation>Scegli l&apos;indirizzo con cui ricevere Dogecoin</translation>
     </message>
     <message>
         <source>C&amp;hoose</source>
@@ -100,11 +100,11 @@
     </message>
     <message>
         <source>These are your Dogecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>Questo è un elenco di indirizzi dogecoin a cui puoi inviare pagamenti. Controlla sempre l&apos;importo e l&apos;indirizzo del beneficiario prima di inviare dogecoin.</translation>
+        <translation>Questo è un elenco di indirizzi Dogecoin a cui puoi inviare pagamenti. Controlla sempre l&apos;importo e l&apos;indirizzo del beneficiario prima di inviare Dogecoin.</translation>
     </message>
     <message>
         <source>These are your Dogecoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation>Questi sono i tuoi indirizzi dogecoin che puoi usare per ricevere pagamenti. Si raccomanda di generare un nuovo indirizzo per ogni transazione.</translation>
+        <translation>Questi sono i tuoi indirizzi Dogecoin che puoi usare per ricevere pagamenti. Si raccomanda di generare un nuovo indirizzo per ogni transazione.</translation>
     </message>
     <message>
         <source>&amp;Copy Address</source>
@@ -154,31 +154,31 @@
     <name>AskPassphraseDialog</name>
     <message>
         <source>Passphrase Dialog</source>
-        <translation>Finestra passphrase</translation>
+        <translation>Finestra password</translation>
     </message>
     <message>
         <source>Enter passphrase</source>
-        <translation>Inserisci la passphrase</translation>
+        <translation>Inserisci la password</translation>
     </message>
     <message>
         <source>New passphrase</source>
-        <translation>Nuova passphrase</translation>
+        <translation>Nuova password</translation>
     </message>
     <message>
         <source>Repeat new passphrase</source>
-        <translation>Ripeti la nuova passphrase</translation>
+        <translation>Ripeti la nuova password</translation>
     </message>
     <message>
         <source>Enter the new passphrase to the wallet.&lt;br/&gt;Please use a passphrase of &lt;b&gt;ten or more random characters&lt;/b&gt;, or &lt;b&gt;eight or more words&lt;/b&gt;.</source>
-        <translation>Inserisci la nuova passphrase per il portafoglio.&lt;br/&gt;Si consiglia di utilizzare &lt;b&gt;almeno dieci caratteri casuali&lt;/b&gt; oppure &lt;b&gt;otto o più parole&lt;/b&gt;.</translation>
+        <translation>Inserisci la nuova password per il portafoglio.&lt;br/&gt;Si consiglia di utilizzare &lt;b&gt;almeno dieci caratteri casuali&lt;/b&gt; oppure &lt;b&gt;otto o più parole&lt;/b&gt;.</translation>
     </message>
     <message>
         <source>Encrypt wallet</source>
-        <translation>Cifra il portafoglio</translation>
+        <translation>Cripta il portafoglio</translation>
     </message>
     <message>
         <source>This operation needs your wallet passphrase to unlock the wallet.</source>
-        <translation>Questa operazione necessita della passphrase per sbloccare il portafoglio.</translation>
+        <translation>Questa operazione necessita della password per sbloccare il portafoglio.</translation>
     </message>
     <message>
         <source>Unlock wallet</source>
@@ -186,39 +186,39 @@
     </message>
     <message>
         <source>This operation needs your wallet passphrase to decrypt the wallet.</source>
-        <translation>Quest&apos;operazione necessita della passphrase per decifrare il portafoglio,</translation>
+        <translation>Quest&apos;operazione necessita della password per decriptare il portafoglio,</translation>
     </message>
     <message>
         <source>Decrypt wallet</source>
-        <translation>Decifra il portafoglio</translation>
+        <translation>Decripta il portafoglio</translation>
     </message>
     <message>
         <source>Change passphrase</source>
-        <translation>Cambia la passphrase</translation>
+        <translation>Cambia la password</translation>
     </message>
     <message>
         <source>Enter the old passphrase and new passphrase to the wallet.</source>
-        <translation>Inserisci la vecchia e la nuova passphrase per il portafoglio.</translation>
+        <translation>Inserisci la vecchia e la nuova password per il portafoglio.</translation>
     </message>
     <message>
         <source>Confirm wallet encryption</source>
-        <translation>Conferma la cifratura del portafoglio</translation>
+        <translation>Conferma la criptatura del portafoglio</translation>
     </message>
     <message>
         <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DOGECOINS&lt;/b&gt;!</source>
-        <translation>Attenzione: se si cifra il portafoglio e si perde la passphrase &lt;b&gt;TUTTI I PROPRI Dogecoin ANDRANNO PERSI&lt;/b&gt;!</translation>
+        <translation>Attenzione: se si cripta il portafoglio e si perde la password &lt;b&gt;TUTTI I DOGECOIN ANDRANNO PERSI&lt;/b&gt;!</translation>
     </message>
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
-        <translation>Si è sicuri di voler cifrare il portafoglio?</translation>
+        <translation>Sei sicuro di voler criptare il portafoglio?</translation>
     </message>
     <message>
         <source>Wallet encrypted</source>
-        <translation>Portamonete cifrato</translation>
+        <translation>Portafoglio criptato</translation>
     </message>
     <message>
         <source>IMPORTANT: Any previous backups you have made of your wallet file should be replaced with the newly generated, encrypted wallet file. For security reasons, previous backups of the unencrypted wallet file will become useless as soon as you start using the new, encrypted wallet.</source>
-        <translation>IMPORTANTE: qualsiasi backup del file portafoglio effettuato in precedenza dovrà essere sostituito con il file del portafoglio cifrato appena generato. Per ragioni di sicurezza, i precedenti backup del file del portafoglio non cifrato diventeranno inservibili non appena si inizierà ad utilizzare il nuovo portafoglio cifrato.</translation>
+        <translation>IMPORTANTE: qualsiasi backup del file portafoglio effettuato in precedenza dovrà essere sostituito con il file del portafoglio criptato appena generato. Per ragioni di sicurezza, i precedenti backup del file del portafoglio non criptato diventeranno inservibili non appena si inizierà ad utilizzare il nuovo portafoglio criptato.</translation>
     </message>
     <message>
         <source>Wallet encryption failed</source>
@@ -230,7 +230,7 @@
     </message>
     <message>
         <source>The supplied passphrases do not match.</source>
-        <translation>Le frasi di accesso non corrispondono.</translation>
+        <translation>Le password non corrispondono.</translation>
     </message>
     <message>
         <source>Wallet unlock failed</source>
@@ -238,7 +238,7 @@
     </message>
     <message>
         <source>The passphrase entered for the wallet decryption was incorrect.</source>
-        <translation>La frase inserita per decrittografare il tuo portafoglio è incorretta</translation>
+        <translation>La password inserita per decrittografare il tuo portafoglio è incorretta</translation>
     </message>
     <message>
         <source>Wallet decryption failed</source>
@@ -246,7 +246,7 @@
     </message>
     <message>
         <source>Wallet passphrase was successfully changed.</source>
-        <translation>La frase di accesso al portafoglio è stata cambiata con successo.</translation>
+        <translation>La password di accesso al portafoglio è stata cambiata con successo.</translation>
     </message>
     <message>
         <source>Warning: The Caps Lock key is on!</source>
@@ -254,7 +254,7 @@
     </message>
     <message>
         <source>%1 will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your dogecoins from being stolen by malware infecting your computer.</source>
-        <translation>%1 si chiuderá per completare il processo di cifratura. Ricordati che cifrare il portafoglio potrebbe non proteggere i tuoi dogecoin nel caso in cui il tuo computer sia infetto da malware.</translation>
+        <translation>%1 si chiuderá per completare il processo di criptatura. Ricordati che criptare il portafoglio potrebbe non proteggere i tuoi dogecoin nel caso in cui il tuo computer sia infetto da malware.</translation>
     </message>
 </context>
 <context>
@@ -280,7 +280,7 @@
     </message>
     <message>
         <source>&amp;Wow</source>
-        <translation>&amp;Sintesi</translation>
+        <translation>&amp;Wow</translation>
     </message>
     <message>
         <source>Node</source>
@@ -332,7 +332,7 @@
     </message>
     <message>
         <source>&amp;Encrypt Wallet...</source>
-        <translation>&amp;Cifra il portafoglio...</translation>
+        <translation>&amp;Cripta il portafoglio...</translation>
     </message>
     <message>
         <source>&amp;Backup Wallet...</source>
@@ -340,7 +340,7 @@
     </message>
     <message>
         <source>&amp;Change Passphrase...</source>
-        <translation>&amp;Cambia passphrase...</translation>
+        <translation>&amp;Cambia password...</translation>
     </message>
     <message>
         <source>Open &amp;URI...</source>
@@ -352,7 +352,7 @@
     </message>
     <message>
         <source>Send coins to a Dogecoin address</source>
-        <translation>Invia monete ad un indirizzo dogecoin</translation>
+        <translation>Invia monete ad un indirizzo Dogecoin</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -360,7 +360,7 @@
     </message>
     <message>
         <source>Change the passphrase used for wallet encryption</source>
-        <translation>Cambia la passphrase utilizzata per la cifratura del portafoglio</translation>
+        <translation>Cambia la password utilizzata per criptare il portafoglio</translation>
     </message>
     <message>
         <source>&amp;Debug window</source>
@@ -380,7 +380,7 @@
     </message>
     <message>
         <source>Wallet</source>
-        <translation>Portamonete</translation>
+        <translation>Portafoglio</translation>
     </message>
     <message>
         <source>&amp;Such Send</source>
@@ -400,15 +400,15 @@
     </message>
     <message>
         <source>Encrypt the private keys that belong to your wallet</source>
-        <translation>Cifra le chiavi private che appartengono al tuo portafoglio</translation>
+        <translation>Cripta le chiavi private che appartengono al tuo portafoglio</translation>
     </message>
     <message>
         <source>Sign messages with your Dogecoin addresses to prove you own them</source>
-        <translation>Firma i messaggi con il tuo indirizzo dogecoin per dimostrarne il possesso</translation>
+        <translation>Firma i messaggi con il tuo indirizzo Dogecoin per dimostrarne il possesso</translation>
     </message>
     <message>
         <source>Verify messages to ensure they were signed with specified Dogecoin addresses</source>
-        <translation>Verifica i messaggi per accertare che siano stati firmati con gli indirizzi dogecoin specificati</translation>
+        <translation>Verifica i messaggi per accertare che siano stati firmati con gli indirizzi Dogecoin specificati</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -548,11 +548,11 @@
     </message>
     <message>
         <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt;</source>
-        <translation>Il portafoglio è &lt;b&gt;cifrato&lt;/b&gt; ed attualmente &lt;b&gt;sbloccato&lt;/b&gt;</translation>
+        <translation>Il portafoglio è &lt;b&gt;criptato&lt;/b&gt; ed attualmente &lt;b&gt;sbloccato&lt;/b&gt;</translation>
     </message>
     <message>
         <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;locked&lt;/b&gt;</source>
-        <translation>Il portafoglio è &lt;b&gt;cifrato&lt;/b&gt; ed attualmente &lt;b&gt;bloccato&lt;/b&gt;</translation>
+        <translation>Il portafoglio è &lt;b&gt;criptato&lt;/b&gt; ed attualmente &lt;b&gt;bloccato&lt;/b&gt;</translation>
     </message>
     <message>
         <source>&amp;Print paper wallets</source>
@@ -770,7 +770,7 @@
     </message>
     <message>
         <source>Can vary +/- %1 koinu(s) per input.</source>
-        <translation>può variare di +/- %1 koinu per input.</translation>
+        <translation>Può variare di +/- %1 koinu per input.</translation>
     </message>
 </context>
 <context>
@@ -813,7 +813,7 @@
     </message>
     <message>
         <source>The entered address &quot;%1&quot; is not a valid Dogecoin address.</source>
-        <translation>L&apos;indirizzo inserito &quot;%1&quot; non è un indirizzo dogecoin valido.</translation>
+        <translation>L&apos;indirizzo inserito &quot;%1&quot; non è un indirizzo Dogecoin valido.</translation>
     </message>
     <message>
         <source>The entered address &quot;%1&quot; is already in the address book.</source>
@@ -938,7 +938,7 @@
     </message>
     <message>
         <source>Reset all key management options to default.</source>
-        <translation>Resetta tutte le opzioni di gestione delle chiavi</translation>
+        <translation>Resetta tutte le opzioni di gestione delle chiavi.</translation>
     </message>
     <message>
         <source>&amp;Reset</source>
@@ -985,7 +985,7 @@
     </message>
     <message>
         <source>%1 will download and store a copy of the Dogecoin block chain. At least %2GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
-        <translation>%1 scaricherà e salverà una copia della Blockchain di Dogecoin. Saranno salvati almeno %2GB di dati in questo percorso e continueranno ad aumentare col tempo. Anche il portafoglio verrà salvato in questo percorso.</translation>
+        <translation>%1 scaricherà e salverà una copia della block chain di Dogecoin. Saranno salvati almeno %2GB di dati in questo percorso e continueranno ad aumentare col tempo. Anche il portafoglio verrà salvato in questo percorso.</translation>
     </message>
     <message>
         <source>Use the default data directory</source>
@@ -1066,11 +1066,11 @@
     </message>
     <message>
         <source>Estimated time left until synced</source>
-        <translation>Tempo mancante stimato al completamento della sincronizzazione</translation>
+        <translation>Tempo stimato al completamento della sincronizzazione</translation>
     </message>
     <message>
         <source>Unknown. Syncing Headers (%1)...</source>
-        <translation>Sconosciuto. Sincronizzazione headers in corso (%1,%2%)…</translation>
+        <translation>Sconosciuto. Sincronizzazione headers (%1)...</translation>
     </message>
 </context>
 <context>
@@ -1081,7 +1081,7 @@
     </message>
     <message>
         <source>Open payment request from URI or file</source>
-        <translation>Apri richiesta di pagamento da URI o file</translation>
+        <translation>Apri una richiesta di pagamento da URI o file</translation>
     </message>
     <message>
         <source>URI:</source>
@@ -1112,11 +1112,11 @@
     </message>
     <message>
         <source>&amp;Start %1 on system login</source>
-        <translation>&amp;Start %1 all&apos;accesso al sistema</translation>
+        <translation>&amp;Apri %1 automaticamente all&apos;avvio del sistema</translation>
     </message>
     <message>
         <source>Size of &amp;database cache</source>
-        <translation>Dimensione della cache del &amp;database.</translation>
+        <translation>Dimensione della cache del &amp;database</translation>
     </message>
     <message>
         <source>MB</source>
@@ -1144,12 +1144,12 @@
     </message>
     <message>
         <source>Third party URLs (e.g. a block explorer) that appear in the transactions tab as context menu items. %s in the URL is replaced by transaction hash. Multiple URLs are separated by vertical bar |.</source>
-        <translation>URL di terze parti (ad es. un block explorer) che appaiono nella tabella delle transazioni come voci nel menu contestuale. &quot;%s&quot; nell&apos;URL è sostituito dall&apos;hash della transazione.
+        <translation>URL di servizi esterni (ad es. un block explorer) che appaiono nella tabella delle transazioni come voci nel menu contestuale. &quot;%s&quot; nell&apos;URL è sostituito dall&apos;hash della transazione.
 Per specificare più URL separarli con una barra verticale &quot;|&quot;.</translation>
     </message>
     <message>
         <source>Third party transaction URLs</source>
-        <translation>URL di transazione di terze parti</translation>
+        <translation>URL transazioni per servizi esterni</translation>
     </message>
     <message>
         <source>Active command-line options that override above options:</source>
@@ -1257,7 +1257,7 @@ Per specificare più URL separarli con una barra verticale &quot;|&quot;.</trans
     </message>
     <message>
         <source>Hide tray icon</source>
-        <translation>Nascondi l&apos;icona della barra applicazioni</translation>
+        <translation>Nascondi l&apos;icona nella barra applicazioni</translation>
     </message>
     <message>
         <source>Show only a tray icon after minimizing the window.</source>
@@ -1424,7 +1424,7 @@ Per specificare più URL separarli con una barra verticale &quot;|&quot;.</trans
     </message>
     <message>
         <source>Encrypt your wallet with a strong passphrase for maximum security</source>
-        <translation>Cifra il portafoglio con una password complessa per maggior sicurezza.</translation>
+        <translation>Cripta il portafoglio con una password complessa per maggior sicurezza</translation>
     </message>
     <message>
         <source>Make sure to keep your wallet updated.</source>
@@ -1432,7 +1432,7 @@ Per specificare più URL separarli con una barra verticale &quot;|&quot;.</trans
     </message>
     <message>
         <source>Backup your private key to recover your coins, using &apos;File&apos; &gt; &apos;Backup Wallet&apos;</source>
-        <translation>Fai un backup delle tue chiavi private usando il menu &apos;File&apos; &gt; &apos;Backup Portamonete&apos; </translation>
+        <translation>Fai un backup delle tue chiavi private usando il menu &apos;File&apos; &gt; &apos;Backup Portafoglio&apos; </translation>
     </message>
     <message>
         <source>Always do your own research before using an external cryptocurrency service</source>
@@ -1443,7 +1443,7 @@ Per specificare più URL separarli con una barra verticale &quot;|&quot;.</trans
         <translation>Non condividere mai la tua chiave privata con una persona di cui non ti puoi fidare.</translation>
     </message>
     <message>
-        <source>Who own the private keys own the coins.</source>
+        <source>Who owns the private keys owns the coins.</source>
         <translation>Chiunque abbia accesso alla chiave privata ha il controllo totale sul portafoglio.</translation>
     </message>
     <message>
@@ -1876,8 +1876,8 @@ p, li { white-space: pre-wrap; }
         <translation>%1 MB</translation>
     </message>
     <message>
-        <source>%1 KB</source>
-        <translation>%1 KB</translation>
+        <source>%1 kB</source>
+        <translation>%1 kB</translation>
     </message>
     <message>
         <source>%1 didn&apos;t yet exit safely...</source>
@@ -1946,7 +1946,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Datadir</source>
-        <translation>Datadir</translation>
+        <translation>Directory Dati</translation>
     </message>
     <message>
         <source>Startup time</source>
@@ -2948,7 +2948,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Be careful! Do not blindly trust anyone that tells you to add their node.</source>
-        <translation>Fai attenzione! Non fidarti automaticamente di qualcuno che ti chiede di aggiungere il suo nodo.</translation>
+        <translation>Fai attenzione! Non fidarti ciecamente di chi ti chiede di aggiungere il suo nodo.</translation>
     </message>
     <message>
         <source>Enter the peer&apos;s address</source>
@@ -3483,11 +3483,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Backup Wallet</source>
-        <translation>Backup Portamonete</translation>
+        <translation>Backup Portafoglio</translation>
     </message>
     <message>
         <source>Wallet Data (*.dat)</source>
-        <translation>Dati Portamonete (*.dat)</translation>
+        <translation>Dati Portafoglio (*.dat)</translation>
     </message>
     <message>
         <source>Backup Failed</source>
@@ -3606,7 +3606,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Maximum allowed median peer time offset adjustment. Local perspective of time may be influenced by peers forward or backward by this amount. (default: %u seconds)</source>
-        <translation>Regolazione della massima differenza media di tempo dei peer consentita. L&apos;impostazione dell&apos;orario locale può essere impostata in avanti o indietro di questa quantità. (default %u secondi)</translation>
+        <translation>Regolazione della massima differenza media di tempo dei peer consentita. L&apos;impostazione dell&apos;orario locale può essere modificata in avanti o indietro di questa quantità. (default %u secondi)</translation>
     </message>
     <message>
         <source>Maximum total fees (in %s) to use in a single wallet transaction or raw transaction; setting this too low may abort large transactions (default: %s)</source>
@@ -3618,7 +3618,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Please contribute if you find %s useful. Visit %s for further information about the software.</source>
-        <translation>Per favore contribuite se ritenete %s utile. Visitate %s per maggiori informazioni riguardo il software.</translation>
+        <translation>Per favore, contribuisci se ritieni %s utile. Visita %s per maggiori informazioni riguardo il software.</translation>
     </message>
     <message>
         <source>Set the number of script verification threads (%u to %d, 0 = auto, &lt;0 = leave that many cores free, default: %d)</source>
@@ -3842,7 +3842,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>The source code is available from %s.</source>
-        <translation>Il codice sorgente è disponibile in %s</translation>
+        <translation>Il codice sorgente è disponibile qui: %s</translation>
     </message>
     <message>
         <source>Unable to bind to %s on this computer. %s is probably already running.</source>
@@ -3978,7 +3978,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Error reading from database, shutting down.</source>
-        <translation>Errore durante lalettura del database. Arresto in corso.</translation>
+        <translation>Errore durante la lettura del database. Arresto in corso.</translation>
     </message>
     <message>
         <source>Imports blocks from external blk000??.dat file on startup</source>
