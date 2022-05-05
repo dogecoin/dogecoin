@@ -83,8 +83,8 @@ UniValue importprivkey(const JSONRPCRequest& request)
 {
     if (!EnsureWalletIsAvailable(request.fHelp))
         return NullUniValue;
-    
-    if (request.fHelp || request.params.size() < 1 || request.params.size() > 3)
+
+    if (request.fHelp || request.params.size() < 1 || request.params.size() > 4)
         throw runtime_error(
             "importprivkey \"dogecoinprivkey\" ( \"label\" ) ( rescan )\n"
             "\nAdds a private key (as returned by dumpprivkey) to your wallet.\n"
@@ -92,6 +92,7 @@ UniValue importprivkey(const JSONRPCRequest& request)
             "1. \"dogecoinprivkey\"  (string, required) The private key (see dumpprivkey)\n"
             "2. \"label\"            (string, optional, default=\"\") An optional label\n"
             "3. rescan               (boolean, optional, default=true) Rescan the wallet for transactions\n"
+            "4. height               (numeric, optional, default=1) If rescanning, the block height from which to start\n"
             "\nNote: This call can take minutes to complete if rescan is true.\n"
             "\nExamples:\n"
             "\nDump a private key\n"
@@ -102,6 +103,8 @@ UniValue importprivkey(const JSONRPCRequest& request)
             + HelpExampleCli("importprivkey", "\"mykey\" \"testing\" false") +
             "\nImport using default blank label and without rescan\n"
             + HelpExampleCli("importprivkey", "\"mykey\" \"\" false") +
+            "\nImport using default blank label, with rescan, from a specific block height\n"
+            + HelpExampleCli("importprivkey", "\"mykey\" \"\" true 3760036") +
             "\nAs a JSON-RPC call\n"
             + HelpExampleRpc("importprivkey", "\"mykey\", \"testing\", false")
         );
@@ -148,11 +151,23 @@ UniValue importprivkey(const JSONRPCRequest& request)
         if (!pwalletMain->AddKeyPubKey(key, pubkey))
             throw JSONRPCError(RPC_WALLET_ERROR, "Error adding key to wallet");
 
-        // whenever a key is imported, we need to scan the whole chain
-        pwalletMain->UpdateTimeFirstKey(1);
 
         if (fRescan) {
-            pwalletMain->ScanForWalletTransactions(chainActive.Genesis(), true);
+            CBlockIndex* pblockindex = chainActive.Genesis();
+
+            if (request.params.size() > 3) {
+                int nHeight = request.params[3].get_int();
+
+                if (nHeight < 0 || nHeight > chainActive.Height())
+                    throw JSONRPCError(RPC_INVALID_PARAMETER, "Block height out of range");
+
+                pblockindex = chainActive[nHeight];
+            } else {
+                // we have no implicit first height for a key, so we need to scan the whole chain
+                pwalletMain->UpdateTimeFirstKey(1);
+            }
+
+            pwalletMain->ScanForWalletTransactions(pblockindex, true);
         }
     }
 
