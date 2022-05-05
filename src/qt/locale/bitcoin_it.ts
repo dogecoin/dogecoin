@@ -1173,7 +1173,7 @@ Per specificare più URL separarli con una barra verticale &quot;|&quot;.</trans
     </message>
     <message>
         <source>W&amp;allet</source>
-        <translation>Port&amp;amonete</translation>
+        <translation>Port&amp;afoglio</translation>
     </message>
     <message>
         <source>Expert</source>
@@ -1277,7 +1277,7 @@ Per specificare più URL separarli con una barra verticale &quot;|&quot;.</trans
     </message>
     <message>
         <source>User Interface &amp;language:</source>
-        <translation>&amp;Lingua Interfaccia Utente:</translation>
+        <translation>&amp;Lingua interfaccia utente:</translation>
     </message>
     <message>
         <source>The user interface language can be set here. This setting will take effect after restarting %1.</source>
