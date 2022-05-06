@@ -52,3 +52,9 @@ four-hour difficulty readjustment:**
 | 400,000–499,999      |           0–62,500 |
 | 500,000–599,999      |           0–31,250 |
 | 600,000+             |             10,000 |
+
+### what's the difference bertween dogecoin core and multi-doge?
+
+Core: The go to standard, can do anything and everything. By running core you are running a dogecoin node (if you forward port 22556 on your router) and contributing to the decentralized consensus mechanism that makes dogecoin work. You don't need to trust others that incoming transactions are legit because you verify them yourself. Takes a lot of bandwidth, memory, and hard drive space to run.
+
+Multidoge: A powerful light wallet that offers most of the important core functionality, such as backups and importing/exporting private keys. Can not be used for large transactions with a lot of inputs/outputs (such as mining or faucets payouts), may crash the client. Doesn't need to download the full dogecoin blockchain because it depends on other people running dogecoin core to verify transactions. Takes little bandwidth, memory and hard drive space to run.
