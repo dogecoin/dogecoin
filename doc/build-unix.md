@@ -85,12 +85,14 @@ Now, you can either build from self-compiled [depends](/depends/README.md) or in
 
 BerkeleyDB is required for the wallet.
 
-       Note that if you have Berkeley DB 4.8 packages installed (i.e. for other
-       wallet software), they are incompatible with the packages for 5.3. You
-       will have to manually download 5.3 from
-       http://download.oracle.com/berkeley-db/db-5.3.28.NC.tar.gz and compile
-       it, install it to /usr/local where the configure script should locate it
-       automatically.
+Note that if you have Berkeley DB 4.8 packages installed (i.e. for other
+wallet software), they are incompatible with the packages for 5.3. You
+may have to manually install 5.3, for which you can use
+[the installation script included in contrib/](/contrib/install_db5.sh), like so:
+
+```shell
+./contrib/install_db5.sh `pwd`
+```
 
 If you do not care about wallet compatibility, pass `--with-incompatible-bdb` to configure.
 
@@ -272,14 +274,6 @@ This example lists the steps necessary to setup and build a command line only, n
     ./autogen.sh
     ./configure --disable-wallet --without-gui --without-miniupnpc
     make check
-
-Note:
-Enabling wallet support requires either compiling against a Berkeley DB newer than 5.3 (package `db`) using `--with-incompatible-bdb`,
-or building and depending on a local version of Berkeley DB 5.3. The readily available Arch Linux packages are currently built using
-`--with-incompatible-bdb` according to the [PKGBUILD](https://projects.archlinux.org/svntogit/community.git/tree/bitcoin/trunk/PKGBUILD).
-As mentioned above, when maintaining portability of the wallet between the standard Bitcoin Core distributions and independently built
-node software is desired, Berkeley DB 5.3 must be used.
-
 
 ARM Cross-compilation
 -------------------

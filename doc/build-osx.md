@@ -56,12 +56,6 @@ like so:
 
 from the root of the repository.
 
-Also, the Homebrew package could be installed:
-
-```shell
-brew install berkeley-db5
-```
-
 ## Build Bitcoin Core
 
 1. Clone the Bitcoin Core source code:
