@@ -30,8 +30,8 @@ BerkeleyDB is only necessary for the wallet functionality. To skip this, pass
 `--disable-wallet` to `./configure` and skip to the next section.
 
 ```bash
-./contrib/install_db4.sh `pwd`
-export BDB_PREFIX="$PWD/db4"
+./contrib/install_db5.sh `pwd`
+export BDB_PREFIX="$PWD/db5"
 ```
 
 ## Building Bitcoin Core
@@ -42,7 +42,7 @@ With wallet:
 ```bash
 ./autogen.sh
 ./configure --with-gui=no \
-    BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" \
+    BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-5.3" \
     BDB_CFLAGS="-I${BDB_PREFIX}/include" \
     MAKE=gmake
 ```

@@ -138,7 +138,7 @@ task:
   name: 'macOS 10.14 native [GOAL: install] [GUI] [no depends]'
   brew_install_script:
     - brew update
-    - brew install boost libevent berkeley-db4 qt@5 miniupnpc ccache zeromq qrencode sqlite libtool automake pkg-config gnu-getopt
+    - brew install boost libevent qt@5 miniupnpc ccache zeromq qrencode sqlite libtool automake pkg-config gnu-getopt
   << : *GLOBAL_TASK_TEMPLATE
   osx_instance:
     # Use latest image, but hardcode version to avoid silent upgrades (and breaks)

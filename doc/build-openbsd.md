@@ -32,19 +32,19 @@ compilers within the same executable will result in errors.
 BerkeleyDB is only necessary for the wallet functionality. To skip this, pass
 `--disable-wallet` to `./configure` and skip to the next section.
 
-It is recommended to use Berkeley DB 4.8. You cannot use the BerkeleyDB library
+It is recommended to use Berkeley DB 5.3. You cannot use the BerkeleyDB library
 from ports, for the same reason as boost above (g++/libstd++ incompatibility).
 If you have to build it yourself, you can use [the installation script included
-in contrib/](/contrib/install_db4.sh) like so:
+in contrib/](/contrib/install_db5.sh) like so:
 
 ```bash
-./contrib/install_db4.sh `pwd` CC=cc CXX=c++
+./contrib/install_db5.sh `pwd` CC=cc CXX=c++
 ```
 
 from the root of the repository. Then set `BDB_PREFIX` for the next section:
 
 ```bash
-export BDB_PREFIX="$PWD/db4"
+export BDB_PREFIX="$PWD/db5"
 ```
 
 ### Building Bitcoin Core
@@ -69,7 +69,7 @@ Make sure `BDB_PREFIX` is set to the appropriate path from the above steps.
 To configure with wallet:
 ```bash
 ./configure --with-gui=no CC=cc CXX=c++ \
-    BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" \
+    BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-5.3" \
     BDB_CFLAGS="-I${BDB_PREFIX}/include" \
     MAKE=gmake
 ```
@@ -82,7 +82,7 @@ To configure without wallet:
 To configure with GUI:
 ```bash
 ./configure --with-gui=yes CC=cc CXX=c++ \
-    BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" \
+    BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-5.3" \
     BDB_CFLAGS="-I${BDB_PREFIX}/include" \
     MAKE=gmake
 ```
@@ -112,4 +112,3 @@ If your user is in the `staff` group the limit can be raised with:
 The change will only affect the current shell and processes spawned by it. To
 make the change system-wide, change `datasize-cur` and `datasize-max` in
 `/etc/login.conf`, and reboot.
-
