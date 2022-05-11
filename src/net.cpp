@@ -1107,61 +1107,70 @@ void CConnman::AcceptConnection(const ListenSocket& hListenSocket) {
     }
 }
 
+void CConnman::DisconnectUnusedNodes()
+{
+    LOCK(cs_vNodes);
+    // Disconnect unused nodes
+    std::vector<CNode*> vNodesCopy = vNodes;
+    BOOST_FOREACH(CNode* pnode, vNodesCopy)
+    {
+        if (pnode->fDisconnect)
+        {
+            // remove from vNodes
+            vNodes.erase(remove(vNodes.begin(), vNodes.end(), pnode), vNodes.end());
+
+            // release outbound grant (if any)
+            pnode->grantOutbound.Release();
+
+            // close socket and cleanup
+            pnode->CloseSocketDisconnect();
+
+            // hold in disconnected pool until all refs are released
+            pnode->Release();
+            vNodesDisconnected.push_back(pnode);
+        }
+    }
+}
+
+void CConnman::DeleteDisconnectedNodes()
+{
+    std::list<CNode*> vNodesDisconnectedCopy = vNodesDisconnected;
+    BOOST_FOREACH(CNode* pnode, vNodesDisconnectedCopy)
+    {
+        // wait until threads are done using it
+        if (pnode->GetRefCount() <= 0) {
+            bool fDelete = false;
+            {
+                TRY_LOCK(pnode->cs_inventory, lockInv);
+                if (lockInv) {
+                    TRY_LOCK(pnode->cs_vSend, lockSend);
+                    if (lockSend) {
+                        fDelete = true;
+                    }
+                }
+            }
+            if (fDelete) {
+                vNodesDisconnected.remove(pnode);
+                DeleteNode(pnode);
+            }
+        }
+    }
+}
+
 void CConnman::ThreadSocketHandler()
 {
     unsigned int nPrevNodeCount = 0;
+    const unsigned int nUnevictableConnections = std::max(0, std::max(MAX_OUTBOUND_CONNECTIONS, MAX_ADDNODE_CONNECTIONS) + PROTECTED_INBOUND_PEERS);
+
     while (!interruptNet)
     {
+        unsigned int nWhitelistedConnections = 0;
+
         //
         // Disconnect nodes
         //
-        {
-            LOCK(cs_vNodes);
-            // Disconnect unused nodes
-            std::vector<CNode*> vNodesCopy = vNodes;
-            BOOST_FOREACH(CNode* pnode, vNodesCopy)
-            {
-                if (pnode->fDisconnect)
-                {
-                    // remove from vNodes
-                    vNodes.erase(remove(vNodes.begin(), vNodes.end(), pnode), vNodes.end());
-
-                    // release outbound grant (if any)
-                    pnode->grantOutbound.Release();
-
-                    // close socket and cleanup
-                    pnode->CloseSocketDisconnect();
-
-                    // hold in disconnected pool until all refs are released
-                    pnode->Release();
-                    vNodesDisconnected.push_back(pnode);
-                }
-            }
-        }
-        {
-            // Delete disconnected nodes
-            std::list<CNode*> vNodesDisconnectedCopy = vNodesDisconnected;
-            BOOST_FOREACH(CNode* pnode, vNodesDisconnectedCopy)
-            {
-                // wait until threads are done using it
-                if (pnode->GetRefCount() <= 0) {
-                    bool fDelete = false;
-                    {
-                        TRY_LOCK(pnode->cs_inventory, lockInv);
-                        if (lockInv) {
-                            TRY_LOCK(pnode->cs_vSend, lockSend);
-                            if (lockSend) {
-                                fDelete = true;
-                            }
-                        }
-                    }
-                    if (fDelete) {
-                        vNodesDisconnected.remove(pnode);
-                        DeleteNode(pnode);
-                    }
-                }
-            }
-        }
+        DisconnectUnusedNodes();
+        DeleteDisconnectedNodes();
         size_t vNodesSize;
         {
             LOCK(cs_vNodes);
@@ -1281,6 +1290,9 @@ void CConnman::ThreadSocketHandler()
             if (interruptNet)
                 return;
 
+            if (pnode->fWhitelisted)
+                nWhitelistedConnections++;
+
             //
             // Receive
             //
@@ -1398,6 +1410,24 @@ void CConnman::ThreadSocketHandler()
                 }
             }
         }
+        //
+        // Reduce number of connections, if needed
+        //
+
+        long unsigned int nKeepConnections = nUnevictableConnections + nWhitelistedConnections;
+        long unsigned int nNodesCopy       = vNodesCopy.size();
+
+        if (nNodesCopy > nKeepConnections && (nNodesCopy > (long unsigned int)nMaxConnections))
+        {
+            LogPrintf("%s: attempting to reduce connections: max=%u current=%u keep=%u\n", __func__, nMaxConnections, nNodesCopy, nKeepConnections);
+            DisconnectUnusedNodes();
+            DeleteDisconnectedNodes();
+
+            if (!AttemptToEvictConnection()) {
+                LogPrint("net", "Failed to evict connections\n");
+            }
+        }
+
         {
             LOCK(cs_vNodes);
             BOOST_FOREACH(CNode* pnode, vNodesCopy)
@@ -1405,6 +1435,17 @@ void CConnman::ThreadSocketHandler()
         }
     }
 }
+
+void CConnman::SetMaxConnections(int newMaxConnections)
+{
+    newMaxConnections = std::max(newMaxConnections, MAX_ADDNODE_CONNECTIONS + PROTECTED_INBOUND_PEERS);
+    nMaxConnections = std::min(newMaxConnections, nAvailableFds);
+
+    if (nMaxConnections != newMaxConnections) {
+        LogPrintf("%s: capped new maxconnections request of %d to %d\n", __func__, newMaxConnections, nMaxConnections);
+    }
+}
+
 
 void CConnman::WakeMessageHandler()
 {
@@ -2204,6 +2245,7 @@ CConnman::CConnman(uint64_t nSeed0In, uint64_t nSeed1In) : nSeed0(nSeed0In), nSe
     semAddnode = NULL;
     nMaxConnections = 0;
     nMaxOutbound = 0;
+    nAvailableFds = 0;
     nMaxAddnode = 0;
     nBestHeight = 0;
     clientInterface = NULL;
@@ -2226,6 +2268,7 @@ bool CConnman::Start(CScheduler& scheduler, std::string& strNodeError, Options c
     nMaxOutbound = std::min((connOptions.nMaxOutbound), nMaxConnections);
     nMaxAddnode = connOptions.nMaxAddnode;
     nMaxFeeler = connOptions.nMaxFeeler;
+    nAvailableFds = connOptions.nAvailableFds;
 
     nSendBufferMaxSize = connOptions.nSendBufferMaxSize;
     nReceiveFloodSize = connOptions.nReceiveFloodSize;

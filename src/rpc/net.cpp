@@ -45,6 +45,37 @@ UniValue getconnectioncount(const JSONRPCRequest& request)
     return (int)g_connman->GetNodeCount(CConnman::CONNECTIONS_ALL);
 }
 
+UniValue setmaxconnections(const JSONRPCRequest& request)
+{
+    int newMaxCount = 0;
+    const std::string minConnCount = to_string(MAX_ADDNODE_CONNECTIONS);
+
+    if (request.fHelp || request.params.size() != 1)
+        throw runtime_error(
+            "setmaxconnections\n"
+            "\nSets the maximum number of connections to other nodes.\n"
+            "\nArguments:\n"
+            "1. maxconnectioncount     (numeric, required) The new maximum connection count (must be >= " + minConnCount + ")\n"
+            "\nResult:\n"
+            "n          (boolean) True or false connection count\n"
+            "\nExamples:\n"
+            + HelpExampleCli("setmaxconnections", "20")
+            + HelpExampleRpc("setmaxconnections", minConnCount)
+        );
+    else
+        newMaxCount = request.params[0].get_int();
+
+    if (newMaxCount < MAX_ADDNODE_CONNECTIONS)
+        throw JSONRPCError(RPC_INVALID_PARAMETER, "Error: maxconnectioncount must be >= " + minConnCount);
+
+    if(!g_connman)
+        throw JSONRPCError(RPC_CLIENT_P2P_DISABLED, "Error: Peer-to-peer functionality missing or disabled");
+
+    g_connman->SetMaxConnections(newMaxCount);
+
+    return true;
+}
+
 UniValue ping(const JSONRPCRequest& request)
 {
     if (request.fHelp || request.params.size() != 0)
@@ -613,6 +644,7 @@ static const CRPCCommand commands[] =
 { //  category              name                      actor (function)         okSafeMode
   //  --------------------- ------------------------  -----------------------  ----------
     { "network",            "getconnectioncount",     &getconnectioncount,     true,  {} },
+    { "network",            "setmaxconnections",      &setmaxconnections,      true,  {"newconnectioncount"} },
     { "network",            "ping",                   &ping,                   true,  {} },
     { "network",            "getpeerinfo",            &getpeerinfo,            true,  {} },
     { "network",            "addnode",                &addnode,                true,  {"node","command"} },

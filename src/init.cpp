@@ -803,6 +803,7 @@ ServiceFlags nRelevantServices = NODE_NETWORK;
 int nMaxConnections;
 int nUserMaxConnections;
 int nFD;
+int nAvailableFds;
 ServiceFlags nLocalServices = NODE_NETWORK;
 
 }
@@ -903,7 +904,8 @@ bool AppInitParameterInteraction()
     nFD = RaiseFileDescriptorLimit(nMaxConnections + MIN_CORE_FILEDESCRIPTORS + MAX_ADDNODE_CONNECTIONS);
     if (nFD < MIN_CORE_FILEDESCRIPTORS)
         return InitError(_("Not enough file descriptors available."));
-    nMaxConnections = std::min(nFD - MIN_CORE_FILEDESCRIPTORS - MAX_ADDNODE_CONNECTIONS, nMaxConnections);
+    nAvailableFds = nFD - MIN_CORE_FILEDESCRIPTORS - MAX_ADDNODE_CONNECTIONS;
+    nMaxConnections = std::min(nAvailableFds, nMaxConnections);
 
     if (nMaxConnections < nUserMaxConnections)
         InitWarning(strprintf(_("Reducing -maxconnections from %d to %d, because of system limitations."), nUserMaxConnections, nMaxConnections));
@@ -1660,6 +1662,7 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
     connOptions.nLocalServices = nLocalServices;
     connOptions.nRelevantServices = nRelevantServices;
     connOptions.nMaxConnections = nMaxConnections;
+    connOptions.nAvailableFds = nAvailableFds;
     connOptions.nMaxOutbound = std::min(MAX_OUTBOUND_CONNECTIONS, connOptions.nMaxConnections);
     connOptions.nMaxAddnode = MAX_ADDNODE_CONNECTIONS;
     connOptions.nMaxFeeler = 1;
