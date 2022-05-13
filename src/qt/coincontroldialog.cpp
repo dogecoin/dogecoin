@@ -433,7 +433,7 @@ void CoinControlDialog::updateLabels(WalletModel *model, QDialog* dialog)
         {
             CTxOut txout(amount, (CScript)std::vector<unsigned char>(24, 0));
             txDummy.vout.push_back(txout);
-            if (txout.IsDust(dustRelayFee))
+            if (txout.IsDust(CWallet::discardThreshold))
                fDust = true;
         }
     }
@@ -543,13 +543,13 @@ void CoinControlDialog::updateLabels(WalletModel *model, QDialog* dialog)
                 nChange -= nPayFee;
 
             // Never create dust outputs; if we would, just add the dust to the fee.
-            if (nChange > 0 && nChange < MIN_CHANGE)
+            if (nChange > 0 && nChange < CWallet::GetMinChange())
             {
                 CTxOut txout(nChange, (CScript)std::vector<unsigned char>(24, 0));
-                if (txout.IsDust(dustRelayFee))
+                if (txout.IsDust(CWallet::discardThreshold))
                 {
                     if (CoinControlDialog::fSubtractFeeFromAmount) // dust-change will be raised until no dust
-                        nChange = txout.GetDustThreshold(dustRelayFee);
+                        nChange = CWallet::discardThreshold;
                     else
                     {
                         nPayFee += nChange;

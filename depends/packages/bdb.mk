@@ -1,8 +1,8 @@
 package=bdb
-$(package)_version=5.1.29
+$(package)_version=5.3.28
 $(package)_download_path=http://download.oracle.com/berkeley-db
 $(package)_file_name=db-$($(package)_version).NC.tar.gz
-$(package)_sha256_hash=08238e59736d1aacdd47cfb8e68684c695516c37f4fbe1b8267dde58dc3a576c
+$(package)_sha256_hash=76a25560d9e52a198d37a31440fd07632b5f1f8f9f2b6d5438f4bc3e7c9013ef
 $(package)_build_subdir=build_unix
 
 define $(package)_set_vars
@@ -24,7 +24,7 @@ define $(package)_config_cmds
 endef
 
 define $(package)_build_cmds
-  $(MAKE) libdb_cxx-5.1.a libdb-5.1.a
+  $(MAKE) libdb_cxx-5.3.a libdb-5.3.a
 endef
 
 define $(package)_stage_cmds

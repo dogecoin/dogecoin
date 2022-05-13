@@ -11,7 +11,7 @@
   </array>
 
   <key>CFBundleIconFile</key>
-  <string>bitcoin.icns</string>
+  <string>dogecoin.icns</string>
 
   <key>CFBundlePackageType</key>
   <string>APPL</string>
@@ -30,7 +30,7 @@
 
   <key>CFBundleExecutable</key>
   <string>Dogecoin-Qt</string>
-  
+
   <key>CFBundleName</key>
   <string>Dogecoin-Qt</string>
 
@@ -99,7 +99,7 @@
 
   <key>LSAppNapIsDisabled</key>
     <string>True</string>
-  
+
   <key>LSApplicationCategoryType</key>
     <string>public.app-category.finance</string>
 </dict>

@@ -15,7 +15,7 @@ class ImportPrunedFundsTest(BitcoinTestFramework):
         self.num_nodes = 2
 
     def setup_network(self, split=False):
-        self.nodes = start_nodes(self.num_nodes, self.options.tmpdir)
+        self.nodes = start_nodes(self.num_nodes, self.options.tmpdir, [['-spendzeroconfchange=0'], None])
         connect_nodes_bi(self.nodes,0,1)
         self.is_network_split=False
         self.sync_all()
@@ -58,21 +58,20 @@ class ImportPrunedFundsTest(BitcoinTestFramework):
         assert_equal(address_info['ismine'], False)
 
         #Send funds to self
-        txnid3 = self.nodes[0].sendtoaddress(address3, 2.5)
-        self.nodes[0].generate(1)
-        rawtxn3 = self.nodes[0].gettransaction(txnid3)['hex']
-        proof3 = self.nodes[0].gettxoutproof([txnid3])
+        txnid1 = self.nodes[0].sendtoaddress(address1, 10)
+        rawtxn1 = self.nodes[0].gettransaction(txnid1)['hex']
 
         txnid2 = self.nodes[0].sendtoaddress(address2, 5)
-        self.nodes[0].generate(1)
         rawtxn2 = self.nodes[0].gettransaction(txnid2)['hex']
-        proof2 = self.nodes[0].gettxoutproof([txnid2])
 
-        txnid1 = self.nodes[0].sendtoaddress(address1, 10)
+        txnid3 = self.nodes[0].sendtoaddress(address3, 2.5)
+        rawtxn3 = self.nodes[0].gettransaction(txnid3)['hex']
+
         self.nodes[0].generate(1)
-        rawtxn1 = self.nodes[0].gettransaction(txnid1)['hex']
-        proof1 = self.nodes[0].gettxoutproof([txnid1])
 
+        proof1 = self.nodes[0].gettxoutproof([txnid1])
+        proof2 = self.nodes[0].gettxoutproof([txnid2])
+        proof3 = self.nodes[0].gettxoutproof([txnid3])
 
         self.sync_all()
 
@@ -86,7 +85,7 @@ class ImportPrunedFundsTest(BitcoinTestFramework):
         self.nodes[1].importaddress(address2, "add2", False)
         result2 = self.nodes[1].importprunedfunds(rawtxn2, proof2)
         balance2 = self.nodes[1].getbalance("add2", 0, True)
-        assert_equal(balance2, Decimal('5'))
+        assert_equal(balance2, Decimal('5.0'))
 
         #Import with private key with no rescan
         self.nodes[1].importprivkey(address3_privkey, "add3", False)

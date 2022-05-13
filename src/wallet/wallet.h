@@ -8,11 +8,13 @@
 
 #include "amount.h"
 #include "auxpow.h"
+#include "dogecoin-fees.h"
 #include "streams.h"
 #include "tinyformat.h"
 #include "ui_interface.h"
 #include "utilstrencodings.h"
 #include "validationinterface.h"
+#include "policy/policy.h"
 #include "script/ismine.h"
 #include "script/sign.h"
 #include "wallet/crypter.h"
@@ -38,6 +40,8 @@ extern CWallet* pwalletMain;
  * Settings
  */
 extern CFeeRate payTxFee;
+//mlumin 5/2021: add minWalletTxFee to separate out wallet and relay.
+extern CFeeRate minWalletTxFeeRate;
 extern unsigned int nTxConfirmTarget;
 extern bool bSpendZeroConfChange;
 extern bool fSendFreeTransactions;
@@ -45,17 +49,62 @@ extern bool fWalletRbf;
 
 static const unsigned int DEFAULT_KEYPOOL_SIZE = 100;
 //! -paytxfee default
-static const CAmount DEFAULT_TRANSACTION_FEE = 0;
+static const CAmount DEFAULT_TRANSACTION_FEE = RECOMMENDED_MIN_TX_FEE;
 //! -fallbackfee default
-static const CAmount DEFAULT_FALLBACK_FEE = COIN;
+//mlumin: 5/2021 scaled minimum, this likely will have to change for fee reduction
+//rnicoll: 8/2021 reduce to 1,000,000 Koinu
+static const CAmount DEFAULT_FALLBACK_FEE = RECOMMENDED_MIN_TX_FEE;
 //! -mintxfee default
-static const CAmount DEFAULT_TRANSACTION_MINFEE = COIN;
+static const CAmount DEFAULT_TRANSACTION_MINFEE = RECOMMENDED_MIN_TX_FEE;
+//! -discardthreshold default
+/* 1.14.5: set the wallet's discard threshold to 1 DOGE because that's what 97%
+ *         of the network currently implements as the hard dust limit. This
+ *         value can be changed when a significant portion of the relay network
+ *         and miners have adopted a different hard dust limit.
+ */
+static const CAmount DEFAULT_DISCARD_THRESHOLD = COIN;
+
 //! minimum recommended increment for BIP 125 replacement txs
-static const CAmount WALLET_INCREMENTAL_RELAY_FEE = COIN * 5;
-//! target minimum change amount
-static const CAmount MIN_CHANGE = COIN;
-//! final minimum change amount after paying for fees
-static const CAmount MIN_FINAL_CHANGE = COIN;
+/*
+ * Dogecoin: Scaled to 1/10th of the recommended transaction fee to make RBF
+ * cheaper than CPFP. This reduces onchain pollution by encouraging transactions
+ * to be replaced in the mempool, rather than be respent by another transaction
+ * which then both would have to be mined, taking up block space and increasing
+ * the amount of data that needs to be synchronized when validating the chain.
+ * This way, replacements for fee bumps are transient rather than persisted.
+ */
+static const CAmount WALLET_INCREMENTAL_RELAY_FEE = RECOMMENDED_MIN_TX_FEE / 10;
+/*
+ * Dogecoin: Creating change outputs at exactly the dustlimit is counter-
+ * productive because it leaves no space to bump the fee up, so we make the
+ * minimum change higher than the discard threshold.
+ *
+ * When RBF is not a default policy, we need to scale for both that and CPFP,
+ * to have a facility for those that did not manually enable RBF, yet need to
+ * bump a fee for their transaction to get mined.
+ *
+ * Using bumpfee currently will add WALLET_INCREMENTAL_RELAY_FEE as a fixed
+ * increment, and CPFP would need the spending fee for at least 147 bytes
+ * (1 input, 1 output), and additional space for actually increasing the fee
+ * for both transactions.
+ *
+ * Because the change calculation is currently not taking into account feerate
+ * or transaction size, we assume that most transactions are < 1kb, leading
+ * to the following when planning for a replacements with 2x original fee:
+ *
+ * RBF: min change = discardThreshold + minTxFee(1000) or
+ * CPFP: min change = discardThreshold + 2 * minTxFee(147) + minTxFee(1000)
+ *
+ * Where the CPFP requirement is higher than the RBF one to lead to the same
+ * result.
+ *
+ * This can be rounded up to the nearest multiple of minTxFee(1000) as:
+ *
+ * min change = discardThreshold + 2 * minTxFee(1000)
+ */
+//! target minimum change fee multiplier
+static const CAmount MIN_CHANGE_FEE_MULTIPLIER = 2;
+
 //! Default for -spendzeroconfchange
 static const bool DEFAULT_SPEND_ZEROCONF_CHANGE = true;
 //! Default for -sendfreetransactions
@@ -745,6 +794,13 @@ public:
 
     static CFeeRate minTxFee;
     static CFeeRate fallbackFee;
+    static CAmount discardThreshold;
+
+    /**
+     * Minimum change as a function of discardThreshold
+     */
+    static CAmount GetMinChange();
+
     /**
      * Estimate the minimum fee considering user set parameters
      * and the required fee
@@ -755,6 +811,14 @@ public:
      * then fee estimation for nConfirmTarget
      */
     static CAmount GetMinimumFee(const CMutableTransaction& tx, unsigned int nTxBytes, unsigned int nConfirmTarget, const CTxMemPool& pool, CAmount targetFee);
+    /**
+     * Dogecoin: Get a fee targetting a specific transaction speed.
+     */
+    CAmount GetDogecoinPriorityFee(const CMutableTransaction& tx, unsigned int nTxBytes, FeeRatePreset nSpeed);
+    /**
+     * Dogecoin: Get a fee targetting a specific transaction speed.
+     */
+    static CAmount GetDogecoinPriorityFee(const CMutableTransaction& tx, unsigned int nTxBytes, FeeRatePreset nSpeed, CAmount targetFee);
     /**
      * Return the minimum required fee taking into account the
      * floating relay fee and user set minimum transaction fee

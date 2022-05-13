@@ -681,35 +681,53 @@ BOOST_AUTO_TEST_CASE(test_IsStandard)
     t.vin[0].prevout.n = 1;
     t.vin[0].scriptSig << std::vector<unsigned char>(65, 0);
     t.vout.resize(1);
-    t.vout[0].nValue = COIN;
+
     CKey key;
     key.MakeNewKey(true);
     t.vout[0].scriptPubKey = GetScriptForDestination(key.GetPubKey().GetID());
 
     std::string reason;
+
+    // Standard: 1 DOGE
+    t.vout[0].nValue = COIN;
     BOOST_CHECK(IsStandardTx(t, reason));
 
-    // Dogecoin: Dust is totally different in Dogecoin, disable these tests
-    // Check dust with default relay fee:
-    /* CAmount nDustThreshold = 182 * dustRelayFee.GetFeePerK()/1000 * 3;
-    BOOST_CHECK_EQUAL(nDustThreshold, 546);
-    // dust:
-    t.vout[0].nValue = nDustThreshold - 1;
+    // Non-standard (1 koinu):
+    t.vout[0].nValue = 1;
     BOOST_CHECK(!IsStandardTx(t, reason));
-    // not dust:
-    t.vout[0].nValue = nDustThreshold;
+
+    // Non-standard (below hard dust):
+    t.vout[0].nValue = nHardDustLimit - 1;
+    BOOST_CHECK(!IsStandardTx(t, reason));
+
+    // Standard (at hard dust):
+    t.vout[0].nValue = nHardDustLimit;
     BOOST_CHECK(IsStandardTx(t, reason));
 
-    // Check dust with odd relay fee to verify rounding:
-    // nDustThreshold = 182 * 1234 / 1000 * 3
-    dustRelayFee = CFeeRate(1234);
-    // dust:
-    t.vout[0].nValue = 672 - 1;
+    // Standard (below soft dust but above hard):
+    t.vout[0].nValue = nDustLimit - 1;
+    BOOST_CHECK(IsStandardTx(t, reason));
+
+    // Standard (at soft dust):
+    t.vout[0].nValue = nDustLimit;
+    BOOST_CHECK(IsStandardTx(t, reason));
+
+    // Lowering limits:
+    CAmount nPrevHardDustLimit = nHardDustLimit;
+    CAmount nPrevDustLimit = nDustLimit;
+    nHardDustLimit = nHardDustLimit / 2;
+    nDustLimit = nPrevHardDustLimit;
+
+    // Standard:
+    t.vout[0].nValue = nDustLimit - 1;
+    BOOST_CHECK(IsStandardTx(t, reason));
+
+    // Non-standard:
+    t.vout[0].nValue = nHardDustLimit - 1;
     BOOST_CHECK(!IsStandardTx(t, reason));
-    // not dust:
-    t.vout[0].nValue = 672;
-    BOOST_CHECK(IsStandardTx(t, reason)); */
-    dustRelayFee = CFeeRate(DUST_RELAY_TX_FEE);
+
+    nHardDustLimit = nPrevHardDustLimit;
+    nDustLimit = nPrevDustLimit;
 
     t.vout[0].scriptPubKey = CScript() << OP_1;
     BOOST_CHECK(!IsStandardTx(t, reason));

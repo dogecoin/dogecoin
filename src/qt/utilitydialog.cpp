@@ -200,7 +200,7 @@ PaperWalletDialog::PaperWalletDialog(QWidget *parent) :
     ui->buttonBox->addButton(tr("Close"), QDialogButtonBox::RejectRole);
 
     // Begin with a small bold monospace font for the textual version of the key and address.
-    QFont font("Monospace");
+    QFont font("Courier");
     font.setBold(true);
     font.setStyleHint(QFont::TypeWriter);
     font.setPixelSize(1);
@@ -217,7 +217,7 @@ void PaperWalletDialog::setClientModel(ClientModel *_clientModel)
 
     // FIXME: This cannot be the right way of doing something on open
     if (_clientModel && _clientModel->getNetworkActive()) {
-        QMessageBox::critical(this, "Warning: Network Activity Detected", tr("It is recommended to disconnect from the internet before printing paper wallets. Even though paper wallets are generated on your local computer, it is still possible to unknowingly have malware that transmits your screen to a remote location. It is also recommended to print to a local printer vs a network printer since that network traffic can be monitored. Some advanced printers also store copies of each printed document. Proceed with caution relative to the amount of value you plan to store on each address."), QMessageBox::Ok, QMessageBox::Ok);
+        QMessageBox::critical(this, tr("Warning: Network Activity Detected"), tr("It is recommended to disconnect from the internet before printing paper wallets. Even though paper wallets are generated on your local computer, it is still possible to unknowingly have malware that transmits your screen to a remote location. It is also recommended to print to a local printer vs a network printer since that network traffic can be monitored. Some advanced printers also store copies of each printed document. Proceed with caution relative to the amount of value you plan to store on each address."), QMessageBox::Ok, QMessageBox::Ok);
     }
 }
 
@@ -302,7 +302,7 @@ void PaperWalletDialog::on_getNewAddress_clicked()
     // Update the fonts to fit the height of the wallet.
     // This should only really trigger the first time since the font size persists.
     double paperHeight = (double)ui->paperTemplate->height();
-    double maxTextWidth = paperHeight * 0.99;
+    double maxTextWidth = paperHeight * 0.98;
     double minTextWidth = paperHeight * 0.95;
     int pixelSizeStep = 1;
 
@@ -361,7 +361,7 @@ void PaperWalletDialog::on_printButton_clicked()
 
     QPainter painter;
     if (!painter.begin(&printer)) { // failed to open file
-        QMessageBox::critical(this, "Printing Error", tr("failed to open file, is it writable?"), QMessageBox::Ok, QMessageBox::Ok);
+        QMessageBox::critical(this, tr("Printing Error"), tr("failed to open file, is it writable?"), QMessageBox::Ok, QMessageBox::Ok);
         return;
     }
 

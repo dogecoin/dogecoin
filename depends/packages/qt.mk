@@ -1,11 +1,11 @@
 PACKAGE=qt
 $(package)_version=5.7.1
-$(package)_download_path=http://download.qt.io/official_releases/qt/5.7/$($(package)_version)/submodules
+$(package)_download_path=http://download.qt.io/new_archive/qt/5.7/$($(package)_version)/submodules
 $(package)_suffix=opensource-src-$($(package)_version).tar.gz
 $(package)_file_name=qtbase-$($(package)_suffix)
 $(package)_sha256_hash=95f83e532d23b3ddbde7973f380ecae1bac13230340557276f75f2e37984e410
 $(package)_dependencies=openssl zlib
-$(package)_linux_dependencies=freetype fontconfig libxcb libX11 xproto libXext
+$(package)_linux_dependencies=freetype fontconfig libxcb libX11 xproto libXext libxkbcommon
 $(package)_build_subdir=qtbase
 $(package)_qt_libs=corelib network widgets gui plugins testlib printsupport
 $(package)_patches=mac-qmake.conf mingw-uuidof.patch pidlist_absolute.patch fix-xcb-include-order.patch fix_qt_pkgconfig.patch
@@ -73,6 +73,7 @@ $(package)_config_opts += -prefix $(host_prefix)
 $(package)_config_opts += -qt-libpng
 $(package)_config_opts += -qt-libjpeg
 $(package)_config_opts += -qt-pcre
+$(package)_config_opts += -qt-harfbuzz
 $(package)_config_opts += -system-zlib
 $(package)_config_opts += -reduce-exports
 $(package)_config_opts += -static
@@ -89,8 +90,7 @@ $(package)_config_opts_darwin += -device-option MAC_TARGET=$(host)
 $(package)_config_opts_darwin += -device-option MAC_LD64_VERSION=$(LD64_VERSION)
 endif
 
-$(package)_config_opts_linux  = -qt-xkbcommon
-$(package)_config_opts_linux += -qt-xcb
+$(package)_config_opts_linux = -qt-xcb
 $(package)_config_opts_linux += -system-freetype
 $(package)_config_opts_linux += -no-sm
 $(package)_config_opts_linux += -fontconfig
