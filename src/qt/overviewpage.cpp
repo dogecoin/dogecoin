@@ -159,7 +159,7 @@ void OverviewPage::UpdateTip()
         tr("Make sure to keep your wallet updated."),
         tr("Backup your private key to recover your coins, using 'File' > 'Backup Wallet'"),
         tr("Always do your own research before using an external cryptocurrency service"),
-        tr("Never share your private key to an untrustworthy person."),
+        tr("Never share your private key with anyone"),
         tr("Who owns the private keys owns the coins."),
         tr("To see ongoing development and contribute, checkout Dogecoin repository on GitHub!"),
         tr("Services that claim to double your dogecoins are always ponzi schemes")
