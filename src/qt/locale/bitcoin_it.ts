@@ -186,7 +186,7 @@
     </message>
     <message>
         <source>This operation needs your wallet passphrase to decrypt the wallet.</source>
-        <translation>Quest&apos;operazione necessita della password per decriptare il portafoglio,</translation>
+        <translation>Quest&apos;operazione necessita della password per decrittare il portafoglio,</translation>
     </message>
     <message>
         <source>Decrypt wallet</source>
@@ -206,8 +206,8 @@
     </message>
     <message>
         <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DOGECOINS&lt;/b&gt;!</source>
-        <translation>Attenzione: se si cripta il portafoglio e si perde la password &lt;b&gt;TUTTI I DOGECOIN ANDRANNO PERSI&lt;/b&gt;!</translation>
-    </message>
+        <translation>Attenzione: se cripti il portafoglio e perdi la password, &lt;b&gt;PERDERAI TUTTI I TUOI DOGECOIN&lt;/b&gt;!</translation>
+    </message>    
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
         <translation>Sei sicuro di voler criptare il portafoglio?</translation>
@@ -234,11 +234,11 @@
     </message>
     <message>
         <source>Wallet unlock failed</source>
-        <translation>Sbloccaggio del portafoglio fallito</translation>
+        <translation>Sblocco del portafoglio fallito</translation>
     </message>
     <message>
         <source>The passphrase entered for the wallet decryption was incorrect.</source>
-        <translation>La password inserita per decrittografare il tuo portafoglio è incorretta</translation>
+        <translation>La password inserita per decrittare il tuo portafoglio è errata</translation>
     </message>
     <message>
         <source>Wallet decryption failed</source>
@@ -288,7 +288,7 @@
     </message>
     <message>
         <source>Show general overview of wallet</source>
-        <translation>Mostra lo stato generale del portafoglio</translation>
+        <translation>Mostra la panoramica del portafoglio</translation>
     </message>
     <message>
         <source>&amp;Transactions</source>
@@ -356,7 +356,7 @@
     </message>
     <message>
         <source>Backup wallet to another location</source>
-        <translation>Effettua il backup del portafoglio</translation>
+        <translation>Esegui il backup del portafoglio in un&apos;altra posizione</translation>
     </message>
     <message>
         <source>Change the passphrase used for wallet encryption</source>
@@ -400,7 +400,7 @@
     </message>
     <message>
         <source>Encrypt the private keys that belong to your wallet</source>
-        <translation>Cripta le chiavi private che appartengono al tuo portafoglio</translation>
+        <translation>Cripta le chiavi private del tuo portafoglio</translation>
     </message>
     <message>
         <source>Sign messages with your Dogecoin addresses to prove you own them</source>
@@ -556,11 +556,11 @@
     </message>
     <message>
         <source>&amp;Print paper wallets</source>
-        <translation>&amp;Stampa portafogli di carta</translation>
+        <translation>&amp;Stampa paper wallets</translation>
     </message>
     <message>
         <source>Print paper wallets</source>
-        <translation>Stampa portafogli di carta</translation>
+        <translation>Stampa paper wallets</translation>
     </message>
     <message>
         <source>&amp;Such sending addresses...</source>
@@ -754,7 +754,7 @@
     </message>
     <message>
         <source>This label turns red if any recipient receives an amount smaller than the current dust threshold.</source>
-        <translation>Questa etichetta diventerà rossa se uno qualsiasi dei destinatari riceverà un importo inferiore alla corrente soglia minima per la movimentazione della valuta.</translation>
+        <translation>Questa etichetta diventa rossa se uno qualsiasi dei destinatari riceve un importo inferiore alla soglia minima per la movimentazione della valuta (dust threshold).</translation>
     </message>
     <message>
         <source>(no label)</source>
@@ -785,11 +785,11 @@
     </message>
     <message>
         <source>The label associated with this address list entry</source>
-        <translation>L&apos;etichetta associata con questa voce della lista degli indirizzi</translation>
+        <translation>L&apos;etichetta associata con questa voce dell'elenco degli indirizzi</translation>
     </message>
     <message>
         <source>The address associated with this address list entry. This can only be modified for sending addresses.</source>
-        <translation>L&apos;indirizzo associato con questa voce della lista degli indirizzi. Può essere modificato solo per gli indirizzi d&apos;invio.</translation>
+        <translation>L&apos;indirizzo associato con questa voce dell'elenco degli indirizzi. Può essere modificato solo per gli indirizzi d&apos;invio.</translation>
     </message>
     <message>
         <source>&amp;Address</source>
@@ -954,11 +954,11 @@
     </message>
     <message>
         <source>Invalid private key; please check and try again!</source>
-        <translation>Chiave privata non valida; controlla e prova di nuovo!</translation>
+        <translation>Chiave privata non valida; controlla e riprova!</translation>
     </message>
     <message>
         <source>Invalid address generated from private key; please check and try again!</source>
-        <translation>L&apos;indirizzo generato dalla chiave privata non è valido; controlla e prova di nuovo!</translation>
+        <translation>L&apos;indirizzo generato dalla chiave privata non è valido; controlla e riprova!</translation>
     </message>
     <message>
         <source>Failed to add private key.</source>
@@ -985,7 +985,7 @@
     </message>
     <message>
         <source>%1 will download and store a copy of the Dogecoin block chain. At least %2GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
-        <translation>%1 scaricherà e salverà una copia della block chain di Dogecoin. Saranno salvati almeno %2GB di dati in questo percorso e continueranno ad aumentare col tempo. Anche il portafoglio verrà salvato in questo percorso.</translation>
+        <translation>%1 scaricherà e salverà una copia della blockchain di Dogecoin. Saranno salvati almeno %2GB di dati in questa directory e continueranno ad aumentare col tempo. Anche il portafoglio verrà salvato in questa directory.</translation>
     </message>
     <message>
         <source>Use the default data directory</source>
@@ -1225,7 +1225,7 @@ Per specificare più URL separarli con una barra verticale &quot;|&quot;.</trans
     </message>
     <message>
         <source>Shows, if the supplied default SOCKS5 proxy is used to reach peers via this network type.</source>
-        <translation>Mostra se la proxy SOCKS5 fornita viene utilizzata per raggiungere i peers attraverso questo tipo di rete.</translation>
+        <translation>Mostra se il proxy SOCKS5 fornito viene utilizzato per raggiungere i peers attraverso questo tipo di rete.</translation>
     </message>
     <message>
         <source>IPv4</source>
@@ -1241,11 +1241,11 @@ Per specificare più URL separarli con una barra verticale &quot;|&quot;.</trans
     </message>
     <message>
         <source>Connect to the Dogecoin network through a separate SOCKS5 proxy for Tor hidden services.</source>
-        <translation>Connette alla rete Dogecoin attraverso un proxy SOCKS5 separato per Tor.</translation>
+        <translation>Connessione alla rete Dogecoin attraverso un proxy SOCKS5 separato per Tor.</translation>
     </message>
     <message>
         <source>Use separate SOCKS5 proxy to reach peers via Tor hidden services:</source>
-        <translation>Usa un proxy SOCKS5 separato per connettersi ai peers attraverso Tor:</translation>
+        <translation>Usa un proxy SOCKS5 separato per la connessione ai peers attraverso Tor:</translation>
     </message>
     <message>
         <source>&amp;Window</source>
@@ -1253,7 +1253,7 @@ Per specificare più URL separarli con una barra verticale &quot;|&quot;.</trans
     </message>
     <message>
         <source>&amp;Hide the icon from the system tray.</source>
-        <translation>&amp;Nascondi l&apos;icona nella barra delle applicazioni.</translation>
+        <translation>Nascondi l&apos;icona nella barra delle applicazioni.</translation>
     </message>
     <message>
         <source>Hide tray icon</source>
@@ -1265,7 +1265,7 @@ Per specificare più URL separarli con una barra verticale &quot;|&quot;.</trans
     </message>
     <message>
         <source>&amp;Minimize to the tray instead of the taskbar</source>
-        <translation>&amp;Minimizza nella tray bar invece che sulla barra delle applicazioni</translation>
+        <translation>&amp;Minimizza nella tray bar anziché nella barra delle applicazioni</translation>
     </message>
     <message>
         <source>M&amp;inimize on close</source>
@@ -1281,7 +1281,7 @@ Per specificare più URL separarli con una barra verticale &quot;|&quot;.</trans
     </message>
     <message>
         <source>The user interface language can be set here. This setting will take effect after restarting %1.</source>
-        <translation>La lingua dell&apos;interfaccia utente può essere impostata qui. L&apos;impostazione avrà effetto dopo il riavvio %1.</translation>
+        <translation>Qui puoi scegliere la lingua dell&apos;interfaccia utente. La scelta avrà effetto dopo il riavvio di %1.</translation>
     </message>
     <message>
         <source>&amp;Unit to show amounts in:</source>
@@ -1360,7 +1360,7 @@ Per specificare più URL separarli con una barra verticale &quot;|&quot;.</trans
     </message>
     <message>
         <source>Total of transactions that have yet to be confirmed, and do not yet count toward the spendable balance</source>
-        <translation>Totale delle transazioni in corso di conferma e che non sono ancora conteggiate nel saldo spendibile</translation>
+        <translation>Totale delle transazioni in corso di conferma e che non sono ancora conteggiate nel saldo disponibile</translation>
     </message>
     <message>
         <source>Immature:</source>
@@ -1404,11 +1404,11 @@ Per specificare più URL separarli con una barra verticale &quot;|&quot;.</trans
     </message>
     <message>
         <source>Current total balance in watch-only addresses</source>
-        <translation>Saldo corrente totale negli indirizzi di sola lettura</translation>
+        <translation>Saldo totale disponibile negli indirizzi di sola lettura</translation>
     </message>
     <message>
         <source>Helpful tip of the day:</source>
-        <translation>Suggerimento utile del giorno:</translation>
+        <translation>Suggerimento del giorno:</translation>
     </message>
     <message>
         <source>Tip</source>
@@ -1459,7 +1459,7 @@ Per specificare più URL separarli con una barra verticale &quot;|&quot;.</trans
     <name>PaperWalletDialog</name>
     <message>
         <source>Print Your Paper Wallets</source>
-        <translation>Stampa il tuo Portafoglio Cartaceo</translation>
+        <translation>Stampa i tuoi Paper Wallets</translation>
     </message>
     <message>
         <source>Very New Address</source>
@@ -1543,7 +1543,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>It is recommended to disconnect from the internet before printing paper wallets. Even though paper wallets are generated on your local computer, it is still possible to unknowingly have malware that transmits your screen to a remote location. It is also recommended to print to a local printer vs a network printer since that network traffic can be monitored. Some advanced printers also store copies of each printed document. Proceed with caution relative to the amount of value you plan to store on each address.</source>
-        <translation>È preferibile disconnettersi dalla rete internet prima di stampare un portafoglio di carta. Anche se i portafogli di carta sono generati localmente nel tuo computer, è possibile che un malware nascosto nel tuo computer trasmetta remotamente immagini del tuo schermo. Si raccomanda di stampare il portafoglio utilizzando una stampante connessa direttamente al computer; il traffico di una rete locale può essere monitorato. Alcune stampanti più avanzate possono anche salvare localmente copie dei documenti stampati. Fai inoltre attenzione a limitare l&apos;importo contenuto in un singolo indirizzo.</translation>
+        <translation>È preferibile disconnettersi dalla rete internet prima di stampare un paper wallet. Anche se i paper wallets sono generati localmente nel tuo computer, è possibile che un malware nascosto nel tuo computer trasmetta remotamente immagini del tuo schermo. Si raccomanda di stampare il portafoglio utilizzando una stampante connessa direttamente al computer; il traffico di una rete locale può essere monitorato. Alcune stampanti più avanzate possono anche salvare localmente copie dei documenti stampati. Fai inoltre attenzione a limitare l&apos;importo contenuto in un singolo indirizzo.</translation>
     </message>
     <message>
         <source>Error encoding Address into QR Code.</source>
@@ -1563,19 +1563,19 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Load Paper Wallets</source>
-        <translation>Carica Portafogli di Carta</translation>
+        <translation>Carica Paper Wallets</translation>
     </message>
     <message>
         <source>The paper wallet printing process has begun.&lt;br/&gt;Please wait for the wallets to print completely and verify that everything printed correctly.&lt;br/&gt;Check for misalignments, ink bleeding, smears, or anything else that could make the private keys unreadable.&lt;br/&gt;Now, enter the number of DOGE you wish to send to each wallet:</source>
-        <translation>Il processo di stampa del portafoglio di carta è iniziato.&lt;br/&gt;Attendi che la stampa sia completa; successivamente, verifica che non ci siano stati errori di stampa.&lt;br/&gt;Controlla che non ci siano distorsioni, macchie, o problemi che potrebbero rendere il portafoglio cartaceo illegibile.&lt;br/&gt;Ora inserisci la quantità di DOGE che vuoi inviare all&apos;indirizzo di ciascun portafoglio:</translation>
+        <translation>Il processo di stampa del paper wallet è iniziato.&lt;br/&gt;Attendi che la stampa sia completa; successivamente, verifica che non ci siano stati errori di stampa.&lt;br/&gt;Controlla che non ci siano distorsioni, macchie, o problemi che potrebbero rendere il paper wallet illegibile.&lt;br/&gt;Ora inserisci la quantità di DOGE che vuoi inviare all&apos;indirizzo di ciascun portafoglio:</translation>
     </message>
     <message>
         <source>Paper wallet %1</source>
-        <translation>Portafoglio di carta %1</translation>
+        <translation>Paper wallet %1</translation>
     </message>
     <message>
         <source>&lt;b&gt;%1&lt;/b&gt; to Paper Wallet &lt;span style=&apos;font-family: monospace;&apos;&gt;%2&lt;/span&gt;</source>
-        <translation>&lt;b&gt;%1&lt;/b&gt; al Portafoglio di carta &lt;span style=&apos;font-family: monospace;&apos;&gt;%2&lt;/span&gt;</translation>
+        <translation>&lt;b&gt;%1&lt;/b&gt; al Paper Wallet &lt;span style=&apos;font-family: monospace;&apos;&gt;%2&lt;/span&gt;</translation>
     </message>
     <message>
         <source>Send Coins</source>
@@ -1591,11 +1591,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>The amount exceeds your balance.</source>
-        <translation>Non hai abbastanza fondi</translation>
+        <translation>Saldo insufficiente</translation>
     </message>
     <message>
         <source>The total exceeds your balance when the transaction fee is included</source>
-        <translation>Il totale inclusivo delle commissioni di transazione è superiore al saldo disponibile</translation>
+        <translation>Il totale, inclusa la commissione di transazione, è superiore al saldo disponibile.</translation>
     </message>
     <message>
         <source>Duplicate address found, can only send to each address once per send operation.</source>
@@ -1611,7 +1611,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>added as transaction fee</source>
-        <translation> aggiunti come commissioni di transazione</translation>
+        <translation> aggiunti per la commissione di transazione</translation>
     </message>
     <message>
         <source>Total Amount %1 (= %2)</source>
@@ -2222,7 +2222,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Ban for</source>
-        <translation>Bandisci per</translation>
+        <translation>Banna per</translation>
     </message>
     <message>
         <source>&amp;Unban</source>
@@ -2230,7 +2230,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>WARNING: Scammers have been active, telling users to type commands here, stealing their wallet contents. Do not use this console without fully understanding the ramification of a command.</source>
-        <translation>ATTENZIONE: Truffatori potrebbero tentare di convincere utenti inesperti ad utilizzare comandi che permettono di rubare il contenuto del loro portafoglio. Non usare questa console senza essere a completa conoscenza dei rischi insiti in un comando.</translation>
+        <translation>ATTENZIONE: Truffatori potrebbero tentare di convincere utenti inesperti ad utilizzare comandi che permettono di rubare il contenuto del loro portafoglio. Non usare questa console se non conosci alla perfezione il rischio che comporta l'utilizzo di ciascun comando.</translation>
     </message>
     <message>
         <source>Network activity disabled</source>
@@ -2246,7 +2246,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Are you sure you want to remove the peer: </source>
-        <translation>Sei sicuro di volere rimuovere il peer: </translation>
+        <translation>Sei sicuro di volere rimuovere il peer?: </translation>
     </message>
     <message>
         <source>No peer was selected.</source>
@@ -2574,7 +2574,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Copy dust</source>
-        <translation>Copia polvere</translation>
+        <translation>Copia polvere (dust)</translation>
     </message>
     <message>
         <source>Copy change</source>
@@ -2594,7 +2594,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>The amount exceeds your balance.</source>
-        <translation>Non hai abbastanza fondi</translation>
+        <translation>Saldo insufficiente</translation>
     </message>
     <message>
         <source>Transaction creation failed!</source>
@@ -2630,7 +2630,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>If the custom fee is set to 1000 satoshis and the transaction is only 250 bytes, then &quot;per kilobyte&quot; only pays 250 satoshis in fee, while &quot;total at least&quot; pays 1000 satoshis. For transactions bigger than a kilobyte both pay by kilobyte.</source>
-        <translation>Se le commissioni di transazione sono configurate per essere 1000 satoshi e la transazione é solo 250 bytes, allora, per kilobyte, la commissione sará solamente di 250 satoshi, mente il totale sará di almeno 1000 satoshi. Per transazioni più grandi di un kilobyte entrambi pagano per kilobyte.</translation>
+        <translation>Se la commissioni di transazione sono configurate su 1000 satoshi e la transazione é solo 250 bytes, la commissione sará solamente di 250 satoshi per kilobyte, mentre il totale sará di almeno 1000 satoshi. Per transazioni più grandi di un kilobyte entrambi pagano per kilobyte.</translation>
     </message>
     <message>
         <source>Priority:</source>
@@ -2666,11 +2666,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>The total exceeds your balance when the %1 transaction fee is included.</source>
-        <translation>Il totale è superiore al saldo disponibile quando le commissioni di transazione di %1 sono incluse.</translation>
+        <translation>Il totale, inclusa la commissione di transazione di %1, è superiore al saldo disponibile.</translation>
     </message>
     <message>
         <source>Duplicate address found: addresses should only be used once each.</source>
-        <translation>Indirizzo già inserito: lo stesso indirizzo può essere inserito solo una volta.</translation>
+        <translation>Indirizzo già inserito: non puoi riutilizzare lo stesso indirizzo.</translation>
     </message>
     <message>
         <source>A fee higher than %1 is considered an absurdly high fee.</source>
@@ -2686,7 +2686,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>The address you selected for change is not part of this wallet. Any or all funds in your wallet may be sent to this address. Are you sure?</source>
-        <translation>L&apos;indirizzo che hai selezionato come indirizzo di scambio non é parte di questo portafoglio. Parte o tutti i tuoi fondi potrebbero essere inviati a questo indirizzo. Sei sicuro?</translation>
+        <translation>L&apos;indirizzo che hai selezionato come indirizzo di scambio non appartiene a questo portafoglio. I tuoi fondi potrebbero essere totalmente o in parte inviati a questo indirizzo. Sei sicuro?</translation>
     </message>
 </context>
 <context>
@@ -2733,7 +2733,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>The fee will be deducted from the amount being sent. The recipient will receive less dogecoins than you enter in the amount field. If multiple recipients are selected, the fee is split equally.</source>
-        <translation>La commissione sarà sottratta dall&apos;importo che si sta inviando. Il beneficiario riceverà un totale di dogecoin inferiore al valore digitato. Nel caso in cui siano stati selezionati più beneficiari la commissione sarà suddivisa in parti uguali.</translation>
+        <translation>La commissione sarà sottratta dall&apos;importo che si sta inviando. Il beneficiario riceverà un totale di dogecoin inferiore al valore inserito. Nel caso in cui siano stati selezionati più beneficiari la commissione sarà divisa in parti uguali.</translation>
     </message>
     <message>
         <source>S&amp;ubtract fee from amount</source>
@@ -2757,7 +2757,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>A message that was attached to the dogecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
-        <translation>Messaggio incluso nel dogecoin URI e che sarà memorizzato con la transazione per vostro riferimento. Nota: Questo messaggio non sarà inviato attraverso la rete Dogecoin.</translation>
+        <translation>Messaggio incluso nell'URI dogecoin e che sarà memorizzato con la transazione. Nota: questo messaggio non sarà inviato attraverso la rete Dogecoin.</translation>
     </message>
     <message>
         <source>Pay To:</source>
@@ -2769,7 +2769,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Enter a label for this address to add it to your address book</source>
-        <translation>Inserisci un&apos;etichetta per questo indirizzo da aggiungere alla tua rubrica</translation>
+        <translation>Inserisci un&apos;etichetta per questo indirizzo per aggiungerlo alla tua rubrica</translation>
     </message>
 </context>
 <context>
@@ -2802,7 +2802,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>You can sign messages/agreements with your addresses to prove you can receive dogecoins sent to them. Be careful not to sign anything vague or random, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</source>
-        <translation>È possibile firmare messaggi/accordi con i propri indirizzi in modo da dimostrare di poter ricevere dogecoin attraverso di essi. Si consiglia di prestare attenzione a non firmare dichiarazioni vaghe o casuali, attacchi di phishing potrebbero cercare di indurre ad apporre la firma su di esse. Si raccomanda di firmare esclusivamente dichiarazioni completamente dettagliate e delle quali si condivide in pieno il contenuto.</translation>
+        <translation>Puoi firmare messaggi/accordi con i tuoi indirizzi per dimostrare di poterli utilizzare per ricevere Dogecoin. Si consiglia di fare attenzione a non firmare dichiarazioni vaghe o casuali che potrebbero essere utilizzate in attacchi phishing. Si raccomanda di firmare esclusivamente dichiarazioni dettagliate e delle quali si condivide in pieno il contenuto.</translation>
     </message>
     <message>
         <source>The Dogecoin address to sign the message with</source>
@@ -2858,11 +2858,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Enter the receiver&apos;s address, message (ensure you copy line breaks, spaces, tabs, etc. exactly) and signature below to verify the message. Be careful not to read more into the signature than what is in the signed message itself, to avoid being tricked by a man-in-the-middle attack. Note that this only proves the signing party receives with the address, it cannot prove sendership of any transaction!</source>
-        <translation>Per verificare il messaggio inserire l&apos;indirizzo del firmatario, il messaggio e la firma nei campi sottostanti, assicurandosi di copiare esattamente anche ritorni a capo, spazi, tabulazioni, etc.. Si raccomanda di non lasciarsi fuorviare dalla firma a leggere più di quanto non sia riportato nel testo del messaggio stesso, in modo da evitare di cadere vittima di attacchi di tipo man-in-the-middle. Si ricorda che la verifica della firma dimostra soltanto che il firmatario può ricevere pagamenti con l&apos;indirizzo corrispondente, non prova l&apos;invio di alcuna transazione.</translation>
+        <translation>Per verificare il messaggio inserire l&apos;indirizzo del firmatario, il messaggio e la firma nei campi sottostanti, assicurandosi di copiare esattamente anche ritorni a capo, spazi, tabulazioni, etc. Si raccomanda di non lasciarsi fuorviare dalla firma a leggere più di quanto non sia riportato nel testo del messaggio stesso, in modo da evitare di cadere vittima di attacchi di tipo man-in-the-middle. Si ricorda che la verifica della firma dimostra soltanto che il firmatario può ricevere pagamenti con l&apos;indirizzo corrispondente, non prova l&apos;invio di alcuna transazione.</translation>
     </message>
     <message>
         <source>The Dogecoin address the message was signed with</source>
-        <translation>L&apos;indirizzo Dogecoin con cui è stato contrassegnato il messaggio</translation>
+        <translation>L&apos;indirizzo Dogecoin con cui è stato firmato il messaggio</translation>
     </message>
     <message>
         <source>Verify the message to ensure it was signed with the specified Dogecoin address</source>
@@ -2886,7 +2886,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>The entered address does not refer to a key.</source>
-        <translation>L&apos;indirizzo dogecoin inserito non è associato a nessuna chiave.</translation>
+        <translation>L&apos;indirizzo inserito non è associato a nessuna chiave.</translation>
     </message>
     <message>
         <source>Wallet unlock was cancelled.</source>
@@ -2910,7 +2910,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Please check the signature and try again.</source>
-        <translation>Per favore controlla la firma e prova di nuovo.</translation>
+        <translation>Per favore, controlla la firma e prova di nuovo.</translation>
     </message>
     <message>
         <source>The signature did not match the message digest.</source>
@@ -3163,7 +3163,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Generated coins must mature %1 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
-        <translation>I dogecoin generati devono maturare ancora per %1 blocchi prima di essere spendibili. Dopo essere stato generato, questo blocco è stato trasmesso alla rete per essere aggiunto alla block chain. Se l&apos;inserimento nella block chain dovesse fallire, il suo stato cambierà a "non accettato" e i dogecoin non saranno spendibili. Alle volte, questo può accadere nel caso in cui un altro nodo generi un blocco entro pochi secondi dal tuo.</translation>
+        <translation>I dogecoin generati devono maturare ancora per %1 blocchi prima di essere spendibili. Dopo essere stato generato, questo blocco è stato trasmesso alla rete per essere aggiunto alla blockchain. Se l&apos;inserimento nella blockchain dovesse fallire, il suo stato cambierà a "non accettato" e i dogecoin non saranno spendibili. Alle volte, questo può accadere nel caso in cui un altro nodo generi un blocco entro pochi secondi dal tuo.</translation>
     </message>
 </context>
 <context>
@@ -3534,19 +3534,19 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Prune configured below the minimum of %d MiB.  Please use a higher number.</source>
-        <translation>La modalità prune è configurata al di sotto del minimo di %d MB. Si prega di utilizzare un valore più elevato.</translation>
+        <translation>La modalità pruned è configurata al di sotto del minimo di %d MB. Si prega di utilizzare un valore più elevato.</translation>
     </message>
     <message>
         <source>Prune: last wallet synchronisation goes beyond pruned data. You need to -reindex (download the whole blockchain again in case of pruned node)</source>
-        <translation>Prune: l&apos;ultima sincronizzazione del wallet risulta essere oltre la riduzione dei dati. È necessario eseguire un -reindex (scaricare nuovamente la blockchain in caso di nodo pruned)</translation>
+        <translation>L&apos;ultima sincronizzazione del wallet va oltre il limite specificato per la modalità pruned. È necessario utilizzare l'opzione -reindex e scaricare nuovamente la blockchain.</translation>
     </message>
     <message>
         <source>Rescans are not possible in pruned mode. You will need to use -reindex which will download the whole blockchain again.</source>
-        <translation>Non è possibile un Rescan in modalità pruned. Sarà necessario utilizzare -reindex che farà scaricare nuovamente tutta la blockchain.</translation>
+        <translation>Non è possibile un rescan in modalità pruned. È necessario utilizzare l'opzione -reindex per scaricare nuovamente tutta la blockchain.</translation>
     </message>
     <message>
         <source>Error: A fatal internal error occurred, see debug.log for details</source>
-        <translation>Errore: si è presentato un errore interno fatale, consulta il file debug.log per maggiori dettagli</translation>
+        <translation>Errore: si è presentato un errore irreversibile, consulta il file debug.log per maggiori dettagli</translation>
     </message>
     <message>
         <source>Fee (in %s/kB) to add to transactions you send (default: %s)</source>
@@ -3590,7 +3590,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Delete all wallet transactions and only recover those parts of the blockchain through -rescan on startup</source>
-        <translation>Elimina tutte le transazioni dal portafoglio e recupera solo quelle che fanno parte della blockchain attraverso il comando -rescan all&apos;avvio.</translation>
+        <translation>Elimina tutte le transazioni dal portafoglio e recupera solo quelle che fanno parte della blockchain usando il comando -rescan all&apos;avvio</translation>
     </message>
     <message>
         <source>Error loading %s: You can&apos;t enable HD on a already existing non-HD wallet</source>
@@ -4018,7 +4018,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Rescan the block chain for missing wallet transactions on startup</source>
-        <translation>Ripete la scansione della block chain per individuare le transazioni che mancano dal wallet all&apos;avvio</translation>
+        <translation>Ripete la scansione della blockchain per individuare le transazioni che mancano dal wallet all&apos;avvio</translation>
     </message>
     <message>
         <source>Send trace/debug info to console instead of debug.log file</source>
@@ -4382,11 +4382,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Warning: The network does not appear to fully agree! Some miners appear to be experiencing issues.</source>
-        <translation>Attenzione: La rete sembra essere in disaccordo! Alcuni miner sembrano avere problemi.</translation>
+        <translation>Attenzione: La rete sembra essere in disaccordo! Pare che alcuni miner stiano riscontrando dei problemi.</translation>
     </message>
     <message>
         <source>Warning: We do not appear to fully agree with our peers! You may need to upgrade, or other nodes may need to upgrade.</source>
-        <translation>Attenzione: Impossibile accordarsi con i peers! Potrebbe essere necessario aggiornare il nodo, o gli altri nodi potrebbero dover aggiornare il proprio software.</translation>
+        <translation>Attenzione: Impossibile accordarsi con i peers! Potrebbe essere necessario aggiornare il software del tuo o degli altri nodi.</translation>
     </message>
     <message>
         <source>Whitelist peers connecting from the given IP address (e.g. 1.2.3.4) or CIDR notated network (e.g. 1.2.3.0/24). Can be specified multiple times.</source>
@@ -4442,7 +4442,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>The wallet will avoid paying less than the minimum relay fee.</source>
-        <translation>Il portafoglio preverrá il pagamento di commissioni inferiori alle commissioni minime</translation>
+        <translation>Il portafoglio eviterá il pagamento di commissioni inferiori alle commissioni minime</translation>
     </message>
     <message>
         <source>This is the minimum transaction fee you pay on every transaction.</source>
