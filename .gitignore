@@ -8,6 +8,7 @@ src/dogecoin-tx
 src/test/test_dogecoin
 src/test/test_dogecoin_fuzzy
 src/qt/test/test_dogecoin-qt
+src/bench/bench_dogecoin
 
 # autoreconf
 Makefile.in
