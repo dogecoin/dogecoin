@@ -42,7 +42,6 @@
         <file alias="hr">locale/bitcoin_hr.qm</file>
         <file alias="hu">locale/bitcoin_hu.qm</file>
         <file alias="id_ID">locale/bitcoin_id_ID.qm</file>
-        <file alias="it_IT">locale/bitcoin_it_IT.qm</file>
         <file alias="it">locale/bitcoin_it.qm</file>
         <file alias="ja">locale/bitcoin_ja.qm</file>
         <file alias="ka">locale/bitcoin_ka.qm</file>
