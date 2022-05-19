@@ -800,10 +800,10 @@ void InitLogging()
 namespace { // Variables internal to initialization process only
 
 ServiceFlags nRelevantServices = NODE_NETWORK;
-int nMaxConnections;
-int nUserMaxConnections;
-int nFD;
-int nAvailableFds;
+unsigned int nMaxConnections;
+unsigned int nUserMaxConnections;
+unsigned int nFD;
+unsigned int nAvailableFds;
 ServiceFlags nLocalServices = NODE_NETWORK;
 
 }
@@ -893,14 +893,15 @@ bool AppInitParameterInteraction()
     }
 
     // Make sure enough file descriptors are available
-    int nBind = std::max(
+    const unsigned int nBind = std::max(
                 (mapMultiArgs.count("-bind") ? mapMultiArgs.at("-bind").size() : 0) +
                 (mapMultiArgs.count("-whitebind") ? mapMultiArgs.at("-whitebind").size() : 0), size_t(1));
     nUserMaxConnections = GetArg("-maxconnections", DEFAULT_MAX_PEER_CONNECTIONS);
-    nMaxConnections = std::max(nUserMaxConnections, 0);
+    nMaxConnections = std::max(nUserMaxConnections, (unsigned int)0);
 
     // Trim requested connection counts, to fit into system limitations
-    nMaxConnections = std::max(std::min(nMaxConnections, (int)(FD_SETSIZE - nBind - MIN_CORE_FILEDESCRIPTORS - MAX_ADDNODE_CONNECTIONS)), 0);
+    const unsigned int nMaxAllowedConnections = std::max(FD_SETSIZE - nBind - MIN_CORE_FILEDESCRIPTORS - MAX_ADDNODE_CONNECTIONS, (unsigned int)0);
+    nMaxConnections = std::max(std::min(nMaxConnections, nMaxAllowedConnections), (unsigned int)0);
     nFD = RaiseFileDescriptorLimit(nMaxConnections + MIN_CORE_FILEDESCRIPTORS + MAX_ADDNODE_CONNECTIONS);
     if (nFD < MIN_CORE_FILEDESCRIPTORS)
         return InitError(_("Not enough file descriptors available."));

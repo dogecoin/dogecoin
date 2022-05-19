@@ -60,9 +60,9 @@ static const unsigned int MAX_PROTOCOL_MESSAGE_LENGTH = 4 * 1000 * 1000;
 /** Maximum length of strSubVer in `version` message */
 static const unsigned int MAX_SUBVERSION_LENGTH = 256;
 /** Maximum number of automatic outgoing nodes */
-static const int MAX_OUTBOUND_CONNECTIONS = 8;
+static const unsigned int MAX_OUTBOUND_CONNECTIONS = 8;
 /** Maximum number of addnode outgoing nodes */
-static const int MAX_ADDNODE_CONNECTIONS = 8;
+static const unsigned int MAX_ADDNODE_CONNECTIONS = 8;
 /** Number of peers protected from eviction: 4 random, 8 with lowest ping, 4 that sent recent tx, 4 that sent recent blocks */
 static const int PROTECTED_INBOUND_PEERS = 4 + 8 + 4 + 4;
 /** -listen default */
@@ -138,12 +138,12 @@ public:
     {
         ServiceFlags nLocalServices = NODE_NONE;
         ServiceFlags nRelevantServices = NODE_NONE;
-        int nMaxConnections = 0;
-        int nMaxOutbound = 0;
-        int nMaxAddnode = 0;
-        int nMaxFeeler = 0;
-        int nAvailableFds = 0;
-        int nBestHeight = 0;
+        unsigned int nMaxConnections = 0;
+        unsigned int nMaxOutbound = 0;
+        unsigned int nMaxAddnode = 0;
+        unsigned int nMaxFeeler = 0;
+        unsigned int nAvailableFds = 0;
+        unsigned int nBestHeight = 0;
         CClientUIInterface* uiInterface = nullptr;
         unsigned int nSendBufferMaxSize = 0;
         unsigned int nReceiveFloodSize = 0;
@@ -289,7 +289,7 @@ public:
 
     unsigned int GetReceiveFloodSize() const;
 
-    void SetMaxConnections(int newMaxConnections);
+    void SetMaxConnections(unsigned int newMaxConnections);
 
     void WakeMessageHandler();
 private:
@@ -387,11 +387,11 @@ private:
 
     CSemaphore *semOutbound;
     CSemaphore *semAddnode;
-    int nMaxConnections;
-    int nMaxOutbound;
-    int nMaxAddnode;
-    int nMaxFeeler;
-    int nAvailableFds;
+    unsigned int nMaxConnections;
+    unsigned int nMaxOutbound;
+    unsigned int nMaxAddnode;
+    unsigned int nMaxFeeler;
+    unsigned int nAvailableFds;
     std::atomic<int> nBestHeight;
     CClientUIInterface* clientInterface;
 

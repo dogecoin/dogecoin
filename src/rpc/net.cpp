@@ -47,7 +47,7 @@ UniValue getconnectioncount(const JSONRPCRequest& request)
 
 UniValue setmaxconnections(const JSONRPCRequest& request)
 {
-    int newMaxCount = 0;
+    unsigned int newMaxCount = 0;
     const std::string minConnCount = to_string(MAX_ADDNODE_CONNECTIONS);
 
     if (request.fHelp || request.params.size() != 1)
@@ -63,9 +63,14 @@ UniValue setmaxconnections(const JSONRPCRequest& request)
             + HelpExampleRpc("setmaxconnections", minConnCount)
         );
     else
-        newMaxCount = request.params[0].get_int();
+    {
+        // this is really gross, but it avoids signedness conversions later
+        int incomingCount = request.params[0].get_int();
+        if (incomingCount > 0)
+            newMaxCount = incomingCount;
+    }
 
-    if (newMaxCount < MAX_ADDNODE_CONNECTIONS)
+    if (newMaxCount == 0 || newMaxCount < MAX_ADDNODE_CONNECTIONS)
         throw JSONRPCError(RPC_INVALID_PARAMETER, "Error: maxconnectioncount must be >= " + minConnCount);
 
     if(!g_connman)
