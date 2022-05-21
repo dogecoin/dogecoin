@@ -1874,7 +1874,7 @@ void CConnman::ThreadOpenConnections()
                 LogPrint("net", "Making feeler connection to %s\n", addrConnect.ToString());
             }
 
-            OpenNetworkConnection(addrConnect, setConnected.size() >= std::min(nMaxConnections - 1, (unsigned int)3), &grant, NULL, false, fFeeler);
+            OpenNetworkConnection(addrConnect, setConnected.size() >= std::min(nMaxConnections - 1, (unsigned int)2), &grant, NULL, false, fFeeler);
         }
     }
 }
