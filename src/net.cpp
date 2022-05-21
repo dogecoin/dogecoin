@@ -1436,6 +1436,11 @@ void CConnman::ThreadSocketHandler()
     }
 }
 
+unsigned int CConnman::GetMaxConnections()
+{
+    return nMaxConnections;
+}
+
 void CConnman::SetMaxConnections(unsigned int newMaxConnections)
 {
     newMaxConnections = std::max(newMaxConnections, MAX_ADDNODE_CONNECTIONS + PROTECTED_INBOUND_PEERS);
