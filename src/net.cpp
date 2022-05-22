@@ -1441,10 +1441,22 @@ uint32_t CConnman::GetMaxConnections()
     return nMaxConnections;
 }
 
+uint32_t CConnman::GetMinConnections()
+{
+    return MAX_ADDNODE_CONNECTIONS + PROTECTED_INBOUND_PEERS;
+}
+
+uint32_t CConnman::CapNumConnections(uint32_t proposedMaxConnections)
+{
+    const uint32_t cappedMinConnections = std::max(proposedMaxConnections, GetMinConnections());
+    const uint32_t cappedMaxConnections = std::min(cappedMinConnections, GetMaxConnections());
+
+    return cappedMaxConnections;
+}
+
 void CConnman::SetMaxConnections(uint32_t newMaxConnections)
 {
-    newMaxConnections = std::max(newMaxConnections, MAX_ADDNODE_CONNECTIONS + PROTECTED_INBOUND_PEERS);
-    nMaxConnections = std::min(newMaxConnections, nAvailableFds);
+    nMaxConnections = CapNumConnections(newMaxConnections);
 
     if (nMaxConnections != newMaxConnections) {
         LogPrintf("%s: capped new maxconnections request of %d to %d\n", __func__, newMaxConnections, nMaxConnections);

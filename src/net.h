@@ -290,6 +290,9 @@ public:
     unsigned int GetReceiveFloodSize() const;
 
     uint32_t GetMaxConnections();
+    uint32_t GetMinConnections();
+
+    uint32_t CapNumConnections(uint32_t proposedMaxConnections);
     void SetMaxConnections(uint32_t newMaxConnections);
 
     void WakeMessageHandler();
