@@ -26,6 +26,16 @@ static constexpr int64_t HEADERS_DOWNLOAD_TIMEOUT_PER_HEADER = 1000; // 1ms/head
  * is set to 1 second.
  */
 static constexpr int64_t MIN_BLOCK_DOWNLOAD_MULTIPLIER = 10; // 10 seconds
+
+/** The maximum rate of address records we're willing to process on average.
+ * Is bypassed for whitelisted connections. */
+static constexpr double MAX_ADDR_RATE_PER_SECOND{0.1};
+
+/** The soft limit of the address processing token bucket (the regular MAX_ADDR_RATE_PER_SECOND
+ *  based increments won't go above this, but the MAX_ADDR_TO_SEND increment following GETADDR
+ *  is exempt from this limit. */
+static constexpr size_t MAX_ADDR_PROCESSING_TOKEN_BUCKET{MAX_ADDR_TO_SEND};
+
 /** Register with a network node to receive its signals */
 void RegisterNodeSignals(CNodeSignals& nodeSignals);
 /** Unregister a network node */
