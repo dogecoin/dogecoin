@@ -1449,7 +1449,7 @@ uint32_t CConnman::GetMinConnections()
 uint32_t CConnman::CapNumConnections(uint32_t proposedMaxConnections)
 {
     const uint32_t cappedMinConnections = std::max(proposedMaxConnections, GetMinConnections());
-    const uint32_t cappedMaxConnections = std::min(cappedMinConnections, GetMaxConnections());
+    const uint32_t cappedMaxConnections = std::min(cappedMinConnections, nAvailableFds);
 
     return cappedMaxConnections;
 }
