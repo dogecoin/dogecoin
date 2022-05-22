@@ -47,7 +47,7 @@ UniValue getconnectioncount(const JSONRPCRequest& request)
 
 UniValue setmaxconnections(const JSONRPCRequest& request)
 {
-    unsigned int newMaxCount = 0;
+    uint32_t newMaxCount = 0;
     const std::string minConnCount = to_string(MAX_ADDNODE_CONNECTIONS);
 
     if (request.fHelp || request.params.size() != 1)

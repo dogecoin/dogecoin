@@ -1414,10 +1414,10 @@ void CConnman::ThreadSocketHandler()
         // Reduce number of connections, if needed
         //
 
-        long unsigned int nKeepConnections = nUnevictableConnections + nWhitelistedConnections;
-        long unsigned int nNodesCopy       = vNodesCopy.size();
+        uint32_t nKeepConnections = nUnevictableConnections + nWhitelistedConnections;
+        uint32_t nNodesCopy       = vNodesCopy.size();
 
-        if (nNodesCopy > nKeepConnections && (nNodesCopy > (long unsigned int)nMaxConnections))
+        if (nNodesCopy > nKeepConnections && (nNodesCopy > nMaxConnections))
         {
             LogPrintf("%s: attempting to reduce connections: max=%u current=%u keep=%u\n", __func__, nMaxConnections, nNodesCopy, nKeepConnections);
             DisconnectUnusedNodes();
@@ -1436,12 +1436,12 @@ void CConnman::ThreadSocketHandler()
     }
 }
 
-unsigned int CConnman::GetMaxConnections()
+uint32_t CConnman::GetMaxConnections()
 {
     return nMaxConnections;
 }
 
-void CConnman::SetMaxConnections(unsigned int newMaxConnections)
+void CConnman::SetMaxConnections(uint32_t newMaxConnections)
 {
     newMaxConnections = std::max(newMaxConnections, MAX_ADDNODE_CONNECTIONS + PROTECTED_INBOUND_PEERS);
     nMaxConnections = std::min(newMaxConnections, nAvailableFds);

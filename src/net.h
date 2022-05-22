@@ -289,8 +289,8 @@ public:
 
     unsigned int GetReceiveFloodSize() const;
 
-    unsigned int GetMaxConnections();
-    void SetMaxConnections(unsigned int newMaxConnections);
+    uint32_t GetMaxConnections();
+    void SetMaxConnections(uint32_t newMaxConnections);
 
     void WakeMessageHandler();
 private:
@@ -388,11 +388,11 @@ private:
 
     CSemaphore *semOutbound;
     CSemaphore *semAddnode;
-    unsigned int nMaxConnections;
-    unsigned int nMaxOutbound;
-    unsigned int nMaxAddnode;
-    unsigned int nMaxFeeler;
-    unsigned int nAvailableFds;
+    uint32_t nMaxConnections;
+    uint32_t nMaxOutbound;
+    uint32_t nMaxAddnode;
+    uint32_t nMaxFeeler;
+    uint32_t nAvailableFds;
     std::atomic<int> nBestHeight;
     CClientUIInterface* clientInterface;
 
