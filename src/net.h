@@ -138,12 +138,12 @@ public:
     {
         ServiceFlags nLocalServices = NODE_NONE;
         ServiceFlags nRelevantServices = NODE_NONE;
-        unsigned int nMaxConnections = 0;
-        unsigned int nMaxOutbound = 0;
-        unsigned int nMaxAddnode = 0;
-        unsigned int nMaxFeeler = 0;
-        unsigned int nAvailableFds = 0;
-        unsigned int nBestHeight = 0;
+        uint32_t nMaxConnections = 0;
+        uint32_t nMaxOutbound = 0;
+        uint32_t nMaxAddnode = 0;
+        uint32_t nMaxFeeler = 0;
+        uint32_t nAvailableFds = 0;
+        uint32_t nBestHeight = 0;
         CClientUIInterface* uiInterface = nullptr;
         unsigned int nSendBufferMaxSize = 0;
         unsigned int nReceiveFloodSize = 0;

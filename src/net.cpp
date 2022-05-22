@@ -1164,7 +1164,7 @@ void CConnman::ThreadSocketHandler()
 
     while (!interruptNet)
     {
-        unsigned int nWhitelistedConnections = 0;
+        uint32_t nWhitelistedConnections = 0;
 
         //
         // Disconnect nodes
@@ -1770,8 +1770,8 @@ void CConnman::ThreadOpenConnections()
 
         // Only connect out to one peer per network group (/16 for IPv4).
         // Do this here so we don't have to critsect vNodes inside mapAddresses critsect.
-        unsigned int nOutbound = 0;
-        unsigned int nOutboundRelevant = 0;
+        uint32_t nOutbound = 0;
+        uint32_t nOutboundRelevant = 0;
         std::set<std::vector<unsigned char> > setConnected;
         {
             LOCK(cs_vNodes);
@@ -1879,7 +1879,7 @@ void CConnman::ThreadOpenConnections()
                 LogPrint("net", "Making feeler connection to %s\n", addrConnect.ToString());
             }
 
-            OpenNetworkConnection(addrConnect, setConnected.size() >= std::min(nMaxConnections - 1, (unsigned int)2), &grant, NULL, false, fFeeler);
+            OpenNetworkConnection(addrConnect, setConnected.size() >= std::min(nMaxConnections - 1, (uint32_t)2), &grant, NULL, false, fFeeler);
         }
     }
 }
