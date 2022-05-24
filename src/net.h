@@ -8,7 +8,6 @@
 
 #include "addrdb.h"
 #include "addrman.h"
-#include "alert.h"
 #include "amount.h"
 #include "bloom.h"
 #include "compat.h"
@@ -693,9 +692,6 @@ public:
     // Counts getheaders requests sent to this peer
     std::atomic<int64_t> nPendingHeaderRequests;
 
-    // Alert relay
-    std::vector<CAlert> vAlertToSend;
-
     CNode(NodeId id, ServiceFlags nLocalServicesIn, int nMyStartingHeightIn, SOCKET hSocketIn, const CAddress &addrIn, uint64_t nKeyedNetGroupIn, uint64_t nLocalHostNonceIn, const std::string &addrNameIn = "", bool fInboundIn = false);
     ~CNode();
 
@@ -785,15 +781,6 @@ public:
         }
     }
 
-    void PushAlert(const CAlert& _alert)
-    {
-        // don't relay to nodes which haven't sent their version message
-        if (_alert.IsInEffect() && nVersion != 0) {
-            vAlertToSend.push_back(_alert);
-        }
-    }
-
-
     void AddInventoryKnown(const CInv& inv)
     {
         {
@@ -812,12 +799,6 @@ public:
         } else if (inv.type == MSG_BLOCK) {
             vInventoryBlockToSend.push_back(inv.hash);
         }
-    }
-
-    void PushAlertHash(const uint256 &hash)
-    {
-        LOCK(cs_inventory);
-        vBlockHashesToAnnounce.push_back(hash);
     }
 
     void PushBlockHash(const uint256 &hash)
