@@ -15,7 +15,7 @@ parametrized. The recommended defaults, as implemented in the Dogecoin Core
 wallet, are:
 
 - **0.01 DOGE per kilobyte** transaction fee
-- **1.00 DOGE** dust limit (discard threshold)
+- **0.01 DOGE** dust limit (discard threshold)
 - **0.001 DOGE** replace-by-fee increments
 
 The wallet rejects transactions that have outputs under the dust limit, and
