@@ -89,7 +89,7 @@ RPC界面上还有由Python编写的[回归和整合测试（regression and inte
 
 ### 请编译我吧 / Wow plz make dogecoind/dogecoin-cli/dogecoin-qt
 
-  以下是开发者的笔记，教你如何在你自己的平台上搭建狗狗币。这些不是什么权威指南，但包含了必要的libary, 编译flag 等等。
+  以下是开发者的笔记，教你如何在你自己的平台上搭建狗狗币。这些不是什么权威指南，但包含了必要的library, 编译flag 等等。
 
   - [OSX Build Notes](doc/build-osx.md)
   - [Unix Build Notes](doc/build-unix.md)
@@ -104,7 +104,7 @@ RPC界面上还有由Python编写的[回归和整合测试（regression and inte
 
 **调试编译**
 
-运行 `configure`， 应用 `--enable-debug` 选项, 然后 `make`. 或者运行 `configure` 应用
+运行 `configure`， 应用 `--enable-debug` 选项, 然后 `make.` 或者运行 `configure` 应用
 `CXXFLAGS="-g -ggdb -O0"` 或者其他你需要的flag。
 
 **debug.log**
