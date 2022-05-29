@@ -899,11 +899,13 @@ bool AppInitParameterInteraction()
     // Verify the number of connections, then set nUserMax
     const int nUserMaxConnections = GetArg("-maxconnections", DEFAULT_MAX_PEER_CONNECTIONS);
 
-    if (nUserMaxConnections < 1)
-        return InitError(strprintf(_("Max connections %d too low."), nUserMaxConnections));
-
-    // This cast is okay because nUserMaxConnections is not negative at this point
-    nMaxConnections = (unsigned int)nUserMaxConnections;
+    if (nUserMaxConnections < 1) {
+        LogPrintf("Requested max connections %d too low; defaulting to %d\n", nUserMaxConnections, DEFAULT_MAX_PEER_CONNECTIONS);
+        nMaxConnections = DEFAULT_MAX_PEER_CONNECTIONS;
+    } else {
+        // This cast is okay because nUserMaxConnections is not negative at this point
+        nMaxConnections = (unsigned int)nUserMaxConnections;
+    }
 
     // Trim requested connection counts, to fit into system limitations
     const unsigned int nMaxAllowedConnections = std::max(FD_SETSIZE - nBind - MIN_CORE_FILEDESCRIPTORS - MAX_ADDNODE_CONNECTIONS, (unsigned int)0);
