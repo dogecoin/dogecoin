@@ -800,9 +800,9 @@ void InitLogging()
 namespace { // Variables internal to initialization process only
 
 ServiceFlags nRelevantServices = NODE_NETWORK;
-unsigned int nMaxConnections;
-unsigned int nFD;
-unsigned int nAvailableFds;
+uint32_t nMaxConnections;
+uint32_t nFD;
+uint32_t nAvailableFds;
 ServiceFlags nLocalServices = NODE_NETWORK;
 
 }
@@ -899,9 +899,9 @@ bool AppInitParameterInteraction()
     // Verify the number of connections, then set nUserMax
     const int nUserMaxConnections = GetArg("-maxconnections", DEFAULT_MAX_PEER_CONNECTIONS);
 
-    if (nUserMaxConnections < 1) {
-        LogPrintf("Requested max connections %d too low; defaulting to %d\n", nUserMaxConnections, DEFAULT_MAX_PEER_CONNECTIONS);
-        nMaxConnections = DEFAULT_MAX_PEER_CONNECTIONS;
+    if (nUserMaxConnections < 0) {
+        LogPrintf("Requested max connections %d < 0; defaulting to 0\n", nUserMaxConnections);
+        nMaxConnections = (unsigned int)0;
     } else {
         // This cast is okay because nUserMaxConnections is not negative at this point
         nMaxConnections = (unsigned int)nUserMaxConnections;
@@ -913,12 +913,12 @@ bool AppInitParameterInteraction()
     nFD = RaiseFileDescriptorLimit(nMaxConnections + MIN_CORE_FILEDESCRIPTORS + MAX_ADDNODE_CONNECTIONS);
     if (nFD < MIN_CORE_FILEDESCRIPTORS)
         return InitError(_("Not enough file descriptors available."));
-    nAvailableFds = nFD - MIN_CORE_FILEDESCRIPTORS - MAX_ADDNODE_CONNECTIONS;
+    nAvailableFds = std::max(nFD - MIN_CORE_FILEDESCRIPTORS - MAX_ADDNODE_CONNECTIONS, (unsigned int)0);
     nMaxConnections = std::min(nAvailableFds, nMaxConnections);
 
-    // This cast is also okay, because nUserMaxConnections is still not negative
-    if (nMaxConnections < (unsigned int)nUserMaxConnections)
-        InitWarning(strprintf(_("Reducing -maxconnections from %d to %d, because of system limitations."), nUserMaxConnections, nMaxConnections));
+    // It's likely we've reduced the value, but it's possible the user requested a negative value
+    if (nMaxConnections != (unsigned int)nUserMaxConnections)
+        InitWarning(strprintf(_("Changed -maxconnections from %d to %d, because of system limitations."), nUserMaxConnections, nMaxConnections));
 
     // ********************************************************* Step 3: parameter-to-internal-flags
 
