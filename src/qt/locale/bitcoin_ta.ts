@@ -48,7 +48,7 @@
     <name>BanTableModel</name>
     <message>
         <source>IP/Netmask</source>
-        <translation>IP/Netmask</translation>
+        <translation>இணைய நெறிமுறை முகவரிகளின் வரம்புகள்(IP/Netmask)</translation>
     </message>
     </context>
 <context>
@@ -83,7 +83,7 @@
     </message>
     <message>
         <source>Open &amp;URI...</source>
-        <translation>&amp;URI-ஐ திற</translation>
+        <translation>&amp;சீரான வள அடையாளங்காட்டி (URI)-ஐ திற</translation>
     </message>
     <message>
         <source>&amp;Verify message...</source>
@@ -91,7 +91,7 @@
     </message>
     <message>
         <source>Dogecoin</source>
-        <translation>Dogecoin</translation>
+        <translation>நாய் சின்னம் நாணயம் (Dogecoin)</translation>
     </message>
     <message>
         <source>Wallet</source>
@@ -202,7 +202,7 @@
     </message>
     <message>
         <source>Confirmed</source>
-        <translation>உறுதியாக</translation>
+        <translation>உறுதி செய்யப்பட்டது</translation>
     </message>
     </context>
 <context>
@@ -244,11 +244,11 @@
     <name>OpenURIDialog</name>
     <message>
         <source>Open URI</source>
-        <translation>URI-ஐ திற</translation>
+        <translation>சீரான வள அடையாளங்காட்ட(URI)-ஐ திற</translation>
     </message>
     <message>
         <source>URI:</source>
-        <translation>URI:</translation>
+        <translation>சீரான வள அடையாளங்காட்ட(URI):</translation>
     </message>
     </context>
 <context>
@@ -263,7 +263,7 @@
     </message>
     <message>
         <source>MB</source>
-        <translation>MB</translation>
+        <translation>மெகாபைட்(MB)</translation>
     </message>
     <message>
         <source>&amp;Network</source>
@@ -271,7 +271,7 @@
     </message>
     <message>
         <source>W&amp;allet</source>
-        <translation>&amp;பணப்பை</translation>
+        <translation>&amp;கணினி வலையமைப்பு மெய்நிகர் பணப்பை</translation>
     </message>
     <message>
         <source>Expert</source>
@@ -279,11 +279,11 @@
     </message>
     <message>
         <source>IPv4</source>
-        <translation>IPv4</translation>
+        <translation>32பிட் கணினி வலையமைப்பு இடைமுகம் (IPv4)</translation>
     </message>
     <message>
         <source>IPv6</source>
-        <translation>IPv6</translation>
+        <translation>பதினாறு தசம கணினி வலையமைப்பு இடைமுகம் (IPv6)</translation>
     </message>
     <message>
         <source>Tor</source>
@@ -311,7 +311,7 @@
     </message>
     <message>
         <source>none</source>
-        <translation>none</translation>
+        <translation>எதுவும் இல்லை</translation>
     </message>
     </context>
 <context>
@@ -348,7 +348,7 @@
     <name>PeerTableModel</name>
     <message>
         <source>User Agent</source>
-        <translation>பயனர் முகவர்</translation>
+        <translation>பயன்படுத்தும் முகவர்</translation>
     </message>
     </context>
 <context>
@@ -359,23 +359,23 @@
     </message>
     <message>
         <source>%1 d</source>
-        <translation>%1 d</translation>
+        <translation>%1 நாள் (d)</translation>
     </message>
     <message>
         <source>%1 h</source>
-        <translation>%1 h</translation>
+        <translation>%1 சாமம் (h)</translation>
     </message>
     <message>
         <source>%1 s</source>
-        <translation>%1 s</translation>
+        <translation>%1 கைநொடி (s)</translation>
     </message>
     <message>
         <source>N/A</source>
-        <translation>N/A</translation>
+        <translation>பொருந்தாது</translation>
     </message>
     <message>
         <source>%1 ms</source>
-        <translation>%1 ms</translation>
+        <translation>%1 மிய்/10 குழிகள் (ms)</translation>
     </message>
     <message>
         <source>%1 and %2</source>
@@ -392,7 +392,7 @@
     <name>RPCConsole</name>
     <message>
         <source>N/A</source>
-        <translation>N/A</translation>
+        <translation>பொருந்தாது</translation>
     </message>
     <message>
         <source>Client version</source>
@@ -404,7 +404,7 @@
     </message>
     <message>
         <source>Network</source>
-        <translation>பிணையம்</translation>
+        <translation>கணினி வலையமைப்பு</translation>
     </message>
     <message>
         <source>Name</source>
@@ -412,7 +412,7 @@
     </message>
     <message>
         <source>Memory Pool</source>
-        <translation>நினைவக குளம்</translation>
+        <translation>நினைவக கிடங்குகள்</translation>
     </message>
     <message>
         <source>Memory usage</source>
@@ -420,7 +420,7 @@
     </message>
     <message>
         <source>Sent</source>
-        <translation>அனுப்பிய</translation>
+        <translation>அனுப்பப்பட்டது</translation>
     </message>
     <message>
         <source>Direction</source>
@@ -432,11 +432,11 @@
     </message>
     <message>
         <source>User Agent</source>
-        <translation>பயனர் முகவர்</translation>
+         <translation>பயன்படுத்தும் முகவர்</translation>
     </message>
     <message>
         <source>Ping Time</source>
-        <translation>பிங் நேரம்</translation>
+        <translation>தொடர்பு நேரம்</translation>
     </message>
     <message>
         <source>&amp;Open</source>
@@ -444,7 +444,7 @@
     </message>
     <message>
         <source>&amp;Console</source>
-        <translation>&amp;பணியகம்</translation>
+        <translation>&amp;வெளியீடு மற்றும் உள்ளீட்டு திரை</translation>
     </message>
     <message>
         <source>&amp;Clear</source>
@@ -484,19 +484,19 @@
     </message>
     <message>
         <source>%1 KB</source>
-        <translation>%1 KB</translation>
+        <translation>%1 கிலோபைட்(KB)</translation>
     </message>
     <message>
         <source>%1 MB</source>
-        <translation>%1 MB</translation>
+        <translation>%1 மெகாபைட்(MB)</translation>
     </message>
     <message>
         <source>%1 GB</source>
-        <translation>%1 GB</translation>
+        <translation>%1 ஜிகாபைட்(GB)</translation>
     </message>
     <message>
         <source>via %1</source>
-        <translation>via %1</translation>
+        <translation>சாத்தியம் %1</translation>
     </message>
     <message>
         <source>never</source>
@@ -516,11 +516,11 @@
     </message>
     <message>
         <source>No</source>
-        <translation>மறு</translation>
+        <translation>மறு/இல்லை</translation>
     </message>
     <message>
         <source>Unknown</source>
-        <translation>அறியப்படாத</translation>
+        <translation>தெரியவில்லை</translation>
     </message>
 </context>
 <context>
@@ -531,7 +531,7 @@
     </message>
     <message>
         <source>&amp;Label:</source>
-        <translation>&amp;சிட்டை:</translation>
+        <translation>&amp;முத்திரைை:</translation>
     </message>
     <message>
         <source>&amp;Message:</source>
@@ -539,7 +539,7 @@
     </message>
     <message>
         <source>Clear</source>
-        <translation>நீக்கு</translation>
+        <translation>இதை அழிக்கவும்</translation>
     </message>
     <message>
         <source>Show</source>
@@ -547,18 +547,18 @@
     </message>
     <message>
         <source>Remove</source>
-        <translation>நீக்கு</translation>
+        <translation>இதை அகற்று</translation>
     </message>
     </context>
 <context>
     <name>ReceiveRequestDialog</name>
     <message>
         <source>QR Code</source>
-        <translation>QR குறியீடு</translation>
+        <translation>கியூ.ஆர் குறியீடு</translation>
     </message>
     <message>
         <source>Copy &amp;URI</source>
-        <translation>நகலை &amp;URI</translation>
+        <translation>இது சீரான வள அடையாளங்காட்டி (URI)   &amp; இதை நகலெடுக்கவும்</translation>
     </message>
     <message>
         <source>Copy &amp;Address</source>
@@ -592,7 +592,7 @@
     </message>
     <message>
         <source>After Fee:</source>
-        <translation>கட்டணத்திறகுப் பின்:</translation>
+        <translation>கூடுதல் கட்டணம்:</translation>
     </message>
     <message>
         <source>Change:</source>
@@ -631,7 +631,7 @@
     </message>
     <message>
         <source>&amp;Label:</source>
-        <translation>&amp;சிட்டை:</translation>
+        <translation>&amp;முத்திரை:</translation>
     </message>
     <message>
         <source>Alt+A</source>
@@ -674,7 +674,7 @@
     <name>TrafficGraphWidget</name>
     <message>
         <source>KB/s</source>
-        <translation>KB/s</translation>
+        <translation>வினாடிக்கு கிலோபைட் (KB/s)</translation>
     </message>
 </context>
 <context>
