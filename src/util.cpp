@@ -558,22 +558,31 @@ const boost::filesystem::path &GetBackupDir()
 
     fs::path &path = backupPathCached;
 
-    if (!path.empty())
+    // ensure that any cached path still exists (not an unmounted filesystem, for example)
+    if (!path.empty() && fs::is_directory(path))
         return path;
 
+    // start with a default, and overwrite if provided a valid path
+    path = GetDataDir() / "backups";
+
     if (IsArgSet("-backupdir")) {
-        LogPrintf("Starting with backupdir arg %s\n", GetArg("-backupdir", ""));
-        path = fs::system_complete(GetArg("-backupdir", ""));
+        const std::string backupDir = GetArg("-backupdir", "");
+        fs::path backupDirPath = fs::system_complete(backupDir);
+
+        if (fs::create_directories(backupDirPath) || fs::is_directory(backupDirPath)) {
+            path = backupDirPath;
+        } else {
+            LogPrintf("Backupdir %s is not a directory, so using default path\n", backupDirPath);
+        }
     }
 
-    if (!fs::is_directory(path)) {
-        LogPrintf( "Backupdir %s is not a directory, apparently\n", path );
-        path = GetDataDir() / "backups";
+    // ensure the path exists or fall back to a path that does exist
+    if (!fs::is_directory(path) && !fs::create_directories(path)) {
+        LogPrintf("Failed to create directory %s, so using default path %s\n", path, GetDataDir());
+        path = GetDataDir();
     }
 
-    fs::create_directories(path);
-
-    LogPrintf( "Set backupdir %s\n", path );
+    LogPrintf("Set backupdir %s\n", path);
     return path;
 }
 

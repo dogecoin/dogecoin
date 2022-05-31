@@ -476,7 +476,7 @@ BOOST_FIXTURE_TEST_CASE(importwallet_rescan, TestChain240Setup)
 
         JSONRPCRequest request;
         request.params.setArray();
-        request.params.push_back("wallet.backup");
+        request.params.push_back(TestChain240Setup::pathTemp.string() + "/regtest/backups/wallet.backup");
         ::pwalletMain = &wallet;
         ::importwallet(request);
 
