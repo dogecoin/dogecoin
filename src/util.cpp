@@ -548,6 +548,35 @@ void ClearDatadirCache()
     pathCachedNetSpecific = boost::filesystem::path();
 }
 
+static boost::filesystem::path backupPathCached;
+static CCriticalSection csBackupPathCached;
+
+const boost::filesystem::path &GetBackupDir()
+{
+    namespace fs = boost::filesystem;
+    LOCK(csBackupPathCached);
+
+    fs::path &path = backupPathCached;
+
+    if (!path.empty())
+        return path;
+
+    if (IsArgSet("-backupdir")) {
+        LogPrintf("Starting with backupdir arg %s\n", GetArg("-backupdir", ""));
+        path = fs::system_complete(GetArg("-backupdir", ""));
+    }
+
+    if (!fs::is_directory(path)) {
+        LogPrintf( "Backupdir %s is not a directory, apparently\n", path );
+        path = GetDataDir() / "backups";
+    }
+
+    fs::create_directories(path);
+
+    LogPrintf( "Set backupdir %s\n", path );
+    return path;
+}
+
 boost::filesystem::path GetConfigFile(const std::string& confPath)
 {
     boost::filesystem::path pathConfigFile(confPath);
