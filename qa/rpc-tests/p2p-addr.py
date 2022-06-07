@@ -54,6 +54,8 @@ class AddrTest(BitcoinTestFramework):
     def run_test(self):
         self.nodes[0].generate(1)
 
+        self.rate_limiting_test() # run this first so that we can test the
+                                  # initial state of 1 token
         self.simple_relay_test()
         self.oversized_addr_test()
 
@@ -144,6 +146,11 @@ class AddrTest(BitcoinTestFramework):
         # create message with 1010 entries and
         # confirm that the node discarded the entries
 
+        # to make sure we are not rate-limited, add 1001 / 0.1 seconds
+        # to mocktime to allocate the maximum non-burst amount of tokens
+        self.mocktime += 10010
+        self.nodes[0].setmocktime(self.mocktime)
+
         # send one valid message, keep track of the port it contains
         valid_port_before = self.index_to_port(self.counter)
         self.create_and_send_addr_msg(1)
@@ -163,6 +170,27 @@ class AddrTest(BitcoinTestFramework):
         # by making sure that none of them were propagated
         for port in range(valid_port_before+1, valid_port_after):
             assert not self.have_received_port(port)
+
+    def rate_limiting_test(self):
+        # send 1 addr on connect
+        self.create_and_send_addr_msg(1)
+
+        # because we set mocktime after sending the message now have
+        # 600 * 0.1 = 60 tokens, minus the one we just sent.
+
+        # send 69 tokens
+        first_port = self.index_to_port(self.counter)
+        self.create_and_send_addr_msg(69)
+
+        # check that we have a peer with 60 processed addrs
+        # and 10 rate limited addrs
+        peerinfo = self.nodes[0].getpeerinfo()
+        sendingPeer = None
+        for info in peerinfo:
+            if info["addr_processed"] == 60:
+                sendingPeer = info
+        assert not sendingPeer is None
+        assert sendingPeer["addr_rate_limited"] == 10
 
 if __name__ == '__main__':
     AddrTest().main()
