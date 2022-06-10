@@ -1,5 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin Core developers
+// Copyright (c) 2022 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -33,7 +34,7 @@
 static proxyType proxyInfo[NET_MAX];
 static proxyType nameProxy;
 static CCriticalSection cs_proxyInfos;
-int nConnectTimeout = DEFAULT_CONNECT_TIMEOUT;
+uint64_t nConnectTimeout = DEFAULT_CONNECT_TIMEOUT;
 bool fNameLookup = DEFAULT_NAME_LOOKUP;
 
 // Need ample time for negotiation for very slow proxies such as Tor (milliseconds)
@@ -58,7 +59,7 @@ std::string GetNetworkName(enum Network net) {
     }
 }
 
-void SplitHostPort(std::string in, int &portOut, std::string &hostOut) {
+void SplitHostPort(std::string in, uint16_t &portOut, std::string &hostOut) {
     size_t colon = in.find_last_of(':');
     // if a : is found, and it either follows a [...], or no other : is in the string, treat it as port separator
     bool fHaveColon = colon != in.npos;
@@ -152,11 +153,11 @@ bool LookupHost(const char *pszName, CNetAddr& addr, bool fAllowLookup)
     return true;
 }
 
-bool Lookup(const char *pszName, std::vector<CService>& vAddr, int portDefault, bool fAllowLookup, unsigned int nMaxSolutions)
+bool Lookup(const char *pszName, std::vector<CService>& vAddr, uint16_t portDefault, bool fAllowLookup, unsigned int nMaxSolutions)
 {
     if (pszName[0] == 0)
         return false;
-    int port = portDefault;
+    uint16_t port = portDefault;
     std::string hostname = "";
     SplitHostPort(std::string(pszName), port, hostname);
 
@@ -170,7 +171,7 @@ bool Lookup(const char *pszName, std::vector<CService>& vAddr, int portDefault, 
     return true;
 }
 
-bool Lookup(const char *pszName, CService& addr, int portDefault, bool fAllowLookup)
+bool Lookup(const char *pszName, CService& addr, uint16_t portDefault, bool fAllowLookup)
 {
     std::vector<CService> vService;
     bool fRet = Lookup(pszName, vService, portDefault, fAllowLookup, 1);
@@ -180,7 +181,7 @@ bool Lookup(const char *pszName, CService& addr, int portDefault, bool fAllowLoo
     return true;
 }
 
-CService LookupNumeric(const char *pszName, int portDefault)
+CService LookupNumeric(const char *pszName, uint16_t portDefault)
 {
     CService addr;
     // "1.2:345" will fail to resolve the ip, but will still set the port.
@@ -190,7 +191,7 @@ CService LookupNumeric(const char *pszName, int portDefault)
     return addr;
 }
 
-struct timeval MillisToTimeval(int64_t nTimeout)
+struct timeval MillisToTimeval(uint64_t nTimeout)
 {
     struct timeval timeout;
     timeout.tv_sec  = nTimeout / 1000;
@@ -217,7 +218,7 @@ enum class IntrRecvError {
  *
  * @note This function requires that hSocket is in non-blocking mode.
  */
-static IntrRecvError InterruptibleRecv(char* data, size_t len, int timeout, SOCKET& hSocket)
+static IntrRecvError InterruptibleRecv(char* data, size_t len, uint64_t timeout, SOCKET& hSocket)
 {
     int64_t curTime = GetTimeMillis();
     int64_t endTime = curTime + timeout;
@@ -278,7 +279,7 @@ std::string Socks5ErrorString(int err)
 }
 
 /** Connect using SOCKS5 (as described in RFC1928) */
-static bool Socks5(const std::string& strDest, int port, const ProxyCredentials *auth, SOCKET& hSocket)
+static bool Socks5(const std::string& strDest, uint16_t port, const ProxyCredentials *auth, SOCKET& hSocket)
 {
     IntrRecvError recvr;
     LogPrint("net", "SOCKS5 connecting %s\n", strDest);
@@ -396,9 +397,12 @@ static bool Socks5(const std::string& strDest, int port, const ProxyCredentials 
                 return error("Error reading from proxy");
             }
             int nRecv = pchRet3[0];
-            recvr = InterruptibleRecv(pchRet3, nRecv, SOCKS5_RECV_TIMEOUT, hSocket);
-            break;
+            if (nRecv > 0) {
+                recvr = InterruptibleRecv(pchRet3, nRecv, SOCKS5_RECV_TIMEOUT, hSocket);
+                break;
+            }
         }
+        // Falls through
         default: CloseSocket(hSocket); return error("Error: malformed proxy response");
     }
     if (recvr != IntrRecvError::OK) {
@@ -413,7 +417,7 @@ static bool Socks5(const std::string& strDest, int port, const ProxyCredentials 
     return true;
 }
 
-bool static ConnectSocketDirectly(const CService &addrConnect, SOCKET& hSocketRet, int nTimeout)
+bool static ConnectSocketDirectly(const CService &addrConnect, SOCKET& hSocketRet, uint64_t nTimeout)
 {
     hSocketRet = INVALID_SOCKET;
 
@@ -550,7 +554,7 @@ bool IsProxy(const CNetAddr &addr) {
     return false;
 }
 
-static bool ConnectThroughProxy(const proxyType &proxy, const std::string& strDest, int port, SOCKET& hSocketRet, int nTimeout, bool *outProxyConnectionFailed)
+static bool ConnectThroughProxy(const proxyType &proxy, const std::string& strDest, uint16_t port, SOCKET& hSocketRet, uint64_t nTimeout, bool *outProxyConnectionFailed)
 {
     SOCKET hSocket = INVALID_SOCKET;
     // first connect to proxy server
@@ -575,7 +579,7 @@ static bool ConnectThroughProxy(const proxyType &proxy, const std::string& strDe
     return true;
 }
 
-bool ConnectSocket(const CService &addrDest, SOCKET& hSocketRet, int nTimeout, bool *outProxyConnectionFailed)
+bool ConnectSocket(const CService &addrDest, SOCKET& hSocketRet, uint64_t nTimeout, bool *outProxyConnectionFailed)
 {
     proxyType proxy;
     if (outProxyConnectionFailed)
@@ -587,10 +591,10 @@ bool ConnectSocket(const CService &addrDest, SOCKET& hSocketRet, int nTimeout, b
         return ConnectSocketDirectly(addrDest, hSocketRet, nTimeout);
 }
 
-bool ConnectSocketByName(CService &addr, SOCKET& hSocketRet, const char *pszDest, int portDefault, int nTimeout, bool *outProxyConnectionFailed)
+bool ConnectSocketByName(CService &addr, SOCKET& hSocketRet, const char *pszDest, uint16_t portDefault, uint64_t nTimeout, bool *outProxyConnectionFailed)
 {
     std::string strDest;
-    int port = portDefault;
+    uint16_t port = portDefault;
 
     if (outProxyConnectionFailed)
         *outProxyConnectionFailed = false;

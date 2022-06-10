@@ -332,7 +332,7 @@ static bool HTTPBindAddresses(struct evhttp* http)
     } else if (mapMultiArgs.count("-rpcbind")) { // Specific bind address
         const std::vector<std::string>& vbind = mapMultiArgs.at("-rpcbind");
         for (std::vector<std::string>::const_iterator i = vbind.begin(); i != vbind.end(); ++i) {
-            int port = defaultPort;
+            uint16_t port = defaultPort;
             std::string host;
             SplitHostPort(*i, port, host);
             endpoints.push_back(std::make_pair(host, port));
