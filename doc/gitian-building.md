@@ -37,6 +37,16 @@ The following common dependencies are required regardless of virtualization:
 ```
 git ruby wget apt-cacher-ng gpg
 ```
+
+_Note: When asked to allow secure tunnels through apt-cacher, answer "no"_
+
+After installation, you will need to enable `apt-cacher`, eg:
+
+```bash
+sudo systemctl enable apt-cacher-ng.service
+sudo systemctl start apt-cacher-ng.service
+```
+
 You can define your `apt-cacher` host by specifying `MIRROR_HOST` environment variable.
 
 *To create a PGP key to sign files, see : https://gnupg.org/gph/en/manual.html#INTRO.  
@@ -91,18 +101,18 @@ Binaries and signatures will be created in a `gitian-output` folder, relative to
 The entire gitian flow can be performed step by step, example using docker :
 ```bash
 #Download Gitian dependencies
-./gitian-build.sh --docker --setup 1.14.4
+./gitian-build.sh --docker --setup 1.14.5
 
 #Build & sign executables
-./gitian-build.sh --docker --build --sign SIGNER 1.14.4
+./gitian-build.sh --docker --build --sign SIGNER 1.14.5
 
 #Verify signatures
-./gitian-build.sh --verify 1.14.4
+./gitian-build.sh --verify 1.14.5
 ```
 
 Or to do everything at once :
 ```bash
-./gitian-build.sh --docker --setup --build --sign SIGNER --verify 1.14.4
+./gitian-build.sh --docker --setup --build --sign SIGNER --verify 1.14.5
 ```
 
 ### Signing externally
