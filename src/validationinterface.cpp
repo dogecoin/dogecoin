@@ -27,8 +27,6 @@ void RegisterValidationInterface(CValidationInterface* pwalletIn) {
                                                      pwalletIn, boost::placeholders::_1));
     g_signals.SetBestChain.connect(boost::bind(&CValidationInterface::SetBestChain,
                                                pwalletIn, boost::placeholders::_1));
-    g_signals.Inventory.connect(boost::bind(&CValidationInterface::Inventory,
-                                            pwalletIn, boost::placeholders::_1));
     g_signals.Broadcast.connect(boost::bind(&CValidationInterface::ResendWalletTransactions,
                                             pwalletIn, boost::placeholders::_1, boost::placeholders::_2));
     g_signals.BlockChecked.connect(boost::bind(&CValidationInterface::BlockChecked,
@@ -54,8 +52,6 @@ void UnregisterValidationInterface(CValidationInterface* pwalletIn) {
     g_signals.Broadcast.disconnect(boost::bind(&CValidationInterface::ResendWalletTransactions,
                                                pwalletIn, boost::placeholders::_1,
                                                boost::placeholders::_2));
-    g_signals.Inventory.disconnect(boost::bind(&CValidationInterface::Inventory,
-                                               pwalletIn, boost::placeholders::_1));
     g_signals.SetBestChain.disconnect(boost::bind(&CValidationInterface::SetBestChain,
                                                   pwalletIn, boost::placeholders::_1));
     g_signals.UpdatedTransaction.disconnect(boost::bind(&CValidationInterface::UpdatedTransaction,
@@ -78,7 +74,6 @@ void UnregisterAllValidationInterfaces() {
     g_signals.ScriptForMining.disconnect_all_slots();
     g_signals.BlockChecked.disconnect_all_slots();
     g_signals.Broadcast.disconnect_all_slots();
-    g_signals.Inventory.disconnect_all_slots();
     g_signals.SetBestChain.disconnect_all_slots();
     g_signals.UpdatedTransaction.disconnect_all_slots();
     g_signals.SyncTransaction.disconnect_all_slots();
