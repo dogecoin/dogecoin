@@ -169,6 +169,7 @@ testScripts = [
     'replace-by-fee.py',
     'p2p-policy.py',
     'wallet_create_tx.py',
+    'liststucktransactions.py',
 ]
 if ENABLE_ZMQ:
     testScripts.append('zmq_test.py')
