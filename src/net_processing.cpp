@@ -6,7 +6,6 @@
 #include "net_processing.h"
 
 #include "addrman.h"
-#include "alert.h"
 #include "arith_uint256.h"
 #include "blockencodings.h"
 #include "chainparams.h"
@@ -1389,13 +1388,6 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
         pfrom->nTimeOffset = nTimeOffset;
         AddTimeData(pfrom->addr, nTimeOffset);
 
-        // Relay alerts
-        {
-            LOCK(cs_mapAlerts);
-            BOOST_FOREACH(PAIRTYPE(const uint256, CAlert)& item, mapAlerts)
-                pfrom->PushAlert(item.second);
-        }
-
         // Feeler connections exist only to verify if address is online.
         if (pfrom->fFeeler) {
             assert(pfrom->fInbound == false);
@@ -2566,38 +2558,6 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
         }
     }
 
-    else if (fAlerts && strCommand == NetMsgType::ALERT)
-    {
-        CAlert alert;
-        vRecv >> alert;
-
-        uint256 alertHash = alert.GetHash();
-        if (pfrom->setKnown.count(alertHash) == 0)
-        {
-            if (alert.ProcessAlert(chainparams.AlertKey()))
-            {
-                // Relay
-                pfrom->setKnown.insert(alertHash);
-                {
-
-                    connman.ForEachNode([&alert](CNode* pnode)
-                    {
-                        pnode->PushAlert(alert);
-                    });
-                }
-            }
-            else {
-                // Small DoS penalty so peers that send us lots of
-                // duplicate/expired/invalid-signature/whatever alerts
-                // eventually get banned.
-                // This isn't a Misbehaving(100) (immediate ban) because the
-                // peer might be an older or different implementation with
-                // a different signature key, etc.
-                Misbehaving(pfrom->GetId(), 10);
-            }
-        }
-    }
-
 
     else if (strCommand == NetMsgType::FILTERLOAD)
     {
@@ -3383,24 +3343,6 @@ bool SendMessages(CNode* pto, CConnman& connman, const std::atomic<bool>& interr
                 pto->nextSendTimeFeeFilter = timeNow + GetRandInt(MAX_FEEFILTER_CHANGE_DELAY) * 1000000;
             }
         }
-
-        //
-        // Message: alert
-        //
-        BOOST_FOREACH(const CAlert &alert, pto->vAlertToSend) {
-            // returns true if wasn't already contained in the set
-            if (pto->setKnown.insert(alert.GetHash()).second)
-            {
-                if (alert.AppliesTo(pto->nVersion, pto->strSubVer) ||
-                    alert.AppliesToMe() ||
-                    GetAdjustedTime() < alert.nRelayUntil)
-                {
-                    connman.PushMessage(pto, msgMaker.Make(NetMsgType::ALERT, alert));
-                    return true;
-                }
-            }
-        }
-        pto->vAlertToSend.clear();
 
     }
     return true;
