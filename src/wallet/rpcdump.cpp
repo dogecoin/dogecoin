@@ -13,6 +13,7 @@
 #include "util.h"
 #include "utiltime.h"
 #include "wallet.h"
+#include "wallet/rpcutil.h"
 #include "merkleblock.h"
 #include "core_io.h"
 
@@ -574,15 +575,7 @@ UniValue dumpwallet(const JSONRPCRequest& request)
     ofstream file;
 
     string userFilename = request.params[0].get_str();
-    boost::filesystem::path path;
-
-    if (userFilename != "") {
-        boost::filesystem::path p(userFilename);
-        boost::filesystem::path filename = p.filename();
-        if (!filename.empty()) {
-            path = GetBackupDir() / filename;
-        }
-    }
+    boost::filesystem::path path = GetBackupDirFromInput(userFilename);
 
     if (boost::filesystem::exists(path))
         throw JSONRPCError(RPC_INVALID_PARAMETER, "Wallet dump file already exists; not overwriting");

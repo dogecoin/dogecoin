@@ -19,6 +19,7 @@
 #include "util.h"
 #include "utilmoneystr.h"
 #include "wallet.h"
+#include "wallet/rpcutil.h"
 #include "walletdb.h"
 
 #include <stdint.h>
@@ -1896,15 +1897,7 @@ UniValue backupwallet(const JSONRPCRequest& request)
     LOCK2(cs_main, pwalletMain->cs_wallet);
 
     string userFilename = request.params[0].get_str();
-    boost::filesystem::path path;
-
-    if (userFilename != "") {
-        boost::filesystem::path p(userFilename);
-        boost::filesystem::path filename = p.filename();
-        if (!filename.empty()) {
-            path = GetBackupDir() / filename;
-        }
-    }
+    boost::filesystem::path path = GetBackupDirFromInput(userFilename);
 
     if (boost::filesystem::exists(path))
         throw JSONRPCError(RPC_INVALID_PARAMETER, "Wallet dump file already exists; not overwriting");
