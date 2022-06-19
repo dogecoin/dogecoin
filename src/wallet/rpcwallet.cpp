@@ -1571,6 +1571,115 @@ UniValue listtransactions(const JSONRPCRequest& request)
     return ret;
 }
 
+UniValue liststucktransactions(const JSONRPCRequest& request)
+{
+    if (!EnsureWalletIsAvailable(request.fHelp))
+        return NullUniValue;
+
+    if (request.fHelp || request.params.size() > 2)
+        throw runtime_error(
+            "liststucktransactions ( verbose include_watchonly )\n"
+            "\nReturns all transactions in the wallet that do not have a mempool entry.\n"
+            "\nArguments:\n"
+            "1. verbose (boolean, optional, default=false) True for a JSON representation of the transactions, false for array of transaction ids\n"
+            "2. include_watchonly (bool, optional, default=false) Include transactions to watch-only addresses (see 'importaddress')\n"
+            "\nResult: (for verbose = false):\n"
+           "[                     (json array of string)\n"
+            "  \"transactionid\",   (string) The transaction id\n"
+            "  ...\n"
+            "]\n"
+            "\nResult: (for verbose = true):\n"
+            "[\n"
+            "   {\n"
+            "     \"amount\" : x.xxx,        (numeric) The transaction amount in " + CURRENCY_UNIT + "\n"
+            "     \"fee\": x.xxx,            (numeric) The amount of the fee in " + CURRENCY_UNIT + ". This is negative and only available for the \n"
+            "                                 'send' category of transactions.\n"
+            "     \"confirmations\" : n,     (numeric) The number of confirmations\n"
+            "     \"blockhash\" : \"hash\",  (string) The block hash\n"
+            "     \"blockindex\" : xx,       (numeric) The index of the transaction in the block that includes it\n"
+            "     \"blocktime\" : ttt,       (numeric) The time in seconds since epoch (1 Jan 1970 GMT)\n"
+            "     \"txid\" : \"transactionid\",   (string) The transaction id.\n"
+            "     \"time\" : ttt,            (numeric) The transaction time in seconds since epoch (1 Jan 1970 GMT)\n"
+            "     \"timereceived\" : ttt,    (numeric) The time received in seconds since epoch (1 Jan 1970 GMT)\n"
+            "     \"bip125-replaceable\": \"yes|no|unknown\",  (string) Whether this transaction could be replaced due to BIP125 (replace-by-fee);\n"
+            "                                                      may be unknown for unconfirmed transactions not in the mempool\n"
+            "     \"details\" : [\n"
+            "       {\n"
+            "         \"account\" : \"accountname\",      (string) DEPRECATED. The account name involved in the transaction, can be \"\" for the default account.\n"
+            "         \"address\" : \"address\",          (string) The dogecoin address involved in the transaction\n"
+            "         \"category\" : \"send|receive\",    (string) The category, either 'send' or 'receive'\n"
+            "         \"amount\" : x.xxx,                 (numeric) The amount in " + CURRENCY_UNIT + "\n"
+            "         \"label\" : \"label\",              (string) A comment for the address/transaction, if any\n"
+            "         \"vout\" : n,                       (numeric) the vout value\n"
+            "         \"fee\": x.xxx,                     (numeric) The amount of the fee in " + CURRENCY_UNIT + ". This is negative and only available for the \n"
+            "                                              'send' category of transactions.\n"
+            "         \"abandoned\": xxx                  (bool) 'true' if the transaction has been abandoned (inputs are respendable). Only available for the \n"
+            "                                              'send' category of transactions.\n"
+            "       }\n"
+            "       ,...\n"
+            "     ],\n"
+            "     \"hex\" : \"data\"         (string) Raw data for transaction\n"
+            "   }\n"
+            "]\n"
+
+            "\nExamples:\n"
+            "\nList all transactions ids in the wallet that do not have a mempool entry.\n"
+            + HelpExampleCli("liststucktransactions", "false") +
+            "\nList all transactions in the wallet that do not have a mempool entry as a JSON object.\n"
+            + HelpExampleCli("liststucktransactions", "true") +
+            "\nAs a json rpc call\n"
+            + HelpExampleRpc("liststucktransactions", "")
+        );
+
+    LOCK2(cs_main, pwalletMain->cs_wallet);
+
+    bool verbose = false;
+    if (request.params.size() > 0)
+        verbose = request.params[0].get_bool();
+
+    isminefilter filter = ISMINE_SPENDABLE;
+    if(request.params.size() > 1)
+        if(request.params[1].get_bool())
+            filter = filter | ISMINE_WATCH_ONLY;
+
+    UniValue ret(UniValue::VARR);
+
+    const CWallet::TxItems& txOrdered = pwalletMain->wtxOrdered;
+
+    for (CWallet::TxItems::const_iterator it = txOrdered.begin(); it != txOrdered.end(); ++it)
+    {
+        CWalletTx *const wtx = (*it).second.first;
+        if (wtx->GetDepthInMainChain() <= 0 && !wtx->InMempool() && wtx->IsFromMe(filter))
+        {
+            if (!verbose) {
+                ret.push_back(wtx->GetHash().ToString());
+            } else {
+                UniValue entry(UniValue::VOBJ);
+
+                CAmount nCredit = wtx->GetCredit(filter);
+                CAmount nDebit = wtx->GetDebit(filter);
+                CAmount nNet = nCredit - nDebit;
+                CAmount nFee = wtx->tx->GetValueOut() - nDebit;
+
+                entry.pushKV("amount", ValueFromAmount(nNet - nFee));
+                entry.pushKV("fee", ValueFromAmount(nFee));
+
+                WalletTxToJSON(*wtx, entry);
+
+                UniValue details(UniValue::VARR);
+                ListTransactions(*wtx, "*", 0, false, details, filter);
+                entry.pushKV("details", details);
+
+                string strHex = EncodeHexTx(static_cast<CTransaction>(*wtx), RPCSerializationFlags());
+                entry.pushKV("hex", strHex);
+                ret.push_back(entry);
+            }
+        }
+    }
+
+    return ret;
+}
+
 UniValue listaccounts(const JSONRPCRequest& request)
 {
     if (!EnsureWalletIsAvailable(request.fHelp))
@@ -3064,6 +3173,7 @@ static const CRPCCommand commands[] =
     { "wallet",             "listreceivedbyaddress",    &listreceivedbyaddress,    false,  {"minconf","include_empty","include_watchonly"} },
     { "wallet",             "listsinceblock",           &listsinceblock,           false,  {"blockhash","target_confirmations","include_watchonly"} },
     { "wallet",             "listtransactions",         &listtransactions,         false,  {"account","count","skip","include_watchonly"} },
+    { "wallet",             "liststucktransactions",    &liststucktransactions,    false,  {"verbosity","include_watchonly"} },
     { "wallet",             "listunspent",              &listunspent,              false,  {"minconf","maxconf","addresses","include_unsafe","query_options"} },
     { "wallet",             "lockunspent",              &lockunspent,              true,   {"unlock","transactions"} },
     { "wallet",             "move",                     &movecmd,                  false,  {"fromaccount","toaccount","amount","minconf","comment"} },
