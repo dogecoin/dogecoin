@@ -23,6 +23,7 @@ class WalletHDTest(BitcoinTestFramework):
         self.node_args = [['-usehd=0'], ['-usehd=1', '-keypool=0']]
 
     def setup_network(self):
+        self.node_args[1].append('-backupdir=' + self.options.tmpdir)
         self.nodes = start_nodes(self.num_nodes, self.options.tmpdir, self.node_args)
         self.is_network_split = False
         connect_nodes_bi(self.nodes, 0, 1)
@@ -39,8 +40,8 @@ class WalletHDTest(BitcoinTestFramework):
         self.nodes[1].importprivkey(self.nodes[0].dumpprivkey(non_hd_add))
 
         # This should be enough to keep the master key and the non-HD key
-        self.nodes[1].backupwallet(tmpdir + "/hd.bak")
-        #self.nodes[1].dumpwallet(tmpdir + "/hd.dump")
+        self.nodes[1].backupwallet("hd.bak")
+        #self.nodes[1].dumpwallet("hd.dump")
 
         # Derive some HD addresses and remember the last
         # Also send funds to each add
@@ -62,9 +63,9 @@ class WalletHDTest(BitcoinTestFramework):
 
         print("Restore backup ...")
         self.stop_node(1)
-        os.remove(self.options.tmpdir + "/node1/regtest/wallet.dat")
+        os.remove(tmpdir + "/node1/regtest/wallet.dat")
         shutil.copyfile(tmpdir + "/hd.bak", tmpdir + "/node1/regtest/wallet.dat")
-        self.nodes[1] = start_node(1, self.options.tmpdir, self.node_args[1])
+        self.nodes[1] = start_node(1, tmpdir, self.node_args[1])
         #connect_nodes_bi(self.nodes, 0, 1)
 
         # Assert that derivation is deterministic
@@ -78,7 +79,7 @@ class WalletHDTest(BitcoinTestFramework):
 
         # Needs rescan
         self.stop_node(1)
-        self.nodes[1] = start_node(1, self.options.tmpdir, self.node_args[1] + ['-rescan'])
+        self.nodes[1] = start_node(1, tmpdir, self.node_args[1] + ['-rescan'])
         #connect_nodes_bi(self.nodes, 0, 1)
         assert_equal(self.nodes[1].getbalance(), num_hd_adds + 1)
 

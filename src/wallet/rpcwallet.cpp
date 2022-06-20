@@ -19,6 +19,7 @@
 #include "util.h"
 #include "utilmoneystr.h"
 #include "wallet.h"
+#include "wallet/rpcutil.h"
 #include "walletdb.h"
 
 #include <stdint.h>
@@ -1994,9 +1995,9 @@ UniValue backupwallet(const JSONRPCRequest& request)
     if (request.fHelp || request.params.size() != 1)
         throw runtime_error(
             "backupwallet \"destination\"\n"
-            "\nSafely copies current wallet file to destination, which can be a directory or a path with filename.\n"
+            "\nSafely copies current wallet file to destination file.\n"
             "\nArguments:\n"
-            "1. \"destination\"   (string) The destination directory or file\n"
+            "1. \"destination\"   (string, required) The destination filename\n"
             "\nExamples:\n"
             + HelpExampleCli("backupwallet", "\"backup.dat\"")
             + HelpExampleRpc("backupwallet", "\"backup.dat\"")
@@ -2004,8 +2005,13 @@ UniValue backupwallet(const JSONRPCRequest& request)
 
     LOCK2(cs_main, pwalletMain->cs_wallet);
 
-    string strDest = request.params[0].get_str();
-    if (!pwalletMain->BackupWallet(strDest))
+    string userFilename = request.params[0].get_str();
+    boost::filesystem::path path = GetBackupDirFromInput(userFilename);
+
+    if (boost::filesystem::exists(path))
+        throw JSONRPCError(RPC_INVALID_PARAMETER, "Wallet dump file already exists; not overwriting");
+
+    if (!pwalletMain->BackupWallet(path.string()))
         throw JSONRPCError(RPC_WALLET_ERROR, "Error: Wallet backup failed!");
 
     return NullUniValue;

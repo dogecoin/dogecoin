@@ -548,6 +548,44 @@ void ClearDatadirCache()
     pathCachedNetSpecific = boost::filesystem::path();
 }
 
+static boost::filesystem::path backupPathCached;
+static CCriticalSection csBackupPathCached;
+
+const boost::filesystem::path &GetBackupDir()
+{
+    namespace fs = boost::filesystem;
+    LOCK(csBackupPathCached);
+
+    fs::path &path = backupPathCached;
+
+    // ensure that any cached path still exists (not an unmounted filesystem, for example)
+    if (!path.empty() && fs::is_directory(path))
+        return path;
+
+    // start with a default, and overwrite if provided a valid path
+    path = GetDataDir() / "backups";
+
+    if (IsArgSet("-backupdir")) {
+        const std::string backupDir = GetArg("-backupdir", "");
+        fs::path backupDirPath = fs::system_complete(backupDir);
+
+        if (fs::create_directories(backupDirPath) || fs::is_directory(backupDirPath)) {
+            path = backupDirPath;
+        } else {
+            LogPrintf("Backupdir %s is not a directory, so using default path\n", backupDirPath);
+        }
+    }
+
+    // ensure the path exists or fall back to a path that does exist
+    if (!fs::is_directory(path) && !fs::create_directories(path)) {
+        LogPrintf("Failed to create directory %s, so using default path %s\n", path, GetDataDir());
+        path = GetDataDir();
+    }
+
+    LogPrintf("Set backupdir %s\n", path);
+    return path;
+}
+
 boost::filesystem::path GetConfigFile(const std::string& confPath)
 {
     boost::filesystem::path pathConfigFile(confPath);
