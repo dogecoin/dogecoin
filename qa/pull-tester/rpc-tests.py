@@ -115,6 +115,7 @@ testScripts = [
     # 'p2p-segwit.py',
     'wallet-dump.py',
     'listtransactions.py',
+    'p2p-policy.py',
     # vv Tests less than 60s vv
     'p2p-acceptblock.py',
     'sendheaders.py',
@@ -168,7 +169,6 @@ testScripts = [
     'listsinceblock.py',
     'p2p-leaktests.py',
     'replace-by-fee.py',
-    'p2p-policy.py',
     'wallet_create_tx.py',
     'liststucktransactions.py',
     'addnode.py',
