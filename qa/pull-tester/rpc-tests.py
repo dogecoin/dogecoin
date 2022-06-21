@@ -171,6 +171,7 @@ testScripts = [
     'p2p-policy.py',
     'wallet_create_tx.py',
     'liststucktransactions.py',
+    'addnode.py',
 ]
 if ENABLE_ZMQ:
     testScripts.append('zmq_test.py')

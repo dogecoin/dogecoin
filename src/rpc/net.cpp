@@ -247,6 +247,10 @@ UniValue addnode(const JSONRPCRequest& request)
 
     string strNode = request.params[0].get_str();
 
+    if (strNode.size() > 256) {
+      throw JSONRPCError(RPC_CLIENT_NODE_ADDRESS_INVALID, "Error: Node address is invalid");
+    }
+
     if (strCommand == "onetry")
     {
         CAddress addr;
@@ -257,7 +261,7 @@ UniValue addnode(const JSONRPCRequest& request)
     if (strCommand == "add")
     {
         if(!g_connman->AddNode(strNode))
-            throw JSONRPCError(RPC_CLIENT_NODE_ALREADY_ADDED, "Error: Node already added");
+            throw JSONRPCError(RPC_CLIENT_NODE_ALREADY_ADDED, "Error: Unable to add node");
     }
     else if(strCommand == "remove")
     {

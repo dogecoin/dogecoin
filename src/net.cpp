@@ -2492,6 +2492,13 @@ std::vector<CAddress> CConnman::GetAddresses()
 bool CConnman::AddNode(const std::string& strNode)
 {
     LOCK(cs_vAddedNodes);
+
+    // We only allow 100x the amount of total connections, to protect against
+    // script errors that fill up memory of the node with addresses
+    if (vAddedNodes.size() >= MAX_ADDNODE_CONNECTIONS * 100) {
+      return false;
+    }
+
     for(std::vector<std::string>::const_iterator it = vAddedNodes.begin(); it != vAddedNodes.end(); ++it) {
         if (strNode == *it)
             return false;
