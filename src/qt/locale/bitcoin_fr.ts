@@ -300,7 +300,7 @@
     </message>
     <message>
         <source>&amp;Exit</source>
-        <translation>&amp;Quitter</translation>
+        <translation type="vanished">&amp;Quitter</translation>
     </message>
     <message>
         <source>Quit application</source>
@@ -614,12 +614,16 @@
         <source>Runaway exception</source>
         <translation>Runaway exception</translation>
     </message>
+    <message>
+        <source>E&amp;xit</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ClientModel</name>
     <message>
         <source>Network Alert</source>
-        <translation>Alerte réseau</translation>
+        <translation type="vanished">Alerte réseau</translation>
     </message>
 </context>
 <context>
@@ -758,7 +762,7 @@
     </message>
     <message>
         <source>Can vary +/- %1 koinu(s) per input.</source>
-        <translation>Peut varier +/- %1 koinu(s) par entrée.</translation>
+        <translation type="vanished">Peut varier +/- %1 koinu(s) par entrée.</translation>
     </message>
     <message>
         <source>(no label)</source>
@@ -771,6 +775,10 @@
     <message>
         <source>(change)</source>
         <translation>(monnaie)</translation>
+    </message>
+    <message>
+        <source>Can vary +/- %1 koinu per input.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -938,7 +946,7 @@
     </message>
     <message>
         <source>Reset all key management options to default.</source>
-        <translation>Réinitialiser toutes les options de gestion des clés par défaut.</translation>
+        <translation type="vanished">Réinitialiser toutes les options de gestion des clés par défaut.</translation>
     </message>
     <message>
         <source>&amp;Reset</source>
@@ -967,6 +975,10 @@
     <message>
         <source>Rescanning...</source>
         <translation>Nouvelle analyse...</translation>
+    </message>
+    <message>
+        <source>Reset this form.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1330,6 +1342,22 @@
         <source>The supplied proxy address is invalid.</source>
         <translation>L&apos;adresse de serveur mandataire fournie est invalide.</translation>
     </message>
+    <message>
+        <source>Disables some advanced features but all blocks will still be fully validated. Reverting this setting requires re-downloading the entire blockchain. Actual disk usage may be somewhat higher.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Prune &amp;block storage to</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>GB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reverting this setting requires re-downloading the entire blockchain.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>OverviewPage</name>
@@ -1415,11 +1443,11 @@
     </message>
     <message>
         <source>Never share your wallet.dat file/your private key with anyone</source>
-        <translation>Ne partagez jamais votre fichier wallet.dat/votre clé privée avec quiconque.</translation>
+        <translation type="vanished">Ne partagez jamais votre fichier wallet.dat/votre clé privée avec quiconque.</translation>
     </message>
     <message>
         <source>For more advanced settings use the console in &apos;Help&apos; -&gt; &apos;Debug Window&apos;</source>
-        <translation>Pour des paramètres plus avancés, utilisez la console dans &apos;Aide&apos; -&gt; &apos;Fenêtre de débogage&apos;</translation>
+        <translation type="vanished">Pour des paramètres plus avancés, utilisez la console dans &apos;Aide&apos; -&gt; &apos;Fenêtre de débogage&apos;</translation>
     </message>
     <message>
         <source>Encrypt your wallet with a strong passphrase for maximum security</source>
@@ -1427,7 +1455,7 @@
     </message>
     <message>
         <source>Make sure to keep your wallet updated.</source>
-        <translation>Veillez à garder à jour votre portefeuille.</translation>
+        <translation type="vanished">Veillez à garder à jour votre portefeuille.</translation>
     </message>
     <message>
         <source>Backup your private key to recover your coins, using &apos;File&apos; &gt; &apos;Backup Wallet&apos;</source>
@@ -1439,19 +1467,43 @@
     </message>
     <message>
         <source>Never share your private key to an untrustworthy person.</source>
-        <translation>Ne partagez jamais votre clé privée avec une personne indigne de confiance.</translation>
+        <translation type="vanished">Ne partagez jamais votre clé privée avec une personne indigne de confiance.</translation>
     </message>
     <message>
         <source>Who own the private keys own the coins.</source>
-        <translation>Ceux qui possèdent les clés privées possèdent les pièces.</translation>
+        <translation type="vanished">Ceux qui possèdent les clés privées possèdent les pièces.</translation>
     </message>
     <message>
         <source>To see ongoing development and contribute, checkout Dogecoin repository on GitHub!</source>
-        <translation>Pour voir le développement en cours et contribuer, consultez le dépôt Dogecoin sur GitHub !</translation>
+        <translation type="vanished">Pour voir le développement en cours et contribuer, consultez le dépôt Dogecoin sur GitHub !</translation>
     </message>
     <message>
         <source>Services that claim to double your dogecoins are always ponzi schemes</source>
         <translation>Les services qui prétendent doubler vos dogecoins sont toujours des systèmes de ponzi.</translation>
+    </message>
+    <message>
+        <source>Never share your wallet.dat file with anyone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>For advanced operations, use the console in &apos;Help&apos; -&gt; &apos;Debug Window&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Make sure to keep your wallet software updated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Never share your private key with anyone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Who owns the private keys, owns the coins</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To see ongoing development and contribute, check out the Dogecoin Core repository on GitHub</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1763,7 +1815,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Error: Node already added</source>
-        <translation>Erreur : Nœud déjà ajouté</translation>
+        <translation type="vanished">Erreur : Nœud déjà ajouté</translation>
     </message>
     <message>
         <source>Node not found in connected nodes</source>
@@ -1776,6 +1828,14 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Returned OK.</source>
         <translation>Retourne OK.</translation>
+    </message>
+    <message>
+        <source>Error: Node address is invalid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error: Unable to add node</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1872,11 +1932,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>%1 TB</source>
-        <translation>%1 To</translation>
+        <translation type="vanished">%1 To</translation>
     </message>
     <message>
         <source>%1 GB</source>
-        <translation>%1 Go</translation>
+        <translation type="vanished">%1 Go</translation>
     </message>
     <message>
         <source>%1 MB</source>
@@ -1884,7 +1944,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>%1 KB</source>
-        <translation>%1 Ko</translation>
+        <translation type="vanished">%1 Ko</translation>
+    </message>
+    <message>
+        <source>%1 kB</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2249,11 +2313,15 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Are you sure you want to remove the peer:</source>
-        <translation>Êtes-vous sûr de vouloir supprimer le pair :</translation>
+        <translation type="vanished">Êtes-vous sûr de vouloir supprimer le pair :</translation>
     </message>
     <message>
         <source>No peer was selected.</source>
         <translation>Aucun pair n&apos;a été sélectionné.</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove the peer: </source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2669,7 +2737,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Using the fallbackfee can result in sending a transaction that will take several hours or days (or never) to confirm. Consider choosing your fee manually or wait until your have validated the complete chain.</source>
-        <translation>L&apos;utilisation de la commission de repli peut entraîner l&apos;envoi d&apos;une transaction dont la confirmation prendra plusieurs heures ou jours (voire jamais). Pensez à choisir vos frais manuellement ou attendez d&apos;avoir validé la chaîne complète.</translation>
+        <translation type="vanished">L&apos;utilisation de la commission de repli peut entraîner l&apos;envoi d&apos;une transaction dont la confirmation prendra plusieurs heures ou jours (voire jamais). Pensez à choisir vos frais manuellement ou attendez d&apos;avoir validé la chaîne complète.</translation>
     </message>
     <message>
         <source>Warning: Fee estimation is currently not possible.</source>
@@ -2677,7 +2745,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>If the custom fee is set to 1000 satoshis and the transaction is only 250 bytes, then &quot;per kilobyte&quot; only pays 250 satoshis in fee, while &quot;total at least&quot; pays 1000 satoshis. For transactions bigger than a kilobyte both pay by kilobyte.</source>
-        <translation>Si le tarif personnalisé est fixé à 1000 satoshis et que la transaction n&apos;est que de 250 octets, alors le tarif "par kilooctet" ne paie que 250 satoshis, tandis que le tarif "total au moins" paie 1000 satoshis. Pour les transactions supérieures à un kilooctet, les deux payent par kilooctet.</translation>
+        <translation>Si le tarif personnalisé est fixé à 1000 satoshis et que la transaction n&apos;est que de 250 octets, alors le tarif &quot;par kilooctet&quot; ne paie que 250 satoshis, tandis que le tarif &quot;total au moins&quot; paie 1000 satoshis. Pour les transactions supérieures à un kilooctet, les deux payent par kilooctet.</translation>
     </message>
     <message>
         <source>Priority:</source>
@@ -2690,6 +2758,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>high</source>
         <translation>élevé</translation>
+    </message>
+    <message>
+        <source>Using the fallbackfee can result in sending a transaction that will take several hours or days (or never) to confirm. Consider choosing your fee manually or wait until you have validated the complete chain.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3004,7 +3076,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>%1/offline</source>
-        <translation>%1/hors ligne</translation>
+        <translation type="vanished">%1/hors ligne</translation>
     </message>
     <message>
         <source>0/unconfirmed, %1</source>
@@ -3036,11 +3108,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>, has not been successfully broadcast yet</source>
-        <translation>, n&apos;a pas encore été diffusée avec succès</translation>
+        <translation type="vanished">, n&apos;a pas encore été diffusée avec succès</translation>
     </message>
     <message numerus="yes">
         <source>, broadcast through %n node(s)</source>
-        <translation>
+        <translation type="vanished">
             <numerusform>, diffusée par %n nœud</numerusform>
             <numerusform>, diffusée par %n nœuds</numerusform>
         </translation>
@@ -3207,7 +3279,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Offline</source>
-        <translation>Hors ligne</translation>
+        <translation type="vanished">Hors ligne</translation>
     </message>
     <message>
         <source>Unconfirmed</source>
@@ -3235,7 +3307,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>This block was not received by any other nodes and will probably not be accepted!</source>
-        <translation>Ce bloc n&apos;a été reçu par aucun autre nœud et ne sera probablement pas accepté&#xa0;!</translation>
+        <translation type="vanished">Ce bloc n&apos;a été reçu par aucun autre nœud et ne sera probablement pas accepté&#xa0;!</translation>
     </message>
     <message>
         <source>Generated but not accepted</source>
@@ -3973,7 +4045,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Execute command when a relevant alert is received or we see a really long fork (%s in cmd is replaced by message)</source>
-        <translation>Exécuter une commande lorsqu&apos;une alerte pertinente est reçue, ou si nous voyons une bifurcation vraiment étendue (%s dans la commande est remplacé par le message)</translation>
+        <translation type="vanished">Exécuter une commande lorsqu&apos;une alerte pertinente est reçue, ou si nous voyons une bifurcation vraiment étendue (%s dans la commande est remplacé par le message)</translation>
     </message>
     <message>
         <source>Fees (in %s/kB) smaller than this are considered zero fee for relaying, mining and transaction creation (default: %s)</source>
@@ -4465,7 +4537,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Receive and display P2P network alerts (default: %u)</source>
-        <translation>Recevoir et afficher les alertes du réseau P2P (par défaut: %u)</translation>
+        <translation type="vanished">Recevoir et afficher les alertes du réseau P2P (par défaut: %u)</translation>
     </message>
     <message>
         <source>Such expensive</source>
@@ -4494,6 +4566,14 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Use Namecoin-compatible AuxPow API structure, (default: %u)</source>
         <translation>Utiliser la structure de l&apos;API AuxPow compatible avec Namecoin, (par défaut : %u)</translation>
+    </message>
+    <message>
+        <source>Execute command when we see a really long fork (%s in cmd is replaced by message)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Specify directory where to write backups and data dumps (default datadir/backups)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
