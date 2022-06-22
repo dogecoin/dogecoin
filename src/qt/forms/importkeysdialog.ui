@@ -128,7 +128,7 @@
      <item>
       <widget class="QPushButton" name="resetButton">
        <property name="toolTip">
-        <string>Reset all key management options to default.</string>
+        <string>Reset this form.</string>
        </property>
        <property name="text">
         <string>&amp;Reset</string>
