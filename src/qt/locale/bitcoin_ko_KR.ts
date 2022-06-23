@@ -617,7 +617,7 @@
     <name>ClientModel</name>
     <message>
         <source>Network Alert</source>
-        <translation>네트워크 알림</translation>
+        <translation type="vanished">네트워크 알림</translation>
     </message>
 </context>
 <context>
@@ -756,7 +756,7 @@
     </message>
     <message>
         <source>Can vary +/- %1 koinu(s) per input.</source>
-        <translation>입력마다 +/- %1 코이누가 변할 수 있습니다.</translation>
+        <translation type="vanished">입력마다 +/- %1 코이누가 변할 수 있습니다.</translation>
     </message>
     <message>
         <source>(no label)</source>
@@ -769,6 +769,10 @@
     <message>
         <source>(change)</source>
         <translation>(잔돈)</translation>
+    </message>
+    <message>
+        <source>Can vary +/- %1 koinu per input.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -936,7 +940,7 @@
     </message>
     <message>
         <source>Reset all key management options to default.</source>
-        <translation>모든 키 설정을 기본값으로 초기화</translation>
+        <translation type="vanished">모든 키 설정을 기본값으로 초기화</translation>
     </message>
     <message>
         <source>&amp;Reset</source>
@@ -965,6 +969,10 @@
     <message>
         <source>Rescanning...</source>
         <translation>재검색 중...</translation>
+    </message>
+    <message>
+        <source>Reset this form.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1326,6 +1334,22 @@
         <source>The supplied proxy address is invalid.</source>
         <translation>지정한 프록시 주소가 잘못되었습니다.</translation>
     </message>
+    <message>
+        <source>Disables some advanced features but all blocks will still be fully validated. Reverting this setting requires re-downloading the entire blockchain. Actual disk usage may be somewhat higher.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Prune &amp;block storage to</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>GB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reverting this setting requires re-downloading the entire blockchain.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>OverviewPage</name>
@@ -1411,11 +1435,11 @@
     </message>
     <message>
         <source>Never share your wallet.dat file/your private key with anyone</source>
-        <translation>wallet.dat 파일/당신의 개인 키를 타인과 공유하지 마십시요</translation>
+        <translation type="vanished">wallet.dat 파일/당신의 개인 키를 타인과 공유하지 마십시요</translation>
     </message>
     <message>
         <source>For more advanced settings use the console in &apos;Help&apos; -&gt; &apos;Debug Window&apos;</source>
-        <translation>고급 설정을 보려면 &apos;도움말&apos; 콘솔을 사용하십시오. -&gt; &apos;디버그 창&apos;</translation>
+        <translation type="vanished">고급 설정을 보려면 &apos;도움말&apos; 콘솔을 사용하십시오. -&gt; &apos;디버그 창&apos;</translation>
     </message>
     <message>
         <source>Encrypt your wallet with a strong passphrase for maximum security</source>
@@ -1423,7 +1447,7 @@
     </message>
     <message>
         <source>Make sure to keep your wallet updated.</source>
-        <translation>당신의 지갑을 최신 상태로 업데이트 하세요</translation>
+        <translation type="vanished">당신의 지갑을 최신 상태로 업데이트 하세요</translation>
     </message>
     <message>
         <source>Backup your private key to recover your coins, using &apos;File&apos; &gt; &apos;Backup Wallet&apos;</source>
@@ -1435,19 +1459,43 @@
     </message>
     <message>
         <source>Never share your private key to an untrustworthy person.</source>
-        <translation>신뢰할 수 없는 사람과 개인 키를 공유하지 마십시오.</translation>
+        <translation type="vanished">신뢰할 수 없는 사람과 개인 키를 공유하지 마십시오.</translation>
     </message>
     <message>
         <source>Who own the private keys own the coins.</source>
-        <translation>개인 키를 소유한 사람이 코인을 소유합니다.</translation>
+        <translation type="vanished">개인 키를 소유한 사람이 코인을 소유합니다.</translation>
     </message>
     <message>
         <source>To see ongoing development and contribute, checkout Dogecoin repository on GitHub!</source>
-        <translation>진행 중인 개발을 확인하고 기여하려면 GitHub에서 도지코인 저장소를 확인하세요!</translation>
+        <translation type="vanished">진행 중인 개발을 확인하고 기여하려면 GitHub에서 도지코인 저장소를 확인하세요!</translation>
     </message>
     <message>
         <source>Services that claim to double your dogecoins are always ponzi schemes</source>
         <translation>도지코인을 두 배로 늘리는 서비스는 항상 폰지 사기입니다.</translation>
+    </message>
+    <message>
+        <source>Never share your wallet.dat file with anyone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>For advanced operations, use the console in &apos;Help&apos; -&gt; &apos;Debug Window&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Make sure to keep your wallet software updated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Never share your private key with anyone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Who owns the private keys, owns the coins</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To see ongoing development and contribute, check out the Dogecoin Core repository on GitHub</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1759,7 +1807,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Error: Node already added</source>
-        <translation>에러: 이미 노드가 추가 되었습니다</translation>
+        <translation type="vanished">에러: 이미 노드가 추가 되었습니다</translation>
     </message>
     <message>
         <source>Node not found in connected nodes</source>
@@ -1772,6 +1820,14 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Returned OK.</source>
         <translation>반환 확인.</translation>
+    </message>
+    <message>
+        <source>Error: Node address is invalid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error: Unable to add node</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1858,15 +1914,15 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>%1 B</source>
-        <translation >%1 B</translation>
+        <translation>%1 B</translation>
     </message>
     <message>
         <source>%1 TB</source>
-        <translation> %1 TB</translation>
+        <translation type="vanished"> %1 TB</translation>
     </message>
     <message>
         <source>%1 GB</source>
-        <translation>%1 GB</translation>
+        <translation type="vanished">%1 GB</translation>
     </message>
     <message>
         <source>%1 MB</source>
@@ -1874,7 +1930,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>%1 KB</source>
-        <translation>%1 KB</translation>
+        <translation type="vanished">%1 KB</translation>
+    </message>
+    <message>
+        <source>%1 kB</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2655,7 +2715,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Using the fallbackfee can result in sending a transaction that will take several hours or days (or never) to confirm. Consider choosing your fee manually or wait until your have validated the complete chain.</source>
-        <translation>fallbackfee를 사용하면 확인하는 데 몇 시간 또는 며칠이 걸리는 트랜잭션을 보낼 수 있습니다. 수수료를 수동으로 선택하거나 전체 체인이 검증될 때까지 기다리십시오.</translation>
+        <translation type="vanished">fallbackfee를 사용하면 확인하는 데 몇 시간 또는 며칠이 걸리는 트랜잭션을 보낼 수 있습니다. 수수료를 수동으로 선택하거나 전체 체인이 검증될 때까지 기다리십시오.</translation>
     </message>
     <message>
         <source>Warning: Fee estimation is currently not possible.</source>
@@ -2680,6 +2740,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Warning: Invalid Dogecoin address</source>
         <translation>경고: 올바르지 않은 도지코인 주소</translation>
+    </message>
+    <message>
+        <source>Using the fallbackfee can result in sending a transaction that will take several hours or days (or never) to confirm. Consider choosing your fee manually or wait until you have validated the complete chain.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2993,7 +3057,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>%1/offline</source>
-        <translation>%1/오프라인</translation>
+        <translation type="vanished">%1/오프라인</translation>
     </message>
     <message>
         <source>0/unconfirmed, %1</source>
@@ -3025,11 +3089,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>, has not been successfully broadcast yet</source>
-        <translation>. 아직 성공적으로 통보하지 않음</translation>
+        <translation type="vanished">. 아직 성공적으로 통보하지 않음</translation>
     </message>
     <message numerus="yes">
         <source>, broadcast through %n node(s)</source>
-        <translation>
+        <translation type="vanished">
             <numerusform>, %n 개 노드를 통해 전파</numerusform>
         </translation>
     </message>
@@ -3193,7 +3257,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Offline</source>
-        <translation>오프라인</translation>
+        <translation type="vanished">오프라인</translation>
     </message>
     <message>
         <source>Unconfirmed</source>
@@ -3221,7 +3285,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>This block was not received by any other nodes and will probably not be accepted!</source>
-        <translation>이 블록은 다른 노드로부터 받지 않아 허용되지 않을 것입니다!</translation>
+        <translation type="vanished">이 블록은 다른 노드로부터 받지 않아 허용되지 않을 것입니다!</translation>
     </message>
     <message>
         <source>Generated but not accepted</source>
@@ -3955,7 +4019,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Execute command when a relevant alert is received or we see a really long fork (%s in cmd is replaced by message)</source>
-        <translation>이 사항과 관련있는 경고가 발생하거나 아주 긴 포크가 발생했을 때 명령어 실행하기(cmd 명령어 목록에서 %s 은/는 메시지로 대체됨)</translation>
+        <translation type="vanished">이 사항과 관련있는 경고가 발생하거나 아주 긴 포크가 발생했을 때 명령어 실행하기(cmd 명령어 목록에서 %s 은/는 메시지로 대체됨)</translation>
     </message>
     <message>
         <source>Fees (in %s/kB) smaller than this are considered zero fee for relaying, mining and transaction creation (default: %s)</source>
@@ -4447,7 +4511,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Receive and display P2P network alerts (default: %u)</source>
-        <translation>P2P 네트워크 경고 수신 및 표시(기본값: %u)</translation>
+        <translation type="vanished">P2P 네트워크 경고 수신 및 표시(기본값: %u)</translation>
     </message>
     <message>
         <source>Such expensive</source>
@@ -4480,6 +4544,14 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Use Namecoin-compatible AuxPow API structure, (default: %u)</source>
         <translation>네임코인-호환 AuxPow API 구조 사용, (기본값: %u)</translation>
+    </message>
+    <message>
+        <source>Execute command when we see a really long fork (%s in cmd is replaced by message)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Specify directory where to write backups and data dumps (default datadir/backups)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

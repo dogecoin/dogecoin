@@ -618,13 +618,6 @@
     </message>
 </context>
 <context>
-    <name>ClientModel</name>
-    <message>
-        <source>Network Alert</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>CoinControlDialog</name>
     <message>
         <source>Coin Selection</source>
@@ -767,11 +760,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Can vary +/- %1 koinu(s) per input.</source>
+        <source>change from %1 (%2)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>change from %1 (%2)</source>
+        <source>Can vary +/- %1 koinu per input.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -939,10 +932,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Reset all key management options to default.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>&amp;Reset</source>
         <translation type="unfinished"></translation>
     </message>
@@ -969,6 +958,10 @@
     <message>
         <source>Rescanning...</source>
         <translation type="unfinished">اسکان مجدد</translation>
+    </message>
+    <message>
+        <source>Reset this form.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1330,6 +1323,22 @@
         <source>Client will be shut down. Do you want to proceed?</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Disables some advanced features but all blocks will still be fully validated. Reverting this setting requires re-downloading the entire blockchain. Actual disk usage may be somewhat higher.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Prune &amp;block storage to</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>GB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reverting this setting requires re-downloading the entire blockchain.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>OverviewPage</name>
@@ -1415,18 +1424,10 @@
     </message>
     <message>
         <source>Never share your wallet.dat file/your private key with anyone</source>
-        <translation>هرگز فایل والت یا کلید خصوصی خود را به کسی ندهید</translation>
-    </message>
-    <message>
-        <source>For more advanced settings use the console in &apos;Help&apos; -&gt; &apos;Debug Window&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">هرگز فایل والت یا کلید خصوصی خود را به کسی ندهید</translation>
     </message>
     <message>
         <source>Encrypt your wallet with a strong passphrase for maximum security</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Make sure to keep your wallet updated.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1438,19 +1439,31 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Never share your private key to an untrustworthy person.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Who own the private keys own the coins.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>To see ongoing development and contribute, checkout Dogecoin repository on GitHub!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Services that claim to double your dogecoins are always ponzi schemes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Never share your wallet.dat file with anyone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>For advanced operations, use the console in &apos;Help&apos; -&gt; &apos;Debug Window&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Make sure to keep your wallet software updated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Never share your private key with anyone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Who owns the private keys, owns the coins</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To see ongoing development and contribute, check out the Dogecoin Core repository on GitHub</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1758,10 +1771,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Error: Node already added</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Node not found in connected nodes</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1771,6 +1780,14 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Returned OK.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error: Node address is invalid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error: Unable to add node</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1825,12 +1842,8 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">%1 بایت</translation>
     </message>
     <message>
-        <source>%1 TB</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>%1 GB</source>
-        <translation type="unfinished">%1 گیگابایت</translation>
+        <translation type="obsolete">%1 گیگابایت</translation>
     </message>
     <message>
         <source>%1 MB</source>
@@ -1838,7 +1851,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>%1 KB</source>
-        <translation type="unfinished">%1 کیلوبایت</translation>
+        <translation type="obsolete">%1 کیلوبایت</translation>
     </message>
     <message numerus="yes">
         <source>%n second(s)</source>
@@ -1875,6 +1888,10 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">
             <numerusform></numerusform>
         </translation>
+    </message>
+    <message>
+        <source>%1 kB</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2566,10 +2583,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Using the fallbackfee can result in sending a transaction that will take several hours or days (or never) to confirm. Consider choosing your fee manually or wait until your have validated the complete chain.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Warning: Fee estimation is currently not possible.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2687,6 +2700,10 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>The address you selected for change is not part of this wallet. Any or all funds in your wallet may be sent to this address. Are you sure?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Using the fallbackfee can result in sending a transaction that will take several hours or days (or never) to confirm. Consider choosing your fee manually or wait until you have validated the complete chain.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3000,10 +3017,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>%1/offline</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>0/unconfirmed, %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3030,16 +3043,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Status</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>, has not been successfully broadcast yet</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message numerus="yes">
-        <source>, broadcast through %n node(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
     </message>
     <message>
         <source>Date</source>
@@ -3204,10 +3207,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Offline</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Unconfirmed</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3229,10 +3228,6 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Immature (%1 confirmations, will be available after %2)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>This block was not received by any other nodes and will probably not be accepted!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3810,10 +3805,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Execute command when a relevant alert is received or we see a really long fork (%s in cmd is replaced by message)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Execute command when the best block changes (%s in cmd is replaced by block hash, %i is replaced by block number)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4282,10 +4273,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Receive and display P2P network alerts (default: %u)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Reducing -maxconnections from %d to %d, because of system limitations.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4491,6 +4478,14 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>ZeroMQ notification options:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Execute command when we see a really long fork (%s in cmd is replaced by message)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Specify directory where to write backups and data dumps (default datadir/backups)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

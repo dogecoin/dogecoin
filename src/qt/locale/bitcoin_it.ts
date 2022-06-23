@@ -207,7 +207,7 @@
     <message>
         <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DOGECOINS&lt;/b&gt;!</source>
         <translation>Attenzione: se cripti il portafoglio e perdi la password, &lt;b&gt;PERDERAI TUTTI I TUOI DOGECOIN&lt;/b&gt;!</translation>
-    </message>    
+    </message>
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
         <translation>Sei sicuro di voler criptare il portafoglio?</translation>
@@ -619,7 +619,7 @@
     <name>ClientModel</name>
     <message>
         <source>Network Alert</source>
-        <translation>Avviso di Rete</translation>
+        <translation type="vanished">Avviso di Rete</translation>
     </message>
 </context>
 <context>
@@ -770,7 +770,11 @@
     </message>
     <message>
         <source>Can vary +/- %1 koinu(s) per input.</source>
-        <translation>Può variare di +/- %1 koinu per input.</translation>
+        <translation type="vanished">Può variare di +/- %1 koinu per input.</translation>
+    </message>
+    <message>
+        <source>Can vary +/- %1 koinu per input.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -785,11 +789,11 @@
     </message>
     <message>
         <source>The label associated with this address list entry</source>
-        <translation>L&apos;etichetta associata con questa voce dell'elenco degli indirizzi</translation>
+        <translation>L&apos;etichetta associata con questa voce dell&apos;elenco degli indirizzi</translation>
     </message>
     <message>
         <source>The address associated with this address list entry. This can only be modified for sending addresses.</source>
-        <translation>L&apos;indirizzo associato con questa voce dell'elenco degli indirizzi. Può essere modificato solo per gli indirizzi d&apos;invio.</translation>
+        <translation>L&apos;indirizzo associato con questa voce dell&apos;elenco degli indirizzi. Può essere modificato solo per gli indirizzi d&apos;invio.</translation>
     </message>
     <message>
         <source>&amp;Address</source>
@@ -938,7 +942,7 @@
     </message>
     <message>
         <source>Reset all key management options to default.</source>
-        <translation>Resetta tutte le opzioni di gestione delle chiavi.</translation>
+        <translation type="vanished">Resetta tutte le opzioni di gestione delle chiavi.</translation>
     </message>
     <message>
         <source>&amp;Reset</source>
@@ -967,6 +971,10 @@
     <message>
         <source>Rescanning...</source>
         <translation>Ripetizione scansione...</translation>
+    </message>
+    <message>
+        <source>Reset this form.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1331,6 +1339,22 @@ Per specificare più URL separarli con una barra verticale &quot;|&quot;.</trans
         <source>The supplied proxy address is invalid.</source>
         <translation>L&apos;indirizzo proxy che hai fornito non è valido.</translation>
     </message>
+    <message>
+        <source>Disables some advanced features but all blocks will still be fully validated. Reverting this setting requires re-downloading the entire blockchain. Actual disk usage may be somewhat higher.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Prune &amp;block storage to</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>GB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reverting this setting requires re-downloading the entire blockchain.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>OverviewPage</name>
@@ -1416,11 +1440,11 @@ Per specificare più URL separarli con una barra verticale &quot;|&quot;.</trans
     </message>
     <message>
         <source>Never share your wallet.dat file/your private key with anyone</source>
-        <translation>Non condividere mai con nessuno il tuo file wallet.dat o la tua chiave privata.</translation>
+        <translation type="vanished">Non condividere mai con nessuno il tuo file wallet.dat o la tua chiave privata.</translation>
     </message>
     <message>
         <source>For more advanced settings use the console in &apos;Help&apos; -&gt; &apos;Debug Window&apos;</source>
-        <translation>Per accedere alle impostazioni avanzate usa la console tramite il menu &apos;Aiuto&apos; -&gt; &apos;Finestra di debug&apos;</translation>
+        <translation type="vanished">Per accedere alle impostazioni avanzate usa la console tramite il menu &apos;Aiuto&apos; -&gt; &apos;Finestra di debug&apos;</translation>
     </message>
     <message>
         <source>Encrypt your wallet with a strong passphrase for maximum security</source>
@@ -1428,7 +1452,7 @@ Per specificare più URL separarli con una barra verticale &quot;|&quot;.</trans
     </message>
     <message>
         <source>Make sure to keep your wallet updated.</source>
-        <translation>Ricordati di aggiornare il tuo portafoglio.</translation>
+        <translation type="vanished">Ricordati di aggiornare il tuo portafoglio.</translation>
     </message>
     <message>
         <source>Backup your private key to recover your coins, using &apos;File&apos; &gt; &apos;Backup Wallet&apos;</source>
@@ -1440,19 +1464,43 @@ Per specificare più URL separarli con una barra verticale &quot;|&quot;.</trans
     </message>
     <message>
         <source>Never share your private key to an untrustworthy person.</source>
-        <translation>Non condividere mai la tua chiave privata con una persona di cui non ti puoi fidare.</translation>
+        <translation type="vanished">Non condividere mai la tua chiave privata con una persona di cui non ti puoi fidare.</translation>
     </message>
     <message>
         <source>Who owns the private keys owns the coins.</source>
-        <translation>Chiunque abbia accesso alla chiave privata ha il controllo totale sul portafoglio.</translation>
+        <translation type="vanished">Chiunque abbia accesso alla chiave privata ha il controllo totale sul portafoglio.</translation>
     </message>
     <message>
         <source>To see ongoing development and contribute, checkout Dogecoin repository on GitHub!</source>
-        <translation>Per essere aggiornato sullo sviluppo di Dogecoin e contribuire, segui il repository su GitHub!</translation>
+        <translation type="vanished">Per essere aggiornato sullo sviluppo di Dogecoin e contribuire, segui il repository su GitHub!</translation>
     </message>
     <message>
         <source>Services that claim to double your dogecoins are always ponzi schemes</source>
         <translation>Tutti i servizi che promettono di moltiplicare i tuoi Dogecoin sono delle truffe.</translation>
+    </message>
+    <message>
+        <source>Never share your wallet.dat file with anyone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>For advanced operations, use the console in &apos;Help&apos; -&gt; &apos;Debug Window&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Make sure to keep your wallet software updated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Never share your private key with anyone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Who owns the private keys, owns the coins</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To see ongoing development and contribute, check out the Dogecoin Core repository on GitHub</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1760,7 +1808,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Error: Node already added</source>
-        <translation>Nodo giá aggiunto</translation>
+        <translation type="vanished">Nodo giá aggiunto</translation>
     </message>
     <message>
         <source>Node not found in connected nodes</source>
@@ -1773,6 +1821,14 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Returned OK.</source>
         <translation>OK</translation>
+    </message>
+    <message>
+        <source>Error: Node address is invalid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error: Unable to add node</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1865,11 +1921,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>%1 TB</source>
-        <translation>%1 TB</translation>
+        <translation type="vanished">%1 TB</translation>
     </message>
     <message>
         <source>%1 GB</source>
-        <translation>%1 GB</translation>
+        <translation type="vanished">%1 GB</translation>
     </message>
     <message>
         <source>%1 MB</source>
@@ -2230,7 +2286,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>WARNING: Scammers have been active, telling users to type commands here, stealing their wallet contents. Do not use this console without fully understanding the ramification of a command.</source>
-        <translation>ATTENZIONE: Truffatori potrebbero tentare di convincere utenti inesperti ad utilizzare comandi che permettono di rubare il contenuto del loro portafoglio. Non usare questa console se non conosci alla perfezione il rischio che comporta l'utilizzo di ciascun comando.</translation>
+        <translation>ATTENZIONE: Truffatori potrebbero tentare di convincere utenti inesperti ad utilizzare comandi che permettono di rubare il contenuto del loro portafoglio. Non usare questa console se non conosci alla perfezione il rischio che comporta l&apos;utilizzo di ciascun comando.</translation>
     </message>
     <message>
         <source>Network activity disabled</source>
@@ -2622,7 +2678,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Using the fallbackfee can result in sending a transaction that will take several hours or days (or never) to confirm. Consider choosing your fee manually or wait until your have validated the complete chain.</source>
-        <translation>L&apos;utilizzo del fallbackfee (commissione di transazione di riserva) può causare l&apos;invio di transazioni che impiegano ore o giorni prima di essere confermate. Prendi in considerazione la possibilitá di scegliere le commissioni di transazione manualmente o di attendere che l&apos;intera chain sia stata convalidata.</translation>
+        <translation type="vanished">L&apos;utilizzo del fallbackfee (commissione di transazione di riserva) può causare l&apos;invio di transazioni che impiegano ore o giorni prima di essere confermate. Prendi in considerazione la possibilitá di scegliere le commissioni di transazione manualmente o di attendere che l&apos;intera chain sia stata convalidata.</translation>
     </message>
     <message>
         <source>Warning: Fee estimation is currently not possible.</source>
@@ -2687,6 +2743,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>The address you selected for change is not part of this wallet. Any or all funds in your wallet may be sent to this address. Are you sure?</source>
         <translation>L&apos;indirizzo che hai selezionato come indirizzo di scambio non appartiene a questo portafoglio. I tuoi fondi potrebbero essere totalmente o in parte inviati a questo indirizzo. Sei sicuro?</translation>
+    </message>
+    <message>
+        <source>Using the fallbackfee can result in sending a transaction that will take several hours or days (or never) to confirm. Consider choosing your fee manually or wait until you have validated the complete chain.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2757,7 +2817,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>A message that was attached to the dogecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
-        <translation>Messaggio incluso nell'URI dogecoin e che sarà memorizzato con la transazione. Nota: questo messaggio non sarà inviato attraverso la rete Dogecoin.</translation>
+        <translation>Messaggio incluso nell&apos;URI dogecoin e che sarà memorizzato con la transazione. Nota: questo messaggio non sarà inviato attraverso la rete Dogecoin.</translation>
     </message>
     <message>
         <source>Pay To:</source>
@@ -2986,7 +3046,7 @@ p, li { white-space: pre-wrap; }
     <name>TransactionDesc</name>
     <message>
         <source>%1/offline</source>
-        <translation>%1/offline</translation>
+        <translation type="vanished">%1/offline</translation>
     </message>
     <message>
         <source>0/unconfirmed, %1</source>
@@ -3010,7 +3070,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>, has not been successfully broadcast yet</source>
-        <translation>, non è ancora stata trasmessa con successo</translation>
+        <translation type="vanished">, non è ancora stata trasmessa con successo</translation>
     </message>
     <message>
         <source>Date</source>
@@ -3141,7 +3201,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message numerus="yes">
         <source>, broadcast through %n node(s)</source>
-        <translation>
+        <translation type="vanished">
             <numerusform>, trasmessa attraverso %n nodo</numerusform>
             <numerusform>, trasmessa attraverso %n nodi</numerusform>
         </translation>
@@ -3163,7 +3223,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Generated coins must mature %1 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
-        <translation>I dogecoin generati devono maturare ancora per %1 blocchi prima di essere spendibili. Dopo essere stato generato, questo blocco è stato trasmesso alla rete per essere aggiunto alla blockchain. Se l&apos;inserimento nella blockchain dovesse fallire, il suo stato cambierà a "non accettato" e i dogecoin non saranno spendibili. Alle volte, questo può accadere nel caso in cui un altro nodo generi un blocco entro pochi secondi dal tuo.</translation>
+        <translation>I dogecoin generati devono maturare ancora per %1 blocchi prima di essere spendibili. Dopo essere stato generato, questo blocco è stato trasmesso alla rete per essere aggiunto alla blockchain. Se l&apos;inserimento nella blockchain dovesse fallire, il suo stato cambierà a &quot;non accettato&quot; e i dogecoin non saranno spendibili. Alle volte, questo può accadere nel caso in cui un altro nodo generi un blocco entro pochi secondi dal tuo.</translation>
     </message>
 </context>
 <context>
@@ -3193,7 +3253,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Offline</source>
-        <translation>Offline</translation>
+        <translation type="vanished">Offline</translation>
     </message>
     <message>
         <source>Unconfirmed</source>
@@ -3205,7 +3265,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>This block was not received by any other nodes and will probably not be accepted!</source>
-        <translation>Questo blocco non è stato ricevuto da alcun altro nodo e probabilmente non sarà accettato!</translation>
+        <translation type="vanished">Questo blocco non è stato ricevuto da alcun altro nodo e probabilmente non sarà accettato!</translation>
     </message>
     <message>
         <source>Generated but not accepted</source>
@@ -3538,11 +3598,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Prune: last wallet synchronisation goes beyond pruned data. You need to -reindex (download the whole blockchain again in case of pruned node)</source>
-        <translation>L&apos;ultima sincronizzazione del wallet va oltre il limite specificato per la modalità pruned. È necessario utilizzare l'opzione -reindex e scaricare nuovamente la blockchain.</translation>
+        <translation>L&apos;ultima sincronizzazione del wallet va oltre il limite specificato per la modalità pruned. È necessario utilizzare l&apos;opzione -reindex e scaricare nuovamente la blockchain.</translation>
     </message>
     <message>
         <source>Rescans are not possible in pruned mode. You will need to use -reindex which will download the whole blockchain again.</source>
-        <translation>Non è possibile un rescan in modalità pruned. È necessario utilizzare l'opzione -reindex per scaricare nuovamente tutta la blockchain.</translation>
+        <translation>Non è possibile un rescan in modalità pruned. È necessario utilizzare l&apos;opzione -reindex per scaricare nuovamente tutta la blockchain.</translation>
     </message>
     <message>
         <source>Error: A fatal internal error occurred, see debug.log for details</source>
@@ -3918,7 +3978,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Execute command when a relevant alert is received or we see a really long fork (%s in cmd is replaced by message)</source>
-        <translation>Esegue un comando in caso di ricezione di un allarme pertinente o se si rileva un fork molto lungo (%s in cmd è sostituito dal messaggio)</translation>
+        <translation type="vanished">Esegue un comando in caso di ricezione di un allarme pertinente o se si rileva un fork molto lungo (%s in cmd è sostituito dal messaggio)</translation>
     </message>
     <message>
         <source>Fees (in %s/kB) smaller than this are considered zero fee for relaying, mining and transaction creation (default: %s)</source>
@@ -4426,7 +4486,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Receive and display P2P network alerts (default: %u)</source>
-        <translation>Ricevi e mostra avvisi relativi alla reta P2P (default: %u)</translation>
+        <translation type="vanished">Ricevi e mostra avvisi relativi alla reta P2P (default: %u)</translation>
     </message>
     <message>
         <source>Send transactions with full-RBF opt-in enabled (default: %u)</source>
@@ -4491,6 +4551,14 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Use Namecoin-compatible AuxPow API structure, (default: %u)</source>
         <translation>Utilizza la struttura API AuxPow compatibile con Namecoin, (default: %u)</translation>
+    </message>
+    <message>
+        <source>Execute command when we see a really long fork (%s in cmd is replaced by message)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Specify directory where to write backups and data dumps (default datadir/backups)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
