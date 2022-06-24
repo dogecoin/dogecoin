@@ -616,13 +616,6 @@
     </message>
 </context>
 <context>
-    <name>ClientModel</name>
-    <message>
-        <source>Network Alert</source>
-        <translation type="vanished">Avviso di Rete</translation>
-    </message>
-</context>
-<context>
     <name>CoinControlDialog</name>
     <message>
         <source>Coin Selection</source>
@@ -769,12 +762,8 @@
         <translation>(resto)</translation>
     </message>
     <message>
-        <source>Can vary +/- %1 koinu(s) per input.</source>
-        <translation type="vanished">Può variare di +/- %1 koinu per input.</translation>
-    </message>
-    <message>
         <source>Can vary +/- %1 koinu per input.</source>
-        <translation type="unfinished"></translation>
+        <translation>Può variare di +/- %1 koinu per input.</translation>
     </message>
 </context>
 <context>
@@ -941,10 +930,6 @@
         <translation>Ripeti scansione</translation>
     </message>
     <message>
-        <source>Reset all key management options to default.</source>
-        <translation type="vanished">Resetta tutte le opzioni di gestione delle chiavi.</translation>
-    </message>
-    <message>
         <source>&amp;Reset</source>
         <translation>Resetta</translation>
     </message>
@@ -974,7 +959,7 @@
     </message>
     <message>
         <source>Reset this form.</source>
-        <translation type="unfinished"></translation>
+        <translation>Resetta questa form.</translation>
     </message>
 </context>
 <context>
@@ -1341,19 +1326,19 @@ Per specificare più URL separarli con una barra verticale &quot;|&quot;.</trans
     </message>
     <message>
         <source>Disables some advanced features but all blocks will still be fully validated. Reverting this setting requires re-downloading the entire blockchain. Actual disk usage may be somewhat higher.</source>
-        <translation type="unfinished"></translation>
+        <translation>Disabilita alcune funzionalitá avanzate, ma tutti i blocchi risulteranno ancora convalidati. La modifica di questa opzione richiede una nuova sincronizzazione dell&apos;intera blockchain con la rete.</translation>
     </message>
     <message>
         <source>Prune &amp;block storage to</source>
-        <translation type="unfinished"></translation>
+        <translation>Riduci lo spazio per lo storage dei &amp;blocchi a</translation>
     </message>
     <message>
         <source>GB</source>
-        <translation type="unfinished"></translation>
+        <translation>GB</translation>
     </message>
     <message>
         <source>Reverting this setting requires re-downloading the entire blockchain.</source>
-        <translation type="unfinished"></translation>
+        <translation>La modifica di questa opzione richiede una nuova sincronizzazione dell&apos;intera blockchain con la rete.</translation>
     </message>
 </context>
 <context>
@@ -1439,20 +1424,8 @@ Per specificare più URL separarli con una barra verticale &quot;|&quot;.</trans
         <translation>Suggerimento</translation>
     </message>
     <message>
-        <source>Never share your wallet.dat file/your private key with anyone</source>
-        <translation type="vanished">Non condividere mai con nessuno il tuo file wallet.dat o la tua chiave privata.</translation>
-    </message>
-    <message>
-        <source>For more advanced settings use the console in &apos;Help&apos; -&gt; &apos;Debug Window&apos;</source>
-        <translation type="vanished">Per accedere alle impostazioni avanzate usa la console tramite il menu &apos;Aiuto&apos; -&gt; &apos;Finestra di debug&apos;</translation>
-    </message>
-    <message>
         <source>Encrypt your wallet with a strong passphrase for maximum security</source>
         <translation>Cripta il portafoglio con una password complessa per maggior sicurezza</translation>
-    </message>
-    <message>
-        <source>Make sure to keep your wallet updated.</source>
-        <translation type="vanished">Ricordati di aggiornare il tuo portafoglio.</translation>
     </message>
     <message>
         <source>Backup your private key to recover your coins, using &apos;File&apos; &gt; &apos;Backup Wallet&apos;</source>
@@ -1463,44 +1436,32 @@ Per specificare più URL separarli con una barra verticale &quot;|&quot;.</trans
         <translation>Fai le dovute ricerche prima di utilizzare qualsiasi servizio criptovalute.</translation>
     </message>
     <message>
-        <source>Never share your private key to an untrustworthy person.</source>
-        <translation type="vanished">Non condividere mai la tua chiave privata con una persona di cui non ti puoi fidare.</translation>
-    </message>
-    <message>
-        <source>Who owns the private keys owns the coins.</source>
-        <translation type="vanished">Chiunque abbia accesso alla chiave privata ha il controllo totale sul portafoglio.</translation>
-    </message>
-    <message>
-        <source>To see ongoing development and contribute, checkout Dogecoin repository on GitHub!</source>
-        <translation type="vanished">Per essere aggiornato sullo sviluppo di Dogecoin e contribuire, segui il repository su GitHub!</translation>
-    </message>
-    <message>
         <source>Services that claim to double your dogecoins are always ponzi schemes</source>
         <translation>Tutti i servizi che promettono di moltiplicare i tuoi Dogecoin sono delle truffe.</translation>
     </message>
     <message>
         <source>Never share your wallet.dat file with anyone</source>
-        <translation type="unfinished"></translation>
+        <translation>Non condividere mai con nessuno il tuo file wallet.dat.</translation>
     </message>
     <message>
         <source>For advanced operations, use the console in &apos;Help&apos; -&gt; &apos;Debug Window&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Per accedere alle funzionalitá avanzate usa la console tramite il menu &apos;Aiuto&apos; -&gt; &apos;Finestra di debug&apos;</translation>
     </message>
     <message>
         <source>Make sure to keep your wallet software updated</source>
-        <translation type="unfinished"></translation>
+        <translation>Ricordati di aggiornare il tuo portafoglio.</translation>
     </message>
     <message>
         <source>Never share your private key with anyone</source>
-        <translation type="unfinished"></translation>
+        <translation>Non condividere mai con nessuno la tua chiave privata.</translation>
     </message>
     <message>
         <source>Who owns the private keys, owns the coins</source>
-        <translation type="unfinished"></translation>
+        <translation>Chiunque abbia accesso alla chiave privata ha il controllo totale sul portafoglio.</translation>
     </message>
     <message>
         <source>To see ongoing development and contribute, check out the Dogecoin Core repository on GitHub</source>
-        <translation type="unfinished"></translation>
+        <translation>Per essere aggiornato sullo sviluppo di Dogecoin e contribuire, segui il repository su GitHub!</translation>
     </message>
 </context>
 <context>
@@ -1807,10 +1768,6 @@ p, li { white-space: pre-wrap; }
         <translation>Tentativo singolo di connessione al nodo.</translation>
     </message>
     <message>
-        <source>Error: Node already added</source>
-        <translation type="vanished">Nodo giá aggiunto</translation>
-    </message>
-    <message>
         <source>Node not found in connected nodes</source>
         <translation>Nodo non trovato tra i nodi connessi</translation>
     </message>
@@ -1824,11 +1781,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Error: Node address is invalid</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore: L'indirizzo del nodo non é valido</translation>
     </message>
     <message>
         <source>Error: Unable to add node</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore: Impossibile aggiungere il nodo</translation>
     </message>
 </context>
 <context>
@@ -1918,14 +1875,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>%1 B</source>
         <translation>%1 B</translation>
-    </message>
-    <message>
-        <source>%1 TB</source>
-        <translation type="vanished">%1 TB</translation>
-    </message>
-    <message>
-        <source>%1 GB</source>
-        <translation type="vanished">%1 GB</translation>
     </message>
     <message>
         <source>%1 MB</source>
@@ -2677,10 +2626,6 @@ p, li { white-space: pre-wrap; }
         <translation>(nessuna etichetta)</translation>
     </message>
     <message>
-        <source>Using the fallbackfee can result in sending a transaction that will take several hours or days (or never) to confirm. Consider choosing your fee manually or wait until your have validated the complete chain.</source>
-        <translation type="vanished">L&apos;utilizzo del fallbackfee (commissione di transazione di riserva) può causare l&apos;invio di transazioni che impiegano ore o giorni prima di essere confermate. Prendi in considerazione la possibilitá di scegliere le commissioni di transazione manualmente o di attendere che l&apos;intera chain sia stata convalidata.</translation>
-    </message>
-    <message>
         <source>Warning: Fee estimation is currently not possible.</source>
         <translation>Attenzione: Non é possibile calcolare le commissioni di transazione in questo momento.</translation>
     </message>
@@ -2746,7 +2691,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Using the fallbackfee can result in sending a transaction that will take several hours or days (or never) to confirm. Consider choosing your fee manually or wait until you have validated the complete chain.</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;utilizzo del fallbackfee (commissione di transazione di riserva) può causare l&apos;invio di transazioni che impiegano ore o giorni prima di essere confermate. Considera la possibilitá di scegliere le commissioni di transazione manualmente o di attendere che l&apos;intera chain sia stata convalidata.</translation>
     </message>
 </context>
 <context>
@@ -3045,10 +2990,6 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>TransactionDesc</name>
     <message>
-        <source>%1/offline</source>
-        <translation type="vanished">%1/offline</translation>
-    </message>
-    <message>
         <source>0/unconfirmed, %1</source>
         <translation>0/non confermati, %1</translation>
     </message>
@@ -3067,10 +3008,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Status</source>
         <translation>Stato</translation>
-    </message>
-    <message>
-        <source>, has not been successfully broadcast yet</source>
-        <translation type="vanished">, non è ancora stata trasmessa con successo</translation>
     </message>
     <message>
         <source>Date</source>
@@ -3200,13 +3137,6 @@ p, li { white-space: pre-wrap; }
         <translation>non nella riserva di memoria</translation>
     </message>
     <message numerus="yes">
-        <source>, broadcast through %n node(s)</source>
-        <translation type="vanished">
-            <numerusform>, trasmessa attraverso %n nodo</numerusform>
-            <numerusform>, trasmessa attraverso %n nodi</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
         <source>matures in %n more block(s)</source>
         <translation>
             <numerusform>matura in %n blocco</numerusform>
@@ -3252,20 +3182,12 @@ p, li { white-space: pre-wrap; }
         <translation>Etichetta</translation>
     </message>
     <message>
-        <source>Offline</source>
-        <translation type="vanished">Offline</translation>
-    </message>
-    <message>
         <source>Unconfirmed</source>
         <translation>Non confermata</translation>
     </message>
     <message>
         <source>Confirmed (%1 confirmations)</source>
         <translation>Confermata (%1 conferme)</translation>
-    </message>
-    <message>
-        <source>This block was not received by any other nodes and will probably not be accepted!</source>
-        <translation type="vanished">Questo blocco non è stato ricevuto da alcun altro nodo e probabilmente non sarà accettato!</translation>
     </message>
     <message>
         <source>Generated but not accepted</source>
@@ -3977,10 +3899,6 @@ p, li { white-space: pre-wrap; }
         <translation>Errore: attesa per connessioni in arrivo fallita (errore riportato %s)</translation>
     </message>
     <message>
-        <source>Execute command when a relevant alert is received or we see a really long fork (%s in cmd is replaced by message)</source>
-        <translation type="vanished">Esegue un comando in caso di ricezione di un allarme pertinente o se si rileva un fork molto lungo (%s in cmd è sostituito dal messaggio)</translation>
-    </message>
-    <message>
         <source>Fees (in %s/kB) smaller than this are considered zero fee for relaying, mining and transaction creation (default: %s)</source>
         <translation>Le commissioni (in %s/kB) inferiori a questo valore sono considerate pari a zero per trasmissione, mining e creazione della transazione (default: %s)</translation>
     </message>
@@ -4485,10 +4403,6 @@ p, li { white-space: pre-wrap; }
         <translation>Continua</translation>
     </message>
     <message>
-        <source>Receive and display P2P network alerts (default: %u)</source>
-        <translation type="vanished">Ricevi e mostra avvisi relativi alla reta P2P (default: %u)</translation>
-    </message>
-    <message>
         <source>Send transactions with full-RBF opt-in enabled (default: %u)</source>
         <translation>Invia transazioni che supportano l&apos;opzione di sostituzione con commissione (RBF) (default: %u)</translation>
     </message>
@@ -4534,7 +4448,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>-discardthreshold is set very high! This is the output amount that the wallet will discard (to fee) if it is smaller than this setting.</source>
-        <translation>-discardthreshold é molto alto! Il wallet rifiuterá qualsiasi transazione se é più piccola di questo valore.</translation>
+        <translation>-discardthreshold é molto alto! Questo é il valore minimo di un output di transazione utilizzato per convalidare le transazioni del portafoglio e scartare il resto.</translation>
     </message>
     <message>
         <source>Amount under which a transaction output is considered non-standard and will not be accepted or relayed, in %s (default: %s)</source>
@@ -4546,19 +4460,19 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>The minimum transaction output size (in %s) used to validate wallet transactions and discard change (to fee) (default: %s)</source>
-        <translation>Il valore minimo di un output di transazione (in %s) utilizzato per convalidare le transazioni del portafoglio e il cambio (default: %s)</translation>
+        <translation>Il valore minimo di un output di transazione (in %s) utilizzato per convalidare le transazioni e scartare il resto (che verrá aggiunto alla commissione di transazione) (default: %s)</translation>
     </message>
     <message>
         <source>Use Namecoin-compatible AuxPow API structure, (default: %u)</source>
-        <translation>Utilizza la struttura API AuxPow compatibile con Namecoin, (default: %u)</translation>
+        <translation>Utilizza il formato API AuxPow compatibile con Namecoin, (default: %u)</translation>
     </message>
     <message>
         <source>Execute command when we see a really long fork (%s in cmd is replaced by message)</source>
-        <translation type="unfinished"></translation>
+        <translation>Esegui il comando quando viene rilevato un fork molto lungo (%s in cmd è sostituito dal messaggio)</translation>
     </message>
     <message>
         <source>Specify directory where to write backups and data dumps (default datadir/backups)</source>
-        <translation type="unfinished"></translation>
+        <translation>Specifica la cartella in cui salvare i backup e i dump di dati (default datadir/backups)</translation>
     </message>
 </context>
 </TS>
