@@ -807,6 +807,83 @@ UniValue movecmd(const JSONRPCRequest& request)
     return true;
 }
 
+UniValue rescan(const JSONRPCRequest& request)
+{
+    if (!EnsureWalletIsAvailable(request.fHelp))
+        return NullUniValue;
+
+    const int nParams = request.params.size();
+
+    if (request.fHelp || nParams > 1 || fPruneMode)
+        throw runtime_error(
+            "rescan ( \"height\" )\n"
+            "\nRescan the wallet for transactions\n"
+            "\nWARNING: this operation may take a long time!\n"
+            "\nCurrently works only on non-pruned nodes\n"
+            "\nArguments:\n"
+            "1. \"height\"  (number, optional) The block height from which to start rescanning\n"
+            "2. \"label\"            (string, optional, default=\"\") An optional label\n"
+            "3. rescan               (boolean, optional, default=true) Rescan the wallet for transactions\n"
+            "\nResult:\n"
+            "{\n"
+            "    \"before\":\n"
+            "    {\n"
+            "        \"balance\" : (numeric) The total amount in " + CURRENCY_UNIT + " received by the address before the rescan\n"
+            "        \"txcount\" : (numeric) The number of transactions received by addresses in the wallet before the rescan\n"
+            "    },\n"
+            "    \"after\":\n"
+            "    {\n"
+            "        \"balance\" : (numeric) The total amount in " + CURRENCY_UNIT + " received by the address after the rescan\n"
+            "        \"txcount\" : (numeric) The number of transactions received by addresses in the wallet after the rescan\n"
+            "    },\n"
+            "    \"blocks_scanned\" : (numeric) The number of blocks scanned during the rescan\n"
+            "    \"time_elapsed\" : (numeric) The number of seconds it took to rescan the blocks (may be zero)\n"
+            "}\n"
+            "\nNote: This call can take minutes to complete.\n"
+            "\nExamples:\n"
+            "\nRescan from block height 122345\n"
+            + HelpExampleCli("rescan", "122345") +
+            "\nRescan from the first block\n"
+            + HelpExampleCli("rescan", "") +
+            "\nAs a JSON-RPC call\n"
+            + HelpExampleRpc("rescan", "122345")
+        );
+
+
+    CBlockIndex* pblockindex = chainActive.Genesis();
+    int64_t nHeight = 0;
+
+    if (nParams == 1) {
+        nHeight = request.params[0].get_int();
+
+        if (nHeight < 0 || nHeight > chainActive.Height())
+            throw JSONRPCError(RPC_INVALID_PARAMETER, "Block height out of range");
+
+        pblockindex = chainActive[nHeight];
+    }
+
+    UniValue beforeObj(UniValue::VOBJ);
+    beforeObj.pushKV("balance", ValueFromAmount(pwalletMain->GetBalance()));
+    beforeObj.pushKV("txcount", (int)pwalletMain->mapWallet.size());
+
+    int64_t beforeTime = GetTime();
+
+    pwalletMain->ScanForWalletTransactions(pblockindex, true);
+
+    UniValue afterObj(UniValue::VOBJ);
+    afterObj.pushKV("balance", ValueFromAmount(pwalletMain->GetBalance()));
+    afterObj.pushKV("txcount", (int)pwalletMain->mapWallet.size());
+
+    UniValue ret(UniValue::VOBJ);
+    ret.pushKV("before", beforeObj);
+    ret.pushKV("after", afterObj);
+
+    ret.pushKV("blocks_scanned", chainActive.Height() - nHeight);
+    ret.pushKV("time_elapsed", GetTime() - beforeTime);
+
+    return ret;
+}
+
 
 UniValue sendfrom(const JSONRPCRequest& request)
 {
@@ -3183,6 +3260,7 @@ static const CRPCCommand commands[] =
     { "wallet",             "listunspent",              &listunspent,              false,  {"minconf","maxconf","addresses","include_unsafe","query_options"} },
     { "wallet",             "lockunspent",              &lockunspent,              true,   {"unlock","transactions"} },
     { "wallet",             "move",                     &movecmd,                  false,  {"fromaccount","toaccount","amount","minconf","comment"} },
+    { "wallet",             "rescan",                   &rescan,                   false,  {"height"} },
     { "wallet",             "sendfrom",                 &sendfrom,                 false,  {"fromaccount","toaddress","amount","minconf","comment","comment_to"} },
     { "wallet",             "sendmany",                 &sendmany,                 false,  {"fromaccount","amounts","minconf","comment","subtractfeefrom"} },
     { "wallet",             "sendtoaddress",            &sendtoaddress,            false,  {"address","amount","comment","comment_to","subtractfeefromamount"} },

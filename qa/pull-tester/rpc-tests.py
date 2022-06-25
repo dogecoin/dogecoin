@@ -169,6 +169,7 @@ testScripts = [
     'listsinceblock.py',
     'p2p-leaktests.py',
     'replace-by-fee.py',
+    'rescan.py',
     'wallet_create_tx.py',
     'liststucktransactions.py',
     'addnode.py',
