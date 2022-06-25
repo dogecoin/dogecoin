@@ -524,6 +524,9 @@ BOOST_AUTO_TEST_CASE(GetMinimumFee_dust_test)
     // Confirm dust penalty fees are added on
     // Because this is ran by the wallet, this takes the discardThreshold,
     // not the dust limit
+    
+    CWallet::discardThreshold = COIN;
+
     CAmount nDustPenalty = COIN;
 
     BOOST_CHECK_EQUAL(CWallet::GetMinimumFee(tx, 963, 0, pool), nDustPenalty + (nMinTxFee * 0.963));
@@ -540,7 +543,7 @@ BOOST_AUTO_TEST_CASE(GetMinimumFee_dust_test)
     BOOST_CHECK_EQUAL(CWallet::GetMinimumFee(tx, 1000, 0, pool), nMinTxFee * 1.000);
     BOOST_CHECK_EQUAL(CWallet::GetMinimumFee(tx, 1999, 0, pool), nMinTxFee * 1.999);
 
-    CWallet::discardThreshold = COIN;
+    CWallet::discardThreshold = COIN / 100;
 }
 
 BOOST_AUTO_TEST_SUITE_END()
