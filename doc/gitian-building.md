@@ -67,12 +67,74 @@ newgrp docker
 You can now use the `--docker` option with `gitian-build.sh` in the [Usage](#usage) section of this guide.
 
 ### LXC
+
+**Please note that as of July 2022, the only host system that has been used to
+build successfully is Ubuntu Bionic (18.04). If your host is newer than that,
+it is easier to use Docker for building, see the section above.**
+
 Install the following package :
 ```
-lxc
+lxc debootstrap
 ```
 
 Then use `--lxc` option with `gitian-build.sh`.
+
+#### Troubleshooting
+
+##### Package download errors 
+
+Some ubuntu mirrors disallow the downloading of lxc 3 into the guest machine.
+To solve this, add the following line to `/etc/apt-cacher-ng/backends_ubuntu`:
+
+```
+http://archive.ubuntu.com/ubuntu
+```  
+
+This will only use the official ubuntu archive site as a source for any packages
+that we have not cached.
+
+##### Networking issues
+
+In some installations, additional configuration is needed to make your LXC
+container communicate with the host machine. This mainly involves 3 environment
+variables:
+
+- `LXC_BRIDGE`
+- `MIRROR_HOST`
+- `LXC_GUEST_IP`
+
+A useful tool to help you with this is running `ip addr` on the host:
+
+```console
+$ ip addr
+1: lo: ...
+2: eth0: ...
+3: lxcbr0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
+    link/ether 00:16:3e:00:00:00 brd ff:ff:ff:ff:ff:ff
+    inet 10.0.3.1/24 brd 10.0.3.255 scope global lxcbr0
+       valid_lft forever preferred_lft forever
+4: virbr0: ...
+5: docker0: ...
+```
+
+In the above example, we identify that there is a bridge called `lxcbr0` rather
+than the default `br0`, the host IP address is `10.0.3.1` and the netmask (range
+of valid IP addresses in the subnet) is 24 bits, meaning we can assign an IP
+address to the client in the last 8 bits of the range (which is exactly the
+last segment after the `.`).
+
+Say in this case, we'll assign `69` to the gitian builder VM. Configuration for
+the `gitian-build.sh` script would become:
+
+```bash
+export LXC_BRIDGE=lxcbr0
+export MIRROR_HOST=10.0.3.1
+export LXC_GUEST_IP=10.0.3.69
+```
+
+after executing the above, running `gitian-builder.sh` with the `--lxc` flag
+will use these variables for connecting to the host, for example for updating
+the images using `apt-cacher` from above.
 
 ### KVM
 
