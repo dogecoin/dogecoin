@@ -612,14 +612,7 @@
     </message>
     <message>
         <source>Runaway exception</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ClientModel</name>
-    <message>
-        <source>Network Alert</source>
-        <translation type="vanished">Netwerkwaarschuwing</translation>
+        <translation>Onverwachte fout</translation>
     </message>
 </context>
 <context>
@@ -757,10 +750,6 @@
         <translation>Dit label wordt rood, als een ontvanger een bedrag van minder dan de huidige dust-drempel gekregen heeft.</translation>
     </message>
     <message>
-        <source>Can vary +/- %1 koinu(s) per input.</source>
-        <translation type="vanished">Kan per input +/- %1 koinu(s)  variëren.</translation>
-    </message>
-    <message>
         <source>(no label)</source>
         <translation>(geen label)</translation>
     </message>
@@ -774,7 +763,7 @@
     </message>
     <message>
         <source>Can vary +/- %1 koinu per input.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan per input +/- %1 koinu varieren.</translation>
     </message>
 </context>
 <context>
@@ -970,7 +959,7 @@
     </message>
     <message>
         <source>Reset this form.</source>
-        <translation type="unfinished"></translation>
+        <translation>Herstel dit formulier.</translation>
     </message>
 </context>
 <context>
@@ -1336,19 +1325,19 @@
     </message>
     <message>
         <source>Disables some advanced features but all blocks will still be fully validated. Reverting this setting requires re-downloading the entire blockchain. Actual disk usage may be somewhat higher.</source>
-        <translation type="unfinished"></translation>
+        <translation>Schakelt enkele geavanceerde functies uit maar alle blokken worden nog steeds volledig gevalideerd. Deze instelling terugdraaien vereist dat de gehele blok keten opnieuw gedownload wordt. In realiteit kan de gebruikte diskruimte hoger uitvallen.</translation>
     </message>
     <message>
         <source>Prune &amp;block storage to</source>
-        <translation type="unfinished"></translation>
+        <translation>Limiteer blok opslagruimte tot</translation>
     </message>
     <message>
         <source>GB</source>
-        <translation type="unfinished"></translation>
+        <translation>GB</translation>
     </message>
     <message>
         <source>Reverting this setting requires re-downloading the entire blockchain.</source>
-        <translation type="unfinished"></translation>
+        <translation>Deze instelling terugdraaien vereist dat de gehele blok keten opnieuw gedownload wordt.</translation>
     </message>
 </context>
 <context>
@@ -1434,20 +1423,8 @@
         <translation>Tip</translation>
     </message>
     <message>
-        <source>Never share your wallet.dat file/your private key with anyone</source>
-        <translation type="vanished">Deel uw wallet.dat bestand/uw privésleutel nooit met iemand</translation>
-    </message>
-    <message>
-        <source>For more advanced settings use the console in &apos;Help&apos; -&gt; &apos;Debug Window&apos;</source>
-        <translation type="vanished">Gebruik voor meer geavanceerde instellingen de console in &apos;Help&apos; -&gt; &apos;Foutopsporingsvenster&apos;</translation>
-    </message>
-    <message>
         <source>Encrypt your wallet with a strong passphrase for maximum security</source>
         <translation>Versleutel uw portemonnee met een sterk wachtwoord voor maximale veiligheid</translation>
-    </message>
-    <message>
-        <source>Make sure to keep your wallet updated.</source>
-        <translation type="vanished">Zorg ervoor dat u uw portemonnee up-to-date houdt.</translation>
     </message>
     <message>
         <source>Backup your private key to recover your coins, using &apos;File&apos; &gt; &apos;Backup Wallet&apos;</source>
@@ -1458,44 +1435,32 @@
         <translation>Doe altijd je eigen onderzoek voordat je een externe cryptocurrency-service gebruikt</translation>
     </message>
     <message>
-        <source>Never share your private key to an untrustworthy person.</source>
-        <translation type="vanished">Deel uw privésleutel nooit met een onbetrouwbaar persoon.</translation>
-    </message>
-    <message>
-        <source>Who own the private keys own the coins.</source>
-        <translation type="vanished">Wie de privésleutels bezit, bezit de munten.</translation>
-    </message>
-    <message>
-        <source>To see ongoing development and contribute, checkout Dogecoin repository on GitHub!</source>
-        <translation type="vanished">Bekijk de Dogecoin-repository op GitHub om de lopende ontwikkeling te zien en bij te dragen!</translation>
-    </message>
-    <message>
         <source>Services that claim to double your dogecoins are always ponzi schemes</source>
         <translation>Diensten die beweren uw dogecoins te verdubbelen zijn altijd ponzifraude</translation>
     </message>
     <message>
         <source>Never share your wallet.dat file with anyone</source>
-        <translation type="unfinished"></translation>
+        <translation>Deel uw wallet.dat bestand nooit met iemand</translation>
     </message>
     <message>
         <source>For advanced operations, use the console in &apos;Help&apos; -&gt; &apos;Debug Window&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Voor meer geavanceerde functies, gebruik de console in &apos;Help&apos; -&gt; &apos;Foutopsporingsvenster&apos;</translation>
     </message>
     <message>
         <source>Make sure to keep your wallet software updated</source>
-        <translation type="unfinished"></translation>
+        <translation>Zorg ervoor dat u uw portemonnee software up-to-date houdt</translation>
     </message>
     <message>
         <source>Never share your private key with anyone</source>
-        <translation type="unfinished"></translation>
+        <translation>Deel uw privésleutel nooit met iemand</translation>
     </message>
     <message>
         <source>Who owns the private keys, owns the coins</source>
-        <translation type="unfinished"></translation>
+        <translation>Wie de privésleutels bezit, bezit de munten</translation>
     </message>
     <message>
         <source>To see ongoing development and contribute, check out the Dogecoin Core repository on GitHub</source>
-        <translation type="unfinished"></translation>
+        <translation>Om lopende ontwikkeling te zien en een bijdrage te geven, bekijk de Dogecoin Core repository op GitHub</translation>
     </message>
 </context>
 <context>
@@ -1518,51 +1483,51 @@
     </message>
     <message>
         <source>1</source>
-        <translation type="unfinished"></translation>
+        <translation>1</translation>
     </message>
     <message>
         <source>2</source>
-        <translation type="unfinished"></translation>
+        <translation>2</translation>
     </message>
     <message>
         <source>3</source>
-        <translation type="unfinished"></translation>
+        <translation>2</translation>
     </message>
     <message>
         <source>4</source>
-        <translation type="unfinished"></translation>
+        <translation>4</translation>
     </message>
     <message>
         <source>5</source>
-        <translation type="unfinished"></translation>
+        <translation>5</translation>
     </message>
     <message>
         <source>6</source>
-        <translation type="unfinished"></translation>
+        <translation>6</translation>
     </message>
     <message>
         <source>7</source>
-        <translation type="unfinished"></translation>
+        <translation>7</translation>
     </message>
     <message>
         <source>8</source>
-        <translation type="unfinished"></translation>
+        <translation>8</translation>
     </message>
     <message>
         <source>9</source>
-        <translation type="unfinished"></translation>
+        <translation>9</translation>
     </message>
     <message>
         <source>10</source>
-        <translation type="unfinished"></translation>
+        <translation>10</translation>
     </message>
     <message>
         <source>11</source>
-        <translation type="unfinished"></translation>
+        <translation>11</translation>
     </message>
     <message>
         <source>12</source>
-        <translation type="unfinished"></translation>
+        <translation>12</translation>
     </message>
     <message>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -1570,7 +1535,11 @@
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>Public Key:</source>
@@ -1802,10 +1771,6 @@ p, li { white-space: pre-wrap; }
         <translation>één poging tot node geprobeerd.</translation>
     </message>
     <message>
-        <source>Error: Node already added</source>
-        <translation type="vanished">Node is al toegevoegd</translation>
-    </message>
-    <message>
         <source>Node not found in connected nodes</source>
         <translation>Node niet gevonden in geconnecteerde nodes</translation>
     </message>
@@ -1819,11 +1784,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Error: Node address is invalid</source>
-        <translation type="unfinished"></translation>
+        <translation>Fout: Node adres is ongeldig</translation>
     </message>
     <message>
         <source>Error: Unable to add node</source>
-        <translation type="unfinished"></translation>
+        <translation>Fout: Het is niet gelukt de node toe te voegen</translation>
     </message>
 </context>
 <context>
@@ -1919,24 +1884,12 @@ p, li { white-space: pre-wrap; }
         <translation>%1 B</translation>
     </message>
     <message>
-        <source>%1 TB</source>
-        <translation type="vanished">%1 TB</translation>
-    </message>
-    <message>
-        <source>%1 GB</source>
-        <translation type="vanished">%1 GB</translation>
-    </message>
-    <message>
         <source>%1 MB</source>
         <translation>%1 MB</translation>
     </message>
     <message>
-        <source>%1 KB</source>
-        <translation type="vanished">%1 KB</translation>
-    </message>
-    <message>
         <source>%1 kB</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 kB</translation>
     </message>
 </context>
 <context>
@@ -2720,10 +2673,6 @@ p, li { white-space: pre-wrap; }
         <translation>(geen label)</translation>
     </message>
     <message>
-        <source>Using the fallbackfee can result in sending a transaction that will take several hours or days (or never) to confirm. Consider choosing your fee manually or wait until your have validated the complete chain.</source>
-        <translation type="vanished">Het gebruik van de terugvalvergoeding kan resulteren in het verzenden van een transactie die enkele uren of dagen (of nooit) nodig heeft om te bevestigen. Overweeg om uw tarief handmatig te kiezen of wacht tot u de volledige keten heeft gevalideerd.</translation>
-    </message>
-    <message>
         <source>Warning: Fee estimation is currently not possible.</source>
         <translation>Een schatting van de kosten is momenteel niet mogelijk.</translation>
     </message>
@@ -2745,7 +2694,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Using the fallbackfee can result in sending a transaction that will take several hours or days (or never) to confirm. Consider choosing your fee manually or wait until you have validated the complete chain.</source>
-        <translation type="unfinished"></translation>
+        <translation>Het gebruik van de terugvalvergoeding kan resulteren in het verzenden van een transactie die enkele uren of dagen (of nooit) nodig heeft om te bevestigen. Overweeg om uw tarief handmatig te kiezen of wacht tot u de volledige keten heeft gevalideerd.</translation>
     </message>
 </context>
 <context>
@@ -3059,10 +3008,6 @@ p, li { white-space: pre-wrap; }
         <translation>geconflicteerd met een transactie met %1 confirmaties</translation>
     </message>
     <message>
-        <source>%1/offline</source>
-        <translation type="vanished">%1/offline</translation>
-    </message>
-    <message>
         <source>0/unconfirmed, %1</source>
         <translation>0/onbevestigd, %1</translation>
     </message>
@@ -3089,10 +3034,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Status</source>
         <translation>Status</translation>
-    </message>
-    <message>
-        <source>, has not been successfully broadcast yet</source>
-        <translation type="vanished">, is nog niet met succes uitgezonden</translation>
     </message>
     <message>
         <source>Date</source>
@@ -3255,10 +3196,6 @@ p, li { white-space: pre-wrap; }
         <translation>Open tot %1</translation>
     </message>
     <message>
-        <source>Offline</source>
-        <translation type="vanished">Offline</translation>
-    </message>
-    <message>
         <source>Unconfirmed</source>
         <translation>Onbevestigd</translation>
     </message>
@@ -3281,10 +3218,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Immature (%1 confirmations, will be available after %2)</source>
         <translation>Niet beschikbaar (%1 bevestigingen, zal beschikbaar zijn na %2)</translation>
-    </message>
-    <message>
-        <source>This block was not received by any other nodes and will probably not be accepted!</source>
-        <translation type="vanished">Dit blok is niet ontvangen bij andere nodes en zal waarschijnlijk niet worden geaccepteerd!</translation>
     </message>
     <message>
         <source>Generated but not accepted</source>
@@ -4025,10 +3958,6 @@ p, li { white-space: pre-wrap; }
         <translation>Fout: luisteren naar binnenkomende verbindingen mislukt (luisteren gaf foutmelding %s)</translation>
     </message>
     <message>
-        <source>Execute command when a relevant alert is received or we see a really long fork (%s in cmd is replaced by message)</source>
-        <translation type="vanished">Voer opdracht uit zodra een waarschuwing is ontvangen of wanneer we een erg lange fork detecteren (%s in opdracht wordt vervangen door bericht)</translation>
-    </message>
-    <message>
         <source>Fees (in %s/kB) smaller than this are considered zero fee for relaying, mining and transaction creation (default: %s)</source>
         <translation>Transactiekosten (in %s/kB) kleiner dan dit worden beschouw dat geen transactiekosten in rekening worden gebracht voor doorgeven, mijnen en transactiecreatie (standaard: %s)</translation>
     </message>
@@ -4513,10 +4442,6 @@ p, li { white-space: pre-wrap; }
         <translation>Meer</translation>
     </message>
     <message>
-        <source>Receive and display P2P network alerts (default: %u)</source>
-        <translation type="vanished">P2P-netwerkwaarschuwingen ontvangen en weergeven (default: %u)</translation>
-    </message>
-    <message>
         <source>Such expensive</source>
         <translation>Zo duur</translation>
     </message>
@@ -4546,11 +4471,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Execute command when we see a really long fork (%s in cmd is replaced by message)</source>
-        <translation type="unfinished"></translation>
+        <translation>Voer opdracht uit wanneer we een erg lange fork detecteren (%s in opdracht wordt vervangen door bericht)</translation>
     </message>
     <message>
         <source>Specify directory where to write backups and data dumps (default datadir/backups)</source>
-        <translation type="unfinished"></translation>
+        <translation>Specificeer de folder waar backups en data dumps geschreven worden (default: datadir/backups)</translation>
     </message>
 </context>
 </TS>
