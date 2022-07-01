@@ -530,7 +530,7 @@
     </message>
     <message>
         <source>Connecting to peers...</source>
-        <translation>Gelijke worden verbonden...</translation>
+        <translation>Peers worden verbonden...</translation>
     </message>
     <message>
         <source>Catching up...</source>
@@ -623,7 +623,7 @@
     </message>
     <message>
         <source>Quantity:</source>
-        <translation>Kwantiteit</translation>
+        <translation>Kwantiteit:</translation>
     </message>
     <message>
         <source>Bytes:</source>
@@ -631,11 +631,11 @@
     </message>
     <message>
         <source>Amount:</source>
-        <translation>Bedrag:</translation>
+        <translation>Brutobedrag:</translation>
     </message>
     <message>
         <source>Fee:</source>
-        <translation>Transactiekosten:</translation>
+        <translation>Kosten:</translation>
     </message>
     <message>
         <source>Dust:</source>
@@ -643,7 +643,7 @@
     </message>
     <message>
         <source>After Fee:</source>
-        <translation>Naheffing:</translation>
+        <translation>Nettobedrag:</translation>
     </message>
     <message>
         <source>Change:</source>
@@ -2442,7 +2442,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Coin Control Features</source>
-        <translation>Coin controle opties</translation>
+        <translation>Geavanceerde muntselectie</translation>
     </message>
     <message>
         <source>Inputs...</source>
@@ -2454,7 +2454,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Insufficient funds!</source>
-        <translation>Onvoldoende fonds!</translation>
+        <translation>Onvoldoende saldo!</translation>
     </message>
     <message>
         <source>Quantity:</source>
@@ -2466,7 +2466,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Amount:</source>
-        <translation>Bedrag:</translation>
+        <translation>Brutobedrag:</translation>
     </message>
     <message>
         <source>Fee:</source>
@@ -2474,7 +2474,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>After Fee:</source>
-        <translation>Naheffing:</translation>
+        <translation>Nettobedrag:</translation>
     </message>
     <message>
         <source>Change:</source>
@@ -3005,7 +3005,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>conflicted with a transaction with %1 confirmations</source>
-        <translation>geconflicteerd met een transactie met %1 confirmaties</translation>
+        <translation>geconflicteerd met een transactie met %1 bevestigingen</translation>
     </message>
     <message>
         <source>0/unconfirmed, %1</source>
@@ -4459,7 +4459,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Invalid amount for -discardthreshold=&lt;amount&gt;: &apos;%s&apos; (must be at least the dust limit of %s to prevent stuck transactions)</source>
-        <translation>Ongeldig bedrag voor -discardthreshold=&lt;amount&gt;: &apos;%s&apos; (moet minimaal de stoflimiet zijn van om vastgelopen transacties te voorkomen)</translation>
+        <translation>Ongeldig bedrag voor -discardthreshold=&lt;amount&gt;: &apos;%s&apos; (moet minimaal de stoflimiet zijn van %s om vastgelopen transacties te voorkomen)</translation>
     </message>
     <message>
         <source>The minimum transaction output size (in %s) used to validate wallet transactions and discard change (to fee) (default: %s)</source>
