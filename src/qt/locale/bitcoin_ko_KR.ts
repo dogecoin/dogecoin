@@ -972,7 +972,7 @@
     </message>
     <message>
         <source>Reset this form.</source>
-        <translation type="unfinished"></translation>
+        <translation>폼 초기화.</translation>
     </message>
 </context>
 <context>
@@ -1336,7 +1336,7 @@
     </message>
     <message>
         <source>Disables some advanced features but all blocks will still be fully validated. Reverting this setting requires re-downloading the entire blockchain. Actual disk usage may be somewhat higher.</source>
-        <translation type="unfinished"></translation>
+        <translation>고급 설정 일부를 비활성화 하지만 모든 블록은 검증 상태를 유지한다. 이 설정을 되돌리기 위해서는 블록체인 전체를 다시 다운로드 해야한다. 실질적인 디스크 사용량은 더 높을 수 있다.</translation>
     </message>
     <message>
         <source>Prune &amp;block storage to</source>
@@ -1348,7 +1348,7 @@
     </message>
     <message>
         <source>Reverting this setting requires re-downloading the entire blockchain.</source>
-        <translation type="unfinished"></translation>
+        <translation>이 설정을 되돌리기 위해서는 블록체인 전체를 다시 다운로드 해야한다.</translation>
     </message>
 </context>
 <context>
@@ -1475,7 +1475,7 @@
     </message>
     <message>
         <source>Never share your wallet.dat file with anyone</source>
-        <translation type="unfinished"></translation>
+        <translation>절대 타인과 wallet.dat 파일을 공유하지 마세요</translation>
     </message>
     <message>
         <source>For advanced operations, use the console in &apos;Help&apos; -&gt; &apos;Debug Window&apos;</source>
@@ -1483,19 +1483,19 @@
     </message>
     <message>
         <source>Make sure to keep your wallet software updated</source>
-        <translation type="unfinished"></translation>
+        <translation>항상 지갑 소프웨어를 최신 버전으로 업데이트 하세요</translation>
     </message>
     <message>
         <source>Never share your private key with anyone</source>
-        <translation type="unfinished"></translation>
+        <translation>절대 타인과 개인 키를 공유하지 마세요</translation>
     </message>
     <message>
         <source>Who owns the private keys, owns the coins</source>
-        <translation type="unfinished"></translation>
+        <translation>개인 키를 가지는 자는, 코인을 가진다</translation>
     </message>
     <message>
         <source>To see ongoing development and contribute, check out the Dogecoin Core repository on GitHub</source>
-        <translation type="unfinished"></translation>
+        <translation>진행 중인 개발을 확인하고 기여하려면 GitHub에서 도지코인 저장소를 확인하세요!</translation>
     </message>
 </context>
 <context>
@@ -1823,11 +1823,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Error: Node address is invalid</source>
-        <translation type="unfinished"></translation>
+        <translation>에러: 노드 주소가 올바르지 않습니다</translation>
     </message>
     <message>
         <source>Error: Unable to add node</source>
-        <translation type="unfinished"></translation>
+        <translation>에러: 노드 추가 할 수 없습니다</translation>
     </message>
 </context>
 <context>
@@ -2743,7 +2743,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Using the fallbackfee can result in sending a transaction that will take several hours or days (or never) to confirm. Consider choosing your fee manually or wait until you have validated the complete chain.</source>
-        <translation type="unfinished"></translation>
+        <translation>fallback fee를 이용하게 되면 송금 확인은 몇시간, 혹은 몇일 (또는 영원히)걸릴 수 있습니다. 수동으로 fee를 설정하거나 블록체인 전체를 검증할때까지 기다려 보는 선택지를 생각 해주세요.</translation>
     </message>
 </context>
 <context>
