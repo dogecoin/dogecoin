@@ -55,11 +55,11 @@
     </message>
     <message>
         <source>Such sending addresses</source>
-        <translation>A enviar endereços</translation>
+        <translation>Tal a enviar endereços</translation>
     </message>
     <message>
         <source>Much receiving addresses</source>
-        <translation>A receber endereços</translation>
+        <translation>Muito a receber endereços</translation>
     </message>
     <message>
         <source>&amp;Copy Address</source>
@@ -219,7 +219,7 @@
     </message>
     <message>
         <source>&amp;Wow</source>
-        <translation>&amp;Resumo</translation>
+        <translation>&amp;Wow</translation>
     </message>
     <message>
         <source>Node</source>
@@ -287,7 +287,7 @@
     </message>
     <message>
         <source>&amp;Much receiving addresses...</source>
-        <translation>A &amp;receber os endereços...</translation>
+        <translation>&amp;Muito a receber endereços...</translation>
     </message>
     <message>
         <source>Open &amp;URI...</source>
@@ -347,7 +347,7 @@
     </message>
     <message>
         <source>&amp;Much Receive</source>
-        <translation>&amp;Receber</translation>
+        <translation>&amp;Muito Receber</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>
@@ -458,34 +458,24 @@
         <translation>Recuperando o atraso...</translation>
     </message>
     <message>
-        <source>Date: %1
-</source>
-        <translation>Data: %1
-</translation>
+        <source>Date: %1</source>
+        <translation>Data: %1</translation>
     </message>
     <message>
-        <source>Amount: %1
-</source>
-        <translation>Valor: %1
-</translation>
+        <source>Amount: %1</source>
+        <translation>Valor: %1</translation>
     </message>
     <message>
-        <source>Type: %1
-</source>
-        <translation>Tipo: %1
-</translation>
+        <source>Type: %1</source>
+        <translation>Tipo: %1</translation>
     </message>
     <message>
-        <source>Label: %1
-</source>
-        <translation>Etiqueta: %1
-</translation>
+        <source>Label: %1</source>
+        <translation>Etiqueta: %1</translation>
     </message>
     <message>
-        <source>Address: %1
-</source>
-        <translation>Endereço: %1
-</translation>
+        <source>Address: %1</source>
+        <translation>Endereço: %1</translation>
     </message>
     <message>
         <source>Sent transaction</source>
@@ -511,7 +501,7 @@
         <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;locked&lt;/b&gt;</source>
         <translation>A carteira está &lt;b&gt;encriptada&lt;/b&gt; e atualmente &lt;b&gt;bloqueada&lt;/b&gt;</translation>
     </message>
-    </context>
+</context>
 <context>
     <name>CoinControlDialog</name>
     <message>
@@ -536,7 +526,7 @@
     </message>
     <message>
         <source>Dust:</source>
-        <translation>Lixo:</translation>
+        <translation>Pó:</translation>
     </message>
     <message>
         <source>After Fee:</source>
@@ -671,7 +661,7 @@
     </message>
     <message>
         <source>&amp;Address</source>
-        <translation>E&amp;ndereço</translation>
+        <translation>&amp;Endereço</translation>
     </message>
     <message>
         <source>Could not unlock wallet.</source>
@@ -901,12 +891,11 @@
     </message>
     <message>
         <source>Minimize instead of exit the application when the window is closed. When this option is enabled, the application will be closed only after selecting Exit in the menu.</source>
-        <translation>Minimize ao invés de sair da aplicação quando a janela é fechada. Com esta  opção selecionada, a aplicação apenas será encerrada quando escolher Sair da aplicação no menú.</translation>
+        <translation>Minimize invés de sair da aplicação quando a janela é fechada. Com esta opção selecionada a aplicação apenas será encerrada quando escolher Sair da aplicação no menú.</translation>
     </message>
     <message>
         <source>Third party URLs (e.g. a block explorer) that appear in the transactions tab as context menu items. %s in the URL is replaced by transaction hash. Multiple URLs are separated by vertical bar |.</source>
-        <translation>URLs de outrem (ex. um explorador de blocos) que aparece no separador de transações como itens do menu de contexto.
-%s do URL é substituído por hash de transação. Vários URLs são separados por barra vertical |.</translation>
+        <translation>URLs de outrem (ex. um explorador de blocos) que aparece no separador de transações como itens do menu de contexto. %s do URL é substituído por hash de transação. Vários URLs são separados por barra vertical |.</translation>
     </message>
     <message>
         <source>Third party transaction URLs</source>
@@ -1109,7 +1098,7 @@
     </message>
     <message>
         <source>Your current spendable balance</source>
-        <translation>O seu saldo (gastável) disponível</translation>
+        <translation>O seu saldo (que pode gastar) disponível</translation>
     </message>
     <message>
         <source>Pending:</source>
@@ -1194,18 +1183,18 @@
         <source>Error communicating with %1: %2</source>
         <translation>Erro ao comunicar com %1: %2</translation>
     </message>
-    </context>
+</context>
 <context>
     <name>PeerTableModel</name>
     <message>
         <source>User Agent</source>
-        <translation>Agente Usuário</translation>
+        <translation>Agente do Utilizador</translation>
     </message>
     <message>
         <source>Node/Service</source>
         <translation>Nó/Serviço</translation>
     </message>
-    </context>
+</context>
 <context>
     <name>QObject</name>
     <message>
@@ -1214,7 +1203,7 @@
     </message>
     <message>
         <source>Enter a Dogecoin address (e.g. %1)</source>
-        <translation>Entre um endereço Dogecoin (ex. %1)</translation>
+        <translation>Introduza um endereço Dogecoin (ex. %1)</translation>
     </message>
     <message>
         <source>%1 d</source>
@@ -1248,13 +1237,13 @@
         <source>%1 and %2</source>
         <translation>%1 e %2</translation>
     </message>
-    </context>
+</context>
 <context>
     <name>QObject::QObject</name>
-    </context>
+</context>
 <context>
     <name>QRImageWidget</name>
-    </context>
+</context>
 <context>
     <name>RPCConsole</name>
     <message>
@@ -1363,15 +1352,15 @@
     </message>
     <message>
         <source>User Agent</source>
-        <translation>Agente Usuário</translation>
+        <translation>Agente do Utilizador</translation>
     </message>
     <message>
         <source>Decrease font size</source>
-        <translation>Diminuir tamanho da letra</translation>
+        <translation>Diminuir o tamanho da letra</translation>
     </message>
     <message>
         <source>Increase font size</source>
-        <translation>Aumentar tamanho da letra</translation>
+        <translation>Aumentar o tamanho da letra</translation>
     </message>
     <message>
         <source>Services</source>
@@ -1471,11 +1460,11 @@
     </message>
     <message>
         <source>Use up and down arrows to navigate history, and &lt;b&gt;Ctrl-L&lt;/b&gt; to clear screen.</source>
-        <translation>Use as setas para cima e para baixo para navegar no histórico e &lt;b&gt;Ctrl-L&lt;/b&gt; para limpar o ecrã.</translation>
+        <translation>Utilize as setas para cima e para baixo para navegar no histórico e &lt;b&gt;Ctrl-L&lt;/b&gt; para limpar o ecrã.</translation>
     </message>
     <message>
         <source>Type &lt;b&gt;help&lt;/b&gt; for an overview of available commands.</source>
-        <translation>Insira &lt;b&gt;help&lt;/b&gt; para visualizar os comandos disponíveis.</translation>
+        <translation>Introduza &lt;b&gt;help&lt;/b&gt; para visualizar os comandos disponíveis.</translation>
     </message>
     <message>
         <source>%1 B</source>
@@ -1617,11 +1606,11 @@
     </message>
     <message>
         <source>Copy &amp;Address</source>
-        <translation>Copi&amp;ar Endereço</translation>
+        <translation>Copiar Endereço</translation>
     </message>
     <message>
         <source>&amp;Save Image...</source>
-        <translation>&amp;Salvar Imagem...</translation>
+        <translation>&amp;Gravar Imagem...</translation>
     </message>
     <message>
         <source>Address</source>
@@ -1635,7 +1624,7 @@
         <source>Label</source>
         <translation>Etiqueta</translation>
     </message>
-    </context>
+</context>
 <context>
     <name>RecentRequestsTableModel</name>
     <message>
@@ -1646,7 +1635,7 @@
         <source>(no label)</source>
         <translation>(sem etiqueta)</translation>
     </message>
-    </context>
+</context>
 <context>
     <name>SendCoinsDialog</name>
     <message>
@@ -1735,7 +1724,7 @@
     </message>
     <message>
         <source>(read the tooltip)</source>
-        <translation>(leia a dica)</translation>
+        <translation>(ler a dica)</translation>
     </message>
     <message>
         <source>Recommended:</source>
@@ -1771,7 +1760,7 @@
     </message>
     <message>
         <source>Dust:</source>
-        <translation>Lixo:</translation>
+        <translation>Pó:</translation>
     </message>
     <message>
         <source>Clear &amp;All</source>
@@ -1878,7 +1867,7 @@
     </message>
     <message>
         <source>Paste address from clipboard</source>
-        <translation>Cole endereço da área de transferência</translation>
+        <translation>Cole o endereço da área de transferência</translation>
     </message>
     <message>
         <source>Alt+P</source>
@@ -1924,10 +1913,10 @@
         <source>Memo:</source>
         <translation>Memorando:</translation>
     </message>
-    </context>
+</context>
 <context>
     <name>SendConfirmationDialog</name>
-    </context>
+</context>
 <context>
     <name>ShutdownWindow</name>
     <message>
@@ -2025,7 +2014,7 @@
         <source>Reset all verify message fields</source>
         <translation>Repor todos os campos de verificação de mensagem</translation>
     </message>
-    </context>
+</context>
 <context>
     <name>SplashScreen</name>
     <message>
@@ -2050,14 +2039,14 @@
         <source>Amount</source>
         <translation>Valor</translation>
     </message>
-    </context>
+</context>
 <context>
     <name>TransactionDescDialog</name>
     <message>
         <source>This pane shows a detailed description of the transaction</source>
         <translation>Esta janela mostra uma descrição detalhada da transação</translation>
     </message>
-    </context>
+</context>
 <context>
     <name>TransactionTableModel</name>
     <message>
@@ -2068,7 +2057,7 @@
         <source>(no label)</source>
         <translation>(sem etiqueta)</translation>
     </message>
-    </context>
+</context>
 <context>
     <name>TransactionView</name>
     <message>
@@ -2103,7 +2092,7 @@
         <source>Exporting Failed</source>
         <translation>Exportação Falhou</translation>
     </message>
-    </context>
+</context>
 <context>
     <name>UnitDisplayStatusBarControl</name>
     <message>
@@ -2113,17 +2102,17 @@
 </context>
 <context>
     <name>WalletFrame</name>
-    </context>
+</context>
 <context>
     <name>WalletModel</name>
-    </context>
+</context>
 <context>
     <name>WalletView</name>
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportar os dados no separador atual para um ficheiro</translation>
     </message>
-    </context>
+</context>
 <context>
     <name>bitcoin-core</name>
     <message>
@@ -2152,7 +2141,7 @@
     </message>
     <message>
         <source>Prune configured below the minimum of %d MiB.  Please use a higher number.</source>
-        <translation>Poda configurada abaixo do mínimo de %d MiB.  Por favor, utilize um valor mais elevado.</translation>
+        <translation>Supressão configurada abaixo do mínimo de %d MiB.  Por favor, utilize um valor mais elevado.</translation>
     </message>
     <message>
         <source>Prune: last wallet synchronisation goes beyond pruned data. You need to -reindex (download the whole blockchain again in case of pruned node)</source>
@@ -2172,7 +2161,7 @@
     </message>
     <message>
         <source>Pruning blockstore...</source>
-        <translation>A podar a blockstore...</translation>
+        <translation>A suprimir a blockstore...</translation>
     </message>
     <message>
         <source>Run in the background as a daemon and accept commands</source>
@@ -2360,11 +2349,11 @@
     </message>
     <message>
         <source>Prune cannot be configured with a negative value.</source>
-        <translation>Poda não pode ser configurada com um valor negativo.</translation>
+        <translation>A supressão não pode ser configurada com um valor negativo.</translation>
     </message>
     <message>
         <source>Prune mode is incompatible with -txindex.</source>
-        <translation>Modo poda é incompatível com -txindex.</translation>
+        <translation>Modo de supressão é incompatível com -txindex.</translation>
     </message>
     <message>
         <source>Set database cache size in megabytes (%d to %d, default: %d)</source>
@@ -2460,7 +2449,7 @@
     </message>
     <message>
         <source>Randomize credentials for every proxy connection. This enables Tor stream isolation (default: %u)</source>
-        <translation>Usar credenciais aleatórias por cada ligação proxy. Permite que o Tor use stream isolation (padrão: %u)</translation>
+        <translation>Utilizar credenciais aleatórias por cada ligação proxy. Permite que o Tor use stream isolation (padrão: %u)</translation>
     </message>
     <message>
         <source>Set maximum size of high-priority/low-fee transactions in bytes (default: %d)</source>
@@ -2584,7 +2573,7 @@
     </message>
     <message>
         <source>Transaction too large</source>
-        <translation>Transação grande demais</translation>
+        <translation>Transação demasiado grande</translation>
     </message>
     <message>
         <source>Unable to bind to %s on this computer (bind returned error %s)</source>
@@ -2632,7 +2621,7 @@
     </message>
     <message>
         <source>Loading addresses...</source>
-        <translation>A carregar os endereços...</translation>
+        <translation>A carregar endereços...</translation>
     </message>
     <message>
         <source>(1 = keep tx meta data e.g. account owner and payment request information, 2 = drop tx meta data)</source>
