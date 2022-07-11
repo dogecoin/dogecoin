@@ -54,7 +54,7 @@ static constexpr int32_t MAX_PEER_TX_ANNOUNCEMENTS = 2 * MAX_INV_SZ;
 /** How many microseconds to delay requesting transactions from inbound peers */
 static constexpr int64_t INBOUND_PEER_TX_DELAY = 2 * 1000000; // 2 seconds
 /** How long to wait (in microseconds) before downloading a transaction from an additional peer */
-static constexpr int64_t GETDATA_TX_INTERVAL = 60 * 1000000; // 1 minute
+static constexpr int64_t GETDATA_TX_INTERVAL = 30 * 1000000; // 30 seconds
 /** Maximum delay (in microseconds) for transaction requests to avoid biasing some peers over others. */
 static constexpr int64_t MAX_GETDATA_RANDOM_DELAY = 2 * 1000000; // 2 seconds
 /** How long to wait (in microseconds) before expiring an in-flight getdata request to a peer */
@@ -3483,9 +3483,9 @@ bool SendMessages(CNode* pto, CConnman& connman, const std::atomic<bool>& interr
                     ++it;
                 }
             }
-            // On average, we do this check every TX_EXPIRY_INTERVAL. Randomize
+            // On average, we do this check every TX_EXPIRY_INTERVAL/3.75. Randomize
             // so that we're not doing this for all peers at the same time.
-            state.m_tx_download.m_check_expiry_timer = current_time + TX_EXPIRY_INTERVAL/2 + GetRand(TX_EXPIRY_INTERVAL);
+            state.m_tx_download.m_check_expiry_timer = current_time + TX_EXPIRY_INTERVAL/5 + GetRand(TX_EXPIRY_INTERVAL/5);
         }
 
         auto& tx_process_time = state.m_tx_download.m_tx_process_time;
