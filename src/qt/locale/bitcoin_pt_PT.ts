@@ -25,7 +25,7 @@
     </message>
     <message>
         <source>Add!</source>
-        <translation>Adicionar</translation>
+        <translation>Adicionar!</translation>
     </message>
     <message>
         <source>Please enter an address.</source>
@@ -588,7 +588,7 @@
     </message>
     <message>
         <source>&amp;Import Private Key...</source>
-        <translation>Importar Chave Privada</translation>
+        <translation>&amp;Importar Chave Privada...</translation>
     </message>
     <message>
         <source>Import a Dogecoin private key</source>
@@ -604,7 +604,7 @@
     </message>
     <message>
         <source>Connecting to peers...</source>
-        <translation>A ligar aos pares</translation>
+        <translation>A ligar aos pares...</translation>
     </message>
     <message>
         <source>Runaway exception</source>
@@ -763,7 +763,7 @@
     </message>
     <message>
         <source>Can vary +/- %1 koinu per input.</source>
-        <translation>Pode variar +/- %1 koinu por input</translation>
+        <translation>Pode variar +/- %1 koinu por input.</translation>
     </message>
 </context>
 <context>
@@ -935,11 +935,11 @@
     </message>
     <message>
         <source>&amp;Reset</source>
-        <translation>Redefinir</translation>
+        <translation>&amp;Redefinir</translation>
     </message>
     <message>
         <source>&amp;Import</source>
-        <translation>Importar</translation>
+        <translation>&amp;Importar</translation>
     </message>
     <message>
         <source>&amp;Cancel</source>
@@ -1326,7 +1326,7 @@
     </message>
     <message>
         <source>Prune &amp;block storage to</source>
-        <translation>Suprimir e bloquear o armazenamento para</translation>
+        <translation>Suprimir &amp;bloquear o armazenamento para</translation>
     </message>
     <message>
         <source>GB</source>
@@ -1691,47 +1691,47 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>URI cannot be parsed! This can be caused by an invalid Dogecoin address or malformed URI parameters.</source>
-        <translation type="unfinished"></translation>
+        <translation>URI não pode ser analisado! Isso pode ser causado por um endereço Dogecoin inválido ou parâmetros de URI malformados.</translation>
     </message>
     <message>
         <source>Payment request file handling</source>
-        <translation type="unfinished"></translation>
+        <translation>Tratamento do arquivo de solicitação de pagamento</translation>
     </message>
     <message>
         <source>Payment request file cannot be read! This can be caused by an invalid payment request file.</source>
-        <translation type="unfinished"></translation>
+        <translation>O arquivo de solicitação de pagamento não pode ser lido! Isso pode ser causado por um arquivo de solicitação de pagamento inválido.</translation>
     </message>
     <message>
         <source>Payment request network doesn&apos;t match client network.</source>
-        <translation type="unfinished"></translation>
+        <translation>A rede de solicitação de pagamento não corresponde à rede do cliente.</translation>
     </message>
     <message>
         <source>Unverified payment requests to custom payment scripts are unsupported.</source>
-        <translation type="unfinished"></translation>
+        <translation>Solicitações de pagamento não verificadas para scripts de pagamento personalizados não são compatíveis.</translation>
     </message>
     <message>
         <source>Requested payment amount of %1 is too small (below discard threshold).</source>
-        <translation type="unfinished"></translation>
+        <translation>O valor do pagamento solicitado de %1 é muito pequeno (abaixo do limite de descarte).</translation>
     </message>
     <message>
         <source>Payment request %1 is too large (%2 bytes, allowed %3 bytes).</source>
-        <translation type="unfinished"></translation>
+        <translation>A solicitação de pagamento %1 é muito grande (%2 bytes, permitidos %3 bytes).</translation>
     </message>
     <message>
         <source>Payment request cannot be parsed!</source>
-        <translation type="unfinished"></translation>
+        <translation>A solicitação de pagamento não pode ser analisada!</translation>
     </message>
     <message>
         <source>Bad response from server %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Resposta inválida do servidor %1</translation>
     </message>
     <message>
         <source>Network request error</source>
-        <translation type="unfinished"></translation>
+        <translation>Erro de solicitação de rede</translation>
     </message>
     <message>
         <source>Payment acknowledged</source>
-        <translation type="unfinished"></translation>
+        <translation>Pagamento confirmado</translation>
     </message>
 </context>
 <context>
@@ -1746,50 +1746,50 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>NodeId</source>
-        <translation type="unfinished"></translation>
+        <translation>NodeId</translation>
     </message>
     <message>
         <source>Ping</source>
-        <translation type="unfinished"></translation>
+        <translation>Ping</translation>
     </message>
     <message>
         <source>Bytes Sent</source>
-        <translation type="unfinished"></translation>
+        <translation>Bytes Enviados</translation>
     </message>
     <message>
         <source>Bytes Received</source>
-        <translation type="unfinished"></translation>
+        <translation>Bytes Recebidos</translation>
     </message>
 </context>
 <context>
     <name>PeerTools</name>
     <message>
         <source>Error: Node address is invalid</source>
-        <translation type="unfinished"></translation>
+        <translation>Erro: o endereço do nó é inválido</translation>
     </message>
     <message>
         <source>Error: Peer-to-peer functionality missing or disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Erro: funcionalidade ponto a ponto ausente ou desativada</translation>
     </message>
     <message>
         <source>Attempted to one try node.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tentativa de um nó de tentativa.</translation>
     </message>
     <message>
         <source>Error: Unable to add node</source>
-        <translation type="unfinished"></translation>
+        <translation>Erro: não foi possível adicionar o nó</translation>
     </message>
     <message>
         <source>Node not found in connected nodes</source>
-        <translation type="unfinished"></translation>
+        <translation>Nó não encontrado em nós conectados</translation>
     </message>
     <message>
         <source>Disconnected the node: </source>
-        <translation type="unfinished"></translation>
+        <translation>Desconectado o nó:</translation>
     </message>
     <message>
         <source>Returned OK.</source>
-        <translation type="unfinished"></translation>
+        <translation>Devolvido OK.</translation>
     </message>
 </context>
 <context>
@@ -1836,95 +1836,95 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>%1 B</source>
-        <translation type="unfinished">%1 B</translation>
+        <translation>%1 B</translation>
     </message>
     <message>
         <source>%1 kB</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 kB</translation>
     </message>
     <message>
         <source>%1 MB</source>
-        <translation type="unfinished">%1 MB</translation>
+        <translation>%1 MB</translation>
     </message>
     <message numerus="yes">
         <source>%n second(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n segundo(s)</numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n minute(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n minuto(s)</numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n hour(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n hora(s)</numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n day(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n dia(s)</numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n week(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n semana(s)</numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n year(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n ano(s)</numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
     <message>
         <source>%1 didn&apos;t yet exit safely...</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 ainda não saiu com segurança...</translation>
     </message>
 </context>
 <context>
     <name>QObject::QObject</name>
     <message>
         <source>Error: Specified data directory &quot;%1&quot; does not exist.</source>
-        <translation type="unfinished"></translation>
+        <translation>Erro: o diretório de dados especificado &quot;%1&quot; não existe.</translation>
     </message>
     <message>
         <source>Error: Cannot parse configuration file: %1. Only use key=value syntax.</source>
-        <translation type="unfinished"></translation>
+        <translation>Erro: Não é possível analisar o arquivo de configuração: %1. Use apenas a sintaxe chave=valor.</translation>
     </message>
     <message>
         <source>Error: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Erro: %1</translation>
     </message>
 </context>
 <context>
     <name>QRImageWidget</name>
     <message>
         <source>&amp;Save Image...</source>
-        <translation type="unfinished">&amp;Salvar Imagem...</translation>
+        <translation>&amp;Gravarr Imagem...</translation>
     </message>
     <message>
         <source>&amp;Copy Image</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Copiar Imagem</translation>
     </message>
     <message>
         <source>Save QR Code</source>
-        <translation type="unfinished"></translation>
+        <translation>Gravar QR Code</translation>
     </message>
     <message>
         <source>PNG Image (*.png)</source>
-        <translation type="unfinished"></translation>
+        <translation>PNG Imagem (*.png)</translation>
     </message>
 </context>
 <context>
@@ -2199,67 +2199,67 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Datadir</source>
-        <translation type="unfinished"></translation>
+        <translation>Diretório de dados</translation>
     </message>
     <message>
         <source>Open the %1 debug log file from the current data directory. This can take a few seconds for large log files.</source>
-        <translation type="unfinished"></translation>
+        <translation>Abra o arquivo de log de depuração %1 do diretório de dados atual. Isso pode levar alguns segundos para arquivos de log grandes.</translation>
     </message>
     <message>
         <source>Connected peers</source>
-        <translation type="unfinished"></translation>
+        <translation>Pares conectados</translation>
     </message>
     <message>
         <source>Add new peer</source>
-        <translation type="unfinished"></translation>
+        <translation>Adicionar novo par</translation>
     </message>
     <message>
         <source>Remove peer</source>
-        <translation type="unfinished"></translation>
+        <translation>Remover par</translation>
     </message>
     <message>
         <source>One try peer</source>
-        <translation type="unfinished"></translation>
+        <translation>Um par de tentativas</translation>
     </message>
     <message>
         <source>Min Ping</source>
-        <translation type="unfinished"></translation>
+        <translation>Min Ping</translation>
     </message>
     <message>
         <source>&amp;Disconnect</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Desconectar</translation>
     </message>
     <message>
         <source>Ban for</source>
-        <translation type="unfinished"></translation>
+        <translation>Banir por</translation>
     </message>
     <message>
         <source>&amp;Unban</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Desbanir</translation>
     </message>
     <message>
         <source>WARNING: Scammers have been active, telling users to type commands here, stealing their wallet contents. Do not use this console without fully understanding the ramification of a command.</source>
-        <translation type="unfinished"></translation>
+        <translation>AVISO: Os golpistas estão ativos, dizendo aos usuários para digitar comandos aqui, roubando o conteúdo de suas carteiras. Não use este console sem entender completamente a ramificação de um comando.</translation>
     </message>
     <message>
         <source>Network activity disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Atividade de rede desativada</translation>
     </message>
     <message>
         <source>Error</source>
-        <translation type="unfinished">Erro</translation>
+        <translation>Erro</translation>
     </message>
     <message>
         <source>Remove Peer</source>
-        <translation type="unfinished"></translation>
+        <translation>Remover par</translation>
     </message>
     <message>
         <source>Are you sure you want to remove the peer: </source>
-        <translation type="unfinished"></translation>
+        <translation>Tem certeza de que deseja remover o par:</translation>
     </message>
     <message>
         <source>No peer was selected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nenhum par foi selecionado.</translation>
     </message>
 </context>
 <context>
@@ -2282,7 +2282,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>R&amp;euse an existing receiving address (not recommended)</source>
-        <translation>Reutilizar um endereço de receção existente (não recomendado)</translation>
+        <translation>R&amp;eutilizar um endereço de receção existente (não recomendado)</translation>
     </message>
     <message>
         <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Dogecoin network.</source>
@@ -2342,11 +2342,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Copy URI</source>
-        <translation type="unfinished"></translation>
+        <translation>Copiar URI</translation>
     </message>
     <message>
         <source>Copy message</source>
-        <translation type="unfinished"></translation>
+        <translation>Copiar mensagem</translation>
     </message>
 </context>
 <context>
@@ -2381,27 +2381,27 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Request payment to %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Solicitar pagamento para %1</translation>
     </message>
     <message>
         <source>Payment information</source>
-        <translation type="unfinished"></translation>
+        <translation>Payment information</translation>
     </message>
     <message>
         <source>URI</source>
-        <translation type="unfinished"></translation>
+        <translation>URI</translation>
     </message>
     <message>
         <source>Message</source>
-        <translation type="unfinished"></translation>
+        <translation>Menssagem</translation>
     </message>
     <message>
         <source>Resulting URI too long, try to reduce the text for label / message.</source>
-        <translation type="unfinished"></translation>
+        <translation>URI resultante muito longo, tente reduzir o texto do rótulo/mensagem.</translation>
     </message>
     <message>
         <source>Error encoding URI into QR Code.</source>
-        <translation type="unfinished"></translation>
+        <translation>Erro ao codificar URI em QR Code.</translation>
     </message>
 </context>
 <context>
@@ -2416,23 +2416,23 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Date</source>
-        <translation type="unfinished">Data</translation>
+        <translation>Data</translation>
     </message>
     <message>
         <source>Message</source>
-        <translation type="unfinished"></translation>
+        <translation>Mensagem</translation>
     </message>
     <message>
         <source>(no message)</source>
-        <translation type="unfinished"></translation>
+        <translation>(nenhuma mensagem)</translation>
     </message>
     <message>
         <source>(no amount requested)</source>
-        <translation type="unfinished"></translation>
+        <translation>(sem valor solicitado)</translation>
     </message>
     <message>
         <source>Requested</source>
-        <translation type="unfinished"></translation>
+        <translation>Requeridas</translation>
     </message>
 </context>
 <context>
@@ -2443,7 +2443,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Coin Control Features</source>
-        <translation>Funcionalidades do Controlo de Moedas:</translation>
+        <translation>Funcionalidades do Controlo de Moedas</translation>
     </message>
     <message>
         <source>Inputs...</source>
@@ -2507,7 +2507,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>If the custom fee is set to 1000 koinu and the transaction is only 250 bytes, then &quot;per kilobyte&quot; only pays 250 koinu in fee, while &quot;total at least&quot; pays 1000 koinu. For transactions bigger than a kilobyte both pay by kilobyte.</source>
-        <translation type="vanished">Se a taxa personalizada estiver definida para 1.000 koinu e a transação é de apenas 250 bytes, então paga apenas 250 koinu &quot;por kilobyte&quot; na taxa, enquanto em &quot;total pelo menos&quot; paga 1.000 koinu. Para transações superiores a um kilobyte ambos pagam por kilobyte.</translation>
+        <translation>Se a taxa personalizada estiver definida para 1.000 koinu e a transação é de apenas 250 bytes, então paga apenas 250 koinu &quot;por kilobyte&quot; na taxa, enquanto em &quot;total pelo menos&quot; paga 1.000 koinu. Para transações superiores a um kilobyte ambos pagam por kilobyte.</translation>
     </message>
     <message>
         <source>Hide</source>
@@ -2535,15 +2535,15 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>(Smart fee not initialized yet. This usually takes a few blocks...)</source>
-        <translation type="vanished">(A taxa inteligente ainda não foi inicializada. Isto normalmente demora alguns blocos...)</translation>
+        <translation>(A taxa inteligente ainda não foi inicializada. Isto normalmente demora alguns blocos...)</translation>
     </message>
     <message>
         <source>normal</source>
-        <translation type="vanished">normal</translation>
+        <translation>normal</translation>
     </message>
     <message>
         <source>fast</source>
-        <translation type="vanished">rapido</translation>
+        <translation>rapido</translation>
     </message>
     <message>
         <source>Send to multiple recipients at once</source>
@@ -2635,83 +2635,83 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Using the fallbackfee can result in sending a transaction that will take several hours or days (or never) to confirm. Consider choosing your fee manually or wait until you have validated the complete chain.</source>
-        <translation type="unfinished"></translation>
+        <translation>O uso da taxa de retorno pode resultar no envio de uma transação que levará várias horas ou dias (ou nunca) para ser confirmada. Considere escolher sua taxa manualmente ou espere até validar a cadeia completa.</translation>
     </message>
     <message>
         <source>Warning: Fee estimation is currently not possible.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aviso: a estimativa de taxas não é possível no momento.</translation>
     </message>
     <message>
         <source>If the custom fee is set to 1000 satoshis and the transaction is only 250 bytes, then &quot;per kilobyte&quot; only pays 250 satoshis in fee, while &quot;total at least&quot; pays 1000 satoshis. For transactions bigger than a kilobyte both pay by kilobyte.</source>
-        <translation type="unfinished"></translation>
+        <translation>Se a taxa personalizada for definida como 1000 satoshis e a transação for de apenas 250 bytes, então &quot;por kilobyte&quot; pagará apenas 250 satoshis em taxa, enquanto &quot;total pelo menos&quot; pagará 1000 satoshis. Para transações maiores que um kilobyte, ambos pagam por kilobyte.</translation>
     </message>
     <message>
         <source>Priority:</source>
-        <translation type="unfinished"></translation>
+        <translation>Prioridade:</translation>
     </message>
     <message>
         <source>low</source>
-        <translation type="unfinished"></translation>
+        <translation>baixa</translation>
     </message>
     <message>
         <source>high</source>
-        <translation type="unfinished"></translation>
+        <translation>alta</translation>
     </message>
     <message>
         <source>Copy dust</source>
-        <translation type="unfinished"></translation>
+        <translation>Copiar poeira</translation>
     </message>
     <message>
         <source>%1 to %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 para %2</translation>
     </message>
     <message>
         <source>Are you sure you want to send?</source>
-        <translation type="unfinished"></translation>
+        <translation>Tem certeza de que deseja enviar?</translation>
     </message>
     <message>
         <source>Total Amount %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Valor Total %1</translation>
     </message>
     <message>
         <source>or</source>
-        <translation type="unfinished"></translation>
+        <translation>ou</translation>
     </message>
     <message>
         <source>Confirm send coins</source>
-        <translation type="unfinished"></translation>
+        <translation>Confirme o envio de moedas</translation>
     </message>
     <message>
         <source>The recipient address is not valid. Please recheck.</source>
-        <translation type="unfinished"></translation>
+        <translation>O endereço do destinatário não é válido. Por favor, cheque novamente.</translation>
     </message>
     <message>
         <source>The amount to pay must be larger than 0.</source>
-        <translation type="unfinished"></translation>
+        <translation>O valor a pagar deve ser maior que 0.</translation>
     </message>
     <message>
         <source>The amount exceeds your balance.</source>
-        <translation type="unfinished"></translation>
+        <translation>O valor excede o seu saldo.</translation>
     </message>
     <message>
         <source>Duplicate address found: addresses should only be used once each.</source>
-        <translation type="unfinished"></translation>
+        <translation>Endereço duplicado encontrado: os endereços devem ser usados ​​apenas uma vez cada.</translation>
     </message>
     <message>
         <source>Transaction creation failed!</source>
-        <translation type="unfinished"></translation>
+        <translation>Falha na criação da transação!</translation>
     </message>
     <message>
         <source>The transaction was rejected with the following reason: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>A transação foi rejeitada pelo seguinte motivo: %1</translation>
     </message>
     <message>
         <source>Warning: Invalid Dogecoin address</source>
-        <translation type="unfinished"></translation>
+        <translation>Aviso: endereço Dogecoin inválido</translation>
     </message>
     <message>
         <source>The address you selected for change is not part of this wallet. Any or all funds in your wallet may be sent to this address. Are you sure?</source>
-        <translation type="unfinished"></translation>
+        <translation>O endereço que você selecionou para alteração não faz parte desta carteira. Qualquer ou todos os fundos em sua carteira podem ser enviados para este endereço. Tem certeza?</translation>
     </message>
 </context>
 <context>
@@ -2794,14 +2794,14 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Enter a label for this address to add it to your address book</source>
-        <translation type="unfinished"></translation>
+        <translation>Insira um rótulo para este endereço para adicioná-lo ao seu catálogo de endereços</translation>
     </message>
 </context>
 <context>
     <name>SendConfirmationDialog</name>
     <message>
         <source>Yes</source>
-        <translation type="unfinished">Sim</translation>
+        <translation>Sim</translation>
     </message>
 </context>
 <context>
@@ -2883,7 +2883,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Enter the receiver&apos;s address, message (ensure you copy line breaks, spaces, tabs, etc. exactly) and signature below to verify the message. Be careful not to read more into the signature than what is in the signed message itself, to avoid being tricked by a man-in-the-middle attack. Note that this only proves the signing party receives with the address, it cannot prove sendership of any transaction!</source>
-        <translation>Introduza o endereço de assinatura, mensagem (assegure-se que copia quebras de linha, espaços, tabulações, etc. exactamente) e assinatura abaixo para verificar a mensagem. Tenha atenção para não ler mais na assinatura do que o que estiver na mensagem assinada, para evitar ser enganado por um atacante que se encontre entre si e quem assinou a mensagem.</translation>
+        <translation>Introduza o endereço de assinatura, mensagem (assegure-se que copia quebras de linha, espaços, tabulações, etc. exactamente) e assinatura abaixo para verificar a mensagem. Tenha atenção para não ler mais na assinatura do que o que estiver na mensagem assinada, para evitar ser enganado por um atacante que se encontre entre si e quem assinou a mensagem!</translation>
     </message>
     <message>
         <source>The Dogecoin address the message was signed with</source>
@@ -2903,55 +2903,55 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Click &quot;Sign Message&quot; to generate signature</source>
-        <translation type="unfinished"></translation>
+        <translation>Clique em &quot;Assinar mensagem&quot; para gerar assinatura</translation>
     </message>
     <message>
         <source>The entered address is invalid.</source>
-        <translation type="unfinished"></translation>
+        <translation>O endereço inserido é inválido.</translation>
     </message>
     <message>
         <source>Please check the address and try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Por favor, verifique o endereço e tente novamente.</translation>
     </message>
     <message>
         <source>The entered address does not refer to a key.</source>
-        <translation type="unfinished"></translation>
+        <translation>O endereço inserido não se refere a uma chave.</translation>
     </message>
     <message>
         <source>Wallet unlock was cancelled.</source>
-        <translation type="unfinished"></translation>
+        <translation>O desbloqueio da carteira foi cancelado.</translation>
     </message>
     <message>
         <source>Private key for the entered address is not available.</source>
-        <translation type="unfinished"></translation>
+        <translation>A chave privada para o endereço inserido não está disponível.</translation>
     </message>
     <message>
         <source>Message signing failed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Falha na assinatura da mensagem.</translation>
     </message>
     <message>
         <source>Message signed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mensagem assinada.</translation>
     </message>
     <message>
         <source>The signature could not be decoded.</source>
-        <translation type="unfinished"></translation>
+        <translation>A assinatura não pôde ser decodificada.</translation>
     </message>
     <message>
         <source>Please check the signature and try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Verifique a assinatura e tente novamente.</translation>
     </message>
     <message>
         <source>The signature did not match the message digest.</source>
-        <translation type="unfinished"></translation>
+        <translation>A assinatura não correspondeu ao resumo da mensagem.</translation>
     </message>
     <message>
         <source>Message verification failed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Falha na verificação da mensagem.</translation>
     </message>
     <message>
         <source>Message verified.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mensagem verificada.</translation>
     </message>
 </context>
 <context>
@@ -2965,39 +2965,39 @@ p, li { white-space: pre-wrap; }
     <name>TestPeerDialog</name>
     <message>
         <source>Test Peer</source>
-        <translation type="unfinished"></translation>
+        <translation>Testar Par</translation>
     </message>
     <message>
         <source>Enter the peer details below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Insira os detalhes do par abaixo.</translation>
     </message>
     <message>
         <source>Be careful! Do not blindly trust anyone that tells you to add their node.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tome cuidado! Não confie cegamente em ninguém que lhe diga para adicionar seu nó.</translation>
     </message>
     <message>
         <source>Enter the peer&apos;s address</source>
-        <translation type="unfinished"></translation>
+        <translation>Digite o endereço do par</translation>
     </message>
     <message>
         <source>Enter the peer&apos;s port</source>
-        <translation type="unfinished"></translation>
+        <translation>Digite a porta do peer</translation>
     </message>
     <message>
         <source>Test!</source>
-        <translation type="unfinished"></translation>
+        <translation>Teste!</translation>
     </message>
     <message>
         <source>Please enter an address.</source>
-        <translation type="unfinished"></translation>
+        <translation>Por favor digite um Endereço.</translation>
     </message>
     <message>
         <source>Please enter a valid peer address.</source>
-        <translation type="unfinished"></translation>
+        <translation>Insira um endereço de par válido.</translation>
     </message>
     <message>
         <source>Try Peer</source>
-        <translation type="unfinished"></translation>
+        <translation>Testar par</translation>
     </message>
 </context>
 <context>
@@ -3019,161 +3019,161 @@ p, li { white-space: pre-wrap; }
     </message>
     <message numerus="yes">
         <source>Open for %n more block(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Aberto para mais %n bloco(s)</numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
     <message>
         <source>Open until %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Aberto até %1</translation>
     </message>
     <message>
         <source>conflicted with a transaction with %1 confirmations</source>
-        <translation type="unfinished"></translation>
+        <translation>entrou em conflito com uma transação com %1 confirmações</translation>
     </message>
     <message>
         <source>0/unconfirmed, %1</source>
-        <translation type="unfinished"></translation>
+        <translation>0/não confirmado, %1</translation>
     </message>
     <message>
         <source>in memory pool</source>
-        <translation type="unfinished"></translation>
+        <translation>na pool de memória</translation>
     </message>
     <message>
         <source>not in memory pool</source>
-        <translation type="unfinished"></translation>
+        <translation>não na pool de memória</translation>
     </message>
     <message>
         <source>abandoned</source>
-        <translation type="unfinished"></translation>
+        <translation>abandonado</translation>
     </message>
     <message>
         <source>%1/unconfirmed</source>
-        <translation type="unfinished"></translation>
+        <translation>%1/não confirmado</translation>
     </message>
     <message>
         <source>%1 confirmations</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 confirmações</translation>
     </message>
     <message>
         <source>Status</source>
-        <translation type="unfinished"></translation>
+        <translation>Estado</translation>
     </message>
     <message>
         <source>Date</source>
-        <translation type="unfinished">Data</translation>
+        <translation>Data</translation>
     </message>
     <message>
         <source>Source</source>
-        <translation type="unfinished"></translation>
+        <translation>Fonte</translation>
     </message>
     <message>
         <source>Generated</source>
-        <translation type="unfinished"></translation>
+        <translation>Gerado</translation>
     </message>
     <message>
         <source>From</source>
-        <translation type="unfinished"></translation>
+        <translation>De</translation>
     </message>
     <message>
         <source>unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>desconhecido</translation>
     </message>
     <message>
         <source>To</source>
-        <translation type="unfinished"></translation>
+        <translation>Para</translation>
     </message>
     <message>
         <source>own address</source>
-        <translation type="unfinished"></translation>
+        <translation>endereço próprio</translation>
     </message>
     <message>
         <source>watch-only</source>
-        <translation type="unfinished"></translation>
+        <translation>só-ver</translation>
     </message>
     <message>
         <source>label</source>
-        <translation type="unfinished"></translation>
+        <translation>etiqueta</translation>
     </message>
     <message>
         <source>Credit</source>
-        <translation type="unfinished"></translation>
+        <translation>Crédito</translation>
     </message>
     <message numerus="yes">
         <source>matures in %n more block(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>amadurece em mais %n bloco(s)</numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
     <message>
         <source>not accepted</source>
-        <translation type="unfinished"></translation>
+        <translation>Não aceito</translation>
     </message>
     <message>
         <source>Debit</source>
-        <translation type="unfinished"></translation>
+        <translation>Débito</translation>
     </message>
     <message>
         <source>Total debit</source>
-        <translation type="unfinished"></translation>
+        <translation>Débito total</translation>
     </message>
     <message>
         <source>Total credit</source>
-        <translation type="unfinished"></translation>
+        <translation>Crédito total</translation>
     </message>
     <message>
         <source>Net amount</source>
-        <translation type="unfinished"></translation>
+        <translation>Valor líquido</translation>
     </message>
     <message>
         <source>Message</source>
-        <translation type="unfinished"></translation>
+        <translation>Mensagem</translation>
     </message>
     <message>
         <source>Comment</source>
-        <translation type="unfinished"></translation>
+        <translation>Comentário</translation>
     </message>
     <message>
         <source>Transaction ID</source>
-        <translation type="unfinished"></translation>
+        <translation>ID da transação</translation>
     </message>
     <message>
         <source>Transaction total size</source>
-        <translation type="unfinished"></translation>
+        <translation>Tamanho total da transação</translation>
     </message>
     <message>
         <source>Output index</source>
-        <translation type="unfinished"></translation>
+        <translation>Índice de saída</translation>
     </message>
     <message>
         <source>Merchant</source>
-        <translation type="unfinished"></translation>
+        <translation>Comerciante</translation>
     </message>
     <message>
         <source>Generated coins must mature %1 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
-        <translation type="unfinished"></translation>
+        <translation>As moedas geradas devem vencer %1 blocos antes de poderem ser gastas. Quando você gerou este bloco, ele foi transmitido para a rede para ser adicionado à cadeia de blocos. Se não conseguir entrar na cadeia, seu estado mudará para &quot;não aceito&quot; e não poderá ser gasto. Isso pode acontecer ocasionalmente se outro nó gerar um bloco dentro de alguns segundos do seu.</translation>
     </message>
     <message>
         <source>Debug information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informações de depuração</translation>
     </message>
     <message>
         <source>Transaction</source>
-        <translation type="unfinished"></translation>
+        <translation>Transação</translation>
     </message>
     <message>
         <source>Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Entradas</translation>
     </message>
     <message>
         <source>true</source>
-        <translation type="unfinished"></translation>
+        <translation>verdadeiro</translation>
     </message>
     <message>
         <source>false</source>
-        <translation type="unfinished"></translation>
+        <translation>falso</translation>
     </message>
 </context>
 <context>
@@ -3184,7 +3184,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Details for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Detalhes para %1</translation>
     </message>
 </context>
 <context>
@@ -3199,102 +3199,102 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Date</source>
-        <translation type="unfinished">Data</translation>
+        <translation>Data</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipo</translation>
     </message>
     <message numerus="yes">
         <source>Open for %n more block(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Aberto para mais %n bloco(s)</numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
     <message>
         <source>Open until %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Aberto até %1</translation>
     </message>
     <message>
         <source>Unconfirmed</source>
-        <translation type="unfinished"></translation>
+        <translation>Não confirmado</translation>
     </message>
     <message>
         <source>Abandoned</source>
-        <translation type="unfinished"></translation>
+        <translation>Abandonado</translation>
     </message>
     <message>
         <source>Confirming (%1 of %2 recommended confirmations)</source>
-        <translation type="unfinished"></translation>
+        <translation>Confirmando (%1 de %2 confirmações recomendadas)</translation>
     </message>
     <message>
         <source>Confirmed (%1 confirmations)</source>
-        <translation type="unfinished"></translation>
+        <translation>Confirmado (%1 confirmações)</translation>
     </message>
     <message>
         <source>Conflicted</source>
-        <translation type="unfinished"></translation>
+        <translation>Conflito</translation>
     </message>
     <message>
         <source>Immature (%1 confirmations, will be available after %2)</source>
-        <translation type="unfinished"></translation>
+        <translation>Imaturos (%1 confirmações, estarão disponíveis após %2)</translation>
     </message>
     <message>
         <source>Generated but not accepted</source>
-        <translation type="unfinished"></translation>
+        <translation>Gerado, mas não aceito</translation>
     </message>
     <message>
         <source>Received with</source>
-        <translation type="unfinished"></translation>
+        <translation>Received with</translation>
     </message>
     <message>
         <source>Received from</source>
-        <translation type="unfinished"></translation>
+        <translation>Received from</translation>
     </message>
     <message>
         <source>Sent to</source>
-        <translation type="unfinished"></translation>
+        <translation>Enviado para</translation>
     </message>
     <message>
         <source>Payment to yourself</source>
-        <translation type="unfinished"></translation>
+        <translation>Pagamento a si mesmo</translation>
     </message>
     <message>
         <source>Mined</source>
-        <translation type="unfinished"></translation>
+        <translation>Minado</translation>
     </message>
     <message>
         <source>watch-only</source>
-        <translation type="unfinished"></translation>
+        <translation>só-vêr</translation>
     </message>
     <message>
         <source>(n/a)</source>
-        <translation type="unfinished"></translation>
+        <translation>(n/d)</translation>
     </message>
     <message>
         <source>Transaction status. Hover over this field to show number of confirmations.</source>
-        <translation type="unfinished"></translation>
+        <translation>Status da transação. Passe o mouse sobre este campo para mostrar o número de confirmações.</translation>
     </message>
     <message>
         <source>Date and time that the transaction was received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Data e hora em que a transação foi recebida.</translation>
     </message>
     <message>
         <source>Type of transaction.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipo de transação.</translation>
     </message>
     <message>
         <source>Whether or not a watch-only address is involved in this transaction.</source>
-        <translation type="unfinished"></translation>
+        <translation>Se um endereço somente de observação está ou não envolvido nesta transação.</translation>
     </message>
     <message>
         <source>User-defined intent/purpose of the transaction.</source>
-        <translation type="unfinished"></translation>
+        <translation>Intenção/propósito definido pelo usuário da transação.</translation>
     </message>
     <message>
         <source>Amount removed from or added to balance.</source>
-        <translation type="unfinished"></translation>
+        <translation>Valor retirado ou adicionado ao saldo.</translation>
     </message>
 </context>
 <context>
@@ -3333,123 +3333,123 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation>Todos</translation>
     </message>
     <message>
         <source>Today</source>
-        <translation type="unfinished"></translation>
+        <translation>Hoje</translation>
     </message>
     <message>
         <source>This week</source>
-        <translation type="unfinished"></translation>
+        <translation>Esta semana</translation>
     </message>
     <message>
         <source>This month</source>
-        <translation type="unfinished"></translation>
+        <translation>Este mês</translation>
     </message>
     <message>
         <source>Last month</source>
-        <translation type="unfinished"></translation>
+        <translation>Mês passado</translation>
     </message>
     <message>
         <source>This year</source>
-        <translation type="unfinished"></translation>
+        <translation>Este ano</translation>
     </message>
     <message>
         <source>Range...</source>
-        <translation type="unfinished"></translation>
+        <translation>Entre...</translation>
     </message>
     <message>
         <source>Received with</source>
-        <translation type="unfinished"></translation>
+        <translation>Received with</translation>
     </message>
     <message>
         <source>Sent to</source>
-        <translation type="unfinished"></translation>
+        <translation>Enviado para</translation>
     </message>
     <message>
         <source>To yourself</source>
-        <translation type="unfinished"></translation>
+        <translation>Para si mesmo</translation>
     </message>
     <message>
         <source>Mined</source>
-        <translation type="unfinished"></translation>
+        <translation>Minado</translation>
     </message>
     <message>
         <source>Other</source>
-        <translation type="unfinished"></translation>
+        <translation>Outros</translation>
     </message>
     <message>
         <source>Enter address or label to search</source>
-        <translation type="unfinished"></translation>
+        <translation>Digite o endereço ou marcador para pesquisar</translation>
     </message>
     <message>
         <source>Min amount</source>
-        <translation type="unfinished"></translation>
+        <translation>Valor mínimo</translation>
     </message>
     <message>
         <source>Abandon transaction</source>
-        <translation type="unfinished"></translation>
+        <translation>Abandonar transação</translation>
     </message>
     <message>
         <source>Copy raw transaction</source>
-        <translation type="unfinished"></translation>
+        <translation>Copiar transação bruta</translation>
     </message>
     <message>
         <source>Copy full transaction details</source>
-        <translation type="unfinished"></translation>
+        <translation>Copie os detalhes completos da transação</translation>
     </message>
     <message>
         <source>Edit label</source>
-        <translation type="unfinished"></translation>
+        <translation>Editar rótulo</translation>
     </message>
     <message>
         <source>Show transaction details</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar detalhes da transação</translation>
     </message>
     <message>
         <source>Export Transaction History</source>
-        <translation type="unfinished"></translation>
+        <translation>Exportar histórico de transações</translation>
     </message>
     <message>
         <source>Confirmed</source>
-        <translation type="unfinished">Confirmada</translation>
+        <translation>Confirmada</translation>
     </message>
     <message>
         <source>Watch-only</source>
-        <translation type="unfinished"></translation>
+        <translation>Só-vêr</translation>
     </message>
     <message>
         <source>Date</source>
-        <translation type="unfinished">Data</translation>
+        <translation>Data</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipo</translation>
     </message>
     <message>
         <source>ID</source>
-        <translation type="unfinished"></translation>
+        <translation>ID</translation>
     </message>
     <message>
         <source>There was an error trying to save the transaction history to %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ocorreu um erro ao tentar salvar o histórico de transações em %1.</translation>
     </message>
     <message>
         <source>Exporting Successful</source>
-        <translation type="unfinished"></translation>
+        <translation>Exportação bem-sucedida</translation>
     </message>
     <message>
         <source>The transaction history was successfully saved to %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>O histórico de transações foi salvo com sucesso em %1.</translation>
     </message>
     <message>
         <source>Range:</source>
-        <translation type="unfinished"></translation>
+        <translation>Entre:</translation>
     </message>
     <message>
         <source>to</source>
-        <translation type="unfinished"></translation>
+        <translation>para</translation>
     </message>
 </context>
 <context>
@@ -3463,14 +3463,14 @@ p, li { white-space: pre-wrap; }
     <name>WalletFrame</name>
     <message>
         <source>No wallet has been loaded.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nenhuma carteira foi carregada.</translation>
     </message>
 </context>
 <context>
     <name>WalletModel</name>
     <message>
         <source>Send Coins</source>
-        <translation type="unfinished">Enviar Moedas</translation>
+        <translation>Enviar Moedas</translation>
     </message>
 </context>
 <context>
@@ -3481,31 +3481,31 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>&amp;Export</source>
-        <translation type="unfinished">&amp;Exportar</translation>
+        <translation>&amp;Exportar</translation>
     </message>
     <message>
         <source>Backup Wallet</source>
-        <translation type="unfinished"></translation>
+        <translation>Backup da Carteira</translation>
     </message>
     <message>
         <source>Wallet Data (*.dat)</source>
-        <translation type="unfinished"></translation>
+        <translation>Dados da carteira (*.dat)</translation>
     </message>
     <message>
         <source>Backup Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Falha no backup</translation>
     </message>
     <message>
         <source>There was an error trying to save the wallet data to %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ocorreu um erro ao tentar salvar os dados da carteira em %1.</translation>
     </message>
     <message>
         <source>Backup Successful</source>
-        <translation type="unfinished"></translation>
+        <translation>Backup bem-sucedido</translation>
     </message>
     <message>
         <source>The wallet data was successfully saved to %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Os dados da carteira foram salvos com sucesso em %1.</translation>
     </message>
 </context>
 <context>
@@ -3596,7 +3596,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>The block database contains a block which appears to be from the future. This may be due to your computer&apos;s date and time being set incorrectly. Only rebuild the block database if you are sure that your computer&apos;s date and time are correct</source>
-        <translation>A base de dados de blocos contém um bloco que aparenta ser do futuro. Isto pode ser causado por uma data incorrecta definida no seu computador. Reconstrua apenas a base de dados de blocos caso tenha a certeza de que a data e hora do seu computador estão correctos.</translation>
+        <translation>A base de dados de blocos contém um bloco que aparenta ser do futuro. Isto pode ser causado por uma data incorrecta definida no seu computador. Reconstrua apenas a base de dados de blocos caso tenha a certeza de que a data e hora do seu computador estão correctos</translation>
     </message>
     <message>
         <source>Use UPnP to map the listening port (default: 1 when listening and no -proxy)</source>
@@ -3636,11 +3636,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Do not load the wallet and disable wallet RPC calls</source>
-        <translation>Não carregar a carteira e desativar as chamadas de RPC da carteira.</translation>
+        <translation>Não carregar a carteira e desativar as chamadas de RPC da carteira</translation>
     </message>
     <message>
         <source>Do you want to rebuild the block database now?</source>
-        <translation>Deseja reconstruir agora a base de dados de blocos.</translation>
+        <translation>Deseja reconstruir agora a base de dados de blocos?</translation>
     </message>
     <message>
         <source>Enable publish hash block in &lt;address&gt;</source>
@@ -3668,7 +3668,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Error initializing wallet database environment %s!</source>
-        <translation>Erro ao inicializar o ambiente %s da base de dados da carteira</translation>
+        <translation>Erro ao inicializar o ambiente %s da base de dados da carteira!</translation>
     </message>
     <message>
         <source>Error loading %s</source>
@@ -3824,7 +3824,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Execute command when a relevant alert is received or we see a really long fork (%s in cmd is replaced by message)</source>
-        <translation type="vanished">Executar comando quando um alerta relevante for recebido ou em caso de uma divisão longa da cadeia de blocos (no comando, %s é substituído pela mensagem)</translation>
+        <translation>Executar comando quando um alerta relevante for recebido ou em caso de uma divisão longa da cadeia de blocos (no comando, %s é substituído pela mensagem)</translation>
     </message>
     <message>
         <source>Fees (in %s/kB) smaller than this are considered zero fee for relaying, mining and transaction creation (default: %s)</source>
@@ -4008,7 +4008,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Execute command when the best block changes (%s in cmd is replaced by block hash)</source>
-        <translation type="vanished">Executar o comando quando o melhor bloco muda (no comando, %s é substituído pela hash do bloco)</translation>
+        <translation>Executar o comando quando o melhor bloco muda (no comando, %s é substituído pela hash do bloco)</translation>
     </message>
     <message>
         <source>Allow DNS lookups for -addnode, -seednode and -connect</source>
@@ -4204,291 +4204,291 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>The %s developers</source>
-        <translation type="unfinished"></translation>
+        <translation>Os desenvolvedores %s</translation>
     </message>
     <message>
         <source>Bitcoin Core and Dogecoin Core</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitcoin Core e Dogecoin Core</translation>
     </message>
     <message>
         <source>-discardthreshold is set very high! This is the output amount that the wallet will discard (to fee) if it is smaller than this setting.</source>
-        <translation type="unfinished"></translation>
+        <translation>-discardthreshold está definido muito alto! Este é o valor de saída que a carteira descartará (taxa) se for menor que essa configuração.</translation>
     </message>
     <message>
         <source>Accept connections from outside (default: 1 if no -proxy or -connect/-noconnect)</source>
-        <translation type="unfinished"></translation>
+        <translation>Aceita conexões externas (padrão: 1 se não houver -proxy ou -connect/-noconnect)</translation>
     </message>
     <message>
         <source>Amount under which a transaction output is considered dust, in %s (default: %s)</source>
-        <translation type="unfinished"></translation>
+        <translation>Valor sob o qual uma saída de transação é considerada poeira, em %s (padrão: %s)</translation>
     </message>
     <message>
         <source>Amount under which a transaction output is considered non-standard and will not be accepted or relayed, in %s (default: %s)</source>
-        <translation type="unfinished"></translation>
+        <translation>Valor sob o qual uma saída de transação é considerada fora do padrão e não será aceita ou retransmitida, em %s (padrão: %s)</translation>
     </message>
     <message>
         <source>Cannot obtain a lock on data directory %s. %s is probably already running.</source>
-        <translation type="unfinished"></translation>
+        <translation>Não é possível obter um bloqueio no diretório de dados %s. %s provavelmente já está em execução.</translation>
     </message>
     <message>
         <source>Connect only to the specified node(s); -noconnect or -connect=0 alone to disable automatic connections</source>
-        <translation type="unfinished"></translation>
+        <translation>Conecte-se apenas ao(s) nó(s) especificado(s); -noconnect ou -connect=0 sozinho para desabilitar conexões automáticas</translation>
     </message>
     <message>
         <source>Distributed under the MIT software license, see the accompanying file %s or %s</source>
-        <translation type="unfinished"></translation>
+        <translation>Distribuído sob a licença de software MIT, consulte o arquivo anexo %s ou %s</translation>
     </message>
     <message>
         <source>Equivalent bytes per sigop in transactions for relay and mining (default: %u)</source>
-        <translation type="unfinished"></translation>
+        <translation>Bytes equivalentes por sigop em transações para retransmissão e mineração (padrão: %u)</translation>
     </message>
     <message>
         <source>Error loading %s: You can&apos;t enable HD on a already existing non-HD wallet</source>
-        <translation type="unfinished"></translation>
+        <translation>Erro ao carregar %s: Você não pode ativar o HD em uma carteira não HD já existente</translation>
     </message>
     <message>
         <source>Error reading %s! All keys read correctly, but transaction data or address book entries might be missing or incorrect.</source>
-        <translation type="unfinished"></translation>
+        <translation>Erro ao ler %s! Todas as chaves são lidas corretamente, mas os dados da transação ou as entradas do catálogo de endereços podem estar ausentes ou incorretas.</translation>
     </message>
     <message>
         <source>Execute command when the best block changes (%s in cmd is replaced by block hash, %i is replaced by block number)</source>
-        <translation type="unfinished"></translation>
+        <translation>Execute o comando quando o melhor bloco for alterado (%s em cmd é substituído pelo hash do bloco, %i é substituído pelo número do bloco)</translation>
     </message>
     <message>
         <source>Execute command when we see a really long fork (%s in cmd is replaced by message)</source>
-        <translation type="unfinished"></translation>
+        <translation>Execute o comando quando vemos um fork muito longo (%s em cmd é substituído por mensagem)</translation>
     </message>
     <message>
         <source>Extra transactions to keep in memory for compact block reconstructions (default: %u)</source>
-        <translation type="unfinished"></translation>
+        <translation>Transações extras para manter na memória para reconstruções de blocos compactos (padrão: %u)</translation>
     </message>
     <message>
         <source>Force relay of transactions from whitelisted peers even if they violate local relay policy (default: %d)</source>
-        <translation type="unfinished"></translation>
+        <translation>Força a retransmissão de transações de pares na lista de permissões, mesmo que violem a política de retransmissão local (padrão: %d)</translation>
     </message>
     <message>
         <source>If this block is in the chain assume that it and its ancestors are valid and potentially skip their script verification (0 to verify all, default: %s, testnet: %s)</source>
-        <translation type="unfinished"></translation>
+        <translation>Se este bloco estiver na cadeia, assuma que ele e seus ancestrais são válidos e, potencialmente, ignore sua verificação de script (0 para verificar todos, padrão: %s, testnet: %s)</translation>
     </message>
     <message>
         <source>Invalid amount for -discardthreshold=&lt;amount&gt;: &apos;%s&apos; (must be at least the dust limit of %s to prevent stuck transactions)</source>
-        <translation type="unfinished"></translation>
+        <translation>Valor inválido para -discardthreshold=&lt;amount&gt;: &apos;%s&apos; (deve ser pelo menos o limite de poeira de %s para evitar transações travadas)</translation>
     </message>
     <message>
         <source>Maximum allowed median peer time offset adjustment. Local perspective of time may be influenced by peers forward or backward by this amount. (default: %u seconds)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajuste de deslocamento de tempo de peer mediano máximo permitido. A perspectiva local de tempo pode ser influenciada por pares para frente ou para trás por esse valor. (padrão: %u segundos)</translation>
     </message>
     <message>
         <source>Maximum total fees (in %s) to use in a single wallet transaction or raw transaction; setting this too low may abort large transactions (default: %s)</source>
-        <translation type="unfinished"></translation>
+        <translation>Taxas totais máximas (em %s) para usar em uma única transação de carteira ou transação bruta; definir isso muito baixo pode abortar grandes transações (padrão: %s)</translation>
     </message>
     <message>
         <source>Please check that your computer&apos;s date and time are correct! If your clock is wrong, %s will not work properly.</source>
-        <translation type="unfinished"></translation>
+        <translation>Verifique se a data e a hora do seu computador estão corretas! Se o seu relógio estiver errado, %s não funcionará corretamente.</translation>
     </message>
     <message>
         <source>Please contribute if you find %s useful. Visit %s for further information about the software.</source>
-        <translation type="unfinished"></translation>
+        <translation>Por favor, contribua se achar %s útil. Visite %s para obter mais informações sobre o software.</translation>
     </message>
     <message>
         <source>Query for peer addresses via DNS lookup, if low on addresses (default: 1 unless -connect/-noconnect)</source>
-        <translation type="unfinished"></translation>
+        <translation>Consulta de endereços de pares por meio de pesquisa de DNS, se houver poucos endereços (padrão: 1, a menos que -connect/-noconnect)</translation>
     </message>
     <message>
         <source>Reduce storage requirements by enabling pruning (deleting) of old blocks. This allows the pruneblockchain RPC to be called to delete specific blocks, and enables automatic pruning of old blocks if a target size in MiB is provided. This mode is incompatible with -txindex and -rescan. Warning: Reverting this setting requires re-downloading the entire blockchain. (default: 0 = disable pruning blocks, 1 = allow manual pruning via RPC, &gt;%u = automatically prune block files to stay under the specified target size in MiB)</source>
-        <translation type="unfinished"></translation>
+        <translation>Reduza os requisitos de armazenamento habilitando a remoção (exclusão) de blocos antigos. Isso permite que o RPC pruneblockchain seja chamado para excluir blocos específicos e permite a remoção automática de blocos antigos se um tamanho de destino em MiB for fornecido. Este modo é incompatível com -txindex e -rescan. Aviso: a reversão dessa configuração requer o download de todo o blockchain. (padrão: 0 = desabilitar blocos de poda, 1 = permitir poda manual via RPC, &gt;%u = remover arquivos de bloco automaticamente para ficarem abaixo do tamanho de destino especificado em MiB)</translation>
     </message>
     <message>
         <source>Set lowest fee rate (in %s/kB) for transactions to be included in block creation. (default: %s)</source>
-        <translation type="unfinished"></translation>
+        <translation>Defina a taxa de taxa mais baixa (em %s/kB) para transações a serem incluídas na criação do bloco. (padrão: %s)</translation>
     </message>
     <message>
         <source>Sets the serialization of raw transaction or block hex returned in non-verbose mode, non-segwit(0) or segwit(1) (default: %d)</source>
-        <translation type="unfinished"></translation>
+        <translation>Define a serialização da transação bruta ou bloco hex retornado no modo não detalhado, não-segwit(0) ou segwit(1) (padrão: %d)</translation>
     </message>
     <message>
         <source>Specify directory where to write backups and data dumps (default datadir/backups)</source>
-        <translation type="unfinished"></translation>
+        <translation>Especifique o diretório onde gravar backups e despejos de dados (diretório de dados/backups padrão)</translation>
     </message>
     <message>
         <source>The minimum transaction output size (in %s) used to validate wallet transactions and discard change (to fee) (default: %s)</source>
-        <translation type="unfinished"></translation>
+        <translation>O tamanho mínimo de saída da transação (em %s) usado para validar as transações da carteira e descartar a alteração (para taxa) (padrão: %s)</translation>
     </message>
     <message>
         <source>This is a pre-release test build - use at your own risk - do not use for mining or merchant applications</source>
-        <translation type="unfinished"></translation>
+        <translation>Esta é uma compilação de teste de pré-lançamento - use por sua conta e risco - não use para aplicativos de mineração ou comerciais</translation>
     </message>
     <message>
         <source>This is the transaction fee you may pay when fee estimates are not available.</source>
-        <translation type="unfinished"></translation>
+        <translation>Esta é a taxa de transação que você pode pagar quando as estimativas de taxa não estiverem disponíveis.</translation>
     </message>
     <message>
         <source>This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit %s and cryptographic software written by Eric Young and UPnP software written by Thomas Bernard. Paper wallet art provided by Anacoluthia.</source>
-        <translation type="unfinished"></translation>
+        <translation>Este produto inclui software desenvolvido pelo OpenSSL Project para uso no OpenSSL Toolkit %s e software criptográfico escrito por Eric Young e software UPnP escrito por Thomas Bernard. Arte da carteira de papel fornecida pela Anacoluthia.</translation>
     </message>
     <message>
         <source>Unable to rewind the database to a pre-fork state. You will need to redownload the blockchain</source>
-        <translation type="unfinished"></translation>
+        <translation>Não é possível retroceder o banco de dados para um estado de pré-bifurcação. Você precisará baixar novamente o blockchain</translation>
     </message>
     <message>
         <source>Use hierarchical deterministic key generation (HD) after BIP32. Only has effect during wallet creation/first start</source>
-        <translation type="unfinished"></translation>
+        <translation>Use geração de chave determinística hierárquica (HD) após BIP32. Só tem efeito durante a criação da carteira/primeiro início</translation>
     </message>
     <message>
         <source>Username and hashed password for JSON-RPC connections. The field &lt;userpw&gt; comes in the format: &lt;USERNAME&gt;:&lt;SALT&gt;$&lt;HASH&gt;. A canonical python script is included in share/rpcuser. The client then connects normally using the rpcuser=&lt;USERNAME&gt;/rpcpassword=&lt;PASSWORD&gt; pair of arguments. This option can be specified multiple times</source>
-        <translation type="unfinished"></translation>
+        <translation>Nome de usuário e senha com hash para conexões JSON-RPC. O campo &lt;userpw&gt; vem no formato: &lt;USERNAME&gt;:&lt;SALT&gt;$&lt;HASH&gt;. Um script python canônico está incluído em share/rpcuser. O cliente então se conecta normalmente usando o par de argumentos rpcuser=&lt;USERNAME&gt;/rpcpassword=&lt;PASSWORD&gt;. Esta opção pode ser especificada várias vezes</translation>
     </message>
     <message>
         <source>Wallet will not create transactions that violate mempool chain limits (default: %u)</source>
-        <translation type="unfinished"></translation>
+        <translation>A carteira não criará transações que violem os limites da cadeia de mempool (padrão: %u)</translation>
     </message>
     <message>
         <source>Warning: The network does not appear to fully agree! Some miners appear to be experiencing issues.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aviso: A rede não parece concordar totalmente! Alguns mineradores parecem estar enfrentando problemas.</translation>
     </message>
     <message>
         <source>Warning: Wallet file corrupt, data salvaged! Original %s saved as %s in %s; if your balance or transactions are incorrect you should restore from a backup.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aviso: arquivo de carteira corrompido, dados recuperados! Original %s salvo como %s em %s; se seu saldo ou transações estiverem incorretos, você deve restaurar a partir de um backup.</translation>
     </message>
     <message>
         <source>Warning: We do not appear to fully agree with our peers! You may need to upgrade, or other nodes may need to upgrade.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aviso: Parece que não concordamos totalmente com nossos pares! Você pode precisar atualizar ou outros nós podem precisar atualizar.</translation>
     </message>
     <message>
         <source>Whitelist peers connecting from the given IP address (e.g. 1.2.3.4) or CIDR notated network (e.g. 1.2.3.0/24). Can be specified multiple times.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pares da lista de permissões que se conectam a partir do endereço IP fornecido (por exemplo, 1.2.3.4) ou rede notada CIDR (por exemplo, 1.2.3.0/24). Pode ser especificado várias vezes.</translation>
     </message>
     <message>
         <source>You need to rebuild the database using -reindex-chainstate to change -txindex</source>
-        <translation type="unfinished"></translation>
+        <translation>Você precisa reconstruir o banco de dados usando -reindex-chainstate para alterar -txindex</translation>
     </message>
     <message>
         <source>%s corrupt, salvage failed</source>
-        <translation type="unfinished"></translation>
+        <translation>%s corrompido, salvamento falhou</translation>
     </message>
     <message>
         <source>%s is set very high!</source>
-        <translation type="unfinished"></translation>
+        <translation>%s está definido muito alto!</translation>
     </message>
     <message>
         <source>Amaze</source>
-        <translation type="unfinished"></translation>
+        <translation>Surpreendido</translation>
     </message>
     <message>
         <source>Cannot resolve -%s address: &apos;%s&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Não é possível resolver -%s endereço: &apos;%s&apos;</translation>
     </message>
     <message>
         <source>Chain selection options:</source>
-        <translation type="unfinished"></translation>
+        <translation>Opções de seleção de cadeia:</translation>
     </message>
     <message>
         <source>Change index out of range</source>
-        <translation type="unfinished"></translation>
+        <translation>Alterar índice fora do intervalo</translation>
     </message>
     <message>
         <source>Copyright (C) %i-%i</source>
-        <translation type="unfinished"></translation>
+        <translation>Direitos autorais (C) %i-%i</translation>
     </message>
     <message>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Predefinição</translation>
     </message>
     <message>
         <source>Error loading %s: You can&apos;t disable HD on a already existing HD wallet</source>
-        <translation type="unfinished"></translation>
+        <translation>Erro ao carregar %s: Você não pode desativar o HD em uma carteira HD já existente</translation>
     </message>
     <message>
         <source>Initialization sanity check failed. %s is shutting down.</source>
-        <translation type="unfinished"></translation>
+        <translation>Falha na verificação de integridade da inicialização. %s está sendo encerrado.</translation>
     </message>
     <message>
         <source>Keypool ran out, please call keypoolrefill first</source>
-        <translation type="unfinished"></translation>
+        <translation>Keypool acabou, por favor, chame a keypoolrefill primeiro</translation>
     </message>
     <message>
         <source>Loading banlist...</source>
-        <translation type="unfinished"></translation>
+        <translation>A carregar a lista de bloqueados...</translation>
     </message>
     <message>
         <source>Many generous</source>
-        <translation type="unfinished"></translation>
+        <translation>Muitos generosos</translation>
     </message>
     <message>
         <source>Minimum</source>
-        <translation type="unfinished"></translation>
+        <translation>Mínimo</translation>
     </message>
     <message>
         <source>More</source>
-        <translation type="unfinished"></translation>
+        <translation>Mais</translation>
     </message>
     <message>
         <source>Rebuild chain state and block index from the blk*.dat files on disk</source>
-        <translation type="unfinished"></translation>
+        <translation>Reconstrua o estado da cadeia e bloqueie o índice dos arquivos blk*.dat no disco</translation>
     </message>
     <message>
         <source>Rebuild chain state from the currently indexed blocks</source>
-        <translation type="unfinished"></translation>
+        <translation>Reconstruir o estado da cadeia a partir dos blocos indexados atualmente</translation>
     </message>
     <message>
         <source>Rewinding blocks...</source>
-        <translation type="unfinished"></translation>
+        <translation>Rebobinando blocos...</translation>
     </message>
     <message>
         <source>Send transactions with full-RBF opt-in enabled (default: %u)</source>
-        <translation type="unfinished"></translation>
+        <translation>Enviar transações com o opt-in full-RBF habilitado (padrão: %u)</translation>
     </message>
     <message>
         <source>Set maximum BIP141 block weight (default: %d)</source>
-        <translation type="unfinished"></translation>
+        <translation>Defina o peso máximo do bloco BIP141 (padrão: %d)</translation>
     </message>
     <message>
         <source>Starting network threads...</source>
-        <translation type="unfinished"></translation>
+        <translation>Iniciando threads de rede...</translation>
     </message>
     <message>
         <source>Such expensive</source>
-        <translation type="unfinished"></translation>
+        <translation>tão caro</translation>
     </message>
     <message>
         <source>The source code is available from %s.</source>
-        <translation type="unfinished"></translation>
+        <translation>O código-fonte está disponível em %s.</translation>
     </message>
     <message>
         <source>The wallet will avoid paying less than the minimum relay fee.</source>
-        <translation type="unfinished"></translation>
+        <translation>A carteira evitará pagar menos do que a taxa mínima de retransmissão.</translation>
     </message>
     <message>
         <source>This is the minimum transaction fee you pay on every transaction.</source>
-        <translation type="unfinished"></translation>
+        <translation>Esta é a taxa mínima de transação que você paga em cada transação.</translation>
     </message>
     <message>
         <source>This is the transaction fee you will pay if you send a transaction.</source>
-        <translation type="unfinished"></translation>
+        <translation>Esta é a taxa de transação que você pagará se enviar uma transação.</translation>
     </message>
     <message>
         <source>Transaction amounts must not be negative</source>
-        <translation type="unfinished"></translation>
+        <translation>Os valores da transação não podem ser negativos</translation>
     </message>
     <message>
         <source>Transaction has too long of a mempool chain</source>
-        <translation type="unfinished"></translation>
+        <translation>A transação tem uma cadeia de mempool muito longa</translation>
     </message>
     <message>
         <source>Transaction must have at least one recipient</source>
-        <translation type="unfinished"></translation>
+        <translation>A transação tem uma cadeia de mempool muito longa</translation>
     </message>
     <message>
         <source>Unable to bind to %s on this computer. %s is probably already running.</source>
-        <translation type="unfinished"></translation>
+        <translation>Não foi possível vincular a %s neste computador. %s provavelmente já está em execução.</translation>
     </message>
     <message>
         <source>Use Namecoin-compatible AuxPow API structure, (default: %u)</source>
-        <translation type="unfinished"></translation>
+        <translation>Use a estrutura de API AuxPow compatível com Namecoin, (padrão: %u)</translation>
     </message>
     <message>
         <source>Use the test chain</source>
-        <translation type="unfinished"></translation>
+        <translation>Use a cadeia de teste</translation>
     </message>
     <message>
         <source>Wallet debugging/testing options:</source>
