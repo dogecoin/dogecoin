@@ -1697,7 +1697,7 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
         LOCK(cs_main);
 
         uint32_t nFetchFlags = GetFetchFlags(pfrom, chainActive.Tip(), chainparams.GetConsensus(chainActive.Height()));
-        int64_t current_time = GetTimeMicros();
+        int64_t current_time = GetMockableTimeMicros();
 
         std::vector<CInv> vToFetch;
 
@@ -3267,10 +3267,10 @@ bool SendMessages(CNode* pto, CConnman& connman, const std::atomic<bool>& interr
 
             // Check whether periodic sends should happen
             bool fSendTrickle = pto->fWhitelisted;
-            if (pto->nNextInvSend < nNow) {
+            if (pto->nNextInvSend < current_time) {
                 fSendTrickle = true;
                 // Use half the delay for outbound peers, as there is less privacy concern for them.
-                pto->nNextInvSend = PoissonNextSend(nNow, INVENTORY_BROADCAST_INTERVAL >> !pto->fInbound);
+                pto->nNextInvSend = PoissonNextSend(current_time, INVENTORY_BROADCAST_INTERVAL >> !pto->fInbound);
             }
 
             // Time to send but the peer has requested we not relay transactions.
@@ -3359,7 +3359,7 @@ bool SendMessages(CNode* pto, CConnman& connman, const std::atomic<bool>& interr
                     nRelayedTransactions++;
                     {
                         // Expire old relay messages
-                        while (!vRelayExpiration.empty() && vRelayExpiration.front().first < nNow)
+                        while (!vRelayExpiration.empty() && vRelayExpiration.front().first < current_time)
                         {
                             mapRelay.erase(vRelayExpiration.front().second);
                             vRelayExpiration.pop_front();
@@ -3367,7 +3367,7 @@ bool SendMessages(CNode* pto, CConnman& connman, const std::atomic<bool>& interr
 
                         auto ret = mapRelay.insert(std::make_pair(hash, std::move(txinfo.tx)));
                         if (ret.second) {
-                            vRelayExpiration.push_back(std::make_pair(nNow + 15 * 60 * 1000000, ret.first));
+                            vRelayExpiration.push_back(std::make_pair(current_time + 15 * 60 * 1000000, ret.first));
                         }
                     }
                     if (vInv.size() == MAX_INV_SZ) {
