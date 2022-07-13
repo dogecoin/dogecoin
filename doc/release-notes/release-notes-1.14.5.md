@@ -60,8 +60,8 @@ Fee Reductions
 This release finalizes a new minimum fee recommendation for all participants on
 the Dogecoin network, following the reduction of relay and mining defaults in
 1.14.4. The recommendation has been documented and can be found
-[here](fee-recommendation.md). With this release, the minimum fees when creating
-transactions are recommended to be as follows:
+[here](../fee-recommendation.md). With this release, the minimum fees when
+creating transactions are recommended to be as follows:
 
 * the recommended minimum transaction fee is 0.01 DOGE/kb, and
 * the recommended dust limit is 1 DOGE, and
@@ -192,7 +192,7 @@ Minor Changes
 * Correct the block download timeout for the regtest chain.
 * Shut down when trying to use a corrupted block from disk.
 * Add experimental AVX2 support, to improve the performance of SHA operations.
-* Add a [getting started guide](getting-started.md)
+* Add a [getting started guide](../getting-started.md)
 
 Credits
 =======
