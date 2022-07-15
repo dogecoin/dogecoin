@@ -514,6 +514,8 @@ public:
     std::string addrLocal;
     CAddress addr;
     CAmount minFeeFilter;
+    uint64_t nProcessedAddrs;
+    uint64_t nRatelimitedAddrs;
 };
 
 
@@ -641,6 +643,14 @@ public:
     std::set<uint256> setKnown;
     int64_t nNextAddrSend;
     int64_t nNextLocalAddrSend;
+
+    /** Number of addresses that can be processed from this peer. */
+    double nAddrTokenBucket;
+    /** When nAddrTokenBucket was last updated, in microseconds */
+    int64_t nAddrTokenTimestamp;
+
+    std::atomic<uint64_t> nProcessedAddrs;
+    std::atomic<uint64_t> nRatelimitedAddrs;
 
     // inventory based relay
     CRollingBloomFilter filterInventoryKnown;
