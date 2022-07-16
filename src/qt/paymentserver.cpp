@@ -11,6 +11,7 @@
 #include "base58.h"
 #include "chainparams.h"
 #include "policy/policy.h"
+#include "random.h"
 #include "ui_interface.h"
 #include "util.h"
 #include "wallet/wallet.h"
@@ -55,6 +56,7 @@ const char* BIP70_MESSAGE_PAYMENTREQUEST = "PaymentRequest";
 const char* BIP71_MIMETYPE_PAYMENT = "application/bitcoin-payment";
 const char* BIP71_MIMETYPE_PAYMENTACK = "application/bitcoin-paymentack";
 const char* BIP71_MIMETYPE_PAYMENTREQUEST = "application/bitcoin-paymentrequest";
+const int IPC_SOCKET_HASH = GetRandInt(INT_MAX);
 
 struct X509StoreDeleter {
       void operator()(X509_STORE* b) {
@@ -84,7 +86,7 @@ static QString ipcServerName()
     // Note that GetDataDir(true) returns a different path
     // for -testnet versus main net
     QString ddir(GUIUtil::boostPathToQString(GetDataDir(true)));
-    name.append(QString::number(qHash(ddir)));
+    name.append(QString::number(qHash(ddir, IPC_SOCKET_HASH)));
 
     return name;
 }
@@ -313,9 +315,6 @@ PaymentServer::PaymentServer(QObject* parent, bool startLocalServer) :
         parent->installEventFilter(this);
 
     QString name = ipcServerName();
-
-    // Clean up old socket leftover from a crash:
-    QLocalServer::removeServer(name);
 
     if (startLocalServer)
     {
