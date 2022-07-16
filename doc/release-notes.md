@@ -127,6 +127,27 @@ The method can be called with:
 dogecoin-cli liststucktransactions
 ```
 
+### Add pruning configuration to the UI
+
+Adds pruning configuration to the UI, to make it easier to save diskspace for
+users of graphical (wallet) installations. Before, this could only be done
+through manual editing of the configuration file.
+
+The new setting allows a user to decrease the total disk space used for keeping
+full blocks the node down to 3GB, by removing blocks that are no longer needed
+for full incremental validation of the blockchain.
+
+**Caveats**
+
+Note that when running a pruned node, the following applies:
+
+* The node will no longer relay blocks and transactions.
+* If the node needs to recover after a hardware failure, it might need to
+  re-download the entire chain.
+* Features that need the entire block chain, such as rescanning the chain
+  for wallet transactions, or importing old keys, will not function.
+* Reverting this setting will make the node re-download the entire chain.  
+
 ### Manage the number of connections without restart
 
 A new RPC method `setmaxconnections` has been introduced that enables wallet
