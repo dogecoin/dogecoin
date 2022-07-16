@@ -10,10 +10,13 @@ Please report bugs using the issue tracker at github:
 
   <https://github.com/dogecoin/dogecoin/issues>
 
-To receive security and update notifications, please watch reddit:
+To receive notifications about updates, subscribe to the release mailing list:
 
-  * https://www.reddit.com/r/dogecoindev/
-  * [mailing list]
+  <https://sourceforge.net/projects/dogecoin/lists/dogecoin-releases>
+
+Releases are also announced on reddit:
+
+  <https://www.reddit.com/r/dogecoindev/>
 
 Compatibility
 ==============
