@@ -37,9 +37,9 @@ are important for every node operator and wallet user.
 
 The P2P alert system has been removed and alert messages are no longer
 processed. This was planned for the next major release, but as bugs were found
-in the implementation, the full depreciation of this feature has been executed
-early, because it makes no sense to overhaul a system that is already marked
-for removal in the near future.
+in the implementation, the full deprecation of this feature has been executed
+early, because it makes no sense to overhaul a system that is unused and
+already marked for removal in the near future.
 
 ### Harden the transaction download mechanism
 
@@ -89,10 +89,13 @@ directory under the data directory called "backups".
 
 **This is a breaking change.**
 
-The behavior of the `dumpwallet` and `backupwallet` RPC methods has changed,
-as these will ignore any path given other than the filename, and always store
+The behavior of the `dumpwallet` and `backupwallet` RPC methods has changed, as
+these will ignore any path given other than the filename, and will always store
 the filename in the directory defined with `-backupdir` or the above-mentioned
 default location.
+
+These methods will also refuse to overwrite any existing files and will produce
+error messages to that effect.
 
 ### Maximum number of addnode records
 
@@ -167,8 +170,8 @@ dogecoin-cli setmaxconnections <desired_amount>
 ### Improve the traffic graph in the UI
 
 Significantly improves the graph in the UI's traffic monitor by not throwing
-away data every time the graph is closed, but instead keep track of the traffic
-we see in the background and then render it on demand.
+away data every time the graph is closed, but instead keeping track of the
+traffic we see in the background and then rendering it on demand.
 
 ### Add a rescan RPC method
 
@@ -240,7 +243,9 @@ RPC API Changes
 * Added `rescan`
 * `addnode` will now return error `-32` when the address provided is too long
 * `getpeerinfo` provides 2 new fields per peer, `addr_processed` and
-  `addr_rate_limited`, that track `addr` message processing.
+  `addr_rate_limited`, that track `addr` message processing
+* `dumpwallet` and `backupwallet` now write their output to the configurable
+  backup directory and do not overwrite existing files
 
 Dependency Updates
 ------------------
@@ -257,7 +262,7 @@ Minor Changes
   significantly improves the speed at which 64-bit ARM hardware can validate
   blocks and transactions.
 * Fixed the graphical wallet to properly display in High-DPI resolutions.
-* Improve privacy by preventing leaks of information about our wallet when
+* Improved privacy by preventing leaks of information about our wallet when
   setting the locktime field (automatically.)
 * Added scrypt to the benchmark code.
 * Change the granularity of data downloaded in the network tab to no longer
