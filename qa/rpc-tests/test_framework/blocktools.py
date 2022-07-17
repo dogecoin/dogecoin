@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # blocktools.py - utilities for manipulating blocks and transactions
 # Copyright (c) 2015-2016 The Bitcoin Core developers
+# Copyright (c) 2021 The Dogecoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
