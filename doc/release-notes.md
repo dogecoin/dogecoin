@@ -173,8 +173,8 @@ dogecoin-cli setmaxconnections <desired_amount>
 ### Improve the traffic graph in the UI
 
 Significantly improves the graph in the UI's traffic monitor by not throwing
-away data every time the graph is closed, but instead keeping track of the
-traffic we see in the background and then rendering it on demand.
+away data every time the graph scale got resampled, but instead keeping track
+of the traffic we see in the background and then rendering it on demand.
 
 ### Add a rescan RPC method
 
@@ -227,11 +227,13 @@ Translation Updates
 
 Significant updates have been provided to the following languages:
 
+* Bulgarian
 * Dutch
 * French
 * Italian
 * Korean
 * Persian
+* Portuguese (pt_PT)
 * Tamil
 
 Policies and tooling have been updated to enable translators better in their
@@ -292,11 +294,13 @@ Credit goes to all awesome contributors to this release, alphabetically:
 * alamshafil
 * Ayushman Singh Chauhan
 * Bhaskar Kashyap
+* ch0k1
 * Chao Liu
 * chromatic
 * Chuanyi
 * Chun Kuan Lee
 * Dakoda Greaves
+* DogecoinItalia
 * dogespacewizard
 * Ed Tubbs
 * Evan Klitzke
@@ -304,34 +308,41 @@ Credit goes to all awesome contributors to this release, alphabetically:
 * fdov
 * Gregory Maxwell
 * Hennadii Stepanov
+* huedaya
 * iamagf
+* inevitable360
 * Jade Hamel
 * Jadi
 * Jeremy Rubin
+* Jimkov
 * just-an-dev
+* justAndrea1111
 * katesalazar
 * Kaz Wesley
 * MVShishkov
 * Maniixer
 * MarcoFalke
+* Martyornot
 * Matheus Bach
 * Matt Corallo
 * Micael Malta
 * Michi Lumin
 * Misha Behersky
 * MishaBoar
-* Mishaboar
 * Mohammad Ali Haghshenas
 * Motahhar Mokf
 * Patrick Lodder
 * Pieter Wuille
 * practicalswift
+* RnoHach
 * Roman Zeyde
 * Russell Yanofsky
 * scarletletters
 * sinetek
+* Staartvos
 * Steve Chung
 * thisiskeanyvy
 * vertiond
 * VJ
 * Wladimir J. van der Laan
+* ZeeAmini
