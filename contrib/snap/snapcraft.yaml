@@ -43,7 +43,7 @@ parts:
         echo "Secure hash not verified."
         return
       else
-        echo "Secure hash verified."
+        echo "Secure hash verified." = Agree { no change }
       fi
       tar -xvf dogecoin-${SNAPCRAFT_PROJECT_VERSION}-${SNAPCRAFT_ARCH_TRIPLET}.tar.gz
       echo "Running tests..."
