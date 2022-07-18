@@ -1,46 +1,27 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # Copyright (c) 2014 Wladimir J. van der Laan
+# Copyright (c) 2022 The Dogecoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 '''
-Run this script from the root of the repository to update all translations from
-transifex.
-It will do the following automatically:
-
-- fetch all translations using the tx tool
-- post-process them into valid and committable format
-  - remove invalid control characters
-  - remove location tags (makes diffs less noisy)
-
-TODO:
-- auto-add new translations to the build system according to the translation process
+Run this script from the root of the repository to check all translations
 '''
-from __future__ import division, print_function
-import subprocess
+
 import re
 import sys
 import os
 import io
 import xml.etree.ElementTree as ET
 
-# Name of transifex tool
-TX = 'tx'
 # Name of source language file
 SOURCE_LANG = 'bitcoin_en.ts'
 # Directory with locale files
 LOCALE_DIR = 'src/qt/locale'
-# Minimum number of messages for translation to be considered at all
-MIN_NUM_MESSAGES = 10
 
 def check_at_repository_root():
     if not os.path.exists('.git'):
         print('No .git directory found')
         print('Execute this script at the root of the repository', file=sys.stderr)
-        exit(1)
-
-def fetch_all_translations():
-    if subprocess.call([TX, 'pull', '-f', '-a']):
-        print('Error while fetching translations', file=sys.stderr)
         exit(1)
 
 def find_format_specifiers(s):
@@ -110,9 +91,6 @@ def all_ts_files(suffix=''):
         yield(filename, filepath)
 
 FIX_RE = re.compile(b'[\x00-\x09\x0b\x0c\x0e-\x1f]')
-def remove_invalid_characters(s):
-    '''Remove invalid characters from translation string'''
-    return FIX_RE.sub(b'', s)
 
 # Override cdata escape function to make our output match Qt's (optional, just for cleaner diffs for
 # comparison, disable by default)
@@ -123,25 +101,23 @@ def escape_cdata(text):
     text = text.replace('"', '&quot;')
     return text
 
-def postprocess_translations(reduce_diff_hacks=False):
-    print('Checking and postprocessing...')
-
-    if reduce_diff_hacks:
-        global _orig_escape_cdata
-        _orig_escape_cdata = ET._escape_cdata
-        ET._escape_cdata = escape_cdata
-
-    for (filename,filepath) in all_ts_files():
-        os.rename(filepath, filepath+'.orig')
+def check_all_translations():
+    print('Checking all translations...')
 
     have_errors = False
-    for (filename,filepath) in all_ts_files('.orig'):
-        # pre-fixups to cope with transifex output
-        parser = ET.XMLParser(encoding='utf-8') # need to override encoding because 'utf8' is not understood only 'utf-8'
-        with open(filepath + '.orig', 'rb') as f:
+    for (filename,filepath) in all_ts_files():
+        global FIX_RE
+
+        parser = ET.XMLParser(encoding='utf-8')
+        with open(filepath, 'rb') as f:
             data = f.read()
-        # remove control characters; this must be done over the entire file otherwise the XML parser will fail
-        data = remove_invalid_characters(data)
+
+        # find control characters; otherwise the XML parser will fail
+        if FIX_RE.match(data):
+            print(f'{{ filename }}: Found control characters, this needs to be fixed.')
+            have_errors = True
+            continue
+
         tree = ET.parse(io.BytesIO(data), parser=parser)
 
         # iterate over all messages in file
@@ -166,43 +142,21 @@ def postprocess_translations(reduce_diff_hacks=False):
                     for error in errors:
                         print('%s: %s' % (filename, error))
 
-                    if not valid: # set type to unfinished and clear string if invalid
-                        translation_node.clear()
-                        translation_node.set('type', 'unfinished')
+                    if not valid:
                         have_errors = True
 
-                # Remove location tags
-                for location in message.findall('location'):
-                    message.remove(location)
+        # Check for location tags
+        location_count = len(message.findall('location'))
+        if location_count != 0:
+            have_errors = True
+            print(f'{filename}: {location_count} location message(s) found!')
 
-                # Remove entire message if it is an unfinished translation
-                if translation_node.get('type') == 'unfinished':
-                    context.remove(message)
-
-        # check if document is (virtually) empty, and remove it if so
-        num_messages = 0
-        for context in root.findall('context'):
-            for message in context.findall('message'):
-                num_messages += 1
-        if num_messages < MIN_NUM_MESSAGES:
-            print('Removing %s, as it contains only %i messages' % (filepath, num_messages))
-            continue
-
-        # write fixed-up tree
-        # if diff reduction requested, replace some XML to 'sanitize' to qt formatting
-        if reduce_diff_hacks:
-            out = io.BytesIO()
-            tree.write(out, encoding='utf-8')
-            out = out.getvalue()
-            out = out.replace(b' />', b'/>')
-            with open(filepath, 'wb') as f:
-                f.write(out)
-        else:
-            tree.write(filepath, encoding='utf-8')
     return have_errors
 
 if __name__ == '__main__':
     check_at_repository_root()
-    fetch_all_translations()
-    postprocess_translations()
-
+    errors_detected = check_all_translations()
+    if errors_detected:
+        exit(1)
+    else:
+        print('No errors detected.')
