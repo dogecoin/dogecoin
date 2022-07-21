@@ -450,13 +450,13 @@ RPCConsole::RPCConsole(const PlatformStyle *_platformStyle, QWidget *parent) :
     connect(ui->btnClearTrafficGraph, SIGNAL(clicked()), ui->trafficGraph, SLOT(clear()));
 
     // Allow user to add new peer
-    connect(ui->peerAdd, SIGNAL(clicked()), this, SLOT(on_addPeer_clicked()));
+    connect(ui->peerAdd, SIGNAL(clicked()), this, SLOT(on_addPeerClicked()));
 
     // Allow user to remove peer
-    connect(ui->peerRemove, SIGNAL(clicked()), this, SLOT(on_removePeer_clicked()));
+    connect(ui->peerRemove, SIGNAL(clicked()), this, SLOT(on_removePeerClicked()));
 
     // Allow user to test peer
-    connect(ui->peerTest, SIGNAL(clicked()), this, SLOT(on_testPeer_clicked()));
+    connect(ui->peerTest, SIGNAL(clicked()), this, SLOT(on_testPeerClicked()));
 
     // set library version labels
 #ifdef ENABLE_WALLET
@@ -927,7 +927,7 @@ void RPCConsole::on_openDebugLogfileButton_clicked()
     GUIUtil::openDebugLogfile();
 }
 
-void RPCConsole::on_addPeer_clicked() 
+void RPCConsole::on_addPeerClicked() 
 {
 
     QWidget *win = new AddPeerDialog(0);
@@ -942,7 +942,7 @@ void RPCConsole::on_addPeer_clicked()
     win->move(global.x() - win->width() / 2, global.y() - win->height() / 2);
 }
 
-void RPCConsole::on_removePeer_clicked() 
+void RPCConsole::on_removePeerClicked() 
 {    
     QList<QModelIndex> ips = GUIUtil::getEntryData(ui->peerWidget, PeerTableModel::Address);
 
@@ -961,7 +961,7 @@ void RPCConsole::on_removePeer_clicked()
     }
 }
 
-void RPCConsole::on_testPeer_clicked() 
+void RPCConsole::on_testPeerClicked() 
 {
     QWidget *win = new TestPeerDialog(0);
 
