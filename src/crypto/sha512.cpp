@@ -10,7 +10,7 @@
 #include <string.h>
 
 #if (defined(__ia64__) || defined(__x86_64__)) && \
-    (defined(__linux__) && !defined(__APPLE__)) && \
+    !defined(__APPLE__) && \
     (defined(USE_AVX2))
 #include <intel-ipsec-mb.h>
 #endif

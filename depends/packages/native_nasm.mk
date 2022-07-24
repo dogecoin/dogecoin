@@ -17,5 +17,5 @@ define $(package)_stage_cmds
 endef
 
 define $(package)_postprocess_cmds
-  rm -rf share 
+  rm -rf share
 endef
