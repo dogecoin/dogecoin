@@ -170,7 +170,7 @@ jobs:
             run-bench: true
             run-tests: true
             dep-opts: "AVX2=1"
-            config-opts: "--with-intel-avx2 --enable-gui=qt5 --enable-zmq --enable-glibc-back-compat --enable-reduce-exports"
+            config-opts: "--enable-scrypt-sse2 --with-intel-avx2 --enable-gui=qt5 --enable-zmq --enable-glibc-back-compat --enable-reduce-exports"
             goal: install
 
     runs-on: ${{ matrix.os }}
