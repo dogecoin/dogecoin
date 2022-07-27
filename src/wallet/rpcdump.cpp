@@ -92,7 +92,7 @@ UniValue importprivkey(const JSONRPCRequest& request)
             "1. \"dogecoinprivkey\"  (string, required) The private key (see dumpprivkey)\n"
             "2. \"label\"            (string, optional, default=\"\") An optional label\n"
             "3. rescan               (boolean, optional, default=true) Rescan the wallet for transactions\n"
-            "4. rescanheight         (numeric, optional, default=1) If rescanning, the block height from which to start\n"
+            "4. height               (numeric, optional, default=1) If rescanning, the block height from which to start\n"
             "\nNote: This call can take minutes to complete if rescan is true.\n"
             "\nExamples:\n"
             "\nDump a private key\n"
