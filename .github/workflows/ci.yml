@@ -45,7 +45,7 @@ jobs:
           - name: i686-linux
             host: i686-pc-linux-gnu
             os: ubuntu-18.04
-            packages: g++-multilib bc python3-zmq
+            packages: g++-multilib bc python3-pip python3-setuptools python3-zmq
             run-bench: true
             test-script: |
               make check $MAKEJOBS VERBOSE=1
@@ -119,7 +119,7 @@ jobs:
           - name: x86_64-linux-dbg
             host: x86_64-unknown-linux-gnu
             os: ubuntu-18.04
-            packages: bc python3-zmq
+            packages: bc python3-pip python3-setuptools python3-zmq
             run-bench: true
             test-script: |
               make check $MAKEJOBS VERBOSE=1
@@ -199,7 +199,7 @@ jobs:
           - name: x86_64-linux-experimental
             host: x86_64-linux-gnu
             os: ubuntu-18.04
-            packages: bc python3-zmq
+            packages: bc python3-pip python3-setuptools python3-zmq
             run-bench: true
             test-script: |
               make check $MAKEJOBS VERBOSE=1
