@@ -83,7 +83,7 @@ UniValue importprivkey(const JSONRPCRequest& request)
 {
     if (!EnsureWalletIsAvailable(request.fHelp))
         return NullUniValue;
-    
+
     if (request.fHelp || request.params.size() < 1 || request.params.size() > 4)
         throw runtime_error(
             "importprivkey \"dogecoinprivkey\" ( \"label\" ) ( rescan )\n"
@@ -151,12 +151,6 @@ UniValue importprivkey(const JSONRPCRequest& request)
         if (!pwalletMain->AddKeyPubKey(key, pubkey))
             throw JSONRPCError(RPC_WALLET_ERROR, "Error adding key to wallet");
 
-        // whenever a key is imported, we need to scan the whole chain
-        pwalletMain->UpdateTimeFirstKey(1);
-
-        /*
-         * use this instead of the genesis block
-        */
 
         if (fRescan) {
             CBlockIndex* pblockindex = chainActive.Genesis();
@@ -168,6 +162,9 @@ UniValue importprivkey(const JSONRPCRequest& request)
                     throw JSONRPCError(RPC_INVALID_PARAMETER, "Block height out of range");
 
                 pblockindex = chainActive[nHeight];
+            } else {
+                // we have no implicit first height for a key, so we need to scan the whole chain
+                pwalletMain->UpdateTimeFirstKey(1);
             }
 
             pwalletMain->ScanForWalletTransactions(pblockindex, true);
