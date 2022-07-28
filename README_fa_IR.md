@@ -11,7 +11,7 @@ Dogecoin Core [DOGE, Ð]
 
 </div>
 
-Select language: [EN](./README.md) | [CN](./README_zh_CN.md) | [PT](./README_pt_BR.md) | FA
+Select language: [EN](./README.md) | [CN](./README_zh_CN.md) | [PT](./README_pt_BR.md) | FA  | [VI](./README_vi_VN.md)
 
 دوج‌کوین (Dogecoin) یک رمزارز مبتنی بر عموم مردم بوده که از یک
 [میم اینترنتی](https://fa.wikipedia.org/wiki/%D9%85%DB%8C%D9%85)
