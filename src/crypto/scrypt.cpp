@@ -32,7 +32,6 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
-#include <openssl/sha.h>
 
 #if defined(USE_SSE2) && !defined(USE_SSE2_ALWAYS)
 #ifdef _MSC_VER
@@ -222,10 +221,11 @@ void scrypt_1024_1_1_256_sp_generic(const char *input, char *output, char *scrat
 // By default, set to generic scrypt function. This will prevent crash in case when scrypt_detect_sse2() wasn't called
 void (*scrypt_1024_1_1_256_sp_detected)(const char *input, char *output, char *scratchpad) = &scrypt_1024_1_1_256_sp_generic;
 
-void scrypt_detect_sse2()
+bool scrypt_detect_sse2()
 {
+    bool fUsingSSE2;
 #if defined(USE_SSE2_ALWAYS)
-    printf("scrypt: using scrypt-sse2 as built.\n");
+    fUsingSSE2 = true;
 #else // USE_SSE2_ALWAYS
     // 32bit x86 Linux or Windows, detect cpuid features
     unsigned int cpuid_edx=0;
@@ -243,14 +243,16 @@ void scrypt_detect_sse2()
     if (cpuid_edx & 1<<26)
     {
         scrypt_1024_1_1_256_sp_detected = &scrypt_1024_1_1_256_sp_sse2;
-        printf("scrypt: using scrypt-sse2 as detected.\n");
+        fUsingSSE2 = true;
     }
     else
     {
         scrypt_1024_1_1_256_sp_detected = &scrypt_1024_1_1_256_sp_generic;
-        printf("scrypt: using scrypt-generic, SSE2 unavailable.\n");
+        fUsingSSE2 = false;
     }
 #endif // USE_SSE2_ALWAYS
+
+    return fUsingSSE2;
 }
 #endif
 

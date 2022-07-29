@@ -177,6 +177,12 @@ AC_ARG_ENABLE([zmq],
   [use_zmq=$enableval],
   [use_zmq=yes])
 
+AC_ARG_ENABLE([scrypt-sse2],
+  [AS_HELP_STRING([--enable-scrypt-sse2],
+  [Build with scrypt sse2 implementation (default is no)])],
+  [use_scrypt_sse2=$enableval],
+  [use_scrypt_sse2=no])
+
 AC_ARG_WITH([intel-avx2],
   [AS_HELP_STRING([--with-intel-avx2],
   [Build with intel avx2 (default is no)])],
@@ -725,6 +731,11 @@ BOOST_LIBS="$BOOST_LDFLAGS $BOOST_SYSTEM_LIB $BOOST_FILESYSTEM_LIB $BOOST_PROGRA
 
 fi
 
+# Configure Scrypt SSE2
+if test x$use_scrypt_sse2 = xyes; then
+  AC_DEFINE(USE_SSE2, 1, [Define this symbol if SSE2 works])
+fi
+
 if test x$armv8_crypto = xyes; then
   AC_MSG_CHECKING([whether to build with armv8 crypto])
   AC_MSG_RESULT(yes)
@@ -1055,6 +1066,7 @@ AM_CONDITIONAL([USE_LCOV],[test x$use_lcov = xyes])
 AM_CONDITIONAL([GLIBC_BACK_COMPAT],[test x$use_glibc_compat = xyes])
 AM_CONDITIONAL([HARDEN],[test x$use_hardening = xyes])
 AM_CONDITIONAL([WORDS_BIGENDIAN],[test x$ac_cv_c_bigendian = xyes])
+AM_CONDITIONAL([USE_SCRYPT_SSE2], [test x$use_scrypt_sse2 = xyes])
 
 AC_DEFINE(CLIENT_VERSION_MAJOR, _CLIENT_VERSION_MAJOR, [Major version])
 AC_DEFINE(CLIENT_VERSION_MINOR, _CLIENT_VERSION_MINOR, [Minor version])

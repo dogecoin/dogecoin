@@ -267,6 +267,11 @@ crypto_libdogecoin_crypto_a_SOURCES = \
   crypto/sha512.cpp \
   crypto/sha512.h
 
+# only include SSE2 scrypt sources if USE_SCRYPT_SSE2 is defined
+if USE_SCRYPT_SSE2
+crypto_libdogecoin_crypto_a_SOURCES += crypto/scrypt-sse2.cpp
+endif
+
 # consensus: shared between all executables that validate any consensus rules.
 libdogecoin_consensus_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
 libdogecoin_consensus_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
