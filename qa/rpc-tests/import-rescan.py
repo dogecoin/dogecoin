@@ -1,17 +1,18 @@
 #!/usr/bin/env python3
 # Copyright (c) 2014-2016 The Bitcoin Core developers
+# Copyright (c) 2022 The Dogecoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test rescan behavior of importaddress, importpubkey, importprivkey, and
 importmulti RPCs with different types of keys and rescan options.
 
 In the first part of the test, node 1 creates an address for each type of
-import RPC call and node 0 sends BTC to it. Then other nodes import the
+import RPC call and node 0 sends Doge to it. Then other nodes import the
 addresses, and the test makes listtransactions and getbalance calls to confirm
 that the importing node either did or did not execute rescans picking up the
 send transactions.
 
-In the second part of the test, node 0 sends more BTC to each address, and the
+In the second part of the test, node 0 sends more Doge to each address, and the
 test makes more listtransactions and getbalance calls to confirm that the
 importing nodes pick up the new transactions regardless of whether rescans
 happened previously.
@@ -114,6 +115,9 @@ class ImportRescanTest(BitcoinTestFramework):
         super().__init__()
         self.num_nodes = 2 + len(IMPORT_NODES)
 
+    def first_node(self):
+        return self.nodes[0]
+
     def setup_network(self):
         extra_args = [["-debug=1"] for _ in range(self.num_nodes)]
         for i, import_node in enumerate(IMPORT_NODES, 2):
@@ -125,8 +129,11 @@ class ImportRescanTest(BitcoinTestFramework):
             connect_nodes(self.nodes[i], 0)
 
     def run_test(self):
+        self.test_argument_validation()
+
         # Create one transaction on node 0 with a unique amount and label for
         # each possible type of wallet import RPC.
+
         for i, variant in enumerate(IMPORT_VARIANTS):
             variant.label = "label {} {}".format(i, variant)
             variant.address = self.nodes[1].validateaddress(self.nodes[1].getnewaddress(variant.label))
@@ -179,13 +186,27 @@ class ImportRescanTest(BitcoinTestFramework):
             else:
                 variant.check()
 
+    def test_argument_validation(self):
+        node = self.first_node()
+
+        try:
+            node.importprivkey("")
+        except JSONRPCException as e:
+            assert("Invalid private key encoding" in e.error["message"])
+
+        address = node.validateaddress(node.getnewaddress("some label"))
+        privkey = node.dumpprivkey(address["address"])
+
+        try:
+            node.importprivkey(privkey, "", True, str(node.getblockcount() + 1))
+        except JSONRPCException as e:
+            assert("Block height out of range" in e.error["message"])
 
 def try_rpc(func, *args, **kwargs):
     try:
         return func(*args, **kwargs), None
     except JSONRPCException as e:
         return None, e.error
-
 
 if __name__ == "__main__":
     ImportRescanTest().main()
