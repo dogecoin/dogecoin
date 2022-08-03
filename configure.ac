@@ -908,9 +908,16 @@ fi
 
 if test x$armv82_crypto = xyes; then
   DOGECOIN_REQUIRE_EXPERIMENTAL
-  AC_CHECK_DECLS([vsha512su0q_u64],
-     [AC_DEFINE(USE_ARMV82, 1, [Define this symbol if armv8.2 crypto works])
-     CXXFLAGS="$CXXFLAGS -march=armv8.2-a+crypto+sha3"], AC_MSG_ERROR(sha512 missing), [#include <arm_neon.h>])
+  CPPFLAGS="$CPPFLAGS -march=armv8.2-a+crypto+sha3"
+  AC_MSG_CHECKING([whether to build with armv8.2-a crypto])
+  AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <arm_neon.h>]], [[uint64x2_t x; x = vsha512su0q_u64(x, x);]])],
+                  [AC_DEFINE(USE_ARMV82, 1, [Define this symbol if armv8.2 crypto works])
+                   ARM_CXXFLAGS="-march=armv8.2-a+crypto+sha3"]
+                   AC_MSG_RESULT(yes),
+                  [AC_MSG_WARN([sha512 missing, using armv8.2-a crypto without sha512])
+                   ARM_CXXFLAGS="-march=armv8.2-a+crypto"
+                   AC_DEFINE(USE_ARMV8)])
+  CPPFLAGS=${CPPFLAGS/"-march=armv8.2-a+crypto+sha3"/}
 fi
 
 if test x$use_pkgconfig = xyes; then
@@ -1266,6 +1273,7 @@ AC_SUBST(BITCOIN_CLI_NAME)
 AC_SUBST(BITCOIN_TX_NAME)
 
 AC_SUBST(RELDFLAGS)
+AC_SUBST(ARM_CXXFLAGS)
 AC_SUBST(COMPAT_LDFLAGS)
 AC_SUBST(ERROR_CXXFLAGS)
 AC_SUBST(HARDENED_CXXFLAGS)

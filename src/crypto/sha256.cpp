@@ -24,13 +24,16 @@
 # if defined(__ARM_NEON) || defined(_MSC_VER) || defined(__GNUC__)
 #  include <arm_neon.h>
 # endif
+/** Apple Clang **/
+# if defined(__APPLE__) && defined(__apple_build_version__)
+#  include <sys/sysctl.h>
+# endif
 /** GCC and LLVM Clang, but not Apple Clang */
 # if defined(__GNUC__) && !defined(__apple_build_version__)
 #  if defined(__ARM_ACLE) || defined(__ARM_FEATURE_CRYPTO)
 #   include "compat/arm_acle_selector.h"
 #  endif
 # endif
-#endif  /** ARM Headers */
 
 static const uint32_t K[] =
 {
@@ -51,10 +54,10 @@ static const uint32_t K[] =
     0x748F82EE, 0x78A5636F, 0x84C87814, 0x8CC70208,
     0x90BEFFFA, 0xA4506CEB, 0xBEF9A3F7, 0xC67178F2,
 };
+#endif  /** ARM Headers */
 
 #if defined(__x86_64__) || defined(__amd64__)
 #if defined(USE_ASM)
-#include <cpuid.h>
 namespace sha256_sse4
 {
 void Transform(uint32_t* s, const unsigned char* chunk, size_t blocks);
@@ -107,11 +110,11 @@ void inline Initialize(uint32_t* s)
     s[7] = 0x5be0cd19ul;
 }
 
-/** Perform a number of SHA-256 transformations, processing 64-byte chunks. */
-void Transform(uint32_t* s, const unsigned char* chunk, size_t blocks)
+#if defined(USE_ARMV8) || defined(USE_ARMV82)
+/** Perform a number of SHA-256 transformations, processing 64-byte chunks. (ARMV8) */
+void Transform_ARMV8(uint32_t* s, const unsigned char* chunk, size_t blocks)
 {
     while (blocks--) {
-#if defined(USE_ARMV8) || defined(USE_ARMV82)
         // entire block is experimental
         EXPERIMENTAL_FEATURE
 
@@ -269,11 +272,29 @@ void Transform(uint32_t* s, const unsigned char* chunk, size_t blocks)
         vst1q_u32(&s[0], STATE0);
         vst1q_u32(&s[4], STATE1);
 
-#elif USE_AVX2
+        chunk += 64;
+    }
+}
+#endif
+
+#if USE_AVX2
+/** Perform a number of SHA-256 transformations, processing 64-byte chunks. (AVX2) */
+void Transform_AVX2(uint32_t* s, const unsigned char* chunk, size_t blocks)
+{
+    while (blocks--) {
         // Perform SHA256 one block (Intel AVX2)
         EXPERIMENTAL_FEATURE
         sha256_one_block_avx2(chunk, s);
-#else
+
+        chunk += 64;
+    }
+}
+#endif
+
+/** Perform a number of SHA-256 transformations, processing 64-byte chunks. */
+void Transform(uint32_t* s, const unsigned char* chunk, size_t blocks)
+{
+    while (blocks--) {
        // Perform SHA256 one block (legacy)
         uint32_t a = s[0], b = s[1], c = s[2], d = s[3], e = s[4], f = s[5], g = s[6], h = s[7];
         uint32_t w0, w1, w2, w3, w4, w5, w6, w7, w8, w9, w10, w11, w12, w13, w14, w15;
@@ -354,7 +375,7 @@ void Transform(uint32_t* s, const unsigned char* chunk, size_t blocks)
         s[5] += f;
         s[6] += g;
         s[7] += h;
-#endif
+
         chunk += 64;
     }
 }
@@ -610,7 +631,7 @@ void TransformD64(unsigned char* out, const unsigned char* in)
     WriteBE32(out + 28, h + 0x5be0cd19ul);
 }
 
-} // namespace sha256
+}
 
 typedef void (*TransformType)(uint32_t*, const unsigned char*, size_t);
 typedef void (*TransformD64Type)(unsigned char*, const unsigned char*);
@@ -696,6 +717,17 @@ void inline cpuid(uint32_t leaf, uint32_t subleaf, uint32_t& a, uint32_t& b, uin
 #endif
 } // namespace
 
+#if defined(__linux__)
+#define HWCAP_SHA2  (1<<6)
+#include <sys/auxv.h>
+#elif defined(__WIN64__)
+#include <intrin.h>
+bool isAVX (void) {
+  int cpuinfo[4];
+  __cpuid(cpuinfo, 1);
+  return ((cpuinfo[2] & (1 << 28)) != 0);
+}
+#endif
 
 std::string SHA256AutoDetect()
 {
@@ -722,6 +754,28 @@ std::string SHA256AutoDetect()
     }
 #endif
 
+// Override the function pointer for ARMV8/AVX2 (intel-ipsec-mb)
+#if ((defined(USE_ARMV8) || defined(USE_ARMV82)) && defined(__APPLE__))
+    if (sysctlbyname("hw.optional.arm.FEAT_SHA256", NULL, NULL, NULL, 0) == 0) {
+       Transform = &sha256::Transform_ARMV8;
+       ret = "armv8/armv82,apple";
+    }
+#elif (defined(USE_ARMV8) || defined(USE_ARMV82))
+    if (getauxval(AT_HWCAP) & HWCAP_SHA2) {
+       Transform = &sha256::Transform_ARMV8;
+       ret = "armv8/armv82";
+    }
+#elif USE_AVX2 && defined(__linux__)
+    if (__builtin_cpu_supports("avx2")) {
+       Transform = &sha256::Transform_AVX2;
+       ret = "avx2,linux,intel-ipsec-mb";
+    }
+#elif USE_AVX2 && defined(__WIN64__)
+    if (isAVX) {
+       Transform = &sha256::Transform_AVX2;
+       ret = "avx2,win64,intel-ipsec-mb";
+    }
+#endif
     assert(SelfTest(Transform));
     return ret;
 }
