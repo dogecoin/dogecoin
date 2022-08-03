@@ -25,4 +25,6 @@ public:
     CSHA1& Reset();
 };
 
+void detect_sha1_hardware(void);
+
 #endif // BITCOIN_CRYPTO_SHA1_H

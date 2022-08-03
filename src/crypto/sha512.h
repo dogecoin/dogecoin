@@ -25,4 +25,6 @@ public:
     CSHA512& Reset();
 };
 
+void detect_sha512_hardware(void);
+
 #endif // BITCOIN_CRYPTO_SHA512_H

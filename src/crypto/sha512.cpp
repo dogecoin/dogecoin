@@ -23,13 +23,16 @@
 # if defined(__ARM_NEON) || defined(_MSC_VER) || defined(__GNUC__)
 #  include <arm_neon.h>
 # endif
+/** Apple Clang **/
+# if defined(__APPLE__) && defined(__apple_build_version__)
+#  include <sys/sysctl.h>
+# endif
 /** GCC and LLVM Clang, but not Apple Clang */
 # if defined(__GNUC__) && !defined(__apple_build_version__)
 #  if defined(__ARM_ACLE) || defined(__ARM_FEATURE_CRYPTO)
 #   include "compat/arm_acle_selector.h"
 #  endif
 # endif
-#endif  /** ARM Headers */
 
 static const uint64_t sha512_round_constants[] =
 {
@@ -74,6 +77,7 @@ static const uint64_t sha512_round_constants[] =
     0x4cc5d4becb3e42b6, 0x597f299cfc657e2a,
     0x5fcb6fab3ad6faec, 0x6c44198c4a475817
 };
+#endif  /** ARM Headers */
 
 // Internal implementation code.
 namespace
@@ -81,7 +85,6 @@ namespace
 /// Internal SHA-512 implementation.
 namespace sha512
 {
-#ifndef USE_AVX2
 uint64_t inline Ch(uint64_t x, uint64_t y, uint64_t z) { return z ^ (x & (y ^ z)); }
 uint64_t inline Maj(uint64_t x, uint64_t y, uint64_t z) { return (x & y) | (z & (x | y)); }
 uint64_t inline Sigma0(uint64_t x) { return (x >> 28 | x << 36) ^ (x >> 34 | x << 30) ^ (x >> 39 | x << 25); }
@@ -97,7 +100,6 @@ void inline Round(uint64_t a, uint64_t b, uint64_t c, uint64_t& d, uint64_t e, u
     d += t1;
     h = t1 + t2;
 }
-#endif
 
 #ifdef USE_ARMV82
 
@@ -309,14 +311,20 @@ void inline Initialize(uint64_t* s)
     s[7] = 0x5be0cd19137e2179ull;
 }
 
-/** Perform one SHA-512 transformation, processing a 128-byte chunk. */
-void Transform(uint64_t* s, const unsigned char* chunk)
+/** Perform one SHA-512 transformation, processing a 128-byte chunk. (AVX2) */
+void Transform_AVX2(uint64_t* s, const unsigned char* chunk)
 {
 #ifdef USE_AVX2
     // Perform SHA512 one block (Intel AVX2)
     EXPERIMENTAL_FEATURE
     sha512_one_block_avx2(chunk, s);
-#elif USE_ARMV82
+#endif
+}
+
+/** Perform one SHA-512 transformation, processing a 128-byte chunk. (ARMv8.2) */
+void Transform_ARMV82(uint64_t* s, const unsigned char* chunk)
+{
+#ifdef USE_ARMV82
     sha512_neon_core core;
 
     core.ab = vld1q_u64(s);
@@ -335,7 +343,12 @@ void Transform(uint64_t* s, const unsigned char* chunk)
     s[5] = vgetq_lane_u64 (core.ef, 1);
     s[6] = vgetq_lane_u64 (core.gh, 0);
     s[7] = vgetq_lane_u64 (core.gh, 1);
-#else
+#endif
+}
+
+/** Perform one SHA-512 transformation, processing a 128-byte chunk. */
+void Transform(uint64_t* s, const unsigned char* chunk)
+{
     // Perform SHA512 one block (legacy)
     uint64_t a = s[0], b = s[1], c = s[2], d = s[3], e = s[4], f = s[5], g = s[6], h = s[7];
     uint64_t w0, w1, w2, w3, w4, w5, w6, w7, w8, w9, w10, w11, w12, w13, w14, w15;
@@ -433,11 +446,44 @@ void Transform(uint64_t* s, const unsigned char* chunk)
     s[5] += f;
     s[6] += g;
     s[7] += h;
+}
+
+/** Define SHA512 hardware */
+#if defined(__linux__)
+#define HWCAP_SHA512  (1<<21)
+#include <sys/auxv.h>
+#elif defined(__WIN64__)
+#include <intrin.h>
+bool isAVX (void) {
+  int cpuinfo[4];
+  __cpuid(cpuinfo, 1);
+  return ((cpuinfo[2] & (1 << 28)) != 0);
+}
+#endif
+
+/** Define a function pointer for Transform */
+void (*transform_ptr) (uint64_t*, const unsigned char*) = &Transform;
+
+/** Initialize the function pointer */
+void inline Initialize_transform_ptr(void)
+{
+// Override the function pointer for ARMV82/AVX2
+#if (defined(USE_ARMV82) && defined(__APPLE__))
+    if (sysctlbyname("hw.optional.arm.FEAT_SHA512", NULL, NULL, NULL, 0) == 0)
+       transform_ptr = &Transform_ARMV82;
+#elif defined(USE_ARMV82)
+    if (getauxval(AT_HWCAP) & HWCAP_SHA512)
+       transform_ptr = &Transform_ARMV82;
+#elif USE_AVX2 && defined(__linux__)
+    if (__builtin_cpu_supports("avx2"))
+       transform_ptr = &Transform_AVX2;
+#elif USE_AVX2 && defined(__WIN64__)
+    if (isAVX)
+       transform_ptr = &Transform_AVX2;
 #endif
 }
 
 } // namespace sha512
-
 } // namespace
 
 
@@ -457,12 +503,12 @@ CSHA512& CSHA512::Write(const unsigned char* data, size_t len)
         memcpy(buf + bufsize, data, 128 - bufsize);
         bytes += 128 - bufsize;
         data += 128 - bufsize;
-        sha512::Transform(s, buf);
+        sha512::transform_ptr(s, buf);
         bufsize = 0;
     }
     while (end >= data + 128) {
         // Process full chunks directly from the source.
-        sha512::Transform(s, data);
+        sha512::transform_ptr(s, data);
         data += 128;
         bytes += 128;
     }
@@ -496,4 +542,9 @@ CSHA512& CSHA512::Reset()
     bytes = 0;
     sha512::Initialize(s);
     return *this;
+}
+
+void detect_sha512_hardware()
+{
+    sha512::Initialize_transform_ptr();
 }
