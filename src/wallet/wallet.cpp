@@ -3961,20 +3961,6 @@ bool CWallet::ParameterInteraction()
             CWallet::minTxFee = CFeeRate(nFeePerK,1000);
         }
     }
-    if (IsArgSet("-maxtxfee"))
-    {
-        CAmount nMaxFee = 0;
-        if (!ParseMoney(GetArg("-maxtxfee", ""), nMaxFee))
-            return InitError(AmountErrMsg("maxtxfee", GetArg("-maxtxfee", "")));
-        if (nMaxFee > HIGH_MAX_TX_FEE)
-            InitWarning(_("-maxtxfee is set very high! Fees this large could be paid on a single transaction."));
-        maxTxFee = nMaxFee;
-        if (CFeeRate(maxTxFee, 1000) < ::minRelayTxFeeRate)
-        {
-            return InitError(strprintf(_("Invalid amount for -maxtxfee=<amount>: '%s' (must be at least the minrelay fee of %s to prevent stuck transactions)"),
-                                       GetArg("-maxtxfee", ""), ::minRelayTxFeeRate.ToString()));
-        }
-    }
     if (IsArgSet("-discardthreshold"))
     {
         CAmount nDiscardThreshold = 0;

@@ -1016,12 +1016,31 @@ bool AppInitParameterInteraction()
         CAmount n = 0;
         if (!ParseMoney(GetArg("-minrelaytxfee", ""), n) || 0 == n)
             return InitError(AmountErrMsg("minrelaytxfee", GetArg("-minrelaytxfee", "")));
-        // High fee check is done afterward in CWallet::ParameterInteraction()
         ::minRelayTxFeeRate = CFeeRate(n);
     } else if (incrementalRelayFee > ::minRelayTxFeeRate) {
         // Allow only setting incrementalRelayFee to control both
         ::minRelayTxFeeRate = incrementalRelayFee;
         LogPrintf("Increasing minrelaytxfee to %s to match incrementalrelayfee\n",::minRelayTxFeeRate.ToString());
+    }
+
+    // This is the maximum absolute fee (in COIN, not satoshis)
+    // that is allowed for sendrawtransaction RPC and CWallet
+    // This must be parsed outside of CWallet code in order to
+    // keep its effect on the RPC even when -disablewallet is
+    // active.
+    if (IsArgSet("-maxtxfee"))
+    {
+        CAmount nMaxFee = 0;
+        if (!ParseMoney(GetArg("-maxtxfee", ""), nMaxFee))
+            return InitError(AmountErrMsg("maxtxfee", GetArg("-maxtxfee", "")));
+        if (nMaxFee > HIGH_MAX_TX_FEE)
+            InitWarning(_("-maxtxfee is set very high! Fees this large could be paid on a single transaction."));
+        ::maxTxFee = nMaxFee;
+        if (CFeeRate(::maxTxFee, 1000) < ::minRelayTxFeeRate)
+        {
+            return InitError(strprintf(_("Invalid amount for -maxtxfee=<amount>: '%s' (must be at least the minrelay fee of %s to prevent stuck transactions)"),
+                                       GetArg("-maxtxfee", ""), ::minRelayTxFeeRate.ToString()));
+        }
     }
 
     // Sanity check argument for min fee for including tx in block
