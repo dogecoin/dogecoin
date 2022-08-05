@@ -1,5 +1,6 @@
 // Copyright (c) 2010 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin Core developers
+// Copyright (c) 2022 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -19,6 +20,7 @@
 #include "util.h"
 #include "utilmoneystr.h"
 #include "wallet.h"
+#include "wallet/rpcutil.h"
 #include "walletdb.h"
 
 #include <stdint.h>
@@ -806,6 +808,83 @@ UniValue movecmd(const JSONRPCRequest& request)
     return true;
 }
 
+UniValue rescan(const JSONRPCRequest& request)
+{
+    if (!EnsureWalletIsAvailable(request.fHelp))
+        return NullUniValue;
+
+    const int nParams = request.params.size();
+
+    if (request.fHelp || nParams > 1 || fPruneMode)
+        throw runtime_error(
+            "rescan ( \"height\" )\n"
+            "\nRescan the wallet for transactions\n"
+            "\nWARNING: this operation may take a long time!\n"
+            "\nCurrently works only on non-pruned nodes\n"
+            "\nArguments:\n"
+            "1. \"height\"  (number, optional) The block height from which to start rescanning\n"
+            "2. \"label\"            (string, optional, default=\"\") An optional label\n"
+            "3. rescan               (boolean, optional, default=true) Rescan the wallet for transactions\n"
+            "\nResult:\n"
+            "{\n"
+            "    \"before\":\n"
+            "    {\n"
+            "        \"balance\" : (numeric) The total amount in " + CURRENCY_UNIT + " received by the address before the rescan\n"
+            "        \"txcount\" : (numeric) The number of transactions received by addresses in the wallet before the rescan\n"
+            "    },\n"
+            "    \"after\":\n"
+            "    {\n"
+            "        \"balance\" : (numeric) The total amount in " + CURRENCY_UNIT + " received by the address after the rescan\n"
+            "        \"txcount\" : (numeric) The number of transactions received by addresses in the wallet after the rescan\n"
+            "    },\n"
+            "    \"blocks_scanned\" : (numeric) The number of blocks scanned during the rescan\n"
+            "    \"time_elapsed\" : (numeric) The number of seconds it took to rescan the blocks (may be zero)\n"
+            "}\n"
+            "\nNote: This call can take minutes to complete.\n"
+            "\nExamples:\n"
+            "\nRescan from block height 122345\n"
+            + HelpExampleCli("rescan", "122345") +
+            "\nRescan from the first block\n"
+            + HelpExampleCli("rescan", "") +
+            "\nAs a JSON-RPC call\n"
+            + HelpExampleRpc("rescan", "122345")
+        );
+
+
+    CBlockIndex* pblockindex = chainActive.Genesis();
+    int64_t nHeight = 0;
+
+    if (nParams == 1) {
+        nHeight = request.params[0].get_int();
+
+        if (nHeight < 0 || nHeight > chainActive.Height())
+            throw JSONRPCError(RPC_INVALID_PARAMETER, "Block height out of range");
+
+        pblockindex = chainActive[nHeight];
+    }
+
+    UniValue beforeObj(UniValue::VOBJ);
+    beforeObj.pushKV("balance", ValueFromAmount(pwalletMain->GetBalance()));
+    beforeObj.pushKV("txcount", (int)pwalletMain->mapWallet.size());
+
+    int64_t beforeTime = GetTime();
+
+    pwalletMain->ScanForWalletTransactions(pblockindex, true);
+
+    UniValue afterObj(UniValue::VOBJ);
+    afterObj.pushKV("balance", ValueFromAmount(pwalletMain->GetBalance()));
+    afterObj.pushKV("txcount", (int)pwalletMain->mapWallet.size());
+
+    UniValue ret(UniValue::VOBJ);
+    ret.pushKV("before", beforeObj);
+    ret.pushKV("after", afterObj);
+
+    ret.pushKV("blocks_scanned", chainActive.Height() - nHeight);
+    ret.pushKV("time_elapsed", GetTime() - beforeTime);
+
+    return ret;
+}
+
 
 UniValue sendfrom(const JSONRPCRequest& request)
 {
@@ -1571,6 +1650,115 @@ UniValue listtransactions(const JSONRPCRequest& request)
     return ret;
 }
 
+UniValue liststucktransactions(const JSONRPCRequest& request)
+{
+    if (!EnsureWalletIsAvailable(request.fHelp))
+        return NullUniValue;
+
+    if (request.fHelp || request.params.size() > 2)
+        throw runtime_error(
+            "liststucktransactions ( verbose include_watchonly )\n"
+            "\nReturns all transactions in the wallet that do not have a mempool entry.\n"
+            "\nArguments:\n"
+            "1. verbose (boolean, optional, default=false) True for a JSON representation of the transactions, false for array of transaction ids\n"
+            "2. include_watchonly (bool, optional, default=false) Include transactions to watch-only addresses (see 'importaddress')\n"
+            "\nResult: (for verbose = false):\n"
+           "[                     (json array of string)\n"
+            "  \"transactionid\",   (string) The transaction id\n"
+            "  ...\n"
+            "]\n"
+            "\nResult: (for verbose = true):\n"
+            "[\n"
+            "   {\n"
+            "     \"amount\" : x.xxx,        (numeric) The transaction amount in " + CURRENCY_UNIT + "\n"
+            "     \"fee\": x.xxx,            (numeric) The amount of the fee in " + CURRENCY_UNIT + ". This is negative and only available for the \n"
+            "                                 'send' category of transactions.\n"
+            "     \"confirmations\" : n,     (numeric) The number of confirmations\n"
+            "     \"blockhash\" : \"hash\",  (string) The block hash\n"
+            "     \"blockindex\" : xx,       (numeric) The index of the transaction in the block that includes it\n"
+            "     \"blocktime\" : ttt,       (numeric) The time in seconds since epoch (1 Jan 1970 GMT)\n"
+            "     \"txid\" : \"transactionid\",   (string) The transaction id.\n"
+            "     \"time\" : ttt,            (numeric) The transaction time in seconds since epoch (1 Jan 1970 GMT)\n"
+            "     \"timereceived\" : ttt,    (numeric) The time received in seconds since epoch (1 Jan 1970 GMT)\n"
+            "     \"bip125-replaceable\": \"yes|no|unknown\",  (string) Whether this transaction could be replaced due to BIP125 (replace-by-fee);\n"
+            "                                                      may be unknown for unconfirmed transactions not in the mempool\n"
+            "     \"details\" : [\n"
+            "       {\n"
+            "         \"account\" : \"accountname\",      (string) DEPRECATED. The account name involved in the transaction, can be \"\" for the default account.\n"
+            "         \"address\" : \"address\",          (string) The dogecoin address involved in the transaction\n"
+            "         \"category\" : \"send|receive\",    (string) The category, either 'send' or 'receive'\n"
+            "         \"amount\" : x.xxx,                 (numeric) The amount in " + CURRENCY_UNIT + "\n"
+            "         \"label\" : \"label\",              (string) A comment for the address/transaction, if any\n"
+            "         \"vout\" : n,                       (numeric) the vout value\n"
+            "         \"fee\": x.xxx,                     (numeric) The amount of the fee in " + CURRENCY_UNIT + ". This is negative and only available for the \n"
+            "                                              'send' category of transactions.\n"
+            "         \"abandoned\": xxx                  (bool) 'true' if the transaction has been abandoned (inputs are respendable). Only available for the \n"
+            "                                              'send' category of transactions.\n"
+            "       }\n"
+            "       ,...\n"
+            "     ],\n"
+            "     \"hex\" : \"data\"         (string) Raw data for transaction\n"
+            "   }\n"
+            "]\n"
+
+            "\nExamples:\n"
+            "\nList all transactions ids in the wallet that do not have a mempool entry.\n"
+            + HelpExampleCli("liststucktransactions", "false") +
+            "\nList all transactions in the wallet that do not have a mempool entry as a JSON object.\n"
+            + HelpExampleCli("liststucktransactions", "true") +
+            "\nAs a json rpc call\n"
+            + HelpExampleRpc("liststucktransactions", "")
+        );
+
+    LOCK2(cs_main, pwalletMain->cs_wallet);
+
+    bool verbose = false;
+    if (request.params.size() > 0)
+        verbose = request.params[0].get_bool();
+
+    isminefilter filter = ISMINE_SPENDABLE;
+    if(request.params.size() > 1)
+        if(request.params[1].get_bool())
+            filter = filter | ISMINE_WATCH_ONLY;
+
+    UniValue ret(UniValue::VARR);
+
+    const CWallet::TxItems& txOrdered = pwalletMain->wtxOrdered;
+
+    for (CWallet::TxItems::const_iterator it = txOrdered.begin(); it != txOrdered.end(); ++it)
+    {
+        CWalletTx *const wtx = (*it).second.first;
+        if (wtx->GetDepthInMainChain() <= 0 && !wtx->InMempool() && wtx->IsFromMe(filter))
+        {
+            if (!verbose) {
+                ret.push_back(wtx->GetHash().ToString());
+            } else {
+                UniValue entry(UniValue::VOBJ);
+
+                CAmount nCredit = wtx->GetCredit(filter);
+                CAmount nDebit = wtx->GetDebit(filter);
+                CAmount nNet = nCredit - nDebit;
+                CAmount nFee = wtx->tx->GetValueOut() - nDebit;
+
+                entry.pushKV("amount", ValueFromAmount(nNet - nFee));
+                entry.pushKV("fee", ValueFromAmount(nFee));
+
+                WalletTxToJSON(*wtx, entry);
+
+                UniValue details(UniValue::VARR);
+                ListTransactions(*wtx, "*", 0, false, details, filter);
+                entry.pushKV("details", details);
+
+                string strHex = EncodeHexTx(static_cast<CTransaction>(*wtx), RPCSerializationFlags());
+                entry.pushKV("hex", strHex);
+                ret.push_back(entry);
+            }
+        }
+    }
+
+    return ret;
+}
+
 UniValue listaccounts(const JSONRPCRequest& request)
 {
     if (!EnsureWalletIsAvailable(request.fHelp))
@@ -1885,9 +2073,9 @@ UniValue backupwallet(const JSONRPCRequest& request)
     if (request.fHelp || request.params.size() != 1)
         throw runtime_error(
             "backupwallet \"destination\"\n"
-            "\nSafely copies current wallet file to destination, which can be a directory or a path with filename.\n"
+            "\nSafely copies current wallet file to destination file.\n"
             "\nArguments:\n"
-            "1. \"destination\"   (string) The destination directory or file\n"
+            "1. \"destination\"   (string, required) The destination filename\n"
             "\nExamples:\n"
             + HelpExampleCli("backupwallet", "\"backup.dat\"")
             + HelpExampleRpc("backupwallet", "\"backup.dat\"")
@@ -1895,8 +2083,13 @@ UniValue backupwallet(const JSONRPCRequest& request)
 
     LOCK2(cs_main, pwalletMain->cs_wallet);
 
-    string strDest = request.params[0].get_str();
-    if (!pwalletMain->BackupWallet(strDest))
+    string userFilename = request.params[0].get_str();
+    boost::filesystem::path path = GetBackupDirFromInput(userFilename);
+
+    if (boost::filesystem::exists(path))
+        throw JSONRPCError(RPC_INVALID_PARAMETER, "Wallet dump file already exists; not overwriting");
+
+    if (!pwalletMain->BackupWallet(path.string()))
         throw JSONRPCError(RPC_WALLET_ERROR, "Error: Wallet backup failed!");
 
     return NullUniValue;
@@ -3064,9 +3257,11 @@ static const CRPCCommand commands[] =
     { "wallet",             "listreceivedbyaddress",    &listreceivedbyaddress,    false,  {"minconf","include_empty","include_watchonly"} },
     { "wallet",             "listsinceblock",           &listsinceblock,           false,  {"blockhash","target_confirmations","include_watchonly"} },
     { "wallet",             "listtransactions",         &listtransactions,         false,  {"account","count","skip","include_watchonly"} },
+    { "wallet",             "liststucktransactions",    &liststucktransactions,    false,  {"verbosity","include_watchonly"} },
     { "wallet",             "listunspent",              &listunspent,              false,  {"minconf","maxconf","addresses","include_unsafe","query_options"} },
     { "wallet",             "lockunspent",              &lockunspent,              true,   {"unlock","transactions"} },
     { "wallet",             "move",                     &movecmd,                  false,  {"fromaccount","toaccount","amount","minconf","comment"} },
+    { "wallet",             "rescan",                   &rescan,                   false,  {"height"} },
     { "wallet",             "sendfrom",                 &sendfrom,                 false,  {"fromaccount","toaddress","amount","minconf","comment","comment_to"} },
     { "wallet",             "sendmany",                 &sendmany,                 false,  {"fromaccount","amounts","minconf","comment","subtractfeefrom"} },
     { "wallet",             "sendtoaddress",            &sendtoaddress,            false,  {"address","amount","comment","comment_to","subtractfeefromamount"} },

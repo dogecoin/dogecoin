@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 # Copyright (c) 2016 The Bitcoin Core developers
+# Copyright (c) 2022 The Dogecoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 from test_framework.test_framework import BitcoinTestFramework
-from test_framework.util import (start_nodes, start_node, assert_equal, bitcoind_processes)
+from test_framework.util import (start_nodes, start_node, assert_equal, bitcoind_processes, JSONRPCException)
 
 
 def read_dump(file_name, addrs, hd_master_addr_old):
@@ -69,6 +70,7 @@ class WalletDumpTest(BitcoinTestFramework):
 
     def run_test (self):
         tmpdir = self.options.tmpdir
+        backupsdir = tmpdir + "/node0/regtest/backups/"
 
         # generate 20 addresses to compare against the dump
         test_addr_count = 20
@@ -81,10 +83,12 @@ class WalletDumpTest(BitcoinTestFramework):
         self.nodes[0].keypoolrefill()
 
         # dump unencrypted wallet
-        self.nodes[0].dumpwallet(tmpdir + "/node0/wallet.unencrypted.dump")
+        # note that the RPC extracts only the filename
+        # thus writing to the backups/ default directory
+        self.nodes[0].dumpwallet("/node0/wallet.unencrypted.dump")
 
         found_addr, found_addr_chg, found_addr_rsv, hd_master_addr_unenc = \
-            read_dump(tmpdir + "/node0/wallet.unencrypted.dump", addrs, None)
+            read_dump(backupsdir + "wallet.unencrypted.dump", addrs, None)
         assert_equal(found_addr, test_addr_count)  # all keys must be in the dump
         assert_equal(found_addr_chg, 30)  # 30 blocks where mined
         assert_equal(found_addr_rsv, 90 + 1)  # keypool size (TODO: fix off-by-one)
@@ -99,10 +103,16 @@ class WalletDumpTest(BitcoinTestFramework):
         self.nodes[0].dumpwallet(tmpdir + "/node0/wallet.encrypted.dump")
 
         found_addr, found_addr_chg, found_addr_rsv, hd_master_addr_enc = \
-            read_dump(tmpdir + "/node0/wallet.encrypted.dump", addrs, hd_master_addr_unenc)
+            read_dump(backupsdir + "wallet.encrypted.dump", addrs, hd_master_addr_unenc)
         assert_equal(found_addr, test_addr_count)
         assert_equal(found_addr_chg, 90 + 1 + 30)  # old reserve keys are marked as change now
         assert_equal(found_addr_rsv, 90 + 1)  # keypool size (TODO: fix off-by-one)
+
+        try:
+            self.nodes[0].dumpwallet(tmpdir + "/node0/wallet.encrypted.dump")
+            raise AssertionError("dumpwallet should throw exception instead of overwriting existing file")
+        except JSONRPCException as e:
+            assert("Wallet dump file already exists; not overwriting" in e.error["message"])
 
 if __name__ == '__main__':
     WalletDumpTest().main ()

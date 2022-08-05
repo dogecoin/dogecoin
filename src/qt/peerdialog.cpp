@@ -1,4 +1,5 @@
 // Copyright (c) 2011-2016 The Bitcoin Core developers
+// Copyright (c) 2022 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -34,6 +35,10 @@ QString PeerTools::ManagePeer(QString type, QString peer)
 {
     std::string peerAddress = peer.toStdString();
 
+    if (peerAddress.size() > 256) {
+      return tr("Error: Node address is invalid");
+    }
+
     if(!g_connman)
         return tr("Error: Peer-to-peer functionality missing or disabled");
 
@@ -47,7 +52,7 @@ QString PeerTools::ManagePeer(QString type, QString peer)
     if (type == "add")
     {
         if(!g_connman->AddNode(peerAddress))
-            return tr("Error: Node already added");
+            return tr("Error: Unable to add node");
     }
     else if(type == "remove")
     {

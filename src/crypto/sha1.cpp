@@ -1,4 +1,5 @@
 // Copyright (c) 2014 The Bitcoin Core developers
+// Copyright (c) 2022 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -13,6 +14,21 @@
     (defined(USE_AVX2))
 #include <intel-ipsec-mb.h>
 #endif
+
+#if defined(__arm__) || defined(__aarch32__) || defined(__arm64__) || defined(__aarch64__) || defined(_M_ARM)
+# if defined(__GNUC__)
+#  include <stdint.h>
+# endif
+# if defined(__ARM_NEON)|| defined(_MSC_VER) || defined(__GNUC__)
+#  include <arm_neon.h>
+# endif
+/** GCC and LLVM Clang, but not Apple Clang */
+# if defined(__GNUC__) && !defined(__apple_build_version__)
+#  if defined(__ARM_ACLE) || defined(__ARM_FEATURE_CRYPTO)
+#   include "compat/arm_acle_selector.h"
+#  endif
+# endif
+#endif  /** ARM Headers */
 
 // Internal implementation code.
 namespace
@@ -54,7 +70,176 @@ const uint32_t k4 = 0xCA62C1D6ul;
 /** Perform a SHA-1 transformation, processing a 64-byte chunk. */
 void Transform(uint32_t* s, const unsigned char* chunk)
 {
-#ifdef USE_AVX2
+#if defined(USE_ARMV8) || defined(USE_ARMV82)
+    uint32x4_t ABCD, ABCD_SAVED;
+    uint32x4_t TMP0, TMP1;
+    uint32x4_t MSG0, MSG1, MSG2, MSG3;
+    uint32_t   E0, E0_SAVED, E1;
+
+    /** Load state */
+    ABCD = vld1q_u32(&s[0]);
+    E0 = s[4];
+
+    /** Save state */
+    ABCD_SAVED = ABCD;
+    E0_SAVED = E0;
+
+    /** Load message */
+    MSG0 = vld1q_u32((const uint32_t*)(chunk));
+    MSG1 = vld1q_u32((const uint32_t*)(chunk + 16));
+    MSG2 = vld1q_u32((const uint32_t*)(chunk + 32));
+    MSG3 = vld1q_u32((const uint32_t*)(chunk + 48));
+
+    /** Reverse for little endian */
+    MSG0 = vreinterpretq_u32_u8(vrev32q_u8(vreinterpretq_u8_u32(MSG0)));
+    MSG1 = vreinterpretq_u32_u8(vrev32q_u8(vreinterpretq_u8_u32(MSG1)));
+    MSG2 = vreinterpretq_u32_u8(vrev32q_u8(vreinterpretq_u8_u32(MSG2)));
+    MSG3 = vreinterpretq_u32_u8(vrev32q_u8(vreinterpretq_u8_u32(MSG3)));
+
+    TMP0 = vaddq_u32(MSG0, vdupq_n_u32(0x5A827999));
+    TMP1 = vaddq_u32(MSG1, vdupq_n_u32(0x5A827999));
+
+    /** Rounds 0-3 */
+    E1 = vsha1h_u32(vgetq_lane_u32(ABCD, 0));
+    ABCD = vsha1cq_u32(ABCD, E0, TMP0);
+    TMP0 = vaddq_u32(MSG2, vdupq_n_u32(0x5A827999));
+    MSG0 = vsha1su0q_u32(MSG0, MSG1, MSG2);
+
+    /** Rounds 4-7 */
+    E0 = vsha1h_u32(vgetq_lane_u32(ABCD, 0));
+    ABCD = vsha1cq_u32(ABCD, E1, TMP1);
+    TMP1 = vaddq_u32(MSG3, vdupq_n_u32(0x5A827999));
+    MSG0 = vsha1su1q_u32(MSG0, MSG3);
+    MSG1 = vsha1su0q_u32(MSG1, MSG2, MSG3);
+
+    /** Rounds 8-11 */
+    E1 = vsha1h_u32(vgetq_lane_u32(ABCD, 0));
+    ABCD = vsha1cq_u32(ABCD, E0, TMP0);
+    TMP0 = vaddq_u32(MSG0, vdupq_n_u32(0x5A827999));
+    MSG1 = vsha1su1q_u32(MSG1, MSG0);
+    MSG2 = vsha1su0q_u32(MSG2, MSG3, MSG0);
+
+    /** Rounds 12-15 */
+    E0 = vsha1h_u32(vgetq_lane_u32(ABCD, 0));
+    ABCD = vsha1cq_u32(ABCD, E1, TMP1);
+    TMP1 = vaddq_u32(MSG1, vdupq_n_u32(0x6ED9EBA1));
+    MSG2 = vsha1su1q_u32(MSG2, MSG1);
+    MSG3 = vsha1su0q_u32(MSG3, MSG0, MSG1);
+
+    /** Rounds 16-19 */
+    E1 = vsha1h_u32(vgetq_lane_u32(ABCD, 0));
+    ABCD = vsha1cq_u32(ABCD, E0, TMP0);
+    TMP0 = vaddq_u32(MSG2, vdupq_n_u32(0x6ED9EBA1));
+    MSG3 = vsha1su1q_u32(MSG3, MSG2);
+    MSG0 = vsha1su0q_u32(MSG0, MSG1, MSG2);
+
+    /** Rounds 20-23 */
+    E0 = vsha1h_u32(vgetq_lane_u32(ABCD, 0));
+    ABCD = vsha1pq_u32(ABCD, E1, TMP1);
+    TMP1 = vaddq_u32(MSG3, vdupq_n_u32(0x6ED9EBA1));
+    MSG0 = vsha1su1q_u32(MSG0, MSG3);
+    MSG1 = vsha1su0q_u32(MSG1, MSG2, MSG3);
+
+    /** Rounds 24-27 */
+    E1 = vsha1h_u32(vgetq_lane_u32(ABCD, 0));
+    ABCD = vsha1pq_u32(ABCD, E0, TMP0);
+    TMP0 = vaddq_u32(MSG0, vdupq_n_u32(0x6ED9EBA1));
+    MSG1 = vsha1su1q_u32(MSG1, MSG0);
+    MSG2 = vsha1su0q_u32(MSG2, MSG3, MSG0);
+
+    /** Rounds 28-31 */
+    E0 = vsha1h_u32(vgetq_lane_u32(ABCD, 0));
+    ABCD = vsha1pq_u32(ABCD, E1, TMP1);
+    TMP1 = vaddq_u32(MSG1, vdupq_n_u32(0x6ED9EBA1));
+    MSG2 = vsha1su1q_u32(MSG2, MSG1);
+    MSG3 = vsha1su0q_u32(MSG3, MSG0, MSG1);
+
+    /** Rounds 32-35 */
+    E1 = vsha1h_u32(vgetq_lane_u32(ABCD, 0));
+    ABCD = vsha1pq_u32(ABCD, E0, TMP0);
+    TMP0 = vaddq_u32(MSG2, vdupq_n_u32(0x8F1BBCDC));
+    MSG3 = vsha1su1q_u32(MSG3, MSG2);
+    MSG0 = vsha1su0q_u32(MSG0, MSG1, MSG2);
+
+    /** Rounds 36-39 */
+    E0 = vsha1h_u32(vgetq_lane_u32(ABCD, 0));
+    ABCD = vsha1pq_u32(ABCD, E1, TMP1);
+    TMP1 = vaddq_u32(MSG3, vdupq_n_u32(0x8F1BBCDC));
+    MSG0 = vsha1su1q_u32(MSG0, MSG3);
+    MSG1 = vsha1su0q_u32(MSG1, MSG2, MSG3);
+
+    /** Rounds 40-43 */
+    E1 = vsha1h_u32(vgetq_lane_u32(ABCD, 0));
+    ABCD = vsha1mq_u32(ABCD, E0, TMP0);
+    TMP0 = vaddq_u32(MSG0, vdupq_n_u32(0x8F1BBCDC));
+    MSG1 = vsha1su1q_u32(MSG1, MSG0);
+    MSG2 = vsha1su0q_u32(MSG2, MSG3, MSG0);
+
+    /** Rounds 44-47 */
+    E0 = vsha1h_u32(vgetq_lane_u32(ABCD, 0));
+    ABCD = vsha1mq_u32(ABCD, E1, TMP1);
+    TMP1 = vaddq_u32(MSG1, vdupq_n_u32(0x8F1BBCDC));
+    MSG2 = vsha1su1q_u32(MSG2, MSG1);
+    MSG3 = vsha1su0q_u32(MSG3, MSG0, MSG1);
+
+    /** Rounds 48-51 */
+    E1 = vsha1h_u32(vgetq_lane_u32(ABCD, 0));
+    ABCD = vsha1mq_u32(ABCD, E0, TMP0);
+    TMP0 = vaddq_u32(MSG2, vdupq_n_u32(0x8F1BBCDC));
+    MSG3 = vsha1su1q_u32(MSG3, MSG2);
+    MSG0 = vsha1su0q_u32(MSG0, MSG1, MSG2);
+
+    /** Rounds 52-55 */
+    E0 = vsha1h_u32(vgetq_lane_u32(ABCD, 0));
+    ABCD = vsha1mq_u32(ABCD, E1, TMP1);
+    TMP1 = vaddq_u32(MSG3, vdupq_n_u32(0xCA62C1D6));
+    MSG0 = vsha1su1q_u32(MSG0, MSG3);
+    MSG1 = vsha1su0q_u32(MSG1, MSG2, MSG3);
+
+    /** Rounds 56-59 */
+    E1 = vsha1h_u32(vgetq_lane_u32(ABCD, 0));
+    ABCD = vsha1mq_u32(ABCD, E0, TMP0);
+    TMP0 = vaddq_u32(MSG0, vdupq_n_u32(0xCA62C1D6));
+    MSG1 = vsha1su1q_u32(MSG1, MSG0);
+    MSG2 = vsha1su0q_u32(MSG2, MSG3, MSG0);
+
+    /** Rounds 60-63 */
+    E0 = vsha1h_u32(vgetq_lane_u32(ABCD, 0));
+    ABCD = vsha1pq_u32(ABCD, E1, TMP1);
+    TMP1 = vaddq_u32(MSG1, vdupq_n_u32(0xCA62C1D6));
+    MSG2 = vsha1su1q_u32(MSG2, MSG1);
+    MSG3 = vsha1su0q_u32(MSG3, MSG0, MSG1);
+
+    /** Rounds 64-67 */
+    E1 = vsha1h_u32(vgetq_lane_u32(ABCD, 0));
+    ABCD = vsha1pq_u32(ABCD, E0, TMP0);
+    TMP0 = vaddq_u32(MSG2, vdupq_n_u32(0xCA62C1D6));
+    MSG3 = vsha1su1q_u32(MSG3, MSG2);
+    MSG0 = vsha1su0q_u32(MSG0, MSG1, MSG2);
+
+    /** Rounds 68-71 */
+    E0 = vsha1h_u32(vgetq_lane_u32(ABCD, 0));
+    ABCD = vsha1pq_u32(ABCD, E1, TMP1);
+    TMP1 = vaddq_u32(MSG3, vdupq_n_u32(0xCA62C1D6));
+    MSG0 = vsha1su1q_u32(MSG0, MSG3);
+
+    /** Rounds 72-75 */
+    E1 = vsha1h_u32(vgetq_lane_u32(ABCD, 0));
+    ABCD = vsha1pq_u32(ABCD, E0, TMP0);
+
+    /** Rounds 76-79 */
+    E0 = vsha1h_u32(vgetq_lane_u32(ABCD, 0));
+    ABCD = vsha1pq_u32(ABCD, E1, TMP1);
+
+    /** Combine state */
+    E0 += E0_SAVED;
+    ABCD = vaddq_u32(ABCD_SAVED, ABCD);
+
+    /** Save state */
+    vst1q_u32(&s[0], ABCD);
+    s[4] = E0;
+
+#elif USE_AVX2
     // Perform SHA1 one block (Intel AVX2)
     sha1_one_block_avx2(chunk, s);
 #else

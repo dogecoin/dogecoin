@@ -1,4 +1,5 @@
 // Copyright (c) 2011-2016 The Bitcoin Core developers
+// Copyright (c) 2022 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -153,15 +154,15 @@ OverviewPage::OverviewPage(const PlatformStyle *platformStyle, QWidget *parent) 
 void OverviewPage::UpdateTip()
 {
     QStringList tips = {
-        tr("Never share your wallet.dat file/your private key with anyone"),
-        tr("For more advanced settings use the console in 'Help' -> 'Debug Window'"),
+        tr("Never share your wallet.dat file with anyone"),
+        tr("For advanced operations, use the console in 'Help' -> 'Debug Window'"),
         tr("Encrypt your wallet with a strong passphrase for maximum security"),
-        tr("Make sure to keep your wallet updated."),
+        tr("Make sure to keep your wallet software updated"),
         tr("Backup your private key to recover your coins, using 'File' > 'Backup Wallet'"),
         tr("Always do your own research before using an external cryptocurrency service"),
-        tr("Never share your private key to an untrustworthy person."),
-        tr("Who own the private keys own the coins."),
-        tr("To see ongoing development and contribute, checkout Dogecoin repository on GitHub!"),
+        tr("Never share your private key with anyone"),
+        tr("Who owns the private keys, owns the coins"),
+        tr("To see ongoing development and contribute, check out the Dogecoin Core repository on GitHub"),
         tr("Services that claim to double your dogecoins are always ponzi schemes")
     };
 

@@ -1,4 +1,5 @@
 // Copyright (c) 2012-2016 The Bitcoin Core developers
+// Copyright (c) 2022 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -476,7 +477,7 @@ BOOST_FIXTURE_TEST_CASE(importwallet_rescan, TestChain240Setup)
 
         JSONRPCRequest request;
         request.params.setArray();
-        request.params.push_back("wallet.backup");
+        request.params.push_back(TestChain240Setup::pathTemp.string() + "/regtest/backups/wallet.backup");
         ::pwalletMain = &wallet;
         ::importwallet(request);
 
@@ -524,6 +525,9 @@ BOOST_AUTO_TEST_CASE(GetMinimumFee_dust_test)
     // Confirm dust penalty fees are added on
     // Because this is ran by the wallet, this takes the discardThreshold,
     // not the dust limit
+    
+    CWallet::discardThreshold = COIN;
+
     CAmount nDustPenalty = COIN;
 
     BOOST_CHECK_EQUAL(CWallet::GetMinimumFee(tx, 963, 0, pool), nDustPenalty + (nMinTxFee * 0.963));
@@ -540,7 +544,7 @@ BOOST_AUTO_TEST_CASE(GetMinimumFee_dust_test)
     BOOST_CHECK_EQUAL(CWallet::GetMinimumFee(tx, 1000, 0, pool), nMinTxFee * 1.000);
     BOOST_CHECK_EQUAL(CWallet::GetMinimumFee(tx, 1999, 0, pool), nMinTxFee * 1.999);
 
-    CWallet::discardThreshold = COIN;
+    CWallet::discardThreshold = COIN / 100;
 }
 
 BOOST_AUTO_TEST_SUITE_END()

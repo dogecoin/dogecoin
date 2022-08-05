@@ -21,14 +21,17 @@ jobs:
       CCACHE_TEMPDIR: /tmp/.ccache-temp
       CCACHE_COMPRESS: "1"
       PYTHON_DEBUG: "1"
+      CACHE_NONCE: "1"
       WINEDEBUG: fixme-all
-      SDK_URL: https://bitcoincore.org/depends-sources/sdks
+      SDK_URL: https://depends.dogecoincore.org
 
     strategy:
       fail-fast: false
       matrix:
         name:
           - aarch64-linux
+          - aarch64-linux-experimental
+          - aarch64-linux-sha512-experimental
           - armhf-linux
           - i686-linux
           - i686-win
@@ -42,6 +45,7 @@ jobs:
             host: i686-pc-linux-gnu
             os: ubuntu-18.04
             packages: g++-multilib bc python3-zmq
+            run-bench: true
             run-tests: true
             check-security: true
             check-symbols: true
@@ -52,16 +56,38 @@ jobs:
             host: arm-linux-gnueabihf
             os: ubuntu-18.04
             packages: g++-arm-linux-gnueabihf
+            run-bench: false
             run-tests: false
             check-security: true
             check-symbols: false
             dep-opts: "NO_QT=1"
             config-opts: "--enable-glibc-back-compat --disable-tests LDFLAGS=-static-libstdc++"
             goal: install
+          - name: aarch64-linux-experimental
+            host: aarch64-linux-gnu
+            os: ubuntu-18.04
+            packages: g++-aarch64-linux-gnu
+            run-tests: false
+            check-security: true
+            check-symbols: false
+            dep-opts: "NO_QT=1"
+            config-opts: "--with-armv8-crypto --enable-zmq --enable-glibc-back-compat --disable-tests LDFLAGS=-static-libstdc++"
+            goal: install
+          - name: aarch64-linux-sha512-experimental
+            host: aarch64-linux-gnu
+            os: ubuntu-20.04
+            packages: g++-aarch64-linux-gnu
+            run-tests: false
+            check-security: true
+            check-symbols: false
+            dep-opts: "NO_QT=1"
+            config-opts: "--with-armv82-crypto --enable-zmq --enable-glibc-back-compat --disable-tests LDFLAGS=-static-libstdc++"
+            goal: install
           - name: aarch64-linux
             host: aarch64-linux-gnu
             os: ubuntu-18.04
             packages: g++-aarch64-linux-gnu
+            run-bench: false
             run-tests: false
             check-security: true
             check-symbols: false
@@ -72,6 +98,7 @@ jobs:
             host: x86_64-unknown-linux-gnu
             os: ubuntu-18.04
             packages: python3
+            run-bench: true
             run-tests: true
             check-security: true
             check-symbols: true
@@ -82,6 +109,7 @@ jobs:
             host: x86_64-unknown-linux-gnu
             os: ubuntu-18.04
             packages: bc python3-zmq
+            run-bench: true
             run-tests: true
             check-security: true
             check-symbols: false
@@ -94,9 +122,11 @@ jobs:
             os: ubuntu-18.04
             packages: python3 nsis g++-mingw-w64-i686 wine-stable bc wine-binfmt
             postinstall: |
+              sudo dpkg -s mono-runtime && sudo apt-get remove mono-runtime || echo "Very nothing to uninstall."
               sudo update-alternatives --set i686-w64-mingw32-gcc /usr/bin/i686-w64-mingw32-gcc-posix
               sudo update-alternatives --set i686-w64-mingw32-g++  /usr/bin/i686-w64-mingw32-g++-posix
               sudo update-binfmts --import /usr/share/binfmts/wine
+            run-bench: false
             run-tests: true
             check-security: true
             check-symbols: false
@@ -109,9 +139,11 @@ jobs:
             os: ubuntu-18.04
             packages: python3 nsis g++-mingw-w64-x86-64 wine64 bc wine-binfmt
             postinstall: |
+              sudo dpkg -s mono-runtime && sudo apt-get remove mono-runtime || echo "Very nothing to uninstall."
               sudo update-alternatives --set x86_64-w64-mingw32-gcc  /usr/bin/x86_64-w64-mingw32-gcc-posix
               sudo update-alternatives --set x86_64-w64-mingw32-g++  /usr/bin/x86_64-w64-mingw32-g++-posix
               sudo update-binfmts --import /usr/share/binfmts/wine
+            run-bench: false
             run-tests: true
             check-security: true
             check-symbols: false
@@ -122,6 +154,7 @@ jobs:
             host: x86_64-apple-darwin11
             os: ubuntu-18.04
             packages: cmake imagemagick libcap-dev librsvg2-bin libz-dev libtiff-tools libtinfo5 python3-setuptools xorriso libtinfo5
+            run-bench: false
             run-tests: false
             check-security: false
             check-symbols: false
@@ -129,10 +162,12 @@ jobs:
             config-opts: "--enable-gui=qt5 --disable-tests"
             goal: deploy
             sdk: 10.11
+            sdk-shasum: "bec9d089ebf2e2dd59b1a811a38ec78ebd5da18cbbcd6ab39d1e59f64ac5033f"
           - name: x86_64-linux-experimental
             host: x86_64-unknown-linux-gnu
-            os: ubuntu-20.04
+            os: ubuntu-18.04
             packages: bc python3-zmq
+            run-bench: true
             run-tests: true
             dep-opts: "AVX2=1"
             config-opts: "--with-intel-avx2 --enable-gui=qt5 --enable-zmq --enable-glibc-back-compat --enable-reduce-exports"
@@ -166,15 +201,19 @@ jobs:
           cache-name: sdk
         with:
           path: ./depends/sdk-sources
-          key: ${{ matrix.name }}-${{ env.cache-name }}
+          key: ${{ matrix.name }}-${{ env.cache-name }}-${{ hashFiles('.github/workflows/ci.yml') }}
 
       - name: Install SDK
         if: ${{ matrix.sdk }}
+        env:
+          sdk-filename: MacOSX${{ matrix.sdk }}.sdk.tar.gz
         run: |
           mkdir -p ./depends/sdk-sources
           mkdir -p ./depends/SDKs
-          curl --location --fail $SDK_URL/MacOSX${{ matrix.sdk }}.sdk.tar.gz -o depends/sdk-sources/MacOSX${{ matrix.sdk }}.sdk.tar.gz
-          tar -C depends/SDKs -xf depends/sdk-sources/MacOSX${{ matrix.sdk }}.sdk.tar.gz
+          echo "${{ matrix.sdk-shasum }}  depends/sdk-sources/${{ env.sdk-filename }}" | sha256sum -c || \
+          curl --location --fail $SDK_URL/${{ env.sdk-filename }} -o depends/sdk-sources/${{ env.sdk-filename }} &&\
+          echo "${{ matrix.sdk-shasum }}  depends/sdk-sources/${{ env.sdk-filename }}" | sha256sum -c
+          tar -C depends/SDKs -xf depends/sdk-sources/${{ env.sdk-filename }}
 
       - name: Dependency cache
         uses: actions/cache@v2
@@ -182,7 +221,7 @@ jobs:
           cache-name: depends
         with:
           path: ./depends/built
-          key: ${{ matrix.name }}-${{ env.cache-name }}-${{ hashFiles('depends/packages/*') }}
+          key: ${{ matrix.name }}-${{ env.cache-name }}-${{ hashFiles('depends/packages/*', '.github/workflows/ci.yml') }}
 
       - name: Build depends
         run: |
@@ -194,7 +233,7 @@ jobs:
           cache-name: ccache
         with:
           path: ~/.ccache
-          key: ${{ matrix.name }}-${{ env.cache-name }}-${{ hashFiles('**/configure.ac') }}
+          key: ${{ matrix.name }}-${{ env.cache-name }}-${{ hashFiles('**/configure.ac', '.github/workflows/ci.yml') }}
 
       - name: Build Dogecoin
         run: |
@@ -202,6 +241,12 @@ jobs:
           ./autogen.sh
           ./configure --prefix=`pwd`/depends/${{ matrix.host }} ${{ matrix.config-opts }} --enable-reduce-exports || ( cat config.log && false)
           make $MAKEJOBS ${{ matrix.goal }} || ( echo "Build failure. Verbose build follows." && make ${{ matrix.goal }} V=1 ; false )
+
+      - name: Run benchmark
+        if: ${{ matrix.run-bench }}
+        run: |
+          src/bench/bench_dogecoin > ${{ matrix.name }}-bench.csv
+          cat ${{ matrix.name }}-bench.csv
 
       - name: Run tests
         if: ${{ matrix.run-tests }}
@@ -225,3 +270,4 @@ jobs:
           path: |
             depends/${{ matrix.host }}/bin/dogecoin*
             dist/Dogecoin-Qt.app
+            ${{ matrix.name }}-bench.csv

@@ -1,406 +1,368 @@
+#!/bin/bash
+
 # Copyright (c) 2016 The Bitcoin Core developers
 # Copyright (c) 2021 The Dogecoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
+# Systems to build
+DESCRIPTORS=('osx' 'win' 'linux')
+SIGN_DESCRIPTORS=('win-signer' 'osx-signer')
+
+# Gitian properties
+export USE_DOCKER=0
+export USE_LXC=0
+
+# Dependencies
+ossPatchUrl="https://depends.dogecoincore.org/osslsigncode-Backports-to-1.7.1.patch"
+ossPatchHash="a8c4e9cafba922f89de0df1f2152e7be286aba73f78505169bc351a7938dd911"
+
+ossTarUrl="https://depends.dogecoincore.org/osslsigncode_1.7.1.orig.tar.gz"
+ossTarHash="f9a8cdb38b9c309326764ebc937cba1523a3a751a7ab05df3ecc99d18ae466c9"
+
+macosSdkUrl="https://depends.dogecoincore.org/MacOSX10.11.sdk.tar.gz"
+macosSdkHash="bec9d089ebf2e2dd59b1a811a38ec78ebd5da18cbbcd6ab39d1e59f64ac5033f"
+
 # What to do
-sign=false
 verify=false
 build=false
-setupenv=false
-
-# Systems to build
-linux=true
-windows=true
-osx=true
+buildSigned=false
+commit=false
+test=false
 
 # Other Basic variables
 SIGNER=
 VERSION=
-commit=false
 url=https://github.com/dogecoin/dogecoin
 proc=2
 mem=2000
-lxc=true
-osslTarUrl=https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/osslsigncode/1.7.1-1/osslsigncode_1.7.1.orig.tar.gz
-osslPatchUrl=https://bitcoincore.org/cfields/osslsigncode-Backports-to-1.7.1.patch
 scriptName=$(basename -- "$0")
-signProg="gpg --detach-sign"
-commitFiles=true
+outputDir=$(pwd)/gitian-output
 
-# Help Message
-read -d '' usage <<- EOF
-Usage: $scriptName [-c|u|v|b|s|B|o|h|j|m|] signer version
+# Help message
+read -r -d '' usage <<-EOF
+Usage: $scriptName [options] version
 
-Run this script from the directory containing the dogecoin, gitian-builder, gitian.sigs, and dogecoin-detached-sigs.
+Standalone script to perform the gitian build of Dogecoin Core. Perform
+deterministic build for multiples Operating System, using Docker, LXC or
+KVM for virtualization. Sign binaries using PGP.
+
+Uses https://github.com/devrandom/gitian-builder to execute the build.
 
 Arguments:
-signer          GPG signer to sign each build assert file
-version		Version number, commit, or branch to build. If building a commit or branch, the -c option must be specified
+version             Version number, commit, or branch to build. If building a
+                    commit or branch, the -c option must be specified
 
 Options:
--c|--commit	Indicate that the version argument is for a commit or branch
--u|--url	Specify the URL of the repository. Default is https://github.com/dogecoin/dogecoin
--v|--verify 	Verify the gitian build
--b|--build	Do a gitian build
--s|--sign	Make signed binaries for Windows and Mac OSX
--B|--buildsign	Build both signed and unsigned binaries
--o|--os		Specify which Operating Systems the build is for. Default is lwx. l for linux, w for windows, x for osx
--j		Number of processes to use. Default 2
--m		Memory to allocate in MiB. Default 2000
---kvm           Use KVM instead of LXC
---setup         Setup the gitian building environment. Uses KVM. If you want to use lxc, use the --lxc option. Only works on Debian-based systems (Ubuntu, Debian)
---detach-sign   Create the assert file for detached signing. Will not commit anything.
---no-commit     Do not commit anything to git
--h|--help	Print this help message
+--setup             Setup the gitian building environment.
+-b|--build          Do the gitian build
+-B|--build-signed   Build signed binaries for MacOS and Windows
+-s|--sign name      Sign built executables with GPG using user ID
+-v|--verify         Verify gitian built binaries
+--lxc               Use LXC virtualization
+--docker            Use Docker virtualization
+-o|--os lwx         Specify which Operating Systems the build is for. Default is lwx,
+                    l for Linux, w for Windows, x for MacOS
+-j proc             Number of processes to use. Default $proc
+-m n                Memory to allocate in MiB. Default $mem
+-c|--commit         Indicate that the version argument is for a commit or branch
+-u|--url repo       Specify the URL of the repository. Default is https://github.com/dogecoin/dogecoin
+--test              CI TEST. Uses Docker
+-h|--help           Print this help message
 EOF
 
 # Get options and arguments
 while :; do
     case $1 in
         # Verify
-        -v|--verify)
-	    verify=true
+        -v | --verify)
+            verify=true
             ;;
         # Build
-        -b|--build)
-	    build=true
+        -b | --build)
+            build=true
             ;;
-        # Sign binaries
-        -s|--sign)
-	    sign=true
-            ;;
-        # Build then Sign
-        -B|--buildsign)
-	    sign=true
-	    build=true
+        # Build signed binaries
+        -B | --build-signed)
+            buildSigned=true
             ;;
         # PGP Signer
-        -S|--signer)
-	    if [ -n "$2" ]
-	    then
-		SIGNER=$2
-		shift
-	    else
-		echo 'Error: "--signer" requires a non-empty argument.'
-		exit 1
-	    fi
-           ;;
+        -s | --sign)
+            if [ -n "$2" ]; then
+                SIGNER=$2
+                shift
+            else
+                echo 'Error: "--sign" requires a PGP signer.'
+                exit 1
+            fi
+            ;;
         # Operating Systems
-        -o|--os)
-	    if [ -n "$2" ]
-	    then
-		linux=false
-		windows=false
-		osx=false
-		if [[ "$2" = *"l"* ]]
-		then
-		    linux=true
-		fi
-		if [[ "$2" = *"w"* ]]
-		then
-		    windows=true
-		fi
-		if [[ "$2" = *"x"* ]]
-		then
-		    osx=true
-		fi
-		shift
-	    else
-		echo 'Error: "--os" requires an argument containing an l (for linux), w (for windows), or x (for Mac OSX)\n'
-		exit 1
-	    fi
-	    ;;
-	# Help message
-	-h|--help)
-	    echo "$usage"
-	    exit 0
-	    ;;
-	# Commit or branch
-	-c|--commit)
-	    commit=true
-	    ;;
-	# Number of Processes
-	-j)
-	    if [ -n "$2" ]
-	    then
-		proc=$2
-		shift
-	    else
-		echo 'Error: "-j" requires an argument'
-		exit 1
-	    fi
-	    ;;
-	# Memory to allocate
-	-m)
-	    if [ -n "$2" ]
-	    then
-		mem=$2
-		shift
-	    else
-		echo 'Error: "-m" requires an argument'
-		exit 1
-	    fi
-	    ;;
-	# URL
-	-u)
-	    if [ -n "$2" ]
-	    then
-		url=$2
-		shift
-	    else
-		echo 'Error: "-u" requires an argument'
-		exit 1
-	    fi
-	    ;;
-        # kvm
-        --kvm)
-            lxc=false
+        -o | --os)
+            if [ -n "$2" ]; then
+                DESCRIPTORS=()
+                SIGN_DESCRIPTORS=()
+                if [[ "$2" == *"l"* ]]; then
+                    DESCRIPTORS+=('linux')
+                fi
+                if [[ "$2" == *"w"* ]]; then
+                    DESCRIPTORS+=('win')
+                    SIGN_DESCRIPTORS+=('win-signer')
+                fi
+                if [[ "$2" == *"x"* ]]; then
+                    DESCRIPTORS+=('osx')
+                    SIGN_DESCRIPTORS+=('osx-signer')
+                fi
+                shift
+            else
+                echo 'Error: "--os" specify os: l (linux), w (windows), or x (Mac OSX)'
+                exit 1
+            fi
             ;;
-        # Detach sign
-        --detach-sign)
-            signProg="true"
-            commitFiles=false
+        # Help message
+        -h | --help)
+            echo "$usage"
+            exit 0
             ;;
-        # Commit files
-        --no-commit)
-            commitFiles=false
+        # Commit or branch
+        -c | --commit)
+            commit=true
+            ;;
+        # Number of Processes
+        -j)
+            if [ -n "$2" ]; then
+                proc=$2
+                shift
+            else
+                echo 'Error: "-j" requires an argument'
+                exit 1
+            fi
+            ;;
+        # Memory to allocate
+        -m)
+            if [ -n "$2" ]; then
+                mem=$2
+                shift
+            else
+                echo 'Error: "-m" requires an argument'
+                exit 1
+            fi
+            ;;
+        # lxc
+        --lxc)
+            USE_LXC=1
+            export LXC_BRIDGE=${LXC_BRIDGE:-br0}
+            ;;
+        # docker
+        --docker)
+            USE_DOCKER=1
+            ;;
+        # URL
+        -u)
+            if [ -n "$2" ]; then
+                url=$2
+                shift
+            else
+                echo 'Error: "-u" requires an argument'
+                exit 1
+            fi
             ;;
         # Setup
         --setup)
             setup=true
             ;;
-	*)               # Default case: If no more options then break out of the loop.
-             break
+        --test)
+            test=true
+            ;;
+        *) # Default case: If no more options then break out of the loop.
+            break ;;
     esac
     shift
 done
 
-# Set up LXC
-if [[ $lxc = true ]]
-then
-    export USE_LXC=1
-    export LXC_BRIDGE=br0
+# Download specific file and verify hash
+function download_file () {
+    local filename=$(basename $1)
+
+    if [ ! -f $filename ]; then
+        wget $1
+    fi
+
+    # Verify file signature
+    echo "$2 $filename" | sha256sum -c --status
+
+    if [ $? != 0 ]; then
+        echo "$scriptName: Signature for $filename don't match."
+        exit 1
+    fi
+}
+
+function move_build_files() {
+    find build/out -type f -exec mv '{}' $outputDir/dogecoin-binaries/${VERSION}/ \;
+}
+
+function download_descriptor() {
+    if [[ ! $1 == 'test' ]]; then
+        uri="${url/github.com/raw.githubusercontent.com}"/"$2"/contrib/gitian-descriptors/gitian-"$1".yml
+        echo "Downloading descriptor ${1} ${uri}"
+        wget $uri -O gitian-"$1".yml || exit 1
+    else
+        # CI tests
+        cp ../ci/descriptor/"$1".yml gitian-"$1".yml || exit 1
+    fi
+}
+
+### Test configuration ###
+
+if [[ $test == true ]]; then
+    if [[ $commit == true ]]; then
+        VERSION="f80bfe9068ac1a0619d48dad0d268894d926941e"
+    else
+        VERSION="1.14.3"
+    fi
+    DESCRIPTORS=('test')
+    SIGN_DESCRIPTORS=()
+    COMMIT=$VERSION
+    SIGNER="signer"
+    SHA256SUM="0d519f6ade0e601617a7c44b764eeae35a8784070c3e44f542011956f1743459"
 fi
 
-# Check for OSX SDK
-if [[ ! -e "gitian-builder/inputs/MacOSX10.11.sdk.tar.gz" && $osx == true ]]
-then
-    echo "Cannot build for OSX, SDK does not exist. Will build for other OSes"
-    osx=false
-fi
+### Arguments checks ####
 
-# Get signer
-if [[ -n"$1" ]]
-then
-    SIGNER=$1
-    shift
+echo "Using ${proc} CPU and ${mem} RAM"
+
+# Control the selection of a single virtualisation software
+if [ $(($USE_LXC + $USE_DOCKER)) -ge 2 ]; then
+    echo "$scriptName: Specify a single virtualisation solution between Docker, LXC or KVM."
+    exit
 fi
 
 # Get version
-if [[ -n "$1" ]]
-then
+if [ -n "$1" ]; then
     VERSION=$1
-    COMMIT=$VERSION
-    shift
-fi
 
-# Check that a signer is specified
-if [[ $SIGNER == "" ]]
-then
-    echo "$scriptName: Missing signer."
-    echo "Try $scriptName --help for more information"
-    exit 1
-fi
-
-# Check that a version is specified
-if [[ $VERSION == "" ]]
-then
-    echo "$scriptName: Missing version."
-    echo "Try $scriptName --help for more information"
-    exit 1
-fi
-
-# Add a "v" if no -c
-if [[ $commit = false ]]
-then
-	COMMIT="v${VERSION}"
-fi
-echo ${COMMIT}
-
-# Setup build environment
-if [[ $setup = true ]]
-then
-    sudo apt-get install ruby apache2 git apt-cacher-ng python-vm-builder qemu-kvm qemu-utils
-    # GIT --date=format-local support
-    MIN_GIT_VERSION=2.7.0
-    LASTEST_GIT_VERSION=2.32.0
-    if ! (echo a version ${MIN_GIT_VERSION}; git --version) | sort -Vk3 | tail -1 | grep -q git; then
-      sudo apt-get install build-essential make libssl-dev libghc-zlib-dev libcurl4-gnutls-dev libexpat1-dev gettext unzip
-      wget https://github.com/git/git/archive/v${LASTEST_GIT_VERSION}.zip -O v${LASTEST_GIT_VERSION}.zip
-      unzip v${LASTEST_GIT_VERSION}.zip
-      pushd ./git-${LASTEST_GIT_VERSION}
-      make -j "${proc}" prefix=/usr/local all
-      make -j "${proc}" prefix=/usr/local install
-      popd
+    # Use tag or commit within repository
+    if [[ $commit == false ]]; then
+        COMMIT=v$VERSION
+    else
+        COMMIT=$VERSION
     fi
+else
+    echo "$scriptName: Missing version, see --help for more information."
+    exit 1
+fi
 
-    # GIT CLONE
+### Setup ###
+
+if [[ $setup == true ]]; then
     git clone https://github.com/dogecoin/gitian.sigs.git
     git clone https://github.com/dogecoin/dogecoin-detached-sigs.git
     git clone https://github.com/devrandom/gitian-builder.git
+
     pushd ./gitian-builder
-    if [[ -n "$USE_LXC" ]]
+
+    #Download dependencies
+    mkdir -p inputs
+    pushd inputs
+
+    download_file $ossPatchUrl $ossPatchHash
+    download_file $ossTarUrl $ossTarHash
+    download_file $macosSdkUrl $macosSdkHash
+
+    popd
+
+    #Prepare containers depending of virtualization solution: lxc, docker, kvm
+    if [ "$USE_LXC" -eq 1 ]
     then
-        sudo apt-get install lxc
-        bin/make-base-vm --suite trusty --arch amd64 --lxc
+        sudo apt-get install -y lxc
+        bin/make-base-vm --suite bionic --arch amd64 --lxc
+    elif [ "$USE_DOCKER" -eq 1 ]; then
+        bin/make-base-vm --suite bionic --arch amd64 --docker
     else
-        bin/make-base-vm --suite trusty --arch amd64
+        bin/make-base-vm --suite bionic --arch amd64
     fi
     popd
 fi
 
-# Set up build
-pushd ./dogecoin
-git fetch
-git checkout ${COMMIT}
+# Download descriptors
+mkdir -p ./gitian-descriptors/
+
+pushd gitian-descriptors || exit 1
+
+if [[ $build == true || $verify == true ]]; then
+    for descriptor in "${DESCRIPTORS[@]}"; do
+        download_descriptor "$descriptor" "$COMMIT"
+    done
+fi
+
+if [[ $buildSigned == true ]]; then
+    for sign_descriptor in "${SIGN_DESCRIPTORS[@]}"; do
+        download_descriptor "$sign_descriptor" "$COMMIT"
+    done
+fi
+
 popd
 
-# Build
-if [[ $build = true ]]
-then
-	# Make output folder
-	mkdir -p ./dogecoin-binaries/${VERSION}
-	
-	# Build Dependencies
-	echo ""
-	echo "Building Dependencies"
-	echo ""
-	pushd ./gitian-builder	
-	mkdir -p inputs
-	wget -N -P inputs $osslPatchUrl
-	wget -N -P inputs $osslTarUrl
-	make -j "${proc}" -C ../dogecoin/depends download SOURCES_PATH=`pwd`/cache/common
+### Build ###
 
-	# Linux
-	if [[ $linux = true ]]
-	then
-            echo ""
-	    echo "Compiling ${VERSION} Linux"
-	    echo ""
-	    ./bin/gbuild -j ${proc} -m ${mem} --commit dogecoin=${COMMIT} --url dogecoin=${url} ../dogecoin/contrib/gitian-descriptors/gitian-linux.yml
-	    ./bin/gsign -p $signProg --signer $SIGNER --release ${VERSION}-linux --destination ../gitian.sigs/ ../dogecoin/contrib/gitian-descriptors/gitian-linux.yml
-	    mv build/out/dogecoin-*.tar.gz build/out/src/dogecoin-*.tar.gz ../dogecoin-binaries/${VERSION}
-	fi
-	# Windows
-	if [[ $windows = true ]]
-	then
-	    echo ""
-	    echo "Compiling ${VERSION} Windows"
-	    echo ""
-	    ./bin/gbuild -j ${proc} -m ${mem} --commit dogecoin=${COMMIT} --url dogecoin=${url} ../dogecoin/contrib/gitian-descriptors/gitian-win.yml
-	    ./bin/gsign -p $signProg --signer $SIGNER --release ${VERSION}-win-unsigned --destination ../gitian.sigs/ ../dogecoin/contrib/gitian-descriptors/gitian-win.yml
-	    mv build/out/dogecoin-*-win-unsigned.tar.gz inputs/dogecoin-win-unsigned.tar.gz
-	    mv build/out/dogecoin-*.zip build/out/dogecoin-*.exe ../dogecoin-binaries/${VERSION}
-	fi
-	# Mac OSX
-	if [[ $osx = true ]]
-	then
-	    echo ""
-	    echo "Compiling ${VERSION} Mac OSX"
-	    echo ""
-	    ./bin/gbuild -j ${proc} -m ${mem} --commit dogecoin=${COMMIT} --url dogecoin=${url} ../dogecoin/contrib/gitian-descriptors/gitian-osx.yml
-	    ./bin/gsign -p $signProg --signer $SIGNER --release ${VERSION}-osx-unsigned --destination ../gitian.sigs/ ../dogecoin/contrib/gitian-descriptors/gitian-osx.yml
-	    mv build/out/dogecoin-*-osx-unsigned.tar.gz inputs/dogecoin-osx-unsigned.tar.gz
-	    mv build/out/dogecoin-*.tar.gz build/out/dogecoin-*.dmg ../dogecoin-binaries/${VERSION}
-	fi
-	popd
+if [[ $build == true ]]; then
+    # Make output folder
+    mkdir -p $outputDir/dogecoin-binaries/"$VERSION"
 
-        if [[ $commitFiles = true ]]
-        then
-	    # Commit to gitian.sigs repo
-            echo ""
-            echo "Committing ${VERSION} Unsigned Sigs"
-            echo ""
-            pushd gitian.sigs
-            git add ${VERSION}-linux/${SIGNER}
-            git add ${VERSION}-win-unsigned/${SIGNER}
-            git add ${VERSION}-osx-unsigned/${SIGNER}
-            git commit -a -m "Add ${VERSION} unsigned sigs for ${SIGNER}"
-            popd
+    pushd ./gitian-builder || exit 1
+
+    # Clean dogecoin git directory because of old caching
+    if [ -d inputs/dogecoin/ ]; then
+        echo "Cleaning Dogecoin directory..."
+        rm -rf inputs/dogecoin/
+    fi
+
+    for descriptor in "${DESCRIPTORS[@]}"; do
+        echo ""
+        echo "Compiling ${VERSION} ${descriptor}"
+        echo ""
+        ./bin/gbuild -j "$proc" -m "$mem" --commit dogecoin="$COMMIT" --url dogecoin="$url" ../gitian-descriptors/gitian-"$descriptor".yml  || exit 1
+
+        if [ -n "$SIGNER" ]; then
+            ./bin/gsign --signer "$SIGNER" --release "$VERSION"-"$descriptor" \
+                --destination $outputDir/sigs/ ../gitian-descriptors/gitian-"$descriptor".yml 2>&- || \
+                echo "$0: Error on signature, detached signing"
         fi
+        move_build_files
+    done
+
+    popd  || exit 1
 fi
 
-# Verify the build
-if [[ $verify = true ]]
-then
-	# Linux
-	pushd ./gitian-builder
-	echo ""
-	echo "Verifying v${VERSION} Linux"
-	echo ""
-	./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-linux ../dogecoin/contrib/gitian-descriptors/gitian-linux.yml
-	# Windows
-	echo ""
-	echo "Verifying v${VERSION} Windows"
-	echo ""
-	./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-win-unsigned ../dogecoin/contrib/gitian-descriptors/gitian-win.yml
-	# Mac OSX	
-	echo ""
-	echo "Verifying v${VERSION} Mac OSX"
-	echo ""	
-	./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-osx-unsigned ../dogecoin/contrib/gitian-descriptors/gitian-osx.yml
-	# Signed Windows
-	echo ""
-	echo "Verifying v${VERSION} Signed Windows"
-	echo ""
-	./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-osx-signed ../dogecoin/contrib/gitian-descriptors/gitian-osx-signer.yml
-	# Signed Mac OSX
-	echo ""
-	echo "Verifying v${VERSION} Signed Mac OSX"
-	echo ""
-	./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-osx-signed ../dogecoin/contrib/gitian-descriptors/gitian-osx-signer.yml	
-	popd
+# Build signed binaries
+if [[ $buildSigned == true ]]; then
+    pushd gitian-builder || exit 1
+
+    for sign_descriptor in "${SIGN_DESCRIPTORS[@]}"; do
+        echo ""
+        echo "Compiling Binary ${VERSION} ${sign_descriptor}"
+        echo ""
+        ./bin/gbuild --skip-image --upgrade --commit signature="$COMMIT" ../gitian-descriptors/gitian-"$sign_descriptor".yml || exit 1
+        if [ -n "$SIGNER" ]; then
+            ./bin/gsign --signer "$SIGNER" --release "$VERSION"-"$sign_descriptor" \
+                --destination $outputDir/sigs/ ../gitian-descriptors/gitian-"$sign_descriptor".yml
+        fi
+        move_build_files
+    done
+
+    popd  || exit 1
 fi
 
-# Sign binaries
-if [[ $sign = true ]]
-then
-	
-        pushd ./gitian-builder
-	# Sign Windows
-	if [[ $windows = true ]]
-	then
-	    echo ""
-	    echo "Signing ${VERSION} Windows"
-	    echo ""
-	    ./bin/gbuild -i --commit signature=${COMMIT} ../dogecoin/contrib/gitian-descriptors/gitian-win-signer.yml
-	    ./bin/gsign -p $signProg --signer $SIGNER --release ${VERSION}-win-signed --destination ../gitian.sigs/ ../dogecoin/contrib/gitian-descriptors/gitian-win-signer.yml
-	    mv build/out/dogecoin-*win64-setup.exe ../dogecoin-binaries/${VERSION}
-	    mv build/out/dogecoin-*win32-setup.exe ../dogecoin-binaries/${VERSION}
-	fi
-	# Sign Mac OSX
-	if [[ $osx = true ]]
-	then
-	    echo ""
-	    echo "Signing ${VERSION} Mac OSX"
-	    echo ""
-	    ./bin/gbuild -i --commit signature=${COMMIT} ../dogecoin/contrib/gitian-descriptors/gitian-osx-signer.yml
-	    ./bin/gsign -p $signProg --signer $SIGNER --release ${VERSION}-osx-signed --destination ../gitian.sigs/ ../dogecoin/contrib/gitian-descriptors/gitian-osx-signer.yml
-	    mv build/out/dogecoin-osx-signed.dmg ../dogecoin-binaries/${VERSION}/dogecoin-${VERSION}-osx.dmg
-	fi
-	popd
+### Signatures Verification ###
 
-        if [[ $commitFiles = true ]]
-        then
-            # Commit Sigs
-            pushd gitian.sigs
-            echo ""
-            echo "Committing ${VERSION} Signed Sigs"
-            echo ""
-            git add ${VERSION}-win-signed/${SIGNER}
-            git add ${VERSION}-osx-signed/${SIGNER}
-            git commit -a -m "Add ${VERSION} signed binary sigs for ${SIGNER}"
-            popd
-        fi
+if [[ $verify == true ]]; then
+    pushd ./gitian-builder || exit 1
+
+    for descriptor in "${DESCRIPTORS[@]}"; do
+        echo ""
+        echo "Verifying v${VERSION} ${descriptor}"
+        echo ""
+        ./bin/gverify -v -d ../gitian.sigs/ -r "${VERSION}"-"$descriptor" ../gitian-descriptors/gitian-"$descriptor".yml
+    done
+
+    popd  || exit 1
 fi

@@ -68,7 +68,7 @@ sudo apt-get install build-essential libtool autotools-dev automake pkg-config l
 sudo apt-get install libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-program-options-dev libboost-test-dev libboost-thread-dev
 ```
 
-**Optional dependencies** :  
+**Optional dependencies** :
 ```bash
 # Qt (required for dogecoin-qt GUI)
 sudo apt-get install libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler libqrencode-dev
@@ -106,39 +106,24 @@ Create `dogecoin-qt`, the core wallet GUI.
 ```
 
 #### Wallet
-BerkeleyDB is required for wallet functionality and use the `wallet.dat` file.
+BerkeleyDB is required for wallet functionality and use of the `wallet.dat` file.
 
-By default, **Dogecoin Core expect BerkeleyDB 5.3**.
+By default, **Dogecoin Core expects BerkeleyDB 5.3**.
 You can use a different version by specifying `--with-incompatible-bdb` flag.
 
-If no package is available for your distribution  in optional dependencies, you can build BerkeleyDB from source :
-```bash
-# Install script for BerkeleyDB 5.3
+If you have to build it yourself, you can
+use [the installation script included in contrib/](/contrib/install_db5.sh)
+like so:
 
-# BerkeleyDB installation directory
-BDB_PREFIX=$(pwd)/bdb
-mkdir $BDB_PREFIX
-
-# Fetch the source and verify shasum
-wget 'http://download.oracle.com/berkeley-db/db-5.3.28.NC.tar.gz'
-echo '76a25560d9e52a198d37a31440fd07632b5f1f8f9f2b6d5438f4bc3e7c9013efdb-5.3.28.NC.tar.gz' | sha256sum -c
-
-# Extract sources
-tar -xzvf db-5.3.28.NC.tar.gz
-cd db-5.3.28.NC/build_unix/
-
-# Apply patch (see https://gist.github.com/danieldk/5700533)
-sed -i  's/__atomic_compare_exchange/__atomic_compare_exchange_db/g' ../src/dbinc/atomic.h
-
-# Note: Do a static build so that it can be embedded into the executable, instead of having to find a .so at runtime
-../dist/configure --prefix=$BDB_PREFIX --enable-cxx --disable-shared --with-pic
-make install
+```shell
+./contrib/install_db5.sh `pwd`
 ```
 
-Then use `LDFLAGS` and `CPPFLAGS` during configuration to link the database :
-```bash
-./configure  LDFLAGS="-L${BDB_PREFIX}/lib/" CPPFLAGS="-I${BDB_PREFIX}/include/"
-```
+from the root of the repository.
+
+Otherwise, you can build Dogecoin Core from self-compiled [depends](/depends/README.md).
+
+**Note**: You only need Berkeley DB if the wallet is enabled (see [*Disable-wallet mode*](#disable-wallet-mode)).
 
 #### Disable-wallet mode
 When the intention is to run only a P2P node without a wallet, Dogecoin may be compiled in

@@ -102,6 +102,21 @@ versus
 
 The second example reduces the number of pluralized words that translators have to handle from three to one, at no cost to comprehensibility of the sentence.
 
+### Finding strings to translate
+
+Translation files are in the directory `src/qt/locale/` and have the `.ts` suffix.
+
+If you have the `lupdate` Qt development tool installed, run `make translate language=...` from the `src/` directory.
+This will update translation files in the locale directory. For the `language` argument, use a language suffix and
+optional country code. For example, `make translate language=en_GB` will update the English language (`en`) file for
+the United Kingdom (`GB`). Look at the translation files for examples of existing supported languages
+
+In the appropriate file for your language/locale, look for entries with the tags `type="unfinished"`. These are new, untranslated entries.
+When you finish translating them, remove that tag.
+
+You may also see entries with the tag `type="vanished"`. These are entries where the original text has been removed from the source code.
+Remove these in a separate step.
+
 ### String freezes
 
 During a string freeze (often before a major release), no translation strings are to be added, modified or removed.

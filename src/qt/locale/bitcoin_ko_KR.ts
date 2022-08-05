@@ -17,11 +17,11 @@
     </message>
     <message>
         <source>Enter the peer&apos;s address</source>
-        <translation type="unfinished"></translation>
+        <translation>피어의 주소를 입력하세요</translation>
     </message>
     <message>
         <source>Enter the peer&apos;s port</source>
-        <translation type="unfinished"></translation>
+        <translation>피어의 포트를 입력하세요</translation>
     </message>
     <message>
         <source>Add!</source>
@@ -590,23 +590,23 @@
     </message>
     <message>
         <source>&amp;Print paper wallets</source>
-        <translation type="unfinished"></translation>
+        <translation>종이 지갑 인쇄(&amp;P)</translation>
     </message>
     <message>
         <source>Print paper wallets</source>
-        <translation>종이 지갑 출력</translation>
+        <translation>종이 지갑 인쇄</translation>
     </message>
     <message>
         <source>&amp;Import Private Key...</source>
-        <translation type="unfinished"></translation>
+        <translation>개인 키 가져오기(&amp;I)</translation>
     </message>
     <message>
         <source>Import a Dogecoin private key</source>
-        <translation>도지코인 비밀 키 가져오기</translation>
+        <translation>도지코인 개인 키 가져오기</translation>
     </message>
     <message>
         <source>Runaway exception</source>
-        <translation type="unfinished"></translation>
+        <translation>러너웨이 예외</translation>
     </message>
     <message>
         <source>A fatal error occurred. Dogecoin can no longer continue safely and will quit.</source>
@@ -617,7 +617,7 @@
     <name>ClientModel</name>
     <message>
         <source>Network Alert</source>
-        <translation>네트워크 알림</translation>
+        <translation type="vanished">네트워크 알림</translation>
     </message>
 </context>
 <context>
@@ -756,7 +756,7 @@
     </message>
     <message>
         <source>Can vary +/- %1 koinu(s) per input.</source>
-        <translation>입력마다 +/- %1 코이누가 변할 수 있습니다.</translation>
+        <translation type="vanished">입력마다 +/- %1 코이누가 변할 수 있습니다.</translation>
     </message>
     <message>
         <source>(no label)</source>
@@ -769,6 +769,10 @@
     <message>
         <source>(change)</source>
         <translation>(잔돈)</translation>
+    </message>
+    <message>
+        <source>Can vary +/- %1 koinu per input.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -901,70 +905,74 @@
     </message>
     <message>
         <source>Set language, for example &quot;de_DE&quot; (default: system locale)</source>
-        <translation type="unfinished"></translation>
+        <translation>언어, 예시 &quot;de_DE&quot; (기본값: system locale)</translation>
     </message>
 </context>
 <context>
     <name>ImportKeysDialog</name>
     <message>
         <source>Import Private Key</source>
-        <translation type="unfinished"></translation>
+        <translation>개인 키 가져오기</translation>
     </message>
     <message>
         <source>&amp;Import Private Key</source>
-        <translation type="unfinished"></translation>
+        <translation>개인 키 가져오기(&amp;I)</translation>
     </message>
     <message>
         <source>Private Key:</source>
-        <translation type="unfinished"></translation>
+        <translation>개인 키:</translation>
     </message>
     <message>
         <source>Private key to import into your wallet</source>
-        <translation type="unfinished"></translation>
+        <translation>당신의 지갑으로 가져오기 위한 개인 키</translation>
     </message>
     <message>
         <source>Label for this private key in your wallet</source>
-        <translation type="unfinished"></translation>
+        <translation>당신의 지갑 안에 있는 개인 키의 레이블</translation>
     </message>
     <message>
         <source>Label (optional):</source>
-        <translation type="unfinished"></translation>
+        <translation>레이블(optional)</translation>
     </message>
     <message>
         <source>Rescan</source>
-        <translation type="unfinished"></translation>
+        <translation>재검색</translation>
     </message>
     <message>
         <source>Reset all key management options to default.</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">모든 키 설정을 기본값으로 초기화</translation>
     </message>
     <message>
         <source>&amp;Reset</source>
-        <translation type="unfinished"></translation>
+        <translation>초기화(&amp;R)</translation>
     </message>
     <message>
         <source>&amp;Import</source>
-        <translation type="unfinished"></translation>
+        <translation>가져오기(&amp;I)</translation>
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">취소(&amp;C)</translation>
+        <translation>취소(&amp;C)</translation>
     </message>
     <message>
         <source>Invalid private key; please check and try again!</source>
-        <translation type="unfinished"></translation>
+        <translation>잘못된 개인 키; 확인하고 다시 시도해주세요!</translation>
     </message>
     <message>
         <source>Invalid address generated from private key; please check and try again!</source>
-        <translation type="unfinished"></translation>
+        <translation>개인 키로 부터 잘못된 주소가 생성되었습니다; 확인하고 다시 시도해주세요!</translation>
     </message>
     <message>
         <source>Failed to add private key.</source>
-        <translation type="unfinished"></translation>
+        <translation>개인 키 추가 실패</translation>
     </message>
     <message>
         <source>Rescanning...</source>
-        <translation type="unfinished">재검색 중...</translation>
+        <translation>재검색 중...</translation>
+    </message>
+    <message>
+        <source>Reset this form.</source>
+        <translation>폼 초기화.</translation>
     </message>
 </context>
 <context>
@@ -1015,7 +1023,7 @@
     </message>
     <message>
         <source>Choose data directory</source>
-        <translation type="unfinished"></translation>
+        <translation>정보 주소록 선택</translation>
     </message>
 </context>
 <context>
@@ -1042,7 +1050,7 @@
     </message>
     <message>
         <source>Progress</source>
-        <translation>진행</translation>
+        <translation>진행 상태</translation>
     </message>
     <message>
         <source>Progress increase per hour</source>
@@ -1066,7 +1074,7 @@
     </message>
     <message>
         <source>Recent transactions may not yet be visible, and therefore your wallet&apos;s balance might be incorrect. This information will be correct once your wallet has finished synchronizing with the dogecoin network, as detailed below.</source>
-        <translation type="unfinished"></translation>
+        <translation>최근 거래가 아직 표시되지 않을 수 있으므로 지갑 잔액이 정확하지 않을 수 있습니다. 이 정보는 아래에 자세히 설명된 대로 지갑이 도지코인 네트워크와 동기화를 완료하면 고쳐질것 입니다.</translation>
     </message>
 </context>
 <context>
@@ -1326,6 +1334,22 @@
         <source>The supplied proxy address is invalid.</source>
         <translation>지정한 프록시 주소가 잘못되었습니다.</translation>
     </message>
+    <message>
+        <source>Disables some advanced features but all blocks will still be fully validated. Reverting this setting requires re-downloading the entire blockchain. Actual disk usage may be somewhat higher.</source>
+        <translation>고급 설정 일부를 비활성화 하지만 모든 블록은 검증 상태를 유지한다. 이 설정을 되돌리기 위해서는 블록체인 전체를 다시 다운로드 해야한다. 실질적인 디스크 사용량은 더 높을 수 있다.</translation>
+    </message>
+    <message>
+        <source>Prune &amp;block storage to</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>GB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reverting this setting requires re-downloading the entire blockchain.</source>
+        <translation>이 설정을 되돌리기 위해서는 블록체인 전체를 다시 다운로드 해야한다.</translation>
+    </message>
 </context>
 <context>
     <name>OverviewPage</name>
@@ -1403,118 +1427,142 @@
     </message>
     <message>
         <source>Helpful tip of the day:</source>
-        <translation type="unfinished"></translation>
+        <translation>오늘의 유용한 팁:</translation>
     </message>
     <message>
         <source>Tip</source>
-        <translation type="unfinished"></translation>
+        <translation>팁</translation>
     </message>
     <message>
         <source>Never share your wallet.dat file/your private key with anyone</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">wallet.dat 파일/당신의 개인 키를 타인과 공유하지 마십시요</translation>
     </message>
     <message>
         <source>For more advanced settings use the console in &apos;Help&apos; -&gt; &apos;Debug Window&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">고급 설정을 보려면 &apos;도움말&apos; 콘솔을 사용하십시오. -&gt; &apos;디버그 창&apos;</translation>
     </message>
     <message>
         <source>Encrypt your wallet with a strong passphrase for maximum security</source>
-        <translation type="unfinished"></translation>
+        <translation>최대 보안을 위해 당신의 지갑을 더 강력한 비밀번호로 암호화 하세요</translation>
     </message>
     <message>
         <source>Make sure to keep your wallet updated.</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">당신의 지갑을 최신 상태로 업데이트 하세요</translation>
     </message>
     <message>
         <source>Backup your private key to recover your coins, using &apos;File&apos; &gt; &apos;Backup Wallet&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;파일&apos;을 사용하여 개인 키를 백업하여 코인을 복구하십시오. &gt; &apos;백업 지갑&apos;</translation>
     </message>
     <message>
         <source>Always do your own research before using an external cryptocurrency service</source>
-        <translation type="unfinished"></translation>
+        <translation>외부 암호화폐 서비스를 사용하기 전에 항상 스스로 조사하십시오.</translation>
     </message>
     <message>
         <source>Never share your private key to an untrustworthy person.</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">신뢰할 수 없는 사람과 개인 키를 공유하지 마십시오.</translation>
     </message>
     <message>
         <source>Who own the private keys own the coins.</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">개인 키를 소유한 사람이 코인을 소유합니다.</translation>
     </message>
     <message>
         <source>To see ongoing development and contribute, checkout Dogecoin repository on GitHub!</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">진행 중인 개발을 확인하고 기여하려면 GitHub에서 도지코인 저장소를 확인하세요!</translation>
     </message>
     <message>
         <source>Services that claim to double your dogecoins are always ponzi schemes</source>
+        <translation>도지코인을 두 배로 늘리는 서비스는 항상 폰지 사기입니다.</translation>
+    </message>
+    <message>
+        <source>Never share your wallet.dat file with anyone</source>
+        <translation>절대 타인과 wallet.dat 파일을 공유하지 마세요</translation>
+    </message>
+    <message>
+        <source>For advanced operations, use the console in &apos;Help&apos; -&gt; &apos;Debug Window&apos;</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Make sure to keep your wallet software updated</source>
+        <translation>항상 지갑 소프웨어를 최신 버전으로 업데이트 하세요</translation>
+    </message>
+    <message>
+        <source>Never share your private key with anyone</source>
+        <translation>절대 타인과 개인 키를 공유하지 마세요</translation>
+    </message>
+    <message>
+        <source>Who owns the private keys, owns the coins</source>
+        <translation>개인 키를 가지는 자는, 코인을 가진다</translation>
+    </message>
+    <message>
+        <source>To see ongoing development and contribute, check out the Dogecoin Core repository on GitHub</source>
+        <translation>진행 중인 개발을 확인하고 기여하려면 GitHub에서 도지코인 저장소를 확인하세요!</translation>
     </message>
 </context>
 <context>
     <name>PaperWalletDialog</name>
     <message>
         <source>Print Your Paper Wallets</source>
-        <translation type="unfinished"></translation>
+        <translation>종이 지갑 인쇄</translation>
     </message>
     <message>
         <source>Very New Address</source>
-        <translation type="unfinished"></translation>
+        <translation>아주 새로운 주소</translation>
     </message>
     <message>
         <source>So Print</source>
-        <translation type="unfinished"></translation>
+        <translation>그럼 인쇄하세요</translation>
     </message>
     <message>
         <source>Many Wallets?</source>
-        <translation type="unfinished"></translation>
+        <translation>지갑이 많습니까?</translation>
     </message>
     <message>
         <source>1</source>
-        <translation type="unfinished"></translation>
+        <translation>1</translation>
     </message>
     <message>
         <source>2</source>
-        <translation type="unfinished"></translation>
+        <translation>2</translation>
     </message>
     <message>
         <source>3</source>
-        <translation type="unfinished"></translation>
+        <translation>3</translation>
     </message>
     <message>
         <source>4</source>
-        <translation type="unfinished"></translation>
+        <translation>4</translation>
     </message>
     <message>
         <source>5</source>
-        <translation type="unfinished"></translation>
+        <translation>5</translation>
     </message>
     <message>
         <source>6</source>
-        <translation type="unfinished"></translation>
+        <translation>6</translation>
     </message>
     <message>
         <source>7</source>
-        <translation type="unfinished"></translation>
+        <translation>7</translation>
     </message>
     <message>
         <source>8</source>
-        <translation type="unfinished"></translation>
+        <translation>8</translation>
     </message>
     <message>
         <source>9</source>
-        <translation type="unfinished"></translation>
+        <translation>9</translation>
     </message>
     <message>
         <source>10</source>
-        <translation type="unfinished"></translation>
+        <translation>10</translation>
     </message>
     <message>
         <source>11</source>
-        <translation type="unfinished"></translation>
+        <translation>11</translation>
     </message>
     <message>
         <source>12</source>
-        <translation type="unfinished"></translation>
+        <translation>12</translation>
     </message>
     <message>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -1522,107 +1570,111 @@
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+        p, li { white-space: pre-wrap; }
+        &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+        &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>Public Key:</source>
-        <translation type="unfinished"></translation>
+        <translation>공개 키:</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>닫기</translation>
     </message>
     <message>
         <source>Warning: Network Activity Detected</source>
-        <translation type="unfinished"></translation>
+        <translation>위험: 네트워크 활동이 감지되었습니다</translation>
     </message>
     <message>
         <source>It is recommended to disconnect from the internet before printing paper wallets. Even though paper wallets are generated on your local computer, it is still possible to unknowingly have malware that transmits your screen to a remote location. It is also recommended to print to a local printer vs a network printer since that network traffic can be monitored. Some advanced printers also store copies of each printed document. Proceed with caution relative to the amount of value you plan to store on each address.</source>
-        <translation type="unfinished"></translation>
+        <translation>종이 지갑을 인쇄하기 전에 인터넷 연결을 끊는 것이 좋습니다. 종이 지갑은 로컬 컴퓨터에서 생성되지만 자신도 모르는 사이에 원격 위치로 화면을 전송하는 멀웨어가 있을 수 있습니다. 또한 네트워크 트래픽을 모니터링할 수 있으므로 로컬 프린터와 네트워크 프린터로 인쇄하는 것이 좋습니다. 일부 고급 프린터는 인쇄된 각 문서의 사본도 저장합니다. 각 주소에 저장하려는 값의 양에 따라 주의해서 진행하십시오.</translation>
     </message>
     <message>
         <source>Error encoding Address into QR Code.</source>
-        <translation type="unfinished"></translation>
+        <translation>주소를 QR 코드로 부호화중</translation>
     </message>
     <message>
         <source>Error encoding private key into QR Code.</source>
-        <translation type="unfinished"></translation>
+        <translation>개인 키를 QR 코드로 부호화중</translation>
     </message>
     <message>
         <source>Printing Error</source>
-        <translation type="unfinished"></translation>
+        <translation>에러 출력중</translation>
     </message>
     <message>
         <source>failed to open file, is it writable?</source>
-        <translation type="unfinished"></translation>
+        <translation>파일을 열지 못했습니다, 쓰기가 가능합니까?</translation>
     </message>
     <message>
         <source>Load Paper Wallets</source>
-        <translation type="unfinished"></translation>
+        <translation>종이 지갑 불러오기</translation>
     </message>
     <message>
         <source>The paper wallet printing process has begun.&lt;br/&gt;Please wait for the wallets to print completely and verify that everything printed correctly.&lt;br/&gt;Check for misalignments, ink bleeding, smears, or anything else that could make the private keys unreadable.&lt;br/&gt;Now, enter the number of DOGE you wish to send to each wallet:</source>
-        <translation type="unfinished"></translation>
+        <translation>종이 지갑 인쇄 프로세스가 시작되었습니다.&lt;br/&gt;지갑이 완전히 인쇄될 때까지 기다렸다가 모든 것이 올바르게 인쇄되었는지 확인하십시오.&lt;br/&gt;개인 키를 읽을 수 없게 잉크가 새거나, 오정렬, 번짐 또는 기타 문제를 일으킬 수 있는 사항이 없는지 확인하십시오.&lt;br/&gt;이제 각 지갑에 보낼 DOGE 갯수를 입력하세요.</translation>
     </message>
     <message>
         <source>Paper wallet %1</source>
-        <translation type="unfinished"></translation>
+        <translation>종이 지갑 %1</translation>
     </message>
     <message>
         <source>&lt;b&gt;%1&lt;/b&gt; to Paper Wallet &lt;span style=&apos;font-family: monospace;&apos;&gt;%2&lt;/span&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;%1&lt;/b&gt; 종이 지갑으로 &lt;span style=&apos;font-family: monospace;&apos;&gt;%2&lt;/span&gt;</translation>
     </message>
     <message>
         <source>Send Coins</source>
-        <translation type="unfinished">코인 보내기</translation>
+        <translation>코인 보내기</translation>
     </message>
     <message>
         <source>The recipient address is not valid, please recheck.</source>
-        <translation type="unfinished"></translation>
+        <translation>받는이의 주소가 정확하지 않습니다, 다시 확인해주세요.</translation>
     </message>
     <message>
         <source>The amount to pay must be larger than 0</source>
-        <translation type="unfinished">지불하는 금액은 0 보다 커야 합니다. {0?}</translation>
+        <translation>지불하는 금액은 0 보다 커야 합니다. {0?}</translation>
     </message>
     <message>
         <source>The amount exceeds your balance.</source>
-        <translation type="unfinished">잔고를 초과하였습니다.</translation>
+        <translation>잔고를 초과하였습니다.</translation>
     </message>
     <message>
         <source>The total exceeds your balance when the transaction fee is included</source>
-        <translation type="unfinished"></translation>
+        <translation>거래 수수료가 포함된 경우 총액이 잔액을 초과합니다.</translation>
     </message>
     <message>
         <source>Duplicate address found, can only send to each address once per send operation.</source>
-        <translation type="unfinished"></translation>
+        <translation>중복 주소가 발견되었습니다. 보내기 작업당 한 번만 각 주소로 보낼 수 있습니다.</translation>
     </message>
     <message>
         <source>Transaction creation failed!</source>
-        <translation type="unfinished">거래 생성을 실패하였습니다!</translation>
+        <translation>거래 생성을 실패하였습니다!</translation>
     </message>
     <message>
         <source>Are you sure you want to send?</source>
-        <translation type="unfinished">정말로 보내시겠습니까?</translation>
+        <translation>정말로 보내시겠습니까?</translation>
     </message>
     <message>
         <source>added as transaction fee</source>
-        <translation type="unfinished">거래 수수료로 추가됨</translation>
+        <translation>거래 수수료로 추가됨</translation>
     </message>
     <message>
         <source>Total Amount %1 (= %2)</source>
-        <translation type="unfinished"></translation>
+        <translation>총 금액 %1 (= %2)</translation>
     </message>
     <message>
         <source>or</source>
-        <translation type="unfinished">또는</translation>
+        <translation>또는</translation>
     </message>
     <message>
         <source>Confirm send coins</source>
-        <translation type="unfinished">코인 전송 확인</translation>
+        <translation>코인 전송 확인</translation>
     </message>
     <message>
         <source>The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
-        <translation type="unfinished"></translation>
+        <translation>거래가 거부되었습니다! 이는 지갑에 있는 일부 코인이 이미 사용된 경우 발생할 수 있습니다. 예를 들어 wallet.dat 사본을 사용하고 코인이 사본에서 사용되었지만 여기에서 사용된 것으로 표시되지 않은 경우입니다.</translation>
     </message>
 </context>
 <context>
@@ -1709,11 +1761,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>URI cannot be parsed! This can be caused by an invalid Dogecoin address or malformed URI parameters.</source>
-        <translation type="unfinished"></translation>
+        <translation>URI를 구문 분석할 수 없습니다! 이는 잘못된 도지코인 주소 또는 형식이 잘못된 URI 매개변수로 인해 발생할 수 있습니다.</translation>
     </message>
     <message>
         <source>Requested payment amount of %1 is too small (below discard threshold).</source>
-        <translation type="unfinished"></translation>
+        <translation>요청한 지불 금액 %1이(가) 너무 작습니다(폐기 임계값 미만). </translation>
     </message>
 </context>
 <context>
@@ -1736,30 +1788,30 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Bytes Sent</source>
-        <translation type="unfinished"></translation>
+        <translation>보낸 바이트</translation>
     </message>
     <message>
         <source>Bytes Received</source>
-        <translation type="unfinished"></translation>
+        <translation>받은 바이트</translation>
     </message>
 </context>
 <context>
     <name>PeerTools</name>
     <message>
         <source>Error: Peer-to-peer functionality missing or disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>P2P 기능이 없거나 비활성화됨</translation>
     </message>
     <message>
         <source>Attempted to one try node.</source>
-        <translation type="unfinished"></translation>
+        <translation>원 트라이 노드를 시도했습니다.</translation>
     </message>
     <message>
         <source>Error: Node already added</source>
-        <translation>에러: 이미 노드가 추가 되었습니다</translation>
+        <translation type="vanished">에러: 이미 노드가 추가 되었습니다</translation>
     </message>
     <message>
         <source>Node not found in connected nodes</source>
-        <translation type="unfinished"></translation>
+        <translation>연결된 노드에서 찾지 못하였습니다</translation>
     </message>
     <message>
         <source>Disconnected the node: </source>
@@ -1767,7 +1819,15 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Returned OK.</source>
-        <translation type="unfinished"></translation>
+        <translation>반환 확인.</translation>
+    </message>
+    <message>
+        <source>Error: Node address is invalid</source>
+        <translation>에러: 노드 주소가 올바르지 않습니다</translation>
+    </message>
+    <message>
+        <source>Error: Unable to add node</source>
+        <translation>에러: 노드 추가 할 수 없습니다</translation>
     </message>
 </context>
 <context>
@@ -1854,23 +1914,27 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>%1 B</source>
-        <translation type="unfinished">%1 바이트</translation>
+        <translation>%1 B</translation>
     </message>
     <message>
         <source>%1 TB</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished"> %1 TB</translation>
     </message>
     <message>
         <source>%1 GB</source>
-        <translation type="unfinished">%1 기가바이트</translation>
+        <translation type="vanished">%1 GB</translation>
     </message>
     <message>
         <source>%1 MB</source>
-        <translation type="unfinished">%1 메가바이트</translation>
+        <translation>%1 MB</translation>
     </message>
     <message>
         <source>%1 KB</source>
-        <translation type="unfinished">%1 킬로바이트</translation>
+        <translation type="vanished">%1 KB</translation>
+    </message>
+    <message>
+        <source>%1 kB</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2223,7 +2287,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>One try peer</source>
-        <translation type="unfinished"></translation>
+        <translation>원 트라이 피어</translation>
     </message>
     <message>
         <source>Error</source>
@@ -2651,7 +2715,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Using the fallbackfee can result in sending a transaction that will take several hours or days (or never) to confirm. Consider choosing your fee manually or wait until your have validated the complete chain.</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">fallbackfee를 사용하면 확인하는 데 몇 시간 또는 며칠이 걸리는 트랜잭션을 보낼 수 있습니다. 수수료를 수동으로 선택하거나 전체 체인이 검증될 때까지 기다리십시오.</translation>
     </message>
     <message>
         <source>Warning: Fee estimation is currently not possible.</source>
@@ -2659,7 +2723,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>If the custom fee is set to 1000 satoshis and the transaction is only 250 bytes, then &quot;per kilobyte&quot; only pays 250 satoshis in fee, while &quot;total at least&quot; pays 1000 satoshis. For transactions bigger than a kilobyte both pay by kilobyte.</source>
-        <translation type="unfinished"></translation>
+        <translation>사용자 정의 수수료가 1000 사토시로 설정되고 트랜잭션이 250바이트에 불과한 경우 &quot;킬로바이트당&quot; &quot;최소한 합계&quot;는 수수료로 250사토시만 지불합니다. 1000사토시를 지불합니다. 1킬로바이트보다 큰 트랜잭션의 경우 둘 다 킬로바이트 단위로 지불합니다.</translation>
     </message>
     <message>
         <source>Priority:</source>
@@ -2676,6 +2740,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Warning: Invalid Dogecoin address</source>
         <translation>경고: 올바르지 않은 도지코인 주소</translation>
+    </message>
+    <message>
+        <source>Using the fallbackfee can result in sending a transaction that will take several hours or days (or never) to confirm. Consider choosing your fee manually or wait until you have validated the complete chain.</source>
+        <translation>fallback fee를 이용하게 되면 송금 확인은 몇시간, 혹은 몇일 (또는 영원히)걸릴 수 있습니다. 수동으로 fee를 설정하거나 블록체인 전체를 검증할때까지 기다려 보는 선택지를 생각 해주세요.</translation>
     </message>
 </context>
 <context>
@@ -2941,11 +3009,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Enter the peer&apos;s address</source>
-        <translation type="unfinished"></translation>
+        <translation>피어의 주소를 입력하세요</translation>
     </message>
     <message>
         <source>Enter the peer&apos;s port</source>
-        <translation type="unfinished"></translation>
+        <translation>피어의 포트를 입력하세요</translation>
     </message>
     <message>
         <source>Test!</source>
@@ -2989,7 +3057,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>%1/offline</source>
-        <translation>%1/오프라인</translation>
+        <translation type="vanished">%1/오프라인</translation>
     </message>
     <message>
         <source>0/unconfirmed, %1</source>
@@ -3021,11 +3089,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>, has not been successfully broadcast yet</source>
-        <translation>. 아직 성공적으로 통보하지 않음</translation>
+        <translation type="vanished">. 아직 성공적으로 통보하지 않음</translation>
     </message>
     <message numerus="yes">
         <source>, broadcast through %n node(s)</source>
-        <translation>
+        <translation type="vanished">
             <numerusform>, %n 개 노드를 통해 전파</numerusform>
         </translation>
     </message>
@@ -3189,7 +3257,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Offline</source>
-        <translation>오프라인</translation>
+        <translation type="vanished">오프라인</translation>
     </message>
     <message>
         <source>Unconfirmed</source>
@@ -3217,7 +3285,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>This block was not received by any other nodes and will probably not be accepted!</source>
-        <translation>이 블록은 다른 노드로부터 받지 않아 허용되지 않을 것입니다!</translation>
+        <translation type="vanished">이 블록은 다른 노드로부터 받지 않아 허용되지 않을 것입니다!</translation>
     </message>
     <message>
         <source>Generated but not accepted</source>
@@ -3951,7 +4019,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Execute command when a relevant alert is received or we see a really long fork (%s in cmd is replaced by message)</source>
-        <translation>이 사항과 관련있는 경고가 발생하거나 아주 긴 포크가 발생했을 때 명령어 실행하기(cmd 명령어 목록에서 %s 은/는 메시지로 대체됨)</translation>
+        <translation type="vanished">이 사항과 관련있는 경고가 발생하거나 아주 긴 포크가 발생했을 때 명령어 실행하기(cmd 명령어 목록에서 %s 은/는 메시지로 대체됨)</translation>
     </message>
     <message>
         <source>Fees (in %s/kB) smaller than this are considered zero fee for relaying, mining and transaction creation (default: %s)</source>
@@ -4403,23 +4471,23 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Amount under which a transaction output is considered dust, in %s (default: %s)</source>
-        <translation type="unfinished"></translation>
+        <translation>트랜잭션 출력이 더스트로 간주되는 금액(%s 단위)(기본값: %s)</translation>
     </message>
     <message>
         <source>Execute command when the best block changes (%s in cmd is replaced by block hash, %i is replaced by block number)</source>
-        <translation type="unfinished"></translation>
+        <translation>최상의 블록이 변경될 때 명령 실행(cmd의 %s는 블록 해시로 대체되고 %i는 블록 번호로 대체됨)</translation>
     </message>
     <message>
         <source>Maximum total fees (in %s) to use in a single wallet transaction or raw transaction; setting this too low may abort large transactions (default: %s)</source>
-        <translation type="unfinished"></translation>
+        <translation>단일 지갑 거래 또는 원시 거래에 사용할 최대 총 수수료(%s 단위). 이 값을 너무 낮게 설정하면 대규모 트랜잭션이 중단될 수 있습니다(기본값: %s).</translation>
     </message>
     <message>
         <source>Reduce storage requirements by enabling pruning (deleting) of old blocks. This allows the pruneblockchain RPC to be called to delete specific blocks, and enables automatic pruning of old blocks if a target size in MiB is provided. This mode is incompatible with -txindex and -rescan. Warning: Reverting this setting requires re-downloading the entire blockchain. (default: 0 = disable pruning blocks, 1 = allow manual pruning via RPC, &gt;%u = automatically prune block files to stay under the specified target size in MiB)</source>
-        <translation type="unfinished"></translation>
+        <translation>오래된 블록의 정리(삭제)를 활성화하여 스토리지 요구 사항을 줄입니다. 이를 통해 특정 블록을 삭제하기 위해 pruneblockchain RPC를 호출할 수 있으며 MiB 단위의 목표 크기가 제공되면 오래된 블록을 자동으로 제거할 수 있습니다. 이 모드는 -txindex 및 -rescan과 호환되지 않습니다. 경고: 이 설정을 되돌리려면 전체 블록체인을 다시 다운로드해야 합니다. (기본값: 0 = 프루닝 블록 비활성화, 1 = RPC를 통한 수동 프루닝 허용, &gt;%u = MiB 단위로 지정된 대상 크기 미만으로 유지되도록 블록 파일을 자동으로 프루닝)</translation>
     </message>
     <message>
         <source>This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit %s and cryptographic software written by Eric Young and UPnP software written by Thomas Bernard. Paper wallet art provided by Anacoluthia.</source>
-        <translation type="unfinished"></translation>
+        <translation>이 제품에는 OpenSSL Toolkit %s에서 사용하기 위해 OpenSSL Project에서 개발한 소프트웨어와 에릭 영이 작성한 암호화 소프트웨어 및 토마스 버나드가 작성한 UPnP 소프트웨어가 포함되어 있습니다. Anacoluthia에서 제공한 종이 지갑 아트입니다.</translation>
     </message>
     <message>
         <source>Amaze</source>
@@ -4443,7 +4511,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Receive and display P2P network alerts (default: %u)</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">P2P 네트워크 경고 수신 및 표시(기본값: %u)</translation>
     </message>
     <message>
         <source>Such expensive</source>
@@ -4451,30 +4519,38 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Unable to bind to %s on this computer (bind returned error %s)</source>
-        <translation type="unfinished"></translation>
+        <translation>이 컴퓨터에서 %s에 바인딩할 수 없습니다(바인드에서 오류 %s 반환).</translation>
     </message>
     <message>
         <source>Wow</source>
-        <translation type="unfinished"></translation>
+        <translation>대박</translation>
     </message>
     <message>
         <source>-discardthreshold is set very high! This is the output amount that the wallet will discard (to fee) if it is smaller than this setting.</source>
-        <translation type="unfinished"></translation>
+        <translation>-discardthreshold가 매우 높게 설정되었습니다! 이 설정보다 작을 경우 지갑이 (수수료로) 버릴 출력 금액입니다.</translation>
     </message>
     <message>
         <source>Amount under which a transaction output is considered non-standard and will not be accepted or relayed, in %s (default: %s)</source>
-        <translation type="unfinished"></translation>
+        <translation>트랜잭션 출력이 비표준으로 간주되어 수락 또는 중계되지 않는 금액(%s 단위)(기본값: %s)</translation>
     </message>
     <message>
         <source>Invalid amount for -discardthreshold=&lt;amount&gt;: &apos;%s&apos; (must be at least the dust limit of %s to prevent stuck transactions)</source>
-        <translation type="unfinished"></translation>
+        <translation>-discardthreshold=&lt;금액&gt;에 대한 잘못된 금액: &apos;%s&apos; (중단된 트랜잭션을 방지하려면 최소한 %s의 더스트 제한이어야 함)</translation>
     </message>
     <message>
         <source>The minimum transaction output size (in %s) used to validate wallet transactions and discard change (to fee) (default: %s)</source>
-        <translation type="unfinished"></translation>
+        <translation>지갑 거래를 검증하고 변경 사항(수수료로)을 폐기하는 데 사용되는 최소 거래 출력 크기(%s 단위)(기본값: %s)</translation>
     </message>
     <message>
         <source>Use Namecoin-compatible AuxPow API structure, (default: %u)</source>
+        <translation>네임코인-호환 AuxPow API 구조 사용, (기본값: %u)</translation>
+    </message>
+    <message>
+        <source>Execute command when we see a really long fork (%s in cmd is replaced by message)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Specify directory where to write backups and data dumps (default datadir/backups)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

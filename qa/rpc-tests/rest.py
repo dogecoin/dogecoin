@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # Copyright (c) 2014-2016 The Bitcoin Core developers
+# Copyright (c) 2022 The Dogecoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -91,10 +92,10 @@ class RESTTest (BitcoinTestFramework):
                 n = vout['n']
 
 
-        ######################################
-        # GETUTXOS: query a unspent outpoint #
-        ######################################
-        json_request = '/checkmempool/'+txid+'-'+str(n)
+        #######################################
+        # GETUTXOS: query an unspent outpoint #
+        #######################################
+        json_request = '/'+txid+'-'+str(n)
         json_string = http_get_call(url.hostname, url.port, '/rest/getutxos'+json_request+self.FORMAT_SEPARATOR+'json')
         json_obj = json.loads(json_string)
 
@@ -106,10 +107,10 @@ class RESTTest (BitcoinTestFramework):
         assert_equal(json_obj['utxos'][0]['value'], 1)
 
 
-        ################################################
-        # GETUTXOS: now query a already spent outpoint #
-        ################################################
-        json_request = '/checkmempool/'+vintx+'-0'
+        #################################################
+        # GETUTXOS: now query an already spent outpoint #
+        #################################################
+        json_request = '/'+vintx+'-0'
         json_string = http_get_call(url.hostname, url.port, '/rest/getutxos'+json_request+self.FORMAT_SEPARATOR+'json')
         json_obj = json.loads(json_string)
 
@@ -126,7 +127,7 @@ class RESTTest (BitcoinTestFramework):
         ##################################################
         # GETUTXOS: now check both with the same request #
         ##################################################
-        json_request = '/checkmempool/'+txid+'-'+str(n)+'/'+vintx+'-0'
+        json_request = '/'+txid+'-'+str(n)+'/'+vintx+'-0'
         json_string = http_get_call(url.hostname, url.port, '/rest/getutxos'+json_request+self.FORMAT_SEPARATOR+'json')
         json_obj = json.loads(json_string)
         assert_equal(len(json_obj['utxos']), 1)
@@ -160,22 +161,47 @@ class RESTTest (BitcoinTestFramework):
         txid = self.nodes[0].sendtoaddress(self.nodes[1].getnewaddress(), 1)
         json_string = http_get_call(url.hostname, url.port, '/rest/tx/'+txid+self.FORMAT_SEPARATOR+"json")
         json_obj = json.loads(json_string)
-        vintx = json_obj['vin'][0]['txid'] # get the vin to later check for utxo (should be spent by then)
+        # get the spent output to later check for utxo (should be spent by then)
+        spent = '{}-{}'.format(json_obj['vin'][0]['txid'], json_obj['vin'][0]['vout'])
         # get n of 0.1 outpoint
         n = 0
         for vout in json_obj['vout']:
             if vout['value'] == 1:
                 n = vout['n']
+        spending = '{}-{}'.format(txid, n)
 
-        json_request = '/'+txid+'-'+str(n)
+        json_request = '/'+spending
         json_string = http_get_call(url.hostname, url.port, '/rest/getutxos'+json_request+self.FORMAT_SEPARATOR+'json')
         json_obj = json.loads(json_string)
-        assert_equal(len(json_obj['utxos']), 0) #there should be a outpoint because it has just added to the mempool
+        assert_equal(len(json_obj['utxos']), 0) #there should be no outpoint because it has just added to the mempool
 
-        json_request = '/checkmempool/'+txid+'-'+str(n)
+        json_request = '/checkmempool/'+spending
         json_string = http_get_call(url.hostname, url.port, '/rest/getutxos'+json_request+self.FORMAT_SEPARATOR+'json')
         json_obj = json.loads(json_string)
         assert_equal(len(json_obj['utxos']), 1) #there should be a outpoint because it has just added to the mempool
+
+        json_request = '/'+spent
+        json_string = http_get_call(url.hostname, url.port, '/rest/getutxos'+json_request+self.FORMAT_SEPARATOR+'json')
+        json_obj = json.loads(json_string)
+        assert_equal(len(json_obj['utxos']), 1) #there should be an outpoint because its spending tx is not confirmed
+
+        json_request = '/checkmempool/'+spent
+        json_string = http_get_call(url.hostname, url.port, '/rest/getutxos'+json_request+self.FORMAT_SEPARATOR+'json')
+        json_obj = json.loads(json_string)
+        assert_equal(len(json_obj['utxos']), 0) #there should be no outpoint because it has just spent (by mempool tx)
+
+        self.nodes[0].generate(1)
+        self.sync_all()
+
+        json_request = '/'+spending
+        json_string = http_get_call(url.hostname, url.port, '/rest/getutxos'+json_request+self.FORMAT_SEPARATOR+'json')
+        json_obj = json.loads(json_string)
+        assert_equal(len(json_obj['utxos']), 1) #there should be an outpoint because it was mined
+
+        json_request = '/checkmempool/'+spending
+        json_string = http_get_call(url.hostname, url.port, '/rest/getutxos'+json_request+self.FORMAT_SEPARATOR+'json')
+        json_obj = json.loads(json_string)
+        assert_equal(len(json_obj['utxos']), 1) #there should be an outpoint because it was mined
 
         #do some invalid requests
         json_request = '{"checkmempool'
@@ -335,6 +361,43 @@ class RESTTest (BitcoinTestFramework):
         json_string = http_get_call(url.hostname, url.port, '/rest/chaininfo.json')
         json_obj = json.loads(json_string)
         assert_equal(json_obj['bestblockhash'], bb_hash)
+
+        ################
+        # /rest/blockhashbyheight/ #
+        ################
+
+        # check json format
+        blockhash_json_string = http_get_call(url.hostname, url.port, '/rest/blockhashbyheight/' + str(block_json_obj['height']) + self.FORMAT_SEPARATOR + 'json')
+        blockhash_json_obj = json.loads(blockhash_json_string)
+        assert_equal(blockhash_json_obj['blockhash'], block_json_obj['hash'])
+
+        # Check hex/bin format
+        resp_hex = http_get_call(url.hostname, url.port, '/rest/blockhashbyheight/' + str(block_json_obj['height']) + self.FORMAT_SEPARATOR + 'hex')
+        assert_equal( resp_hex.rstrip(), block_json_obj['hash'])
+
+        resp_bin = http_get_call(url.hostname, url.port, '/rest/blockhashbyheight/' + str(block_json_obj['height']) + self.FORMAT_SEPARATOR + 'bin', True)
+        assert_equal(resp_bin.status, 200)
+        assert_equal(int(resp_bin.getheader('content-length')), 32)
+        response_str = resp_bin.read()
+        blockhash = response_str[::-1].hex()
+        assert_equal(blockhash, block_json_obj['hash'])
+
+        # Check invalid blockhashbyheight requests
+        resp = http_get_call(url.hostname, url.port, "/rest/blockhashbyheight/abc.json", True)
+        assert_equal(resp.status, 400)
+        assert_equal(resp.read().decode('utf-8').rstrip(), "Invalid height: abc")
+
+        resp = http_get_call(url.hostname, url.port, "/rest/blockhashbyheight/1000000.json", True)
+        assert_equal(resp.status, 404)
+        assert_equal(resp.read().decode('utf-8').rstrip(), "Block height out of range")
+
+        resp = http_get_call(url.hostname, url.port, "/rest/blockhashbyheight/-1.json", True)
+        assert_equal(resp.status, 400)
+        assert_equal(resp.read().decode('utf-8').rstrip(), "Invalid height: -1")
+
+        resp = http_get_call(url.hostname, url.port, "/rest/blockhashbyheight/", True)
+        assert_equal(resp.status, 400)
+
 
 if __name__ == '__main__':
     RESTTest ().main ()

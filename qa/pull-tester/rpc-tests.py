@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # Copyright (c) 2014-2016 The Bitcoin Core developers
+# Copyright (c) 2022 The Dogecoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -115,6 +116,7 @@ testScripts = [
     # 'p2p-segwit.py',
     'wallet-dump.py',
     'listtransactions.py',
+    'p2p-policy.py',
     # vv Tests less than 60s vv
     'p2p-acceptblock.py',
     'sendheaders.py',
@@ -127,7 +129,10 @@ testScripts = [
     # 'bip68-112-113-p2p.py',
     'rawtransactions.py',
     'reindex.py',
+    'p2p-addr.py',
+    'p2p-tx-download.py',
     # vv Tests less than 30s vv
+    'p2p_invalid_locator.py',
     'mempool_resurrect_test.py',
     'txn_doublespend.py --mineblock',
     'txn_clone.py',
@@ -158,6 +163,7 @@ testScripts = [
     'dustlimits.py',
     'paytxfee.py',
     'feelimit.py',
+    'setmaxconnections.py',
     # While fee bumping should work in Doge, these tests depend on free transactions, which we don't support.
     # Disable until we can do a full rewrite of the tests (possibly upstream), or revise fee schedule, or something
     'bumpfee.py',
@@ -165,7 +171,10 @@ testScripts = [
     'listsinceblock.py',
     'p2p-leaktests.py',
     'replace-by-fee.py',
-    'p2p-policy.py',
+    'rescan.py',
+    'wallet_create_tx.py',
+    'liststucktransactions.py',
+    'addnode.py',
 ]
 if ENABLE_ZMQ:
     testScripts.append('zmq_test.py')

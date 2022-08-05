@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # Copyright (c) 2016 The Bitcoin Core developers
+# Copyright (c) 2022 The Dogecoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -279,7 +280,7 @@ def test_locked_wallet_fails(rbf_node, dest_address):
 
 def test_dogecoin_wallet_minchange(rbf_node, dest_address):
     input = Decimal("10.00000000")
-    discard_threshold = Decimal("1.00000000")    # DEFAULT_DISCARD_THRESHOLD
+    discard_threshold = Decimal("0.01000000")    # DEFAULT_DISCARD_THRESHOLD
     min_fee = Decimal("0.01000000")              # DEFAULT_TRANSACTION_FEE
     min_change = discard_threshold + 2 * min_fee # MIN_CHANGE
     bumpfee = Decimal("0.001")                   # WALLET_INCREMENTAL_RELAY_FEE

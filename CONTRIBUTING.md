@@ -169,6 +169,25 @@ discussed extensively, be accompanied by widely discussed documentation and have
 a generally widely perceived technical consensus of being a worthwhile change,
 based on the judgement of the maintainers.
 
+
+### Merging pull requests
+
+Maintainers can only merge pull requests after any maintainer, other than the
+author of a pull request, has approved the code according to the decision
+making process outlined above.
+
+Maintainers must keep pull requests open for at least 24 hours after approval
+to merge is given, to allow anyone to voice a concern that may have been missed
+in review, or request more time to investigate a suspected issue. If a situation
+arises where more time has been requested but cannot be granted, at maintainer
+discretion, a new issue or pull request should be opened to address the defect
+or discuss improved alternatives. Requests for time and maintainer decision
+making are expected to be clearly documented on the pull request discussion on
+Github.
+
+Maintenance tasks and time-critical patches can be exempted from this rule if
+these are clearly marked as such, at maintainer discretion.
+
 ## Copyright
 
 By contributing to this repository, you agree to license your work under the 

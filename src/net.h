@@ -1,5 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin Core developers
+// Copyright (c) 2022 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -8,7 +9,6 @@
 
 #include "addrdb.h"
 #include "addrman.h"
-#include "alert.h"
 #include "amount.h"
 #include "bloom.h"
 #include "compat.h"
@@ -53,6 +53,8 @@ static const int TIMEOUT_INTERVAL = 20 * 60;
 static const int FEELER_INTERVAL = 120;
 /** The maximum number of entries in an 'inv' protocol message */
 static const unsigned int MAX_INV_SZ = 50000;
+/** The maximum number of entries in a locator */
+static const unsigned int MAX_LOCATOR_SZ = 101;
 /** The maximum number of new addresses to accumulate before announcing. */
 static const unsigned int MAX_ADDR_TO_SEND = 1000;
 /** Maximum length of incoming protocol messages (no message over 4 MB is currently acceptable). */
@@ -63,6 +65,8 @@ static const unsigned int MAX_SUBVERSION_LENGTH = 256;
 static const int MAX_OUTBOUND_CONNECTIONS = 8;
 /** Maximum number of addnode outgoing nodes */
 static const int MAX_ADDNODE_CONNECTIONS = 8;
+/** Number of peers protected from eviction: 4 random, 8 with lowest ping, 4 that sent recent tx, 4 that sent recent blocks */
+static const int PROTECTED_INBOUND_PEERS = 4 + 8 + 4 + 4;
 /** -listen default */
 static const bool DEFAULT_LISTEN = true;
 /** -upnp default */
@@ -71,10 +75,6 @@ static const bool DEFAULT_UPNP = USE_UPNP;
 #else
 static const bool DEFAULT_UPNP = false;
 #endif
-/** The maximum number of entries in mapAskFor */
-static const size_t MAPASKFOR_MAX_SZ = MAX_INV_SZ;
-/** The maximum number of entries in setAskFor (larger due to getdata latency)*/
-static const size_t SETASKFOR_MAX_SZ = 2 * MAX_INV_SZ;
 /** The maximum number of peer connections to maintain. */
 static const unsigned int DEFAULT_MAX_PEER_CONNECTIONS = 125;
 /** The default for -maxuploadtarget. 0 = Unlimited */
@@ -140,6 +140,7 @@ public:
         int nMaxOutbound = 0;
         int nMaxAddnode = 0;
         int nMaxFeeler = 0;
+        int nAvailableFds = 0;
         int nBestHeight = 0;
         CClientUIInterface* uiInterface = nullptr;
         unsigned int nSendBufferMaxSize = 0;
@@ -286,6 +287,8 @@ public:
 
     unsigned int GetReceiveFloodSize() const;
 
+    void SetMaxConnections(int newMaxConnections);
+
     void WakeMessageHandler();
 private:
     struct ListenSocket {
@@ -315,6 +318,8 @@ private:
     bool IsWhitelistedRange(const CNetAddr &addr);
 
     void DeleteNode(CNode* pnode);
+    void DisconnectUnusedNodes();
+    void DeleteDisconnectedNodes();
 
     NodeId GetNewNodeId();
 
@@ -339,8 +344,8 @@ private:
     // Network usage totals
     CCriticalSection cs_totalBytesRecv;
     CCriticalSection cs_totalBytesSent;
-    uint64_t nTotalBytesRecv;
-    uint64_t nTotalBytesSent;
+    uint64_t nTotalBytesRecv = 0;
+    uint64_t nTotalBytesSent = 0;
 
     // outbound limit & stats
     uint64_t nMaxOutboundTotalBytesSentInCycle;
@@ -384,6 +389,7 @@ private:
     int nMaxOutbound;
     int nMaxAddnode;
     int nMaxFeeler;
+    int nAvailableFds;
     std::atomic<int> nBestHeight;
     CClientUIInterface* clientInterface;
 
@@ -470,8 +476,6 @@ extern bool fDiscover;
 extern bool fListen;
 extern bool fRelayTxes;
 
-extern limitedmap<uint256, int64_t> mapAlreadyAskedFor;
-
 /** Subversion as sent to the P2P network in `version` messages */
 extern std::string strSubVersion;
 
@@ -511,6 +515,8 @@ public:
     std::string addrLocal;
     CAddress addr;
     CAmount minFeeFilter;
+    uint64_t nProcessedAddrs;
+    uint64_t nRatelimitedAddrs;
 };
 
 
@@ -639,6 +645,14 @@ public:
     int64_t nNextAddrSend;
     int64_t nNextLocalAddrSend;
 
+    /** Number of addresses that can be processed from this peer. */
+    double nAddrTokenBucket;
+    /** When nAddrTokenBucket was last updated, in microseconds */
+    int64_t nAddrTokenTimestamp;
+
+    std::atomic<uint64_t> nProcessedAddrs;
+    std::atomic<uint64_t> nRatelimitedAddrs;
+
     // inventory based relay
     CRollingBloomFilter filterInventoryKnown;
     // Set of transaction ids we still have to announce.
@@ -649,8 +663,6 @@ public:
     // and in the order requested.
     std::vector<uint256> vInventoryBlockToSend;
     CCriticalSection cs_inventory;
-    std::set<uint256> setAskFor;
-    std::multimap<int64_t, CInv> mapAskFor;
     int64_t nNextInvSend;
     // Used for headers announcements - unfiltered blocks to relay
     // Also protected by cs_inventory
@@ -684,9 +696,6 @@ public:
 
     // Counts getheaders requests sent to this peer
     std::atomic<int64_t> nPendingHeaderRequests;
-
-    // Alert relay
-    std::vector<CAlert> vAlertToSend;
 
     CNode(NodeId id, ServiceFlags nLocalServicesIn, int nMyStartingHeightIn, SOCKET hSocketIn, const CAddress &addrIn, uint64_t nKeyedNetGroupIn, uint64_t nLocalHostNonceIn, const std::string &addrNameIn = "", bool fInboundIn = false);
     ~CNode();
@@ -777,15 +786,6 @@ public:
         }
     }
 
-    void PushAlert(const CAlert& _alert)
-    {
-        // don't relay to nodes which haven't sent their version message
-        if (_alert.IsInEffect() && nVersion != 0) {
-            vAlertToSend.push_back(_alert);
-        }
-    }
-
-
     void AddInventoryKnown(const CInv& inv)
     {
         {
@@ -806,19 +806,11 @@ public:
         }
     }
 
-    void PushAlertHash(const uint256 &hash)
-    {
-        LOCK(cs_inventory);
-        vBlockHashesToAnnounce.push_back(hash);
-    }
-
     void PushBlockHash(const uint256 &hash)
     {
         LOCK(cs_inventory);
         vBlockHashesToAnnounce.push_back(hash);
     }
-
-    void AskFor(const CInv& inv);
 
     void CloseSocketDisconnect();
 

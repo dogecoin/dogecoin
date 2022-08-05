@@ -1,4 +1,5 @@
 // Copyright (c) 2009-2016 The Bitcoin Core developers
+// Copyright (c) 2022 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -13,6 +14,7 @@
 #include "util.h"
 #include "utiltime.h"
 #include "wallet.h"
+#include "wallet/rpcutil.h"
 #include "merkleblock.h"
 #include "core_io.h"
 
@@ -21,6 +23,8 @@
 
 #include <boost/algorithm/string.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
+#include <boost/filesystem.hpp>
+#include <boost/filesystem/path.hpp>
 
 #include <univalue.h>
 
@@ -553,7 +557,7 @@ UniValue dumpwallet(const JSONRPCRequest& request)
 {
     if (!EnsureWalletIsAvailable(request.fHelp))
         return NullUniValue;
-    
+
     if (request.fHelp || request.params.size() != 1)
         throw runtime_error(
             "dumpwallet \"filename\"\n"
@@ -570,9 +574,18 @@ UniValue dumpwallet(const JSONRPCRequest& request)
     EnsureWalletIsUnlocked();
 
     ofstream file;
-    file.open(request.params[0].get_str().c_str());
+
+    string userFilename = request.params[0].get_str();
+    boost::filesystem::path path = GetBackupDirFromInput(userFilename);
+
+    if (boost::filesystem::exists(path))
+        throw JSONRPCError(RPC_INVALID_PARAMETER, "Wallet dump file already exists; not overwriting");
+
+    file.open(path.string());
     if (!file.is_open())
         throw JSONRPCError(RPC_INVALID_PARAMETER, "Cannot open wallet dump file");
+
+    LogPrintf("Dumping wallet to " + path.string() + "\n");
 
     std::map<CTxDestination, int64_t> mapKeyBirth;
     std::set<CKeyID> setKeyPool;

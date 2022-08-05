@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # Copyright (c) 2014-2016 The Bitcoin Core developers
+# Copyright (c) 2022 The Dogecoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -19,15 +20,28 @@ def txFromHex(hexstring):
 class ListTransactionsTest(BitcoinTestFramework):
     def __init__(self):
         super().__init__()
-        self.num_nodes = 4
-        self.setup_clean_chain = False
+        self.num_nodes = 2
+        self.setup_clean_chain = True
 
-    def setup_nodes(self):
-        #This test requires mocktime
-        enable_mocktime()
-        return start_nodes(self.num_nodes, self.options.tmpdir)
+    def setup_nodes(self, split=False):
+        nodes = []
+        for i in range(self.num_nodes):
+            nodes.append(start_node(i, self.options.tmpdir, ["-debug=net"]))
+        return nodes
+
+    def setup_network(self, split = False):
+        self.nodes = self.setup_nodes()
+        connect_nodes_bi(self.nodes, 0, 1)
+        self.is_network_split = False
+        self.sync_all()
 
     def run_test(self):
+        # mine some blocks to each node and then generate 60 more to mature cb
+        self.nodes[0].generate(10)
+        self.nodes[1].generate(10)
+        self.nodes[0].generate(60)
+        self.sync_all()
+
         # Simple send, 0 to 1:
         txid = self.nodes[0].sendtoaddress(self.nodes[1].getnewaddress(), 100)
         self.sync_all()

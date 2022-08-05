@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # Copyright (c) 2014-2016 The Bitcoin Core developers
+# Copyright (c) 2022 The Dogecoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -28,15 +29,26 @@ class ReceivedByTest(BitcoinTestFramework):
 
     def __init__(self):
         super().__init__()
-        self.num_nodes = 4
-        self.setup_clean_chain = False
+        self.num_nodes = 2
+        self.setup_clean_chain = True
 
-    def setup_nodes(self):
-        #This test requires mocktime
-        enable_mocktime()
-        return start_nodes(self.num_nodes, self.options.tmpdir)
+    def setup_nodes(self, split=False):
+        nodes = []
+        for i in range(self.num_nodes):
+            nodes.append(start_node(i, self.options.tmpdir, ["-debug=net"]))
+        return nodes
+
+    def setup_network(self, split = False):
+        self.nodes = self.setup_nodes()
+        connect_nodes_bi(self.nodes, 0, 1)
+        self.is_network_split = False
+        self.sync_all()
 
     def run_test(self):
+        # Mine 61 blocks to get spendable coin
+        self.nodes[0].generate(61)
+        self.sync_all()
+
         '''
         listreceivedbyaddress Test
         '''

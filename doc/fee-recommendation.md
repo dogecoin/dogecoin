@@ -1,7 +1,7 @@
 Dogecoin Fee Recommendation
 ----------------------------
 
-_last updated for 1.14.5_
+_last updated for 1.14.6_
 
 The Dogecoin chain has a relatively low block interval, 1 megabyte blockspace
 and aims to provide a cheap means for people to transact. Therefore, the biggest
@@ -15,18 +15,14 @@ parametrized. The recommended defaults, as implemented in the Dogecoin Core
 wallet, are:
 
 - **0.01 DOGE per kilobyte** transaction fee
-- **1.00 DOGE** dust limit (discard threshold)
+- **0.01 DOGE** dust limit (discard threshold)
 - **0.001 DOGE** replace-by-fee increments
 
 The wallet rejects transactions that have outputs under the dust limit, and
 discards change to fee if it falls under this limit.
 
-Note: The recommended dust limit is expected to be lowered in a follow-up
-      release, once enough miners and relay nodes have adopted newly introduced
-      relay dust limits touched upon below.
-
 Note: In the past, Dogecoin has enforced a rounding function in the fee
-      mechanism. As of version 1.14.5, this is no longer the case, and fees are
+      mechanism. Since version 1.14.5, this is no longer the case, and fees are
       calculated over the exact size of a transaction. For example, a 192 byte
       transaction only has to pay `0.01 / 1000 * 192 = 0.00192` DOGE fee.
 
