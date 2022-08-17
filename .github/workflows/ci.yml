@@ -39,6 +39,7 @@ jobs:
           - x86_64-linux-nowallet
           - x86_64-macos
           - x86_64-win
+          - x86_64-win-experimental
           - x86_64-linux-experimental
         include:
           - name: i686-linux
@@ -165,6 +166,24 @@ jobs:
             dep-opts: ""
             config-opts: "--enable-gui=qt5"
             goal: install
+          - name: x86_64-win-experimental
+            host: x86_64-w64-mingw32
+            arch: "i386"
+            os: ubuntu-18.04
+            packages: python3 nsis g++-mingw-w64-x86-64 wine64 bc wine-binfmt
+            postinstall: |
+              sudo dpkg -s mono-runtime && sudo apt-get remove mono-runtime || echo "Very nothing to uninstall."
+              sudo update-alternatives --set x86_64-w64-mingw32-gcc  /usr/bin/x86_64-w64-mingw32-gcc-posix
+              sudo update-alternatives --set x86_64-w64-mingw32-g++  /usr/bin/x86_64-w64-mingw32-g++-posix
+              sudo update-binfmts --import /usr/share/binfmts/wine
+            run-bench: false
+            test-script: |
+              make check $MAKEJOBS VERBOSE=1
+            check-security: true
+            check-symbols: false
+            dep-opts: "AVX2=1 MINGW=1"
+            config-opts: "--with-intel-avx2 --enable-gui=qt5"
+            goal: install
           - name: x86_64-macos
             host: x86_64-apple-darwin11
             os: ubuntu-18.04
@@ -178,7 +197,7 @@ jobs:
             sdk: 10.11
             sdk-shasum: "bec9d089ebf2e2dd59b1a811a38ec78ebd5da18cbbcd6ab39d1e59f64ac5033f"
           - name: x86_64-linux-experimental
-            host: x86_64-unknown-linux-gnu
+            host: x86_64-linux-gnu
             os: ubuntu-18.04
             packages: bc python3-zmq
             run-bench: true
