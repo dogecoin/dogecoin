@@ -1495,7 +1495,7 @@
     </message>
     <message>
         <source>Never share your private key with anyone</source>
-        <translation type="unfinished"></translation>
+        <translation>Ne partagez jamais votre clé privée avec quiconque</translation>
     </message>
     <message>
         <source>Who owns the private keys, owns the coins</source>
@@ -1503,7 +1503,7 @@
     </message>
     <message>
         <source>To see ongoing development and contribute, check out the Dogecoin Core repository on GitHub</source>
-        <translation type="unfinished"></translation>
+        <translation>Pour suivre le développement en cours et contribuer, consultez le repo Dogecoin Core sur GitHub.</translation>
     </message>
 </context>
 <context>
@@ -1831,11 +1831,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Error: Node address is invalid</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur : L'adresse du nœud est invalide</translation>
     </message>
     <message>
         <source>Error: Unable to add node</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur : Impossible d'ajouter un nœud</translation>
     </message>
 </context>
 <context>
