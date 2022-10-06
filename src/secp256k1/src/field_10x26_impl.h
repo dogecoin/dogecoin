@@ -1,15 +1,24 @@
-/**********************************************************************
- * Copyright (c) 2013, 2014 Pieter Wuille                             *
- * Distributed under the MIT software license, see the accompanying   *
- * file COPYING or http://www.opensource.org/licenses/mit-license.php.*
- **********************************************************************/
+/***********************************************************************
+ * Copyright (c) 2013, 2014 Pieter Wuille                              *
+ * Distributed under the MIT software license, see the accompanying    *
+ * file COPYING or https://www.opensource.org/licenses/mit-license.php.*
+ ***********************************************************************/
 
-#ifndef _SECP256K1_FIELD_REPR_IMPL_H_
-#define _SECP256K1_FIELD_REPR_IMPL_H_
+#ifndef SECP256K1_FIELD_REPR_IMPL_H
+#define SECP256K1_FIELD_REPR_IMPL_H
 
 #include "util.h"
-#include "num.h"
 #include "field.h"
+#include "modinv32_impl.h"
+
+/** See the comment at the top of field_5x52_impl.h for more details.
+ *
+ *  Here, we represent field elements as 10 uint32_t's in base 2^26, least significant first,
+ *  where limbs can contain >26 bits.
+ *  A magnitude M means:
+ *  - 2*M*(2^22-1) is the max (inclusive) of the most significant limb
+ *  - 2*M*(2^26-1) is the max (inclusive) of the remaining limbs
+ */
 
 #ifdef VERIFY
 static void secp256k1_fe_verify(const secp256k1_fe *a) {
@@ -38,11 +47,27 @@ static void secp256k1_fe_verify(const secp256k1_fe *a) {
     }
     VERIFY_CHECK(r == 1);
 }
-#else
-static void secp256k1_fe_verify(const secp256k1_fe *a) {
-    (void)a;
-}
 #endif
+
+static void secp256k1_fe_get_bounds(secp256k1_fe *r, int m) {
+    VERIFY_CHECK(m >= 0);
+    VERIFY_CHECK(m <= 2048);
+    r->n[0] = 0x3FFFFFFUL * 2 * m;
+    r->n[1] = 0x3FFFFFFUL * 2 * m;
+    r->n[2] = 0x3FFFFFFUL * 2 * m;
+    r->n[3] = 0x3FFFFFFUL * 2 * m;
+    r->n[4] = 0x3FFFFFFUL * 2 * m;
+    r->n[5] = 0x3FFFFFFUL * 2 * m;
+    r->n[6] = 0x3FFFFFFUL * 2 * m;
+    r->n[7] = 0x3FFFFFFUL * 2 * m;
+    r->n[8] = 0x3FFFFFFUL * 2 * m;
+    r->n[9] = 0x03FFFFFUL * 2 * m;
+#ifdef VERIFY
+    r->magnitude = m;
+    r->normalized = (m == 0);
+    secp256k1_fe_verify(r);
+#endif
+}
 
 static void secp256k1_fe_normalize(secp256k1_fe *r) {
     uint32_t t0 = r->n[0], t1 = r->n[1], t2 = r->n[2], t3 = r->n[3], t4 = r->n[4],
@@ -186,7 +211,7 @@ static void secp256k1_fe_normalize_var(secp256k1_fe *r) {
 #endif
 }
 
-static int secp256k1_fe_normalizes_to_zero(secp256k1_fe *r) {
+static int secp256k1_fe_normalizes_to_zero(const secp256k1_fe *r) {
     uint32_t t0 = r->n[0], t1 = r->n[1], t2 = r->n[2], t3 = r->n[3], t4 = r->n[4],
              t5 = r->n[5], t6 = r->n[6], t7 = r->n[7], t8 = r->n[8], t9 = r->n[9];
 
@@ -215,7 +240,7 @@ static int secp256k1_fe_normalizes_to_zero(secp256k1_fe *r) {
     return (z0 == 0) | (z1 == 0x3FFFFFFUL);
 }
 
-static int secp256k1_fe_normalizes_to_zero_var(secp256k1_fe *r) {
+static int secp256k1_fe_normalizes_to_zero_var(const secp256k1_fe *r) {
     uint32_t t0, t1, t2, t3, t4, t5, t6, t7, t8, t9;
     uint32_t z0, z1;
     uint32_t x;
@@ -268,10 +293,11 @@ static int secp256k1_fe_normalizes_to_zero_var(secp256k1_fe *r) {
 }
 
 SECP256K1_INLINE static void secp256k1_fe_set_int(secp256k1_fe *r, int a) {
+    VERIFY_CHECK(0 <= a && a <= 0x7FFF);
     r->n[0] = a;
     r->n[1] = r->n[2] = r->n[3] = r->n[4] = r->n[5] = r->n[6] = r->n[7] = r->n[8] = r->n[9] = 0;
 #ifdef VERIFY
-    r->magnitude = 1;
+    r->magnitude = (a != 0);
     r->normalized = 1;
     secp256k1_fe_verify(r);
 #endif
@@ -325,51 +351,79 @@ static int secp256k1_fe_cmp_var(const secp256k1_fe *a, const secp256k1_fe *b) {
 }
 
 static int secp256k1_fe_set_b32(secp256k1_fe *r, const unsigned char *a) {
-    int i;
-    r->n[0] = r->n[1] = r->n[2] = r->n[3] = r->n[4] = 0;
-    r->n[5] = r->n[6] = r->n[7] = r->n[8] = r->n[9] = 0;
-    for (i=0; i<32; i++) {
-        int j;
-        for (j=0; j<4; j++) {
-            int limb = (8*i+2*j)/26;
-            int shift = (8*i+2*j)%26;
-            r->n[limb] |= (uint32_t)((a[31-i] >> (2*j)) & 0x3) << shift;
-        }
-    }
-    if (r->n[9] == 0x3FFFFFUL && (r->n[8] & r->n[7] & r->n[6] & r->n[5] & r->n[4] & r->n[3] & r->n[2]) == 0x3FFFFFFUL && (r->n[1] + 0x40UL + ((r->n[0] + 0x3D1UL) >> 26)) > 0x3FFFFFFUL) {
-        return 0;
-    }
+    int ret;
+    r->n[0] = (uint32_t)a[31] | ((uint32_t)a[30] << 8) | ((uint32_t)a[29] << 16) | ((uint32_t)(a[28] & 0x3) << 24);
+    r->n[1] = (uint32_t)((a[28] >> 2) & 0x3f) | ((uint32_t)a[27] << 6) | ((uint32_t)a[26] << 14) | ((uint32_t)(a[25] & 0xf) << 22);
+    r->n[2] = (uint32_t)((a[25] >> 4) & 0xf) | ((uint32_t)a[24] << 4) | ((uint32_t)a[23] << 12) | ((uint32_t)(a[22] & 0x3f) << 20);
+    r->n[3] = (uint32_t)((a[22] >> 6) & 0x3) | ((uint32_t)a[21] << 2) | ((uint32_t)a[20] << 10) | ((uint32_t)a[19] << 18);
+    r->n[4] = (uint32_t)a[18] | ((uint32_t)a[17] << 8) | ((uint32_t)a[16] << 16) | ((uint32_t)(a[15] & 0x3) << 24);
+    r->n[5] = (uint32_t)((a[15] >> 2) & 0x3f) | ((uint32_t)a[14] << 6) | ((uint32_t)a[13] << 14) | ((uint32_t)(a[12] & 0xf) << 22);
+    r->n[6] = (uint32_t)((a[12] >> 4) & 0xf) | ((uint32_t)a[11] << 4) | ((uint32_t)a[10] << 12) | ((uint32_t)(a[9] & 0x3f) << 20);
+    r->n[7] = (uint32_t)((a[9] >> 6) & 0x3) | ((uint32_t)a[8] << 2) | ((uint32_t)a[7] << 10) | ((uint32_t)a[6] << 18);
+    r->n[8] = (uint32_t)a[5] | ((uint32_t)a[4] << 8) | ((uint32_t)a[3] << 16) | ((uint32_t)(a[2] & 0x3) << 24);
+    r->n[9] = (uint32_t)((a[2] >> 2) & 0x3f) | ((uint32_t)a[1] << 6) | ((uint32_t)a[0] << 14);
+
+    ret = !((r->n[9] == 0x3FFFFFUL) & ((r->n[8] & r->n[7] & r->n[6] & r->n[5] & r->n[4] & r->n[3] & r->n[2]) == 0x3FFFFFFUL) & ((r->n[1] + 0x40UL + ((r->n[0] + 0x3D1UL) >> 26)) > 0x3FFFFFFUL));
 #ifdef VERIFY
     r->magnitude = 1;
-    r->normalized = 1;
-    secp256k1_fe_verify(r);
+    if (ret) {
+        r->normalized = 1;
+        secp256k1_fe_verify(r);
+    } else {
+        r->normalized = 0;
+    }
 #endif
-    return 1;
+    return ret;
 }
 
 /** Convert a field element to a 32-byte big endian value. Requires the input to be normalized */
 static void secp256k1_fe_get_b32(unsigned char *r, const secp256k1_fe *a) {
-    int i;
 #ifdef VERIFY
     VERIFY_CHECK(a->normalized);
     secp256k1_fe_verify(a);
 #endif
-    for (i=0; i<32; i++) {
-        int j;
-        int c = 0;
-        for (j=0; j<4; j++) {
-            int limb = (8*i+2*j)/26;
-            int shift = (8*i+2*j)%26;
-            c |= ((a->n[limb] >> shift) & 0x3) << (2 * j);
-        }
-        r[31-i] = c;
-    }
+    r[0] = (a->n[9] >> 14) & 0xff;
+    r[1] = (a->n[9] >> 6) & 0xff;
+    r[2] = ((a->n[9] & 0x3F) << 2) | ((a->n[8] >> 24) & 0x3);
+    r[3] = (a->n[8] >> 16) & 0xff;
+    r[4] = (a->n[8] >> 8) & 0xff;
+    r[5] = a->n[8] & 0xff;
+    r[6] = (a->n[7] >> 18) & 0xff;
+    r[7] = (a->n[7] >> 10) & 0xff;
+    r[8] = (a->n[7] >> 2) & 0xff;
+    r[9] = ((a->n[7] & 0x3) << 6) | ((a->n[6] >> 20) & 0x3f);
+    r[10] = (a->n[6] >> 12) & 0xff;
+    r[11] = (a->n[6] >> 4) & 0xff;
+    r[12] = ((a->n[6] & 0xf) << 4) | ((a->n[5] >> 22) & 0xf);
+    r[13] = (a->n[5] >> 14) & 0xff;
+    r[14] = (a->n[5] >> 6) & 0xff;
+    r[15] = ((a->n[5] & 0x3f) << 2) | ((a->n[4] >> 24) & 0x3);
+    r[16] = (a->n[4] >> 16) & 0xff;
+    r[17] = (a->n[4] >> 8) & 0xff;
+    r[18] = a->n[4] & 0xff;
+    r[19] = (a->n[3] >> 18) & 0xff;
+    r[20] = (a->n[3] >> 10) & 0xff;
+    r[21] = (a->n[3] >> 2) & 0xff;
+    r[22] = ((a->n[3] & 0x3) << 6) | ((a->n[2] >> 20) & 0x3f);
+    r[23] = (a->n[2] >> 12) & 0xff;
+    r[24] = (a->n[2] >> 4) & 0xff;
+    r[25] = ((a->n[2] & 0xf) << 4) | ((a->n[1] >> 22) & 0xf);
+    r[26] = (a->n[1] >> 14) & 0xff;
+    r[27] = (a->n[1] >> 6) & 0xff;
+    r[28] = ((a->n[1] & 0x3f) << 2) | ((a->n[0] >> 24) & 0x3);
+    r[29] = (a->n[0] >> 16) & 0xff;
+    r[30] = (a->n[0] >> 8) & 0xff;
+    r[31] = a->n[0] & 0xff;
 }
 
 SECP256K1_INLINE static void secp256k1_fe_negate(secp256k1_fe *r, const secp256k1_fe *a, int m) {
 #ifdef VERIFY
     VERIFY_CHECK(a->magnitude <= m);
     secp256k1_fe_verify(a);
+    VERIFY_CHECK(0x3FFFC2FUL * 2 * (m + 1) >= 0x3FFFFFFUL * 2 * m);
+    VERIFY_CHECK(0x3FFFFBFUL * 2 * (m + 1) >= 0x3FFFFFFUL * 2 * m);
+    VERIFY_CHECK(0x3FFFFFFUL * 2 * (m + 1) >= 0x3FFFFFFUL * 2 * m);
+    VERIFY_CHECK(0x03FFFFFUL * 2 * (m + 1) >= 0x03FFFFFUL * 2 * m);
 #endif
     r->n[0] = 0x3FFFC2FUL * 2 * (m + 1) - a->n[0];
     r->n[1] = 0x3FFFFBFUL * 2 * (m + 1) - a->n[1];
@@ -469,7 +523,8 @@ SECP256K1_INLINE static void secp256k1_fe_mul_inner(uint32_t *r, const uint32_t 
     VERIFY_BITS(b[9], 26);
 
     /** [... a b c] is a shorthand for ... + a<<52 + b<<26 + c<<0 mod n.
-     *  px is a shorthand for sum(a[i]*b[x-i], i=0..x).
+     *  for 0 <= x <= 9, px is a shorthand for sum(a[i]*b[x-i], i=0..x).
+     *  for 9 <= x <= 18, px is a shorthand for sum(a[i]*b[x-i], i=(x-9)..9)
      *  Note that [x 0 0 0 0 0 0 0 0 0 0] = [x*R1 x*R0].
      */
 
@@ -1052,6 +1107,7 @@ static void secp256k1_fe_mul(secp256k1_fe *r, const secp256k1_fe *a, const secp2
     secp256k1_fe_verify(a);
     secp256k1_fe_verify(b);
     VERIFY_CHECK(r != b);
+    VERIFY_CHECK(a != b);
 #endif
     secp256k1_fe_mul_inner(r->n, a->n, b->n);
 #ifdef VERIFY
@@ -1076,6 +1132,7 @@ static void secp256k1_fe_sqr(secp256k1_fe *r, const secp256k1_fe *a) {
 
 static SECP256K1_INLINE void secp256k1_fe_cmov(secp256k1_fe *r, const secp256k1_fe *a, int flag) {
     uint32_t mask0, mask1;
+    VG_CHECK_VERIFY(r->n, sizeof(r->n));
     mask0 = flag + ~((uint32_t)0);
     mask1 = ~mask0;
     r->n[0] = (r->n[0] & mask0) | (a->n[0] & mask1);
@@ -1089,15 +1146,92 @@ static SECP256K1_INLINE void secp256k1_fe_cmov(secp256k1_fe *r, const secp256k1_
     r->n[8] = (r->n[8] & mask0) | (a->n[8] & mask1);
     r->n[9] = (r->n[9] & mask0) | (a->n[9] & mask1);
 #ifdef VERIFY
-    if (a->magnitude > r->magnitude) {
+    if (flag) {
         r->magnitude = a->magnitude;
+        r->normalized = a->normalized;
     }
-    r->normalized &= a->normalized;
+#endif
+}
+
+static SECP256K1_INLINE void secp256k1_fe_half(secp256k1_fe *r) {
+    uint32_t t0 = r->n[0], t1 = r->n[1], t2 = r->n[2], t3 = r->n[3], t4 = r->n[4],
+             t5 = r->n[5], t6 = r->n[6], t7 = r->n[7], t8 = r->n[8], t9 = r->n[9];
+    uint32_t one = (uint32_t)1;
+    uint32_t mask = -(t0 & one) >> 6;
+
+#ifdef VERIFY
+    secp256k1_fe_verify(r);
+    VERIFY_CHECK(r->magnitude < 32);
+#endif
+
+    /* Bounds analysis (over the rationals).
+     *
+     * Let m = r->magnitude
+     *     C = 0x3FFFFFFUL * 2
+     *     D = 0x03FFFFFUL * 2
+     *
+     * Initial bounds: t0..t8 <= C * m
+     *                     t9 <= D * m
+     */
+
+    t0 += 0x3FFFC2FUL & mask;
+    t1 += 0x3FFFFBFUL & mask;
+    t2 += mask;
+    t3 += mask;
+    t4 += mask;
+    t5 += mask;
+    t6 += mask;
+    t7 += mask;
+    t8 += mask;
+    t9 += mask >> 4;
+
+    VERIFY_CHECK((t0 & one) == 0);
+
+    /* t0..t8: added <= C/2
+     *     t9: added <= D/2
+     *
+     * Current bounds: t0..t8 <= C * (m + 1/2)
+     *                     t9 <= D * (m + 1/2)
+     */
+
+    r->n[0] = (t0 >> 1) + ((t1 & one) << 25);
+    r->n[1] = (t1 >> 1) + ((t2 & one) << 25);
+    r->n[2] = (t2 >> 1) + ((t3 & one) << 25);
+    r->n[3] = (t3 >> 1) + ((t4 & one) << 25);
+    r->n[4] = (t4 >> 1) + ((t5 & one) << 25);
+    r->n[5] = (t5 >> 1) + ((t6 & one) << 25);
+    r->n[6] = (t6 >> 1) + ((t7 & one) << 25);
+    r->n[7] = (t7 >> 1) + ((t8 & one) << 25);
+    r->n[8] = (t8 >> 1) + ((t9 & one) << 25);
+    r->n[9] = (t9 >> 1);
+
+    /* t0..t8: shifted right and added <= C/4 + 1/2
+     *     t9: shifted right
+     *
+     * Current bounds: t0..t8 <= C * (m/2 + 1/2)
+     *                     t9 <= D * (m/2 + 1/4)
+     */
+
+#ifdef VERIFY
+    /* Therefore the output magnitude (M) has to be set such that:
+     *     t0..t8: C * M >= C * (m/2 + 1/2)
+     *         t9: D * M >= D * (m/2 + 1/4)
+     *
+     * It suffices for all limbs that, for any input magnitude m:
+     *     M >= m/2 + 1/2
+     *
+     * and since we want the smallest such integer value for M:
+     *     M == floor(m/2) + 1
+     */
+    r->magnitude = (r->magnitude >> 1) + 1;
+    r->normalized = 0;
+    secp256k1_fe_verify(r);
 #endif
 }
 
 static SECP256K1_INLINE void secp256k1_fe_storage_cmov(secp256k1_fe_storage *r, const secp256k1_fe_storage *a, int flag) {
     uint32_t mask0, mask1;
+    VG_CHECK_VERIFY(r->n, sizeof(r->n));
     mask0 = flag + ~((uint32_t)0);
     mask1 = ~mask0;
     r->n[0] = (r->n[0] & mask0) | (a->n[0] & mask1);
@@ -1138,7 +1272,96 @@ static SECP256K1_INLINE void secp256k1_fe_from_storage(secp256k1_fe *r, const se
 #ifdef VERIFY
     r->magnitude = 1;
     r->normalized = 1;
+    secp256k1_fe_verify(r);
 #endif
 }
 
+static void secp256k1_fe_from_signed30(secp256k1_fe *r, const secp256k1_modinv32_signed30 *a) {
+    const uint32_t M26 = UINT32_MAX >> 6;
+    const uint32_t a0 = a->v[0], a1 = a->v[1], a2 = a->v[2], a3 = a->v[3], a4 = a->v[4],
+                   a5 = a->v[5], a6 = a->v[6], a7 = a->v[7], a8 = a->v[8];
+
+    /* The output from secp256k1_modinv32{_var} should be normalized to range [0,modulus), and
+     * have limbs in [0,2^30). The modulus is < 2^256, so the top limb must be below 2^(256-30*8).
+     */
+    VERIFY_CHECK(a0 >> 30 == 0);
+    VERIFY_CHECK(a1 >> 30 == 0);
+    VERIFY_CHECK(a2 >> 30 == 0);
+    VERIFY_CHECK(a3 >> 30 == 0);
+    VERIFY_CHECK(a4 >> 30 == 0);
+    VERIFY_CHECK(a5 >> 30 == 0);
+    VERIFY_CHECK(a6 >> 30 == 0);
+    VERIFY_CHECK(a7 >> 30 == 0);
+    VERIFY_CHECK(a8 >> 16 == 0);
+
+    r->n[0] =  a0                   & M26;
+    r->n[1] = (a0 >> 26 | a1 <<  4) & M26;
+    r->n[2] = (a1 >> 22 | a2 <<  8) & M26;
+    r->n[3] = (a2 >> 18 | a3 << 12) & M26;
+    r->n[4] = (a3 >> 14 | a4 << 16) & M26;
+    r->n[5] = (a4 >> 10 | a5 << 20) & M26;
+    r->n[6] = (a5 >>  6 | a6 << 24) & M26;
+    r->n[7] = (a6 >>  2           ) & M26;
+    r->n[8] = (a6 >> 28 | a7 <<  2) & M26;
+    r->n[9] = (a7 >> 24 | a8 <<  6);
+
+#ifdef VERIFY
+    r->magnitude = 1;
+    r->normalized = 1;
+    secp256k1_fe_verify(r);
 #endif
+}
+
+static void secp256k1_fe_to_signed30(secp256k1_modinv32_signed30 *r, const secp256k1_fe *a) {
+    const uint32_t M30 = UINT32_MAX >> 2;
+    const uint64_t a0 = a->n[0], a1 = a->n[1], a2 = a->n[2], a3 = a->n[3], a4 = a->n[4],
+                   a5 = a->n[5], a6 = a->n[6], a7 = a->n[7], a8 = a->n[8], a9 = a->n[9];
+
+#ifdef VERIFY
+    VERIFY_CHECK(a->normalized);
+#endif
+
+    r->v[0] = (a0       | a1 << 26) & M30;
+    r->v[1] = (a1 >>  4 | a2 << 22) & M30;
+    r->v[2] = (a2 >>  8 | a3 << 18) & M30;
+    r->v[3] = (a3 >> 12 | a4 << 14) & M30;
+    r->v[4] = (a4 >> 16 | a5 << 10) & M30;
+    r->v[5] = (a5 >> 20 | a6 <<  6) & M30;
+    r->v[6] = (a6 >> 24 | a7 <<  2
+                        | a8 << 28) & M30;
+    r->v[7] = (a8 >>  2 | a9 << 24) & M30;
+    r->v[8] =  a9 >>  6;
+}
+
+static const secp256k1_modinv32_modinfo secp256k1_const_modinfo_fe = {
+    {{-0x3D1, -4, 0, 0, 0, 0, 0, 0, 65536}},
+    0x2DDACACFL
+};
+
+static void secp256k1_fe_inv(secp256k1_fe *r, const secp256k1_fe *x) {
+    secp256k1_fe tmp;
+    secp256k1_modinv32_signed30 s;
+
+    tmp = *x;
+    secp256k1_fe_normalize(&tmp);
+    secp256k1_fe_to_signed30(&s, &tmp);
+    secp256k1_modinv32(&s, &secp256k1_const_modinfo_fe);
+    secp256k1_fe_from_signed30(r, &s);
+
+    VERIFY_CHECK(secp256k1_fe_normalizes_to_zero(r) == secp256k1_fe_normalizes_to_zero(&tmp));
+}
+
+static void secp256k1_fe_inv_var(secp256k1_fe *r, const secp256k1_fe *x) {
+    secp256k1_fe tmp;
+    secp256k1_modinv32_signed30 s;
+
+    tmp = *x;
+    secp256k1_fe_normalize_var(&tmp);
+    secp256k1_fe_to_signed30(&s, &tmp);
+    secp256k1_modinv32_var(&s, &secp256k1_const_modinfo_fe);
+    secp256k1_fe_from_signed30(r, &s);
+
+    VERIFY_CHECK(secp256k1_fe_normalizes_to_zero(r) == secp256k1_fe_normalizes_to_zero(&tmp));
+}
+
+#endif /* SECP256K1_FIELD_REPR_IMPL_H */

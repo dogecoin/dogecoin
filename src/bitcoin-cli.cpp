@@ -10,6 +10,7 @@
 
 #include "chainparamsbase.h"
 #include "clientversion.h"
+#include "compat.h"
 #include "rpc/client.h"
 #include "rpc/protocol.h"
 #include "util.h"
@@ -356,7 +357,7 @@ int CommandLineRPC(int argc, char *argv[])
     return nRet;
 }
 
-int main(int argc, char* argv[])
+MAIN_FUNCTION
 {
     SetupEnvironment();
     if (!SetupNetworking()) {
