@@ -2,7 +2,6 @@
 
 *.exe
 *.pdb
-src/dogecoin
 src/dogecoind
 src/dogecoin-cli
 src/dogecoin-gui
