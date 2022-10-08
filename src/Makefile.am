@@ -137,6 +137,7 @@ BITCOIN_CORE_H = \
   dbwrapper.h \
   dogecoin.cpp \
   dogecoin.h \
+  dogecoin/wallet.h \
   flatfile.h \
   fs.h \
   httprpc.h \

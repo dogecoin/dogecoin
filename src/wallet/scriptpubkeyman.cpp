@@ -2,6 +2,7 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
+#include <dogecoin/wallet.h>
 #include <key_io.h>
 #include <outputtype.h>
 #include <script/descriptor.h>
@@ -11,9 +12,6 @@
 #include <util/string.h>
 #include <util/translation.h>
 #include <wallet/scriptpubkeyman.h>
-
-//! Value for the first BIP 32 hardened derivation. Can be used as a bit mask and as a value. See BIP 32 for more details.
-const uint32_t BIP32_HARDENED_KEY_LIMIT = 0x80000000;
 
 bool LegacyScriptPubKeyMan::GetNewDestination(const OutputType type, CTxDestination& dest, std::string& error)
 {
@@ -357,7 +355,7 @@ void LegacyScriptPubKeyMan::MarkUnusedAddresses(const CScript& script)
         if (it != mapKeyMetadata.end()){
             CKeyMetadata meta = it->second;
             if (!meta.hd_seed_id.IsNull() && meta.hd_seed_id != m_hd_chain.seed_id) {
-                bool internal = ((meta.key_origin.path[1] == 0x80000003) || (meta.key_origin.path[1] == 0x80000000)) ? 0 : 1; 
+                bool internal = dogecoin::IsExternalKey(meta.key_origin.path[1]) ? 0 : 1;
                 int64_t index = meta.key_origin.path[2] & ~BIP32_HARDENED_KEY_LIMIT;
 
                 if (!TopUpInactiveHDChain(meta.hd_seed_id, index, internal)) {
@@ -1071,11 +1069,16 @@ void LegacyScriptPubKeyMan::DeriveNewChildKey(WalletBatch &batch, CKeyMetadata& 
 
     // derive m/0'
     // use hardened derivation (child keys >= 0x80000000 are hardened after bip32)
-    masterKey.Derive(accountKey, BIP32_HARDENED_KEY_LIMIT);
+    masterKey.Derive(accountKey, dogecoin::DERIVE_ACCOUNT_KEY);
 
     // derive m/0'/3' (external chain) OR m/0'/1' (internal chain)
+    // TODO: this still uses the legacy value - requires change to use 3'
+    //      (DERIVE_EXTERNAL) instead.
     assert(internal ? m_storage.CanSupportFeature(FEATURE_HD_SPLIT) : true);
-    accountKey.Derive(chainChildKey, BIP32_HARDENED_KEY_LIMIT+(internal ? 1 : 0));
+    accountKey.Derive(chainChildKey, (internal ?
+      dogecoin::ChainDerivationValue::DERIVE_INTERNAL :
+      dogecoin::ChainDerivationValue::DERIVE_EXTERNAL_LEGACY
+    ));
 
     // derive child key at next index, skip keys already known to the wallet
     do {
@@ -1085,16 +1088,16 @@ void LegacyScriptPubKeyMan::DeriveNewChildKey(WalletBatch &batch, CKeyMetadata& 
         if (internal) {
             chainChildKey.Derive(childKey, hd_chain.nInternalChainCounter | BIP32_HARDENED_KEY_LIMIT);
             metadata.hdKeypath = "m/0'/1'/" + ToString(hd_chain.nInternalChainCounter) + "'";
-            metadata.key_origin.path.push_back(0 | BIP32_HARDENED_KEY_LIMIT);
-            metadata.key_origin.path.push_back(1 | BIP32_HARDENED_KEY_LIMIT);
+            metadata.key_origin.path.push_back(dogecoin::DERIVE_ACCOUNT_KEY);
+            metadata.key_origin.path.push_back(dogecoin::ChainDerivationValue::DERIVE_INTERNAL);
             metadata.key_origin.path.push_back(hd_chain.nInternalChainCounter | BIP32_HARDENED_KEY_LIMIT);
             hd_chain.nInternalChainCounter++;
         }
         else {
             chainChildKey.Derive(childKey, hd_chain.nExternalChainCounter | BIP32_HARDENED_KEY_LIMIT);
             metadata.hdKeypath = "m/0'/3'/" + ToString(hd_chain.nExternalChainCounter) + "'";
-            metadata.key_origin.path.push_back(0 | BIP32_HARDENED_KEY_LIMIT);
-            metadata.key_origin.path.push_back(3 | BIP32_HARDENED_KEY_LIMIT);
+            metadata.key_origin.path.push_back(dogecoin::DERIVE_ACCOUNT_KEY);
+            metadata.key_origin.path.push_back(dogecoin::ChainDerivationValue::DERIVE_EXTERNAL);
             metadata.key_origin.path.push_back(hd_chain.nExternalChainCounter | BIP32_HARDENED_KEY_LIMIT);
             hd_chain.nExternalChainCounter++;
         }
