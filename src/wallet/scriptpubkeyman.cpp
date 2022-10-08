@@ -1908,12 +1908,8 @@ bool DescriptorScriptPubKeyMan::SetupDescriptorGeneration(const CExtKey& master_
     } // no default case, so the compiler can warn about missing cases
     assert(!desc_prefix.empty());
 
-    // Mainnet derives at 0', testnet and regtest derive at 1'
-    if (Params().IsTestChain()) {
-        desc_prefix += "/1'";
-    } else {
-        desc_prefix += "/3'";
-    }
+    // add SLIP44 coin value
+    desc_prefix += "/" + Params().SLIP44CoinValue();
 
     std::string internal_path = m_internal ? "/1" : "/0";
     std::string desc_str = desc_prefix + "/0'" + internal_path + desc_suffix;

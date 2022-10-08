@@ -139,6 +139,7 @@ public:
         base58Prefixes[EXT_SECRET_KEY] = {0x02, 0xFA, 0xC3, 0x98};
 
         bech32_hrp = "doge";
+        m_slip44_coin_value = "3'";
 
         vFixedSeeds = std::vector<SeedSpec6>(pnSeed6_main, pnSeed6_main + ARRAYLEN(pnSeed6_main));
 
@@ -254,6 +255,7 @@ public:
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x35, 0x83, 0x94};
 
         bech32_hrp = "tdge";
+        m_slip44_coin_value = "1'";
 
         vFixedSeeds = std::vector<SeedSpec6>(pnSeed6_test, pnSeed6_test + ARRAYLEN(pnSeed6_test));
 
@@ -386,6 +388,7 @@ public:
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x35, 0x83, 0x94};
 
         bech32_hrp = "tdge";
+        m_slip44_coin_value = "1'";
 
         fDefaultConsistencyChecks = false;
         fRequireStandard = true;
@@ -486,6 +489,7 @@ public:
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x35, 0x83, 0x94};
 
         bech32_hrp = "dcrt";
+        m_slip44_coin_value = "1'";
     }
 
     /**
