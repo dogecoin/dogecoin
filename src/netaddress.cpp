@@ -15,6 +15,7 @@
 #include "util/string.h"
 #include "utilstrencodings.h"
 #include "tinyformat.h"
+#include "span.h"
 
 #include <algorithm>
 #include <array>

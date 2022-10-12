@@ -15,6 +15,8 @@
 #include "chainparams.h"
 #include "version.h"
 
+#include "span.h"
+
 class CAddrManSerializationMock : public CAddrMan
 {
 public:

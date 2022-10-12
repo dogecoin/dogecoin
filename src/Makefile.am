@@ -146,6 +146,7 @@ BITCOIN_CORE_H = \
   support/events.h \
   support/lockedpool.h \
   sync.h \
+  span.h \
   threadsafety.h \
   threadinterrupt.h \
   timedata.h \

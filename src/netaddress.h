@@ -12,6 +12,7 @@
 
 #include "compat.h"
 #include "serialize.h"
+#include "span.h"
 #include "tinyformat.h"
 
 #include "util/string.h"
@@ -389,7 +390,8 @@ class CNetAddr
         {
             // Use SetLegacyIPv6() so that m_net is set correctly. For example
             // ::FFFF:0102:0304 should be set as m_net=NET_IPV4 (1.2.3.4).
-            SetLegacyIPv6(arr);
+
+            SetLegacyIPv6(Span<const uint8_t>(reinterpret_cast<const uint8_t*>(&arr), sizeof(arr)));
         }
 
         /**
