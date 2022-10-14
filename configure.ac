@@ -177,6 +177,12 @@ AC_ARG_ENABLE([zmq],
   [use_zmq=$enableval],
   [use_zmq=yes])
 
+AC_ARG_ENABLE([experimental],
+  [AS_HELP_STRING([--enable-experimental],
+  [Allow experimental features to be configured (default is no)])],
+  [allow_experimental=$enableval],
+  [allow_experimental=no])
+
 AC_ARG_ENABLE([scrypt-sse2],
   [AS_HELP_STRING([--enable-scrypt-sse2],
   [Build with scrypt sse2 implementation (default is no)])],
@@ -731,12 +737,19 @@ BOOST_LIBS="$BOOST_LDFLAGS $BOOST_SYSTEM_LIB $BOOST_FILESYSTEM_LIB $BOOST_PROGRA
 
 fi
 
+# Configure experimental for compile-time asserts
+if test x$allow_experimental = xyes; then
+  AC_DEFINE(ALLOW_DOGECOIN_EXPERIMENTAL, 1, [Define this symbol if experimental features are allowed])
+fi
+
 # Configure Scrypt SSE2
 if test x$use_scrypt_sse2 = xyes; then
+  DOGECOIN_REQUIRE_EXPERIMENTAL
   AC_DEFINE(USE_SSE2, 1, [Define this symbol if SSE2 works])
 fi
 
 if test x$armv8_crypto = xyes; then
+  DOGECOIN_REQUIRE_EXPERIMENTAL
   AC_MSG_CHECKING([whether to build with armv8 crypto])
   AC_MSG_RESULT(yes)
   AC_DEFINE(USE_ARMV8, 1, [Define this symbol if armv8 crypto works])
@@ -744,6 +757,7 @@ if test x$armv8_crypto = xyes; then
 fi
 
 if test x$armv82_crypto = xyes; then
+  DOGECOIN_REQUIRE_EXPERIMENTAL
   AC_CHECK_DECLS([vsha512su0q_u64],
      [AC_DEFINE(USE_ARMV82, 1, [Define this symbol if armv8.2 crypto works])
      CXXFLAGS="$CXXFLAGS -march=armv8.2-a+crypto+sha3"], AC_MSG_ERROR(sha512 missing), [#include <arm_neon.h>])
@@ -824,6 +838,7 @@ else
 fi
 
 if test x$intel_avx2 = xyes; then
+  DOGECOIN_REQUIRE_EXPERIMENTAL
   case $host in
      x86_64-*-linux*)
     AC_CHECK_LIB([IPSec_MB],[sha1_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
@@ -1187,6 +1202,14 @@ echo "  with bench    = $use_bench"
 echo "  with upnp     = $use_upnp"
 echo "  debug enabled = $enable_debug"
 echo "  werror        = $enable_werror"
+echo
+echo "  experimental  = $allow_experimental"
+if test x$allow_experimental = xyes; then
+    echo "    SSE2 Scrypt   = $use_scrypt_sse2"
+    echo "    AVX2 crypto   = $intel_avx2"
+    echo "    ARMv8 crypto  = $armv8_crypto"
+    echo "    ARMv82 crypto = $armv82_crypto"
+fi
 echo
 echo "  target os     = $TARGET_OS"
 echo "  build os      = $BUILD_OS"
