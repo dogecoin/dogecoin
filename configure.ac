@@ -189,6 +189,18 @@ AC_ARG_WITH([intel-avx2],
   [intel_avx2=$withval],
   [intel_avx2=no])
 
+AC_ARG_WITH([armv8-crypto],
+  [AS_HELP_STRING([--with-armv8-crypto],
+  [Build with armv8 crypto (default is no)])],
+  [armv8_crypto=$withval],
+  [armv8_crypto=no])
+
+AC_ARG_WITH([armv82-crypto],
+  [AS_HELP_STRING([--with-armv82-crypto],
+  [Build with armv8.2 crypto sha512 (default is no)])],
+  [armv82_crypto=$withval],
+  [armv82_crypto=no])
+
 AC_ARG_WITH([protoc-bindir],[AS_HELP_STRING([--with-protoc-bindir=BIN_DIR],[specify protoc bin path])], [protoc_bin_path=$withval], [])
 
 AC_ARG_ENABLE(man,
@@ -724,17 +736,18 @@ if test x$use_scrypt_sse2 = xyes; then
   AC_DEFINE(USE_SSE2, 1, [Define this symbol if SSE2 works])
 fi
 
-AC_MSG_CHECKING([whether to build with armv8 crypto])
-case $host in
-   aarch64-*)
-     AC_MSG_RESULT(yes)
-     AC_DEFINE(USE_ARMV8, 1, [Define this symbol if armv8 crypto works])
-     CXXFLAGS="$CXXFLAGS -march=armv8-a+crypto"
-     AC_CHECK_DECLS([vsha512su0q_u64],
-        [AC_DEFINE(USE_ARMV82, 1, [Define this symbol if armv8.2 crypto works])
-        CXXFLAGS="$CXXFLAGS -march=armv8.2-a+crypto+sha3"],, [#include <arm_neon.h>])
-   ;;
-esac
+if test x$armv8_crypto = xyes; then
+  AC_MSG_CHECKING([whether to build with armv8 crypto])
+  AC_MSG_RESULT(yes)
+  AC_DEFINE(USE_ARMV8, 1, [Define this symbol if armv8 crypto works])
+  CXXFLAGS="$CXXFLAGS -march=armv8-a+crypto"
+fi
+
+if test x$armv82_crypto = xyes; then
+  AC_CHECK_DECLS([vsha512su0q_u64],
+     [AC_DEFINE(USE_ARMV82, 1, [Define this symbol if armv8.2 crypto works])
+     CXXFLAGS="$CXXFLAGS -march=armv8.2-a+crypto+sha3"], AC_MSG_ERROR(sha512 missing), [#include <arm_neon.h>])
+fi
 
 if test x$use_pkgconfig = xyes; then
   : dnl
