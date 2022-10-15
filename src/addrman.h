@@ -362,8 +362,9 @@ public:
 
         Clear();
 
-        Format format;
-        s_ >> format;
+        uint8_t format_tmp;
+        s_ >> format_tmp;
+        Format format = static_cast<Format>(format_tmp);
 
         static constexpr Format maximum_supported_format = Format::V3_BIP155;
         if (format > maximum_supported_format) {
