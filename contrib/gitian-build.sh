@@ -274,11 +274,11 @@ if [[ $setup == true ]]; then
     if [ "$USE_LXC" -eq 1 ]
     then
         sudo apt-get install -y lxc
-        bin/make-base-vm --suite bionic --arch amd64 --lxc
+        bin/make-base-vm --suite focal --arch amd64 --lxc
     elif [ "$USE_DOCKER" -eq 1 ]; then
-        bin/make-base-vm --suite bionic --arch amd64 --docker
+        bin/make-base-vm --suite focal --arch amd64 --docker
     else
-        bin/make-base-vm --suite bionic --arch amd64
+        bin/make-base-vm --suite focal --arch amd64
     fi
     popd
 fi
