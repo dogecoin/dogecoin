@@ -2,7 +2,7 @@
 name: "dogecoin-osx-1.14"
 enable_cache: true
 suites:
-- "bionic"
+- "focal"
 architectures:
 - "amd64"
 packages:
