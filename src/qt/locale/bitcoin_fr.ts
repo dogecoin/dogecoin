@@ -1499,11 +1499,11 @@
     </message>
     <message>
         <source>Who owns the private keys, owns the coins</source>
-        <translation type="unfinished"></translation>
+        <translation>Celui qui possède les clés privées, possède les pièces</translation>
     </message>
     <message>
         <source>To see ongoing development and contribute, check out the Dogecoin Core repository on GitHub</source>
-        <translation>Pour suivre le développement en cours et contribuer, consultez le repo Dogecoin Core sur GitHub.</translation>
+        <translation>Pour suivre le développement en cours et contribuer, consultez le dépôt Dogecoin Core sur GitHub.</translation>
     </message>
 </context>
 <context>
