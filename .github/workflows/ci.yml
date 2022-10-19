@@ -187,7 +187,7 @@ jobs:
           - name: x86_64-macos
             host: x86_64-apple-darwin11
             os: ubuntu-18.04
-            packages: cmake imagemagick libcap-dev librsvg2-bin libz-dev libtiff-tools libtinfo5 python3-setuptools xorriso libtinfo5
+            packages: cmake imagemagick libcap-dev librsvg2-bin libz-dev libtiff-tools libtinfo5 python3-setuptools xorriso
             run-bench: false
             check-security: false
             check-symbols: false
