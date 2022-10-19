@@ -475,8 +475,8 @@ void TorController::auth_cb(TorControlConnection& _conn, const TorControlReply& 
             private_key = "NEW:ED25519-V3"; // Explicitly request key type - see issue #9214
         }
         // Request onion service, redirect port.
-        // Note that the 'virtual' port is always the default port to avoid decloaking nodes using other ports.
-        _conn.Command(strprintf("ADD_ONION %s Port=%i,127.0.0.1:%i", private_key, GetListenPort()),
+        // Note that the 'virtual' port doesn't have to be the same as our internal port, but this is just a convenient
+        _conn.Command(strprintf("ADD_ONION %s Port=%i,127.0.0.1:%i", private_key, GetListenPort(), GetListenPort()),
             std::bind(&TorController::add_onion_cb, this, std::placeholders::_1, std::placeholders::_2));
     } else {
         LogPrintf("tor: Authentication failed\n");
@@ -718,4 +718,3 @@ void StopTorControl()
         base = 0;
     }
 }
-
