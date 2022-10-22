@@ -114,7 +114,7 @@ jobs:
             check-security: true
             check-symbols: true
             dep-opts: "NO_WALLET=1"
-            config-opts: "--enable-gui=qt5 --enable-glibc-back-compat --disable-wallet LDFLAGS=-static-libstdc++"
+            config-opts: "--with-gui=qt5 --enable-glibc-back-compat --disable-wallet LDFLAGS=-static-libstdc++"
             goal: install
           - name: x86_64-linux-dbg
             host: x86_64-unknown-linux-gnu
@@ -128,7 +128,7 @@ jobs:
             check-security: true
             check-symbols: false
             dep-opts: "DEBUG=1"
-            config-opts: "--enable-gui=qt5 --enable-zmq --enable-glibc-back-compat CPPFLAGS=-DDEBUG_LOCKORDER"
+            config-opts: "--with-gui=qt5 --enable-zmq --enable-glibc-back-compat CPPFLAGS=-DDEBUG_LOCKORDER"
             goal: install
           - name: i686-win
             host: i686-w64-mingw32
@@ -182,7 +182,7 @@ jobs:
             check-security: true
             check-symbols: false
             dep-opts: "AVX2=1 MINGW=1"
-            config-opts: "--enable-scrypt-sse2 --with-intel-avx2 --enable-gui=qt5"
+            config-opts: "--enable-scrypt-sse2 --with-intel-avx2 --with-gui=qt5"
             goal: install
           - name: x86_64-macos
             host: x86_64-apple-darwin11
@@ -192,7 +192,7 @@ jobs:
             check-security: false
             check-symbols: false
             dep-opts: ""
-            config-opts: "--enable-gui=qt5 --disable-tests"
+            config-opts: "--with-gui=qt5 --disable-tests"
             goal: deploy
             sdk: 10.11
             sdk-shasum: "bec9d089ebf2e2dd59b1a811a38ec78ebd5da18cbbcd6ab39d1e59f64ac5033f"
@@ -206,7 +206,7 @@ jobs:
               qa/pull-tester/install-deps.sh
               qa/pull-tester/rpc-tests.py --coverage
             dep-opts: "AVX2=1"
-            config-opts: "--enable-scrypt-sse2 --with-intel-avx2 --enable-gui=qt5 --enable-zmq --enable-glibc-back-compat --enable-reduce-exports"
+            config-opts: "--enable-scrypt-sse2 --with-intel-avx2 --with-gui=qt5 --enable-zmq --enable-glibc-back-compat --enable-reduce-exports"
             goal: install
 
     runs-on: ${{ matrix.os }}
