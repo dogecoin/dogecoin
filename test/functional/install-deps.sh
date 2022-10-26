@@ -1,12 +1,9 @@
-#!/usr/bin/env bash
-
+#!/bin/bash
 export LC_ALL=C
 
 # installs test dependencies
-
-curl --location --fail -O https://github.com/langerhans/ltc-scrypt/archive/master.tar.gz
-echo "ade3cdf498927990b6d153d74f0da104114e838584be5a81bef8972accd03341 master.tar.gz" | sha256sum -c
-tar zxf master.tar.gz
-pushd ltc-scrypt-master || exit
-python3 setup.py install --user
-popd || exit
+file=v1.0.1.tar.gz
+curl -L -O https://github.com/dogecoin/ltc-scrypt/archive/refs/tags/$file
+echo "e866ade37fb27439ae0ca32f1ee4ad32be428c1fdac9bcc988b36c68648ff0de  $file" | sha256sum -c
+python3 -m pip install $file --user
+rm -rf $file

@@ -24,6 +24,12 @@ Before tests can be run locally, Bitcoin Core must be built.  See the [building 
 
 #### Dependencies
 
+`ltc_scrypt` is required. On an OS with `curl`, `python3`, `python3-pip` and `python3-setuptools` it can be installed via:
+
+```
+./test/functional/install-deps.sh
+```
+
 The ZMQ functional test requires a python ZMQ library. To install it:
 
 - on Unix, run `sudo apt-get install python3-zmq`
