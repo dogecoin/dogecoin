@@ -438,7 +438,7 @@ public:
     //! todo: add something to note what created it (user, getnewaddress, change)
     //!   maybe should have a map<string, string> property map
 
-    CWalletKey(int64_t nExpires=0);
+    explicit CWalletKey(int64_t nExpires=0);
 
     ADD_SERIALIZE_METHODS;
 
@@ -637,7 +637,7 @@ public:
         SetNull();
     }
 
-    CWallet(const std::string& strWalletFileIn) : strWalletFile(strWalletFileIn)
+    explicit CWallet(const std::string& strWalletFileIn) : strWalletFile(strWalletFileIn)
     {
         SetNull();
         fFileBacked = true;
@@ -982,7 +982,7 @@ protected:
     int64_t nIndex;
     CPubKey vchPubKey;
 public:
-    CReserveKey(CWallet* pwalletIn)
+    explicit CReserveKey(CWallet* pwalletIn)
     {
         nIndex = -1;
         pwallet = pwalletIn;

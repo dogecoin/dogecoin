@@ -84,7 +84,7 @@ public:
     {
         SetNull();
     }
-    CKeyMetadata(int64_t nCreateTime_)
+    explicit CKeyMetadata(int64_t nCreateTime_)
     {
         SetNull();
         nCreateTime = nCreateTime_;
@@ -116,7 +116,7 @@ public:
 class CWalletDB : public CDB
 {
 public:
-    CWalletDB(const std::string& strFilename, const char* pszMode = "r+", bool fFlushOnClose = true) : CDB(strFilename, pszMode, fFlushOnClose)
+    explicit CWalletDB(const std::string& strFilename, const char* pszMode = "r+", bool fFlushOnClose = true) : CDB(strFilename, pszMode, fFlushOnClose)
     {
     }
 

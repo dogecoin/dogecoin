@@ -164,6 +164,13 @@ namespace tfm = tinyformat;
 
 namespace tinyformat {
 
+class format_error: public std::runtime_error
+{
+public:
+    explicit format_error(const std::string &what): std::runtime_error(what) {
+    }
+};
+
 //------------------------------------------------------------------------------
 namespace detail {
 
@@ -491,7 +498,7 @@ class FormatArg
         FormatArg() {}
 
         template<typename T>
-        FormatArg(const T& value)
+        explicit FormatArg(const T& value)
             : m_value(static_cast<const void*>(&value)),
             m_formatImpl(&formatImpl<T>),
             m_toIntImpl(&toIntImpl<T>)
@@ -864,7 +871,7 @@ class FormatListN : public FormatList
     public:
 #ifdef TINYFORMAT_USE_VARIADIC_TEMPLATES
         template<typename... Args>
-        FormatListN(const Args&... args)
+        explicit FormatListN(const Args&... args)
             : FormatList(&m_formatterStore[0], N),
             m_formatterStore { FormatArg(args)... }
         { static_assert(sizeof...(args) == N, "Number of args must be N"); }
@@ -873,7 +880,7 @@ class FormatListN : public FormatList
 #       define TINYFORMAT_MAKE_FORMATLIST_CONSTRUCTOR(n)       \
                                                                \
         template<TINYFORMAT_ARGTYPES(n)>                       \
-        FormatListN(TINYFORMAT_VARARGS(n))                     \
+        explicit FormatListN(TINYFORMAT_VARARGS(n))            \
             : FormatList(&m_formatterStore[0], n)              \
         { assert(n == N); init(0, TINYFORMAT_PASSARGS(n)); }   \
                                                                \

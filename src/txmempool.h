@@ -193,7 +193,7 @@ struct update_ancestor_state
 
 struct update_fee_delta
 {
-    update_fee_delta(int64_t _feeDelta) : feeDelta(_feeDelta) { }
+    explicit update_fee_delta(int64_t _feeDelta) : feeDelta(_feeDelta) { }
 
     void operator() (CTxMemPoolEntry &e) { e.UpdateFeeDelta(feeDelta); }
 
@@ -203,7 +203,7 @@ private:
 
 struct update_lock_points
 {
-    update_lock_points(const LockPoints& _lp) : lp(_lp) { }
+    explicit update_lock_points(const LockPoints& _lp) : lp(_lp) { }
 
     void operator() (CTxMemPoolEntry &e) { e.UpdateLockPoints(lp); }
 
@@ -516,7 +516,7 @@ public:
 
     /** Create a new CTxMemPool.
      */
-    CTxMemPool(const CFeeRate& _minReasonableRelayFee);
+    explicit CTxMemPool(const CFeeRate& _minReasonableRelayFee);
     ~CTxMemPool();
 
     /**

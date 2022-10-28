@@ -132,7 +132,7 @@ struct CBlockLocator
 
     CBlockLocator() {}
 
-    CBlockLocator(const std::vector<uint256>& vHaveIn)
+    explicit CBlockLocator(const std::vector<uint256>& vHaveIn)
     {
         vHave = vHaveIn;
     }
