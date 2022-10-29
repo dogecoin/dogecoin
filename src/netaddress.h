@@ -428,7 +428,7 @@ class CNetAddr
 
             if (SetNetFromBIP155Network(bip155_net, address_size)) {
                 m_addr.resize(address_size);
-                s >> m_addr;
+                s >> REF(MakeSpan(m_addr));
 
                 if (m_net != NET_IPV6) {
                     return;
