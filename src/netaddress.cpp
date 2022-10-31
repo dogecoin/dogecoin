@@ -576,6 +576,27 @@ static std::string IPv6ToString(Span<const uint8_t> a, uint32_t scope_id)
     return r;
 }
 
+static std::string OnionToString(const Span<const uint8_t>& addr)
+{
+    switch (addr.size()) {
+    case ADDR_TORV2_SIZE:
+        return EncodeBase32(addr) + ".onion";
+    case ADDR_TORV3_SIZE: {
+        uint8_t checksum[torv3::CHECKSUM_LEN];
+        torv3::Checksum(addr, checksum);
+
+        // TORv3 onion_address = base32(PUBKEY | CHECKSUM | VERSION) + ".onion"
+        prevector<torv3::TOTAL_LEN, uint8_t> address{addr.begin(), addr.end()};
+        address.insert(address.end(), checksum, checksum + torv3::CHECKSUM_LEN);
+        address.insert(address.end(), torv3::VERSION, torv3::VERSION + sizeof(torv3::VERSION));
+
+        return EncodeBase32(address) + ".onion";
+    }
+    default:
+        assert(false);
+    }
+}
+
 std::string CNetAddr::ToStringIP() const
 {
     switch (m_net) {
@@ -584,24 +605,7 @@ std::string CNetAddr::ToStringIP() const
     case NET_IPV6:
         return IPv6ToString(m_addr, m_scope_id);
     case NET_ONION:
-        switch (m_addr.size()) {
-        case ADDR_TORV2_SIZE:
-            return EncodeBase32(m_addr) + ".onion";
-        case ADDR_TORV3_SIZE: {
-
-            uint8_t checksum[torv3::CHECKSUM_LEN];
-            torv3::Checksum(m_addr, checksum);
-
-            // TORv3 onion_address = base32(PUBKEY | CHECKSUM | VERSION) + ".onion"
-            prevector<torv3::TOTAL_LEN, uint8_t> address{m_addr.begin(), m_addr.end()};
-            address.insert(address.end(), checksum, checksum + torv3::CHECKSUM_LEN);
-            address.insert(address.end(), torv3::VERSION, torv3::VERSION + sizeof(torv3::VERSION));
-
-            return EncodeBase32(address) + ".onion";
-        }
-        default:
-            assert(false);
-        }
+        return OnionToString(m_addr);
     case NET_I2P:
         return EncodeBase32(m_addr, false /* don't pad with = */) + ".b32.i2p";
     case NET_CJDNS:
