@@ -12,7 +12,7 @@
 #include "crypto/common.h"
 #include "crypto/sha3.h"
 #include "hash.h"
-#include "util/string.h"
+#include "utilstring.h"
 #include "utilstrencodings.h"
 #include "tinyformat.h"
 #include "span.h"

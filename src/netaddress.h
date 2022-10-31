@@ -15,7 +15,7 @@
 #include "span.h"
 #include "tinyformat.h"
 
-#include "util/string.h"
+#include "utilstring.h"
 
 #include <stdint.h>
 #include <string>
