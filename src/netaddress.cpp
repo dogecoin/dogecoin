@@ -682,9 +682,12 @@ Network CNetAddr::GetNetClass() const
 
 std::vector<unsigned char> CNetAddr::GetAddrBytes() const
 {
-    uint8_t serialized[V1_SERIALIZATION_SIZE];
-    SerializeV1Array(serialized);
-    return {std::begin(serialized), std::end(serialized)};
+    if (IsAddrV1Compatible()) {
+        uint8_t serialized[V1_SERIALIZATION_SIZE];
+        SerializeV1Array(serialized);
+        return {std::begin(serialized), std::end(serialized)};
+    }
+    return std::vector<unsigned char>(m_addr.begin(), m_addr.end());
 }
 
 /**
