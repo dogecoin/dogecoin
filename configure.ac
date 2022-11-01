@@ -1105,6 +1105,15 @@ if test x$build_bitcoin_utils$build_bitcoin_libs$build_bitcoind$bitcoin_enable_q
   AC_MSG_ERROR([No targets! Please specify at least one of: --with-utils --with-libs --with-daemon --with-gui --enable-bench or --enable-tests])
 fi
 
+dnl libevent check
+
+use_libevent=yes
+if test x$use_libevent = "xyes"; then
+  if test "$TARGET_OS" != "windows"; then
+    AC_CHECK_LIB([event_pthreads],[main],LDFLAGS="$LDFLAGS -levent_pthreads",AC_MSG_ERROR(libevent_pthreads missing))
+  fi
+fi
+
 AM_CONDITIONAL([TARGET_DARWIN], [test x$TARGET_OS = xdarwin])
 AM_CONDITIONAL([BUILD_DARWIN], [test x$BUILD_OS = xdarwin])
 AM_CONDITIONAL([TARGET_WINDOWS], [test x$TARGET_OS = xwindows])
