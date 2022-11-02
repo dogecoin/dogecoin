@@ -497,7 +497,7 @@ UniValue listaddressgroupings(const JSONRPCRequest& request)
             addressInfo.push_back(ValueFromAmount(balances[address]));
             {
                 if (pwallet->mapAddressBook.find(address) != pwallet->mapAddressBook.end())
-                    addressInfo.push_back(pwallet->mapAddressBook.find(CBitcoinAddress(address).Get())->second.name);
+                    addressInfo.push_back(pwallet->mapAddressBook.find(address)->second.name);
             }
             jsonGrouping.push_back(addressInfo);
         }
