@@ -567,7 +567,7 @@ class CService : public CNetAddr
         ADD_SERIALIZE_METHODS;
         template <typename Stream, typename Operation>
         inline void SerializationOp(Stream& s, Operation ser_action) {
-            READWRITE(FLATDATA(*this));
+            READWRITE(*(CNetAddr*)this);
             unsigned short portN = htons(port);
             READWRITE(FLATDATA(portN));
             if (ser_action.ForRead())
