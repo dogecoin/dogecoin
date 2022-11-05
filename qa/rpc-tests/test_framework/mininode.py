@@ -222,9 +222,7 @@ def ToHex(obj):
 # Objects that map to bitcoind objects, which can be serialized/deserialized
 
 
-class CAddress:
-    __slots__ = ("net", "ip", "nServices", "port", "time")
-
+class CAddress(object):
     # see https://github.com/bitcoin/bips/blob/master/bip-0155.mediawiki
     NET_IPV4 = 1
 
@@ -1104,9 +1102,8 @@ class msg_addr(object):
         return "msg_addr(addrs=%s)" % (repr(self.addrs))
 
 
-class msg_addrv2:
-    __slots__ = ("addrs",)
-    msgtype = b"addrv2"
+class msg_addrv2(object):
+    command = b"addrv2"
 
     def __init__(self):
         self.addrs = []
@@ -1121,9 +1118,8 @@ class msg_addrv2:
         return "msg_addrv2(addrs=%s)" % (repr(self.addrs))
 
 
-class msg_sendaddrv2:
-    __slots__ = ()
-    msgtype = b"sendaddrv2"
+class msg_sendaddrv2(object):
+    command = b"sendaddrv2"
 
     def __init__(self):
         pass
@@ -1138,9 +1134,27 @@ class msg_sendaddrv2:
         return "msg_sendaddrv2()"
 
 
-class msg_inv:
-    __slots__ = ("inv",)
-    msgtype = b"inv"
+class msg_alert(object):
+    command = b"alert"
+
+    def __init__(self):
+        self.alert = CAlert()
+
+    def deserialize(self, f):
+        self.alert = CAlert()
+        self.alert.deserialize(f)
+
+    def serialize(self):
+        r = b""
+        r += self.alert.serialize()
+        return r
+
+    def __repr__(self):
+        return "msg_alert(alert=%s)" % (repr(self.alert), )
+
+
+class msg_inv(object):
+    command = b"inv"
 
     def __init__(self, inv=None):
         if inv is None:
@@ -1284,8 +1298,6 @@ class msg_getaddr(object):
     def __repr__(self):
         return "msg_getaddr()"
 
-    def __repr__(self):
-        return "msg_getaddr()"
 
 class msg_ping_prebip31(object):
     command = b"ping"
