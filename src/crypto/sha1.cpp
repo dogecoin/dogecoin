@@ -12,7 +12,7 @@
 
 #if (defined(__ia64__) || defined(__x86_64__)) && \
     !defined(__APPLE__) && \
-    (defined(USE_AVX2))
+    (defined(INTEL_AVX2))
 #include <intel-ipsec-mb.h>
 #endif
 
@@ -38,7 +38,7 @@ namespace
 namespace sha1
 {
 
-#ifndef USE_AVX2
+#ifndef INTEL_AVX2
 /** One round of SHA-1. */
 void inline Round(uint32_t a, uint32_t& b, uint32_t c, uint32_t d, uint32_t& e, uint32_t f, uint32_t k, uint32_t w)
 {
@@ -243,7 +243,7 @@ void Transform(uint32_t* s, const unsigned char* chunk)
     vst1q_u32(&s[0], ABCD);
     s[4] = E0;
 
-#elif USE_AVX2
+#elif INTEL_AVX2
     // Perform SHA1 one block (Intel AVX2)
     EXPERIMENTAL_FEATURE
     sha1_one_block_avx2(chunk, s);

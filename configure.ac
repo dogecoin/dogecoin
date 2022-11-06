@@ -203,47 +203,48 @@ if test x$use_scrypt_sse2 = xyes; then
 fi
 
 AC_ARG_WITH([intel-avx2],
-  [AS_HELP_STRING([--enable-intel-avx2],
+  [AS_HELP_STRING([--with-intel-avx2],
   [Build with intel avx2 (default is no)])],
-  [use_intel_avx2=$enableval],
-  [use_intel_avx2=no])
+  [intel_avx2=$withval],
+  [intel_avx2=no])
 
-if test x$use_intel_avx2 = xyes; then
+if test x$intel_avx2 = xyes; then
   DOGECOIN_REQUIRE_EXPERIMENTAL
+  AC_MSG_CHECKING([whether to build with intel avx2 crypto])
+  AC_MSG_RESULT(yes)
+  AC_DEFINE(INTEL_AVX2, 1, [Define this symbol if intel axv2 works])
   case $host in
   *x86_64-*-linux*)
-      AC_CHECK_LIB([IPSec_MB],[sha1_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
-      AC_CHECK_LIB([IPSec_MB],[sha256_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
-      AC_CHECK_LIB([IPSec_MB],[sha512_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
-      AC_DEFINE(USE_INTEL_AVX2, 1, [Define this symbol if intel axv2 works])
-     ;;
+    AC_CHECK_LIB([IPSec_MB],[sha1_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
+    AC_CHECK_LIB([IPSec_MB],[sha256_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
+    AC_CHECK_LIB([IPSec_MB],[sha512_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
+    ;;
   *mingw*)
-      AC_CHECK_LIB([IPSec_MB],[sha1_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
-      AC_CHECK_LIB([IPSec_MB],[sha256_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
-      AC_CHECK_LIB([IPSec_MB],[sha512_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
-      AC_CHECK_LIB([Qt5PlatformSupport],[main],LIBS+=" -lQt5PlatformSupport", AC_MSG_ERROR(lib missing))
-      AC_CHECK_LIB([mingwthrd],         [main],LIBS+=" -lmingwthrd", AC_MSG_ERROR(lib missing))
-      AC_CHECK_LIB([kernel32],          [main],LIBS+=" -lkernel32", AC_MSG_ERROR(lib missing))
-      AC_CHECK_LIB([user32],            [main],LIBS+=" -luser32", AC_MSG_ERROR(lib missing))
-      AC_CHECK_LIB([gdi32],             [main],LIBS+=" -lgdi32", AC_MSG_ERROR(lib missing))
-      AC_CHECK_LIB([comdlg32],          [main],LIBS+=" -lcomdlg32", AC_MSG_ERROR(lib missing))
-      AC_CHECK_LIB([winspool],          [main],LIBS+=" -lwinspool", AC_MSG_ERROR(lib missing))
-      AC_CHECK_LIB([winmm],             [main],LIBS+=" -lwinmm", AC_MSG_ERROR(lib missing))
-      AC_CHECK_LIB([shell32],           [main],LIBS+=" -lshell32", AC_MSG_ERROR(lib missing))
-      AC_CHECK_LIB([comctl32],          [main],LIBS+=" -lcomctl32", AC_MSG_ERROR(lib missing))
-      AC_CHECK_LIB([ole32],             [main],LIBS+=" -lole32", AC_MSG_ERROR(lib missing))
-      AC_CHECK_LIB([oleaut32],          [main],LIBS+=" -loleaut32", AC_MSG_ERROR(lib missing))
-      AC_CHECK_LIB([uuid],              [main],LIBS+=" -luuid", AC_MSG_ERROR(lib missing))
-      AC_CHECK_LIB([rpcrt4],            [main],LIBS+=" -lrpcrt4", AC_MSG_ERROR(lib missing))
-      AC_CHECK_LIB([advapi32],          [main],LIBS+=" -ladvapi32", AC_MSG_ERROR(lib missing))
-      AC_CHECK_LIB([ws2_32],            [main],LIBS+=" -lws2_32", AC_MSG_ERROR(lib missing))
-      AC_CHECK_LIB([mswsock],           [main],LIBS+=" -lmswsock", AC_MSG_ERROR(lib missing))
-      AC_CHECK_LIB([shlwapi],           [main],LIBS+=" -lshlwapi", AC_MSG_ERROR(lib missing))
-      AC_CHECK_LIB([iphlpapi],          [main],LIBS+=" -liphlpapi", AC_MSG_ERROR(lib missing))
-      AC_CHECK_LIB([crypt32],           [main],LIBS+=" -lcrypt32", AC_MSG_ERROR(lib missing))
-      AC_CHECK_LIB([ssp],               [main],LIBS+=" -lssp", AC_MSG_ERROR(lib missing))
-      AC_DEFINE(USE_INTEL_AVX2, 1, [Define this symbol if intel axv2 works])
-     ;;
+    AC_CHECK_LIB([IPSec_MB],[sha1_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
+    AC_CHECK_LIB([IPSec_MB],[sha256_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
+    AC_CHECK_LIB([IPSec_MB],[sha512_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
+    AC_CHECK_LIB([Qt5PlatformSupport],[main],LIBS+=" -lQt5PlatformSupport", AC_MSG_ERROR(lib missing))
+    AC_CHECK_LIB([mingwthrd],         [main],LIBS+=" -lmingwthrd", AC_MSG_ERROR(lib missing))
+    AC_CHECK_LIB([kernel32],          [main],LIBS+=" -lkernel32", AC_MSG_ERROR(lib missing))
+    AC_CHECK_LIB([user32],            [main],LIBS+=" -luser32", AC_MSG_ERROR(lib missing))
+    AC_CHECK_LIB([gdi32],             [main],LIBS+=" -lgdi32", AC_MSG_ERROR(lib missing))
+    AC_CHECK_LIB([comdlg32],          [main],LIBS+=" -lcomdlg32", AC_MSG_ERROR(lib missing))
+    AC_CHECK_LIB([winspool],          [main],LIBS+=" -lwinspool", AC_MSG_ERROR(lib missing))
+    AC_CHECK_LIB([winmm],             [main],LIBS+=" -lwinmm", AC_MSG_ERROR(lib missing))
+    AC_CHECK_LIB([shell32],           [main],LIBS+=" -lshell32", AC_MSG_ERROR(lib missing))
+    AC_CHECK_LIB([comctl32],          [main],LIBS+=" -lcomctl32", AC_MSG_ERROR(lib missing))
+    AC_CHECK_LIB([ole32],             [main],LIBS+=" -lole32", AC_MSG_ERROR(lib missing))
+    AC_CHECK_LIB([oleaut32],          [main],LIBS+=" -loleaut32", AC_MSG_ERROR(lib missing))
+    AC_CHECK_LIB([uuid],              [main],LIBS+=" -luuid", AC_MSG_ERROR(lib missing))
+    AC_CHECK_LIB([rpcrt4],            [main],LIBS+=" -lrpcrt4", AC_MSG_ERROR(lib missing))
+    AC_CHECK_LIB([advapi32],          [main],LIBS+=" -ladvapi32", AC_MSG_ERROR(lib missing))
+    AC_CHECK_LIB([ws2_32],            [main],LIBS+=" -lws2_32", AC_MSG_ERROR(lib missing))
+    AC_CHECK_LIB([mswsock],           [main],LIBS+=" -lmswsock", AC_MSG_ERROR(lib missing))
+    AC_CHECK_LIB([shlwapi],           [main],LIBS+=" -lshlwapi", AC_MSG_ERROR(lib missing))
+    AC_CHECK_LIB([iphlpapi],          [main],LIBS+=" -liphlpapi", AC_MSG_ERROR(lib missing))
+    AC_CHECK_LIB([crypt32],           [main],LIBS+=" -lcrypt32", AC_MSG_ERROR(lib missing))
+    AC_CHECK_LIB([ssp],               [main],LIBS+=" -lssp", AC_MSG_ERROR(lib missing))
+    ;;
   esac
 fi
 
@@ -1086,7 +1087,7 @@ AM_CONDITIONAL([HARDEN],[test x$use_hardening = xyes])
 AM_CONDITIONAL([WORDS_BIGENDIAN],[test x$ac_cv_c_bigendian = xyes])
 AM_CONDITIONAL([ALLOW_DOGECOIN_EXPERIMENTAL], [test x$allow_experimental = xyes])
 AM_CONDITIONAL([USE_SCRYPT_SSE2], [test x$use_scrypt_sse2 = xyes])
-AM_CONDITIONAL([USE_INTEL_AVX2], [test x$use_intel_avx2 = xyes])
+AM_CONDITIONAL([INTEL_AVX2], [test x$intel_avx2 = xyes])
 AM_CONDITIONAL([USE_ARMV8], [test x$armv8_crypto = xyes])
 AM_CONDITIONAL([USE_ARMV82], [test x$armv82_crypto = xyes])
 
@@ -1213,7 +1214,7 @@ echo
 echo "  experimental  = $allow_experimental"
 if test x$allow_experimental = xyes; then
 echo "  SSE2 Scrypt   = $use_scrypt_sse2"
-echo "  AVX2 crypto   = $use_intel_avx2"
+echo "  AVX2 crypto   = $intel_avx2"
 echo "  ARMv8 crypto  = $armv8_crypto"
 echo "  ARMv82 crypto = $armv82_crypto"
 fi
