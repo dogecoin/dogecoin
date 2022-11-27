@@ -7,7 +7,7 @@ $(package)_patches=remove_digest_init.patch
 $(package)_dependencies=native_nasm
 
 define $(package)_set_vars
-$(package)_build_opts=CC=$(host)-gcc
+$(package)_build_opts_mingw32+=CC=$(host)-gcc
 $(package)_build_opts+=LDFLAGS="-fstack-protector"
 endef
 
