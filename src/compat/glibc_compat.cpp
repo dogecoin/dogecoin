@@ -73,3 +73,45 @@ extern "C" float __wrap_log2f(float x)
 {
     return log2f_old(x);
 }
+
+extern "C" double exp_old(double x);
+#ifdef __i386__
+__asm(".symver exp_old,exp@GLIBC_2.0");
+#elif defined(__amd64__)
+__asm(".symver exp_old,exp@GLIBC_2.2.5");
+#elif defined(__arm__)
+__asm(".symver exp_old,exp@GLIBC_2.4");
+#elif defined(__aarch64__)
+__asm(".symver exp_old,exp@GLIBC_2.17");
+#endif
+extern "C" double __wrap_exp(double x) {
+    return exp_old(x);
+}
+
+extern "C" double log_old(double x);
+#ifdef __i386__
+__asm(".symver log_old,log@GLIBC_2.0");
+#elif defined(__amd64__)
+__asm(".symver log_old,log@GLIBC_2.2.5");
+#elif defined(__arm__)
+__asm(".symver log_old,log@GLIBC_2.4");
+#elif defined(__aarch64__)
+__asm(".symver log_old,log@GLIBC_2.17");
+#endif
+extern "C" double __wrap_log(double x) {
+    return log_old(x);
+}
+
+extern "C" double pow_old(double x, double y);
+#ifdef __i386__
+__asm(".symver pow_old,pow@GLIBC_2.0");
+#elif defined(__amd64__)
+__asm(".symver pow_old,pow@GLIBC_2.2.5");
+#elif defined(__arm__)
+__asm(".symver pow_old,pow@GLIBC_2.4");
+#elif defined(__aarch64__)
+__asm(".symver pow_old,pow@GLIBC_2.17");
+#endif
+extern "C" double __wrap_pow(double x, double y) {
+    return pow_old(x,y);
+}
