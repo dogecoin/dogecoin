@@ -44,7 +44,7 @@
     </message>
     <message>
         <source>Copy the currently selected address to the system clipboard</source>
-        <translation>Copier l&apos;adresse surlignée à votre presse-papier</translation>
+        <translation>Copier l&apos;adresse actuellement sélectionnée dans le presse-papiers du système</translation>
     </message>
     <message>
         <source>&amp;Delete</source>
