@@ -102,5 +102,9 @@
         <file alias="ComicNeue-Light-Oblique">res/fonts/ComicNeue-Light-Oblique.ttf</file>
         <file alias="ComicNeue-Regular">res/fonts/ComicNeue-Regular.ttf</file>
         <file alias="ComicNeue-Regular-Oblique">res/fonts/ComicNeue-Regular-Oblique.ttf</file>
+        <file alias="NotoSans-Bold">res/fonts/NotoSans-Bold.ttf</file>
+        <file alias="NotoSans-Light">res/fonts/NotoSans-Light.ttf</file>
+        <file alias="NotoSans-Medium">res/fonts/NotoSans-Medium.ttf</file>
+        <file alias="NotoSans-Regular">res/fonts/NotoSans-Regular.ttf</file>
     </qresource>
 </RCC>
