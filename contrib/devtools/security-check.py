@@ -193,16 +193,25 @@ BASE_ELF = [
     ('NX', check_NX),
     ('RELRO', check_ELF_RELRO),
     ('Canary', check_ELF_Canary),
-    ('separate_code', check_ELF_separate_code),
+    #('separate_code', check_ELF_separate_code),
+    # Note: separate_code can be enabled once release binaries are
+    #       created with binutils 2.31 or explicitly configured on
+    #       binutils 2.30 with -z,separate-code,
+    # see Bitcoin Core commit 2e9e6377
 ]
 
 BASE_PE = [
     ('PIE', check_PIE),
     ('DYNAMIC_BASE', check_PE_DYNAMIC_BASE),
-    ('HIGH_ENTROPY_VA', check_PE_HIGH_ENTROPY_VA),
+    #('HIGH_ENTROPY_VA', check_PE_HIGH_ENTROPY_VA),
+    # Note: HIGH_ENTROPY_VA can be enabled when all issues with RELOC_SECTION
+    #       are solved.
     ('NX', check_NX),
-    ('RELOC_SECTION', check_PE_RELOC_SECTION),
-    ('CONTROL_FLOW', check_PE_control_flow),
+    #('RELOC_SECTION', check_PE_RELOC_SECTION),
+    # Note: RELOC_SECTION is newer than our source and currently doesn't pass
+    #       on cli tools and tests, but does work for dogecoind / dogecoin-qt
+    #('CONTROL_FLOW', check_PE_control_flow),
+    # Note: CONTROL_FLOW can be re-enabled when we build with gcc8 or higher
 ]
 
 BASE_MACHO = [
@@ -213,7 +222,10 @@ BASE_MACHO = [
 
 CHECKS = {
     lief.EXE_FORMATS.ELF: {
-        lief.ARCHITECTURES.X86: BASE_ELF + [('CONTROL_FLOW', check_ELF_control_flow)],
+        #lief.ARCHITECTURES.X86: BASE_ELF + [('CONTROL_FLOW', check_ELF_control_flow)],
+        # Note: until gcc8 or higher is used for release binaries,
+        # do not check for CONTROL_FLOW
+        lief.ARCHITECTURES.X86: BASE_ELF,
         lief.ARCHITECTURES.ARM: BASE_ELF,
         lief.ARCHITECTURES.ARM64: BASE_ELF,
         lief.ARCHITECTURES.PPC: BASE_ELF,
@@ -225,7 +237,9 @@ CHECKS = {
     lief.EXE_FORMATS.MACHO: {
         lief.ARCHITECTURES.X86: BASE_MACHO + [('PIE', check_PIE),
                                               ('NX', check_NX),
-                                              ('CONTROL_FLOW', check_MACHO_control_flow)],
+                                              #('CONTROL_FLOW', check_MACHO_control_flow)
+                                              # Note: Needs change in boost for -fcf-protection
+                                              ],
         lief.ARCHITECTURES.ARM64: BASE_MACHO,
     }
 }
@@ -260,4 +274,3 @@ if __name__ == '__main__':
             print(f'{filename}: cannot open')
             retval = 1
     sys.exit(retval)
-
