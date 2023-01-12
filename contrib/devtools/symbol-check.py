@@ -15,45 +15,55 @@ from typing import List, Dict
 
 import lief #type:ignore
 
-# Debian 9 (Stretch) EOL: 2022. https://wiki.debian.org/DebianReleases#Production_Releases
+# MAX_VERSIONS defines the maximum versions for dynamic symbols defined in linux
+# binaries for release. These are static for each major version of Dogecoin Core.
 #
-# - g++ version 6.3.0 (https://packages.debian.org/search?suite=stretch&arch=any&searchon=names&keywords=g%2B%2B)
-# - libc version 2.24 (https://packages.debian.org/search?suite=stretch&arch=any&searchon=names&keywords=libc6)
+# Debian 6.0.9 (Squeeze) has:
 #
-# Ubuntu 16.04 (Xenial) EOL: 2026. https://wiki.ubuntu.com/Releases
+# - g++ version 4.4.5 (https://packages.debian.org/search?suite=default&section=all&arch=any&searchon=names&keywords=g%2B%2B)
+# - libc version 2.11.3 (https://packages.debian.org/search?suite=default&section=all&arch=any&searchon=names&keywords=libc6)
+# - libstdc++ version 4.4.5 (https://packages.debian.org/search?suite=default&section=all&arch=any&searchon=names&keywords=libstdc%2B%2B6)
 #
-# - g++ version 5.3.1
-# - libc version 2.23
+# Ubuntu 10.04.4 (Lucid Lynx) has:
 #
-# CentOS Stream 8 EOL: 2024. https://wiki.centos.org/About/Product
+# - g++ version 4.4.3 (http://packages.ubuntu.com/search?keywords=g%2B%2B&searchon=names&suite=lucid&section=all)
+# - libc version 2.11.1 (http://packages.ubuntu.com/search?keywords=libc6&searchon=names&suite=lucid&section=all)
+# - libstdc++ version 4.4.3 (http://packages.ubuntu.com/search?suite=lucid&section=all&arch=any&keywords=libstdc%2B%2B&searchon=names)
 #
-# - g++ version 8.5.0 (http://mirror.centos.org/centos/8-stream/AppStream/x86_64/os/Packages/)
-# - libc version 2.28 (http://mirror.centos.org/centos/8-stream/AppStream/x86_64/os/Packages/)
+# Taking the minimum of these as our target.
 #
-# See https://gcc.gnu.org/onlinedocs/libstdc++/manual/abi.html for more info.
+# According to GNU ABI document (http://gcc.gnu.org/onlinedocs/libstdc++/manual/abi.html) this corresponds to:
+#   GCC 4.4.0: GCC_4.4.0
+#   GCC 4.4.2: GLIBCXX_3.4.13, CXXABI_1.3.3
+#   (glibc)    GLIBC_2_11
 
 MAX_VERSIONS = {
-'GCC':       (4,8,0),
+'GCC':       (4,4,0),
 'GLIBC': {
-    lief.ELF.ARCH.x86_64: (2,18),
-    lief.ELF.ARCH.ARM:    (2,18),
-    lief.ELF.ARCH.AARCH64:(2,18),
-    lief.ELF.ARCH.PPC64:  (2,18),
+    lief.ELF.ARCH.x86_64: (2,11),
+    lief.ELF.ARCH.i386:   (2,11),
+    lief.ELF.ARCH.ARM:    (2,11),
+    lief.ELF.ARCH.AARCH64:(2,17),
+    lief.ELF.ARCH.PPC64:  (2,17),
     lief.ELF.ARCH.RISCV:  (2,27),
 },
-'LIBATOMIC': (1,0),
-'V':         (0,5,0),  # xkb (bitcoin-qt only)
+'CXXABI':  (1,3,3),
+'GLIBCXX': (3,4,13),
+'V':         (0,5,0),  # xkb (dogecoin-qt only)
 }
 
 # Ignore symbols that are exported as part of every executable
 IGNORE_EXPORTS = {
-'environ', '_environ', '__environ', '_fini', '_init', 'stdin',
-'stdout', 'stderr',
+  '_edata', '_end', '_init', '__bss_start', '_fini', '_IO_stdin_used',
+  'stdin', 'stdout', 'stderr'
 }
 
 # Expected linker-loader names can be found here:
 # https://sourceware.org/glibc/wiki/ABIList?action=recall&rev=16
 ELF_INTERPRETER_NAMES: Dict[lief.ELF.ARCH, Dict[lief.ENDIANNESS, str]] = {
+    lief.ELF.ARCH.i386: {
+        lief.ENDIANNESS.LITTLE: "/lib/ld-linux.so.2",
+    },
     lief.ELF.ARCH.x86_64:  {
         lief.ENDIANNESS.LITTLE: "/lib64/ld-linux-x86-64.so.2",
     },
@@ -74,39 +84,26 @@ ELF_INTERPRETER_NAMES: Dict[lief.ELF.ARCH, Dict[lief.ENDIANNESS, str]] = {
 
 # Allowed NEEDED libraries
 ELF_ALLOWED_LIBRARIES = {
-# bitcoind and bitcoin-qt
+# dogecoind and dogecoin-qt
 'libgcc_s.so.1', # GCC base support
 'libc.so.6', # C library
 'libpthread.so.0', # threading
+'libanl.so.1', # DNS resolve
 'libm.so.6', # math library
 'librt.so.1', # real-time (clock)
-'libatomic.so.1',
 'ld-linux-x86-64.so.2', # 64-bit dynamic linker
 'ld-linux.so.2', # 32-bit dynamic linker
 'ld-linux-aarch64.so.1', # 64-bit ARM dynamic linker
 'ld-linux-armhf.so.3', # 32-bit ARM dynamic linker
-'ld64.so.1', # POWER64 ABIv1 dynamic linker
-'ld64.so.2', # POWER64 ABIv2 dynamic linker
-'ld-linux-riscv64-lp64d.so.1', # 64-bit RISC-V dynamic linker
-# bitcoin-qt only
+# dogecoin-qt only
+'libX11-xcb.so.1', # part of X11
+'libX11.so.6', # part of X11
 'libxcb.so.1', # part of X11
 'libxkbcommon.so.0', # keyboard keymapping
 'libxkbcommon-x11.so.0', # keyboard keymapping
 'libfontconfig.so.1', # font support
 'libfreetype.so.6', # font parsing
-'libdl.so.2', # programming interface to dynamic linker
-'libxcb-icccm.so.4',
-'libxcb-image.so.0',
-'libxcb-shm.so.0',
-'libxcb-keysyms.so.1',
-'libxcb-randr.so.0',
-'libxcb-render-util.so.0',
-'libxcb-render.so.0',
-'libxcb-shape.so.0',
-'libxcb-sync.so.1',
-'libxcb-xfixes.so.0',
-'libxcb-xinerama.so.0',
-'libxcb-xkb.so.1',
+'libdl.so.2' # programming interface to dynamic linker
 }
 
 MACHO_ALLOWED_LIBRARIES = {
@@ -135,6 +132,7 @@ MACHO_ALLOWED_LIBRARIES = {
 
 PE_ALLOWED_LIBRARIES = {
 'ADVAPI32.dll', # security & registry
+'CRYPT32.dll', # crypto functions
 'IPHLPAPI.DLL', # IP helper API
 'KERNEL32.dll', # win32 base APIs
 'msvcrt.dll', # C standard library for MSVC
@@ -142,9 +140,12 @@ PE_ALLOWED_LIBRARIES = {
 'USER32.dll', # user interface
 'WS2_32.dll', # sockets
 # bitcoin-qt only
+'COMDLG32.DLL', # common dialogs like "open file"
+'comdlg32.dll', # same as above but lowercase in win64 binary
 'dwmapi.dll', # desktop window manager
 'GDI32.dll', # graphics device interface
-'IMM32.dll', # input method editor
+'IMM32.DLL', # input method editor
+'IMM32.dll', # same as above but lowercase extension in win64 binary
 'NETAPI32.dll',
 'ole32.dll', # component object model
 'OLEAUT32.dll', # OLE Automation API
@@ -152,7 +153,9 @@ PE_ALLOWED_LIBRARIES = {
 'USERENV.dll',
 'UxTheme.dll',
 'VERSION.dll', # version checking
-'WINMM.dll', # WinMM audio API
+'WINMM.DLL', # WinMM audio API
+'WINMM.dll', # same as above but lowercase extension in win64 binary
+'WINSPOOL.DRV', # Printer spooler driver for paper wallet printing
 'WTSAPI32.dll',
 }
 
@@ -256,7 +259,8 @@ lief.EXE_FORMATS.MACHO: [
 ],
 lief.EXE_FORMATS.PE: [
     ('DYNAMIC_LIBRARIES', check_PE_libraries),
-    ('SUBSYSTEM_VERSION', check_PE_subsystem_version),
+    #('SUBSYSTEM_VERSION', check_PE_subsystem_version),
+    #Note: needs to be set during build before we can check for it
 ]
 }
 
