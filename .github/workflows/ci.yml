@@ -65,7 +65,7 @@ jobs:
             test-script: |
               qemu-arm -E LD_LIBRARY_PATH=/usr/arm-linux-gnueabihf/lib/ /usr/arm-linux-gnueabihf/lib/ld-linux-armhf.so.3 src/test/test_dogecoin
             check-security: true
-            check-symbols: false
+            check-symbols: true
             dep-opts: "NO_QT=1"
             config-opts: "--enable-glibc-back-compat LDFLAGS=-static-libstdc++"
             goal: install
@@ -101,7 +101,7 @@ jobs:
             test-script: |
               qemu-aarch64 -E LD_LIBRARY_PATH=/usr/aarch64-linux-gnu/lib/ /usr/aarch64-linux-gnu/lib/ld-linux-aarch64.so.1 src/test/test_dogecoin
             check-security: true
-            check-symbols: false
+            check-symbols: true
             dep-opts: "NO_QT=1"
             config-opts: "--enable-zmq --enable-glibc-back-compat LDFLAGS=-static-libstdc++"
             goal: install
@@ -145,7 +145,7 @@ jobs:
             test-script: |
               make check $MAKEJOBS VERBOSE=1
             check-security: true
-            check-symbols: false
+            check-symbols: true
             dep-opts: ""
             config-opts: "--enable-gui=qt5"
             goal: install
@@ -163,7 +163,7 @@ jobs:
             test-script: |
               make check $MAKEJOBS VERBOSE=1
             check-security: true
-            check-symbols: false
+            check-symbols: true
             dep-opts: ""
             config-opts: "--enable-gui=qt5"
             goal: install
@@ -190,7 +190,7 @@ jobs:
             os: ubuntu-18.04
             packages: cmake imagemagick libcap-dev librsvg2-bin libz-dev libtiff-tools libtinfo5 xorriso
             run-bench: false
-            check-security: false
+            check-security: true
             check-symbols: false
             dep-opts: ""
             config-opts: "--with-gui=qt5 --disable-tests"
