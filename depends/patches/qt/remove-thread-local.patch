@@ -1,0 +1,76 @@
+Experimental patch to remove thread_local usage in Qt to maintain glibc 2.11 support.
+This patch is not tested for any side-effects.
+
+Author: Shafil Alam <alamshafil@pm.me>
+
+diff --git a/qtbase/src/corelib/global/qcompilerdetection.h b/qtbase/src/corelib/global/qcompilerdetection.h
+index ebffe74188..3e4fa30bac 100644
+--- a/qtbase/src/corelib/global/qcompilerdetection.h
++++ b/qtbase/src/corelib/global/qcompilerdetection.h
+@@ -384,7 +384,6 @@
+ #        define Q_COMPILER_RVALUE_REFS
+ #        define Q_COMPILER_STATIC_ASSERT
+ #        define Q_COMPILER_TEMPLATE_ALIAS
+-#        define Q_COMPILER_THREAD_LOCAL
+ #        define Q_COMPILER_THREADSAFE_STATICS
+ #        define Q_COMPILER_UDL
+ #        define Q_COMPILER_UNICODE_STRINGS
+@@ -655,14 +654,12 @@
+ #      define Q_COMPILER_ALIGNAS
+ #      define Q_COMPILER_ALIGNOF
+ #      define Q_COMPILER_INHERITING_CONSTRUCTORS
+-#      define Q_COMPILER_THREAD_LOCAL
+ #      define Q_COMPILER_UDL
+ #    endif
+ #  elif defined(__STDC_VERSION__) && __STDC_VERSION__ > 199901L
+ //   C11 features supported. Only tested with ICC 17 and up.
+ #    define Q_COMPILER_STATIC_ASSERT
+ #    if __has_include(<threads.h>)
+-#      define Q_COMPILER_THREAD_LOCAL
+ #    endif
+ #  endif
+ #endif
+@@ -768,11 +765,6 @@
+ #    if __has_feature(cxx_alias_templates)
+ #      define Q_COMPILER_TEMPLATE_ALIAS
+ #    endif
+-#    if __has_feature(cxx_thread_local)
+-#      if !defined(__FreeBSD__) /* FreeBSD clang fails on __cxa_thread_atexit */
+-#        define Q_COMPILER_THREAD_LOCAL
+-#      endif
+-#    endif
+ #    if __has_feature(cxx_user_literals)
+ #      define Q_COMPILER_UDL
+ #    endif
+@@ -822,7 +814,6 @@
+ #    endif
+ #    if __has_feature(c_thread_local) && __has_include(<threads.h>)
+ #      if !defined(__FreeBSD__) /* FreeBSD clang fails on __cxa_thread_atexit */
+-#        define Q_COMPILER_THREAD_LOCAL
+ #      endif
+ #    endif
+ #  endif
+@@ -907,7 +898,6 @@
+ #      define Q_COMPILER_ALIGNAS
+ #      define Q_COMPILER_ALIGNOF
+ #      define Q_COMPILER_INHERITING_CONSTRUCTORS
+-#      define Q_COMPILER_THREAD_LOCAL
+ #      if Q_CC_GNU > 408 || __GNUC_PATCHLEVEL__ >= 1
+ #         define Q_COMPILER_REF_QUALIFIERS
+ #      endif
+@@ -934,7 +924,6 @@
+ #    if Q_CC_GNU >= 409 && defined(__has_include)
+        /* C11 features supported in GCC 4.9: */
+ #      if __has_include(<threads.h>)
+-#        define Q_COMPILER_THREAD_LOCAL
+ #      endif
+ #    endif
+ #  endif
+@@ -984,7 +973,6 @@
+ #      define Q_COMPILER_NOEXCEPT
+ #      define Q_COMPILER_RANGE_FOR
+ #      define Q_COMPILER_REF_QUALIFIERS
+-#      define Q_COMPILER_THREAD_LOCAL
+ #      define Q_COMPILER_UDL
+ #      define Q_COMPILER_UNICODE_STRINGS
+ #      define Q_COMPILER_UNRESTRICTED_UNIONS
