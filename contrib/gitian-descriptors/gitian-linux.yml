@@ -25,6 +25,7 @@ packages:
 - "automake"
 - "make"
 - "faketime"
+- "binutils"
 - "bison"
 - "bsdmainutils"
 - "ca-certificates"
@@ -47,7 +48,6 @@ script: |
   HOST_CXXFLAGS="-O2 -g"
   HOST_LDFLAGS=-static-libstdc++
 
-  export QT_RCC_TEST=1
   export GZIP="-9n"
   export TAR_OPTIONS="--mtime="$REFERENCE_DATE\\\ $REFERENCE_TIME""
   export TZ="UTC"
