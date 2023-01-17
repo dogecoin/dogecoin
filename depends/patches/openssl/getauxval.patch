@@ -1,0 +1,147 @@
+Experimental patch to remove getauxval use in OpenSSL to maintain glibc 2.11 support.
+This patch is not tested for any side-effects.
+
+Author: Shafil Alam <alamshafil@pm.me>
+
+diff --git a/crypto/armcap.c b/crypto/armcap.c
+index 48c5d4d64e..1ece979272 100644
+--- a/crypto/armcap.c
++++ b/crypto/armcap.c
+@@ -169,31 +169,6 @@ void OPENSSL_cpuid_setup(void)
+ 
+     OPENSSL_armcap_P = 0;
+ 
+-# ifdef OSSL_IMPLEMENT_GETAUXVAL
+-    if (getauxval(HWCAP) & HWCAP_NEON) {
+-        unsigned long hwcap = getauxval(HWCAP_CE);
+-
+-        OPENSSL_armcap_P |= ARMV7_NEON;
+-
+-        if (hwcap & HWCAP_CE_AES)
+-            OPENSSL_armcap_P |= ARMV8_AES;
+-
+-        if (hwcap & HWCAP_CE_PMULL)
+-            OPENSSL_armcap_P |= ARMV8_PMULL;
+-
+-        if (hwcap & HWCAP_CE_SHA1)
+-            OPENSSL_armcap_P |= ARMV8_SHA1;
+-
+-        if (hwcap & HWCAP_CE_SHA256)
+-            OPENSSL_armcap_P |= ARMV8_SHA256;
+-
+-#  ifdef __aarch64__
+-        if (hwcap & HWCAP_CE_SHA512)
+-            OPENSSL_armcap_P |= ARMV8_SHA512;
+-#  endif
+-    }
+-# endif
+-
+     sigfillset(&all_masked);
+     sigdelset(&all_masked, SIGILL);
+     sigdelset(&all_masked, SIGTRAP);
+@@ -208,8 +183,6 @@ void OPENSSL_cpuid_setup(void)
+     sigprocmask(SIG_SETMASK, &ill_act.sa_mask, &oset);
+     sigaction(SIGILL, &ill_act, &ill_oact);
+ 
+-    /* If we used getauxval, we already have all the values */
+-# ifndef OSSL_IMPLEMENT_GETAUXVAL
+     if (sigsetjmp(ill_jmp, 1) == 0) {
+         _armv7_neon_probe();
+         OPENSSL_armcap_P |= ARMV7_NEON;
+@@ -235,7 +208,6 @@ void OPENSSL_cpuid_setup(void)
+         }
+ #  endif
+     }
+-# endif
+ 
+     /* Things that getauxval didn't tell us */
+     if (sigsetjmp(ill_jmp, 1) == 0) {
+diff --git a/crypto/ppccap.c b/crypto/ppccap.c
+index eeaa47cc6b..e497cd86fc 100644
+--- a/crypto/ppccap.c
++++ b/crypto/ppccap.c
+@@ -335,38 +335,6 @@ void OPENSSL_cpuid_setup(void)
+     }
+ #endif
+ 
+-#ifdef OSSL_IMPLEMENT_GETAUXVAL
+-    {
+-        unsigned long hwcap = getauxval(HWCAP);
+-        unsigned long hwcap2 = getauxval(HWCAP2);
+-
+-        if (hwcap & HWCAP_FPU) {
+-            OPENSSL_ppccap_P |= PPC_FPU;
+-
+-            if (sizeof(size_t) == 4) {
+-                /* In 32-bit case PPC_FPU64 is always fastest [if option] */
+-                if (hwcap & HWCAP_PPC64)
+-                    OPENSSL_ppccap_P |= PPC_FPU64;
+-            } else {
+-                /* In 64-bit case PPC_FPU64 is fastest only on POWER6 */
+-                if (hwcap & HWCAP_POWER6_EXT)
+-                    OPENSSL_ppccap_P |= PPC_FPU64;
+-            }
+-        }
+-
+-        if (hwcap & HWCAP_ALTIVEC) {
+-            OPENSSL_ppccap_P |= PPC_ALTIVEC;
+-
+-            if ((hwcap & HWCAP_VSX) && (hwcap2 & HWCAP_VEC_CRYPTO))
+-                OPENSSL_ppccap_P |= PPC_CRYPTO207;
+-        }
+-
+-        if (hwcap2 & HWCAP_ARCH_3_00) {
+-            OPENSSL_ppccap_P |= PPC_MADD300;
+-        }
+-    }
+-#endif
+-
+     sigfillset(&all_masked);
+     sigdelset(&all_masked, SIGILL);
+     sigdelset(&all_masked, SIGTRAP);
+@@ -384,7 +352,6 @@ void OPENSSL_cpuid_setup(void)
+     sigprocmask(SIG_SETMASK, &ill_act.sa_mask, &oset);
+     sigaction(SIGILL, &ill_act, &ill_oact);
+ 
+-#ifndef OSSL_IMPLEMENT_GETAUXVAL
+     if (sigsetjmp(ill_jmp,1) == 0) {
+         OPENSSL_fpu_probe();
+         OPENSSL_ppccap_P |= PPC_FPU;
+@@ -418,7 +385,6 @@ void OPENSSL_cpuid_setup(void)
+         OPENSSL_madd300_probe();
+         OPENSSL_ppccap_P |= PPC_MADD300;
+     }
+-#endif
+ 
+     if (sigsetjmp(ill_jmp, 1) == 0) {
+         OPENSSL_rdtsc_mftb();
+diff --git a/crypto/uid.c b/crypto/uid.c
+index a9eae36818..91b7591a81 100644
+--- a/crypto/uid.c
++++ b/crypto/uid.c
+@@ -31,25 +31,8 @@ int OPENSSL_issetugid(void)
+ # include OPENSSL_UNISTD
+ # include <sys/types.h>
+ 
+-# if defined(__GLIBC__) && defined(__GLIBC_PREREQ)
+-#  if __GLIBC_PREREQ(2, 16)
+-#   include <sys/auxv.h>
+-#   define OSSL_IMPLEMENT_GETAUXVAL
+-#  endif
+-# elif defined(__ANDROID_API__)
+-/* see https://developer.android.google.cn/ndk/guides/cpu-features */
+-#  if __ANDROID_API__ >= 18
+-#   include <sys/auxv.h>
+-#   define OSSL_IMPLEMENT_GETAUXVAL
+-#  endif
+-# endif
+-
+ int OPENSSL_issetugid(void)
+ {
+-# ifdef OSSL_IMPLEMENT_GETAUXVAL
+-    return getauxval(AT_SECURE) != 0;
+-# else
+     return getuid() != geteuid() || getgid() != getegid();
+-# endif
+ }
+ #endif

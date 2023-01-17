@@ -1,0 +1,27 @@
+Experimental patch to remove getentropy use in OpenSSL to maintain glibc 2.11 support.
+This patch is not tested for any side-effects.
+
+Author: Shafil Alam <alamshafil@pm.me>
+
+diff --git a/crypto/rand/rand_unix.c b/crypto/rand/rand_unix.c
+index 0f4525106a..9ee5945660 100644
+--- a/crypto/rand/rand_unix.c
++++ b/crypto/rand/rand_unix.c
+@@ -369,16 +369,7 @@ static ssize_t syscall_random(void *buf, size_t buflen)
+      * Note: Sometimes getentropy() can be provided but not implemented
+      * internally. So we need to check errno for ENOSYS
+      */
+-#  if defined(__GNUC__) && __GNUC__>=2 && defined(__ELF__) && !defined(__hpux)
+-    extern int getentropy(void *buffer, size_t length) __attribute__((weak));
+-
+-    if (getentropy != NULL) {
+-        if (getentropy(buf, buflen) == 0)
+-            return (ssize_t)buflen;
+-        if (errno != ENOSYS)
+-            return -1;
+-    }
+-#  elif defined(OPENSSL_APPLE_CRYPTO_RANDOM)
++#  if defined(OPENSSL_APPLE_CRYPTO_RANDOM)
+     if (CCRandomGenerateBytes(buf, buflen) == kCCSuccess)
+ 	    return (ssize_t)buflen;
+ 
