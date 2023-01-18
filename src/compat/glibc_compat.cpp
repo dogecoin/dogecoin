@@ -9,6 +9,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <time.h>
 
 #if defined(HAVE_SYS_SELECT_H)
 #include <sys/select.h>
@@ -114,4 +115,18 @@ __asm(".symver pow_old,pow@GLIBC_2.17");
 #endif
 extern "C" double __wrap_pow(double x, double y) {
     return pow_old(x,y);
+}
+
+extern "C" int clock_gettime_old(clockid_t a, struct timespec *b);
+#ifdef __i386__
+__asm(".symver clock_gettime_old,clock_gettime@GLIBC_2.2");
+#elif defined(__amd64__)
+__asm(".symver clock_gettime_old,clock_gettime@GLIBC_2.2.5");
+#elif defined(__arm__)
+__asm(".symver clock_gettime_old,clock_gettime@GLIBC_2.4");
+#elif defined(__aarch64__)
+__asm(".symver clock_gettime_old,clock_gettime@GLIBC_2.17");
+#endif
+extern "C" int __wrap_clock_gettime(clockid_t a, struct timespec *b) {
+    return clock_gettime_old(a, b);
 }
