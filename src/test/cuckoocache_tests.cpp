@@ -6,6 +6,7 @@
 #include "test/test_bitcoin.h"
 #include "random.h"
 #include <thread>
+#include <deque>
 #include <boost/thread.hpp>
 
 
