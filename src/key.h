@@ -139,6 +139,14 @@ public:
 
     //! Load private key and check that public key matches.
     bool Load(CPrivKey& privkey, CPubKey& vchPubKey, bool fSkipCheck);
+
+    //! Clear the private key.
+    void Clear()
+    {
+        fValid = false;
+        fCompressed = false;
+        memory_cleanse(keydata.data(), keydata.size());
+    }
 };
 
 struct CExtKey {
@@ -178,6 +186,14 @@ struct CExtKey {
         unsigned char code[BIP32_EXTKEY_SIZE];
         s.read((char *)&code[0], len);
         Decode(code);
+    }
+    void Clear()
+    {
+        nDepth = 0;
+        memory_cleanse(vchFingerprint, sizeof(vchFingerprint));
+        nChild = 0;
+        memory_cleanse(chaincode.begin(), chaincode.size());
+        key.Clear();
     }
 };
 

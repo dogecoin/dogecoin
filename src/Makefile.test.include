@@ -142,6 +142,11 @@ BITCOIN_TESTS =\
   test/univalue_tests.cpp \
   test/util_tests.cpp
 
+if USE_LIB
+BITCOIN_TESTS += \
+  test/bip39_tests.cpp
+endif
+
 if ENABLE_WALLET
 BITCOIN_TESTS += \
   wallet/test/wallet_test_fixture.cpp \

@@ -247,6 +247,12 @@ AC_ARG_WITH([armv82-crypto],
   [armv82_crypto=$withval],
   [armv82_crypto=no])
 
+AC_ARG_WITH([lib-bip39],
+  [AS_HELP_STRING([--with-lib-bip39],
+  [Build with libdogecoin/bip39 support (default is no)])],
+  [use_lib=$withval],
+  [use_lib=no])
+
 AC_ARG_ENABLE(man,
     [AS_HELP_STRING([--disable-man],
                     [do not install man pages (default is to install)])],,
@@ -923,6 +929,14 @@ if test x$armv82_crypto = xyes; then
   CPPFLAGS="$CPPFLAGS_SAVE"
 fi
 
+if test x$use_lib = xyes; then
+  DOGECOIN_REQUIRE_EXPERIMENTAL
+  AC_CHECK_HEADERS([libdogecoin.h], AC_MSG_ERROR(libdogecoin.h missing))
+  AC_CHECK_LIB([unistring],[u8_normalize],, AC_MSG_ERROR(libunistring missing))
+  AC_CHECK_LIB([dogecoin],[generateRandomEnglishMnemonic],LIBS+=" -ldogecoin -lunistring", AC_MSG_ERROR(libdogecoin missing))
+  AC_DEFINE(USE_LIB, 1, [Define this symbol if libdogecoin works])
+fi
+
 if test x$use_pkgconfig = xyes; then
   : dnl
   m4_ifdef(
@@ -999,15 +1013,15 @@ if test x$intel_avx2 = xyes; then
   DOGECOIN_REQUIRE_EXPERIMENTAL
   case $host in
      x86_64-*-linux*)
-    AC_CHECK_LIB([IPSec_MB],[sha1_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
-    AC_CHECK_LIB([IPSec_MB],[sha256_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
-    AC_CHECK_LIB([IPSec_MB],[sha512_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
+    AC_CHECK_LIB([IPSec_MB],[sha1_one_block_avx2],LIBS="$LIBS -lIPSec_MB", AC_MSG_ERROR(IPSec_MB missing))
+    AC_CHECK_LIB([IPSec_MB],[sha256_one_block_avx2],LIBS="$LIBS -lIPSec_MB", AC_MSG_ERROR(IPSec_MB missing))
+    AC_CHECK_LIB([IPSec_MB],[sha512_one_block_avx2],LIBS="$LIBS -lIPSec_MB", AC_MSG_ERROR(IPSec_MB missing))
     AC_DEFINE(USE_AVX2, 1, [Define this symbol if intel axv2 works])
 ;;
     *mingw*)
-    AC_CHECK_LIB([IPSec_MB],[sha1_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
-    AC_CHECK_LIB([IPSec_MB],[sha256_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
-    AC_CHECK_LIB([IPSec_MB],[sha512_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
+    AC_CHECK_LIB([IPSec_MB],[sha1_one_block_avx2],LIBS="$LIBS -lIPSec_MB", AC_MSG_ERROR(IPSec_MB missing))
+    AC_CHECK_LIB([IPSec_MB],[sha256_one_block_avx2],LIBS="$LIBS -lIPSec_MB", AC_MSG_ERROR(IPSec_MB missing))
+    AC_CHECK_LIB([IPSec_MB],[sha512_one_block_avx2],LIBS="$LIBS -lIPSec_MB", AC_MSG_ERROR(IPSec_MB missing))
     AC_CHECK_LIB([mingwthrd],         [main],LIBS+=" -lmingwthrd", AC_MSG_ERROR(lib missing))
     AC_CHECK_LIB([kernel32],          [main],LIBS+=" -lkernel32", AC_MSG_ERROR(lib missing))
     AC_CHECK_LIB([user32],            [main],LIBS+=" -luser32", AC_MSG_ERROR(lib missing))
@@ -1238,6 +1252,7 @@ AM_CONDITIONAL([ENABLE_QT],[test x$bitcoin_enable_qt = xyes])
 AM_CONDITIONAL([ENABLE_QT_TESTS],[test x$BUILD_TEST_QT = xyes])
 AM_CONDITIONAL([ENABLE_BENCH],[test x$use_bench = xyes])
 AM_CONDITIONAL([USE_QRCODE], [test x$use_qr = xyes])
+AM_CONDITIONAL([USE_LIB],[test x$use_lib = xyes])
 AM_CONDITIONAL([USE_LCOV],[test x$use_lcov = xyes])
 AM_CONDITIONAL([GLIBC_BACK_COMPAT],[test x$use_glibc_compat = xyes])
 AM_CONDITIONAL([HARDEN],[test x$use_hardening = xyes])
@@ -1383,6 +1398,7 @@ if test x$allow_experimental = xyes; then
     echo "    ARMv82 crypto = $armv82_crypto"
     echo
     echo "    ARMV82_CXXFLAGS = $ARMV82_CXXFLAGS"
+    echo "    LIB BIP39     = $use_lib"
 fi
 echo
 echo "  target os     = $TARGET_OS"

@@ -1,4 +1,4 @@
-packages:=boost openssl libevent zeromq
+packages:=boost openssl libevent zeromq libunistring libdogecoin
 native_packages := native_ccache
 
 qt_packages = qrencode zlib

@@ -78,7 +78,7 @@ jobs:
             check-security: true
             check-symbols: false
             dep-opts: "NO_QT=1"
-            config-opts: "--enable-experimental --with-armv8-crypto --with-armv82-crypto --enable-zmq --enable-glibc-back-compat LDFLAGS=-static-libstdc++ --enable-c++14"
+            config-opts: "--enable-experimental --with-armv8-crypto --with-armv82-crypto --with-lib-bip39 --enable-zmq --enable-glibc-back-compat LDFLAGS=-static-libstdc++ --enable-c++14"
             goal: install
           - name: aarch64-linux
             host: aarch64-linux-gnu
@@ -199,7 +199,7 @@ jobs:
               qa/pull-tester/install-deps.sh
               qa/pull-tester/rpc-tests.py --coverage
             dep-opts: "AVX2=1"
-            config-opts: "--enable-experimental --enable-scrypt-sse2 --with-intel-avx2 --with-gui=qt5 --enable-zmq --enable-glibc-back-compat --enable-reduce-exports --enable-c++14"
+            config-opts: "--enable-experimental --enable-scrypt-sse2 --with-intel-avx2 --with-lib-bip39 --with-gui=qt5 --enable-zmq --enable-glibc-back-compat --enable-reduce-exports --enable-c++14"
             goal: install
 
     runs-on: ubuntu-24.04
