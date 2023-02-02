@@ -864,7 +864,6 @@ if test x$intel_avx2 = xyes; then
     AC_CHECK_LIB([IPSec_MB],[sha1_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
     AC_CHECK_LIB([IPSec_MB],[sha256_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
     AC_CHECK_LIB([IPSec_MB],[sha512_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
-    AC_CHECK_LIB([Qt5PlatformSupport],[main],LIBS+=" -lQt5PlatformSupport", AC_MSG_ERROR(lib missing))
     AC_CHECK_LIB([mingwthrd],         [main],LIBS+=" -lmingwthrd", AC_MSG_ERROR(lib missing))
     AC_CHECK_LIB([kernel32],          [main],LIBS+=" -lkernel32", AC_MSG_ERROR(lib missing))
     AC_CHECK_LIB([user32],            [main],LIBS+=" -luser32", AC_MSG_ERROR(lib missing))
@@ -885,6 +884,12 @@ if test x$intel_avx2 = xyes; then
     AC_CHECK_LIB([iphlpapi],          [main],LIBS+=" -liphlpapi", AC_MSG_ERROR(lib missing))
     AC_CHECK_LIB([crypt32],           [main],LIBS+=" -lcrypt32", AC_MSG_ERROR(lib missing))
     AC_CHECK_LIB([ssp],               [main],LIBS+=" -lssp", AC_MSG_ERROR(lib missing))
+
+    dnl only check for Qt5 if we're actually building Qt
+    if test x$bitcoin_enable_qt != xno; then
+      AC_CHECK_LIB([Qt5PlatformSupport],[main],LIBS+=" -lQt5PlatformSupport", AC_MSG_ERROR(lib missing))
+    fi
+
     AC_DEFINE(USE_AVX2, 1, [Define this symbol if intel axv2 works])
 esac
 fi
