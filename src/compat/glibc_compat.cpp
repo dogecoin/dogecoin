@@ -9,6 +9,8 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <cstdio>
+#include <stdarg.h>
 #include <time.h>
 
 #if defined(HAVE_SYS_SELECT_H)
@@ -130,3 +132,30 @@ __asm(".symver clock_gettime_old,clock_gettime@GLIBC_2.17");
 extern "C" int __wrap_clock_gettime(clockid_t a, struct timespec *b) {
     return clock_gettime_old(a, b);
 }
+
+// Wrap fcntl and fcntl64 for 32-bit linux only (both ARM and intel)
+#if defined(__i386__) || defined(__arm__)
+extern "C" int fcntl_old(int fd, int cmd, ...);
+
+# if defined(__i386__)
+__asm(".symver fcntl_old,fcntl@GLIBC_2.0");
+# elif defined(__arm__)
+__asm(".symver fcntl_old,fcntl@GLIBC_2.4");
+# endif
+
+extern "C" int __wrap_fcntl(int fd, int cmd, ...) {
+     va_list ap;
+     va_start(ap, cmd);
+     void* arg = va_arg(ap, void*);
+     va_end(ap);
+     return fcntl_old(fd, cmd, arg);
+}
+
+extern "C" int __wrap_fcntl64(int fd, int cmd, ...) {
+     va_list ap;
+     va_start(ap, cmd);
+     void* arg = va_arg(ap, void*);
+     va_end(ap);
+     return fcntl_old(fd, cmd, arg);
+}
+#endif //defined(__i386__) || defined(__arm__)
