@@ -133,11 +133,19 @@ jobs:
             goal: install
           - name: i686-win
             host: i686-w64-mingw32
-            arch: "i386"
             os: ubuntu-20.04
-            packages: python3 nsis g++-mingw-w64-i686 wine-stable bc wine-binfmt
+            packages: python3 nsis g++-mingw-w64-i686 wine-stable winehq-stable bc wine-binfmt binfmt-support
+            preinstall: |
+              sudo dpkg --add-architecture i386
+              OS_FLAVOR=$(cat /etc/*ease | grep UBUNTU_CODENAME | cut -d "=" -f 2)
+              if [ ! -d "/etc/apt/keyrings" ]; then sudo mkdir -pm755 /etc/apt/keyrings; fi
+              sudo wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key
+              sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/$OS_FLAVOR/winehq-$OS_FLAVOR.sources
+              sudo rm -f /etc/apt/sources.list.d/microsoft-prod.list
+              sudo apt-get update
+              sudo apt-get install -y --allow-downgrades libgd3/$OS_FLAVOR libpcre2-8-0/$OS_FLAVOR libpcre2-16-0/$OS_FLAVOR libpcre2-32-0/$OS_FLAVOR libpcre2-posix2/$OS_FLAVOR
+              sudo apt-get purge -yq libmono* moby* mono* php* libgdiplus libpcre2-posix3 libzip4
             postinstall: |
-              sudo dpkg -s mono-runtime && sudo apt-get remove mono-runtime || echo "Very nothing to uninstall."
               sudo update-alternatives --set i686-w64-mingw32-gcc /usr/bin/i686-w64-mingw32-gcc-posix
               sudo update-alternatives --set i686-w64-mingw32-g++  /usr/bin/i686-w64-mingw32-g++-posix
               sudo update-binfmts --import /usr/share/binfmts/wine
@@ -151,7 +159,6 @@ jobs:
             goal: install
           - name: x86_64-win
             host: x86_64-w64-mingw32
-            arch: "i386"
             os: ubuntu-20.04
             packages: python3 nsis g++-mingw-w64-x86-64 wine64 bc wine-binfmt
             postinstall: |
@@ -169,7 +176,6 @@ jobs:
             goal: install
           - name: x86_64-win-experimental
             host: x86_64-w64-mingw32
-            arch: "i386"
             os: ubuntu-20.04
             packages: python3 nsis g++-mingw-w64-x86-64 wine64 bc wine-binfmt
             postinstall: |
@@ -213,10 +219,9 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - name: Add architecture
-        if: ${{ matrix.arch }}
-        run: |
-          sudo dpkg --add-architecture "${{ matrix.arch }}"
+      - name: Pre install
+        if: ${{ matrix.preinstall }}
+        run: ${{ matrix.preinstall }}
 
       - name: Install packages
         run: |
