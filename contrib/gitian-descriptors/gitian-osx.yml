@@ -2,7 +2,7 @@
 name: "dogecoin-osx-1.14"
 enable_cache: true
 suites:
-- "bionic"
+- "focal"
 architectures:
 - "amd64"
 packages:
@@ -28,12 +28,14 @@ packages:
 - "python3-setuptools"
 - "python3-pip"
 - "fonts-tuffy"
+- "libtinfo5"
+- "xorriso"
 remotes:
 - "url": "https://github.com/dogecoin/dogecoin.git"
   "dir": "dogecoin"
 files:
 - "MacOSX10.11.sdk.tar.gz"
-- "lief-0.12.3-cp36-cp36m-linux_x86_64.whl"
+- "lief-0.12.3-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
 script: |
   WRAP_DIR=$HOME/wrapped
   HOSTS="x86_64-apple-darwin11"
@@ -92,7 +94,7 @@ script: |
   tar -C ${BASEPREFIX}/SDKs -xf ${BUILD_DIR}/MacOSX10.11.sdk.tar.gz
 
   # install python-lief
-  python3 -m pip install ${BUILD_DIR}/lief-0.12.3-cp36-cp36m-linux_x86_64.whl
+  python3 -m pip install ${BUILD_DIR}/lief-0.12.3-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
 
   # Build dependencies for each host
   for i in $HOSTS; do
