@@ -45,7 +45,7 @@ jobs:
         include:
           - name: i686-linux
             host: i686-pc-linux-gnu
-            os: ubuntu-18.04
+            os: ubuntu-20.04
             packages: g++-multilib bc python3-zmq
             run-bench: true
             test-script: |
@@ -59,7 +59,7 @@ jobs:
             goal: install
           - name: armhf-linux
             host: arm-linux-gnueabihf
-            os: ubuntu-18.04
+            os: ubuntu-20.04
             packages: g++-arm-linux-gnueabihf qemu-user-static qemu-user
             run-bench: false
             test-script: |
@@ -71,7 +71,7 @@ jobs:
             goal: install
           - name: aarch64-linux-experimental
             host: aarch64-linux-gnu
-            os: ubuntu-18.04
+            os: ubuntu-20.04
             packages: g++-aarch64-linux-gnu qemu-user-static qemu-user
             run-bench: false
             test-script: |
@@ -95,7 +95,7 @@ jobs:
             goal: install
           - name: aarch64-linux
             host: aarch64-linux-gnu
-            os: ubuntu-18.04
+            os: ubuntu-20.04
             packages: g++-aarch64-linux-gnu qemu-user-static qemu-user
             run-bench: false
             test-script: |
@@ -107,7 +107,7 @@ jobs:
             goal: install
           - name: x86_64-linux-nowallet
             host: x86_64-unknown-linux-gnu
-            os: ubuntu-18.04
+            os: ubuntu-20.04
             packages: python3
             run-bench: true
             test-script: |
@@ -119,7 +119,7 @@ jobs:
             goal: install
           - name: x86_64-linux-dbg
             host: x86_64-unknown-linux-gnu
-            os: ubuntu-18.04
+            os: ubuntu-20.04
             packages: bc python3-zmq
             run-bench: true
             test-script: |
@@ -134,7 +134,7 @@ jobs:
           - name: i686-win
             host: i686-w64-mingw32
             arch: "i386"
-            os: ubuntu-18.04
+            os: ubuntu-20.04
             packages: python3 nsis g++-mingw-w64-i686 wine-stable bc wine-binfmt
             postinstall: |
               sudo dpkg -s mono-runtime && sudo apt-get remove mono-runtime || echo "Very nothing to uninstall."
@@ -152,7 +152,7 @@ jobs:
           - name: x86_64-win
             host: x86_64-w64-mingw32
             arch: "i386"
-            os: ubuntu-18.04
+            os: ubuntu-20.04
             packages: python3 nsis g++-mingw-w64-x86-64 wine64 bc wine-binfmt
             postinstall: |
               sudo dpkg -s mono-runtime && sudo apt-get remove mono-runtime || echo "Very nothing to uninstall."
@@ -170,7 +170,7 @@ jobs:
           - name: x86_64-win-experimental
             host: x86_64-w64-mingw32
             arch: "i386"
-            os: ubuntu-18.04
+            os: ubuntu-20.04
             packages: python3 nsis g++-mingw-w64-x86-64 wine64 bc wine-binfmt
             postinstall: |
               sudo dpkg -s mono-runtime && sudo apt-get remove mono-runtime || echo "Very nothing to uninstall."
@@ -187,7 +187,7 @@ jobs:
             goal: install
           - name: x86_64-macos
             host: x86_64-apple-darwin11
-            os: ubuntu-18.04
+            os: ubuntu-20.04
             packages: cmake imagemagick libcap-dev librsvg2-bin libz-dev libtiff-tools libtinfo5 xorriso
             run-bench: false
             check-security: true
@@ -199,7 +199,7 @@ jobs:
             sdk-shasum: "bec9d089ebf2e2dd59b1a811a38ec78ebd5da18cbbcd6ab39d1e59f64ac5033f"
           - name: x86_64-linux-experimental
             host: x86_64-linux-gnu
-            os: ubuntu-18.04
+            os: ubuntu-20.04
             packages: bc python3-zmq
             run-bench: true
             test-script: |
