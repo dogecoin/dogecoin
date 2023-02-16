@@ -11,7 +11,7 @@
 
 </div>
 
-语言选择: [英文](./README.md) | 简体中文 | [PT](./README_pt_BR.md) | [FA](./README_fa_IR.md)  | [VI](./README_vi_VN.md)
+语言选择: [英文](./README.md) | 简体中文 | [BR](./README_pt_BR.md) | [FA](./README_fa_IR.md)  | [VI](./README_vi_VN.md) | [PT](./README_pt_PT.md)
 
 狗狗币是一款受柴犬表情包启发，由社区驱动的加密货币。通过狗狗币内核软件，任何人都可以在狗狗币区块链网络中建立一个节点。节点采用Scrypt哈希算法来实现工作量证明(Proof of Work)。狗狗币内核是从比特币内核和其它加密货币演化而来。
 
