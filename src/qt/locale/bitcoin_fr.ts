@@ -1470,7 +1470,7 @@
         <translation type="vanished">Ne partagez jamais votre clé privée avec une personne indigne de confiance.</translation>
     </message>
     <message>
-        <source>Who own the private keys own the coins.</source>
+        <source>Who owns the private keys owns the coins.</source>
         <translation type="vanished">Ceux qui possèdent les clés privées possèdent les pièces.</translation>
     </message>
     <message>
