@@ -24,6 +24,7 @@ jobs:
       CACHE_NONCE: "1"
       WINEDEBUG: fixme-all
       SDK_URL: https://depends.dogecoincore.org
+      BIONIC_LIEF_WHL: lief-0.12.3-cp36-cp36m-linux_x86_64.whl
 
     strategy:
       fail-fast: false
@@ -45,7 +46,7 @@ jobs:
           - name: i686-linux
             host: i686-pc-linux-gnu
             os: ubuntu-18.04
-            packages: g++-multilib bc python3-pip python3-setuptools python3-zmq
+            packages: g++-multilib bc python3-zmq
             run-bench: true
             test-script: |
               make check $MAKEJOBS VERBOSE=1
@@ -64,7 +65,7 @@ jobs:
             test-script: |
               qemu-arm -E LD_LIBRARY_PATH=/usr/arm-linux-gnueabihf/lib/ /usr/arm-linux-gnueabihf/lib/ld-linux-armhf.so.3 src/test/test_dogecoin
             check-security: true
-            check-symbols: false
+            check-symbols: true
             dep-opts: "NO_QT=1"
             config-opts: "--enable-glibc-back-compat LDFLAGS=-static-libstdc++"
             goal: install
@@ -100,7 +101,7 @@ jobs:
             test-script: |
               qemu-aarch64 -E LD_LIBRARY_PATH=/usr/aarch64-linux-gnu/lib/ /usr/aarch64-linux-gnu/lib/ld-linux-aarch64.so.1 src/test/test_dogecoin
             check-security: true
-            check-symbols: false
+            check-symbols: true
             dep-opts: "NO_QT=1"
             config-opts: "--enable-zmq --enable-glibc-back-compat LDFLAGS=-static-libstdc++"
             goal: install
@@ -119,7 +120,7 @@ jobs:
           - name: x86_64-linux-dbg
             host: x86_64-unknown-linux-gnu
             os: ubuntu-18.04
-            packages: bc python3-pip python3-setuptools python3-zmq
+            packages: bc python3-zmq
             run-bench: true
             test-script: |
               make check $MAKEJOBS VERBOSE=1
@@ -144,7 +145,7 @@ jobs:
             test-script: |
               make check $MAKEJOBS VERBOSE=1
             check-security: true
-            check-symbols: false
+            check-symbols: true
             dep-opts: ""
             config-opts: "--enable-gui=qt5"
             goal: install
@@ -162,7 +163,7 @@ jobs:
             test-script: |
               make check $MAKEJOBS VERBOSE=1
             check-security: true
-            check-symbols: false
+            check-symbols: true
             dep-opts: ""
             config-opts: "--enable-gui=qt5"
             goal: install
@@ -187,9 +188,9 @@ jobs:
           - name: x86_64-macos
             host: x86_64-apple-darwin11
             os: ubuntu-18.04
-            packages: cmake imagemagick libcap-dev librsvg2-bin libz-dev libtiff-tools libtinfo5 python3-setuptools xorriso
+            packages: cmake imagemagick libcap-dev librsvg2-bin libz-dev libtiff-tools libtinfo5 xorriso
             run-bench: false
-            check-security: false
+            check-security: true
             check-symbols: false
             dep-opts: ""
             config-opts: "--with-gui=qt5 --disable-tests"
@@ -199,7 +200,7 @@ jobs:
           - name: x86_64-linux-experimental
             host: x86_64-linux-gnu
             os: ubuntu-18.04
-            packages: bc python3-pip python3-setuptools python3-zmq
+            packages: bc python3-zmq
             run-bench: true
             test-script: |
               make check $MAKEJOBS VERBOSE=1
@@ -220,8 +221,19 @@ jobs:
       - name: Install packages
         run: |
           sudo apt-get update
-          sudo apt-get install build-essential libtool autotools-dev automake pkg-config bsdmainutils curl ca-certificates ccache python3 rsync git procps bison
+          sudo apt-get install build-essential libtool autotools-dev automake \
+               pkg-config bsdmainutils curl ca-certificates ccache rsync git \
+               procps bison python3 python3-pip python3-setuptools python3-wheel
           sudo apt-get install ${{ matrix.packages }}
+          python3 -m pip install setuptools --upgrade
+
+      - name: Install custom lief wheel
+        if: matrix.os == 'ubuntu-18.04'
+        run: python3 -m pip install $SDK_URL/$BIONIC_LIEF_WHL
+
+      - name: Install standard lief wheel
+        if: matrix.os != 'ubuntu-18.04'
+        run: python3 -m pip install lief
 
       - name: Post install
         if: ${{ matrix.postinstall }}

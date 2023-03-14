@@ -23,6 +23,10 @@ ossTarHash="f9a8cdb38b9c309326764ebc937cba1523a3a751a7ab05df3ecc99d18ae466c9"
 macosSdkUrl="https://depends.dogecoincore.org/MacOSX10.11.sdk.tar.gz"
 macosSdkHash="bec9d089ebf2e2dd59b1a811a38ec78ebd5da18cbbcd6ab39d1e59f64ac5033f"
 
+# lief custom wheel is only needed for bionic-based gitian
+lief="https://depends.dogecoincore.org/lief-0.12.3-cp36-cp36m-linux_x86_64.whl"
+liefHash="c84cbdb32c8a830fbb82c907b733050c7fc5c9bf4f51a46541f1b8c2e48def9f"
+
 # What to do
 verify=false
 build=false
@@ -267,6 +271,7 @@ if [[ $setup == true ]]; then
     download_file $ossPatchUrl $ossPatchHash
     download_file $ossTarUrl $ossTarHash
     download_file $macosSdkUrl $macosSdkHash
+    download_file $lief $liefHash
 
     popd
 
