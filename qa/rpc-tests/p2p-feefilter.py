@@ -83,7 +83,7 @@ class FeeFilterTest(BitcoinTestFramework):
         # Set a filter of 15000 sat/byte
         test_node.send_filter(15000000)
 
-        # Test that txs are still being received (paying 2000 sat/byte)
+        # Test that txs are still being received (paying 20000 sat/byte)
         txids = [node1.sendtoaddress(node1.getnewaddress(), 1) for x in range(3)]
         assert(allInvsMatch(txids, test_node))
         test_node.clear_invs()
