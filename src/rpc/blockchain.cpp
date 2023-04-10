@@ -952,17 +952,20 @@ UniValue gettxoutsetinfo(const JSONRPCRequest& request)
 
 UniValue getblockchainstats(const JSONRPCRequest& request)
 {
-    if (request.fHelp || request.params.size() != 0)
+    if (request.fHelp || request.params.size() > 1)
         throw runtime_error(
             "getblockchainstats\n"
             "\nReturns statistics about the entire blockchain.\n"
             "Note this call may take some time.\n"
             "This call may also return incomplete results unless run on a full and fully-synced node.\n"
+            "\nArguments:\n"
+            "1. \"count\"       (numeric, optional) The number of blocks to analyze, from the current tip. Default 1000.\n"
             "\nResult:\n"
             "{\n"
             "  \"height\":n,     (numeric) The current block height (index)\n"
             "  \"bestblockhash\": \"hex\",   (string) the best block hash hex\n"
             "  \"transactions\": n,      (numeric) The number of transactions\n"
+            "  \"count\": n,      (numeric) The number of blocks counted (matches the count argument)\n"
             "}\n"
             "\nExamples:\n"
             + HelpExampleCli("getblockchainstats", "")
@@ -976,6 +979,11 @@ UniValue getblockchainstats(const JSONRPCRequest& request)
     ret.pushKV("bestblockhash", chainActive.Tip()->GetBlockHash().GetHex());
 
     int64_t nTransactions = 0;
+    int64_t count = 1000;
+    int64_t i = 0;
+
+    if (request.params.size() > 0)
+        count = (int64_t)request.params[0].get_int();
 
     for (CBlockIndex* pindex = chainActive.Tip(); pindex && pindex->pprev; pindex = pindex->pprev)
     {
@@ -984,10 +992,14 @@ UniValue getblockchainstats(const JSONRPCRequest& request)
             throw JSONRPCError(RPC_INTERNAL_ERROR, "Unable to read blocks from disk");
 
         nTransactions += block.vtx.size();
-        LogPrintf("Found %d transactions in block at height %d\n.", block.vtx.size(), pindex->nHeight);
+        i++;
+        LogPrintf("Found %d transactions in block at height %d.\n", block.vtx.size(), pindex->nHeight);
+        if (i >= count)
+           break;
     }
 
-    ret.pushKV("transactions", (int64_t)nTransactions);
+    ret.pushKV("transactions", nTransactions);
+    ret.pushKV("count", i);
 
     return ret;
 }
@@ -1530,7 +1542,7 @@ static const CRPCCommand commands[] =
     { "blockchain",         "getbestblockhash",       &getbestblockhash,       true,  {} },
     { "blockchain",         "getblockcount",          &getblockcount,          true,  {} },
     { "blockchain",         "getblock",               &getblock,               true,  {"blockhash","verbose"} },
-    { "blockchain",         "getblockchainstats",     &getblockchainstats,     true,  {} },
+    { "blockchain",         "getblockchainstats",     &getblockchainstats,     true,  {"count"} },
     { "blockchain",         "getblockhash",           &getblockhash,           true,  {"height"} },
     { "blockchain",         "getblockheader",         &getblockheader,         true,  {"blockhash","verbose"} },
     { "blockchain",         "getchaintips",           &getchaintips,           true,  {} },
