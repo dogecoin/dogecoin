@@ -959,7 +959,7 @@ UniValue getblockchainstats(const JSONRPCRequest& request)
             "Note this call may take some time.\n"
             "This call may also return incomplete results unless run on a full and fully-synced node.\n"
             "\nArguments:\n"
-            "1. \"count\"       (numeric, optional) The number of blocks to analyze, from the current tip. Default 1000.\n"
+            "1. \"count\"       (numeric, optional, default=1000) The number of blocks to analyze, from the current tip.\n"
             "\nResult:\n"
             "{\n"
             "  \"height\":n,     (numeric) The current block height (index)\n"
@@ -979,13 +979,13 @@ UniValue getblockchainstats(const JSONRPCRequest& request)
     ret.pushKV("bestblockhash", chainActive.Tip()->GetBlockHash().GetHex());
 
     int64_t nTransactions = 0;
-    int64_t count = 1000;
-    int64_t i = 0;
+    int count = 1000;
+    int i = 1;
 
     if (request.params.size() > 0)
-        count = (int64_t)request.params[0].get_int();
+        count = request.params[0].get_int();
 
-    for (CBlockIndex* pindex = chainActive.Tip(); pindex && pindex->pprev; pindex = pindex->pprev)
+    for (CBlockIndex* pindex = chainActive.Tip(); i < count && pindex && pindex->pprev; pindex = pindex->pprev)
     {
         CBlock block;
         if (!ReadBlockFromDisk(block, pindex, Params().GetConsensus(pindex->nHeight)))
@@ -993,13 +993,10 @@ UniValue getblockchainstats(const JSONRPCRequest& request)
 
         nTransactions += block.vtx.size();
         i++;
-        LogPrintf("Found %d transactions in block at height %d.\n", block.vtx.size(), pindex->nHeight);
-        if (i >= count)
-           break;
     }
 
     ret.pushKV("transactions", nTransactions);
-    ret.pushKV("count", i);
+    ret.pushKV("count", (int64_t)i);
 
     return ret;
 }

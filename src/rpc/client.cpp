@@ -129,6 +129,7 @@ static const CRPCConvertParam vRPCConvertParams[] =
     { "bumpfee", 1, "options" },
     { "setmaxconnections", 0, "maxconnectioncount" },
     { "rescan", 0, "height" },
+    { "getblockchainstats", 0, "count" },
     // Echo with conversion (For testing only)
     { "echojson", 0, "arg0" },
     { "echojson", 1, "arg1" },
