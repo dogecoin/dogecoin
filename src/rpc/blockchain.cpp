@@ -987,11 +987,7 @@ UniValue getblockchainstats(const JSONRPCRequest& request)
 
     for (CBlockIndex* pindex = chainActive.Tip(); i < count && pindex && pindex->pprev; pindex = pindex->pprev)
     {
-        CBlock block;
-        if (!ReadBlockFromDisk(block, pindex, Params().GetConsensus(pindex->nHeight)))
-            throw JSONRPCError(RPC_INTERNAL_ERROR, "Unable to read blocks from disk");
-
-        nTransactions += block.vtx.size();
+        nTransactions += pindex->nTx;
         i++;
     }
 
