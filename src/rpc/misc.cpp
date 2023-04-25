@@ -497,6 +497,27 @@ UniValue getmemoryinfo(const JSONRPCRequest& request)
     return obj;
 }
 
+UniValue getnodeinfo(const JSONRPCRequest& request)
+{
+    if (request.fHelp || request.params.size() != 0)
+        throw runtime_error(
+            "getnodeinfo\n"
+            "Returns an object containing information about the node.\n"
+            "\nResult:\n"
+            "{\n"
+            "  \"version\": xxxxx,          (string) The version of Dogecoin Core currently running in this node\n"
+            "  \"subversion\": xxxxx,       (string) The string identifier of this node broadcast to the network\n"
+            "}\n"
+            "\nExamples:\n"
+            + HelpExampleCli("getnodeinfo", "")
+            + HelpExampleRpc("getnodeinfo", "")
+        );
+    UniValue obj(UniValue::VOBJ);
+    obj.pushKV("version", FormatFullVersion());
+    obj.pushKV("subversion", strSubVersion);
+    return obj;
+}
+
 UniValue echo(const JSONRPCRequest& request)
 {
     if (request.fHelp)
@@ -515,6 +536,7 @@ static const CRPCCommand commands[] =
   //  --------------------- ------------------------  -----------------------  ----------
     { "control",            "getinfo",                &getinfo,                true,  {} }, /* uses wallet if enabled */
     { "control",            "getmemoryinfo",          &getmemoryinfo,          true,  {} },
+    { "control",            "getnodeinfo",            &getnodeinfo,            true,  {} },
     { "util",               "validateaddress",        &validateaddress,        true,  {"address"} }, /* uses wallet if enabled */
     { "util",               "createmultisig",         &createmultisig,         true,  {"nrequired","keys"} },
     { "util",               "verifymessage",          &verifymessage,          true,  {"address","signature","message"} },
@@ -523,7 +545,7 @@ static const CRPCCommand commands[] =
     /* Not shown in help */
     { "hidden",             "setmocktime",            &setmocktime,            true,  {"timestamp"}},
     { "hidden",             "echo",                   &echo,                   true,  {"arg0","arg1","arg2","arg3","arg4","arg5","arg6","arg7","arg8","arg9"}},
-    { "hidden",             "echojson",               &echo,                  true,  {"arg0","arg1","arg2","arg3","arg4","arg5","arg6","arg7","arg8","arg9"}},
+    { "hidden",             "echojson",               &echo,                   true,  {"arg0","arg1","arg2","arg3","arg4","arg5","arg6","arg7","arg8","arg9"}},
 };
 
 void RegisterMiscRPCCommands(CRPCTable &t)
