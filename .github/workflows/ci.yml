@@ -53,8 +53,8 @@ jobs:
               qa/pull-tester/rpc-tests.py --coverage
             check-security: true
             check-symbols: true
-            dep-opts: "NO_QT=1"
-            config-opts: "--enable-zmq --enable-glibc-back-compat LDFLAGS=-static-libstdc++"
+            dep-opts: ""
+            config-opts: "--with-gui=qt5 --enable-zmq --enable-glibc-back-compat LDFLAGS=-static-libstdc++"
             goal: install
           - name: armhf-linux
             host: arm-linux-gnueabihf
@@ -63,10 +63,11 @@ jobs:
             run-bench: false
             test-script: |
               qemu-arm -E LD_LIBRARY_PATH=/usr/arm-linux-gnueabihf/lib/ /usr/arm-linux-gnueabihf/lib/ld-linux-armhf.so.3 src/test/test_dogecoin
+              qemu-arm -E LD_LIBRARY_PATH=/usr/arm-linux-gnueabihf/lib/ /usr/arm-linux-gnueabihf/lib/ld-linux-armhf.so.3 src/qt/test/test_dogecoin-qt
             check-security: true
             check-symbols: true
-            dep-opts: "NO_QT=1"
-            config-opts: "--enable-glibc-back-compat LDFLAGS=-static-libstdc++"
+            dep-opts: ""
+            config-opts: "--with-gui=qt5 --enable-glibc-back-compat LDFLAGS=-static-libstdc++"
             goal: install
           - name: aarch64-linux-experimental
             host: aarch64-linux-gnu
@@ -87,10 +88,11 @@ jobs:
             run-bench: false
             test-script: |
               qemu-aarch64 -E LD_LIBRARY_PATH=/usr/aarch64-linux-gnu/lib/ /usr/aarch64-linux-gnu/lib/ld-linux-aarch64.so.1 src/test/test_dogecoin
+              qemu-aarch64 -E LD_LIBRARY_PATH=/usr/aarch64-linux-gnu/lib/ /usr/aarch64-linux-gnu/lib/ld-linux-aarch64.so.1 src/qt/test/test_dogecoin-qt
             check-security: true
             check-symbols: true
-            dep-opts: "NO_QT=1"
-            config-opts: "--enable-zmq --enable-glibc-back-compat LDFLAGS=-static-libstdc++"
+            dep-opts: ""
+            config-opts: "--with-gui=qt5 --enable-zmq --enable-glibc-back-compat LDFLAGS=-static-libstdc++"
             goal: install
           - name: x86_64-linux-nowallet
             host: x86_64-unknown-linux-gnu
