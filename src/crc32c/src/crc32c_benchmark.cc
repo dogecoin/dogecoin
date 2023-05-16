@@ -17,6 +17,7 @@
 
 #include "./crc32c_arm64.h"
 #include "./crc32c_arm64_linux_check.h"
+#include "./crc32c_arm64_check.h"
 #include "./crc32c_internal.h"
 #include "./crc32c_sse42.h"
 #include "./crc32c_sse42_check.h"
@@ -59,7 +60,7 @@ BENCHMARK_REGISTER_F(CRC32CBenchmark, Portable)
 #if HAVE_ARM64_CRC32C
 
 BENCHMARK_DEFINE_F(CRC32CBenchmark, ArmLinux)(benchmark::State& state) {
-  if (!crc32c::CanUseArm64Linux()) {
+  if (!crc32c::CanUseArm64Crc32()) {
     state.SkipWithError("ARM CRC32C instructions not available or not enabled");
     return;
   }

@@ -169,6 +169,7 @@ RES_ICONS = \
   qt/res/icons/address-book.png \
   qt/res/icons/bitcoin.ico \
   qt/res/icons/bitcoin_testnet.ico \
+  qt/res/icons/dogecoin.ico \
   qt/res/icons/bitcoin.png \
   qt/res/icons/chevron.png \
   qt/res/icons/clock1.png \
@@ -181,6 +182,7 @@ RES_ICONS = \
   qt/res/icons/connect2.png \
   qt/res/icons/connect3.png \
   qt/res/icons/connect4.png \
+  qt/res/icons/dogecoin.png \
   qt/res/icons/edit.png \
   qt/res/icons/editcopy.png \
   qt/res/icons/editpaste.png \
