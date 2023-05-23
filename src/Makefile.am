@@ -29,9 +29,10 @@ LIBDOGECOIN_COMMON=libdogecoin_common.a
 LIBDOGECOIN_CONSENSUS=libdogecoin_consensus.a
 LIBDOGECOIN_CLI=libdogecoin_cli.a
 LIBDOGECOIN_UTIL=libdogecoin_util.a
-LIBDOGECOIN_CRYPTO=crypto/libdogecoin_crypto.a
 LIBDOGECOIN_CRYPTO_SSE41=crypto/libdogecoin_crypto_sse41.a
 LIBDOGECOIN_CRYPTO_AVX2=crypto/libdogecoin_crypto_avx2.a
+LIBDOGECOIN_CRYPTO_BASE=crypto/libdogecoin_crypto_base.a
+LIBDOGECOIN_CRYPTO=$(LIBDOGECOIN_CRYPTO_BASE)
 LIBDOGECOINQT=qt/libdogecoinqt.a
 LIBSECP256K1=secp256k1/libsecp256k1.la
 
@@ -43,6 +44,10 @@ LIBDOGECOINCONSENSUS=libdogecoinconsensus.la
 endif
 if ENABLE_WALLET
 LIBDOGECOIN_WALLET=libdogecoin_wallet.a
+endif
+if USE_ARMV82
+LIBDOGECOIN_CRYPTO_ARMV82=crypto/libdogecoin_crypto_armv82.a
+LIBDOGECOIN_CRYPTO += $(LIBDOGECOIN_CRYPTO_ARMV82)
 endif
 
 $(LIBSECP256K1): $(wildcard secp256k1/src/*) $(wildcard secp256k1/include/*)
@@ -261,9 +266,9 @@ libdogecoin_wallet_a_SOURCES = \
   $(BITCOIN_CORE_H)
 
 # crypto primitives library
-crypto_libdogecoin_crypto_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_CONFIG_INCLUDES)
-crypto_libdogecoin_crypto_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS) $(ARM_CXXFLAGS)
-crypto_libdogecoin_crypto_a_SOURCES = \
+crypto_libdogecoin_crypto_base_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_CONFIG_INCLUDES)
+crypto_libdogecoin_crypto_base_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+crypto_libdogecoin_crypto_base_a_SOURCES = \
   crypto/aes.cpp \
   crypto/aes.h \
   crypto/chacha20.h \
@@ -286,11 +291,17 @@ crypto_libdogecoin_crypto_a_SOURCES = \
 
 # only include SSE2 scrypt sources if USE_SCRYPT_SSE2 is defined
 if USE_SCRYPT_SSE2
-crypto_libdogecoin_crypto_a_SOURCES += crypto/scrypt-sse2.cpp
+crypto_libdogecoin_crypto_base_a_SOURCES += crypto/scrypt-sse2.cpp
+endif
+
+# only include ARMv8.2 sha512 sources if USE_ARMV82 is defined
+if USE_ARMV82
+crypto_libdogecoin_crypto_armv82_a_CXXFLAGS = $(ARMV82_CXXFLAGS)
+crypto_libdogecoin_crypto_armv82_a_SOURCES = crypto/sha512-armv82.cpp
 endif
 
 if USE_ASM
-crypto_libdogecoin_crypto_a_SOURCES += crypto/sha256_sse4.cpp
+crypto_libdogecoin_crypto_base_a_SOURCES += crypto/sha256_sse4.cpp
 endif
 
 crypto_libdogecoin_crypto_sse41_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
@@ -488,7 +499,7 @@ dogecoin_tx_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS)
 # bitcoinconsensus library #
 if BUILD_BITCOIN_LIBS
 include_HEADERS = script/bitcoinconsensus.h
-libdogecoinconsensus_la_SOURCES = $(crypto_libdogecoin_crypto_a_SOURCES) $(libdogecoin_consensus_a_SOURCES)
+libdogecoinconsensus_la_SOURCES = $(crypto_libdogecoin_crypto_base_a_SOURCES) $(libdogecoin_consensus_a_SOURCES)
 
 if GLIBC_BACK_COMPAT
   libdogecoinconsensus_la_SOURCES += compat/glibc_compat.cpp
