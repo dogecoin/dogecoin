@@ -1,6 +1,6 @@
 // Copyright (c) 2010 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin Core developers
-// Copyright (c) 2022 The Dogecoin Core developers
+// Copyright (c) 2022-2023 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -25,7 +25,7 @@ public:
 };
 
 /**
- * Specifiy a (method, idx, name) here if the argument is a non-string RPC
+ * Specify a (method, idx, name) here if the argument is a non-string RPC
  * argument and needs to be converted from JSON.
  *
  * @note Parameter indexes start from 0.
@@ -128,6 +128,8 @@ static const CRPCConvertParam vRPCConvertParams[] =
     { "getmempooldescendants", 1, "verbose" },
     { "bumpfee", 1, "options" },
     { "setmaxconnections", 0, "maxconnectioncount" },
+    { "setdustlimits", 0, "softdustlimit" },
+    { "setdustlimits", 1, "harddustlimit" },
     { "rescan", 0, "height" },
     // Echo with conversion (For testing only)
     { "echojson", 0, "arg0" },
