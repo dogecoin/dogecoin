@@ -487,8 +487,10 @@ AX_GCC_FUNC_ATTRIBUTE([dllimport])
 if test x$use_glibc_compat != xno; then
 
   #glibc absorbed clock_gettime in 2.17. librt (its previous location) is safe to link
-  #in anyway for back-compat.
-  AC_CHECK_LIB([rt],[clock_gettime],, AC_MSG_ERROR(lib missing))
+  #in anyway for back-compat. Since gcc-9, we need to explicitly add lrt outside the
+  #scope of "as-needed" packages, so we disable it, add librt, and re-enable.
+  AX_CHECK_LINK_FLAG([[-Wl,-no-as-needed -Wl,-lrt -Wl,-as-needed]],
+         [COMPAT_LDFLAGS="$COMPAT_LDFLAGS -Wl,-no-as-needed -Wl,-lrt -Wl,-as-needed"])
 
   #__fdelt_chk's params and return type have changed from long unsigned int to long int.
   # See which one is present here.
