@@ -298,13 +298,7 @@ bool PaymentServer::ipcSendCommandLine()
     return fResult;
 }
 
-PaymentServer::PaymentServer(QObject* parent, bool startLocalServer) :
-    QObject(parent),
-    saveURIs(true),
-    uriServer(0),
-    netManager(0),
-    optionsModel(0)
-{
+void PaymentServer::initializeServer(QObject* parent, QString ipcServerName, bool startLocalServer) {
     // Verify that the version of the library that we linked against is
     // compatible with the version of the headers we compiled against.
     GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -315,13 +309,11 @@ PaymentServer::PaymentServer(QObject* parent, bool startLocalServer) :
     if (parent)
         parent->installEventFilter(this);
 
-    QString name = ipcServerName();
-
     if (startLocalServer)
     {
         uriServer = new QLocalServer(this);
 
-        if (!uriServer->listen(name)) {
+        if (!uriServer->listen(ipcServerName)) {
             // constructor is called early in init, so don't use "Q_EMIT message()" here
             QMessageBox::critical(0, tr("Payment request error"),
                 tr("Cannot start dogecoin: click-to-pay handler"));
@@ -331,6 +323,27 @@ PaymentServer::PaymentServer(QObject* parent, bool startLocalServer) :
             connect(this, SIGNAL(receivedPaymentACK(QString)), this, SLOT(handlePaymentACK(QString)));
         }
     }
+}
+
+PaymentServer::PaymentServer(QObject* parent, bool startLocalServer) :
+    QObject(parent),
+    saveURIs(true),
+    uriServer(0),
+    netManager(0),
+    optionsModel(0)
+{
+    this->initializeServer(parent, ipcServerName(), startLocalServer);
+}
+
+
+PaymentServer::PaymentServer(QObject* parent, QString ipcServerName, bool startLocalServer) :
+    QObject(parent),
+    saveURIs(true),
+    uriServer(0),
+    netManager(0),
+    optionsModel(0)
+{
+    this->initializeServer(parent, ipcServerName, startLocalServer);
 }
 
 PaymentServer::~PaymentServer()

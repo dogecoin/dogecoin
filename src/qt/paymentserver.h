@@ -73,6 +73,7 @@ public:
 
     // parent should be QApplication object
     PaymentServer(QObject* parent, bool startLocalServer = true);
+    PaymentServer(QObject* parent, QString ipcServerName, bool startLocalServer = true);
     ~PaymentServer();
 
     // Load root certificate authorities. Pass NULL (default)
@@ -138,6 +139,8 @@ private:
     void initNetManager();
 
     bool saveURIs;                      // true during startup
+
+    void initializeServer(QObject* parent, QString ipcServerName, bool startLocalServer);
     QLocalServer* uriServer;
 
     QNetworkAccessManager* netManager;  // Used to fetch payment requests
