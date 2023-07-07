@@ -225,16 +225,17 @@ UniValue importaddress(const JSONRPCRequest& request)
 {
     if (!EnsureWalletIsAvailable(request.fHelp))
         return NullUniValue;
-    
-    if (request.fHelp || request.params.size() < 1 || request.params.size() > 4)
+
+    if (request.fHelp || request.params.size() < 1 || request.params.size() > 5)
         throw runtime_error(
-            "importaddress \"address\" ( \"label\" rescan p2sh )\n"
+            "importaddress \"address\" ( \"label\" rescan p2sh height )\n"
             "\nAdds a script (in hex) or address that can be watched as if it were in your wallet but cannot be used to spend.\n"
             "\nArguments:\n"
             "1. \"script\"           (string, required) The hex-encoded script (or address)\n"
             "2. \"label\"            (string, optional, default=\"\") An optional label\n"
             "3. rescan               (boolean, optional, default=true) Rescan the wallet for transactions\n"
             "4. p2sh                 (boolean, optional, default=false) Add the P2SH version of the script as well\n"
+            "5. height               (numeric, optional, default=1) If rescanning, the block height from which to start\n"
             "\nNote: This call can take minutes to complete if rescan is true.\n"
             "If you have the full public key, you should call importpubkey instead of this.\n"
             "\nNote: If you import a non-standard raw script in hex form, outputs sending to it will be treated\n"
@@ -244,6 +245,8 @@ UniValue importaddress(const JSONRPCRequest& request)
             + HelpExampleCli("importaddress", "\"myscript\"") +
             "\nImport using a label without rescan\n"
             + HelpExampleCli("importaddress", "\"myscript\" \"testing\" false") +
+            "\nImport a script with rescan from a specific height\n"
+            + HelpExampleCli("importaddress", "\"myscript\" \"testing\" true false 32768") +
             "\nAs a JSON-RPC call\n"
             + HelpExampleRpc("importaddress", "\"myscript\", \"testing\", false")
         );
@@ -280,10 +283,9 @@ UniValue importaddress(const JSONRPCRequest& request)
         throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Dogecoin address or script");
     }
 
-    if (fRescan)
-    {
-        pwalletMain->ScanForWalletTransactions(chainActive.Genesis(), true);
-        pwalletMain->ReacceptWalletTransactions();
+    if (fRescan) {
+        const uint32_t nHeight = getHeightParamFromRequest(request, 4);
+        attemptRescanFromHeight(nHeight);
     }
 
     return NullUniValue;

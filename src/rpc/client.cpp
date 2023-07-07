@@ -106,6 +106,7 @@ static const CRPCConvertParam vRPCConvertParams[] =
     { "importprivkey", 3, "height" },
     { "importaddress", 2, "rescan" },
     { "importaddress", 3, "p2sh" },
+    { "importaddress", 4, "height" },
     { "importpubkey", 2, "rescan" },
     { "importpubkey", 3, "height" },
     { "importmulti", 0, "requests" },
