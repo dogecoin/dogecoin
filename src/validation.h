@@ -37,6 +37,7 @@
 class CBlockIndex;
 class CBlockTreeDB;
 class CBloomFilter;
+class CBlockUndo;
 class CChainParams;
 class CInv;
 class CConnman;
@@ -485,6 +486,8 @@ bool WriteBlockToDisk(const CBlock& block, CDiskBlockPos& pos, const CMessageHea
 bool ReadBlockFromDisk(CBlock& block, const CDiskBlockPos& pos, const Consensus::Params& consensusParams, bool fCheckPOW = true);
 bool ReadBlockFromDisk(CBlock& block, const CBlockIndex* pindex, const Consensus::Params& consensusParams, bool fCheckPOW = true);
 bool ReadBlockHeaderFromDisk(CBlockHeader& block, const CBlockIndex* pindex, const Consensus::Params& consensusParams, bool fCheckPOW = true);
+
+bool UndoReadFromDisk(CBlockUndo& blockundo, const CDiskBlockPos& pos, const uint256& hashBlock);
 
 /** Functions for validating blocks and updating the block tree */
 
