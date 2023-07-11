@@ -950,6 +950,53 @@ UniValue gettxoutsetinfo(const JSONRPCRequest& request)
     return ret;
 }
 
+UniValue getblockchainstats(const JSONRPCRequest& request)
+{
+    if (request.fHelp || request.params.size() > 1)
+        throw runtime_error(
+            "getblockchainstats\n"
+            "\nReturns statistics about the entire blockchain.\n"
+            "Note this call may take some time.\n"
+            "This call may also return incomplete results unless run on a full and fully-synced node.\n"
+            "\nArguments:\n"
+            "1. \"count\"       (numeric, optional, default=1000) The number of blocks to analyze, from the current tip.\n"
+            "\nResult:\n"
+            "{\n"
+            "  \"height\":n,     (numeric) The current block height (index)\n"
+            "  \"bestblockhash\": \"hex\",   (string) the best block hash hex\n"
+            "  \"transactions\": n,      (numeric) The number of transactions\n"
+            "  \"count\": n,      (numeric) The number of blocks counted (matches the count argument)\n"
+            "}\n"
+            "\nExamples:\n"
+            + HelpExampleCli("getblockchainstats", "")
+            + HelpExampleRpc("getblockchainstats", "")
+        );
+
+    UniValue ret(UniValue::VOBJ);
+
+    FlushStateToDisk();
+    ret.pushKV("height", (int64_t)chainActive.Height());
+    ret.pushKV("bestblockhash", chainActive.Tip()->GetBlockHash().GetHex());
+
+    int64_t nTransactions = 0;
+    int count = 1000;
+    int i = 1;
+
+    if (request.params.size() > 0)
+        count = request.params[0].get_int();
+
+    for (CBlockIndex* pindex = chainActive.Tip(); i < count && pindex && pindex->pprev; pindex = pindex->pprev)
+    {
+        nTransactions += pindex->nTx;
+        i++;
+    }
+
+    ret.pushKV("transactions", nTransactions);
+    ret.pushKV("count", (int64_t)i);
+
+    return ret;
+}
+
 UniValue gettxout(const JSONRPCRequest& request)
 {
     if (request.fHelp || request.params.size() < 2 || request.params.size() > 3)
@@ -1266,7 +1313,7 @@ UniValue getchaintips(const JSONRPCRequest& request)
     LOCK(cs_main);
 
     /*
-     * Idea:  the set of chain tips is chainActive.tip, plus orphan blocks which do not have another orphan building off of them. 
+     * Idea:  the set of chain tips is chainActive.tip, plus orphan blocks which do not have another orphan building off of them.
      * Algorithm:
      *  - Make one pass through mapBlockIndex, picking out the orphan blocks, and also storing a set of the orphan block's pprev pointers.
      *  - Iterate through the orphan blocks. If the block isn't pointed to by another orphan, it is a chain tip.
@@ -1488,6 +1535,7 @@ static const CRPCCommand commands[] =
     { "blockchain",         "getbestblockhash",       &getbestblockhash,       true,  {} },
     { "blockchain",         "getblockcount",          &getblockcount,          true,  {} },
     { "blockchain",         "getblock",               &getblock,               true,  {"blockhash","verbose"} },
+    { "blockchain",         "getblockchainstats",     &getblockchainstats,     true,  {"count"} },
     { "blockchain",         "getblockhash",           &getblockhash,           true,  {"height"} },
     { "blockchain",         "getblockheader",         &getblockheader,         true,  {"blockhash","verbose"} },
     { "blockchain",         "getchaintips",           &getchaintips,           true,  {} },
