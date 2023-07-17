@@ -32,7 +32,6 @@
 #include <utility>
 #include <vector>
 
-#include <boost/shared_ptr.hpp>
 #include <boost/thread.hpp>
 
 extern CWallet* pwalletMain;
@@ -878,7 +877,7 @@ public:
 
     void UpdatedTransaction(const uint256 &hashTx) override;
 
-    void GetScriptForMining(boost::shared_ptr<CReserveScript> &script) override;
+    void GetScriptForMining(std::shared_ptr<CReserveScript> &script) override;
 
     unsigned int GetKeyPoolSize()
     {
