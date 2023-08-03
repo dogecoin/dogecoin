@@ -779,8 +779,6 @@ UniValue getblock(const JSONRPCRequest& request)
             + HelpExampleRpc("getblock", "\"00000000c937983704a73af28acdec37b049d214adbda81d7e2a3dd146f6ed09\"")
         );
 
-    LOCK(cs_main);
-
     std::string strHash = request.params[0].get_str();
     uint256 hash(uint256S(strHash));
 
@@ -793,22 +791,27 @@ UniValue getblock(const JSONRPCRequest& request)
         }
     }
 
-    if (mapBlockIndex.count(hash) == 0)
-        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Block not found");
-
     CBlock block;
-    CBlockIndex* pblockindex = mapBlockIndex[hash];
+    const CBlockIndex* pblockindex;
+    {
+        LOCK(cs_main);
 
-    if (fHavePruned && !(pblockindex->nStatus & BLOCK_HAVE_DATA) && pblockindex->nTx > 0)
-        throw JSONRPCError(RPC_MISC_ERROR, "Block not available (pruned data)");
+        if (mapBlockIndex.count(hash) == 0)
+            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Block not found");
 
-    if (!ReadBlockFromDisk(block, pblockindex, Params().GetConsensus(pblockindex->nHeight)))
-        // Block not found on disk. This could be because we have the block
-        // header in our index but don't have the block (for example if a
-        // non-whitelisted node sends us an unrequested long chain of valid
-        // blocks, we add the headers to our index, but don't accept the
-        // block).
-        throw JSONRPCError(RPC_MISC_ERROR, "Block not found on disk");
+        pblockindex = mapBlockIndex[hash];
+
+        if (fHavePruned && !(pblockindex->nStatus & BLOCK_HAVE_DATA) && pblockindex->nTx > 0)
+            throw JSONRPCError(RPC_MISC_ERROR, "Block not available (pruned data)");
+
+        if (!ReadBlockFromDisk(block, pblockindex, Params().GetConsensus(pblockindex->nHeight)))
+            // Block not found on disk. This could be because we have the block
+            // header in our index but don't have the block (for example if a
+            // non-whitelisted node sends us an unrequested long chain of valid
+            // blocks, we add the headers to our index, but don't accept the
+            // block).
+            throw JSONRPCError(RPC_MISC_ERROR, "Block not found on disk");
+    }
 
     if (verbosity <= 0)
     {
