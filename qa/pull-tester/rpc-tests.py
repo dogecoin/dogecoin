@@ -174,6 +174,7 @@ testScripts = [
     'rescan.py',
     'wallet_create_tx.py',
     'liststucktransactions.py',
+    'getblock.py',
     'addnode.py',
 ]
 if ENABLE_ZMQ:
