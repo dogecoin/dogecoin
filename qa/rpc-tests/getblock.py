@@ -126,15 +126,19 @@ class GetBlockTest(BitcoinTestFramework):
         data_0 = self.get_block_data(0)
         data_1 = self.get_block_data(1)
         data_2 = self.get_block_data(2)
+        data_true = self.get_block_data(True)
+        data_false = self.get_block_data(False)
 
-        # Test verbosity 1 and 2 heights
+        # Test verbosity 1 (true) and 2 heights
         assert_equal(data_1[0]['height'], self.start_height)
         assert_equal(data_1[self.max_stat_pos]['height'], self.start_height + self.max_stat_pos)
         assert_equal(data_2[0]['height'], self.start_height)
         assert_equal(data_2[self.max_stat_pos]['height'], self.start_height + self.max_stat_pos)
+        assert_equal(data_true[0]['height'], self.start_height)
+        assert_equal(data_true[self.max_stat_pos]['height'], self.start_height + self.max_stat_pos)
 
         for i in range(self.max_stat_pos+1):
-            # Make sure all valid data is included but nothing else is (only for verbosity 1, 2)
+            # Make sure all valid data is included but nothing else is (only for verbosity 1 and 2)
             expected_keys_1 = self.expected_data_1[i].keys()
             assert_equal(set(data_1[i].keys()), set(expected_keys_1))
             expected_keys_2 = self.expected_data_2[i].keys()
@@ -144,6 +148,10 @@ class GetBlockTest(BitcoinTestFramework):
             assert_equal(data_0[i], self.expected_data_0[i])
             assert_equal(data_1[i], self.expected_data_1[i])
             assert_equal(data_2[i], self.expected_data_2[i])
+
+            # Test backward-compatibility (0=false, 1=true)
+            assert_equal(data_0[i], data_false[i])
+            assert_equal(data_1[i], data_true[i])
 
         # Test invalid parameters
         assert_raises_jsonrpc(-5, 'Block not found', self.nodes[0].getblock,
