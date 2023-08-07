@@ -373,16 +373,25 @@ case $host in
          dnl the user (--without-wallet or --without-gui for example).
 
          openssl_prefix=`$BREW --prefix openssl 2>/dev/null`
-         bdb_prefix=`$BREW --prefix berkeley-db 2>/dev/null`
          qt5_prefix=`$BREW --prefix qt5 2>/dev/null`
          if test x$openssl_prefix != x; then
            PKG_CONFIG_PATH="$openssl_prefix/lib/pkgconfig:$PKG_CONFIG_PATH"
            export PKG_CONFIG_PATH
          fi
-         if test x$bdb_prefix != x; then
-           CPPFLAGS="$CPPFLAGS -I$bdb_prefix/include"
-           LIBS="$LIBS -L$bdb_prefix/lib"
+
+         dnl test brew installed bdb if no BDB_CFLAGS or BDB_LIBS was given.
+         dnl currently tests, in order, for 5.x, 4.x and the default version
+         if test x$BDB_CFLAGS = x && test x$BDB_LIBS = x; then
+           for brew_bdb_version in '@5' '@4' ''; do
+             bdb_prefix=`$BREW --prefix berkeley-db${brew_bdb_version} 2>/dev/null`
+             if test x$bdb_prefix != x && test -d $bdb_prefix; then
+               BDB_CFLAGS="-I$bdb_prefix/include"
+               BDB_LIBS="-L$bdb_prefix/lib -ldb_cxx"
+               break
+             fi
+           done
          fi
+
          if test x$qt5_prefix != x; then
            PKG_CONFIG_PATH="$qt5_prefix/lib/pkgconfig:$PKG_CONFIG_PATH"
            export PKG_CONFIG_PATH
