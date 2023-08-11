@@ -9,8 +9,6 @@
 
 #include <stdio.h>
 
-#include <boost/foreach.hpp>
-#include <boost/thread.hpp>
 #include <thread>
 #include <unordered_map>
 #include <utility>
@@ -86,7 +84,7 @@ static void potential_deadlock_detected(const LockPair& mismatch, const LockStac
 {
     LogPrintf("POTENTIAL DEADLOCK DETECTED\n");
     LogPrintf("Previous lock order was:\n");
-    BOOST_FOREACH (const LockStackItem& i, s2) {
+    for (const LockStackItem& i : s2) {
         if (i.first == mismatch.first) {
             LogPrintf(" (1)");
         }
@@ -96,7 +94,7 @@ static void potential_deadlock_detected(const LockPair& mismatch, const LockStac
         LogPrintf(" %s\n", i.second.ToString());
     }
     LogPrintf("Current lock order is:\n");
-    BOOST_FOREACH (const LockStackItem& i, s1) {
+    for (const LockStackItem& i : s1) {
         if (i.first == mismatch.first) {
             LogPrintf(" (1)");
         }
@@ -116,7 +114,7 @@ static void push_lock(void* c, const CLockLocation& locklocation, bool fTry)
     LockStack& lock_stack = lockdata.m_lock_stacks[std::this_thread::get_id()];
     lock_stack.emplace_back(c, locklocation);
 
-    BOOST_FOREACH (const LockStackItem& i, lock_stack) {
+    for (const LockStackItem& i : lock_stack) {
         if (i.first == c)
             break;
 
