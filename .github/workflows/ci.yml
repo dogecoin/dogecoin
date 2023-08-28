@@ -23,7 +23,7 @@ jobs:
       PYTHON_DEBUG: "1"
       CACHE_NONCE: "1"
       WINEDEBUG: fixme-all
-      SDK_URL: https://depends.dogecoincore.org
+      SDK_URL: https://depends.pepecoincore.org
 
     strategy:
       fail-fast: false
@@ -235,7 +235,7 @@ jobs:
           path: ~/.ccache
           key: ${{ matrix.name }}-${{ env.cache-name }}-${{ hashFiles('**/configure.ac', '.github/workflows/ci.yml') }}
 
-      - name: Build Dogecoin
+      - name: Build Pepecoin
         run: |
           depends/${{ matrix.host }}/native/bin/ccache --max-size=$CCACHE_SIZE
           ./autogen.sh
@@ -245,7 +245,7 @@ jobs:
       - name: Run benchmark
         if: ${{ matrix.run-bench }}
         run: |
-          src/bench/bench_dogecoin > ${{ matrix.name }}-bench.csv
+          src/bench/bench_pepecoin > ${{ matrix.name }}-bench.csv
           cat ${{ matrix.name }}-bench.csv
 
       - name: Run tests
@@ -266,8 +266,8 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: dogecoin-${{ github.sha }}-${{ matrix.name }}
+          name: pepecoin-${{ github.sha }}-${{ matrix.name }}
           path: |
-            depends/${{ matrix.host }}/bin/dogecoin*
-            dist/Dogecoin-Qt.app
+            depends/${{ matrix.host }}/bin/pepecoin*
+            dist/Pepecoin-Qt.app
             ${{ matrix.name }}-bench.csv

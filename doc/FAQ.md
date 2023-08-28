@@ -1,6 +1,6 @@
 ## Very Much Frequently Asked Questions ❓
 
-### How much doge can exist? – So many puppies! 🐕
+### How much Pepecoin can exist?
 Early 2015 (approximately a year and a half after release) there were
 approximately 100,000,000,000 coins.
 Each subsequent block will grant 10,000 coins to encourage miners to continue to
@@ -8,13 +8,13 @@ secure the network and make up for lost wallets on hard drives/phones/lost
 encryption passwords/etc.
 
 
-### Such mining information ⛏
+### Mining information ⛏
 
-Dogecoin uses a simplified variant of the scrypt key derivation function as its
+Pepecoin uses a simplified variant of the scrypt key derivation function as its
 proof of work with a target time of one minute per block and difficulty
 readjustment after every block. The block rewards are fixed and halve every
 100,000 blocks. Starting with the 600,000th block, a permanent reward of
-10,000 Dogecoin per block will be issued.
+10,000 Pepecoin per block will be issued.
 
 Originally, a different payout scheme was envisioned with block rewards being
 determined by taking the maximum reward as per the block schedule and applying
@@ -29,7 +29,7 @@ lessen the impact of sudden increases and decreases of network hashing rate.
 
 **The current block reward schedule:**
 
-| Block                | Reward in Dogecoin |
+| Block                | Reward in Pepecoin |
 | :------------------- | -----------------: |
 | 1–99,999             |        0–1,000,000 |
 | 100,000–144,999      |          0–500,000 |
@@ -43,7 +43,7 @@ lessen the impact of sudden increases and decreases of network hashing rate.
 **The original block reward schedule, with one-minute block targets and
 four-hour difficulty readjustment:**
 
-| Block                | Reward in Dogecoin |
+| Block                | Reward in Pepecoin |
 | :------------------- | -----------------: |
 | 1–99,999             |        0–1,000,000 |
 | 100,000–199,999      |          0–500,000 |

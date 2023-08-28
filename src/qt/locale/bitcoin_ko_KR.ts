@@ -91,19 +91,19 @@
         <translation>선택(&amp;H)</translation>
     </message>
     <message>
-        <source>Such sending addresses</source>
+        <source>Sending addresses</source>
         <translation>보내는 주소들</translation>
     </message>
     <message>
-        <source>Much receiving addresses</source>
+        <source>Receiving addresses</source>
         <translation>받는 주소들</translation>
     </message>
     <message>
-        <source>These are your Dogecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <source>These are your Pepecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
         <translation>도지코인을 보내는 계좌 주소입니다. 코인을 보내기 전에 잔고와 받는 주소를 항상 확인하세요.</translation>
     </message>
     <message>
-        <source>These are your Dogecoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
+        <source>These are your Pepecoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
         <translation>지불액을 받기 위한 도지코인 주소들이 있습니다. 각 거래마다 새로운 주소 사용을 권장합니다.</translation>
     </message>
     <message>
@@ -205,7 +205,7 @@
         <translation>지갑 암호화 확인</translation>
     </message>
     <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DOGECOINS&lt;/b&gt;!</source>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR PEPECOINS&lt;/b&gt;!</source>
         <translation>경고: 만약 암호화된 지갑의 비밀번호를 잃어버릴 경우, &lt;b&gt;모든 도지코인을 잃어버릴 수 있습니다&lt;/b&gt;!</translation>
     </message>
     <message>
@@ -217,7 +217,7 @@
         <translation>지갑 암호화 완료</translation>
     </message>
     <message>
-        <source>%1 will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your dogecoins from being stolen by malware infecting your computer.</source>
+        <source>%1 will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your pepecoins from being stolen by malware infecting your computer.</source>
         <translation>암호화 처리 과정을 끝내기 위해 %1 을/를 종료합니다. 지갑 암호화는 컴퓨터를 감염시키는 악성 코드로 인해 도지코인 도난당하는 것을 온전히 보호할 수 없습니다.</translation>
     </message>
     <message>
@@ -343,11 +343,11 @@
         <translation>비밀번호 변경(&amp;C)...</translation>
     </message>
     <message>
-        <source>&amp;Such sending addresses...</source>
+        <source>&amp;Sending addresses...</source>
         <translation>보내는 주소(&amp;S)</translation>
     </message>
     <message>
-        <source>&amp;Much receiving addresses...</source>
+        <source>&amp;Receiving addresses...</source>
         <translation>받는 주소(&amp;R)</translation>
     </message>
     <message>
@@ -375,7 +375,7 @@
         <translation>디스크에서 블록 다시 색인 중...</translation>
     </message>
     <message>
-        <source>Send coins to a Dogecoin address</source>
+        <source>Send coins to a Pepecoin address</source>
         <translation>도지코인 주소로 코인 보내기</translation>
     </message>
     <message>
@@ -399,7 +399,7 @@
         <translation>메시지 확인(&amp;V)...</translation>
     </message>
     <message>
-        <source>Dogecoin</source>
+        <source>Pepecoin</source>
         <translation>도지코인</translation>
     </message>
     <message>
@@ -427,11 +427,11 @@
         <translation>지갑에 포함된 개인 키 암호화하기</translation>
     </message>
     <message>
-        <source>Sign messages with your Dogecoin addresses to prove you own them</source>
+        <source>Sign messages with your Pepecoin addresses to prove you own them</source>
         <translation>도지코인 주소로 메시지에 서명하여 소유함을 증명하기</translation>
     </message>
     <message>
-        <source>Verify messages to ensure they were signed with specified Dogecoin addresses</source>
+        <source>Verify messages to ensure they were signed with specified Pepecoin addresses</source>
         <translation>지정된 도지코인 주소로 메시지가 서명되었는지 확인하기</translation>
     </message>
     <message>
@@ -451,8 +451,8 @@
         <translation>툴바 색인표</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and dogecoin: URIs)</source>
-        <translation>지불 요청하기(QR 코드와 dogecoin: URI 생성)</translation>
+        <source>Request payments (generates QR codes and pepecoin: URIs)</source>
+        <translation>지불 요청하기(QR 코드와 pepecoin: URI 생성)</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -463,15 +463,15 @@
         <translation>한 번 이상 사용된 받는 주소와 라벨의 목록 보기</translation>
     </message>
     <message>
-        <source>Open a dogecoin: URI or payment request</source>
-        <translation>dogecoin: URI 또는 지불 요청 열기</translation>
+        <source>Open a pepecoin: URI or payment request</source>
+        <translation>pepecoin: URI 또는 지불 요청 열기</translation>
     </message>
     <message>
         <source>&amp;Command-line options</source>
         <translation>커맨드라인 옵션(&amp;C)</translation>
     </message>
     <message numerus="yes">
-        <source>%n active connection(s) to Dogecoin network</source>
+        <source>%n active connection(s) to Pepecoin network</source>
         <translation>
             <numerusform>도지코인 네트워크에 %n 개의 연결이 활성화되어 있음</numerusform>
         </translation>
@@ -519,7 +519,7 @@
         <translation>최신 정보</translation>
     </message>
     <message>
-        <source>Show the %1 help message to get a list with possible Dogecoin command-line options</source>
+        <source>Show the %1 help message to get a list with possible Pepecoin command-line options</source>
         <translation>사용할 수 있는 도지코인 커맨드라인 옵션 목록을 가져오기 위해 %1 도움말 메시지 표시하기</translation>
     </message>
     <message>
@@ -601,7 +601,7 @@
         <translation>개인 키 가져오기(&amp;I)</translation>
     </message>
     <message>
-        <source>Import a Dogecoin private key</source>
+        <source>Import a Pepecoin private key</source>
         <translation>도지코인 개인 키 가져오기</translation>
     </message>
     <message>
@@ -609,7 +609,7 @@
         <translation>러너웨이 예외</translation>
     </message>
     <message>
-        <source>A fatal error occurred. Dogecoin can no longer continue safely and will quit.</source>
+        <source>A fatal error occurred. Pepecoin can no longer continue safely and will quit.</source>
         <translation>치명 에러 발생. 도지코인 안전한 작동이 어려우며 종료 예정입니다</translation>
     </message>
 </context>
@@ -814,7 +814,7 @@
         <translation>보내는 주소 편집</translation>
     </message>
     <message>
-        <source>The entered address &quot;%1&quot; is not a valid Dogecoin address.</source>
+        <source>The entered address &quot;%1&quot; is not a valid Pepecoin address.</source>
         <translation>입력한 &quot;%1&quot; 주소는 올바른 도지코인 주소가 아닙니다.</translation>
     </message>
     <message>
@@ -990,7 +990,7 @@
         <translation>프로그램이 처음 실행되는 것이므로, %1 이/가 데이터를 저장할 위치를 선택할 수 있습니다.</translation>
     </message>
     <message>
-        <source>%1 will download and store a copy of the Dogecoin block chain. At least %2GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
+        <source>%1 will download and store a copy of the Pepecoin block chain. At least %2GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
         <translation>%1 은/는 도지코인 블록 체인의 복사본을 다운로드하고 저장합니다. 최소한 %2GB 의 데이터가 이 폴더에 저장되며, 시간이 지남에 따라 증가합니다. 지갑도 이 폴더에 저장됩니다.</translation>
     </message>
     <message>
@@ -1033,7 +1033,7 @@
         <translation>유형</translation>
     </message>
     <message>
-        <source>Attempting to spend dogecoins that are affected by not-yet-displayed transactions will not be accepted by the network.</source>
+        <source>Attempting to spend pepecoins that are affected by not-yet-displayed transactions will not be accepted by the network.</source>
         <translation>아직 표시되지 않은 거래의 영향을 받는 도지코인을 사용하려고 하는 것은 네트워크에서 허용되지 않습니다.</translation>
     </message>
     <message>
@@ -1073,7 +1073,7 @@
         <translation>알 수 없음. 헤더 동기화 중(%1)...</translation>
     </message>
     <message>
-        <source>Recent transactions may not yet be visible, and therefore your wallet&apos;s balance might be incorrect. This information will be correct once your wallet has finished synchronizing with the dogecoin network, as detailed below.</source>
+        <source>Recent transactions may not yet be visible, and therefore your wallet&apos;s balance might be incorrect. This information will be correct once your wallet has finished synchronizing with the pepecoin network, as detailed below.</source>
         <translation>최근 거래가 아직 표시되지 않을 수 있으므로 지갑 잔액이 정확하지 않을 수 있습니다. 이 정보는 아래에 자세히 설명된 대로 지갑이 도지코인 네트워크와 동기화를 완료하면 고쳐질것 입니다.</translation>
     </message>
 </context>
@@ -1195,7 +1195,7 @@
         <translation>검증되지 않은 잔돈 쓰기(&amp;S)</translation>
     </message>
     <message>
-        <source>Automatically open the Dogecoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <source>Automatically open the Pepecoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
         <translation>라우터에서 도지코인 클라이언트 포트를 자동적으로 엽니다. 라우터에서 UPnP를 지원하고 활성화했을 경우에만 동작합니다.</translation>
     </message>
     <message>
@@ -1203,7 +1203,7 @@
         <translation>사용 중인 &amp;UPnP 포트 매핑</translation>
     </message>
     <message>
-        <source>Connect to the Dogecoin network through a SOCKS5 proxy.</source>
+        <source>Connect to the Pepecoin network through a SOCKS5 proxy.</source>
         <translation>SOCKS5 프록시를 통해 도지코인 네트워크에 연결합니다.</translation>
     </message>
     <message>
@@ -1243,7 +1243,7 @@
         <translation>Tor</translation>
     </message>
     <message>
-        <source>Connect to the Dogecoin network through a separate SOCKS5 proxy for Tor hidden services.</source>
+        <source>Connect to the Pepecoin network through a separate SOCKS5 proxy for Tor hidden services.</source>
         <translation>Tor 히든 서비스를 위한 별도의 SOCKS5 프록시를 통해 도지코인 네트워크에 연결합니다.</translation>
     </message>
     <message>
@@ -1358,7 +1358,7 @@
         <translation>유형</translation>
     </message>
     <message>
-        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Dogecoin network after a connection is established, but this process has not completed yet.</source>
+        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Pepecoin network after a connection is established, but this process has not completed yet.</source>
         <translation>표시된 정보가 오래된 것 같습니다. 도지코인 네트워크에 연결하고 난 다음에 지갑을 자동으로 동기화하지만, 아직 프로세스가 완료되지 않았습니다.</translation>
     </message>
     <message>
@@ -1466,11 +1466,11 @@
         <translation type="vanished">개인 키를 소유한 사람이 코인을 소유합니다.</translation>
     </message>
     <message>
-        <source>To see ongoing development and contribute, checkout Dogecoin repository on GitHub!</source>
+        <source>To see ongoing development and contribute, checkout Pepecoin repository on GitHub!</source>
         <translation type="vanished">진행 중인 개발을 확인하고 기여하려면 GitHub에서 도지코인 저장소를 확인하세요!</translation>
     </message>
     <message>
-        <source>Services that claim to double your dogecoins are always ponzi schemes</source>
+        <source>Services that claim to double your pepecoins are always ponzi schemes</source>
         <translation>도지코인을 두 배로 늘리는 서비스는 항상 폰지 사기입니다.</translation>
     </message>
     <message>
@@ -1494,7 +1494,7 @@
         <translation>개인 키를 가지는 자는, 코인을 가진다</translation>
     </message>
     <message>
-        <source>To see ongoing development and contribute, check out the Dogecoin Core repository on GitHub</source>
+        <source>To see ongoing development and contribute, check out the Pepecoin Core repository on GitHub</source>
         <translation>진행 중인 개발을 확인하고 기여하려면 GitHub에서 도지코인 저장소를 확인하세요!</translation>
     </message>
 </context>
@@ -1613,7 +1613,7 @@ p, li { white-space: pre-wrap; }
         <translation>종이 지갑 불러오기</translation>
     </message>
     <message>
-        <source>The paper wallet printing process has begun.&lt;br/&gt;Please wait for the wallets to print completely and verify that everything printed correctly.&lt;br/&gt;Check for misalignments, ink bleeding, smears, or anything else that could make the private keys unreadable.&lt;br/&gt;Now, enter the number of DOGE you wish to send to each wallet:</source>
+        <source>The paper wallet printing process has begun.&lt;br/&gt;Please wait for the wallets to print completely and verify that everything printed correctly.&lt;br/&gt;Check for misalignments, ink bleeding, smears, or anything else that could make the private keys unreadable.&lt;br/&gt;Now, enter the number of PEPE you wish to send to each wallet:</source>
         <translation>종이 지갑 인쇄 프로세스가 시작되었습니다.&lt;br/&gt;지갑이 완전히 인쇄될 때까지 기다렸다가 모든 것이 올바르게 인쇄되었는지 확인하십시오.&lt;br/&gt;개인 키를 읽을 수 없게 잉크가 새거나, 오정렬, 번짐 또는 기타 문제를 일으킬 수 있는 사항이 없는지 확인하십시오.&lt;br/&gt;이제 각 지갑에 보낼 DOGE 갯수를 입력하세요.</translation>
     </message>
     <message>
@@ -1684,8 +1684,8 @@ p, li { white-space: pre-wrap; }
         <translation>지불 요청 오류</translation>
     </message>
     <message>
-        <source>Cannot start dogecoin: click-to-pay handler</source>
-        <translation>dogecoin: click-to-pay 핸들러를 시작할 수 없음</translation>
+        <source>Cannot start pepecoin: click-to-pay handler</source>
+        <translation>pepecoin: click-to-pay 핸들러를 시작할 수 없음</translation>
     </message>
     <message>
         <source>URI handling</source>
@@ -1760,7 +1760,7 @@ p, li { white-space: pre-wrap; }
         <translation>지불이 승인됨</translation>
     </message>
     <message>
-        <source>URI cannot be parsed! This can be caused by an invalid Dogecoin address or malformed URI parameters.</source>
+        <source>URI cannot be parsed! This can be caused by an invalid Pepecoin address or malformed URI parameters.</source>
         <translation>URI를 구문 분석할 수 없습니다! 이는 잘못된 도지코인 주소 또는 형식이 잘못된 URI 매개변수로 인해 발생할 수 있습니다.</translation>
     </message>
     <message>
@@ -1837,7 +1837,7 @@ p, li { white-space: pre-wrap; }
         <translation>거래액</translation>
     </message>
     <message>
-        <source>Enter a Dogecoin address (e.g. %1)</source>
+        <source>Enter a Pepecoin address (e.g. %1)</source>
         <translation>도지코인 주소 입력하기(예: %1)</translation>
     </message>
     <message>
@@ -2329,7 +2329,7 @@ p, li { white-space: pre-wrap; }
         <translation>현재의 받는 주소 재사용하기(&amp;E) (권장하지 않습니다)</translation>
     </message>
     <message>
-        <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Dogecoin network.</source>
+        <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Pepecoin network.</source>
         <translation>지불 요청에 첨부되는 메시지이며 선택 사항입니다. 이 메세지는 요청이 열릴 때 표시됩니다. 참고: 이 메시지는 도지코인 네트워크로 전송되지 않습니다.</translation>
     </message>
     <message>
@@ -2558,7 +2558,7 @@ p, li { white-space: pre-wrap; }
         <translation>최소 수수료</translation>
     </message>
     <message>
-        <source>Paying only the minimum fee is just fine as long as there is less transaction volume than space in the blocks. But be aware that this can end up in a never confirming transaction once there is more demand for dogecoin transactions than the network can process.</source>
+        <source>Paying only the minimum fee is just fine as long as there is less transaction volume than space in the blocks. But be aware that this can end up in a never confirming transaction once there is more demand for pepecoin transactions than the network can process.</source>
         <translation>블록의 용량보다 거래의 볼륨이 적은 경우에는 최소한의 수수료만으로도 충분합니다. 그러나 도지코인 네트워크의 처리량보다 더 많은 거래 요구가 있다면 영원히 검증이 안된 거래로 남을 수도 있습니다.</translation>
     </message>
     <message>
@@ -2738,7 +2738,7 @@ p, li { white-space: pre-wrap; }
         <translation>높음</translation>
     </message>
     <message>
-        <source>Warning: Invalid Dogecoin address</source>
+        <source>Warning: Invalid Pepecoin address</source>
         <translation>경고: 올바르지 않은 도지코인 주소</translation>
     </message>
     <message>
@@ -2769,7 +2769,7 @@ p, li { white-space: pre-wrap; }
         <translation>이것은 정상적인 지불입니다.</translation>
     </message>
     <message>
-        <source>The Dogecoin address to send the payment to</source>
+        <source>The Pepecoin address to send the payment to</source>
         <translation>지불을 보낼 도지코인 주소</translation>
     </message>
     <message>
@@ -2789,7 +2789,7 @@ p, li { white-space: pre-wrap; }
         <translation>항목 지우기</translation>
     </message>
     <message>
-        <source>The fee will be deducted from the amount being sent. The recipient will receive less dogecoins than you enter in the amount field. If multiple recipients are selected, the fee is split equally.</source>
+        <source>The fee will be deducted from the amount being sent. The recipient will receive less pepecoins than you enter in the amount field. If multiple recipients are selected, the fee is split equally.</source>
         <translation>수수료가 송금되는 금액에서 공제됩니다. 수령자는 금액 필드에서 입력한 금액보다 적은 금액을 받게 됩니다. 받는 사람이 여러 명인 경우 수수료는 균등하게 나누어집니다.</translation>
     </message>
     <message>
@@ -2813,8 +2813,8 @@ p, li { white-space: pre-wrap; }
         <translation>이 주소의 라벨을 입력하여 사용된 주소 목록에 추가하기</translation>
     </message>
     <message>
-        <source>A message that was attached to the dogecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
-        <translation>dogecoin: URI에 첨부된 메시지는 참조를 위해 거래와 함께 저장됩니다. 참고: 이 메시지는 도지코인 네트워크를 통해 전송되지 않습니다.</translation>
+        <source>A message that was attached to the pepecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Pepecoin network.</source>
+        <translation>pepecoin: URI에 첨부된 메시지는 참조를 위해 거래와 함께 저장됩니다. 참고: 이 메시지는 도지코인 네트워크를 통해 전송되지 않습니다.</translation>
     </message>
     <message>
         <source>Pay To:</source>
@@ -2858,11 +2858,11 @@ p, li { white-space: pre-wrap; }
         <translation>메시지 서명(&amp;S)</translation>
     </message>
     <message>
-        <source>You can sign messages/agreements with your addresses to prove you can receive dogecoins sent to them. Be careful not to sign anything vague or random, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</source>
+        <source>You can sign messages/agreements with your addresses to prove you can receive pepecoins sent to them. Be careful not to sign anything vague or random, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</source>
         <translation>주소로 메시지/계약서에 서명하여 보낸 도지코인을 받을 수 있음을 증명할 수 있습니다. 피싱 공격으로 말미암아 여러분의 서명을 통해 속아 넘어가게 할 수 있으므로, 서명하지 않은 모든 모호한 요소를 주의하세요. 조항들이 완전 무결한지 확인 후 동의하는 경우에만 서명하세요.</translation>
     </message>
     <message>
-        <source>The Dogecoin address to sign the message with</source>
+        <source>The Pepecoin address to sign the message with</source>
         <translation>메시지에 서명할 도지코인 주소</translation>
     </message>
     <message>
@@ -2894,7 +2894,7 @@ p, li { white-space: pre-wrap; }
         <translation>현재 서명을 시스템 클립보드에 복사</translation>
     </message>
     <message>
-        <source>Sign the message to prove you own this Dogecoin address</source>
+        <source>Sign the message to prove you own this Pepecoin address</source>
         <translation>이 도지코인 주소를 소유하고 있음을 증명하기 위해 메시지 서명하기</translation>
     </message>
     <message>
@@ -2918,11 +2918,11 @@ p, li { white-space: pre-wrap; }
         <translation>메시지를 검증하기 위해 아래 칸에 각각 지갑 주소와 메시지(메시지 원본의 띄어쓰기, 들여쓰기, 행 나눔 등이 정확하게 입력되어야 하므로 원본을 복사해서 입력하세요), 전자 서명을 입력하세요. 이 기능은 메시지 검증이 주 목적이며, 네트워크 침입자에 의해 변조되지 않도록 전자 서명 해독에 불필요한 시간을 소모하지 마세요.</translation>
     </message>
     <message>
-        <source>The Dogecoin address the message was signed with</source>
+        <source>The Pepecoin address the message was signed with</source>
         <translation>메세지의 서명에 사용된 도지코인 주소</translation>
     </message>
     <message>
-        <source>Verify the message to ensure it was signed with the specified Dogecoin address</source>
+        <source>Verify the message to ensure it was signed with the specified Pepecoin address</source>
         <translation>메시지가 지정된 도지코인 주소로 서명되었는지 확인</translation>
     </message>
     <message>
@@ -3630,7 +3630,7 @@ p, li { white-space: pre-wrap; }
         <translation>HTTP 서버를 시작할 수 없습니다. 자세한 사항은 디버그 로그를 확인하세요.</translation>
     </message>
     <message>
-        <source>Dogecoin Core</source>
+        <source>Pepecoin Core</source>
         <translation>도지코인 코어</translation>
     </message>
     <message>
@@ -4466,7 +4466,7 @@ p, li { white-space: pre-wrap; }
         <translation>오류</translation>
     </message>
     <message>
-        <source>Bitcoin Core and Dogecoin Core</source>
+        <source>Bitcoin Core and Pepecoin Core</source>
         <translation>비트코인 코어와 도지코인 코어</translation>
     </message>
     <message>

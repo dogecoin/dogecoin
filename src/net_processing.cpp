@@ -34,7 +34,7 @@
 #include <boost/thread.hpp>
 
 #if defined(NDEBUG)
-# error "Dogecoin cannot be compiled without assertions."
+# error "Pepecoin cannot be compiled without assertions."
 #endif
 
 std::atomic<int64_t> nTimeBestReceived(0); // Used only to inform the wallet of when we last received a block
@@ -878,7 +878,7 @@ void Misbehaving(NodeId pnode, int howmuch)
 }
 
 
-// Dogecoin -  1.14 specific fix: do not request headers from a peer we are
+// Pepecoin -  1.14 specific fix: do not request headers from a peer we are
 //             already requesting headers from, unless forced.
 void RequestHeadersFrom(CNode* pto, CConnman& connman, const CBlockIndex* pindex, uint256 untilHash, bool fforceQuery)
 {
@@ -1764,7 +1764,7 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
                     // fell back to inv we probably have a reorg which we should get the headers for first,
                     // we now only provide a getheaders response here. When we receive the headers, we will
                     // then ask for the blocks we need.
-                    // Dogecoin: We force this check, in case we're only connected to nodes that send invs
+                    // Pepecoin: We force this check, in case we're only connected to nodes that send invs
                     RequestHeadersFrom(pfrom, connman, pindexBestHeader, inv.hash, true);
                     LogPrint("net", "getheaders (%d) %s to peer=%d\n", pindexBestHeader->nHeight, inv.hash.ToString(), pfrom->id);
                 }
@@ -2480,7 +2480,7 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
         //   nUnconnectingHeaders gets reset back to 0.
         if (mapBlockIndex.find(headers[0].hashPrevBlock) == mapBlockIndex.end() && nCount < MAX_BLOCKS_TO_ANNOUNCE) {
             nodestate->nUnconnectingHeaders++;
-            // Dogecoin: allow a single getheaders query before triggering DoS
+            // Pepecoin: allow a single getheaders query before triggering DoS
             RequestHeadersFrom(pfrom, connman, pindexBestHeader, uint256(), true);
             LogPrint("net", "received header %s: missing prev block %s, sending getheaders (%d) to end (peer=%d, nUnconnectingHeaders=%d)\n",
                     headers[0].GetHash().ToString(),
@@ -2536,7 +2536,7 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
             // TODO: optimize: if pindexLast is an ancestor of chainActive.Tip or pindexBestHeader, continue
             // from there instead.
             //
-            // Dogecoin: do not allow multiple getheader queries in parallel at
+            // Pepecoin: do not allow multiple getheader queries in parallel at
             // this point - makes sure that any parallel queries will end here,
             // preventing "getheaders" spam.
             LogPrint("net", "more getheaders (%d) to end to peer=%d (startheight:%d)\n", pindexLast->nHeight, pfrom->id, pfrom->nStartingHeight);
@@ -3129,7 +3129,7 @@ bool SendMessages(CNode* pto, CConnman& connman, const std::atomic<bool>& interr
                    the peer's known best block.  This wouldn't be possible
                    if we requested starting at pindexBestHeader and
                    got back an empty response.  */
-                // Dogecoin: make sure that if we are already processing an inv
+                // Pepecoin: make sure that if we are already processing an inv
                 // or header message from this peer caused by a new block being
                 // mined at chaintip, we do not send another getheaders request
                 if (pindexStart->pprev)

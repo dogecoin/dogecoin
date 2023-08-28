@@ -1,8 +1,8 @@
-name: dogecoin-core # you probably want to 'snapcraft register <name>'
+name: pepecoin-core # you probably want to 'snapcraft register <name>'
 version: '1.14.5'
-summary: Reference client of Dogecoin, a peer-to-peer digital currency like Bitcoin.
+summary: Reference client of Pepecoin, a peer-to-peer digital currency like Bitcoin.
 description: |
-  Dogecoin is a cryptocurrency like Bitcoin, although it does not use SHA256 as its proof of work (POW). Taking development cues from Tenebrix and Litecoin, Dogecoin currently employs a simplified variant of scrypt. MIT licenced.
+  Pepecoin is a cryptocurrency like Bitcoin, although it does not use SHA256 as its proof of work (POW). Taking development cues from Tenebrix and Litecoin, Pepecoin currently employs a simplified variant of scrypt. MIT licenced.
 
 base: core18
 grade: stable
@@ -12,53 +12,53 @@ architectures:
 
 apps:
   d:
-    command: dogecoind
+    command: pepecoind
     plugs: [home, removable-media, network, network-bind]
     environment:
-    # Override HOME so the datadir is located at ~/snap/dogecoin-core/common/.dogecoin/ instead of ~/snap/dogecoin-core/current/.dogecoin/, and each new version of the snap won't have a different data directory: https://docs.snapcraft.io/environment-variables/7983
+    # Override HOME so the datadir is located at ~/snap/pepecoin-core/common/.pepecoin/ instead of ~/snap/pepecoin-core/current/.pepecoin/, and each new version of the snap won't have a different data directory: https://docs.snapcraft.io/environment-variables/7983
       HOME: $SNAP_USER_COMMON
   qt:
-    command: qt4-launch dogecoin-qt
+    command: qt4-launch pepecoin-qt
     plugs: [home, removable-media, network, network-bind, desktop, x11, unity7]
     environment:
       HOME: $SNAP_USER_COMMON
       DISABLE_WAYLAND: 1
   cli:
-    command: dogecoin-cli
+    command: pepecoin-cli
     plugs: [home, removable-media, network]
     environment:
       HOME: $SNAP_USER_COMMON
 
 parts:
-  dogecoin-core:
+  pepecoin-core:
     plugin: nil
     override-build: |
       echo "Downloading files..."
-      wget https://github.com/dogecoin/dogecoin/releases/download/v${SNAPCRAFT_PROJECT_VERSION}/dogecoin-${SNAPCRAFT_PROJECT_VERSION}-${SNAPCRAFT_ARCH_TRIPLET}.tar.gz
-      wget https://github.com/dogecoin/gitian.sigs/archive/refs/heads/master.zip
+      wget https://github.com/pepecoinppc/pepecoin/releases/download/v${SNAPCRAFT_PROJECT_VERSION}/pepecoin-${SNAPCRAFT_PROJECT_VERSION}-${SNAPCRAFT_ARCH_TRIPLET}.tar.gz
+      wget https://github.com/pepecoin/gitian.sigs/archive/refs/heads/master.zip
       unzip master.zip
       echo "Verifying secure hash matches signed values..."
-      checksum=$(sha256sum dogecoin-${SNAPCRAFT_PROJECT_VERSION}-${SNAPCRAFT_ARCH_TRIPLET}.tar.gz)
-      if ! (grep -r $checksum * | grep dogecoin-${SNAPCRAFT_PROJECT_VERSION}-${SNAPCRAFT_ARCH_TRIPLET}.tar.gz); then
+      checksum=$(sha256sum pepecoin-${SNAPCRAFT_PROJECT_VERSION}-${SNAPCRAFT_ARCH_TRIPLET}.tar.gz)
+      if ! (grep -r $checksum * | grep pepecoin-${SNAPCRAFT_PROJECT_VERSION}-${SNAPCRAFT_ARCH_TRIPLET}.tar.gz); then
         echo "Secure hash not verified."
         return
       else
         echo "Secure hash verified."
       fi
-      tar -xvf dogecoin-${SNAPCRAFT_PROJECT_VERSION}-${SNAPCRAFT_ARCH_TRIPLET}.tar.gz
+      tar -xvf pepecoin-${SNAPCRAFT_PROJECT_VERSION}-${SNAPCRAFT_ARCH_TRIPLET}.tar.gz
       echo "Running tests..."
-      if ! (dogecoin-${SNAPCRAFT_PROJECT_VERSION}/bin/test_dogecoin); then
-        echo "Dogecoin tests failed."
+      if ! (pepecoin-${SNAPCRAFT_PROJECT_VERSION}/bin/test_pepecoin); then
+        echo "Pepecoin tests failed."
         return
       else
-        echo "Dogecoin tests passed."
+        echo "Pepecoin tests passed."
       fi
-      echo "Installing Dogecoin..."
-      install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin dogecoin-${SNAPCRAFT_PROJECT_VERSION}/bin/dogecoind
-      install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin dogecoin-${SNAPCRAFT_PROJECT_VERSION}/bin/dogecoin-qt
-      install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin dogecoin-${SNAPCRAFT_PROJECT_VERSION}/bin/dogecoin-cli
-      wget https://raw.githubusercontent.com/dogecoin/dogecoin/master/share/pixmaps/dogecoin128.png
-      install -m 0644 -D -t $SNAPCRAFT_PART_INSTALL/share/pixmaps dogecoin128.png
+      echo "Installing Pepecoin..."
+      install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin pepecoin-${SNAPCRAFT_PROJECT_VERSION}/bin/pepecoind
+      install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin pepecoin-${SNAPCRAFT_PROJECT_VERSION}/bin/pepecoin-qt
+      install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin pepecoin-${SNAPCRAFT_PROJECT_VERSION}/bin/pepecoin-cli
+      wget https://raw.githubusercontent.com/pepecoinppc/pepecoin/master/share/pixmaps/pepecoin128.png
+      install -m 0644 -D -t $SNAPCRAFT_PART_INSTALL/share/pixmaps pepecoin128.png
     build-packages:
       - unzip
       - wget

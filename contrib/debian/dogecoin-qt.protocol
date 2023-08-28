@@ -1,6 +1,6 @@
 [Protocol]
-exec=dogecoin-qt '%u'
-protocol=dogecoin
+exec=pepecoin-qt '%u'
+protocol=pepecoin
 input=none
 output=none
 helper=true

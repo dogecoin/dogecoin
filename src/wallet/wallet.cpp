@@ -9,8 +9,8 @@
 #include "base58.h"
 #include "checkpoints.h"
 #include "chain.h"
-#include "dogecoin.h"
-#include "dogecoin-fees.h"
+#include "pepecoin.h"
+#include "pepecoin-fees.h"
 #include "wallet/coincontrol.h"
 #include "consensus/consensus.h"
 #include "consensus/validation.h"
@@ -60,7 +60,7 @@ CFeeRate CWallet::minTxFee = CFeeRate(DEFAULT_TRANSACTION_MINFEE);
  */
 CFeeRate CWallet::fallbackFee = CFeeRate(DEFAULT_FALLBACK_FEE);
 /**
- * Dogecoin: Effective dust limit for the wallet
+ * Pepecoin: Effective dust limit for the wallet
  * - Outputs smaller than this get rejected
  * - Change smaller than this gets discarded to fee
  */
@@ -2141,7 +2141,7 @@ static void ApproximateBestSubset(vector<pair<CAmount, pair<const CWalletTx*,uns
     }
 }
 
-// Dogecoin: MIN_CHANGE as a function of discardThreshold and minTxFee(1000)
+// Pepecoin: MIN_CHANGE as a function of discardThreshold and minTxFee(1000)
 // Makes the wallet change output minimums configurable instead of hardcoded
 // defaults.
 CAmount CWallet::GetMinChange()
@@ -2507,7 +2507,7 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
                     }
 
                     /*
-                     * Dogecoin: check all outputs against the discard threshold
+                     * Pepecoin: check all outputs against the discard threshold
                      *           to make sure that the wallet's dust policy gets
                      *           followed rather than the current relay rules,
                      *           because the larger network may settle on a
@@ -2694,7 +2694,7 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
                     nFeeNeeded = GetMinimumFee(txNew, nBytes, currentConfirmationTarget, mempool);
                 } else {
                     // Force the fee rate higher
-                    nFeeNeeded = GetDogecoinPriorityFee(txNew, nBytes, nPriority);
+                    nFeeNeeded = GetPepecoinPriorityFee(txNew, nBytes, nPriority);
                 }
                 if (coinControl && nFeeNeeded > 0 && coinControl->nMinimumTotalFee > nFeeNeeded) {
                     nFeeNeeded = coinControl->nMinimumTotalFee;
@@ -2735,7 +2735,7 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
                     CAmount additionalFeeNeeded = nFeeNeeded - nFeeRet;
                     vector<CTxOut>::iterator change_position = txNew.vout.begin()+nChangePosInOut;
                     // Only reduce change if remaining amount is still a large enough output.
-                    /* Dogecoin: this has been changed from a static MIN_FINAL_CHANGE that
+                    /* Pepecoin: this has been changed from a static MIN_FINAL_CHANGE that
                      * followed DEFAULT_DISCARD_THRESHOLD to instead use the configurable
                      * discard threshold.
                      *
@@ -2872,8 +2872,8 @@ bool CWallet::AddAccountingEntry(const CAccountingEntry& acentry, CWalletDB *pwa
 
 CAmount CWallet::GetRequiredFee(const CMutableTransaction& tx, unsigned int nTxBytes)
 {
-    // Dogecoin: Add an increased fee for each output that is lower than the discard threshold
-    return std::max(minTxFee.GetFee(nTxBytes) + GetDogecoinDustFee(tx.vout, discardThreshold), ::minRelayTxFeeRate.GetFee(nTxBytes));
+    // Pepecoin: Add an increased fee for each output that is lower than the discard threshold
+    return std::max(minTxFee.GetFee(nTxBytes) + GetPepecoinDustFee(tx.vout, discardThreshold), ::minRelayTxFeeRate.GetFee(nTxBytes));
 }
 
 CAmount CWallet::GetRequiredFee(unsigned int nTxBytes)
@@ -2898,11 +2898,11 @@ CAmount CWallet::GetMinimumFee(const CMutableTransaction& tx, unsigned int nTxBy
         //if (nFeeNeeded == 0)
         //    nFeeNeeded = fallbackFee.GetFee(nTxBytes);
 
-        // Dogecoin: Drop the smart fee estimate, use GetRequiredFee
+        // Pepecoin: Drop the smart fee estimate, use GetRequiredFee
         nFeeNeeded = GetRequiredFee(tx, nTxBytes);
     }
     // prevent user from paying a fee below minRelayTxFee or minTxFee
-    // Dogecoin: as we're adapting minTxFee to never be higher than
+    // Pepecoin: as we're adapting minTxFee to never be higher than
     //           payTxFee unless explicitly set, this should be fine
     nFeeNeeded = std::max(nFeeNeeded, GetRequiredFee(tx, nTxBytes));
 
@@ -2914,20 +2914,20 @@ CAmount CWallet::GetMinimumFee(const CMutableTransaction& tx, unsigned int nTxBy
 }
 
 
-CAmount CWallet::GetDogecoinPriorityFee(const CMutableTransaction& tx, unsigned int nTxBytes, FeeRatePreset nPriority)
+CAmount CWallet::GetPepecoinPriorityFee(const CMutableTransaction& tx, unsigned int nTxBytes, FeeRatePreset nPriority)
 {
     // payTxFee is the user-set global for desired feerate
-    return GetDogecoinPriorityFee(tx, nTxBytes, nPriority, payTxFee.GetFee(nTxBytes));
+    return GetPepecoinPriorityFee(tx, nTxBytes, nPriority, payTxFee.GetFee(nTxBytes));
 }
-CAmount CWallet::GetDogecoinPriorityFee(const CMutableTransaction& tx, unsigned int nTxBytes, FeeRatePreset nPriority, CAmount targetFee)
+CAmount CWallet::GetPepecoinPriorityFee(const CMutableTransaction& tx, unsigned int nTxBytes, FeeRatePreset nPriority, CAmount targetFee)
 {
     CAmount nFeeNeeded = targetFee;
     // User didn't set: use -txconfirmtarget to estimate...
     if (nFeeNeeded == 0) {
-        nFeeNeeded = GetDogecoinFeeRate(nPriority).GetFee(nTxBytes);
+        nFeeNeeded = GetPepecoinFeeRate(nPriority).GetFee(nTxBytes);
     }
     // prevent user from paying a fee below minRelayTxFee or minTxFee
-    // Dogecoin: as we're adapting minTxFee to never be higher than
+    // Pepecoin: as we're adapting minTxFee to never be higher than
     //           payTxFee unless explicitly set, this should be fine
     nFeeNeeded = std::max(nFeeNeeded, GetRequiredFee(tx, nTxBytes));
 

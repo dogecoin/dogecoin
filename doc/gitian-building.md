@@ -4,11 +4,11 @@
 > *Gitian is a secure source-control oriented software distribution method. This means you can download trusted binaries that are verified by multiple builders.*  
 Source : [Gitian.org](https://gitian.org/)
 
-Gitian is a deterministic build process that is used to release Dogecoin Core executables. It uses a virtualized environment and a predetermined set of dependencies and system libraries to build binaries. This lets many independent builders compare and publish their results before releasing executables, allowing for an end-to-end auditable release that can be verified by anyone.
+Gitian is a deterministic build process that is used to release Pepecoin Core executables. It uses a virtualized environment and a predetermined set of dependencies and system libraries to build binaries. This lets many independent builders compare and publish their results before releasing executables, allowing for an end-to-end auditable release that can be verified by anyone.
 
 To reduce the probability of compromised releases, more independent gitian builders are needed!
 
-Anyone can participate and help to increase the security of Dogecoin Core releases by following this guide.
+Anyone can participate and help to increase the security of Pepecoin Core releases by following this guide.
 
 ### Table of contents
 
@@ -80,7 +80,7 @@ Then use `--lxc` option with `gitian-build.sh`.
 
 ## Usage
 
-`gitian-build.sh` is a standalone script, it can be downloaded and run outside of Dogecoin Core repository.
+`gitian-build.sh` is a standalone script, it can be downloaded and run outside of Pepecoin Core repository.
 
 It can download dependency files for the [Gitian](https://github.com/devrandom/gitian-builder), build and optionally sign binaries, or verify signatures.
 
@@ -121,23 +121,23 @@ If you want to do the PGP signing on another device, that's also possible; just 
 and follow the steps in the build process as normal.
 
 ```bash
-gpg: skipped "shibetoshi": secret key not available
+gpg: skipped "satoshi": secret key not available
 ```
 
 When you execute `gsign` you will get an error from GPG, which can be ignored. Copy the resulting `.assert` files in `gitian.sigs` to your signing machine and do
 
 ```bash
-gpg --detach-sign ${VERSION}-linux/${SIGNER}/dogecoin-linux-build.assert
-gpg --detach-sign ${VERSION}-win/${SIGNER}/dogecoin-win-build.assert
-gpg --detach-sign ${VERSION}-osx-unsigned/${SIGNER}/dogecoin-osx-build.assert
+gpg --detach-sign ${VERSION}-linux/${SIGNER}/pepecoin-linux-build.assert
+gpg --detach-sign ${VERSION}-win/${SIGNER}/pepecoin-win-build.assert
+gpg --detach-sign ${VERSION}-osx-unsigned/${SIGNER}/pepecoin-osx-build.assert
 ```
 
 This will create the `.sig` files that can be committed together with the `.assert` files to assert your Gitian build.
 
 ## Publish signatures
 
-Gitian signatures for each release are added to https://github.com/dogecoin/gitian.sigs.
+Gitian signatures for each release are added to https://github.com/pepecoin/gitian.sigs.
 
-`gitian-build.sh` will create signatures inside `gitian-output/sigs/` folder. Create a pull request to [dogecoin/gitian.sigs](https://github.com/dogecoin/gitian.sigs) to publish your signatures, the `.assert` and `.assert.sig` files.
+`gitian-build.sh` will create signatures inside `gitian-output/sigs/` folder. Create a pull request to [pepecoin/gitian.sigs](https://github.com/pepecoin/gitian.sigs) to publish your signatures, the `.assert` and `.assert.sig` files.
 
-**When your PR is merged, you will be recorded for all future history as a *Gitian Builder of Dogecoin Core*!**
+**When your PR is merged, you will be recorded for all future history as a *Gitian Builder of Pepecoin Core*!**

@@ -18,7 +18,7 @@ snap install \*.snap --devmode
 ### To Push to Snapcraft
 ```
 snapcraft login
-snapcraft register dogecoin-core
+snapcraft register pepecoin-core
 snapcraft push \*.snap --release=edge
-sudo snap install dogecoin-core --channel=edge
+sudo snap install pepecoin-core --channel=edge
 ```

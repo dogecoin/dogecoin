@@ -61,7 +61,7 @@ jobs:
       with:
         languages: ${{ matrix.language }}
 
-    - name: Build Dogecoin
+    - name: Build Pepecoin
       run: |
        ./autogen.sh
        ./configure --prefix=`pwd`/depends/x86_64-pc-linux-gnu

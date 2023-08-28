@@ -1,7 +1,7 @@
 WINDOWS BUILD NOTES
 ====================
 
-Below are some notes on how to build Dogecoin Core for Windows.
+Below are some notes on how to build Pepecoin Core for Windows.
 
 Most developers use cross-compilation from Ubuntu to build executables for
 Windows. This is also used to build the release binaries.
@@ -74,8 +74,8 @@ For Ubuntu 18.04 and 20.04, set the default mingw32 g++ compiler option to posix
 
 ...Choose the "posix" (vs 'auto' or 'win32') option, and continue.
 
-Note that for WSL v1 the Dogecoin Core source path MUST be somewhere in the default mount file system, for
-example /usr/src/dogecoin, AND not under, for example, /mnt/d/dogecoin. 
+Note that for WSL v1 the Pepecoin Core source path MUST be somewhere in the default mount file system, for
+example /usr/src/pepecoin, AND not under, for example, /mnt/d/pepecoin. 
 
 If this is not the case the dependency autoconf scripts will fail (silently.)
 This means you cannot use a directory that is located directly on the host Windows file system to perform the build.
@@ -128,6 +128,6 @@ Installation
 After building using the Windows subsystem it can be useful to copy the compiled
 executables to a directory on the windows drive in the same directory structure
 as they appear in the release `.zip` archive. This can be done in the following
-way. This will install to `c:\workspace\dogecoin`, for example:
+way. This will install to `c:\workspace\pepecoin`, for example:
 
-    make install DESTDIR=/mnt/c/workspace/dogecoin
+    make install DESTDIR=/mnt/c/workspace/pepecoin

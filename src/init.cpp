@@ -194,7 +194,7 @@ void Shutdown()
     /// for example if the data directory was found to be locked.
     /// Be sure that anything that writes files or flushes caches only does this if the respective
     /// module was initialized.
-    RenameThread("dogecoin-shutoff");
+    RenameThread("pepecoin-shutoff");
     mempool.AddTransactionsUpdated(1);
 
     StopHTTPRPC();
@@ -202,7 +202,7 @@ void Shutdown()
     StopRPC();
     StopHTTPServer();
 #ifdef ENABLE_WALLET
-    // Dogecoin 1.14 TODO: ShutdownRPCMining();
+    // Pepecoin 1.14 TODO: ShutdownRPCMining();
     if (pwalletMain)
         pwalletMain->Flush(false);
 #endif
@@ -512,8 +512,8 @@ std::string HelpMessage(HelpMessageMode mode)
 
 std::string LicenseInfo()
 {
-    const std::string URL_SOURCE_CODE = "<https://github.com/dogecoin/dogecoin>";
-    const std::string URL_WEBSITE = "<https://dogecoin.com>";
+    const std::string URL_SOURCE_CODE = "<https://github.com/pepecoinppc/pepecoin>";
+    const std::string URL_WEBSITE = "<https://pepecoin.com>";
 
     return CopyrightHolders(strprintf(_("Copyright (C) %i-%i"), 2013, COPYRIGHT_YEAR) + " ") + "\n" +
            "\n" +
@@ -617,7 +617,7 @@ void CleanupBlockRevFiles()
 void ThreadImport(std::vector<boost::filesystem::path> vImportFiles)
 {
     const CChainParams& chainparams = Params();
-    RenameThread("dogecoin-loadblk");
+    RenameThread("pepecoin-loadblk");
 
     {
     CImportingNow imp;
@@ -795,7 +795,7 @@ void InitLogging()
     fLogIPs = GetBoolArg("-logips", DEFAULT_LOGIPS);
 
     LogPrintf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-    LogPrintf("Dogecoin version %s\n", FormatFullVersion());
+    LogPrintf("Pepecoin version %s\n", FormatFullVersion());
 }
 
 namespace { // Variables internal to initialization process only
@@ -1679,7 +1679,7 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
 
     // ********************************************************* Step 12: finished
 
-    // Dogecoin: Do we need to do any RPC mining init here?
+    // Pepecoin: Do we need to do any RPC mining init here?
 
     SetRPCWarmupFinished();
     uiInterface.InitMessage(_("Done loading"));

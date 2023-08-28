@@ -7,7 +7,7 @@
 #define BITCOIN_WALLET_COINCONTROL_H
 
 #include "primitives/transaction.h"
-#include "dogecoin-fees.h"
+#include "pepecoin-fees.h"
 
 /** Coin Control Features. */
 class CCoinControl

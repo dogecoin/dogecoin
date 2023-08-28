@@ -4,11 +4,10 @@ about: Suggest an idea for this project
 title: '[feat] '
 ---
 
-<!-- Please make sure you are posting an technical issue related to Dogecoin Core. --> 
+<!-- Please make sure you are posting an technical issue related to Pepecoin Core. --> 
 
-<!-- For general questions about Dogecoin or wallet recovery please use one of the various communities:
-* [Dogeducation on reddit](https://www.reddit.com/r/dogeducation/)
-* [Discord](https://discord.com/invite/dogecoin) -->
+<!-- For general questions about Pepecoin or wallet recovery please use one of the various communities:
+* [Discord](https://discord.com/invite/pepecoinppc) -->
 
 <!-- ISSUES MISSING IMPORTANT INFORMATION MAY BE CLOSED WITHOUT INVESTIGATION. -->
 

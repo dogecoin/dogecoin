@@ -49,10 +49,10 @@ static const int MAX_URI_LENGTH = 255;
 /* Number of frames in spinner animation */
 #define SPINNER_FRAMES 36
 
-#define QAPP_ORG_NAME "Dogecoin"
-#define QAPP_ORG_DOMAIN "dogecoin.org"
-#define QAPP_APP_NAME_DEFAULT "Dogecoin-Qt"
-#define QAPP_APP_NAME_TESTNET "Dogecoin-Qt-testnet"
+#define QAPP_ORG_NAME "Pepecoin"
+#define QAPP_ORG_DOMAIN "pepecoin.org"
+#define QAPP_APP_NAME_DEFAULT "Pepecoin-Qt"
+#define QAPP_APP_NAME_TESTNET "Pepecoin-Qt-testnet"
 
 /* One gigabyte (GB) in bytes */
 static constexpr uint64_t GB_BYTES{1000000000};

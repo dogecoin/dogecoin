@@ -12,7 +12,7 @@ if [ -z "${1}" ]; then
   echo "Usage: $0 <base-dir> [<extra-bdb-configure-flag> ...]"
   echo
   echo "Must specify a single argument: the directory in which db5 will be built."
-  echo "This is probably \`pwd\` if you're at the root of the dogecoin repository."
+  echo "This is probably \`pwd\` if you're at the root of the pepecoin repository."
   exit 1
 fi
 
@@ -253,7 +253,7 @@ echo
 echo "db5 build complete."
 echo
 # shellcheck disable=SC2016
-echo 'When compiling dogecoind, run `./configure` in the following way:'
+echo 'When compiling pepecoind, run `./configure` in the following way:'
 echo
 echo "  export BDB_PREFIX='${BDB_PREFIX}'"
 # shellcheck disable=SC2016

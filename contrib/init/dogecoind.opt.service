@@ -3,17 +3,17 @@
 #
 # The relevant paths are:
 #
-#/opt/dogecoin/dogecoind
-#/etc/opt/dogecoin/
-#/var/opt/dogecoin/
+#/opt/pepecoinppc/pepecoind
+#/etc/opt/pepecoin/
+#/var/opt/pepecoin/
 
 [Unit]
-Description=Dogecoin's distributed currency daemon
+Description=Pepecoin's distributed currency daemon
 After=network.target
 
 [Service]
 Type=simple
-ExecStart=/opt/dogecoin/bin/dogecoind -conf=/etc/opt/dogecoin/dogecoin.conf -datadir=/var/opt/dogecoin
+ExecStart=/opt/pepecoin/bin/pepecoind -conf=/etc/opt/pepecoinppc/pepecoin.conf -datadir=/var/opt/pepecoin
 
 KillSignal=SIGINT
 Restart=always
@@ -23,8 +23,8 @@ TimeoutStartSec=5
 StartLimitIntervalSec=120
 StartLimitBurst=5
 
-User=dogecoin
-Group=dogecoin
+User=pepecoin
+Group=pepecoin
 
 ### Restrict resource consumption
 MemoryAccounting=yes
@@ -41,8 +41,8 @@ TemporaryFileSystem=/:ro
 BindReadOnlyPaths=/etc/ /lib/ /lib64/
 
 # Add daemon paths
-BindReadOnlyPaths=/opt/dogecoin/ /etc/opt/dogecoin/
-BindPaths=/var/opt/dogecoin/
+BindReadOnlyPaths=/opt/pepecoin/ /etc/opt/pepecoin/
+BindPaths=/var/opt/pepecoin/
 
 ### Restrict access to system.
 

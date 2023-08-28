@@ -185,7 +185,7 @@ BOOST_AUTO_TEST_CASE(CreateNewBlock_validity)
 {
     // Note that by default, these tests run with size accounting enabled.
     const CChainParams& chainparams = Params(CBaseChainParams::MAIN);
-    // changed this to dogecoin genesis pubkey script
+    // changed this to pepecoin genesis pubkey script
     CScript scriptPubKey = CScript() << ParseHex("040184710fa689ad5023690c80f3a49c8f13f8d45b8c857fbcbc8bc4a8e4d3eb4b10f4d4604fa08dce601aaf0f470216fe1b51850b4acf21b179c45070ac7b03a9") << OP_CHECKSIG;
     std::unique_ptr<CBlockTemplate> pblocktemplate;
     CMutableTransaction tx,tx2;
@@ -490,7 +490,7 @@ BOOST_AUTO_TEST_CASE(CreateNewBlock_validity)
     SetMockTime(0);
     mempool.clear();
 
-    // Dogecoin: Package selection doesn't work that way because our fees are fundamentally
+    // Pepecoin: Package selection doesn't work that way because our fees are fundamentally
     //           different. Need to rationalise in a later release.
     // TestPackageSelection(chainparams, scriptPubKey, txFirst);
 

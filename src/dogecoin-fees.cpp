@@ -7,11 +7,11 @@
 
 #include "policy/policy.h"
 #include "arith_uint256.h"
-#include "dogecoin.h"
+#include "pepecoin.h"
 #include "txmempool.h"
 #include "util.h"
 #include "validation.h"
-#include "dogecoin-fees.h"
+#include "pepecoin-fees.h"
 #include "amount.h"
 #ifdef ENABLE_WALLET
 #include "wallet/wallet.h"
@@ -19,12 +19,12 @@
 
 #ifdef ENABLE_WALLET
 
-CFeeRate GetDogecoinFeeRate(int priority)
+CFeeRate GetPepecoinFeeRate(int priority)
 {
     switch(priority)
     {
     case SUCH_EXPENSIVE:
-        return CFeeRate(COIN / 100 * 521); // 5.21 DOGE, but very carefully avoiding floating point maths
+        return CFeeRate(COIN / 100 * 521); // 5.21 PEPE, but very carefully avoiding floating point maths
     case MANY_GENEROUS:
         return CFeeRate(CWallet::minTxFee.GetFeePerK() * 100);
     case AMAZE:
@@ -40,7 +40,7 @@ CFeeRate GetDogecoinFeeRate(int priority)
     return CWallet::minTxFee;
 }
 
-const std::string GetDogecoinPriorityLabel(int priority)
+const std::string GetPepecoinPriorityLabel(int priority)
 {
     switch(priority)
     {
@@ -64,7 +64,7 @@ const std::string GetDogecoinPriorityLabel(int priority)
 
 #endif
 
-CAmount GetDogecoinMinRelayFee(const CTransaction& tx, unsigned int nBytes, bool fAllowFree)
+CAmount GetPepecoinMinRelayFee(const CTransaction& tx, unsigned int nBytes, bool fAllowFree)
 {
     {
         LOCK(mempool.cs);
@@ -77,7 +77,7 @@ CAmount GetDogecoinMinRelayFee(const CTransaction& tx, unsigned int nBytes, bool
     }
 
     CAmount nMinFee = ::minRelayTxFeeRate.GetFee(nBytes);
-    nMinFee += GetDogecoinDustFee(tx.vout, nDustLimit);
+    nMinFee += GetPepecoinDustFee(tx.vout, nDustLimit);
 
     if (fAllowFree)
     {
@@ -94,7 +94,7 @@ CAmount GetDogecoinMinRelayFee(const CTransaction& tx, unsigned int nBytes, bool
     return nMinFee;
 }
 
-CAmount GetDogecoinDustFee(const std::vector<CTxOut> &vout, const CAmount dustLimit) {
+CAmount GetPepecoinDustFee(const std::vector<CTxOut> &vout, const CAmount dustLimit) {
     CAmount nFee = 0;
 
     // To limit dust spam, add the dust limit for each output

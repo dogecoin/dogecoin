@@ -35,7 +35,7 @@ Q_IMPORT_PLUGIN(qkrcodecs)
 extern void noui_connect();
 
 static int qt_argc = 1;
-static const char* qt_argv = "dogecoin-qt";
+static const char* qt_argv = "pepecoin-qt";
 
 // This is all you need to run all the tests
 int main(int argc, char *argv[])
