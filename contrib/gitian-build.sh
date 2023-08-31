@@ -13,6 +13,7 @@ SIGN_DESCRIPTORS=('win-signer' 'osx-signer')
 export USE_DOCKER=0
 export USE_LXC=0
 
+# PEPE TODO Change these urls to pepecoinppc.com and add a depends subdomain which will do what this does
 # Dependencies
 ossPatchUrl="https://depends.pepecoincore.org/osslsigncode-Backports-to-1.7.1.patch"
 ossPatchHash="a8c4e9cafba922f89de0df1f2152e7be286aba73f78505169bc351a7938dd911"

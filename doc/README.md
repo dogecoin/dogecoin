@@ -19,6 +19,7 @@ The Pepecoin repo's [root README](/README.md) contains relevant information on t
 
 ### Resources
 * Discuss on the [BitcoinTalk](https://bitcointalk.org/) forums, in the [Pepecoin thread](https://bitcointalk.org/index.php?topic=361813.0).
+<!-- PEPE TODO REMOVE OR UPDATE THE LINE BELOW -->
 * Discuss on [#pepecoin-dev](http://webchat.freenode.net/?channels=pepecoin-dev) on Freenode. If you don't have an IRC client use [webchat here](http://webchat.freenode.net/?channels=pepecoin-dev).
 
 ### Miscellaneous
