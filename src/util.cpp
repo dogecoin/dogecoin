@@ -622,23 +622,26 @@ void ReadConfigFile(const std::string& confPath)
     ClearDatadirCache();
 }
 
-void WriteExtraConfigFile()
+void WriteExtraConfigFile(CWallet* pwalletMain)
 {
     boost::filesystem::path pathDebug = GetDataDir() / "dogecoin-extra.conf";
     FILE* extraConfFileout = fopen(pathDebug.string().c_str(), "w");
     if (extraConfFileout) {
-        fprintf(extraConfFileout,
+        FileWriteStr(
             "# Dogecoin Extra Configuration\n"
-            "# Add contents to your dogecoin.conf or --enable-dogecoin-extraconf to use\n"
+            "# Add contents to your dogecoin.conf or --enable-dogecoin-extraconf to use\n",
+            extraConfFileout
         );
 
-        vector<COutPoint> vOutpts;
-        pwalletMain->ListLockedCoins(vOutpts);
+        if (pwalletMain) {
+            vector<COutPoint> vOutpts;
+            pwalletMain->ListLockedCoins(vOutpts);
 
-        BOOST_FOREACH(const COutPoint& outpt, vOutpts) {
-            fprintf(extraConfFileout, "lockunspent=%s\n", outpt.hash.GetHex());
+            BOOST_FOREACH(const COutPoint& outpt, vOutpts) {
+                FileWriteStr("lockunspent=" + outpt.hash.GetHex() + "\n", extraConfFileout);
+            }
         }
-        fclose(file);
+        fclose(extraConfFileout);
     }
 }
 
