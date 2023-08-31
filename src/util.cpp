@@ -631,6 +631,13 @@ void WriteExtraConfigFile()
             "# Dogecoin Extra Configuration\n"
             "# Add contents to your dogecoin.conf or --enable-dogecoin-extraconf to use\n"
         );
+
+        vector<COutPoint> vOutpts;
+        pwalletMain->ListLockedCoins(vOutpts);
+
+        BOOST_FOREACH(const COutPoint& outpt, vOutpts) {
+            fprintf(extraConfFileout, "lockunspent=%s\n", outpt.hash.GetHex());
+        }
         fclose(file);
     }
 }
