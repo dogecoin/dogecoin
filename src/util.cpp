@@ -622,6 +622,19 @@ void ReadConfigFile(const std::string& confPath)
     ClearDatadirCache();
 }
 
+void WriteExtraConfigFile()
+{
+    boost::filesystem::path pathDebug = GetDataDir() / "dogecoin-extra.conf";
+    FILE* extraConfFileout = fopen(pathDebug.string().c_str(), "w");
+    if (extraConfFileout) {
+        fprintf(extraConfFileout,
+            "# Dogecoin Extra Configuration\n"
+            "# Add contents to your dogecoin.conf or --enable-dogecoin-extraconf to use\n"
+        );
+        fclose(file);
+    }
+}
+
 #ifndef WIN32
 boost::filesystem::path GetPidFile()
 {
