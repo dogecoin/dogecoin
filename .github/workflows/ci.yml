@@ -23,7 +23,7 @@ jobs:
       PYTHON_DEBUG: "1"
       CACHE_NONCE: "1"
       WINEDEBUG: fixme-all
-      SDK_URL: https://depends.pepecoincore.org
+      SDK_URL: https://depends.dogecoincore.org
 
     strategy:
       fail-fast: false
