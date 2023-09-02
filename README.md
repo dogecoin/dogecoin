@@ -1,7 +1,7 @@
 <h1 align="center">
 <img src="https://i.imgur.com/yap2xAX.png" alt="Pepecoin" width="300"/>
 <br/><br/>
-Pepecoin Core [PPC, ₱]  
+Pepecoin Core [PEPE, ₱]  
 </h1>
 
 Select language: EN | [CN](./README_zh_CN.md) | [PT](./README_pt_BR.md) | [FA](./README_fa_IR.md)
