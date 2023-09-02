@@ -15,7 +15,7 @@ Just like Dogecoin, the Pepecoin Core software allows anyone to operate a node i
 For information about the default fees used on the Pepecoin network, please
 refer to the [fee recommendation](doc/fee-recommendation.md).
 
-**Website:** [pepecoinppc.com](https://pepecoinppc.com)
+**Website:** [getpepecoin.com](https://getpepecoin.com)
 
 ## Usage 💻
 
