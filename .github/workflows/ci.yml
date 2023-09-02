@@ -1,5 +1,7 @@
 name: Continuous Integration
 
+runs-on: self-hosted
+
 on:
   push:
     paths-ignore:
