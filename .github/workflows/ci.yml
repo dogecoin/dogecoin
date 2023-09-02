@@ -1,7 +1,5 @@
 name: Continuous Integration
 
-runs-on: self-hosted
-
 on:
   push:
     paths-ignore:
@@ -175,7 +173,7 @@ jobs:
             config-opts: "--with-intel-avx2 --enable-gui=qt5 --enable-zmq --enable-glibc-back-compat --enable-reduce-exports"
             goal: install
 
-    runs-on: ${{ matrix.os }}
+    runs-on: self-hosted
 
     steps:
       - name: Add architecture
