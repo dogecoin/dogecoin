@@ -85,6 +85,10 @@ Copyright: Bitboy, Jonas Schnelli
 License: public-domain
 Comment: Site: https://bitcointalk.org/?topic=1756.0
 
+Files: src/qt/res/fonts/RobotoMono-Bold.ttf
+License: Apache-2.0
+Comment: Site: https://fonts.google.com/specimen/Roboto+Mono
+
 
 License: Expat
  Permission is hereby granted, free of charge, to any person obtaining a

@@ -172,17 +172,12 @@ BitcoinGUI::BitcoinGUI(const PlatformStyle *_platformStyle, const NetworkStyle *
         setCentralWidget(rpcConsole);
     }
 
-    // Pepecoin: load fallback font in case Comic Sans is not available on the system
-    QFontDatabase::addApplicationFont(":fonts/ComicNeue-Bold");
-    QFontDatabase::addApplicationFont(":fonts/ComicNeue-Bold-Oblique");
-    QFontDatabase::addApplicationFont(":fonts/ComicNeue-Light");
-    QFontDatabase::addApplicationFont(":fonts/ComicNeue-Light-Oblique");
-    QFontDatabase::addApplicationFont(":fonts/ComicNeue-Regular");
-    QFontDatabase::addApplicationFont(":fonts/ComicNeue-Regular-Oblique");
-    QFont::insertSubstitution("Comic Sans MS", "Comic Neue");
+    // Pepecoin: load fallback font in case Monospace is not available on the system
+    QFontDatabase::addApplicationFont(":fonts/RobotoMono-Bold");
+    QFont::insertSubstitution("Monospace", "RobotoMono");
 
-    // Pepecoin: Specify Comic Sans as new font.
-    QFont newFont("Comic Sans MS", 10);
+    // Pepecoin: Specify Monospace as new font.
+    QFont newFont("Monospace", 10);
 
     // Pepecoin: Set new application font
     QApplication::setFont(newFont);
