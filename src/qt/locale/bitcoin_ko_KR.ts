@@ -1509,7 +1509,7 @@
         <translation>아주 새로운 주소</translation>
     </message>
     <message>
-        <source>So Print</source>
+        <source>Print</source>
         <translation>그럼 인쇄하세요</translation>
     </message>
     <message>

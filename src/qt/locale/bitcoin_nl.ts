@@ -1474,7 +1474,7 @@
         <translation>Heel Nieuw Adres</translation>
     </message>
     <message>
-        <source>So Print</source>
+        <source>Print</source>
         <translation>Zo Print</translation>
     </message>
     <message>

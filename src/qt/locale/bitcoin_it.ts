@@ -1475,7 +1475,7 @@ Per specificare più URL separarli con una barra verticale &quot;|&quot;.</trans
         <translation>Nuovo Indirizzo</translation>
     </message>
     <message>
-        <source>So Print</source>
+        <source>Print</source>
         <translation>Stampa</translation>
     </message>
     <message>

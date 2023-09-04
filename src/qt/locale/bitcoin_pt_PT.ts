@@ -1475,7 +1475,7 @@
         <translation>Muitos endereços novos</translation>
     </message>
     <message>
-        <source>So Print</source>
+        <source>Print</source>
         <translation>Assim Imprimir</translation>
     </message>
     <message>

@@ -1470,7 +1470,7 @@
         <translation>Alamat Baru Banget</translation>
     </message>
     <message>
-        <source>So Print</source>
+        <source>Print</source>
         <translation>Cetak Sekali</translation>
     </message>
     <message>

@@ -1848,7 +1848,7 @@
     </message>
     <message>
         <location line="+92"/>
-        <source>So Print</source>
+        <source>Print</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

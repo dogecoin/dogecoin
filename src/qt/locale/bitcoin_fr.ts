@@ -1517,7 +1517,7 @@
         <translation>Nouvelle Adresse</translation>
     </message>
     <message>
-        <source>So Print</source>
+        <source>Print</source>
         <translation>Imprimer</translation>
     </message>
     <message>

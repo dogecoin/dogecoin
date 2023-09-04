@@ -1475,7 +1475,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>So Print</source>
+        <source>Print</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

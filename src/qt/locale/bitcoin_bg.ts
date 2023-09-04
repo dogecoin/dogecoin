@@ -1460,7 +1460,7 @@
         <translation>Супер нов адрес</translation>
     </message>
     <message>
-        <source>So Print</source>
+        <source>Print</source>
         <translation>Принтиране</translation>
     </message>
     <message>
