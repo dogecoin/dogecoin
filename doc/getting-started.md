@@ -63,7 +63,7 @@ Some commands are different, but it's possible to use the [bitcoin RPC API docum
 
 ### Creating a wallet
 
-To receive PEPE, you need an address that is securely derived from a private key through a series of automatic, cryptographic operations. The *address* can be shared with anyone to receive PEPE, but the *private key* is  sensitive information that allows anyone that knows it to spend the PEPE on the associated address.
+To receive PEPE, you need an address that is securely derived from a private key through a series of automatic, cryptographic operations. The *address* can be shared with anyone to receive PEPE, but the *private key* is sensitive information that allows anyone that knows it to spend the PEPE on the associated address.
 
 By default, the Pepecoin Core software will automatically create an address for you and securely store the private key in the wallet file.
 
@@ -72,14 +72,14 @@ You can list wallet addresses using `getaddressesbyaccount`:
 ```console
 satoshi:~$ pepecoin-cli getaddressesbyaccount ""
 [
-  "DA2fBazU8Y4epNJ2fQRZCcWpxKZY9HrhLN"
+  "PA2fBazU8Y4epNJ2fQRZCcWpxKZY9HrhLN"
 ]
 ```
 
 Using `getnewaddress` will generate a new wallet address:
 ```console
 satoshi:~$ pepecoin-cli getnewaddress
-DNnGtXk9khadE7EKCmQzxjnehenX92PKAv
+PNnGtXk9khadE7EKCmQzxjnehenX92PKAv
 ```
 
 Private keys are stored in the `wallet.dat` file. You can use `backupwallet` to save a copy:
@@ -88,7 +88,7 @@ Private keys are stored in the `wallet.dat` file. You can use `backupwallet` to 
 satoshi:~$ pepecoin-cli backupwallet /path/of/wallet/backup
 ```
 
-**Tip:** Pepecoin addresses start with the letter `D`.
+**Tip:** Pepecoin addresses start with the letter `P`.
 
 You now have two wallet addresses to share with other people to receive PEPE! Consider avoiding [address reuse](https://en.bitcoin.it/wiki/Address_reuse) for anonymity and security reasons.
 
@@ -155,7 +155,7 @@ satoshi:~$ pepecoin-cli listunspent 1 9999999 '["nnJDY1xCRgWQc7vBXHUPMPsEynuZW23
 
 The `minconf` and `maxconf` parameters filter the minimum and maximum number of [confirmations](https://www.pcmag.com/encyclopedia/term/bitcoin-confirmation) of the UTXO returned.
 
-> **Note:** The example address starts with `n` instead of `D`, because it uses [testnet](#mainnet-testnet-and-regtest).
+> **Note:** The example address starts with `n` instead of `P`, because it uses [testnet](#mainnet-testnet-and-regtest).
 
 ##### createrawtransaction
 
@@ -292,7 +292,7 @@ satoshi:~$ pepecoin-cli getrawtransaction 695ce4208fa7a87ef9e99805b0910dc129058e
         "reqSigs": 1,
         "type": "pubkey",
         "addresses": [
-          "D5TjotnkoXekNQBCn54CBWxjEzCJMMe7WS"
+          "P5TjotnkoXekNQBCn54CBWxjEzCJMMe7WS"
         ]
       }
     }
