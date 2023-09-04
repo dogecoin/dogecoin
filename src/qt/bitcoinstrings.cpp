@@ -415,7 +415,7 @@ QT_TRANSLATE_NOOP("bitcoin-core", "Wallet options:"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Warning"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Warning: unknown new rules activated (versionbit %i)"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Whether to operate in a blocks only mode (default: %u)"),
-QT_TRANSLATE_NOOP("bitcoin-core", "Wow"),
+QT_TRANSLATE_NOOP("bitcoin-core", "Overview"),
 QT_TRANSLATE_NOOP("bitcoin-core", "Zapping all transactions from wallet..."),
 QT_TRANSLATE_NOOP("bitcoin-core", "ZeroMQ notification options:"),
 };

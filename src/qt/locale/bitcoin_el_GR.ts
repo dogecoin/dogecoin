@@ -138,7 +138,7 @@
         <translation>Συγχρονισμός με το δίκτυο...</translation>
     </message>
     <message>
-        <source>&amp;Wow</source>
+        <source>&amp;Overview</source>
         <translation>&amp;Επισκόπηση</translation>
     </message>
     <message>
@@ -242,11 +242,11 @@
         <translation>Πορτοφόλι</translation>
     </message>
     <message>
-        <source>&amp;Such Send</source>
+        <source>&amp;Send</source>
         <translation>&amp;Αποστολή</translation>
     </message>
     <message>
-        <source>&amp;Much Receive</source>
+        <source>&amp;Receive</source>
         <translation>&amp;Παραλαβή </translation>
     </message>
     <message>

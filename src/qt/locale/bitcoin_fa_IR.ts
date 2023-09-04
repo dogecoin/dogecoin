@@ -74,7 +74,7 @@
         <translation>به روز رسانی با شبکه...</translation>
     </message>
     <message>
-        <source>&amp;Wow</source>
+        <source>&amp;Overview</source>
         <translation>و بازبینی</translation>
     </message>
     <message>
@@ -142,7 +142,7 @@
         <translation>کیف پول</translation>
     </message>
     <message>
-        <source>&amp;Such Send</source>
+        <source>&amp;Send</source>
         <translation>و ارسال</translation>
     </message>
     <message>

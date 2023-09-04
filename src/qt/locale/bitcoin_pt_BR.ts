@@ -279,7 +279,7 @@
         <translation>Sincronizando com a rede...</translation>
     </message>
     <message>
-        <source>&amp;Wow</source>
+        <source>&amp;Overview</source>
         <translation>&amp;Visão geral</translation>
     </message>
     <message>
@@ -407,11 +407,11 @@
         <translation>Carteira</translation>
     </message>
     <message>
-        <source>&amp;Such Send</source>
+        <source>&amp;Send</source>
         <translation>&amp;Enviar</translation>
     </message>
     <message>
-        <source>&amp;Much Receive</source>
+        <source>&amp;Receive</source>
         <translation>&amp;Receber</translation>
     </message>
     <message>
@@ -4555,7 +4555,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Wow</source>
+        <source>Overview</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

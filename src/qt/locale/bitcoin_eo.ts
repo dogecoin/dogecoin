@@ -283,7 +283,7 @@
         <translation>Sinkronigante kun reto...</translation>
     </message>
     <message>
-        <source>&amp;Wow</source>
+        <source>&amp;Overview</source>
         <translation>&amp;Superrigardo</translation>
     </message>
     <message>
@@ -336,7 +336,7 @@
     </message>
     <message>
         <source>Such &amp;sending addresses...</source>
-        <translation type="vanished">&amp;Such Sendaj adresoj...</translation>
+        <translation type="vanished">&amp;Sendaj adresoj...</translation>
     </message>
     <message>
         <source>Much &amp;receiving addresses...</source>
@@ -383,11 +383,11 @@
         <translation>Monujo</translation>
     </message>
     <message>
-        <source>&amp;Such Send</source>
-        <translation>&amp;Such Sendi</translation>
+        <source>&amp;Send</source>
+        <translation>&amp;Sendi</translation>
     </message>
     <message>
-        <source>&amp;Much Receive</source>
+        <source>&amp;Receive</source>
         <translation>&amp;Ricevi</translation>
     </message>
     <message>
@@ -4482,7 +4482,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Wow</source>
+        <source>Overview</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

@@ -279,7 +279,7 @@
         <translation>네트워크와 동기화 중...</translation>
     </message>
     <message>
-        <source>&amp;Wow</source>
+        <source>&amp;Overview</source>
         <translation>개요(&amp;O)</translation>
     </message>
     <message>
@@ -407,11 +407,11 @@
         <translation>지갑</translation>
     </message>
     <message>
-        <source>&amp;Such Send</source>
+        <source>&amp;Send</source>
         <translation>보내기(&amp;S)</translation>
     </message>
     <message>
-        <source>&amp;Much Receive</source>
+        <source>&amp;Receive</source>
         <translation>받기(&amp;R)</translation>
     </message>
     <message>
@@ -4522,7 +4522,7 @@ p, li { white-space: pre-wrap; }
         <translation>이 컴퓨터에서 %s에 바인딩할 수 없습니다(바인드에서 오류 %s 반환).</translation>
     </message>
     <message>
-        <source>Wow</source>
+        <source>Overview</source>
         <translation>대박</translation>
     </message>
     <message>

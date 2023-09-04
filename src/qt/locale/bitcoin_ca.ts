@@ -279,7 +279,7 @@
         <translation>S&apos;està sincronitzant amb la xarxa ...</translation>
     </message>
     <message>
-        <source>&amp;Wow</source>
+        <source>&amp;Overview</source>
         <translation>&amp;Panorama general</translation>
     </message>
     <message>
@@ -403,11 +403,11 @@
         <translation>Moneder</translation>
     </message>
     <message>
-        <source>&amp;Such Send</source>
+        <source>&amp;Send</source>
         <translation>&amp;Envia</translation>
     </message>
     <message>
-        <source>&amp;Much Receive</source>
+        <source>&amp;Receive</source>
         <translation>&amp;Rep</translation>
     </message>
     <message>
@@ -4518,7 +4518,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Wow</source>
+        <source>Overview</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

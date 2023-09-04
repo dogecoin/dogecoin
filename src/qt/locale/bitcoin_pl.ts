@@ -279,7 +279,7 @@
         <translation>Synchronizacja z siecią...</translation>
     </message>
     <message>
-        <source>&amp;Wow</source>
+        <source>&amp;Overview</source>
         <translation>P&amp;odsumowanie</translation>
     </message>
     <message>
@@ -391,11 +391,11 @@
         <translation>Portfel</translation>
     </message>
     <message>
-        <source>&amp;Such Send</source>
+        <source>&amp;Send</source>
         <translation>Wyślij</translation>
     </message>
     <message>
-        <source>&amp;Much Receive</source>
+        <source>&amp;Receive</source>
         <translation>Odbie&amp;rz</translation>
     </message>
     <message>
@@ -4528,7 +4528,7 @@ Zwróć uwagę, że poprawnie zweryfikowana wiadomość potwierdza to, że nadaw
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Wow</source>
+        <source>Overview</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -279,7 +279,7 @@
         <translation>Dohitevam omrežje ...</translation>
     </message>
     <message>
-        <source>&amp;Wow</source>
+        <source>&amp;Overview</source>
         <translation>Pre&amp;gled</translation>
     </message>
     <message>
@@ -379,11 +379,11 @@
         <translation>Denarnica</translation>
     </message>
     <message>
-        <source>&amp;Such Send</source>
+        <source>&amp;Send</source>
         <translation>&amp;Pošlji</translation>
     </message>
     <message>
-        <source>&amp;Much Receive</source>
+        <source>&amp;Receive</source>
         <translation>P&amp;rejmi</translation>
     </message>
     <message>
@@ -4524,7 +4524,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Wow</source>
+        <source>Overview</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

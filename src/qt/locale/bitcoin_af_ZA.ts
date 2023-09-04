@@ -182,7 +182,7 @@
         <translation>Sinchroniseer met die netwerk ...</translation>
     </message>
     <message>
-        <source>&amp;Wow</source>
+        <source>&amp;Overview</source>
         <translation>&amp;Oorsig</translation>
     </message>
     <message>

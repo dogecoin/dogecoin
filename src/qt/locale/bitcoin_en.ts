@@ -356,8 +356,8 @@
     </message>
     <message>
         <location line="+158"/>
-        <source>&amp;Wow</source>
-        <translation type="unfinished">&amp;Wow</translation>
+        <source>&amp;Overview</source>
+        <translation type="unfinished">&amp;Overview</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -366,8 +366,8 @@
     </message>
     <message>
         <location line="+6"/>
-        <source>&amp;Such Send</source>
-        <translation type="unfinished">&amp;Such Send</translation>
+        <source>&amp;Send</source>
+        <translation type="unfinished">&amp;Send</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -376,8 +376,8 @@
     </message>
     <message>
         <location line="+10"/>
-        <source>&amp;Much Receive</source>
-        <translation type="unfinished">&amp;Much Receive</translation>
+        <source>&amp;Receive</source>
+        <translation type="unfinished">&amp;Receive</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -5661,7 +5661,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location line="+1"/>
-        <source>Wow</source>
+        <source>Overview</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

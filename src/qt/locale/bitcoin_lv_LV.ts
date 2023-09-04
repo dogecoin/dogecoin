@@ -279,7 +279,7 @@
         <translation>Sinhronizācija ar tīklu...</translation>
     </message>
     <message>
-        <source>&amp;Wow</source>
+        <source>&amp;Overview</source>
         <translation>&amp;Pārskats</translation>
     </message>
     <message>
@@ -379,11 +379,11 @@
         <translation>Maciņš</translation>
     </message>
     <message>
-        <source>&amp;Such Send</source>
+        <source>&amp;Send</source>
         <translation>&amp;Sūtīt</translation>
     </message>
     <message>
-        <source>&amp;Much Receive</source>
+        <source>&amp;Receive</source>
         <translation>&amp;Saņemt</translation>
     </message>
     <message>
@@ -4482,7 +4482,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Wow</source>
+        <source>Overview</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

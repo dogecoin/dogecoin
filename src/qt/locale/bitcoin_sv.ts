@@ -280,7 +280,7 @@ Var vänlig och försök igen.</translation>
         <translation>Synkroniserar med nätverk...</translation>
     </message>
     <message>
-        <source>&amp;Wow</source>
+        <source>&amp;Overview</source>
         <translation>&amp;Översikt</translation>
     </message>
     <message>
@@ -408,11 +408,11 @@ Var vänlig och försök igen.</translation>
         <translation>Plånbok</translation>
     </message>
     <message>
-        <source>&amp;Such Send</source>
+        <source>&amp;Send</source>
         <translation>&amp;Skicka</translation>
     </message>
     <message>
-        <source>&amp;Much Receive</source>
+        <source>&amp;Receive</source>
         <translation>&amp;Ta emot</translation>
     </message>
     <message>
@@ -4510,7 +4510,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Wow</source>
+        <source>Overview</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

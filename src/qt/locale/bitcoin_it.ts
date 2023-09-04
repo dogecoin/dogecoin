@@ -279,8 +279,8 @@
         <translation>Sincronizzazione con la rete in corso...</translation>
     </message>
     <message>
-        <source>&amp;Wow</source>
-        <translation>&amp;Wow</translation>
+        <source>&amp;Overview</source>
+        <translation>&amp;Overview</translation>
     </message>
     <message>
         <source>Node</source>
@@ -383,11 +383,11 @@
         <translation>Portafoglio</translation>
     </message>
     <message>
-        <source>&amp;Such Send</source>
+        <source>&amp;Send</source>
         <translation>&amp;Invia</translation>
     </message>
     <message>
-        <source>&amp;Much Receive</source>
+        <source>&amp;Receive</source>
         <translation>&amp;Ricevi</translation>
     </message>
     <message>
@@ -4443,8 +4443,8 @@ p, li { white-space: pre-wrap; }
         <translation>Usa la test chain</translation>
     </message>
     <message>
-        <source>Wow</source>
-        <translation>Wow</translation>
+        <source>Overview</source>
+        <translation>Overview</translation>
     </message>
     <message>
         <source>-discardthreshold is set very high! This is the output amount that the wallet will discard (to fee) if it is smaller than this setting.</source>

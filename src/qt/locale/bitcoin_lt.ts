@@ -279,7 +279,7 @@
         <translation>Sinchronizavimas su tinklu ...</translation>
     </message>
     <message>
-        <source>&amp;Wow</source>
+        <source>&amp;Overview</source>
         <translation>&amp;Apžvalga</translation>
     </message>
     <message>
@@ -383,11 +383,11 @@
         <translation>Piniginė</translation>
     </message>
     <message>
-        <source>&amp;Such Send</source>
+        <source>&amp;Send</source>
         <translation>&amp;Siųsti</translation>
     </message>
     <message>
-        <source>&amp;Much Receive</source>
+        <source>&amp;Receive</source>
         <translation>&amp;Gauti</translation>
     </message>
     <message>
@@ -4478,7 +4478,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Wow</source>
+        <source>Overview</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

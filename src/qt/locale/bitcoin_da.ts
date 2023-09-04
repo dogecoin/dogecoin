@@ -279,7 +279,7 @@
         <translation>Synkroniserer med netværk…</translation>
     </message>
     <message>
-        <source>&amp;Wow</source>
+        <source>&amp;Overview</source>
         <translation>&amp;Oversigt</translation>
     </message>
     <message>
@@ -407,11 +407,11 @@
         <translation>Tegnebog</translation>
     </message>
     <message>
-        <source>&amp;Such Send</source>
-        <translation>&amp;Such Send</translation>
+        <source>&amp;Send</source>
+        <translation>&amp;Send</translation>
     </message>
     <message>
-        <source>&amp;Much Receive</source>
+        <source>&amp;Receive</source>
         <translation>&amp;Modtag</translation>
     </message>
     <message>
@@ -4548,7 +4548,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Wow</source>
+        <source>Overview</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

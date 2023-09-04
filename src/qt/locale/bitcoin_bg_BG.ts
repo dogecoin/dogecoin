@@ -182,7 +182,7 @@
         <translation>Синхронизиране с мрежата...</translation>
     </message>
     <message>
-        <source>&amp;Wow</source>
+        <source>&amp;Overview</source>
         <translation>Преглед</translation>
     </message>
     <message>

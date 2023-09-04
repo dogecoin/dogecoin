@@ -74,7 +74,7 @@
         <translation>Sincronizando con la red...</translation>
     </message>
     <message>
-        <source>&amp;Wow</source>
+        <source>&amp;Overview</source>
         <translation>&amp;Vista general</translation>
     </message>
     <message>
@@ -174,11 +174,11 @@
         <translation>Cartera</translation>
     </message>
     <message>
-        <source>&amp;Such Send</source>
+        <source>&amp;Send</source>
         <translation>&amp;Envía</translation>
     </message>
     <message>
-        <source>&amp;Much Receive</source>
+        <source>&amp;Receive</source>
         <translation>y recibir</translation>
     </message>
     <message>

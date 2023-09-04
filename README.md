@@ -36,7 +36,7 @@ expose RPC ports to the public internet.
 | P2P      |   22556 |   44556 |   18444 |
 | RPC      |   22555 |   44555 |   18332 |
 
-## Ongoing development - Moon plan 🌒
+## Ongoing development
 
 Pepecoin Core is an open source and community driven software. The development
 process is open and publicly visible; anyone can see, discuss and work on the
@@ -74,9 +74,9 @@ using the [issue system](https://github.com/pepecoinppc/pepecoin/issues/new?assi
 Please see [the contribution guide](CONTRIBUTING.md) to see how you can
 participate in the development of Pepecoin Core. There are often
 [topics seeking help](https://github.com/pepecoinppc/pepecoin/labels/help%20wanted)
-where your contributions will have high impact and get very appreciation. wow.
+where your contributions will have high impact and get very appreciation.
 
-## Communities 🚀🍾
+## Communities 🐸
 
 You can join the communities on different social media.
 To see what's going on, meet people & discuss, find the latest meme, learn
