@@ -375,7 +375,6 @@ RES_IMAGES =
 RES_MOVIES = $(wildcard $(srcdir)/qt/res/movies/spinner-*.png)
 
 RES_FONTS = \
-  QT_RES_FONTS = \
     qt/res/fonts/RobotoMono-Bold.ttf
 
 BITCOIN_RC = qt/res/bitcoin-qt-res.rc
