@@ -17,6 +17,16 @@ refer to the [fee recommendation](doc/fee-recommendation.md).
 
 **Website:** [getpepecoin.com](https://getpepecoin.com)
 
+## Dogecoin Differences
+
+Pepecoin is a fork of Dogecoin. For the sake of familiarity, we will attempt to keep Pepecoin similar to Dogecoin. 
+
+Changes:
+
+* Addresses start with `P` instead of `D`
+* BIPS features will start at the genesis block
+* GUI themed for Pepecoin
+
 ## Usage 💻
 
 To start your journey with Pepecoin Core, see the [installation guide](INSTALL.md) and the [getting started](doc/getting-started.md) tutorial.
@@ -49,7 +59,7 @@ Main development resources:
 * [GitHub Discussion](https://github.com/pepecoinppc/pepecoin/discussions) is used
   to discuss features, planned and unplanned, related to both the development of
   the Pepecoin Core software, the underlying protocols and the PEPE asset.  
-* [Pepecoindev subreddit](https://www.reddit.com/r/PepecoinPPC_Dev/)
+* [PepecoinDev subreddit](https://www.reddit.com/r/pepecoindev/)
 
 ### Version strategy
 Version numbers are following ```major.minor.patch``` semantics.
@@ -84,9 +94,10 @@ about Pepecoin, give or ask for help, to share your project.
 
 Here are some places to visit:
 
-* [Pepecoin subreddit](https://www.reddit.com/r/PepecoinPPC/)
-* [Discord](https://discord.gg/pepecoinppc)
-* [Pepecoin Twitter](https://twitter.com/pepecoinppc)
+* We are working on getting preferred handles and subreddit
+<!-- * [Reddit]() -->
+<!-- * [Discord](https://getpepecoin.com/discord) -->
+<!-- * [Twitter](https://twitter.com/pepecoinppc) -->
 
 ## Very Much Frequently Asked Questions ❓
 
