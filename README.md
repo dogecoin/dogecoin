@@ -39,7 +39,7 @@ expose RPC ports to the public internet.
 | P2P      |   22556 |   44556 |   18444 |
 | RPC      |   22555 |   44555 |   18332 |
 
-## Ongoing development - Moon plan 🌒
+## Ongoing development 💻
 
 Dogecoin Core is an open source and community driven software. The development
 process is open and publicly visible; anyone can see, discuss and work on the
@@ -92,14 +92,14 @@ Here are some places to visit:
 * [Discord](https://discord.gg/dogecoin)
 * [Dogecoin Twitter](https://twitter.com/dogecoin)
 
-## Very Much Frequently Asked Questions ❓
+## Frequently Asked Questions ❓
 
 Do you have a question regarding Dogecoin? An answer is perhaps already in the
 [FAQ](doc/FAQ.md) or the
 [Q&A section](https://github.com/dogecoin/dogecoin/discussions/categories/q-a)
 of the discussion board!
 
-## License - Much license ⚖️
+## License ⚖️
 Dogecoin Core is released under the terms of the MIT license. See
 [COPYING](COPYING) for more information or see
 [opensource.org](https://opensource.org/licenses/MIT)
