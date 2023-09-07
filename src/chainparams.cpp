@@ -363,7 +363,6 @@ public:
             5353803,    // * total number of transactions between genesis and last checkpoint
             0.02        // * estimated number of transactions per second after that timestamp
         };
-
     }
 };
 static CTestNetParams testNetParams;
