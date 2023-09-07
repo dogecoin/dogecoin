@@ -2,13 +2,15 @@ dnl require autoconf 2.60 (AS_ECHO/AS_ECHO_N)
 AC_PREREQ([2.60])
 define(_CLIENT_VERSION_MAJOR, 1)
 define(_CLIENT_VERSION_MINOR, 14)
-define(_CLIENT_VERSION_REVISION, 6)
+define(_CLIENT_VERSION_REVISION, 7)
 define(_CLIENT_VERSION_BUILD, 0)
-define(_CLIENT_VERSION_IS_RELEASE, true)
+define(_CLIENT_VERSION_IS_RELEASE, false)
 define(_COPYRIGHT_YEAR, 2022)
 define(_COPYRIGHT_HOLDERS,[The %s developers])
-define(_COPYRIGHT_HOLDERS_SUBSTITUTION,[[Bitcoin Core and Pepecoin Core]])
-AC_INIT([Pepecoin Core],[_CLIENT_VERSION_MAJOR._CLIENT_VERSION_MINOR._CLIENT_VERSION_REVISION],[https://github.com/pepecoinppc/pepecoin/issues],[pepecoin],[https://pepecoin.com/])
+define(_COPYRIGHT_HOLDERS_SUBSTITUTION,[[Bitcoin Core, Dogecoin Core, and Pepecoin Core]])
+define(_CURRENT_RELEASE_DATE,[[1970-01-01]])
+define(_EXPECTED_DAYS_TO_NEXT_RELEASE,[270])
+AC_INIT([Pepecoin Core],[_CLIENT_VERSION_MAJOR._CLIENT_VERSION_MINOR._CLIENT_VERSION_REVISION],[https://github.com/dogecoin/dogecoin/issues],[dogecoin],[https://dogecoin.com/])
 AC_CONFIG_SRCDIR([src/validation.cpp])
 AC_CONFIG_HEADERS([src/config/bitcoin-config.h])
 AC_CONFIG_AUX_DIR([build-aux])
@@ -84,8 +86,6 @@ AC_PATH_PROG([GIT], [git])
 AC_PATH_PROG(CCACHE,ccache)
 AC_PATH_PROG(XGETTEXT,xgettext)
 AC_PATH_PROG(HEXDUMP,hexdump)
-AC_PATH_TOOL(READELF, readelf)
-AC_PATH_TOOL(CPPFILT, c++filt)
 AC_PATH_TOOL(OBJCOPY, objcopy)
 
 AC_ARG_VAR(PYTHONPATH, Augments the default search path for python module files)
@@ -176,6 +176,18 @@ AC_ARG_ENABLE([zmq],
   [disable ZMQ notifications])],
   [use_zmq=$enableval],
   [use_zmq=yes])
+
+AC_ARG_ENABLE([experimental],
+  [AS_HELP_STRING([--enable-experimental],
+  [Allow experimental features to be configured (default is no)])],
+  [allow_experimental=$enableval],
+  [allow_experimental=no])
+
+AC_ARG_ENABLE([scrypt-sse2],
+  [AS_HELP_STRING([--enable-scrypt-sse2],
+  [Build with scrypt sse2 implementation (default is no)])],
+  [use_scrypt_sse2=$enableval],
+  [use_scrypt_sse2=no])
 
 AC_ARG_WITH([intel-avx2],
   [AS_HELP_STRING([--with-intel-avx2],
@@ -475,8 +487,10 @@ AX_GCC_FUNC_ATTRIBUTE([dllimport])
 if test x$use_glibc_compat != xno; then
 
   #glibc absorbed clock_gettime in 2.17. librt (its previous location) is safe to link
-  #in anyway for back-compat.
-  AC_CHECK_LIB([rt],[clock_gettime],, AC_MSG_ERROR(lib missing))
+  #in anyway for back-compat. Since gcc-9, we need to explicitly add lrt outside the
+  #scope of "as-needed" packages, so we disable it, add librt, and re-enable.
+  AX_CHECK_LINK_FLAG([[-Wl,-no-as-needed -Wl,-lrt -Wl,-as-needed]],
+         [COMPAT_LDFLAGS="$COMPAT_LDFLAGS -Wl,-no-as-needed -Wl,-lrt -Wl,-as-needed"])
 
   #__fdelt_chk's params and return type have changed from long unsigned int to long int.
   # See which one is present here.
@@ -491,8 +505,20 @@ if test x$use_glibc_compat != xno; then
     [ fdelt_type="long int"])
   AC_MSG_RESULT($fdelt_type)
   AC_DEFINE_UNQUOTED(FDELT_TYPE, $fdelt_type,[parameter and return value type for __fdelt_chk])
+  AX_CHECK_LINK_FLAG([[-Wl,--wrap=clock_gettime]], [COMPAT_LDFLAGS="$COMPAT_LDFLAGS -Wl,--wrap=clock_gettime"])
   AX_CHECK_LINK_FLAG([[-Wl,--wrap=__divmoddi4]], [COMPAT_LDFLAGS="$COMPAT_LDFLAGS -Wl,--wrap=__divmoddi4"])
+  AX_CHECK_LINK_FLAG([[-Wl,--wrap=exp]], [COMPAT_LDFLAGS="$COMPAT_LDFLAGS -Wl,--wrap=exp"])
+  AX_CHECK_LINK_FLAG([[-Wl,--wrap=log]], [COMPAT_LDFLAGS="$COMPAT_LDFLAGS -Wl,--wrap=log"])
   AX_CHECK_LINK_FLAG([[-Wl,--wrap=log2f]], [COMPAT_LDFLAGS="$COMPAT_LDFLAGS -Wl,--wrap=log2f"])
+  AX_CHECK_LINK_FLAG([[-Wl,--wrap=pow]], [COMPAT_LDFLAGS="$COMPAT_LDFLAGS -Wl,--wrap=pow"])
+
+  dnl only wrap fcntl and fctnl64 for 32-bit linux
+  case $host in
+    i?86*linux* | arm*linux*)
+      AX_CHECK_LINK_FLAG([[-Wl,--wrap=fcntl]], [COMPAT_LDFLAGS="$COMPAT_LDFLAGS -Wl,--wrap=fcntl"])
+      AX_CHECK_LINK_FLAG([[-Wl,--wrap=fcntl64]], [COMPAT_LDFLAGS="$COMPAT_LDFLAGS -Wl,--wrap=fcntl64"])
+      ;;
+    esac
 else
   AC_SEARCH_LIBS([clock_gettime],[rt])
 fi
@@ -725,17 +751,19 @@ BOOST_LIBS="$BOOST_LDFLAGS $BOOST_SYSTEM_LIB $BOOST_FILESYSTEM_LIB $BOOST_PROGRA
 
 fi
 
-if test x$intel_avx2 = xyes; then
-  case $host in
-     x86_64-*-linux*)
-    AC_CHECK_LIB([IPSec_MB],[sha1_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
-    AC_CHECK_LIB([IPSec_MB],[sha256_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
-    AC_CHECK_LIB([IPSec_MB],[sha512_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
-    AC_DEFINE(USE_AVX2, 1, [Define this symbol if intel axv2 works])
-esac
+# Configure experimental for compile-time asserts
+if test x$allow_experimental = xyes; then
+  AC_DEFINE(ALLOW_DOGECOIN_EXPERIMENTAL, 1, [Define this symbol if experimental features are allowed])
+fi
+
+# Configure Scrypt SSE2
+if test x$use_scrypt_sse2 = xyes; then
+  DOGECOIN_REQUIRE_EXPERIMENTAL
+  AC_DEFINE(USE_SSE2, 1, [Define this symbol if SSE2 works])
 fi
 
 if test x$armv8_crypto = xyes; then
+  DOGECOIN_REQUIRE_EXPERIMENTAL
   AC_MSG_CHECKING([whether to build with armv8 crypto])
   AC_MSG_RESULT(yes)
   AC_DEFINE(USE_ARMV8, 1, [Define this symbol if armv8 crypto works])
@@ -743,6 +771,7 @@ if test x$armv8_crypto = xyes; then
 fi
 
 if test x$armv82_crypto = xyes; then
+  DOGECOIN_REQUIRE_EXPERIMENTAL
   AC_CHECK_DECLS([vsha512su0q_u64],
      [AC_DEFINE(USE_ARMV82, 1, [Define this symbol if armv8.2 crypto works])
      CXXFLAGS="$CXXFLAGS -march=armv8.2-a+crypto+sha3"], AC_MSG_ERROR(sha512 missing), [#include <arm_neon.h>])
@@ -820,6 +849,44 @@ else
     BITCOIN_QT_CHECK([AC_CHECK_LIB([qrencode], [main],[QR_LIBS=-lqrencode], [have_qrencode=no])])
     BITCOIN_QT_CHECK([AC_CHECK_HEADER([qrencode.h],, have_qrencode=no)])
   fi
+fi
+
+if test x$intel_avx2 = xyes; then
+  DOGECOIN_REQUIRE_EXPERIMENTAL
+  case $host in
+     x86_64-*-linux*)
+    AC_CHECK_LIB([IPSec_MB],[sha1_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
+    AC_CHECK_LIB([IPSec_MB],[sha256_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
+    AC_CHECK_LIB([IPSec_MB],[sha512_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
+    AC_DEFINE(USE_AVX2, 1, [Define this symbol if intel axv2 works])
+;;
+    *mingw*)
+    AC_CHECK_LIB([IPSec_MB],[sha1_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
+    AC_CHECK_LIB([IPSec_MB],[sha256_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
+    AC_CHECK_LIB([IPSec_MB],[sha512_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
+    AC_CHECK_LIB([Qt5PlatformSupport],[main],LIBS+=" -lQt5PlatformSupport", AC_MSG_ERROR(lib missing))
+    AC_CHECK_LIB([mingwthrd],         [main],LIBS+=" -lmingwthrd", AC_MSG_ERROR(lib missing))
+    AC_CHECK_LIB([kernel32],          [main],LIBS+=" -lkernel32", AC_MSG_ERROR(lib missing))
+    AC_CHECK_LIB([user32],            [main],LIBS+=" -luser32", AC_MSG_ERROR(lib missing))
+    AC_CHECK_LIB([gdi32],             [main],LIBS+=" -lgdi32", AC_MSG_ERROR(lib missing))
+    AC_CHECK_LIB([comdlg32],          [main],LIBS+=" -lcomdlg32", AC_MSG_ERROR(lib missing))
+    AC_CHECK_LIB([winspool],          [main],LIBS+=" -lwinspool", AC_MSG_ERROR(lib missing))
+    AC_CHECK_LIB([winmm],             [main],LIBS+=" -lwinmm", AC_MSG_ERROR(lib missing))
+    AC_CHECK_LIB([shell32],           [main],LIBS+=" -lshell32", AC_MSG_ERROR(lib missing))
+    AC_CHECK_LIB([comctl32],          [main],LIBS+=" -lcomctl32", AC_MSG_ERROR(lib missing))
+    AC_CHECK_LIB([ole32],             [main],LIBS+=" -lole32", AC_MSG_ERROR(lib missing))
+    AC_CHECK_LIB([oleaut32],          [main],LIBS+=" -loleaut32", AC_MSG_ERROR(lib missing))
+    AC_CHECK_LIB([uuid],              [main],LIBS+=" -luuid", AC_MSG_ERROR(lib missing))
+    AC_CHECK_LIB([rpcrt4],            [main],LIBS+=" -lrpcrt4", AC_MSG_ERROR(lib missing))
+    AC_CHECK_LIB([advapi32],          [main],LIBS+=" -ladvapi32", AC_MSG_ERROR(lib missing))
+    AC_CHECK_LIB([ws2_32],            [main],LIBS+=" -lws2_32", AC_MSG_ERROR(lib missing))
+    AC_CHECK_LIB([mswsock],           [main],LIBS+=" -lmswsock", AC_MSG_ERROR(lib missing))
+    AC_CHECK_LIB([shlwapi],           [main],LIBS+=" -lshlwapi", AC_MSG_ERROR(lib missing))
+    AC_CHECK_LIB([iphlpapi],          [main],LIBS+=" -liphlpapi", AC_MSG_ERROR(lib missing))
+    AC_CHECK_LIB([crypt32],           [main],LIBS+=" -lcrypt32", AC_MSG_ERROR(lib missing))
+    AC_CHECK_LIB([ssp],               [main],LIBS+=" -lssp", AC_MSG_ERROR(lib missing))
+    AC_DEFINE(USE_AVX2, 1, [Define this symbol if intel axv2 works])
+esac
 fi
 
 save_CXXFLAGS="${CXXFLAGS}"
@@ -1028,6 +1095,7 @@ AM_CONDITIONAL([USE_LCOV],[test x$use_lcov = xyes])
 AM_CONDITIONAL([GLIBC_BACK_COMPAT],[test x$use_glibc_compat = xyes])
 AM_CONDITIONAL([HARDEN],[test x$use_hardening = xyes])
 AM_CONDITIONAL([WORDS_BIGENDIAN],[test x$ac_cv_c_bigendian = xyes])
+AM_CONDITIONAL([USE_SCRYPT_SSE2], [test x$use_scrypt_sse2 = xyes])
 
 AC_DEFINE(CLIENT_VERSION_MAJOR, _CLIENT_VERSION_MAJOR, [Major version])
 AC_DEFINE(CLIENT_VERSION_MINOR, _CLIENT_VERSION_MINOR, [Minor version])
@@ -1039,6 +1107,8 @@ AC_DEFINE(COPYRIGHT_HOLDERS, "_COPYRIGHT_HOLDERS", [Copyright holder(s) before %
 AC_DEFINE(COPYRIGHT_HOLDERS_SUBSTITUTION, "_COPYRIGHT_HOLDERS_SUBSTITUTION", [Replacement for %s in copyright holders string])
 define(_COPYRIGHT_HOLDERS_FINAL, [patsubst(_COPYRIGHT_HOLDERS, [%s], [_COPYRIGHT_HOLDERS_SUBSTITUTION])])
 AC_DEFINE(COPYRIGHT_HOLDERS_FINAL, "_COPYRIGHT_HOLDERS_FINAL", [Copyright holder(s)])
+AC_DEFINE(CURRENT_RELEASE_DATE, "_CURRENT_RELEASE_DATE", [Date of the current release])
+AC_DEFINE(EXPECTED_DAYS_TO_NEXT_RELEASE, _EXPECTED_DAYS_TO_NEXT_RELEASE,[Days until the next release is definitely released])
 AC_SUBST(CLIENT_VERSION_MAJOR, _CLIENT_VERSION_MAJOR)
 AC_SUBST(CLIENT_VERSION_MINOR, _CLIENT_VERSION_MINOR)
 AC_SUBST(CLIENT_VERSION_REVISION, _CLIENT_VERSION_REVISION)
@@ -1048,6 +1118,8 @@ AC_SUBST(COPYRIGHT_YEAR, _COPYRIGHT_YEAR)
 AC_SUBST(COPYRIGHT_HOLDERS, "_COPYRIGHT_HOLDERS")
 AC_SUBST(COPYRIGHT_HOLDERS_SUBSTITUTION, "_COPYRIGHT_HOLDERS_SUBSTITUTION")
 AC_SUBST(COPYRIGHT_HOLDERS_FINAL, "_COPYRIGHT_HOLDERS_FINAL")
+AC_SUBST(CURRENT_RELEASE_DATE, "_CURRENT_RELEASE_DATE")
+AC_SUBST(EXPECTED_DAYS_TO_NEXT_RELEASE, _EXPECTED_DAYS_TO_NEXT_RELEASE)
 AC_SUBST(BITCOIN_DAEMON_NAME)
 AC_SUBST(BITCOIN_GUI_NAME)
 AC_SUBST(BITCOIN_CLI_NAME)
@@ -1148,6 +1220,14 @@ echo "  with bench    = $use_bench"
 echo "  with upnp     = $use_upnp"
 echo "  debug enabled = $enable_debug"
 echo "  werror        = $enable_werror"
+echo
+echo "  experimental  = $allow_experimental"
+if test x$allow_experimental = xyes; then
+    echo "    SSE2 Scrypt   = $use_scrypt_sse2"
+    echo "    AVX2 crypto   = $intel_avx2"
+    echo "    ARMv8 crypto  = $armv8_crypto"
+    echo "    ARMv82 crypto = $armv82_crypto"
+fi
 echo
 echo "  target os     = $TARGET_OS"
 echo "  build os      = $BUILD_OS"

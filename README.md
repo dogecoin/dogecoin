@@ -4,7 +4,7 @@
 Pepecoin Core [PEPE, ₱]  
 </h1>
 
-Select language: EN | [CN](./README_zh_CN.md) | [PT](./README_pt_BR.md) | [FA](./README_fa_IR.md)
+Select language: EN | [CN](./README_zh_CN.md) | [PT](./README_pt_BR.md) | [FA](./README_fa_IR.md) | [VI](./README_vi_VN.md)
 
 Pepecoin is a community focused cryptocurrency created by one of the original Dogecoin shibes from 2013. It was created for one purpose, to create a new and fun community just like the original Dogecoin community.
 
@@ -46,7 +46,7 @@ expose RPC ports to the public internet.
 | P2P      |   22556 |   44556 |   18444 |
 | RPC      |   22555 |   44555 |   18332 |
 
-## Ongoing development
+## Ongoing development 💻
 
 Pepecoin Core is an open source and community driven software. The development
 process is open and publicly visible; anyone can see, discuss and work on the
@@ -99,14 +99,14 @@ Here are some places to visit:
 <!-- * [Discord](https://getpepecoin.com/discord) -->
 <!-- * [Twitter](https://twitter.com/pepecoinppc) -->
 
-## Very Much Frequently Asked Questions ❓
+## Frequently Asked Questions ❓
 
 Do you have a question regarding Pepecoin? An answer is perhaps already in the
 [FAQ](doc/FAQ.md) or the
 [Q&A section](https://github.com/pepecoinppc/pepecoin/discussions/categories/q-a)
 of the discussion board!
 
-## License - Much license ⚖️
+## License ⚖️
 Pepecoin Core is released under the terms of the MIT license. See
 [COPYING](COPYING) for more information or see
 [opensource.org](https://opensource.org/licenses/MIT)

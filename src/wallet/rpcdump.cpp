@@ -35,6 +35,8 @@ using namespace std;
 
 void EnsureWalletIsUnlocked();
 bool EnsureWalletIsAvailable(bool avoidException);
+uint32_t getHeightParamFromRequest(const JSONRPCRequest& request, size_t pos);
+void attemptRescanFromHeight(uint32_t nHeight);
 
 std::string static EncodeDumpTime(int64_t nTime) {
     return DateTimeStrFormat("%Y-%m-%dT%H:%M:%SZ", nTime);
@@ -83,8 +85,8 @@ UniValue importprivkey(const JSONRPCRequest& request)
 {
     if (!EnsureWalletIsAvailable(request.fHelp))
         return NullUniValue;
-    
-    if (request.fHelp || request.params.size() < 1 || request.params.size() > 3)
+
+    if (request.fHelp || request.params.size() < 1 || request.params.size() > 4)
         throw runtime_error(
             "importprivkey \"pepecoinprivkey\" ( \"label\" ) ( rescan )\n"
             "\nAdds a private key (as returned by dumpprivkey) to your wallet.\n"
@@ -92,6 +94,7 @@ UniValue importprivkey(const JSONRPCRequest& request)
             "1. \"pepecoinprivkey\"  (string, required) The private key (see dumpprivkey)\n"
             "2. \"label\"            (string, optional, default=\"\") An optional label\n"
             "3. rescan               (boolean, optional, default=true) Rescan the wallet for transactions\n"
+            "4. height               (numeric, optional, default=1) If rescanning, the block height from which to start\n"
             "\nNote: This call can take minutes to complete if rescan is true.\n"
             "\nExamples:\n"
             "\nDump a private key\n"
@@ -102,6 +105,8 @@ UniValue importprivkey(const JSONRPCRequest& request)
             + HelpExampleCli("importprivkey", "\"mykey\" \"testing\" false") +
             "\nImport using default blank label and without rescan\n"
             + HelpExampleCli("importprivkey", "\"mykey\" \"\" false") +
+            "\nImport using default blank label, with rescan, from a specific block height\n"
+            + HelpExampleCli("importprivkey", "\"mykey\" \"\" true 3760036") +
             "\nAs a JSON-RPC call\n"
             + HelpExampleRpc("importprivkey", "\"mykey\", \"testing\", false")
         );
@@ -148,15 +153,40 @@ UniValue importprivkey(const JSONRPCRequest& request)
         if (!pwalletMain->AddKeyPubKey(key, pubkey))
             throw JSONRPCError(RPC_WALLET_ERROR, "Error adding key to wallet");
 
-        // whenever a key is imported, we need to scan the whole chain
-        pwalletMain->UpdateTimeFirstKey(1);
-
         if (fRescan) {
-            pwalletMain->ScanForWalletTransactions(chainActive.Genesis(), true);
+            const uint32_t nHeight = getHeightParamFromRequest(request, 3);
+            attemptRescanFromHeight(nHeight);
         }
     }
 
     return NullUniValue;
+}
+
+uint32_t getHeightParamFromRequest(const JSONRPCRequest& request, const size_t pos)
+{
+    if (request.params.size() <= pos)
+        return 1;
+
+    const int nHeight = request.params[pos].get_int();
+
+    if (nHeight < 0 || nHeight > chainActive.Height())
+        throw JSONRPCError(RPC_INVALID_PARAMETER, "Block height out of range");
+
+    return nHeight;
+}
+
+void attemptRescanFromHeight(const uint32_t nHeight)
+{
+    CBlockIndex* pblockindex = chainActive.Genesis();
+
+    // we have no implicit first height for a key, so we need to scan the whole chain
+    if (nHeight <= 1)
+        pwalletMain->UpdateTimeFirstKey(1);
+    else
+        pblockindex = chainActive[nHeight];
+
+    pwalletMain->ScanForWalletTransactions(pblockindex, true);
+    pwalletMain->ReacceptWalletTransactions();
 }
 
 void ImportAddress(const CBitcoinAddress& address, const string& strLabel);
@@ -195,16 +225,17 @@ UniValue importaddress(const JSONRPCRequest& request)
 {
     if (!EnsureWalletIsAvailable(request.fHelp))
         return NullUniValue;
-    
-    if (request.fHelp || request.params.size() < 1 || request.params.size() > 4)
+
+    if (request.fHelp || request.params.size() < 1 || request.params.size() > 5)
         throw runtime_error(
-            "importaddress \"address\" ( \"label\" rescan p2sh )\n"
+            "importaddress \"address\" ( \"label\" rescan p2sh height )\n"
             "\nAdds a script (in hex) or address that can be watched as if it were in your wallet but cannot be used to spend.\n"
             "\nArguments:\n"
             "1. \"script\"           (string, required) The hex-encoded script (or address)\n"
             "2. \"label\"            (string, optional, default=\"\") An optional label\n"
             "3. rescan               (boolean, optional, default=true) Rescan the wallet for transactions\n"
             "4. p2sh                 (boolean, optional, default=false) Add the P2SH version of the script as well\n"
+            "5. height               (numeric, optional, default=1) If rescanning, the block height from which to start\n"
             "\nNote: This call can take minutes to complete if rescan is true.\n"
             "If you have the full public key, you should call importpubkey instead of this.\n"
             "\nNote: If you import a non-standard raw script in hex form, outputs sending to it will be treated\n"
@@ -214,6 +245,8 @@ UniValue importaddress(const JSONRPCRequest& request)
             + HelpExampleCli("importaddress", "\"myscript\"") +
             "\nImport using a label without rescan\n"
             + HelpExampleCli("importaddress", "\"myscript\" \"testing\" false") +
+            "\nImport a script with rescan from a specific height\n"
+            + HelpExampleCli("importaddress", "\"myscript\" \"testing\" true false 32768") +
             "\nAs a JSON-RPC call\n"
             + HelpExampleRpc("importaddress", "\"myscript\", \"testing\", false")
         );
@@ -250,10 +283,9 @@ UniValue importaddress(const JSONRPCRequest& request)
         throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Pepecoin address or script");
     }
 
-    if (fRescan)
-    {
-        pwalletMain->ScanForWalletTransactions(chainActive.Genesis(), true);
-        pwalletMain->ReacceptWalletTransactions();
+    if (fRescan) {
+        const uint32_t nHeight = getHeightParamFromRequest(request, 4);
+        attemptRescanFromHeight(nHeight);
     }
 
     return NullUniValue;
@@ -367,10 +399,13 @@ UniValue importpubkey(const JSONRPCRequest& request)
             "1. \"pubkey\"           (string, required) The hex-encoded public key\n"
             "2. \"label\"            (string, optional, default=\"\") An optional label\n"
             "3. rescan               (boolean, optional, default=true) Rescan the wallet for transactions\n"
+            "4. height               (numeric, optional, default=1) If rescanning, the block height from which to start\n"
             "\nNote: This call can take minutes to complete if rescan is true.\n"
             "\nExamples:\n"
             "\nImport a public key with rescan\n"
             + HelpExampleCli("importpubkey", "\"mypubkey\"") +
+            "\nImport a public key with rescan from a specific height\n"
+            + HelpExampleCli("importpubkey", "\"mypubkey\" true 123654") +
             "\nImport using a label without rescan\n"
             + HelpExampleCli("importpubkey", "\"mypubkey\" \"testing\" false") +
             "\nAs a JSON-RPC call\n"
@@ -402,10 +437,9 @@ UniValue importpubkey(const JSONRPCRequest& request)
     ImportAddress(CBitcoinAddress(pubKey.GetID()), strLabel);
     ImportScript(GetScriptForRawPubKey(pubKey), strLabel, false);
 
-    if (fRescan)
-    {
-        pwalletMain->ScanForWalletTransactions(chainActive.Genesis(), true);
-        pwalletMain->ReacceptWalletTransactions();
+    if (fRescan) {
+        const uint32_t nHeight = getHeightParamFromRequest(request, 3);
+        attemptRescanFromHeight(nHeight);
     }
 
     return NullUniValue;

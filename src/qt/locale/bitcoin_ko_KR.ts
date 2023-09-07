@@ -1462,7 +1462,7 @@
         <translation type="vanished">신뢰할 수 없는 사람과 개인 키를 공유하지 마십시오.</translation>
     </message>
     <message>
-        <source>Who own the private keys own the coins.</source>
+        <source>Who owns the private keys owns the coins.</source>
         <translation type="vanished">개인 키를 소유한 사람이 코인을 소유합니다.</translation>
     </message>
     <message>

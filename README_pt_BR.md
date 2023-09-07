@@ -11,7 +11,7 @@ Pepecoin Core [DOGE, Ð]
 
 </div>
 
-Selecione o idioma: [EN](./README.md) | [CN](./README_zh_CN.md) | PT | [FA](./README_fa_IR.md)
+Selecione o idioma: [EN](./README.md) | [CN](./README_zh_CN.md) | PT | [FA](./README_fa_IR.md)  | [VI](./README_vi_VN.md)
 
 Pepecoin é uma criptomoeda gerida pela comunidade que foi inspirada no meme Shiba Inu. O programa Pepecoin Core permite qualquer um operar um nó na rede blockchain da Pepecoin e utilizar o algoritmo de hash Scrypt para mineração usando Prova de Trabalho (Proof of Work). O Pepecoin Core é uma adaptação do Bitcoin Core e de outras criptomoedas.
 

@@ -44,6 +44,8 @@ Update the following:
     - `_CLIENT_VERSION_MAJOR`
     - `_CLIENT_VERSION_MINOR`
     - `_CLIENT_VERSION_REVISION`
+    - `_CURRENT_RELEASE_DATE`
+    - `_EXPECTED_DAYS_TO_NEXT_RELEASE` if necessary
     - Don't forget to set `_CLIENT_VERSION_IS_RELEASE` to `true`
 - `src/clientversion.h`: (this mirrors `configure.ac` - see issue #3539)
     - `CLIENT_VERSION_MAJOR`
