@@ -111,6 +111,19 @@ releases will automatically benefit from these.
 When refactoring Dogecoin-specific code, please keep refactoring requests short,
 low complexity and easy to verify.
 
+### Experimental features and optimizations
+
+In some cases where a pull request introduces a new feature or optimization,
+reviewers or maintainers can request the feature to be introduced as an
+experimental-only feature, meaning that the feature will not be released in
+provided binaries but will be available for self-compilation for those who
+wish to test it. Experimental features are still expected to be complete and
+the process to be followed for all contribution guidelines as outlined in this
+document.
+
+For more information, see the
+[experimental feature documentation](./doc/experiments.md)
+
 
 ## "Decision Making" Process
 
@@ -144,6 +157,7 @@ approval and merge:
 
 - Consensus rule changes (through softfork or otherwise)
 - Policy changes
+- Maturing experimental features into production
 
 While each case will be different, one should be prepared to expend more time
 and effort than for other kinds of patches because of increased peer review

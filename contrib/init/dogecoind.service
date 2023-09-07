@@ -9,6 +9,8 @@
 [Unit]
 Description=Dogecoin's distributed currency daemon
 After=network.target
+StartLimitIntervalSec=120
+StartLimitBurst=5
 
 [Service]
 Type=simple
@@ -19,15 +21,13 @@ Restart=always
 RestartSec=5
 TimeoutStopSec=60
 TimeoutStartSec=5
-StartLimitIntervalSec=120
-StartLimitBurst=5
 
 User=dogecoin
 Group=dogecoin
 
 ### Restrict resource consumption
 MemoryAccounting=yes
-MemoryLimit=3g
+MemoryLimit=3G
 
 ### Restrict access to host file system.
 #

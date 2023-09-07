@@ -43,7 +43,7 @@ public:
 private:
     Ui::AddPeerDialog *ui;
 private Q_SLOTS:
-    void on_addPeer_clicked();
+    void on_addPeerClicked();
 };
 
 /** "Test peer" dialog box */
@@ -57,7 +57,7 @@ public:
 private:
     Ui::TestPeerDialog *ui;
 private Q_SLOTS:
-    void on_testPeer_clicked();
+    void on_testPeerClicked();
 };
 
 #endif

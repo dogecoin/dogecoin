@@ -2,7 +2,7 @@
 name: "dogecoin-win-1.14"
 enable_cache: true
 suites:
-- "bionic"
+- "focal"
 architectures:
 - "amd64"
 packages:
@@ -13,6 +13,7 @@ packages:
 - "autoconf"
 - "libtool"
 - "automake"
+- "make"
 - "faketime"
 - "bsdmainutils"
 - "mingw-w64"
@@ -20,12 +21,14 @@ packages:
 - "nsis"
 - "zip"
 - "ca-certificates"
-- "python"
+- "python3"
+- "python3-pip"
 - "rename"
 remotes:
 - "url": "https://github.com/dogecoin/dogecoin.git"
   "dir": "dogecoin"
-files: []
+files:
+- "lief-0.12.3-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
 script: |
   WRAP_DIR=$HOME/wrapped
   HOSTS="i686-w64-mingw32 x86_64-w64-mingw32"
@@ -94,6 +97,9 @@ script: |
   create_per-host_compiler_wrapper "2000-01-01 12:00:00"
   export PATH=${WRAP_DIR}:${PATH}
 
+  # install python-lief
+  python3 -m pip install ${BUILD_DIR}/lief-0.12.3-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+
   cd dogecoin
   BASEPREFIX=`pwd`/depends
   # Build dependencies for each host
@@ -137,6 +143,7 @@ script: |
     CONFIG_SITE=${BASEPREFIX}/${i}/share/config.site ./configure --prefix=/ --disable-ccache --disable-maintainer-mode --disable-dependency-tracking ${CONFIGFLAGS} CFLAGS="${HOST_CFLAGS}" CXXFLAGS="${HOST_CXXFLAGS}"
     make ${MAKEOPTS}
     make ${MAKEOPTS} -C src check-security
+    make ${MAKEOPTS} -C src check-symbols
     make deploy
     make install DESTDIR=${INSTALLPATH}
     cp -f dogecoin-*setup*.exe $OUTDIR/

@@ -91,4 +91,15 @@ bool static inline IsSelectableSocket(SOCKET s) {
 #endif
 }
 
+#ifdef WIN32
+ // Export main() and ensure working ASLR when using mingw-w64.
+ // Exporting a symbol will prevent the linker from stripping
+ // the .reloc section from the binary, which is a requirement
+ // for ASLR. This can be removed when we use binutils >= 2.36,
+ // any earlier version is subject to this ld bug.
+ #define MAIN_FUNCTION __declspec(dllexport) int main(int argc, char* argv[])
+ #else
+ #define MAIN_FUNCTION int main(int argc, char* argv[])
+ #endif
+
 #endif // BITCOIN_COMPAT_H

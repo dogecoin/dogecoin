@@ -6,11 +6,12 @@
 #include "crypto/sha512.h"
 
 #include "crypto/common.h"
+#include "support/experimental.h"
 
 #include <string.h>
 
 #if (defined(__ia64__) || defined(__x86_64__)) && \
-    (defined(__linux__) && !defined(__APPLE__)) && \
+    !defined(__APPLE__) && \
     (defined(USE_AVX2))
 #include <intel-ipsec-mb.h>
 #endif
@@ -99,6 +100,8 @@ void inline Round(uint64_t a, uint64_t b, uint64_t c, uint64_t& d, uint64_t e, u
 #endif
 
 #ifdef USE_ARMV82
+
+EXPERIMENTAL_FEATURE
 
 /* ----------------------------------------------------------------------
  * Hardware-accelerated implementation of SHA-512 using Arm NEON.
@@ -311,6 +314,7 @@ void Transform(uint64_t* s, const unsigned char* chunk)
 {
 #ifdef USE_AVX2
     // Perform SHA512 one block (Intel AVX2)
+    EXPERIMENTAL_FEATURE
     sha512_one_block_avx2(chunk, s);
 #elif USE_ARMV82
     sha512_neon_core core;

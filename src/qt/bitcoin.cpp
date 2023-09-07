@@ -11,6 +11,7 @@
 
 #include "chainparams.h"
 #include "clientmodel.h"
+#include "compat.h"
 #include "guiconstants.h"
 #include "guiutil.h"
 #include "intro.h"
@@ -534,7 +535,7 @@ WId BitcoinApplication::getMainWinId() const
 }
 
 #ifndef BITCOIN_QT_TEST
-int main(int argc, char *argv[])
+MAIN_FUNCTION
 {
     SetupEnvironment();
 

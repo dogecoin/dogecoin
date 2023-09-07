@@ -24,6 +24,7 @@ jobs:
       CACHE_NONCE: "1"
       WINEDEBUG: fixme-all
       SDK_URL: https://depends.dogecoincore.org
+      BIONIC_LIEF_WHL: lief-0.12.3-cp36-cp36m-linux_x86_64.whl
 
     strategy:
       fail-fast: false
@@ -39,14 +40,18 @@ jobs:
           - x86_64-linux-nowallet
           - x86_64-macos
           - x86_64-win
+          - x86_64-win-experimental
           - x86_64-linux-experimental
         include:
           - name: i686-linux
             host: i686-pc-linux-gnu
-            os: ubuntu-18.04
+            os: ubuntu-20.04
             packages: g++-multilib bc python3-zmq
             run-bench: true
-            run-tests: true
+            test-script: |
+              make check $MAKEJOBS VERBOSE=1
+              qa/pull-tester/install-deps.sh
+              qa/pull-tester/rpc-tests.py --coverage
             check-security: true
             check-symbols: true
             dep-opts: "NO_QT=1"
@@ -54,89 +59,107 @@ jobs:
             goal: install
           - name: armhf-linux
             host: arm-linux-gnueabihf
-            os: ubuntu-18.04
-            packages: g++-arm-linux-gnueabihf
+            os: ubuntu-20.04
+            packages: g++-arm-linux-gnueabihf qemu-user-static qemu-user
             run-bench: false
-            run-tests: false
+            test-script: |
+              qemu-arm -E LD_LIBRARY_PATH=/usr/arm-linux-gnueabihf/lib/ /usr/arm-linux-gnueabihf/lib/ld-linux-armhf.so.3 src/test/test_dogecoin
             check-security: true
-            check-symbols: false
+            check-symbols: true
             dep-opts: "NO_QT=1"
-            config-opts: "--enable-glibc-back-compat --disable-tests LDFLAGS=-static-libstdc++"
+            config-opts: "--enable-glibc-back-compat LDFLAGS=-static-libstdc++"
             goal: install
           - name: aarch64-linux-experimental
             host: aarch64-linux-gnu
-            os: ubuntu-18.04
-            packages: g++-aarch64-linux-gnu
-            run-tests: false
+            os: ubuntu-20.04
+            packages: g++-aarch64-linux-gnu qemu-user-static qemu-user
+            run-bench: false
+            test-script: |
+              qemu-aarch64 -E LD_LIBRARY_PATH=/usr/aarch64-linux-gnu/lib/ /usr/aarch64-linux-gnu/lib/ld-linux-aarch64.so.1 src/test/test_dogecoin
             check-security: true
             check-symbols: false
             dep-opts: "NO_QT=1"
-            config-opts: "--with-armv8-crypto --enable-zmq --enable-glibc-back-compat --disable-tests LDFLAGS=-static-libstdc++"
+            config-opts: "--enable-experimental --with-armv8-crypto --enable-zmq --enable-glibc-back-compat LDFLAGS=-static-libstdc++"
             goal: install
           - name: aarch64-linux-sha512-experimental
             host: aarch64-linux-gnu
             os: ubuntu-20.04
-            packages: g++-aarch64-linux-gnu
-            run-tests: false
+            packages: g++-aarch64-linux-gnu qemu-user-static qemu-user
+            run-bench: false
+            test-script: |
+              qemu-aarch64 -E LD_LIBRARY_PATH=/usr/aarch64-linux-gnu/lib/ /usr/aarch64-linux-gnu/lib/ld-linux-aarch64.so.1 src/test/test_dogecoin
             check-security: true
             check-symbols: false
             dep-opts: "NO_QT=1"
-            config-opts: "--with-armv82-crypto --enable-zmq --enable-glibc-back-compat --disable-tests LDFLAGS=-static-libstdc++"
+            config-opts: "--enable-experimental --with-armv82-crypto --enable-zmq --enable-glibc-back-compat LDFLAGS=-static-libstdc++"
             goal: install
           - name: aarch64-linux
             host: aarch64-linux-gnu
-            os: ubuntu-18.04
-            packages: g++-aarch64-linux-gnu
+            os: ubuntu-20.04
+            packages: g++-aarch64-linux-gnu qemu-user-static qemu-user
             run-bench: false
-            run-tests: false
+            test-script: |
+              qemu-aarch64 -E LD_LIBRARY_PATH=/usr/aarch64-linux-gnu/lib/ /usr/aarch64-linux-gnu/lib/ld-linux-aarch64.so.1 src/test/test_dogecoin
             check-security: true
-            check-symbols: false
+            check-symbols: true
             dep-opts: "NO_QT=1"
-            config-opts: "--enable-zmq --enable-glibc-back-compat --disable-tests LDFLAGS=-static-libstdc++"
+            config-opts: "--enable-zmq --enable-glibc-back-compat LDFLAGS=-static-libstdc++"
             goal: install
           - name: x86_64-linux-nowallet
             host: x86_64-unknown-linux-gnu
-            os: ubuntu-18.04
+            os: ubuntu-20.04
             packages: python3
             run-bench: true
-            run-tests: true
+            test-script: |
+              make check $MAKEJOBS VERBOSE=1
             check-security: true
             check-symbols: true
             dep-opts: "NO_WALLET=1"
-            config-opts: "--enable-gui=qt5 --enable-glibc-back-compat --disable-wallet LDFLAGS=-static-libstdc++"
+            config-opts: "--with-gui=qt5 --enable-glibc-back-compat --disable-wallet LDFLAGS=-static-libstdc++"
             goal: install
           - name: x86_64-linux-dbg
             host: x86_64-unknown-linux-gnu
-            os: ubuntu-18.04
+            os: ubuntu-20.04
             packages: bc python3-zmq
             run-bench: true
-            run-tests: true
+            test-script: |
+              make check $MAKEJOBS VERBOSE=1
+              qa/pull-tester/install-deps.sh
+              qa/pull-tester/rpc-tests.py --coverage
             check-security: true
             check-symbols: false
             dep-opts: "DEBUG=1"
-            config-opts: "--enable-gui=qt5 --enable-zmq --enable-glibc-back-compat CPPFLAGS=-DDEBUG_LOCKORDER"
+            config-opts: "--with-gui=qt5 --enable-zmq --enable-glibc-back-compat CPPFLAGS=-DDEBUG_LOCKORDER"
             goal: install
           - name: i686-win
             host: i686-w64-mingw32
-            arch: "i386"
-            os: ubuntu-18.04
-            packages: python3 nsis g++-mingw-w64-i686 wine-stable bc wine-binfmt
+            os: ubuntu-20.04
+            packages: python3 nsis g++-mingw-w64-i686 wine-stable winehq-stable bc wine-binfmt binfmt-support
+            preinstall: |
+              sudo dpkg --add-architecture i386
+              OS_FLAVOR=$(cat /etc/*ease | grep UBUNTU_CODENAME | cut -d "=" -f 2)
+              if [ ! -d "/etc/apt/keyrings" ]; then sudo mkdir -pm755 /etc/apt/keyrings; fi
+              sudo wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key
+              sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/$OS_FLAVOR/winehq-$OS_FLAVOR.sources
+              sudo rm -f /etc/apt/sources.list.d/microsoft-prod.list
+              sudo apt-get update
+              sudo apt-get install -y --allow-downgrades libgd3/$OS_FLAVOR libpcre2-8-0/$OS_FLAVOR libpcre2-16-0/$OS_FLAVOR libpcre2-32-0/$OS_FLAVOR libpcre2-posix2/$OS_FLAVOR
+              sudo apt-get purge -yq libmono* moby* mono* php* libgdiplus libpcre2-posix3 libzip4
             postinstall: |
-              sudo dpkg -s mono-runtime && sudo apt-get remove mono-runtime || echo "Very nothing to uninstall."
               sudo update-alternatives --set i686-w64-mingw32-gcc /usr/bin/i686-w64-mingw32-gcc-posix
               sudo update-alternatives --set i686-w64-mingw32-g++  /usr/bin/i686-w64-mingw32-g++-posix
               sudo update-binfmts --import /usr/share/binfmts/wine
             run-bench: false
-            run-tests: true
+            test-script: |
+              make check $MAKEJOBS VERBOSE=1
             check-security: true
-            check-symbols: false
+            check-symbols: true
             dep-opts: ""
             config-opts: "--enable-gui=qt5"
             goal: install
           - name: x86_64-win
             host: x86_64-w64-mingw32
-            arch: "i386"
-            os: ubuntu-18.04
+            os: ubuntu-20.04
             packages: python3 nsis g++-mingw-w64-x86-64 wine64 bc wine-binfmt
             postinstall: |
               sudo dpkg -s mono-runtime && sudo apt-get remove mono-runtime || echo "Very nothing to uninstall."
@@ -144,59 +167,89 @@ jobs:
               sudo update-alternatives --set x86_64-w64-mingw32-g++  /usr/bin/x86_64-w64-mingw32-g++-posix
               sudo update-binfmts --import /usr/share/binfmts/wine
             run-bench: false
-            run-tests: true
+            test-script: |
+              make check $MAKEJOBS VERBOSE=1
             check-security: true
-            check-symbols: false
+            check-symbols: true
             dep-opts: ""
             config-opts: "--enable-gui=qt5"
             goal: install
+          - name: x86_64-win-experimental
+            host: x86_64-w64-mingw32
+            os: ubuntu-20.04
+            packages: python3 nsis g++-mingw-w64-x86-64 wine64 bc wine-binfmt
+            postinstall: |
+              sudo dpkg -s mono-runtime && sudo apt-get remove mono-runtime || echo "Very nothing to uninstall."
+              sudo update-alternatives --set x86_64-w64-mingw32-gcc  /usr/bin/x86_64-w64-mingw32-gcc-posix
+              sudo update-alternatives --set x86_64-w64-mingw32-g++  /usr/bin/x86_64-w64-mingw32-g++-posix
+              sudo update-binfmts --import /usr/share/binfmts/wine
+            run-bench: false
+            test-script: |
+              make check $MAKEJOBS VERBOSE=1
+            check-security: true
+            check-symbols: false
+            dep-opts: "AVX2=1 MINGW=1"
+            config-opts: "--enable-experimental --enable-scrypt-sse2 --with-intel-avx2 --with-gui=qt5"
+            goal: install
           - name: x86_64-macos
             host: x86_64-apple-darwin11
-            os: ubuntu-18.04
-            packages: cmake imagemagick libcap-dev librsvg2-bin libz-dev libtiff-tools libtinfo5 python3-setuptools xorriso libtinfo5
+            os: ubuntu-20.04
+            packages: cmake imagemagick libcap-dev librsvg2-bin libz-dev libtiff-tools libtinfo5 xorriso
             run-bench: false
-            run-tests: false
-            check-security: false
+            check-security: true
             check-symbols: false
             dep-opts: ""
-            config-opts: "--enable-gui=qt5 --disable-tests"
+            config-opts: "--with-gui=qt5 --disable-tests"
             goal: deploy
             sdk: 10.11
             sdk-shasum: "bec9d089ebf2e2dd59b1a811a38ec78ebd5da18cbbcd6ab39d1e59f64ac5033f"
           - name: x86_64-linux-experimental
-            host: x86_64-unknown-linux-gnu
-            os: ubuntu-18.04
+            host: x86_64-linux-gnu
+            os: ubuntu-20.04
             packages: bc python3-zmq
             run-bench: true
-            run-tests: true
+            test-script: |
+              make check $MAKEJOBS VERBOSE=1
+              qa/pull-tester/install-deps.sh
+              qa/pull-tester/rpc-tests.py --coverage
             dep-opts: "AVX2=1"
-            config-opts: "--with-intel-avx2 --enable-gui=qt5 --enable-zmq --enable-glibc-back-compat --enable-reduce-exports"
+            config-opts: "--enable-experimental --enable-scrypt-sse2 --with-intel-avx2 --with-gui=qt5 --enable-zmq --enable-glibc-back-compat --enable-reduce-exports"
             goal: install
 
     runs-on: ${{ matrix.os }}
 
     steps:
-      - name: Add architecture
-        if: ${{ matrix.arch }}
-        run: |
-          sudo dpkg --add-architecture "${{ matrix.arch }}"
+      - name: Pre install
+        if: ${{ matrix.preinstall }}
+        run: ${{ matrix.preinstall }}
 
       - name: Install packages
         run: |
           sudo apt-get update
-          sudo apt-get install build-essential libtool autotools-dev automake pkg-config bsdmainutils curl ca-certificates ccache python3 rsync git procps bison
+          sudo apt-get install build-essential libtool autotools-dev automake \
+               pkg-config bsdmainutils curl ca-certificates ccache rsync git \
+               procps bison python3 python3-pip python3-setuptools python3-wheel
           sudo apt-get install ${{ matrix.packages }}
+          python3 -m pip install setuptools --upgrade
+
+      - name: Install custom lief wheel
+        if: matrix.os == 'ubuntu-18.04'
+        run: python3 -m pip install $SDK_URL/$BIONIC_LIEF_WHL
+
+      - name: Install standard lief wheel
+        if: matrix.os != 'ubuntu-18.04'
+        run: python3 -m pip install lief
 
       - name: Post install
         if: ${{ matrix.postinstall }}
         run: ${{ matrix.postinstall }}
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: SDK cache
         if: ${{ matrix.sdk }}
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         env:
           cache-name: sdk
         with:
@@ -216,7 +269,7 @@ jobs:
           tar -C depends/SDKs -xf depends/sdk-sources/${{ env.sdk-filename }}
 
       - name: Dependency cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         env:
           cache-name: depends
         with:
@@ -228,7 +281,7 @@ jobs:
           make $MAKEJOBS -C depends HOST=${{ matrix.host }} ${{ matrix.dep-opts }}
 
       - name: CCache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         env:
           cache-name: ccache
         with:
@@ -249,11 +302,8 @@ jobs:
           cat ${{ matrix.name }}-bench.csv
 
       - name: Run tests
-        if: ${{ matrix.run-tests }}
-        run: |
-          make check $MAKEJOBS VERBOSE=1
-          qa/pull-tester/install-deps.sh
-          qa/pull-tester/rpc-tests.py --coverage
+        if: ${{ matrix.test-script }}
+        run: ${{ matrix.test-script }}
 
       - name: Check security
         if: ${{ matrix.check-security }}
@@ -264,7 +314,7 @@ jobs:
         run: make -C src check-symbols
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: dogecoin-${{ github.sha }}-${{ matrix.name }}
           path: |
