@@ -29,12 +29,12 @@ experimental feature to `./configure`:
 1. An experimental feature shall be controlled by a configuration flag inside
    `configure.ac` that explicitly enables the feature.
 2. The feature shall by default be disabled.
-3. The feature shall call the `DOGECOIN_REQUIRE_EXPERIMENTAL` macro in
+3. The feature shall call the `PEPECOIN_REQUIRE_EXPERIMENTAL` macro in
    `configure.ac`, to enforce that `--enable-experimental` was passed.
 4. All code blocks related to the feature shall be guarded by a preprocessor
    check on the configuration flag, to prevent leaking code into releases.
 5. Inside each experimental code block, a call shall be made to the
-   `DOGECOIN_REQUIRE_EXPERIMENTAL` macro from `support/experimental.h`, to
+   `PEPECOIN_REQUIRE_EXPERIMENTAL` macro from `support/experimental.h`, to
    clearly mark the code as experimental and ease review and troubleshooting.
 6. Only when an experimental feature matures into production shall the above
    requirements be voided.

@@ -63,7 +63,7 @@ jobs:
             packages: g++-arm-linux-gnueabihf qemu-user-static qemu-user
             run-bench: false
             test-script: |
-              qemu-arm -E LD_LIBRARY_PATH=/usr/arm-linux-gnueabihf/lib/ /usr/arm-linux-gnueabihf/lib/ld-linux-armhf.so.3 src/test/test_dogecoin
+              qemu-arm -E LD_LIBRARY_PATH=/usr/arm-linux-gnueabihf/lib/ /usr/arm-linux-gnueabihf/lib/ld-linux-armhf.so.3 src/test/test_pepecoin
             check-security: true
             check-symbols: true
             dep-opts: "NO_QT=1"
@@ -75,7 +75,7 @@ jobs:
             packages: g++-aarch64-linux-gnu qemu-user-static qemu-user
             run-bench: false
             test-script: |
-              qemu-aarch64 -E LD_LIBRARY_PATH=/usr/aarch64-linux-gnu/lib/ /usr/aarch64-linux-gnu/lib/ld-linux-aarch64.so.1 src/test/test_dogecoin
+              qemu-aarch64 -E LD_LIBRARY_PATH=/usr/aarch64-linux-gnu/lib/ /usr/aarch64-linux-gnu/lib/ld-linux-aarch64.so.1 src/test/test_pepecoin
             check-security: true
             check-symbols: false
             dep-opts: "NO_QT=1"
@@ -87,7 +87,7 @@ jobs:
             packages: g++-aarch64-linux-gnu qemu-user-static qemu-user
             run-bench: false
             test-script: |
-              qemu-aarch64 -E LD_LIBRARY_PATH=/usr/aarch64-linux-gnu/lib/ /usr/aarch64-linux-gnu/lib/ld-linux-aarch64.so.1 src/test/test_dogecoin
+              qemu-aarch64 -E LD_LIBRARY_PATH=/usr/aarch64-linux-gnu/lib/ /usr/aarch64-linux-gnu/lib/ld-linux-aarch64.so.1 src/test/test_pepecoin
             check-security: true
             check-symbols: false
             dep-opts: "NO_QT=1"
@@ -99,7 +99,7 @@ jobs:
             packages: g++-aarch64-linux-gnu qemu-user-static qemu-user
             run-bench: false
             test-script: |
-              qemu-aarch64 -E LD_LIBRARY_PATH=/usr/aarch64-linux-gnu/lib/ /usr/aarch64-linux-gnu/lib/ld-linux-aarch64.so.1 src/test/test_dogecoin
+              qemu-aarch64 -E LD_LIBRARY_PATH=/usr/aarch64-linux-gnu/lib/ /usr/aarch64-linux-gnu/lib/ld-linux-aarch64.so.1 src/test/test_pepecoin
             check-security: true
             check-symbols: true
             dep-opts: "NO_QT=1"
