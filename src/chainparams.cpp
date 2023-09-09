@@ -156,7 +156,7 @@ public:
         nDefaultPort = 22556;
         nPruneAfterHeight = 100000;
 
-        genesis = CreateGenesisBlock(1386325540, 99943, 0x1e0ffff0, 1, 88 * COIN);
+        genesis = CreateGenesisBlock(1386325540, 99943, 0x1e0ffff0, 1, 88 * COIN); //PEPECOIN TODO. 0x1e0ffff0, x1e is 30 which is a D prefix change this to P (56 whatever that is in hexidecimal)
 
         consensus.hashGenesisBlock = genesis.GetHash();
         digishieldConsensus.hashGenesisBlock = consensus.hashGenesisBlock;
@@ -314,7 +314,7 @@ public:
         nDefaultPort = 44556;
         nPruneAfterHeight = 1000;
 
-        genesis = CreateGenesisBlock(1391503289, 997879, 0x1e0ffff0, 1, 88 * COIN);
+        genesis = CreateGenesisBlock(1391503289, 997879, 0x1e0ffff0, 1, 88 * COIN); //PEPECOIN TODO. 0x1e0ffff0, x1e is 30 which is a D prefix change this to P (56 whatever that is in hexidecimal)
         consensus.hashGenesisBlock = genesis.GetHash();
         digishieldConsensus.hashGenesisBlock = consensus.hashGenesisBlock;
         minDifficultyConsensus.hashGenesisBlock = consensus.hashGenesisBlock;
