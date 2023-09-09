@@ -1513,7 +1513,7 @@
         <translation>Imprimez Votre Portefeuille Papier</translation>
     </message>
     <message>
-        <source>Very New Address</source>
+        <source>New Address</source>
         <translation>Nouvelle Adresse</translation>
     </message>
     <message>

@@ -1505,7 +1505,7 @@
         <translation>종이 지갑 인쇄</translation>
     </message>
     <message>
-        <source>Very New Address</source>
+        <source>New Address</source>
         <translation>아주 새로운 주소</translation>
     </message>
     <message>

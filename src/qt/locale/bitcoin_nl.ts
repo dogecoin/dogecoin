@@ -1470,7 +1470,7 @@
         <translation>Uw papieren portemonnee afdrukken</translation>
     </message>
     <message>
-        <source>Very New Address</source>
+        <source>New Address</source>
         <translation>Heel Nieuw Adres</translation>
     </message>
     <message>

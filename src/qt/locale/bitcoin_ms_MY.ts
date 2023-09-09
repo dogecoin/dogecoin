@@ -1474,7 +1474,7 @@ Alihkan fail data ke dalam tab semasa</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Very New Address</source>
+        <source>New Address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

@@ -1466,7 +1466,7 @@
         <translation>Cetak Dompet Kertasmu</translation>
     </message>
     <message>
-        <source>Very New Address</source>
+        <source>New Address</source>
         <translation>Alamat Baru Banget</translation>
     </message>
     <message>

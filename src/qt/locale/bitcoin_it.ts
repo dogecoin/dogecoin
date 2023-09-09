@@ -1471,7 +1471,7 @@ Per specificare più URL separarli con una barra verticale &quot;|&quot;.</trans
         <translation>Stampa i tuoi Paper Wallets</translation>
     </message>
     <message>
-        <source>Very New Address</source>
+        <source>New Address</source>
         <translation>Nuovo Indirizzo</translation>
     </message>
     <message>

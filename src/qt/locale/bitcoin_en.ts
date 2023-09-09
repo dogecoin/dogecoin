@@ -1843,7 +1843,7 @@
     </message>
     <message>
         <location line="+44"/>
-        <source>Very New Address</source>
+        <source>New Address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

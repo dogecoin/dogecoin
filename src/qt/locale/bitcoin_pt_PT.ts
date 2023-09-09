@@ -1471,7 +1471,7 @@
         <translation>Imprimir as Suas Carteiras em Papel</translation>
     </message>
     <message>
-        <source>Very New Address</source>
+        <source>New Address</source>
         <translation>Muitos endereços novos</translation>
     </message>
     <message>

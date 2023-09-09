@@ -1456,7 +1456,7 @@
         <translation>Изпечатване на Вашите хартиени портфейли</translation>
     </message>
     <message>
-        <source>Very New Address</source>
+        <source>New Address</source>
         <translation>Супер нов адрес</translation>
     </message>
     <message>
