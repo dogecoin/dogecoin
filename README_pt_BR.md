@@ -1,34 +1,34 @@
 <h1 align="center">
-Dogecoin Core [DOGE, Ð]  
+Pepecoin Core [DOGE, Ð]  
 <br/><br/>
-<img src="https://static.tumblr.com/ppdj5y9/Ae9mxmxtp/300coin.png" alt="Dogecoin" width="300"/>
+<img src="https://static.tumblr.com/ppdj5y9/Ae9mxmxtp/300coin.png" alt="Pepecoin" width="300"/>
 </h1>
 
 <div align="center">
 
-[![DogecoinBadge](https://img.shields.io/badge/Doge-Coin-yellow.svg)](https://dogecoin.com)
-[![MuchWow](https://img.shields.io/badge/Much-Wow-yellow.svg)](https://dogecoin.com)
+[![PepecoinBadge](https://img.shields.io/badge/Doge-Coin-yellow.svg)](https://pepecoin.com)
+[![MuchWow](https://img.shields.io/badge/Much-Wow-yellow.svg)](https://pepecoin.com)
 
 </div>
 
 Selecione o idioma: [EN](./README.md) | [CN](./README_zh_CN.md) | PT | [FA](./README_fa_IR.md)  | [VI](./README_vi_VN.md)
 
-Dogecoin é uma criptomoeda gerida pela comunidade que foi inspirada no meme Shiba Inu. O programa Dogecoin Core permite qualquer um operar um nó na rede blockchain da Dogecoin e utilizar o algoritmo de hash Scrypt para mineração usando Prova de Trabalho (Proof of Work). O Dogecoin Core é uma adaptação do Bitcoin Core e de outras criptomoedas.
+Pepecoin é uma criptomoeda gerida pela comunidade que foi inspirada no meme Shiba Inu. O programa Pepecoin Core permite qualquer um operar um nó na rede blockchain da Pepecoin e utilizar o algoritmo de hash Scrypt para mineração usando Prova de Trabalho (Proof of Work). O Pepecoin Core é uma adaptação do Bitcoin Core e de outras criptomoedas.
 
-Para maiores informações acerca das taxas de transação usadas na rede Dogecoin, por favor acesse: 
+Para maiores informações acerca das taxas de transação usadas na rede Pepecoin, por favor acesse: 
 [taxas recomendadas](doc/fee-recommendation.md).
 
-**Website:** [dogecoin.com](https://dogecoin.com)
+**Website:** [pepecoin.com](https://pepecoin.com)
 
 ## Uso 💻
 
-Para começar a sua jornada com o Dogecoin Core, veja o [manual de instalação](INSTALL.md) e o [guia para iniciantes](doc/getting-started.md).
+Para começar a sua jornada com o Pepecoin Core, veja o [manual de instalação](INSTALL.md) e o [guia para iniciantes](doc/getting-started.md).
 
-A API JSON-RPC fornecida pelo Dogecoin Core é auto documentada e pode ser buscada pelo comando `dogecoin-cli help`, informações mais detalhadas sobre cada comando podem ser encontradas usando `dogecoin-cli help <command>`. Alternativamente, veja a [documentação do Bitcoin Core](https://developer.bitcoin.org/reference/rpc/) - que implementa um protocolo similar - para conseguir uma versão navegável.
+A API JSON-RPC fornecida pelo Pepecoin Core é auto documentada e pode ser buscada pelo comando `pepecoin-cli help`, informações mais detalhadas sobre cada comando podem ser encontradas usando `pepecoin-cli help <command>`. Alternativamente, veja a [documentação do Bitcoin Core](https://developer.bitcoin.org/reference/rpc/) - que implementa um protocolo similar - para conseguir uma versão navegável.
 
 ### Quais as portas
 
-A Dogecoin Core utiliza por padrão a porta `22556` para comunicação par-a-par, que é necessária para sincronizar a blockchain da "rede principal" e se manter informada de novas transações e blocos. Outrosim, uma porta JSONRPC pode ser aberta, que por padrão é a porta `22555` para nós da rede principal. Recomendamos fortemente não expor portas RPC para a internet pública. 
+A Pepecoin Core utiliza por padrão a porta `22556` para comunicação par-a-par, que é necessária para sincronizar a blockchain da "rede principal" e se manter informada de novas transações e blocos. Outrosim, uma porta JSONRPC pode ser aberta, que por padrão é a porta `22555` para nós da rede principal. Recomendamos fortemente não expor portas RPC para a internet pública. 
 
 |  Função  | mainnet | testnet | regtest |
 | :------- | ------: | ------: | ------: |
@@ -37,13 +37,13 @@ A Dogecoin Core utiliza por padrão a porta `22556` para comunicação par-a-par
 
 ## Desenvolvimento continuo - Plano Lua 🌒
 
-A Dogecoin Core é um programa de código aberto gerido pela comunidade. O processo de desenvolvimento é aberto e visivel publicamente; qualquer um pode ver, discutir e trabalhar no programa.
+A Pepecoin Core é um programa de código aberto gerido pela comunidade. O processo de desenvolvimento é aberto e visivel publicamente; qualquer um pode ver, discutir e trabalhar no programa.
 
 Recursos principais de Desenvolvimento:
 
-* [Projetos do Github](https://github.com/dogecoin/dogecoin/projects) é utilizado para conduzir trabalhos planejados ou que estejam em desenvolvimento para as próximas atualizações.
-* [Discussão do Github](https://github.com/dogecoin/dogecoin/discussions) é usado para discutir sobre funcionalidades, planejadas ou não, relacionadas ao desenvolvimento do programa Dogecoin Core, os protocolos adjacentes e o criptoativo DOGE.
-* [Dogecoindev subreddit](https://www.reddit.com/r/dogecoindev/)
+* [Projetos do Github](https://github.com/pepecoinppc/pepecoin/projects) é utilizado para conduzir trabalhos planejados ou que estejam em desenvolvimento para as próximas atualizações.
+* [Discussão do Github](https://github.com/pepecoinppc/pepecoin/discussions) é usado para discutir sobre funcionalidades, planejadas ou não, relacionadas ao desenvolvimento do programa Pepecoin Core, os protocolos adjacentes e o criptoativo DOGE.
+* [Pepecoindev subreddit](https://www.reddit.com/r/pepecoindev/)
 
 ### Estratégia das Versões
 Os numeros de compilação seguem a seguinte semantica:  ```major.minor.patch```
@@ -62,33 +62,32 @@ Este repositório possui 3 principais ramificações (branchs), são essas:
 
 ## Contribuindo 🤝
 
-Se você achar um bug ou passar por alguma experiência incomum com este programa, por favor reporte o ocorrido usado o [sistema de problemas (issues)](https://github.com/dogecoin/dogecoin/issues/new?assignees=&labels=bug&template=bug_report.md&title=%5Bbug%5D+).
+Se você achar um bug ou passar por alguma experiência incomum com este programa, por favor reporte o ocorrido usado o [sistema de problemas (issues)](https://github.com/pepecoinppc/pepecoin/issues/new?assignees=&labels=bug&template=bug_report.md&title=%5Bbug%5D+).
 
 Por favor, acesse o [guia de contribuições](CONTRIBUTING.md) para ver como você pode participar
-do desenvolvimento do Dogecoin Core. Existem alguns [pedidos de ajuda](https://github.com/dogecoin/dogecoin/labels/help%20wanted)
+do desenvolvimento do Pepecoin Core. Existem alguns [pedidos de ajuda](https://github.com/pepecoinppc/pepecoin/labels/help%20wanted)
 onde os contribuintes terão grande importância e apreço. wow.
 
 ## Comunidades 🚀🍾
 
 Você pode se juntar à comunidade em diferentes redes sociais. 
 Pra ver o que está acontecendo, encontrar gente e discutir, receber o ultimo meme, aprender sobre 
-Dogecoin, dar e receber ajuda e compartilhar seu projeto. 
+Pepecoin, dar e receber ajuda e compartilhar seu projeto. 
 
 Aqui estão alguns lugares pra visitar: 
 
-* [Dogecoin subreddit](https://www.reddit.com/r/dogecoin/)
-* [Dogeducation subreddit](https://www.reddit.com/r/dogeducation/)
-* [Discord](https://discord.gg/dogecoin)
-* [Dogecoin Twitter](https://twitter.com/dogecoin)
+* [Pepecoin subreddit](https://www.reddit.com/r/pepecoinppc/)
+* [Discord](https://discord.gg/pepecoinppc)
+* [Pepecoin Twitter](https://twitter.com/pepecoinppc)
 
 ## Perguntas frequentes ❓
 
-Você possui alguma questão relacionada à Dogecoin? Talvez uma resposta já esteja disponivel no
+Você possui alguma questão relacionada à Pepecoin? Talvez uma resposta já esteja disponivel no
 [FAQ](doc/FAQ.md) ou na
-[seção Q&A](https://github.com/dogecoin/dogecoin/discussions/categories/q-a)
+[seção Q&A](https://github.com/pepecoinppc/pepecoin/discussions/categories/q-a)
 do nosso quadro de discussão!
 
 ## Licenças ⚖️
-Dogecoin Core é disponibilizada sob os termos de uso da licença MIT. Veja,
+Pepecoin Core é disponibilizada sob os termos de uso da licença MIT. Veja,
 [COPYING](COPYING) para mais informações ou
 [opensource.org](https://opensource.org/licenses/MIT)

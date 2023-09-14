@@ -41,7 +41,7 @@ static const unsigned int DEFAULT_MAX_MEMPOOL_SIZE = 300;
 /** Default for -incrementalrelayfee, which sets the minimum feerate increase
  *  for mempool limiting or BIP 125 replacement
  *
- *  Dogecoin:    Increment mempool limits and accept RBF in steps of 0.0001 DOGE
+ *  Pepecoin:    Increment mempool limits and accept RBF in steps of 0.0001 PEPE
  *  Calculation: DEFAULT_MIN_RELAY_TX_FEE = RECOMMENDED_MIN_TX_FEE / 10
  *               DEFAULT_INCREMENTAL_RELAY_FEE = DEFAULT_MIN_RELAY_TX_FEE / 10
  *
@@ -63,13 +63,13 @@ static const unsigned int MAX_STANDARD_P2WSH_STACK_ITEM_SIZE = 80;
 /** The maximum size of a standard witnessScript */
 static const unsigned int MAX_STANDARD_P2WSH_SCRIPT_SIZE = 3600;
 /**
- * Dogecoin: Default dust limit that is evaluated when considering whether a
+ * Pepecoin: Default dust limit that is evaluated when considering whether a
  * transaction output is required to pay additional fee for relay and inclusion
  * in blocks. Overridden by -dustlimit
  */
 static const CAmount DEFAULT_DUST_LIMIT = RECOMMENDED_MIN_TX_FEE;
 /**
- * Dogecoin: Default hard dust limit that is evaluated when considering whether
+ * Pepecoin: Default hard dust limit that is evaluated when considering whether
  * a transaction is standard. Transactions under this limit will not be accepted
  * to the mempool and thus not relayed. Can be overridden by -harddustlimit
  *

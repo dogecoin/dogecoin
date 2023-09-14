@@ -51,7 +51,7 @@ namespace GUIUtil
     bool parseBitcoinURI(QString uri, SendCoinsRecipient *out);
     QString formatBitcoinURI(const SendCoinsRecipient &info);
 
-//Dogecoin: need wallet to establish dust from a wallet perspective
+//Pepecoin: need wallet to establish dust from a wallet perspective
 #ifdef ENABLE_WALLET
     // Returns true if given address+amount meets "dust" definition
     bool isDust(const QString& address, const CAmount& amount);

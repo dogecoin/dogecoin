@@ -1,4 +1,4 @@
-The following is a list of assets used in the dogecoin source and their proper attribution.
+The following is a list of assets used in the pepecoin source and their proper attribution.
 
 [Typicons/Stephen Hutchings](http://typicons.com)
 -----------------------
@@ -40,7 +40,7 @@ Other
 
 ### Info
 * Designer: Jonas Schnelli, Bitboy, Stephen Hutchings, Marco Falke
-* Dogecoin Icon: Based on the original Dogecoin logo from Christine Ricks
+* Pepecoin Icon: Based on the original Pepecoin logo from Christine Ricks
 * Network connection icon: Inspired by flow-merge.svg from Stephen Hutchings
 * Some icons are based on Stephan Hutchings Typicons
 * License: MIT
@@ -48,9 +48,9 @@ Other
 ### Assets Used
     src/qt/res/icons/about.png
     src/qt/res/icons/about_qt.png,
-    src/qt/res/icons/dogecoin.icns
-    src/qt/res/icons/dogecoin.ico,
-    src/qt/res/icons/dogecoin.png
+    src/qt/res/icons/pepecoin.icns
+    src/qt/res/icons/pepecoin.ico,
+    src/qt/res/icons/pepecoin.png
     src/qt/res/icons/clock*.png,
     src/qt/res/icons/connect*.png
     src/qt/res/icons/eye_minus.png,

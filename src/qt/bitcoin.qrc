@@ -1,6 +1,6 @@
 <!DOCTYPE RCC><RCC version="1.0">
     <qresource prefix="/icons">
-        <file alias="bitcoin">res/icons/dogecoin.png</file>
+        <file alias="bitcoin">res/icons/pepecoin.png</file>
         <file alias="address-book">res/icons/address-book.png</file>
         <file alias="quit">res/icons/quit.png</file>
         <file alias="send">res/icons/send.png</file>
@@ -96,11 +96,6 @@
         <file alias="spinner-035">res/movies/spinner-035.png</file>
     </qresource>
     <qresource prefix="/fonts">
-        <file alias="ComicNeue-Bold">res/fonts/ComicNeue-Bold.ttf</file>
-        <file alias="ComicNeue-Bold-Oblique">res/fonts/ComicNeue-Bold-Oblique.ttf</file>
-        <file alias="ComicNeue-Light">res/fonts/ComicNeue-Light.ttf</file>
-        <file alias="ComicNeue-Light-Oblique">res/fonts/ComicNeue-Light-Oblique.ttf</file>
-        <file alias="ComicNeue-Regular">res/fonts/ComicNeue-Regular.ttf</file>
-        <file alias="ComicNeue-Regular-Oblique">res/fonts/ComicNeue-Regular-Oblique.ttf</file>
+        <file alias="monospace">res/fonts/RobotoMono-Bold.ttf</file>
     </qresource>
 </RCC>

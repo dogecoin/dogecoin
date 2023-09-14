@@ -60,7 +60,7 @@ static const CAmount DEFAULT_MIN_RELAY_TX_FEE = RECOMMENDED_MIN_TX_FEE / 10;
 static const CAmount DEFAULT_TRANSACTION_MAXFEE = RECOMMENDED_MIN_TX_FEE * 10000;
 
 //! Discourage users to set fees higher than this amount (in satoshis) per kB
-/* Dogecoin: Set the high tx fee to be higher than the default values
+/* Pepecoin: Set the high tx fee to be higher than the default values
  *           implemented by the wallet.
  */
 static const CAmount HIGH_TX_FEE_PER_KB = RECOMMENDED_MIN_TX_FEE * 1000;

@@ -49,7 +49,7 @@ MAX_INV_SZ = 50000
 MAX_LOCATOR_SZ = 101
 MAX_BLOCK_BASE_SIZE = 1000000
 
-COIN = 100000000 # mlumin 5/2021: In terms of Dogecoin, 1 dogecoin or 100,000,000 koinu.
+COIN = 100000000 # mlumin 5/2021: In terms of Pepecoin, 1 pepecoin or 100,000,000 koinu.
 
 NODE_NETWORK = (1 << 0)
 NODE_GETUTXO = (1 << 1)

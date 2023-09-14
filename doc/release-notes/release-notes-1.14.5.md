@@ -1,28 +1,28 @@
-Dogecoin Core version 1.14.5 is now available from:
+Pepecoin Core version 1.14.5 is now available from:
 
-  <https://github.com/dogecoin/dogecoin/releases/tag/v1.14.5/>
+  <https://github.com/pepecoinppc/pepecoin/releases/tag/v1.14.5/>
 
 This is a new minor version release, including important security updates and
-changes to network policies. All Dogecoin Core users, miners, services, relay
+changes to network policies. All Pepecoin Core users, miners, services, relay
 operators and wallet users are strongly recommended to upgrade.
 
 Please report bugs using the issue tracker at github:
 
-  <https://github.com/dogecoin/dogecoin/issues>
+  <https://github.com/pepecoinppc/pepecoin/issues>
 
 To receive security and update notifications, please watch reddit or Twitter:
 
-  * https://www.reddit.com/r/dogecoindev/
-  * @Dogecoin on Twitter for high priority announcements
-  * @dogecoin\_devs on Twitter for updates on development work
+  * https://www.reddit.com/r/pepecoindev/
+  * @Pepecoin on Twitter for high priority announcements
+  * @pepecoin\_devs on Twitter for updates on development work
 
 Compatibility
 ==============
 
-Dogecoin Core is extensively tested on Ubuntu Server LTS, Intel-based macOS
+Pepecoin Core is extensively tested on Ubuntu Server LTS, Intel-based macOS
 and Windows 10.
 
-Dogecoin Core should also work on most other Unix-like systems but is not
+Pepecoin Core should also work on most other Unix-like systems but is not
 frequently tested on them.
 
 Notable changes
@@ -32,51 +32,51 @@ Important Security Updates
 --------------------------
 
 This release contains fixes for 2 high severity vulnerabilities that affect
-most Dogecoin Core users.
+most Pepecoin Core users.
 
-### Remote Code Execution in Dogecoin QT (CVE-2021-3401)
+### Remote Code Execution in Pepecoin QT (CVE-2021-3401)
 
 This release addresses CVE-2021-3401 that opened potential remote code execution
 on QT (graphical user interface) wallets through malicious use of
-`dogecoin:` URIs.
+`pepecoin:` URIs.
 
-**Dogecoin QT users are urged to please update their installations to this
+**Pepecoin QT users are urged to please update their installations to this
 version immediately**, to prevent malicious actors from exploiting this
 vulnerability.
 
 ### Sensitive Information Exposure on Unix platforms (CVE-2019-15947)
 
 A fix for CVE-2019-15947 was back-ported from Bitcoin Core to prevent potential
-leakage of sensitive information when Dogecoin Core crashes on Unix platforms.
+leakage of sensitive information when Pepecoin Core crashes on Unix platforms.
 The vulnerability is patched for systems that run a Linux kernel equal to or
 higher than 3.4.
 
-**Dogecoin Core wallet users on Linux platforms are urged to please update to
+**Pepecoin Core wallet users on Linux platforms are urged to please update to
 this version.**
 
 Fee Reductions
 --------------
 
 This release finalizes a new minimum fee recommendation for all participants on
-the Dogecoin network, following the reduction of relay and mining defaults in
+the Pepecoin network, following the reduction of relay and mining defaults in
 1.14.4. The recommendation has been documented and can be found
 [here](../fee-recommendation.md). With this release, the minimum fees when
 creating transactions are recommended to be as follows:
 
-* the recommended minimum transaction fee is 0.01 DOGE/kb, and
-* the recommended dust limit is 1 DOGE, and
-* the recommended RBF increment is 0.001 DOGE.
+* the recommended minimum transaction fee is 0.01 PEPE/kb, and
+* the recommended dust limit is 1 PEPE, and
+* the recommended RBF increment is 0.001 PEPE.
 
 ### Wallet/UI Changes
 
-* The user interface for selecting fees when transacting DOGE has been updated
+* The user interface for selecting fees when transacting PEPE has been updated
   to give an idea of how much is being spent, rather than a block target. As
-  Dogecoin blocks are not full, typically all transactions are mined in the next
-  block, and therefore the target estimation does not makes sense for Dogecoin.
+  Pepecoin blocks are not full, typically all transactions are mined in the next
+  block, and therefore the target estimation does not makes sense for Pepecoin.
 * Transaction sizes are no longer rounded up to the nearest kilobyte before
   calculating fees, which significantly simplifies fee calculation logic and
   makes it more similar to Bitcoin and Litecoin.
-* The default minimum transaction fee is now 0.01 DOGE per kilobyte. Note that
+* The default minimum transaction fee is now 0.01 PEPE per kilobyte. Note that
   you may see transactions take longer to be confirmed while using these lower
   fees, until all miners have updated. The new fee slider can help with getting
   fast-confirming transactions by sliding it all the way to the maximum, or for
@@ -88,8 +88,8 @@ creating transactions are recommended to be as follows:
   rather than the dust limits used for relay, preventing stuck transactions. The
   wallet will discard any change to fee and reject output amounts that are lower
   than this limit. Until this release sees significant network adoption, the
-  default dust limit is recommended to stay at 1 DOGE, as versions 1.14.2 until
-  1.14.4 have a bug that rejects any transaction with an output under 1 DOGE.
+  default dust limit is recommended to stay at 1 PEPE, as versions 1.14.2 until
+  1.14.4 have a bug that rejects any transaction with an output under 1 PEPE.
 * Derive minimum change from configurable wallet parameters `-discardthreshold`
   and `-mintxfee`: `minimum change = discard threshold + 2 * minimum fee`.
 
@@ -97,18 +97,18 @@ creating transactions are recommended to be as follows:
 
 * Split the dust limit into a hard and soft threshold, to reintroduce the
   economic disincentive for dust, rather than rejection introduced since 1.14.2
-  * `-harddustlimit` is by default set at 0.001 DOGE and sets the value under
+  * `-harddustlimit` is by default set at 0.001 PEPE and sets the value under
     which transactions will be rejected by nodes.
   * The dust limit parameter introduced with 1.14.4 (`-dustlimit`) is now the
     soft dust limit, enforcing the economic disincentive. Each output under this
     threshold will be accepted as long as the entire limit is added to fee.
 * Change the default incremental fee used for RBF and mempool limiting to
-  0.0001 DOGE.
+  0.0001 PEPE.
 
 BDB Updated to 5.3
 ------------------
 
-The Berkley DB version used by Dogecoin Core has been updated to 5.3 (from 5.1)
+The Berkley DB version used by Pepecoin Core has been updated to 5.3 (from 5.1)
 as 5.3 is now standard on many Linux distributions. 5.1 and 5.3 wallet files
 have been tested to be interchangeable.
 
@@ -173,7 +173,7 @@ automatically.
 Additionally, an experimental CI build environment has been introduced to enable
 ongoing testing and maintenance of incubating features that are not yet ready
 for release. Currently this contains the AVX2 features that aim to increase the
-performance of cryptographic routines within Dogecoin Core.
+performance of cryptographic routines within Pepecoin Core.
 
 Minor Changes
 =============

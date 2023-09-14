@@ -1,5 +1,5 @@
 ---
-name: "dogecoin-osx-1.14"
+name: "pepecoin-osx-1.14"
 enable_cache: true
 suites:
 - "focal"
@@ -31,8 +31,8 @@ packages:
 - "libtinfo5"
 - "xorriso"
 remotes:
-- "url": "https://github.com/dogecoin/dogecoin.git"
-  "dir": "dogecoin"
+- "url": "https://github.com/pepecoinppc/pepecoin.git"
+  "dir": "pepecoin"
 files:
 - "MacOSX10.11.sdk.tar.gz"
 - "lief-0.12.3-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
@@ -87,7 +87,7 @@ script: |
   create_per-host_faketime_wrappers "2000-01-01 12:00:00"
   export PATH=${WRAP_DIR}:${PATH}
 
-  cd dogecoin
+  cd pepecoin
   BASEPREFIX=`pwd`/depends
 
   mkdir -p ${BASEPREFIX}/SDKs
@@ -113,14 +113,14 @@ script: |
   make ${MAKEOPTS}
   make ${MAKEOPTS} -C src check-security
   make dist
-  SOURCEDIST=`echo dogecoin-*.tar.gz`
+  SOURCEDIST=`echo pepecoin-*.tar.gz`
   DISTNAME=`echo ${SOURCEDIST} | sed 's/.tar.*//'`
 
   # Correct tar file order
   mkdir -p temp
   pushd temp
   tar xf ../$SOURCEDIST
-  find dogecoin-* | sort | tar --no-recursion --mode='u+rw,go+r-w,a+X' --owner=0 --group=0 -c -T - | gzip -9n > ../$SOURCEDIST
+  find pepecoin-* | sort | tar --no-recursion --mode='u+rw,go+r-w,a+X' --owner=0 --group=0 -c -T - | gzip -9n > ../$SOURCEDIST
   popd
 
   ORIGPATH="$PATH"

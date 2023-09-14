@@ -54,11 +54,11 @@
         <translation>選擇 &amp;h</translation>
     </message>
     <message>
-        <source>Such sending addresses</source>
+        <source>Sending addresses</source>
         <translation>付款地址</translation>
     </message>
     <message>
-        <source>Much receiving addresses</source>
+        <source>Receiving addresses</source>
         <translation>收款地址</translation>
     </message>
     <message>
@@ -156,8 +156,8 @@
         <translation>確認錢包加密</translation>
     </message>
     <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DOGECOINS&lt;/b&gt;!</source>
-        <translation>警告: 如果你將錢包加密後又忘記密碼，你就會&lt;b&gt;失去所有 Dogecoin 了&lt;/b&gt;！</translation>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR PEPECOINS&lt;/b&gt;!</source>
+        <translation>警告: 如果你將錢包加密後又忘記密碼，你就會&lt;b&gt;失去所有 Pepecoin 了&lt;/b&gt;！</translation>
     </message>
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
@@ -168,8 +168,8 @@
         <translation>錢包已加密</translation>
     </message>
     <message>
-        <source>%1 will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your dogecoins from being stolen by malware infecting your computer.</source>
-        <translation>%1 現在要關閉來完成加密程序。請記得將錢包加密不能完全防止你的 Dogecoins 經被入侵電腦的惡意程式偷取。</translation>
+        <source>%1 will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your pepecoins from being stolen by malware infecting your computer.</source>
+        <translation>%1 現在要關閉來完成加密程序。請記得將錢包加密不能完全防止你的 Pepecoins 經被入侵電腦的惡意程式偷取。</translation>
     </message>
     <message>
         <source>IMPORTANT: Any previous backups you have made of your wallet file should be replaced with the newly generated, encrypted wallet file. For security reasons, previous backups of the unencrypted wallet file will become useless as soon as you start using the new, encrypted wallet.</source>
@@ -230,7 +230,7 @@
         <translation>與網絡同步中...</translation>
     </message>
     <message>
-        <source>&amp;Wow</source>
+        <source>&amp;Overview</source>
         <translation>總覽 &amp;O</translation>
     </message>
     <message>
@@ -294,11 +294,11 @@
         <translation>改變密碼... &amp;C</translation>
     </message>
     <message>
-        <source>&amp;Such sending addresses...</source>
+        <source>&amp;Sending addresses...</source>
         <translation>付款位址... &amp;S</translation>
     </message>
     <message>
-        <source>&amp;Much receiving addresses...</source>
+        <source>&amp;Receiving addresses...</source>
         <translation>收款位址... &amp;R</translation>
     </message>
     <message>
@@ -310,8 +310,8 @@
         <translation>正在為磁碟區塊重建索引...</translation>
     </message>
     <message>
-        <source>Send coins to a Dogecoin address</source>
-        <translation>付款至一個 Dogecoin 位址</translation>
+        <source>Send coins to a Pepecoin address</source>
+        <translation>付款至一個 Pepecoin 位址</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -334,19 +334,19 @@
         <translation>驗證訊息... &amp;V</translation>
     </message>
     <message>
-        <source>Dogecoin</source>
-        <translation>Dogecoin</translation>
+        <source>Pepecoin</source>
+        <translation>Pepecoin</translation>
     </message>
     <message>
         <source>Wallet</source>
         <translation>錢包</translation>
     </message>
     <message>
-        <source>&amp;Such Send</source>
+        <source>&amp;Send</source>
         <translation>付款 &amp;S</translation>
     </message>
     <message>
-        <source>&amp;Much Receive</source>
+        <source>&amp;Receive</source>
         <translation>收款 &amp;R</translation>
     </message>
     <message>
@@ -370,8 +370,8 @@
         <translation>說明 &amp;H</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and dogecoin: URIs)</source>
-        <translation>要求付款 (產生QR碼 dogecoin: URIs)</translation>
+        <source>Request payments (generates QR codes and pepecoin: URIs)</source>
+        <translation>要求付款 (產生QR碼 pepecoin: URIs)</translation>
     </message>
     <message>
         <source>Indexing blocks on disk...</source>
@@ -440,8 +440,8 @@
 <context>
     <name>QObject</name>
     <message>
-        <source>Enter a Dogecoin address (e.g. %1)</source>
-        <translation>輸入一個 Dogecoin 位址 (例如 %1)</translation>
+        <source>Enter a Pepecoin address (e.g. %1)</source>
+        <translation>輸入一個 Pepecoin 位址 (例如 %1)</translation>
     </message>
     <message>
         <source>%1 d</source>

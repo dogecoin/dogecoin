@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=Pepecoin Core
+Comment=Connect to the Pepecoin P2P Network
+Comment[de]=Verbinde mit dem Pepecoin peer-to-peer Netzwerk
+Comment[fr]=Pepecoin, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=Pepecoin, eşten eşe kriptografik sanal para birimi
+Exec=pepecoin-qt %u
+Terminal=false
+Type=Application
+Icon=pepecoin128
+MimeType=x-scheme-handler/pepecoin;
+Categories=Office;Finance;

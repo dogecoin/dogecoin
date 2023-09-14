@@ -1,26 +1,26 @@
-Dogecoin Core version 1.14.4 is now available from:
+Pepecoin Core version 1.14.4 is now available from:
 
-  <https://github.com/dogecoin/dogecoin/releases/tag/v1.14.4/>
+  <https://github.com/pepecoinppc/pepecoin/releases/tag/v1.14.4/>
 
 This is a new minor version release, including various bugfixes and performance improvements. It is a recommended
 update for all users.
 
 Please report bugs using the issue tracker at github:
 
-  <https://github.com/dogecoin/dogecoin/issues>
+  <https://github.com/pepecoinppc/pepecoin/issues>
 
 To receive security and update notifications, please watch reddit or Twitter:
 
-  * https://www.reddit.com/r/dogecoin/
-  * @Dogecoin on Twitter for high priority announcements
-  * @dogecoin\_devs on Twitter for updates on development work
+  * https://www.reddit.com/r/pepecoin/
+  * @Pepecoin on Twitter for high priority announcements
+  * @pepecoin\_devs on Twitter for updates on development work
 
 Compatibility
 ==============
 
-Dogecoin Core is extensively tested on Ubuntu Server LTS, Mac OS X and Windows 10.
+Pepecoin Core is extensively tested on Ubuntu Server LTS, Mac OS X and Windows 10.
 
-Dogecoin Core should also work on most other Unix-like systems but is not
+Pepecoin Core should also work on most other Unix-like systems but is not
 frequently tested on them.
 
 Notable changes
@@ -32,7 +32,7 @@ Enabling Future Fee Reductions
 This release preparing the network for a reduction of the recommended fees by
 reducing the default fee requirement 1000x for transaction relay and 100x for
 mining. At the same time it increases freedom for miner, wallet and node
-operators to agree on fees regardless of defaults coded into the Dogecoin Core
+operators to agree on fees regardless of defaults coded into the Pepecoin Core
 software by solidifying fine-grained controls for operators to deviate from
 built-in defaults.
 
@@ -44,18 +44,18 @@ The main highlights for these enhancements are:
 * Transaction sizes are no longer rounded up to the nearest kilobyte when
   deciding if a transaction can be accepted from another node and in applying
   fee-filter requests from peers, when relaying transactions.
-* The default setting shipped with dogecoin core for relay fee has been reduced
-  to 0.001 DOGE (was: 1 DOGE). This can be changed by operators using the
+* The default setting shipped with pepecoin core for relay fee has been reduced
+  to 0.001 PEPE (was: 1 PEPE). This can be changed by operators using the
   `-mintxrelayfee=<amount>` option.
 * Spam management has been delegated to miners, where currently a default fee
-  of 0.01 DOGE has been set as a recommended default, to prevent spam on the
+  of 0.01 PEPE has been set as a recommended default, to prevent spam on the
   blockchain. Miners can change this setting to their liking using the
   `-blockmintxfee` option.
-* The relay dust limit has been reduced 100x to 0.01 DOGE and is now
+* The relay dust limit has been reduced 100x to 0.01 PEPE and is now
   configurable via the `-dustlimit` option.
 
 For this release, the recommended fees and dust limits, as implemented in the
-wallet, remain at 1 DOGE per kilobyte, inclusive of the rounding up to the
+wallet, remain at 1 PEPE per kilobyte, inclusive of the rounding up to the
 nearest kilobyte, as miners and the relay network will upgrade gradually,
 requiring time for transactions with lower fees to be able to be relayed and
 mined. Not doing this would result in all transactions being rejected by old

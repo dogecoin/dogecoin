@@ -162,8 +162,8 @@ void OverviewPage::UpdateTip()
         tr("Always do your own research before using an external cryptocurrency service"),
         tr("Never share your private key with anyone"),
         tr("Who owns the private keys, owns the coins"),
-        tr("To see ongoing development and contribute, check out the Dogecoin Core repository on GitHub"),
-        tr("Services that claim to double your dogecoins are always ponzi schemes")
+        tr("To see ongoing development and contribute, check out the Pepecoin Core repository on GitHub"),
+        tr("Services that claim to double your pepecoins are always ponzi schemes")
     };
 
     int i = rand() % tips.length();

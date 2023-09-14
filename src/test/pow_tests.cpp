@@ -57,7 +57,7 @@ BOOST_AUTO_TEST_CASE(get_next_work_lower_limit_actual)
 }
 
 /* Test the constraint on the upper bound for actual time taken */
-// Replaced by Dogecoin-specific PoW test
+// Replaced by Pepecoin-specific PoW test
 /* BOOST_AUTO_TEST_CASE(get_next_work_upper_limit_actual)
 {
     SelectParams(CBaseChainParams::MAIN);

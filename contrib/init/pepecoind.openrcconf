@@ -1,0 +1,33 @@
+# /etc/conf.d/pepecoind: config file for /etc/init.d/pepecoind
+
+# Config file location
+#PEPECOIND_CONFIGFILE="/etc/pepecoinppc/pepecoin.conf"
+
+# What directory to write pidfile to?  (created and owned by $PEPECOIND_USER)
+#PEPECOIND_PIDDIR="/var/run/pepecoind"
+
+# What filename to give the pidfile
+#PEPECOIND_PIDFILE="${PEPECOIND_PIDDIR}/pepecoind.pid"
+
+# Where to write pepecoind data (be mindful that the blockchain is large)
+#PEPECOIND_DATADIR="/var/lib/pepecoind"
+
+# User and group to own pepecoind process
+#PEPECOIND_USER="pepecoin"
+#PEPECOIND_GROUP="pepecoin"
+
+# Path to pepecoind executable
+#PEPECOIND_BIN="/usr/bin/pepecoind"
+
+# Nice value to run pepecoind under
+#PEPECOIND_NICE=0
+
+# Additional options (avoid -conf and -datadir, use flags above)
+PEPECOIND_OPTS="-disablewallet"
+
+# The timeout in seconds OpenRC will wait for pepecoind to terminate
+# after a SIGTERM has been raised.
+# Note that this will be mapped as argument to start-stop-daemon's
+# '--retry' option, which means you can specify a retry schedule
+# here. For more information see man 8 start-stop-daemon.
+PEPECOIND_SIGTERM_TIMEOUT=60

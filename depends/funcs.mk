@@ -28,7 +28,7 @@ define fetch_file_inner
     rm -rf $$($(1)_download_dir) )
 endef
 
-# Dogecoin: fetch the target filename from our mirror instead of the source,
+# Pepecoin: fetch the target filename from our mirror instead of the source,
 #           because some of the tag archives from github are identical
 define fetch_file
     ( test -f $$($(1)_source_dir)/$(4) || \
