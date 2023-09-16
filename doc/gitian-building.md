@@ -136,8 +136,8 @@ This will create the `.sig` files that can be committed together with the `.asse
 
 ## Publish signatures
 
-Gitian signatures for each release are added to https://github.com/pepecoin/gitian.sigs.
+Gitian signatures for each release are added to https://github.com/pepecoinppc/gitian.sigs.
 
-`gitian-build.sh` will create signatures inside `gitian-output/sigs/` folder. Create a pull request to [pepecoin/gitian.sigs](https://github.com/pepecoin/gitian.sigs) to publish your signatures, the `.assert` and `.assert.sig` files.
+`gitian-build.sh` will create signatures inside `gitian-output/sigs/` folder. Create a pull request to [pepecoin/gitian.sigs](https://github.com/pepecoinppc/gitian.sigs) to publish your signatures, the `.assert` and `.assert.sig` files.
 
 **When your PR is merged, you will be recorded for all future history as a *Gitian Builder of Pepecoin Core*!**

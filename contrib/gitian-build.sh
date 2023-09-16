@@ -258,7 +258,7 @@ fi
 ### Setup ###
 
 if [[ $setup == true ]]; then
-    git clone https://github.com/pepecoin/gitian.sigs.git
+    git clone https://github.com/pepecoinppc/gitian.sigs.git
     git clone https://github.com/pepecoinppc/pepecoin-detached-sigs.git
     git clone https://github.com/devrandom/gitian-builder.git
 
