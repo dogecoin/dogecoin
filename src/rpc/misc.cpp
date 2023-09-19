@@ -455,6 +455,25 @@ UniValue setmocktime(const JSONRPCRequest& request)
     return NullUniValue;
 }
 
+UniValue getmocktime(const JSONRPCRequest& request)
+{
+    if (request.fHelp || request.params.size() != 0)
+        throw runtime_error(
+            "getmocktime\n"
+            "\nGet the current mocktime (-regtest only)\n"
+            "Note: this is an asynchronous read, and does not take into account any\n"
+            "setmocktime calls that are pending."
+            "\nResult:\n"
+            "\"timestamp\"          (int64) The current mocktime (0 = no mocktime is set)\n"
+            "\nExamples:\n"
+            + HelpExampleCli("getmocktime", "")
+            + HelpExampleRpc("getmocktime", "")
+        );
+
+    UniValue result(GetMockTime());
+    return result;
+}
+
 static UniValue RPCLockedMemoryInfo()
 {
     LockedPool::Stats stats = LockedPoolManager::Instance().stats();
@@ -522,6 +541,7 @@ static const CRPCCommand commands[] =
 
     /* Not shown in help */
     { "hidden",             "setmocktime",            &setmocktime,            true,  {"timestamp"}},
+    { "hidden",             "getmocktime",            &getmocktime,            true,  {}},
     { "hidden",             "echo",                   &echo,                   true,  {"arg0","arg1","arg2","arg3","arg4","arg5","arg6","arg7","arg8","arg9"}},
     { "hidden",             "echojson",               &echo,                  true,  {"arg0","arg1","arg2","arg3","arg4","arg5","arg6","arg7","arg8","arg9"}},
 };
