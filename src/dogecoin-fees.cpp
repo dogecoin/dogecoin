@@ -2,8 +2,6 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <boost/random/uniform_int.hpp>
-
 
 #include "policy/policy.h"
 #include "arith_uint256.h"
@@ -99,7 +97,7 @@ CAmount GetDogecoinDustFee(const std::vector<CTxOut> &vout, const CAmount dustLi
 
     // To limit dust spam, add the dust limit for each output
     // less than the (soft) dustlimit
-    BOOST_FOREACH(const CTxOut& txout, vout)
+    for(const CTxOut& txout, vout)
         if (txout.IsDust(dustLimit))
             nFee += dustLimit;
 
