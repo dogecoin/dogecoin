@@ -605,19 +605,13 @@ void CleanupBlockRevFiles()
     // keeping a separate counter.  Once we hit a gap (or if 0 doesn't exist)
     // start removing block files.
     int nContigCounter = 0;
- for (const auto& item : mapBlockFiles) {
-    try {
-        int itemKey = std::stoi(item.first);
-        if (itemKey == nContigCounter) {
+    for(const PAIRTYPE(std::string, boost::filesystem::path)& item: mapBlockFiles) {
+        if (atoi(item.first) == nContigCounter) {
             nContigCounter++;
             continue;
         }
-        boost::filesystem::remove(item.second);
-    } catch (const std::invalid_argument& e) {
-        // Handle the case where item.first is not a valid integer
+        remove(item.second);
     }
-}
-
 }
 
 void ThreadImport(std::vector<boost::filesystem::path> vImportFiles)
@@ -664,7 +658,7 @@ void ThreadImport(std::vector<boost::filesystem::path> vImportFiles)
     }
 
     // -loadblock=
-    BOOST_FOREACH(const boost::filesystem::path& path, vImportFiles) {
+    for(const boost::filesystem::path& path: vImportFiles) {
         FILE *file = fopen(path.string().c_str(), "rb");
         if (file) {
             LogPrintf("Importing blocks file %s...\n", path.string());
