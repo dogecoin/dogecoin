@@ -1,4 +1,5 @@
 // Copyright (c) 2011-2016 The Bitcoin Core developers
+// Copyright (c) 2023 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -8,7 +9,6 @@
 #include "utilstrencodings.h"
 
 #include <stdio.h>
-
 #include <boost/thread.hpp>
 
 #ifdef DEBUG_LOCKCONTENTION
@@ -78,7 +78,7 @@ static void potential_deadlock_detected(const std::pair<void*, void*>& mismatch,
 {
     LogPrintf("POTENTIAL DEADLOCK DETECTED\n");
     LogPrintf("Previous lock order was:\n");
-    for (const PAIRTYPE(void*: CLockLocation) & i, s2) {
+    for(const PAIRTYPE(void*, CLockLocation) & i: s2) {
         if (i.first == mismatch.first) {
             LogPrintf(" (1)");
         }
@@ -88,7 +88,7 @@ static void potential_deadlock_detected(const std::pair<void*, void*>& mismatch,
         LogPrintf(" %s\n", i.second.ToString());
     }
     LogPrintf("Current lock order is:\n");
-    for (const PAIRTYPE(void*: CLockLocation) & i, s1) {
+    for(const PAIRTYPE(void*, CLockLocation) & i: s1) {
         if (i.first == mismatch.first) {
             LogPrintf(" (1)");
         }
@@ -109,7 +109,7 @@ static void push_lock(void* c, const CLockLocation& locklocation, bool fTry)
 
     (*lockstack).push_back(std::make_pair(c, locklocation));
 
-    for (const PAIRTYPE(void*, CLockLocation)& i : *lockstack) {
+    for(const PAIRTYPE(void*, CLockLocation) & i: (*lockstack)) {
         if (i.first == c)
             break;
 
@@ -143,7 +143,7 @@ void LeaveCritical()
 std::string LocksHeld()
 {
     std::string result;
-    for (const PAIRTYPE(void*, CLockLocation)& i : *lockstack)
+    for(const PAIRTYPE(void*, CLockLocation) & i: *lockstack)
         result += i.second.ToString() + std::string("\n");
     return result;
 }
