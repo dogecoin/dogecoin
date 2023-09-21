@@ -30,6 +30,7 @@
 
 #include <boost/assign/list_of.hpp>
 
+
 using namespace std;
 
 void EnsureWalletIsUnlocked();
@@ -1097,7 +1098,7 @@ UniValue importmulti(const JSONRPCRequest& mainRequest)
 
     UniValue response(UniValue::VARR);
 
-    for(const UniValue& data: requests.getValues()) {
+    BOOST_FOREACH (const UniValue& data, requests.getValues()) {
         const int64_t timestamp = std::max(GetImportTimestamp(data, now), minimumTimestamp);
         const UniValue result = ProcessImport(data, timestamp);
         response.push_back(result);

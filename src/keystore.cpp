@@ -10,6 +10,7 @@
 #include "util.h"
 
 
+
 bool CKeyStore::AddKey(const CKey &key) {
     return AddKeyPubKey(key, key.GetPubKey());
 }
