@@ -877,7 +877,7 @@ public:
 
     void UpdatedTransaction(const uint256 &hashTx) override;
 
-    void GetScriptForMining(std::shared_ptr<CReserveScript> &script) override;
+    void GetScriptForMining(boost::shared_ptr<CReserveScript> &script);
 
     unsigned int GetKeyPoolSize()
     {

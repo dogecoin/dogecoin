@@ -330,7 +330,7 @@ UniValue getaddressesbyaccount(const JSONRPCRequest& request)
 
     // Find all addresses that have the given account
     UniValue ret(UniValue::VARR);
-    for(const PAIRTYPE(CBitcoinAddress: CAddressBookData)& item, pwalletMain->mapAddressBook)
+    for(const PAIRTYPE(CBitcoinAddress, CAddressBookData)& item: pwalletMain->mapAddressBook)
     {
         const CBitcoinAddress& address = item.first;
         const string& strName = item.second.name;
@@ -1276,7 +1276,7 @@ UniValue ListReceived(const UniValue& params, bool fByAccounts)
     // Reply
     UniValue ret(UniValue::VARR);
     map<string, tallyitem> mapAccountTally;
-    for(const PAIRTYPE(CBitcoinAddress: CAddressBookData)& item, pwalletMain->mapAddressBook)
+    for(const PAIRTYPE(CBitcoinAddress, CAddressBookData)& item: pwalletMain->mapAddressBook)
     {
         const CBitcoinAddress& address = item.first;
         const string& strAccount = item.second.name;
@@ -1798,7 +1798,7 @@ UniValue listaccounts(const JSONRPCRequest& request)
             includeWatchonly = includeWatchonly | ISMINE_WATCH_ONLY;
 
     map<string, CAmount> mapAccountBalances;
-    for(const PAIRTYPE(CTxDestination: CAddressBookData)& entry, pwalletMain->mapAddressBook) {
+    for(const PAIRTYPE(CTxDestination, CAddressBookData)& entry: pwalletMain->mapAddressBook) {
         if (IsMine(*pwalletMain, entry.first) & includeWatchonly) // This address belongs to me
             mapAccountBalances[entry.second.name] = 0;
     }
@@ -1832,7 +1832,7 @@ UniValue listaccounts(const JSONRPCRequest& request)
         mapAccountBalances[entry.strAccount] += entry.nCreditDebit;
 
     UniValue ret(UniValue::VOBJ);
-    for(const PAIRTYPE(string: CAmount)& accountBalance, mapAccountBalances) {
+    for(const PAIRTYPE(string, CAmount)& accountBalance: mapAccountBalances) {
         ret.pushKV(accountBalance.first, ValueFromAmount(accountBalance.second));
     }
     return ret;
@@ -3244,11 +3244,11 @@ static const CRPCCommand commands[] =
     { "wallet",             "getunconfirmedbalance",    &getunconfirmedbalance,    false,  {} },
     { "wallet",             "getwalletinfo",            &getwalletinfo,            false,  {} },
     { "wallet",             "importmulti",              &importmulti,              true,   {"requests","options"} },
-    { "wallet",             "importprivkey",            &importprivkey,            true,   {"privkey","label","rescan", "height"} },
+    { "wallet",             "importprivkey",            &importprivkey,            true,   {"privkey","label","rescan"} },
     { "wallet",             "importwallet",             &importwallet,             true,   {"filename"} },
     { "wallet",             "importaddress",            &importaddress,            true,   {"address","label","rescan","p2sh"} },
     { "wallet",             "importprunedfunds",        &importprunedfunds,        true,   {"rawtransaction","txoutproof"} },
-    { "wallet",             "importpubkey",             &importpubkey,             true,   {"pubkey","label","rescan", "height"} },
+    { "wallet",             "importpubkey",             &importpubkey,             true,   {"pubkey","label","rescan"} },
     { "wallet",             "keypoolrefill",            &keypoolrefill,            true,   {"newsize"} },
     { "wallet",             "listaccounts",             &listaccounts,             false,  {"minconf","include_watchonly"} },
     { "wallet",             "listaddressgroupings",     &listaddressgroupings,     false,  {} },

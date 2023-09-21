@@ -1,7 +1,3 @@
-// Copyright (c) 2009-2016 The Bitcoin Core developers
-// Distributed under the MIT software license, see the accompanying
-// file COPYING or http://www.opensource.org/licenses/mit-license.php.
-
 #include "checkpoints.h"
 
 #include "chain.h"
@@ -11,6 +7,7 @@
 
 #include <stdint.h>
 
+#include <boost/foreach.hpp>
 
 namespace Checkpoints {
 
@@ -18,14 +15,15 @@ namespace Checkpoints {
     {
         const MapCheckpoints& checkpoints = data.mapCheckpoints;
 
-        for(auto rit = checkpoints.rbegin(); rit != checkpoints.rend(); ++rit)
+        BOOST_REVERSE_FOREACH(const MapCheckpoints::value_type& i, checkpoints)
         {
             const uint256& hash = i.second;
             BlockMap::const_iterator t = mapBlockIndex.find(hash);
             if (t != mapBlockIndex.end())
                 return t->second;
         }
-        return NULL;
+        // Use nullptr instead of NULL because of type safety and clarity.
+        return nullptr;
     }
 
 } // namespace Checkpoints
