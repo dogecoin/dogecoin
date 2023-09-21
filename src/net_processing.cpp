@@ -33,6 +33,7 @@
 
 #include <array>
 
+
 #if defined(NDEBUG)
 # error "Dogecoin cannot be compiled without assertions."
 #endif
@@ -2570,7 +2571,7 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
             } else {
                 std::vector<CInv> vGetData;
                 // Download as much as possible, from earliest to latest.
-                for(const CBlockIndex* pindex : std::ranges::reverse_view(vToFetch)) {
+                BOOST_REVERSE_FOREACH(const CBlockIndex *pindex, vToFetch) {
                     if (nodestate->nBlocksInFlight >= MAX_BLOCKS_IN_TRANSIT_PER_PEER) {
                         // Can't download any more from this peer
                         break;

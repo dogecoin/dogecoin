@@ -851,7 +851,7 @@ void CWallet::MarkDirty()
 {
     {
         LOCK(cs_wallet);
-        for(PAIRTYPE(const uint256: CWalletTx)& item, mapWallet)
+        for(PAIRTYPE(const uint256, CWalletTx)& item: mapWallet)
             item.second.MarkDirty();
     }
 }
@@ -1572,7 +1572,7 @@ void CWallet::ReacceptWalletTransactions()
     std::map<int64_t, CWalletTx*> mapSorted;
 
     // Sort pending wallet transactions based on their initial wallet insertion order
-    for(const auto& [wtxid, wtx] : mapWallet)
+    for(PAIRTYPE(const uint256, CWalletTx)& item: mapWallet)
     {
         const uint256& wtxid = item.first;
         CWalletTx& wtx = item.second;
@@ -1586,7 +1586,7 @@ void CWallet::ReacceptWalletTransactions()
     }
 
     // Try to add wallet transactions to memory pool
-    for (const auto& [orderPos, wtxPtr] : mapSorted)
+    for(PAIRTYPE(const int64_t, CWalletTx*)& item: mapSorted)
     {
         CWalletTx& wtx = *(item.second);
 
@@ -1843,10 +1843,10 @@ std::vector<uint256> CWallet::ResendWalletTransactionsBefore(int64_t nTime, CCon
 {
     std::vector<uint256> result;
 
-    std::unique_lock lock(cs_wallet);
+    LOCK(cs_wallet);
     // Sort them in chronological order
-    std::multimap<unsigned int, CWalletTx*> mapSorted;
-    for(const auto& [wtxid, wtx] : mapWallet)
+    multimap<unsigned int, CWalletTx*> mapSorted;
+    for(PAIRTYPE(const uint256, CWalletTx)& item: mapWallet)
     {
         CWalletTx& wtx = item.second;
         // Don't rebroadcast if newer than nTime:
@@ -1854,7 +1854,7 @@ std::vector<uint256> CWallet::ResendWalletTransactionsBefore(int64_t nTime, CCon
             continue;
         mapSorted.insert(make_pair(wtx.nTimeReceived, &wtx));
     }
-    for(const auto& [timeReceived, wtxPtr] : mapSorted)
+    for(PAIRTYPE(const unsigned int, CWalletTx*)& item: mapSorted)
     {
         CWalletTx& wtx = *item.second;
         if (wtx.RelayWalletTransaction(connman))
@@ -3039,13 +3039,13 @@ bool CWallet::SetAddressBook(const CTxDestination& address, const string& strNam
 bool CWallet::DelAddressBook(const CTxDestination& address)
 {
     {
-        std::unique_lock lock(cs_wallet); // mapAddressBook
+        LOCK(cs_wallet); // mapAddressBook
 
-        if (fFileBacked)
+        if(fFileBacked)
         {
             // Delete destdata tuples associated with address
             std::string strAddress = CBitcoinAddress(address).ToString();
-            for (const auto& item : mapAddressBook[address].destdata)
+            for(const PAIRTYPE(string, string) &item: mapAddressBook[address].destdata)
             {
                 CWalletDB(strWalletFile).EraseDestData(strAddress, item.first);
             }
@@ -3055,14 +3055,10 @@ bool CWallet::DelAddressBook(const CTxDestination& address)
 
     NotifyAddressBookChanged(this, address, "", ::IsMine(*this, address) != ISMINE_NO, "", CT_DELETED);
 
-    if (!fFileBacked){
+    if (!fFileBacked)
         return false;
-    }
-
-    std::string strAddress = CBitcoinAddress(address).ToString();
-    CWalletDB walletDB(strWalletFile);
-    walletDB.ErasePurpose(strAddress);
-    return walletDB.EraseName(strAddress);
+    CWalletDB(strWalletFile).ErasePurpose(CBitcoinAddress(address).ToString());
+    return CWalletDB(strWalletFile).EraseName(CBitcoinAddress(address).ToString());
 }
 
 bool CWallet::SetDefaultKey(const CPubKey &vchPubKey)
@@ -3225,10 +3221,10 @@ std::map<CTxDestination, CAmount> CWallet::GetAddressBalances()
     map<CTxDestination, CAmount> balances;
 
     {
-        std::unique_lock lock(cs_wallet);
-        for(const auto& walletEntry : mapWallet)
+        LOCK(cs_wallet);
+        for(PAIRTYPE(uint256, CWalletTx) walletEntry: mapWallet)
         {
-             const CWalletTx& pcoin = walletEntry.second;
+            CWalletTx *pcoin = &walletEntry.second;
 
             if (!pcoin->IsTrusted())
                 continue;
@@ -3266,7 +3262,7 @@ set< set<CTxDestination> > CWallet::GetAddressGroupings()
     set< set<CTxDestination> > groupings;
     set<CTxDestination> grouping;
 
-    for(PAIRTYPE(uint256, CWalletTx) walletEntry, mapWallet)
+    for(PAIRTYPE(uint256, CWalletTx) walletEntry: mapWallet)
     {
         CWalletTx *pcoin = &walletEntry.second;
 
@@ -3388,7 +3384,7 @@ std::set<CTxDestination> CWallet::GetAccountAddresses(const std::string& strAcco
 {
     LOCK(cs_wallet);
     set<CTxDestination> result;
-    for(const PAIRTYPE(CTxDestination: CAddressBookData)& item, mapAddressBook)
+    for(const PAIRTYPE(CTxDestination, CAddressBookData)& item: mapAddressBook)
     {
         const CTxDestination& address = item.first;
         const string& strName = item.second.name;
@@ -3451,7 +3447,7 @@ void CWallet::GetAllReserveKeys(set<CKeyID>& setAddress) const
     }
 }
 
-void CWallet::UpdatedTransaction(const uint256 &hashTx)
+void CWallet::UpdatedTransaction(const uint256 &hashTx) 
 {
     {
         LOCK(cs_wallet);
@@ -3462,9 +3458,9 @@ void CWallet::UpdatedTransaction(const uint256 &hashTx)
     }
 }
 
-void CWallet::GetScriptForMining(std::shared_ptr<CReserveScript> &script)
+void CWallet::GetScriptForMining(boost::shared_ptr<CReserveScript> &script)
 {
-    std::shared_ptr<CReserveKey> rKey(new CReserveKey(this));
+    boost::shared_ptr<CReserveKey> rKey(new CReserveKey(this));
     CPubKey pubkey;
     if (!rKey->GetReservedKey(pubkey))
         return;
@@ -3963,6 +3959,20 @@ bool CWallet::ParameterInteraction()
         {
             LogPrintf("%s: parameter interaction: -paytxfee=%s -> setting -mintxfee=%s\n", __func__, GetArg("-paytxfee",""), GetArg("-paytxfee",""));
             CWallet::minTxFee = CFeeRate(nFeePerK,1000);
+        }
+    }
+    if (IsArgSet("-maxtxfee"))
+    {
+        CAmount nMaxFee = 0;
+        if (!ParseMoney(GetArg("-maxtxfee", ""), nMaxFee))
+            return InitError(AmountErrMsg("maxtxfee", GetArg("-maxtxfee", "")));
+        if (nMaxFee > HIGH_MAX_TX_FEE)
+            InitWarning(_("-maxtxfee is set very high! Fees this large could be paid on a single transaction."));
+        maxTxFee = nMaxFee;
+        if (CFeeRate(maxTxFee, 1000) < ::minRelayTxFeeRate)
+        {
+            return InitError(strprintf(_("Invalid amount for -maxtxfee=<amount>: '%s' (must be at least the minrelay fee of %s to prevent stuck transactions)"),
+                                       GetArg("-maxtxfee", ""), ::minRelayTxFeeRate.ToString()));
         }
     }
     if (IsArgSet("-discardthreshold"))

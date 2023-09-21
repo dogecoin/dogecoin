@@ -19,6 +19,7 @@
 #include "utilmoneystr.h"
 #include "utiltime.h"
 #include "version.h"
+#include <algorithm>
 
 CTxMemPoolEntry::CTxMemPoolEntry(const CTransactionRef& _tx, const CAmount& _nFee,
                                  int64_t _nTime, double _entryPriority, unsigned int _entryHeight,
@@ -140,7 +141,7 @@ void CTxMemPool::UpdateTransactionsFromBlock(const std::vector<uint256> &vHashes
     // This maximizes the benefit of the descendant cache and guarantees that
     // setMemPoolChildren will be updated, an assumption made in
     // UpdateForDescendants.
-    for(const uint256 &hash : std::reverse(vHashesToUpdate)) {
+    BOOST_REVERSE_FOREACH(const uint256 &hash, vHashesToUpdate) {
         // we cache the in-mempool children to avoid duplicate updates
         setEntries setChildren;
         // calculate children from mapNextTx
@@ -262,7 +263,7 @@ void CTxMemPool::UpdateEntryForAncestors(txiter it, const setEntries &setAncesto
 void CTxMemPool::UpdateChildrenForRemoval(txiter it)
 {
     const setEntries &setMemPoolChildren = GetMemPoolChildren(it);
-    for(txiter updateIt, setMemPoolChildren) {
+    for(txiter updateIt: setMemPoolChildren) {
         UpdateParent(updateIt, it, false);
     }
 }
