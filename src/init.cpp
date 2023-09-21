@@ -17,7 +17,6 @@
 #include "checkpoints.h"
 #include "compat/sanity.h"
 #include "consensus/validation.h"
-#include "crypto/scrypt.h" // for scrypt_detect_sse2
 #include "httpserver.h"
 #include "httprpc.h"
 #include "key.h"
@@ -606,13 +605,19 @@ void CleanupBlockRevFiles()
     // keeping a separate counter.  Once we hit a gap (or if 0 doesn't exist)
     // start removing block files.
     int nContigCounter = 0;
-    BOOST_FOREACH(const PAIRTYPE(std::string, boost::filesystem::path)& item, mapBlockFiles) {
-        if (atoi(item.first) == nContigCounter) {
+ for (const auto& item : mapBlockFiles) {
+    try {
+        int itemKey = std::stoi(item.first);
+        if (itemKey == nContigCounter) {
             nContigCounter++;
             continue;
         }
-        remove(item.second);
+        boost::filesystem::remove(item.second);
+    } catch (const std::invalid_argument& e) {
+        // Handle the case where item.first is not a valid integer
     }
+}
+
 }
 
 void ThreadImport(std::vector<boost::filesystem::path> vImportFiles)
@@ -1017,31 +1022,12 @@ bool AppInitParameterInteraction()
         CAmount n = 0;
         if (!ParseMoney(GetArg("-minrelaytxfee", ""), n) || 0 == n)
             return InitError(AmountErrMsg("minrelaytxfee", GetArg("-minrelaytxfee", "")));
+        // High fee check is done afterward in CWallet::ParameterInteraction()
         ::minRelayTxFeeRate = CFeeRate(n);
     } else if (incrementalRelayFee > ::minRelayTxFeeRate) {
         // Allow only setting incrementalRelayFee to control both
         ::minRelayTxFeeRate = incrementalRelayFee;
         LogPrintf("Increasing minrelaytxfee to %s to match incrementalrelayfee\n",::minRelayTxFeeRate.ToString());
-    }
-
-    // This is the maximum absolute fee (in COIN, not satoshis)
-    // that is allowed for sendrawtransaction RPC and CWallet
-    // This must be parsed outside of CWallet code in order to
-    // keep its effect on the RPC even when -disablewallet is
-    // active.
-    if (IsArgSet("-maxtxfee"))
-    {
-        CAmount nMaxFee = 0;
-        if (!ParseMoney(GetArg("-maxtxfee", ""), nMaxFee))
-            return InitError(AmountErrMsg("maxtxfee", GetArg("-maxtxfee", "")));
-        if (nMaxFee > HIGH_MAX_TX_FEE)
-            InitWarning(_("-maxtxfee is set very high! Fees this large could be paid on a single transaction."));
-        ::maxTxFee = nMaxFee;
-        if (CFeeRate(::maxTxFee, 1000) < ::minRelayTxFeeRate)
-        {
-            return InitError(strprintf(_("Invalid amount for -maxtxfee=<amount>: '%s' (must be at least the minrelay fee of %s to prevent stuck transactions)"),
-                                       GetArg("-maxtxfee", ""), ::minRelayTxFeeRate.ToString()));
-        }
     }
 
     // Sanity check argument for min fee for including tx in block
@@ -1251,11 +1237,7 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
     int64_t nStart;
 
 #if defined(USE_SSE2)
-    if (scrypt_detect_sse2()) {
-        LogPrintf("scrypt: using SSE2 implementation\n");
-    } else {
-        LogPrintf("scrypt: using generic implementation\n");
-    }
+    scrypt_detect_sse2();
 #endif
 
     // ********************************************************* Step 5: verify wallet database integrity
@@ -1324,7 +1306,7 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
     std::string proxyArg = GetArg("-proxy", "");
     SetLimited(NET_TOR);
     if (proxyArg != "" && proxyArg != "0") {
-        CService resolved(LookupNumeric(proxyArg, 9050));
+        CService resolved(LookupNumeric(proxyArg.c_str(), 9050));
         proxyType addrProxy = proxyType(resolved, proxyRandomize);
         if (!addrProxy.IsValid())
             return InitError(strprintf(_("Invalid -proxy address: '%s'"), proxyArg));
@@ -1344,7 +1326,7 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
         if (onionArg == "0") { // Handle -noonion/-onion=0
             SetLimited(NET_TOR); // set onions as unreachable
         } else {
-            CService resolved(LookupNumeric(onionArg, 9050));
+            CService resolved(LookupNumeric(onionArg.c_str(), 9050));
             proxyType addrOnion = proxyType(resolved, proxyRandomize);
             if (!addrOnion.IsValid())
                 return InitError(strprintf(_("Invalid -onion address: '%s'"), onionArg));
@@ -1364,7 +1346,7 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
         if (mapMultiArgs.count("-bind")) {
             for(const std::string& strBind: mapMultiArgs.at("-bind")) {
                 CService addrBind;
-                if (!Lookup(strBind, addrBind, GetListenPort(), false))
+                if (!Lookup(strBind.c_str(), addrBind, GetListenPort(), false))
                     return InitError(ResolveErrMsg("bind", strBind));
                 fBound |= Bind(connman, addrBind, (BF_EXPLICIT | BF_REPORT_ERROR));
             }
@@ -1372,7 +1354,7 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
         if (mapMultiArgs.count("-whitebind")) {
             for(const std::string& strBind: mapMultiArgs.at("-whitebind")) {
                 CService addrBind;
-                if (!Lookup(strBind, addrBind, 0, false))
+                if (!Lookup(strBind.c_str(), addrBind, 0, false))
                     return InitError(ResolveErrMsg("whitebind", strBind));
                 if (addrBind.GetPort() == 0)
                     return InitError(strprintf(_("Need to specify a port with -whitebind: '%s'"), strBind));
@@ -1392,7 +1374,7 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
     if (mapMultiArgs.count("-externalip")) {
         for(const std::string& strAddr: mapMultiArgs.at("-externalip")) {
             CService addrLocal;
-            if (Lookup(strAddr, addrLocal, GetListenPort(), fNameLookup) && addrLocal.IsValid())
+            if (Lookup(strAddr.c_str(), addrLocal, GetListenPort(), fNameLookup) && addrLocal.IsValid())
                 AddLocal(addrLocal, LOCAL_MANUAL);
             else
                 return InitError(ResolveErrMsg("externalip", strAddr));

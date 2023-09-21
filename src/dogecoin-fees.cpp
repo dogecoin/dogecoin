@@ -2,8 +2,6 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <boost/random/uniform_int.hpp>
-
 
 #include "policy/policy.h"
 #include "arith_uint256.h"

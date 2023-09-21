@@ -16,7 +16,6 @@
 #include "utilstrencodings.h"
 
 #include <boost/assign/list_of.hpp>
-#include <boost/foreach.hpp>
 
 std::string FormatScript(const CScript& script)
 {
