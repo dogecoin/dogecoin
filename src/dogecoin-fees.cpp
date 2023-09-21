@@ -99,7 +99,7 @@ CAmount GetDogecoinDustFee(const std::vector<CTxOut> &vout, const CAmount dustLi
 
     // To limit dust spam, add the dust limit for each output
     // less than the (soft) dustlimit
-    BOOST_FOREACH(const CTxOut& txout, vout)
+    for(const CTxOut& txout: vout)
         if (txout.IsDust(dustLimit))
             nFee += dustLimit;
 
