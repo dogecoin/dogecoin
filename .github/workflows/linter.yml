@@ -1,0 +1,17 @@
+name: linter
+on:
+  push:
+    paths-ignore:
+      - '**/*.md'
+  pull_request:
+    paths-ignore:
+      - '**/*.md'
+
+jobs:
+  translations:
+    name: Check Translations
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v3
+    - name: Lint translation files
+      run: python3 contrib/devtools/check-translations.py
