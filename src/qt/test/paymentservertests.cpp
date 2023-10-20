@@ -67,7 +67,7 @@ void PaymentServerTests::paymentServerTests()
 {
     SelectParams(CBaseChainParams::MAIN);
     OptionsModel optionsModel;
-    PaymentServer* server = new PaymentServer(NULL, QString("testIPCServer"), false);
+    PaymentServer* server = new PaymentServer(NULL, QString("testIPCServer"), false, true);
     X509_STORE* caStore = X509_STORE_new();
     X509_STORE_add_cert(caStore, parse_b64der_cert(caCert1_BASE64));
     PaymentServer::LoadRootCAs(caStore);

@@ -298,10 +298,11 @@ bool PaymentServer::ipcSendCommandLine()
     return fResult;
 }
 
-void PaymentServer::initializeServer(QObject* parent, QString ipcServerName, bool startLocalServer) {
+void PaymentServer::initializeServer(QObject* parent, QString ipcServerName, bool startLocalServer, bool enableBip70) {
     // Verify that the version of the library that we linked against is
     // compatible with the version of the headers we compiled against.
     GOOGLE_PROTOBUF_VERIFY_VERSION;
+    this->enableBip70 = enableBip70;
 
     // Install global event filter to catch QFileOpenEvents
     // on Mac: sent when you click bitcoin: links
@@ -332,7 +333,18 @@ PaymentServer::PaymentServer(QObject* parent, bool startLocalServer) :
     netManager(0),
     optionsModel(0)
 {
-    this->initializeServer(parent, ipcServerName(), startLocalServer);
+    this->initializeServer(parent, ipcServerName(), startLocalServer, false);
+}
+
+
+PaymentServer::PaymentServer(QObject* parent, bool startLocalServer, bool enableBip70) :
+    QObject(parent),
+    saveURIs(true),
+    uriServer(0),
+    netManager(0),
+    optionsModel(0)
+{
+    this->initializeServer(parent, ipcServerName(), startLocalServer, enableBip70);
 }
 
 
@@ -343,7 +355,18 @@ PaymentServer::PaymentServer(QObject* parent, QString ipcServerName, bool startL
     netManager(0),
     optionsModel(0)
 {
-    this->initializeServer(parent, ipcServerName, startLocalServer);
+    this->initializeServer(parent, ipcServerName, startLocalServer, false);
+}
+
+
+PaymentServer::PaymentServer(QObject* parent, QString ipcServerName, bool startLocalServer, bool enableBip70Flag) :
+    QObject(parent),
+    saveURIs(true),
+    uriServer(0),
+    netManager(0),
+    optionsModel(0)
+{
+    this->initializeServer(parent, ipcServerName, startLocalServer, enableBip70Flag);
 }
 
 PaymentServer::~PaymentServer()
@@ -427,6 +450,15 @@ void PaymentServer::handleURIOrFile(const QString& s)
 #endif
         if (uri.hasQueryItem("r")) // payment request URI
         {
+            if (!enableBip70) {
+              qDebug() << "PaymentServer::handleURIOrFile: 'r' item supplied but BIP70 disabled.";
+              Q_EMIT message(tr("URI handling"), tr(
+                      "BIP70 payment requests are deprecated and disabled by default."
+                      "Restart with -enable-bip70 if you absolutely have to use this functionality.\n\n"
+                      "Use this functionality with extreme caution."),
+                  CClientUIInterface::MSG_ERROR);
+              return;
+            }
             QByteArray temp;
             temp.append(uri.queryItemValue("r"));
             QString decoded = QUrl::fromPercentEncoding(temp);
@@ -469,7 +501,17 @@ void PaymentServer::handleURIOrFile(const QString& s)
         }
     }
 
-    if (QFile::exists(s)) // payment request file
+    // payment request file
+    if (!enableBip70) {
+        Q_EMIT message(tr("Payment request file handling"), tr(
+                "Payment request file handling is disabled by default."
+                "Restart with -enable-bip70 if you absolutely have to use this functionality.\n\n"
+                "Use this functionality with extreme caution."),
+            CClientUIInterface::MSG_ERROR);
+        return;
+    }
+
+    if (QFile::exists(s))
     {
         PaymentRequestPlus request;
         SendCoinsRecipient recipient;
