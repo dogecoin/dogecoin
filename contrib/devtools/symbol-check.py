@@ -96,8 +96,6 @@ ELF_ALLOWED_LIBRARIES = {
 'ld-linux-aarch64.so.1', # 64-bit ARM dynamic linker
 'ld-linux-armhf.so.3', # 32-bit ARM dynamic linker
 # dogecoin-qt only
-'libX11-xcb.so.1', # part of X11
-'libX11.so.6', # part of X11
 'libxcb.so.1', # part of X11
 'libxkbcommon.so.0', # keyboard keymapping
 'libxkbcommon-x11.so.0', # keyboard keymapping
