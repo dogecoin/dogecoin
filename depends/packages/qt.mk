@@ -26,7 +26,6 @@ $(package)_config_opts_debug = -debug
 $(package)_config_opts += -bindir $(build_prefix)/bin
 $(package)_config_opts += -c++std c++11
 $(package)_config_opts += -confirm-license
-$(package)_config_opts += -dbus-runtime
 $(package)_config_opts += -hostprefix $(build_prefix)
 $(package)_config_opts += -no-alsa
 $(package)_config_opts += -no-audio-backend
@@ -109,6 +108,7 @@ $(package)_config_opts_darwin = -no-feature-sessionmanager
 $(package)_config_opts_linux = -no-feature-sessionmanager
 
 ifneq ($(build_os),darwin)
+$(package)_config_opts_darwin += -no-dbus
 $(package)_config_opts_darwin += -xplatform macx-clang-linux
 $(package)_config_opts_darwin += -device-option MAC_SDK_PATH=$(OSX_SDK)
 $(package)_config_opts_darwin += -device-option MAC_SDK_VERSION=$(OSX_SDK_VERSION)
@@ -123,10 +123,12 @@ $(package)_config_opts_linux += -system-freetype
 $(package)_config_opts_linux += -no-sm
 $(package)_config_opts_linux += -fontconfig
 $(package)_config_opts_linux += -no-opengl
+$(package)_config_opts_linux += -dbus-runtime
 $(package)_config_opts_arm_linux  = -platform linux-g++ -xplatform $(host)
 $(package)_config_opts_i686_linux  = -xplatform linux-g++-32
 
 $(package)_config_opts_mingw32 = -no-opengl
+$(package)_config_opts_mingw32 += -no-dbus
 $(package)_config_opts_mingw32 += -xplatform win32-g++
 $(package)_config_opts_mingw32 += -device-option CROSS_COMPILE="$(host)-"
 
