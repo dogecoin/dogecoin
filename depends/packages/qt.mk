@@ -8,7 +8,14 @@ $(package)_dependencies=openssl zlib
 $(package)_linux_dependencies=freetype fontconfig libxcb libxkbcommon
 $(package)_build_subdir=qtbase
 $(package)_qt_libs=corelib network widgets gui plugins testlib printsupport
-$(package)_patches=mac-qmake.conf mingw-uuidof.patch pidlist_absolute.patch fix-xcb-include-order.patch fix_qfontengine_coretext.patch fix_qt_pkgconfig.patch no-xlib.patch
+
+$(package)_patches=mac-qmake.conf
+$(package)_patches+=mingw-uuidof.patch
+$(package)_patches+=pidlist_absolute.patch
+$(package)_patches+=fix-xcb-include-order.patch
+$(package)_patches+=fix_qfontengine_coretext.patch
+$(package)_patches+=fix_qt_pkgconfig.patch
+$(package)_patches+=no-xlib.patch
 
 $(package)_qttranslations_file_name=qttranslations-$($(package)_suffix)
 $(package)_qttranslations_sha256_hash=3a15aebd523c6d89fb97b2d3df866c94149653a26d27a00aac9b6d3020bc5a1d
