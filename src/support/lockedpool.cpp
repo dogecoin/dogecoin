@@ -5,6 +5,7 @@
 
 #include "support/lockedpool.h"
 #include "support/cleanse.h"
+#include <stdexcept> // for std::runtime_error
 
 #if defined(HAVE_CONFIG_H)
 #include "config/bitcoin-config.h"
