@@ -8,6 +8,7 @@
 #include <attributes.h>
 #include <string>
 #include <vector>
+#include <cstdint>
 
 /** Parse an HD keypaths like "m/7/0'/2000". */
 NODISCARD bool ParseHDKeypath(const std::string& keypath_str, std::vector<uint32_t>& keypath);
