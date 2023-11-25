@@ -32,7 +32,6 @@ jobs:
         name:
           - aarch64-linux
           - aarch64-linux-experimental
-          - aarch64-linux-sha512-experimental
           - armhf-linux
           - i686-linux
           - i686-win
@@ -79,19 +78,7 @@ jobs:
             check-security: true
             check-symbols: false
             dep-opts: "NO_QT=1"
-            config-opts: "--enable-experimental --with-armv8-crypto --enable-zmq --enable-glibc-back-compat LDFLAGS=-static-libstdc++"
-            goal: install
-          - name: aarch64-linux-sha512-experimental
-            host: aarch64-linux-gnu
-            os: ubuntu-20.04
-            packages: g++-aarch64-linux-gnu qemu-user-static qemu-user
-            run-bench: false
-            test-script: |
-              qemu-aarch64 -E LD_LIBRARY_PATH=/usr/aarch64-linux-gnu/lib/ /usr/aarch64-linux-gnu/lib/ld-linux-aarch64.so.1 src/test/test_dogecoin
-            check-security: true
-            check-symbols: false
-            dep-opts: "NO_QT=1"
-            config-opts: "--enable-experimental --with-armv82-crypto --enable-zmq --enable-glibc-back-compat LDFLAGS=-static-libstdc++"
+            config-opts: "--enable-experimental --with-armv8-crypto --with-armv82-crypto --enable-zmq --enable-glibc-back-compat LDFLAGS=-static-libstdc++"
             goal: install
           - name: aarch64-linux
             host: aarch64-linux-gnu
