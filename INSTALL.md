@@ -29,6 +29,8 @@ these dependencies.
 
   The following are developer notes on how to build Dogecoin on your native
   platform, using the dependencies as provided by your system's package manager.
+  Before starting, ensure your system is updated and has the latest security patches.
+  Outdated libraries can render the entire system, including Dogecoin Core, vulnerable.
   They are not complete guides, but include notes on the necessary libraries,
   compile flags, etc.
 
