@@ -772,7 +772,7 @@
     </message>
     <message>
         <source>Can vary +/- %1 koinu per input.</source>
-        <translation type="unfinished"></translation>
+        <translation>입력마다 +/- %1 코이누가 변할 수 있습니다.</translation>
     </message>
 </context>
 <context>
@@ -1340,11 +1340,11 @@
     </message>
     <message>
         <source>Prune &amp;block storage to</source>
-        <translation type="unfinished"></translation>
+        <translation>블록 스토리지를 다음 크기로 축소(&amp;B)</translation>
     </message>
     <message>
         <source>GB</source>
-        <translation type="unfinished"></translation>
+        <translation>기가바이트</translation>
     </message>
     <message>
         <source>Reverting this setting requires re-downloading the entire blockchain.</source>
@@ -1479,7 +1479,7 @@
     </message>
     <message>
         <source>For advanced operations, use the console in &apos;Help&apos; -&gt; &apos;Debug Window&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>고급 작업을 위해, &apos;도움말&apos; -&gt; &apos;디버그 창&apos; 콘솔을 사용하세요</translation>
     </message>
     <message>
         <source>Make sure to keep your wallet software updated</source>
@@ -1934,7 +1934,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>%1 kB</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 kB</translation>
     </message>
 </context>
 <context>
@@ -4547,11 +4547,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Execute command when we see a really long fork (%s in cmd is replaced by message)</source>
-        <translation type="unfinished"></translation>
+        <translation>긴 포크 발견시 명령 실행 (명령안의 %s 가 메시지로 대체된다)</translation>
     </message>
     <message>
         <source>Specify directory where to write backups and data dumps (default datadir/backups)</source>
-        <translation type="unfinished"></translation>
+        <translation>백업과 데이터 덤프 저장 위치를 지정하세요 (기본값 datadir/backups)</translation>
     </message>
 </context>
 </TS>
