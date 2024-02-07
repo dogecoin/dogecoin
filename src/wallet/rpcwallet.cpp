@@ -2940,7 +2940,7 @@ UniValue bumpfee(const JSONRPCRequest& request)
             "2. options               (object, optional)\n"
             "   {\n"
             "     \"confTarget\"        (numeric, optional) Confirmation target (in blocks)\n"
-            "     \"totalFee\"          (numeric, optional) Total fee (NOT feerate) to pay, in satoshis.\n"
+            "     \"totalFee\"          (numeric, optional) Total fee (NOT feerate) to pay, in koinu.\n"
             "                         In rare cases, the actual fee paid might be slightly higher than the specified\n"
             "                         totalFee if the tx change output has to be removed because it is too close to\n"
             "                         the dust threshold.\n"
