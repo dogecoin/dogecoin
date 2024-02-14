@@ -73,7 +73,9 @@ public:
 
     // parent should be QApplication object
     PaymentServer(QObject* parent, bool startLocalServer = true);
+    PaymentServer(QObject* parent, bool startLocalServer = true, bool enableBip70Flag = false);
     PaymentServer(QObject* parent, QString ipcServerName, bool startLocalServer = true);
+    PaymentServer(QObject* parent, QString ipcServerName, bool startLocalServer = true, bool enableBip70Flag = false);
     ~PaymentServer();
 
     // Load root certificate authorities. Pass NULL (default)
@@ -140,7 +142,8 @@ private:
 
     bool saveURIs;                      // true during startup
 
-    void initializeServer(QObject* parent, QString ipcServerName, bool startLocalServer);
+    void initializeServer(QObject* parent, QString ipcServerName, bool startLocalServer, bool enableBip70Flag);
+    bool enableBip70;                   // false by default
     QLocalServer* uriServer;
 
     QNetworkAccessManager* netManager;  // Used to fetch payment requests
