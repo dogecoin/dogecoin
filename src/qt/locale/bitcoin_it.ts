@@ -1729,6 +1729,18 @@ p, li { white-space: pre-wrap; }
         <source>Requested payment amount of %1 is too small (below discard threshold).</source>
         <translation>Il pagamento richiesto di %1 é troppo basso.</translation>
     </message>
+    <message>
+        <source>BIP70 payment requests are deprecated and disabled by default. Restart with -enable-bip70 if you absolutely have to use this functionality.
+
+Use this functionality with extreme caution.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Payment request file handling is disabled by default. Restart with -enable-bip70 if you absolutely have to use this functionality.
+
+Use this functionality with extreme caution.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PeerTableModel</name>
@@ -1781,7 +1793,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Error: Node address is invalid</source>
-        <translation>Errore: L'indirizzo del nodo non é valido</translation>
+        <translation>Errore: L&apos;indirizzo del nodo non é valido</translation>
     </message>
     <message>
         <source>Error: Unable to add node</source>
@@ -2693,6 +2705,10 @@ p, li { white-space: pre-wrap; }
         <source>Using the fallbackfee can result in sending a transaction that will take several hours or days (or never) to confirm. Consider choosing your fee manually or wait until you have validated the complete chain.</source>
         <translation>L&apos;utilizzo del fallbackfee (commissione di transazione di riserva) può causare l&apos;invio di transazioni che impiegano ore o giorni prima di essere confermate. Considera la possibilitá di scegliere le commissioni di transazione manualmente o di attendere che l&apos;intera chain sia stata convalidata.</translation>
     </message>
+    <message>
+        <source>If the custom fee is set to 1000 koinu and the transaction is only 250 bytes, then &quot;per kilobyte&quot; only pays 250 koinu in fee, while &quot;total at least&quot; pays 1000 koinu. For transactions bigger than a kilobyte both pay by kilobyte.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SendCoinsEntry</name>
@@ -3584,7 +3600,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Execute command when a wallet transaction changes (%s in cmd is replaced by TxID)</source>
-        <translation>Esegue un comando quando lo stato di una transazione del portafoglio cambia (%s in cmd è sostituito da TxID)</translation>
+        <translation type="vanished">Esegue un comando quando lo stato di una transazione del portafoglio cambia (%s in cmd è sostituito da TxID)</translation>
     </message>
     <message>
         <source>Maximum allowed median peer time offset adjustment. Local perspective of time may be influenced by peers forward or backward by this amount. (default: %u seconds)</source>
@@ -4473,6 +4489,14 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Specify directory where to write backups and data dumps (default datadir/backups)</source>
         <translation>Specifica la cartella in cui salvare i backup e i dump di dati (default datadir/backups)</translation>
+    </message>
+    <message>
+        <source>Execute command when a wallet transaction changes (%s in cmd is replaced by TxID, %i with block height, with a value of 0 if tx is no longer in chaintip)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable BIP-70 PaymentServer (default: 0)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

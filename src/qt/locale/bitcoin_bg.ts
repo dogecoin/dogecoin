@@ -60,7 +60,7 @@
     </message>
     <message>
         <source>&amp;Close</source>
-        <translation>Затваряне</translation>
+        <translation type="vanished">Затваряне</translation>
     </message>
     <message>
         <source>Delete the currently selected address from the list</source>
@@ -88,7 +88,7 @@
     </message>
     <message>
         <source>&amp;Choose</source>
-        <translation>Избор</translation>
+        <translation type="vanished">Избор</translation>
     </message>
     <message>
         <source>Such sending addresses</source>
@@ -133,6 +133,14 @@
     <message>
         <source>There was an error trying to save the address list to %1. Please try again.</source>
         <translation>Възникна грешка при опита за запазване на списъка с адреси в %1. Моля опитайте отново.</translation>
+    </message>
+    <message>
+        <source>C&amp;lose</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>C&amp;hoose</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -344,11 +352,11 @@
     </message>
     <message>
         <source>Such &amp;sending addresses...</source>
-        <translation>&amp;Адреси за изпращане...</translation>
+        <translation type="vanished">&amp;Адреси за изпращане...</translation>
     </message>
     <message>
         <source>Much &amp;receiving addresses...</source>
-        <translation>&amp;Адреси за получаване...</translation>
+        <translation type="vanished">&amp;Адреси за получаване...</translation>
     </message>
     <message>
         <source>Open &amp;URI...</source>
@@ -504,23 +512,23 @@
     </message>
     <message>
         <source>Date: %1</source>
-        <translation>Дата: %1</translation>
+        <translation type="vanished">Дата: %1</translation>
     </message>
     <message>
         <source>Amount: %1</source>
-        <translation>Сума: %1</translation>
+        <translation type="vanished">Сума: %1</translation>
     </message>
     <message>
         <source>Type: %1</source>
-        <translation>Тип: %1</translation>
+        <translation type="vanished">Тип: %1</translation>
     </message>
     <message>
         <source>Label: %1</source>
-        <translation>Етикет: %1</translation>
+        <translation type="vanished">Етикет: %1</translation>
     </message>
     <message>
         <source>Address: %1</source>
-        <translation>Адрес: %1</translation>
+        <translation type="vanished">Адрес: %1</translation>
     </message>
     <message>
         <source>Sent transaction</source>
@@ -562,9 +570,12 @@
         <source>Import a Dogecoin private key</source>
         <translation>Добавяне на Доджкойн личен ключ</translation>
     </message>
-    <message>
+    <message numerus="yes">
         <source>%n active connection(s) to Dogecoin network</source>
-        <translation>%n активни връзки към Доджкойн мрежата</translation>
+        <translation type="unfinished">
+            <numerusform>%n активни връзки към Доджкойн мрежата</numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
     <message>
         <source>Click to disable network activity.</source>
@@ -586,9 +597,12 @@
         <source>Connecting to peers...</source>
         <translation>Свързване с партньорите</translation>
     </message>
-    <message>
+    <message numerus="yes">
         <source>Processed %n block(s) of transaction history.</source>
-        <translation>Обработени %n блокове с транзакции.</translation>
+        <translation type="unfinished">
+            <numerusform>Обработени %n блокове с транзакции.</numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
     <message>
         <source>HD key generation is &lt;b&gt;enabled&lt;/b&gt;</source>
@@ -605,6 +619,36 @@
     <message>
         <source>A fatal error occurred. Dogecoin can no longer continue safely and will quit.</source>
         <translation>Възникна фатална грешка! Доджкойн не може да продължи безопасно и ще се затвори. :(</translation>
+    </message>
+    <message>
+        <source>Date: %1
+</source>
+        <translation type="unfinished">Дата: %1
+</translation>
+    </message>
+    <message>
+        <source>Amount: %1
+</source>
+        <translation type="unfinished">Сума: %1
+</translation>
+    </message>
+    <message>
+        <source>Type: %1
+</source>
+        <translation type="unfinished">Тип: %1
+</translation>
+    </message>
+    <message>
+        <source>Label: %1
+</source>
+        <translation type="unfinished">Етикет: %1
+</translation>
+    </message>
+    <message>
+        <source>Address: %1
+</source>
+        <translation type="unfinished">Адрес: %1
+</translation>
     </message>
 </context>
 <context>
@@ -988,13 +1032,19 @@
         <source>Error: Specified data directory &quot;%1&quot; cannot be created.</source>
         <translation>Грешка: Посочената директория &quot;%1&quot; не може да бъде създадена.</translation>
     </message>
-    <message>
+    <message numerus="yes">
         <source>%n GB of free space available</source>
-        <translation>%n GB налично свободно място</translation>
+        <translation type="unfinished">
+            <numerusform>%n GB налично свободно място</numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
-    <message>
+    <message numerus="yes">
         <source>(of %n GB needed)</source>
-        <translation>(от необходими %n GB)</translation>
+        <translation type="unfinished">
+            <numerusform>(от необходими %n GB)</numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
     <message>
         <source>Choose data directory</source>
@@ -1021,7 +1071,7 @@
     </message>
     <message>
         <source>Attempting to spend dogecoins that are affected by not-yet-displayed transactions will not be accepted by the network.</source>
-        <translation>Опити за изпращане на Доджкойн монети, които са от транзакции със статус "непоказани" няма да бъдат приети от мрежата.</translation>
+        <translation>Опити за изпращане на Доджкойн монети, които са от транзакции със статус &quot;непоказани&quot; няма да бъдат приети от мрежата.</translation>
     </message>
     <message>
         <source>Number of blocks left</source>
@@ -1446,7 +1496,7 @@
     </message>
     <message>
         <source>Services that claim to double your dogecoins are always ponzi schemes</source>
-        <translation>Услуги, които обещават да удвоят вашите Доджкойни, винаги се оказват "Понзи" финансови пирамиди.</translation>
+        <translation>Услуги, които обещават да удвоят вашите Доджкойни, винаги се оказват &quot;Понзи&quot; финансови пирамиди.</translation>
     </message>
 </context>
 <context>
@@ -1668,7 +1718,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Requested payment amount of %1 is too small (considered dust).</source>
-        <translation>Заявената сума за плащане: %1 е твърде малка (счита се за прах)</translation>
+        <translation type="vanished">Заявената сума за плащане: %1 е твърде малка (счита се за прах)</translation>
     </message>
     <message>
         <source>Refund from %1</source>
@@ -1722,6 +1772,18 @@ p, li { white-space: pre-wrap; }
         <source>Payment request cannot be parsed!</source>
         <translation>Заявката за плащане не може да бъде фразирана.</translation>
     </message>
+    <message>
+        <source>BIP70 payment requests are deprecated and disabled by default. Restart with -enable-bip70 if you absolutely have to use this functionality.
+
+Use this functionality with extreme caution.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Payment request file handling is disabled by default. Restart with -enable-bip70 if you absolutely have to use this functionality.
+
+Use this functionality with extreme caution.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PeerTableModel</name>
@@ -1731,7 +1793,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>NodeID</source>
-        <translation>ID на възела</translation>
+        <translation type="vanished">ID на възела</translation>
     </message>
     <message>
         <source>Node/Service</source>
@@ -1749,6 +1811,10 @@ p, li { white-space: pre-wrap; }
         <source>Bytes Received</source>
         <translation>Получени байта</translation>
     </message>
+    <message>
+        <source>NodeId</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PeerTools</name>
@@ -1758,7 +1824,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Error: Peer-to-peer functionality missing or disabled</source>
-        <translation>Грешка: Функцята "Връзка до партньори" липсва или е изключена.</translation>
+        <translation>Грешка: Функцята &quot;Връзка до партньори&quot; липсва или е изключена.</translation>
     </message>
     <message>
         <source>Attempted to one try node.</source>
@@ -1835,29 +1901,47 @@ p, li { white-space: pre-wrap; }
         <source>%1 MB</source>
         <translation>%1 Мегабайт(а)</translation>
     </message>
-    <message>
+    <message numerus="yes">
         <source>%n second(s)</source>
-        <translation>%n секунда</translation>
+        <translation type="unfinished">
+            <numerusform>%n секунда</numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
-    <message>
+    <message numerus="yes">
         <source>%n minute(s)</source>
-        <translation>%n минути</translation>
+        <translation type="unfinished">
+            <numerusform>%n минути</numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
-    <message>
+    <message numerus="yes">
         <source>%n hour(s)</source>
-        <translation>%n часа</translation>
+        <translation type="unfinished">
+            <numerusform>%n часа</numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
-    <message>
+    <message numerus="yes">
         <source>%n day(s)</source>
-        <translation>%n дни</translation>
+        <translation type="unfinished">
+            <numerusform>%n дни</numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
-    <message>
+    <message numerus="yes">
         <source>%n week(s)</source>
-        <translation>%n седмици</translation>
+        <translation type="unfinished">
+            <numerusform>%n седмици</numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
-    <message>
+    <message numerus="yes">
         <source>%n year(s)</source>
-        <translation>%n години</translation>
+        <translation type="unfinished">
+            <numerusform>%n години</numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
     <message>
         <source>%1 didn&apos;t yet exit safely...</source>
@@ -2368,7 +2452,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>URI</source>
-        <translation> URI (Единен Идентификатор на Ресурси)></translation>
+        <translation> URI (Единен Идентификатор на Ресурси)&gt;</translation>
     </message>
     <message>
         <source>Resulting URI too long, try to reduce the text for label / message.</source>
@@ -2598,7 +2682,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Using the fallbackfee can result in sending a transaction that will take several hours or days (or never) to confirm. Consider choosing your fee manually or wait until you have validated the complete chain.</source>
-        <translation>Използването на "fallbackfee" може да доведе до изпращане на транзакция, чието потвърждаване може да отнеме часове, дни или цяла вечност. Обмислете собственоръчен избор на вашата такса или изчакайте, докато сте удостоверили цялата верига..</translation>
+        <translation>Използването на &quot;fallbackfee&quot; може да доведе до изпращане на транзакция, чието потвърждаване може да отнеме часове, дни или цяла вечност. Обмислете собственоръчен избор на вашата такса или изчакайте, докато сте удостоверили цялата верига..</translation>
     </message>
     <message>
         <source>Warning: Fee estimation is currently not possible.</source>
@@ -2667,6 +2751,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>The address you selected for change is not part of this wallet. Any or all funds in your wallet may be sent to this address. Are you sure?</source>
         <translation>Адреса, който избрахте за ресто, не е част от този портфейл. Всички монети във вашия портфейл могат да бъдат изпратени до този адрес. Сигурни ли сте, че желаете това?</translation>
+    </message>
+    <message>
+        <source>If the custom fee is set to 1000 koinu and the transaction is only 250 bytes, then &quot;per kilobyte&quot; only pays 250 koinu in fee, while &quot;total at least&quot; pays 1000 koinu. For transactions bigger than a kilobyte both pay by kilobyte.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2898,7 +2986,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Enter the receiver&apos;s address, message (ensure you copy line breaks, spaces, tabs, etc. exactly) and signature below to verify the message. Be careful not to read more into the signature than what is in the signed message itself, to avoid being tricked by a man-in-the-middle attack. Note that this only proves the signing party receives with the address, it cannot prove sendership of any transaction!</source>
-        <translation>Въведете адреса на получателя, съобщение (бъдете сигурни да копирате нови редове, празни места, раздели и т.н. точно както са) и подпис по долу, за да удостоверите съобщението. Внимавайте да не се вглъбите прекалено в подписа, отколкото в подписаното съобщение, за да итбегнете възможността да станете жертва на "посредническа" атака. Помнете - това само доказва, че долуподписания може да получава на този адрес; това не доказва подателсво на каквато и да е транзакция!</translation>
+        <translation>Въведете адреса на получателя, съобщение (бъдете сигурни да копирате нови редове, празни места, раздели и т.н. точно както са) и подпис по долу, за да удостоверите съобщението. Внимавайте да не се вглъбите прекалено в подписа, отколкото в подписаното съобщение, за да итбегнете възможността да станете жертва на &quot;посредническа&quot; атака. Помнете - това само доказва, че долуподписания може да получава на този адрес; това не доказва подателсво на каквато и да е транзакция!</translation>
     </message>
     <message>
         <source>The Dogecoin address the message was signed with</source>
@@ -3084,9 +3172,12 @@ p, li { white-space: pre-wrap; }
         <source>false</source>
         <translation>невярно</translation>
     </message>
-    <message>
+    <message numerus="yes">
         <source>Open for %n more block(s)</source>
-        <translation>Отворете за още %n блока</translation>
+        <translation type="unfinished">
+            <numerusform>Отворете за още %n блока</numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
     <message>
         <source>conflicted with a transaction with %1 confirmations</source>
@@ -3108,9 +3199,12 @@ p, li { white-space: pre-wrap; }
         <source>abandoned</source>
         <translation>изоставен</translation>
     </message>
-    <message>
+    <message numerus="yes">
         <source>matures in %n more block(s)</source>
-        <translation>отлежава в още %n блока</translation>
+        <translation type="unfinished">
+            <numerusform>отлежава в още %n блока</numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
     <message>
         <source>Transaction total size</source>
@@ -3226,9 +3320,12 @@ p, li { white-space: pre-wrap; }
         <source>Amount removed from or added to balance.</source>
         <translation>Сума извадена или добавена към баланса.</translation>
     </message>
-    <message>
+    <message numerus="yes">
         <source>Open for %n more block(s)</source>
-        <translation>Отворете за още %n блока</translation>
+        <translation type="unfinished">
+            <numerusform>Отворете за още %n блока</numerusform>
+            <numerusform></numerusform>
+        </translation>
     </message>
     <message>
         <source>Abandoned</source>
@@ -3236,7 +3333,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Whether or not a watch-only address is involved in this transaction.</source>
-        <translation>Относно дали адрес който е маркиран като "само за наблюдение" учасва в тази транзакция.</translation>
+        <translation>Относно дали адрес който е маркиран като &quot;само за наблюдение&quot; учасва в тази транзакция.</translation>
     </message>
     <message>
         <source>User-defined intent/purpose of the transaction.</source>
@@ -3698,7 +3795,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Execute command when a wallet transaction changes (%s in cmd is replaced by TxID)</source>
-        <translation>Изпълване на команда когато една портфейлна транзакция се промени (%s в cmd е заменена от TxID)</translation>
+        <translation type="vanished">Изпълване на команда когато една портфейлна транзакция се промени (%s в cmd е заменена от TxID)</translation>
     </message>
     <message>
         <source>Execute command when the best block changes (%s in cmd is replaced by block hash, %i is replaced by block number)</source>
@@ -4439,6 +4536,14 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>ZeroMQ notification options:</source>
         <translation>Настройки на ZeroMQ известия:</translation>
+    </message>
+    <message>
+        <source>Execute command when a wallet transaction changes (%s in cmd is replaced by TxID, %i with block height, with a value of 0 if tx is no longer in chaintip)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable BIP-70 PaymentServer (default: 0)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
