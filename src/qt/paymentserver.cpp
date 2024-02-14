@@ -453,7 +453,7 @@ void PaymentServer::handleURIOrFile(const QString& s)
             if (!enableBip70) {
               qDebug() << "PaymentServer::handleURIOrFile: 'r' item supplied but BIP70 disabled.";
               Q_EMIT message(tr("URI handling"), tr(
-                      "BIP70 payment requests are deprecated and disabled by default."
+                      "BIP70 payment requests are deprecated and disabled by default. "
                       "Restart with -enable-bip70 if you absolutely have to use this functionality.\n\n"
                       "Use this functionality with extreme caution."),
                   CClientUIInterface::MSG_ERROR);
@@ -504,7 +504,7 @@ void PaymentServer::handleURIOrFile(const QString& s)
     // payment request file
     if (!enableBip70) {
         Q_EMIT message(tr("Payment request file handling"), tr(
-                "Payment request file handling is disabled by default."
+                "Payment request file handling is disabled by default. "
                 "Restart with -enable-bip70 if you absolutely have to use this functionality.\n\n"
                 "Use this functionality with extreme caution."),
             CClientUIInterface::MSG_ERROR);
