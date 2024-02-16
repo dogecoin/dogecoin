@@ -22,6 +22,7 @@
 #include <vector>
 
 #include "prevector.h"
+#include "span.h"
 
 static const unsigned int MAX_SIZE = 0x02000000;
 
@@ -58,6 +59,12 @@ inline T* NCONST_PTR(const T* val)
 {
     return const_cast<T*>(val);
 }
+
+//! Safely convert odd char pointer types to standard ones.
+inline char* CharCast(char* c) { return c; }
+inline char* CharCast(unsigned char* c) { return (char*)c; }
+inline const char* CharCast(const char* c) { return c; }
+inline const char* CharCast(const unsigned char* c) { return (const char*)c; }
 
 /*
  * Lowest-level serialization and conversion.
@@ -178,6 +185,10 @@ template<typename Stream> inline void Serialize(Stream& s, int64_t a ) { ser_wri
 template<typename Stream> inline void Serialize(Stream& s, uint64_t a) { ser_writedata64(s, a); }
 template<typename Stream> inline void Serialize(Stream& s, float a   ) { ser_writedata32(s, ser_float_to_uint32(a)); }
 template<typename Stream> inline void Serialize(Stream& s, double a  ) { ser_writedata64(s, ser_double_to_uint64(a)); }
+template<typename Stream, int N> inline void Serialize(Stream& s, const char (&a)[N]) { s.write(a, N); }
+template<typename Stream, int N> inline void Serialize(Stream& s, const unsigned char (&a)[N]) { s.write(CharCast(a), N); }
+template<typename Stream> inline void Serialize(Stream& s, const Span<const unsigned char>& span) { s.write(CharCast(span.data()), span.size()); }
+template<typename Stream> inline void Serialize(Stream& s, const Span<unsigned char>& span) { s.write(CharCast(span.data()), span.size()); }
 
 template<typename Stream> inline void Unserialize(Stream& s, char& a    ) { a = ser_readdata8(s); } // TODO Get rid of bare char
 template<typename Stream> inline void Unserialize(Stream& s, int8_t& a  ) { a = ser_readdata8(s); }
@@ -190,6 +201,9 @@ template<typename Stream> inline void Unserialize(Stream& s, int64_t& a ) { a = 
 template<typename Stream> inline void Unserialize(Stream& s, uint64_t& a) { a = ser_readdata64(s); }
 template<typename Stream> inline void Unserialize(Stream& s, float& a   ) { a = ser_uint32_to_float(ser_readdata32(s)); }
 template<typename Stream> inline void Unserialize(Stream& s, double& a  ) { a = ser_uint64_to_double(ser_readdata64(s)); }
+template<typename Stream, int N> inline void Unserialize(Stream& s, char (&a)[N]) { s.read(a, N); }
+template<typename Stream, int N> inline void Unserialize(Stream& s, unsigned char (&a)[N]) { s.read(CharCast(a), N); }
+template<typename Stream> inline void Unserialize(Stream& s, Span<unsigned char>& span) { s.read(CharCast(span.data()), span.size()); }
 
 template<typename Stream> inline void Serialize(Stream& s, bool a)    { char f=a; ser_writedata8(s, f); }
 template<typename Stream> inline void Unserialize(Stream& s, bool& a) { char f=ser_readdata8(s); a=f; }
@@ -344,9 +358,35 @@ I ReadVarInt(Stream& is)
     }
 }
 
+/** Simple wrapper class to serialize objects using a formatter; used by Using(). */
+template<typename Formatter, typename T>
+class Wrapper
+{
+    static_assert(std::is_lvalue_reference<T>::value, "Wrapper needs an lvalue reference type T");
+protected:
+    T m_object;
+public:
+    explicit Wrapper(T obj) : m_object(obj) {}
+    template<typename Stream> void Serialize(Stream &s) const { Formatter().Ser(s, m_object); }
+    template<typename Stream> void Unserialize(Stream &s) { Formatter().Unser(s, m_object); }
+};
+
+/** Cause serialization/deserialization of an object to be done using a specified formatter class.
+ *
+ * To use this, you need a class Formatter that has public functions Ser(stream, const object&) for
+ * serialization, and Unser(stream, object&) for deserialization. Serialization routines (inside
+ * READWRITE, or directly with << and >> operators), can then use Using<Formatter>(object).
+ *
+ * This works by constructing a Wrapper<Formatter, T>-wrapped version of object, where T is
+ * const during serialization, and non-const during deserialization, which maintains const
+ * correctness.
+ */
+template<typename Formatter, typename T>
+static inline Wrapper<Formatter, T&> Using(T&& t) { return Wrapper<Formatter, T&>(t); }
+
 #define FLATDATA(obj) REF(CFlatData((char*)&(obj), (char*)&(obj) + sizeof(obj)))
 #define VARINT(obj) REF(WrapVarInt(REF(obj)))
-#define COMPACTSIZE(obj) REF(CCompactSize(REF(obj)))
+#define COMPACTSIZE(obj) REF(Using<CompactSizeFormatter>(obj))
 #define LIMITED_STRING(obj,n) REF(LimitedString< n >(REF(obj)))
 
 /** 
@@ -408,21 +448,26 @@ public:
     }
 };
 
-class CCompactSize
+/** Formatter for integers in CompactSize format. */
+struct CompactSizeFormatter
 {
-protected:
-    uint64_t &n;
-public:
-    CCompactSize(uint64_t& nIn) : n(nIn) { }
-
-    template<typename Stream>
-    void Serialize(Stream &s) const {
-        WriteCompactSize<Stream>(s, n);
+    template<typename Stream, typename I>
+    void Unser(Stream& s, I& v)
+    {
+        uint64_t n = ReadCompactSize<Stream>(s);
+        if (n < std::numeric_limits<I>::min() || n > std::numeric_limits<I>::max()) {
+            throw std::ios_base::failure("CompactSize exceeds limit of type");
+        }
+        v = n;
     }
 
-    template<typename Stream>
-    void Unserialize(Stream& s) {
-        n = ReadCompactSize<Stream>(s);
+    template<typename Stream, typename I>
+    void Ser(Stream& s, I v)
+    {
+        static_assert(std::is_unsigned<I>::value, "CompactSize only supported for unsigned integers");
+        static_assert(std::numeric_limits<I>::max() <= std::numeric_limits<uint64_t>::max(), "CompactSize only supports 64-bit integers and below");
+
+        WriteCompactSize<Stream>(s, v);
     }
 };
 
