@@ -17,6 +17,25 @@ ensure honest and malware-free releases. See
 [the gitian building documentation](doc/gitian-building.md) for more information
 regarding that process.
 
+#### Minimum Operating System versions
+
+The following versions have been verified to be supported for pre-compiled
+binaries:
+
+| OS/Distro (arch)  | Minimum version      |
+| :---------------- | :------------------- |
+| Windows (x86)     | Vista                |
+| MacOS (x86)       | Mountain Lion (10.8) |
+| Ubuntu (x86)      | Trusty (16.04)       |
+| Ubuntu (ARM)      | Focal (20.04)        |
+| Debian (x86)      | Jessie (8)           |
+| Debian (ARM)      | Stretch (9)          |
+| CentOS (x86)      | 7                    |
+| Fedora (x86)      | 28                   |
+
+It is possible to run Dogecoin Core on other systems and lower versions when
+compiling from source, see the chapters below for more information.
+
 ### Compiling using packaged dependencies
 
 It is possible to build your own copy of Dogecoin Core with the exact, tested,
