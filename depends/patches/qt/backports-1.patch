@@ -1,0 +1,483 @@
+From: Patrick Lodder <patricklodder@users.noreply.github.com>
+Date: Sat Oct 28 19:43:22 2023 +0200
+Subject: [patch] Backport high severity Qt patches until 5.15
+
+Patch qtbase 5.7.1 to include high severity patches that apply
+to Dogecoin Core.
+
+- Fix possible heap corruption in QXmlStream
+  see: https://codereview.qt-project.org/c/qt/qtbase/+/236691
+
+- do not attempt to load a library relative to $PWD
+  see: https://codereview.qt-project.org/c/qt/qtbase/+/286795
+
+- Fix specific overflow in qtextlayout
+  see: https://codereview.qt-project.org/c/qt/qtbase/+/476125
+
+- QDnsLookup/Unix: Ensure that both the RDATA and the Record header fields
+  before it fall inside the buffer we have
+  see: https://codereview.qt-project.org/c/qt/qtbase/+/477644
+
+- Fix a crash while parsing an XML file with garbage data
+  see: https://codereview.qt-project.org/c/qt/qtbase/+/471756
+       https://codereview.qt-project.org/c/qt/qtbase/+/455027
+
+- Fix crash when reading corrupt font data
+  see: https://codereview.qt-project.org/c/qt/qtbase/+/503026
+
+---------
+diff -dur a/qtbase/src/corelib/plugin/qlibrary_unix.cpp b/qtbase/src/corelib/plugin/qlibrary_unix.cpp
+--- a/qtbase/src/corelib/plugin/qlibrary_unix.cpp	2016-12-01 03:17:04
++++ b/qtbase/src/corelib/plugin/qlibrary_unix.cpp	2023-10-28 13:28:11
+@@ -216,6 +216,10 @@
+         for(int suffix = 0; retry && !pHnd && suffix < suffixes.size(); suffix++) {
+             if (!prefixes.at(prefix).isEmpty() && name.startsWith(prefixes.at(prefix)))
+                 continue;
++
++            if (path.isEmpty() && prefixes.at(prefix).contains(QLatin1Char('/')))
++            continue;
++
+             if (!suffixes.at(suffix).isEmpty() && name.endsWith(suffixes.at(suffix)))
+                 continue;
+             if (loadHints & QLibrary::LoadArchiveMemberHint) {
+diff -dur a/qtbase/src/corelib/xml/qxmlstream.cpp b/qtbase/src/corelib/xml/qxmlstream.cpp
+--- a/qtbase/src/corelib/xml/qxmlstream.cpp	2016-12-01 03:17:04
++++ b/qtbase/src/corelib/xml/qxmlstream.cpp	2023-10-29 08:25:30
+@@ -1289,11 +1289,18 @@
+     return n;
+ }
+
+-inline int QXmlStreamReaderPrivate::fastScanName(int *prefix)
++// Fast scan an XML attribute name (e.g. "xml:lang").
++inline QXmlStreamReaderPrivate::FastScanNameResult
++QXmlStreamReaderPrivate::fastScanName(Value *val)
+ {
+     int n = 0;
+     uint c;
+     while ((c = getChar()) != StreamEOF) {
++        if (n >= 4096) {
++            // can exhaust memory, or the range of decltype(*prefix)
++            raiseNamePrefixTooLongError();
++            return {};
++        }
+         switch (c) {
+         case '\n':
+         case ' ':
+@@ -1321,23 +1328,23 @@
+         case '+':
+         case '*':
+             putChar(c);
+-            if (prefix && *prefix == n+1) {
+-                *prefix = 0;
++            if (val && val->prefix == n + 1) {
++                val->prefix = 0;
+                 putChar(':');
+                 --n;
+             }
+-            return n;
++            return FastScanNameResult(n);
+         case ':':
+-            if (prefix) {
+-                if (*prefix == 0) {
+-                    *prefix = n+2;
++            if (val) {
++                if (val->prefix == 0) {
++                    val->prefix = n + 2;
+                 } else { // only one colon allowed according to the namespace spec.
+                     putChar(c);
+-                    return n;
++                    return FastScanNameResult(n);
+                 }
+             } else {
+                 putChar(c);
+-                return n;
++                return FastScanNameResult(n);
+             }
+             // fall through
+         default:
+@@ -1346,12 +1353,12 @@
+         }
+     }
+
+-    if (prefix)
+-        *prefix = 0;
++    if (val)
++        val->prefix = 0;
+     int pos = textBuffer.size() - n;
+     putString(textBuffer, pos);
+     textBuffer.resize(pos);
+-    return 0;
++    return FastScanNameResult(0);
+ }
+
+ enum NameChar { NameBeginning, NameNotBeginning, NotName };
+@@ -1856,6 +1863,14 @@
+ void QXmlStreamReaderPrivate::raiseWellFormedError(const QString &message)
+ {
+     raiseError(QXmlStreamReader::NotWellFormedError, message);
++}
++
++void QXmlStreamReaderPrivate::raiseNamePrefixTooLongError()
++{
++    // TODO: add a ImplementationLimitsExceededError and use it instead
++    raiseError(QXmlStreamReader::NotWellFormedError,
++               QXmlStream::tr("Length of XML attribute name exceeds implemnetation limits (4KiB "
++                              "characters)."));
+ }
+
+ void QXmlStreamReaderPrivate::parseError()
+Only in b/qtbase/src/corelib/xml: qxmlstream.cpp.orig
+diff -dur a/qtbase/src/corelib/xml/qxmlstream.g b/qtbase/src/corelib/xml/qxmlstream.g
+--- a/qtbase/src/corelib/xml/qxmlstream.g	2016-12-01 03:17:04
++++ b/qtbase/src/corelib/xml/qxmlstream.g	2023-10-29 08:27:05
+@@ -490,7 +490,17 @@
+     int fastScanLiteralContent();
+     int fastScanSpace();
+     int fastScanContentCharList();
+-    int fastScanName(int *prefix = 0);
++
++    struct FastScanNameResult {
++        FastScanNameResult() : ok(false) {}
++        explicit FastScanNameResult(int len) : addToLen(len), ok(true) { }
++        operator bool() { return ok; }
++        int operator*() { Q_ASSERT(ok); return addToLen; }
++        int addToLen;
++        bool ok;
++    };
++    FastScanNameResult fastScanName(Value *val = nullptr);
++
+     inline int fastScanNMTOKEN();
+
+
+@@ -499,6 +509,7 @@
+
+     void raiseError(QXmlStreamReader::Error error, const QString& message = QString());
+     void raiseWellFormedError(const QString &message);
++    void raiseNamePrefixTooLongError();
+
+     QXmlStreamEntityResolver *entityResolver;
+
+@@ -1782,7 +1793,12 @@
+ qname ::= LETTER;
+ /.
+         case $rule_number: {
+-            sym(1).len += fastScanName(&sym(1).prefix);
++            Value &val = sym(1);
++            if (auto res = fastScanName(&val))
++                val.len += *res;
++            else
++                return false;
++
+             if (atEnd) {
+                 resume($rule_number);
+                 return false;
+@@ -1793,7 +1809,11 @@
+ name ::= LETTER;
+ /.
+         case $rule_number:
+-            sym(1).len += fastScanName();
++            if (auto res = fastScanName())
++                sym(1).len += *res;
++            else
++                return false;
++
+             if (atEnd) {
+                 resume($rule_number);
+                 return false;
+Only in b/qtbase/src/corelib/xml: qxmlstream.g.orig
+diff -dur a/qtbase/src/corelib/xml/qxmlstream_p.h b/qtbase/src/corelib/xml/qxmlstream_p.h
+--- a/qtbase/src/corelib/xml/qxmlstream_p.h	2016-12-01 03:17:04
++++ b/qtbase/src/corelib/xml/qxmlstream_p.h	2023-10-29 08:28:31
+@@ -985,7 +985,16 @@
+     int fastScanLiteralContent();
+     int fastScanSpace();
+     int fastScanContentCharList();
+-    int fastScanName(int *prefix = 0);
++
++    struct FastScanNameResult {
++        FastScanNameResult() : ok(false) {}
++        explicit FastScanNameResult(int len) : addToLen(len), ok(true) { }
++        operator bool() { return ok; }
++        int operator*() { Q_ASSERT(ok); return addToLen; }
++        int addToLen;
++        bool ok;
++    };
++    FastScanNameResult fastScanName(Value *val = nullptr);
+     inline int fastScanNMTOKEN();
+
+
+@@ -994,6 +1003,7 @@
+
+     void raiseError(QXmlStreamReader::Error error, const QString& message = QString());
+     void raiseWellFormedError(const QString &message);
++    void raiseNamePrefixTooLongError();
+
+     QXmlStreamEntityResolver *entityResolver;
+
+@@ -1239,7 +1249,7 @@
+             state_stack[tos] = 0;
+             return true;
+         } else if (act > 0) {
+-            if (++tos == stack_size-1)
++            if (++tos >= stack_size-1)
+                 reallocateStack();
+
+             Value &val = sym_stack[tos];
+@@ -1914,7 +1924,12 @@
+         break;
+
+         case 262: {
+-            sym(1).len += fastScanName(&sym(1).prefix);
++            Value &val = sym(1);
++            if (auto res = fastScanName(&val))
++                val.len += *res;
++            else
++                return false;
++
+             if (atEnd) {
+                 resume(262);
+                 return false;
+@@ -1922,7 +1937,11 @@
+         } break;
+
+         case 263:
+-            sym(1).len += fastScanName();
++            if (auto res = fastScanName())
++                sym(1).len += *res;
++            else
++                return false;
++
+             if (atEnd) {
+                 resume(263);
+                 return false;
+Only in b/qtbase/src/corelib/xml: qxmlstream_p.h.orig
+diff -dur a/qtbase/src/gui/painting/qfixed_p.h b/qtbase/src/gui/painting/qfixed_p.h
+--- a/qtbase/src/gui/painting/qfixed_p.h	2016-12-01 03:17:04
++++ b/qtbase/src/gui/painting/qfixed_p.h	2023-10-28 13:28:11
+@@ -53,6 +53,7 @@
+
+ #include "QtCore/qdebug.h"
+ #include "QtCore/qpoint.h"
++#include "QtCore/private/qnumeric_p.h"
+ #include "QtCore/qsize.h"
+
+ QT_BEGIN_NAMESPACE
+@@ -167,6 +168,14 @@
+ Q_DECL_CONSTEXPR inline QFixed operator+(uint i, const QFixed &d) { return d+i; }
+ Q_DECL_CONSTEXPR inline QFixed operator-(uint i, const QFixed &d) { return -(d-i); }
+ // Q_DECL_CONSTEXPR inline QFixed operator*(qreal d, const QFixed &d2) { return d2*d; }
++
++inline bool qAddOverflow(QFixed v1, QFixed v2, QFixed *r)
++{
++    int val;
++    bool result = add_overflow(v1.value(), v2.value(), &val);
++    r->setValue(val);
++    return result;
++}
+
+ Q_DECL_CONSTEXPR inline bool operator==(const QFixed &f, int i) { return f.value() == i * 64; }
+ Q_DECL_CONSTEXPR inline bool operator==(int i, const QFixed &f) { return f.value() == i * 64; }
+
+diff -dur a/qtbase/src/gui/text/qtextlayout.cpp b/qtbase/src/gui/text/qtextlayout.cpp
+--- a/qtbase/src/gui/text/qtextlayout.cpp	2016-12-01 03:17:04
++++ b/qtbase/src/gui/text/qtextlayout.cpp	2023-10-28 18:29:14
+@@ -2036,11 +2036,14 @@
+         eng->maxWidth = qMax(eng->maxWidth, line.textWidth);
+     } else {
+         eng->minWidth = qMax(eng->minWidth, lbh.minw);
+-        eng->maxWidth += line.textWidth;
++        if (qAddOverflow(eng->maxWidth, line.textWidth, &eng->maxWidth))
++            eng->maxWidth = QFIXED_MAX;
+     }
+
+-    if (line.textWidth > 0 && item < eng->layoutData->items.size())
+-        eng->maxWidth += lbh.spaceData.textWidth;
++    if (line.textWidth > 0 && item < eng->layoutData->items.size()) {
++        if (qAddOverflow(eng->maxWidth, lbh.spaceData.textWidth, &eng->maxWidth))
++            eng->maxWidth = QFIXED_MAX;
++    }
+     if (eng->option.flags() & QTextOption::IncludeTrailingSpaces)
+         line.textWidth += lbh.spaceData.textWidth;
+     if (lbh.spaceData.length) {
+diff -dur a/qtbase/src/network/kernel/qdnslookup_unix.cpp b/qtbase/src/network/kernel/qdnslookup_unix.cpp
+--- a/qtbase/src/network/kernel/qdnslookup_unix.cpp	2016-12-01 03:17:04
++++ b/qtbase/src/network/kernel/qdnslookup_unix.cpp	2023-10-28 18:00:41
+@@ -193,7 +193,6 @@
+
+     // Check the response header.
+     HEADER *header = (HEADER*)response;
+-    const int answerCount = ntohs(header->ancount);
+     switch (header->rcode) {
+     case NOERROR:
+         break;
+@@ -226,18 +225,31 @@
+         return;
+     }
+
+-    // Skip the query host, type (2 bytes) and class (2 bytes).
+     char host[PACKETSZ], answer[PACKETSZ];
+     unsigned char *p = response + sizeof(HEADER);
+-    int status = local_dn_expand(response, response + responseLength, p, host, sizeof(host));
+-    if (status < 0) {
++    int status;
++    if (ntohs(header->qdcount) == 1) {
++        // Skip the query host, type (2 bytes) and class (2 bytes).
++        status = dn_expand(response, response + responseLength, p, host, sizeof(host));
++        if (status < 0) {
++            reply->error = QDnsLookup::InvalidReplyError;
++            reply->errorString = tr("Could not expand domain name");
++            return;
++        }
++        if ((p - response) + status + 4 >= responseLength)
++            header->qdcount = 0xffff;   // invalid reply below
++        else
++            p += status + 4;
++    }
++
++    if (ntohs(header->qdcount) > 1) {
+         reply->error = QDnsLookup::InvalidReplyError;
+-        reply->errorString = tr("Could not expand domain name");
++        reply->errorString = tr("Invalid reply received");
+         return;
+     }
+-    p += status + 4;
+
+     // Extract results.
++    const int answerCount = ntohs(header->ancount);
+     int answerIndex = 0;
+     while ((p < response + responseLength) && (answerIndex < answerCount)) {
+         status = local_dn_expand(response, response + responseLength, p, host, sizeof(host));
+@@ -249,6 +261,10 @@
+         const QString name = QUrl::fromAce(host);
+
+         p += status;
++        if ((p - response) + 10 > responseLength) {
++            // probably just a truncated reply, return what we have
++            return;
++        }
+         const quint16 type = (p[0] << 8) | p[1];
+         p += 2; // RR type
+         p += 2; // RR class
+@@ -256,6 +272,9 @@
+         p += 4;
+         const quint16 size = (p[0] << 8) | p[1];
+         p += 2;
++
++        if ((p - response) + size > responseLength)
++            return;             // truncated
+
+         if (type == QDnsLookup::A) {
+             if (size != 4) {
+diff -dur a/qtbase/src/plugins/platforms/windows/qwindowsfontdatabase.cpp b/qtbase/src/plugins/platforms/windows/qwindowsfontdatabase.cpp
+--- a/qtbase/src/plugins/platforms/windows/qwindowsfontdatabase.cpp	2016-12-01 03:17:04
++++ b/qtbase/src/plugins/platforms/windows/qwindowsfontdatabase.cpp	2023-10-29 07:10:06
+@@ -1342,10 +1342,15 @@
+     return fontEngine;
+ }
+
+-static QList<quint32> getTrueTypeFontOffsets(const uchar *fontData)
++static QList<quint32> getTrueTypeFontOffsets(const uchar *fontData, const uchar *fileEndSentinel)
+ {
+     QList<quint32> offsets;
+-    const quint32 headerTag = *reinterpret_cast<const quint32 *>(fontData);
++    if (fileEndSentinel - fontData < 12) {
++        qCWarning(lcQpaFonts) << "Corrupted font data detected";
++        return offsets;
++    }
++
++    const quint32 headerTag = qFromUnaligned<quint32>(fontData);
+     if (headerTag != MAKE_TAG('t', 't', 'c', 'f')) {
+         if (headerTag != MAKE_TAG(0, 1, 0, 0)
+             && headerTag != MAKE_TAG('O', 'T', 'T', 'O')
+@@ -1355,23 +1360,52 @@
+         offsets << 0;
+         return offsets;
+     }
++
++    const quint32 maximumNumFonts = 0xffff;
+     const quint32 numFonts = qFromBigEndian<quint32>(fontData + 8);
+-    for (uint i = 0; i < numFonts; ++i) {
+-        offsets << qFromBigEndian<quint32>(fontData + 12 + i * 4);
++
++    if (numFonts > maximumNumFonts) {
++        qCWarning(lcQpaFonts) << "Font collection of" << numFonts << "fonts is too large. Aborting.";
++        return offsets;
+     }
++
++    if (quintptr(fileEndSentinel - fontData) > 12 + (numFonts - 1) * 4) {
++        for (quint32 i = 0; i < numFonts; ++i)
++            offsets << qFromBigEndian<quint32>(fontData + 12 + i * 4);
++    } else {
++        qCWarning(lcQpaFonts) << "Corrupted font data detected";
++    }
++
+     return offsets;
+ }
+
+-static void getFontTable(const uchar *fileBegin, const uchar *data, quint32 tag, const uchar **table, quint32 *length)
++static void getFontTable(const uchar *fileBegin, const uchar *fileEndSentinel, const uchar *data, quint32 tag, const uchar **table, quint32 *length)
+ {
+-    const quint16 numTables = qFromBigEndian<quint16>(data + 4);
+-    for (uint i = 0; i < numTables; ++i) {
+-        const quint32 offset = 12 + 16 * i;
+-        if (*reinterpret_cast<const quint32 *>(data + offset) == tag) {
+-            *table = fileBegin + qFromBigEndian<quint32>(data + offset + 8);
+-            *length = qFromBigEndian<quint32>(data + offset + 12);
+-            return;
++    if (fileEndSentinel - data >= 6) {
++        const quint16 numTables = qFromBigEndian<quint16>(data + 4);
++        if (fileEndSentinel - data >= 28 + 16 * (numTables - 1)) {
++            for (quint32 i = 0; i < numTables; ++i) {
++                const quint32 offset = 12 + 16 * i;
++                if (qFromUnaligned<quint32>(data + offset) == tag) {
++                    const quint32 tableOffset = qFromBigEndian<quint32>(data + offset + 8);
++                    if (quintptr(fileEndSentinel - fileBegin) <= tableOffset) {
++                        qCWarning(lcQpaFonts) << "Corrupted font data detected";
++                        break;
++                    }
++                    *table = fileBegin + tableOffset;
++                    *length = qFromBigEndian<quint32>(data + offset + 12);
++                    if (quintptr(fileEndSentinel - *table) < *length) {
++                        qCWarning(lcQpaFonts) << "Corrupted font data detected";
++                        break;
++                    }
++                    return;
++                }
++            }
++        } else {
++            qCWarning(lcQpaFonts) << "Corrupted font data detected";
+         }
++    } else {
++        qCWarning(lcQpaFonts) << "Corrupted font data detected";
+     }
+     *table = 0;
+     *length = 0;
+@@ -1383,8 +1417,9 @@
+                                      QVector<FONTSIGNATURE> *signatures)
+ {
+     const uchar *data = reinterpret_cast<const uchar *>(fontData.constData());
++    const uchar *dataEndSentinel = data + fontData.size();
+
+-    QList<quint32> offsets = getTrueTypeFontOffsets(data);
++    QList<quint32> offsets = getTrueTypeFontOffsets(data, dataEndSentinel);
+     if (offsets.isEmpty())
+         return;
+
+@@ -1392,7 +1427,7 @@
+         const uchar *font = data + offsets.at(i);
+         const uchar *table;
+         quint32 length;
+-        getFontTable(data, font, MAKE_TAG('n', 'a', 'm', 'e'), &table, &length);
++        getFontTable(data, dataEndSentinel, font, MAKE_TAG('n', 'a', 'm', 'e'), &table, &length);
+         if (!table)
+             continue;
+         QString name = getEnglishName(table, length);
+@@ -1403,7 +1438,7 @@
+
+         if (signatures) {
+             FONTSIGNATURE signature;
+-            getFontTable(data, font, MAKE_TAG('O', 'S', '/', '2'), &table, &length);
++            getFontTable(data, dataEndSentinel, font, MAKE_TAG('O', 'S', '/', '2'), &table, &length);
+             if (table && length >= 86) {
+                 // Offsets taken from OS/2 table in the TrueType spec
+                 signature.fsUsb[0] = qFromBigEndian<quint32>(table + 42);

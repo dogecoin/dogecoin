@@ -8,7 +8,15 @@ $(package)_dependencies=openssl zlib
 $(package)_linux_dependencies=freetype fontconfig libxcb libxkbcommon
 $(package)_build_subdir=qtbase
 $(package)_qt_libs=corelib network widgets gui plugins testlib printsupport
-$(package)_patches=mac-qmake.conf mingw-uuidof.patch pidlist_absolute.patch fix-xcb-include-order.patch fix_qfontengine_coretext.patch fix_qt_pkgconfig.patch no-xlib.patch
+
+$(package)_patches=mac-qmake.conf
+$(package)_patches+=mingw-uuidof.patch
+$(package)_patches+=pidlist_absolute.patch
+$(package)_patches+=fix-xcb-include-order.patch
+$(package)_patches+=fix_qfontengine_coretext.patch
+$(package)_patches+=fix_qt_pkgconfig.patch
+$(package)_patches+=no-xlib.patch
+$(package)_patches+=backports-1.patch
 
 $(package)_qttranslations_file_name=qttranslations-$($(package)_suffix)
 $(package)_qttranslations_sha256_hash=3a15aebd523c6d89fb97b2d3df866c94149653a26d27a00aac9b6d3020bc5a1d
@@ -175,6 +183,7 @@ define $(package)_preprocess_cmds
   patch -p1 < $($(package)_patch_dir)/fix_qfontengine_coretext.patch && \
   patch -p1 < $($(package)_patch_dir)/fix_qt_pkgconfig.patch && \
   patch -p1 -i $($(package)_patch_dir)/no-xlib.patch && \
+  patch -p1 < $($(package)_patch_dir)/backports-1.patch && \
   echo "!host_build: QMAKE_CFLAGS     += $($(package)_cflags) $($(package)_cppflags)" >> qtbase/mkspecs/common/gcc-base.conf && \
   echo "!host_build: QMAKE_CXXFLAGS   += $($(package)_cxxflags) $($(package)_cppflags)" >> qtbase/mkspecs/common/gcc-base.conf && \
   echo "!host_build: QMAKE_LFLAGS     += $($(package)_ldflags)" >> qtbase/mkspecs/common/gcc-base.conf && \
