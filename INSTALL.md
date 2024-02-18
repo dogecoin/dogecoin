@@ -55,7 +55,7 @@ these dependencies.
 
   - [Unix Build Notes](doc/build-unix.md)
   - [Windows Build Notes](doc/build-windows.md)
-  - [macOS Build Notes](doc/Building-Dogecoin-1.14-for-Mac.md)
+  - [macOS Build Notes](doc/build-macos.md)
 
 ### Testing
 
