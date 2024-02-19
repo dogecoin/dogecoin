@@ -460,7 +460,7 @@ void PaymentServer::handleURIOrFile(const QString& s)
               return;
             }
             QByteArray temp;
-            temp.append(uri.queryItemValue("r"));
+            temp.append(uri.queryItemValue("r").toUtf8());
             QString decoded = QUrl::fromPercentEncoding(temp);
             QUrl fetchUrl(decoded, QUrl::StrictMode);
 
@@ -716,7 +716,7 @@ void PaymentServer::fetchPaymentACK(CWallet* wallet, SendCoinsRecipient recipien
         }
     }
 
-    int length = payment.ByteSize();
+    quint64 length = payment.ByteSizeLong();
     netRequest.setHeader(QNetworkRequest::ContentLengthHeader, length);
     QByteArray serData(length, '\0');
     if (payment.SerializeToArray(serData.data(), length)) {
