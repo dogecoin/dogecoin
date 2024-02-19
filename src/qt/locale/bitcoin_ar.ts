@@ -5,42 +5,42 @@
     <name>AddPeerDialog</name>
     <message>
         <source>Add Peer</source>
-        <translation type="unfinished"></translation>
+        <translation>إضافة النظير</translation>
     </message>
     <message>
         <source>Enter the peer details below.</source>
-        <translation type="unfinished"></translation>
+        <translation>أدخل تفاصيل النظير أدناه</translation>
     </message>
     <message>
         <source>Be careful! Do not blindly trust anyone that tells you to add their node.</source>
-        <translation type="unfinished"></translation>
+        <translation>احرص! لا تثق بشكل أعمى بأي شخص يطلب منك إضافة العقدة الخاصة به</translation>
     </message>
     <message>
         <source>Enter the peer&apos;s address</source>
-        <translation type="unfinished"></translation>
+        <translation>أدخل عنوان النظير</translation>
     </message>
     <message>
         <source>Enter the peer&apos;s port</source>
-        <translation type="unfinished"></translation>
+        <translation>أدخل منفذ النظير</translation>
     </message>
     <message>
         <source>Add!</source>
-        <translation type="unfinished"></translation>
+        <translation>أضف</translation>
     </message>
     <message>
         <source>Please enter an address.</source>
-        <translation type="unfinished"></translation>
+        <translation>يرجى إدخال عنوان</translation>
     </message>
     <message>
         <source>Please enter a valid peer address.</source>
-        <translation type="unfinished"></translation>
+        <translation>الرجاء إدخال عنوان نظير صالح</translation>
     </message>
 </context>
 <context>
     <name>AddressBookPage</name>
     <message>
         <source>Right-click to edit address or label</source>
-        <translation>انقر بالزر الايمن لتعديل العنوان</translation>
+        <translation>انقر بزر الأيمن لتعديل العنوان أو التسمية</translation>
     </message>
     <message>
         <source>Create a new address</source>
@@ -52,7 +52,7 @@
     </message>
     <message>
         <source>Copy the currently selected address to the system clipboard</source>
-        <translation>قم بنسخ القوانين المختارة لحافظة النظام</translation>
+        <translation>انسخ العنوان المحدد حاليًا إلى حافظة النظام</translation>
     </message>
     <message>
         <source>&amp;Copy</source>
