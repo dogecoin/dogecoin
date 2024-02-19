@@ -87,7 +87,12 @@ static QString ipcServerName()
     // Note that GetDataDir(true) returns a different path
     // for -testnet versus main net
     QString ddir(GUIUtil::boostPathToQString(GetDataDir(true)));
+#if QT_VERSION >= 0x050000
     name.append(QString::number(qHash(ddir, IPC_SOCKET_HASH)));
+#else
+    QString rseed = QString::number(IPC_SOCKET_HASH);
+    name.append(QString::number(qHash(rseed + ddir + rseed)));
+#endif //QT_VERSION >= 0x050000
 
     return name;
 }
