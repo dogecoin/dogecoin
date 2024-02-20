@@ -890,7 +890,7 @@ CTxMemPool::WriteFeeEstimates(CAutoFile& fileout) const
 {
     try {
         LOCK(cs);
-        fileout << 139900; // version required to read: 0.13.99 or later
+        fileout << FEEFILE_MIN_BACKCOMPAT_VERSION;
         fileout << CLIENT_VERSION; // version that wrote the file
         minerPolicyEstimator->Write(fileout);
     }

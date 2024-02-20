@@ -31,6 +31,11 @@
 class CAutoFile;
 class CBlockIndex;
 
+/** Minimum client version required to read fee_estimates.dat
+ * Clients with a lower version than this should ignore the file
+ */
+static const int FEEFILE_MIN_BACKCOMPAT_VERSION = 139900; // 0.13.99.0
+
 inline double AllowFreeThreshold()
 {
     return COIN * 144 / 250;
