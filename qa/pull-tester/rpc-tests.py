@@ -222,6 +222,10 @@ def runtests():
             if t in opts or re.sub(".py$", "", t) in opts:
                 test_list.append(t)
 
+    if len(test_list) == 0:
+        print(f"No tests selected; do you have a typo in {opts}?")
+        sys.exit(1)
+
     if print_help:
         # Only print help of the first script and exit
         subprocess.check_call((RPC_TESTS_DIR + test_list[0]).split() + ['-h'])
