@@ -2220,7 +2220,7 @@ Use this functionality with extreme caution.</source>
     </message>
     <message>
         <source>&amp;Disconnect</source>
-        <translation>& قطع الاتصال</translation>
+        <translation>قطع الاتصال</translation>
     </message>
     <message>
         <source>Ban for</source>
@@ -2343,7 +2343,7 @@ Use this functionality with extreme caution.</source>
     </message>
     <message>
         <source>&amp;Request payment</source>
-        <translation>& طلب الدفع</translation>
+        <translation>طلب الدفع</translation>
     </message>
     <message>
         <source>Show the selected request (does the same as double clicking an entry)</source>
