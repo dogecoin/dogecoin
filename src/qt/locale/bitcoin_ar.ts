@@ -100,7 +100,7 @@
     </message>
     <message>
         <source>These are your Dogecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>هذه هي عناوين دوجكوين الخاصة بك لإرسال المدفوعات. تحقق دائمًا من المبلغ وعنوان الاستلام قبل إرسال العملات المعدنية.</translation>
+        <translation>هذه هي عناوين دوجكوين الخاصة بك لإرسال المدفوعات. تحقق دائمًا من المبلغ وعنوان الاستلام قبل إرسال العملات الرقمية.</translation>
     </message>
     <message>
         <source>These are your Dogecoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
@@ -1229,7 +1229,7 @@
     </message>
     <message>
         <source>(0 = auto, &lt;0 = leave that many cores free)</source>
-        <translation></translation>
+        <translation>(0 = تلقائي، &lt;0 = اترك هذا العدد من النوى مجانًا)</translation>
     </message>
     <message>
         <source>Whether to show coin control features or not.</source>
@@ -1277,7 +1277,7 @@
     </message>
     <message>
         <source>IPv4</source>
-        <translation>IPv4<</translation>
+        <translation>IPv4</translation>
     </message>
     <message>
         <source>IPv6</source>
@@ -1325,7 +1325,7 @@
     </message>
     <message>
         <source>Choose the default subdivision unit to show in the interface and when sending coins.</source>
-        <translation>اختر وحدة التقسيم الافتراضية التي ستظهر في الواجهة وعند إرسال العملات المعدنية</translation>
+        <translation>اختر وحدة التقسيم الافتراضية التي ستظهر في الواجهة وعند إرسال العملات الرقمية</translation>
     </message>
     <message>
         <source>Third party URLs (e.g. a block explorer) that appear in the transactions tab as context menu items. %s in the URL is replaced by transaction hash. Multiple URLs are separated by vertical bar |.</source>
@@ -1452,7 +1452,7 @@
     </message>
     <message>
         <source>Backup your private key to recover your coins, using &apos;File&apos; &gt; &apos;Backup Wallet&apos;</source>
-        <translation>قم بعمل نسخة احتياطية لمفتاحك الخاص لاستعادة عملاتك المعدنية باستخدام محفظة الملفات الاحتياطية</translation>
+        <translation>قم بعمل نسخة احتياطية لمفتاحك الخاص لاستعادة عملاتك الرقمية باستخدام محفظة الملفات الاحتياطية</translation>
     </message>
     <message>
         <source>Always do your own research before using an external cryptocurrency service</source>
@@ -1464,7 +1464,7 @@
     </message>
     <message>
         <source>Who owns the private keys, owns the coins</source>
-        <translation>من يملك المفاتيح الخاصة، يملك العملات المعدنية</translation>
+        <translation>من يملك المفاتيح الخاصة، يملك العملات الرقمية</translation>
     </message>
     <message>
         <source>To see ongoing development and contribute, check out the Dogecoin Core repository on GitHub</source>
@@ -1547,7 +1547,11 @@
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; المحتوى=&quot;1&quot; /&gt;&lt;نوع النمط=&quot;text/css&quot;&gt;
+p، li { مسافة بيضاء: التفاف مسبق؛ }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; عائلة الخط:'Sans Serif'; حجم الخط: 9pt؛ وزن الخط: 400؛ نمط الخط: عادي;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; الهامش العلوي:0px; الهامش السفلي:0px; الهامش الأيسر:0px; الهامش الأيمن:0px; -qt-block-indent:0; مسافة بادئة للنص:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>Public Key:</source>
@@ -1595,7 +1599,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>&lt;b&gt;%1&lt;/b&gt; to Paper Wallet &lt;span style=&apos;font-family: monospace;&apos;&gt;%2&lt;/span&gt;</source>
-        <translation>إلى المحفظة الورقية</translation>
+        <translation>&lt;b&gt;%1&lt;/b&gt; إلى المحفظة الورقية &lt;span style=&apos;font-family: monospace;&gt;%2&lt;/span&gt;</translation>
     </message>
     <message>
         <source>Send Coins</source>
@@ -1647,7 +1651,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
-        <translation>تم رفض الصفقة! قد يحدث هذا إذا تم إنفاق بعض العملات المعدنية الموجودة في محفظتك بالفعل، كما لو كنت تستخدم نسخة من Wallet.dat وتم إنفاق العملات المعدنية في النسخة ولكن لم يتم وضع علامة على أنها تم إنفاقها هنا</translation>
+        <translation>تم رفض الصفقة! قد يحدث هذا إذا تم إنفاق بعض العملات الرقمية الموجودة في محفظتك بالفعل، كما لو كنت تستخدم نسخة من Wallet.dat وتم إنفاق العملات الرقمية في النسخة ولكن لم يتم وضع علامة على أنها تم إنفاقها هنا</translation>
     </message>
 </context>
 <context>
@@ -1902,7 +1906,7 @@ Use this functionality with extreme caution.</source>
     <name>QObject::QObject</name>
     <message>
         <source>Error: Specified data directory &quot;%1&quot; does not exist.</source>
-        <translation>خطأ: دليل البيانات المحدد غير موجود</translation>
+        <translation>خطأ: دليل البيانات المحدد &quot;%1&quot; غير موجود.</translation>
     </message>
     <message>
         <source>Error: Cannot parse configuration file: %1. Only use key=value syntax.</source>
@@ -2084,163 +2088,163 @@ Use this functionality with extreme caution.</source>
     </message>
     <message>
         <source>User Agent</source>
-        <translation></translation>
+        <translation>وكيل المستخدم</translation>
     </message>
     <message>
         <source>Using BerkeleyDB version</source>
-        <translation></translation>
+        <translation>باستخدام نسخة BerkeleyDB</translation>
     </message>
     <message>
         <source>Datadir</source>
-        <translation></translation>
+        <translation>داتادير</translation>
     </message>
     <message>
         <source>Block chain</source>
-        <translation></translation>
+        <translation>سلسلة الكتلة</translation>
     </message>
     <message>
         <source>Current number of blocks</source>
-        <translation></translation>
+        <translation>العدد الحالي من الكتل</translation>
     </message>
     <message>
         <source>Last block time</source>
-        <translation></translation>
+        <translation>آخر وقت للكتلة</translation>
     </message>
     <message>
         <source>Memory Pool</source>
-        <translation></translation>
+        <translation>تجمع الذاكرة</translation>
     </message>
     <message>
         <source>Current number of transactions</source>
-        <translation></translation>
+        <translation>عدد المعاملات الحالية</translation>
     </message>
     <message>
         <source>Memory usage</source>
-        <translation></translation>
+        <translation>استخدام الذاكرة</translation>
     </message>
     <message>
         <source>Debug log file</source>
-        <translation></translation>
+        <translation>ملف سجل التصحيح</translation>
     </message>
     <message>
         <source>Open the %1 debug log file from the current data directory. This can take a few seconds for large log files.</source>
-        <translation></translation>
+        <translation>افتح ملف سجل التصحيح %1 من دليل البيانات الحالي. يمكن أن يستغرق هذا بضع ثوانٍ لملفات السجل الكبيرة</translation>
     </message>
     <message>
         <source>&amp;Console</source>
-        <translation></translation>
+        <translation>&وحدة التحكم</translation>
     </message>
     <message>
         <source>Decrease font size</source>
-        <translation></translation>
+        <translation>تقليل حجم الخط</translation>
     </message>
     <message>
         <source>Increase font size</source>
-        <translation></translation>
+        <translation>زيادة حجم الخط</translation>
     </message>
     <message>
         <source>Clear console</source>
-        <translation></translation>
+        <translation>وحدة التحكم واضحة</translation>
     </message>
     <message>
         <source>Connected peers</source>
-        <translation></translation>
+        <translation>أقرانهم المتصلين</translation>
     </message>
     <message>
         <source>Add new peer</source>
-        <translation></translation>
+        <translation>إضافة نظير جديد</translation>
     </message>
     <message>
         <source>Remove peer</source>
-        <translation></translation>
+        <translation>إزالة النظير</translation>
     </message>
     <message>
         <source>One try peer</source>
-        <translation></translation>
+        <translation>محاولة واحدة نظير</translation>
     </message>
     <message>
         <source>Banned peers</source>
-        <translation></translation>
+        <translation>أقرانهم المحظورة</translation>
     </message>
     <message>
         <source>Select a peer to view detailed information.</source>
-        <translation></translation>
+        <translation>حدد نظيرًا لعرض المعلومات التفصيلية</translation>
     </message>
     <message>
         <source>Whitelisted</source>
-        <translation></translation>
+        <translation>تم إدراجه في القائمة البيضاء</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation></translation>
+        <translation>إصدار</translation>
     </message>
     <message>
         <source>Starting Block</source>
-        <translation></translation>
+        <translation>كتلة البداية</translation>
     </message>
     <message>
         <source>Synced Headers</source>
-        <translation></translation>
+        <translation>رؤوس متزامنة</translation>
     </message>
     <message>
         <source>Synced Blocks</source>
-        <translation></translation>
+        <translation>الكتل المتزامنة</translation>
     </message>
     <message>
         <source>Ban Score</source>
-        <translation></translation>
+        <translation>نقاط الحظر</translation>
     </message>
     <message>
         <source>Connection Time</source>
-        <translation></translation>
+        <translation>وقت الاتصال</translation>
     </message>
     <message>
         <source>Ping Time</source>
-        <translation></translation>
+        <translation>وقت بينغ</translation>
     </message>
     <message>
         <source>The duration of a currently outstanding ping.</source>
-        <translation></translation>
+        <translation>مدة اختبار ping المعلق حاليًا</translation>
     </message>
     <message>
         <source>Ping Wait</source>
-        <translation></translation>
+        <translation>بينغ انتظر</translation>
     </message>
     <message>
         <source>Min Ping</source>
-        <translation></translation>
+        <translation>مين بينغ</translation>
     </message>
     <message>
         <source>Time Offset</source>
-        <translation></translation>
+        <translation>إزاحة الوقت</translation>
     </message>
     <message>
         <source>&amp;Disconnect</source>
-        <translation></translation>
+        <translation>& قطع الاتصال</translation>
     </message>
     <message>
         <source>Ban for</source>
-        <translation></translation>
+        <translation>حظر ل</translation>
     </message>
     <message>
         <source>&amp;Unban</source>
-        <translation></translation>
+        <translation>&amp;Unban</translation>
     </message>
     <message>
         <source>Welcome to the %1 RPC console.</source>
-        <translation></translation>
+        <translation>مرحباً بك في وحدة التحكم %1 RPC</translation>
     </message>
     <message>
         <source>Type &lt;b&gt;help&lt;/b&gt; for an overview of available commands.</source>
-        <translation></translation>
+        <translation>اكتب &lt;b&gt;مساعدة&lt;/b&gt; للحصول على نظرة عامة على الأوامر المتاحة</translation>
     </message>
     <message>
         <source>WARNING: Scammers have been active, telling users to type commands here, stealing their wallet contents. Do not use this console without fully understanding the ramification of a command.</source>
-        <translation></translation>
+        <translation>تحذير: كان المحتالون نشطين، حيث يطلبون من المستخدمين كتابة أوامر هنا، وسرقة محتويات محفظتهم. لا تستخدم وحدة التحكم هذه دون الفهم الكامل لتداعيات الأمر</translation>
     </message>
     <message>
         <source>Network activity disabled</source>
-        <translation></translation>
+        <translation>تم تعطيل نشاط الشبكة</translation>
     </message>
     <message>
         <source>Error</source>
@@ -2248,23 +2252,23 @@ Use this functionality with extreme caution.</source>
     </message>
     <message>
         <source>Remove Peer</source>
-        <translation></translation>
+        <translation>إزالة النظير</translation>
     </message>
     <message>
         <source>Are you sure you want to remove the peer: </source>
-        <translation></translation>
+        <translation>هل أنت متأكد أنك تريد إزالة النظير</translation>
     </message>
     <message>
         <source>No peer was selected.</source>
-        <translation></translation>
+        <translation>لم يتم اختيار أي نظير.</translation>
     </message>
     <message>
         <source>(node id: %1)</source>
-        <translation></translation>
+        <translation>(معرف العقدة: %1)</translation>
     </message>
     <message>
         <source>via %1</source>
-        <translation></translation>
+        <translation>عبر %1</translation>
     </message>
 </context>
 <context>
@@ -2315,43 +2319,43 @@ Use this functionality with extreme caution.</source>
     </message>
     <message>
         <source>Reuse one of the previously used receiving addresses. Reusing addresses has security and privacy issues. Do not use this unless re-generating a payment request made before.</source>
-        <translation></translation>
+        <translation>أعد استخدام أحد عناوين الاستلام المستخدمة سابقًا. تنطوي إعادة استخدام العناوين على مشكلات تتعلق بالأمان والخصوصية. لا تستخدم هذا إلا إذا قمت بإعادة إنشاء طلب دفع تم تقديمه من قبل.</translation>
     </message>
     <message>
         <source>R&amp;euse an existing receiving address (not recommended)</source>
-        <translation></translation>
+        <translation>&amp;إعادة استخدام عنوان الاستلام الموجود (غير مستحسن)</translation>
     </message>
     <message>
         <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Dogecoin network.</source>
-        <translation></translation>
+        <translation>رسالة اختيارية لإرفاقها بطلب الدفع، والتي ستظهر عند فتح الطلب. ملحوظة: لن يتم إرسال الرسالة مع الدفع عبر شبكة الدوجكوين</translation>
     </message>
     <message>
         <source>An optional label to associate with the new receiving address.</source>
-        <translation></translation>
+        <translation>تسمية اختيارية لربطها بعنوان الاستلام الجديد</translation>
     </message>
     <message>
         <source>Use this form to request payments. All fields are &lt;b&gt;optional&lt;/b&gt;.</source>
-        <translation></translation>
+        <translation>استخدم هذا النموذج لطلب المدفوعات. كافة الحقول &lt;b&gt;اختيارية&lt;/b&gt;</translation>
     </message>
     <message>
         <source>An optional amount to request. Leave this empty or zero to not request a specific amount.</source>
-        <translation></translation>
+        <translation>مبلغ اختياري للطلب. اترك هذا فارغًا أو صفرًا حتى لا تطلب مبلغًا محددًا</translation>
     </message>
     <message>
         <source>&amp;Request payment</source>
-        <translation></translation>
+        <translation>& طلب الدفع</translation>
     </message>
     <message>
         <source>Show the selected request (does the same as double clicking an entry)</source>
-        <translation></translation>
+        <translation>إظهار الطلب المحدد (يفعل نفس النقر المزدوج على الإدخال)</translation>
     </message>
     <message>
         <source>Remove the selected entries from the list</source>
-        <translation></translation>
+        <translation>قم بإزالة الإدخالات المحددة من القائمة</translation>
     </message>
     <message>
         <source>Copy URI</source>
-        <translation></translation>
+        <translation>انسخ عنوان URL</translation>
     </message>
 </context>
 <context>
@@ -2398,15 +2402,15 @@ Use this functionality with extreme caution.</source>
     </message>
     <message>
         <source>Request payment to %1</source>
-        <translation></translation>
+        <translation>طلب الدفع إلى %1</translation>
     </message>
     <message>
         <source>Resulting URI too long, try to reduce the text for label / message.</source>
-        <translation></translation>
+        <translation>URI الناتج طويل جدًا، حاول تصغير نص التصنيف/الرسالة</translation>
     </message>
     <message>
         <source>Error encoding URI into QR Code.</source>
-        <translation></translation>
+        <translation>حدث خطأ في ترميز URI في رمز الاستجابة السريعة</translation>
     </message>
 </context>
 <context>
@@ -2433,11 +2437,11 @@ Use this functionality with extreme caution.</source>
     </message>
     <message>
         <source>(no amount requested)</source>
-        <translation></translation>
+        <translation>(لم يطلب أي مبلغ)</translation>
     </message>
     <message>
         <source>Requested</source>
-        <translation></translation>
+        <translation>مطلوب</translation>
     </message>
 </context>
 <context>
@@ -2576,143 +2580,143 @@ Use this functionality with extreme caution.</source>
     </message>
     <message>
         <source>Coin Control Features</source>
-        <translation></translation>
+        <translation>ميزات التحكم بالعملة</translation>
     </message>
     <message>
         <source>Inputs...</source>
-        <translation></translation>
+        <translation>المدخلات</translation>
     </message>
     <message>
         <source>If this is activated, but the change address is empty or invalid, change will be sent to a newly generated address.</source>
-        <translation></translation>
+        <translation>إذا تم تنشيط هذا، ولكن عنوان التغيير فارغ أو غير صالح، فسيتم إرسال التغيير إلى العنوان الذي تم إنشاؤه حديثًا</translation>
     </message>
     <message>
         <source>Custom change address</source>
-        <translation></translation>
+        <translation>عنوان التغيير المخصص</translation>
     </message>
     <message>
         <source>Choose...</source>
-        <translation></translation>
+        <translation>يختار</translation>
     </message>
     <message>
         <source>Using the fallbackfee can result in sending a transaction that will take several hours or days (or never) to confirm. Consider choosing your fee manually or wait until you have validated the complete chain.</source>
-        <translation></translation>
+        <translation>يمكن أن يؤدي استخدام الرسوم الاحتياطية إلى إرسال معاملة ستستغرق عدة ساعات أو أيام (أو لن تستغرق أبدًا) للتأكيد. فكر في اختيار الرسوم يدويًا أو انتظر حتى تقوم بالتحقق من صحة السلسلة الكاملة</translation>
     </message>
     <message>
         <source>Warning: Fee estimation is currently not possible.</source>
-        <translation></translation>
+        <translation>تحذير: تقدير الرسوم غير ممكن حاليًا</translation>
     </message>
     <message>
         <source>collapse fee-settings</source>
-        <translation></translation>
+        <translation>انهيار إعدادات الرسوم</translation>
     </message>
     <message>
         <source>If the custom fee is set to 1000 satoshis and the transaction is only 250 bytes, then &quot;per kilobyte&quot; only pays 250 satoshis in fee, while &quot;total at least&quot; pays 1000 satoshis. For transactions bigger than a kilobyte both pay by kilobyte.</source>
-        <translation></translation>
+        <translation>إذا تم تعيين الرسوم المخصصة على 1000 ساتوشي وكانت المعاملة 250 بايت فقط، فسيتم حذف &quot;لكل كيلو بايت&quot; يدفع فقط 250 ساتوشي كرسوم، بينما &quot;المجموع على الأقل&quot; يدفع 1000 ساتوشي. بالنسبة للمعاملات التي يزيد حجمها عن كيلو بايت، يتم الدفع بالكيلوبايت</translation>
     </message>
     <message>
         <source>per kilobyte</source>
-        <translation></translation>
+        <translation>لكل كيلو بايت</translation>
     </message>
     <message>
         <source>total at least</source>
-        <translation></translation>
+        <translation>المجموع على الأقل</translation>
     </message>
     <message>
         <source>Paying only the minimum fee is just fine as long as there is less transaction volume than space in the blocks. But be aware that this can end up in a never confirming transaction once there is more demand for dogecoin transactions than the network can process.</source>
-        <translation></translation>
+        <translation>يعد دفع الحد الأدنى من الرسوم أمرًا جيدًا طالما أن حجم المعاملات أقل من المساحة الموجودة في الكتل. لكن انتبه إلى أن هذا يمكن أن ينتهي به الأمر إلى معاملة غير مؤكدة أبدًا بمجرد أن يكون هناك طلب أكبر على معاملات الدوجكوين أكثر مما تستطيع الشبكة معالجته</translation>
     </message>
     <message>
         <source>(read the tooltip)</source>
-        <translation></translation>
+        <translation>(اقرأ تلميح الأداة)</translation>
     </message>
     <message>
         <source>Recommended:</source>
-        <translation></translation>
+        <translation>مُستَحسَن</translation>
     </message>
     <message>
         <source>Custom:</source>
-        <translation></translation>
+        <translation>مخصص</translation>
     </message>
     <message>
         <source>Priority:</source>
-        <translation></translation>
+        <translation>أولوية</translation>
     </message>
     <message>
         <source>low</source>
-        <translation></translation>
+        <translation>قليل</translation>
     </message>
     <message>
         <source>high</source>
-        <translation></translation>
+        <translation>عالي</translation>
     </message>
     <message>
         <source>Copy bytes</source>
-        <translation></translation>
+        <translation>نسخ البايتات</translation>
     </message>
     <message>
         <source>Copy dust</source>
-        <translation></translation>
+        <translation>نسخ الغبار</translation>
     </message>
     <message>
         <source>Are you sure you want to send?</source>
-        <translation></translation>
+        <translation>هل أنت متأكد أنك تريد الإرسال؟</translation>
     </message>
     <message>
         <source>added as transaction fee</source>
-        <translation></translation>
+        <translation>تضاف كرسوم المعاملات</translation>
     </message>
     <message>
         <source>Total Amount %1</source>
-        <translation></translation>
+        <translation>المبلغ الإجمالي %1</translation>
     </message>
     <message>
         <source>The recipient address is not valid. Please recheck.</source>
-        <translation></translation>
+        <translation>عنوان المستلم غير صالح. يرجى إعادة الفحص</translation>
     </message>
     <message>
         <source>Duplicate address found: addresses should only be used once each.</source>
-        <translation></translation>
+        <translation>تم العثور على عنوان مكرر: يجب استخدام العناوين مرة واحدة فقط لكل عنوان</translation>
     </message>
     <message>
         <source>Transaction creation failed!</source>
-        <translation></translation>
+        <translation>فشل إنشاء المعاملة</translation>
     </message>
     <message>
         <source>The transaction was rejected with the following reason: %1</source>
-        <translation></translation>
+        <translation>تم رفض المعاملة للسبب التالي: %1</translation>
     </message>
     <message>
         <source>A fee higher than %1 is considered an absurdly high fee.</source>
-        <translation></translation>
+        <translation>تعتبر الرسوم الأعلى من %1 رسومًا عالية بشكل سخيف</translation>
     </message>
     <message>
         <source>Payment request expired.</source>
-        <translation></translation>
+        <translation>انتهت صلاحية طلب الدفع</translation>
     </message>
     <message>
         <source>Pay only the required fee of %1</source>
-        <translation></translation>
+        <translation>ادفع فقط الرسوم المطلوبة البالغة %1</translation>
     </message>
     <message>
         <source>Warning: Invalid Dogecoin address</source>
-        <translation></translation>
+        <translation>تحذير: عنوان الدوجكوين غير صالح</translation>
     </message>
     <message>
         <source>Warning: Unknown change address</source>
-        <translation></translation>
+        <translation>تحذير: عنوان التغيير غير معروف</translation>
     </message>
     <message>
         <source>Confirm custom change address</source>
-        <translation></translation>
+        <translation>تأكيد عنوان التغيير المخصص</translation>
     </message>
     <message>
         <source>The address you selected for change is not part of this wallet. Any or all funds in your wallet may be sent to this address. Are you sure?</source>
-        <translation></translation>
+        <translation>العنوان الذي حددته للتغيير ليس جزءًا من هذه المحفظة. قد يتم إرسال أي أو كل الأموال الموجودة في محفظتك إلى هذا العنوان. هل أنت متأكد؟</translation>
     </message>
     <message>
         <source>If the custom fee is set to 1000 koinu and the transaction is only 250 bytes, then &quot;per kilobyte&quot; only pays 250 koinu in fee, while &quot;total at least&quot; pays 1000 koinu. For transactions bigger than a kilobyte both pay by kilobyte.</source>
-        <translation></translation>
+        <translation>إذا تم تعيين الرسوم المخصصة على 1000 كوينو وكانت المعاملة 250 بايت فقط، فسيتم &quot;لكل كيلو بايت&quot; يدفع فقط 250 كوينو كرسوم، بينما &quot;المجموع على الأقل&quot; يدفع 1000 كوينو. بالنسبة للمعاملات التي يزيد حجمها عن كيلو بايت، يتم الدفع بالكيلوبايت</translation>
     </message>
 </context>
 <context>
@@ -2771,31 +2775,31 @@ Use this functionality with extreme caution.</source>
     </message>
     <message>
         <source>Enter a label for this address to add it to the list of used addresses</source>
-        <translation></translation>
+        <translation>أدخل تسمية لهذا العنوان لإضافته إلى قائمة العناوين المستخدمة</translation>
     </message>
     <message>
         <source>The fee will be deducted from the amount being sent. The recipient will receive less dogecoins than you enter in the amount field. If multiple recipients are selected, the fee is split equally.</source>
-        <translation></translation>
+        <translation>سيتم خصم الرسوم من المبلغ المرسل. سيحصل المستلم على عدد أقل من عملات الدوجكوينز مما تدخله في حقل المبلغ. إذا تم اختيار عدة مستلمين، فسيتم تقسيم الرسوم بالتساوي</translation>
     </message>
     <message>
         <source>S&amp;ubtract fee from amount</source>
-        <translation></translation>
+        <translation>&amp;خصم الرسوم من المبلغ</translation>
     </message>
     <message>
         <source>A message that was attached to the dogecoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Dogecoin network.</source>
-        <translation></translation>
+        <translation>رسالة تم إرفاقها بـ الدوجكوين: URI والتي سيتم تخزينها مع المعاملة للرجوع إليها. ملاحظة: لن يتم إرسال هذه الرسالة عبر شبكة الدوجكوين</translation>
     </message>
     <message>
         <source>This is an unauthenticated payment request.</source>
-        <translation></translation>
+        <translation>هذا طلب دفع لم تتم مصادقته</translation>
     </message>
     <message>
         <source>Memo:</source>
-        <translation></translation>
+        <translation>مذكرة</translation>
     </message>
     <message>
         <source>This is an authenticated payment request.</source>
-        <translation></translation>
+        <translation>هذا طلب دفع موثق</translation>
     </message>
 </context>
 <context>
@@ -2813,7 +2817,7 @@ Use this functionality with extreme caution.</source>
     </message>
     <message>
         <source>%1 is shutting down...</source>
-        <translation></translation>
+        <translation>يتم إيقاف تشغيل %1</translation>
     </message>
 </context>
 <context>
@@ -2912,47 +2916,47 @@ Use this functionality with extreme caution.</source>
     </message>
     <message>
         <source>Signatures - Sign / Verify a Message</source>
-        <translation></translation>
+        <translation>التوقيعات - التوقيع / التحقق من الرسالة</translation>
     </message>
     <message>
         <source>You can sign messages/agreements with your addresses to prove you can receive dogecoins sent to them. Be careful not to sign anything vague or random, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</source>
-        <translation></translation>
+        <translation>يمكنك توقيع الرسائل/الاتفاقيات مع عناوينك لإثبات أنه يمكنك تلقي عملات الدوجكوينز المرسلة إليهم. احرص على عدم التوقيع على أي شيء غامض أو عشوائي، حيث قد تحاول هجمات التصيد الاحتيالي خداعك لتوقيع هويتك لهم. قم فقط بالتوقيع على البيانات التفصيلية الكاملة التي توافق عليها</translation>
     </message>
     <message>
         <source>The Dogecoin address to sign the message with</source>
-        <translation></translation>
+        <translation>عنوان الدوجكوين لتوقيع الرسالة به</translation>
     </message>
     <message>
         <source>Copy the current signature to the system clipboard</source>
-        <translation></translation>
+        <translation>انسخ التوقيع الحالي إلى حافظة النظام</translation>
     </message>
     <message>
         <source>Reset all sign message fields</source>
-        <translation></translation>
+        <translation>إعادة تعيين كافة حقول رسالة التوقيع</translation>
     </message>
     <message>
         <source>Enter the receiver&apos;s address, message (ensure you copy line breaks, spaces, tabs, etc. exactly) and signature below to verify the message. Be careful not to read more into the signature than what is in the signed message itself, to avoid being tricked by a man-in-the-middle attack. Note that this only proves the signing party receives with the address, it cannot prove sendership of any transaction!</source>
-        <translation></translation>
+        <translation>أدخل عنوان المستلم والرسالة (تأكد من نسخ فواصل الأسطر والمسافات وعلامات التبويب وما إلى ذلك) والتوقيع أدناه للتحقق من الرسالة. احرص على عدم قراءة المزيد في التوقيع عما هو موجود في الرسالة الموقعة نفسها، لتجنب التعرض للخداع من خلال هجوم الوسيط. لاحظ أن هذا يثبت فقط أن الطرف الموقع يستلم العنوان، ولا يمكن إثبات إرسال أي معاملة!</translation>
     </message>
     <message>
         <source>The Dogecoin address the message was signed with</source>
-        <translation></translation>
+        <translation>عنوان الدوجكوين الذي تم التوقيع به على الرسالة</translation>
     </message>
     <message>
         <source>Verify the message to ensure it was signed with the specified Dogecoin address</source>
-        <translation></translation>
+        <translation>تحقق من الرسالة للتأكد من توقيعها باستخدام عنوان الدوجكوين المحدد</translation>
     </message>
     <message>
         <source>Reset all verify message fields</source>
-        <translation></translation>
+        <translation>إعادة تعيين كافة حقول رسالة التحقق</translation>
     </message>
     <message>
         <source>The signature could not be decoded.</source>
-        <translation></translation>
+        <translation>لا يمكن فك تشفير التوقيع</translation>
     </message>
     <message>
         <source>The signature did not match the message digest.</source>
-        <translation></translation>
+        <translation>التوقيع لم يتطابق مع ملخص الرسالة</translation>
     </message>
 </context>
 <context>
@@ -2966,46 +2970,46 @@ Use this functionality with extreme caution.</source>
     <name>TestPeerDialog</name>
     <message>
         <source>Test Peer</source>
-        <translation></translation>
+        <translation>اختبار الأقران</translation>
     </message>
     <message>
         <source>Enter the peer details below.</source>
-        <translation></translation>
+        <translation>أدخل تفاصيل النظير أدناه</translation>
     </message>
     <message>
         <source>Be careful! Do not blindly trust anyone that tells you to add their node.</source>
-        <translation></translation>
+        <translation>احرص! لا تثق بشكل أعمى بأي شخص يطلب منك إضافة العقدة الخاصة به</translation>
     </message>
     <message>
         <source>Enter the peer&apos;s address</source>
-        <translation></translation>
+        <translation>أدخل عنوان النظير</translation>
     </message>
     <message>
         <source>Enter the peer&apos;s port</source>
-        <translation></translation>
+        <translation>أدخل منفذ النظير</translation>
     </message>
     <message>
         <source>Test!</source>
-        <translation></translation>
+        <translation>امتحان</translation>
     </message>
     <message>
         <source>Please enter an address.</source>
-        <translation></translation>
+        <translation>يرجى إدخال عنوان</translation>
     </message>
     <message>
         <source>Please enter a valid peer address.</source>
-        <translation></translation>
+        <translation>الرجاء إدخال عنوان نظير صالح</translation>
     </message>
     <message>
         <source>Try Peer</source>
-        <translation></translation>
+        <translation>حاول النظير</translation>
     </message>
 </context>
 <context>
     <name>TrafficGraphWidget</name>
     <message>
         <source>KB/s</source>
-        <translation></translation>
+        <translation>كيلو بايت / ثانية</translation>
     </message>
 </context>
 <context>
@@ -3032,7 +3036,7 @@ Use this functionality with extreme caution.</source>
     </message>
     <message>
         <source>, has not been successfully broadcast yet</source>
-        <translation type="vanished">,  لم يتم حتى الآن البث بنجاح</translation>
+        <translation>,  لم يتم حتى الآن البث بنجاح</translation>
     </message>
     <message>
         <source>Date</source>
@@ -3112,85 +3116,71 @@ Use this functionality with extreme caution.</source>
     </message>
     <message numerus="yes">
         <source>Open for %n more block(s)</source>
-        <translation>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation>>مفتوح لـ %n كتلة (مجموعات) إضافية</translation>
     </message>
     <message>
         <source>conflicted with a transaction with %1 confirmations</source>
-        <translation></translation>
+        <translation>تتعارض مع معاملة تحتوي على تأكيدات %1</translation>
     </message>
     <message>
         <source>0/unconfirmed, %1</source>
-        <translation></translation>
+        <translation>0/غير مؤكد، %1</translation>
     </message>
     <message>
         <source>in memory pool</source>
-        <translation></translation>
+        <translation>في تجمع الذاكرة</translation>
     </message>
     <message>
         <source>not in memory pool</source>
-        <translation></translation>
+        <translation>ليس في تجمع الذاكرة</translation>
     </message>
     <message>
         <source>abandoned</source>
-        <translation></translation>
+        <translation>متروك</translation>
     </message>
     <message>
         <source>watch-only</source>
-        <translation></translation>
+        <translation>للمشاهدة فقط</translation>
     </message>
     <message>
         <source>Credit</source>
-        <translation></translation>
+        <translation>ائتمان</translation>
     </message>
     <message numerus="yes">
         <source>matures in %n more block(s)</source>
-        <translation>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation>ينضج في %n كتلة (مجموعات) إضافية</translation>
     </message>
     <message>
         <source>Total debit</source>
-        <translation></translation>
+        <translation>إجمالي الدين</translation>
     </message>
     <message>
         <source>Total credit</source>
-        <translation></translation>
+        <translation>إجمالي الائتمان</translation>
     </message>
     <message>
         <source>Net amount</source>
-        <translation></translation>
+        <translation>كمية الشبكة</translation>
     </message>
     <message>
         <source>Transaction total size</source>
-        <translation></translation>
+        <translation>الحجم الإجمالي للمعاملة</translation>
     </message>
     <message>
         <source>Output index</source>
-        <translation></translation>
+        <translation>مؤشر الإخراج</translation>
     </message>
     <message>
         <source>Generated coins must mature %1 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
-        <translation></translation>
+        <translation>يجب أن تنضج العملات التي تم إنشاؤها كتل %1 قبل أن يتم إنفاقها. عندما قمت بإنشاء هذه الكتلة، تم بثها إلى الشبكة لإضافتها إلى سلسلة الكتل. إذا فشل في الدخول إلى السلسلة، ستتغير حالته إلى &quot;غير مقبول&quot; ولن تكون قابلة للإنفاق. قد يحدث هذا أحيانًا إذا قامت عقدة أخرى بإنشاء كتلة خلال ثوانٍ قليلة منك</translation>
     </message>
     <message>
         <source>Debug information</source>
-        <translation></translation>
+        <translation>معلومات التصحيح</translation>
     </message>
     <message>
         <source>Inputs</source>
-        <translation></translation>
+        <translation>المدخلات</translation>
     </message>
 </context>
 <context>
@@ -3201,7 +3191,7 @@ Use this functionality with extreme caution.</source>
     </message>
     <message>
         <source>Details for %1</source>
-        <translation></translation>
+        <translation>تفاصيل لـ %1</translation>
     </message>
 </context>
 <context>
@@ -3284,46 +3274,39 @@ Use this functionality with extreme caution.</source>
     </message>
     <message numerus="yes">
         <source>Open for %n more block(s)</source>
-        <translation>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation>مفتوح لـ %n كتلة (مجموعات) إضافية</translation>
     </message>
     <message>
         <source>Unconfirmed</source>
-        <translation></translation>
+        <translation>غير مؤكد</translation>
     </message>
     <message>
         <source>Abandoned</source>
-        <translation></translation>
+        <translation>متروك</translation>
     </message>
     <message>
         <source>Confirming (%1 of %2 recommended confirmations)</source>
-        <translation></translation>
+        <translation>التأكيد (%1 من %2 التأكيدات الموصى بها)</translation>
     </message>
     <message>
         <source>Confirmed (%1 confirmations)</source>
-        <translation></translation>
+        <translation>>تم التأكيد (%1 تأكيدات)</translation>
     </message>
     <message>
         <source>Immature (%1 confirmations, will be available after %2)</source>
-        <translation></translation>
+        <translation>غير ناضجة (تأكيدات %1، ستكون متاحة بعد %2)</translation>
     </message>
     <message>
         <source>watch-only</source>
-        <translation></translation>
+        <translation>للمشاهدة فقط</translation>
     </message>
     <message>
         <source>Whether or not a watch-only address is involved in this transaction.</source>
-        <translation></translation>
+        <translation>ما إذا كان عنوان المراقبة فقط متضمنًا في هذه المعاملة أم لا</translation>
     </message>
     <message>
         <source>User-defined intent/purpose of the transaction.</source>
-        <translation></translation>
+        <translation>القصد/الغرض المحدد من قبل المستخدم للمعاملة</translation>
     </message>
 </context>
 <context>
@@ -3454,45 +3437,45 @@ Use this functionality with extreme caution.</source>
     </message>
     <message>
         <source>Abandon transaction</source>
-        <translation></translation>
+        <translation>التخلي عن الصفقة</translation>
     </message>
     <message>
         <source>Copy raw transaction</source>
-        <translation></translation>
+        <translation>نسخ المعاملة الخام</translation>
     </message>
     <message>
         <source>Copy full transaction details</source>
-        <translation></translation>
+        <translation>نسخ تفاصيل المعاملة كاملة</translation>
     </message>
     <message>
         <source>Export Transaction History</source>
-        <translation></translation>
+        <translation>تصدير سجل المعاملات</translation>
     </message>
     <message>
         <source>Watch-only</source>
-        <translation></translation>
+        <translation>للمشاهدة فقط</translation>
     </message>
     <message>
         <source>There was an error trying to save the transaction history to %1.</source>
-        <translation></translation>
+        <translation>حدث خطأ أثناء محاولة حفظ سجل المعاملات في %1</translation>
     </message>
     <message>
         <source>The transaction history was successfully saved to %1.</source>
-        <translation></translation>
+        <translation>تم حفظ سجل المعاملات بنجاح في %1</translation>
     </message>
 </context>
 <context>
     <name>UnitDisplayStatusBarControl</name>
     <message>
         <source>Unit to show amounts in. Click to select another unit.</source>
-        <translation></translation>
+        <translation>الوحدة لإظهار المبالغ فيها. انقر لتحديد وحدة أخرى</translation>
     </message>
 </context>
 <context>
     <name>WalletFrame</name>
     <message>
         <source>No wallet has been loaded.</source>
-        <translation></translation>
+        <translation>لم يتم تحميل أي محفظة</translation>
     </message>
 </context>
 <context>
@@ -3526,15 +3509,15 @@ Use this functionality with extreme caution.</source>
     </message>
     <message>
         <source>Wallet Data (*.dat)</source>
-        <translation></translation>
+        <translation>بيانات المحفظة (*.dat)</translation>
     </message>
     <message>
         <source>There was an error trying to save the wallet data to %1.</source>
-        <translation></translation>
+        <translation>حدث خطأ أثناء محاولة حفظ بيانات المحفظة في %1</translation>
     </message>
     <message>
         <source>The wallet data was successfully saved to %1.</source>
-        <translation></translation>
+        <translation>تم حفظ بيانات المحفظة بنجاح في %1</translation>
     </message>
 </context>
 <context>
@@ -3641,891 +3624,891 @@ Use this functionality with extreme caution.</source>
     </message>
     <message>
         <source>Bitcoin Core and Dogecoin Core</source>
-        <translation></translation>
+        <translation>بيتكوين كور و دوجكوين كور</translation>
     </message>
     <message>
         <source>(1 = keep tx meta data e.g. account owner and payment request information, 2 = drop tx meta data)</source>
-        <translation></translation>
+        <translation>(1 = الاحتفاظ ببيانات تعريف الإرسال، مثل مالك الحساب ومعلومات طلب الدفع، 2 = إسقاط بيانات تعريف الإرسال)</translation>
     </message>
     <message>
         <source>-discardthreshold is set very high! This is the output amount that the wallet will discard (to fee) if it is smaller than this setting.</source>
-        <translation></translation>
+        <translation>- تم تعيين عتبة التجاهل على مستوى عالٍ جدًا! هذا هو مبلغ الإخراج الذي ستتجاهله المحفظة (للرسوم) إذا كان أصغر من هذا الإعداد.</translation>
     </message>
     <message>
         <source>-maxtxfee is set very high! Fees this large could be paid on a single transaction.</source>
-        <translation></translation>
+        <translation>-تم تعيين maxtxfee على مستوى عالٍ جدًا! يمكن دفع رسوم بهذا الحجم في معاملة واحدة</translation>
     </message>
     <message>
         <source>A fee rate (in %s/kB) that will be used when fee estimation has insufficient data (default: %s)</source>
-        <translation></translation>
+        <translation>معدل الرسوم (بـ %s/kB) الذي سيتم استخدامه عندما لا يحتوي تقدير الرسوم على بيانات كافية (الافتراضي: %s)</translation>
     </message>
     <message>
         <source>Accept connections from outside (default: 1 if no -proxy or -connect/-noconnect)</source>
-        <translation></translation>
+        <translation>قبول الاتصالات من الخارج (الافتراضي: 1 إذا لم يكن هناك -proxy أو -connect/-noconnect)</translation>
     </message>
     <message>
         <source>Accept relayed transactions received from whitelisted peers even when not relaying transactions (default: %d)</source>
-        <translation></translation>
+        <translation>قبول المعاملات المرحّلة المتلقاة من النظراء المدرجين في القائمة البيضاء حتى في حالة عدم ترحيل المعاملات (الافتراضي: %d)</translation>
     </message>
     <message>
         <source>Allow JSON-RPC connections from specified source. Valid for &lt;ip&gt; are a single IP (e.g. 1.2.3.4), a network/netmask (e.g. 1.2.3.4/255.255.255.0) or a network/CIDR (e.g. 1.2.3.4/24). This option can be specified multiple times</source>
-        <translation></translation>
+        <translation>السماح باتصالات JSON-RPC من المصدر المحدد. صالح لـ &lt;ip&gt; هي عنوان IP واحد (على سبيل المثال 1.2.3.4)، أو شبكة/قناع شبكة (على سبيل المثال 1.2.3.4/255.255.255.0) أو شبكة/CIDR (على سبيل المثال 1.2.3.4/24). يمكن تحديد هذا الخيار عدة مرات</translation>
     </message>
     <message>
         <source>Amount under which a transaction output is considered dust, in %s (default: %s)</source>
-        <translation></translation>
+        <translation>المبلغ الذي يتم بموجبه اعتبار مخرجات المعاملة غبارًا، بـ %s (الافتراضي: %s)</translation>
     </message>
     <message>
         <source>Amount under which a transaction output is considered non-standard and will not be accepted or relayed, in %s (default: %s)</source>
-        <translation></translation>
+        <translation>المبلغ الذي تعتبر بموجبه مخرجات المعاملة غير قياسية ولن يتم قبولها أو ترحيلها، بـ %s (الافتراضي: %s)</translation>
     </message>
     <message>
         <source>Bind to given address and always listen on it. Use [host]:port notation for IPv6</source>
-        <translation></translation>
+        <translation>اربط بالعنوان المحدد واستمع إليه دائمًا. استخدم [المضيف]: تدوين المنفذ لـ IPv6</translation>
     </message>
     <message>
         <source>Bind to given address and whitelist peers connecting to it. Use [host]:port notation for IPv6</source>
-        <translation></translation>
+        <translation>اربط بالعنوان المحدد وأقران القائمة البيضاء المتصلين به. استخدم [المضيف]: تدوين المنفذ لـ IPv6</translation>
     </message>
     <message>
         <source>Bind to given address to listen for JSON-RPC connections. Use [host]:port notation for IPv6. This option can be specified multiple times (default: bind to all interfaces)</source>
-        <translation></translation>
+        <translation>اربط بالعنوان المحدد للاستماع إلى اتصالات JSON-RPC. استخدم [المضيف]: تدوين المنفذ لـ IPv6. يمكن تحديد هذا الخيار عدة مرات (الافتراضي: ربط بجميع الواجهات)</translation>
     </message>
     <message>
         <source>Cannot obtain a lock on data directory %s. %s is probably already running.</source>
-        <translation></translation>
+        <translation>لا يمكن الحصول على تأمين على دليل البيانات %s. ربما يكون %s قيد التشغيل بالفعل</translation>
     </message>
     <message>
         <source>Connect only to the specified node(s); -noconnect or -connect=0 alone to disable automatic connections</source>
-        <translation></translation>
+        <translation>الاتصال فقط بالعقدة (العقد) المحددة؛ -noconnect أو -connect=0 وحده لتعطيل الاتصالات التلقائية</translation>
     </message>
     <message>
         <source>Create new files with system default permissions, instead of umask 077 (only effective with disabled wallet functionality)</source>
-        <translation></translation>
+        <translation>إنشاء ملفات جديدة باستخدام الأذونات الافتراضية للنظام، بدلاً من umask 077 (فعال فقط مع وظيفة المحفظة المعطلة)</translation>
     </message>
     <message>
         <source>Delete all wallet transactions and only recover those parts of the blockchain through -rescan on startup</source>
-        <translation></translation>
+        <translation>احذف جميع معاملات المحفظة واستعد فقط تلك الأجزاء من blockchain من خلال -rescan عند بدء التشغيل</translation>
     </message>
     <message>
         <source>Discover own IP addresses (default: 1 when listening and no -externalip or -proxy)</source>
-        <translation></translation>
+        <translation>اكتشف عناوين IP الخاصة (الافتراضي: 1 عند الاستماع ولا يوجد -externalip أو -proxy)</translation>
     </message>
     <message>
         <source>Distributed under the MIT software license, see the accompanying file %s or %s</source>
-        <translation></translation>
+        <translation>يتم توزيعه بموجب ترخيص برنامج MIT، راجع الملف المرفق %s أو %s</translation>
     </message>
     <message>
         <source>Do not keep transactions in the mempool longer than &lt;n&gt; hours (default: %u)</source>
-        <translation></translation>
+        <translation>لا تحتفظ بالمعاملات في مجمع الذاكرة لفترة أطول من &lt;n&gt; الساعات (الافتراضي: %u)</translation>
     </message>
     <message>
         <source>Equivalent bytes per sigop in transactions for relay and mining (default: %u)</source>
-        <translation></translation>
+        <translation>البايتات المكافئة لكل sigop في معاملات الترحيل والتعدين (الافتراضي: %u)</translation>
     </message>
     <message>
         <source>Error loading %s: You can&apos;t enable HD on a already existing non-HD wallet</source>
-        <translation></translation>
+        <translation>خطأ في تحميل %s: لا يمكنك تمكين HD على محفظة غير HD موجودة بالفعل</translation>
     </message>
     <message>
         <source>Error reading %s! All keys read correctly, but transaction data or address book entries might be missing or incorrect.</source>
-        <translation></translation>
+        <translation>خطأ في قراءة %s! تتم قراءة جميع المفاتيح بشكل صحيح، ولكن قد تكون بيانات المعاملات أو إدخالات دفتر العناوين مفقودة أو غير صحيحة.</translation>
     </message>
     <message>
         <source>Error: Listening for incoming connections failed (listen returned error %s)</source>
-        <translation></translation>
+        <translation>خطأ: فشل الاستماع للاتصالات الواردة (خطأ الاستماع الذي تم إرجاعه %s)</translation>
     </message>
     <message>
         <source>Execute command when the best block changes (%s in cmd is replaced by block hash, %i is replaced by block number)</source>
-        <translation></translation>
+        <translation>قم بتنفيذ الأمر عند تغيير أفضل كتلة (يتم استبدال %s في cmd بتجزئة الكتلة، ويتم استبدال %i برقم الكتلة)</translation>
     </message>
     <message>
         <source>Execute command when we see a really long fork (%s in cmd is replaced by message)</source>
-        <translation></translation>
+        <translation>قم بتنفيذ الأمر عندما نرى شوكة طويلة جدًا (يتم استبدال %s في cmd برسالة)</translation>
     </message>
     <message>
         <source>Extra transactions to keep in memory for compact block reconstructions (default: %u)</source>
-        <translation></translation>
+        <translation>المعاملات الإضافية التي يجب الاحتفاظ بها في الذاكرة لإعادة بناء الكتلة المضغوطة (الافتراضي: %u)</translation>
     </message>
     <message>
         <source>Fees (in %s/kB) smaller than this are considered zero fee for relaying, mining and transaction creation (default: %s)</source>
-        <translation></translation>
+        <translation>الرسوم (بـ %s/kB) الأصغر من هذا تعتبر رسومًا صفرية للترحيل والتعدين وإنشاء المعاملات (الافتراضي: %s)</translation>
     </message>
     <message>
         <source>Fees (in %s/kB) smaller than this are considered zero fee for transaction creation (default: %s)</source>
-        <translation></translation>
+        <translation>الرسوم (بـ %s/kB) الأصغر من هذه تعتبر رسومًا صفرية لإنشاء المعاملة (الافتراضي: %s)</translation>
     </message>
     <message>
         <source>Force relay of transactions from whitelisted peers even if they violate local relay policy (default: %d)</source>
-        <translation></translation>
+        <translation>فرض ترحيل المعاملات من النظراء المدرجين في القائمة البيضاء حتى إذا كانوا ينتهكون سياسة الترحيل المحلية (الافتراضي: %d)</translation>
     </message>
     <message>
         <source>How thorough the block verification of -checkblocks is (0-4, default: %u)</source>
-        <translation></translation>
+        <translation>مدى دقة التحقق من الكتلة لـ -checkblocks (0-4، الافتراضي: %u)</translation>
     </message>
     <message>
         <source>If &lt;category&gt; is not supplied or if &lt;category&gt; = 1, output all debugging information.</source>
-        <translation></translation>
+        <translation>إذا كان &lt;الفئة&gt; لم يتم توفيره أو إذا كان &lt;الفئة&gt; = 1، إخراج كافة معلومات التصحيح</translation>
     </message>
     <message>
         <source>If paytxfee is not set, include enough fee so transactions begin confirmation on average within n blocks (default: %u)</source>
-        <translation></translation>
+        <translation>إذا لم يتم تعيين paytxfee، فقم بتضمين رسوم كافية حتى تبدأ المعاملات في التأكيد في المتوسط خلال عدد n من الكتل (الافتراضي: %u)</translation>
     </message>
     <message>
         <source>If this block is in the chain assume that it and its ancestors are valid and potentially skip their script verification (0 to verify all, default: %s, testnet: %s)</source>
-        <translation></translation>
+        <translation>إذا كانت هذه الكتلة موجودة في السلسلة، فافترض أنها وأسلافها صالحة ومن المحتمل تخطي التحقق من البرنامج النصي (0 للتحقق من الكل، الافتراضي: %s، testnet: %s)</translation>
     </message>
     <message>
         <source>Invalid amount for -discardthreshold=&lt;amount&gt;: &apos;%s&apos; (must be at least the dust limit of %s to prevent stuck transactions)</source>
-        <translation></translation>
+        <translation>مبلغ غير صالح لـ -discardthreshold=&lt;amount&gt;: &apos;%s&apos; (يجب أن يكون الحد الأقصى للغبار %s على الأقل لمنع المعاملات المتوقفة)</translation>
     </message>
     <message>
         <source>Invalid amount for -maxtxfee=&lt;amount&gt;: &apos;%s&apos; (must be at least the minrelay fee of %s to prevent stuck transactions)</source>
-        <translation></translation>
+        <translation>مبلغ غير صالح لـ -maxtxfee=&lt;amount&gt;: &apos;%s&apos; (يجب أن تكون رسوم الترحيل الأدنى %s على الأقل لمنع المعاملات المتوقفة)</translation>
     </message>
     <message>
         <source>Maintain a full transaction index, used by the getrawtransaction rpc call (default: %u)</source>
-        <translation></translation>
+        <translation>الحفاظ على فهرس المعاملات الكامل، الذي يستخدمه استدعاء getrawtransaction RPC (الافتراضي: %u)</translation>
     </message>
     <message>
         <source>Maximum allowed median peer time offset adjustment. Local perspective of time may be influenced by peers forward or backward by this amount. (default: %u seconds)</source>
-        <translation></translation>
+        <translation>الحد الأقصى المسموح به لتعديل إزاحة وقت النظير. قد يتأثر المنظور المحلي للوقت بالأقران للأمام أو للخلف بهذا المقدار. (الافتراضي: %u ثانية)</translation>
     </message>
     <message>
         <source>Maximum size of data in data carrier transactions we relay and mine (default: %u)</source>
-        <translation></translation>
+        <translation>الحد الأقصى لحجم البيانات في معاملات حامل البيانات التي نقوم بترحيلها واستخراجها (الافتراضي: %u)</translation>
     </message>
     <message>
         <source>Maximum total fees (in %s) to use in a single wallet transaction or raw transaction; setting this too low may abort large transactions (default: %s)</source>
-        <translation></translation>
+        <translation>الحد الأقصى لإجمالي الرسوم (بالنسبة %s) لاستخدامها في معاملة محفظة واحدة أو معاملة أولية؛ قد يؤدي تعيين هذا المستوى المنخفض جدًا إلى إحباط المعاملات الكبيرة (الافتراضي: %s)</translation>
     </message>
     <message>
         <source>Number of seconds to keep misbehaving peers from reconnecting (default: %u)</source>
-        <translation></translation>
+        <translation>عدد الثواني لمنع أقرانهم الذين يسيئون التصرف من إعادة الاتصال (الافتراضي: %u)</translation>
     </message>
     <message>
         <source>Output debugging information (default: %u, supplying &lt;category&gt; is optional)</source>
-        <translation></translation>
+        <translation>معلومات تصحيح أخطاء الإخراج (الافتراضي: %u، توفير &lt;category&gt; أمر اختياري)</translation>
     </message>
     <message>
         <source>Please check that your computer&apos;s date and time are correct! If your clock is wrong, %s will not work properly.</source>
-        <translation></translation>
+        <translation>يرجى التأكد من صحة التاريخ والوقت على جهاز الكمبيوتر الخاص بك! إذا كانت ساعتك خاطئة، فلن يعمل %s بشكل صحيح</translation>
     </message>
     <message>
         <source>Please contribute if you find %s useful. Visit %s for further information about the software.</source>
-        <translation></translation>
+        <translation>يرجى المساهمة إذا وجدت %s مفيدًا. تفضل بزيارة %s لمزيد من المعلومات حول البرنامج</translation>
     </message>
     <message>
         <source>Prune configured below the minimum of %d MiB.  Please use a higher number.</source>
-        <translation></translation>
+        <translation>تم تكوين Prune بأقل من الحد الأدنى البالغ %d MiB. الرجاء استخدام رقم أعلى</translation>
     </message>
     <message>
         <source>Prune: last wallet synchronisation goes beyond pruned data. You need to -reindex (download the whole blockchain again in case of pruned node)</source>
-        <translation></translation>
+        <translation>تقليم: آخر مزامنة للمحفظة تتجاوز البيانات المقطوعة. تحتاج إلى -reindex (تنزيل blockchain بالكامل مرة أخرى في حالة العقدة المقطوعة)</translation>
     </message>
     <message>
         <source>Query for peer addresses via DNS lookup, if low on addresses (default: 1 unless -connect/-noconnect)</source>
-        <translation></translation>
+        <translation>الاستعلام عن عناوين النظراء عبر بحث DNS، إذا كانت العناوين منخفضة (الافتراضي: 1 ما لم -connect/-noconnect)</translation>
     </message>
     <message>
         <source>Randomize credentials for every proxy connection. This enables Tor stream isolation (default: %u)</source>
-        <translation></translation>
+        <translation>قم بترتيب بيانات الاعتماد بشكل عشوائي لكل اتصال وكيل. يؤدي ذلك إلى تمكين عزل تيار Tor (الافتراضي: %u)</translation>
     </message>
     <message>
         <source>Reduce storage requirements by enabling pruning (deleting) of old blocks. This allows the pruneblockchain RPC to be called to delete specific blocks, and enables automatic pruning of old blocks if a target size in MiB is provided. This mode is incompatible with -txindex and -rescan. Warning: Reverting this setting requires re-downloading the entire blockchain. (default: 0 = disable pruning blocks, 1 = allow manual pruning via RPC, &gt;%u = automatically prune block files to stay under the specified target size in MiB)</source>
-        <translation></translation>
+        <translation>تقليل متطلبات التخزين عن طريق تمكين تقليم (حذف) الكتل القديمة. يسمح هذا باستدعاء Pruneblockchain RPC لحذف كتل معينة، ويتيح التقليم التلقائي للكتل القديمة إذا تم توفير الحجم المستهدف في MiB. هذا الوضع غير متوافق مع -txindex و-rescan. تحذير: يتطلب التراجع عن هذا الإعداد إعادة تنزيل سلسلة الكتل بأكملها. (افتراضي: 0 = تعطيل كتل التنقيح، 1 = السماح بالتقليم اليدوي عبر RPC، &gt;%u = تقليم ملفات الكتل تلقائيًا لتظل ضمن الحجم المستهدف المحدد في MiB)</translation>
     </message>
     <message>
         <source>Rescans are not possible in pruned mode. You will need to use -reindex which will download the whole blockchain again.</source>
-        <translation></translation>
+        <translation>لا يمكن إجراء عمليات إعادة الفحص في وضع القطع. سوف تحتاج إلى استخدام -reindex الذي سيقوم بتنزيل blockchain بأكمله مرة أخرى</translation>
     </message>
     <message>
         <source>Set lowest fee rate (in %s/kB) for transactions to be included in block creation. (default: %s)</source>
-        <translation></translation>
+        <translation>قم بتعيين أدنى معدل للرسوم (بـ %s/kB) للمعاملات التي سيتم تضمينها في إنشاء الكتلة. (الافتراضي: %s)</translation>
     </message>
     <message>
         <source>Set maximum size of high-priority/low-fee transactions in bytes (default: %d)</source>
-        <translation></translation>
+        <translation>تعيين الحد الأقصى لحجم المعاملات ذات الأولوية العالية/الرسوم المنخفضة بالبايت (الافتراضي: %d)</translation>
     </message>
     <message>
         <source>Set the number of script verification threads (%u to %d, 0 = auto, &lt;0 = leave that many cores free, default: %d)</source>
-        <translation></translation>
+        <translation>قم بتعيين عدد سلاسل التحقق من البرنامج النصي (%u إلى %d، 0 = تلقائي، &lt;0 = ترك العديد من النوى حرة، الافتراضي: %d)</translation>
     </message>
     <message>
         <source>Sets the serialization of raw transaction or block hex returned in non-verbose mode, non-segwit(0) or segwit(1) (default: %d)</source>
-        <translation></translation>
+        <translation>يضبط تسلسل المعاملة الأولية أو الكتلة السداسية التي يتم إرجاعها في الوضع غير المطول، أو غير segwit(0) أو segwit(1) (الافتراضي: %d)</translation>
     </message>
     <message>
         <source>Specify directory where to write backups and data dumps (default datadir/backups)</source>
-        <translation></translation>
+        <translation>حدد الدليل الذي تريد كتابة النسخ الاحتياطية وتفريغ البيانات فيه (datadir/النسخ الاحتياطية الافتراضية)</translation>
     </message>
     <message>
         <source>Support filtering of blocks and transaction with bloom filters (default: %u)</source>
-        <translation></translation>
+        <translation>دعم تصفية الكتل والمعاملات باستخدام مرشحات الازدهار (الافتراضي: %u)</translation>
     </message>
     <message>
         <source>The block database contains a block which appears to be from the future. This may be due to your computer&apos;s date and time being set incorrectly. Only rebuild the block database if you are sure that your computer&apos;s date and time are correct</source>
-        <translation></translation>
+        <translation>تحتوي قاعدة بيانات الكتلة على كتلة تبدو وكأنها من المستقبل. قد يكون هذا بسبب ضبط التاريخ والوقت على جهاز الكمبيوتر الخاص بك بشكل غير صحيح. قم بإعادة بناء قاعدة بيانات الكتلة فقط إذا كنت متأكدًا من صحة التاريخ والوقت على جهاز الكمبيوتر الخاص بك</translation>
     </message>
     <message>
         <source>The minimum transaction output size (in %s) used to validate wallet transactions and discard change (to fee) (default: %s)</source>
-        <translation></translation>
+        <translation>الحد الأدنى لحجم مخرجات المعاملة (بـ %s) المستخدم للتحقق من صحة معاملات المحفظة وتجاهل التغيير (للرسوم) (الافتراضي: %s)</translation>
     </message>
     <message>
         <source>The transaction amount is too small to send after the fee has been deducted</source>
-        <translation></translation>
+        <translation>مبلغ المعاملة صغير جدًا بحيث لا يمكن إرساله بعد خصم الرسوم</translation>
     </message>
     <message>
         <source>This is a pre-release test build - use at your own risk - do not use for mining or merchant applications</source>
-        <translation></translation>
+        <translation>هذا إصدار تجريبي للإصدار المسبق - استخدمه على مسؤوليتك الخاصة - ولا تستخدمه في تطبيقات التعدين أو التجارة</translation>
     </message>
     <message>
         <source>This is the transaction fee you may pay when fee estimates are not available.</source>
-        <translation></translation>
+        <translation>هذه هي رسوم المعاملة التي قد تدفعها عندما لا تكون تقديرات الرسوم متاحة</translation>
     </message>
     <message>
         <source>This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit %s and cryptographic software written by Eric Young and UPnP software written by Thomas Bernard. Paper wallet art provided by Anacoluthia.</source>
-        <translation></translation>
+        <translation>يشتمل هذا المنتج على برنامج تم تطويره بواسطة مشروع OpenSSL للاستخدام في مجموعة أدوات OpenSSL %s وبرنامج تشفير مكتوب بواسطة Eric Young وبرنامج UPnP مكتوب بواسطة Thomas Bernard. فن المحفظة الورقية مقدم من أناكولوثيا</translation>
     </message>
     <message>
         <source>Total length of network version string (%i) exceeds maximum length (%i). Reduce the number or size of uacomments.</source>
-        <translation></translation>
+        <translation>إجمالي طول سلسلة إصدار الشبكة (%i) يتجاوز الحد الأقصى للطول (%i). تقليل عدد أو حجم تعليقات ua.</translation>
     </message>
     <message>
         <source>Tries to keep outbound traffic under the given target (in MiB per 24h), 0 = no limit (default: %d)</source>
-        <translation></translation>
+        <translation>يحاول إبقاء حركة المرور الصادرة ضمن الهدف المحدد (بالميجابايت لكل 24 ساعة)، 0 = بلا حدود (الافتراضي: %d)</translation>
     </message>
     <message>
         <source>Unable to rewind the database to a pre-fork state. You will need to redownload the blockchain</source>
-        <translation></translation>
+        <translation>غير قادر على إرجاع قاعدة البيانات إلى حالة ما قبل الانقسام. ستحتاج إلى إعادة تنزيل blockchain</translation>
     </message>
     <message>
         <source>Unsupported argument -socks found. Setting SOCKS version isn&apos;t possible anymore, only SOCKS5 proxies are supported.</source>
-        <translation></translation>
+        <translation>وسيطة غير مدعومة - تم العثور على جوارب. لم يعد تعيين إصدار SOCKS ممكنًا بعد الآن، فقط بروكسي SOCKS5 مدعوم</translation>
     </message>
     <message>
         <source>Unsupported argument -whitelistalwaysrelay ignored, use -whitelistrelay and/or -whitelistforcerelay.</source>
-        <translation></translation>
+        <translation>وسيطة غير مدعومة -تم تجاهل Whitelistalwaysrelay، استخدم -whitelistrelay و/أو -whitelistforcerelay</translation>
     </message>
     <message>
         <source>Use UPnP to map the listening port (default: 1 when listening and no -proxy)</source>
-        <translation></translation>
+        <translation>استخدم UPnP لتعيين منفذ الاستماع (الافتراضي: 1 عند الاستماع ولا يوجد وكيل)</translation>
     </message>
     <message>
         <source>Use hierarchical deterministic key generation (HD) after BIP32. Only has effect during wallet creation/first start</source>
-        <translation></translation>
+        <translation>استخدم إنشاء المفاتيح الحتمية الهرمية (HD) بعد BIP32. يكون له تأثير فقط أثناء إنشاء المحفظة/البدء لأول مرة</translation>
     </message>
     <message>
         <source>Use separate SOCKS5 proxy to reach peers via Tor hidden services (default: %s)</source>
-        <translation></translation>
+        <translation>استخدم وكيل SOCKS5 المنفصل للوصول إلى أقرانك عبر خدمات Tor المخفية (الافتراضي: %s)</translation>
     </message>
     <message>
         <source>Username and hashed password for JSON-RPC connections. The field &lt;userpw&gt; comes in the format: &lt;USERNAME&gt;:&lt;SALT&gt;$&lt;HASH&gt;. A canonical python script is included in share/rpcuser. The client then connects normally using the rpcuser=&lt;USERNAME&gt;/rpcpassword=&lt;PASSWORD&gt; pair of arguments. This option can be specified multiple times</source>
-        <translation></translation>
+        <translation>اسم المستخدم وكلمة المرور المجزأة لاتصالات JSON-RPC. الحقل &lt;userpw&gt; يأتي بالتنسيق: &lt;USERNAME&gt;:&lt;SALT&gt;$&lt;HASH&gt;. تم تضمين نص بايثون الأساسي في share/rpcuser. ثم يتصل العميل بشكل طبيعي باستخدام rpcuser=&lt;USERNAME&gt;/rpcpassword=&lt;PASSWORD&gt; زوج من الحجج. يمكن تحديد هذا الخيار عدة مرات</translation>
     </message>
     <message>
         <source>Wallet will not create transactions that violate mempool chain limits (default: %u)</source>
-        <translation></translation>
+        <translation>لن تقوم المحفظة بإنشاء معاملات تنتهك حدود سلسلة mempool (الافتراضي: %u)</translation>
     </message>
     <message>
         <source>Warning: The network does not appear to fully agree! Some miners appear to be experiencing issues.</source>
-        <translation></translation>
+        <translation>تحذير: لا يبدو أن الشبكة توافق تمامًا! يبدو أن بعض عمال المناجم يواجهون مشكلات</translation>
     </message>
     <message>
         <source>Warning: Unknown block versions being mined! It&apos;s possible unknown rules are in effect</source>
-        <translation></translation>
+        <translation>تحذير: يتم استخراج إصدارات كتل غير معروفة! من المحتمل أن تكون هناك قواعد غير معروفة سارية المفعول</translation>
     </message>
     <message>
         <source>Warning: Wallet file corrupt, data salvaged! Original %s saved as %s in %s; if your balance or transactions are incorrect you should restore from a backup.</source>
-        <translation></translation>
+        <translation>تحذير: ملف المحفظة تالف، وتم إنقاذ البيانات! تم حفظ %s الأصلي كـ %s في %s؛ إذا كان رصيدك أو معاملاتك غير صحيحة، فيجب عليك استعادتها من نسخة احتياطية.</translation>
     </message>
     <message>
         <source>Warning: We do not appear to fully agree with our peers! You may need to upgrade, or other nodes may need to upgrade.</source>
-        <translation></translation>
+        <translation>تحذير: لا يبدو أننا نتفق تمامًا مع أقراننا! قد تحتاج إلى الترقية، أو قد تحتاج العقد الأخرى إلى الترقية</translation>
     </message>
     <message>
         <source>Whitelist peers connecting from the given IP address (e.g. 1.2.3.4) or CIDR notated network (e.g. 1.2.3.0/24). Can be specified multiple times.</source>
-        <translation></translation>
+        <translation>أقران القائمة البيضاء الذين يتصلون من عنوان IP المحدد (على سبيل المثال 1.2.3.4) أو شبكة CIDR المميزة (على سبيل المثال 1.2.3.0/24). يمكن تحديدها عدة مرات.</translation>
     </message>
     <message>
         <source>Whitelisted peers cannot be DoS banned and their transactions are always relayed, even if they are already in the mempool, useful e.g. for a gateway</source>
-        <translation></translation>
+        <translation>لا يمكن حظر الأقران المدرجين في القائمة البيضاء من خلال DoS ويتم ترحيل معاملاتهم دائمًا، حتى لو كانوا موجودين بالفعل في مجمع الذاكرة، وهو أمر مفيد على سبيل المثال. لبوابة</translation>
     </message>
     <message>
         <source>You need to rebuild the database using -reindex to go back to unpruned mode.  This will redownload the entire blockchain</source>
-        <translation></translation>
+        <translation>تحتاج إلى إعادة بناء قاعدة البيانات باستخدام -reindex للعودة إلى الوضع غير المنقّح. سيؤدي هذا إلى إعادة تنزيل blockchain بأكمله</translation>
     </message>
     <message>
         <source>You need to rebuild the database using -reindex-chainstate to change -txindex</source>
-        <translation></translation>
+        <translation>You need to rebuild the database using -reindex-chainstate to change -txindex</translation>
     </message>
     <message>
         <source>%s corrupt, salvage failed</source>
-        <translation></translation>
+        <translation>%s تالف، فشل الإنقاذ</translation>
     </message>
     <message>
         <source>%s is set very high!</source>
-        <translation></translation>
+        <translation>تم تعيين %s على مستوى مرتفع جدًا!</translation>
     </message>
     <message>
         <source>(default: %s)</source>
-        <translation></translation>
+        <translation>(default: %s)</translation>
     </message>
     <message>
         <source>(default: %u)</source>
-        <translation></translation>
+        <translation>(default: %u)</translation>
     </message>
     <message>
         <source>-maxmempool must be at least %d MB</source>
-        <translation></translation>
+        <translation>-يجب أن يكون حجم الذاكرة القصوى %d ميغابايت على الأقل</translation>
     </message>
     <message>
         <source>&lt;category&gt; can be:</source>
-        <translation></translation>
+        <translation>&lt;الفئة&gt; يمكن ان يكون:</translation>
     </message>
     <message>
         <source>Accept command line and JSON-RPC commands</source>
-        <translation></translation>
+        <translation>قبول سطر الأوامر وأوامر JSON-RPC</translation>
     </message>
     <message>
         <source>Accept public REST requests (default: %u)</source>
-        <translation></translation>
+        <translation>قبول طلبات REST العامة (الافتراضي: %u)</translation>
     </message>
     <message>
         <source>Add a node to connect to and attempt to keep the connection open</source>
-        <translation></translation>
+        <translation>أضف عقدة للاتصال بها وحاول إبقاء الاتصال مفتوحًا</translation>
     </message>
     <message>
         <source>Allow DNS lookups for -addnode, -seednode and -connect</source>
-        <translation></translation>
+        <translation>السماح بعمليات بحث DNS عن -addnode و-seednode و-connect</translation>
     </message>
     <message>
         <source>Always query for peer addresses via DNS lookup (default: %u)</source>
-        <translation></translation>
+        <translation>الاستعلام دائمًا عن عناوين النظراء عبر بحث DNS (الافتراضي: %u)</translation>
     </message>
     <message>
         <source>Amaze</source>
-        <translation></translation>
+        <translation>تدهش</translation>
     </message>
     <message>
         <source>Append comment to the user agent string</source>
-        <translation></translation>
+        <translation>Append comment to the user agent string</translation>
     </message>
     <message>
         <source>Attempt to recover private keys from a corrupt wallet on startup</source>
-        <translation></translation>
+        <translation>محاولة استرداد المفاتيح الخاصة من محفظة فاسدة عند بدء التشغيل</translation>
     </message>
     <message>
         <source>Automatically create Tor hidden service (default: %d)</source>
-        <translation></translation>
+        <translation>إنشاء خدمة Tor المخفية تلقائيًا (الافتراضي: %d)</translation>
     </message>
     <message>
         <source>Block creation options:</source>
-        <translation></translation>
+        <translation>خيارات إنشاء الحظر:</translation>
     </message>
     <message>
         <source>Cannot resolve -%s address: &apos;%s&apos;</source>
-        <translation></translation>
+        <translation>لا يمكن حل عنوان -%s: &apos;%s&apos;</translation>
     </message>
     <message>
         <source>Chain selection options:</source>
-        <translation></translation>
+        <translation>خيارات اختيار السلسلة:</translation>
     </message>
     <message>
         <source>Change index out of range</source>
-        <translation></translation>
+        <translation>تغيير الفهرس خارج النطاق</translation>
     </message>
     <message>
         <source>Connect through SOCKS5 proxy</source>
-        <translation></translation>
+        <translation>الاتصال من خلال وكيل SOCKS5</translation>
     </message>
     <message>
         <source>Connect to a node to retrieve peer addresses, and disconnect</source>
-        <translation></translation>
+        <translation>اتصل بعقدة لاسترداد عناوين النظراء، ثم قطع الاتصال</translation>
     </message>
     <message>
-        <source>Connection options:</source>
-        <translation></translation>
+        <source>خيارات الاتصال:</source>
+        <translation>Connection options:</translation>
     </message>
     <message>
         <source>Copyright (C) %i-%i</source>
-        <translation></translation>
+        <translation>حقوق الطبع والنشر (C) %i-%i</translation>
     </message>
     <message>
         <source>Corrupted block database detected</source>
-        <translation></translation>
+        <translation>تم اكتشاف قاعدة بيانات الكتلة التالفة</translation>
     </message>
     <message>
         <source>Debugging/Testing options:</source>
-        <translation></translation>
+        <translation>خيارات التصحيح/الاختبار:</translation>
     </message>
     <message>
         <source>Default</source>
-        <translation></translation>
+        <translation>تقصير</translation>
     </message>
     <message>
         <source>Do not load the wallet and disable wallet RPC calls</source>
-        <translation></translation>
+        <translation>لا تقم بتحميل المحفظة وتعطيل مكالمات RPC للمحفظة</translation>
     </message>
     <message>
         <source>Do you want to rebuild the block database now?</source>
-        <translation></translation>
+        <translation>هل تريد إعادة بناء قاعدة بيانات الكتلة الآن؟</translation>
     </message>
     <message>
         <source>Enable publish hash block in &lt;address&gt;</source>
-        <translation></translation>
+        <translation>تمكين نشر كتلة التجزئة في &lt;العنوان&gt;</translation>
     </message>
     <message>
         <source>Enable publish hash transaction in &lt;address&gt;</source>
-        <translation></translation>
+        <translation>تمكين نشر معاملة التجزئة في &lt;address&gt;</translation>
     </message>
     <message>
         <source>Enable publish raw block in &lt;address&gt;</source>
-        <translation></translation>
+        <translation>تفعيل نشر الكتلة الأولية في &lt;address&gt;</translation>
     </message>
     <message>
         <source>Enable publish raw transaction in &lt;address&gt;</source>
-        <translation></translation>
+        <translation>تمكين نشر المعاملة الأولية في &lt;address&gt;</translation>
     </message>
     <message>
         <source>Enable transaction replacement in the memory pool (default: %u)</source>
-        <translation></translation>
+        <translation>تمكين استبدال المعاملات في تجمع الذاكرة (الافتراضي: %u)</translation>
     </message>
     <message>
         <source>Error initializing block database</source>
-        <translation></translation>
+        <translation>خطأ في تهيئة قاعدة بيانات الكتلة</translation>
     </message>
     <message>
         <source>Error initializing wallet database environment %s!</source>
-        <translation></translation>
+        <translation>خطأ في تهيئة بيئة قاعدة بيانات المحفظة %s!</translation>
     </message>
     <message>
         <source>Error loading %s</source>
-        <translation></translation>
+        <translation>حدث خطأ أثناء تحميل %s</translation>
     </message>
     <message>
         <source>Error loading %s: Wallet corrupted</source>
-        <translation></translation>
+        <translation>حدث خطأ أثناء تحميل %s: المحفظة تالفة</translation>
     </message>
     <message>
         <source>Error loading %s: Wallet requires newer version of %s</source>
-        <translation></translation>
+        <translation>حدث خطأ أثناء تحميل %s: تتطلب المحفظة إصدارًا أحدث من %s</translation>
     </message>
     <message>
         <source>Error loading %s: You can&apos;t disable HD on a already existing HD wallet</source>
-        <translation></translation>
+        <translation>خطأ في تحميل %s: لا يمكنك تعطيل HD على محفظة HD موجودة بالفعل</translation>
     </message>
     <message>
         <source>Error loading block database</source>
-        <translation></translation>
+        <translation>حدث خطأ أثناء تحميل قاعدة بيانات الكتلة</translation>
     </message>
     <message>
         <source>Error opening block database</source>
-        <translation></translation>
+        <translation>خطأ في فتح قاعدة بيانات الكتلة</translation>
     </message>
     <message>
         <source>Error reading from database, shutting down.</source>
-        <translation></translation>
+        <translation>خطأ في القراءة من قاعدة البيانات، إيقاف التشغيل.</translation>
     </message>
     <message>
         <source>Error: A fatal internal error occurred, see debug.log for details</source>
-        <translation></translation>
+        <translation>خطأ: حدث خطأ داخلي فادح، راجع debug.log للحصول على التفاصيل</translation>
     </message>
     <message>
         <source>Fee (in %s/kB) to add to transactions you send (default: %s)</source>
-        <translation></translation>
+        <translation>الرسوم (بـ %s/kB) لإضافتها إلى المعاملات التي ترسلها (الافتراضي: %s)</translation>
     </message>
     <message>
         <source>How many blocks to check at startup (default: %u, 0 = all)</source>
-        <translation></translation>
+        <translation>كم عدد الكتل التي يجب التحقق منها عند بدء التشغيل (الافتراضي: %u, 0 = الكل)</translation>
     </message>
     <message>
         <source>Importing...</source>
-        <translation></translation>
+        <translation>استيراد.</translation>
     </message>
     <message>
         <source>Imports blocks from external blk000??.dat file on startup</source>
-        <translation></translation>
+        <translation>استيراد الكتل من ملف blk000??.dat الخارجي عند بدء التشغيل</translation>
     </message>
     <message>
         <source>Include IP addresses in debug output (default: %u)</source>
-        <translation></translation>
+        <translation>تضمين عناوين IP في إخراج التصحيح (الافتراضي: %u)</translation>
     </message>
     <message>
         <source>Incorrect or no genesis block found. Wrong datadir for network?</source>
-        <translation></translation>
+        <translation>تم العثور على كتلة تكوين غير صحيحة أو لم يتم العثور عليها. datadir خاطئ للشبكة؟</translation>
     </message>
     <message>
         <source>Initialization sanity check failed. %s is shutting down.</source>
-        <translation></translation>
+        <translation>فشل التحقق من سلامة التهيئة. يتم إيقاف تشغيل %s</translation>
     </message>
     <message>
         <source>Invalid amount for -%s=&lt;amount&gt;: &apos;%s&apos;</source>
-        <translation></translation>
+        <translation>المبلغ غير صالح لـ -%s=&lt;amount&gt;: &apos;%s&apos;</translation>
     </message>
     <message>
         <source>Invalid amount for -fallbackfee=&lt;amount&gt;: &apos;%s&apos;</source>
-        <translation></translation>
+        <translation>مبلغ غير صالح لـ -fallbackfee=&lt;amount&gt;: &apos;%s&apos;</translation>
     </message>
     <message>
         <source>Invalid amount for -paytxfee=&lt;amount&gt;: &apos;%s&apos; (must be at least %s)</source>
-        <translation></translation>
+        <translation>مبلغ غير صالح لـ -paytxfee=&lt;amount&gt;: &apos;%s&apos; (يجب أن يكون %s على الأقل)</translation>
     </message>
     <message>
         <source>Invalid netmask specified in -whitelist: &apos;%s&apos;</source>
-        <translation></translation>
+        <translation>تم تحديد قناع شبكة غير صالح في -القائمة البيضاء: &apos;%s&apos;</translation>
     </message>
     <message>
         <source>Keep at most &lt;n&gt; unconnectable transactions in memory (default: %u)</source>
-        <translation></translation>
+        <translation>احتفظ على الأكثر &lt;n&gt; المعاملات غير القابلة للاتصال في الذاكرة (الافتراضي: %u)</translation>
     </message>
     <message>
         <source>Keep the transaction memory pool below &lt;n&gt; megabytes (default: %u)</source>
-        <translation></translation>
+        <translation>احتفظ بمجمع ذاكرة المعاملات أدناه &lt;n&gt; ميغابايت (الافتراضي: %u)</translation>
     </message>
     <message>
         <source>Keypool ran out, please call keypoolrefill first</source>
-        <translation></translation>
+        <translation>نفد Keypool، يرجى الاتصال بـ keypoolrefill أولاً</translation>
     </message>
     <message>
         <source>Listen for JSON-RPC connections on &lt;port&gt; (default: %u or testnet: %u)</source>
-        <translation></translation>
+        <translation>استمع لاتصالات JSON-RPC على &lt;port&gt; (الافتراضي: %u أو شبكة الاختبار: %u)</translation>
     </message>
     <message>
         <source>Listen for connections on &lt;port&gt; (default: %u or testnet: %u)</source>
-        <translation></translation>
+        <translation>استمع للاتصالات على &lt;port&gt; (الافتراضي: %u أو شبكة الاختبار: %u)</translation>
     </message>
     <message>
         <source>Loading banlist...</source>
-        <translation></translation>
+        <translation>جارٍ تحميل قائمة الحظر</translation>
     </message>
     <message>
         <source>Location of the auth cookie (default: data dir)</source>
-        <translation></translation>
+        <translation>موقع ملف تعريف ارتباط المصادقة (الافتراضي: data dir)</translation>
     </message>
     <message>
         <source>Maintain at most &lt;n&gt; connections to peers (default: %u)</source>
-        <translation></translation>
+        <translation>الحفاظ على الأكثر &lt;n&gt; الاتصالات بالأقران (الافتراضي: %u)</translation>
     </message>
     <message>
         <source>Many generous</source>
-        <translation></translation>
+        <translation>كثيرة سخية</translation>
     </message>
     <message>
         <source>Maximum per-connection receive buffer, &lt;n&gt;*1000 bytes (default: %u)</source>
-        <translation></translation>
+        <translation>الحد الأقصى لمخزن الاستقبال المؤقت لكل اتصال، &lt;n&gt;*1000 بايت (الافتراضي: %u)</translation>
     </message>
     <message>
         <source>Maximum per-connection send buffer, &lt;n&gt;*1000 bytes (default: %u)</source>
-        <translation></translation>
+        <translation>الحد الأقصى لمخزن الإرسال المؤقت لكل اتصال، &lt;n&gt;*1000 بايت (الافتراضي: %u)</translation>
     </message>
     <message>
         <source>Minimum</source>
-        <translation></translation>
+        <translation>الحد الأدنى</translation>
     </message>
     <message>
         <source>More</source>
-        <translation></translation>
+        <translation>أكثر</translation>
     </message>
     <message>
         <source>Need to specify a port with -whitebind: &apos;%s&apos;</source>
-        <translation></translation>
+        <translation>تحتاج إلى تحديد منفذ باستخدام -whitebind: &apos;%&apos;</translation>
     </message>
     <message>
         <source>Node relay options:</source>
-        <translation></translation>
+        <translation>خيارات ترحيل العقدة</translation>
     </message>
     <message>
         <source>Not enough file descriptors available.</source>
-        <translation></translation>
+        <translation>لا تتوفر واصفات كافية للملفات</translation>
     </message>
     <message>
         <source>Only connect to nodes in network &lt;net&gt; (ipv4, ipv6 or onion)</source>
-        <translation></translation>
+        <translation>الاتصال فقط بالعقد الموجودة في الشبكة &lt;net&gt; (ipv4 أو ipv6 أو البصل)</translation>
     </message>
     <message>
         <source>Password for JSON-RPC connections</source>
-        <translation></translation>
+        <translation>كلمة المرور لاتصالات JSON-RPC</translation>
     </message>
     <message>
         <source>Prepend debug output with timestamp (default: %u)</source>
-        <translation></translation>
+        <translation>إضافة إخراج تصحيح الأخطاء مسبقًا باستخدام الطابع الزمني (الافتراضي: %u)</translation>
     </message>
     <message>
         <source>Print this help message and exit</source>
-        <translation></translation>
+        <translation>اطبع رسالة المساعدة هذه واخرج</translation>
     </message>
     <message>
         <source>Print version and exit</source>
-        <translation></translation>
+        <translation>طباعة النسخة والخروج</translation>
     </message>
     <message>
         <source>Prune cannot be configured with a negative value.</source>
-        <translation></translation>
+        <translation>لا يمكن تكوين Prune بقيمة سالبة</translation>
     </message>
     <message>
         <source>Prune mode is incompatible with -txindex.</source>
-        <translation></translation>
+        <translation>وضع Prune غير متوافق مع -txindex.</translation>
     </message>
     <message>
         <source>Pruning blockstore...</source>
-        <translation></translation>
+        <translation>تشذيب Blockstore</translation>
     </message>
     <message>
         <source>RPC server options:</source>
-        <translation></translation>
+        <translation>خيارات خادم RPC:</translation>
     </message>
     <message>
         <source>Rebuild chain state and block index from the blk*.dat files on disk</source>
-        <translation></translation>
+        <translation>إعادة بناء حالة السلسلة وفهرس الكتلة من ملفات blk*.dat الموجودة على القرص</translation>
     </message>
     <message>
         <source>Rebuild chain state from the currently indexed blocks</source>
-        <translation></translation>
+        <translation>إعادة بناء حالة السلسلة من الكتل المفهرسة حاليًا</translation>
     </message>
     <message>
         <source>Reducing -maxconnections from %d to %d, because of system limitations.</source>
-        <translation></translation>
+        <translation>تم تقليل -maxconnections من %d إلى %d، بسبب قيود النظام.</translation>
     </message>
     <message>
         <source>Relay and mine data carrier transactions (default: %u)</source>
-        <translation></translation>
+        <translation>ترحيل ومعاملات حاملة البيانات (الافتراضي: %u)</translation>
     </message>
     <message>
         <source>Relay non-P2SH multisig (default: %u)</source>
-        <translation></translation>
+        <translation>ترحيل multisig غير P2SH (الافتراضي: %u)</translation>
     </message>
     <message>
         <source>Rescan the block chain for missing wallet transactions on startup</source>
-        <translation></translation>
+        <translation>أعد فحص سلسلة الكتل بحثًا عن معاملات المحفظة المفقودة عند بدء التشغيل</translation>
     </message>
     <message>
         <source>Rewinding blocks...</source>
-        <translation></translation>
+        <translation>لف الكتل</translation>
     </message>
     <message>
         <source>Run in the background as a daemon and accept commands</source>
-        <translation></translation>
+        <translation>يعمل في الخلفية كبرنامج خفي ويقبل الأوامر</translation>
     </message>
     <message>
         <source>Send trace/debug info to console instead of debug.log file</source>
-        <translation></translation>
+        <translation>أرسل معلومات التتبع/التصحيح إلى وحدة التحكم بدلاً من ملف debug.log</translation>
     </message>
     <message>
         <source>Send transactions as zero-fee transactions if possible (default: %u)</source>
-        <translation></translation>
+        <translation>إرسال المعاملات كمعاملات بدون رسوم إن أمكن (الافتراضي: %u)</translation>
     </message>
     <message>
         <source>Send transactions with full-RBF opt-in enabled (default: %u)</source>
-        <translation></translation>
+        <translation>إرسال المعاملات مع تمكين الاشتراك الكامل في RBF (الافتراضي: %u)</translation>
     </message>
     <message>
         <source>Set database cache size in megabytes (%d to %d, default: %d)</source>
-        <translation></translation>
+        <translation>تعيين حجم ذاكرة التخزين المؤقت لقاعدة البيانات بالميغابايت (%d إلى %d، الافتراضي: %d)</translation>
     </message>
     <message>
         <source>Set key pool size to &lt;n&gt; (default: %u)</source>
-        <translation></translation>
+        <translation>اضبط حجم مجموعة المفاتيح على &lt;n&gt; (الافتراضي: %u)</translation>
     </message>
     <message>
         <source>Set maximum BIP141 block weight (default: %d)</source>
-        <translation></translation>
+        <translation>تعيين الحد الأقصى لوزن كتلة BIP141 (الافتراضي: %d)</translation>
     </message>
     <message>
         <source>Set maximum block size in bytes (default: %d)</source>
-        <translation></translation>
+        <translation>تعيين الحد الأقصى لحجم الكتلة بالبايت (الافتراضي: %d)</translation>
     </message>
     <message>
         <source>Set the number of threads to service RPC calls (default: %d)</source>
-        <translation></translation>
+        <translation>قم بتعيين عدد مؤشرات الترابط لخدمة استدعاءات RPC (الافتراضي: %d)</translation>
     </message>
     <message>
         <source>Show all debugging options (usage: --help -help-debug)</source>
-        <translation></translation>
+        <translation>إظهار كافة خيارات التصحيح (الاستخدام: --help -help-debug)</translation>
     </message>
     <message>
         <source>Shrink debug.log file on client startup (default: 1 when no -debug)</source>
-        <translation></translation>
+        <translation>تقليص ملف debug.log عند بدء تشغيل العميل (الافتراضي: 1 عند عدم تصحيح الأخطاء)</translation>
     </message>
     <message>
         <source>Specify configuration file (default: %s)</source>
-        <translation></translation>
+        <translation>تحديد ملف التكوين (الافتراضي: %s)</translation>
     </message>
     <message>
         <source>Specify connection timeout in milliseconds (minimum: 1, default: %d)</source>
-        <translation></translation>
+        <translation>تحديد مهلة الاتصال بالمللي ثانية (الحد الأدنى: 1، الافتراضي: %d)</translation>
     </message>
     <message>
         <source>Specify pid file (default: %s)</source>
-        <translation></translation>
+        <translation>تحديد ملف pid (الافتراضي: %s)</translation>
     </message>
     <message>
         <source>Specify wallet file (within data directory)</source>
-        <translation></translation>
+        <translation>تحديد ملف المحفظة (ضمن دليل البيانات)</translation>
     </message>
     <message>
         <source>Specify your own public address</source>
-        <translation></translation>
+        <translation>حدد عنوانك العام</translation>
     </message>
     <message>
         <source>Spend unconfirmed change when sending transactions (default: %u)</source>
-        <translation></translation>
+        <translation>إنفاق التغيير غير المؤكد عند إرسال المعاملات (الافتراضي: %u)</translation>
     </message>
     <message>
         <source>Starting network threads...</source>
-        <translation></translation>
+        <translation>بدء خيوط الشبكة</translation>
     </message>
     <message>
         <source>Such expensive</source>
-        <translation></translation>
+        <translation>هذه مكلفة</translation>
     </message>
     <message>
         <source>The source code is available from %s.</source>
-        <translation></translation>
+        <translation>الكود المصدري متاح من %s</translation>
     </message>
     <message>
         <source>The transaction amount is too small to pay the fee</source>
-        <translation></translation>
+        <translation>مبلغ المعاملة صغير جدًا بحيث لا يمكن دفع الرسوم</translation>
     </message>
     <message>
         <source>The wallet will avoid paying less than the minimum relay fee.</source>
-        <translation></translation>
+        <translation>سوف تتجنب المحفظة دفع أقل من الحد الأدنى لرسوم الترحيل</translation>
     </message>
     <message>
         <source>This is experimental software.</source>
-        <translation></translation>
+        <translation>هذا هو البرنامج التجريبي.</translation>
     </message>
     <message>
         <source>This is the minimum transaction fee you pay on every transaction.</source>
-        <translation></translation>
+        <translation>هذا هو الحد الأدنى لرسوم المعاملات التي تدفعها في كل معاملة.</translation>
     </message>
     <message>
         <source>This is the transaction fee you will pay if you send a transaction.</source>
-        <translation></translation>
+        <translation>هذه هي رسوم المعاملة التي ستدفعها إذا قمت بإرسال معاملة.</translation>
     </message>
     <message>
         <source>Threshold for disconnecting misbehaving peers (default: %u)</source>
-        <translation></translation>
+        <translation>عتبة قطع الاتصال بالأقران الذين يسيئون التصرف (الافتراضي: %u)</translation>
     </message>
     <message>
         <source>Tor control port password (default: empty)</source>
-        <translation></translation>
+        <translation>كلمة مرور منفذ التحكم Tor (الافتراضي: فارغة)</translation>
     </message>
     <message>
         <source>Tor control port to use if onion listening enabled (default: %s)</source>
-        <translation></translation>
+        <translation>منفذ التحكم Tor الذي سيتم استخدامه في حالة تمكين الاستماع إلى البصلة (الافتراضي: %s)</translation>
     </message>
     <message>
         <source>Transaction amounts must not be negative</source>
-        <translation></translation>
+        <translation>يجب ألا تكون مبالغ المعاملات سالبة</translation>
     </message>
     <message>
         <source>Transaction has too long of a mempool chain</source>
-        <translation></translation>
+        <translation>تحتوي المعاملة على سلسلة طويلة جدًا من الذاكرة</translation>
     </message>
     <message>
         <source>Transaction must have at least one recipient</source>
-        <translation></translation>
+        <translation>يجب أن تحتوي المعاملة على مستلم واحد على الأقل</translation>
     </message>
     <message>
         <source>Transaction too large for fee policy</source>
-        <translation></translation>
+        <translation>المعاملة كبيرة جدًا بالنسبة لسياسة الرسوم</translation>
     </message>
     <message>
         <source>Unable to bind to %s on this computer (bind returned error %s)</source>
-        <translation></translation>
+        <translation>غير قادر على الارتباط بـ %s على هذا الكمبيوتر (أرجع الارتباط خطأ %s)</translation>
     </message>
     <message>
         <source>Unable to bind to %s on this computer. %s is probably already running.</source>
-        <translation></translation>
+        <translation>غير قادر على الارتباط بـ %s على هذا الكمبيوتر. ربما يكون %s قيد التشغيل بالفعل.</translation>
     </message>
     <message>
         <source>Unable to start HTTP server. See debug log for details.</source>
-        <translation></translation>
+        <translation>غير قادر على بدء تشغيل خادم HTTP. راجع سجل التصحيح للحصول على التفاصيل.</translation>
     </message>
     <message>
         <source>Unknown network specified in -onlynet: &apos;%s&apos;</source>
-        <translation></translation>
+        <translation>شبكة غير معروفة محددة في -onlynet: &apos;%s&apos;</translation>
     </message>
     <message>
         <source>Unsupported argument -benchmark ignored, use -debug=bench.</source>
-        <translation></translation>
+        <translation>وسيطة غير مدعومة - تم تجاهل المعيار، استخدم -debug=bench.</translation>
     </message>
     <message>
         <source>Unsupported argument -debugnet ignored, use -debug=net.</source>
-        <translation></translation>
+        <translation>وسيطة غير مدعومة -تم تجاهل debugnet، استخدم -debug=net.</translation>
     </message>
     <message>
         <source>Unsupported argument -tor found, use -onion.</source>
-        <translation></translation>
+        <translation>تم العثور على وسيطة -tor غير مدعومة، استخدم -onion.</translation>
     </message>
     <message>
         <source>Upgrade wallet to latest format on startup</source>
-        <translation></translation>
+        <translation>ترقية المحفظة إلى أحدث تنسيق عند بدء التشغيل</translation>
     </message>
     <message>
         <source>Use Namecoin-compatible AuxPow API structure, (default: %u)</source>
-        <translation></translation>
+        <translation>استخدم بنية AuxPow API المتوافقة مع Namecoin، (الافتراضي: %u)</translation>
     </message>
     <message>
         <source>Use UPnP to map the listening port (default: %u)</source>
-        <translation></translation>
+        <translation>استخدم UPnP لتعيين منفذ الاستماع (الافتراضي: %u)</translation>
     </message>
     <message>
         <source>Use the test chain</source>
-        <translation></translation>
+        <translation>استخدم سلسلة الاختبار</translation>
     </message>
     <message>
         <source>User Agent comment (%s) contains unsafe characters.</source>
-        <translation></translation>
+        <translation>يحتوي تعليق وكيل المستخدم (%s) على أحرف غير آمنة.</translation>
     </message>
     <message>
         <source>Username for JSON-RPC connections</source>
-        <translation></translation>
+        <translation>اسم المستخدم لاتصالات JSON-RPC</translation>
     </message>
     <message>
         <source>Verifying blocks...</source>
-        <translation></translation>
+        <translation>جارٍ التحقق من الكتل...</translation>
     </message>
     <message>
         <source>Wallet %s resides outside data directory %s</source>
-        <translation></translation>
+        <translation>المحفظة %s موجودة خارج دليل البيانات %s</translation>
     </message>
     <message>
         <source>Wallet debugging/testing options:</source>
-        <translation></translation>
+        <translation>خيارات تصحيح/اختبار المحفظة:</translation>
     </message>
     <message>
         <source>Wallet needed to be rewritten: restart %s to complete</source>
-        <translation></translation>
+        <translation>يلزم إعادة كتابة المحفظة: أعد تشغيل %s حتى تكتمل</translation>
     </message>
     <message>
         <source>Warning: unknown new rules activated (versionbit %i)</source>
-        <translation></translation>
+        <translation>تحذير: تم تنشيط قواعد جديدة غير معروفة (versionbit %i)</translation>
     </message>
     <message>
         <source>Whether to operate in a blocks only mode (default: %u)</source>
-        <translation></translation>
+        <translation>ما إذا كان سيتم العمل في وضع الكتل فقط (الافتراضي: %u)</translation>
     </message>
     <message>
         <source>Wow</source>
-        <translation></translation>
+        <translation>واو</translation>
     </message>
     <message>
         <source>Zapping all transactions from wallet...</source>
-        <translation></translation>
+        <translation>جارٍ تنفيذ جميع المعاملات من المحفظة...</translation>
     </message>
     <message>
         <source>ZeroMQ notification options:</source>
-        <translation></translation>
+        <translation>خيارات إعلام ZeroMQ:</translation>
     </message>
     <message>
         <source>Execute command when a wallet transaction changes (%s in cmd is replaced by TxID, %i with block height, with a value of 0 if tx is no longer in chaintip)</source>
-        <translation></translation>
+        <translation>تنفيذ الأمر عندما تتغير معاملة المحفظة (يتم استبدال %s في cmd بـ TxID، و%i بارتفاع الكتلة، بقيمة 0 إذا لم يعد tx في طرف السلسلة)</translation>
     </message>
     <message>
         <source>Enable BIP-70 PaymentServer (default: 0)</source>
-        <translation></translation>
+        <translation>تمكين BIP-70 PaymentServer (الافتراضي: 0)</translation>
     </message>
 </context>
 </TS>
