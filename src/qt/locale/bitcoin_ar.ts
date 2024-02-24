@@ -4212,7 +4212,7 @@ Use this functionality with extreme caution.</source>
     </message>
     <message>
         <source>Need to specify a port with -whitebind: &apos;%s&apos;</source>
-        <translation>تحتاج إلى تحديد منفذ باستخدام -whitebind: &apos;%&apos;</translation>
+        <translation>تحتاج إلى تحديد منفذ باستخدام -whitebind: &apos;%s&apos;</translation>
     </message>
     <message>
         <source>Node relay options:</source>
