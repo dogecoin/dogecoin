@@ -2132,7 +2132,7 @@ Use this functionality with extreme caution.</source>
     </message>
     <message>
         <source>&amp;Console</source>
-        <translation>&وحدة التحكم</translation>
+        <translation>وحدة التحكم</translation>
     </message>
     <message>
         <source>Decrease font size</source>
