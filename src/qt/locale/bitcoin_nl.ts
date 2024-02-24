@@ -1736,13 +1736,17 @@ p, li { white-space: pre-wrap; }
         <source>BIP70 payment requests are deprecated and disabled by default. Restart with -enable-bip70 if you absolutely have to use this functionality.
 
 Use this functionality with extreme caution.</source>
-        <translation type="unfinished"></translation>
+        <translation>BIP70 betaalverzoeken zijn verouderd en daarmee standaard uitgeschakeld. Herstart de applicatie met -enable-bip70 als je absoluut zeker bent dat je deze functionaliteit wilt gebruiken.
+
+Gebruik deze functie met extreme voorzichtigheid.</translation>
     </message>
     <message>
         <source>Payment request file handling is disabled by default. Restart with -enable-bip70 if you absolutely have to use this functionality.
 
 Use this functionality with extreme caution.</source>
-        <translation type="unfinished"></translation>
+        <translation>Betaalverzoek afhandeling is standaard uitgeschakeld. Herstart de applicatie met commando -enable-bip70 als je absoluut zeker bent dat je deze functionaliteit wilt gebruiken.
+
+Gebruik deze functie met extreme voorzichtigheid.</translation>
     </message>
 </context>
 <context>
@@ -2710,7 +2714,7 @@ Use this functionality with extreme caution.</source>
     </message>
     <message>
         <source>If the custom fee is set to 1000 koinu and the transaction is only 250 bytes, then &quot;per kilobyte&quot; only pays 250 koinu in fee, while &quot;total at least&quot; pays 1000 koinu. For transactions bigger than a kilobyte both pay by kilobyte.</source>
-        <translation type="unfinished"></translation>
+        <translation>Als de aangepaste vergoeding is ingesteld op 1000 koinu en de transactie slechts 250 bytes is, betaalt u &quot;per kilobyte&quot;  slechts 250 koinu aan kosten, wanneer &quot;minimaal&quot; 1000 koinu betaald. Voor transacties groter dan een kilobyte betaalt u in beide gevallen per kilobyte.</translation>
     </message>
 </context>
 <context>
@@ -4495,11 +4499,11 @@ Use this functionality with extreme caution.</source>
     </message>
     <message>
         <source>Execute command when a wallet transaction changes (%s in cmd is replaced by TxID, %i with block height, with a value of 0 if tx is no longer in chaintip)</source>
-        <translation type="unfinished"></translation>
+        <translation>Voer een commando uit wanneer een wallet transactie veranderd (%s het commando wordt vervangen door TxID, %i met een block hoogte, met een waarde van 0 als de transactie niet in de blockchain voorkomt)</translation>
     </message>
     <message>
         <source>Enable BIP-70 PaymentServer (default: 0)</source>
-        <translation type="unfinished"></translation>
+        <translation>Inschakelen BIP-70 BetaalServer (default: 0)</translation>
     </message>
 </context>
 </TS>
