@@ -890,7 +890,7 @@ CTxMemPool::WriteFeeEstimates(CAutoFile& fileout) const
 {
     try {
         LOCK(cs);
-        fileout << 139900; // version required to read: 0.13.99 or later
+        fileout << FEEFILE_MIN_BACKCOMPAT_VERSION;
         fileout << CLIENT_VERSION; // version that wrote the file
         minerPolicyEstimator->Write(fileout);
     }
@@ -909,6 +909,16 @@ CTxMemPool::ReadFeeEstimates(CAutoFile& filein)
         filein >> nVersionRequired >> nVersionThatWrote;
         if (nVersionRequired > CLIENT_VERSION)
             return error("CTxMemPool::ReadFeeEstimates(): up-version (%d) fee estimate file", nVersionRequired);
+
+        /* From 1.14.7, only accept fee estimate files created by a version equal to or higher than the
+         * minimum writer version.
+         *
+         * If in the future any of the MIN_FEERATE, MAX_FEERATE or FEE_SPACING in policy/fees.h change,
+         * or these values become configurable, this logic will need to be adapted. */
+        if (nVersionThatWrote < FEEFILE_MIN_COMPAT_VERSION_WRITER) {
+            return error("CTxMemPool::ReadFeeEstimates(): cannot re-use fee estimate files from version %d, ignoring file (non-fatal)", nVersionThatWrote);
+        }
+
         LOCK(cs);
         minerPolicyEstimator->Read(filein, nVersionThatWrote);
     }
