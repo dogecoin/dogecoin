@@ -652,8 +652,8 @@ case $host in
          dnl It's safe to add these paths even if the functionality is disabled by
          dnl the user (--without-wallet or --without-gui for example).
 
-         if test "x$use_bdb" != xno && $BREW list --versions berkeley-db5 >/dev/null && test "x$BDB_CFLAGS" = "x" && test "x$BDB_LIBS" = "x"; then
-           bdb_prefix=$($BREW --prefix berkeley-db5 2>/dev/null)
+         if test "x$use_bdb" != xno && $BREW list --versions berkeley-db@5 >/dev/null && test "x$BDB_CFLAGS" = "x" && test "x$BDB_LIBS" = "x"; then
+           bdb_prefix=$($BREW --prefix berkeley-db@5 2>/dev/null)
            dnl This must precede the call to BITCOIN_FIND_BDB53 below.
            BDB_CFLAGS="-I$bdb_prefix/include"
            BDB_LIBS="-L$bdb_prefix/lib -ldb_cxx-5.3"
