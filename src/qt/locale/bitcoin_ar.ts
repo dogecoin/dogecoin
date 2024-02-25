@@ -576,14 +576,7 @@
     </message>
     <message numerus="yes">
         <source>%n active connection(s) to Dogecoin network</source>
-        <translation>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation>%n اتصال (اتصالات) نشطة بشبكة Dogecoin</translation>
     </message>
     <message>
         <source>Click to disable network activity.</source>
@@ -607,14 +600,7 @@
     </message>
     <message numerus="yes">
         <source>Processed %n block(s) of transaction history.</source>
-        <translation>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation>تمت معالجة %n كتلة (مجموعات) من سجل المعاملات</translation>
     </message>
     <message>
         <source>HD key generation is &lt;b&gt;enabled&lt;/b&gt;</source>
@@ -1014,11 +1000,11 @@
         <source>%1 will download and store a copy of the Dogecoin block chain. At least %2GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
         <translation>سيقوم %1 بتنزيل وتخزين نسخة من سلسلة كتل دوجكوين. سيتم تخزين ما لا يقل عن %2 غيغابايت من البيانات في هذا الدليل، وسوف تنمو هذه البيانات بمرور الوقت. سيتم أيضًا تخزين المحفظة في هذا الدليل</translation>
     </message>
-    <message numerus="yes">
+    <message>
         <source>%n GB of free space available</source>
-        <translation>غيغابايت من المساحة الحرة المتاحة</translation>
+        <translation>%n غيغابايت من المساحة الحرة المتوفرة</translation>
     </message>
-    <message numerus="yes">
+    <message>
         <source>(of %n GB needed)</source>
         <translation>مطلوب %n غيغابايت</translation>
     </message>
@@ -1873,27 +1859,27 @@ Use this functionality with extreme caution.</source>
         <source>%1 MB</source>
         <translation>%1 ميقا بايت</translation>
     </message>
-    <message numerus="yes">
+    <message>
         <source>%n second(s)</source>
         <translation>%n ثانية (ث)</translation>
     </message>
-    <message numerus="yes">
+    <message>
         <source>%n minute(s)</source>
         <translation>%n دقيقة (دقائق)</translation>
     </message>
-    <message numerus="yes">
+    <message>
         <source>%n hour(s)</source>
         <translation>%n ساعة (ساعات)</translation>
     </message>
-    <message numerus="yes">
+    <message>
         <source>%n day(s)</source>
         <translation>%n يوم (أيام)</translation>
     </message>
-    <message numerus="yes">
+    <message>
         <source>%n week(s)</source>
         <translation>>%n أسبوع (أسابيع)</translation>
     </message>
-    <message numerus="yes">
+    <message>
         <source>%n year(s)</source>
         <translation>%n سنة (سنوات)</translation>
     </message>
@@ -3114,7 +3100,7 @@ Use this functionality with extreme caution.</source>
         <source>false</source>
         <translation>خاطئ</translation>
     </message>
-    <message numerus="yes">
+    <message>
         <source>Open for %n more block(s)</source>
         <translation>>مفتوح لـ %n كتلة (مجموعات) إضافية</translation>
     </message>
@@ -3146,7 +3132,7 @@ Use this functionality with extreme caution.</source>
         <source>Credit</source>
         <translation>ائتمان</translation>
     </message>
-    <message numerus="yes">
+    <message>
         <source>matures in %n more block(s)</source>
         <translation>ينضج في %n كتلة (مجموعات) إضافية</translation>
     </message>
@@ -3272,7 +3258,7 @@ Use this functionality with extreme caution.</source>
         <source>Amount removed from or added to balance.</source>
         <translation>المبلغ الذي أزيل أو أضيف الى الرصيد</translation>
     </message>
-    <message numerus="yes">
+    <message>
         <source>Open for %n more block(s)</source>
         <translation>مفتوح لـ %n كتلة (مجموعات) إضافية</translation>
     </message>
