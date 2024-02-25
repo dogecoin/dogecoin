@@ -574,7 +574,7 @@
         <source>Import a Dogecoin private key</source>
         <translation>استيراد مفتاح دوجكوين الخاص</translation>
     </message>
-    <message numerus="yes">
+    <message>
         <source>%n active connection(s) to Dogecoin network</source>
         <translation>%n اتصال (اتصالات) نشطة بشبكة Dogecoin</translation>
     </message>
@@ -598,7 +598,7 @@
         <source>Connecting to peers...</source>
         <translation>الاتصال بالأقران</translation>
     </message>
-    <message numerus="yes">
+    <message>
         <source>Processed %n block(s) of transaction history.</source>
         <translation>تمت معالجة %n كتلة (مجموعات) من سجل المعاملات</translation>
     </message>
