@@ -130,9 +130,23 @@ def check_all_translations():
                 # pick all numerusforms
                 if numerus:
                     translations = [i.text for i in translation_node.findall('numerusform')]
+                    if len(translations) == 0:
+                        print(f'Numerus message without numerusform translations, needs fix.', sanitize_string(source))
+                        have_errors = True
+                    if translation_node.text is not None and not translation_node.text.isspace():
+                        print(f'Numerus message contains extra text {translation_node.text}, needs fix.')
+                        have_errors = True
+                    for child in list(translation_node.iter())[1:]: # exclude root
+                        if child.tag != 'numerusform':
+                            print('Numerus message contains extra child node, needs fix.', sanitize_string(source))
+                            have_errors = True
+                            break
                 else:
                     translations = [translation_node.text]
-
+                    if len(list(translation_node.iter())) != 1:
+                        print('Non-numerus message contains child node in translation, needs fix.', sanitize_string(source))
+                        have_errors = True
+                    
                 for translation in translations:
                     if translation is None:
                         continue
