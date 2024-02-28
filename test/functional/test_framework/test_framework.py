@@ -130,7 +130,7 @@ class BitcoinTestFramework(metaclass=BitcoinTestMetaClass):
             self.log.exception("JSONRPC error")
             self.success = TestStatus.FAILED
         except SkipTest as e:
-            self.log.warning("Test Skipped: %s" % e.message)
+            self.log.warning("Test Skipped: %s", e.message)
             self.success = TestStatus.SKIPPED
         except AssertionError:
             self.log.exception("Assertion failed")

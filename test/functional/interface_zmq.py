@@ -109,7 +109,7 @@ class ZMQTest (BitcoinTestFramework):
         sleep(0.2)
 
         num_blocks = 5
-        self.log.info("Generate %(n)d blocks (and %(n)d coinbase txes)" % {"n": num_blocks})
+        self.log.info("Generate %(n)d blocks (and %(n)d coinbase txes)", {"n": num_blocks})
         genhashes = self.nodes[0].generatetoaddress(num_blocks, ADDRESS_BCRT1_UNSPENDABLE)
 
         self.sync_all()

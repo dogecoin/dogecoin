@@ -1294,7 +1294,7 @@ class TaprootTest(BitcoinTestFramework):
             cur_progress = done / len(spenders)
             next_progress = (done + count_this_tx) / len(spenders)
             change_goal = (1.0 - 0.6 * next_progress) / (1.0 - 0.6 * cur_progress) * balance
-            self.log.debug("Create %i UTXOs in a transaction spending %i inputs worth %.8f (sending ~%.8f to change)" % (count_this_tx, len(unspents), balance * 0.00000001, change_goal * 0.00000001))
+            self.log.debug("Create %i UTXOs in a transaction spending %i inputs worth %.8f (sending ~%.8f to change)", count_this_tx, len(unspents), balance * 0.00000001, change_goal * 0.00000001)
             for i in range(count_this_tx):
                 avg = (balance - change_goal) / (count_this_tx - i)
                 amount = int(random.randrange(int(avg*0.85 + 0.5), int(avg*1.15 + 0.5)) + 0.5)
@@ -1318,7 +1318,7 @@ class TaprootTest(BitcoinTestFramework):
             self.block_submit(node, [fund_tx], "Funding tx", None, random.choice(host_pubkeys), 10000, MAX_BLOCK_SIGOPS_WEIGHT, True, True)
 
         # Consume groups of choice(input_coins) from utxos in a tx, testing the spenders.
-        self.log.info("- Running %i spending tests" % done)
+        self.log.info("- Running %i spending tests", done)
         random.shuffle(normal_utxos)
         random.shuffle(mismatching_utxos)
         assert done == len(normal_utxos) + len(mismatching_utxos)
@@ -1369,7 +1369,7 @@ class TaprootTest(BitcoinTestFramework):
             tx.vin = [CTxIn(outpoint=utxo.outpoint, nSequence=random.randint(min_sequence, 0xffffffff)) for utxo in input_utxos]
             tx.wit.vtxinwit = [CTxInWitness() for _ in range(len(input_utxos))]
             sigops_weight = sum(utxo.spender.sigops_weight for utxo in input_utxos)
-            self.log.debug("Test: %s" % (", ".join(utxo.spender.comment for utxo in input_utxos)))
+            self.log.debug("Test: %s", (", ".join(utxo.spender.comment for utxo in input_utxos)))
 
             # Add 1 to 4 random outputs (but constrained by inputs that require mismatching outputs)
             num_outputs = random.choice(range(1, 1 + min(4, 4 if first_mismatch_input is None else first_mismatch_input)))
@@ -1428,7 +1428,7 @@ class TaprootTest(BitcoinTestFramework):
                 self.block_submit(node, [tx], msg, witness=True, accept=fail_input is None, cb_pubkey=cb_pubkey, fees=fee, sigops_weight=sigops_weight, err_msg=expected_fail_msg)
 
             if (len(spenders) - left) // 200 > (len(spenders) - left - len(input_utxos)) // 200:
-                self.log.info("  - %i tests done" % (len(spenders) - left))
+                self.log.info("  - %i tests done", (len(spenders) - left))
 
         assert left == 0
         assert len(normal_utxos) == 0

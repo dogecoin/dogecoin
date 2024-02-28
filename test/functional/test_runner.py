@@ -365,7 +365,7 @@ def main():
 
     os.makedirs(tmpdir)
 
-    logging.debug("Temporary test directory at %s" % tmpdir)
+    logging.debug("Temporary test directory at %s", tmpdir)
 
     enable_bitcoind = config["components"].getboolean("ENABLE_BITCOIND")
 
@@ -486,7 +486,7 @@ def run_tests(*, test_list, src_dir, build_dir, tmpdir, jobs=1, enable_coverage=
     if enable_coverage:
         coverage = RPCCoverage()
         flags.append(coverage.flag)
-        logging.debug("Initializing coverage directory at %s" % coverage.dir)
+        logging.debug("Initializing coverage directory at %s", coverage.dir)
     else:
         coverage = None
 
@@ -517,9 +517,9 @@ def run_tests(*, test_list, src_dir, build_dir, tmpdir, jobs=1, enable_coverage=
         test_results.append(test_result)
         done_str = "{}/{} - {}{}{}".format(i + 1, test_count, BOLD[1], test_result.name, BOLD[0])
         if test_result.status == "Passed":
-            logging.debug("%s passed, Duration: %s s" % (done_str, test_result.time))
+            logging.debug("%s passed, Duration: %s s", done_str, test_result.time)
         elif test_result.status == "Skipped":
-            logging.debug("%s skipped" % (done_str))
+            logging.debug("%s skipped", (done_str))
         else:
             print("%s failed, Duration: %s s\n" % (done_str, test_result.time))
             print(BOLD[1] + 'stdout:\n' + BOLD[0] + stdout + '\n')

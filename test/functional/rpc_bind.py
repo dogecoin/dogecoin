@@ -31,7 +31,7 @@ class RPCBindTest(BitcoinTestFramework):
         then try to connect, and check if the set of bound addresses
         matches the expected set.
         '''
-        self.log.info("Bind test for %s" % str(addresses))
+        self.log.info("Bind test for %s", str(addresses))
         expected = [(addr_to_hex(addr), port) for (addr, port) in expected]
         base_args = ['-disablewallet', '-nolisten']
         if allow_ips:
@@ -48,7 +48,7 @@ class RPCBindTest(BitcoinTestFramework):
         Start a node with rpcallow IP, and request getnetworkinfo
         at a non-localhost IP.
         '''
-        self.log.info("Allow IP test for %s:%d" % (rpchost, rpcport))
+        self.log.info("Allow IP test for %s:%d", rpchost, rpcport)
         node_args = \
             ['-disablewallet', '-nolisten'] + \
             ['-rpcallowip='+x for x in allow_ips] + \
@@ -116,7 +116,7 @@ class RPCBindTest(BitcoinTestFramework):
                 [('127.0.0.1', self.defaultport), ('::1', self.defaultport)])
 
     def _run_nonloopback_tests(self):
-        self.log.info("Using interface %s for testing" % self.non_loopback_ip)
+        self.log.info("Using interface %s for testing", self.non_loopback_ip)
 
         # check only non-loopback interface
         self.run_bind_test([self.non_loopback_ip], self.non_loopback_ip, [self.non_loopback_ip],
