@@ -11,7 +11,7 @@ bool ReadBlockHeaderFromDisk(CBlockHeader& block, const CBlockIndex* pindex, con
 
 /* Moved here from the header, because we need auxpow and the logic
    becomes more involved.  */
-CBlockHeader CBlockIndex::GetBlockHeader(const Consensus::Params& consensusParams, bool fCheckPOW) const
+CBlockHeader CBlockIndex::GetBlockHeader(const Consensus::Params& consensusParams, const bool fCheckPOW) const
 {
     CBlockHeader block;
 

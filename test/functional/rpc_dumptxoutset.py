@@ -37,13 +37,13 @@ class DumptxoutsetTest(BitcoinTestFramework):
         #           This is presumed safe none of this code changed, so we're updating the value for future changes to test against.
         assert_equal(
             out['base_hash'],
-            '84eeddf68cf159e2a60a8bb45e99e835e2191b80fff8fb002bf3d27e87b81e66')
+            '2913351cb7800340861d0b15c8a8b53e1f16f3618c8f10feba919232c794f44a')
 
         with open(str(expected_path), 'rb') as f:
             digest = hashlib.sha256(f.read()).hexdigest()
             # UTXO snapshot hash should be deterministic based on mocked time.
             assert_equal(
-                digest, 'c5839e03f6c15c5eb0cdf952324636e5feb1b5c6095cbcddde8dcdbea5696d54')
+                digest, 'b90833d336487f7d577a8f2153701cc40dd44141b9a861ddd39dbe96c6794218')
 
         # Specifying a path to an existing file will fail.
         assert_raises_rpc_error(

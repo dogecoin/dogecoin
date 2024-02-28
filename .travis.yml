@@ -39,10 +39,10 @@ install:
 before_script:
   # Temporary workaround for https://github.com/bitcoin/bitcoin/issues/16368
   - for i in {1..4}; do echo "$(sleep 500)" ; done &
-  - set -o errexit; source ./ci/test/05_before_script.sh &> "/dev/null"
+  - set -o errexit; source ./ci/test/05_before_script.sh
 script:
   - export CONTINUE=1
-  - if [ $SECONDS -gt 1200 ]; then export CONTINUE=0; fi  # Likely the depends build took very long
+  - if [ $SECONDS -gt 1800 ]; then export CONTINUE=0; fi  # Likely the depends build took very long
   - if [ $TRAVIS_REPO_SLUG = "bitcoin/bitcoin" ]; then export CONTINUE=1; fi  # continue on repos with extended build time (90 minutes)
   - if [ $CONTINUE = "1" ]; then set -o errexit; source ./ci/test/06_script_a.sh; else set +o errexit; echo "$CACHE_ERR_MSG"; false; fi
   - if [[ $SECONDS -gt 50*60-$EXPECTED_TESTS_DURATION_IN_SECONDS ]]; then export CONTINUE=0; fi

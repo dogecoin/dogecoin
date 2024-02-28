@@ -290,6 +290,13 @@ BASE_SCRIPTS = [
     'p2p_permissions.py',
     'feature_blocksdir.py',
     'wallet_startup.py',
+
+    # auxpow tests
+    'auxpow_mining.py',
+    'auxpow_mining.py --segwit',
+    'auxpow_invalidpow.py',
+    'auxpow_zerohash.py',
+
     'feature_config_args.py',
     'feature_settings.py',
     'rpc_getdescriptorinfo.py',
