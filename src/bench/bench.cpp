@@ -3,11 +3,14 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "bench.h"
-#include "perf.h"
 
-#include <iostream>
-#include <iomanip>
-#include <sys/time.h>
+#include <cstddef>     // for NULL
+#include <sys/time.h>  // for gettimeofday, timeval
+#include <iomanip>     // for operator<<, setprecision
+#include <iostream>    // for operator<<, basic_ostream
+#include <utility>     // for pair, make_pair
+
+#include "perf.h"      // for perf_cpucycles, perf_fini, perf_init
 
 benchmark::BenchRunner::BenchmarkMap &benchmark::BenchRunner::benchmarks() {
     static std::map<std::string, benchmark::BenchFunction> benchmarks_map;
