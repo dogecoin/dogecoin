@@ -2,11 +2,9 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "bench.h"
-
-#include "key.h"
-#include "validation.h"
-#include "util.h"
+#include "bench.h"  // for BenchRunner
+#include "key.h"    // for ECC_Start, ECC_Stop
+#include "util.h"   // for SetupEnvironment, fPrintToDebugLog
 
 int
 main(int argc, char** argv)
