@@ -81,18 +81,18 @@ static const bool DEFAULT_FEEFILTER = true;
 /** Default for -stopatheight */
 static const int DEFAULT_STOPATHEIGHT = 0;
 /** Block files containing a block-height within MIN_BLOCKS_TO_KEEP of ::ChainActive().Tip() will not be pruned. */
-static const unsigned int MIN_BLOCKS_TO_KEEP = 288;
+static const unsigned int MIN_BLOCKS_TO_KEEP = 1440;
 static const signed int DEFAULT_CHECKBLOCKS = 6;
 static const unsigned int DEFAULT_CHECKLEVEL = 3;
-// Require that user allocate at least 550 MiB for block & undo files (blk???.dat and rev???.dat)
-// At 1MB per block, 288 blocks = 288MB.
-// Add 15% for Undo data = 331MB
-// Add 20% for Orphan block rate = 397MB
-// We want the low water mark after pruning to be at least 397 MB and since we prune in
+// Require that user allocate at least 2,200 MiB for block & undo files (blk???.dat and rev???.dat)
+// At 1MB per block, 1,440 blocks = 1,440MB.
+// Add 15% for Undo data = 1,656MB
+// Add 20% for Orphan block rate = 1,987MB
+// We want the low water mark after pruning to be at least 1,987 MB and since we prune in
 // full block file chunks, we need the high water mark which triggers the prune to be
-// one 128MB block file + added 15% undo data = 147MB greater for a total of 545MB
-// Setting the target to >= 550 MiB will make it likely we can respect the target.
-static const uint64_t MIN_DISK_SPACE_FOR_BLOCK_FILES = 550 * 1024 * 1024;
+// one 128MB block file + added 15% undo data = 2,134MB greater for a total of 545MB
+// Setting the target to >= 2,200 MiB will make it likely we can respect the target.
+static const uint64_t MIN_DISK_SPACE_FOR_BLOCK_FILES = 2200ULL * 1024 * 1024;
 
 struct BlockHasher
 {
@@ -370,7 +370,7 @@ private:
      * Pruning functions are called from FlushStateToDisk when the global fCheckForPruning flag has been set.
      * Block and undo files are deleted in lock-step (when blk00003.dat is deleted, so is rev00003.dat.)
      * Pruning cannot take place until the longest chain is at least a certain length (100000 on mainnet, 1000 on testnet, 1000 on regtest).
-     * Pruning will never delete a block within a defined distance (currently 288) from the active chain's tip.
+     * Pruning will never delete a block within a defined distance (currently 1,440) from the active chain's tip.
      * The block index is updated by unsetting HAVE_DATA and HAVE_UNDO for any blocks that were stored in the deleted files.
      * A db flag records the fact that at least some block files have been pruned.
      *

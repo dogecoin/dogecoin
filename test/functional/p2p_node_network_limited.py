@@ -4,9 +4,9 @@
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Tests NODE_NETWORK_LIMITED.
 
-Tests that a node configured with -prune=550 signals NODE_NETWORK_LIMITED correctly
+Tests that a node configured with -prune=2250 signals NODE_NETWORK_LIMITED correctly
 and that it responds to getdata requests for blocks correctly:
-    - send a block within 288 + 2 of the tip
+    - send a block within 1440 + 2 of the tip
     - disconnect peers who request blocks older than that."""
 from test_framework.messages import CInv, MSG_BLOCK, msg_getdata, msg_verack, NODE_NETWORK_LIMITED, NODE_WITNESS
 from test_framework.p2p import P2PInterface
@@ -35,7 +35,7 @@ class NodeNetworkLimitedTest(BitcoinTestFramework):
     def set_test_params(self):
         self.setup_clean_chain = True
         self.num_nodes = 3
-        self.extra_args = [['-prune=550', '-addrmantest'], [], []]
+        self.extra_args = [['-prune=2250', '-addrmantest'], [], []]
 
     def disconnect_all(self):
         self.disconnect_nodes(0, 1)
@@ -59,15 +59,15 @@ class NodeNetworkLimitedTest(BitcoinTestFramework):
 
         self.log.info("Mine enough blocks to reach the NODE_NETWORK_LIMITED range.")
         self.connect_nodes(0, 1)
-        blocks = self.nodes[1].generatetoaddress(292, self.nodes[1].get_deterministic_priv_key().address)
+        blocks = self.nodes[1].generatetoaddress(1444, self.nodes[1].get_deterministic_priv_key().address)
         self.sync_blocks([self.nodes[0], self.nodes[1]])
 
-        self.log.info("Make sure we can max retrieve block at tip-288.")
+        self.log.info("Make sure we can max retrieve block at tip-1440.")
         node.send_getdata_for_block(blocks[1])  # last block in valid range
         node.wait_for_block(int(blocks[1], 16), timeout=3)
 
-        self.log.info("Requesting block at height 2 (tip-289) must fail (ignored).")
-        node.send_getdata_for_block(blocks[0])  # first block outside of the 288+2 limit
+        self.log.info("Requesting block at height 2 (tip-1440) must fail (ignored).")
+        node.send_getdata_for_block(blocks[0])  # first block outside of the 1440+2 limit
         node.wait_for_disconnect(5)
 
         self.log.info("Check local address relay, do a fresh connection.")
