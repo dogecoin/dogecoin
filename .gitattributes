@@ -1,1 +1,8 @@
 src/clientversion.cpp export-subst
+
+# Ensures Windows pulls line ending dependent files correctly for Makefile's build process:
+depends/Makefile text eol=lf
+depends/*.mk text eol=lf
+depends/config.guess text eol=lf
+depends/config.sub text eol=lf
+depends/config.site.in text eol=lf
