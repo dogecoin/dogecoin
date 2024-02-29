@@ -5,7 +5,21 @@ This folder contains all internationalized documentation, such as README files.
 
 ### Contents
 
---- international document contents go here ---
+Chinese:
+
+- [README](zh_CN/README.md)
+
+Farsi:
+
+- [README](fa_IR/README.md)
+
+Portuguese (Brazilian):
+
+- [README](pt_BR/README.md)
+
+Vietnamese:
+
+- [README](vi_VN/README.md)
 
 ### Contributing
 
