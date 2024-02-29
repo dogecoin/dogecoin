@@ -56,8 +56,21 @@ case $host in
      lt_cv_deplibs_check_method="pass_all"
   ;;
 esac
-dnl Require C++11 compiler (no GNU extensions)
-AX_CXX_COMPILE_STDCXX([11], [noext], [mandatory], [nodefault])
+
+AC_ARG_ENABLE([c++14],
+  [AS_HELP_STRING([--enable-c++14],
+  [enable compilation in c++14 mode (disabled by default)])],
+  [use_cxx14=$enableval],
+  [use_cxx14=no])
+
+dnl Require C++11 or C++14 compiler (no GNU extensions)
+if test "x$use_cxx14" = xyes; then
+  AX_CXX_COMPILE_STDCXX([14], [noext], [mandatory], [nodefault])
+else
+  AX_CXX_COMPILE_STDCXX([11], [noext], [mandatory], [nodefault])
+fi
+
+
 dnl Check if -latomic is required for <std::atomic>
 CHECK_ATOMIC
 
