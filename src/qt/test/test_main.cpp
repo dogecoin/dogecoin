@@ -24,14 +24,6 @@
 
 #include <openssl/ssl.h>
 
-#if defined(QT_STATICPLUGIN) && QT_VERSION < 0x050000
-#include <QtPlugin>
-Q_IMPORT_PLUGIN(qcncodecs)
-Q_IMPORT_PLUGIN(qjpcodecs)
-Q_IMPORT_PLUGIN(qtwcodecs)
-Q_IMPORT_PLUGIN(qkrcodecs)
-#endif
-
 extern void noui_connect();
 
 static int qt_argc = 1;

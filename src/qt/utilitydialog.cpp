@@ -49,17 +49,10 @@
 #include <qrencode.h>
 #endif
 
-#if QT_VERSION < 0x050000
-#include <QPrinter>
-#include <QPrintDialog>
-#include <QPrintPreviewDialog>
-#else
-// Use QT5's new modular classes
 #include <QtPrintSupport/QPrinter>
 #include <QtPrintSupport/QPrintDialog>
 #include <QtPrintSupport/QPrintPreviewDialog>
 #include <QtPrintSupport/QPrinterInfo>
-#endif
 #include <QPainter>
 #include "walletmodel.h"
 
@@ -348,10 +341,8 @@ void PaperWalletDialog::on_printButton_clicked()
     QPrinter printer(QPrinter::HighResolution);
     QPrintDialog* qpd = new QPrintDialog(&printer, this);
 
-    #if QT_VERSION > 0x050000
     QPrinterInfo printerinfo(printer);
     QPageSize papersize = printerinfo.defaultPageSize();
-    #endif
 
     qpd->setPrintRange(QAbstractPrintDialog::AllPages);
     QList<QString> recipientPubKeyHashes;
@@ -360,13 +351,8 @@ void PaperWalletDialog::on_printButton_clicked()
         return;
     }
 
-
     printer.setOrientation(QPrinter::Portrait);
-    #if QT_VERSION > 0x050000
     printer.QPagedPaintDevice::setPageSize(papersize);
-    #else
-    printer.setPaperSize(QPrinter::A4);
-    #endif
     printer.setFullPage(true);
 
     QPainter painter;

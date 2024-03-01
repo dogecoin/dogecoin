@@ -64,9 +64,7 @@ public:
             std::vector<CNodeStats> vstats;
             if(g_connman)
                 g_connman->GetNodeStats(vstats);
-#if QT_VERSION >= 0x040700
             cachedNodeStats.reserve(vstats.size());
-#endif
             Q_FOREACH (const CNodeStats& nodestats, vstats)
             {
                 CNodeCombinedStats stats;
