@@ -218,12 +218,12 @@ QVariant OptionsModel::data(const QModelIndex & index, int role) const
             return settings.value("fUseProxy", false);
         case ProxyIP: {
             // contains IP at index 0 and port at index 1
-            QStringList strlIpPort = settings.value("addrProxy").toString().split(":", QString::SkipEmptyParts);
+            QStringList strlIpPort = settings.value("addrProxy").toString().split(":", Qt::SkipEmptyParts);
             return strlIpPort.at(0);
         }
         case ProxyPort: {
             // contains IP at index 0 and port at index 1
-            QStringList strlIpPort = settings.value("addrProxy").toString().split(":", QString::SkipEmptyParts);
+            QStringList strlIpPort = settings.value("addrProxy").toString().split(":", Qt::SkipEmptyParts);
             return strlIpPort.at(1);
         }
 
@@ -232,12 +232,12 @@ QVariant OptionsModel::data(const QModelIndex & index, int role) const
             return settings.value("fUseSeparateProxyTor", false);
         case ProxyIPTor: {
             // contains IP at index 0 and port at index 1
-            QStringList strlIpPort = settings.value("addrSeparateProxyTor").toString().split(":", QString::SkipEmptyParts);
+            QStringList strlIpPort = settings.value("addrSeparateProxyTor").toString().split(":", Qt::SkipEmptyParts);
             return strlIpPort.at(0);
         }
         case ProxyPortTor: {
             // contains IP at index 0 and port at index 1
-            QStringList strlIpPort = settings.value("addrSeparateProxyTor").toString().split(":", QString::SkipEmptyParts);
+            QStringList strlIpPort = settings.value("addrSeparateProxyTor").toString().split(":", Qt::SkipEmptyParts);
             return strlIpPort.at(1);
         }
 
@@ -309,7 +309,7 @@ bool OptionsModel::setData(const QModelIndex & index, const QVariant & value, in
             break;
         case ProxyIP: {
             // contains current IP at index 0 and current port at index 1
-            QStringList strlIpPort = settings.value("addrProxy").toString().split(":", QString::SkipEmptyParts);
+            QStringList strlIpPort = settings.value("addrProxy").toString().split(":", Qt::SkipEmptyParts);
             // if that key doesn't exist or has a changed IP
             if (!settings.contains("addrProxy") || strlIpPort.at(0) != value.toString()) {
                 // construct new value from new IP and current port
@@ -321,7 +321,7 @@ bool OptionsModel::setData(const QModelIndex & index, const QVariant & value, in
         break;
         case ProxyPort: {
             // contains current IP at index 0 and current port at index 1
-            QStringList strlIpPort = settings.value("addrProxy").toString().split(":", QString::SkipEmptyParts);
+            QStringList strlIpPort = settings.value("addrProxy").toString().split(":", Qt::SkipEmptyParts);
             // if that key doesn't exist or has a changed port
             if (!settings.contains("addrProxy") || strlIpPort.at(1) != value.toString()) {
                 // construct new value from current IP and new port
@@ -341,7 +341,7 @@ bool OptionsModel::setData(const QModelIndex & index, const QVariant & value, in
             break;
         case ProxyIPTor: {
             // contains current IP at index 0 and current port at index 1
-            QStringList strlIpPort = settings.value("addrSeparateProxyTor").toString().split(":", QString::SkipEmptyParts);
+            QStringList strlIpPort = settings.value("addrSeparateProxyTor").toString().split(":", Qt::SkipEmptyParts);
             // if that key doesn't exist or has a changed IP
             if (!settings.contains("addrSeparateProxyTor") || strlIpPort.at(0) != value.toString()) {
                 // construct new value from new IP and current port
@@ -353,7 +353,7 @@ bool OptionsModel::setData(const QModelIndex & index, const QVariant & value, in
         break;
         case ProxyPortTor: {
             // contains current IP at index 0 and current port at index 1
-            QStringList strlIpPort = settings.value("addrSeparateProxyTor").toString().split(":", QString::SkipEmptyParts);
+            QStringList strlIpPort = settings.value("addrSeparateProxyTor").toString().split(":", Qt::SkipEmptyParts);
             // if that key doesn't exist or has a changed port
             if (!settings.contains("addrSeparateProxyTor") || strlIpPort.at(1) != value.toString()) {
                 // construct new value from current IP and new port
