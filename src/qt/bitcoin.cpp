@@ -348,7 +348,7 @@ BitcoinApplication::~BitcoinApplication()
 #ifdef ENABLE_WALLET
 void BitcoinApplication::createPaymentServer()
 {
-    paymentServer = new PaymentServer(this, true, GetBoolArg("-enable-bip70", false));
+    paymentServer = new PaymentServer(this, true);
 }
 #endif
 
@@ -473,14 +473,6 @@ void BitcoinApplication::initializeResult(int retval)
 
 #ifdef ENABLE_WALLET
         paymentServer->setOptionsModel(optionsModel);
-
-        if(GetBoolArg("-enable-bip70", false))
-        {
-            PaymentServer::LoadRootCAs();
-            if(pwalletMain)
-                connect(walletModel, SIGNAL(coinsSent(CWallet*,SendCoinsRecipient,QByteArray)),
-                        paymentServer, SLOT(fetchPaymentACK(CWallet*,const SendCoinsRecipient&,QByteArray)));
-        }
 
         // Now that initialization/startup is done, process any command-line
         // payment requests:
