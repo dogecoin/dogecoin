@@ -39,6 +39,7 @@
 #include <QCloseEvent>
 #include <QFont>
 #include <QLabel>
+#include <QPageSize>
 #include <QRegExp>
 #include <QTextTable>
 #include <QTextCursor>
@@ -349,8 +350,8 @@ void PaperWalletDialog::on_printButton_clicked()
     }
 
 
-    printer.setOrientation(QPrinter::Portrait);
-    printer.setPaperSize(QPrinter::A4);
+    printer.setPageOrientation(QPageLayout::Portrait);
+    printer.setPageSize(QPageSize(QPageSize::A4));
     printer.setFullPage(true);
 
     QPainter painter;
@@ -362,7 +363,7 @@ void PaperWalletDialog::on_printButton_clicked()
     int walletCount = ui->walletCount->currentIndex() + 1;
     int walletsPerPage = 4;
 
-    int pageHeight = printer.pageRect().height() - PAPER_WALLET_PAGE_MARGIN;
+    int pageHeight = printer.pageLayout().paintRectPoints().height() - PAPER_WALLET_PAGE_MARGIN;
     int walletHeight = ui->paperTemplate->height();
     double computedWalletHeight = 0.9 * pageHeight / walletsPerPage;
     double scale = computedWalletHeight / walletHeight;
