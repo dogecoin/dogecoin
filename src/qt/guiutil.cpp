@@ -57,6 +57,7 @@
 #include <QFileDialog>
 #include <QFont>
 #include <QLineEdit>
+#include <QScreen>
 #include <QSettings>
 #include <QTextDocument> // for Qt::mightBeRichText
 #include <QThread>
@@ -839,17 +840,15 @@ void saveWindowGeometry(const QString& strSetting, QWidget *parent)
 void restoreWindowGeometry(const QString& strSetting, const QSize& defaultSize, QWidget *parent)
 {
     QSettings settings;
-    QPoint pos = settings.value(strSetting + "Pos").toPoint();
     QSize size = settings.value(strSetting + "Size", defaultSize).toSize();
-
-    if (!pos.x() && !pos.y()) {
-        QRect screen = QApplication::desktop()->screenGeometry();
-        pos.setX((screen.width() - size.width()) / 2);
-        pos.setY((screen.height() - size.height()) / 2);
-    }
+    QPoint pos = settings.value(strSetting + "Pos").toPoint();
 
     parent->resize(size);
-    parent->move(pos);
+
+    if (pos.x() && pos.y())
+        parent->move(pos);
+    else
+        parent->move(parent->screen()->geometry().center());
 }
 
 void setClipboard(const QString& str)
