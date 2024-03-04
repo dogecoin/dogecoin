@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # Copyright (c) 2014-2016 The Bitcoin Core developers
+# Copyright (c) 2023 The Dogecoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -108,7 +109,7 @@ class BitcoinTestFramework(object):
         parser.add_option("--noshutdown", dest="noshutdown", default=False, action="store_true",
                           help="Don't stop dogecoinds after the test execution")
         parser.add_option("--srcdir", dest="srcdir", default=os.path.normpath(os.path.dirname(os.path.realpath(__file__))+"/../../../src"),
-                          help="Source directory containing dogecoind/bitcoin-cli (default: %default)")
+                          help="Source directory containing dogecoind/dogecoin-cli (default: %default)")
         parser.add_option("--cachedir", dest="cachedir", default=os.path.normpath(os.path.dirname(os.path.realpath(__file__))+"/../../cache"),
                           help="Directory for caching pregenerated datadirs")
         parser.add_option("--tmpdir", dest="tmpdir", default=tempfile.mkdtemp(prefix="test"),

@@ -1,6 +1,6 @@
 // Copyright (c) 2010 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin Core developers
-// Copyright (c) 2022 The Dogecoin Core developers
+// Copyright (c) 2022-2023 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -86,7 +86,7 @@ static const CRPCConvertParam vRPCConvertParams[] =
     { "listunspent", 2, "addresses" },
     { "listunspent", 3, "include_unsafe" },
     { "listunspent", 4, "query_options" },
-    { "getblock", 1, "verbose" },
+    { "getblock", 1, "verbosity" },
     { "getblockheader", 1, "verbose" },
     { "gettransaction", 1, "include_watchonly" },
     { "getrawtransaction", 1, "verbose" },
@@ -103,13 +103,17 @@ static const CRPCConvertParam vRPCConvertParams[] =
     { "lockunspent", 0, "unlock" },
     { "lockunspent", 1, "transactions" },
     { "importprivkey", 2, "rescan" },
+    { "importprivkey", 3, "height" },
     { "importaddress", 2, "rescan" },
     { "importaddress", 3, "p2sh" },
+    { "importaddress", 4, "height" },
     { "importpubkey", 2, "rescan" },
+    { "importpubkey", 3, "height" },
     { "importmulti", 0, "requests" },
     { "importmulti", 1, "options" },
     { "verifychain", 0, "checklevel" },
     { "verifychain", 1, "nblocks" },
+    { "getblockstats", 1, "stats" },
     { "pruneblockchain", 0, "height" },
     { "keypoolrefill", 0, "newsize" },
     { "getrawmempool", 0, "verbose" },

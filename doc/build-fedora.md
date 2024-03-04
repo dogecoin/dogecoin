@@ -1,25 +1,15 @@
 Fedora build guide
 ------------------
 
-**Last tested with:** 1.14.6-dev (as of 22884709)
-**Tested on:** Fedora 35,35,36
+**Last tested with:** 1.14.7-dev (as of aa53a0d7)
+**Tested on:** Fedora 35-39 (x86 & ARM)
 
 ### Build requirements
-
-**Fedora < 36:**
 
 ```sh
 sudo dnf install gcc-c++ libtool which diffutils make autoconf automake \
                  openssl-devel libevent-devel boost-devel libdb-cxx-devel
 ```
-
-**Fedora >= 36:**
-
-```sh
-sudo dnf install gcc-c++ libtool which diffutils make autoconf automake \
-                 openssl1.1-devel libevent-devel boost-devel libdb-cxx-devel
-```
-
 ### Optional elements
 
 #### MiniUPNP
@@ -42,4 +32,4 @@ To build the GUI with Qt 5 you need the following:
 
 ```sh
 sudo dnf install qt5-qttools-devel qt5-qtbase-devel protobuf-devel qrencode-devel
-```
+``` 

@@ -1,5 +1,5 @@
 // Copyright (c) 2011-2016 The Bitcoin Core developers
-// Copyright (c) 2021 The Dogecoin Core developers
+// Copyright (c) 2021-2023 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -11,6 +11,7 @@
 
 #include "chainparams.h"
 #include "clientmodel.h"
+#include "compat.h"
 #include "guiconstants.h"
 #include "guiutil.h"
 #include "intro.h"
@@ -367,7 +368,7 @@ BitcoinApplication::~BitcoinApplication()
 #ifdef ENABLE_WALLET
 void BitcoinApplication::createPaymentServer()
 {
-    paymentServer = new PaymentServer(this);
+    paymentServer = new PaymentServer(this, true, GetBoolArg("-enable-bip70", false));
 }
 #endif
 
@@ -465,10 +466,6 @@ void BitcoinApplication::initializeResult(int retval)
     {
         // Log this only after AppInit2 finishes, as then logging setup is guaranteed complete
         qWarning() << "Platform customization:" << platformStyle->getName();
-#ifdef ENABLE_WALLET
-        PaymentServer::LoadRootCAs();
-        paymentServer->setOptionsModel(optionsModel);
-#endif
 
         clientModel = new ClientModel(optionsModel);
         window->setClientModel(clientModel);
@@ -480,9 +477,6 @@ void BitcoinApplication::initializeResult(int retval)
 
             window->addWallet(BitcoinGUI::DEFAULT_WALLET, walletModel);
             window->setCurrentWallet(BitcoinGUI::DEFAULT_WALLET);
-
-            connect(walletModel, SIGNAL(coinsSent(CWallet*,SendCoinsRecipient,QByteArray)),
-                             paymentServer, SLOT(fetchPaymentACK(CWallet*,const SendCoinsRecipient&,QByteArray)));
         }
 #endif
 
@@ -498,10 +492,21 @@ void BitcoinApplication::initializeResult(int retval)
         Q_EMIT splashFinished(window);
 
 #ifdef ENABLE_WALLET
+        paymentServer->setOptionsModel(optionsModel);
+
+        if(GetBoolArg("-enable-bip70", false))
+        {
+            PaymentServer::LoadRootCAs();
+            if(pwalletMain)
+                connect(walletModel, SIGNAL(coinsSent(CWallet*,SendCoinsRecipient,QByteArray)),
+                        paymentServer, SLOT(fetchPaymentACK(CWallet*,const SendCoinsRecipient&,QByteArray)));
+        }
+
         // Now that initialization/startup is done, process any command-line
-        // bitcoin: URIs or payment requests:
+        // payment requests:
         connect(paymentServer, SIGNAL(receivedPaymentRequest(SendCoinsRecipient)),
-                         window, SLOT(handlePaymentRequest(SendCoinsRecipient)));
+                          window, SLOT(handlePaymentRequest(SendCoinsRecipient)));
+        // Now that initialization/startup is done, process any command-line bitcoin: URIs
         connect(window, SIGNAL(receivedURI(QString)),
                          paymentServer, SLOT(handleURIOrFile(QString)));
         connect(paymentServer, SIGNAL(message(QString,QString,unsigned int)),
@@ -534,7 +539,7 @@ WId BitcoinApplication::getMainWinId() const
 }
 
 #ifndef BITCOIN_QT_TEST
-int main(int argc, char *argv[])
+MAIN_FUNCTION
 {
     SetupEnvironment();
 

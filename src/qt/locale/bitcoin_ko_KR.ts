@@ -772,7 +772,7 @@
     </message>
     <message>
         <source>Can vary +/- %1 koinu per input.</source>
-        <translation type="unfinished"></translation>
+        <translation>입력마다 +/- %1 코이누가 변할 수 있습니다.</translation>
     </message>
 </context>
 <context>
@@ -1340,11 +1340,11 @@
     </message>
     <message>
         <source>Prune &amp;block storage to</source>
-        <translation type="unfinished"></translation>
+        <translation>블록 스토리지를 다음 크기로 축소(&amp;B)</translation>
     </message>
     <message>
         <source>GB</source>
-        <translation type="unfinished"></translation>
+        <translation>기가바이트</translation>
     </message>
     <message>
         <source>Reverting this setting requires re-downloading the entire blockchain.</source>
@@ -1462,7 +1462,7 @@
         <translation type="vanished">신뢰할 수 없는 사람과 개인 키를 공유하지 마십시오.</translation>
     </message>
     <message>
-        <source>Who own the private keys own the coins.</source>
+        <source>Who owns the private keys owns the coins.</source>
         <translation type="vanished">개인 키를 소유한 사람이 코인을 소유합니다.</translation>
     </message>
     <message>
@@ -1479,7 +1479,7 @@
     </message>
     <message>
         <source>For advanced operations, use the console in &apos;Help&apos; -&gt; &apos;Debug Window&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>고급 작업을 위해, &apos;도움말&apos; -&gt; &apos;디버그 창&apos; 콘솔을 사용하세요</translation>
     </message>
     <message>
         <source>Make sure to keep your wallet software updated</source>
@@ -1767,6 +1767,22 @@ p, li { white-space: pre-wrap; }
         <source>Requested payment amount of %1 is too small (below discard threshold).</source>
         <translation>요청한 지불 금액 %1이(가) 너무 작습니다(폐기 임계값 미만). </translation>
     </message>
+    <message>
+        <source>BIP70 payment requests are deprecated and disabled by default. Restart with -enable-bip70 if you absolutely have to use this functionality.
+
+Use this functionality with extreme caution.</source>
+        <translation>BIP70 지불 요청은 지원 종료 되었으며 기본적으로 비활성화 되어 있습니다. 꼭 해당 기능 이용해야 한다면 -enable-bip70 옵션을 추가해 재시작하기 바랍니다.
+
+해당 기능 사용시 매우 주의하기 바랍니다</translation>
+    </message>
+    <message>
+        <source>Payment request file handling is disabled by default. Restart with -enable-bip70 if you absolutely have to use this functionality.
+
+Use this functionality with extreme caution.</source>
+        <translation>지불 요청 파일 처리는 기본적으로 비활성화 되어 있습니다. 꼭 해당 기능 이용해야 한다면 -enable-bip70 옵션을 추가해 재시작하기 바랍니다.
+
+해당 기능 사용시 매우 주의하기 바랍니다</translation>
+    </message>
 </context>
 <context>
     <name>PeerTableModel</name>
@@ -1934,7 +1950,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>%1 kB</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 kB</translation>
     </message>
 </context>
 <context>
@@ -2723,7 +2739,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>If the custom fee is set to 1000 satoshis and the transaction is only 250 bytes, then &quot;per kilobyte&quot; only pays 250 satoshis in fee, while &quot;total at least&quot; pays 1000 satoshis. For transactions bigger than a kilobyte both pay by kilobyte.</source>
-        <translation>사용자 정의 수수료가 1000 사토시로 설정되고 트랜잭션이 250바이트에 불과한 경우 &quot;킬로바이트당&quot; &quot;최소한 합계&quot;는 수수료로 250사토시만 지불합니다. 1000사토시를 지불합니다. 1킬로바이트보다 큰 트랜잭션의 경우 둘 다 킬로바이트 단위로 지불합니다.</translation>
+        <translation>사용자 정의 수수료가 1000 사토시로 설정되고 트랜잭션이 250바이트에 불과한 경우 &quot;킬로바이트당&quot; 수수료로 250사토시만 지불하며, &quot;최소한 합계&quot; 는 1000사토시를 지불합니다. 1킬로바이트보다 큰 트랜잭션의 경우 둘 다 킬로바이트 단위로 지불합니다.</translation>
     </message>
     <message>
         <source>Priority:</source>
@@ -2744,6 +2760,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Using the fallbackfee can result in sending a transaction that will take several hours or days (or never) to confirm. Consider choosing your fee manually or wait until you have validated the complete chain.</source>
         <translation>fallback fee를 이용하게 되면 송금 확인은 몇시간, 혹은 몇일 (또는 영원히)걸릴 수 있습니다. 수동으로 fee를 설정하거나 블록체인 전체를 검증할때까지 기다려 보는 선택지를 생각 해주세요.</translation>
+    </message>
+    <message>
+        <source>If the custom fee is set to 1000 koinu and the transaction is only 250 bytes, then &quot;per kilobyte&quot; only pays 250 koinu in fee, while &quot;total at least&quot; pays 1000 koinu. For transactions bigger than a kilobyte both pay by kilobyte.</source>
+        <translation>사용자 정의 수수료가 1000 코이누로 설정되고 트랜잭션이 250바이트에 불과한 경우 &quot;킬로바이트당&quot; 수수료로 250코이누만 지불하며 &quot;최소한 합계&quot; 는 1000코이누를 지불합니다. 1킬로바이트보다 큰 트랜잭션의 경우 둘 다 킬로바이트 단위로 지불합니다.</translation>
     </message>
 </context>
 <context>
@@ -3667,7 +3687,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Execute command when a wallet transaction changes (%s in cmd is replaced by TxID)</source>
-        <translation>지갑 거래 변경 시 명령 실행하기(%s 안의 명령어가 TxID로 바뀜)</translation>
+        <translation type="vanished">지갑 거래 변경 시 명령 실행하기(%s 안의 명령어가 TxID로 바뀜)</translation>
     </message>
     <message>
         <source>Extra transactions to keep in memory for compact block reconstructions (default: %u)</source>
@@ -4547,11 +4567,19 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Execute command when we see a really long fork (%s in cmd is replaced by message)</source>
-        <translation type="unfinished"></translation>
+        <translation>긴 포크 발견시 명령 실행 (명령안의 %s 가 메시지로 대체된다)</translation>
     </message>
     <message>
         <source>Specify directory where to write backups and data dumps (default datadir/backups)</source>
-        <translation type="unfinished"></translation>
+        <translation>백업과 데이터 덤프 저장 위치를 지정하세요 (기본값 datadir/backups)</translation>
+    </message>
+    <message>
+        <source>Execute command when a wallet transaction changes (%s in cmd is replaced by TxID, %i with block height, with a value of 0 if tx is no longer in chaintip)</source>
+        <translation>지갑 트랜잭션 변화시 명령 실행 (명령 안의 %s는 TxID, %i 는 블록높이로 변경되며 트랜잭션이 더 이상 chaintip 안이 아닌 경우에는 0으로 대체됩니다)</translation>
+    </message>
+    <message>
+        <source>Enable BIP-70 PaymentServer (default: 0)</source>
+        <translation>BIP-70 PaymentServer 활성화 (기본값: 0)</translation>
     </message>
 </context>
 </TS>

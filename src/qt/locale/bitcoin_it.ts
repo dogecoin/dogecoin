@@ -1592,7 +1592,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>The recipient address is not valid, please recheck.</source>
-        <translation>L&apos;indirizzo del destinatario non é valido, controlla di nuovo.</translation>
+        <translation>L&apos;indirizzo del destinatario non è valido, controlla di nuovo.</translation>
     </message>
     <message>
         <source>The amount to pay must be larger than 0</source>
@@ -1636,7 +1636,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
-        <translation>La transazione é stata rifiutata! Questo potrebbe accadere nel caso in cui alcuni dei tuoi fondi siano stati giá spesi, per esempio se hai usato una copia del file wallet.dat altrove e i fondi sono stati spesi nella copia ma non ancora registrati come spesi in questa installazione.</translation>
+        <translation>La transazione è stata rifiutata! Questo potrebbe accadere nel caso in cui alcuni dei tuoi fondi siano stati giá spesi, per esempio se hai usato una copia del file wallet.dat altrove e i fondi sono stati spesi nella copia ma non ancora registrati come spesi in questa installazione.</translation>
     </message>
 </context>
 <context>
@@ -1727,7 +1727,25 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Requested payment amount of %1 is too small (below discard threshold).</source>
-        <translation>Il pagamento richiesto di %1 é troppo basso.</translation>
+        <translation>Il pagamento richiesto di %1 è troppo basso.</translation>
+    </message>
+    <message>
+        <source>BIP70 payment requests are deprecated and disabled by default. Restart with -enable-bip70 if you absolutely have to use this functionality.
+
+Use this functionality with extreme caution.</source>
+        <translation>Le richieste di pagamento BIP70 sono obsolete e disabilitate per impostazione predefinita. Riavvia con -enable-bip70 se hai assolutamente bisogno di utilizzare questa funzionalità.
+
+        Utilizza questa funzionalità con estrema cautela.
+        </translation>
+    </message>
+    <message>
+        <source>Payment request file handling is disabled by default. Restart with -enable-bip70 if you absolutely have to use this functionality.
+
+Use this functionality with extreme caution.</source>
+        <translation>La gestione dei file per le richieste di pagamento è disabilitata per impostazione predefinita. Riavvia con -enable-bip70 se hai assolutamente bisogno di utilizzare questa funzionalità.
+
+        Utilizza questa funzionalità con estrema cautela.  
+        </translation>
     </message>
 </context>
 <context>
@@ -1781,7 +1799,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Error: Node address is invalid</source>
-        <translation>Errore: L'indirizzo del nodo non é valido</translation>
+        <translation>Errore: L&apos;indirizzo del nodo non è valido</translation>
     </message>
     <message>
         <source>Error: Unable to add node</source>
@@ -1886,7 +1904,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>%1 didn&apos;t yet exit safely...</source>
-        <translation>%1 non si é ancora chiuso...</translation>
+        <translation>%1 non si è ancora chiuso...</translation>
     </message>
 </context>
 <context>
@@ -2393,7 +2411,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Resulting URI too long, try to reduce the text for label / message.</source>
-        <translation>L&apos;URI generato é troppo lungo. Riduci la lunghezza del testo.</translation>
+        <translation>L&apos;URI generato è troppo lungo. Riduci la lunghezza del testo.</translation>
     </message>
     <message>
         <source>Error encoding URI into QR Code.</source>
@@ -2511,7 +2529,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Paying only the minimum fee is just fine as long as there is less transaction volume than space in the blocks. But be aware that this can end up in a never confirming transaction once there is more demand for dogecoin transactions than the network can process.</source>
-        <translation>Non vi è alcuna controindicazione a pagare la commissione minima, a patto che il volume delle transazioni sia inferiore allo spazio disponibile nei blocchi. Occorre comunque essere consapevoli che ciò potrebbe impedire la conferma delle transazioni nel caso in cui la rete risultasse satura.</translation>
+        <translation>Pagare la commissione minima dovrebbe essere sufficiente, a patto che il volume delle transazioni sia inferiore allo spazio disponibile nei blocchi. Occorre comunque essere consapevoli che ciò potrebbe impedire la conferma delle transazioni nel caso in cui la rete risultasse satura.</translation>
     </message>
     <message>
         <source>(read the tooltip)</source>
@@ -2627,11 +2645,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Warning: Fee estimation is currently not possible.</source>
-        <translation>Attenzione: Non é possibile calcolare le commissioni di transazione in questo momento.</translation>
+        <translation>Attenzione: Non è possibile calcolare le commissioni di transazione in questo momento.</translation>
     </message>
     <message>
         <source>If the custom fee is set to 1000 satoshis and the transaction is only 250 bytes, then &quot;per kilobyte&quot; only pays 250 satoshis in fee, while &quot;total at least&quot; pays 1000 satoshis. For transactions bigger than a kilobyte both pay by kilobyte.</source>
-        <translation>Se la commissioni di transazione sono configurate su 1000 satoshi e la transazione é solo 250 bytes, la commissione sará solamente di 250 satoshi per kilobyte, mentre il totale sará di almeno 1000 satoshi. Per transazioni più grandi di un kilobyte entrambi pagano per kilobyte.</translation>
+        <translation>Se la commissioni di transazione sono configurate su 1000 satoshi e la transazione è solo 250 bytes, la commissione sarà solamente di 250 satoshi per kilobyte, mentre il totale sarà di almeno 1000 satoshi. Per transazioni più grandi di un kilobyte entrambi pagano per kilobyte.</translation>
     </message>
     <message>
         <source>Priority:</source>
@@ -2659,7 +2677,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>The recipient address is not valid. Please recheck.</source>
-        <translation>L&apos;indirizzo del destinatario non é valido, controlla di nuovo.</translation>
+        <translation>L&apos;indirizzo del destinatario non è valido, controlla di nuovo.</translation>
     </message>
     <message>
         <source>The amount to pay must be larger than 0.</source>
@@ -2692,6 +2710,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Using the fallbackfee can result in sending a transaction that will take several hours or days (or never) to confirm. Consider choosing your fee manually or wait until you have validated the complete chain.</source>
         <translation>L&apos;utilizzo del fallbackfee (commissione di transazione di riserva) può causare l&apos;invio di transazioni che impiegano ore o giorni prima di essere confermate. Considera la possibilitá di scegliere le commissioni di transazione manualmente o di attendere che l&apos;intera chain sia stata convalidata.</translation>
+    </message>
+    <message>
+        <source>If the custom fee is set to 1000 koinu and the transaction is only 250 bytes, then &quot;per kilobyte&quot; only pays 250 koinu in fee, while &quot;total at least&quot; pays 1000 koinu. For transactions bigger than a kilobyte both pay by kilobyte.</source>
+        <translation>Se la commissione di transazione è impostata su 1000 koinu e la transazione è solo 250 bytes, la commissione sarà solamente di 250 koinu per kilobyte, mentre il totale sarà di almeno 1000 koinu. Per transazioni più grandi di un kilobyte entrambi pagano per kilobyte.</translation>
     </message>
 </context>
 <context>
@@ -3583,10 +3605,6 @@ p, li { white-space: pre-wrap; }
         <translation>Errore lettura %s! Tutte le chiavi sono state lette correttamente, ma i dati delle transazioni o della rubrica potrebbero essere mancanti o non corretti.</translation>
     </message>
     <message>
-        <source>Execute command when a wallet transaction changes (%s in cmd is replaced by TxID)</source>
-        <translation>Esegue un comando quando lo stato di una transazione del portafoglio cambia (%s in cmd è sostituito da TxID)</translation>
-    </message>
-    <message>
         <source>Maximum allowed median peer time offset adjustment. Local perspective of time may be influenced by peers forward or backward by this amount. (default: %u seconds)</source>
         <translation>Regolazione della massima differenza media di tempo dei peer consentita. L&apos;impostazione dell&apos;orario locale può essere modificata in avanti o indietro di questa quantità. (default %u secondi)</translation>
     </message>
@@ -4328,7 +4346,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Reduce storage requirements by enabling pruning (deleting) of old blocks. This allows the pruneblockchain RPC to be called to delete specific blocks, and enables automatic pruning of old blocks if a target size in MiB is provided. This mode is incompatible with -txindex and -rescan. Warning: Reverting this setting requires re-downloading the entire blockchain. (default: 0 = disable pruning blocks, 1 = allow manual pruning via RPC, &gt;%u = automatically prune block files to stay under the specified target size in MiB)</source>
-        <translation>Riduci lo spazio occupato su disco abilitando la cancellazione (pruning) dei blocchi più vecchi. Questo permette l&apos;utilizzazione del comando RPC pruneblockchain per cancellare blocchi specifici, e abilita la cancellazione automatica dei blocchi più vecchi se viene specificato un target massimo per lo spazio occupato su disco in MiB. Questa modalitá é incompatibile con -txindex e -rescan. Attenzione: la modifica di questa opzione richiede una nuova sincronizzazione dell&apos;intera blockchain con la rete. (default: 0 = disabilita cancellazione dei blocchi, 1 = abilita cancellazione dei blocchi via RPC, &gt;%u = cancella automaticamente i file dei blocchi per rimanere al di sotto del target massimo specificato in MiB)</translation>
+        <translation>Riduci lo spazio occupato su disco abilitando la cancellazione (pruning) dei blocchi più vecchi. Questo permette l&apos;utilizzazione del comando RPC pruneblockchain per cancellare blocchi specifici, e abilita la cancellazione automatica dei blocchi più vecchi se viene specificato un target massimo per lo spazio occupato su disco in MiB. Questa modalitá è incompatibile con -txindex e -rescan. Attenzione: la modifica di questa opzione richiede una nuova sincronizzazione dell&apos;intera blockchain con la rete. (default: 0 = disabilita cancellazione dei blocchi, 1 = abilita cancellazione dei blocchi via RPC, &gt;%u = cancella automaticamente i file dei blocchi per rimanere al di sotto del target massimo specificato in MiB)</translation>
     </message>
     <message>
         <source>Set lowest fee rate (in %s/kB) for transactions to be included in block creation. (default: %s)</source>
@@ -4340,11 +4358,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>This is a pre-release test build - use at your own risk - do not use for mining or merchant applications</source>
-        <translation>Il presente software è una versione preliminare - ogni uso é a proprio rischio e pericolo. Non utilizzare per il mining o per applicazioni a scopo commerciale</translation>
+        <translation>Il presente software è una versione preliminare - ogni uso è a proprio rischio e pericolo. Non utilizzare per il mining o per applicazioni a scopo commerciale</translation>
     </message>
     <message>
         <source>This is the transaction fee you may pay when fee estimates are not available.</source>
-        <translation>Questa é la commissione di transazione utilizzata quando il calcolo automatico delle commissioni non é disponibile.</translation>
+        <translation>Questa è la commissione di transazione utilizzata quando il calcolo automatico delle commissioni non è disponibile.</translation>
     </message>
     <message>
         <source>This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit %s and cryptographic software written by Eric Young and UPnP software written by Thomas Bernard. Paper wallet art provided by Anacoluthia.</source>
@@ -4352,7 +4370,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Username and hashed password for JSON-RPC connections. The field &lt;userpw&gt; comes in the format: &lt;USERNAME&gt;:&lt;SALT&gt;$&lt;HASH&gt;. A canonical python script is included in share/rpcuser. The client then connects normally using the rpcuser=&lt;USERNAME&gt;/rpcpassword=&lt;PASSWORD&gt; pair of arguments. This option can be specified multiple times</source>
-        <translation>Il nome utente e l&apos;hash della password per connessioni JSON-RPC. Il campo &lt;userpw&gt; deve essere nel formato: &lt;NOMEUTENTE&gt;:&lt;SALT&gt;$&lt;HASH&gt;. Uno script python per la generazione del campo é incluso nella cartella share/rpcuser. Il client può successivamente connettersi normalmente utilizzando le opzioni rpcuser=&lt;NOMEUTENTE&gt;/rpcpassword=&lt;PASSWORD&gt;. L&apos;opzione può essere specificata varie volte.</translation>
+        <translation>Il nome utente e l&apos;hash della password per connessioni JSON-RPC. Il campo &lt;userpw&gt; deve essere nel formato: &lt;NOMEUTENTE&gt;:&lt;SALT&gt;$&lt;HASH&gt;. Uno script python per la generazione del campo è incluso nella cartella share/rpcuser. Il client può successivamente connettersi normalmente utilizzando le opzioni rpcuser=&lt;NOMEUTENTE&gt;/rpcpassword=&lt;PASSWORD&gt;. L&apos;opzione può essere specificata varie volte.</translation>
     </message>
     <message>
         <source>Wallet will not create transactions that violate mempool chain limits (default: %u)</source>
@@ -4372,7 +4390,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>%s is set very high!</source>
-        <translation>Il valore %s é molto alto!</translation>
+        <translation>Il valore %s è molto alto!</translation>
     </message>
     <message>
         <source>Amaze</source>
@@ -4388,7 +4406,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Keypool ran out, please call keypoolrefill first</source>
-        <translation>La keypool é vuota, usa keypoolrefill prima di continuare</translation>
+        <translation>La keypool è vuota, usa keypoolrefill prima di continuare</translation>
     </message>
     <message>
         <source>Many generous</source>
@@ -4420,11 +4438,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>This is the minimum transaction fee you pay on every transaction.</source>
-        <translation>Questa é la commissione minima da pagare per ogni transazione.</translation>
+        <translation>Questa è la commissione minima da pagare per ogni transazione.</translation>
     </message>
     <message>
         <source>This is the transaction fee you will pay if you send a transaction.</source>
-        <translation>Questa é la commissione che pagherai quando invii una transazione.</translation>
+        <translation>Questa è la commissione che pagherai quando invii una transazione.</translation>
     </message>
     <message>
         <source>Transaction amounts must not be negative</source>
@@ -4448,7 +4466,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>-discardthreshold is set very high! This is the output amount that the wallet will discard (to fee) if it is smaller than this setting.</source>
-        <translation>-discardthreshold é molto alto! Questo é il valore minimo di un output di transazione utilizzato per convalidare le transazioni del portafoglio e scartare il resto.</translation>
+        <translation>-discardthreshold è molto alto! Questo è il valore minimo di un output di transazione utilizzato per convalidare le transazioni del portafoglio e scartare il resto.</translation>
     </message>
     <message>
         <source>Amount under which a transaction output is considered non-standard and will not be accepted or relayed, in %s (default: %s)</source>
@@ -4473,6 +4491,14 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Specify directory where to write backups and data dumps (default datadir/backups)</source>
         <translation>Specifica la cartella in cui salvare i backup e i dump di dati (default datadir/backups)</translation>
+    </message>
+    <message>
+        <source>Execute command when a wallet transaction changes (%s in cmd is replaced by TxID, %i with block height, with a value of 0 if tx is no longer in chaintip)</source>
+        <translation>Esegui il comando quando viene rilevato un cambiamento in una transazione nel portafoglio (%s viene sostituito dal TxID, %i dal numero del blocco o con un valore 0 se la transazione non è più inclusa nella chaintip)</translation>
+    </message>
+    <message>
+        <source>Enable BIP-70 PaymentServer (default: 0)</source>
+        <translation>Abilita il server pagamenti BIP-70 (default: 0)</translation>
     </message>
 </context>
 </TS>

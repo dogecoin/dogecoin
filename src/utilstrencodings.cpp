@@ -1,5 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin Core developers
+// Copyright (c) 2022 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -58,12 +59,16 @@ signed char HexDigit(char c)
 
 bool IsHex(const string& str)
 {
+    if ((str.size() <= 0) || (str.size()%2 != 0))
+        return false;
+
     for(std::string::const_iterator it(str.begin()); it != str.end(); ++it)
     {
         if (HexDigit(*it) < 0)
             return false;
     }
-    return (str.size() > 0) && (str.size()%2 == 0);
+
+    return true;
 }
 
 vector<unsigned char> ParseHex(const char* psz)

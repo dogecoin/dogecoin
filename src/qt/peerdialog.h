@@ -1,5 +1,5 @@
 // Copyright (c) 2011-2016 The Bitcoin Core developers
-// Copyright (c) 2021 The Dogecoin Core developers
+// Copyright (c) 2021-2022 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -43,7 +43,7 @@ public:
 private:
     Ui::AddPeerDialog *ui;
 private Q_SLOTS:
-    void on_addPeer_clicked();
+    void on_addPeerClicked();
 };
 
 /** "Test peer" dialog box */
@@ -57,7 +57,7 @@ public:
 private:
     Ui::TestPeerDialog *ui;
 private Q_SLOTS:
-    void on_testPeer_clicked();
+    void on_testPeerClicked();
 };
 
 #endif

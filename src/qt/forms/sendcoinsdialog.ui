@@ -324,7 +324,7 @@
                   <enum>Qt::ActionsContextMenu</enum>
                  </property>
                  <property name="text">
-                  <string notr="true">0.00 BTC</string>
+                  <string notr="true">0.00 DOGE</string>
                  </property>
                  <property name="textInteractionFlags">
                   <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
@@ -404,7 +404,7 @@
                   <enum>Qt::ActionsContextMenu</enum>
                  </property>
                  <property name="text">
-                  <string notr="true">0.00 BTC</string>
+                  <string notr="true">0.00 DOGE</string>
                  </property>
                  <property name="textInteractionFlags">
                   <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
@@ -455,7 +455,7 @@
                   <enum>Qt::ActionsContextMenu</enum>
                  </property>
                  <property name="text">
-                  <string notr="true">0.00 BTC</string>
+                  <string notr="true">0.00 DOGE</string>
                  </property>
                  <property name="textInteractionFlags">
                   <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
@@ -484,7 +484,7 @@
                   <enum>Qt::ActionsContextMenu</enum>
                  </property>
                  <property name="text">
-                  <string notr="true">0.00 BTC</string>
+                  <string notr="true">0.00 DOGE</string>
                  </property>
                  <property name="textInteractionFlags">
                   <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
@@ -848,7 +848,7 @@
                  <item>
                   <widget class="QRadioButton" name="radioCustomPerKilobyte">
                    <property name="toolTip">
-                    <string>If the custom fee is set to 1000 satoshis and the transaction is only 250 bytes, then &quot;per kilobyte&quot; only pays 250 satoshis in fee, while &quot;total at least&quot; pays 1000 satoshis. For transactions bigger than a kilobyte both pay by kilobyte.</string>
+                    <string>If the custom fee is set to 1000 koinu and the transaction is only 250 bytes, then &quot;per kilobyte&quot; only pays 250 koinu in fee, while &quot;total at least&quot; pays 1000 koinu. For transactions bigger than a kilobyte both pay by kilobyte.</string>
                    </property>
                    <property name="text">
                     <string>per kilobyte</string>
@@ -1303,7 +1303,7 @@
           <cursorShape>IBeamCursor</cursorShape>
          </property>
          <property name="text">
-          <string notr="true">123.456 BTC</string>
+          <string notr="true">123.456 DOGE</string>
          </property>
          <property name="textInteractionFlags">
           <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>

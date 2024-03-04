@@ -1,5 +1,5 @@
 // Copyright (c) 2015-2016 The Bitcoin Core developers
-// Copyright (c) 2021 The Dogecoin Core developers
+// Copyright (c) 2021-2022 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -135,7 +135,7 @@ bool CZMQAbstractPublishNotifier::SendMessage(const char *command, const void* d
 
     /* send three parts, command & data & a LE 4byte sequence number */
     unsigned char msgseq[sizeof(uint32_t)];
-    WriteLE32(&msgseq[0], nSequence);
+    WriteLE32(msgseq, nSequence);
     int rc = zmq_send_multipart(psocket, command, strlen(command), data, size, msgseq, (size_t)sizeof(uint32_t), (void*)0);
     if (rc == -1)
         return false;

@@ -1,4 +1,5 @@
 // Copyright (c) 2012-2016 The Bitcoin Core developers
+// Copyright (c) 2022 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -275,11 +276,11 @@ BOOST_AUTO_TEST_CASE(iterator_string_ordering)
 
     boost::filesystem::path ph = boost::filesystem::temp_directory_path() / boost::filesystem::unique_path();
     CDBWrapper dbw(ph, (1 << 20), true, false, false);
-    for (int x=0x00; x<10; ++x) {
-        for (int y = 0; y < 10; y++) {
+    for (uint32_t x=0x00; x<10; ++x) {
+        for (uint32_t y = 0; y < 10; y++) {
             sprintf(buf, "%d", x);
             StringContentsSerializer key(buf);
-            for (int z = 0; z < y; z++)
+            for (uint32_t z = 0; z < y; z++)
                 key += key;
             uint32_t value = x*x;
             BOOST_CHECK(dbw.Write(key, value));
@@ -287,8 +288,8 @@ BOOST_AUTO_TEST_CASE(iterator_string_ordering)
     }
 
     std::unique_ptr<CDBIterator> it(const_cast<CDBWrapper*>(&dbw)->NewIterator());
-    for (int c=0; c<2; ++c) {
-        int seek_start;
+    for (uint32_t c=0; c<2; ++c) {
+        uint32_t seek_start;
         if (c == 0)
             seek_start = 0;
         else
@@ -296,11 +297,11 @@ BOOST_AUTO_TEST_CASE(iterator_string_ordering)
         sprintf(buf, "%d", seek_start);
         StringContentsSerializer seek_key(buf);
         it->Seek(seek_key);
-        for (int x=seek_start; x<10; ++x) {
-            for (int y = 0; y < 10; y++) {
+        for (uint32_t x=seek_start; x<10; ++x) {
+            for (uint32_t y = 0; y < 10; y++) {
                 sprintf(buf, "%d", x);
                 std::string exp_key(buf);
-                for (int z = 0; z < y; z++)
+                for (uint32_t z = 0; z < y; z++)
                     exp_key += exp_key;
                 StringContentsSerializer key;
                 uint32_t value;

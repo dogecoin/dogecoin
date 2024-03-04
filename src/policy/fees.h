@@ -1,5 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin Core developers
+// Copyright (c) 2023 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 #ifndef BITCOIN_POLICYESTIMATOR_H
@@ -169,26 +170,70 @@ public:
 /** Track confirm delays up to 25 blocks, can't estimate beyond that */
 static const unsigned int MAX_BLOCK_CONFIRMS = 25;
 
-/** Decay of .998 is a half-life of 346 blocks or about 2.4 days */
-static const double DEFAULT_DECAY = .998;
+/** Inverse rate of decay of statistical history
+ * Reduces all historical block stats by this multiplier, for each new block
+ *
+ * A value of 0.98845 corresponds to a half-life of 60 blocks or about 1 hour
+ *
+ * The calculation involves the rate constant for first order reactions, "ln 2",
+ * which is approximately 0.693: 1 - ( ln(2) / <t0.5> )
+ *
+ * Rationale: The mempool from hours ago should have only a light effect
+ * on estimates, to better deal with volatility.
+ */
+static const double DEFAULT_DECAY = 1.0 - (0.693 / 60.0); // 0.98845
 
-/** Require greater than 95% of X feerate transactions to be confirmed within Y blocks for X to be big enough */
-static const double MIN_SUCCESS_PCT = .95;
+/** Historical confidence level
+ * Determines validity of results based on the historical inclusion rate of
+ * transactions of this feerate
+ *
+ * Require greater than 80% of X feerate transactions to be confirmed within
+ * Y blocks for X to be big enough
+ *
+ * Rationale: More conservative than Bitcoin Core's 60% for "half" confidence,
+ * but less conservative than the 85% for "normal" confidence, because the
+ * Dogecoin miners have a hightened incentive to not orphan blocks while the
+ * impact of not being included in a block is only ~1/10th of Bitcoin's when
+ * expressed in time expired.
+ */
+static const double MIN_SUCCESS_PCT = .8;
 
-/** Require an avg of 1 tx in the combined feerate bucket per block to have stat significance */
-static const double SUFFICIENT_FEETXS = 1;
+/** Bucket significance in transactions per bucket
+ * Filters which ranges of feerates are significant enough to consider
+ *
+ * Require an avg of 1 tx in the combined feerate bucket per 10 blocks to have
+ * stat significance
+ *
+ * Rationale: Reduced this from 1 tx per feerate per block as lower values make
+ * more buckets relevant during periods of low transaction volume, uniform fee
+ * transaction surges (i.e. spam) or miners rapidly finding successive blocks
+ * while there are no transactions matching their feefilter
+ *
+ * Copied from Bitcoin Core 0.15-25.0
+ */
+static const double SUFFICIENT_FEETXS = 0.1;
 
-// Minimum and Maximum values for tracking feerates
-static constexpr double MIN_FEERATE = 10;
-static const double MAX_FEERATE = 1e7;
+// Minimum and Maximum values for tracking feerates, in koinu per kB
+static constexpr double MIN_FEERATE = COIN / 1000.0;  //!< 100,000 - equals 100 koinu per byte
+static const double MAX_FEERATE = COIN * 10.0;    //!< 1000,000,000 koinu - equals 10 DOGE/kb
+
+// Feerate and priority for the upper border of the highest bucket, in koinu per kB
 static const double INF_FEERATE = MAX_MONEY;
 static const double INF_PRIORITY = 1e9 * MAX_MONEY;
 
-// We have to lump transactions into buckets based on feerate, but we want to be able
-// to give accurate estimates over a large range of potential feerates
-// Therefore it makes sense to exponentially space the buckets
-/** Spacing of FeeRate buckets */
-static const double FEE_SPACING = 1.1;
+/** Spacing of FeeRate buckets
+ * Determines the (exponential) granularity of the fee buckets
+ *
+ * We have to lump transactions into buckets based on feerate, but we want to be
+ * able to give accurate estimates over a large range of potential feerates
+ * Therefore it makes sense to exponentially space the buckets
+ *
+ * Rationale: previously, spacing was 1.1; we reduce this to 1.05 to have finer
+ * grained buckets
+ *
+ * Copied from Bitcoin Core 0.15-25.0
+ */
+static const double FEE_SPACING = 1.05;
 
 /**
  *  We want to be able to estimate feerates that are needed on tx's to be included in

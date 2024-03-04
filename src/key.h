@@ -1,5 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin Core developers
+// Copyright (c) 2021 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -150,7 +151,7 @@ struct CExtKey {
     friend bool operator==(const CExtKey& a, const CExtKey& b)
     {
         return a.nDepth == b.nDepth &&
-            memcmp(&a.vchFingerprint[0], &b.vchFingerprint[0], sizeof(vchFingerprint)) == 0 &&
+            memcmp(a.vchFingerprint, b.vchFingerprint, sizeof(vchFingerprint)) == 0 &&
             a.nChild == b.nChild &&
             a.chaincode == b.chaincode &&
             a.key == b.key;

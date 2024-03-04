@@ -1,4 +1,5 @@
 // Copyright (c) 2011-2016 The Bitcoin Core developers
+// Copyright (c) 2023 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -73,6 +74,9 @@ public:
 
     // parent should be QApplication object
     PaymentServer(QObject* parent, bool startLocalServer = true);
+    PaymentServer(QObject* parent, bool startLocalServer = true, bool enableBip70Flag = false);
+    PaymentServer(QObject* parent, QString ipcServerName, bool startLocalServer = true);
+    PaymentServer(QObject* parent, QString ipcServerName, bool startLocalServer = true, bool enableBip70Flag = false);
     ~PaymentServer();
 
     // Load root certificate authorities. Pass NULL (default)
@@ -138,6 +142,9 @@ private:
     void initNetManager();
 
     bool saveURIs;                      // true during startup
+
+    void initializeServer(QObject* parent, QString ipcServerName, bool startLocalServer, bool enableBip70Flag);
+    bool enableBip70;                   // false by default
     QLocalServer* uriServer;
 
     QNetworkAccessManager* netManager;  // Used to fetch payment requests

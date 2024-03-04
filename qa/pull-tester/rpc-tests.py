@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Copyright (c) 2014-2016 The Bitcoin Core developers
-# Copyright (c) 2022 The Dogecoin Core developers
+# Copyright (c) 2022-2024 The Dogecoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -132,6 +132,7 @@ testScripts = [
     'p2p-addr.py',
     'p2p-tx-download.py',
     # vv Tests less than 30s vv
+    'walletnotify.py',
     'p2p_invalid_locator.py',
     'mempool_resurrect_test.py',
     'txn_doublespend.py --mineblock',
@@ -174,7 +175,10 @@ testScripts = [
     'rescan.py',
     'wallet_create_tx.py',
     'liststucktransactions.py',
+    'getblock.py',
+    'getblockstats.py',
     'addnode.py',
+    'getmocktime.py',
 ]
 if ENABLE_ZMQ:
     testScripts.append('zmq_test.py')
@@ -218,6 +222,10 @@ def runtests():
         for t in testScripts + testScriptsExt:
             if t in opts or re.sub(".py$", "", t) in opts:
                 test_list.append(t)
+
+    if len(test_list) == 0:
+        print(f"No tests selected; do you have a typo in {opts}?")
+        sys.exit(1)
 
     if print_help:
         # Only print help of the first script and exit

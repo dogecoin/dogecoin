@@ -1,17 +1,18 @@
 #!/usr/bin/env python3
 # Copyright (c) 2014-2016 The Bitcoin Core developers
+# Copyright (c) 2022-2023 The Dogecoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test rescan behavior of importaddress, importpubkey, importprivkey, and
 importmulti RPCs with different types of keys and rescan options.
 
 In the first part of the test, node 1 creates an address for each type of
-import RPC call and node 0 sends BTC to it. Then other nodes import the
+import RPC call and node 0 sends Doge to it. Then other nodes import the
 addresses, and the test makes listtransactions and getbalance calls to confirm
 that the importing node either did or did not execute rescans picking up the
 send transactions.
 
-In the second part of the test, node 0 sends more BTC to each address, and the
+In the second part of the test, node 0 sends more Doge to each address, and the
 test makes more listtransactions and getbalance calls to confirm that the
 importing nodes pick up the new transactions regardless of whether rescans
 happened previously.
@@ -19,7 +20,7 @@ happened previously.
 
 from test_framework.authproxy import JSONRPCException
 from test_framework.test_framework import BitcoinTestFramework
-from test_framework.util import (start_nodes, connect_nodes, sync_blocks, assert_equal, set_node_times)
+from test_framework.util import (start_nodes, connect_nodes, sync_blocks, assert_equal, set_node_times, sync_mempools)
 from decimal import Decimal
 
 import collections
@@ -114,6 +115,9 @@ class ImportRescanTest(BitcoinTestFramework):
         super().__init__()
         self.num_nodes = 2 + len(IMPORT_NODES)
 
+    def first_node(self):
+        return self.nodes[0]
+
     def setup_network(self):
         extra_args = [["-debug=1"] for _ in range(self.num_nodes)]
         for i, import_node in enumerate(IMPORT_NODES, 2):
@@ -123,10 +127,23 @@ class ImportRescanTest(BitcoinTestFramework):
         self.nodes = start_nodes(self.num_nodes, self.options.tmpdir, extra_args)
         for i in range(1, self.num_nodes):
             connect_nodes(self.nodes[i], 0)
+        self.sync_recipient_nodes()
+
+    def sync_recipient_nodes(self):
+        syncable = self.nodes[:2]
+        sync_blocks(syncable)
+        sync_mempools(syncable)
 
     def run_test(self):
+        self.test_argument_validation()
+        self.test_import_types()
+        self.test_rescan_from_height_importpubkey()
+        self.test_rescan_from_height_importaddress()
+
+    def test_import_types(self):
         # Create one transaction on node 0 with a unique amount and label for
         # each possible type of wallet import RPC.
+
         for i, variant in enumerate(IMPORT_VARIANTS):
             variant.label = "label {} {}".format(i, variant)
             variant.address = self.nodes[1].validateaddress(self.nodes[1].getnewaddress(variant.label))
@@ -179,13 +196,106 @@ class ImportRescanTest(BitcoinTestFramework):
             else:
                 variant.check()
 
+    def test_argument_validation(self):
+        node = self.first_node()
+
+        try:
+            node.importprivkey("")
+        except JSONRPCException as e:
+            assert("Invalid private key encoding" in e.error["message"])
+
+        address = node.validateaddress(node.getnewaddress("some label"))
+        privkey = node.dumpprivkey(address["address"])
+
+        try:
+            node.importprivkey(privkey, "", True, str(node.getblockcount() + 1))
+        except JSONRPCException as e:
+            assert("Block height out of range" in e.error["message"])
+
+        try:
+            node.importpubkey("")
+        except JSONRPCException as e:
+            assert("Pubkey must be a hex string" in e.error["message"])
+
+        try:
+            node.importpubkey("abcdef")
+        except JSONRPCException as e:
+            assert("Pubkey is not a valid public key" in e.error["message"])
+
+        try:
+            address = self.nodes[1].getnewaddress()
+            pubkey = self.nodes[1].validateaddress(address)["pubkey"]
+            node.importpubkey(pubkey, "", True, node.getblockcount() + 1)
+        except JSONRPCException as e:
+            assert("Block height out of range" in e.error["message"])
+
+    def test_rescan_from_height_importpubkey(self):
+        # this height is before sending anything to the new address
+        orig_height = self.nodes[0].getblockcount()
+
+        address = self.nodes[0].getnewaddress()
+        pubkey  = self.nodes[0].validateaddress(address)["pubkey"]
+        self.nodes[0].sendtoaddress(address, 100)
+
+        # generate two blocks
+        # the first contains the tx that sends these koinu
+        # the second is after it
+        self.nodes[0].generate(2)
+        new_height = self.nodes[0].getblockcount()
+
+        self.sync_recipient_nodes()
+
+        # no rescan, no funds seen for this pubkey
+        self.nodes[1].importpubkey(pubkey, "newpubkey", False)
+        balance = self.nodes[1].getbalance("newpubkey", 0, True)
+        assert_equal(balance, Decimal("0"))
+
+        # rescan at the block *after* the tx, no funds seen for this pubkey
+        self.nodes[2].importpubkey(pubkey, "newpubkey", True, new_height)
+        balance = self.nodes[2].getbalance("newpubkey", 0, True)
+        assert_equal(balance, Decimal("0"))
+
+        # rescan at the block *before* the tx, funds seen for this pubkey
+        self.nodes[3].importpubkey(pubkey, "newpubkey", True, orig_height)
+        balance = self.nodes[3].getbalance("newpubkey", 0, True)
+        assert_equal(balance, Decimal("100"))
+
+    def test_rescan_from_height_importaddress(self):
+        # this height is before sending anything to the new address
+        orig_height = self.nodes[0].getblockcount()
+
+        address = self.nodes[0].getnewaddress()
+        pubkey  = self.nodes[0].validateaddress(address)["pubkey"]
+        self.nodes[0].sendtoaddress(address, 100)
+
+        # generate two blocks
+        # the first contains the tx that sends these koinu
+        # the second is after it
+        self.nodes[0].generate(2)
+        new_height = self.nodes[0].getblockcount()
+
+        self.sync_recipient_nodes()
+
+        # no rescan, no funds seen for this pubkey
+        self.nodes[1].importaddress(address, "newaddress", False)
+        balance = self.nodes[1].getbalance("newaddress", 0, True)
+        assert_equal(balance, Decimal("0"))
+
+        # rescan at the block *after* the tx, no funds seen for this pubkey
+        self.nodes[2].importaddress(address, "newaddress", True, False, new_height)
+        balance = self.nodes[2].getbalance("newaddress", 0, True)
+        assert_equal(balance, Decimal("0"))
+
+        # rescan at the block *before* the tx, funds seen for this pubkey
+        self.nodes[3].importaddress(address, "newaddress", True, False, orig_height)
+        balance = self.nodes[3].getbalance("newaddress", 0, True)
+        assert_equal(balance, Decimal("100"))
 
 def try_rpc(func, *args, **kwargs):
     try:
         return func(*args, **kwargs), None
     except JSONRPCException as e:
         return None, e.error
-
 
 if __name__ == "__main__":
     ImportRescanTest().main()

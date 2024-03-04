@@ -1,6 +1,6 @@
 // Copyright (c) 2010 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin Core developers
-// Copyright (c) 2021 The Dogecoin Core developers
+// Copyright (c) 2021-2023 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -27,7 +27,6 @@
 #include <stdint.h>
 
 #include <boost/assign/list_of.hpp>
-#include <boost/shared_ptr.hpp>
 
 #include <univalue.h>
 
@@ -97,7 +96,7 @@ UniValue getnetworkhashps(const JSONRPCRequest& request)
     return GetNetworkHashPS(request.params.size() > 0 ? request.params[0].get_int() : 120, request.params.size() > 1 ? request.params[1].get_int() : -1);
 }
 
-UniValue generateBlocks(boost::shared_ptr<CReserveScript> coinbaseScript, int nGenerate, uint64_t nMaxTries, bool keepScript, int nMineAuxPow)
+UniValue generateBlocks(std::shared_ptr<CReserveScript> coinbaseScript, int nGenerate, uint64_t nMaxTries, bool keepScript, int nMineAuxPow)
 {
     // Dogecoin: Never mine witness tx
     const bool fMineWitnessTx = false;
@@ -198,7 +197,7 @@ UniValue generate(const JSONRPCRequest& request)
         nMineAuxPow = request.params[2].get_int();
     }
 
-    boost::shared_ptr<CReserveScript> coinbaseScript;
+    std::shared_ptr<CReserveScript> coinbaseScript;
     GetMainSignals().ScriptForMining(coinbaseScript);
 
     // If the keypool is exhausted, no script is returned at all.  Catch this.
@@ -245,7 +244,7 @@ UniValue generatetoaddress(const JSONRPCRequest& request)
     if (!address.IsValid())
         throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Error: Invalid address");
 
-    boost::shared_ptr<CReserveScript> coinbaseScript(new CReserveScript());
+    std::shared_ptr<CReserveScript> coinbaseScript(new CReserveScript());
     coinbaseScript->reserveScript = GetScriptForDestination(address.Get());
 
     return generateBlocks(coinbaseScript, nGenerate, nMaxTries, false, nMineAuxPow);
@@ -302,8 +301,8 @@ UniValue prioritisetransaction(const JSONRPCRequest& request)
             "1. \"txid\"       (string, required) The transaction id.\n"
             "2. priority_delta (numeric, required) The priority to add or subtract.\n"
             "                  The transaction selection algorithm considers the tx as it would have a higher priority.\n"
-            "                  (priority of a transaction is calculated: coinage * value_in_satoshis / txsize) \n"
-            "3. fee_delta      (numeric, required) The fee value (in satoshis) to add (or subtract, if negative).\n"
+            "                  (priority of a transaction is calculated: coinage * value_in_koinu / txsize) \n"
+            "3. fee_delta      (numeric, required) The fee value (in koinu) to add (or subtract, if negative).\n"
             "                  The fee is not actually paid, only the algorithm for selecting transactions into a block\n"
             "                  considers the transaction as it would have paid a higher (or lower) fee.\n"
             "\nResult:\n"
@@ -400,7 +399,7 @@ UniValue getblocktemplate(const JSONRPCRequest& request)
             "             n                          (numeric) transactions before this one (by 1-based index in 'transactions' list) that must be present in the final block if this one is\n"
             "             ,...\n"
             "         ],\n"
-            "         \"fee\": n,                    (numeric) difference in value between transaction inputs and outputs (in Satoshis); for coinbase transactions, this is a negative Number of the total collected block fees (ie, not including the block subsidy); if key is not present, fee is unknown and clients MUST NOT assume there isn't one\n"
+            "         \"fee\": n,                    (numeric) difference in value between transaction inputs and outputs (in koinu); for coinbase transactions, this is a negative Number of the total collected block fees (ie, not including the block subsidy); if key is not present, fee is unknown and clients MUST NOT assume there isn't one\n"
             "         \"sigops\" : n,                (numeric) total SigOps cost, as counted for purposes of block limits; if key is not present, sigop cost is unknown and clients MUST NOT assume it is zero\n"
             "         \"weight\" : n,                (numeric) total transaction weight, as counted for purposes of block limits\n"
             "         \"required\" : true|false      (boolean) if provided and true, this transaction must be in the final block\n"
@@ -410,7 +409,7 @@ UniValue getblocktemplate(const JSONRPCRequest& request)
             "  \"coinbaseaux\" : {                 (json object) data that should be included in the coinbase's scriptSig content\n"
             "      \"flags\" : \"xx\"                  (string) key name is to be ignored, and value included in scriptSig\n"
             "  },\n"
-            "  \"coinbasevalue\" : n,              (numeric) maximum allowable input to coinbase transaction, including the generation award and transaction fees (in Satoshis)\n"
+            "  \"coinbasevalue\" : n,              (numeric) maximum allowable input to coinbase transaction, including the generation award and transaction fees (in koinu)\n"
             "  \"coinbasetxn\" : { ... },          (json object) information for coinbase transaction\n"
             "  \"target\" : \"xxxx\",                (string) The hash target\n"
             "  \"mintime\" : xxx,                  (numeric) The minimum timestamp appropriate for next block time in seconds since epoch (Jan 1 1970 GMT)\n"
@@ -1164,7 +1163,7 @@ UniValue getauxblockbip22(const JSONRPCRequest& request)
             + HelpExampleRpc("getauxblock", "")
             );
 
-    boost::shared_ptr<CReserveScript> coinbaseScript;
+    std::shared_ptr<CReserveScript> coinbaseScript;
     GetMainSignals().ScriptForMining(coinbaseScript);
 
     // If the keypool is exhausted, no script is returned at all.  Catch this.

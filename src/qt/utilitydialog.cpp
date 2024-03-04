@@ -1,5 +1,5 @@
 // Copyright (c) 2011-2016 The Bitcoin Core developers
-// Copyright (c) 2021 The Dogecoin Core developers
+// Copyright (c) 2021-2023 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -58,6 +58,7 @@
 #include <QtPrintSupport/QPrinter>
 #include <QtPrintSupport/QPrintDialog>
 #include <QtPrintSupport/QPrintPreviewDialog>
+#include <QtPrintSupport/QPrinterInfo>
 #endif
 #include <QPainter>
 #include "walletmodel.h"
@@ -347,17 +348,25 @@ void PaperWalletDialog::on_printButton_clicked()
     QPrinter printer(QPrinter::HighResolution);
     QPrintDialog* qpd = new QPrintDialog(&printer, this);
 
-    qpd->setPrintRange(QAbstractPrintDialog::AllPages);
+    #if QT_VERSION > 0x050000
+    QPrinterInfo printerinfo(printer);
+    QPageSize papersize = printerinfo.defaultPageSize();
+    #endif
 
+    qpd->setPrintRange(QAbstractPrintDialog::AllPages);
     QList<QString> recipientPubKeyHashes;
 
     if (qpd->exec() != QDialog::Accepted) {
         return;
     }
 
-    // Hardcode these values
+
     printer.setOrientation(QPrinter::Portrait);
+    #if QT_VERSION > 0x050000
+    printer.QPagedPaintDevice::setPageSize(papersize);
+    #else
     printer.setPaperSize(QPrinter::A4);
+    #endif
     printer.setFullPage(true);
 
     QPainter painter;

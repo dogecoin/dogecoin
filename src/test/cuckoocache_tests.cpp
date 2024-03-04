@@ -1,4 +1,5 @@
 // Copyright (c) 2012-2016 The Bitcoin Core developers
+// Copyright (c) 2023 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 #include <boost/test/unit_test.hpp>
@@ -6,6 +7,7 @@
 #include "test/test_bitcoin.h"
 #include "random.h"
 #include <thread>
+#include <deque>
 #include <boost/thread.hpp>
 
 

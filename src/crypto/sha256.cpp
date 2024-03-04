@@ -6,11 +6,12 @@
 #include "crypto/sha256.h"
 
 #include "crypto/common.h"
+#include "support/experimental.h"
 
 #include <string.h>
 
 #if (defined(__ia64__) || defined(__x86_64__)) && \
-    (defined(__linux__) && !defined(__APPLE__)) && \
+    !defined(__APPLE__) && \
     (defined(USE_AVX2))
 #include <intel-ipsec-mb.h>
 #endif
@@ -91,6 +92,9 @@ void inline Initialize(uint32_t* s)
 void Transform(uint32_t* s, const unsigned char* chunk)
 {
 #if defined(USE_ARMV8) || defined(USE_ARMV82)
+    // entire block is experimental
+    EXPERIMENTAL_FEATURE
+
     uint32x4_t STATE0, STATE1, ABEF_SAVE, CDGH_SAVE;
     uint32x4_t MSG0, MSG1, MSG2, MSG3;
     uint32x4_t TMP0, TMP1, TMP2;
@@ -247,6 +251,7 @@ void Transform(uint32_t* s, const unsigned char* chunk)
 
 #elif USE_AVX2
     // Perform SHA256 one block (Intel AVX2)
+    EXPERIMENTAL_FEATURE
     sha256_one_block_avx2(chunk, s);
 #else
     // Perform SHA256 one block (legacy)

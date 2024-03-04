@@ -2,7 +2,7 @@
 name: "dogecoin-osx-1.14"
 enable_cache: true
 suites:
-- "bionic"
+- "focal"
 architectures:
 - "amd64"
 packages:
@@ -23,15 +23,19 @@ packages:
 - "libcap-dev"
 - "libz-dev"
 - "libbz2-dev"
-- "python"
-- "python-dev"
-- "python-setuptools"
+- "python3"
+- "python3-dev"
+- "python3-setuptools"
+- "python3-pip"
 - "fonts-tuffy"
+- "libtinfo5"
+- "xorriso"
 remotes:
 - "url": "https://github.com/dogecoin/dogecoin.git"
   "dir": "dogecoin"
 files:
 - "MacOSX10.11.sdk.tar.gz"
+- "lief-0.12.3-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
 script: |
   WRAP_DIR=$HOME/wrapped
   HOSTS="x86_64-apple-darwin11"
@@ -89,6 +93,9 @@ script: |
   mkdir -p ${BASEPREFIX}/SDKs
   tar -C ${BASEPREFIX}/SDKs -xf ${BUILD_DIR}/MacOSX10.11.sdk.tar.gz
 
+  # install python-lief
+  python3 -m pip install ${BUILD_DIR}/lief-0.12.3-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+
   # Build dependencies for each host
   for i in $HOSTS; do
     make ${MAKEOPTS} -C ${BASEPREFIX} HOST="${i}"
@@ -103,6 +110,8 @@ script: |
   # Create the release tarball using (arbitrarily) the first host
   ./autogen.sh
   CONFIG_SITE=${BASEPREFIX}/`echo "${HOSTS}" | awk '{print $1;}'`/share/config.site ./configure --prefix=/
+  make ${MAKEOPTS}
+  make ${MAKEOPTS} -C src check-security
   make dist
   SOURCEDIST=`echo dogecoin-*.tar.gz`
   DISTNAME=`echo ${SOURCEDIST} | sed 's/.tar.*//'`

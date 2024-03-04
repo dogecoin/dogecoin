@@ -1,10 +1,11 @@
 // Copyright (c) 2016 The Bitcoin Core developers
-// Copyright (c) 2020 The Dogecoin Core developers
+// Copyright (c) 2020-2023 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "support/lockedpool.h"
 #include "support/cleanse.h"
+#include <stdexcept> // for std::runtime_error
 
 #if defined(HAVE_CONFIG_H)
 #include "config/bitcoin-config.h"

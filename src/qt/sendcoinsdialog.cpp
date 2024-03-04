@@ -1,5 +1,5 @@
 // Copyright (c) 2011-2016 The Bitcoin Core developers
-// Copyright (c) 2021 The Dogecoin Core developers
+// Copyright (c) 2021-2023 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -33,6 +33,7 @@
 #include <QTimer>
 
 #define SEND_CONFIRM_DELAY   3
+#define CHARACTERS_DISPLAY_LIMIT_IN_LABEL 45
 
 SendCoinsDialog::SendCoinsDialog(const PlatformStyle *_platformStyle, QWidget *parent) :
     QDialog(parent),
@@ -276,7 +277,12 @@ void SendCoinsDialog::on_sendButton_clicked()
         {
             if(rcp.label.length() > 0) // label with address
             {
-                recipientElement = tr("%1 to %2").arg(amount, GUIUtil::HtmlEscape(rcp.label));
+                QString displayedLabel = rcp.label;
+                if (rcp.label.length() > CHARACTERS_DISPLAY_LIMIT_IN_LABEL)  
+                {
+                    displayedLabel = displayedLabel.left(CHARACTERS_DISPLAY_LIMIT_IN_LABEL).append("..."); // limit the amount of characters displayed in label
+                }
+                recipientElement = tr("%1 to %2").arg(amount, GUIUtil::HtmlEscape(displayedLabel));
                 recipientElement.append(QString(" (%1)").arg(address));
             }
             else // just address

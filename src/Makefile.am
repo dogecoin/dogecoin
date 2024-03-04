@@ -78,6 +78,7 @@ endif
 BITCOIN_CORE_H = \
   addrdb.h \
   addrman.h \
+  attributes.h \
   auxpow.h \
   base58.h \
   bloom.h \
@@ -129,6 +130,7 @@ BITCOIN_CORE_H = \
   protocol.h \
   random.h \
   reverselock.h \
+  rpc/blockchain.h \
   rpc/client.h \
   rpc/protocol.h \
   rpc/server.h \
@@ -143,6 +145,7 @@ BITCOIN_CORE_H = \
   support/allocators/zeroafterfree.h \
   support/cleanse.h \
   support/events.h \
+  support/experimental.h \
   support/lockedpool.h \
   sync.h \
   threadsafety.h \
@@ -156,6 +159,7 @@ BITCOIN_CORE_H = \
   util.h \
   utilmoneystr.h \
   utiltime.h \
+  utilstring.h \
   validation.h \
   validationinterface.h \
   versionbits.h \
@@ -266,6 +270,11 @@ crypto_libdogecoin_crypto_a_SOURCES = \
   crypto/sha256.h \
   crypto/sha512.cpp \
   crypto/sha512.h
+
+# only include SSE2 scrypt sources if USE_SCRYPT_SSE2 is defined
+if USE_SCRYPT_SSE2
+crypto_libdogecoin_crypto_a_SOURCES += crypto/scrypt-sse2.cpp
+endif
 
 # consensus: shared between all executables that validate any consensus rules.
 libdogecoin_consensus_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
@@ -499,15 +508,13 @@ clean-local:
 	$(AM_V_GEN) $(WINDRES) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(CPPFLAGS) -DWINDRES_PREPROC -i $< -o $@
 
 check-symbols: $(bin_PROGRAMS)
-if GLIBC_BACK_COMPAT
 	@echo "Checking glibc back compat..."
-	$(AM_V_at) READELF=$(READELF) CPPFILT=$(CPPFILT) $(top_srcdir)/contrib/devtools/symbol-check.py < $(bin_PROGRAMS)
-endif
+	$(AM_V_at) $(PYTHON) $(top_srcdir)/contrib/devtools/symbol-check.py $(bin_PROGRAMS)
 
 check-security: $(bin_PROGRAMS)
 if HARDEN
 	@echo "Checking binary security..."
-	$(AM_V_at) READELF=$(READELF) OBJDUMP=$(OBJDUMP) $(top_srcdir)/contrib/devtools/security-check.py < $(bin_PROGRAMS)
+	$(AM_V_at) $(PYTHON) $(top_srcdir)/contrib/devtools/security-check.py $(bin_PROGRAMS)
 endif
 
 %.pb.cc %.pb.h: %.proto

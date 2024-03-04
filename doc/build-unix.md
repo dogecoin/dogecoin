@@ -62,6 +62,12 @@ using only fully tested dependencies, see the documentation in the
 
 ### Ubuntu & Debian example
 
+Before installing the dependencies, ensure your system is updated and has the latest security patches:
+
+```bash
+sudo apt-get update
+sudo apt-get upgrade
+
 **Required dependencies** :
 ```bash
 sudo apt-get install build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils

@@ -1,6 +1,6 @@
 // Copyright (c) 2010 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin Core developers
-// Copyright (c) 2022 The Dogecoin Core developers
+// Copyright (c) 2022-2024 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -111,10 +111,10 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_SEGWIT].nTimeout = 0; // Disabled
 
         // The best chain should have at least this much work.
-        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000007dc8ab65fc32f953c4a"); // 4,303,965
+        consensus.nMinimumChainWork = uint256S("0x000000000000000000000000000000000000000000000e993d2aa86cf246a49b"); // 5,050,000
 
         // By default assume that the signatures in ancestors of this block are valid.
-        consensus.defaultAssumeValid = uint256S("0xed7d266dcbd8bb8af80f9ccb8deb3e18f9cc3f6972912680feeb37b090f8cee0"); // 4,303,965
+        consensus.defaultAssumeValid = uint256S("0xe7d4577405223918491477db725a393bcfc349d8ee63b0a4fde23cbfbfd81dea"); // 5,050,000
 
         // AuxPoW parameters
         consensus.nAuxpowChainId = 0x0062; // 98 - Josh Wise!
@@ -201,15 +201,17 @@ public:
             ( 3854173, uint256S("0xe4b4ecda4c022406c502a247c0525480268ce7abbbef632796e8ca1646425e75"))
             ( 3963597, uint256S("0x2b6927cfaa5e82353d45f02be8aadd3bfd165ece5ce24b9bfa4db20432befb5d"))
             ( 4303965, uint256S("0xed7d266dcbd8bb8af80f9ccb8deb3e18f9cc3f6972912680feeb37b090f8cee0"))
+            ( 5050000, uint256S("0xe7d4577405223918491477db725a393bcfc349d8ee63b0a4fde23cbfbfd81dea"))
         };
 
         chainTxData = ChainTxData{
-            // Data as of block ed7d266dcbd8bb8af80f9ccb8deb3e18f9cc3f6972912680feeb37b090f8cee0 (height 4303965).
-            // Tx estimate based on average between 2021-07-01 (3793538) and 2022-07-01 (4288126)
-            1657646310, // * UNIX timestamp of last checkpoint block
-            86433645,   // * total number of transactions between genesis and last checkpoint
+            // Data as of block e7d4577405223918491477db725a393bcfc349d8ee63b0a4fde23cbfbfd81dea (height 5050000).
+            // Tx estimate based on average between 2023-01-16 (92752025 at 4556625) and 2024-01-16 (226128837 at 5050000)
+            1705383360, // * UNIX timestamp of last checkpoint block
+            226128837,   // * total number of transactions between genesis and last checkpoint
                         //   (the tx=... number in the SetBestChain debug.log lines)
-            0.29        // * estimated number of transactions per second after checkpoint
+            4.23        // * estimated number of transactions per second after checkpoint
+                        // (226128837 - 92752025) / 31536000 = 4.2293509
         };
     }
 };
@@ -265,10 +267,10 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_SEGWIT].nTimeout = 0; // Disabled
 
         // The best chain should have at least this much work.
-        consensus.nMinimumChainWork = uint256S("0x000000000000000000000000000000000000000000000000003e3c33bc605e5d"); // 3,976,284
+        consensus.nMinimumChainWork = uint256S("0x00000000000000000000000000000000000000000000000000540f2f62ff9a26"); // 5,900,000
 
         // By default assume that the signatures in ancestors of this block are valid.
-        consensus.defaultAssumeValid = uint256S("0xaf23c3e750bb4f2ce091235f006e7e4e2af453d4c866282e7870471dcfeb4382"); // 3,976,284
+        consensus.defaultAssumeValid = uint256S("0x199bea6a442310589cbb50a193a30b097c228bd5a0f21af21e4e53dd57c382d3"); // 5,900,000
 
         // AuxPoW parameters
         consensus.nAuxpowChainId = 0x0062; // 98 - Josh Wise!
@@ -355,13 +357,14 @@ public:
             ( 3286675, uint256S("0x07fef07a255d510297c9189dc96da5f4e41a8184bc979df8294487f07fee1cf3"))
             ( 3445426, uint256S("0x70574db7856bd685abe7b0a8a3e79b29882620645bd763b01459176bceb58cd1"))
             ( 3976284, uint256S("0xaf23c3e750bb4f2ce091235f006e7e4e2af453d4c866282e7870471dcfeb4382"))
+            ( 5900000, uint256S("0x199bea6a442310589cbb50a193a30b097c228bd5a0f21af21e4e53dd57c382d3"))
         };
 
         chainTxData = ChainTxData{
-            // Data as of block af23c3e750bb4f2ce091235f006e7e4e2af453d4c866282e7870471dcfeb4382 (height 3976284)
-            1657647467, // * UNIX timestamp of last checkpoint block
-            5353803,    // * total number of transactions between genesis and last checkpoint
-            0.02        // * estimated number of transactions per second after that timestamp
+            // Data as of block 199bea6a442310589cbb50a193a30b097c228bd5a0f21af21e4e53dd57c382d3 (height 5,900,000)
+            1703511130, // * UNIX timestamp of last checkpoint block
+            7391928,    // * total number of transactions between genesis and last checkpoint
+            0.04        // * estimated number of transactions per second after that timestamp
         };
 
     }

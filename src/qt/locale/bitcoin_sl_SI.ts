@@ -1744,6 +1744,18 @@ p, li { white-space: pre-wrap; }
         <source>Payment acknowledged</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>BIP70 payment requests are deprecated and disabled by default. Restart with -enable-bip70 if you absolutely have to use this functionality.
+
+Use this functionality with extreme caution.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Payment request file handling is disabled by default. Restart with -enable-bip70 if you absolutely have to use this functionality.
+
+Use this functionality with extreme caution.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PeerTableModel</name>
@@ -2530,7 +2542,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>If the custom fee is set to 1000 koinu and the transaction is only 250 bytes, then &quot;per kilobyte&quot; only pays 250 koinu in fee, while &quot;total at least&quot; pays 1000 koinu. For transactions bigger than a kilobyte both pay by kilobyte.</source>
-        <translation type="vanished">Če je nastavitev zneska provizije po meri enaka 1000 koinujev, transakcija pa je velika samo 250 bajtov, je obračunani znesek provizije pri nastavitvi &quot;za KiB&quot; samo 250 koinujev, medtem ko je pri nastavitvi &quot;skupno vsaj&quot; ta znesek 1000 koinujev. Za transakcije, večje od 1 KiB, se končni znesek pri obeh nastavitvah obračuna na KiB.</translation>
+        <translation>Če je nastavitev zneska provizije po meri enaka 1000 koinujev, transakcija pa je velika samo 250 bajtov, je obračunani znesek provizije pri nastavitvi &quot;za KiB&quot; samo 250 koinujev, medtem ko je pri nastavitvi &quot;skupno vsaj&quot; ta znesek 1000 koinujev. Za transakcije, večje od 1 KiB, se končni znesek pri obeh nastavitvah obračuna na KiB.</translation>
     </message>
     <message>
         <source>Hide</source>
@@ -3573,7 +3585,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Execute command when a wallet transaction changes (%s in cmd is replaced by TxID)</source>
-        <translation>Izvedi ukaz, ko bo transakcija denarnice se spremenila (V cmd je bil TxID zamenjan za %s)</translation>
+        <translation type="vanished">Izvedi ukaz, ko bo transakcija denarnice se spremenila (V cmd je bil TxID zamenjan za %s)</translation>
     </message>
     <message>
         <source>Set the number of script verification threads (%u to %d, 0 = auto, &lt;0 = leave that many cores free, default: %d)</source>
@@ -4529,6 +4541,14 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>ZeroMQ notification options:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Execute command when a wallet transaction changes (%s in cmd is replaced by TxID, %i with block height, with a value of 0 if tx is no longer in chaintip)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable BIP-70 PaymentServer (default: 0)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

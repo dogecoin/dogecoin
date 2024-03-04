@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # Copyright (c) 2015-2016 The Bitcoin Core developers
+# Copyright (c) 2021 The Dogecoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -17,7 +18,7 @@ Functionality to build scripts, as well as SignatureHash().
 
 from .mininode import CTransaction, CTxOut, sha256, hash256, uint256_from_str, ser_uint256, ser_string
 from binascii import hexlify
-import hashlib
+from .ripemd160 import ripemd160
 
 import sys
 bchr = chr
@@ -38,7 +39,7 @@ MAX_SCRIPT_OPCODES = 201
 OPCODE_NAMES = {}
 
 def hash160(s):
-    return hashlib.new('ripemd160', sha256(s)).digest()
+    return ripemd160(sha256(s))
 
 
 _opcode_instances = []

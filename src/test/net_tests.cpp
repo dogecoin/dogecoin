@@ -1,5 +1,5 @@
 // Copyright (c) 2012-2016 The Bitcoin Core developers
-// Copyright (c) 2018 The Dogecoin Core developers
+// Copyright (c) 2018-2022 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 #include "addrman.h"
@@ -82,6 +82,8 @@ BOOST_AUTO_TEST_CASE(caddrdb_read)
     Lookup("250.7.1.1", addr1, 8333, false);
     Lookup("250.7.2.2", addr2, 9999, false);
     Lookup("250.7.3.3", addr3, 9999, false);
+    BOOST_CHECK(Lookup(std::string("250.7.3.3", 9), addr3, 9999, false));
+    BOOST_CHECK(!Lookup(std::string("250.7.3.3\0example.com", 21), addr3, 9999, false));
 
     // Add three addresses to new table.
     CService source;

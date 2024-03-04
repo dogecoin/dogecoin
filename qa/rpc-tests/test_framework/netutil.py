@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # Copyright (c) 2014-2016 The Bitcoin Core developers
+# Copyright (c) 2023 The Dogecoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -105,7 +106,7 @@ def all_interfaces():
             max_possible *= 2
         else:
             break
-    namestr = names.tostring()
+    namestr = names.tobytes()
     return [(namestr[i:i+16].split(b'\0', 1)[0],
              socket.inet_ntoa(namestr[i+20:i+24]))
             for i in range(0, outbytes, struct_size)]

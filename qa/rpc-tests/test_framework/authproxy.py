@@ -52,7 +52,7 @@ USER_AGENT = "AuthServiceProxy/0.1"
 
 HTTP_TIMEOUT = 30
 
-log = logging.getLogger("BitcoinRPC")
+log = logging.getLogger("DogecoinRPC")
 
 class JSONRPCException(Exception):
     def __init__(self, rpc_error):
@@ -142,7 +142,7 @@ class AuthServiceProxy(object):
         AuthServiceProxy.__id_count += 1
 
         log.debug("-%s-> %s %s"%(AuthServiceProxy.__id_count, self._service_name,
-                                 json.dumps(args, default=EncodeDecimal, ensure_ascii=self.ensure_ascii)))
+                                 json.dumps(args or argsn, default=EncodeDecimal, ensure_ascii=self.ensure_ascii)))
         if args and argsn:
             raise ValueError('Cannot handle both named and positional arguments')
         postdata = json.dumps({'version': '1.1',

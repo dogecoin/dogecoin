@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2015 The Bitcoin Core developers
-// Copyright (c) 2020 The Dogecoin Core developers
+// Copyright (c) 2020-2023 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -67,7 +67,7 @@ void PaymentServerTests::paymentServerTests()
 {
     SelectParams(CBaseChainParams::MAIN);
     OptionsModel optionsModel;
-    PaymentServer* server = new PaymentServer(NULL, false);
+    PaymentServer* server = new PaymentServer(NULL, QString("testIPCServer"), false, true);
     X509_STORE* caStore = X509_STORE_new();
     X509_STORE_add_cert(caStore, parse_b64der_cert(caCert1_BASE64));
     PaymentServer::LoadRootCAs(caStore);

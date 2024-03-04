@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2016 The Bitcoin Core developers
-// Copyright (c) 2021 The Dogecoin Core developers
+// Copyright (c) 2021-2022 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -281,7 +281,7 @@ void CExtPubKey::Decode(const unsigned char code[BIP32_EXTKEY_SIZE]) {
 bool CExtPubKey::Derive(CExtPubKey &out, unsigned int _nChild) const {
     out.nDepth = nDepth + 1;
     CKeyID id = pubkey.GetID();
-    memcpy(&out.vchFingerprint[0], &id, 4);
+    memcpy(out.vchFingerprint, &id, 4);
     out.nChild = _nChild;
     return pubkey.Derive(out.pubkey, out.chaincode, _nChild, chaincode);
 }

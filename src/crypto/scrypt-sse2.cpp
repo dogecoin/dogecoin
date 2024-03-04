@@ -28,12 +28,15 @@
  */
 
 #include "crypto/scrypt.h"
+#include "support/experimental.h"
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
-#include <openssl/sha.h>
 
 #include <emmintrin.h>
+
+// this entire functionality is experimental
+EXPERIMENTAL_FEATURE
 
 static inline void xor_salsa8_sse2(__m128i B[4], const __m128i Bx[4])
 {

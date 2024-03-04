@@ -2,7 +2,7 @@
 # Copyright (c) 2010 ArtForz -- public domain half-a-node
 # Copyright (c) 2012 Jeff Garzik
 # Copyright (c) 2010-2016 The Bitcoin Core developers
-# Copyright (c) 2022 The Dogecoin Core developers
+# Copyright (c) 2022-2023 The Dogecoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -72,9 +72,6 @@ mininode_lock = RLock()
 # Serialization/deserialization tools
 def sha256(s):
     return hashlib.new('sha256', s).digest()
-
-def ripemd160(s):
-    return hashlib.new('ripemd160', s).digest()
 
 def hash256(s):
     return sha256(sha256(s))
@@ -1670,7 +1667,7 @@ class NodeConn(asyncore.dispatcher):
             vt.addrFrom.port = 0
             self.send_message(vt, True)
 
-        print('MiniNode: Connecting to Bitcoin Node IP # ' + dstaddr + ':' \
+        print('MiniNode: Connecting to Dogecoin Node IP # ' + dstaddr + ':' \
             + str(dstport))
 
         try:

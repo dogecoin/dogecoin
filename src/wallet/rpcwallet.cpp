@@ -1,6 +1,6 @@
 // Copyright (c) 2010 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin Core developers
-// Copyright (c) 2022 The Dogecoin Core developers
+// Copyright (c) 2022-2023 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -2940,7 +2940,7 @@ UniValue bumpfee(const JSONRPCRequest& request)
             "2. options               (object, optional)\n"
             "   {\n"
             "     \"confTarget\"        (numeric, optional) Confirmation target (in blocks)\n"
-            "     \"totalFee\"          (numeric, optional) Total fee (NOT feerate) to pay, in satoshis.\n"
+            "     \"totalFee\"          (numeric, optional) Total fee (NOT feerate) to pay, in koinu.\n"
             "                         In rare cases, the actual fee paid might be slightly higher than the specified\n"
             "                         totalFee if the tx change output has to be removed because it is too close to\n"
             "                         the dust threshold.\n"
@@ -3244,11 +3244,11 @@ static const CRPCCommand commands[] =
     { "wallet",             "getunconfirmedbalance",    &getunconfirmedbalance,    false,  {} },
     { "wallet",             "getwalletinfo",            &getwalletinfo,            false,  {} },
     { "wallet",             "importmulti",              &importmulti,              true,   {"requests","options"} },
-    { "wallet",             "importprivkey",            &importprivkey,            true,   {"privkey","label","rescan"} },
+    { "wallet",             "importprivkey",            &importprivkey,            true,   {"privkey","label","rescan", "height"} },
     { "wallet",             "importwallet",             &importwallet,             true,   {"filename"} },
     { "wallet",             "importaddress",            &importaddress,            true,   {"address","label","rescan","p2sh"} },
     { "wallet",             "importprunedfunds",        &importprunedfunds,        true,   {"rawtransaction","txoutproof"} },
-    { "wallet",             "importpubkey",             &importpubkey,             true,   {"pubkey","label","rescan"} },
+    { "wallet",             "importpubkey",             &importpubkey,             true,   {"pubkey","label","rescan", "height"} },
     { "wallet",             "keypoolrefill",            &keypoolrefill,            true,   {"newsize"} },
     { "wallet",             "listaccounts",             &listaccounts,             false,  {"minconf","include_watchonly"} },
     { "wallet",             "listaddressgroupings",     &listaddressgroupings,     false,  {} },

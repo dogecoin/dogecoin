@@ -86,6 +86,8 @@ OptionsDialog::OptionsDialog(QWidget *parent, bool enableWallet) :
 
     /* Display elements init */
     QDir translations(":translations");
+    QFont notoFont("Noto Sans Roboto", 10);
+    ui->lang->setFont(notoFont);
 
     ui->bitcoinAtStartup->setToolTip(ui->bitcoinAtStartup->toolTip().arg(tr(PACKAGE_NAME)));
     ui->bitcoinAtStartup->setText(ui->bitcoinAtStartup->text().arg(tr(PACKAGE_NAME)));
@@ -348,7 +350,7 @@ QValidator::State ProxyAddressValidator::validate(QString &input, int &pos) cons
 {
     Q_UNUSED(pos);
     // Validate the proxy
-    CService serv(LookupNumeric(input.toStdString().c_str(), 9050));
+    CService serv(LookupNumeric(input.toStdString(), 9050));
     proxyType addrProxy = proxyType(serv, true);
     if (addrProxy.IsValid())
         return QValidator::Acceptable;

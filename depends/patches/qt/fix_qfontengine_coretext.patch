@@ -1,0 +1,11 @@
+--- old/qtbase/src/platformsupport/fontdatabases/mac/qfontengine_coretext.mm
++++ new/qtbase/src/platformsupport/fontdatabases/mac/qfontengine_coretext.mm
+@@ -824,7 +824,7 @@ void QCoreTextFontEngine::getUnscaledGlyph(glyph_t glyph, QPainterPath *path, gl
+ 
+ QFixed QCoreTextFontEngine::emSquareSize() const
+ {
+-    return QFixed::QFixed(int(CTFontGetUnitsPerEm(ctfont)));
++    return QFixed(int(CTFontGetUnitsPerEm(ctfont)));
+ }
+ 
+ QFontEngine *QCoreTextFontEngine::cloneWithSize(qreal pixelSize) const

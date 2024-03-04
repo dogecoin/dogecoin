@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin Core developers
-// Copyright (c) 2018 The Dogecoin Core developers
+// Copyright (c) 2018-2024 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -30,6 +30,19 @@
 
 class CAutoFile;
 class CBlockIndex;
+
+/** Minimum client version required to read fee_estimates.dat
+ * Clients with a lower version than this should ignore the file
+ */
+static const int FEEFILE_MIN_BACKCOMPAT_VERSION = 1140700; // 1.14.7.0
+
+/** Minimum client version required to read fee_estimates.dat
+ * Files created with a lower version than this are ignored
+ *
+ * Due to bucket spacing and min/max changes in 1.14.7, set this
+ * to 1.14.7.0 exactly.
+ */
+static const int FEEFILE_MIN_COMPAT_VERSION_WRITER = 1140700; // 1.14.7.0
 
 inline double AllowFreeThreshold()
 {

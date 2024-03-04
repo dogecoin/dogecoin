@@ -1,6 +1,6 @@
 // Copyright (c) 2010 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin Core developers
-// Copyright (c) 2021 The Dogecoin Core developers
+// Copyright (c) 2021-2023 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -19,7 +19,6 @@
 #include <boost/bind/bind.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/foreach.hpp>
-#include <boost/shared_ptr.hpp>
 #include <boost/signals2/signal.hpp>
 #include <boost/thread.hpp>
 #include <boost/algorithm/string/case_conv.hpp> // for to_upper()

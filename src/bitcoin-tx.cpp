@@ -1,4 +1,5 @@
 // Copyright (c) 2009-2016 The Bitcoin Core developers
+// Copyright (c) 2022 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -9,6 +10,7 @@
 #include "base58.h"
 #include "clientversion.h"
 #include "coins.h"
+#include "compat.h"
 #include "consensus/consensus.h"
 #include "core_io.h"
 #include "keystore.h"
@@ -817,7 +819,7 @@ static int CommandLineRawTx(int argc, char* argv[])
     return nRet;
 }
 
-int main(int argc, char* argv[])
+MAIN_FUNCTION
 {
     SetupEnvironment();
 

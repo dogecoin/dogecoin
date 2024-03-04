@@ -5,35 +5,35 @@
     <name>AddPeerDialog</name>
     <message>
         <source>Add Peer</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodaj peera</translation>
     </message>
     <message>
         <source>Enter the peer details below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wprowadź szczegóły peera poniżej.</translation>
     </message>
     <message>
         <source>Be careful! Do not blindly trust anyone that tells you to add their node.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bądź ostrożny! Nie ufaj ślepo nikomu, kto każe Ci dodać jego węzeł.</translation>
     </message>
     <message>
         <source>Enter the peer&apos;s address</source>
-        <translation type="unfinished"></translation>
+        <translation>Wprowadź adres peera</translation>
     </message>
     <message>
         <source>Enter the peer&apos;s port</source>
-        <translation type="unfinished"></translation>
+        <translation>Wprowadź port peera</translation>
     </message>
     <message>
         <source>Add!</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodaj!</translation>
     </message>
     <message>
         <source>Please enter an address.</source>
-        <translation type="unfinished"></translation>
+        <translation>Proszę wprowadzić adres.</translation>
     </message>
     <message>
         <source>Please enter a valid peer address.</source>
-        <translation type="unfinished"></translation>
+        <translation>Proszę wprowadzić prawidłowy adres peera.</translation>
     </message>
 </context>
 <context>
@@ -456,10 +456,10 @@
     </message>
     <message numerus="yes">
         <source>%n active connection(s) to Dogecoin network</source>
-        <translation type="unfinished">
+        <translation>
+            <numerusform>%n aktywne połączenie do sieci Dogecoin</numerusform>
             <numerusform>%n aktywnych połączeń do sieci Dogecoin</numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+            <numerusform>%n aktywnych połączeń do sieci Dogecoin</numerusform>
         </translation>
     </message>
     <message>
@@ -472,10 +472,10 @@
     </message>
     <message numerus="yes">
         <source>Processed %n block(s) of transaction history.</source>
-        <translation type="unfinished">
+        <translation>
+            <numerusform>Przetworzono %n blok historii transakcji.</numerusform>
             <numerusform>Przetworzono %n bloków historii transakcji.</numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+            <numerusform>Przetworzono %n bloków historii transakcji.</numerusform>
         </translation>
     </message>
     <message>
@@ -566,63 +566,63 @@
     </message>
     <message>
         <source>&amp;Print paper wallets</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Drukuj papierowy portfel</translation>
     </message>
     <message>
         <source>Print paper wallets</source>
-        <translation type="unfinished"></translation>
+        <translation>Drukuj papierowy portfel</translation>
     </message>
     <message>
         <source>&amp;Such sending addresses...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Adresy wysyłania...</translation>
     </message>
     <message>
         <source>&amp;Much receiving addresses...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Adresy odbioru...</translation>
     </message>
     <message>
         <source>&amp;Import Private Key...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Importuj Klucz Prywatny...</translation>
     </message>
     <message>
         <source>Import a Dogecoin private key</source>
-        <translation type="unfinished"></translation>
+        <translation>Importuj klucz prywatny Dogecoin</translation>
     </message>
     <message>
         <source>Click to disable network activity.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kliknij, aby wyłączyć aktywność sieciową.</translation>
     </message>
     <message>
         <source>Network activity disabled.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktywność sieciowa wyłączona.</translation>
     </message>
     <message>
         <source>Click to enable network activity again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kliknij, aby ponownie włączyć aktywność sieciową.</translation>
     </message>
     <message>
         <source>Syncing Headers (%1%)...</source>
-        <translation type="unfinished"></translation>
+        <translation>Synchronizowanie nagłówków (%1%)...</translation>
     </message>
     <message>
         <source>Connecting to peers...</source>
-        <translation type="unfinished"></translation>
+        <translation>Łączenie do peerów...</translation>
     </message>
     <message>
         <source>HD key generation is &lt;b&gt;enabled&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Generowanie kluczy HD jest &lt;b&gt;włączone&lt;/b&gt;</translation>
     </message>
     <message>
         <source>HD key generation is &lt;b&gt;disabled&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Generowanie kluczy HD jest &lt;b&gt;wyłączone&lt;/b&gt;</translation>
     </message>
     <message>
         <source>Runaway exception</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyjątek wykonania</translation>
     </message>
     <message>
         <source>A fatal error occurred. Dogecoin can no longer continue safely and will quit.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wystąpił błąd krytyczny. Dogecoin nie może już bezpiecznie kontynuować i zakończy działanie.</translation>
     </message>
 </context>
 <context>
@@ -777,7 +777,7 @@
     </message>
     <message>
         <source>Can vary +/- %1 koinu per input.</source>
-        <translation type="unfinished"></translation>
+        <translation>Waha się +/- %1 koinu za wejście.</translation>
     </message>
 </context>
 <context>
@@ -828,11 +828,11 @@
     </message>
     <message>
         <source>The entered address &quot;%1&quot; is not a valid Dogecoin address.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wprowadzony adres &quot;%1&quot; nie jest prawidłowym adresem Dogecoin.</translation>
     </message>
     <message>
         <source>The entered address &quot;%1&quot; is already in the address book.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wprowadzony adres &quot;%1&quot; już istnieje w książce adresowej</translation>
     </message>
 </context>
 <context>
@@ -917,63 +917,63 @@
     <name>ImportKeysDialog</name>
     <message>
         <source>Import Private Key</source>
-        <translation type="unfinished"></translation>
+        <translation>Importuj Klucz Prywatny</translation>
     </message>
     <message>
         <source>&amp;Import Private Key</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Importuj Klucz Prywatny</translation>
     </message>
     <message>
         <source>Private Key:</source>
-        <translation type="unfinished"></translation>
+        <translation>Klucz Prywatny:</translation>
     </message>
     <message>
         <source>Private key to import into your wallet</source>
-        <translation type="unfinished"></translation>
+        <translation>Klucz prywatny do zaimportowania do twojego portfela</translation>
     </message>
     <message>
         <source>Label for this private key in your wallet</source>
-        <translation type="unfinished"></translation>
+        <translation>Etykieta tego klucza prywatnego w twoim portfelu</translation>
     </message>
     <message>
         <source>Label (optional):</source>
-        <translation type="unfinished"></translation>
+        <translation>Etykieta (opcjonalnie):</translation>
     </message>
     <message>
         <source>Rescan</source>
-        <translation type="unfinished"></translation>
+        <translation>Skanuj ponownie</translation>
     </message>
     <message>
         <source>Reset this form.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zresetuj ten formularz.</translation>
     </message>
     <message>
         <source>&amp;Reset</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Resetuj</translation>
     </message>
     <message>
         <source>&amp;Import</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Importuj</translation>
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;Anuluj</translation>
+        <translation>&amp;Anuluj</translation>
     </message>
     <message>
         <source>Invalid private key; please check and try again!</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieprawidłowy klucz prywatny; sprawdź i spróbuj ponownie!</translation>
     </message>
     <message>
         <source>Invalid address generated from private key; please check and try again!</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieprawidłowy adres wygenerowany z klucza prywatnego; sprawdź i spróbuj ponownie!</translation>
     </message>
     <message>
         <source>Failed to add private key.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się dodać klucza prywatnego.</translation>
     </message>
     <message>
         <source>Rescanning...</source>
-        <translation type="unfinished">Ponowne skanowanie...</translation>
+        <translation>Ponowne skanowanie...</translation>
     </message>
 </context>
 <context>
@@ -1012,23 +1012,23 @@
     </message>
     <message numerus="yes">
         <source>%n GB of free space available</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%n GB dostępnego wolnego miejsca</numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+            <numerusform>%n GB dostępnego wolnego miejsca</numerusform>
+            <numerusform>%n GB dostępnego wolnego miejsca</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>(of %n GB needed)</source>
-        <translation type="unfinished">
+        <translation>
+            <numerusform>(z %n GB potrzebnego)</numerusform>
             <numerusform>(z %n GB potrzebnych)</numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+            <numerusform>(z %n GB potrzebnych)</numerusform>
         </translation>
     </message>
     <message>
         <source>Choose data directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz katalog danych</translation>
     </message>
 </context>
 <context>
@@ -1075,11 +1075,11 @@
     </message>
     <message>
         <source>Recent transactions may not yet be visible, and therefore your wallet&apos;s balance might be incorrect. This information will be correct once your wallet has finished synchronizing with the dogecoin network, as detailed below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ostatnie transakcje mogą nie być jeszcze widoczne, a zatem saldo portfela może być nieprawidłowe. Te informacje będą poprawne, gdy portfel zakończy synchronizację z siecią dogecoin, zgodnie z poniższym opisem.</translation>
     </message>
     <message>
         <source>Attempting to spend dogecoins that are affected by not-yet-displayed transactions will not be accepted by the network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Próba wydania dogecoinów, których dotyczą niewyświetlone jeszcze transakcje, nie zostanie zaakceptowana przez sieć.</translation>
     </message>
 </context>
 <context>
@@ -1341,19 +1341,19 @@
     </message>
     <message>
         <source>Disables some advanced features but all blocks will still be fully validated. Reverting this setting requires re-downloading the entire blockchain. Actual disk usage may be somewhat higher.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyłącza niektóre zaawansowane funkcje ale wszystkie bloki będą nadal w pełni sprawdzane. Przywrócenie tego ustawienia wymaga ponownego pobrania całego łańcucha bloków. Rzeczywiste wykorzystanie dysku może być nieco wyższe.</translation>
     </message>
     <message>
         <source>Prune &amp;block storage to</source>
-        <translation type="unfinished"></translation>
+        <translation>Ogranicz przechowywanie łańcucha bloków do</translation>
     </message>
     <message>
         <source>GB</source>
-        <translation type="unfinished"></translation>
+        <translation>GB</translation>
     </message>
     <message>
         <source>Reverting this setting requires re-downloading the entire blockchain.</source>
-        <translation type="unfinished"></translation>
+        <translation>Przywrócenie tego ustawienia wymaga ponownego pobrania całego łańcucha bloków.</translation>
     </message>
 </context>
 <context>
@@ -1432,70 +1432,70 @@
     </message>
     <message>
         <source>Helpful tip of the day:</source>
-        <translation type="unfinished"></translation>
+        <translation>Pomocna wskazówka dnia:</translation>
     </message>
     <message>
         <source>Tip</source>
-        <translation type="unfinished"></translation>
+        <translation>Wskazówka</translation>
     </message>
     <message>
         <source>Never share your wallet.dat file with anyone</source>
-        <translation type="unfinished"></translation>
+        <translation>Nigdy nie udostępniaj nikomu swojego pliku wallet.dat</translation>
     </message>
     <message>
         <source>For advanced operations, use the console in &apos;Help&apos; -&gt; &apos;Debug Window&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Aby wykonać zaawansowane operacje, użyj konsoli w &apos;Pomoc&apos; -&gt; &apos;Okno debugowania&apos;</translation>
     </message>
     <message>
         <source>Encrypt your wallet with a strong passphrase for maximum security</source>
-        <translation type="unfinished"></translation>
+        <translation>Zaszyfruj swój portfel silnym hasłem, aby zapewnić maksymalne bezpieczeństwo</translation>
     </message>
     <message>
         <source>Make sure to keep your wallet software updated</source>
-        <translation type="unfinished"></translation>
+        <translation>Pamiętaj o aktualizowaniu oprogramowania portfela</translation>
     </message>
     <message>
         <source>Backup your private key to recover your coins, using &apos;File&apos; &gt; &apos;Backup Wallet&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Utwórz kopię zapasową klucza prywatnego aby móc odzyskać monety, używając &apos;Plik&apos; &gt; &apos;Wykonaj kopię zapasową&apos;</translation>
     </message>
     <message>
         <source>Always do your own research before using an external cryptocurrency service</source>
-        <translation type="unfinished"></translation>
+        <translation>Zawsze przeprowadź własne badania przed skorzystaniem z zewnętrznej usługi kryptowalutowej</translation>
     </message>
     <message>
         <source>Never share your private key with anyone</source>
-        <translation type="unfinished"></translation>
+        <translation>Nigdy nie udostępniaj nikomu swojego klucza prywatnego</translation>
     </message>
     <message>
         <source>Who owns the private keys, owns the coins</source>
-        <translation type="unfinished"></translation>
+        <translation>Kto jest właścicielem kluczy prywatnych, jest właścicielem monet</translation>
     </message>
     <message>
         <source>To see ongoing development and contribute, check out the Dogecoin Core repository on GitHub</source>
-        <translation type="unfinished"></translation>
+        <translation>Aby zobaczyć ciągły rozwój i wnieść swój wkład, sprawdź repozytorium Dogecoin Core na GitHub</translation>
     </message>
     <message>
         <source>Services that claim to double your dogecoins are always ponzi schemes</source>
-        <translation type="unfinished"></translation>
+        <translation>Usługi, które obiecują podwoić Twoje monety Dogecoin, są zawsze schematami ponzi</translation>
     </message>
 </context>
 <context>
     <name>PaperWalletDialog</name>
     <message>
         <source>Print Your Paper Wallets</source>
-        <translation type="unfinished"></translation>
+        <translation>Wydrukuj Swoje Papierowe Portfele</translation>
     </message>
     <message>
         <source>Very New Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Nowy adres</translation>
     </message>
     <message>
         <source>So Print</source>
-        <translation type="unfinished"></translation>
+        <translation>Drukuj</translation>
     </message>
     <message>
         <source>Many Wallets?</source>
-        <translation type="unfinished"></translation>
+        <translation>Ile portfeli?</translation>
     </message>
     <message>
         <source>1</source>
@@ -1555,47 +1555,47 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Public Key:</source>
-        <translation type="unfinished"></translation>
+        <translation>Klucz publiczny:</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Zamknij</translation>
     </message>
     <message>
         <source>Warning: Network Activity Detected</source>
-        <translation type="unfinished"></translation>
+        <translation>Ostrzeżenie: wykryto aktywność sieciową</translation>
     </message>
     <message>
         <source>It is recommended to disconnect from the internet before printing paper wallets. Even though paper wallets are generated on your local computer, it is still possible to unknowingly have malware that transmits your screen to a remote location. It is also recommended to print to a local printer vs a network printer since that network traffic can be monitored. Some advanced printers also store copies of each printed document. Proceed with caution relative to the amount of value you plan to store on each address.</source>
-        <translation type="unfinished"></translation>
+        <translation>Przed drukowaniem portfeli papierowych zaleca się odłączenie od Internetu. Mimo że portfele papierowe są generowane na komputerze lokalnym, nadal istnieje możliwość nieświadomego posiadania złośliwego oprogramowania, które przesyła ekran do zdalnej lokalizacji. Zaleca się również drukowanie na drukarce lokalnej, a nie na drukarce sieciowej, ponieważ można monitorować ruch sieciowy. Niektóre zaawansowane drukarki przechowują również kopie każdego drukowanego dokumentu. Postępuj ostrożnie, biorąc pod uwagę wartość, jaką planujesz przechowywać pod każdym adresem.</translation>
     </message>
     <message>
         <source>Error encoding Address into QR Code.</source>
-        <translation type="unfinished"></translation>
+        <translation>Błąd kodowania adresu do kodu QR.</translation>
     </message>
     <message>
         <source>Error encoding private key into QR Code.</source>
-        <translation type="unfinished"></translation>
+        <translation>Błąd kodowania klucza prywatnego do kodu QR.</translation>
     </message>
     <message>
         <source>Printing Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Błąd drukowania</translation>
     </message>
     <message>
         <source>failed to open file, is it writable?</source>
-        <translation type="unfinished"></translation>
+        <translation>nie udało się otworzyć pliku, czy jest zapisywalny?</translation>
     </message>
     <message>
         <source>Load Paper Wallets</source>
-        <translation type="unfinished"></translation>
+        <translation>Ładowanie Portfeli Papierowych</translation>
     </message>
     <message>
         <source>The paper wallet printing process has begun.&lt;br/&gt;Please wait for the wallets to print completely and verify that everything printed correctly.&lt;br/&gt;Check for misalignments, ink bleeding, smears, or anything else that could make the private keys unreadable.&lt;br/&gt;Now, enter the number of DOGE you wish to send to each wallet:</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozpoczął się proces drukowania portfela papierowego.&lt;br/&gt;Poczekaj, aż portfele zostaną całkowicie wydrukowane i sprawdź, czy wszystko zostało wydrukowane poprawnie.&lt;br/&gt;Sprawdź, czy nie ma przesunięć, wycieków atramentu, rozmazów lub czegokolwiek innego, co mogłoby spowodować, że klucze prywatne będą nieczytelne.&lt;br/&gt;Teraz wprowadź liczbę DOGE, które chcesz wysłać do każdego portfela:</translation>
     </message>
     <message>
         <source>Paper wallet %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Portfel papierowy %1</translation>
     </message>
     <message>
         <source>&lt;b&gt;%1&lt;/b&gt; to Paper Wallet &lt;span style=&apos;font-family: monospace;&apos;&gt;%2&lt;/span&gt;</source>
@@ -1603,55 +1603,55 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Send Coins</source>
-        <translation type="unfinished">Wyślij monety</translation>
+        <translation>Wyślij monety</translation>
     </message>
     <message>
         <source>The recipient address is not valid, please recheck.</source>
-        <translation type="unfinished"></translation>
+        <translation>Adres odbiorcy jest nieprawidłowy, sprawdź ponownie.</translation>
     </message>
     <message>
         <source>The amount to pay must be larger than 0</source>
-        <translation type="unfinished">Kwota do zapłacenia musi być większa od 0. {0?}</translation>
+        <translation>Kwota musi być większa niż 0</translation>
     </message>
     <message>
         <source>The amount exceeds your balance.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kwota przekracza dostepne saldo.</translation>
     </message>
     <message>
         <source>The total exceeds your balance when the transaction fee is included</source>
-        <translation type="unfinished"></translation>
+        <translation>Suma przewyższa dostepne saldo po uwzględnieniu opłaty transakcyjnej</translation>
     </message>
     <message>
         <source>Duplicate address found, can only send to each address once per send operation.</source>
-        <translation type="unfinished"></translation>
+        <translation>Znaleziono zduplikowany adres, można wysłać na każdy adres tylko raz na operację wysyłania.</translation>
     </message>
     <message>
         <source>Transaction creation failed!</source>
-        <translation type="unfinished">Utworzenie transakcji nie powiodło się!</translation>
+        <translation>Tworzenie transakcji nie powiodło się!</translation>
     </message>
     <message>
         <source>Are you sure you want to send?</source>
-        <translation type="unfinished"></translation>
+        <translation>Czy jesteś pewny że chcesz wysłać?</translation>
     </message>
     <message>
         <source>added as transaction fee</source>
-        <translation type="unfinished"></translation>
+        <translation>dodano jako opłata transakcyjna</translation>
     </message>
     <message>
         <source>Total Amount %1 (= %2)</source>
-        <translation type="unfinished"></translation>
+        <translation>Całkowita kwota %1 (= %2)</translation>
     </message>
     <message>
         <source>or</source>
-        <translation type="unfinished">lub</translation>
+        <translation>lub</translation>
     </message>
     <message>
         <source>Confirm send coins</source>
-        <translation type="unfinished"></translation>
+        <translation>Potwierdź wysłanie monet</translation>
     </message>
     <message>
         <source>The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
-        <translation type="unfinished"></translation>
+        <translation>Transakcja została odrzucona! Może się tak zdarzyć jeśli niektóre monety w portfelu zostały już wydane, na przykład jeśli użyto kopii wallet.dat, a monety zostały wydane w kopii ale nie zostały oznaczone jako wydane tutaj.</translation>
     </message>
 </context>
 <context>
@@ -1706,43 +1706,55 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Payment request fetch URL is invalid: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Adres URL żądania płatności jest nieprawidłowy: %1</translation>
     </message>
     <message>
         <source>Invalid payment address %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Adres płatności jest nieprwidłowy %1</translation>
     </message>
     <message>
         <source>URI cannot be parsed! This can be caused by an invalid Dogecoin address or malformed URI parameters.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można przeanalizować identyfikatora URI! Może to być spowodowane nieważnym adresem Dogecoin lub nieprawidłowymi parametrami URI.</translation>
     </message>
     <message>
         <source>Payment request file handling</source>
-        <translation type="unfinished"></translation>
+        <translation>Obsługa pliku żądania płatności</translation>
     </message>
     <message>
         <source>Payment request file cannot be read! This can be caused by an invalid payment request file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można odczytać pliku żądania płatności! Może to być spowodowane nieprawidłowym plikiem żądania płatności.</translation>
     </message>
     <message>
         <source>Payment request rejected</source>
-        <translation type="unfinished"></translation>
+        <translation>Żądanie płatności odrzucone</translation>
     </message>
     <message>
         <source>Payment request network doesn&apos;t match client network.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sieć żądania płatności nie jest zgodna z siecią klienta.</translation>
     </message>
     <message>
         <source>Requested payment amount of %1 is too small (below discard threshold).</source>
-        <translation type="unfinished"></translation>
+        <translation>Żądana kwota płatności %1 jest zbyt niska (poniżej progu odrzucenia).</translation>
     </message>
     <message>
         <source>Payment request %1 is too large (%2 bytes, allowed %3 bytes).</source>
-        <translation type="unfinished"></translation>
+        <translation>Żądanie płatności %1 jest zbyt duże (%2 bajty, dozwolone %3 bajty).</translation>
     </message>
     <message>
         <source>Error communicating with %1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Błąd komunikacji z %1: %2</translation>
+    </message>
+    <message>
+        <source>BIP70 payment requests are deprecated and disabled by default. Restart with -enable-bip70 if you absolutely have to use this functionality.
+
+Use this functionality with extreme caution.</source>
+        <translation>Żądania płatności BIP70 są przestarzałe i domyślnie wyłączone. Uruchom ponownie z -enable-bip70, jeśli absolutnie musisz korzystać z tej funkcji. &lt;br/&gt;Używaj tej funkcji z najwyższą ostrożnością.</translation>
+    </message>
+    <message>
+        <source>Payment request file handling is disabled by default. Restart with -enable-bip70 if you absolutely have to use this functionality.
+
+Use this functionality with extreme caution.</source>
+        <translation>Obsługa plików żądań płatności jest domyślnie wyłączona. Uruchom ponownie z -enable-bip70, jeśli absolutnie musisz korzystać z tej funkcji. &lt;br/&gt;Używaj tej funkcji z najwyższą ostrożnością.</translation>
     </message>
 </context>
 <context>
@@ -1765,42 +1777,42 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Bytes Sent</source>
-        <translation type="unfinished"></translation>
+        <translation>Wysłane bajty</translation>
     </message>
     <message>
         <source>Bytes Received</source>
-        <translation type="unfinished"></translation>
+        <translation>Odebrane bajty</translation>
     </message>
 </context>
 <context>
     <name>PeerTools</name>
     <message>
         <source>Error: Node address is invalid</source>
-        <translation type="unfinished"></translation>
+        <translation>Błąd: Adres węzła jest nieprawidłowy</translation>
     </message>
     <message>
         <source>Error: Peer-to-peer functionality missing or disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Błąd: Funkcjonalność peer-to-peer niedostępna lub wyłączona</translation>
     </message>
     <message>
         <source>Attempted to one try node.</source>
-        <translation type="unfinished"></translation>
+        <translation>Próba jednorazowego podłaczenia do węzła</translation>
     </message>
     <message>
         <source>Error: Unable to add node</source>
-        <translation type="unfinished"></translation>
+        <translation>Błąd: Nie można dodać węzła</translation>
     </message>
     <message>
         <source>Node not found in connected nodes</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie znaleziono węzła w podłączonych węzłach</translation>
     </message>
     <message>
         <source>Disconnected the node: </source>
-        <translation type="unfinished"></translation>
+        <translation>Rozłączono węzeł: </translation>
     </message>
     <message>
         <source>Returned OK.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zwrócono OK.</translation>
     </message>
 </context>
 <context>
@@ -1863,51 +1875,51 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>%1 B</source>
-        <translation type="unfinished">%1 B</translation>
+        <translation>%1 B</translation>
     </message>
     <message>
         <source>%1 kB</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 kB</translation>
     </message>
     <message>
         <source>%1 MB</source>
-        <translation type="unfinished">%1 MB</translation>
+        <translation>%1 MB</translation>
     </message>
     <message numerus="yes">
         <source>%n hour(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n godzina</numerusform>
+            <numerusform>%n godzin</numerusform>
+            <numerusform>%n godzin</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n day(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n dzień</numerusform>
+            <numerusform>%n dni</numerusform>
+            <numerusform>%n dni</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n week(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n tydzień</numerusform>
+            <numerusform>%n tygodnie</numerusform>
+            <numerusform>%n tygodnie</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n year(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n rok</numerusform>
+            <numerusform>%n lata</numerusform>
+            <numerusform>%n lata</numerusform>
         </translation>
     </message>
     <message>
         <source>%1 didn&apos;t yet exit safely...</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 nie zakończył się jeszcze bezpiecznie...</translation>
     </message>
 </context>
 <context>
@@ -1918,11 +1930,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Error: Specified data directory &quot;%1&quot; does not exist.</source>
-        <translation type="unfinished"></translation>
+        <translation>Błąd: Wskazany folder danych &quot;%1&quot; nie istnieje.</translation>
     </message>
     <message>
         <source>Error: Cannot parse configuration file: %1. Only use key=value syntax.</source>
-        <translation type="unfinished"></translation>
+        <translation>Błąd: Nie można przeanalizować pliku konfiguracyjnego: %1. Używaj tylko składni klucz=wartość.</translation>
     </message>
 </context>
 <context>
@@ -2240,43 +2252,43 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Connected peers</source>
-        <translation type="unfinished"></translation>
+        <translation>Podłączone peery</translation>
     </message>
     <message>
         <source>Add new peer</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodaj nowego peera</translation>
     </message>
     <message>
         <source>Remove peer</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuń peera</translation>
     </message>
     <message>
         <source>One try peer</source>
-        <translation type="unfinished"></translation>
+        <translation>Jednorazowe podłączenie peera</translation>
     </message>
     <message>
         <source>WARNING: Scammers have been active, telling users to type commands here, stealing their wallet contents. Do not use this console without fully understanding the ramification of a command.</source>
-        <translation type="unfinished"></translation>
+        <translation>OSTRZEŻENIE: Oszuści byli aktywni, mówiąc użytkownikom, aby wpisywali tutaj polecenia, kradnąc zawartość ich portfela. Nie używaj tej konsoli bez pełnego zrozumienia konsekwencji danego polecenia.</translation>
     </message>
     <message>
         <source>Network activity disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktywność sieciowa została wyłączona</translation>
     </message>
     <message>
         <source>Error</source>
-        <translation type="unfinished">Błąd</translation>
+        <translation>Błąd</translation>
     </message>
     <message>
         <source>Remove Peer</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuń peera</translation>
     </message>
     <message>
         <source>Are you sure you want to remove the peer: </source>
-        <translation type="unfinished"></translation>
+        <translation>Czy na pewno chcesz usunąć peera: </translation>
     </message>
     <message>
         <source>No peer was selected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie wybrano żadnego peera.</translation>
     </message>
 </context>
 <context>
@@ -2414,11 +2426,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Resulting URI too long, try to reduce the text for label / message.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wynikowy identyfikator URI jest zbyt długi, spróbuj zmniejszyć tekst etykiety / komunikatu.</translation>
     </message>
     <message>
         <source>Error encoding URI into QR Code.</source>
-        <translation type="unfinished"></translation>
+        <translation>Błąd kodowania URI do kodu QR.</translation>
     </message>
 </context>
 <context>
@@ -2449,7 +2461,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>(no amount requested)</source>
-        <translation type="unfinished"></translation>
+        <translation>(brak kwoty)</translation>
     </message>
 </context>
 <context>
@@ -2524,7 +2536,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>If the custom fee is set to 1000 koinu and the transaction is only 250 bytes, then &quot;per kilobyte&quot; only pays 250 koinu in fee, while &quot;total at least&quot; pays 1000 koinu. For transactions bigger than a kilobyte both pay by kilobyte.</source>
-        <translation type="vanished">Jeżeli własna opłata zostanie ustawiona na 1000 koinu, a transakcja będzie miała tylko 250 bajtów, to &quot;za kilobajt&quot; płaci tylko 250 koinu, podczas gdy, &quot;razem przynajmniej&quot; płaci 1000 koinu. Przy transakcjach większych niż kilobajt, w obu przypadkach płaci za każdy kilobajt.</translation>
+        <translation>Jeżeli własna opłata zostanie ustawiona na 1000 koinu, a transakcja będzie miała tylko 250 bajtów, to &quot;za kilobajt&quot; płaci tylko 250 koinu, podczas gdy, &quot;razem przynajmniej&quot; płaci 1000 koinu. Przy transakcjach większych niż kilobajt, w obu przypadkach płaci za każdy kilobajt.</translation>
     </message>
     <message>
         <source>Hide</source>
@@ -2664,11 +2676,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Using the fallbackfee can result in sending a transaction that will take several hours or days (or never) to confirm. Consider choosing your fee manually or wait until you have validated the complete chain.</source>
-        <translation type="unfinished"></translation>
+        <translation>Korzystanie z opłaty domyślnej może skutkować wysłaniem transakcji, która potwierdzi się w kilka godzin lub dni (lub nigdy). Rozważ wybranie opłaty ręcznie lub poczekaj, aż sprawdzisz poprawność całego łańcucha.</translation>
     </message>
     <message>
         <source>Warning: Fee estimation is currently not possible.</source>
-        <translation type="unfinished"></translation>
+        <translation>Uwaga: Oszacowanie opłaty za transakcje jest aktualnie niemożliwe.</translation>
     </message>
     <message>
         <source>If the custom fee is set to 1000 satoshis and the transaction is only 250 bytes, then &quot;per kilobyte&quot; only pays 250 satoshis in fee, while &quot;total at least&quot; pays 1000 satoshis. For transactions bigger than a kilobyte both pay by kilobyte.</source>
@@ -2676,63 +2688,63 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Priority:</source>
-        <translation type="unfinished"></translation>
+        <translation>Priorytet:</translation>
     </message>
     <message>
         <source>low</source>
-        <translation type="unfinished"></translation>
+        <translation>niski</translation>
     </message>
     <message>
         <source>high</source>
-        <translation type="unfinished"></translation>
+        <translation>wysoki</translation>
     </message>
     <message>
         <source>Are you sure you want to send?</source>
-        <translation type="unfinished"></translation>
+        <translation>Czy na pewno chcesz wysłać?</translation>
     </message>
     <message>
         <source>added as transaction fee</source>
-        <translation type="unfinished"></translation>
+        <translation>dodano jako opłata transakcyjna</translation>
     </message>
     <message>
         <source>Total Amount %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Całkowita kwota %1</translation>
     </message>
     <message>
         <source>Confirm send coins</source>
-        <translation type="unfinished"></translation>
+        <translation>Potwierdź wysyłanie monet</translation>
     </message>
     <message>
         <source>The recipient address is not valid. Please recheck.</source>
-        <translation type="unfinished"></translation>
+        <translation>Adres odbiorcy jest nieprawidłowy, sprawdź ponownie.</translation>
     </message>
     <message>
         <source>The amount exceeds your balance.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kwota przekracza dostepne saldo.</translation>
     </message>
     <message>
         <source>The total exceeds your balance when the %1 transaction fee is included.</source>
-        <translation type="unfinished"></translation>
+        <translation>Suma przekracza twoje saldo, gdy doliczymy %1 prowizji transakcyjnej.</translation>
     </message>
     <message>
         <source>Duplicate address found: addresses should only be used once each.</source>
-        <translation type="unfinished"></translation>
+        <translation>Duplikat adresu znaleziony: adresy powinny zostać użyte tylko raz.</translation>
     </message>
     <message>
         <source>The transaction was rejected with the following reason: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Transakcja została odrzucona z następującym powodem: %1</translation>
     </message>
     <message>
         <source>A fee higher than %1 is considered an absurdly high fee.</source>
-        <translation type="unfinished"></translation>
+        <translation>Opłata wyższa niż %1 jest uznawana za absurdalnie dużą.</translation>
     </message>
     <message>
         <source>Confirm custom change address</source>
-        <translation type="unfinished"></translation>
+        <translation>Potwierdź zmianę adresu własnego</translation>
     </message>
     <message>
         <source>The address you selected for change is not part of this wallet. Any or all funds in your wallet may be sent to this address. Are you sure?</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybrany adres reszty nie jest częścią tego portfela. Dowolne lub wszystkie środki w twoim portfelu mogą być wysyłane na ten adres. Jesteś pewny?</translation>
     </message>
 </context>
 <context>
@@ -2815,7 +2827,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Enter a label for this address to add it to your address book</source>
-        <translation type="unfinished"></translation>
+        <translation>Wprowadź etykietę dla tego adresu, aby dodać go do książki adresowej</translation>
     </message>
 </context>
 <context>
@@ -2941,39 +2953,39 @@ Zwróć uwagę, że poprawnie zweryfikowana wiadomość potwierdza to, że nadaw
     </message>
     <message>
         <source>Click &quot;Sign Message&quot; to generate signature</source>
-        <translation type="unfinished"></translation>
+        <translation>Kliknij &quot;Podpisz Wiadomość&quot; żeby uzyskać podpis</translation>
     </message>
     <message>
         <source>The entered address is invalid.</source>
-        <translation type="unfinished"></translation>
+        <translation>Podany adres jest nieprawidłowy.</translation>
     </message>
     <message>
         <source>Please check the address and try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Proszę sprawdzić adres i spróbować ponownie.</translation>
     </message>
     <message>
         <source>The entered address does not refer to a key.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wprowadzony adres nie odnosi się do klucza.</translation>
     </message>
     <message>
         <source>The signature could not be decoded.</source>
-        <translation type="unfinished"></translation>
+        <translation>Podpis nie może zostać zdekodowany.</translation>
     </message>
     <message>
         <source>Please check the signature and try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprawdź podpis i spróbuj ponownie.</translation>
     </message>
     <message>
         <source>The signature did not match the message digest.</source>
-        <translation type="unfinished"></translation>
+        <translation>Podpis nie odpowiada skrótowi wiadomości.</translation>
     </message>
     <message>
         <source>Message verification failed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Weryfikacja wiadomości nie powiodła się.</translation>
     </message>
     <message>
         <source>Message verified.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wiadomość zweryfikowana.</translation>
     </message>
 </context>
 <context>
@@ -2987,39 +2999,39 @@ Zwróć uwagę, że poprawnie zweryfikowana wiadomość potwierdza to, że nadaw
     <name>TestPeerDialog</name>
     <message>
         <source>Test Peer</source>
-        <translation type="unfinished"></translation>
+        <translation>Test Peera</translation>
     </message>
     <message>
         <source>Enter the peer details below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wprowadź dane peera poniżej.</translation>
     </message>
     <message>
         <source>Be careful! Do not blindly trust anyone that tells you to add their node.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bądź ostrożny! Nie ufaj ślepo nikomu, kto każe Ci dodać jego węzeł.</translation>
     </message>
     <message>
         <source>Enter the peer&apos;s address</source>
-        <translation type="unfinished"></translation>
+        <translation>Wprowadź adres peera</translation>
     </message>
     <message>
         <source>Enter the peer&apos;s port</source>
-        <translation type="unfinished"></translation>
+        <translation>Wprowadź port peera</translation>
     </message>
     <message>
         <source>Test!</source>
-        <translation type="unfinished"></translation>
+        <translation>Przetestuj!</translation>
     </message>
     <message>
         <source>Please enter an address.</source>
-        <translation type="unfinished"></translation>
+        <translation>Proszę wprowadzić adres.</translation>
     </message>
     <message>
         <source>Please enter a valid peer address.</source>
-        <translation type="unfinished"></translation>
+        <translation>Proszę wprowadzić prawidłowy adres peera.</translation>
     </message>
     <message>
         <source>Try Peer</source>
-        <translation type="unfinished"></translation>
+        <translation>Wypróbuj Peera</translation>
     </message>
 </context>
 <context>
@@ -3089,115 +3101,115 @@ Zwróć uwagę, że poprawnie zweryfikowana wiadomość potwierdza to, że nadaw
     </message>
     <message>
         <source>conflicted with a transaction with %1 confirmations</source>
-        <translation type="unfinished"></translation>
+        <translation>sprzeczny z transakcją posiadającą %1 potwierdzeń</translation>
     </message>
     <message>
         <source>0/unconfirmed, %1</source>
-        <translation type="unfinished"></translation>
+        <translation>0/niepotwierdzone, %1</translation>
     </message>
     <message>
         <source>in memory pool</source>
-        <translation type="unfinished"></translation>
+        <translation>w kolejce w pamięci</translation>
     </message>
     <message>
         <source>not in memory pool</source>
-        <translation type="unfinished"></translation>
+        <translation>nie wysłane do kolejki w pamięci</translation>
     </message>
     <message>
         <source>abandoned</source>
-        <translation type="unfinished"></translation>
+        <translation>porzucone</translation>
     </message>
     <message>
         <source>%1/unconfirmed</source>
-        <translation type="unfinished"></translation>
+        <translation>%1/niezatwierdzone</translation>
     </message>
     <message>
         <source>%1 confirmations</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 potwierdzeń</translation>
     </message>
     <message>
         <source>Status</source>
-        <translation type="unfinished"></translation>
+        <translation>Status</translation>
     </message>
     <message>
         <source>Credit</source>
-        <translation type="unfinished"></translation>
+        <translation>Uznanie</translation>
     </message>
     <message numerus="yes">
         <source>matures in %n more block(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>dojrzeje po %n kolejnym bloku</numerusform>
+            <numerusform>dojrzeje po %n kolejnych blokach</numerusform>
+            <numerusform>dojrzeje po %n kolejnych blokach</numerusform>
         </translation>
     </message>
     <message>
         <source>not accepted</source>
-        <translation type="unfinished"></translation>
+        <translation>niezaakceptowane</translation>
     </message>
     <message>
         <source>Debit</source>
-        <translation type="unfinished"></translation>
+        <translation>Debet</translation>
     </message>
     <message>
         <source>Total debit</source>
-        <translation type="unfinished"></translation>
+        <translation>Łączne obciążenie</translation>
     </message>
     <message>
         <source>Total credit</source>
-        <translation type="unfinished"></translation>
+        <translation>Łączne uznanie</translation>
     </message>
     <message>
         <source>Transaction fee</source>
-        <translation type="unfinished"></translation>
+        <translation>Opłata transakcyjna</translation>
     </message>
     <message>
         <source>Net amount</source>
-        <translation type="unfinished"></translation>
+        <translation>Kwota netto</translation>
     </message>
     <message>
         <source>Comment</source>
-        <translation type="unfinished"></translation>
+        <translation>Komentarz</translation>
     </message>
     <message>
         <source>Transaction ID</source>
-        <translation type="unfinished"></translation>
+        <translation>ID transakcji</translation>
     </message>
     <message>
         <source>Transaction total size</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozmiar transakcji</translation>
     </message>
     <message>
         <source>Output index</source>
-        <translation type="unfinished"></translation>
+        <translation>Indeks wyjściowy</translation>
     </message>
     <message>
         <source>Merchant</source>
-        <translation type="unfinished"></translation>
+        <translation>Kupiec</translation>
     </message>
     <message>
         <source>Generated coins must mature %1 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wygenerowane monety muszą dojrzeć przez %1 bloków zanim będzie można je wydać. Gdy wygenerowałeś blok, został on rozgłoszony w sieci w celu dodania do łańcucha bloków. Jeżeli nie uda mu się wejść do łańcucha jego status zostanie zmieniony na &quot;nie zaakceptowano&quot; i nie będzie można go wydać. Może się to czasami zdarzyć, jeśli inny węzeł wygeneruje blok w odstępie kilku sekund od twojego.</translation>
     </message>
     <message>
         <source>Debug information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informacje debugowania</translation>
     </message>
     <message>
         <source>Transaction</source>
-        <translation type="unfinished"></translation>
+        <translation>Transakcja</translation>
     </message>
     <message>
         <source>Inputs</source>
-        <translation type="unfinished"></translation>
+        <translation>Wejścia</translation>
     </message>
     <message>
         <source>true</source>
-        <translation type="unfinished"></translation>
+        <translation>prawda</translation>
     </message>
     <message>
         <source>false</source>
-        <translation type="unfinished"></translation>
+        <translation>fałsz</translation>
     </message>
 </context>
 <context>
@@ -3208,7 +3220,7 @@ Zwróć uwagę, że poprawnie zweryfikowana wiadomość potwierdza to, że nadaw
     </message>
     <message>
         <source>Details for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Szczegóły %1</translation>
     </message>
 </context>
 <context>
@@ -3271,59 +3283,59 @@ Zwróć uwagę, że poprawnie zweryfikowana wiadomość potwierdza to, że nadaw
     </message>
     <message>
         <source>Confirming (%1 of %2 recommended confirmations)</source>
-        <translation type="unfinished"></translation>
+        <translation>Potwierdzanie (%1 z %2 rekomendowanych potwierdzeń)</translation>
     </message>
     <message>
         <source>Confirmed (%1 confirmations)</source>
-        <translation type="unfinished"></translation>
+        <translation>Potwierdzono (%1 potwierdzeń)</translation>
     </message>
     <message>
         <source>Immature (%1 confirmations, will be available after %2)</source>
-        <translation type="unfinished"></translation>
+        <translation>Niedojrzała (%1 potwierdzeń, będzie dostępna po %2)</translation>
     </message>
     <message>
         <source>Received with</source>
-        <translation type="unfinished"></translation>
+        <translation>Otrzymane przez</translation>
     </message>
     <message>
         <source>Received from</source>
-        <translation type="unfinished"></translation>
+        <translation>Otrzymano od</translation>
     </message>
     <message>
         <source>Payment to yourself</source>
-        <translation type="unfinished"></translation>
+        <translation>Płatność do siebie</translation>
     </message>
     <message>
         <source>Mined</source>
-        <translation type="unfinished"></translation>
+        <translation>Wydobyto</translation>
     </message>
     <message>
         <source>(n/a)</source>
-        <translation type="unfinished"></translation>
+        <translation>(brak)</translation>
     </message>
     <message>
         <source>Transaction status. Hover over this field to show number of confirmations.</source>
-        <translation type="unfinished"></translation>
+        <translation>Status transakcji. Najedź na pole, aby zobaczyć liczbę potwierdzeń.</translation>
     </message>
     <message>
         <source>Date and time that the transaction was received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Data i czas odebrania transakcji.</translation>
     </message>
     <message>
         <source>Type of transaction.</source>
-        <translation type="unfinished"></translation>
+        <translation>Rodzaj transakcji.</translation>
     </message>
     <message>
         <source>Whether or not a watch-only address is involved in this transaction.</source>
-        <translation type="unfinished"></translation>
+        <translation>Czy adres tylko-obserwowany jest lub nie użyty w tej transakcji.</translation>
     </message>
     <message>
         <source>User-defined intent/purpose of the transaction.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zdefiniowana przez użytkownika intencja/cel transakcji.</translation>
     </message>
     <message>
         <source>Amount removed from or added to balance.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kwota odjęta z lub dodana do konta.</translation>
     </message>
 </context>
 <context>
@@ -3398,87 +3410,87 @@ Zwróć uwagę, że poprawnie zweryfikowana wiadomość potwierdza to, że nadaw
     </message>
     <message>
         <source>Received with</source>
-        <translation type="unfinished"></translation>
+        <translation>Otrzymane przez</translation>
     </message>
     <message>
         <source>To yourself</source>
-        <translation type="unfinished"></translation>
+        <translation>Do siebie</translation>
     </message>
     <message>
         <source>Mined</source>
-        <translation type="unfinished"></translation>
+        <translation>Wydobyto</translation>
     </message>
     <message>
         <source>Other</source>
-        <translation type="unfinished"></translation>
+        <translation>Inne</translation>
     </message>
     <message>
         <source>Enter address or label to search</source>
-        <translation type="unfinished"></translation>
+        <translation>Wprowadź adres lub etykietę żeby wyszukać</translation>
     </message>
     <message>
         <source>Min amount</source>
-        <translation type="unfinished"></translation>
+        <translation>Minimalna kwota</translation>
     </message>
     <message>
         <source>Abandon transaction</source>
-        <translation type="unfinished"></translation>
+        <translation>Porzuć transakcję</translation>
     </message>
     <message>
         <source>Copy raw transaction</source>
-        <translation type="unfinished"></translation>
+        <translation>Skopiuj surową transakcję</translation>
     </message>
     <message>
         <source>Copy full transaction details</source>
-        <translation type="unfinished"></translation>
+        <translation>Skopiuj pełne detale transakcji</translation>
     </message>
     <message>
         <source>Edit label</source>
-        <translation type="unfinished"></translation>
+        <translation>Edytuj etykietę</translation>
     </message>
     <message>
         <source>Show transaction details</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyświetl szczegóły transakcji</translation>
     </message>
     <message>
         <source>Export Transaction History</source>
-        <translation type="unfinished"></translation>
+        <translation>Eksport historii transakcji</translation>
     </message>
     <message>
         <source>Confirmed</source>
-        <translation type="unfinished">Potwierdzony</translation>
+        <translation>Potwierdzony</translation>
     </message>
     <message>
         <source>Watch-only</source>
-        <translation type="unfinished"></translation>
+        <translation>Tylko-obserwowany</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Typ</translation>
     </message>
     <message>
         <source>ID</source>
-        <translation type="unfinished"></translation>
+        <translation>ID</translation>
     </message>
     <message>
         <source>There was an error trying to save the transaction history to %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wystąpił błąd przy próbie zapisu historii transakcji do %1.</translation>
     </message>
     <message>
         <source>Exporting Successful</source>
-        <translation type="unfinished"></translation>
+        <translation>Eksport powiódł się</translation>
     </message>
     <message>
         <source>The transaction history was successfully saved to %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Historia transakcji została zapisana do %1.</translation>
     </message>
     <message>
         <source>Range:</source>
-        <translation type="unfinished"></translation>
+        <translation>Zakres:</translation>
     </message>
     <message>
         <source>to</source>
-        <translation type="unfinished"></translation>
+        <translation>do</translation>
     </message>
 </context>
 <context>
@@ -3492,49 +3504,49 @@ Zwróć uwagę, że poprawnie zweryfikowana wiadomość potwierdza to, że nadaw
     <name>WalletFrame</name>
     <message>
         <source>No wallet has been loaded.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie załadowano żadnego portfela.</translation>
     </message>
 </context>
 <context>
     <name>WalletModel</name>
     <message>
         <source>Send Coins</source>
-        <translation type="unfinished">Wyślij monety</translation>
+        <translation>Wyślij monety</translation>
     </message>
 </context>
 <context>
     <name>WalletView</name>
     <message>
         <source>&amp;Export</source>
-        <translation type="unfinished">&amp;Eksportuj</translation>
+        <translation>&amp;Eksportuj</translation>
     </message>
     <message>
         <source>Export the data in the current tab to a file</source>
-        <translation type="unfinished">Eksportuj dane z aktywnej karty do pliku</translation>
+        <translation>Eksportuj dane z aktywnej karty do pliku</translation>
     </message>
     <message>
         <source>Backup Wallet</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopia zapasowa portfela</translation>
     </message>
     <message>
         <source>Wallet Data (*.dat)</source>
-        <translation type="unfinished"></translation>
+        <translation>Dane portfela (*.dat)</translation>
     </message>
     <message>
         <source>Backup Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się wykonać kopii zapasowej</translation>
     </message>
     <message>
         <source>There was an error trying to save the wallet data to %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wystąpił błąd przy próbie zapisu pliku portfela do %1.</translation>
     </message>
     <message>
         <source>Backup Successful</source>
-        <translation type="unfinished"></translation>
+        <translation>Wykonano kopię zapasową</translation>
     </message>
     <message>
         <source>The wallet data was successfully saved to %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dane portfela zostały poprawnie zapisane w %1.</translation>
     </message>
 </context>
 <context>
@@ -3629,7 +3641,7 @@ Zwróć uwagę, że poprawnie zweryfikowana wiadomość potwierdza to, że nadaw
     </message>
     <message>
         <source>Execute command when a wallet transaction changes (%s in cmd is replaced by TxID)</source>
-        <translation>Wykonaj polecenie, kiedy transakcja portfela ulegnie zmianie (%s w poleceniu zostanie zastąpione przez TxID)</translation>
+        <translation type="vanished">Wykonaj polecenie, kiedy transakcja portfela ulegnie zmianie (%s w poleceniu zostanie zastąpione przez TxID)</translation>
     </message>
     <message>
         <source>Please check that your computer&apos;s date and time are correct! If your clock is wrong, %s will not work properly.</source>
@@ -4529,6 +4541,14 @@ Zwróć uwagę, że poprawnie zweryfikowana wiadomość potwierdza to, że nadaw
     </message>
     <message>
         <source>Wow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Execute command when a wallet transaction changes (%s in cmd is replaced by TxID, %i with block height, with a value of 0 if tx is no longer in chaintip)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable BIP-70 PaymentServer (default: 0)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

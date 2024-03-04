@@ -1,5 +1,5 @@
 // Copyright (c) 2011-2016 The Bitcoin Core developers
-// Copyright (c) 2021 The Dogecoin Core developers
+// Copyright (c) 2021-2022 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -70,11 +70,11 @@ private Q_SLOTS:
     /** open the debug.log from the current datadir */
     void on_openDebugLogfileButton_clicked();
     /** open dialog to add new peer */
-    void on_addPeer_clicked();
+    void on_addPeerClicked();
     /** open dialog to remove peer */
-    void on_removePeer_clicked();
+    void on_removePeerClicked();
     /** open dialog to test peer */
-    void on_testPeer_clicked();
+    void on_testPeerClicked();
     /** change the time range of the network traffic graph */
     void on_sldGraphRange_valueChanged(int value);
     /** update traffic statistics */

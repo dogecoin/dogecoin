@@ -1,5 +1,5 @@
 // Copyright (c) 2011-2016 The Bitcoin Core developers
-// Copyright (c) 2022 The Dogecoin Core developers
+// Copyright (c) 2022-2023 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -237,14 +237,14 @@ QString TransactionDesc::toHTML(CWallet *wallet, CWalletTx &wtx, TransactionReco
     strHTML += "<b>" + tr("Output index") + ":</b> " + QString::number(rec->getOutputIndex()) + "<br>";
 
     // Message from normal bitcoin:URI (bitcoin:123...?message=example)
-    Q_FOREACH (const PAIRTYPE(std::string, std::string)& r, wtx.vOrderForm)
+    for (const PAIRTYPE(std::string, std::string)& r : wtx.vOrderForm)
         if (r.first == "Message")
             strHTML += "<br><b>" + tr("Message") + ":</b><br>" + GUIUtil::HtmlEscape(r.second, true) + "<br>";
 
     //
     // PaymentRequest info:
     //
-    Q_FOREACH (const PAIRTYPE(std::string, std::string)& r, wtx.vOrderForm)
+    for (const PAIRTYPE(std::string, std::string)& r : wtx.vOrderForm)
     {
         if (r.first == "PaymentRequest")
         {

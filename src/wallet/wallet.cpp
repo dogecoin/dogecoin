@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin Core developers
-// Copyright (c) 2022 The Dogecoin Core developers
+// Copyright (c) 2022-2023 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -33,6 +33,7 @@
 
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/lexical_cast.hpp>
 #include <boost/thread.hpp>
 
 using namespace std;
@@ -997,7 +998,9 @@ bool CWallet::AddToWallet(const CWalletTx& wtxIn, bool fFlushOnClose)
 
     if ( !strCmd.empty())
     {
+        int64_t nHeight = wtxIn.hashUnset() ? 0 : mapBlockIndex[wtxIn.hashBlock]->nHeight;
         boost::replace_all(strCmd, "%s", wtxIn.GetHash().GetHex());
+        boost::replace_all(strCmd, "%i", boost::lexical_cast<std::string>(nHeight));
         boost::thread t(runCommand, strCmd); // thread runs free
     }
 
@@ -3458,9 +3461,9 @@ void CWallet::UpdatedTransaction(const uint256 &hashTx)
     }
 }
 
-void CWallet::GetScriptForMining(boost::shared_ptr<CReserveScript> &script)
+void CWallet::GetScriptForMining(std::shared_ptr<CReserveScript> &script)
 {
-    boost::shared_ptr<CReserveKey> rKey(new CReserveKey(this));
+    std::shared_ptr<CReserveKey> rKey(new CReserveKey(this));
     CPubKey pubkey;
     if (!rKey->GetReservedKey(pubkey))
         return;
@@ -3659,7 +3662,7 @@ std::string CWallet::GetWalletHelpString(bool showDebug)
     strUsage += HelpMessageOpt("-upgradewallet", _("Upgrade wallet to latest format on startup"));
     strUsage += HelpMessageOpt("-wallet=<file>", _("Specify wallet file (within data directory)") + " " + strprintf(_("(default: %s)"), DEFAULT_WALLET_DAT));
     strUsage += HelpMessageOpt("-walletbroadcast", _("Make the wallet broadcast transactions") + " " + strprintf(_("(default: %u)"), DEFAULT_WALLETBROADCAST));
-    strUsage += HelpMessageOpt("-walletnotify=<cmd>", _("Execute command when a wallet transaction changes (%s in cmd is replaced by TxID)"));
+    strUsage += HelpMessageOpt("-walletnotify=<cmd>", _("Execute command when a wallet transaction changes (%s in cmd is replaced by TxID, %i with block height, with a value of 0 if tx is no longer in chaintip)"));
     strUsage += HelpMessageOpt("-zapwallettxes=<mode>", _("Delete all wallet transactions and only recover those parts of the blockchain through -rescan on startup") +
                                " " + _("(1 = keep tx meta data e.g. account owner and payment request information, 2 = drop tx meta data)"));
 
@@ -3959,20 +3962,6 @@ bool CWallet::ParameterInteraction()
         {
             LogPrintf("%s: parameter interaction: -paytxfee=%s -> setting -mintxfee=%s\n", __func__, GetArg("-paytxfee",""), GetArg("-paytxfee",""));
             CWallet::minTxFee = CFeeRate(nFeePerK,1000);
-        }
-    }
-    if (IsArgSet("-maxtxfee"))
-    {
-        CAmount nMaxFee = 0;
-        if (!ParseMoney(GetArg("-maxtxfee", ""), nMaxFee))
-            return InitError(AmountErrMsg("maxtxfee", GetArg("-maxtxfee", "")));
-        if (nMaxFee > HIGH_MAX_TX_FEE)
-            InitWarning(_("-maxtxfee is set very high! Fees this large could be paid on a single transaction."));
-        maxTxFee = nMaxFee;
-        if (CFeeRate(maxTxFee, 1000) < ::minRelayTxFeeRate)
-        {
-            return InitError(strprintf(_("Invalid amount for -maxtxfee=<amount>: '%s' (must be at least the minrelay fee of %s to prevent stuck transactions)"),
-                                       GetArg("-maxtxfee", ""), ::minRelayTxFeeRate.ToString()));
         }
     }
     if (IsArgSet("-discardthreshold"))

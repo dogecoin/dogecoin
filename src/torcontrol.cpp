@@ -1,5 +1,5 @@
 // Copyright (c) 2015-2016 The Bitcoin Core developers
-// Copyright (c) 2020 The Dogecoin Core developers
+// Copyright (c) 2020-2022 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -440,7 +440,7 @@ void TorController::add_onion_cb(TorControlConnection& _conn, const TorControlRe
             if ((i = m.find("PrivateKey")) != m.end())
                 private_key = i->second;
         }
-        service = LookupNumeric(std::string(service_id+".onion").c_str(), GetListenPort());
+        service = LookupNumeric(std::string(service_id+".onion"), GetListenPort());
         LogPrintf("tor: Got service ID %s, advertising service %s\n", service_id, service.ToString());
         if (WriteBinaryFile(GetPrivateKeyFile(), private_key)) {
             LogPrint("tor", "tor: Cached service private key to %s\n", GetPrivateKeyFile());
