@@ -39,6 +39,7 @@
 #include <QCloseEvent>
 #include <QFont>
 #include <QLabel>
+#include <QPageSize>
 #include <QRegExp>
 #include <QTextTable>
 #include <QTextCursor>
@@ -49,17 +50,10 @@
 #include <qrencode.h>
 #endif
 
-#if QT_VERSION < 0x050000
-#include <QPrinter>
-#include <QPrintDialog>
-#include <QPrintPreviewDialog>
-#else
-// Use QT5's new modular classes
 #include <QtPrintSupport/QPrinter>
 #include <QtPrintSupport/QPrintDialog>
 #include <QtPrintSupport/QPrintPreviewDialog>
 #include <QtPrintSupport/QPrinterInfo>
-#endif
 #include <QPainter>
 #include "walletmodel.h"
 
@@ -348,11 +342,6 @@ void PaperWalletDialog::on_printButton_clicked()
     QPrinter printer(QPrinter::HighResolution);
     QPrintDialog* qpd = new QPrintDialog(&printer, this);
 
-    #if QT_VERSION > 0x050000
-    QPrinterInfo printerinfo(printer);
-    QPageSize papersize = printerinfo.defaultPageSize();
-    #endif
-
     qpd->setPrintRange(QAbstractPrintDialog::AllPages);
     QList<QString> recipientPubKeyHashes;
 
@@ -361,12 +350,8 @@ void PaperWalletDialog::on_printButton_clicked()
     }
 
 
-    printer.setOrientation(QPrinter::Portrait);
-    #if QT_VERSION > 0x050000
-    printer.QPagedPaintDevice::setPageSize(papersize);
-    #else
-    printer.setPaperSize(QPrinter::A4);
-    #endif
+    printer.setPageOrientation(QPageLayout::Portrait);
+    printer.setPageSize(QPageSize(QPageSize::A4));
     printer.setFullPage(true);
 
     QPainter painter;
@@ -378,7 +363,7 @@ void PaperWalletDialog::on_printButton_clicked()
     int walletCount = ui->walletCount->currentIndex() + 1;
     int walletsPerPage = 4;
 
-    int pageHeight = printer.pageRect().height() - PAPER_WALLET_PAGE_MARGIN;
+    int pageHeight = printer.pageLayout().paintRectPoints().height() - PAPER_WALLET_PAGE_MARGIN;
     int walletHeight = ui->paperTemplate->height();
     double computedWalletHeight = 0.9 * pageHeight / walletsPerPage;
     double scale = computedWalletHeight / walletHeight;

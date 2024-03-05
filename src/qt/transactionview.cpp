@@ -95,15 +95,12 @@ TransactionView::TransactionView(const PlatformStyle *platformStyle, QWidget *pa
     hlayout->addWidget(typeWidget);
 
     addressWidget = new QLineEdit(this);
-#if QT_VERSION >= 0x040700
     addressWidget->setPlaceholderText(tr("Enter address or label to search"));
-#endif
     hlayout->addWidget(addressWidget);
 
     amountWidget = new QLineEdit(this);
-#if QT_VERSION >= 0x040700
     amountWidget->setPlaceholderText(tr("Min amount"));
-#endif
+
     if (platformStyle->getUseExtraSpacing()) {
         amountWidget->setFixedWidth(97);
     } else {
@@ -218,7 +215,7 @@ void TransactionView::setModel(WalletModel *_model)
         if (_model->getOptionsModel())
         {
             // Add third party transaction URLs to context menu
-            QStringList listUrls = _model->getOptionsModel()->getThirdPartyTxUrls().split("|", QString::SkipEmptyParts);
+            QStringList listUrls = _model->getOptionsModel()->getThirdPartyTxUrls().split("|", Qt::SkipEmptyParts);
             for (int i = 0; i < listUrls.size(); ++i)
             {
                 QUrl url = QUrl(listUrls[i].trimmed(), QUrl::StrictMode);

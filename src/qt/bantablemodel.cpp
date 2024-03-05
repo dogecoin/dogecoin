@@ -11,6 +11,7 @@
 #include "sync.h"
 #include "utiltime.h"
 
+#include <algorithm>
 #include <QDebug>
 #include <QList>
 
@@ -52,9 +53,8 @@ public:
             g_connman->GetBanned(banMap);
 
         cachedBanlist.clear();
-#if QT_VERSION >= 0x040700
         cachedBanlist.reserve(banMap.size());
-#endif
+
         for (banmap_t::iterator it = banMap.begin(); it != banMap.end(); it++)
         {
             CCombinedBan banEntry;
@@ -65,7 +65,7 @@ public:
 
         if (sortColumn >= 0)
             // sort cachedBanlist (use stable sort to prevent rows jumping around unnecessarily)
-            qStableSort(cachedBanlist.begin(), cachedBanlist.end(), BannedNodeLessThan(sortColumn, sortOrder));
+            std::stable_sort(cachedBanlist.begin(), cachedBanlist.end(), BannedNodeLessThan(sortColumn, sortOrder));
     }
 
     int size() const
@@ -149,7 +149,7 @@ QVariant BanTableModel::headerData(int section, Qt::Orientation orientation, int
 Qt::ItemFlags BanTableModel::flags(const QModelIndex &index) const
 {
     if(!index.isValid())
-        return 0;
+        return Qt::NoItemFlags;
 
     Qt::ItemFlags retval = Qt::ItemIsSelectable | Qt::ItemIsEnabled;
     return retval;
