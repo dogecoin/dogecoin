@@ -53,7 +53,7 @@ dnl CAUTION: Do not use this inside of a conditional.
 AC_DEFUN([BITCOIN_QT_INIT],[
   dnl enable qt support
   AC_ARG_WITH([gui],
-    [AS_HELP_STRING([--with-gui@<:@=no|qt4|qt5|auto@:>@],
+    [AS_HELP_STRING([--with-gui@<:@=no|qt5|auto@:>@],
     [build bitcoin-qt GUI (default=auto, qt5 tried first)])],
     [
      bitcoin_qt_want_version=$withval
@@ -144,18 +144,6 @@ AC_DEFUN([BITCOIN_QT_CONFIGURE],[
         _BITCOIN_QT_CHECK_STATIC_PLUGINS([Q_IMPORT_PLUGIN(QCocoaIntegrationPlugin)],[-lqcocoa])
         AC_DEFINE(QT_QPA_PLATFORM_COCOA, 1, [Define this symbol if the qt platform is cocoa])
       fi
-    fi
-  else
-    if test x$TARGET_OS = xwindows; then
-      AC_DEFINE(QT_STATICPLUGIN, 1, [Define this symbol if qt plugins are static])
-      _BITCOIN_QT_CHECK_STATIC_PLUGINS([
-         Q_IMPORT_PLUGIN(qcncodecs)
-         Q_IMPORT_PLUGIN(qjpcodecs)
-         Q_IMPORT_PLUGIN(qtwcodecs)
-         Q_IMPORT_PLUGIN(qkrcodecs)
-         Q_IMPORT_PLUGIN(AccessibleFactory)
-         Q_IMPORT_PLUGIN(QWindowsPrinterSupportPlugin)],
-         [-lqcncodecs -lqjpcodecs -lqtwcodecs -lqkrcodecs -lqtaccessiblewidgets -lwindowsprintersupport])
     fi
   fi
   CPPFLAGS=$TEMP_CPPFLAGS
@@ -393,27 +381,13 @@ AC_DEFUN([_BITCOIN_QT_FIND_LIBS_WITH_PKGCONFIG],[
     if test x$bitcoin_qt_want_version = xqt5 ||  ( test x$bitcoin_qt_want_version = xauto && test x$auto_priority_version = xqt5 ); then
       QT_LIB_PREFIX=Qt5
       bitcoin_qt_got_major_vers=5
-    else
-      QT_LIB_PREFIX=Qt
-      bitcoin_qt_got_major_vers=4
     fi
     qt5_modules="Qt5Core Qt5Gui Qt5Network Qt5Widgets Qt5PrintSupport"
-    qt4_modules="QtCore QtGui QtNetwork"
     BITCOIN_QT_CHECK([
       if test x$bitcoin_qt_want_version = xqt5 || ( test x$bitcoin_qt_want_version = xauto && test x$auto_priority_version = xqt5 ); then
         PKG_CHECK_MODULES([QT], [$qt5_modules], [QT_INCLUDES="$QT_CFLAGS"; have_qt=yes],[have_qt=no])
-      elif test x$bitcoin_qt_want_version = xqt4 || ( test x$bitcoin_qt_want_version = xauto && test x$auto_priority_version = xqt4 ); then
-        PKG_CHECK_MODULES([QT], [$qt4_modules], [QT_INCLUDES="$QT_CFLAGS"; have_qt=yes], [have_qt=no])
       fi
 
-      dnl qt version is set to 'auto' and the preferred version wasn't found. Now try the other.
-      if test x$have_qt = xno && test x$bitcoin_qt_want_version = xauto; then
-        if test x$auto_priority_version = xqt5; then
-          PKG_CHECK_MODULES([QT], [$qt4_modules], [QT_INCLUDES="$QT_CFLAGS"; have_qt=yes; QT_LIB_PREFIX=Qt; bitcoin_qt_got_major_vers=4], [have_qt=no])
-        else
-          PKG_CHECK_MODULES([QT], [$qt5_modules], [QT_INCLUDES="$QT_CFLAGS"; have_qt=yes; QT_LIB_PREFIX=Qt5; bitcoin_qt_got_major_vers=5], [have_qt=no])
-        fi
-      fi
       if test x$have_qt != xyes; then
         have_qt=no
         BITCOIN_QT_FAIL([Qt dependencies not found])
@@ -459,9 +433,6 @@ AC_DEFUN([_BITCOIN_QT_FIND_LIBS_WITHOUT_PKGCONFIG],[
     if test x$bitcoin_cv_qt5 = xyes || test x$bitcoin_qt_want_version = xqt5; then
       QT_LIB_PREFIX=Qt5
       bitcoin_qt_got_major_vers=5
-    else
-      QT_LIB_PREFIX=Qt
-      bitcoin_qt_got_major_vers=4
     fi
   ])
 
@@ -484,10 +455,8 @@ AC_DEFUN([_BITCOIN_QT_FIND_LIBS_WITHOUT_PKGCONFIG],[
   BITCOIN_QT_CHECK(AC_CHECK_LIB([${QT_LIB_PREFIX}Core]   ,[main],,BITCOIN_QT_FAIL(lib$QT_LIB_PREFIXCore not found)))
   BITCOIN_QT_CHECK(AC_CHECK_LIB([${QT_LIB_PREFIX}Gui]    ,[main],,BITCOIN_QT_FAIL(lib$QT_LIB_PREFIXGui not found)))
   BITCOIN_QT_CHECK(AC_CHECK_LIB([${QT_LIB_PREFIX}Network],[main],,BITCOIN_QT_FAIL(lib$QT_LIB_PREFIXNetwork not found)))
-  if test x$bitcoin_qt_got_major_vers = x5; then
-    BITCOIN_QT_CHECK(AC_CHECK_LIB([${QT_LIB_PREFIX}Widgets],[main],,BITCOIN_QT_FAIL(lib$QT_LIB_PREFIXWidgets not found)))
-    BITCOIN_QT_CHECK(AC_CHECK_LIB([${QT_LIB_PREFIX}PrintSupport],[main],,BITCOIN_QT_FAIL(lib$QT_LIB_PREFIXPrintSupport not found)))
-  fi
+  BITCOIN_QT_CHECK(AC_CHECK_LIB([${QT_LIB_PREFIX}Widgets],[main],,BITCOIN_QT_FAIL(lib$QT_LIB_PREFIXWidgets not found)))
+  BITCOIN_QT_CHECK(AC_CHECK_LIB([${QT_LIB_PREFIX}PrintSupport],[main],,BITCOIN_QT_FAIL(lib$QT_LIB_PREFIXPrintSupport not found)))
   QT_LIBS="$LIBS"
   LIBS="$TEMP_LIBS"
 
