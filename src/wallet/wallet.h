@@ -813,11 +813,11 @@ public:
      */
     static CAmount GetMinimumFee(const CMutableTransaction& tx, unsigned int nTxBytes, unsigned int nConfirmTarget, const CTxMemPool& pool, CAmount targetFee);
     /**
-     * Dogecoin: Get a fee targetting a specific transaction speed.
+     * Dogecoin: Get a fee targeting a specific transaction speed.
      */
     CAmount GetDogecoinPriorityFee(const CMutableTransaction& tx, unsigned int nTxBytes, FeeRatePreset nSpeed);
     /**
-     * Dogecoin: Get a fee targetting a specific transaction speed.
+     * Dogecoin: Get a fee targeting a specific transaction speed.
      */
     static CAmount GetDogecoinPriorityFee(const CMutableTransaction& tx, unsigned int nTxBytes, FeeRatePreset nSpeed, CAmount targetFee);
     /**
