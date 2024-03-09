@@ -44,15 +44,15 @@ class WalletStartupTest(BitcoinTestFramework):
         self.nodes[0].unloadwallet(wallet_name='w0', load_on_startup=False)
         self.nodes[0].unloadwallet(wallet_name='w4', load_on_startup=False)
         self.nodes[0].loadwallet(filename='w4', load_on_startup=True)
-        assert_equal(set(self.nodes[0].listwallets()), set(('', 'w1', 'w2', 'w3', 'w4')))
+        assert_equal(set(self.nodes[0].listwallets()), {'', 'w1', 'w2', 'w3', 'w4'})
         self.restart_node(0)
-        assert_equal(set(self.nodes[0].listwallets()), set(('', 'w2', 'w4')))
+        assert_equal(set(self.nodes[0].listwallets()), {'', 'w2', 'w4'})
         self.nodes[0].unloadwallet(wallet_name='', load_on_startup=False)
         self.nodes[0].unloadwallet(wallet_name='w4', load_on_startup=False)
         self.nodes[0].loadwallet(filename='w3', load_on_startup=True)
         self.nodes[0].loadwallet(filename='')
         self.restart_node(0)
-        assert_equal(set(self.nodes[0].listwallets()), set(('w2', 'w3')))
+        assert_equal(set(self.nodes[0].listwallets()), {'w2', 'w3'})
 
 if __name__ == '__main__':
     WalletStartupTest().main()
