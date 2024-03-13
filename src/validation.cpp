@@ -2583,7 +2583,7 @@ bool ActivateBestChain(CValidationState &state, const CChainParams& chainparams,
 
             } // MemPoolConflictRemovalTracker destroyed and conflict evictions are notified
 
-            // Transactions in the connnected block are notified
+            // Transactions in the connected block are notified
             for (const auto& pair : connectTrace.blocksConnected) {
                 assert(pair.second);
                 const CBlock& block = *(pair.second);
