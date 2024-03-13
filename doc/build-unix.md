@@ -67,6 +67,7 @@ Before installing the dependencies, ensure your system is updated and has the la
 ```bash
 sudo apt-get update
 sudo apt-get upgrade
+```
 
 **Required dependencies** :
 ```bash
