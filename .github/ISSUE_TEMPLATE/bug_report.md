@@ -1,7 +1,10 @@
 ---
-name: 🐜 Bug Report
+name: "\U0001F41C Bug Report"
 about: Create a report to help us improve
-title: '[bug] '
+title: "[bug] "
+labels: ''
+assignees: ''
+
 ---
 
 <!-- Please make sure you are posting an technical issue related to Dogecoin Core. --> 
