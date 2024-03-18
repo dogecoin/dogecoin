@@ -1161,11 +1161,11 @@ void CConnman::DeleteDisconnectedNodes()
 void CConnman::ThreadSocketHandler()
 {
     unsigned int nPrevNodeCount = 0;
-    const unsigned int nUnevictableConnections = std::max(0, std::max(MAX_OUTBOUND_CONNECTIONS, MAX_ADDNODE_CONNECTIONS) + PROTECTED_INBOUND_PEERS);
+    const unsigned int nUnevictableConnections = std::max((unsigned int)0, std::max(MAX_OUTBOUND_CONNECTIONS, MAX_ADDNODE_CONNECTIONS) + PROTECTED_INBOUND_PEERS);
 
     while (!interruptNet)
     {
-        unsigned int nWhitelistedConnections = 0;
+        uint32_t nWhitelistedConnections = 0;
 
         //
         // Disconnect nodes
@@ -1415,10 +1415,10 @@ void CConnman::ThreadSocketHandler()
         // Reduce number of connections, if needed
         //
 
-        long unsigned int nKeepConnections = nUnevictableConnections + nWhitelistedConnections;
-        long unsigned int nNodesCopy       = vNodesCopy.size();
+        uint32_t nKeepConnections = nUnevictableConnections + nWhitelistedConnections;
+        uint32_t nNodesCopy       = vNodesCopy.size();
 
-        if (nNodesCopy > nKeepConnections && (nNodesCopy > (long unsigned int)nMaxConnections))
+        if (nNodesCopy > nKeepConnections && (nNodesCopy > nMaxConnections))
         {
             LogPrintf("%s: attempting to reduce connections: max=%u current=%u keep=%u\n", __func__, nMaxConnections, nNodesCopy, nKeepConnections);
             DisconnectUnusedNodes();
@@ -1437,10 +1437,27 @@ void CConnman::ThreadSocketHandler()
     }
 }
 
-void CConnman::SetMaxConnections(int newMaxConnections)
+uint32_t CConnman::GetMaxConnections()
 {
-    newMaxConnections = std::max(newMaxConnections, MAX_ADDNODE_CONNECTIONS + PROTECTED_INBOUND_PEERS);
-    nMaxConnections = std::min(newMaxConnections, nAvailableFds);
+    return nMaxConnections;
+}
+
+uint32_t CConnman::GetMinConnections()
+{
+    return MAX_ADDNODE_CONNECTIONS + PROTECTED_INBOUND_PEERS;
+}
+
+uint32_t CConnman::CapNumConnections(uint32_t proposedMaxConnections)
+{
+    const uint32_t cappedMinConnections = std::max(proposedMaxConnections, GetMinConnections());
+    const uint32_t cappedMaxConnections = std::min(cappedMinConnections, nAvailableFds);
+
+    return cappedMaxConnections;
+}
+
+void CConnman::SetMaxConnections(uint32_t newMaxConnections)
+{
+    nMaxConnections = CapNumConnections(newMaxConnections);
 
     if (nMaxConnections != newMaxConnections) {
         LogPrintf("%s: capped new maxconnections request of %d to %d\n", __func__, newMaxConnections, nMaxConnections);
@@ -1766,8 +1783,8 @@ void CConnman::ThreadOpenConnections()
 
         // Only connect out to one peer per network group (/16 for IPv4).
         // Do this here so we don't have to critsect vNodes inside mapAddresses critsect.
-        int nOutbound = 0;
-        int nOutboundRelevant = 0;
+        uint32_t nOutbound = 0;
+        uint32_t nOutboundRelevant = 0;
         std::set<std::vector<unsigned char> > setConnected;
         {
             LOCK(cs_vNodes);
@@ -1813,7 +1830,7 @@ void CConnman::ThreadOpenConnections()
         }
 
         int64_t nANow = GetAdjustedTime();
-        int nTries = 0;
+        unsigned int nTries = 0;
         while (!interruptNet)
         {
             CAddrInfo addr = addrman.Select(fFeeler);
@@ -1875,7 +1892,7 @@ void CConnman::ThreadOpenConnections()
                 LogPrint("net", "Making feeler connection to %s\n", addrConnect.ToString());
             }
 
-            OpenNetworkConnection(addrConnect, (int)setConnected.size() >= std::min(nMaxConnections - 1, 2), &grant, NULL, false, fFeeler);
+            OpenNetworkConnection(addrConnect, setConnected.size() >= std::min(nMaxConnections - 1, (uint32_t)2), &grant, NULL, false, fFeeler);
         }
     }
 }
@@ -2389,13 +2406,13 @@ void CConnman::Interrupt()
     InterruptSocks5(true);
 
     if (semOutbound) {
-        for (int i=0; i<(nMaxOutbound + nMaxFeeler); i++) {
+        for (unsigned int i=0; i<(nMaxOutbound + nMaxFeeler); i++) {
             semOutbound->post();
         }
     }
 
     if (semAddnode) {
-        for (int i=0; i<nMaxAddnode; i++) {
+        for (unsigned int i=0; i<nMaxAddnode; i++) {
             semAddnode->post();
         }
     }
