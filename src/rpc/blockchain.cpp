@@ -1608,6 +1608,7 @@ static UniValue getblockstats(const JSONRPCRequest& request)
             "  \"avgfeerate\": xxxxx,      (numeric) Average feerate (in koinu per byte)\n"
             "  \"avgtxsize\": xxxxx,       (numeric) Average transaction size\n"
             "  \"blockhash\": xxxxx,       (string) The block hash (to check for potential reorgs)\n"
+            "  \"dustouts\": xxxxx,        (numeric) Number of outputs under the dust limit (excluding coinbase and OP_RETURN)\n"
             "  \"feerate_percentiles\": [  (array of numeric) Feerates at the 10th, 25th, 50th, 75th, and 90th percentile weight unit (in koinu per byte)\n"
             "      \"10th_percentile_feerate\",      (numeric) The 10th percentile feerate\n"
             "      \"25th_percentile_feerate\",      (numeric) The 25th percentile feerate\n"
@@ -1619,12 +1620,14 @@ static UniValue getblockstats(const JSONRPCRequest& request)
             "  \"ins\": xxxxx,             (numeric) The number of inputs (excluding coinbase)\n"
             "  \"maxfee\": xxxxx,          (numeric) Maximum fee in the block\n"
             "  \"maxfeerate\": xxxxx,      (numeric) Maximum feerate (in koinu per byte)\n"
+            "  \"maxoutamount\": xxxxx,    (numeric) Maximum output value (excluding coinbase and OP_RETURN)\n"
             "  \"maxtxsize\": xxxxx,       (numeric) Maximum transaction size\n"
             "  \"medianfee\": xxxxx,       (numeric) Truncated median fee in the block\n"
             "  \"mediantime\": xxxxx,      (numeric) The block median time past\n"
             "  \"mediantxsize\": xxxxx,    (numeric) Truncated median transaction size\n"
             "  \"minfee\": xxxxx,          (numeric) Minimum fee in the block\n"
             "  \"minfeerate\": xxxxx,      (numeric) Minimum feerate (in koinu per byte)\n"
+            "  \"minoutamount\": xxxxx,    (numeric) Minumum output value (excluding coinbase and OP_RETURN)\n"
             "  \"mintxsize\": xxxxx,       (numeric) Minimum transaction size\n"
             "  \"outs\": xxxxx,            (numeric) The number of outputs\n"
             "  \"subsidy\": xxxxx,         (numeric) The block subsidy\n"
@@ -1674,19 +1677,23 @@ static UniValue getblockstats(const JSONRPCRequest& request)
     const bool do_mediantxsize = do_all || stats.count("mediantxsize") != 0;
     const bool do_medianfee = do_all || stats.count("medianfee") != 0;
     const bool do_feerate_percentiles = do_all || stats.count("feerate_percentiles") != 0;
+    const bool do_duststats = do_all || SetHasKeys(stats, "minoutamount", "maxoutamount", "dustouts");
     const bool loop_inputs = do_all || do_medianfee || do_feerate_percentiles ||
         SetHasKeys(stats, "utxo_size_inc", "totalfee", "avgfee", "avgfeerate", "minfee", "maxfee", "minfeerate", "maxfeerate", "subsidy");
-    const bool loop_outputs = do_all || loop_inputs || stats.count("total_out");
+    const bool loop_outputs = do_all || loop_inputs || do_duststats || stats.count("total_out");
     const bool do_calculate_size = do_all || do_mediantxsize ||
         SetHasKeys(stats, "total_size", "avgtxsize", "mintxsize", "maxtxsize", "avgfeerate", "avgfeerate", "feerate_percentiles", "minfeerate", "maxfeerate");
     const bool do_calculate_weight = do_all || SetHasKeys(stats, "total_weight");
 
     CAmount maxfee = 0;
     CAmount maxfeerate = 0;
+    CAmount maxoutamount = 0;
     CAmount minfee = MAX_MONEY;
     CAmount minfeerate = MAX_MONEY;
+    CAmount minoutamount = MAX_MONEY;
     CAmount total_out = 0;
     CAmount totalfee = 0;
+    int64_t dustouts = 0;
     int64_t inputs = 0;
     int64_t maxtxsize = 0;
     int64_t mintxsize = MAX_BLOCK_SERIALIZED_SIZE;
@@ -1698,6 +1705,9 @@ static UniValue getblockstats(const JSONRPCRequest& request)
     std::vector<std::pair<CAmount, int64_t>> feerate_array;
     std::vector<int64_t> txsize_array;
 
+    bool witnessEnabled = IsWitnessEnabled(pindex, Params().GetConsensus(pindex->nHeight));
+    txnouttype whichType;
+
     for (size_t i = 0; i < block.vtx.size(); ++i) {
         const auto& tx = block.vtx.at(i);
         outputs += tx->vout.size();
@@ -1707,6 +1717,27 @@ static UniValue getblockstats(const JSONRPCRequest& request)
             for (const CTxOut& out : tx->vout) {
                 tx_total_out += out.nValue;
                 utxo_size_inc += GetSerializeSize(out, SER_NETWORK, PROTOCOL_VERSION) + PER_UTXO_OVERHEAD;
+                if (do_duststats) {
+                  if (tx->IsCoinBase()) {
+                    continue;
+                  }
+
+                  if (::IsStandard(out.scriptPubKey, whichType, witnessEnabled)) {
+                    if (whichType == TX_NULL_DATA) {
+                      continue;
+                    }
+                  }
+
+                  if (out.nValue > maxoutamount) {
+                    maxoutamount = out.nValue;
+                  }
+                  if (out.nValue < minoutamount) {
+                    minoutamount = out.nValue;
+                  }
+                  if (out.nValue < nDustLimit) {
+                    dustouts += 1;
+                  }
+                }
             }
         }
 
@@ -1782,17 +1813,20 @@ static UniValue getblockstats(const JSONRPCRequest& request)
     ret_all.pushKV("avgfeerate", total_size ? totalfee / total_size : 0); // Unit: koinu/byte
     ret_all.pushKV("avgtxsize", (block.vtx.size() > 1) ? total_size / (block.vtx.size() - 1) : 0);
     ret_all.pushKV("blockhash", pindex->GetBlockHash().GetHex());
+    ret_all.pushKV("dustouts", dustouts);
     ret_all.pushKV("feerate_percentiles", feerates_res);
     ret_all.pushKV("height", (int64_t)pindex->nHeight);
     ret_all.pushKV("ins", inputs);
     ret_all.pushKV("maxfee", maxfee);
     ret_all.pushKV("maxfeerate", maxfeerate);
+    ret_all.pushKV("maxoutamount", maxoutamount);
     ret_all.pushKV("maxtxsize", maxtxsize);
     ret_all.pushKV("medianfee", CalculateTruncatedMedian(fee_array));
     ret_all.pushKV("mediantime", pindex->GetMedianTimePast());
     ret_all.pushKV("mediantxsize", CalculateTruncatedMedian(txsize_array));
     ret_all.pushKV("minfee", (minfee == MAX_MONEY) ? 0 : minfee);
     ret_all.pushKV("minfeerate", (minfeerate == MAX_MONEY) ? 0 : minfeerate);
+    ret_all.pushKV("minoutamount", (minoutamount == MAX_MONEY) ? 0 : minoutamount);
     ret_all.pushKV("mintxsize", mintxsize == MAX_BLOCK_SERIALIZED_SIZE ? 0 : mintxsize);
     ret_all.pushKV("outs", outputs);
     ret_all.pushKV("subsidy", subsidy);
