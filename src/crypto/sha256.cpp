@@ -23,13 +23,16 @@
 # if defined(__ARM_NEON) || defined(_MSC_VER) || defined(__GNUC__)
 #  include <arm_neon.h>
 # endif
+/** Apple Clang **/
+# if defined(__APPLE__) && defined(__apple_build_version__)
+#  include <sys/sysctl.h>
+# endif
 /** GCC and LLVM Clang, but not Apple Clang */
 # if defined(__GNUC__) && !defined(__apple_build_version__)
 #  if defined(__ARM_ACLE) || defined(__ARM_FEATURE_CRYPTO)
 #   include "compat/arm_acle_selector.h"
 #  endif
 # endif
-#endif  /** ARM Headers */
 
 static const uint32_t K[] =
 {
@@ -50,6 +53,7 @@ static const uint32_t K[] =
     0x748F82EE, 0x78A5636F, 0x84C87814, 0x8CC70208,
     0x90BEFFFA, 0xA4506CEB, 0xBEF9A3F7, 0xC67178F2,
 };
+#endif  /** ARM Headers */
 
 // Internal implementation code.
 namespace
@@ -57,7 +61,6 @@ namespace
 /// Internal SHA-256 implementation.
 namespace sha256
 {
-#ifndef USE_AVX2
 uint32_t inline Ch(uint32_t x, uint32_t y, uint32_t z) { return z ^ (x & (y ^ z)); }
 uint32_t inline Maj(uint32_t x, uint32_t y, uint32_t z) { return (x & y) | (z & (x | y)); }
 uint32_t inline Sigma0(uint32_t x) { return (x >> 2 | x << 30) ^ (x >> 13 | x << 19) ^ (x >> 22 | x << 10); }
@@ -73,7 +76,6 @@ void inline Round(uint32_t a, uint32_t b, uint32_t c, uint32_t& d, uint32_t e, u
     d += t1;
     h = t1 + t2;
 }
-#endif
 
 /** Initialize SHA-256 state. */
 void inline Initialize(uint32_t* s)
@@ -88,8 +90,8 @@ void inline Initialize(uint32_t* s)
     s[7] = 0x5be0cd19ul;
 }
 
-/** Perform one SHA-256 transformation, processing a 64-byte chunk. */
-void Transform(uint32_t* s, const unsigned char* chunk)
+/** Perform one SHA-256 transformation, processing a 64-byte chunk. (ARMv8) */
+void Transform_ARMV8(uint32_t* s, const unsigned char* chunk)
 {
 #if defined(USE_ARMV8) || defined(USE_ARMV82)
     // entire block is experimental
@@ -248,12 +250,22 @@ void Transform(uint32_t* s, const unsigned char* chunk)
     /** Save state */
     vst1q_u32(&s[0], STATE0);
     vst1q_u32(&s[4], STATE1);
+#endif
+}
 
-#elif USE_AVX2
+/** Perform one SHA-256 transformation, processing a 64-byte chunk. (AVX2) */
+void Transform_AVX2(uint32_t* s, const unsigned char* chunk)
+{
+#if USE_AVX2
     // Perform SHA256 one block (Intel AVX2)
     EXPERIMENTAL_FEATURE
     sha256_one_block_avx2(chunk, s);
-#else
+#endif
+}
+
+/** Perform one SHA-256 transformation, processing a 64-byte chunk. */
+void Transform(uint32_t* s, const unsigned char* chunk)
+{
     // Perform SHA256 one block (legacy)
     uint32_t a = s[0], b = s[1], c = s[2], d = s[3], e = s[4], f = s[5], g = s[6], h = s[7];
     uint32_t w0, w1, w2, w3, w4, w5, w6, w7, w8, w9, w10, w11, w12, w13, w14, w15;
@@ -334,6 +346,40 @@ void Transform(uint32_t* s, const unsigned char* chunk)
     s[5] += f;
     s[6] += g;
     s[7] += h;
+}
+
+/** Define SHA256 hardware */
+#if defined(__linux__)
+#define HWCAP_SHA2  (1<<6)
+#include <sys/auxv.h>
+#elif defined(__WIN64__)
+#include <intrin.h>
+bool isAVX (void) {
+  int cpuinfo[4];
+  __cpuid(cpuinfo, 1);
+  return ((cpuinfo[2] & (1 << 28)) != 0);
+}
+#endif
+
+/** Define a function pointer for Transform */
+void (*transform_ptr) (uint32_t*, const unsigned char*) = &Transform;
+
+/** Initialize the function pointer */
+void inline Initialize_transform_ptr(void)
+{
+// Override the function pointer for ARMV8/AVX2
+#if ((defined(USE_ARMV8) || defined(USE_ARMV82)) && defined(__APPLE__))
+    if (sysctlbyname("hw.optional.arm.FEAT_SHA256", NULL, NULL, NULL, 0) == 0)
+       transform_ptr = &Transform_ARMV8;
+#elif (defined(USE_ARMV8) || defined(USE_ARMV82))
+    if (getauxval(AT_HWCAP) & HWCAP_SHA2)
+       transform_ptr = &Transform_ARMV8;
+#elif USE_AVX2 && defined(__linux__)
+    if (__builtin_cpu_supports("avx2"))
+       transform_ptr = &Transform_AVX2;
+#elif USE_AVX2 && defined(__WIN64__)
+    if (isAVX)
+       transform_ptr = &Transform_AVX2;
 #endif
 }
 
@@ -357,12 +403,12 @@ CSHA256& CSHA256::Write(const unsigned char* data, size_t len)
         memcpy(buf + bufsize, data, 64 - bufsize);
         bytes += 64 - bufsize;
         data += 64 - bufsize;
-        sha256::Transform(s, buf);
+        sha256::transform_ptr(s, buf);
         bufsize = 0;
     }
     while (end >= data + 64) {
         // Process full chunks directly from the source.
-        sha256::Transform(s, data);
+        sha256::transform_ptr(s, data);
         bytes += 64;
         data += 64;
     }
@@ -396,4 +442,9 @@ CSHA256& CSHA256::Reset()
     bytes = 0;
     sha256::Initialize(s);
     return *this;
+}
+
+void detect_sha256_hardware()
+{
+    sha256::Initialize_transform_ptr();
 }
