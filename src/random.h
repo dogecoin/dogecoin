@@ -10,6 +10,13 @@
 
 #include <stdint.h>
 
+/* Number of random bytes returned by GetOSRand.
+ * When changing this constant make sure to change all call sites, and make
+ * sure that the underlying OS APIs for all platforms support the number.
+ * (many cap out at 256 bytes).
+ */
+static const int NUM_OS_RANDOM_BYTES = 32;
+
 /* Seed OpenSSL PRNG with additional entropy data */
 void RandAddSeed();
 
