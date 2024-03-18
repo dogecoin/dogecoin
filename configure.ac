@@ -220,6 +220,12 @@ AC_ARG_WITH([armv82-crypto],
   [armv82_crypto=$withval],
   [armv82_crypto=no])
 
+AC_ARG_ENABLE([rdseed],
+  [AS_HELP_STRING([--disable-rdseed],
+  [disable rdseed entropy (default is yes where available)])],
+  [use_rdseed=$enableval],
+  [use_rdseed=yes])
+
 AC_ARG_WITH([protoc-bindir],[AS_HELP_STRING([--with-protoc-bindir=BIN_DIR],[specify protoc bin path])], [protoc_bin_path=$withval], [])
 
 AC_ARG_ENABLE(man,
@@ -1107,6 +1113,21 @@ fi
 
 if test x$build_bitcoin_utils$build_bitcoin_libs$build_bitcoind$bitcoin_enable_qt$use_bench$use_tests = xnononononono; then
   AC_MSG_ERROR([No targets! Please specify at least one of: --with-utils --with-libs --with-daemon --with-gui --enable-bench or --enable-tests])
+fi
+
+dnl Use rdseed to gather entropy
+if test "x$use_rdseed" = "xyes"; then
+  dnl Only enable rdseed on the compiler when targeting x86 
+  case $host in
+    *x86*)
+      CXXFLAGS="$CXXFLAGS -mrdseed"
+      ;;
+    *i686*)
+      CXXFLAGS="$CXXFLAGS -mrdseed"
+      ;;  
+    *)  
+      use_rdseed="no"
+  esac
 fi
 
 AM_CONDITIONAL([TARGET_DARWIN], [test x$TARGET_OS = xdarwin])
