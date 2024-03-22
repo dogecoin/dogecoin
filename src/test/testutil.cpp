@@ -4,29 +4,29 @@
 
 #include "testutil.h"
 
+#include "fs.h"
+
 #ifdef WIN32
 #include <shlobj.h>
 #endif
 
-#include <boost/filesystem.hpp>
-
-boost::filesystem::path GetTempPath() {
+fs::path GetTempPath() {
 #if BOOST_FILESYSTEM_VERSION == 3
-    return boost::filesystem::temp_directory_path();
+    return fs::temp_directory_path();
 #else
     // TODO: remove when we don't support filesystem v2 anymore
-    boost::filesystem::path path;
+    fs::path path;
 #ifdef WIN32
     char pszPath[MAX_PATH] = "";
 
     if (GetTempPathA(MAX_PATH, pszPath))
-        path = boost::filesystem::path(pszPath);
+        path = fs::path(pszPath);
 #else
-    path = boost::filesystem::path("/tmp");
+    path = fs::path("/tmp");
 #endif
-    if (path.empty() || !boost::filesystem::is_directory(path)) {
+    if (path.empty() || !fs::is_directory(path)) {
         LogPrintf("GetTempPath(): failed to find temp path\n");
-        return boost::filesystem::path("");
+        return fs::path("");
     }
     return path;
 #endif
