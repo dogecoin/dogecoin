@@ -4,7 +4,7 @@ $(package)_download_path=https://github.com/al45tair/mac_alias/archive/
 $(package)_download_file=v$($(package)_version).tar.gz
 $(package)_file_name=mac_alias-$($(package)_version).tar.gz
 $(package)_sha256_hash=b10cb44ecb64fc25283fae7a9cf365d2829377d84e37b9c21100aca8757509be
-$(package)_install_libdir=$(build_prefix)/lib/python/dist-packages
+$(package)_install_libdir=$(build_prefix)/lib/python3/dist-packages
 $(package)_patches=python3.patch
 
 define $(package)_preprocess_cmds

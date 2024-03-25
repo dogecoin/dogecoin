@@ -60,11 +60,16 @@ export PKG_CONFIG_PATH=$depends_prefix/share/pkgconfig
 CPPFLAGS="-I$depends_prefix/include/ $CPPFLAGS"
 LDFLAGS="-L$depends_prefix/lib $LDFLAGS"
 
-CC="@CC@"
+if test -n "@CC@" -a -z "${CC}"; then
 CXX="@CXX@"
+  CC="@CC@"
 OBJC="${CC}"
+fi
+if test -n "@CXX@" -a -z "${CXX}"; then
+  CXX="@CXX@"
+fi
 CCACHE=$depends_prefix/native/bin/ccache
-PYTHONPATH=$depends_prefix/native/lib/python/dist-packages:$PYTHONPATH
+PYTHONPATH=$depends_prefix/native/lib/python3/dist-packages:$PYTHONPATH
 
 if test -n "@AR@"; then
   AR=@AR@
