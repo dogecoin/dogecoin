@@ -899,11 +899,6 @@ if test x$intel_avx2 = xyes; then
     AC_CHECK_LIB([crypt32],           [main],LIBS+=" -lcrypt32", AC_MSG_ERROR(lib missing))
     AC_CHECK_LIB([ssp],               [main],LIBS+=" -lssp", AC_MSG_ERROR(lib missing))
 
-    dnl only check for Qt5 if we're actually building Qt
-    if test x$bitcoin_enable_qt != xno; then
-      AC_CHECK_LIB([Qt5PlatformSupport],[main],LIBS+=" -lQt5PlatformSupport", AC_MSG_ERROR(lib missing))
-    fi
-
     AC_DEFINE(USE_AVX2, 1, [Define this symbol if intel axv2 works])
 esac
 fi
