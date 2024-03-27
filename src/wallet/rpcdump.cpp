@@ -5,6 +5,7 @@
 
 #include "base58.h"
 #include "chain.h"
+#include "fs.h"
 #include "rpc/server.h"
 #include "init.h"
 #include "validation.h"
@@ -23,8 +24,6 @@
 
 #include <boost/algorithm/string.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
 
 #include <univalue.h>
 
@@ -610,9 +609,9 @@ UniValue dumpwallet(const JSONRPCRequest& request)
     ofstream file;
 
     string userFilename = request.params[0].get_str();
-    boost::filesystem::path path = GetBackupDirFromInput(userFilename);
+    fs::path path = GetBackupDirFromInput(userFilename);
 
-    if (boost::filesystem::exists(path))
+    if (fs::exists(path))
         throw JSONRPCError(RPC_INVALID_PARAMETER, "Wallet dump file already exists; not overwriting");
 
     file.open(path.string());

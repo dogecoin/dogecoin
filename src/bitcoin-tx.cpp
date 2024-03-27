@@ -13,6 +13,7 @@
 #include "compat.h"
 #include "consensus/consensus.h"
 #include "core_io.h"
+#include "fs.h"
 #include "keystore.h"
 #include "policy/policy.h"
 #include "primitives/transaction.h"
@@ -148,8 +149,9 @@ static void RegisterLoad(const std::string& strInput)
 
     std::string key = strInput.substr(0, pos);
     std::string filename = strInput.substr(pos + 1, std::string::npos);
+    fs::path pathFile = fs::path(filename);
 
-    FILE *f = fopen(filename.c_str(), "r");
+    FILE *f = fsbridge::fopen(pathFile, "r");
     if (!f) {
         std::string strErr = "Cannot open file " + filename;
         throw std::runtime_error(strErr);

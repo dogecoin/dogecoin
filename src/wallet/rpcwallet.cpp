@@ -2084,9 +2084,9 @@ UniValue backupwallet(const JSONRPCRequest& request)
     LOCK2(cs_main, pwalletMain->cs_wallet);
 
     string userFilename = request.params[0].get_str();
-    boost::filesystem::path path = GetBackupDirFromInput(userFilename);
+    fs::path path = GetBackupDirFromInput(userFilename);
 
-    if (boost::filesystem::exists(path))
+    if (fs::exists(path))
         throw JSONRPCError(RPC_INVALID_PARAMETER, "Wallet dump file already exists; not overwriting");
 
     if (!pwalletMain->BackupWallet(path.string()))

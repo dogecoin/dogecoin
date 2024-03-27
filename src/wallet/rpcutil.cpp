@@ -4,13 +4,15 @@
 
 #include "wallet/rpcutil.h"
 
-boost::filesystem::path GetBackupDirFromInput(std::string strUserFilename)
+#include "fs.h"
+
+fs::path GetBackupDirFromInput(std::string strUserFilename)
 {
-    const boost::filesystem::path backupDir = GetBackupDir();
+    const fs::path backupDir = GetBackupDir();
 
     if (strUserFilename != "") {
-        boost::filesystem::path p(strUserFilename);
-        boost::filesystem::path filename = p.filename();
+        fs::path p(strUserFilename);
+        fs::path filename = p.filename();
 
         if (!filename.empty())
             return backupDir / filename;
