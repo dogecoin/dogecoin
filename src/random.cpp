@@ -177,21 +177,74 @@ uint256 GetRandHash()
     return hash;
 }
 
-FastRandomContext::FastRandomContext(bool fDeterministic)
+void FastRandomContext::RandomSeed()
 {
-    // The seed values have some unlikely fixed points which we avoid.
-    if (fDeterministic) {
-        Rz = Rw = 11;
-    } else {
-        uint32_t tmp;
-        do {
-            GetRandBytes((unsigned char*)&tmp, 4);
-        } while (tmp == 0 || tmp == 0x9068ffffU);
-        Rz = tmp;
-        do {
-            GetRandBytes((unsigned char*)&tmp, 4);
-        } while (tmp == 0 || tmp == 0x464fffffU);
-        Rw = tmp;
-    }
+    uint256 seed = GetRandHash();
+    rng.SetKey(seed.begin(), 32);
+    requires_seed = false;
 }
 
+uint256 FastRandomContext::rand256()
+{
+    if (bytebuf_size < 32) {
+        FillByteBuffer();
+    }
+    uint256 ret;
+    memcpy(ret.begin(), bytebuf + 64 - bytebuf_size, 32);
+    bytebuf_size -= 32;
+    return ret;
+}
+
+std::vector<unsigned char> FastRandomContext::randbytes(size_t len)
+{
+    std::vector<unsigned char> ret(len);
+    if (len > 0) {
+        rng.Output(&ret[0], len);
+    }
+    return ret;
+}
+
+FastRandomContext::FastRandomContext(const uint256& seed) : requires_seed(false), bytebuf_size(0), bitbuf_size(0)
+{
+    rng.SetKey(seed.begin(), 32);
+}
+
+bool Random_SanityCheck()
+{
+    /* This does not measure the quality of randomness, but it does test that
+     * OSRandom() overwrites all 32 bytes of the output given a maximum
+     * number of tries.
+     */
+    static const ssize_t MAX_TRIES = 1024;
+    uint8_t data[NUM_OS_RANDOM_BYTES];
+    bool overwritten[NUM_OS_RANDOM_BYTES] = {}; /* Tracks which bytes have been overwritten at least once */
+    int num_overwritten;
+    int tries = 0;
+    /* Loop until all bytes have been overwritten at least once, or max number tries reached */
+    do {
+        memset(data, 0, NUM_OS_RANDOM_BYTES);
+        GetOSRand(data);
+        for (int x=0; x < NUM_OS_RANDOM_BYTES; ++x) {
+            overwritten[x] |= (data[x] != 0);
+        }
+
+        num_overwritten = 0;
+        for (int x=0; x < NUM_OS_RANDOM_BYTES; ++x) {
+            if (overwritten[x]) {
+                num_overwritten += 1;
+            }
+        }
+
+        tries += 1;
+    } while (num_overwritten < NUM_OS_RANDOM_BYTES && tries < MAX_TRIES);
+    return (num_overwritten == NUM_OS_RANDOM_BYTES); /* If this failed, bailed out after too many tries */
+}
+
+FastRandomContext::FastRandomContext(bool fDeterministic) : requires_seed(!fDeterministic), bytebuf_size(0), bitbuf_size(0)
+{
+    if (!fDeterministic) {
+        return;
+    }
+    uint256 seed;
+    rng.SetKey(seed.begin(), 32);
+}

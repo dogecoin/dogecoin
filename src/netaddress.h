@@ -23,6 +23,7 @@ enum Network
     NET_IPV4,
     NET_IPV6,
     NET_TOR,
+    NET_INTERNAL,
 
     NET_MAX,
 };
@@ -46,6 +47,12 @@ class CNetAddr
          */
         void SetRaw(Network network, const uint8_t *data);
 
+        /**
+          * Transform an arbitrary string into a non-routable ipv6 address.
+          * Useful for mapping resolved addresses back to their source.
+         */
+        bool SetInternal(const std::string& name);
+
         bool SetSpecial(const std::string &strName); // for Tor addresses
         bool IsIPv4() const;    // IPv4 mapped address (::FFFF:0:0/96, 0.0.0.0/0)
         bool IsIPv6() const;    // IPv6 address (not mapped IPv4, not Tor)
@@ -65,6 +72,7 @@ class CNetAddr
         bool IsTor() const;
         bool IsLocal() const;
         bool IsRoutable() const;
+        bool IsInternal() const;
         bool IsValid() const;
         bool IsMulticast() const;
         enum Network GetNetwork() const;
@@ -73,8 +81,16 @@ class CNetAddr
         unsigned int GetByte(int n) const;
         uint64_t GetHash() const;
         bool GetInAddr(struct in_addr* pipv4Addr) const;
-        std::vector<unsigned char> GetGroup() const;
-        int GetReachabilityFrom(const CNetAddr *paddrPartner = NULL) const;
+        uint32_t GetNetClass() const;
+
+        // The AS on the BGP path to the node we use to diversify
+        // peers in AddrMan bucketing based on the AS infrastructure.
+        // The ip->AS mapping depends on how asmap is constructed.
+        uint32_t GetMappedAS(const std::vector<bool> &asmap) const;
+
+        std::vector<unsigned char> GetGroup(const std::vector<bool> &asmap) const;
+
+        int GetReachabilityFrom(const CNetAddr *paddrPartner = nullptr) const;
 
         CNetAddr(const struct in6_addr& pipv6Addr, const uint32_t scope = 0);
         bool GetIn6Addr(struct in6_addr* pipv6Addr) const;
@@ -168,5 +184,7 @@ class CService : public CNetAddr
                  port = ntohs(portN);
         }
 };
+
+bool SanityCheckASMap(const std::vector<bool>& asmap);
 
 #endif // BITCOIN_NETADDRESS_H
