@@ -11,8 +11,6 @@ Dogecoin Core [DOGE, Ð]
 
 </div>
 
-Select language: [EN](./README.md) | [CN](./README_zh_CN.md) | [PT](./README_pt_BR.md) | FA  | [VI](./README_vi_VN.md)
-
 دوج‌کوین (Dogecoin) یک رمزارز مبتنی بر عموم مردم بوده که از یک
 [میم اینترنتی](https://fa.wikipedia.org/wiki/%D9%85%DB%8C%D9%85)
 سگی با نژاد شیبا اینو الهام گرفته شده است. نرم‌افزار Dogecoin Core به همه این اجازه را می‌دهد که یک گره (Node) در شبکه‌های بلاک‌چین دوج‌کوین را اداره کنند که در آن از روش هش کردن Scrypt به عنوان Proof of Work یا اثبات انجام عملیات بهره برده شده است. در این پروژه از Bitcoin Core و سایر رمزارزها الگوبرداری شده است.
