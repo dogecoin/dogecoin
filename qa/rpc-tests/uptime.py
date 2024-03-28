@@ -19,6 +19,9 @@ class UptimeTest(BitcoinTestFramework):
         self.num_nodes = 1
         self.setup_clean_chain = True
 
+    def setup_network(self):
+        self.nodes = self.setup_nodes()
+
     def run_test(self):
         self._test_uptime()
 
