@@ -1,54 +1,55 @@
 name: dogecoin-core
 # Running 'snapcraft register <name>' is advised
-version: '1.14.6'
+version: '1.14.7'
 summary: Reference client of Dogecoin, a peer-to-peer digital currency like Bitcoin.
 description: |
   Dogecoin is a community-driven cryptocurrency that was inspired by a Shiba Inu meme. The Dogecoin Core software allows anyone to operate a node in the Dogecoin blockchain networks and uses the Scrypt hashing method for Proof of Work. It is adapted from Bitcoin Core and other cryptocurrencies.
 
 grade: stable
 confinement: strict
-base: core18
+base: core22 # should work with core18 and core20 with changes
 compression: lzo
 architectures:
   - build-on: amd64
-    run-on: amd64
+    build-for: amd64
   - build-on: arm64
-    run-on: arm64
+    build-for: arm64
   - build-on: i386
-    run-on: i386
+    build-for: i386
 
 apps:
   d:
-    command: dogecoind
+    command: bin/dogecoind
     plugs: [home, removable-media, network, network-bind]
     environment:
       # Override HOME so the datadir is located at ~/snap/dogecoin-core/common/.dogecoin/ instead of ~/snap/dogecoin-core/current/.dogecoin/, and each new version of the snap won't have a different data directory: https://docs.snapcraft.io/environment-variables/7983
       HOME: $SNAP_USER_COMMON
   qt:
-    command: desktop-launch dogecoin-qt
+    command-chain: [bin/desktop-launch]
+    command: bin/dogecoin-qt
     plugs: [home, removable-media, network, network-bind, desktop, x11, unity7]
     environment:
       HOME: $SNAP_USER_COMMON
       DISABLE_WAYLAND: 1
   cli:
-    command: dogecoin-cli
+    command: bin/dogecoin-cli
     plugs: [home, removable-media, network]
     environment:
       HOME: $SNAP_USER_COMMON
   tx:
-    command: dogecoin-tx
+    command: bin/dogecoin-tx
     plugs: [home, removable-media, network]
     environment:
       HOME: $SNAP_USER_COMMON
   test:
-    command: test_dogecoin
+    command: bin/test_dogecoin
     plugs: [home, removable-media, network]
     environment:
       HOME: $SNAP_USER_COMMON
 
 parts:
   desktop-qt5:
-    # So desktop-launch from qt5 is udsable
+    # So desktop-launch from qt5 is usable
     # Adapted from https://github.com/ubuntu/snapcraft-desktop-helpers/blob/master/snapcraft.yaml
     source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
     source-depth: 1
@@ -62,16 +63,15 @@ parts:
       - dpkg-dev
     stage-packages:
       - libxkbcommon0
-      - ttf-ubuntu-font-family
+      - fonts-ubuntu
       - dmz-cursor-theme
       - light-themes
       - adwaita-icon-theme
       - gnome-themes-standard
       - shared-mime-info
       - libqt5gui5
-      - libgdk-pixbuf2.0-0
       - libqt5svg5 # for loading icon themes which are svg
-      - try: [appmenu-qt5] # not available on core18
+      - libgtk2.0-0
       - locales-all
       - xdg-user-dirs
       - fcitx-frontend-qt5
@@ -81,10 +81,10 @@ parts:
     override-build: |
       echo "This script is viewable at https://github.com/dogecoin/dogecoin/blob/master/contrib/snap/snapcraft.yaml"
       echo "Downloading files..."
-      if [ "$SNAPCRAFT_ARCH_TRIPLET" = "i386-linux-gnu" ]; then # snap designates 32-bit as i386, but dogecoin designates it as i686
+      if [ "$CRAFT_ARCH_TRIPLET" = "i386-linux-gnu" ]; then # snap designates 32-bit as i386, but dogecoin designates it as i686
         BUILD_ARCH_TRIPLET=i686-pc-linux-gnu
       else
-        BUILD_ARCH_TRIPLET=$SNAPCRAFT_ARCH_TRIPLET
+        BUILD_ARCH_TRIPLET=$CRAFT_ARCH_TRIPLET
       fi
       wget https://github.com/dogecoin/dogecoin/releases/download/v${SNAPCRAFT_PROJECT_VERSION}/dogecoin-${SNAPCRAFT_PROJECT_VERSION}-${BUILD_ARCH_TRIPLET}.tar.gz
       wget https://github.com/dogecoin/gitian.sigs/archive/refs/heads/master.tar.gz
@@ -109,15 +109,15 @@ parts:
       cat release-notes.md
       echo "Installing Dogecoin Core..."
       echo "Version ${SNAPCRAFT_PROJECT_VERSION}"
-      install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin dogecoin-${SNAPCRAFT_PROJECT_VERSION}/bin/dogecoind
+      install -m 0755 -D -t ${CRAFT_PART_INSTALL}/bin dogecoin-${SNAPCRAFT_PROJECT_VERSION}/bin/dogecoind
       if ! ([ "$BUILD_ARCH_TRIPLET" = "aarch64-linux-gnu" ]); then # there is no official dogecoin-qt build on arm64
-        install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin dogecoin-${SNAPCRAFT_PROJECT_VERSION}/bin/dogecoin-qt
+        install -m 0755 -D -t ${CRAFT_PART_INSTALL}/bin dogecoin-${SNAPCRAFT_PROJECT_VERSION}/bin/dogecoin-qt
       fi
-      install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin dogecoin-${SNAPCRAFT_PROJECT_VERSION}/bin/dogecoin-cli
-      install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin dogecoin-${SNAPCRAFT_PROJECT_VERSION}/bin/dogecoin-tx
-      install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin dogecoin-${SNAPCRAFT_PROJECT_VERSION}/bin/test_dogecoin
+      install -m 0755 -D -t ${CRAFT_PART_INSTALL}/bin dogecoin-${SNAPCRAFT_PROJECT_VERSION}/bin/dogecoin-cli
+      install -m 0755 -D -t ${CRAFT_PART_INSTALL}/bin dogecoin-${SNAPCRAFT_PROJECT_VERSION}/bin/dogecoin-tx
+      install -m 0755 -D -t ${CRAFT_PART_INSTALL}/bin dogecoin-${SNAPCRAFT_PROJECT_VERSION}/bin/test_dogecoin
       wget https://raw.githubusercontent.com/dogecoin/dogecoin/master/share/pixmaps/dogecoin128.png
-      install -m 0644 -D -t $SNAPCRAFT_PART_INSTALL/share/pixmaps dogecoin128.png
+      install -m 0644 -D -t ${CRAFT_PART_INSTALL}/share/pixmaps dogecoin128.png
     build-packages:
       - wget
     after:
