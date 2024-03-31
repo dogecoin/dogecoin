@@ -895,7 +895,7 @@ CTxMemPool::WriteFeeEstimates(CAutoFile& fileout) const
         minerPolicyEstimator->Write(fileout);
     }
     catch (const std::exception&) {
-        LogPrintf("CTxMemPool::WriteFeeEstimates(): unable to write policy estimator data (non-fatal)\n");
+        LogPrintf("CTxMemPool::WriteFeeEstimates(): unable to write policy estimator data (non-fatal)\n", e.what());
         return false;
     }
     return true;
@@ -923,7 +923,7 @@ CTxMemPool::ReadFeeEstimates(CAutoFile& filein)
         minerPolicyEstimator->Read(filein, nVersionThatWrote);
     }
     catch (const std::exception&) {
-        LogPrintf("CTxMemPool::ReadFeeEstimates(): unable to read policy estimator data (non-fatal)\n");
+        LogPrintf("CTxMemPool::ReadFeeEstimates(): unable to read policy estimator data (non-fatal)\n", e.what());
         return false;
     }
     return true;
