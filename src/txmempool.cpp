@@ -894,7 +894,7 @@ CTxMemPool::WriteFeeEstimates(CAutoFile& fileout) const
         fileout << CLIENT_VERSION; // version that wrote the file
         minerPolicyEstimator->Write(fileout);
     }
-    catch (const std::exception&) {
+    catch (const std::exception& e) {
         LogPrintf("CTxMemPool::WriteFeeEstimates(): unable to write policy estimator data (non-fatal)\n", e.what());
         return false;
     }
