@@ -3,7 +3,6 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <exception>
 #include "policy/fees.h"
 #include "policy/policy.h"
 
@@ -185,7 +184,6 @@ void TxConfirmStats::Write(CAutoFile& fileout)
 
 void TxConfirmStats::Read(CAutoFile& filein)
 {
-	try {
     // Read data file into temporary variables and do some very basic sanity checking
     std::vector<double> fileBuckets;
     std::vector<double> fileAvg;
@@ -245,10 +243,6 @@ void TxConfirmStats::Read(CAutoFile& filein)
 
     LogPrint("estimatefee", "Reading estimates: %u buckets counting confirms up to %u blocks\n",
              numBuckets, maxConfirms);
-} catch (const std::exception& e) {
-		// Output the error
-		LogPrint("estimatefee", "Error reading estimates file: %s\n", e.what());
-	}
 }
 
 
