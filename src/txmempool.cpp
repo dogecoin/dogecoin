@@ -922,7 +922,7 @@ CTxMemPool::ReadFeeEstimates(CAutoFile& filein)
         LOCK(cs);
         minerPolicyEstimator->Read(filein, nVersionThatWrote);
     }
-    catch (const std::exception&) {
+    catch (const std::exception& e) {
         LogPrintf("CTxMemPool::ReadFeeEstimates(): unable to read policy estimator data (non-fatal)\n", e.what());
         return false;
     }
