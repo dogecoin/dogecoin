@@ -864,7 +864,7 @@
                  <item>
                   <widget class="QRadioButton" name="radioCustomAtLeast">
                    <property name="toolTip">
-                    <string>If the custom fee is set to 1000 satoshis and the transaction is only 250 bytes, then &quot;per kilobyte&quot; only pays 250 satoshis in fee, while &quot;total at least&quot; pays 1000 satoshis. For transactions bigger than a kilobyte both pay by kilobyte.</string>
+                    <string>If the custom fee is set to 1000 koinu and the transaction is only 250 bytes, then &quot;per kilobyte&quot; only pays 250 koinu in fee, while &quot;total at least&quot; pays 1000 koinu. For transactions bigger than a kilobyte both pay by kilobyte.</string>
                    </property>
                    <property name="text">
                     <string>total at least</string>
