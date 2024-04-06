@@ -2,6 +2,7 @@
 #include <vector>
 
 #include "bench.h"
+#include "crypto/hwcap.h"
 #include "crypto/scrypt.h"
 #include "uint256.h"
 #include "utiltime.h"
@@ -15,9 +16,8 @@ static void Scrypt(benchmark::State& state)
     uint256 output;
     std::vector<char> in(BUFFER_SIZE, 0);
 
-#ifdef USE_SSE2
-    scrypt_detect_sse2();
-#endif // USE_SSE2
+    HardwareCapabilities capabilities = DetectHWCapabilities();
+    scrypt_select_implementation(capabilities);
 
     while (state.KeepRunning())
     {
