@@ -4,7 +4,7 @@
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """ TimeoutsTest -- test various net timeouts (only in extended tests)
 
-- Create three bitcoind nodes:
+- Create three dogecoind nodes:
 
     no_verack_node - we never send a verack in response to their version
     no_version_node - we never send a version (only a ping)

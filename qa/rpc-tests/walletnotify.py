@@ -154,7 +154,7 @@ class WalletNotifyTest(BitcoinTestFramework):
 
         # stop, remove the mempool, zap the wallet, and start again
         self.nodes[2].stop()
-        bitcoind_processes[2].wait()
+        dogecoind_processes[2].wait()
         os.remove(log_filename(self.options.tmpdir, 2, "mempool.dat"))
         self.nodes[2] = start_node(2, self.options.tmpdir,["-debug", "-acceptnonstdtxn=0", "-minrelaytxfee=1", "-zapwallettxes"])
 

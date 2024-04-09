@@ -5,7 +5,7 @@
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 from test_framework.test_framework import BitcoinTestFramework
-from test_framework.util import (start_nodes, start_node, assert_equal, bitcoind_processes, JSONRPCException)
+from test_framework.util import (start_nodes, start_node, assert_equal, dogecoind_processes, JSONRPCException)
 
 
 def read_dump(file_name, addrs, hd_master_addr_old):
@@ -95,7 +95,7 @@ class WalletDumpTest(BitcoinTestFramework):
 
         #encrypt wallet, restart, unlock and dump
         self.nodes[0].encryptwallet('test')
-        bitcoind_processes[0].wait()
+        dogecoind_processes[0].wait()
         self.nodes[0] = start_node(0, self.options.tmpdir, self.extra_args[0])
         self.nodes[0].walletpassphrase('test', 10)
         # Should be a no-op:
