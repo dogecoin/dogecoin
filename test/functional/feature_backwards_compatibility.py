@@ -131,21 +131,21 @@ class BackwardsCompatibilityTest(BitcoinTestFramework):
         node_master.createwallet(wallet_name="w2", disable_private_keys=True)
         wallet = node_master.get_wallet_rpc("w2")
         info = wallet.getwalletinfo()
-        assert info['private_keys_enabled'] == False
+        assert info['private_keys_enabled'] is False
         assert info['keypoolsize'] == 0
 
         # w2_v19: wallet with private keys disabled, created with v0.19
         node_v19.rpc.createwallet(wallet_name="w2_v19", disable_private_keys=True)
         wallet = node_v19.get_wallet_rpc("w2_v19")
         info = wallet.getwalletinfo()
-        assert info['private_keys_enabled'] == False
+        assert info['private_keys_enabled'] is False
         assert info['keypoolsize'] == 0
 
         # w2_v18: wallet with private keys disabled, created with v0.18
         node_v18.rpc.createwallet(wallet_name="w2_v18", disable_private_keys=True)
         wallet = node_v18.get_wallet_rpc("w2_v18")
         info = wallet.getwalletinfo()
-        assert info['private_keys_enabled'] == False
+        assert info['private_keys_enabled'] is False
         assert info['keypoolsize'] == 0
 
         # w3: blank wallet, created on master: update this
@@ -240,7 +240,7 @@ class BackwardsCompatibilityTest(BitcoinTestFramework):
             node_v19.loadwallet("w2")
             wallet = node_v19.get_wallet_rpc("w2")
             info = wallet.getwalletinfo()
-            assert info['private_keys_enabled'] == False
+            assert info['private_keys_enabled'] is False
             assert info['keypoolsize'] == 0
 
             node_v19.loadwallet("w3")
@@ -271,7 +271,7 @@ class BackwardsCompatibilityTest(BitcoinTestFramework):
             node_v18.loadwallet("w2")
             wallet = node_v18.get_wallet_rpc("w2")
             info = wallet.getwalletinfo()
-            assert info['private_keys_enabled'] == False
+            assert info['private_keys_enabled'] is False
             assert info['keypoolsize'] == 0
 
             node_v18.loadwallet("w3")
@@ -289,7 +289,7 @@ class BackwardsCompatibilityTest(BitcoinTestFramework):
             node_v17.loadwallet("w2")
             wallet = node_v17.get_wallet_rpc("w2")
             info = wallet.getwalletinfo()
-            assert info['private_keys_enabled'] == False
+            assert info['private_keys_enabled'] is False
             assert info['keypoolsize'] == 0
         else:
             # Descriptor wallets appear to be corrupted wallets to old software
@@ -310,7 +310,7 @@ class BackwardsCompatibilityTest(BitcoinTestFramework):
         node_v17.loadwallet("w2_v18")
         wallet = node_v17.get_wallet_rpc("w2_v18")
         info = wallet.getwalletinfo()
-        assert info['private_keys_enabled'] == False
+        assert info['private_keys_enabled'] is False
         assert info['keypoolsize'] == 0
 
         # RPC loadwallet failure causes bitcoind to exit, in addition to the RPC
