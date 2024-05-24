@@ -587,14 +587,16 @@ class SegWitTest(BitcoinTestFramework):
             assert_equal(watchcount, 0)
         return txid
 
-    def p2sh_address_to_script(self, v):
+    @staticmethod
+    def p2sh_address_to_script(v):
         bare = CScript(hex_str_to_bytes(v['hex']))
         p2sh = CScript(hex_str_to_bytes(v['scriptPubKey']))
         p2wsh = CScript([OP_0, sha256(bare)])
         p2sh_p2wsh = CScript([OP_HASH160, hash160(p2wsh), OP_EQUAL])
         return([bare, p2sh, p2wsh, p2sh_p2wsh])
 
-    def p2pkh_address_to_script(self, v):
+    @staticmethod
+    def p2pkh_address_to_script(v):
         pubkey = hex_str_to_bytes(v['pubkey'])
         p2wpkh = CScript([OP_0, hash160(pubkey)])
         p2sh_p2wpkh = CScript([OP_HASH160, hash160(p2wpkh), OP_EQUAL])

@@ -765,7 +765,8 @@ class BitcoinTestFramework(metaclass=BitcoinTestMetaClass):
         for i in range(self.num_nodes):
             initialize_datadir(self.options.tmpdir, i, self.chain)
 
-    def skip_if_no_py3_zmq(self):
+    @staticmethod
+    def skip_if_no_py3_zmq():
         """Attempt to import the zmq package and skip the test if the import fails."""
         try:
             import zmq  # noqa

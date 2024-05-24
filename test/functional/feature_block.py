@@ -1308,12 +1308,14 @@ class FullBlockTest(BitcoinTestFramework):
     # Helper methods
     ################
 
-    def add_transactions_to_block(self, block, tx_list):
+    @staticmethod
+    def add_transactions_to_block(block, tx_list):
         [tx.rehash() for tx in tx_list]
         block.vtx.extend(tx_list)
 
     # this is a little handier to use than the version in blocktools.py
-    def create_tx(self, spend_tx, n, value, script=CScript([OP_TRUE, OP_DROP] * 15 + [OP_TRUE])):
+    @staticmethod
+    def create_tx(spend_tx, n, value, script=CScript([OP_TRUE, OP_DROP] * 15 + [OP_TRUE])):
         return create_tx_with_script(spend_tx, n, amount=value, script_pub_key=script)
 
     # sign a transaction, using the key we know about

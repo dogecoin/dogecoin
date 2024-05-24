@@ -247,7 +247,8 @@ class SegWitTest(BitcoinTestFramework):
         block.rehash()
         return block
 
-    def update_witness_block_with_transactions(self, block, tx_list, nonce=0):
+    @staticmethod
+    def update_witness_block_with_transactions(block, tx_list, nonce=0):
         """Add list of transactions to block, adds witness commitment, then solves."""
         block.vtx.extend(tx_list)
         add_witness_commitment(block, nonce)

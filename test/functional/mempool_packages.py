@@ -43,7 +43,8 @@ class MempoolPackagesTest(BitcoinTestFramework):
 
     # Build a transaction that spends parent_txid:vout
     # Return amount sent
-    def chain_transaction(self, node, parent_txid, vout, value, fee, num_outputs):
+    @staticmethod
+    def chain_transaction(node, parent_txid, vout, value, fee, num_outputs):
         send_value = satoshi_round((value - fee)/num_outputs)
         inputs = [ {'txid' : parent_txid, 'vout' : vout} ]
         outputs = {}
