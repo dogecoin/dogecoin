@@ -68,7 +68,7 @@ class TxDownloadTest(BitcoinTestFramework):
         for p in self.nodes[0].p2ps:
             p.send_and_ping(msg)
 
-        outstanding_peer_index = [i for i in range(len(self.nodes[0].p2ps))]
+        outstanding_peer_index = list(range(len(self.nodes[0].p2ps)))
 
         def getdata_found(peer_index):
             p = self.nodes[0].p2ps[peer_index]
@@ -127,7 +127,7 @@ class TxDownloadTest(BitcoinTestFramework):
 
     def test_in_flight_max(self):
         self.log.info("Test that we don't load peers with more than {} transaction requests immediately".format(MAX_GETDATA_IN_FLIGHT))
-        txids = [i for i in range(MAX_GETDATA_IN_FLIGHT + 2)]
+        txids = list(range(MAX_GETDATA_IN_FLIGHT + 2))
 
         p = self.nodes[0].p2ps[0]
 
