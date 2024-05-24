@@ -339,11 +339,11 @@ class BitcoinTestFramework(metaclass=BitcoinTestMetaClass):
 
     def add_options(self, parser):
         """Override this method to add command-line options to the test"""
-        pass
+        raise NotImplementedError()
 
     def skip_test_if_missing_module(self):
         """Override this method to skip a test if a module is not compiled"""
-        pass
+        raise NotImplementedError()
 
     def setup_chain(self):
         """Override this method to customize blockchain setup"""

@@ -15,7 +15,7 @@ from test_framework.wallet import MiniWallet
 
 class P2PNode(P2PDataStore):
     def on_inv(self, msg):
-        pass
+        raise NotImplementedError()
 
 
 class P2PLeakTxTest(BitcoinTestFramework):

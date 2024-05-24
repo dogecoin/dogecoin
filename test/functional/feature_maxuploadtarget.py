@@ -24,7 +24,7 @@ class TestP2PConn(P2PInterface):
         self.block_receive_map = defaultdict(int)
 
     def on_inv(self, message):
-        pass
+        raise NotImplementedError()
 
     def on_block(self, message):
         message.block.calc_sha256()
