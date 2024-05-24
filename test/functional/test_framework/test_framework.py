@@ -806,10 +806,12 @@ class BitcoinTestFramework(metaclass=BitcoinTestMetaClass):
 
     def has_previous_releases(self):
         """Checks whether previous releases are present and enabled."""
-        if not os.path.isdir(self.options.previous_releases_path):
-            if self.options.prev_releases:
-                raise AssertionError("Force test of previous releases but releases missing: {}".format(
-                    self.options.previous_releases_path))
+        if (
+            not os.path.isdir(self.options.previous_releases_path)
+            and self.options.prev_releases
+        ):
+            raise AssertionError("Force test of previous releases but releases missing: {}".format(
+                self.options.previous_releases_path))
         return self.options.prev_releases
 
     def is_cli_compiled(self):

@@ -120,9 +120,12 @@ def is_valid(v):
     for template in templates:
         prefix = bytearray(template[0])
         suffix = bytearray(template[2])
-        if result.startswith(prefix) and result.endswith(suffix):
-            if (len(result) - len(prefix) - len(suffix)) == template[1]:
-                return True
+        if (
+            result.startswith(prefix)
+            and result.endswith(suffix)
+            and (len(result) - len(prefix) - len(suffix)) == template[1]
+        ):
+            return True
     return is_valid_bech32(v)
 
 def is_valid_bech32(v):

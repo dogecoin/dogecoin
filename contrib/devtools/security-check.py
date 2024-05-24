@@ -187,9 +187,11 @@ def check_ELF_separate_code(executable):
     # Spot-check ELF LOAD program header flags per section
     # If these sections exist, check them against the expected R/W/E flags
     for (section, flags) in flags_per_section.items():
-        if section in EXPECTED_FLAGS:
-            if EXPECTED_FLAGS[section] != flags:
-                return False
+        if (
+            section in EXPECTED_FLAGS
+            and EXPECTED_FLAGS[section] != flags
+        ):
+            return False
     return True
 
 def get_PE_dll_characteristics(executable) -> int:
@@ -282,9 +284,12 @@ def check_MACHO_LAZY_BINDINGS(executable) -> bool:
 
     for line in stdout.splitlines():
         tokens = line.split()
-        if 'lazy_bind_off' in tokens or 'lazy_bind_size' in tokens:
-            if tokens[1] != '0':
-                return False
+        if (
+            'lazy_bind_off' in tokens
+            or 'lazy_bind_size' in tokens
+            and tokens[1] != '0'
+        ):
+            return False
     return True
 
 def check_MACHO_Canary(executable) -> bool:
