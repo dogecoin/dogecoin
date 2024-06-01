@@ -78,6 +78,6 @@ def check_key(key):
 def check_script(script):
     if isinstance(script, str):
         script = hex_str_to_bytes(script) # Assuming this is hex string
-    if isinstance(script, bytes) or isinstance(script, CScript):
+    if isinstance(script, (bytes, CScript)):
         return script
     assert False

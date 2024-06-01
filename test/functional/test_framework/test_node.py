@@ -571,7 +571,7 @@ def arg_to_cli(arg):
         return str(arg).lower()
     elif arg is None:
         return 'null'
-    elif isinstance(arg, dict) or isinstance(arg, list):
+    elif isinstance(arg, (dict, list)):
         return json.dumps(arg, default=EncodeDecimal)
     else:
         return str(arg)

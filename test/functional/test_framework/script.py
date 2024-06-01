@@ -463,7 +463,7 @@ class CScript(bytes):
         raise NotImplementedError
 
     def __new__(cls, value=b''):
-        if isinstance(value, bytes) or isinstance(value, bytearray):
+        if isinstance(value, (bytes, bytearray)):
             return super().__new__(cls, value)
         else:
             def coerce_iterable(iterable):
