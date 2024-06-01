@@ -113,8 +113,8 @@ class TestBitcoinCli(BitcoinTestFramework):
             self.nodes[0].generate(1)
 
             self.log.info("Test -getinfo with multiple wallets and -rpcwallet returns specified wallet balance")
-            for i in range(len(wallets)):
-                cli_get_info = self.nodes[0].cli('-getinfo', '-rpcwallet={}'.format(wallets[i])).send_cli()
+            for i, item in enumerate(wallets):
+                cli_get_info = self.nodes[0].cli('-getinfo', '-rpcwallet={}'.format(item)).send_cli()
                 assert 'balances' not in cli_get_info.keys()
                 assert_equal(cli_get_info['balance'], amounts[i])
 

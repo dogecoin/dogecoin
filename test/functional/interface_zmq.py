@@ -371,8 +371,8 @@ class ZMQTest (BitcoinTestFramework):
             # Added original tx
             assert_equal(label, "A")
             # More transactions to be simply mined
-            for i in range(len(more_tx)):
-                    assert_equal((more_tx[i], "A", mempool_seq), seq.receive_sequence())
+            for i, item in enumerate(more_tx):
+                    assert_equal((item, "A", mempool_seq), seq.receive_sequence())
                     mempool_seq += 1
             # Bumped by rbf
             assert_equal((orig_txid, "R", mempool_seq), seq.receive_sequence())

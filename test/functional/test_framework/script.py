@@ -639,9 +639,9 @@ def LegacySignatureHash(script, txTo, inIdx, hashtype):
     if (hashtype & 0x1f) == SIGHASH_NONE:
         txtmp.vout = []
 
-        for i in range(len(txtmp.vin)):
+        for i, item in enumerate(txtmp.vin):
             if i != inIdx:
-                txtmp.vin[i].nSequence = 0
+                item.nSequence = 0
 
     elif (hashtype & 0x1f) == SIGHASH_SINGLE:
         outIdx = inIdx
@@ -654,9 +654,9 @@ def LegacySignatureHash(script, txTo, inIdx, hashtype):
             txtmp.vout.append(CTxOut(-1))
         txtmp.vout.append(tmp)
 
-        for i in range(len(txtmp.vin)):
+        for i, item in enumerate(txtmp.vin):
             if i != inIdx:
-                txtmp.vin[i].nSequence = 0
+                item.nSequence = 0
 
     if hashtype & SIGHASH_ANYONECANPAY:
         tmp = txtmp.vin[inIdx]

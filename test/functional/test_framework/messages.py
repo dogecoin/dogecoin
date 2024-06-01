@@ -468,8 +468,8 @@ class CTxWitness:
         self.vtxinwit = []
 
     def deserialize(self, f):
-        for i in range(len(self.vtxinwit)):
-            self.vtxinwit[i].deserialize(f)
+        for i, item in enumerate(self.vtxinwit):
+            item.deserialize(f)
 
     def serialize(self):
         r = b""
@@ -963,11 +963,11 @@ class HeaderAndShortIDs:
         self.shortids = []
         self.use_witness = use_witness
         [k0, k1] = self.get_siphash_keys()
-        for i in range(len(block.vtx)):
+        for i, item in enumerate(block.vtx):
             if i not in prefill_list:
-                tx_hash = block.vtx[i].sha256
+                tx_hash = item.sha256
                 if use_witness:
-                    tx_hash = block.vtx[i].calc_sha256(with_witness=True)
+                    tx_hash = item.calc_sha256(with_witness=True)
                 self.shortids.append(calculate_shortid(k0, k1, tx_hash))
 
     def __repr__(self):
@@ -1060,8 +1060,8 @@ class CPartialMerkleTree:
         r += struct.pack("<i", self.nTransactions)
         r += ser_uint256_vector(self.vHash)
         vBytesArray = bytearray([0x00] * ((len(self.vBits) + 7)//8))
-        for i in range(len(self.vBits)):
-            vBytesArray[i // 8] |= self.vBits[i] << (i % 8)
+        for i, item in enumerate(self.vBits):
+            vBytesArray[i // 8] |= item << (i % 8)
         r += ser_string(bytes(vBytesArray))
         return r
 

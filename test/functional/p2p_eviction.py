@@ -97,8 +97,8 @@ class P2PEvict(BitcoinTestFramework):
         # Make sure by asking the node what the actual min pings are
         peerinfo = node.getpeerinfo()
         pings = {}
-        for i in range(len(peerinfo)):
-            pings[i] = peerinfo[i]['minping'] if 'minping' in peerinfo[i] else 1000000
+        for i, item in enumerate(peerinfo):
+            pings[i] = item['minping'] if 'minping' in item else 1000000
         sorted_pings = sorted(pings.items(), key=lambda x: x[1])
 
         # Usually the 8 fast peers are protected. In rare case of unreliable pings,
@@ -113,8 +113,8 @@ class P2PEvict(BitcoinTestFramework):
         # 4 peers are protected via netgroup, which is identical for all peers,
         # and the eviction mechanism doesn't preserve the order of identical elements.
         evicted_peers = []
-        for i in range(len(node.p2ps)):
-            if not node.p2ps[i].is_connected:
+        for i, item in enumerate(node.p2ps):
+            if not item.is_connected:
                 evicted_peers.append(i)
 
         self.log.info("Test that one peer was evicted")

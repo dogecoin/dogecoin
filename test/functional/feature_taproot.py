@@ -1357,8 +1357,8 @@ class TaprootTest(BitcoinTestFramework):
                 if not input_utxos[0].spender.need_vin_vout_mismatch:
                     break
             first_mismatch_input = None
-            for i in range(len(input_utxos)):
-                if input_utxos[i].spender.need_vin_vout_mismatch:
+            for i, item in enumerate(input_utxos):
+                if item.spender.need_vin_vout_mismatch:
                     first_mismatch_input = i
             assert first_mismatch_input is None or first_mismatch_input > 0
 
@@ -1394,11 +1394,11 @@ class TaprootTest(BitcoinTestFramework):
 
             # Precompute one satisfying and one failing scriptSig/witness for each input.
             input_data = []
-            for i in range(len(input_utxos)):
-                fn = input_utxos[i].spender.sat_function
+            for i, item in enumerate(input_utxos):
+                fn = item.spender.sat_function
                 fail = None
                 success = fn(tx, i, [utxo.output for utxo in input_utxos], True)
-                if not input_utxos[i].spender.no_fail:
+                if not item.spender.no_fail:
                     fail = fn(tx, i, [utxo.output for utxo in input_utxos], False)
                 input_data.append((fail, success))
                 if self.options.dump_tests:
