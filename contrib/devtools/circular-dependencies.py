@@ -31,8 +31,8 @@ def module_name(path):
         return path[:-4]
     return None
 
-files = dict()
-deps = dict()
+files = {}
+deps = {}
 
 RE = re.compile("^#include <(.*)>")
 
@@ -64,7 +64,7 @@ while True:
     shortest_cycle = None
     for module in sorted(deps.keys()):
         # Build the transitive closure of dependencies of module
-        closure = dict()
+        closure = {}
         for dep in deps[module]:
             closure[dep] = []
         while True:

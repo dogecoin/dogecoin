@@ -446,7 +446,7 @@ def make_spender(comment, *, tap=None, witv0=False, script=None, pkh=None, p2sh=
     * sigops_weight: the pre-taproot sigops weight consumed by a successful spend
     """
 
-    conf = dict()
+    conf = {}
 
     # Compute scriptPubKey and set useful defaults based on the inputs.
     if witv0:
