@@ -166,10 +166,9 @@ def parse_output(a, fmt):
     Raise an error if the output can't be parsed."""
     if fmt == 'json':  # json: compare parsed data
         return json.loads(a)
-    elif fmt == 'hex':  # hex: parse and compare binary data
+    if fmt == 'hex':  # hex: parse and compare binary data
         return binascii.a2b_hex(a.strip())
-    else:
-        raise NotImplementedError("Don't know how to compare %s" % fmt)
+    raise NotImplementedError("Don't know how to compare %s" % fmt)
 
 if __name__ == '__main__':
     main()

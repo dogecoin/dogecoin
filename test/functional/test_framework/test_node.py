@@ -175,9 +175,8 @@ class TestNode():
         """Dispatches any unrecognised messages to the RPC connection or a CLI instance."""
         if self.use_cli:
             return getattr(RPCOverloadWrapper(self.cli, True, self.descriptors), name)
-        else:
-            assert self.rpc_connected and self.rpc is not None, self._node_msg("Error: no RPC connection")
-            return getattr(RPCOverloadWrapper(self.rpc, descriptors=self.descriptors), name)
+        assert self.rpc_connected and self.rpc is not None, self._node_msg("Error: no RPC connection")
+        return getattr(RPCOverloadWrapper(self.rpc, descriptors=self.descriptors), name)
 
     def start(self, extra_args=None, *, cwd=None, stdout=None, stderr=None, **kwargs):
         """Start the node."""
@@ -300,10 +299,9 @@ class TestNode():
     def get_wallet_rpc(self, wallet_name):
         if self.use_cli:
             return RPCOverloadWrapper(self.cli("-rpcwallet={}".format(wallet_name)), True, self.descriptors)
-        else:
-            assert self.rpc_connected and self.rpc, self._node_msg("RPC not connected")
-            wallet_path = "wallet/{}".format(urllib.parse.quote(wallet_name))
-            return RPCOverloadWrapper(self.rpc / wallet_path, descriptors=self.descriptors)
+        assert self.rpc_connected and self.rpc, self._node_msg("RPC not connected")
+        wallet_path = "wallet/{}".format(urllib.parse.quote(wallet_name))
+        return RPCOverloadWrapper(self.rpc / wallet_path, descriptors=self.descriptors)
 
     def version_is_at_least(self, ver):
         return self.version is None or self.version >= ver
@@ -569,12 +567,11 @@ class TestNodeCLIAttr:
 def arg_to_cli(arg):
     if isinstance(arg, bool):
         return str(arg).lower()
-    elif arg is None:
+    if arg is None:
         return 'null'
-    elif isinstance(arg, dict) or isinstance(arg, list):
+    if isinstance(arg, dict) or isinstance(arg, list):
         return json.dumps(arg, default=EncodeDecimal)
-    else:
-        return str(arg)
+    return str(arg)
 
 
 class TestNodeCLI():

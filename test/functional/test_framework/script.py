@@ -58,14 +58,13 @@ class CScriptOp(int):
         """Encode a PUSHDATA op, returning bytes"""
         if len(d) < 0x4c:
             return b'' + bytes([len(d)]) + d  # OP_PUSHDATA
-        elif len(d) <= 0xff:
+        if len(d) <= 0xff:
             return b'\x4c' + bytes([len(d)]) + d  # OP_PUSHDATA1
-        elif len(d) <= 0xffff:
+        if len(d) <= 0xffff:
             return b'\x4d' + struct.pack(b'<H', len(d)) + d  # OP_PUSHDATA2
-        elif len(d) <= 0xffffffff:
+        if len(d) <= 0xffffffff:
             return b'\x4e' + struct.pack(b'<I', len(d)) + d  # OP_PUSHDATA4
-        else:
-            raise ValueError("Data too long to encode in a PUSHDATA op")
+        raise ValueError("Data too long to encode in a PUSHDATA op")
 
     @staticmethod
     def encode_op_n(n):
@@ -75,8 +74,7 @@ class CScriptOp(int):
 
         if n == 0:
             return OP_0
-        else:
-            return CScriptOp(OP_1 + n - 1)
+        return CScriptOp(OP_1 + n - 1)
 
     def decode_op_n(self):
         """Decode a small integer opcode, returning an integer"""
@@ -92,8 +90,7 @@ class CScriptOp(int):
         """Return true if the op pushes a small integer to the stack"""
         if 0x51 <= self <= 0x60 or self == 0:
             return True
-        else:
-            return False
+        return False
 
     def __str__(self):
         return repr(self)
@@ -101,8 +98,7 @@ class CScriptOp(int):
     def __repr__(self):
         if self in OPCODE_NAMES:
             return OPCODE_NAMES[self]
-        else:
-            return 'CScriptOp(0x%x)' % self
+        return 'CScriptOp(0x%x)' % self
 
     def __new__(cls, n):
         try:
@@ -465,13 +461,12 @@ class CScript(bytes):
     def __new__(cls, value=b''):
         if isinstance(value, bytes) or isinstance(value, bytearray):
             return super().__new__(cls, value)
-        else:
-            def coerce_iterable(iterable):
-                for instance in iterable:
-                    yield cls.__coerce_instance(instance)
-            # Annoyingly on both python2 and python3 bytes.join() always
-            # returns a bytes instance even when subclassed.
-            return super().__new__(cls, b''.join(coerce_iterable(value)))
+        def coerce_iterable(iterable):
+            for instance in iterable:
+                yield cls.__coerce_instance(instance)
+                    # Annoyingly on both python2 and python3 bytes.join() always
+                    # returns a bytes instance even when subclassed.
+        return super().__new__(cls, b''.join(coerce_iterable(value)))
 
     def raw_iter(self):
         """Raw iteration
@@ -553,8 +548,7 @@ class CScript(bytes):
         def _repr(o):
             if isinstance(o, bytes):
                 return "x('%s')" % o.hex()
-            else:
-                return repr(o)
+            return repr(o)
 
         ops = []
         i = iter(self)
@@ -807,7 +801,7 @@ def taproot_tree_helper(scripts):
         if name is None:
             return ([], h)
         return ([(name, version, code, bytes())], h)
-    elif len(scripts) == 2 and callable(scripts[1]):
+    if len(scripts) == 2 and callable(scripts[1]):
         # Two entries, and the right one is a function
         left, left_h = taproot_tree_helper(scripts[0:1])
         right_h = scripts[1](left_h)

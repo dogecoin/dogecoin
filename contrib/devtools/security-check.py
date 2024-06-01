@@ -327,9 +327,9 @@ def identify_executable(executable) -> Optional[str]:
         magic = f.read(4)
     if magic.startswith(b'MZ'):
         return 'PE'
-    elif magic.startswith(b'\x7fELF'):
+    if magic.startswith(b'\x7fELF'):
         return 'ELF'
-    elif magic.startswith(b'\xcf\xfa'):
+    if magic.startswith(b'\xcf\xfa'):
         return 'MACHO'
     return None
 

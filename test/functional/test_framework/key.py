@@ -267,8 +267,7 @@ class ECPubKey():
             return None
         if self.compressed:
             return bytes([0x02 + (p[1] & 1)]) + p[0].to_bytes(32, 'big')
-        else:
-            return bytes([0x04]) + p[0].to_bytes(32, 'big') + p[1].to_bytes(32, 'big')
+        return bytes([0x04]) + p[0].to_bytes(32, 'big') + p[1].to_bytes(32, 'big')
 
     def verify_ecdsa(self, sig, msg, low_s=True):
         """Verify a strictly DER-encoded ECDSA signature against this pubkey.

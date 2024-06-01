@@ -51,10 +51,9 @@ def parseline(line):
             m = PATTERN_ONION.match(sline[0])
             if m is None:
                 return None
-            else:
-                net = 'onion'
-                ipstr = sortkey = m.group(1)
-                port = int(m.group(2))
+            net = 'onion'
+            ipstr = sortkey = m.group(1)
+            port = int(m.group(2))
         else:
             net = 'ipv6'
             if m.group(1) in ['::']: # Not interested in localhost

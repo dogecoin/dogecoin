@@ -70,9 +70,9 @@ class RESTTest (BitcoinTestFramework):
 
         if ret_type == RetType.OBJ:
             return resp
-        elif ret_type == RetType.BYTES:
+        if ret_type == RetType.BYTES:
             return resp.read()
-        elif ret_type == RetType.JSON:
+        if ret_type == RetType.JSON:
             return json.loads(resp.read().decode('utf-8'), parse_float=Decimal)
 
     def run_test(self):
