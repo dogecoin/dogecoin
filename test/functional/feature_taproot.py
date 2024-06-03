@@ -1342,7 +1342,7 @@ class TaprootTest(BitcoinTestFramework):
             # unless there is only one normal UTXO left (as tests with mismatching UTXOs require at least one
             # normal UTXO to go in the first position), and we don't want to run out of normal UTXOs.
             input_utxos = []
-            while len(mismatching_utxos) and (len(input_utxos) == 0 or len(normal_utxos) == 1):
+            while mismatching_utxos and (len(input_utxos) == 0 or len(normal_utxos) == 1):
                 input_utxos.append(mismatching_utxos.pop())
                 left -= 1
 

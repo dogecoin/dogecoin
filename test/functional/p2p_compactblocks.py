@@ -685,7 +685,7 @@ class CompactBlocksTest(BitcoinTestFramework):
     # but invalid transactions.
     def test_invalid_tx_in_compactblock(self, test_node, use_segwit=True):
         node = self.nodes[0]
-        assert len(self.utxos)
+        assert self.utxos
         utxo = self.utxos[0]
 
         block = self.build_block_with_transactions(node, utxo, 5)
@@ -719,7 +719,7 @@ class CompactBlocksTest(BitcoinTestFramework):
 
     def test_compactblock_reconstruction_multiple_peers(self, stalling_peer, delivery_peer):
         node = self.nodes[0]
-        assert len(self.utxos)
+        assert self.utxos
 
         def announce_cmpct_block(node, peer):
             utxo = self.utxos.pop(0)
