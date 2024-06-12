@@ -4020,7 +4020,11 @@ bool CWallet::BackupWallet(const std::string& strDest)
                         return false;
                     }
 
-#if BOOST_VERSION >= 104000
+#if BOOST_VERSION >= 107400
+                    // Boost 1.74.0 and up implements std++17 like "copy_options", and this
+                    // is the only remaining enum after 1.85.0
+                    boost::filesystem::copy_file(pathSrc, pathDest, boost::filesystem::copy_options::overwrite_existing);
+#elif BOOST_VERSION >= 104000
                     boost::filesystem::copy_file(pathSrc, pathDest, boost::filesystem::copy_option::overwrite_if_exists);
 #else
                     boost::filesystem::copy_file(pathSrc, pathDest);
