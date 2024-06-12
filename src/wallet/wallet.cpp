@@ -459,8 +459,10 @@ bool CWallet::Verify()
     uiInterface.InitMessage(_("Verifying wallet..."));
 
     // Wallet file must be a plain filename without a directory
-    if (walletFile != fs::basename(walletFile) + fs::extension(walletFile))
+    fs::path walletPath(walletFile);
+    if (walletFile != walletPath.stem().string() + walletPath.extension().string()) {
         return InitError(strprintf(_("Wallet %s resides outside data directory %s"), walletFile, GetDataDir().string()));
+    }
 
     if (!bitdb.Open(GetDataDir()))
     {
