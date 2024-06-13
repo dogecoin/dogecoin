@@ -19,7 +19,7 @@ static const int MIN_CORES = 2;
 static const size_t BATCHES = 101;
 static const size_t BATCH_SIZE = 30;
 static const int PREVECTOR_SIZE = 28;
-static const int QUEUE_BATCH_SIZE = 128;
+static const unsigned int QUEUE_BATCH_SIZE = 128;
 static void CCheckQueueSpeed(benchmark::State& state)
 {
     struct FakeJobNoWork {
@@ -68,7 +68,7 @@ static void CCheckQueueSpeedPrevectorJob(benchmark::State& state)
         PrevectorJob(){
         }
         PrevectorJob(FastRandomContext& insecure_rand){
-            p.resize(insecure_rand.rand32() % (PREVECTOR_SIZE*2));
+            p.resize(insecure_rand.randrange(PREVECTOR_SIZE*2));
         }
         bool operator()()
         {

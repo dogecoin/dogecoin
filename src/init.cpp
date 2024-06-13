@@ -305,7 +305,7 @@ void OnRPCStopped()
 {
     uiInterface.NotifyBlockTip.disconnect(&RPCNotifyBlockChange);
     RPCNotifyBlockChange(false, nullptr);
-    cvBlockChange.notify_all();
+    g_best_block_cv.notify_all();
     LogPrint("rpc", "RPC stopped.\n");
 }
 
@@ -373,7 +373,6 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += HelpMessageOpt("-discover", _("Discover own IP addresses (default: 1 when listening and no -externalip or -proxy)"));
     strUsage += HelpMessageOpt("-dns", _("Allow DNS lookups for -addnode, -seednode and -connect") + " " + strprintf(_("(default: %u)"), DEFAULT_NAME_LOOKUP));
     strUsage += HelpMessageOpt("-dnsseed", _("Query for peer addresses via DNS lookup, if low on addresses (default: 1 unless -connect/-noconnect)"));
-    strUsage += HelpMessageOpt("-enable-bip70", _("Enable BIP-70 PaymentServer (default: 0)"));
     strUsage += HelpMessageOpt("-externalip=<ip>", _("Specify your own public address"));
     strUsage += HelpMessageOpt("-forcednsseed", strprintf(_("Always query for peer addresses via DNS lookup (default: %u)"), DEFAULT_FORCEDNSSEED));
     strUsage += HelpMessageOpt("-listen", _("Accept connections from outside (default: 1 if no -proxy or -connect/-noconnect)"));
@@ -547,17 +546,17 @@ static void BlockNotifyCallback(bool initialSync, const CBlockIndex *pBlockIndex
 }
 
 static bool fHaveGenesis = false;
-static boost::mutex cs_GenesisWait;
-static CConditionVariable condvar_GenesisWait;
+static Mutex g_genesis_wait_mutex;
+static std::condition_variable g_genesis_wait_cv;
 
 static void BlockNotifyGenesisWait(bool, const CBlockIndex *pBlockIndex)
 {
     if (pBlockIndex != NULL) {
         {
-            boost::unique_lock<boost::mutex> lock_GenesisWait(cs_GenesisWait);
+            LOCK(g_genesis_wait_mutex);
             fHaveGenesis = true;
         }
-        condvar_GenesisWait.notify_all();
+        g_genesis_wait_cv.notify_all();
     }
 }
 
@@ -696,8 +695,14 @@ bool InitSanityCheck(void)
         InitError("Elliptic curve cryptography sanity check failure. Aborting.");
         return false;
     }
+
     if (!glibc_sanity_test() || !glibcxx_sanity_test())
         return false;
+
+    if (!Random_SanityCheck()) {
+        InitError("OS cryptographic RNG sanity check failure. Aborting.");
+        return false;
+    }
 
     return true;
 }
@@ -1182,6 +1187,7 @@ bool AppInitSanityChecks()
     // ********************************************************* Step 4: sanity checks
 
     // Initialize elliptic curve code
+    RandomInit();
     ECC_Start();
     globalVerifyHandle.reset(new ECCVerifyHandle());
 
@@ -1662,9 +1668,12 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
 
     // Wait for genesis block to be processed
     {
-        boost::unique_lock<boost::mutex> lock(cs_GenesisWait);
-        while (!fHaveGenesis) {
-            condvar_GenesisWait.wait(lock);
+        WAIT_LOCK(g_genesis_wait_mutex, lock);
+        // We previously could hang here if StartShutdown() is called prior to
+        // ThreadImport getting started, so instead we just wait on a timer to
+        // check ShutdownRequested() regularly.
+        while (!fHaveGenesis && !ShutdownRequested()) {
+            g_genesis_wait_cv.wait_for(lock, std::chrono::milliseconds(500));
         }
         uiInterface.NotifyBlockTip.disconnect(BlockNotifyGenesisWait);
     }

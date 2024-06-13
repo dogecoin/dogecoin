@@ -220,8 +220,6 @@ AC_ARG_WITH([armv82-crypto],
   [armv82_crypto=$withval],
   [armv82_crypto=no])
 
-AC_ARG_WITH([protoc-bindir],[AS_HELP_STRING([--with-protoc-bindir=BIN_DIR],[specify protoc bin path])], [protoc_bin_path=$withval], [])
-
 AC_ARG_ENABLE(man,
     [AS_HELP_STRING([--disable-man],
                     [do not install man pages (default is to install)])],,
@@ -603,6 +601,8 @@ AC_CHECK_DECLS([bswap_16, bswap_32, bswap_64],,,
                  #include <byteswap.h>
                  #endif])
 
+AC_CHECK_DECLS([__builtin_clz, __builtin_clzl, __builtin_clzll])
+
 dnl Check for MSG_NOSIGNAL
 AC_MSG_CHECKING(for MSG_NOSIGNAL)
 AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <sys/socket.h>]],
@@ -636,6 +636,63 @@ AC_LINK_IFELSE([AC_LANG_SOURCE([
   ]
 )
 
+TEMP_LDFLAGS="$LDFLAGS"
+LDFLAGS="$TEMP_LDFLAGS $PTHREAD_CFLAGS"
+AC_MSG_CHECKING([for thread_local support])
+AC_LINK_IFELSE([AC_LANG_SOURCE([
+  #include <thread>
+  static thread_local int foo = 0;
+  static void run_thread() { foo++;}
+  int main(){
+  for(int i = 0; i < 10; i++) { std::thread(run_thread).detach();}
+  return foo;
+  }
+  ])],
+  [
+    AC_DEFINE(HAVE_THREAD_LOCAL,1,[Define if thread_local is supported.])
+    AC_MSG_RESULT(yes)
+  ],
+  [
+    AC_MSG_RESULT(no)
+  ]
+)
+LDFLAGS="$TEMP_LDFLAGS"
+
+# Check for different ways of gathering OS randomness
+AC_MSG_CHECKING(for Linux getrandom syscall)
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <unistd.h>
+  #include <sys/syscall.h>
+  #include <linux/random.h>]],
+ [[ syscall(SYS_getrandom, nullptr, 32, 0); ]])],
+ [ AC_MSG_RESULT(yes); AC_DEFINE(HAVE_SYS_GETRANDOM, 1,[Define this symbol if the Linux getrandom system call is available]) ],
+ [ AC_MSG_RESULT(no)]
+)
+
+AC_MSG_CHECKING(for getentropy)
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <unistd.h>]],
+ [[ getentropy(nullptr, 32) ]])],
+ [ AC_MSG_RESULT(yes); AC_DEFINE(HAVE_GETENTROPY, 1,[Define this symbol if the BSD getentropy system call is available]) ],
+ [ AC_MSG_RESULT(no)]
+)
+
+AC_MSG_CHECKING([for getentropy via sys/random.h])
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+ #include <sys/random.h>]],
+ [[ getentropy(nullptr, 32) ]])],
+ [ AC_MSG_RESULT(yes); AC_DEFINE(HAVE_GETENTROPY_RAND, 1,[Define this symbol if the BSD getentropy system call is available with sys/random.h]) ],
+ [ AC_MSG_RESULT(no)]
+)
+
+AC_MSG_CHECKING(for sysctl KERN_ARND)
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <sys/types.h>
+  #include <sys/sysctl.h>]],
+ [[ static const int name[2] = {CTL_KERN, KERN_ARND};
+    sysctl(name, 2, nullptr, nullptr, nullptr, 0); ]])],
+ [ AC_MSG_RESULT(yes); AC_DEFINE(HAVE_SYSCTL_ARND, 1,[Define this symbol if the BSD sysctl(KERN_ARND) is available]) ],
+ [ AC_MSG_RESULT(no)]
+)
+
+# Check for reduced exports
 if test x$use_reduce_exports = xyes; then
   AX_CHECK_COMPILE_FLAG([-fvisibility=hidden],[RE_CXXFLAGS="-fvisibility=hidden"],
   [AC_MSG_ERROR([Cannot set default symbol visibility. Use --disable-reduce-exports.])])
@@ -806,7 +863,6 @@ if test x$use_pkgconfig = xyes; then
     [
       PKG_CHECK_MODULES([SSL], [libssl],, [AC_MSG_ERROR(openssl  not found.)])
       PKG_CHECK_MODULES([CRYPTO], [libcrypto],,[AC_MSG_ERROR(libcrypto  not found.)])
-      BITCOIN_QT_CHECK([PKG_CHECK_MODULES([PROTOBUF], [protobuf], [have_protobuf=yes], [BITCOIN_QT_FAIL(libprotobuf not found)])])
       if test x$use_qr != xno; then
         BITCOIN_QT_CHECK([PKG_CHECK_MODULES([QR], [libqrencode], [have_qrencode=yes], [have_qrencode=no])])
       fi
@@ -866,7 +922,6 @@ else
     esac
   fi
 
-  BITCOIN_QT_CHECK(AC_CHECK_LIB([protobuf] ,[main],[PROTOBUF_LIBS=-lprotobuf], BITCOIN_QT_FAIL(libprotobuf not found)))
   if test x$use_qr != xno; then
     BITCOIN_QT_CHECK([AC_CHECK_LIB([qrencode], [main],[QR_LIBS=-lqrencode], [have_qrencode=no])])
     BITCOIN_QT_CHECK([AC_CHECK_HEADER([qrencode.h],, have_qrencode=no)])
@@ -970,8 +1025,6 @@ fi
 AM_CONDITIONAL([EMBEDDED_UNIVALUE],[test x$need_bundled_univalue = xyes])
 AC_SUBST(UNIVALUE_CFLAGS)
 AC_SUBST(UNIVALUE_LIBS)
-
-BITCOIN_QT_PATH_PROGS([PROTOC], [protoc],$protoc_bin_path)
 
 AC_MSG_CHECKING([whether to build dogecoind])
 AM_CONDITIONAL([BUILD_BITCOIND], [test x$build_bitcoind = xyes])
@@ -1172,7 +1225,6 @@ AC_SUBST(SSL_LIBS)
 AC_SUBST(EVENT_LIBS)
 AC_SUBST(EVENT_PTHREADS_LIBS)
 AC_SUBST(ZMQ_LIBS)
-AC_SUBST(PROTOBUF_LIBS)
 AC_SUBST(QR_LIBS)
 AC_SUBST(HAVE_FDATASYNC)
 AC_SUBST(HAVE_FULLFSYNC)

@@ -32,7 +32,8 @@
 #include <boost/thread.hpp>
 
 std::unique_ptr<CConnman> g_connman;
-FastRandomContext insecure_rand_ctx(true);
+uint256 insecure_rand_seed = GetRandHash();
+FastRandomContext insecure_rand_ctx(insecure_rand_seed);
 
 extern bool fPrintToConsole;
 extern void noui_connect();
@@ -42,6 +43,7 @@ static const int COINBASE_MATURITY = 60*4; // 4 hours of blocks
 
 BasicTestingSetup::BasicTestingSetup(const std::string& chainName)
 {
+        RandomInit();
         ECC_Start();
         SetupEnvironment();
         SetupNetworking();
@@ -66,7 +68,7 @@ TestingSetup::TestingSetup(const std::string& chainName) : BasicTestingSetup(cha
 
         RegisterAllCoreRPCCommands(tableRPC);
         ClearDatadirCache();
-        pathTemp = GetTempPath() / strprintf("test_bitcoin_%lu_%i", (unsigned long)GetTime(), (int)(GetRand(100000)));
+        pathTemp = GetTempPath() / strprintf("test_bitcoin_%lu_%i", (unsigned long)GetTime(), (int)(InsecureRandRange(100000)));
         fs::create_directories(pathTemp);
         ForceSetArg("-datadir", pathTemp.string());
         mempool.setSanityCheck(1.0);

@@ -5,10 +5,13 @@
 #include "bench.h"  // for BenchRunner
 #include "key.h"    // for ECC_Start, ECC_Stop
 #include "util.h"   // for SetupEnvironment, fPrintToDebugLog
+#include "validation.h"
+#include "random.h"
 
 int
 main(int argc, char** argv)
 {
+    RandomInit();
     ECC_Start();
     SetupEnvironment();
     fPrintToDebugLog = false; // don't want to write to debug.log file
