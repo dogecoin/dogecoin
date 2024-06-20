@@ -11,6 +11,7 @@
 #include "uint256.h"
 
 #include <stdint.h>
+#include <limits>
 
 /* Seed OpenSSL PRNG with additional entropy data */
 void RandAddSeed();
@@ -114,6 +115,12 @@ public:
 
     /** Generate a random boolean. */
     bool randbool() { return randbits(1); }
+
+    // Compatibility with the C++11 UniformRandomBitGenerator concept
+    typedef uint64_t result_type;
+    static constexpr uint64_t min() { return 0; }
+    static constexpr uint64_t max() { return std::numeric_limits<uint64_t>::max(); }
+    inline uint64_t operator()() { return rand64(); }
 };
 
 /* Number of random bytes returned by GetOSRand.
@@ -121,7 +128,7 @@ public:
  * sure that the underlying OS APIs for all platforms support the number.
  * (many cap out at 256 bytes).
  */
-static const ssize_t NUM_OS_RANDOM_BYTES = 32;
+static const int NUM_OS_RANDOM_BYTES = 32;
 
 /** Get 32 bytes of system entropy. Do not use this in application code: use
  * GetStrongRandBytes instead.
@@ -132,5 +139,8 @@ void GetOSRand(unsigned char *ent32);
  * of bytes.
  */
 bool Random_SanityCheck();
+
+/** Initialize the RNG. */
+void RandomInit();
 
 #endif // BITCOIN_RANDOM_H
