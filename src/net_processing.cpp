@@ -1641,7 +1641,8 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
 
         // Randomize entries before processing, to prevent an attacker to
         // determine which entries will make it through the rate limit
-        random_shuffle(vAddr.begin(), vAddr.end(), GetRandInt);
+        FastRandomContext insecure_rand;
+        shuffle(vAddr.begin(), vAddr.end(), insecure_rand);
 
         BOOST_FOREACH(CAddress& addr, vAddr)
         {
