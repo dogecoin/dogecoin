@@ -69,7 +69,7 @@ class CNodeNoVersionBan(CLazyNode):
         super().__init__()
 
     # send a bunch of veracks without sending a message. This should get us disconnected.
-    # NOTE: implementation-specific check here. Remove if bitcoind ban behavior changes
+    # NOTE: implementation-specific check here. Remove if dogecoind ban behavior changes
     def on_open(self, conn):
         super().on_open(conn)
         for i in range(banscore):

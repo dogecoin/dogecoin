@@ -54,9 +54,9 @@ Possible options, which apply to each individual test run:
 
 ```
   -h, --help            show this help message and exit
-  --nocleanup           Leave bitcoinds and test.* datadir on exit or error
-  --noshutdown          Don't stop bitcoinds after the test execution
-  --srcdir=SRCDIR       Source directory containing bitcoind/bitcoin-cli
+  --nocleanup           Leave dogecoinds and test.* datadir on exit or error
+  --noshutdown          Don't stop dogecoinds after the test execution
+  --srcdir=SRCDIR       Source directory containing dogecoind/dogecoin-cli
                         (default: ../../src)
   --tmpdir=TMPDIR       Root directory for datadirs
   --tracerpc            Print out all RPC calls as they are made

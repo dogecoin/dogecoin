@@ -53,18 +53,18 @@ class ZapWalletTXesTest (BitcoinTestFramework):
         tx3 = self.nodes[0].gettransaction(txid3)
         assert_equal(tx3['txid'], txid3) #tx3 must be available (unconfirmed)
         
-        #restart bitcoind
+        #restart dogecoind
         self.nodes[0].stop()
-        bitcoind_processes[0].wait()
+        dogecoind_processes[0].wait()
         self.nodes[0] = start_node(0,self.options.tmpdir)
         
         tx3 = self.nodes[0].gettransaction(txid3)
         assert_equal(tx3['txid'], txid3) #tx must be available (unconfirmed)
         
         self.nodes[0].stop()
-        bitcoind_processes[0].wait()
+        dogecoind_processes[0].wait()
         
-        #restart bitcoind with zapwallettxes
+        #restart dogecoind with zapwallettxes
         self.nodes[0] = start_node(0,self.options.tmpdir, ["-zapwallettxes=1"])
         
         assert_raises(JSONRPCException, self.nodes[0].gettransaction, [txid3])
