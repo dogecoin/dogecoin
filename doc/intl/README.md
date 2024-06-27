@@ -17,6 +17,10 @@ Portuguese (Brazilian):
 
 - [README](pt_BR/README.md)
 
+Português (Portugal):
+
+- [Leia-me](pt_PT/README.md)
+
 Vietnamese:
 
 - [README](vi_VN/README.md)
