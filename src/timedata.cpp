@@ -15,8 +15,6 @@
 #include "utilstrencodings.h"
 #include "warnings.h"
 
-#include <boost/foreach.hpp>
-
 static CCriticalSection cs_nTimeOffset;
 static int64_t nTimeOffset = 0;
 
@@ -104,8 +102,10 @@ void AddTimeData(const CNetAddr& ip, int64_t nOffsetSample)
             }
         }
 
-        BOOST_FOREACH(int64_t n, vSorted)
+        for (int64_t n : vSorted) {
             LogPrint("net", "%+d  ", n);
+        }
+
         LogPrint("net", "|  ");
 
         LogPrint("net", "nTimeOffset = %+d  (%+d minutes)\n", nTimeOffset, nTimeOffset/60);
