@@ -883,6 +883,7 @@ void Misbehaving(NodeId pnode, int howmuch)
 //             already requesting headers from, unless forced.
 void RequestHeadersFrom(CNode* pto, CConnman& connman, const CBlockIndex* pindex, uint256 untilHash, bool fforceQuery)
 {
+  AssertLockHeld(cs_main);
   if (pto->nPendingHeaderRequests > 0) {
     if (fforceQuery) {
       LogPrint("net", "forcing getheaders request (%d) to peer=%d (%d open)\n",
