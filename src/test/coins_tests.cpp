@@ -77,8 +77,10 @@ public:
     {
         // Manually recompute the dynamic usage of the whole data, and compare it.
         size_t ret = memusage::DynamicUsage(cacheCoins);
-        for (CCoinsMap::iterator it = cacheCoins.begin(); it != cacheCoins.end(); it++) {
-            ret += it->second.coins.DynamicMemoryUsage();
+        size_t count = 0;
+        for (const auto& entry : cacheCoins) {
+            ret += entry.second.coins.DynamicMemoryUsage();
+            ++count;
         }
         BOOST_CHECK_EQUAL(DynamicMemoryUsage(), ret);
     }
@@ -154,13 +156,13 @@ BOOST_AUTO_TEST_CASE(coins_cache_simulation_test)
 
         // Once every 1000 iterations and at the end, verify the full cache.
         if (InsecureRandRange(1000) == 1 || i == NUM_SIMULATION_ITERATIONS - 1) {
-            for (std::map<uint256, CCoins>::iterator it = result.begin(); it != result.end(); it++) {
-                const CCoins* coins = stack.back()->AccessCoins(it->first);
+            for (const auto& entry : result) {
+                const CCoins* coins = stack.back()->AccessCoins(entry.first);
                 if (coins) {
-                    BOOST_CHECK(*coins == it->second);
+                    BOOST_CHECK(*coins == entry.second);
                     found_an_entry = true;
                 } else {
-                    BOOST_CHECK(it->second.IsPruned());
+                    BOOST_CHECK(entry.second.IsPruned());
                     missed_an_entry = true;
                 }
             }
