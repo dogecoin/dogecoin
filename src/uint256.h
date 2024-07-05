@@ -27,6 +27,9 @@ public:
         memset(data, 0, sizeof(data));
     }
 
+    /* constructor for constants between 1 and 255 */
+    constexpr explicit base_blob(uint8_t v) : data{v} {}
+
     explicit base_blob(const std::vector<unsigned char>& vch);
 
     bool IsNull() const
@@ -124,6 +127,7 @@ class uint256 : public base_blob<256> {
 public:
     uint256() {}
     uint256(const base_blob<256>& b) : base_blob<256>(b) {}
+    constexpr explicit uint256(uint8_t v) : base_blob<256>(v) {}
     explicit uint256(const std::vector<unsigned char>& vch) : base_blob<256>(vch) {}
 
     /** A cheap hash function that just returns 64 bits from the result, it can be
@@ -135,6 +139,9 @@ public:
     {
         return ReadLE64(data);
     }
+
+    static const uint256 ZERO;
+    static const uint256 ONE;
 };
 
 /* uint256 from const char *.
