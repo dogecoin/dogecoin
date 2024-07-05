@@ -63,8 +63,8 @@ public:
         for (CCoinsMap::iterator it = mapCoins.begin(); it != mapCoins.end(); ) {
             if (it->second.flags & CCoinsCacheEntry::DIRTY) {
                 // Same optimization used in CCoinsViewDB is to only write dirty entries.
-                map_[it->first] = it->second.coins;
-                if (it->second.coins.IsPruned() && InsecureRandRange(3) == 0) {
+                map_[it->first] = it->second.coin;
+                if (it->second.coin.IsPruned() && InsecureRandRange(3) == 0) {
                     // Randomly delete empty entries on write.
                     map_.erase(it->first);
                 }
@@ -88,7 +88,7 @@ public:
         size_t ret = memusage::DynamicUsage(cacheCoins);
         size_t count = 0;
         for (const auto& entry : cacheCoins) {
-            ret += entry.second.coins.DynamicMemoryUsage();
+            ret += entry.second.coin.DynamicMemoryUsage();
             ++count;
         }
         BOOST_CHECK_EQUAL(GetCacheSize(), count);
@@ -553,10 +553,10 @@ size_t InsertCoinsMapEntry(CCoinsMap& map, CAmount value, char flags)
     assert(flags != NO_ENTRY);
     CCoinsCacheEntry entry;
     entry.flags = flags;
-    SetCoinsValue(value, entry.coins);
+    SetCoinsValue(value, entry.coin);
     auto inserted = map.emplace(OUTPOINT, std::move(entry));
     assert(inserted.second);
-    return inserted.first->second.coins.DynamicMemoryUsage();
+    return inserted.first->second.coin.DynamicMemoryUsage();
 }
 
 void GetCoinsMapEntry(const CCoinsMap& map, CAmount& value, char& flags)
@@ -566,10 +566,10 @@ void GetCoinsMapEntry(const CCoinsMap& map, CAmount& value, char& flags)
         value = ABSENT;
         flags = NO_ENTRY;
     } else {
-        if (it->second.coins.IsPruned()) {
+        if (it->second.coin.IsPruned()) {
             value = PRUNED;
         } else {
-            value = it->second.coins.out.nValue;
+            value = it->second.coin.out.nValue;
         }
         flags = it->second.flags;
         assert(flags != NO_ENTRY);
