@@ -108,9 +108,8 @@ class BlockchainTest(BitcoinTestFramework):
         assert_equal(res['transactions'], 120)
         assert_equal(res['height'], 120)
         assert_equal(res['txouts'], 120)
-        assert_equal(res['bytes_serialized'], 8520),
         assert_equal(len(res['bestblock']), 64)
-        assert_equal(len(res['hash_serialized']), 64)
+        assert_equal(len(res['hash_serialized_2']), 64)
 
     def _test_getblockheader(self):
         node = self.nodes[0]
