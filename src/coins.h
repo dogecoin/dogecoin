@@ -102,7 +102,7 @@ public:
 
 struct CCoinsCacheEntry
 {
-    Coin coins; // The actual cached data.
+    Coin coin; // The actual cached data.
     unsigned char flags;
 
     enum Flags {
@@ -116,7 +116,7 @@ struct CCoinsCacheEntry
     };
 
     CCoinsCacheEntry() : flags(0) {}
-    explicit CCoinsCacheEntry(Coin&& coin_) : coins(std::move(coin_)), flags(0) {}
+    explicit CCoinsCacheEntry(Coin&& coin_) : coin(std::move(coin_)), flags(0) {}
 };
 
 typedef std::unordered_map<COutPoint, CCoinsCacheEntry, SaltedOutpointHasher> CCoinsMap;
