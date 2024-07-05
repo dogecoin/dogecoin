@@ -285,7 +285,7 @@ UniValue gettxoutproof(const JSONRPCRequest& request)
         pblockindex = mapBlockIndex[hashBlock];
     } else {
         const Coin& coin = AccessByTxid(*pcoinsTip, oneTxid);
-        if (!coin.IsPruned() && coin.nHeight > 0 && coin.nHeight <= chainActive.Height()) {
+        if (!coin.IsSpent() && coin.nHeight > 0 && coin.nHeight <= chainActive.Height()) {
             pblockindex = chainActive[coin.nHeight];
         }
     }
@@ -751,7 +751,7 @@ UniValue signrawtransaction(const JSONRPCRequest& request)
 
             {
                 const Coin& coin = view.AccessCoin(out);
-                if (!coin.IsPruned() && coin.out.scriptPubKey != scriptPubKey) {
+                if (!coin.IsSpent() && coin.out.scriptPubKey != scriptPubKey) {
                     std::string err("Previous output scriptPubKey mismatch:\n");
                     err = err + ScriptToAsmStr(coin.out.scriptPubKey) + "\nvs:\n"+
                         ScriptToAsmStr(scriptPubKey);
@@ -823,7 +823,7 @@ UniValue signrawtransaction(const JSONRPCRequest& request)
     for (unsigned int i = 0; i < mergedTx.vin.size(); i++) {
         CTxIn& txin = mergedTx.vin[i];
         const Coin& coin = view.AccessCoin(txin.prevout);
-        if (coin.IsPruned()) {
+        if (coin.IsSpent()) {
             TxInErrorToJSON(txin, vErrors, "Input not found or already spent");
             continue;
         }
@@ -903,7 +903,7 @@ UniValue sendrawtransaction(const JSONRPCRequest& request)
     bool fHaveChain = false;
     for (size_t o = 0; !fHaveChain && o < tx->vout.size(); o++) {
         const Coin& existingCoin = view.AccessCoin(COutPoint(hashTx, o));
-        fHaveChain = !existingCoin.IsPruned();
+        fHaveChain = !existingCoin.IsSpent();
     }
     bool fHaveMempool = mempool.exists(hashTx);
     if (!fHaveMempool && !fHaveChain) {
