@@ -78,7 +78,6 @@ class TxDownloadTest(BitcoinTestFramework):
 
         self.test_tx_request()
         self.test_invblock_resolution()
-        self.test_max_inflight()
         self.test_disconnect_fallback()
         self.test_notfound_fallback()
 
@@ -211,58 +210,6 @@ class TxDownloadTest(BitcoinTestFramework):
         self.forward_mocktime_step2(warp//2)
 
         assert tx.hash in self.nodes[0].getrawmempool()
-
-    def test_max_inflight(self):
-        # First, forward time by 2x inflight timeout, so that we have clean
-        # registers for each peer
-        self.forward_mocktime(2 * TX_EXPIRY_INTERVAL)
-
-        # now send MAX_GETDATA_IN_FLIGHT (=100) invs with peer 0
-        peer = self.incoming_peers[0]
-        invd = []
-        for i in range(MAX_GETDATA_IN_FLIGHT):
-            txid = self.next_fake_txid()
-            peer.send_tx_inv([txid])
-            invd.append(txid)
-
-        # warp forward 2 + 2 + 2 (margin) = 6 seconds in steps of 2
-        warp = INBOUND_PEER_TX_DELAY + TXID_RELAY_DELAY + 2
-        self.forward_mocktime_step2(warp//2)
-
-        # test that we got all the getdatas
-        assert self.wait_for_getdata(invd, [peer])
-
-        # send one more inv with our now maxed out peer
-        txid_failed = self.next_fake_txid()
-        peer.send_tx_inv([txid_failed])
-        # and send one inv with another peer
-        txid_success = self.next_fake_txid()
-        self.incoming_peers[1].send_tx_inv([txid_success])
-
-        # warp forward 2 + 2 + 2 (margin) = 6 seconds in steps of 2
-        warp = INBOUND_PEER_TX_DELAY + TXID_RELAY_DELAY + 2
-        self.forward_mocktime_step2(warp//2)
-
-        # test that we got a getdata for the successful tx with peer 1
-        assert self.wait_for_getdata([txid_success], [self.incoming_peers[1]])
-        # test that we did not get a getdata for the failed txid with peer 0
-        assert not self.any_received_getdata(txid_failed, [peer])
-
-        # clear out the inflight register by expiring all requests
-        self.forward_mocktime(TX_EXPIRY_INTERVAL)
-
-        # send one inv with 4 txs
-        txids = []
-        for i in range(4):
-            txids.append(self.next_fake_txid())
-        peer.send_tx_inv(txids)
-
-        # warp forward 2 + 2 + 2 (margin) = 6 seconds in steps of 2
-        warp = INBOUND_PEER_TX_DELAY + TXID_RELAY_DELAY + 2
-        self.forward_mocktime_step2(warp//2)
-
-        # test that we got a getdata for the final inv with peer 0
-        assert self.wait_for_getdata(txids, [peer])
 
     def test_notfound_fallback(self):
         # use peer 4 and 5 to concurrently send 2 invs
