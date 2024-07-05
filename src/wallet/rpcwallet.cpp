@@ -1327,14 +1327,14 @@ UniValue ListReceived(const UniValue& params, bool fByAccounts)
 
     if (fByAccounts)
     {
-        for (map<string, tallyitem>::iterator it = mapAccountTally.begin(); it != mapAccountTally.end(); ++it)
+        for (const auto& entry : mapAccountTally)
         {
-            CAmount nAmount = (*it).second.nAmount;
-            int nConf = (*it).second.nConf;
+            CAmount nAmount = entry.second.nAmount;
+            int nConf = entry.second.nConf;
             UniValue obj(UniValue::VOBJ);
-            if((*it).second.fIsWatchonly)
+            if(entry.second.fIsWatchonly)
                 obj.pushKV("involvesWatchonly", true);
-            obj.pushKV("account",       (*it).first);
+            obj.pushKV("account",       entry.first);
             obj.pushKV("amount",        ValueFromAmount(nAmount));
             obj.pushKV("confirmations", (nConf == std::numeric_limits<int>::max() ? 0 : nConf));
             ret.push_back(obj);
