@@ -91,6 +91,7 @@ public:
             ret += entry.second.coins.DynamicMemoryUsage();
             ++count;
         }
+        BOOST_CHECK_EQUAL(GetCacheSize(), count);
         BOOST_CHECK_EQUAL(DynamicMemoryUsage(), ret);
     }
 
@@ -119,10 +120,12 @@ BOOST_AUTO_TEST_CASE(coins_cache_simulation_test)
     bool removed_all_caches = false;
     bool reached_4_caches = false;
     bool added_an_entry = false;
+    bool added_an_unspendable_entry = false;
     bool removed_an_entry = false;
     bool updated_an_entry = false;
     bool found_an_entry = false;
     bool missed_an_entry = false;
+    bool uncached_an_entry = false;
 
     // A simple map to track what we expect the cache stack to represent.
     std::map<COutPoint, Coin> result;
@@ -144,36 +147,49 @@ BOOST_AUTO_TEST_CASE(coins_cache_simulation_test)
         {
             uint256 txid = txids[InsecureRandRange(500) % txids.size()]; // txid we're going to modify in this iteration.
             Coin& coin = result[COutPoint(txid, 0)];
-            const Coin& entry = stack.back()->AccessCoin(COutPoint(txid, 0));
+            const Coin& entry = (InsecureRandRange(500) == 0) ? AccessByTxid(*stack.back(), txid) : stack.back()->AccessCoin(COutPoint(txid, 0));
             BOOST_CHECK(coin == entry);
 
             if (InsecureRandRange(5) == 0 == 0 || coin.IsPruned()) {
-                if (coin.IsPruned()) {
-                    added_an_entry = true;
+                Coin newcoin;
+                newcoin.out.nValue = InsecureRandRange(1);
+                newcoin.nHeight = 1;
+                if (InsecureRandRange(16) == 0 && coin.IsPruned()) {
+                    newcoin.out.scriptPubKey.assign(1 + (InsecureRandRange(1) & 0x3F), OP_RETURN);
+                    BOOST_CHECK(newcoin.out.scriptPubKey.IsUnspendable());
+                    added_an_unspendable_entry = true;
                 } else {
-                    updated_an_entry = true;
+                    newcoin.out.scriptPubKey.assign(InsecureRand32() & 0x3F, 0); // Random sizes so we can test memory usage accounting
+                    (coin.IsPruned() ? added_an_entry : updated_an_entry) = true;
+                    coin = newcoin;
                 }
-                coin.out.nValue = InsecureRand32();
-                coin.nHeight = 1;
+                stack.back()->AddCoin(COutPoint(txid, 0), std::move(newcoin), !coin.IsPruned() || InsecureRand32());
             } else {
-                coin.Clear();
                 removed_an_entry = true;
-            }
-            if (coin.IsPruned()) {
+                coin.Clear();
                 stack.back()->SpendCoin(COutPoint(txid, 0));
-            } else {
-                stack.back()->AddCoin(COutPoint(txid, 0), Coin(coin), true);
             }
+        }
+
+        // One every 10 iterations, remove a random entry from the cache
+        if (InsecureRandRange(10)) {
+            COutPoint out(txids[InsecureRand32() % txids.size()], 0);
+            int cacheid = InsecureRand32() % stack.size();
+            stack[cacheid]->Uncache(out);
+            uncached_an_entry |= !stack[cacheid]->HaveCoinsInCache(out);
         }
 
         // Once every 1000 iterations and at the end, verify the full cache.
         if (InsecureRandRange(1000) == 1 || i == NUM_SIMULATION_ITERATIONS - 1) {
             for (const auto& entry : result) {
+                bool have = stack.back()->HaveCoins(entry.first);
                 const Coin& coin = stack.back()->AccessCoin(entry.first);
+                BOOST_CHECK(have == !coin.IsPruned());
                 BOOST_CHECK(coin == entry.second);
                 if (coin.IsPruned()) {
                     missed_an_entry = true;
                 } else {
+                    BOOST_CHECK(stack.back()->HaveCoinsInCache(entry.first));
                     found_an_entry = true;
                 }
             }
@@ -223,10 +239,12 @@ BOOST_AUTO_TEST_CASE(coins_cache_simulation_test)
     BOOST_CHECK(removed_all_caches);
     BOOST_CHECK(reached_4_caches);
     BOOST_CHECK(added_an_entry);
+    BOOST_CHECK(added_an_unspendable_entry);
     BOOST_CHECK(removed_an_entry);
     BOOST_CHECK(updated_an_entry);
     BOOST_CHECK(found_an_entry);
     BOOST_CHECK(missed_an_entry);
+    BOOST_CHECK(uncached_an_entry);
 }
 
 // Store of all necessary tx and undo data for next test
@@ -276,6 +294,7 @@ BOOST_AUTO_TEST_CASE(updatecoins_simulation_test)
             tx.vin.resize(1);
             tx.vout.resize(1);
             tx.vout[0].nValue = i; //Keep txs unique unless intended to duplicate
+            tx.vout[0].scriptPubKey.assign(InsecureRand32() & 0x3F, 0); // Random sizes so we can test memory usage accounting
             unsigned int height = InsecureRand32();
             Coin oldcoins;
 
@@ -394,9 +413,22 @@ BOOST_AUTO_TEST_CASE(updatecoins_simulation_test)
         // Once every 1000 iterations and at the end, verify the full cache.
         if (InsecureRandRange(1000) == 1 || i == NUM_SIMULATION_ITERATIONS - 1) {
             for (auto it = result.begin(); it != result.end(); it++) {
+                bool have = stack.back()->HaveCoins(it->first);
                 const Coin& coin = stack.back()->AccessCoin(it->first);
+                BOOST_CHECK(have == !coin.IsPruned());
                 BOOST_CHECK(coin == it->second);
             }
+        }
+
+        // One every 10 iterations, remove a random entry from the cache
+        if (utxoset.size() > 1 && InsecureRandRange(30)) {
+            stack[InsecureRand32() % stack.size()]->Uncache(FindRandomFrom(utxoset)->first);
+        }
+        if (disconnectedids.size() > 1 && InsecureRandRange(30)) {
+            stack[InsecureRand32() % stack.size()]->Uncache(FindRandomFrom(disconnectedids)->first);
+        }
+        if (duplicateids.size() > 1 && InsecureRandRange(30)) {
+            stack[InsecureRand32() % stack.size()]->Uncache(FindRandomFrom(duplicateids)->first);
         }
 
         if (InsecureRandRange(100) == 0) {
