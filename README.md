@@ -11,6 +11,10 @@ Dogecoin Core [DOGE, Ð]
 
 </div>
 
+**IMPORTANT: Starting August 2024, the `master` branch has become the primary
+integration branch and has become unstable. Please check out a tagged version
+before compiling production binaries.**
+
 For internationalized documentation, see the index at [doc/intl](doc/intl/README.md).
 
 Dogecoin is a community-driven cryptocurrency that was inspired by a Shiba Inu meme. The Dogecoin Core software allows anyone to operate a node in the Dogecoin blockchain networks and uses the Scrypt hashing method for Proof of Work. It is adapted from Bitcoin Core and other cryptocurrencies.
@@ -58,16 +62,20 @@ Main development resources:
 Version numbers are following ```major.minor.patch``` semantics.
 
 ### Branches
-There are 3 types of branches in this repository:
+There are 4 types of branches in this repository:
 
-- **master:** Stable, contains the latest version of the latest *major.minor* release.
-- **maintenance:** Stable, contains the latest version of previous releases, which are still under active maintenance. Format: ```<version>-maint```
-- **development:** Unstable, contains new code for planned releases. Format: ```<version>-dev```
+- **master:** Unstable, contains the latest code under development.
+- **maintenance:** Stable, contains the latest version of previous releases,
+  which are still under active maintenance. Format: ```<version>-maint```
+- **development:** Unstable, contains new code for upcoming releases. Format: ```<version>-dev```
+- **archive:** Stable, immutable branches for old versions that no longer change
+  because they are no longer maintained.
 
-*Master and maintenance branches are exclusively mutable by release. Planned*
-*releases will always have a development branch and pull requests should be*
-*submitted against those. Maintenance branches are there for **bug fixes only,***
-*please submit new features against the development branch with the highest version.*
+***Submit your pull requests against `master`***
+
+*Maintenance branches are exclusively mutable by release. When a release is*
+*planned, a development branch will be created and commits from master will*
+*be cherry-picked into these by maintainers.*
 
 ## Contributing 🤝
 
