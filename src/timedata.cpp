@@ -15,8 +15,6 @@
 #include "utilstrencodings.h"
 #include "warnings.h"
 
-#include <boost/foreach.hpp>
-
 static CCriticalSection cs_nTimeOffset;
 static int64_t nTimeOffset = 0;
 
@@ -36,11 +34,6 @@ int64_t GetTimeOffset()
 int64_t GetAdjustedTime()
 {
     return GetTime() + GetTimeOffset();
-}
-
-static int64_t abs64(int64_t n)
-{
-    return (n >= 0 ? n : -n);
 }
 
 #define BITCOIN_TIMEDATA_MAX_SAMPLES 200
@@ -82,8 +75,8 @@ void AddTimeData(const CNetAddr& ip, int64_t nOffsetSample)
         int64_t nMedian = vTimeOffsets.median();
         std::vector<int64_t> vSorted = vTimeOffsets.sorted();
         // Only let other nodes change our time by so much
-        if (abs64(nMedian) <= std::max<int64_t>(0, GetArg("-maxtimeadjustment", DEFAULT_MAX_TIME_ADJUSTMENT)))
-        {
+        int64_t max_adjustment = std::max<int64_t>(0, GetArg("-maxtimeadjustment", DEFAULT_MAX_TIME_ADJUSTMENT));
+        if (nMedian >= -max_adjustment && nMedian <= max_adjustment) {
             nTimeOffset = nMedian;
         }
         else
@@ -95,9 +88,9 @@ void AddTimeData(const CNetAddr& ip, int64_t nOffsetSample)
             {
                 // If nobody has a time different than ours but within 5 minutes of ours, give a warning
                 bool fMatch = false;
-                BOOST_FOREACH(int64_t nOffset, vSorted)
-                    if (nOffset != 0 && abs64(nOffset) < 5 * 60)
-                        fMatch = true;
+                for (const int64_t nOffset : vSorted) {
+                    if (nOffset != 0 && nOffset > -5 * 60 && nOffset < 5 * 60) fMatch = true;
+                }
 
                 if (!fMatch)
                 {
@@ -108,11 +101,13 @@ void AddTimeData(const CNetAddr& ip, int64_t nOffsetSample)
                 }
             }
         }
-        
-        BOOST_FOREACH(int64_t n, vSorted)
+
+        for (int64_t n : vSorted) {
             LogPrint("net", "%+d  ", n);
+        }
+
         LogPrint("net", "|  ");
-        
+
         LogPrint("net", "nTimeOffset = %+d  (%+d minutes)\n", nTimeOffset, nTimeOffset/60);
     }
 }
