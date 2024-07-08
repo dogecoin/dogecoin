@@ -52,8 +52,15 @@ struct IteratorComparator
 
 /** Maximum number of in-flight transactions from a peer */
 static constexpr int32_t MAX_PEER_TX_IN_FLIGHT = 100;
-/** Maximum number of announced transactions from a peer */
-static constexpr int32_t MAX_PEER_TX_ANNOUNCEMENTS = 2 * MAX_INV_SZ;
+/**
+ * Maximum number of transactions to consider for requesting, per peer.
+ *
+ * It provides a reasonable DoS limit to per-peer memory usage spent on
+ * announcements, while covering peers continuously sending INVs at the maximum
+ * rate for several minutes (see INVENTORY_BROADCAST_MAX), while not receiving
+ * the actual transaction (from any peer) in response to requests for them.
+ */
+static constexpr int32_t MAX_PEER_TX_ANNOUNCEMENTS = 5000;
 /** How many microseconds to delay requesting transactions from inbound peers */
 static constexpr int64_t NONPREF_PEER_TX_DELAY = 2 * 1000000; // 2 seconds
 /** How many microseconds to delay requesting transactions from overloaded peers */

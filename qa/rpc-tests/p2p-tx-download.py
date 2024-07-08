@@ -18,6 +18,7 @@ TX_EXPIRY_INTERVAL = 10 * GETDATA_TX_INTERVAL # 5 minutes
 INBOUND_PEER_TX_DELAY = 2  # seconds
 TXID_RELAY_DELAY = 2 # seconds
 MAX_GETDATA_IN_FLIGHT = 100
+MAX_PEER_TX_ANNOUNCEMENTS = 5000
 
 class TxDownloadTestNode(SingleNodeConnCB):
     def __init__(self):
@@ -51,6 +52,11 @@ class TxDownloadTestNode(SingleNodeConnCB):
             return self.connection.state == "closed"
         return wait_until(is_closed, timeout=30)
 
+    def wait_until_numgetdata(self, num):
+        def has_num():
+            return len(self.tx_getdata_received) == num
+        return wait_until(has_num, timeout=60)
+
     def disconnect(self):
         self.connection.disconnect_node()
         return self.wait_for_disconnect()
@@ -80,6 +86,7 @@ class TxDownloadTest(BitcoinTestFramework):
         self.test_invblock_resolution()
         self.test_disconnect_fallback()
         self.test_notfound_fallback()
+        self.test_max_announcements()
 
     def setup_network(self):
         # set up full nodes
@@ -260,6 +267,24 @@ class TxDownloadTest(BitcoinTestFramework):
 
         # the losing peer is now the fallback and received a getdata message
         assert self.wait_for_getdata([txid], [loser])
+
+    def test_max_announcements(self):
+        # create a test node
+        peer = self.create_testnode()
+        peer.wait_for_verack()
+
+        hashes = []
+        for _ in range(MAX_PEER_TX_ANNOUNCEMENTS):
+            hashes.append(self.next_fake_txid())
+
+        peer.send_tx_inv(hashes)
+        peer.wait_until_numgetdata(MAX_PEER_TX_ANNOUNCEMENTS)
+        peer.sync_with_ping()
+
+        # send one more - this should never come back.
+        extratx = self.next_fake_txid()
+        peer.send_tx_inv([extratx])
+        assert not self.any_received_getdata(extratx, [peer])
 
 if __name__ == '__main__':
     TxDownloadTest().main()
