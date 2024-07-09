@@ -17,7 +17,7 @@ class WalletNotifyTest(BitcoinTestFramework):
 
     def __init__(self):
         super().__init__()
-        self.num_nodes = 3
+        self.num_nodes = 4
         self.setup_clean_chain = False
 
     notify_filename = None  # Set by setup_network
@@ -34,8 +34,10 @@ class WalletNotifyTest(BitcoinTestFramework):
                             ["-walletnotify=echo %s %i >> \"" + self.notify_filename + "\""]))
         self.nodes.append(start_node(1, self.options.tmpdir,["-debug", "-acceptnonstdtxn=0"]))
         self.nodes.append(start_node(2, self.options.tmpdir,["-debug", "-acceptnonstdtxn=0", "-minrelaytxfee=0.00000001"]))
+        self.nodes.append(start_node(3, self.options.tmpdir,["-debug", "-acceptnonstdtxn=0", "-blockmaxsize=80"]))
         connect_nodes(self.nodes[1], 0)
         connect_nodes(self.nodes[2], 1)
+        connect_nodes(self.nodes[3], 1)
 
         self.is_network_split = False
         self.sync_all()
@@ -53,7 +55,7 @@ class WalletNotifyTest(BitcoinTestFramework):
             if exact:
                 return len(self.notifs) == self.current_line + num
             return len(self.notifs) >= self.current_line + num
-        return wait_until(notifications_received, timeout=20)
+        return wait_until(notifications_received, timeout=30)
 
     def send_raw_tx(self, node, addr, fee, reuse_last_utxo=False):
         if reuse_last_utxo:
@@ -100,20 +102,23 @@ class WalletNotifyTest(BitcoinTestFramework):
         assert self.nodes[0].gettransaction(txid)['confirmations'] == 1
         self.current_line += 1
 
-        # rollback the chain and re-mine 3 blocks
+        # rollback the chain and mine 3 empty blocks with node 3
         reset_hash = self.nodes[1].getblockhash(height)
-        self.nodes[1].invalidateblock(reset_hash)
-        self.nodes[1].generate(3)
-        sync_blocks(self.nodes)
+        self.nodes[3].invalidateblock(reset_hash)
+        self.nodes[3].generate(3)
+        self.sync_all()
+
+        # assure that we didn't mine any transaction
+        checkblock = self.nodes[3].getbestblockhash()
+        for _ in range(3):
+            blk = self.nodes[3].getblock(checkblock, 1)
+            assert len(blk['tx']) == 1
+            checkblock = blk['previousblockhash']
 
         # we should now receive 2 notifications:
         # - from the transaction being put into the mempool (AcceptToMemoryPool)
         # - from the transaction no longer being in the best chain (DisconnectTip)
-        #
-        # In rare occasions, the reversed transaction is included in one of the
-        # 3 new blocks we mined, so don't wait for exactly 2 notifications, as
-        # there may be 3 already.
-        assert self.wait_for_notifications(2, False)
+        assert self.wait_for_notifications(2, True)
         assert self.notifs[self.current_line] == "{} {}".format(txid, 0)
         assert self.notifs[self.current_line + 1] == "{} {}".format(txid, 0)
         self.current_line += 2
@@ -122,9 +127,9 @@ class WalletNotifyTest(BitcoinTestFramework):
         # force submitting it on the miner node.
         try:
             self.nodes[1].sendrawtransaction(self.nodes[0].gettransaction(txid)['hex'], True)
-            self.nodes[1].generate(1)
-        except Exception as inst:
-            print("{} was potentially already mined in a prior block so we allow for that ({})".format(txid, inst))
+        except:
+            pass
+        self.nodes[1].generate(1)
         self.sync_all()
 
         # we should now have received one more notification.
@@ -170,15 +175,16 @@ class WalletNotifyTest(BitcoinTestFramework):
         # - from the prior transaction no longer being in the best chain (DisconnectTip)
         # - from the prior transaction being conflicted (MemPoolConflictRemovalTracker)
         # - for the new transaction that double-spent the previous transaction.
-        assert self.wait_for_notifications(4, True)
-        for i in range(0,3):
-            assert self.notifs[self.current_line + i] == "{} {}".format(txid, 0)
-        assert self.nodes[0].gettransaction(txid)['confirmations'] == -3
-        assert len(self.nodes[0].gettransaction(txid)['walletconflicts']) == 1
-
         mined_in = self.nodes[0].gettransaction(txid_ds)['blockhash']
         height = self.nodes[0].getblock(mined_in)['height']
-        assert self.notifs[self.current_line + 3] == "{} {}".format(txid_ds, height)
+        assert self.wait_for_notifications(4, True)
+        for i in range(0,4):
+            assert self.notifs[self.current_line + i] in [
+                "{} {}".format(txid, 0),
+                "{} {}".format(txid_ds, height)
+            ]
+        assert self.nodes[0].gettransaction(txid)['confirmations'] == -3
+        assert len(self.nodes[0].gettransaction(txid)['walletconflicts']) == 1
         assert self.nodes[0].gettransaction(txid_ds)['confirmations'] == 3
         self.current_line += 4
 
