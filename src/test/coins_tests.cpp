@@ -150,7 +150,7 @@ BOOST_AUTO_TEST_CASE(coins_cache_simulation_test)
             const Coin& entry = (InsecureRandRange(500) == 0) ? AccessByTxid(*stack.back(), txid) : stack.back()->AccessCoin(COutPoint(txid, 0));
             BOOST_CHECK(coin == entry);
 
-            if (InsecureRandRange(5) == 0 == 0 || coin.IsSpent()) {
+            if (InsecureRandRange(5) == 0 || coin.IsSpent()) {
                 Coin newcoin;
                 newcoin.out.nValue = InsecureRandRange(1);
                 newcoin.nHeight = 1;
