@@ -180,6 +180,7 @@ testScripts = [
     'addnode.py',
     'getmocktime.py',
     'uptime.py',
+    'p2p-getdata.py',
 ]
 if ENABLE_ZMQ:
     testScripts.append('zmq_test.py')
