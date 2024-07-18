@@ -459,8 +459,10 @@ bool CWallet::Verify()
     uiInterface.InitMessage(_("Verifying wallet..."));
 
     // Wallet file must be a plain filename without a directory
-    if (walletFile != fs::basename(walletFile) + fs::extension(walletFile))
+    fs::path walletPath(walletFile);
+    if (walletFile != walletPath.stem().string() + walletPath.extension().string()) {
         return InitError(strprintf(_("Wallet %s resides outside data directory %s"), walletFile, GetDataDir().string()));
+    }
 
     if (!bitdb.Open(GetDataDir()))
     {
@@ -4019,7 +4021,11 @@ bool CWallet::BackupWallet(const std::string& strDest)
                         return false;
                     }
 
-#if BOOST_VERSION >= 104000
+#if BOOST_VERSION >= 107400
+                    // Boost 1.74.0 and up implements std++17 like "copy_options", and this
+                    // is the only remaining enum after 1.85.0
+                    fs::copy_file(pathSrc, pathDest, fs::copy_options::overwrite_existing);
+#elif BOOST_VERSION >= 104000
                     fs::copy_file(pathSrc, pathDest, fs::copy_option::overwrite_if_exists);
 #else
                     fs::copy_file(pathSrc, pathDest);
