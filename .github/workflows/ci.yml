@@ -217,7 +217,7 @@ jobs:
                pkg-config bsdmainutils curl ca-certificates ccache rsync git \
                procps bison python3 python3-pip python3-setuptools python3-wheel
           sudo apt-get install ${{ matrix.packages }}
-          python3 -m pip install setuptools --upgrade
+          python3 -m pip install setuptools==70.3.0 --upgrade
 
       - name: Install custom lief wheel
         if: matrix.os == 'ubuntu-18.04'
