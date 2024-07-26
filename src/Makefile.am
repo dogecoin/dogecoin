@@ -111,7 +111,6 @@ BITCOIN_CORE_H = \
   key.h \
   keystore.h \
   dbwrapper.h \
-  limitedmap.h \
   memusage.h \
   merkleblock.h \
   miner.h \
@@ -154,9 +153,11 @@ BITCOIN_CORE_H = \
   torcontrol.h \
   txdb.h \
   txmempool.h \
+  txrequest.h \
   ui_interface.h \
   undo.h \
   util.h \
+  utilmemory.h \
   utilmoneystr.h \
   utiltime.h \
   utilstring.h \
@@ -218,6 +219,7 @@ libdogecoin_server_a_SOURCES = \
   torcontrol.cpp \
   txdb.cpp \
   txmempool.cpp \
+  txrequest.cpp \
   ui_interface.cpp \
   validation.cpp \
   validationinterface.cpp \
