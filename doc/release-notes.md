@@ -36,7 +36,7 @@ Previously, Dogecoin Core nodes would maintain a large list of inventory for
 each peer. This is excessive and unnecessary and has been reduced to a more
 reasonable number.
 
-*Implemented with #...*
+*Implemented with #3577*
 
 ### Improve Transaction Request Tracking
 
@@ -45,7 +45,7 @@ communicates with other peers. Notably, this improvement prioritizes
 communication with outbound peers over inbound peers and makes CPU and memory
 use more reliable and scalable with the number of peers.
 
-*Implemented with #...*
+*Implemented with #3577*
 
 ### Improve Orphan Transaction Handling
 
@@ -101,9 +101,12 @@ Credit goes to all awesome contributors to this release, alphabetically:
 * Amiti Uttarwar
 * Anthony Chen
 * chromatic
+* daanksy
+* Dakoda Greaves
 * Ed Tubbs
 * Hennadii Stepanov
 * John Newbery
+* Michi Lumin
 * Patrick Lodder
 * Pieter Wuille
 * practicalswift
