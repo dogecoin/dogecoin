@@ -72,6 +72,13 @@ checkpoint check after the difficulty check.
 
 *Implemented with #3576*
 
+### Security Policy Documented
+
+The [SECURITY.md](SECURITY.md) file describes how to report a potential
+vulnerability or security issue in Dogecoin Core.
+
+*Implemented with #3611*
+
 
 Dependency Updates
 ------------------
