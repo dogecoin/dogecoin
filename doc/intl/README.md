@@ -17,6 +17,10 @@ French:
 
 - [README](fr_FR/README.md)
 
+Breton:
+
+- [README](bzh_FR/README.md)
+
 Portuguese (Brazilian):
 
 - [README](pt_BR/README.md)
