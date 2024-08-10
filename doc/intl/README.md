@@ -15,7 +15,7 @@ Farsi:
 
 French:
 
-- [README](fr/README.md)
+- [README](fr_FR/README.md)
 
 Portuguese (Brazilian):
 
