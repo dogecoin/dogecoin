@@ -399,7 +399,6 @@ def connect_nodes(from_connection, node_num):
         time.sleep(0.1)
 
 def connect_nodes_bi(nodes, a, b):
-    print (a, len(nodes))
     connect_nodes(nodes[a], b)
     connect_nodes(nodes[b], a)
 
