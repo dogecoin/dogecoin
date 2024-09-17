@@ -3863,6 +3863,23 @@ CWallet* CWallet::CreateWalletFromFile(const std::string walletFile)
     return walletInstance;
 }
 
+// public accessor for block rescan index 
+uint32_t CWallet::GetPrunedRescanHeight() const
+{
+    //Get starting block index for rescan
+    return CWallet::GetHeightForRescan();
+}
+
+uint32_t CWallet::GetHeightForRescan() const
+{
+    CBlockIndex *block = chainActive.Tip();
+    
+    while (block && block->pprev && (block->pprev->nStatus & BLOCK_HAVE_DATA) && block->pprev->nTx > 0)
+                block = block->pprev;
+
+    return (uint32_t) (block->nHeight);
+}
+
 bool CWallet::InitLoadWallet()
 {
     if (GetBoolArg("-disablewallet", DEFAULT_DISABLE_WALLET)) {

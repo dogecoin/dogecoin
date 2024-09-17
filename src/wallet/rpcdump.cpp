@@ -125,9 +125,6 @@ UniValue importprivkey(const JSONRPCRequest& request)
     if (request.params.size() > 2)
         fRescan = request.params[2].get_bool();
 
-    if (fRescan && fPruneMode)
-        throw JSONRPCError(RPC_WALLET_ERROR, "Rescan is disabled in pruned mode");
-
     CBitcoinSecret vchSecret;
     bool fGood = vchSecret.SetString(strSecret);
 
@@ -152,9 +149,19 @@ UniValue importprivkey(const JSONRPCRequest& request)
         if (!pwalletMain->AddKeyPubKey(key, pubkey))
             throw JSONRPCError(RPC_WALLET_ERROR, "Error adding key to wallet");
 
-        if (fRescan) {
-            const uint32_t nHeight = getHeightParamFromRequest(request, 3);
-            attemptRescanFromHeight(nHeight);
+        if (fRescan) 
+        {
+            if (fPruneMode)
+            {
+                const uint32_t npHeight = pwalletMain->GetPrunedRescanHeight();
+                attemptRescanFromHeight(npHeight);
+            }
+
+            else
+            {
+                const uint32_t nHeight = getHeightParamFromRequest(request, 3);
+                attemptRescanFromHeight(nHeight);
+            }
         }
     }
 
@@ -173,6 +180,7 @@ uint32_t getHeightParamFromRequest(const JSONRPCRequest& request, const size_t p
 
     return nHeight;
 }
+
 
 void attemptRescanFromHeight(const uint32_t nHeight)
 {
@@ -260,9 +268,6 @@ UniValue importaddress(const JSONRPCRequest& request)
     if (request.params.size() > 2)
         fRescan = request.params[2].get_bool();
 
-    if (fRescan && fPruneMode)
-        throw JSONRPCError(RPC_WALLET_ERROR, "Rescan is disabled in pruned mode");
-
     // Whether to import a p2sh version, too
     bool fP2SH = false;
     if (request.params.size() > 3)
@@ -282,9 +287,19 @@ UniValue importaddress(const JSONRPCRequest& request)
         throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Dogecoin address or script");
     }
 
-    if (fRescan) {
-        const uint32_t nHeight = getHeightParamFromRequest(request, 4);
-        attemptRescanFromHeight(nHeight);
+    if (fRescan) 
+    {
+        if (fPruneMode)
+        {
+            const uint32_t npHeight = pwalletMain->GetPrunedRescanHeight();
+            attemptRescanFromHeight(npHeight);
+        }
+        
+        else
+        {
+            const uint32_t nHeight = getHeightParamFromRequest(request, 4);
+            attemptRescanFromHeight(nHeight);
+        }    
     }
 
     return NullUniValue;
@@ -421,9 +436,6 @@ UniValue importpubkey(const JSONRPCRequest& request)
     if (request.params.size() > 2)
         fRescan = request.params[2].get_bool();
 
-    if (fRescan && fPruneMode)
-        throw JSONRPCError(RPC_WALLET_ERROR, "Rescan is disabled in pruned mode");
-
     if (!IsHex(request.params[0].get_str()))
         throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Pubkey must be a hex string");
     std::vector<unsigned char> data(ParseHex(request.params[0].get_str()));
@@ -436,9 +448,19 @@ UniValue importpubkey(const JSONRPCRequest& request)
     ImportAddress(CBitcoinAddress(pubKey.GetID()), strLabel);
     ImportScript(GetScriptForRawPubKey(pubKey), strLabel, false);
 
-    if (fRescan) {
-        const uint32_t nHeight = getHeightParamFromRequest(request, 3);
-        attemptRescanFromHeight(nHeight);
+    if (fRescan) 
+    {
+        if (fPruneMode)
+        {
+                const uint32_t npHeight = pwalletMain->GetPrunedRescanHeight();
+                attemptRescanFromHeight(npHeight);
+        }
+
+        else
+        {
+            const uint32_t nHeight = getHeightParamFromRequest(request, 3);
+            attemptRescanFromHeight(nHeight);
+        }
     }
 
     return NullUniValue;

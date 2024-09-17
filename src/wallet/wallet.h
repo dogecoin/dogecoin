@@ -599,6 +599,9 @@ private:
      */
     bool AddWatchOnly(const CScript& dest) override;
 
+    /* Get starting block index for rescanning in pruned mode */
+    uint32_t GetHeightForRescan() const;
+
 public:
     /*
      * Main wallet lock.
@@ -971,6 +974,9 @@ public:
     
     /* Set the current HD master key (will reset the chain child index counters) */
     bool SetHDMasterKey(const CPubKey& key);
+
+    /* Get starting rescan height for pruned node */
+    uint32_t GetPrunedRescanHeight() const;
 };
 
 /** A key allocated from the key pool. */

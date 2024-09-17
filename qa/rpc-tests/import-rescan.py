@@ -163,7 +163,7 @@ class ImportRescanTest(BitcoinTestFramework):
         # For each variation of wallet key import, invoke the import RPC and
         # check the results from getbalance and listtransactions.
         for variant in IMPORT_VARIANTS:
-            variant.expect_disabled = variant.rescan == Rescan.yes and variant.prune and variant.call == Call.single
+            variant.expect_disabled = False # enable rescan for pruned mode
             expect_rescan = variant.rescan == Rescan.yes and not variant.expect_disabled
             variant.node = self.nodes[2 + IMPORT_NODES.index(ImportNode(variant.prune, expect_rescan))]
             variant.do_import(timestamp)
