@@ -41,6 +41,8 @@ jobs:
           - x86_64-win
           - x86_64-win-experimental
           - x86_64-linux-experimental
+          - x86_64-win-experimental-sse
+          - x86_64-linux-experimental-sse
         include:
           - name: i686-linux
             host: i686-pc-linux-gnu
@@ -174,8 +176,27 @@ jobs:
               make check $MAKEJOBS VERBOSE=1
             check-security: true
             check-symbols: false
-            dep-opts: "AVX2=1 MINGW=1"
+            dep-opts: "ASM=1 MINGW=1"
             config-opts: "--enable-experimental --enable-scrypt-sse2 --with-intel-avx2 --with-gui=qt5 --enable-c++14"
+            goal: install
+          - name: x86_64-win-experimental-sse
+            host: x86_64-w64-mingw32
+            container: ubuntu:20.04
+            container-options: --privileged
+            packages: python3 nsis g++-mingw-w64-x86-64 wine64 bc wine-binfmt
+            postinstall: |
+              update-alternatives --set x86_64-w64-mingw32-gcc  /usr/bin/x86_64-w64-mingw32-gcc-posix
+              update-alternatives --set x86_64-w64-mingw32-g++  /usr/bin/x86_64-w64-mingw32-g++-posix
+              update-binfmts --import /usr/share/binfmts/wine
+              update-binfmts --enable
+              update-binfmts --display
+            run-bench: false
+            test-script: |
+              make check $MAKEJOBS VERBOSE=1
+            check-security: true
+            check-symbols: false
+            dep-opts: "ASM=1 MINGW=1"
+            config-opts: "--enable-experimental --enable-scrypt-sse2 --with-intel-sse --with-gui=qt5 --enable-c++14"
             goal: install
           - name: x86_64-macos
             host: x86_64-apple-darwin11
@@ -198,8 +219,20 @@ jobs:
               make check $MAKEJOBS VERBOSE=1
               qa/pull-tester/install-deps.sh
               qa/pull-tester/rpc-tests.py --coverage
-            dep-opts: "AVX2=1"
+            dep-opts: "ASM=1"
             config-opts: "--enable-experimental --enable-scrypt-sse2 --with-intel-avx2 --with-gui=qt5 --enable-zmq --enable-glibc-back-compat --enable-reduce-exports --enable-c++14"
+            goal: install
+          - name: x86_64-linux-experimental-sse
+            host: x86_64-linux-gnu
+            container: ubuntu:20.04
+            packages: bc python3-zmq
+            run-bench: true
+            test-script: |
+              make check $MAKEJOBS VERBOSE=1
+              qa/pull-tester/install-deps.sh
+              qa/pull-tester/rpc-tests.py --coverage
+            dep-opts: "ASM=1"
+            config-opts: "--enable-experimental --enable-scrypt-sse2 --with-intel-sse --with-gui=qt5 --enable-zmq --enable-glibc-back-compat --enable-reduce-exports --enable-c++14"
             goal: install
 
     runs-on: ubuntu-24.04
