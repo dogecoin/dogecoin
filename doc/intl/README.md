@@ -15,7 +15,11 @@ Farsi:
 
 French:
 
-- [README](fr/README.md)
+- [README](fr_FR/README.md)
+
+Breton:
+
+- [README](bzh_FR/README.md)
 
 Portuguese (Brazilian):
 
