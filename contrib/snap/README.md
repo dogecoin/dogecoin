@@ -1,12 +1,13 @@
 # Dogecoin Snap Packaging
+Commands for building and uploading a Dogecoin Core Snap to the Snap Store. Anyone on amd64 (x86_64) or arm64 (aarch64) should be able to build it themselves with these instructions. This would pull the official Dogecoin binaries from the releases page, verify them, and install them on a user's machine.
 
-Commands for building and uploading a Dogecoin Core Snap to the Snap Store. Anyone on amd64 (x86_64), arm64 (aarch64), or i386 (i686) should be able to build it themselves with these instructions. This would pull the official Dogecoin binaries from the releases page, verify them, and install them on a user's machine.
+Known issue: does not compile on arm64 unless lines 27-33 of `snapcraft.yaml` are manually removed. This is due to Snap's lack of configurability and the lack of an official dogecoin-qt binary for arm64. The end result will be usable, except with no Qt GUI.
 
 ## Building Locally
 ```
 sudo apt install snapd
 sudo snap install --classic snapcraft
-sudo snapcraft
+snapcraft
 ```
 
 ### Installing Locally
@@ -24,14 +25,21 @@ sudo snap install dogecoin-core
 
 ### Usage
 ```
-dogecoin-unofficial.cli # for dogecoin-cli
-dogecoin-unofficial.d # for dogecoind
-dogecoin-unofficial.qt # for dogecoin-qt
-dogecoin-unofficial.test # for test_dogecoin
-dogecoin-unofficial.tx # for dogecoin-tx
+dogecoin-core.cli # for dogecoin-cli
+dogecoin-core.d # for dogecoind
+dogecoin-core.qt # for dogecoin-qt
+dogecoin-core.test # for test_dogecoin
+dogecoin-core.tx # for dogecoin-tx
 ```
 
-### Uninstalling
+## Updating
 ```
-sudo snap remove dogecoin-unofficial
+sudo snap refresh dogecoin-core
 ```
+Unless disabled, automatic updates take place whenever there is a new stable release.
+
+## Uninstalling
+```
+sudo snap remove dogecoin-core
+```
+To remove all user data, add `--purge`. Be careful, as this will delete your `wallet.dat` file.
