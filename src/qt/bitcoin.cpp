@@ -12,7 +12,6 @@
 #include "chainparams.h"
 #include "clientmodel.h"
 #include "compat.h"
-#include "fs.h"
 #include "guiconstants.h"
 #include "guiutil.h"
 #include "intro.h"
@@ -41,6 +40,7 @@
 
 #include <stdint.h>
 
+#include <boost/filesystem/operations.hpp>
 #include <boost/thread.hpp>
 
 #include <QApplication>
@@ -52,7 +52,6 @@
 #include <QThread>
 #include <QTimer>
 #include <QTranslator>
-#include <QSslConfiguration>
 
 #if defined(QT_STATICPLUGIN)
 #include <QtPlugin>
@@ -348,7 +347,7 @@ BitcoinApplication::~BitcoinApplication()
 #ifdef ENABLE_WALLET
 void BitcoinApplication::createPaymentServer()
 {
-    paymentServer = new PaymentServer(this, true, GetBoolArg("-enable-bip70", false));
+    paymentServer = new PaymentServer(this, true);
 }
 #endif
 
@@ -474,14 +473,6 @@ void BitcoinApplication::initializeResult(int retval)
 #ifdef ENABLE_WALLET
         paymentServer->setOptionsModel(optionsModel);
 
-        if(GetBoolArg("-enable-bip70", false))
-        {
-            PaymentServer::LoadRootCAs();
-            if(pwalletMain)
-                connect(walletModel, SIGNAL(coinsSent(CWallet*,SendCoinsRecipient,QByteArray)),
-                        paymentServer, SLOT(fetchPaymentACK(CWallet*,const SendCoinsRecipient&,QByteArray)));
-        }
-
         // Now that initialization/startup is done, process any command-line
         // payment requests:
         connect(paymentServer, SIGNAL(receivedPaymentRequest(SendCoinsRecipient)),
@@ -543,13 +534,6 @@ MAIN_FUNCTION
 #ifdef Q_OS_MAC
     QApplication::setAttribute(Qt::AA_DontShowIconsInMenus);
 #endif
-#if QT_VERSION >= 0x050500
-    // Because of the POODLE attack it is recommended to disable SSLv3 (https://disablessl3.com/),
-    // so set SSL protocols to TLS1.0+.
-    QSslConfiguration sslconf = QSslConfiguration::defaultConfiguration();
-    sslconf.setProtocol(QSsl::TlsV1_0OrLater);
-    QSslConfiguration::setDefaultConfiguration(sslconf);
-#endif
 
     BitcoinApplication app;
 
@@ -589,7 +573,7 @@ MAIN_FUNCTION
 
     /// 6. Determine availability of data directory and parse bitcoin.conf
     /// - Do not call GetDataDir(true) before this step finishes
-    if (!fs::is_directory(GetDataDir(false)))
+    if (!boost::filesystem::is_directory(GetDataDir(false)))
     {
         QMessageBox::critical(0, QObject::tr(PACKAGE_NAME),
                               QObject::tr("Error: Specified data directory \"%1\" does not exist.").arg(QString::fromStdString(GetArg("-datadir", ""))));
@@ -602,6 +586,8 @@ MAIN_FUNCTION
                               QObject::tr("Error: Cannot parse configuration file: %1. Only use key=value syntax.").arg(e.what()));
         return EXIT_FAILURE;
     }
+    // Install qDebug() message handler to route to debug.log
+    qInstallMessageHandler(DebugMessageHandler);
 
     /// 7. Determine network (and switch to network specific options)
     // - Do not call Params() before this step
@@ -650,8 +636,6 @@ MAIN_FUNCTION
     // Install global event filter for processing Windows session related Windows messages (WM_QUERYENDSESSION and WM_ENDSESSION)
     qApp->installNativeEventFilter(new WinShutdownMonitor());
 #endif
-    // Install qDebug() message handler to route to debug.log
-    qInstallMessageHandler(DebugMessageHandler);
     // Allow parameter interaction before we create the options model
     app.parameterSetup();
     // Load GUI settings from QSettings
