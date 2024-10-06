@@ -29,7 +29,7 @@ LIBDOGECOIN_COMMON=libdogecoin_common.a
 LIBDOGECOIN_CONSENSUS=libdogecoin_consensus.a
 LIBDOGECOIN_CLI=libdogecoin_cli.a
 LIBDOGECOIN_UTIL=libdogecoin_util.a
-LIBDOGECOIN_CRYPTO=crypto/libdogecoin_crypto.a
+LIBDOGECOIN_CRYPTO=crypto/libdogecoin_crypto.la
 LIBDOGECOINQT=qt/libdogecoinqt.a
 LIBSECP256K1=secp256k1/libsecp256k1.la
 
@@ -49,7 +49,6 @@ $(LIBSECP256K1): $(wildcard secp256k1/src/*) $(wildcard secp256k1/include/*)
 # Make is not made aware of per-object dependencies to avoid limiting building parallelization
 # But to build the less dependent modules first, we manually select their order here:
 EXTRA_LIBRARIES += \
-  $(LIBDOGECOIN_CRYPTO) \
   $(LIBDOGECOIN_UTIL) \
   $(LIBDOGECOIN_COMMON) \
   $(LIBDOGECOIN_CONSENSUS) \
@@ -58,7 +57,7 @@ EXTRA_LIBRARIES += \
   $(LIBDOGECOIN_WALLET) \
   $(LIBDOGECOIN_ZMQ)
 
-lib_LTLIBRARIES = $(LIBDOGECOINCONSENSUS)
+lib_LTLIBRARIES = $(LIBDOGECOINCONSENSUS) $(LIBDOGECOIN_CRYPTO)
 
 bin_PROGRAMS =
 noinst_PROGRAMS =
@@ -253,9 +252,9 @@ libdogecoin_wallet_a_SOURCES = \
   $(BITCOIN_CORE_H)
 
 # crypto primitives library
-crypto_libdogecoin_crypto_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_CONFIG_INCLUDES)
-crypto_libdogecoin_crypto_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-crypto_libdogecoin_crypto_a_SOURCES = \
+crypto_libdogecoin_crypto_la_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_CONFIG_INCLUDES) -static
+crypto_libdogecoin_crypto_la_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS) -static
+crypto_libdogecoin_crypto_la_SOURCES = \
   crypto/aes.cpp \
   crypto/aes.h \
   crypto/chacha20.h \
@@ -278,7 +277,13 @@ crypto_libdogecoin_crypto_a_SOURCES = \
 
 # only include SSE2 scrypt sources if USE_SCRYPT_SSE2 is defined
 if USE_SCRYPT_SSE2
-crypto_libdogecoin_crypto_a_SOURCES += crypto/scrypt-sse2.cpp
+  crypto_libdogecoin_crypto_la_SOURCES += crypto/scrypt-sse2.cpp
+endif
+
+# only include ARMv8.2 sha512 sources if USE_ARMV82 is defined
+if USE_ARMV82
+  crypto_libdogecoin_crypto_la_CXXFLAGS += $(ARMV82_CXXFLAGS)
+  crypto_libdogecoin_crypto_la_SOURCES += crypto/sha512-armv82.cpp
 endif
 
 # consensus: shared between all executables that validate any consensus rules.
@@ -454,14 +459,14 @@ dogecoin_tx_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS)
 # bitcoinconsensus library #
 if BUILD_BITCOIN_LIBS
 include_HEADERS = script/bitcoinconsensus.h
-libdogecoinconsensus_la_SOURCES = $(crypto_libdogecoin_crypto_a_SOURCES) $(libdogecoin_consensus_a_SOURCES)
+libdogecoinconsensus_la_SOURCES = $(libdogecoin_consensus_a_SOURCES)
 
 if GLIBC_BACK_COMPAT
   libdogecoinconsensus_la_SOURCES += compat/glibc_compat.cpp
 endif
 
 libdogecoinconsensus_la_LDFLAGS = $(AM_LDFLAGS) -no-undefined $(RELDFLAGS)
-libdogecoinconsensus_la_LIBADD = $(LIBSECP256K1)
+libdogecoinconsensus_la_LIBADD = $(LIBSECP256K1) $(LIBDOGECOIN_CRYPTO)
 libdogecoinconsensus_la_CPPFLAGS = $(AM_CPPFLAGS) -I$(builddir)/obj -I$(srcdir)/secp256k1/include -DBUILD_BITCOIN_INTERNAL
 libdogecoinconsensus_la_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 
