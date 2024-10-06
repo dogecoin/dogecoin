@@ -228,7 +228,7 @@ Development guidelines
 A few non-style-related recommendations for developers, as well as points to
 pay attention to for reviewers of Bitcoin Core code.
 
-General Bitcoin Core
+General Dogecoin Core
 ----------------------
 
 - New features should be exposed on RPC first, then can be made available in the GUI
@@ -264,7 +264,7 @@ General C++
 
 - Assertions should not have side-effects
 
-  - *Rationale*: Even though the source code is set to to refuse to compile
+  - *Rationale*: Even though the source code is set to refuse to compile
     with assertions disabled, having side-effects in assertions is unexpected and
     makes the code harder to understand
 
