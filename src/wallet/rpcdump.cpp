@@ -80,6 +80,40 @@ std::string DecodeDumpString(const std::string &str) {
     return ret.str();
 }
 
+UniValue getutxoforkey(const JSONRPCRequest& request)
+{
+    if (!fPruneMode)
+        throw JSONRPCError(RPC_WALLET_ERROR, "This RPC is for pruned mode only");
+
+    LOCK(cs_main);
+
+    UniValue ret(UniValue::VOBJ);
+    
+    FlushStateToDisk();
+
+    string strSecret = request.params[0].get_str();
+    
+    CBitcoinSecret vchSecret;
+    bool fGood = vchSecret.SetString(strSecret);
+
+    if (!fGood) throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid private key encoding");
+
+    CKey key = vchSecret.GetKey();
+    if (!key.IsValid()) throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Private key outside allowed range");
+
+    CPubKey pubkey = key.GetPubKey();
+    assert(key.VerifyPubKey(pubkey));
+
+    CAmount my_utxo = 0;
+
+    if (!(pwalletMain->GetUTXOForPubKey(pcoinsTip, pubkey, my_utxo)))
+    {
+        throw JSONRPCError(RPC_INTERNAL_ERROR, "Unable to read UTXO set");
+    }
+     
+    return my_utxo;     
+}
+
 UniValue importprivkey(const JSONRPCRequest& request)
 {
     if (!EnsureWalletIsAvailable(request.fHelp))

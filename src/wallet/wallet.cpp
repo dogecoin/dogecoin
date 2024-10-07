@@ -1514,6 +1514,59 @@ void CWalletTx::GetAccountAmounts(const string& strAccount, CAmount& nReceived,
     }
 }
 
+bool CWallet::GetUTXOForPubKey(CCoinsView *view, CPubKey pubkey, CAmount &my_utxo)
+{
+    std::unique_ptr<CCoinsViewCursor> pcursor(view->Cursor());
+    
+    bool found_address = false;
+
+    CScript scriptPubKey = GetScriptForDestination(pubkey.GetID());
+
+    CTxDestination myaddress;
+    ExtractDestination(scriptPubKey, myaddress);
+    std::string my_address_str = CBitcoinAddress(myaddress).ToString();
+
+    while (pcursor->Valid() && !found_address)
+    {
+        //uint256 key;
+        CCoins coins;
+
+        if (pcursor->GetValue(coins)) 
+        {
+            for (unsigned int i = 0; i < coins.vout.size(); i++) 
+            {
+                const CTxOut &out = coins.vout[i];
+                
+                if (!out.IsNull()) 
+                {
+                    CTxDestination address;
+                    ExtractDestination(coins.vout[i].scriptPubKey, address);
+                    std::string address_check = CBitcoinAddress(address).ToString();
+            
+                    if (address_check == my_address_str)
+                    {
+                        my_utxo = coins.vout[i].nValue;
+                        found_address = true;
+                        LogPrintf("> nValue for getutxoforkey from wallet: %i\n", my_utxo);                         
+                        // no need to keep iterating over vout vector at this point
+                        break;
+                    }                   
+                }
+            }
+        }
+
+        else
+        {
+            return error("%s: unable to read value", __func__);
+        }
+
+        pcursor->Next();
+    }
+
+    return true;
+}
+
+
 /**
  * Scan the block chain (starting in pindexStart) for transactions
  * from or to us. If fUpdate is true, found transactions that already

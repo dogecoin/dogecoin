@@ -10,6 +10,7 @@
 #include "amount.h"
 #include "auxpow.h"
 #include "dogecoin-fees.h"
+#include "coins.h"
 #include "streams.h"
 #include "tinyformat.h"
 #include "ui_interface.h"
@@ -971,6 +972,9 @@ public:
     
     /* Set the current HD master key (will reset the chain child index counters) */
     bool SetHDMasterKey(const CPubKey& key);
+
+    /* Get utxo for Base58 address derived from private key in RPC argument */
+    bool GetUTXOForPubKey(CCoinsView *view, CPubKey pubkey, CAmount &my_utxo);
 };
 
 /** A key allocated from the key pool. */
