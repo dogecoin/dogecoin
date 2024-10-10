@@ -600,6 +600,12 @@ private:
      */
     bool AddWatchOnly(const CScript& dest) override;
 
+    bool GetUTXOHelper(std::string my_address, CAmount &utxo, std::vector<CCoins> coins_data);
+
+    // Helper function for GetUTXOForPubKey to hide implementation from public access
+    bool GetUTXOForPubKeyHelper(CCoinsView *view, CPubKey pubkey, CAmount &my_utxo, int nHeight);
+
+
 public:
     /*
      * Main wallet lock.
@@ -973,8 +979,9 @@ public:
     /* Set the current HD master key (will reset the chain child index counters) */
     bool SetHDMasterKey(const CPubKey& key);
 
-    /* Get utxo for Base58 address derived from private key in RPC argument */
-    bool GetUTXOForPubKey(CCoinsView *view, CPubKey pubkey, CAmount &my_utxo);
+    /* accessor to get utxo for Base58 address derived from private key in RPC argument */
+    bool GetUTXOForPubKey(CCoinsView *view, CPubKey pubkey, CAmount &my_utxo, int nHeight);
+
 };
 
 /** A key allocated from the key pool. */

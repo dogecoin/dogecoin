@@ -85,14 +85,16 @@ UniValue getutxoforkey(const JSONRPCRequest& request)
     if (!fPruneMode)
         throw JSONRPCError(RPC_WALLET_ERROR, "This RPC is for pruned mode only");
 
-    LOCK(cs_main);
+    if (request.params.size() != 2)
+        throw JSONRPCError(RPC_WALLET_ERROR, "Insufficient number of arguments");
 
-    UniValue ret(UniValue::VOBJ);
-    
     FlushStateToDisk();
 
     string strSecret = request.params[0].get_str();
-    
+    // getting error "JSON value is not an integer as expected"
+    // when using get_int()
+    const int nHeight = std::stoi(request.params[1].get_str());
+
     CBitcoinSecret vchSecret;
     bool fGood = vchSecret.SetString(strSecret);
 
@@ -106,7 +108,7 @@ UniValue getutxoforkey(const JSONRPCRequest& request)
 
     CAmount my_utxo = 0;
 
-    if (!(pwalletMain->GetUTXOForPubKey(pcoinsTip, pubkey, my_utxo)))
+    if (!(pwalletMain->GetUTXOForPubKey(pcoinsTip, pubkey, my_utxo, nHeight)))
     {
         throw JSONRPCError(RPC_INTERNAL_ERROR, "Unable to read UTXO set");
     }
