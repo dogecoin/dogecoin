@@ -264,7 +264,7 @@ General C++
 
 - Assertions should not have side-effects
 
-  - *Rationale*: Even though the source code is set to to refuse to compile
+  - *Rationale*: Even though the source code is set to refuse to compile
     with assertions disabled, having side-effects in assertions is unexpected and
     makes the code harder to understand
 
@@ -439,7 +439,7 @@ Current subtrees include:
   - Upstream at https://github.com/google/leveldb ; Maintained by Google, but open important PRs to Core to avoid delay
 
 - src/libsecp256k1
-  - Upstream at https://github.com/bitcoin-core/secp256k1/ ; actively maintaned by Core contributors.
+  - Upstream at https://github.com/bitcoin-core/secp256k1/ ; actively maintained by Core contributors.
 
 - src/crypto/ctaes
   - Upstream at https://github.com/bitcoin-core/ctaes ; actively maintained by Core contributors.

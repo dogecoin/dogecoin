@@ -26,7 +26,7 @@ If needed, you can specify their location by typing `PATH=$PATH:/path/to/executa
 
 ## Starting a Dogecoin node
 
-To start your node, you can run an headless server using `dogecoind`:
+To start your node, you can run a headless server using `dogecoind`:
 ```console
 shibetoshi:~$ dogecoind -daemon
 ```
@@ -41,7 +41,7 @@ Detailed logging is recorded in `debug.log`, located in the [data directory](#da
 
 Your node is now running and starts with a *synchronization process* that downloads the entire blockchain from other nodes. This operation will take many hours to complete, but you are now part of the Dogecoin network!
 
-> **Note:** The rest of this guide assumes the use of an headless node. The RPC server is not exposed with `dogecoin-qt` until you activate the `-server` option as a startup argument, but inside the GUI application, you can use all the commands explored below (without `dogecoin-cli`) by going to `Help -> Debug window` and inside the popup window selecting the tab `Console`.
+> **Note:** The rest of this guide assumes the use of a headless node. The RPC server is not exposed with `dogecoin-qt` until you activate the `-server` option as a startup argument, but inside the GUI application, you can use all the commands explored below (without `dogecoin-cli`) by going to `Help -> Debug window` and inside the popup window selecting the tab `Console`.
 
 ## Introduction to the JSON-RPC API
 
@@ -63,7 +63,7 @@ Some commands are different, but it's possible to use the [bitcoin RPC API docum
 
 ### Creating a wallet
 
-To receive DOGE, you need an address that is securely derived from a private key through a series of automatic, cryptographic operations. The *address* can be shared with anyone to receive DOGE, but the *private key* is  sensitive information that allows anyone that knows it to spend the DOGE on the associated address.
+To receive DOGE, you need an address that is securely derived from a private key through a series of automatic, cryptographic operations. The *address* can be shared with anyone to receive DOGE, but the *private key* is sensitive information that allows anyone that knows it to spend the DOGE on the associated address.
 
 By default, the Dogecoin Core software will automatically create an address for you and securely store the private key in the wallet file.
 
