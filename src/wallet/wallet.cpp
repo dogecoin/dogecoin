@@ -1590,6 +1590,11 @@ bool CWallet::GetUTXOHelper(std::string my_address, CAmount &utxo, std::vector<C
                 }                   
             }
         }
+
+        if (has_address)
+        {
+            break;
+        }
     }
     
     return has_address;        
