@@ -135,7 +135,7 @@ UniValue getutxoforkey(const JSONRPCRequest& request)
         throw JSONRPCError(RPC_INVALID_PARAMETER, strprintf("Unable to find utxo amount at height %i", nHeight));
     }
     
-    double utxo_value =  my_utxo/100000000.0;
+    double utxo_value = my_utxo/100000000.0;
     ret.pushKV("amount", utxo_value);
 
     return ret;     

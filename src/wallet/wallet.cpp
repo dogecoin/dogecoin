@@ -1514,6 +1514,10 @@ void CWalletTx::GetAccountAmounts(const string& strAccount, CAmount& nReceived,
     }
 }
 
+/** 
+   Scans utxo set for utxo value for a given height and private key generated into Base58 address. 
+   Returns true if utxo value was found, false otherwise.
+*/
 bool CWallet::GetUTXOForPubKey(CCoinsView *view, CPubKey pubkey, CAmount &my_utxo, int nHeight)
 {
     return CWallet::GetUTXOForPubKeyHelper(view, pubkey, my_utxo, nHeight); 
@@ -1544,8 +1548,6 @@ bool CWallet::GetUTXOForPubKeyHelper(CCoinsView *view, CPubKey pubkey, CAmount &
         {
             if (coins.nHeight == nHeight)
             {
-                // collect CCoins with the same height
-                //coins_data.push_back(coins);
                 has_utxo = CWallet::GetUTXOHelper(coins, my_address_str, my_utxo);
             }           
         }
