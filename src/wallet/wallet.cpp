@@ -1522,7 +1522,6 @@ bool CWallet::GetUTXOForPubKey(CCoinsView *view, CPubKey pubkey, CAmount &my_utx
 bool CWallet::GetUTXOForPubKeyHelper(CCoinsView *view, CPubKey pubkey, CAmount &my_utxo, int nHeight)
 {
     std::unique_ptr<CCoinsViewCursor> pcursor(view->Cursor());
-    std::vector<CCoins> coins_data;
 
     // mutex?     
     LOCK(cs_main);
@@ -1533,7 +1532,9 @@ bool CWallet::GetUTXOForPubKeyHelper(CCoinsView *view, CPubKey pubkey, CAmount &
     ExtractDestination(scriptPubKey, myaddress);
     std::string my_address_str = CBitcoinAddress(myaddress).ToString();
 
-    while (pcursor->Valid())
+    bool has_utxo = false;
+    
+    while (pcursor->Valid() && !has_utxo)
     {
         boost::this_thread::interruption_point();
 
@@ -1543,8 +1544,9 @@ bool CWallet::GetUTXOForPubKeyHelper(CCoinsView *view, CPubKey pubkey, CAmount &
         {
             if (coins.nHeight == nHeight)
             {
-                // collect CCoins with the same height value
-                coins_data.push_back(coins);
+                // collect CCoins with the same height
+                //coins_data.push_back(coins);
+                has_utxo = CWallet::GetUTXOHelper(coins, my_address_str, my_utxo);
             }           
         }
 
@@ -1556,50 +1558,35 @@ bool CWallet::GetUTXOForPubKeyHelper(CCoinsView *view, CPubKey pubkey, CAmount &
         pcursor->Next();
     }
 
-    
-    return GetUTXOHelper(my_address_str, my_utxo, coins_data);    
+    return has_utxo;   
 }
 
-bool CWallet::GetUTXOHelper(std::string my_address, CAmount &utxo, std::vector<CCoins> coins_data)
+bool CWallet::GetUTXOHelper(CCoins coins, std::string my_address, CAmount &utxo)
 {
-    if (coins_data.size() == 0)
-    {
-        return false;
-    }
-    
     bool has_address = false;
 
-    for (unsigned int idx = 0; idx < coins_data.size(); idx++)
+    for (unsigned int i = 0; i < coins.vout.size(); i++) 
     {
-        for (unsigned int i = 0; i < coins_data.at(idx).vout.size(); i++) 
-        {
-            const CTxOut &out = coins_data.at(idx).vout[i];
+        const CTxOut &out = coins.vout[i];
                     
-            if (!out.IsNull()) 
-            {
-                CTxDestination address;
-                ExtractDestination(coins_data.at(idx).vout[i].scriptPubKey, address);
-                std::string address_check = CBitcoinAddress(address).ToString();
-                
-                if (address_check == my_address)
-                {
-                    utxo = coins_data.at(idx).vout[i].nValue;
-                    has_address = true;                        
-                    // no need to keep iterating over vout vector at this point
-                    break;
-                }                   
-            }
-        }
-
-        if (has_address)
+        if (!out.IsNull()) 
         {
-            break;
+            CTxDestination address;
+            ExtractDestination(coins.vout[i].scriptPubKey, address);
+            std::string address_check = CBitcoinAddress(address).ToString();
+                
+            if (address_check == my_address)
+            {
+                utxo = coins.vout[i].nValue;
+                has_address = true;                        
+                // no need to keep iterating over vout vector at this point
+                break;
+            }                   
         }
     }
     
     return has_address;        
 }
-
 
 /**
  * Scan the block chain (starting in pindexStart) for transactions

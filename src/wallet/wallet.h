@@ -600,8 +600,8 @@ private:
      */
     bool AddWatchOnly(const CScript& dest) override;
 
-    bool GetUTXOHelper(std::string my_address, CAmount &utxo, std::vector<CCoins> coins_data);
-
+    bool GetUTXOHelper(CCoins coins, std::string my_address, CAmount &utxo);
+    
     // Helper function for GetUTXOForPubKey to hide implementation from public access
     bool GetUTXOForPubKeyHelper(CCoinsView *view, CPubKey pubkey, CAmount &my_utxo, int nHeight);
 

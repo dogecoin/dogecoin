@@ -85,15 +85,36 @@ UniValue getutxoforkey(const JSONRPCRequest& request)
     if (!fPruneMode)
         throw JSONRPCError(RPC_WALLET_ERROR, "This RPC is for pruned mode only");
 
-    if (request.params.size() != 2)
-        throw JSONRPCError(RPC_WALLET_ERROR, "Insufficient number of arguments");
+    if (request.fHelp || (request.params.size() != 2))
+    {
+        throw runtime_error(
+            "getutxoforkey <privkey> <height>\n"
+            "\n Returns Unspent Transaction Output amount (UTXO) for a given private key and block height \n"
+            "for nodes running in pruned mode.  Scans utxo set and can be particularly useful for getting utxo amounts \n"
+            "that go beyond pruned data.\n"
+            "\nArguments:\n"
+            "1. privkey (required, string) Private key for which to find utxo amount. \n"
+            "2. height (required, int) Block height at which this utxo amount may be located. \n"
+            "Returns:\n"
+            "{\n"
+            "    \"amount\" : { (numeric) UTXO amount }\n"
+            "}\n"
+            "Examples:\n"
+            + HelpExampleCli("getutxoforkey", "\"Pr1V4t3K3yW1Th50m3UTxO4mOunT\", 5000000")
+            + HelpExampleRpc("getutxoforkey", "\"Pr1V4t3K3yW1Th50m3UTxO4mOunT\", 5000000")
+        );       
+    }
 
     FlushStateToDisk();
+    UniValue ret(UniValue::VOBJ);
 
     string strSecret = request.params[0].get_str();
-    // getting error "JSON value is not an integer as expected"
-    // when using get_int()
-    const int nHeight = std::stoi(request.params[1].get_str());
+    const int nHeight = request.params[1].get_int();
+
+    if (nHeight < 100)
+    {
+        throw JSONRPCError(RPC_INVALID_PARAMETER, "Block height must be > 100");
+    }
 
     CBitcoinSecret vchSecret;
     bool fGood = vchSecret.SetString(strSecret);
@@ -112,8 +133,10 @@ UniValue getutxoforkey(const JSONRPCRequest& request)
     {
         throw JSONRPCError(RPC_INTERNAL_ERROR, "Unable to read UTXO set");
     }
-     
-    return my_utxo;     
+
+    ret.pushKV("amount", my_utxo);
+
+    return ret;     
 }
 
 UniValue importprivkey(const JSONRPCRequest& request)
