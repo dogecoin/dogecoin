@@ -132,11 +132,10 @@ UniValue getutxoforkey(const JSONRPCRequest& request)
 
     if (!(pwalletMain->GetUTXOForPubKey(pcoinsTip, pubkey, my_utxo, nHeight)))
     {
-        std::string error_message = "Unable to find utxo amount at height " + nHeight;
-        throw JSONRPCError(RPC_INTERNAL_ERROR, error_message);
+        throw JSONRPCError(RPC_INVALID_PARAMETER, strprintf("Unable to find utxo amount at height %i", nHeight));
     }
     
-    double utxo_value = my_utxo/100000000.0;
+    double utxo_value =  my_utxo/100000000.0;
     ret.pushKV("amount", utxo_value);
 
     return ret;     
