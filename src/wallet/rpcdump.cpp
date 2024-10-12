@@ -89,18 +89,19 @@ UniValue getutxoforkey(const JSONRPCRequest& request)
     {
         throw runtime_error(
             "getutxoforkey <privkey> <height>\n"
-            "\n Returns Unspent Transaction Output amount (UTXO) for a given private key and block height \n"
-            "for nodes running in pruned mode.  Scans utxo set and can be particularly useful for getting utxo amounts \n"
-            "that go beyond pruned data.\n"
+            "\n Scans Unspent Transaction Output (UTXO) set for a given private key and block height and returns the utxo amount \n"
+            "at that height for nodes running in pruned mode.  This can be useful for getting utxo amounts in blocks that go beyond pruned data.\n"
             "\nArguments:\n"
             "1. privkey (required, string) Private key for which to find utxo amount. \n"
             "2. height (required, int) Block height at which this utxo amount may be located. \n"
             "Returns:\n"
             "{\n"
-            "    \"amount\" : { (numeric) UTXO amount }\n"
+            "    \"amount\" : { UTXO amount (numeric) }\n"
             "}\n"
             "Examples:\n"
+            "Using console or command-line:\n"
             + HelpExampleCli("getutxoforkey", "\"Pr1V4t3K3yW1Th50m3UTxO4mOunT\", 5000000")
+            + "\nJSON-RPC call:\n"
             + HelpExampleRpc("getutxoforkey", "\"Pr1V4t3K3yW1Th50m3UTxO4mOunT\", 5000000")
         );       
     }
@@ -131,10 +132,12 @@ UniValue getutxoforkey(const JSONRPCRequest& request)
 
     if (!(pwalletMain->GetUTXOForPubKey(pcoinsTip, pubkey, my_utxo, nHeight)))
     {
-        throw JSONRPCError(RPC_INTERNAL_ERROR, "Unable to read UTXO set");
+        std::string error_message = "Unable to find utxo amount at height " + nHeight;
+        throw JSONRPCError(RPC_INTERNAL_ERROR, error_message);
     }
-
-    ret.pushKV("amount", my_utxo);
+    
+    double utxo_value = my_utxo/100000000.0;
+    ret.pushKV("amount", utxo_value);
 
     return ret;     
 }
