@@ -10,7 +10,6 @@
 #include "amount.h"
 #include "auxpow.h"
 #include "dogecoin-fees.h"
-#include "coins.h"
 #include "streams.h"
 #include "tinyformat.h"
 #include "ui_interface.h"
@@ -600,12 +599,6 @@ private:
      */
     bool AddWatchOnly(const CScript& dest) override;
 
-    bool GetUTXOHelper(CCoins coins, std::string my_address, CAmount &utxo);
-    
-    // Helper function for GetUTXOForPubKey to hide implementation from public access
-    bool GetUTXOForPubKeyHelper(CCoinsView *view, CPubKey pubkey, CAmount &my_utxo, int nHeight);
-
-
 public:
     /*
      * Main wallet lock.
@@ -978,10 +971,6 @@ public:
     
     /* Set the current HD master key (will reset the chain child index counters) */
     bool SetHDMasterKey(const CPubKey& key);
-
-    /* accessor to get utxo for Base58 address derived from private key in RPC argument */
-    bool GetUTXOForPubKey(CCoinsView *view, CPubKey pubkey, CAmount &my_utxo, int nHeight);
-
 };
 
 /** A key allocated from the key pool. */

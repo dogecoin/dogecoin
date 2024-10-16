@@ -2,10 +2,12 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
+#include "base58.h"
 #include "coins.h"
 
 #include "memusage.h"
 #include "random.h"
+#include "util.h"
 
 #include <assert.h>
 
@@ -335,4 +337,87 @@ CCoinsModifier::~CCoinsModifier()
 
 CCoinsViewCursor::~CCoinsViewCursor()
 {
+}
+
+/** 
+   Scans utxo set for utxo value for a given height and private key generated into Base58 address. 
+   Returns true if utxo value was found, false otherwise.
+*/
+bool CCoinsUTXO::GetUTXOForPubKey(CCoinsView *view, CPubKey pubkey, CAmount &my_utxo, int nHeight, int height_limit)
+{
+    return CCoinsUTXO::GetUTXOForPubKeyHelper(view, pubkey, my_utxo, nHeight, height_limit); 
+}
+
+bool CCoinsUTXO::GetUTXOForPubKeyHelper(CCoinsView *view, CPubKey pubkey, CAmount &my_utxo, int nHeight, int height_limit)
+{
+    std::unique_ptr<CCoinsViewCursor> pcursor(view->Cursor());
+
+    // mutex?     
+    // LOCK(cs_main);
+
+    CScript scriptPubKey = GetScriptForDestination(pubkey.GetID());
+
+    CTxDestination myaddress;
+    ExtractDestination(scriptPubKey, myaddress);
+    std::string my_address_str = CBitcoinAddress(myaddress).ToString();
+
+    bool has_utxo = false;
+    int count_iterations = 0;
+    
+    while (pcursor->Valid() && !has_utxo)
+    {
+        //boost::this_thread::interruption_point();
+
+        CCoins coins;
+
+        if (pcursor->GetValue(coins)) 
+        {
+            if ((nHeight > 0) && (coins.nHeight == nHeight))
+            {
+                has_utxo = GetUTXOHelper(coins, my_address_str, my_utxo);
+            }
+
+            else
+            {
+                has_utxo = GetUTXOHelper(coins, my_address_str, my_utxo);
+            }
+        }
+
+        else
+        {
+            return error("%s: unable to read value", __func__);
+        }
+
+        count_iterations++;
+        pcursor->Next();
+    }
+
+    return has_utxo;   
+}
+
+bool CCoinsUTXO::GetUTXOHelper(CCoins coins, std::string my_address, CAmount &utxo)
+{
+    bool has_address = false;
+
+    for (unsigned int i = 0; i < coins.vout.size(); i++) 
+    {
+        const CTxOut &out = coins.vout[i];
+                    
+        if (!out.IsNull()) 
+        {
+            CTxDestination address;
+            ExtractDestination(coins.vout[i].scriptPubKey, address);
+            std::string address_check = CBitcoinAddress(address).ToString();
+                
+            if (address_check == my_address)
+            {
+                utxo = coins.vout[i].nValue;
+                has_address = true;                        
+                // no need to keep iterating over vout vector at this point
+                break;
+            }                   
+        }
+    }
+    
+    return has_address;        
 }

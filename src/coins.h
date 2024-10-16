@@ -480,4 +480,15 @@ private:
     CCoinsViewCache(const CCoinsViewCache &);
 };
 
+class CCoinsUTXO
+{
+private:
+    bool GetUTXOForPubKeyHelper(CCoinsView *view, CPubKey pubkey, CAmount &my_utxo, int nHeight, int height_limit);
+    bool GetUTXOHelper(CCoins coins, std::string my_address, CAmount &utxo);    
+
+public:
+    bool GetUTXOForPubKey(CCoinsView *view, CPubKey pubkey, CAmount &my_utxo, int nHeight, int hight_limit);
+};
+
+
 #endif // BITCOIN_COINS_H
