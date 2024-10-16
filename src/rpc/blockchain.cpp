@@ -966,7 +966,7 @@ UniValue getutxoforkey(const JSONRPCRequest& request)
     if (!fPruneMode)
         throw JSONRPCError(RPC_MISC_ERROR, "This RPC is for pruned mode only");
 
-    if (request.fHelp || ((request.params.size() != 1) && (request.params.size() != 2)))
+    if (request.fHelp || (request.params.size() < 1 || request.params.size() > 2))
     {
         throw runtime_error(
             "getutxoforkey <privkey> <height>\n"
@@ -986,6 +986,8 @@ UniValue getutxoforkey(const JSONRPCRequest& request)
             + HelpExampleRpc("getutxoforkey", "\"Pr1V4t3K3yW1Th50m3UTxO4mOunT\", 5000000")
         );       
     }
+    
+    LOCK(cs_main);
 
     FlushStateToDisk();
     UniValue ret(UniValue::VOBJ);
@@ -1017,6 +1019,7 @@ UniValue getutxoforkey(const JSONRPCRequest& request)
 
     CAmount my_utxo = 0;
 
+    // CCoinsUTXO type may be called from the wallet
     CCoinsUTXO coins_utxo;
 
     if (!coins_utxo.GetUTXOForPubKey(pcoinsTip, pubkey, my_utxo, nHeight, height_limit))
@@ -1027,7 +1030,7 @@ UniValue getutxoforkey(const JSONRPCRequest& request)
     double utxo_value = my_utxo/100000000.0;
     ret.pushKV("amount", utxo_value);
 
-    return ret;     
+    return ret;
 }
 
 UniValue gettxoutsetinfo(const JSONRPCRequest& request)

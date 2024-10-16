@@ -351,10 +351,7 @@ bool CCoinsUTXO::GetUTXOForPubKey(CCoinsView *view, CPubKey pubkey, CAmount &my_
 bool CCoinsUTXO::GetUTXOForPubKeyHelper(CCoinsView *view, CPubKey pubkey, CAmount &my_utxo, int nHeight, int height_limit)
 {
     std::unique_ptr<CCoinsViewCursor> pcursor(view->Cursor());
-
-    // mutex?     
-    // LOCK(cs_main);
-
+  
     CScript scriptPubKey = GetScriptForDestination(pubkey.GetID());
 
     CTxDestination myaddress;
@@ -362,7 +359,6 @@ bool CCoinsUTXO::GetUTXOForPubKeyHelper(CCoinsView *view, CPubKey pubkey, CAmoun
     std::string my_address_str = CBitcoinAddress(myaddress).ToString();
 
     bool has_utxo = false;
-    int count_iterations = 0;
     
     while (pcursor->Valid() && !has_utxo)
     {
@@ -372,7 +368,7 @@ bool CCoinsUTXO::GetUTXOForPubKeyHelper(CCoinsView *view, CPubKey pubkey, CAmoun
 
         if (pcursor->GetValue(coins)) 
         {
-            if ((nHeight > 0) && (coins.nHeight == nHeight))
+            if ((nHeight > height_limit) && (coins.nHeight == nHeight))
             {
                 has_utxo = GetUTXOHelper(coins, my_address_str, my_utxo);
             }
@@ -388,7 +384,6 @@ bool CCoinsUTXO::GetUTXOForPubKeyHelper(CCoinsView *view, CPubKey pubkey, CAmoun
             return error("%s: unable to read value", __func__);
         }
 
-        count_iterations++;
         pcursor->Next();
     }
 
