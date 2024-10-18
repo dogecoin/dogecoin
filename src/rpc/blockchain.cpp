@@ -978,6 +978,7 @@ UniValue getutxoforkey(const JSONRPCRequest& request)
             "Returns:\n"
             "{\n"
             "    \"amount\" : { UTXO amount (numeric) }\n"
+            "    \"height\" : { Height of a block at which this UTXO amount was found (numeric) }\n"
             "}\n"
             "Examples:\n"
             "Using console or command-line:\n"
@@ -1029,6 +1030,7 @@ UniValue getutxoforkey(const JSONRPCRequest& request)
     
     double utxo_value = my_utxo/100000000.0;
     ret.pushKV("amount", utxo_value);
+    ret.pushKV("height", nHeight);
 
     return ret;
 }

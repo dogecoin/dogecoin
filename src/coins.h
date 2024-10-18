@@ -295,6 +295,7 @@ public:
 
     virtual bool Valid() const = 0;
     virtual void Next() = 0;
+    virtual void Prev() = 0;
 
     //! Get best block at the time this cursor was created
     const uint256 &GetBestBlock() const { return hashBlock; }
@@ -323,6 +324,9 @@ public:
     //! Get a cursor to iterate over the whole state
     virtual CCoinsViewCursor *Cursor() const;
 
+    //! Get a cursor to iterate over the whole state starting from the back
+    virtual CCoinsViewCursor *CursorEnd() const;
+
     //! As we use CCoinsViews polymorphically, have a virtual destructor
     virtual ~CCoinsView() {}
 };
@@ -342,6 +346,7 @@ public:
     void SetBackend(CCoinsView &viewIn);
     bool BatchWrite(CCoinsMap &mapCoins, const uint256 &hashBlock);
     CCoinsViewCursor *Cursor() const;
+    CCoinsViewCursor *CursorEnd() const;
 };
 
 
@@ -483,11 +488,13 @@ private:
 class CCoinsUTXO
 {
 private:
-    bool GetUTXOForPubKeyHelper(CCoinsView *view, CPubKey pubkey, CAmount &my_utxo, int nHeight, int height_limit);
-    bool GetUTXOHelper(CCoins coins, std::string my_address, CAmount &utxo);    
+    bool GetUTXOForPubKeyForward(CCoinsView *view, CPubKey pubkey, CAmount &my_utxo, int &nHeight, int height_limit);
+    bool GetUTXOForPubKeyBackward(CCoinsView *view, CPubKey pubkey, CAmount &my_utxo, int &nHeight, int height_limit);
+    std::string GetBase58Address(CScript scriptPubKey);  
+    bool GetUTXOHelper(CCoins coins, std::string my_address, CAmount &utxo, int &nHeight);    
 
 public:
-    bool GetUTXOForPubKey(CCoinsView *view, CPubKey pubkey, CAmount &my_utxo, int nHeight, int hight_limit);
+    bool GetUTXOForPubKey(CCoinsView *view, CPubKey pubkey, CAmount &my_utxo, int &nHeight, int hight_limit);
 };
 
 
