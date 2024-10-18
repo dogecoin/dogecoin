@@ -36,7 +36,7 @@ anymore as a result of this.
 stored on disk, which earlier versions won't support.
 
 If you want to be able to downgrade smoothly, make a backup of your entire data
-directory. Without this your node will need start syncing (or importing from
+directory. Without this your node will need to start syncing (or importing from
 bootstrap.dat) anew afterwards. It is possible that the data from a completely
 synchronised 0.10 node may be usable in older versions as-is, but this is not
 supported and may break as soon as the older version attempts to reindex.
@@ -181,7 +181,7 @@ key if they could cause a target to sign using the same key hundreds
 of times. While using shared hosts and reusing keys are inadvisable
 for other reasons, it's a better practice to avoid the exposure.
 
-OpenSSL has code in their source repository for derandomization
+OpenSSL has code in its source repository for derandomization
 and reduction in timing leaks that we've eagerly wanted to use for a
 long time, but this functionality has still not made its
 way into a released version of OpenSSL. Libsecp256k1 achieves
@@ -217,7 +217,7 @@ RPC documentation for those methods for more information.
 Compared to using `getrawtransaction`, this mechanism does not require
 `-txindex`, scales better, integrates better with the wallet, and is compatible
 with future block chain pruning functionality. It does mean that all relevant
-addresses need to added to the wallet before the payment, though.
+addresses need to be added to the wallet before the payment, though.
 
 Consensus library
 -----------------
