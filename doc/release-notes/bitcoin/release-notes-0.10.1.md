@@ -36,7 +36,7 @@ anymore as a result of this.
 stored on disk, which earlier versions won't support.
 
 If you want to be able to downgrade smoothly, make a backup of your entire data
-directory. Without this your node will need start syncing (or importing from
+directory. Without this your node will need to start syncing (or importing from
 bootstrap.dat) anew afterwards. It is possible that the data from a completely
 synchronised 0.10 node may be usable in older versions as-is, but this is not
 supported and may break as soon as the older version attempts to reindex.
