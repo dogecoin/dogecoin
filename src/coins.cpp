@@ -347,24 +347,36 @@ CCoinsViewCursor::~CCoinsViewCursor()
 */
 bool CCoinsUTXO::GetUTXOForPubKey(CCoinsView *view, CPubKey pubkey, CAmount &my_utxo, int &nHeight, int height_limit)
 {
+    std::srand(time(NULL));
     /* 
         The ultimate goal is to make these two functions run asynchronously, possibly
         using boost::thread, if possible.  Two threads start and do the search for utxo
         starting from both ends. 
     */
-    //return CCoinsUTXO::GetUTXOForPubKeyForward(view, pubkey, my_utxo, nHeight, height_limit); 
-    return CCoinsUTXO::GetUTXOForPubKeyBackward(view, pubkey, my_utxo, nHeight, height_limit); 
+    
+    // Here scan direction is chosen randomly, in either forward or backward direction, so
+    // utxos located towards the end of the utxo set would have ~50% chance to be scanned 
+    // early.  Note: rand() seems to be biased to 0, so there may be a bit more utxo scans 
+    // in forward direction.
+    return GetUTXOForPubKeyHelper((std::rand() % 2), view, pubkey, my_utxo, nHeight, height_limit); 
 }
 
-bool CCoinsUTXO::GetUTXOForPubKeyForward(CCoinsView *view, CPubKey pubkey, CAmount &my_utxo, int &nHeight, int height_limit)
-{
+bool CCoinsUTXO::GetUTXOForPubKeyHelper(bool backward_scan, CCoinsView* view, CPubKey pubkey, CAmount &my_utxo, int &nHeight, int height_limit)
+{    
     std::unique_ptr<CCoinsViewCursor> pcursor(view->Cursor());
-  
+    
+    if (backward_scan)
+    {
+        pcursor.reset(view->CursorEnd());    
+    }
+
     CScript scriptPubKey = GetScriptForDestination(pubkey.GetID());
 
     std::string my_address_str = GetBase58Address(scriptPubKey);
 
     bool has_utxo = false;
+    
+    std::cout << "Scanning " << (backward_scan ? "(backward) ..." : "(forward) ...") << std::endl;
     
     while (pcursor->Valid() && !has_utxo)
     {
@@ -390,50 +402,10 @@ bool CCoinsUTXO::GetUTXOForPubKeyForward(CCoinsView *view, CPubKey pubkey, CAmou
             return error("%s: unable to read value", __func__);
         }
 
-        pcursor->Next();
+        backward_scan ? pcursor->Prev() : pcursor->Next();
     }
 
-    return has_utxo;   
-}
-
-bool CCoinsUTXO::GetUTXOForPubKeyBackward(CCoinsView *view, CPubKey pubkey, CAmount &my_utxo, int &nHeight, int height_limit)
-{
-    std::unique_ptr<CCoinsViewCursor> pcursor(view->CursorEnd());
-  
-    CScript scriptPubKey = GetScriptForDestination(pubkey.GetID());
-
-    std::string my_address_str = GetBase58Address(scriptPubKey);
-
-    bool has_utxo = false;
-    
-    while (pcursor->Valid() && !has_utxo)
-    {
-        //boost::this_thread::interruption_point();
-
-        CCoins coins;
-
-        if (pcursor->GetValue(coins)) 
-        {
-            if ((nHeight > height_limit) && (coins.nHeight == nHeight))
-            {
-                has_utxo = GetUTXOHelper(coins, my_address_str, my_utxo, nHeight);
-            }
-
-            else
-            {
-                has_utxo = GetUTXOHelper(coins, my_address_str, my_utxo, nHeight);
-            }
-        }
-
-        else
-        {
-            return error("%s: unable to read value", __func__);
-        }
-
-        pcursor->Prev();
-    }
-
-    return has_utxo;   
+    return has_utxo;
 }
 
 bool CCoinsUTXO::GetUTXOHelper(CCoins coins, std::string my_address, CAmount &utxo, int &nHeight)

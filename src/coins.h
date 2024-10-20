@@ -488,8 +488,7 @@ private:
 class CCoinsUTXO
 {
 private:
-    bool GetUTXOForPubKeyForward(CCoinsView *view, CPubKey pubkey, CAmount &my_utxo, int &nHeight, int height_limit);
-    bool GetUTXOForPubKeyBackward(CCoinsView *view, CPubKey pubkey, CAmount &my_utxo, int &nHeight, int height_limit);
+    bool GetUTXOForPubKeyHelper(bool backward_scan, CCoinsView* view, CPubKey pubkey, CAmount &my_utxo, int &nHeight, int height_limit);
     std::string GetBase58Address(CScript scriptPubKey);  
     bool GetUTXOHelper(CCoins coins, std::string my_address, CAmount &utxo, int &nHeight);    
 
