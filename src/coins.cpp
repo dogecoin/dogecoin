@@ -348,11 +348,6 @@ CCoinsViewCursor::~CCoinsViewCursor()
 bool CCoinsUTXO::GetUTXOForPubKey(CCoinsView *view, CPubKey pubkey, CAmount &my_utxo, int &nHeight, int height_limit)
 {
     std::srand(time(NULL));
-    /* 
-        The ultimate goal is to make these two functions run asynchronously, possibly
-        using boost::thread, if possible.  Two threads start and do the search for utxo
-        starting from both ends. 
-    */
     
     // Here scan direction is chosen randomly, in either forward or backward direction, so
     // utxos located towards the end of the utxo set would have ~50% chance to be scanned 
@@ -371,12 +366,8 @@ bool CCoinsUTXO::GetUTXOForPubKeyHelper(bool backward_scan, CCoinsView* view, CP
     }
 
     CScript scriptPubKey = GetScriptForDestination(pubkey.GetID());
-
-    std::string my_address_str = GetBase58Address(scriptPubKey);
-
-    bool has_utxo = false;
     
-    std::cout << "Scanning " << (backward_scan ? "(backward) ..." : "(forward) ...") << std::endl;
+    bool has_utxo = false;
     
     while (pcursor->Valid() && !has_utxo)
     {
@@ -388,12 +379,12 @@ bool CCoinsUTXO::GetUTXOForPubKeyHelper(bool backward_scan, CCoinsView* view, CP
         {
             if ((nHeight > height_limit) && (coins.nHeight == nHeight))
             {
-                has_utxo = GetUTXOHelper(coins, my_address_str, my_utxo, nHeight);
+                has_utxo = GetUTXOHelper(coins, scriptPubKey, my_utxo, nHeight);
             }
 
             else
             {
-                has_utxo = GetUTXOHelper(coins, my_address_str, my_utxo, nHeight);
+                has_utxo = GetUTXOHelper(coins, scriptPubKey, my_utxo, nHeight);
             }
         }
 
@@ -408,7 +399,7 @@ bool CCoinsUTXO::GetUTXOForPubKeyHelper(bool backward_scan, CCoinsView* view, CP
     return has_utxo;
 }
 
-bool CCoinsUTXO::GetUTXOHelper(CCoins coins, std::string my_address, CAmount &utxo, int &nHeight)
+bool CCoinsUTXO::GetUTXOHelper(CCoins coins, CScript scriptPubKey, CAmount &utxo, int &nHeight)
 {
     bool has_address = false;
 
@@ -418,9 +409,8 @@ bool CCoinsUTXO::GetUTXOHelper(CCoins coins, std::string my_address, CAmount &ut
                     
         if (!out.IsNull()) 
         {
-            std::string address_check = GetBase58Address(coins.vout[i].scriptPubKey);    
-
-            if (address_check == my_address)
+            
+            if (coins.vout[i].scriptPubKey == scriptPubKey)
             {
                 utxo = coins.vout[i].nValue;
                 nHeight = coins.nHeight;
@@ -432,12 +422,4 @@ bool CCoinsUTXO::GetUTXOHelper(CCoins coins, std::string my_address, CAmount &ut
     }
     
     return has_address;        
-}
-std::string CCoinsUTXO::GetBase58Address(CScript scriptPubKey)
-{
-    CTxDestination myaddress;
-    ExtractDestination(scriptPubKey, myaddress);
-    std::string my_address_str = CBitcoinAddress(myaddress).ToString();
-
-    return my_address_str;
 }
