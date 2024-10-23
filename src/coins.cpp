@@ -342,10 +342,10 @@ CCoinsViewCursor::~CCoinsViewCursor()
 }
 
 /** 
-   Scans utxo set for utxo value for a given height and private key generated into Base58 address. 
+   Scans utxo set for utxo value for a given private key.
    Returns true if utxo value was found, false otherwise.
 */
-bool CCoinsUTXO::GetUTXOForPubKey(CCoinsView *view, CPubKey pubkey, CAmount &my_utxo, int &nHeight, int height_limit)
+bool CCoinsUTXO::GetUTXOForPubKey(CCoinsView *view, CPubKey pubkey, CAmount &my_utxo, int &nHeight, uint256 &txid)
 {
     std::srand(time(NULL));
     
@@ -353,11 +353,11 @@ bool CCoinsUTXO::GetUTXOForPubKey(CCoinsView *view, CPubKey pubkey, CAmount &my_
     // utxos located towards the end of the utxo set would have ~50% chance to be scanned 
     // early.  Note: rand() seems to be biased to 0, so there may be a bit more utxo scans 
     // in forward direction.
-    return GetUTXOForPubKeyHelper((std::rand() % 2), view, pubkey, my_utxo, nHeight, height_limit); 
+    return GetUTXOForPubKeyHelper((rand() % 2), view, pubkey, my_utxo, nHeight, txid); 
 }
 
-bool CCoinsUTXO::GetUTXOForPubKeyHelper(bool backward_scan, CCoinsView* view, CPubKey pubkey, CAmount &my_utxo, int &nHeight, int height_limit)
-{    
+bool CCoinsUTXO::GetUTXOForPubKeyHelper(bool backward_scan, CCoinsView* view, CPubKey pubkey, CAmount &my_utxo, int &nHeight, uint256 &txid)
+{   
     std::unique_ptr<CCoinsViewCursor> pcursor(view->Cursor());
     
     if (backward_scan)
@@ -371,20 +371,14 @@ bool CCoinsUTXO::GetUTXOForPubKeyHelper(bool backward_scan, CCoinsView* view, CP
     
     while (pcursor->Valid() && !has_utxo)
     {
-        //boost::this_thread::interruption_point();
-
         CCoins coins;
 
         if (pcursor->GetValue(coins)) 
         {
-            if ((nHeight > height_limit) && (coins.nHeight == nHeight))
+            if (GetUTXOHelper(coins, scriptPubKey, my_utxo, nHeight))           
             {
-                has_utxo = GetUTXOHelper(coins, scriptPubKey, my_utxo, nHeight);
-            }
-
-            else
-            {
-                has_utxo = GetUTXOHelper(coins, scriptPubKey, my_utxo, nHeight);
+                pcursor->GetKey(txid);
+                has_utxo = true;   
             }
         }
 

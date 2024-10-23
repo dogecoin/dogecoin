@@ -488,11 +488,11 @@ private:
 class CCoinsUTXO
 {
 private:
-    bool GetUTXOForPubKeyHelper(bool backward_scan, CCoinsView* view, CPubKey pubkey, CAmount &my_utxo, int &nHeight, int height_limit);
+    bool GetUTXOForPubKeyHelper(bool forward_scan, CCoinsView* view, CPubKey pubkey, CAmount &my_utxo, int &nHeight, uint256 &txid);
     bool GetUTXOHelper(CCoins coins, CScript scriptPubKey, CAmount &utxo, int &nHeight);    
 
 public:
-    bool GetUTXOForPubKey(CCoinsView *view, CPubKey pubkey, CAmount &my_utxo, int &nHeight, int hight_limit);
+    bool GetUTXOForPubKey(CCoinsView *view, CPubKey pubkey, CAmount &my_utxo, int &nHeight, uint256 &txid);
 };
 
 
