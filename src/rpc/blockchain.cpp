@@ -963,15 +963,12 @@ UniValue pruneblockchain(const JSONRPCRequest& request)
 
 UniValue getutxoforkey(const JSONRPCRequest& request)
 {
-    if (!fPruneMode)
-        throw JSONRPCError(RPC_MISC_ERROR, "This RPC is for pruned mode only");
-
     if (request.fHelp || (request.params.size() != 1))
     {
         throw runtime_error(
             "getutxoforkey <privkey>\n"
             "\n Scans Unspent Transaction Output (UTXO) set for a given private key and returns the utxo amount, block height, and transaction ID"
-            "\n recorded for that utxo amount.  This feature can be useful for finding utxo amounts in blocks that go beyond pruned data.\n"
+            "\n recorded for that utxo amount.  This feature can be particularly useful for finding utxo amounts in blocks that go beyond pruned data.\n"
             "\nArguments:\n"
             "1. privkey (required, string) Private key for which to find utxo amount. \n"
             "Returns:\n"

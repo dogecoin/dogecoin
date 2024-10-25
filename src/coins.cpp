@@ -369,7 +369,7 @@ bool CCoinsUTXO::GetUTXOForPubKeyHelper(bool backward_scan, CCoinsView* view, CP
     
     bool has_utxo = false;
     
-    while (pcursor->Valid() && !has_utxo)
+    while (pcursor->Valid())
     {
         CCoins coins;
 
@@ -378,7 +378,8 @@ bool CCoinsUTXO::GetUTXOForPubKeyHelper(bool backward_scan, CCoinsView* view, CP
             if (GetUTXOHelper(coins, scriptPubKey, my_utxo, nHeight))           
             {
                 pcursor->GetKey(txid);
-                has_utxo = true;   
+                has_utxo = true;
+                break;   
             }
         }
 
