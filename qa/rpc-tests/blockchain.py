@@ -125,10 +125,10 @@ class BlockchainTest(BitcoinTestFramework):
         address = self.nodes[0].getnewaddress()
         privkey = self.nodes[0].dumpprivkey(address)
 
-        amount = 42.0
+        amount = 42.001
         txid = self.nodes[1].sendtoaddress(address, amount)
 
-        # Node1 sends 42 Doge to node0, then node1 mines a block.
+        # Node1 sends 42.001 Doge to node0, then node1 mines a block.
         # At this point nodes are not yet synchronized and calling 
         # getutxoforkey with private key on node0 will throw an exception.
         self.nodes[1].generate(1)
@@ -142,9 +142,11 @@ class BlockchainTest(BitcoinTestFramework):
 
         res = self.nodes[1].getutxoforkey(privkey)
 
-        # verify that txid for tx with 42 Doges is the same  
-        # as for utxo found in this RPC response
-        assert_equal(txid, res['txid'])
+        # verify that txid, utxo amount and new block height for tx 
+        # with 42.001 Doges is the same as in this RPC response
+        assert_equal(res['amount'], Decimal("42.001"))
+        assert_equal(res['height'], 121)
+        assert_equal(res['txid'], txid)
 
         # NOTE: calling self.sync_all() results in assertion failure
         # 'Block sync to height 121 timed out' so as a workaround we
