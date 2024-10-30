@@ -31,7 +31,6 @@ class BlockchainTest(BitcoinTestFramework):
     Test blockchain-related RPC calls:
 
         - gettxoutsetinfo
-        - getutxoforkey
         - verifychain
 
     """
@@ -51,7 +50,6 @@ class BlockchainTest(BitcoinTestFramework):
 
     def run_test(self):
         self._test_gettxoutsetinfo()
-        self._test_getutxoforkey()
         self._test_getblockheader()
         self._test_getblockchaininfo()
         self._test_verifychain_args()
@@ -113,44 +111,6 @@ class BlockchainTest(BitcoinTestFramework):
         assert_equal(res['bytes_serialized'], 8520),
         assert_equal(len(res['bestblock']), 64)
         assert_equal(len(res['hash_serialized']), 64)
-
-    def _test_getutxoforkey(self):
-        
-        # check for invalid private key input
-        try:
-            self.nodes[0].getutxoforkey("")
-        except JSONRPCException as e:
-            assert("Invalid private key encoding" in e.error["message"])
-
-        address = self.nodes[0].getnewaddress()
-        privkey = self.nodes[0].dumpprivkey(address)
-
-        amount = 42.001
-        txid = self.nodes[1].sendtoaddress(address, amount)
-
-        # Node1 sends 42.001 Doge to node0, then node1 mines a block.
-        # At this point nodes are not yet synchronized and calling 
-        # getutxoforkey with private key on node0 will throw an exception.
-        self.nodes[1].generate(1)
- 
-        try: 
-            res = self.nodes[0].getutxoforkey(privkey)
-        except JSONRPCException as e:
-            assert("Unable to find utxo amount")      
- 
-        # at this point utxo record is available on node1
-
-        res = self.nodes[1].getutxoforkey(privkey)
-
-        # verify that txid, utxo amount and new block height for tx 
-        # with 42.001 Doges is the same as in this RPC response
-        assert_equal(res['amount'], Decimal("42.001"))
-        assert_equal(res['height'], 121)
-        assert_equal(res['txid'], txid)
-
-        # NOTE: calling self.sync_all() results in assertion failure
-        # 'Block sync to height 121 timed out' so as a workaround we
-        # currently check the presense of utxo only on node1
 
     def _test_getblockheader(self):
         node = self.nodes[0]
