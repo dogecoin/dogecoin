@@ -219,6 +219,12 @@ AC_ARG_WITH([intel-avx2],
   [intel_avx2=$withval],
   [intel_avx2=no])
 
+AC_ARG_WITH([intel-avx2-8way],
+  [AS_HELP_STRING([--with-intel-avx2-8way],
+  [Build with intel avx2 8way (default is no)])],
+  [intel_avx2_8way=$withval],
+  [intel_avx2_8way=no])
+
 AC_ARG_WITH([intel-sse],
   [AS_HELP_STRING([--with-intel-sse],
   [Build with intel sse (default is no)])],
@@ -942,6 +948,19 @@ if test x$intel_avx2 = xyes; then
 esac
 fi
 
+if test x$intel_avx2_8way = xyes; then
+  DOGECOIN_REQUIRE_EXPERIMENTAL
+  case $host in
+     x86_64-*-linux*)
+    AC_DEFINE([USE_AVX2_8WAY], [1], [Define this symbol if intel axv2 works])
+    CFLAGS="$CFLAGS -mavx2"
+;;
+    *mingw*)
+    AC_DEFINE([USE_AVX2_8WAY], [1], [Define this symbol if intel axv2 works])
+    CFLAGS="$CFLAGS -mavx2"
+esac
+fi
+
 if test x$intel_sse = xyes; then
   DOGECOIN_REQUIRE_EXPERIMENTAL
   case $host in
@@ -1163,6 +1182,7 @@ AM_CONDITIONAL([HARDEN],[test x$use_hardening = xyes])
 AM_CONDITIONAL([WORDS_BIGENDIAN],[test x$ac_cv_c_bigendian = xyes])
 AM_CONDITIONAL([USE_SCRYPT_SSE2], [test x$use_scrypt_sse2 = xyes])
 AM_CONDITIONAL([USE_AVX2], [test x$intel_avx2 = xyes])
+AM_CONDITIONAL([USE_AVX2_8WAY], [test x$intel_avx2_8way = xyes])
 AM_CONDITIONAL([USE_SSE], [test x$intel_sse = xyes])
 
 AC_DEFINE(CLIENT_VERSION_MAJOR, _CLIENT_VERSION_MAJOR, [Major version])
@@ -1294,6 +1314,7 @@ echo "  experimental  = $allow_experimental"
 if test x$allow_experimental = xyes; then
     echo "    SSE2 Scrypt   = $use_scrypt_sse2"
     echo "    AVX2 crypto   = $intel_avx2"
+    echo "    8-way crypto  = $intel_avx2_8way"
     echo "    SSE crypto    = $intel_sse"
     echo "    ARMv8 crypto  = $armv8_crypto"
     echo "    ARMv82 crypto = $armv82_crypto"

@@ -89,6 +89,9 @@
 #include <openssl/rand.h>
 #include <openssl/conf.h>
 
+#include "crypto/sha256.h"
+#include "support/experimental.h"
+
 // Work around clang compilation problem in Boost 1.46:
 // /usr/include/boost/program_options/detail/config_file.hpp:163:17: error: call to function 'to_internal' that is neither visible in the template definition nor found by argument-dependent lookup
 // See also: http://stackoverflow.com/questions/10020179/compilation-fail-in-boost-librairies-program-options
@@ -856,6 +859,12 @@ void SetupEnvironment()
     // fs::path, which is then used to explicitly imbue the path.
     std::locale loc = fs::path::imbue(std::locale::classic());
     fs::path::imbue(loc);
+
+#if defined(USE_ARMV8) || defined(USE_ARMV82) || defined(USE_AVX2) || defined(USE_AVX2_8WAY)
+    // Auto detect SHA256 features of ARMv8/ARMv8.2/AVX2/8WAY
+    EXPERIMENTAL_FEATURE
+    detect_sha256_hardware();
+#endif
 }
 
 bool SetupNetworking()

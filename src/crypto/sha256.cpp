@@ -54,6 +54,14 @@ static const uint32_t K[] =
 extern "C" void sha256_block_sse(const void *, void *);
 extern "C" void sha256_block_avx(const void *, void *);
 
+typedef struct {
+    void **data;   // Array of pointers to input data
+    void **state;  // Array of pointers to state arrays
+    uint64_t inp_size; // Size of input data in blocks per hash
+} SHA256_ARGS;
+
+extern "C" void sha256_oct_avx2(SHA256_ARGS *args, uint64_t bytes);
+
 // Internal implementation code.
 namespace
 {
@@ -259,18 +267,53 @@ void Transform_ARMV8(uint32_t* s, const unsigned char* chunk, size_t blocks)
 /** Perform one SHA-256 transformation, processing 64-byte chunks. (AVX2) */
 void Transform_AVX2(uint32_t* s, const unsigned char* chunk, size_t blocks)
 {
+#if defined(USE_AVX2_8WAY)
+    // Perform SHA256 x 8 (Intel AVX2 8-way)
+    EXPERIMENTAL_FEATURE
+    while (blocks >= 8) {
+        const unsigned char* data_ptrs[8];
+        uint32_t* state_ptrs[8];
+
+        // Initialize pointers x 8
+        for (int i = 0; i < 8; ++i) {
+            data_ptrs[i] = chunk + i * 64;  // Block is 64 bytes
+            state_ptrs[i] = s;              // Same state
+        }
+
+        // Setup SHA256 args
+        SHA256_ARGS args;
+        args.data = const_cast<void**>(reinterpret_cast<const void**>(data_ptrs));
+        args.state = reinterpret_cast<void**>(state_ptrs);
+        args.inp_size = 1;  // Processing one block per hash
+
+        sha256_oct_avx2(&args, 64);  // Process blocks
+
+        // Move to the next blocks
+        chunk += 8 * 64;
+        blocks -= 8;
+    }
+
+    // Process remaining blocks individually
     while (blocks--) {
-#if USE_AVX2
+        sha256_block_avx(chunk, s);
+        chunk += 64;
+    }
+
+#elif defined(USE_AVX2)
+    while (blocks--) {
         // Perform SHA256 one block (Intel AVX2)
         EXPERIMENTAL_FEATURE
         sha256_block_avx(chunk, s);
-#elif USE_SSE
+        chunk += 64;
+    }
+#elif defined(USE_SSE)
+    while (blocks--) {
         // Perform SHA256 one block (Intel SSE)
         EXPERIMENTAL_FEATURE
         sha256_block_sse(chunk, s);
-#endif
         chunk += 64;
     }
+#endif
 }
 
 /** Perform a number of SHA-256 transformations, processing 64-byte chunks. */
@@ -386,10 +429,10 @@ void inline Initialize_transform_ptr(void)
 #elif (defined(USE_ARMV8) || defined(USE_ARMV82))
     if (getauxval(AT_HWCAP) & HWCAP_SHA2)
        transform_ptr = &sha256::Transform_ARMV8;
-#elif USE_AVX2 && defined(__linux__)
+#elif (defined(USE_AVX2) || defined(USE_AVX2_8WAY)) && defined(__linux__)
     if (__builtin_cpu_supports("avx2"))
        transform_ptr = &sha256::Transform_AVX2;
-#elif USE_AVX2 && defined(__WIN64__)
+#elif (defined(USE_AVX2) || defined(USE_AVX2_8WAY)) && defined(__WIN64__)
     if (isAVX)
        transform_ptr = &sha256::Transform_AVX2;
 #endif
@@ -414,12 +457,12 @@ CSHA256& CSHA256::Write(const unsigned char* data, size_t len)
         memcpy(buf + bufsize, data, 64 - bufsize);
         bytes += 64 - bufsize;
         data += 64 - bufsize;
-        sha256::Transform(s, buf, 1);
+        sha256::transform_ptr(s, buf, 1);
         bufsize = 0;
     }
     if (end - data >= 64) {
         size_t blocks = (end - data) / 64;
-        sha256::Transform(s, data, blocks);
+        sha256::transform_ptr(s, data, blocks);
         data += 64 * blocks;
         bytes += 64 * blocks;
     }
@@ -453,4 +496,9 @@ CSHA256& CSHA256::Reset()
     bytes = 0;
     sha256::Initialize(s);
     return *this;
+}
+
+void detect_sha256_hardware()
+{
+    sha256::Initialize_transform_ptr();
 }

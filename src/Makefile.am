@@ -393,14 +393,38 @@ dogecoind_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
 dogecoind_SOURCES += bitcoind-res.rc
-NASM = $(prefix)/bin/nasm.exe
+NASM ?= $(prefix)/bin/nasm.exe
 else
-NASM = $(prefix)/bin/nasm
+NASM ?= $(prefix)/bin/nasm
 endif
 
 CLEANFILES = $(EXTRA_LIBRARIES)
 
 if USE_AVX2
+# AVX2 assembly files
+DIR_ASM_SOURCE = intel/avx_t1
+DIR_ASM_INCLUDE = intel/
+
+ASM_SOURCE_FILES = $(wildcard $(DIR_ASM_SOURCE)/*.asm)
+ASM_OBJECT_FILES = $(ASM_SOURCE_FILES:.asm=.o)
+ASM_LIB_FILES = $(ASM_SOURCE_FILES:.asm=.a)
+
+# Rule to build .o files from .asm files
+$(DIR_ASM_SOURCE)/%.o: $(DIR_ASM_SOURCE)/%.asm
+	$(NASM) $(NASMFLAGS) -I$(DIR_ASM_INCLUDE) -o $@ $<
+
+# Pattern rule for custom static library from .o files
+$(DIR_ASM_SOURCE)/%.a: $(DIR_ASM_SOURCE)/%.o
+	$(AR) $(ARFLAGS) $@ $<
+
+# Include the assembly object files in libdogecoin_crypto.la
+crypto_libdogecoin_crypto_la_LIBADD = $(ASM_LIB_FILES)
+crypto_libdogecoin_crypto_la_DEPENDENCIES = $(ASM_LIB_FILES)
+
+CLEANFILES += $(ASM_OBJECT_FILES) $(ASM_LIB_FILES)
+endif
+
+if USE_AVX2_8WAY
 # AVX2 assembly files
 DIR_ASM_SOURCE = intel/avx_t1
 DIR_ASM_INCLUDE = intel/

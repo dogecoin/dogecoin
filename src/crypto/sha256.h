@@ -26,4 +26,6 @@ public:
     CSHA256& Reset();
 };
 
+void detect_sha256_hardware();
+
 #endif // BITCOIN_CRYPTO_SHA256_H
