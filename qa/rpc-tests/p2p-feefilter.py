@@ -28,12 +28,12 @@ def allInvsMatch(invsExpected, testnode):
 
 # TestNode: bare-bones "peer".  Used to track which invs are received from a node
 # and to send the node feefilter messages.
-class TestNode(SingleNodeConnCB):
+class TestP2PConn(P2PInterface):
     def __init__(self):
-        SingleNodeConnCB.__init__(self)
+        super().__init__()
         self.txinvs = []
 
-    def on_inv(self, conn, message):
+    def on_inv(self, message):
         for i in message.inv:
             if (i.type == 1):
                 self.txinvs.append(hashToHex(i.hash))
@@ -42,38 +42,20 @@ class TestNode(SingleNodeConnCB):
         with mininode_lock:
             self.txinvs = []
 
-    def send_filter(self, feerate):
-        self.send_message(msg_feefilter(feerate))
-        self.sync_with_ping()
-
 class FeeFilterTest(BitcoinTestFramework):
 
-    def __init__(self):
-        super().__init__()
+    def set_test_params(self):
         self.num_nodes = 2
-        self.setup_clean_chain = False
-
-    def setup_network(self):
-        # Node1 will be used to generate txs which should be relayed from Node0
-        # to our test node
-        self.nodes = []
-        self.nodes.append(start_node(0, self.options.tmpdir, ["-debug", "-logtimemicros"]))
-        self.nodes.append(start_node(1, self.options.tmpdir, ["-debug", "-logtimemicros"]))
-        connect_nodes(self.nodes[0], 1)
 
     def run_test(self):
         node1 = self.nodes[1]
         node0 = self.nodes[0]
         # Get out of IBD
         node1.generate(1)
-        sync_blocks(self.nodes)
+        #sync_blocks(self.nodes)
 
-        # Setup the p2p connections and start up the network thread.
-        test_node = TestNode()
-        connection = NodeConn('127.0.0.1', p2p_port(0), self.nodes[0], test_node)
-        test_node.add_connection(connection)
-        NetworkThread().start()
-        test_node.wait_for_verack()
+        self.nodes[0].add_p2p_connection(TestP2PConn())
+        self.nodes[0].p2p.wait_for_verack()
 
         # Test that invs are received for all txs at feerate of 20000 sat/byte
         node1.settxfee(Decimal("0.20000000"))
