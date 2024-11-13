@@ -28,6 +28,7 @@
 #include "script/script.h"
 #include "script/sigcache.h"
 #include "script/standard.h"
+#include "segwit_module.h"
 #include "timedata.h"
 #include "tinyformat.h"
 #include "txdb.h"
@@ -3011,21 +3012,6 @@ bool IsWitnessEnabled(const CBlockIndex* pindexPrev, const Consensus::Params& pa
     // return (VersionBitsState(pindexPrev, params, Consensus::DEPLOYMENT_SEGWIT, versionbitscache) == THRESHOLD_ACTIVE);
 }
 
-// Compute at which vout of the block's coinbase transaction the witness
-// commitment occurs, or -1 if not found.
-static int GetWitnessCommitmentIndex(const CBlock& block)
-{
-    int commitpos = -1;
-    if (!block.vtx.empty()) {
-        for (size_t o = 0; o < block.vtx[0]->vout.size(); o++) {
-            if (block.vtx[0]->vout[o].scriptPubKey.size() >= 38 && block.vtx[0]->vout[o].scriptPubKey[0] == OP_RETURN && block.vtx[0]->vout[o].scriptPubKey[1] == 0x24 && block.vtx[0]->vout[o].scriptPubKey[2] == 0xaa && block.vtx[0]->vout[o].scriptPubKey[3] == 0x21 && block.vtx[0]->vout[o].scriptPubKey[4] == 0xa9 && block.vtx[0]->vout[o].scriptPubKey[5] == 0xed) {
-                commitpos = o;
-            }
-        }
-    }
-    return commitpos;
-}
-
 void UpdateUncommittedBlockStructures(CBlock& block, const CBlockIndex* pindexPrev, const Consensus::Params& consensusParams)
 {
     int commitpos = GetWitnessCommitmentIndex(block);
@@ -3156,6 +3142,8 @@ bool ContextualCheckBlock(const CBlock& block, CValidationState& state, const CB
         }
     }
 
+    //TODO: DIP141 implement CheckWitnessMalleation
+
     // Validation for witness commitments.
     // * We compute the witness hash (which is the hash including witnesses) of all the block's transactions, except the
     //   coinbase (where 0x0000....0000 is used instead).
@@ -3164,33 +3152,9 @@ bool ContextualCheckBlock(const CBlock& block, CValidationState& state, const CB
     // * There must be at least one output whose scriptPubKey is a single 36-byte push, the first 4 bytes of which are
     //   {0xaa, 0x21, 0xa9, 0xed}, and the following 32 bytes are SHA256^2(witness root, witness nonce). In case there are
     //   multiple, the last one is used.
-    bool fHaveWitness = false;
-    if (VersionBitsState(pindexPrev, consensusParams, Consensus::DEPLOYMENT_SEGWIT, versionbitscache) == THRESHOLD_ACTIVE) {
-        int commitpos = GetWitnessCommitmentIndex(block);
-        if (commitpos != -1) {
-            bool malleated = false;
-            uint256 hashWitness = BlockWitnessMerkleRoot(block, &malleated);
-            // The malleation check is ignored; as the transaction tree itself
-            // already does not permit it, it is impossible to trigger in the
-            // witness tree.
-            if (block.vtx[0]->vin[0].scriptWitness.stack.size() != 1 || block.vtx[0]->vin[0].scriptWitness.stack[0].size() != 32) {
-                return state.DoS(100, false, REJECT_INVALID, "bad-witness-nonce-size", true, strprintf("%s : invalid witness nonce size", __func__));
-            }
-            CHash256().Write(hashWitness.begin(), 32).Write(&block.vtx[0]->vin[0].scriptWitness.stack[0][0], 32).Finalize(hashWitness.begin());
-            if (memcmp(hashWitness.begin(), &block.vtx[0]->vout[commitpos].scriptPubKey[6], 32)) {
-                return state.DoS(100, false, REJECT_INVALID, "bad-witness-merkle-match", true, strprintf("%s : witness merkle commitment mismatch", __func__));
-            }
-            fHaveWitness = true;
-        }
-    }
-
-    // No witness data is allowed in blocks that don't commit to witness data, as this would otherwise leave room for spam
-    if (!fHaveWitness) {
-        for (size_t i = 0; i < block.vtx.size(); i++) {
-            if (block.vtx[i]->HasWitness()) {
-                return state.DoS(100, false, REJECT_INVALID, "unexpected-witness", true, strprintf("%s : unexpected witness data found", __func__));
-            }
-        }
+    bool fRegTest = GetBoolArg("-regtest", false);
+    if (!CheckWitnessMalleation(block, fRegTest, state)) {
+        return false;
     }
 
     // After the coinbase witness nonce and commitment are verified,

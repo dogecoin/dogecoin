@@ -135,6 +135,7 @@ BITCOIN_CORE_H = \
   rpc/protocol.h \
   rpc/server.h \
   rpc/register.h \
+  segwit_module.h \
   scheduler.h \
   script/sigcache.h \
   script/sign.h \
@@ -216,6 +217,7 @@ libdogecoin_server_a_SOURCES = \
   rpc/server.cpp \
   script/sigcache.cpp \
   script/ismine.cpp \
+  segwit_module.cpp \
   timedata.cpp \
   torcontrol.cpp \
   txdb.cpp \
@@ -310,6 +312,7 @@ libdogecoin_consensus_a_SOURCES = \
   script/script.h \
   script/script_error.cpp \
   script/script_error.h \
+  segwit_module.h \
   serialize.h \
   tinyformat.h \
   uint256.cpp \
