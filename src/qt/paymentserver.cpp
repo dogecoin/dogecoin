@@ -299,7 +299,10 @@ void PaymentServer::initializeServer(QObject* parent, QString ipcServerName, boo
     // other OSes: helpful when dealing with payment request files
     if (parent)
         parent->installEventFilter(this);
-
+      
+    // Clean up old socket leftover from a crash:
+    QLocalServer::removeServer(name);
+      
     if (startLocalServer)
     {
         uriServer = new QLocalServer(this);
