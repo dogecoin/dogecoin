@@ -1779,13 +1779,17 @@ p, li { white-space: pre-wrap; }
         <source>BIP70 payment requests are deprecated and disabled by default. Restart with -enable-bip70 if you absolutely have to use this functionality.
 
 Use this functionality with extreme caution.</source>
-        <translation type="unfinished"></translation>
+        <translation>Les demandes de paiement BIP70 sont obsolètes et désactivées par défaut. Redémarrez avec -enable-bip70 si vous devez absolument utiliser cette fonctionnalité.
+
+Utilisez cette fonctionnalité avec une extrême prudence.</translation>
     </message>
     <message>
         <source>Payment request file handling is disabled by default. Restart with -enable-bip70 if you absolutely have to use this functionality.
 
 Use this functionality with extreme caution.</source>
-        <translation type="unfinished"></translation>
+        <translation>Le traitement des fichiers de demande de paiement est désactivée par défaut. Redémarrez avec -enable-bip70 si vous devez absolument utiliser cette fonctionnalité.
+
+Utilisez cette fonctionnalité avec une extrême prudence.</translation>
     </message>
 </context>
 <context>
@@ -2757,7 +2761,7 @@ Use this functionality with extreme caution.</source>
     </message>
     <message>
         <source>If the custom fee is set to 1000 satoshis and the transaction is only 250 bytes, then &quot;per kilobyte&quot; only pays 250 satoshis in fee, while &quot;total at least&quot; pays 1000 satoshis. For transactions bigger than a kilobyte both pay by kilobyte.</source>
-        <translation>Si le tarif personnalisé est fixé à 1000 satoshis et que la transaction n&apos;est que de 250 octets, alors le tarif &quot;par kilooctet&quot; ne paie que 250 satoshis, tandis que le tarif &quot;total au moins&quot; paie 1000 satoshis. Pour les transactions supérieures à un kilooctet, les deux payent par kilooctet.</translation>
+        <translation>Si le tarif personnalisé est fixé à 1000 satoshis et que la transaction n&apos;est que de 250 octets, alors le tarif &quot;par kilo-octets&quot; ne paie que 250 satoshis, tandis que le tarif &quot;total au moins&quot; paie 1000 satoshis. Pour les transactions supérieures à un kilo-octet, les deux payent par kilo-octets.</translation>
     </message>
     <message>
         <source>Priority:</source>
@@ -2777,7 +2781,7 @@ Use this functionality with extreme caution.</source>
     </message>
     <message>
         <source>If the custom fee is set to 1000 koinu and the transaction is only 250 bytes, then &quot;per kilobyte&quot; only pays 250 koinu in fee, while &quot;total at least&quot; pays 1000 koinu. For transactions bigger than a kilobyte both pay by kilobyte.</source>
-        <translation type="unfinished"></translation>
+        <translation>Si les frais personnalisés sont fixés à 1000 koinu et que la transaction ne représente que 250 octets, alors l&apos;option &quot;par kilo-octets&quot; ne paie que 250 koinu de frais, tandis que l&apos;option &quot;total au moins&quot; paie 1000 koinu. Pour les transactions supérieures à un kilo-octet, les deux options paient par kilo-octets.</translation>
     </message>
 </context>
 <context>
@@ -4593,11 +4597,11 @@ Use this functionality with extreme caution.</source>
     </message>
     <message>
         <source>Execute command when a wallet transaction changes (%s in cmd is replaced by TxID, %i with block height, with a value of 0 if tx is no longer in chaintip)</source>
-        <translation type="unfinished"></translation>
+        <translation>Exécuter une commande lorsqu&apos;une transaction de portefeuille change (%s dans cmd est remplacé par TxID, %i par la hauteur du bloc, avec une valeur de 0 si tx n&apos;est plus dans chaintip)</translation>
     </message>
     <message>
         <source>Enable BIP-70 PaymentServer (default: 0)</source>
-        <translation type="unfinished"></translation>
+        <translation>Activer le serveur de paiement BIP-70 (par défaut : 0)</translation>
     </message>
 </context>
 </TS>
