@@ -3208,7 +3208,7 @@ Utilisez cette fonctionnalité avec une extrême prudence.</translation>
         <source>Open for %n more block(s)</source>
         <translation>
             <numerusform>Ouvert pour %n bloc de plus</numerusform>
-            <numerusform>Ouvert pour %n bloc(s) de plus</numerusform>
+            <numerusform>Ouvert pour %n blocs de plus</numerusform>
         </translation>
     </message>
     <message>
