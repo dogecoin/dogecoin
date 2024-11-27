@@ -5,7 +5,7 @@ Dogecoin Core [DOGE, Ð]
 </h1>
 
 **WICHTIG: Seit August 2024 ist der `master` Branch die primäre Integrationsverzweigung geworden und daher Instabil.
-Bevor Sie die Binärdateien selbst kompilieren, überprüfen Sie bitte, ob eine getaggte Version für Ihr Betriebssystem verfügbar ist.
+Bevor Sie die Binärdateien selbst kompilieren, überprüfen Sie bitte, ob eine getaggte Version für Ihr Betriebssystem verfügbar ist.**
  
 Eine internationale Dokumentation finden Sie unter [doc/intl](doc/intl/README.md).
  
