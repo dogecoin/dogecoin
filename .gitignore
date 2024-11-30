@@ -129,3 +129,6 @@ stage/
 *.iws
 *.iml
 *.ipr
+
+
+/boost_1_81_0/*
