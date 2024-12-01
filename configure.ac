@@ -219,6 +219,12 @@ AC_ARG_WITH([intel-avx2],
   [intel_avx2=$withval],
   [intel_avx2=no])
 
+AC_ARG_WITH([intel-sse],
+  [AS_HELP_STRING([--with-intel-sse],
+  [Build with intel sse (default is no)])],
+  [intel_sse=$withval],
+  [intel_sse=no])
+
 AC_ARG_WITH([armv8-crypto],
   [AS_HELP_STRING([--with-armv8-crypto],
   [Build with armv8 crypto (default is no)])],
@@ -318,6 +324,7 @@ case $host in
      use_pkgconfig=no
 
      TARGET_OS=windows
+     NASMFLAGS="-Werror -fwin64 -Xvc -gcv8 -DWIN_ABI"
      AC_CHECK_LIB([mingwthrd],      [main],, AC_MSG_ERROR(lib missing))
      AC_CHECK_LIB([kernel32],      [main],, AC_MSG_ERROR(lib missing))
      AC_CHECK_LIB([user32],      [main],, AC_MSG_ERROR(lib missing))
@@ -449,6 +456,7 @@ case $host in
      ;;
    *linux*)
      TARGET_OS=linux
+     NASMFLAGS="-Werror -felf64 -Xgnu -gdwarf -DLINUX -D__linux__"
      ;;
 esac
 
@@ -925,42 +933,25 @@ if test x$intel_avx2 = xyes; then
   DOGECOIN_REQUIRE_EXPERIMENTAL
   case $host in
      x86_64-*-linux*)
-    AC_CHECK_LIB([IPSec_MB],[sha1_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
-    AC_CHECK_LIB([IPSec_MB],[sha256_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
-    AC_CHECK_LIB([IPSec_MB],[sha512_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
-    AC_DEFINE(USE_AVX2, 1, [Define this symbol if intel axv2 works])
+    AC_DEFINE([USE_AVX2], [1], [Define this symbol if intel axv2 works])
+    CFLAGS="$CFLAGS -mavx2"
 ;;
     *mingw*)
-    AC_CHECK_LIB([IPSec_MB],[sha1_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
-    AC_CHECK_LIB([IPSec_MB],[sha256_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
-    AC_CHECK_LIB([IPSec_MB],[sha512_one_block_avx2],LIBS=-lIPSec_MB, AC_MSG_ERROR(IPSec_MB missing))
-    AC_CHECK_LIB([mingwthrd],         [main],LIBS+=" -lmingwthrd", AC_MSG_ERROR(lib missing))
-    AC_CHECK_LIB([kernel32],          [main],LIBS+=" -lkernel32", AC_MSG_ERROR(lib missing))
-    AC_CHECK_LIB([user32],            [main],LIBS+=" -luser32", AC_MSG_ERROR(lib missing))
-    AC_CHECK_LIB([gdi32],             [main],LIBS+=" -lgdi32", AC_MSG_ERROR(lib missing))
-    AC_CHECK_LIB([comdlg32],          [main],LIBS+=" -lcomdlg32", AC_MSG_ERROR(lib missing))
-    AC_CHECK_LIB([winspool],          [main],LIBS+=" -lwinspool", AC_MSG_ERROR(lib missing))
-    AC_CHECK_LIB([winmm],             [main],LIBS+=" -lwinmm", AC_MSG_ERROR(lib missing))
-    AC_CHECK_LIB([shell32],           [main],LIBS+=" -lshell32", AC_MSG_ERROR(lib missing))
-    AC_CHECK_LIB([comctl32],          [main],LIBS+=" -lcomctl32", AC_MSG_ERROR(lib missing))
-    AC_CHECK_LIB([ole32],             [main],LIBS+=" -lole32", AC_MSG_ERROR(lib missing))
-    AC_CHECK_LIB([oleaut32],          [main],LIBS+=" -loleaut32", AC_MSG_ERROR(lib missing))
-    AC_CHECK_LIB([uuid],              [main],LIBS+=" -luuid", AC_MSG_ERROR(lib missing))
-    AC_CHECK_LIB([rpcrt4],            [main],LIBS+=" -lrpcrt4", AC_MSG_ERROR(lib missing))
-    AC_CHECK_LIB([advapi32],          [main],LIBS+=" -ladvapi32", AC_MSG_ERROR(lib missing))
-    AC_CHECK_LIB([ws2_32],            [main],LIBS+=" -lws2_32", AC_MSG_ERROR(lib missing))
-    AC_CHECK_LIB([mswsock],           [main],LIBS+=" -lmswsock", AC_MSG_ERROR(lib missing))
-    AC_CHECK_LIB([shlwapi],           [main],LIBS+=" -lshlwapi", AC_MSG_ERROR(lib missing))
-    AC_CHECK_LIB([iphlpapi],          [main],LIBS+=" -liphlpapi", AC_MSG_ERROR(lib missing))
-    AC_CHECK_LIB([crypt32],           [main],LIBS+=" -lcrypt32", AC_MSG_ERROR(lib missing))
-    AC_CHECK_LIB([ssp],               [main],LIBS+=" -lssp", AC_MSG_ERROR(lib missing))
+    AC_DEFINE([USE_AVX2], [1], [Define this symbol if intel axv2 works])
+    CFLAGS="$CFLAGS -mavx2"
+esac
+fi
 
-    dnl only check for Qt5 if we're actually building Qt
-    if test x$bitcoin_enable_qt != xno; then
-      AC_CHECK_LIB([Qt5PlatformSupport],[main],LIBS+=" -lQt5PlatformSupport", AC_MSG_ERROR(lib missing))
-    fi
-
-    AC_DEFINE(USE_AVX2, 1, [Define this symbol if intel axv2 works])
+if test x$intel_sse = xyes; then
+  DOGECOIN_REQUIRE_EXPERIMENTAL
+  case $host in
+     x86_64-*-linux*)
+    AC_DEFINE([USE_SSE], [1], [Define this symbol if intel sse works])
+    CFLAGS="$CFLAGS -msse4.2"
+;;
+    *mingw*)
+    AC_DEFINE([USE_SSE], [1], [Define this symbol if intel sse works])
+    CFLAGS="$CFLAGS -msse4.2"
 esac
 fi
 
@@ -1171,6 +1162,8 @@ AM_CONDITIONAL([GLIBC_BACK_COMPAT],[test x$use_glibc_compat = xyes])
 AM_CONDITIONAL([HARDEN],[test x$use_hardening = xyes])
 AM_CONDITIONAL([WORDS_BIGENDIAN],[test x$ac_cv_c_bigendian = xyes])
 AM_CONDITIONAL([USE_SCRYPT_SSE2], [test x$use_scrypt_sse2 = xyes])
+AM_CONDITIONAL([USE_AVX2], [test x$intel_avx2 = xyes])
+AM_CONDITIONAL([USE_SSE], [test x$intel_sse = xyes])
 
 AC_DEFINE(CLIENT_VERSION_MAJOR, _CLIENT_VERSION_MAJOR, [Major version])
 AC_DEFINE(CLIENT_VERSION_MINOR, _CLIENT_VERSION_MINOR, [Minor version])
@@ -1222,6 +1215,7 @@ AC_SUBST(EVENT_PTHREADS_LIBS)
 AC_SUBST(ZMQ_LIBS)
 AC_SUBST(PROTOBUF_LIBS)
 AC_SUBST(QR_LIBS)
+AC_SUBST(NASMFLAGS)
 AC_SUBST(HAVE_FDATASYNC)
 AC_SUBST(HAVE_FULLFSYNC)
 AC_SUBST(HAVE_O_CLOEXEC)
@@ -1300,12 +1294,14 @@ echo "  experimental  = $allow_experimental"
 if test x$allow_experimental = xyes; then
     echo "    SSE2 Scrypt   = $use_scrypt_sse2"
     echo "    AVX2 crypto   = $intel_avx2"
+    echo "    SSE crypto    = $intel_sse"
     echo "    ARMv8 crypto  = $armv8_crypto"
     echo "    ARMv82 crypto = $armv82_crypto"
 fi
 echo
 echo "  target os     = $TARGET_OS"
 echo "  build os      = $BUILD_OS"
+echo "  nasm flags    = $NASMFLAGS"
 echo
 echo "  CC            = $CC"
 echo "  CFLAGS        = $CFLAGS"
