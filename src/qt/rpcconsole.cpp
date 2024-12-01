@@ -25,8 +25,6 @@
 #include "rpc/client.h"
 #include "util.h"
 
-#include <openssl/crypto.h>
-
 #include <univalue.h>
 
 #ifdef ENABLE_WALLET
