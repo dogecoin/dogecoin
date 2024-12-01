@@ -29,7 +29,7 @@ import asyncore
 import time
 import sys
 import random
-from .util import hex_str_to_bytes, bytes_to_hex_str
+from .util import hex_str_to_bytes, bytes_to_hex_str, wait_until, test_lock
 from io import BytesIO
 from codecs import encode
 import hashlib
@@ -67,7 +67,7 @@ mininode_socket_map = dict()
 # and whenever adding anything to the send buffer (in send_message()).  This
 # lock should be acquired in the thread running the test logic to synchronize
 # access to any data shared with the NodeConnCB or NodeConn.
-mininode_lock = RLock()
+mininode_lock = test_lock
 
 # Serialization/deserialization tools
 def sha256(s):
@@ -1378,21 +1378,6 @@ class msg_reject(object):
     def __repr__(self):
         return "msg_reject: %s %d %s [%064x]" \
             % (self.message, self.code, self.reason, self.data)
-
-# Helper function
-def wait_until(predicate, *, attempts=float('inf'), timeout=float('inf')):
-    attempt = 0
-    elapsed = 0
-
-    while attempt < attempts and elapsed < timeout:
-        with mininode_lock:
-            if predicate():
-                return True
-        attempt += 1
-        elapsed += 0.05
-        time.sleep(0.05)
-
-    return False
 
 class msg_feefilter(object):
     command = b"feefilter"
