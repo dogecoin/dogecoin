@@ -9,6 +9,10 @@ Chinese:
 
 - [README](zh_CN/README.md)
 
+Deutsch:
+
+- [README](de/README.md)
+
 Farsi:
 
 - [README](fa_IR/README.md)
