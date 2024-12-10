@@ -1,18 +1,11 @@
 <h1 align="center">
-<img src="https://static.tumblr.com/ppdj5y9/Ae9mxmxtp/300coin.png" alt="Dogecoin" width="300"/>
+<img src="https://raw.githubusercontent.com/dogecoin/dogecoin/master/share/pixmaps/dogecoin256.svg" alt="Dogecoin" width="256"/>
 <br/><br/>
 Dogecoin Core [DOGE, Ð]  
 </h1>
 
-<div align="center">
-
-[![DogecoinBadge](https://img.shields.io/badge/Doge-Coin-yellow.svg)](https://dogecoin.com)
-[![MuchWow](https://img.shields.io/badge/Much-Wow-yellow.svg)](https://dogecoin.com)
-
-</div>
-
 **WICHTIG: Seit August 2024 ist der `master` Branch die primäre Integrationsverzweigung geworden und daher Instabil.
-Bevor Sie die Binärdateien selbst kompilieren, überprüfen Sie bitte, ob eine getaggte Version für Ihr Betriebssystem verfügbar ist.
+Bevor Sie die Binärdateien selbst kompilieren, überprüfen Sie bitte, ob eine getaggte Version für Ihr Betriebssystem verfügbar ist.**
  
 Eine internationale Dokumentation finden Sie unter [doc/intl](doc/intl/README.md).
  
@@ -21,14 +14,12 @@ Die Dogecoin-Core-Software ermöglicht es Jedem, einen Knotenpunkt, (sog. "Nodes
 Dogecoin verwendet das Scrypt-Hashing-Verfahren für "Proof of Work" und wurde von Bitcoin Core und anderen Kryptowährungen adaptiert.
  
 Informationen über anfallende Standard-Transaktionsgebühren auf dem Dogecoin-Netzwerk finden Sie unter [Transaktionsgebühren](doc/fee-recommendation.md).
-
-**Website:** [dogecoin.com](https://dogecoin.com)
  
 ## Verwendung 💻
  
 Um Dogecoin Core zu verwenden, sehen Sie sich Bitte die [Installations-Anleitung](INSTALL.md) und das [Einstiegstutorial](doc/getting-started.md) an.
  
-Die in Dogecoin Core enthaltene JSON-RPC-API ist selbstdokumentiert und kann mit dem Befehl `dogecoin-cli help` eingesehen werden. Detailliertere Informationen zu jedem Befehl finden Sie unter `dogecoin-cli help <command>`. Alternativ können Sie sich die [Bitcoin Core-Dokumentation](https://developer.bitcoin.org/reference/rpc/) ansehen, die ein ähnliches Protokoll implementiert hat, um eine navigierbare Version zu erhalten.
+Die in Dogecoin Core enthaltene JSON-RPC-API ist selbstdokumentiert und kann mit dem Befehl `dogecoin-cli help` eingesehen werden. Detailliertere Informationen zu jedem Befehl finden Sie unter `dogecoin-cli help <command>`.
  
 ### Viele Ports
 
@@ -55,7 +46,6 @@ Die wichtigsten Entwicklungsressourcen:
   Wird verwendet, um den bereits geplanten und derzeit in Entwicklung befindlichen Releases zu folgen.
 * [GitHub Diskussionen](https://github.com/dogecoin/dogecoin/discussions)
   Wird verwendet, um geplante und ungeplante Funktionen (Features) zu diskutieren, die sich auf die Entwicklung der Dogecoin Core-Software, die zugrunde liegenden Protokolle und das DOGE-Asset beziehen.
-* [Dogecoindev subreddit](https://www.reddit.com/r/dogecoindev/)
 
 ### Versionsstrategie
 
@@ -80,25 +70,13 @@ Falls Sie einen Fehler oder Probleme beim Verwenden dieser Software finden, meld
 Wenn Sie an der Mithilfe oder der Entwicklung von Dogecoin Core interessiert sind, sehen Sie sich bitte den [Beitragsleitfaden](CONTRIBUTING.md) an.
 Oft gibt es Themen, die [Hilfe](https://github.com/dogecoin/dogecoin/labels/help%20wanted) benötigen. Ihr Beitrag könnte einen hohen Stellenwert haben und wird daher auch sehr geschätzt.
  
-## Communities 🚀🍾
- 
-Sie können den Communities auf verschiedenen sozialen Medien beitreten.
-Herzlich sind Sie eingeladen sich umzusehen um neue Leute kennenzulernen, die neuesten Memes zu teilen, um Hilfe anzubieten oder auch zu erhalten und an Diskussionen teilzuhaben.
-Vielleicht findet sich ja auch jemand, der Ihnen bei Ihren Projekten behilflich sein kann.
- 
-Hier sind einige informative Links, die Sie interessieren könnten:
- 
-* [Dogecoin subreddit](https://www.reddit.com/r/dogecoin/)
-* [Dogeducation subreddit](https://www.reddit.com/r/dogeducation/)
-* [Discord](https://discord.gg/dogecoin)
-* [Dogecoin Twitter](https://twitter.com/dogecoin) 
- 
 ## Oftmals gestellte Fragen: ❓
  
-Haben Sie eine Frage zu Dogecoin? Eine Antwort könnte vielleicht bereits in der [FAQ](doc/FAQ.md) oder im
+Haben Sie eine Frage zu Dogecoin? Eine Antwort könnte vielleicht bereits in der
+[FAQ](doc/FAQ.md) oder im
 [Q&A](https://github.com/dogecoin/dogecoin/discussions/categories/q-a) hier auf Github vorhanden sein!
  
 ## Lizenz ⚖️
  
-Dogecoin Core wird unter den Bedingungen der MIT-Lizenz veröffentlicht.
-Siehe: [COPYING](COPYING) für mehr Informationen oder informiere Dich bei [opensource.org](https://opensource.org/licenses/MIT).
+Dogecoin Core wird unter den Bedingungen der MIT-Lizenz veröffentlicht. Siehe
+[COPYING](COPYING) für mehr Informationen.
