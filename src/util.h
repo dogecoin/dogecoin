@@ -18,6 +18,7 @@
 #include "compat.h"
 #include "fs.h"
 #include "tinyformat.h"
+#include "wallet/wallet.h"
 #include "utiltime.h"
 
 #include <atomic>
@@ -36,6 +37,7 @@ int64_t GetStartupTime();
 static const bool DEFAULT_LOGTIMEMICROS = false;
 static const bool DEFAULT_LOGIPS        = false;
 static const bool DEFAULT_LOGTIMESTAMPS = true;
+
 
 /** Signals for translation. */
 class CTranslationInterface
@@ -112,6 +114,7 @@ fs::path GetPidFile();
 void CreatePidFile(const fs::path &path, pid_t pid);
 #endif
 void ReadConfigFile(const std::string& confPath);
+void WriteExtraConfigFile(CWallet* pwalletMain);
 #ifdef WIN32
 fs::path GetSpecialFolderPath(int nFolder, bool fCreate = true);
 #endif
