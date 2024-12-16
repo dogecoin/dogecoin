@@ -40,3 +40,19 @@ This document lists the protocol features that are implemented by Dogecoin Core
 ### From DigiByte
 
 * (Spec missing!): DigiShield difficulty adjustments were enabled as of **v1.6.0**.
+
+### Litecoin-scrypt
+
+Litecoin-scrypt is a proof-of-work algorithm used by Dogecoin. It is based on the scrypt key derivation function and was first introduced in Litecoin. The algorithm is designed to be memory-intensive, making it more resistant to ASIC mining compared to Bitcoin's SHA-256 algorithm. Dogecoin adopted Litecoin-scrypt as its proof-of-work algorithm since its inception in version 1.0.0.
+
+### DigiShield
+
+DigiShield is a difficulty adjustment algorithm that was first introduced by DigiByte. It was designed to address the issues with the original difficulty adjustment algorithm used by Bitcoin, which could lead to large fluctuations in difficulty and block times. DigiShield adjusts the mining difficulty after every block, rather than every 2016 blocks like Bitcoin. This allows for more stable block times and a more consistent mining experience. Dogecoin adopted DigiShield as its difficulty adjustment algorithm in version 1.6.0.
+
+### Generic Asset and Consensus Parametrization
+
+Dogecoin has a set of consensus parameters that define the rules for the network. These parameters include block time, block reward, difficulty adjustment algorithm, and more. The consensus parameters are defined in the `chainparams.cpp` file and are used to ensure that all nodes on the network follow the same rules. This helps to maintain the integrity and security of the network.
+
+### AuxPoW Parametrization
+
+Auxiliary Proof of Work (AuxPoW) is a mechanism that allows one blockchain to accept work from another blockchain. This is also known as merged mining. Dogecoin implemented AuxPoW in version 1.8.0, allowing it to be mined alongside other cryptocurrencies like Litecoin. The AuxPoW parameters are defined in the `auxpow.h` and `auxpow.cpp` files. These parameters include the chain ID, merkle branch, and parent block header. AuxPoW helps to increase the security of the Dogecoin network by allowing it to benefit from the hash power of other networks.
