@@ -15,3 +15,11 @@ jobs:
     - uses: actions/checkout@v4
     - name: Lint translation files
       run: python3 contrib/devtools/check-translations.py
+
+  include-what-you-use:
+    name: Include What You Use
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v4
+    - name: Run include-what-you-use
+      run: bash contrib/devtools/run-iwyu.sh
