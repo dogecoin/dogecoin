@@ -12,6 +12,7 @@ from test_framework.key import CECKey, CPubKey
 import time
 import random
 from binascii import hexlify
+import logging
 
 # The versionbit bit used to signal activation of SegWit
 VB_WITNESS_BIT = 1
@@ -1255,8 +1256,8 @@ class SegWitTest(BitcoinTestFramework):
             tx3.vin.append(CTxIn(COutPoint(i.sha256, i.n), b""))
             tx3.wit.vtxinwit.append(CTxInWitness())
             total_value += i.nValue
-        tx3.wit.vtxinwit[-1].scriptWitness.stack = [witness_program]
         tx3.vout.append(CTxOut(total_value - 1000, CScript([OP_TRUE])))
+        tx3.wit.vtxinwit[-1].scriptWitness.stack = [witness_program]
         tx3.rehash()
         # Spending a higher version witness output is not allowed by policy,
         # even with fRequireStandard=false.
