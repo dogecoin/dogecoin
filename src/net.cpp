@@ -1,3 +1,4 @@
+```cpp
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin Core developers
 // Copyright (c) 2022 The Dogecoin Core developers
@@ -1488,7 +1489,12 @@ void ThreadMapPort()
     struct IGDdatas data;
     int r;
 
+#if MINIUPNPC_API_VERSION >= 18
+    r = UPNP_GetValidIGD(devlist, &urls, &data, lanaddr, sizeof(lanaddr), NULL, 0);
+#else
     r = UPNP_GetValidIGD(devlist, &urls, &data, lanaddr, sizeof(lanaddr));
+#endif
+
     if (r == 1)
     {
         if (fDiscover) {
@@ -2848,3 +2854,4 @@ uint64_t CConnman::CalculateKeyedNetGroup(const CAddress& ad) const
 
     return GetDeterministicRandomizer(RANDOMIZER_ID_NETGROUP).Write(&vchNetGroup[0], vchNetGroup.size()).Finalize();
 }
+```
