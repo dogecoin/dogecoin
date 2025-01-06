@@ -69,7 +69,7 @@ class KeyPoolTest(BitcoinTestFramework):
         nodes[0].generate(1)
         try:
             nodes[0].generate(1)
-            raise AssertionError('Keypool should be exhausted after three addesses')
+            raise AssertionError('Keypool should be exhausted after three addresses')
         except JSONRPCException as e:
             assert(e.error['code']==-12)
 
