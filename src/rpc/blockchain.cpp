@@ -1627,7 +1627,7 @@ static UniValue getblockstats(const JSONRPCRequest& request)
             "  \"mediantxsize\": xxxxx,    (numeric) Truncated median transaction size\n"
             "  \"minfee\": xxxxx,          (numeric) Minimum fee in the block\n"
             "  \"minfeerate\": xxxxx,      (numeric) Minimum feerate (in koinu per byte)\n"
-            "  \"minoutamount\": xxxxx,    (numeric) Minumum output value (excluding coinbase and OP_RETURN)\n"
+            "  \"minoutamount\": xxxxx,    (numeric) Minimum output value (excluding coinbase and OP_RETURN)\n"
             "  \"mintxsize\": xxxxx,       (numeric) Minimum transaction size\n"
             "  \"outs\": xxxxx,            (numeric) The number of outputs\n"
             "  \"subsidy\": xxxxx,         (numeric) The block subsidy\n"
