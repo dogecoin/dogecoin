@@ -60,9 +60,9 @@ static const unsigned int MAX_PROTOCOL_MESSAGE_LENGTH = 4 * 1000 * 1000;
 /** Maximum length of strSubVer in `version` message */
 static const unsigned int MAX_SUBVERSION_LENGTH = 256;
 /** Maximum number of automatic outgoing nodes */
-static const int MAX_OUTBOUND_CONNECTIONS = 8;
+static const uint32_t MAX_OUTBOUND_CONNECTIONS = 8;
 /** Maximum number of addnode outgoing nodes */
-static const int MAX_ADDNODE_CONNECTIONS = 8;
+static const uint32_t MAX_ADDNODE_CONNECTIONS = 8;
 /** Number of peers protected from eviction: 4 random, 8 with lowest ping, 4 that sent recent tx, 4 that sent recent blocks */
 static const int PROTECTED_INBOUND_PEERS = 4 + 8 + 4 + 4;
 /** -listen default */
@@ -134,12 +134,12 @@ public:
     {
         ServiceFlags nLocalServices = NODE_NONE;
         ServiceFlags nRelevantServices = NODE_NONE;
-        int nMaxConnections = 0;
-        int nMaxOutbound = 0;
-        int nMaxAddnode = 0;
-        int nMaxFeeler = 0;
-        int nAvailableFds = 0;
-        int nBestHeight = 0;
+        uint32_t nMaxConnections = 0;
+        uint32_t nMaxOutbound = 0;
+        uint32_t nMaxAddnode = 0;
+        uint32_t nMaxFeeler = 0;
+        uint32_t nAvailableFds = 0;
+        uint32_t nBestHeight = 0;
         CClientUIInterface* uiInterface = nullptr;
         unsigned int nSendBufferMaxSize = 0;
         unsigned int nReceiveFloodSize = 0;
@@ -285,7 +285,11 @@ public:
 
     unsigned int GetReceiveFloodSize() const;
 
-    void SetMaxConnections(int newMaxConnections);
+    uint32_t GetMaxConnections();
+    uint32_t GetMinConnections();
+
+    uint32_t CapNumConnections(uint32_t proposedMaxConnections);
+    void SetMaxConnections(uint32_t newMaxConnections);
 
     void WakeMessageHandler();
 private:
@@ -383,11 +387,11 @@ private:
 
     CSemaphore *semOutbound;
     CSemaphore *semAddnode;
-    int nMaxConnections;
-    int nMaxOutbound;
-    int nMaxAddnode;
-    int nMaxFeeler;
-    int nAvailableFds;
+    uint32_t nMaxConnections;
+    uint32_t nMaxOutbound;
+    uint32_t nMaxAddnode;
+    uint32_t nMaxFeeler;
+    uint32_t nAvailableFds;
     std::atomic<int> nBestHeight;
     CClientUIInterface* clientInterface;
 
