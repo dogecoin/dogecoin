@@ -1,58 +1,51 @@
+# Copyright (c) 2011 Jeff Garzik
+#
+# Previous copyright, from python-jsonrpc/jsonrpc/proxy.py:
+#
+# Copyright (c) 2007 Jan-Klaas Kollhof
+#
+# This file is part of jsonrpc.
+#
+# jsonrpc is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation; either version 2.1 of the License, or
+# (at your option) any later version.
+#
+# This software is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this software; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+"""HTTP proxy for opening RPC connection to bitcoind.
 
+AuthServiceProxy has the following improvements over python-jsonrpc's
+ServiceProxy class:
+
+- HTTP connections persist for the life of the AuthServiceProxy object
+  (if server supports HTTP/1.1)
+- sends protocol 'version', per JSON-RPC 1.1
+- sends proper, incrementing 'id'
+- sends Basic HTTP authentication headers
+- parses all JSON numbers that look like floats as Decimal
+- uses standard Python json lib
 """
-  Copyright (c) 2011 Jeff Garzik
 
-  AuthServiceProxy has the following improvements over python-jsonrpc's
-  ServiceProxy class:
-
-  - HTTP connections persist for the life of the AuthServiceProxy object
-    (if server supports HTTP/1.1)
-  - sends protocol 'version', per JSON-RPC 1.1
-  - sends proper, incrementing 'id'
-  - sends Basic HTTP authentication headers
-  - parses all JSON numbers that look like floats as Decimal
-  - uses standard Python json lib
-
-  Previous copyright, from python-jsonrpc/jsonrpc/proxy.py:
-
-  Copyright (c) 2007 Jan-Klaas Kollhof
-
-  This file is part of jsonrpc.
-
-  jsonrpc is free software; you can redistribute it and/or modify
-  it under the terms of the GNU Lesser General Public License as published by
-  the Free Software Foundation; either version 2.1 of the License, or
-  (at your option) any later version.
-
-  This software is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU Lesser General Public License for more details.
-
-  You should have received a copy of the GNU Lesser General Public License
-  along with this software; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-"""
-
-try:
-    import http.client as httplib
-except ImportError:
-    import httplib
 import base64
 import decimal
+import http.client
 import json
 import logging
 import socket
-try:
-    import urllib.parse as urlparse
-except ImportError:
-    import urlparse
-
-USER_AGENT = "AuthServiceProxy/0.1"
+import time
+import urllib.parse
 
 HTTP_TIMEOUT = 30
+USER_AGENT = "AuthServiceProxy/0.1"
 
-log = logging.getLogger("DogecoinRPC")
+log = logging.getLogger("BitcoinRPC")
 
 class JSONRPCException(Exception):
     def __init__(self, rpc_error):
@@ -60,7 +53,7 @@ class JSONRPCException(Exception):
             errmsg = '%(message)s (%(code)i)' % rpc_error
         except (KeyError, TypeError):
             errmsg = ''
-        Exception.__init__(self, errmsg)
+        super().__init__(errmsg)
         self.error = rpc_error
 
 
@@ -69,28 +62,18 @@ def EncodeDecimal(o):
         return str(o)
     raise TypeError(repr(o) + " is not JSON serializable")
 
-class AuthServiceProxy(object):
+class AuthServiceProxy():
     __id_count = 0
 
     # ensure_ascii: escape unicode as \uXXXX, passed to json.dumps
     def __init__(self, service_url, service_name=None, timeout=HTTP_TIMEOUT, connection=None, ensure_ascii=True):
         self.__service_url = service_url
         self._service_name = service_name
-        self.ensure_ascii = ensure_ascii # can be toggled on the fly by tests
-        self.__url = urlparse.urlparse(service_url)
-        if self.__url.port is None:
-            port = 80
-        else:
-            port = self.__url.port
-        (user, passwd) = (self.__url.username, self.__url.password)
-        try:
-            user = user.encode('utf8')
-        except AttributeError:
-            pass
-        try:
-            passwd = passwd.encode('utf8')
-        except AttributeError:
-            pass
+        self.ensure_ascii = ensure_ascii  # can be toggled on the fly by tests
+        self.__url = urllib.parse.urlparse(service_url)
+        port = 80 if self.__url.port is None else self.__url.port
+        user = None if self.__url.username is None else self.__url.username.encode('utf8')
+        passwd = None if self.__url.password is None else self.__url.password.encode('utf8')
         authpair = user + b':' + passwd
         self.__auth_header = b'Basic ' + base64.b64encode(authpair)
 
@@ -98,11 +81,9 @@ class AuthServiceProxy(object):
             # Callables re-use the connection of the original proxy
             self.__conn = connection
         elif self.__url.scheme == 'https':
-            self.__conn = httplib.HTTPSConnection(self.__url.hostname, port,
-                                                  timeout=timeout)
+            self.__conn = http.client.HTTPSConnection(self.__url.hostname, port, timeout=timeout)
         else:
-            self.__conn = httplib.HTTPConnection(self.__url.hostname, port,
-                                                 timeout=timeout)
+            self.__conn = http.client.HTTPConnection(self.__url.hostname, port, timeout=timeout)
 
     def __getattr__(self, name):
         if name.startswith('__') and name.endswith('__'):
@@ -124,31 +105,34 @@ class AuthServiceProxy(object):
         try:
             self.__conn.request(method, path, postdata, headers)
             return self._get_response()
-        except httplib.BadStatusLine as e:
-            if e.line == "''": # if connection was closed, try again
+        except http.client.BadStatusLine as e:
+            if e.line == "''":  # if connection was closed, try again
                 self.__conn.close()
                 self.__conn.request(method, path, postdata, headers)
                 return self._get_response()
             else:
                 raise
-        except (BrokenPipeError,ConnectionResetError):
+        except (BrokenPipeError, ConnectionResetError):
             # Python 3.5+ raises BrokenPipeError instead of BadStatusLine when the connection was reset
             # ConnectionResetError happens on FreeBSD with Python 3.4
             self.__conn.close()
             self.__conn.request(method, path, postdata, headers)
             return self._get_response()
 
-    def __call__(self, *args, **argsn):
+    def get_request(self, *args, **argsn):
         AuthServiceProxy.__id_count += 1
 
-        log.debug("-%s-> %s %s"%(AuthServiceProxy.__id_count, self._service_name,
-                                 json.dumps(args or argsn, default=EncodeDecimal, ensure_ascii=self.ensure_ascii)))
+        log.debug("-%s-> %s %s" % (AuthServiceProxy.__id_count, self._service_name,
+                                   json.dumps(args, default=EncodeDecimal, ensure_ascii=self.ensure_ascii)))
         if args and argsn:
             raise ValueError('Cannot handle both named and positional arguments')
-        postdata = json.dumps({'version': '1.1',
-                               'method': self._service_name,
-                               'params': args or argsn,
-                               'id': AuthServiceProxy.__id_count}, default=EncodeDecimal, ensure_ascii=self.ensure_ascii)
+        return {'version': '1.1',
+                'method': self._service_name,
+                'params': args or argsn,
+                'id': AuthServiceProxy.__id_count}
+
+    def __call__(self, *args, **argsn):
+        postdata = json.dumps(self.get_request(*args, **argsn), default=EncodeDecimal, ensure_ascii=self.ensure_ascii)
         response = self._request('POST', self.__url.path, postdata.encode('utf-8'))
         if response['error'] is not None:
             raise JSONRPCException(response['error'])
@@ -158,15 +142,16 @@ class AuthServiceProxy(object):
         else:
             return response['result']
 
-    def _batch(self, rpc_call_list):
+    def batch(self, rpc_call_list):
         postdata = json.dumps(list(rpc_call_list), default=EncodeDecimal, ensure_ascii=self.ensure_ascii)
-        log.debug("--> "+postdata)
+        log.debug("--> " + postdata)
         return self._request('POST', self.__url.path, postdata.encode('utf-8'))
 
     def _get_response(self):
+        req_start_time = time.time()
         try:
             http_response = self.__conn.getresponse()
-        except socket.timeout as e:
+        except socket.timeout:
             raise JSONRPCException({
                 'code': -344,
                 'message': '%r RPC took longer than %f seconds. Consider '
@@ -184,8 +169,12 @@ class AuthServiceProxy(object):
 
         responsedata = http_response.read().decode('utf8')
         response = json.loads(responsedata, parse_float=decimal.Decimal)
+        elapsed = time.time() - req_start_time
         if "error" in response and response["error"] is None:
-            log.debug("<-%s- %s"%(response["id"], json.dumps(response["result"], default=EncodeDecimal, ensure_ascii=self.ensure_ascii)))
+            log.debug("<-%s- [%.6f] %s" % (response["id"], elapsed, json.dumps(response["result"], default=EncodeDecimal, ensure_ascii=self.ensure_ascii)))
         else:
-            log.debug("<-- "+responsedata)
+            log.debug("<-- [%.6f] %s" % (elapsed, responsedata))
         return response
+
+    def __truediv__(self, relative_uri):
+        return AuthServiceProxy("{}/{}".format(self.__service_url, relative_uri), self._service_name, connection=self.__conn)
