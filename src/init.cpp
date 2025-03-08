@@ -58,11 +58,12 @@
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/algorithm/string/split.hpp>
 #include <boost/bind/bind.hpp>
-#include <boost/function.hpp>
 #include <boost/interprocess/sync/file_lock.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/thread.hpp>
 #include <openssl/crypto.h>
+
+#include <functional>  // for std::function
 
 #if ENABLE_ZMQ
 #include "zmq/zmqnotificationinterface.h"
