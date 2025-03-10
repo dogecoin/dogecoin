@@ -3935,7 +3935,7 @@ Use this functionality with extreme caution.</source>
     </message>
     <message>
         <source>Tor control port password (default: empty)</source>
-        <translation>Passord for Tor-kontrollport (standardverdi: tom)</translation>
+        <translation>Password for Tor-kontrollport (standardverdi: tom)</translation>
     </message>
     <message>
         <source>Tor control port to use if onion listening enabled (default: %s)</source>
@@ -3983,7 +3983,7 @@ Use this functionality with extreme caution.</source>
     </message>
     <message>
         <source>Password for JSON-RPC connections</source>
-        <translation>Passord for JSON-RPC forbindelser</translation>
+        <translation>Password for JSON-RPC forbindelser</translation>
     </message>
     <message>
         <source>Execute command when the best block changes (%s in cmd is replaced by block hash)</source>
