@@ -51,6 +51,9 @@ const std::string CLIENT_NAME("Shibetoshi");
 #define BUILD_DESC_WITH_SUFFIX(maj, min, rev, build, suffix) \
     "v" DO_STRINGIZE(maj) "." DO_STRINGIZE(min) "." DO_STRINGIZE(rev) "." DO_STRINGIZE(build) "-" DO_STRINGIZE(suffix)
 
+#define BUILD_VERSION(maj, min, rev) \
+    "v" DO_STRINGIZE(maj) "." DO_STRINGIZE(min) "." DO_STRINGIZE(rev)
+
 #define BUILD_DESC_FROM_COMMIT(maj, min, rev, build, commit) \
     "v" DO_STRINGIZE(maj) "." DO_STRINGIZE(min) "." DO_STRINGIZE(rev) "." DO_STRINGIZE(build) "-g" commit
 
@@ -67,7 +70,10 @@ const std::string CLIENT_NAME("Shibetoshi");
 #endif
 #endif
 
+#define BUILD_DESC_DOWNLOAD BUILD_VERSION(CLIENT_VERSION_MAJOR, CLIENT_VERSION_MINOR, CLIENT_VERSION_REVISION)
+
 const std::string CLIENT_BUILD(BUILD_DESC CLIENT_VERSION_SUFFIX);
+const std::string CLIENT_BUILD_DOWNLOAD(BUILD_DESC_DOWNLOAD);
 
 static std::string FormatVersion(int nVersion)
 {
@@ -80,6 +86,11 @@ static std::string FormatVersion(int nVersion)
 std::string FormatFullVersion()
 {
     return CLIENT_BUILD;
+}
+
+std::string FormatFullVersionDownload()
+{
+    return CLIENT_BUILD_DOWNLOAD;
 }
 
 /** 
