@@ -69,6 +69,12 @@ AC_ARG_ENABLE([c++17],
   [use_cxx17=$enableval],
   [use_cxx17=no])
 
+AC_ARG_ENABLE([null-warnings],
+  [AS_HELP_STRING([--enable-null-warnings],
+  [warn about using NULL instead of nullptr (default is no)])],
+  [use_null_warnings=$enableval],
+  [use_null_warnings=no])
+
 dnl Require either of C++ 17, 14 or 11 (default) compiler (no GNU extensions)
 if test "x$use_cxx17" = xyes; then
   if test "x$use_cxx14" = xyes; then
@@ -288,6 +294,14 @@ if test "x$CXXFLAGS_overridden" = "xno"; then
   AX_CHECK_COMPILE_FLAG([-Wunused-local-typedef],[CXXFLAGS="$CXXFLAGS -Wno-unused-local-typedef"],,[[$CXXFLAG_WERROR]])
   AX_CHECK_COMPILE_FLAG([-Wdeprecated-register],[CXXFLAGS="$CXXFLAGS -Wno-deprecated-register"],,[[$CXXFLAG_WERROR]])
 fi
+
+if test "x$use_null_warnings" = "xyes"; then
+  AX_CHECK_COMPILE_FLAG([-Wzero-as-null-pointer-constant],
+    [CXXFLAGS="$CXXFLAGS -Wzero-as-null-pointer-constant"],
+    [AC_MSG_WARN([Compiler doesn't support -Wzero-as-null-pointer-constant])],
+    [[$CXXFLAG_WERROR]])
+fi
+
 CPPFLAGS="$CPPFLAGS -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS"
 
 AC_ARG_WITH([utils],
@@ -1288,6 +1302,7 @@ echo "  with bench    = $use_bench"
 echo "  with upnp     = $use_upnp"
 echo "  debug enabled = $enable_debug"
 echo "  werror        = $enable_werror"
+echo "  null warnings = $use_null_warnings"
 echo
 echo "  experimental  = $allow_experimental"
 if test x$allow_experimental = xyes; then
