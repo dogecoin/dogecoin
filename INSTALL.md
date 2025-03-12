@@ -12,11 +12,6 @@ binaries are released for the following platforms:
 - MacOS, Intel 64-bit
 - ARM, 64-bit and 32-bit Linux
 
-These binaries are created and verified by multiple independent people, to
-ensure honest and malware-free releases. See
-[the gitian building documentation](doc/gitian-building.md) for more information
-regarding that process.
-
 #### Minimum Operating System versions
 
 The following versions have been verified to be supported for pre-compiled
@@ -35,6 +30,35 @@ binaries:
 
 It is possible to run Dogecoin Core on other systems and lower versions when
 compiling from source, see the chapters below for more information.
+
+#### Checking binary integrity
+
+Release binaries are created and verified by multiple independent people to
+ensure honest and malware-free releases. The provided binaries on this
+repository come with a `SHA256SUMS.asc` file; a pgp-signed list of each checksum
+of the released archives. This is only provided to enable people to quickly
+check the integrity of a downloaded release binary. You can find the pgp key
+used to sign the file among those listed in `contrib/gitian-keys`.
+
+To verify the integrity of the `SHA256SUMS.asc` file, you need `gpg`, after
+which you can simply run
+
+```bash
+gpg --verify SHA256SUMS.asc
+```
+
+And then, verify the binary with the checksum app provided by your OS, eg:
+
+```bash
+grep x86_64-linux SHA256SUMS.asc | sha256sum -c
+```
+
+Full attestations to release binary integrity can be found at the
+[`gitian.sigs` repository on GitHub](https://github.com/dogecoin/gitian.sigs)
+and everyone can run the full release build process themselves to verify the
+output; resulting binaries are fully deterministic. Please refer to
+[the gitian building documentation](doc/gitian-building.md) for more
+information regarding that process.
 
 ### Compiling using packaged dependencies
 
