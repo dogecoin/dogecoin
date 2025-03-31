@@ -15,3 +15,18 @@ jobs:
     - uses: actions/checkout@v4
     - name: Lint translation files
       run: python3 contrib/devtools/check-translations.py
+  subtrees:
+    name: Check Subtrees
+    runs-on: ubuntu-24.04
+    steps:
+    - name: Install prerequisites
+      run: sudo apt update && sudo apt install -y bash git jq
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Check subtree integrity
+      run: |
+        jq -r '.[] | [.name, .remote] | join(" ")' contrib/subtrees.json | xargs -n2 git remote add
+        jq -r '.[].name' contrib/subtrees.json | xargs -n1 git fetch
+        jq -r '.[].path' contrib/subtrees.json | xargs -n1 bash contrib/devtools/git-subtree-check.sh
