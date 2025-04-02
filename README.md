@@ -4,6 +4,8 @@
 Dogecoin Core [DOGE, Ð]  
 </h1>
 
+[![CodeQL](https://github.com/dogecoin/dogecoin/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/dogecoin/dogecoin/actions/workflows/codeql-analysis.yml)
+
 **IMPORTANT: Starting August 2024, the `master` branch has become the primary
 integration branch and has become unstable. Please check out a tagged version
 before compiling production binaries.**
