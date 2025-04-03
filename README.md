@@ -1,4 +1,6 @@
 # DogeCore Protocol
+# DogeCore Protocol - Mine the Meme, Rule the Chain
+
 
 ![DogeCore Logo](https://via.placeholder.com/150) <!-- Sostituisci con il tuo logo, se ne hai uno -->
 
