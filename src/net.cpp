@@ -1488,7 +1488,16 @@ void ThreadMapPort()
     struct IGDdatas data;
     int r;
 
+    // since API version 18 / release 2.2.8
+    // both signature and return values of UPNP_GetValidIGD have been changed
+    // see miniupnp commit c0a50ce33e3b99ce8a96fd43049bb5b53ffac62f
+#if MINIUPNPC_API_VERSION < 18
     r = UPNP_GetValidIGD(devlist, &urls, &data, lanaddr, sizeof(lanaddr));
+    // r: 1 = success, 2 = not connected, 3 = unrecognized IGD
+#else
+    r = UPNP_GetValidIGD(devlist, &urls, &data, lanaddr, sizeof(lanaddr), nullptr, 0);
+    // r: 1 = success, 2 = success but not routable (i.e. CGNAT), 3 = not connected, 4 = unrecognized IGD
+#endif // MINIUPNPC_API_VERSION < 18
     if (r == 1)
     {
         if (fDiscover) {
@@ -1543,7 +1552,7 @@ void ThreadMapPort()
             throw;
         }
     } else {
-        LogPrintf("No valid UPnP IGDs found\n");
+        LogPrintf("No valid UPnP IGDs found: %d\n", r);
         freeUPNPDevlist(devlist); devlist = 0;
         if (r != 0)
             FreeUPNPUrls(&urls);
