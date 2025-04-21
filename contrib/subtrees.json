@@ -1,0 +1,17 @@
+[
+  {
+    "name": "univalue-subtree",
+    "path": "src/univalue",
+    "remote": "https://github.com/dogecoin/univalue-subtree.git"
+  },
+  {
+    "name": "secp256k1-subtree",
+    "path": "src/secp256k1",
+    "remote": "https://github.com/bitcoin-core/secp256k1.git"
+  },
+  {
+    "name": "leveldb-subtree",
+    "path": "src/leveldb",
+    "remote": "https://github.com/bitcoin-core/leveldb-subtree"
+  }
+]
