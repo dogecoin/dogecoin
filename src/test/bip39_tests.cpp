@@ -14,11 +14,9 @@
 #include <string>
 #include <vector>
 
-#if defined(USE_LIB)
 extern "C" {
 #include "dogecoin/libdogecoin.h"
 }
-#endif
 
 struct TestDerivation {
     std::string pub;

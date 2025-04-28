@@ -73,6 +73,10 @@ const std::string BitcoinGUI::DEFAULT_UIPLATFORM =
 
 #include <boost/bind/bind.hpp>
 
+#ifdef USE_LIB
+#include "support/experimental.h"
+#endif
+
 /** Display name for default wallet name. Uses tilde to avoid name
  * collisions in the future with additional wallets */
 const QString BitcoinGUI::DEFAULT_WALLET = "~Default";
@@ -99,6 +103,10 @@ BitcoinGUI::BitcoinGUI(const PlatformStyle *_platformStyle, const NetworkStyle *
     usedSendingAddressesAction(0),
     usedReceivingAddressesAction(0),
     importPrivateKeyAction(0),
+#ifdef USE_LIB
+// EXPERIMENTAL_FEATURE
+    importBip39Action(0),
+#endif
     signMessageAction(0),
     verifyMessageAction(0),
     aboutAction(0),
@@ -392,6 +400,12 @@ void BitcoinGUI::createActions()
     importPrivateKeyAction = new QAction(platformStyle->TextColorIcon(":/icons/address-book"), tr("&Import Private Key..."), this);
     importPrivateKeyAction->setStatusTip(tr("Import a Dogecoin private key"));
 
+#ifdef USE_LIB
+EXPERIMENTAL_FEATURE
+    importBip39Action = new QAction(platformStyle->TextColorIcon(":/icons/address-book"), tr("&Import BIP39 Mnemonic..."), this);
+    importBip39Action->setStatusTip(tr("Import a BIP39 mnemonic"));
+#endif
+
     showHelpMessageAction = new QAction(platformStyle->TextColorIcon(":/icons/info"), tr("&Command-line options"), this);
     showHelpMessageAction->setMenuRole(QAction::NoRole);
     showHelpMessageAction->setStatusTip(tr("Show the %1 help message to get a list with possible Dogecoin command-line options").arg(tr(PACKAGE_NAME)));
@@ -419,6 +433,10 @@ void BitcoinGUI::createActions()
         connect(openAction, SIGNAL(triggered()), this, SLOT(openClicked()));
         connect(paperWalletAction, SIGNAL(triggered()), walletFrame, SLOT(printPaperWallets()));
         connect(importPrivateKeyAction, SIGNAL(triggered()), walletFrame, SLOT(importPrivateKey()));
+#ifdef USE_LIB
+EXPERIMENTAL_FEATURE
+        connect(importBip39Action, SIGNAL(triggered()), walletFrame, SLOT(importBip39Mnemonic()));
+#endif
     }
 #endif // ENABLE_WALLET
 
@@ -447,6 +465,10 @@ void BitcoinGUI::createMenuBar()
         file->addAction(paperWalletAction);
         file->addSeparator();
         file->addAction(importPrivateKeyAction);
+#ifdef USE_LIB
+EXPERIMENTAL_FEATURE
+        file->addAction(importBip39Action);
+#endif
         file->addAction(usedSendingAddressesAction);
         file->addAction(usedReceivingAddressesAction);
         file->addSeparator();
@@ -520,13 +542,13 @@ void BitcoinGUI::setClientModel(ClientModel *_clientModel)
         }
 #endif // ENABLE_WALLET
         unitDisplayControl->setOptionsModel(_clientModel->getOptionsModel());
-        
+
         OptionsModel* optionsModel = _clientModel->getOptionsModel();
         if(optionsModel)
         {
             // be aware of the tray icon disable state change reported by the OptionsModel object.
             connect(optionsModel,SIGNAL(hideTrayIconChanged(bool)),this,SLOT(setTrayIconVisible(bool)));
-        
+
             // initialize the disable state of the tray icon with the current value in the model.
             setTrayIconVisible(optionsModel->getHideTrayIcon());
         }
@@ -1069,7 +1091,7 @@ void BitcoinGUI::setHDStatus(int hdEnabled)
     labelWalletHDStatusIcon->setPixmap(platformStyle->SingleColorIcon(hdEnabled ? ":/icons/hd_enabled" : ":/icons/hd_disabled").pixmap(STATUSBAR_ICONSIZE,STATUSBAR_ICONSIZE));
     labelWalletHDStatusIcon->setToolTip(hdEnabled ? tr("HD key generation is <b>enabled</b>") : tr("HD key generation is <b>disabled</b>"));
 
-    // eventually disable the QLabel to set its opacity to 50% 
+    // eventually disable the QLabel to set its opacity to 50%
     labelWalletHDStatusIcon->setEnabled(hdEnabled);
 }
 

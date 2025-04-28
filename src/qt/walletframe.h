@@ -9,6 +9,10 @@
 #include <QFrame>
 #include <QMap>
 
+#ifdef USE_LIB
+#include "support/experimental.h"
+#endif
+
 class BitcoinGUI;
 class ClientModel;
 class PlatformStyle;
@@ -88,6 +92,11 @@ public Q_SLOTS:
 
     /** import a private key */
     void importPrivateKey();
+
+// EXPERIMENTAL_FEATURE
+    /** import a BIP39 mnemonic */
+    void importBip39Mnemonic();
+
     void printPaperWallets();
 
     /** Show used sending addresses */

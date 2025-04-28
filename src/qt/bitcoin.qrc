@@ -107,4 +107,16 @@
         <file alias="NotoSans-Medium">res/fonts/NotoSans-Medium.ttf</file>
         <file alias="NotoSans-Regular">res/fonts/NotoSans-Regular.ttf</file>
     </qresource>
+    <qresource prefix="/wordlists">
+        <file alias="english.txt">res/wordlists/english.txt</file>
+        <file alias="japanese.txt">res/wordlists/japanese.txt</file>
+        <file alias="chinese_simplified.txt">res/wordlists/chinese_simplified.txt</file>
+        <file alias="chinese_traditional.txt">res/wordlists/chinese_traditional.txt</file>
+        <file alias="french.txt">res/wordlists/french.txt</file>
+        <file alias="italian.txt">res/wordlists/italian.txt</file>
+        <file alias="korean.txt">res/wordlists/korean.txt</file>
+        <file alias="portuguese.txt">res/wordlists/portuguese.txt</file>
+        <file alias="spanish.txt">res/wordlists/spanish.txt</file>
+        <file alias="czech.txt">res/wordlists/czech.txt</file>
+    </qresource>
 </RCC>

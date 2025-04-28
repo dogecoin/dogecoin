@@ -548,6 +548,7 @@ BOOST_AUTO_TEST_CASE(GetMinimumFee_dust_test)
 }
 
 #ifdef USE_LIB
+EXPERIMENTAL_FEATURE
 BOOST_FIXTURE_TEST_CASE(derive_new_child_key_test, WalletTestingSetup)
 {
     CWallet* wallet = pwalletMain;
@@ -555,11 +556,13 @@ BOOST_FIXTURE_TEST_CASE(derive_new_child_key_test, WalletTestingSetup)
 
     // Use a fixed BIP39 mnemonic and expected derived child public key.
     const MNEMONIC testMnemonic = "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about";
-    std::string expectedPubKeyHex = "02cc6b0dc33aabcf3a23643e5e2919a80c50fb3dd2129ce409bbc5f0d4643d05e0";
+    std::string expectedPubKeyHex = "03e9f2ace15120cf98f0577a98e7c66644aa823d4256204d5e644c43abf0ed0f40";
 
     // Encrypt and store a new HD master key in the wallet
     const PASS passphrase = "test";
-    wallet->GenerateBip39MasterKey(testMnemonic, passphrase);
+    const PASS extraWord = "extra";
+    const KEY_PATH keyPath = "m/44'/3'/0'/0";
+    wallet->GenerateBip39MasterKey(testMnemonic, passphrase, extraWord, keyPath);
 
     // Derive a new child key using at derivation path (m/44'/3'/0'/0/0)
     CKeyMetadata childMetadata(GetTime());

@@ -34,7 +34,7 @@
 
 #include <boost/thread.hpp>
 
-#if defined(USE_LIB)
+#ifdef USE_LIB
 extern "C" {
 #include "dogecoin/libdogecoin.h"
 }
@@ -751,8 +751,10 @@ public:
     bool Unlock(const SecureString& strWalletPassphrase);
     bool ChangeWalletPassphrase(const SecureString& strOldWalletPassphrase, const SecureString& strNewWalletPassphrase);
     bool EncryptWallet(const SecureString& strWalletPassphrase);
-#if defined(USE_LIB)
-    bool EncryptBip39Wallet(const SecureString& strWalletPassphrase, const MNEMONIC mnemonic);
+
+#ifdef USE_LIB
+EXPERIMENTAL_FEATURE
+    bool EncryptBip39Wallet(const SecureString& strWalletPassphrase);
 #endif
     void GetKeyBirthTimes(std::map<CTxDestination, int64_t> &mapKeyBirth) const;
 
@@ -975,9 +977,13 @@ public:
     /* Returns true if HD is enabled */
     bool IsHDEnabled();
 
-#if defined(USE_LIB)
+#ifdef USE_LIB
+EXPERIMENTAL_FEATURE
+    /* Verifies a BIP39 mnemonic phrase, in a language (ISO 639-2 code), space character and optionally a filename for the wordlist */
+    bool VerifyBip39Mnemonic(const MNEMONIC mnemonic, const char* language, const char* space, const char* filename);
+
     /* Generates or imports a BIP39 seed and encrypts the wallet */
-    CPubKey GenerateBip39MasterKey(const MNEMONIC mnemonic, const PASS password);
+    CPubKey GenerateBip39MasterKey(const MNEMONIC mnemonic, const PASS password, const std::string& extraWord, const std::string& keyPath);
 #endif
 
     /* Generates a new HD master key (will not be activated) */

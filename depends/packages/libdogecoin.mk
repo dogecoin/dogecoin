@@ -1,8 +1,8 @@
 package=libdogecoin
-$(package)_version=0.1.4
+$(package)_version=0.1.5-pre
 $(package)_download_path=https://github.com/dogecoinfoundation/libdogecoin/archive/refs/tags
 $(package)_file_name=v$($(package)_version).tar.gz
-$(package)_sha256_hash=e1520ef918dcee30e2f87fbfffc3a40621ffc8f5d824e602cf6ad5cc35ba8c50
+$(package)_sha256_hash=a10311d04cf345cb1f6770e82a71125da9c48e6e9d9365feef31612fe01ee9cb
 $(package)_dependencies=libevent libunistring
 
 define $(package)_preprocess_cmds

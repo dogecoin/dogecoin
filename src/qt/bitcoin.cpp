@@ -39,6 +39,11 @@
 #include "wallet/wallet.h"
 #endif
 
+#ifdef USE_LIB
+#include "importbip39dialog.h"
+#include "support/experimental.h"
+#endif
+
 #include <stdint.h>
 
 #include <boost/thread.hpp>
@@ -456,6 +461,21 @@ void BitcoinApplication::initializeResult(int retval)
 
             window->addWallet(BitcoinGUI::DEFAULT_WALLET, walletModel);
             window->setCurrentWallet(BitcoinGUI::DEFAULT_WALLET);
+#ifdef USE_LIB
+EXPERIMENTAL_FEATURE
+            if (IsArgSet("-bip39mnemonic"))
+            {
+                auto *dlg = new ImportBip39Dialog (platformStyle,
+                                    QString::fromStdString(GetArg("-bip39mnemonic", "")),
+                                    QString::fromStdString(GetArg("-passphrase",    "")),
+                                    QString::fromStdString(GetArg("-keyPath",       "")),
+                                    QString::fromStdString(GetArg("-extraWord",     "")),
+                                    window);
+
+                dlg->exec();
+                delete dlg;
+            }
+#endif
         }
 #endif
 

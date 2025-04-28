@@ -19,6 +19,10 @@
 #include <QPoint>
 #include <QSystemTrayIcon>
 
+#ifdef USE_LIB
+#include "support/experimental.h"
+#endif
+
 class ClientModel;
 class NetworkStyle;
 class Notificator;
@@ -101,6 +105,10 @@ private:
     QAction *usedSendingAddressesAction;
     QAction *usedReceivingAddressesAction;
     QAction *importPrivateKeyAction;
+#ifdef USE_LIB
+EXPERIMENTAL_FEATURE
+    QAction *importBip39Action;
+#endif
     QAction *signMessageAction;
     QAction *verifyMessageAction;
     QAction *paperWalletAction;
@@ -238,7 +246,7 @@ private Q_SLOTS:
 
     /** Show progress dialog e.g. for verifychain */
     void showProgress(const QString &title, int nProgress);
-    
+
     /** When hideTrayIcon setting is changed in OptionsModel hide or show the icon accordingly. */
     void setTrayIconVisible(bool);
 

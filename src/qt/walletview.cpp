@@ -11,6 +11,9 @@
 #include "clientmodel.h"
 #include "guiutil.h"
 #include "importkeysdialog.h"
+#ifdef USE_LIB
+#include "importbip39dialog.h"
+#endif
 #include "optionsmodel.h"
 #include "overviewpage.h"
 #include "platformstyle.h"
@@ -69,6 +72,12 @@ WalletView::WalletView(const PlatformStyle *_platformStyle, QWidget *parent):
 
     importKeysDialog = new ImportKeysDialog(platformStyle);
 
+#ifdef USE_LIB
+EXPERIMENTAL_FEATURE
+    // Create import BIP39 mnemonic dialog
+    importBip39Dialog = new ImportBip39Dialog(platformStyle);
+#endif
+
     // Clicking on a transaction on the overview pre-selects the transaction on the transaction history page
     connect(overviewPage, SIGNAL(transactionClicked(QModelIndex)), transactionView, SLOT(focusTransaction(QModelIndex)));
     connect(overviewPage, SIGNAL(outOfSyncWarningClicked()), this, SLOT(requestedSyncWarningInfo()));
@@ -105,7 +114,7 @@ void WalletView::setBitcoinGUI(BitcoinGUI *gui)
         // Pass through transaction notifications
         connect(this, SIGNAL(incomingTransaction(QString,int,CAmount,QString,QString,QString)), gui, SLOT(incomingTransaction(QString,int,CAmount,QString,QString,QString)));
 
-        // Connect HD enabled state signal 
+        // Connect HD enabled state signal
         connect(this, SIGNAL(hdEnabledStatusChanged(int)), gui, SLOT(setHDStatus(int)));
     }
 }
@@ -226,6 +235,14 @@ void WalletView::gotoImportKeysDialog()
     setCurrentWidget(importKeysDialog);
 }
 
+#ifdef USE_LIB
+EXPERIMENTAL_FEATURE
+void WalletView::gotoImportBip39Dialog()
+{
+    setCurrentWidget(importBip39Dialog);
+}
+#endif
+
 bool WalletView::handlePaymentRequest(const SendCoinsRecipient& recipient)
 {
     return sendCoinsPage->handlePaymentRequest(recipient);
@@ -320,6 +337,19 @@ void WalletView::importPrivateKey()
     importKeysDialog->raise();
     importKeysDialog->activateWindow();
 }
+
+#ifdef USE_LIB
+EXPERIMENTAL_FEATURE
+void WalletView::importBip39Mnemonic()
+{
+    if(!walletModel)
+        return;
+
+    importBip39Dialog->show();
+    importBip39Dialog->raise();
+    importBip39Dialog->activateWindow();
+}
+#endif
 
 void WalletView::showProgress(const QString &title, int nProgress)
 {

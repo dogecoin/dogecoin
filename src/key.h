@@ -140,7 +140,7 @@ public:
     //! Load private key and check that public key matches.
     bool Load(CPrivKey& privkey, CPubKey& vchPubKey, bool fSkipCheck);
 
-    //! Clear the private key.
+    //! Clear the private key to sanitize memory.
     void Clear()
     {
         fValid = false;

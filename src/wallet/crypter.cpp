@@ -13,9 +13,8 @@
 #include <string>
 #include <vector>
 #include <boost/foreach.hpp>
-#include <streams.h>
 
-#if defined(USE_LIB)
+#ifdef USE_LIB
 extern "C" {
 #include "dogecoin/libdogecoin.h"
 }
@@ -193,6 +192,17 @@ bool CCryptoKeyStore::Unlock(const CKeyingMaterial& vMasterKeyIn)
             CKey key;
             if (!DecryptKey(vMasterKeyIn, vchCryptedSecret, vchPubKey, key))
             {
+#ifdef USE_LIB
+EXPERIMENTAL_FEATURE
+                // Decrypt BIP39 wallet and continue if successful
+                CKeyingMaterial plaintext;
+                if (DecryptSecret(vMasterKeyIn, vchCryptedSecret, vchPubKey.GetHash(), plaintext))
+                {
+                    keyPass = true;
+                    memory_cleanse(plaintext.data(), plaintext.size());
+                    continue;
+                }
+#endif
                 keyFail = true;
                 break;
             }
@@ -237,10 +247,11 @@ bool CCryptoKeyStore::AddKeyPubKey(const CKey& key, const CPubKey &pubkey)
 
 #ifdef USE_LIB
 EXPERIMENTAL_FEATURE
-bool CCryptoKeyStore::AddBip39Mnemonic(const std::string& mnemonic, const std::string& passphrase)
+bool CCryptoKeyStore::
+AddBip39Mnemonic(const std::string& mnemonic, const std::string& passphrase, const std::string& extraWord, const std::string& keyPath)
 {
     SEED bip39_seed;
-    dogecoin_seed_from_mnemonic(mnemonic.c_str(), NULL, bip39_seed);
+    dogecoin_seed_from_mnemonic(mnemonic.c_str(), extraWord.c_str(), bip39_seed);
     std::vector<unsigned char> seed(bip39_seed, bip39_seed + 64);
     memory_cleanse(bip39_seed, sizeof(bip39_seed));
 
@@ -260,7 +271,14 @@ bool CCryptoKeyStore::AddBip39Mnemonic(const std::string& mnemonic, const std::s
             return false;
 
         CKeyingMaterial vchSecret(mnemonic.begin(), mnemonic.end());
+        vchSecret.push_back(0x00); // delimiter
         std::vector<unsigned char> vchCryptedSecret;
+        vchSecret.insert(vchSecret.end(), extraWord.begin(), extraWord.end());
+        vchSecret.push_back(0x00); // delimiter
+        if (!keyPath.empty()) {
+            vchSecret.insert(vchSecret.end(), keyPath.begin(), keyPath.end());
+            vchSecret.push_back(0x00); // delimiter
+        }
         if (!EncryptSecret(vMasterKey, vchSecret, pubkey.GetHash(), vchCryptedSecret)) {
             memory_cleanse(vchSecret.data(), vchSecret.size());
             return false;
@@ -325,7 +343,7 @@ bool CCryptoKeyStore::GetPubKey(const CKeyID &address, CPubKey& vchPubKeyOut) co
 
 #ifdef USE_LIB
 EXPERIMENTAL_FEATURE
-bool CCryptoKeyStore::GetBip39Mnemonic(const CKeyID &address, std::string& mnemonicOut) const
+bool CCryptoKeyStore::GetBip39Mnemonic(const CKeyID &address, std::string& mnemonicOut, std::string& extraWordOut, std::string& keyPathOut) const
 {
     {
         LOCK(cs_KeyStore);
@@ -341,9 +359,27 @@ bool CCryptoKeyStore::GetBip39Mnemonic(const CKeyID &address, std::string& mnemo
             DecryptSecret(vMasterKey, vchCryptedSecret, vchPubKey.GetHash(), plaintext);
 
             SEED bip39_seed;
-            std::string mnemonic = std::string(plaintext.begin(), plaintext.end());
 
-            dogecoin_seed_from_mnemonic(mnemonic.c_str(), NULL, bip39_seed); // No passphrase
+            auto mnemonicEnd = std::find(plaintext.begin(), plaintext.end(), 0x00);
+            std::string mnemonic(plaintext.begin(), mnemonicEnd);
+
+            std::string extraWord;
+            std::string keyPath;
+
+            // Check if extraWord exists
+            if (mnemonicEnd + 1 < plaintext.end()) {
+                auto extraWordStart = mnemonicEnd + 1;
+                auto extraWordEnd = std::find(extraWordStart, plaintext.end(), 0x00);
+                extraWord = std::string(extraWordStart, extraWordEnd);
+
+                // Check if keyPath exists
+                if (extraWordEnd + 1 < plaintext.end()) {
+                    auto keyPathStart = extraWordEnd + 1;
+                    keyPath = std::string(keyPathStart, plaintext.end());
+                }
+            }
+
+            dogecoin_seed_from_mnemonic(mnemonic.c_str(), extraWord.c_str(), bip39_seed);
             mnemonic.clear();
             std::vector<unsigned char> seed(bip39_seed, bip39_seed + 64);
             memory_cleanse(bip39_seed, sizeof(bip39_seed));
@@ -359,6 +395,8 @@ bool CCryptoKeyStore::GetBip39Mnemonic(const CKeyID &address, std::string& mnemo
             if (pubkey == vchPubKey)
             {
                 mnemonicOut = std::string(plaintext.begin(), plaintext.end());
+                extraWordOut = extraWord;
+                keyPathOut = keyPath;
                 memory_cleanse(plaintext.data(), plaintext.size());
                 return true;
             }

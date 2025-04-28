@@ -1,4 +1,4 @@
-packages:=boost openssl libevent zeromq libunistring libdogecoin
+packages:=boost openssl libevent zeromq
 native_packages := native_ccache
 
 qt_packages = qrencode zlib
@@ -12,6 +12,8 @@ qt_mingw32_packages=qt
 wallet_packages=bdb
 
 upnp_packages=miniupnpc
+
+lib_packages=libunistring libdogecoin
 
 avx2_native_packages:=native_nasm
 avx2_x86_64_linux_packages:=intel-ipsec-mb

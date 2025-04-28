@@ -10,6 +10,10 @@
 
 #include <QStackedWidget>
 
+#ifdef USE_LIB
+#include "support/experimental.h"
+#endif
+
 class BitcoinGUI;
 class ClientModel;
 class OverviewPage;
@@ -21,6 +25,10 @@ class TransactionView;
 class WalletModel;
 class AddressBookPage;
 class ImportKeysDialog;
+#ifdef USE_LIB
+EXPERIMENTAL_FEATURE
+class ImportBip39Dialog;
+#endif
 
 QT_BEGIN_NAMESPACE
 class QModelIndex;
@@ -67,6 +75,10 @@ private:
     AddressBookPage *usedSendingAddressesPage;
     AddressBookPage *usedReceivingAddressesPage;
     ImportKeysDialog *importKeysDialog;
+#ifdef USE_LIB
+EXPERIMENTAL_FEATURE
+    ImportBip39Dialog *importBip39Dialog;
+#endif
 
     TransactionView *transactionView;
 
@@ -80,6 +92,11 @@ public Q_SLOTS:
     void gotoHistoryPage();
     /** Switch to import keys dialog */
     void gotoImportKeysDialog();
+#ifdef USE_LIB
+// EXPERIMENTAL_FEATURE
+    /** Switch to import BIP39 mnemonic dialog */
+    void gotoImportBip39Dialog();
+#endif
     /** Switch to receive coins page */
     void gotoReceiveCoinsPage();
     /** Switch to send coins page */
@@ -113,6 +130,12 @@ public Q_SLOTS:
 
     /** Import a private key */
     void importPrivateKey();
+
+#ifdef USE_LIB
+// EXPERIMENTAL_FEATURE
+    /** Import a BIP39 mnemonic */
+    void importBip39Mnemonic();
+#endif
 
     /** Re-emit encryption status signal */
     void updateEncryptionStatus();

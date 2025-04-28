@@ -194,6 +194,16 @@ void WalletFrame::importPrivateKey()
         walletView->importPrivateKey();
 }
 
+void WalletFrame::importBip39Mnemonic()
+{
+#ifdef USE_LIB
+EXPERIMENTAL_FEATURE
+    WalletView *walletView = currentWalletView();
+    if (walletView)
+        walletView->importBip39Mnemonic();
+#endif
+}
+
 void WalletFrame::usedSendingAddresses()
 {
     WalletView *walletView = currentWalletView();
