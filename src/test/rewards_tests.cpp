@@ -1,11 +1,13 @@
+
 #include <boost/test/unit_test.hpp>
 #include <uint256.h>
 #include <random.h>
 #include <arith_uint256.h>
+#include <consensus/amount.h>
 
 BOOST_AUTO_TEST_SUITE(symbolic_reward_tests)
 
-// 🔁 MT Reward Determinism Test
+// Deterministic MT reward test
 BOOST_AUTO_TEST_CASE(mt_reward_determinism_test)
 {
     uint256 fakeHash;
@@ -17,14 +19,13 @@ BOOST_AUTO_TEST_CASE(mt_reward_determinism_test)
     BOOST_CHECK_EQUAL(reward, 433017); // Reference value based on fixed seed
 }
 
-// 💰 Tail Reward Emission Codification
+// Tail Reward Emission Codification
 BOOST_AUTO_TEST_CASE(tail_reward_symbolic_lock)
 {
     int tailStartHeight = 600001;
     CAmount reward = 10000 * COIN;
 
     BOOST_CHECK_EQUAL(reward, 10000 * COIN); // Symbolically declare emission cap
-    BOOST_TEST_MESSAGE("Tail reward codified at 10,000 DOGE for heights ≥ 600001");
 }
 
 BOOST_AUTO_TEST_SUITE_END()
