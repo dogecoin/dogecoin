@@ -169,75 +169,6 @@ static UniValue AuxMiningSubmitBlock(const std::string& hashHex, const std::stri
     return BIP22ValidationResult(sc.state);
 }
 
-UniValue getauxblockbip22(const JSONRPCRequest& request)
-{
-    if (request.fHelp
-          || (request.params.size() != 0 && request.params.size() != 2))
-        throw std::runtime_error(
-            "getauxblock (hash auxpow)\n"
-            "\nCreate or submit a merge-mined block.\n"
-            "\nWithout arguments, create a new block and return information\n"
-            "required to merge-mine it.  With arguments, submit a solved\n"
-            "auxpow for a previously returned block.\n"
-            "\nArguments:\n"
-            "1. hash      (string, optional) hash of the block to submit\n"
-            "2. auxpow    (string, optional) serialised auxpow found\n"
-            "\nResult (without arguments):\n"
-            "{\n"
-            "  \"hash\"               (string) hash of the created block\n"
-            "  \"chainid\"            (numeric) chain ID for this block\n"
-            "  \"previousblockhash\"  (string) hash of the previous block\n"
-            "  \"coinbasevalue\"      (numeric) value of the block's coinbase\n"
-            "  \"bits\"               (string) compressed target of the block\n"
-            "  \"height\"             (numeric) height of the block\n"
-            + (std::string) (
-              fUseNamecoinApi
-              ? "  \"_target\"            (string) target in reversed byte order\n"
-              : "  \"target\"             (string) target in reversed byte order\n"
-            )
-            + "}\n"
-            "\nResult (with arguments):\n"
-            "xxxxx        (boolean) whether the submitted block was correct\n"
-            "\nExamples:\n"
-            + HelpExampleCli("getauxblock", "")
-            + HelpExampleCli("getauxblock", "\"hash\" \"serialised auxpow\"")
-            + HelpExampleRpc("getauxblock", "")
-            );
-
-    AuxMiningCheck();
-
-    std::shared_ptr<CReserveScript> coinbaseScript;
-    GetMainSignals().ScriptForMining(coinbaseScript);
-
-    // If the keypool is exhausted, no script is returned at all.  Catch this.
-    if (!coinbaseScript)
-        throw JSONRPCError(RPC_WALLET_KEYPOOL_RAN_OUT, "Error: Keypool ran out, please call keypoolrefill first");
-
-    //throw an error if no script was provided
-    if (!coinbaseScript->reserveScript.size())
-        throw JSONRPCError(RPC_INTERNAL_ERROR, "No coinbase script available (mining requires a wallet)");
-
-    /* Create a new block?  */
-    if (request.params.size() == 0)
-    {
-        return AuxMiningCreateBlock(coinbaseScript->reserveScript);
-    }
-
-    /* Submit a block instead. */
-    assert(request.params.size() == 2);
-
-    std::string blockHashHex = request.params[0].get_str();
-    std::string auxPowHex = request.params[1].get_str();
-
-    UniValue response = AuxMiningSubmitBlock(blockHashHex, auxPowHex);
-
-    if (response.isNull()) {
-        coinbaseScript->KeepScript();
-    }
-
-    return response;
-}
-
 UniValue createauxblock(const JSONRPCRequest& request)
 {
     if (request.fHelp || request.params.size() != 1)
@@ -301,14 +232,71 @@ UniValue submitauxblock(const JSONRPCRequest& request)
 
 UniValue getauxblock(const JSONRPCRequest& request)
 {
-    const UniValue response = getauxblockbip22(request);
+  if (request.fHelp
+        || (request.params.size() != 0 && request.params.size() != 2))
+      throw std::runtime_error(
+          "getauxblock (hash auxpow)\n"
+          "\nCreate or submit a merge-mined block.\n"
+          "\nWithout arguments, create a new block and return information\n"
+          "required to merge-mine it.  With arguments, submit a solved\n"
+          "auxpow for a previously returned block.\n"
+          "\nArguments:\n"
+          "1. hash      (string, optional) hash of the block to submit\n"
+          "2. auxpow    (string, optional) serialised auxpow found\n"
+          "\nResult (without arguments):\n"
+          "{\n"
+          "  \"hash\"               (string) hash of the created block\n"
+          "  \"chainid\"            (numeric) chain ID for this block\n"
+          "  \"previousblockhash\"  (string) hash of the previous block\n"
+          "  \"coinbasevalue\"      (numeric) value of the block's coinbase\n"
+          "  \"bits\"               (string) compressed target of the block\n"
+          "  \"height\"             (numeric) height of the block\n"
+          + (std::string) (
+            fUseNamecoinApi
+            ? "  \"_target\"            (string) target in reversed byte order\n"
+            : "  \"target\"             (string) target in reversed byte order\n"
+          )
+          + "}\n"
+          "\nResult (with arguments):\n"
+          "xxxxx        (boolean) whether the submitted block was correct\n"
+          "\nExamples:\n"
+          + HelpExampleCli("getauxblock", "")
+          + HelpExampleCli("getauxblock", "\"hash\" \"serialised auxpow\"")
+          + HelpExampleRpc("getauxblock", "")
+          );
 
-    // this is a request for a new blocktemplate: return response
-    if (request.params.size() == 0)
-        return response;
+  AuxMiningCheck();
 
-    // this is a new block submission: return bool
-    return response.isNull();
+  std::shared_ptr<CReserveScript> coinbaseScript;
+  GetMainSignals().ScriptForMining(coinbaseScript);
+
+  // If the keypool is exhausted, no script is returned at all.  Catch this.
+  if (!coinbaseScript)
+      throw JSONRPCError(RPC_WALLET_KEYPOOL_RAN_OUT, "Error: Keypool ran out, please call keypoolrefill first");
+
+  //throw an error if no script was provided
+  if (!coinbaseScript->reserveScript.size())
+      throw JSONRPCError(RPC_INTERNAL_ERROR, "No coinbase script available (mining requires a wallet)");
+
+  /* Create a new block?  */
+  if (request.params.size() == 0)
+  {
+      return AuxMiningCreateBlock(coinbaseScript->reserveScript);
+  }
+
+  /* Submit a block instead. */
+  assert(request.params.size() == 2);
+
+  std::string blockHashHex = request.params[0].get_str();
+  std::string auxPowHex = request.params[1].get_str();
+
+  UniValue response = AuxMiningSubmitBlock(blockHashHex, auxPowHex);
+
+  if (response.isNull()) {
+      coinbaseScript->KeepScript();
+  }
+
+  return response.isNull();
 }
 
 static const CRPCCommand commands[] =
