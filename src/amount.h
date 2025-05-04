@@ -1,76 +1,20 @@
-// Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2016 The Bitcoin Core developers
-// Copyright (c) 2021-2022 The Dogecoin Core developers
-// Distributed under the MIT software license, see the accompanying
-// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+#ifndef DOGECOIN_AMOUNT_H
+#define DOGECOIN_AMOUNT_H
 
-#ifndef BITCOIN_AMOUNT_H
-#define BITCOIN_AMOUNT_H
-
-#include "serialize.h"
-
-#include <stdlib.h>
+#include <stdint.h>
 #include <string>
+#include <limits>
 
-/** Amount in satoshis (Can be negative) */
 typedef int64_t CAmount;
-
 static const CAmount COIN = 100000000;
 static const CAmount CENT = 1000000;
 
-extern const std::string CURRENCY_UNIT;
+static_assert(std::numeric_limits<CAmount>::is_integer, "CAmount must be integral");
 
-/** No amount larger than this (in satoshi) is valid.
- *
- * Note that this constant is *not* the total money supply, which in Bitcoin
- * currently happens to be less than 21,000,000 BTC for various reasons, but
- * rather a sanity check. As this sanity check is used by consensus-critical
- * validation code, the exact value of the MAX_MONEY constant is consensus
- * critical; in unusual circumstances like a(nother) overflow bug that allowed
- * for the creation of coins out of thin air modification could lead to a fork.
- * */
-static const CAmount MAX_MONEY = 10000000000 * COIN; // Dogecoin: maximum of 100B coins (given some randomness), max transaction 10,000,000,000
-inline bool MoneyRange(const CAmount& nValue) { return (nValue >= 0 && nValue <= MAX_MONEY); }
+// Format an amount to a string
+std::string FormatMoney(const CAmount& n);
 
-/**
- * Fee rate in satoshis per kilobyte: CAmount / kB
- */
-class CFeeRate
-{
-private:
-    CAmount nSatoshisPerK; // unit is satoshis-per-1,000-bytes
-public:
-    /** Fee rate of 0 satoshis per kB */
-    CFeeRate() : nSatoshisPerK(0) { }
-    explicit CFeeRate(const CAmount& _nSatoshisPerK): nSatoshisPerK(_nSatoshisPerK) { }
-    /** Constructor for a fee rate in satoshis per kB. The size in bytes must not exceed (2^63 - 1)*/
-    CFeeRate(const CAmount& nFeePaid, size_t nBytes);
-    /**
-     * Return the wallet fee in koinus for the given size in bytes.
-     */
-    CAmount GetFee(size_t nBytes) const;
-    /**
-     * Return the relay fee in koinus for the given size in bytes.
-     */
-    CAmount GetRelayFee(size_t nBytes) const;
-    /**
-     * Return the fee in satoshis for a size of 1000 bytes
-     */
-    CAmount GetFeePerK() const { return GetFee(1000); }
-    friend bool operator<(const CFeeRate& a, const CFeeRate& b) { return a.nSatoshisPerK < b.nSatoshisPerK; }
-    friend bool operator>(const CFeeRate& a, const CFeeRate& b) { return a.nSatoshisPerK > b.nSatoshisPerK; }
-    friend bool operator==(const CFeeRate& a, const CFeeRate& b) { return a.nSatoshisPerK == b.nSatoshisPerK; }
-    friend bool operator<=(const CFeeRate& a, const CFeeRate& b) { return a.nSatoshisPerK <= b.nSatoshisPerK; }
-    friend bool operator>=(const CFeeRate& a, const CFeeRate& b) { return a.nSatoshisPerK >= b.nSatoshisPerK; }
-    CFeeRate& operator+=(const CFeeRate& a) { nSatoshisPerK += a.nSatoshisPerK; return *this; }
-    std::string ToString() const;
+// Parse a money string into amount
+bool ParseMoney(const std::string& str, CAmount& nRet);
 
-    ADD_SERIALIZE_METHODS;
-
-    template <typename Stream, typename Operation>
-    inline void SerializationOp(Stream& s, Operation ser_action) {
-        READWRITE(nSatoshisPerK);
-    }
-};
-
-#endif //  BITCOIN_AMOUNT_H
+#endif // DOGECOIN_AMOUNT_H
