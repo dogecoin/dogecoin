@@ -23,6 +23,10 @@
 # if defined(__ARM_NEON)|| defined(_MSC_VER) || defined(__GNUC__)
 #  include <arm_neon.h>
 # endif
+/** Apple Clang **/
+# if defined(__APPLE__) && defined(__apple_build_version__)
+#  include <sys/sysctl.h>
+# endif
 /** GCC and LLVM Clang, but not Apple Clang */
 # if defined(__GNUC__) && !defined(__apple_build_version__)
 #  if defined(__ARM_ACLE) || defined(__ARM_FEATURE_CRYPTO)
@@ -38,7 +42,6 @@ namespace
 namespace sha1
 {
 
-#ifndef USE_AVX2
 /** One round of SHA-1. */
 void inline Round(uint32_t a, uint32_t& b, uint32_t c, uint32_t d, uint32_t& e, uint32_t f, uint32_t k, uint32_t w)
 {
@@ -51,7 +54,6 @@ uint32_t inline f2(uint32_t b, uint32_t c, uint32_t d) { return b ^ c ^ d; }
 uint32_t inline f3(uint32_t b, uint32_t c, uint32_t d) { return (b & c) | (d & (b | c)); }
 
 uint32_t inline left(uint32_t x) { return (x << 1) | (x >> 31); }
-#endif
 
 /** Initialize SHA-1 state. */
 void inline Initialize(uint32_t* s)
@@ -68,8 +70,8 @@ const uint32_t k2 = 0x6ED9EBA1ul;
 const uint32_t k3 = 0x8F1BBCDCul;
 const uint32_t k4 = 0xCA62C1D6ul;
 
-/** Perform a SHA-1 transformation, processing a 64-byte chunk. */
-void Transform(uint32_t* s, const unsigned char* chunk)
+/** Perform a SHA-1 transformation, processing a 64-byte chunk. (ARMv8) */
+void Transform_ARMV8(uint32_t* s, const unsigned char* chunk)
 {
 #if defined(USE_ARMV8) || defined(USE_ARMV82)
     // this entire block is experimental
@@ -242,12 +244,23 @@ void Transform(uint32_t* s, const unsigned char* chunk)
     /** Save state */
     vst1q_u32(&s[0], ABCD);
     s[4] = E0;
+#endif
+}
 
-#elif USE_AVX2
+/** Perform a SHA-1 transformation, processing a 64-byte chunk. (AVX2) */
+void Transform_AVX2(uint32_t* s, const unsigned char* chunk)
+{
+#if USE_AVX2
     // Perform SHA1 one block (Intel AVX2)
     EXPERIMENTAL_FEATURE
+
     sha1_one_block_avx2(chunk, s);
-#else
+#endif
+}
+
+/** Perform a SHA-1 transformation, processing a 64-byte chunk. */
+void Transform(uint32_t* s, const unsigned char* chunk)
+{
     // Perform SHA one block (legacy)
 
     uint32_t a = s[0], b = s[1], c = s[2], d = s[3], e = s[4];
@@ -343,13 +356,44 @@ void Transform(uint32_t* s, const unsigned char* chunk)
     s[2] += c;
     s[3] += d;
     s[4] += e;
+}
 
+/** Define SHA1 hardware */
+#if defined(__linux__)
+#define HWCAP_SHA1  (1<<5)
+#include <sys/auxv.h>
+#elif defined(__WIN64__)
+#include <intrin.h>
+bool isAVX (void) {
+  int cpuinfo[4];
+  __cpuid(cpuinfo, 1);
+  return ((cpuinfo[2] & (1 << 28)) != 0);
+}
 #endif
 
+/** Define a function pointer for Transform */
+void (*transform_ptr) (uint32_t*, const unsigned char*) = &Transform;
+
+/** Initialize the function pointer */
+void inline Initialize_transform_ptr(void)
+{
+// Override the function pointer for ARMV8/AVX2
+#if ((defined(USE_ARMV8) || defined(USE_ARMV82)) && defined(__APPLE__))
+    if (sysctlbyname("hw.optional.arm.FEAT_SHA1", NULL, NULL, NULL, 0) == 0)
+       transform_ptr = &Transform_ARMV8;
+#elif (defined(USE_ARMV8) || defined(USE_ARMV82))
+    if (getauxval(AT_HWCAP) & HWCAP_SHA1)
+       transform_ptr = &Transform_ARMV8;
+#elif USE_AVX2 && defined(__linux__)
+    if (__builtin_cpu_supports("avx2"))
+       transform_ptr = &Transform_AVX2;
+#elif USE_AVX2 && defined(__WIN64__)
+    if (isAVX)
+       transform_ptr = &Transform_AVX2;
+#endif
 }
 
 } // namespace sha1
-
 } // namespace
 
 ////// SHA1
@@ -368,12 +412,12 @@ CSHA1& CSHA1::Write(const unsigned char* data, size_t len)
         memcpy(buf + bufsize, data, 64 - bufsize);
         bytes += 64 - bufsize;
         data += 64 - bufsize;
-        sha1::Transform(s, buf);
+        sha1::transform_ptr(s, buf);
         bufsize = 0;
     }
     while (end >= data + 64) {
         // Process full chunks directly from the source.
-        sha1::Transform(s, data);
+        sha1::transform_ptr(s, data);
         bytes += 64;
         data += 64;
     }
@@ -404,4 +448,9 @@ CSHA1& CSHA1::Reset()
     bytes = 0;
     sha1::Initialize(s);
     return *this;
+}
+
+void detect_sha1_hardware()
+{
+    sha1::Initialize_transform_ptr();
 }

@@ -849,14 +849,21 @@ if test x$armv8_crypto = xyes; then
   AC_MSG_CHECKING([whether to build with armv8 crypto])
   AC_MSG_RESULT(yes)
   AC_DEFINE(USE_ARMV8, 1, [Define this symbol if armv8 crypto works])
-  CXXFLAGS="$CXXFLAGS -march=armv8-a+crypto"
+  CPPFLAGS="$CPPFLAGS -march=armv8-a+crypto"
 fi
 
 if test x$armv82_crypto = xyes; then
   DOGECOIN_REQUIRE_EXPERIMENTAL
-  AC_CHECK_DECLS([vsha512su0q_u64],
-     [AC_DEFINE(USE_ARMV82, 1, [Define this symbol if armv8.2 crypto works])
-     CXXFLAGS="$CXXFLAGS -march=armv8.2-a+crypto+sha3"], AC_MSG_ERROR(sha512 missing), [#include <arm_neon.h>])
+  CPPFLAGS="$CPPFLAGS -march=armv8.2-a+crypto+sha3"
+  AC_MSG_CHECKING([whether to build with armv8.2-a crypto])
+  AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <arm_neon.h>]], [[uint64x2_t x; x = vsha512su0q_u64(x, x);]])],
+                  [AC_DEFINE(USE_ARMV82, 1, [Define this symbol if armv8.2 crypto works])
+                   ARMV82_CXXFLAGS="-march=armv8.2-a+crypto+sha3"]
+                   AC_MSG_RESULT(yes),
+                  [AC_MSG_WARN([sha512 missing, using armv8-a crypto without sha512])
+                   AC_DEFINE(USE_ARMV8, 1, [Define this symbol if armv8 crypto works])
+                   CPPFLAGS=${CPPFLAGS/"-march=armv8.2-a+crypto+sha3"/}
+                   CPPFLAGS+="-march=armv8-a+crypto"])
 fi
 
 if test x$use_pkgconfig = xyes; then
@@ -1179,6 +1186,7 @@ AM_CONDITIONAL([GLIBC_BACK_COMPAT],[test x$use_glibc_compat = xyes])
 AM_CONDITIONAL([HARDEN],[test x$use_hardening = xyes])
 AM_CONDITIONAL([WORDS_BIGENDIAN],[test x$ac_cv_c_bigendian = xyes])
 AM_CONDITIONAL([USE_SCRYPT_SSE2], [test x$use_scrypt_sse2 = xyes])
+AM_CONDITIONAL([USE_ARMV82], [test x$armv82_crypto = xyes])
 
 AC_DEFINE(CLIENT_VERSION_MAJOR, _CLIENT_VERSION_MAJOR, [Major version])
 AC_DEFINE(CLIENT_VERSION_MINOR, _CLIENT_VERSION_MINOR, [Minor version])
@@ -1209,6 +1217,7 @@ AC_SUBST(BITCOIN_CLI_NAME)
 AC_SUBST(BITCOIN_TX_NAME)
 
 AC_SUBST(RELDFLAGS)
+AC_SUBST(ARMV82_CXXFLAGS)
 AC_SUBST(COMPAT_LDFLAGS)
 AC_SUBST(ERROR_CXXFLAGS)
 AC_SUBST(HARDENED_CXXFLAGS)
@@ -1310,6 +1319,8 @@ if test x$allow_experimental = xyes; then
     echo "    AVX2 crypto   = $intel_avx2"
     echo "    ARMv8 crypto  = $armv8_crypto"
     echo "    ARMv82 crypto = $armv82_crypto"
+    echo
+    echo "    ARMV82_CXXFLAGS = $ARMV82_CXXFLAGS"
 fi
 echo
 echo "  target os     = $TARGET_OS"
