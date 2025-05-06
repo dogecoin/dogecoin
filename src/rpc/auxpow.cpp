@@ -148,8 +148,7 @@ static UniValue AuxMiningSubmitBlock(const std::string& hashHex, const std::stri
     hash.SetHex(hashHex);
 
     std::shared_ptr<CBlock> pblock;
-    bool maybe_block = auxBlockCache.Get(hash, pblock);
-    if (!maybe_block) {
+    if (!auxBlockCache.Get(hash, pblock)) {
         throw JSONRPCError(RPC_INVALID_PARAMETER, "block hash unknown");
     }
     CBlock& block = *pblock;
