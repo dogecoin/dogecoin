@@ -6,7 +6,6 @@
 
 #include "script/standard.h"  // for CScriptID
 #include "primitives/block.h" // for CBlock
-#include "sync.h"             // for LOCK
 #include "uint256.h"          // for uint256
 #include "utilmemory.h"       // for MakeUnique
 #include "utiltime.h"         // for GetTimeMicros
