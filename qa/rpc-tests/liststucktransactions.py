@@ -38,7 +38,7 @@ class ListStuckTransactionsTest(BitcoinTestFramework):
         self.nodes = self.setup_nodes()
 
         # set the time explicitly
-        self.setmocktime(int(time.time()))
+        self.set_mocktime(int(time.time()))
 
         # connect wallet node to relay nodes
         connect_nodes_bi(self.nodes, 0, 1)
@@ -46,13 +46,9 @@ class ListStuckTransactionsTest(BitcoinTestFramework):
         self.is_network_split = False
         self.sync_all()
 
-    def setmocktime(self, time):
-        self.mocktime = time
-        for n in self.nodes:
-            n.setmocktime(self.mocktime)
-
     def incrementmocktime(self, seconds):
-        self.setmocktime(self.mocktime + seconds)
+        self.mocktime += seconds
+        self.set_mocktime(self.mocktime)
 
     def mine_one_minute_blocks(self, miner_node, num):
         for i in range(num):
