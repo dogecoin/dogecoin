@@ -12,6 +12,7 @@
 #include "chainparams.h"
 #include "consensus/consensus.h"
 #include "consensus/params.h"
+#include "core_io.h"
 #include "init.h"
 #include "miner.h"
 #include "net.h"
@@ -139,25 +140,17 @@ static UniValue AuxMiningCreateBlock(const CScript& scriptPubKey)
     return result;
 }
 
-static UniValue AuxMiningSubmitBlock(const std::string& hashHex, const std::string& auxpowHex)
+static UniValue AuxMiningSubmitBlock(const uint256 hash, const CAuxPow auxpow)
 {
     AuxMiningCheck();
     LOCK(cs_auxpowrpc);
-
-    uint256 hash;
-    hash.SetHex(hashHex);
 
     std::shared_ptr<CBlock> pblock;
     if (!auxBlockCache.Get(hash, pblock)) {
         throw JSONRPCError(RPC_INVALID_PARAMETER, "block hash unknown");
     }
     CBlock& block = *pblock;
-
-    const std::vector<unsigned char> vchAuxPow = ParseHex(auxpowHex);
-    CDataStream ss(vchAuxPow, SER_GETHASH, PROTOCOL_VERSION);
-    CAuxPow pow;
-    ss >> pow;
-    block.SetAuxpow(new CAuxPow(pow));
+    block.SetAuxpow(new CAuxPow(auxpow));
     assert(block.GetHash() == hash);
 
     submitblock_StateCatcher sc(block.GetHash());
@@ -222,10 +215,13 @@ UniValue submitauxblock(const JSONRPCRequest& request)
             + HelpExampleRpc("submitauxblock", "\"hash\" \"serialised auxpow\"")
             );
 
-    std::string blockHashHex = request.params[0].get_str();
-    std::string auxPowHex = request.params[1].get_str();
+    const uint256 hash = ParseHashV(request.params[0], "hash");
+    CAuxPow auxpow;
+    if (!DecodeAuxPow(auxpow, request.params[1].get_str())) {
+        throw JSONRPCError(RPC_DESERIALIZATION_ERROR, "AuxPow decode failed");
+    }
 
-    UniValue response = AuxMiningSubmitBlock(blockHashHex, auxPowHex);
+    UniValue response = AuxMiningSubmitBlock(hash, auxpow);
 
     return response.isNull();
 }
@@ -287,10 +283,13 @@ UniValue getauxblock(const JSONRPCRequest& request)
   /* Submit a block instead. */
   assert(request.params.size() == 2);
 
-  std::string blockHashHex = request.params[0].get_str();
-  std::string auxPowHex = request.params[1].get_str();
+  const uint256 hash = ParseHashV(request.params[0], "hash");
+  CAuxPow auxpow;
+  if (!DecodeAuxPow(auxpow, request.params[1].get_str())) {
+      throw JSONRPCError(RPC_DESERIALIZATION_ERROR, "AuxPow decode failed");
+  }
 
-  UniValue response = AuxMiningSubmitBlock(blockHashHex, auxPowHex);
+  UniValue response = AuxMiningSubmitBlock(hash, auxpow);
 
   if (response.isNull()) {
       coinbaseScript->KeepScript();
