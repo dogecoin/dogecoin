@@ -14,7 +14,7 @@
 int static generateMTRandom(unsigned int s, int range)
 {
     std::mt19937 gen(s);
-    std::uniform_int<> dist(1, range);
+    std::uniform_int_distribution<> dist(1, range);
     return dist(gen);
 }
 
