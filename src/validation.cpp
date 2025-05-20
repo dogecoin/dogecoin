@@ -595,10 +595,13 @@ bool CheckTransaction(const CTransaction& tx, CValidationState &state, bool fChe
             }
 
             // Check custom filters from config
-            for (const auto& filter : mapMultiArgs["-opreturnfilter"]) {
-                if (data.size() >= filter.size() && std::equal(data.begin(), data.begin() + filter.size(), filter.begin())) {
-                    LogPrintf("Blocked tx due to custom filter: %s\n", tx.GetHash().ToString());
-                    return state.Invalid(false, REJECT_INVALID, "opreturn-filtered");
+            const auto& it = mapMultiArgs.find("-opreturnfilter");
+            if (it != mapMultiArgs.end()) {
+                for (const auto& filter : it->second) {
+                    if (data.size() >= filter.size() && std::equal(data.begin(), data.begin() + filter.size(), filter.begin())) {
+                        LogPrintf("Blocked tx due to custom filter: %s\n", tx.GetHash().ToString());
+                        return state.Invalid(false, REJECT_INVALID, "opreturn-filtered");
+                    }
                 }
             }
         }
