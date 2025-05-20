@@ -39,7 +39,7 @@ by default, to allow for a margin to change recommendations in the future (or
 user preference) without the need for an adopted software release in advance.
 This greatly simplifies future policy recommendations. As historically, most
 relay nodes do not change these default settings, these often represent an
-absolute mininum
+absolute minimum
 
 ### Transaction fee
 

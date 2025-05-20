@@ -3775,7 +3775,7 @@ Gebruik deze functie met extreme voorzichtigheid.</translation>
     </message>
     <message>
         <source>Error initializing block database</source>
-        <translation>Fout bij intialisatie blokkendatabase</translation>
+        <translation>Fout bij initialisatie blokkendatabase</translation>
     </message>
     <message>
         <source>Error initializing wallet database environment %s!</source>

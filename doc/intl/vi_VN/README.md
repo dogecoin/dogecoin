@@ -1,28 +1,19 @@
 <h1 align="center">
-<img src="https://static.tumblr.com/ppdj5y9/Ae9mxmxtp/300coin.png" alt="Dogecoin" width="300"/>
+<img src="https://raw.githubusercontent.com/dogecoin/dogecoin/master/share/pixmaps/dogecoin256.svg" alt="Dogecoin" width="256"/>
 <br/><br/>
 Dogecoin Core [DOGE, Ð]  
 </h1>
-
-<div align="center">
-
-[![DogecoinBadge](https://img.shields.io/badge/Doge-Coin-yellow.svg)](https://dogecoin.com)
-[![MuchWow](https://img.shields.io/badge/Much-Wow-yellow.svg)](https://dogecoin.com)
-
-</div>
 
 Dogecoin là một loại tiền điện tử hướng tới cộng đồng được lấy cảm hứng từ meme Shiba Inu. Phần mềm Dogecoin Core cho phép bất kỳ ai vận hành node trong Dogecoin blockchain networks và sử dụng phương pháp băm Scrypt cho Proof of Work. Nó được điều chỉnh từ Bitcoin Core và các loại tiền điện tử khác.
 
 Để biết thông tin về các khoản phí mặc định được sử dụng trên Dogecoin network, vui lòng
 tham khảo [khuyến nghị phí](doc/fee-recommendation.md).
 
-**Website:** [dogecoin.com](https://dogecoin.com)
-
 ## Cách sử dụng 💻
 
 Để bắt đầu cuộc hành trình của bạn với Dogecoin Core, xem [hướng dẫn cài đặt](INSTALL.md) và hướng dẫn [bắt đầu](doc/getting-started.md).
 
-API JSON-RPC được cung cấp bởi Dogecoin Core là self-documenting và có thể đọc lướt qua với `dogecoin-cli help`, trong khi thông tin chi tiết cho từng lệnh có thể được xem với `dogecoin-cli help <command>`. Ngoài ra, hãy xem [tài liệu Bitcoin Core](https://developer.bitcoin.org/reference/rpc/) - để triển khai một giao thức tương tự - hoặc có được phiên bản browsable.
+API JSON-RPC được cung cấp bởi Dogecoin Core là self-documenting và có thể đọc lướt qua với `dogecoin-cli help`, trong khi thông tin chi tiết cho từng lệnh có thể được xem với `dogecoin-cli help <command>`.
 
 ### Such ports
 
@@ -48,8 +39,7 @@ Các nguồn lực phát triển chính::
   theo dõi công việc đã lên kế hoạch và đang tiến hành cho các bản phát hành sắp tới.
 * [GitHub Discussion](https://github.com/dogecoin/dogecoin/discussions) được sử dụng để
   để thảo luận về các tính năng, được lên kế hoạch và chưa được kế hoạch, liên quan đến
-  sự phát triển của phần mềm Dogecoin Core, các giao thức nền tảng và DOGE asset.  
-* [Dogecoindev subreddit](https://www.reddit.com/r/dogecoindev/)
+  sự phát triển của phần mềm Dogecoin Core, các giao thức nền tảng và DOGE asset.
 
 ### Phiên bản Chiến lược
 Số phiên bản tuân theo ngữ nghĩa ```major.minor.patch```.
@@ -76,19 +66,6 @@ bạn có thể tham gia vào quá trình phát triển Dogecoin Core. Thường
 [chủ đề tìm kiếm sự trợ giúp](https://github.com/dogecoin/dogecoin/labels/help%20wanted)
 trong đó những đóng góp của bạn sẽ có tác động cao và nhận được sự đánh giá rất cao. wow.
 
-## Cộng đồng 🚀🍾
-
-Bạn có thể tham gia các cộng đồng trên các phương tiện truyền thông xã hội khác nhau.
-Để xem điều gì đang xảy ra, hãy gặp gỡ mọi người và thảo luận, tìm meme mới nhất, tìm hiểu
-về Dogecoin, cung cấp hoặc yêu cầu trợ giúp, để chia sẻ dự án của bạn.
-
-Dưới đây là một số địa điểm để tham quan:
-
-* [Dogecoin subreddit](https://www.reddit.com/r/dogecoin/)
-* [Dogeducation subreddit](https://www.reddit.com/r/dogeducation/)
-* [Discord](https://discord.gg/dogecoin)
-* [Dogecoin Twitter](https://twitter.com/dogecoin)
-
 ## Những Câu Hỏi Thường Gặp ❓
 
 Bạn có câu hỏi liên quan đến Dogecoin? Câu trả lời có lẽ đã có trong phần
@@ -98,5 +75,4 @@ của hội đồng thảo luận!
 
 ## Giấy phép ⚖️
 Dogecoin Core được phát hành theo các điều khoản của giấy phép MIT. Xem
-[COPYING](COPYING) để biết thêm thông tin hoặc xem
-[opensource.org](https://opensource.org/licenses/MIT)
+[COPYING](COPYING) để biết thêm thông tin.

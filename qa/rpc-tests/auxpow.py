@@ -61,7 +61,7 @@ class AuxPOWTest (BitcoinTestFramework):
                 raise ex
         self.sync_all()
 
-        # 5. mine blocks until we're in in auxpow era
+        # 5. mine blocks until we're in auxpow era
         self.nodes[1].generate(self.AUXPOW_START - self.DIGISHIELD_START)
         self.sync_all()
 
