@@ -574,23 +574,13 @@ bool CheckTransaction(const CTransaction& tx, CValidationState &state, bool fChe
         const CScript& scriptPubKey = txout.scriptPubKey;
         if (scriptPubKey.size() > 2 && scriptPubKey[0] == OP_RETURN) {
             std::vector<unsigned char> data(scriptPubKey.begin() + 2, scriptPubKey.end());
+            std::string dataStr(data.begin(), data.end());
             
-            // Check for Doginals pattern if enabled in config
-            if (GetBoolArg("-filterdoginals", false)) {
-                if (data.size() >= 4 && 
-                    (std::equal(data.begin(), data.begin() + 4, "dogi") ||
-                     std::equal(data.begin(), data.begin() + 3, "ord"))) {
-                    LogPrintf("Blocked Doginals inscription tx: %s\n", tx.GetHash().ToString());
-                    return state.Invalid(false, REJECT_INVALID, "doginals-not-allowed");
-                }
-            }
-            
-            // Check for DRC-20 pattern if enabled in config
-            if (GetBoolArg("-filterdrc20", false)) {
-                if (data.size() >= 6 && 
-                    std::equal(data.begin(), data.begin() + 6, "drc-20")) {
-                    LogPrintf("Blocked DRC-20 token tx: %s\n", tx.GetHash().ToString());
-                    return state.Invalid(false, REJECT_INVALID, "drc20-not-allowed");
+            // Check for operation field if enabled in config
+            if (GetBoolArg("-filterdoginalsordinals", false)) {
+                if (dataStr.find("\"op\":") != std::string::npos) {
+                    LogPrintf("Blocked inscription tx: %s\n", tx.GetHash().ToString());
+                    return state.Invalid(false, REJECT_INVALID, "inscription-not-allowed");
                 }
             }
 
@@ -598,7 +588,7 @@ bool CheckTransaction(const CTransaction& tx, CValidationState &state, bool fChe
             const auto& it = mapMultiArgs.find("-opreturnfilter");
             if (it != mapMultiArgs.end()) {
                 for (const auto& filter : it->second) {
-                    if (data.size() >= filter.size() && std::equal(data.begin(), data.begin() + filter.size(), filter.begin())) {
+                    if (dataStr.find(filter) != std::string::npos) {
                         LogPrintf("Blocked tx due to custom filter: %s\n", tx.GetHash().ToString());
                         return state.Invalid(false, REJECT_INVALID, "opreturn-filtered");
                     }
