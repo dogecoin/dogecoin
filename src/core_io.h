@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 
+class CAuxPow;
 class CBlock;
 class CScript;
 class CTransaction;
@@ -20,6 +21,7 @@ CScript ParseScript(const std::string& s);
 std::string ScriptToAsmStr(const CScript& script, const bool fAttemptSighashDecode = false);
 bool DecodeHexTx(CMutableTransaction& tx, const std::string& strHexTx, bool fTryNoWitness = false);
 bool DecodeHexBlk(CBlock&, const std::string& strHexBlk);
+bool DecodeAuxPow(CAuxPow& auxpow, const std::string& strHexAuxPow);
 uint256 ParseHashUV(const UniValue& v, const std::string& strName);
 uint256 ParseHashStr(const std::string&, const std::string& strName);
 std::vector<unsigned char> ParseHexUV(const UniValue& v, const std::string& strName);
