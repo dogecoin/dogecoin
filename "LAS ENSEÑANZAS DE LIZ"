@@ -1,0 +1,11 @@
+#Derechos de autor © 2025 J ANDRES RESENDEZ R - LAS ENSEÑANZAS DE LIZ - TODOS LOS DERECHOS RESERVADOS
+******
+Por la presente se concede permiso, sin cargo, a cualquier persona que obtenga una copia de este software y los archivos de documentación asociados (el "Software"), para usar, copiar, modificar, fusionar, publicar, distribuir, sublicenciar y/o vender copias del Software, sujeto a las siguientes condiciones:
+
+1. El aviso de derechos de autor anterior y este aviso de permiso deben incluirse en todas las copias o partes sustanciales del Software.
+2. El uso comercial del Software está prohibido sin la autorización explícita por escrito de J ANDRES RESENDEZ R.
+3. El Software debe atribuirse a J ANDRES RESENDEZ R como el autor original, respetando sus derechos morales.
+
+EL SOFTWARE SE PROPORCIONA "TAL CUAL", SIN GARANTÍA DE NINGÚN TIPO, EXPRESA O IMPLÍCITA, INCLUYENDO PERO NO LIMITADO A LAS GARANTÍAS DE COMERCIABILIDAD, IDONEIDAD PARA UN PROPÓSITO PARTICULAR Y NO INFRACCIÓN. EN NINGÚN CASO LOS AUTORES O TITULARES DE LOS DERECHOS DE AUTOR SERÁN RESPONSABLES POR CUALQUIER RECLAMO, DAÑO U OTRA RESPONSABILIDAD, YA SEA EN UNA ACCIÓN DE CONTRATO, AGRAVIO O DE OTRO MODO, QUE SURJA DE, FUERA DE O EN CONEXIÓN CON EL SOFTWARE O EL USO U OTROS TRATOS EN EL SOFTWARE.*****
+slither ./contract.sol --solc-remaps "@solana=/path/to/repo"
+####
