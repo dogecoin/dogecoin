@@ -181,7 +181,7 @@ UniValue getrawtransaction(const JSONRPCRequest& request)
             "         \"reqSigs\" : n,            (numeric) The required sigs\n"
             "         \"type\" : \"pubkeyhash\",  (string) The type, eg 'pubkeyhash'\n"
             "         \"addresses\" : [           (json array of string)\n"
-            "           \"address\"        (string) bitcoin address\n"
+            "           \"address\"        (string) dogecoin address\n"
             "           ,...\n"
             "         ]\n"
             "       }\n"
@@ -215,8 +215,20 @@ UniValue getrawtransaction(const JSONRPCRequest& request)
 
     // Accept either a bool (true) or a num (>=1) to indicate verbose output.
     bool fVerbose = false;
-    if (!request.params[1].isNull()) {
-        fVerbose = request.params[1].isNum() ? (request.params[1].get_int() != 0) : request.params[1].get_bool();
+    if (request.params.size() > 1) {
+        if (request.params[1].isNum()) {
+            if (request.params[1].get_int() != 0) {
+                fVerbose = true;
+            }
+        }
+        else if(request.params[1].isBool()) {
+            if(request.params[1].isTrue()) {
+                fVerbose = true;
+            }
+        }
+        else {
+            throw JSONRPCError(RPC_TYPE_ERROR, "Invalid type provided. Verbose parameter must be a boolean.");
+        } 
     }
 
     if (!request.params[2].isNull()) {
@@ -231,6 +243,7 @@ UniValue getrawtransaction(const JSONRPCRequest& request)
 
     CTransactionRef tx;
     uint256 hash_block;
+    // Dogecoin: Is this the best value for consensus height?
     if (!GetTransaction(hash, tx, Params().GetConsensus(0), hash_block, true)) {
         std::string errmsg;
         if (blockindex) {
@@ -246,9 +259,11 @@ UniValue getrawtransaction(const JSONRPCRequest& request)
         throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, errmsg + ". Use gettransaction for wallet transactions.");
     }
 
-    if (!fVerbose) {
-        return EncodeHexTx(*tx, RPCSerializationFlags());
-    }
+    string strHex = EncodeHexTx(*tx, RPCSerializationFlags());
+    
+    if (!fVerbose)
+        return strHex;
+
 
     UniValue result(UniValue::VOBJ);
     if (blockindex) result.pushKV("in_active_chain", in_active_chain);
