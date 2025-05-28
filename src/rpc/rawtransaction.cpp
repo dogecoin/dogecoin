@@ -254,13 +254,13 @@ UniValue getrawtransaction(const JSONRPCRequest& request)
         } else {
             errmsg = fTxIndex
               ? "No such mempool or blockchain transaction"
-              : "No such mempool transaction. Use -txindex to enable blockchain transaction queries";
+              : "No such mempool transaction. Specify a blockhash or use -txindex to enable blockchain transaction queries";
         }
         throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, errmsg + ". Use gettransaction for wallet transactions.");
     }
 
     string strHex = EncodeHexTx(*tx, RPCSerializationFlags());
-    
+
     if (!fVerbose)
         return strHex;
 
