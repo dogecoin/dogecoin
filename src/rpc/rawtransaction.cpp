@@ -266,6 +266,7 @@ UniValue getrawtransaction(const JSONRPCRequest& request)
 
 
     UniValue result(UniValue::VOBJ);
+    result.pushKV("hex", strHex);
     if (blockindex) result.pushKV("in_active_chain", in_active_chain);
     TxToJSON(*tx, hash_block, result);
     return result;
