@@ -187,5 +187,32 @@ class RawTransactionsTest(BitcoinTestFramework):
         decrawtx= self.nodes[0].decoderawtransaction(rawtx)
         assert_equal(decrawtx['vin'][0]['sequence'], 4294967294)
 
+        # 11. getrawtransaction with block hash
+        # make a tx by sending then generate 2 blocks; block1 has the tx in it
+        tx = self.nodes[2].sendtoaddress(self.nodes[1].getnewaddress(), 1)
+        block1, block2 = self.nodes[2].generate(2)
+        self.sync_all()
+        # We should be able to get the raw transaction by providing the correct block
+        gottx = self.nodes[0].getrawtransaction(tx, True, block1)
+        assert_equal(gottx['txid'], tx)
+        assert_equal(gottx['in_active_chain'], True)
+        # We should not have the 'in_active_chain' flag when we don't provide a block
+        gottx = self.nodes[0].getrawtransaction(tx, True)
+        assert_equal(gottx['txid'], tx)
+        assert 'in_active_chain' not in gottx
+        # We should not get the tx if we provide an unrelated block
+        assert_raises_jsonrpc(-5, "No such transaction found", self.nodes[0].getrawtransaction, tx, True, block2)
+        # An invalid block hash should raise the correct errors
+        assert_raises_jsonrpc(-8, "parameter 3 must be hexadecimal", self.nodes[0].getrawtransaction, tx, True, True)
+        assert_raises_jsonrpc(-8, "parameter 3 must be hexadecimal", self.nodes[0].getrawtransaction, tx, True, "foobar")
+        assert_raises_jsonrpc(-8, "parameter 3 must be of length 64", self.nodes[0].getrawtransaction, tx, True, "abcd1234")
+        assert_raises_jsonrpc(-5, "Block hash not found", self.nodes[0].getrawtransaction, tx, True, "0000000000000000000000000000000000000000000000000000000000000000")
+        # Undo the blocks and check in_active_chain
+        self.nodes[0].invalidateblock(block1)
+        gottx = self.nodes[0].getrawtransaction(txid=tx, verbose=True, blockhash=block1)
+        assert_equal(gottx['in_active_chain'], False)
+        self.nodes[0].reconsiderblock(block1)
+        assert_equal(self.nodes[0].getbestblockhash(), block2)
+
 if __name__ == '__main__':
     RawTransactionsTest().main()
