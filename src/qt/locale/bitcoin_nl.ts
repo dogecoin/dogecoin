@@ -3891,7 +3891,7 @@ Gebruik deze functie met extreme voorzichtigheid.</translation>
     </message>
     <message>
         <source>Set maximum block size in bytes (default: %d)</source>
-        <translation>Stel maximum blokgrootte in in bytes (standaard: %d)</translation>
+        <translation>Stel maximum blokgrootte in bytes (standaard: %d)</translation>
     </message>
     <message>
         <source>Specify wallet file (within data directory)</source>
