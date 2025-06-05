@@ -31,6 +31,7 @@ password = generate_password()
 salt = generate_salt(16)
 password_hmac = password_to_hmac(salt, password)
 
-print('String to be appended to dogecoin.conf:')
-print(f'rpcauth={username}:{salt}${password_hmac}')
-print(f'Your password:\n{password}')
+print('String has been securely written to dogecoin.conf:')
+with open('dogecoin.conf', 'a') as conf_file:
+    conf_file.write(f'rpcauth={username}:{salt}${password_hmac}\n')
+print('Your password has been securely generated. Please store it in a safe location.')

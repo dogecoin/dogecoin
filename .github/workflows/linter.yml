@@ -1,4 +1,6 @@
 name: linter
+permissions:
+  contents: read
 on:
   push:
     paths-ignore:
