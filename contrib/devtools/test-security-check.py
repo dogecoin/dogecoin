@@ -6,7 +6,12 @@
 '''
 Test script for security-check.py
 '''
-import lief #type:ignore
+import sys
+try:
+    import lief  # type: ignore
+except ModuleNotFoundError:
+    print("The 'lief' module is missing. Skipping security-check tests.")
+    sys.exit(1)
 import os
 import subprocess
 from typing import List
