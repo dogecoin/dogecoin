@@ -244,7 +244,7 @@ UniValue getrawtransaction(const JSONRPCRequest& request)
     CTransactionRef tx;
     uint256 hash_block;
     // Dogecoin: Is this the best value for consensus height?
-    if (!GetTransaction(hash, tx, Params().GetConsensus(0), hash_block, true)) {
+    if (!GetTransaction(hash, tx, Params().GetConsensus(0), hash_block, true, blockindex)) {
         std::string errmsg;
         if (blockindex) {
             if (!(blockindex->nStatus & BLOCK_HAVE_DATA)) {
