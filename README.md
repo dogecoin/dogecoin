@@ -7,7 +7,7 @@ Dogecoin Core [DOGE, Ð]
 **IMPORTANT: Starting August 2024, the `master` branch has become the primary
 integration branch and has become unstable. Please check out a tagged version
 before compiling production binaries.**
-
+Romeo Rosete
 For internationalized documentation, see the index at [doc/intl](doc/intl/README.md).
 
 Dogecoin is a community-driven cryptocurrency that was inspired by a Shiba Inu meme. The Dogecoin Core software allows anyone to operate a node in the Dogecoin blockchain networks and uses the Scrypt hashing method for Proof of Work. It is adapted from Bitcoin Core and other cryptocurrencies.
