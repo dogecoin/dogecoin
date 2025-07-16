@@ -74,6 +74,9 @@ public:
 
 protected:
     void closeEvent(QCloseEvent *event);
+
+private Q_SLOTS:
+    void onForceCloseClicked();
 };
 
 #endif // BITCOIN_QT_UTILITYDIALOG_H
