@@ -4033,13 +4033,56 @@ CWallet* CWallet::CreateWalletFromFile(const std::string walletFile)
 
     if (fFirstRun)
     {
-#ifdef USE_LIB
-EXPERIMENTAL_FEATURE
-    if (!IsArgSet("-bip39mnemonic"))
-#endif
-    {
         // Create new keyUser and set as default key
         if (GetBoolArg("-usehd", DEFAULT_USE_HD_WALLET) && !walletInstance->IsHDEnabled()) {
+#ifdef USE_LIB
+EXPERIMENTAL_FEATURE
+            CPubKey masterPubKey;
+            if (IsArgSet("-bip39mnemonic") &&
+                IsArgSet("-passphrase") &&
+                IsArgSet("-extraWord") &&
+                IsArgSet("-keyPath"))
+            {
+                std::string mnemonic = GetArg("-bip39mnemonic", "");
+                std::string passphrase = GetArg("-passphrase", "");
+                std::string extraWord = GetArg("-extraWord", "");
+                std::string keyPath = GetArg("-keyPath", "");
+                masterPubKey = walletInstance->GenerateBip39MasterKey(mnemonic.c_str(),
+                                                                    passphrase.c_str(),
+                                                                    extraWord.c_str(),
+                                                                    keyPath.c_str());
+                mnemonic.clear();
+                passphrase.clear();
+                extraWord.clear();
+                keyPath.clear();
+                walletInstance->NewKeyPool();
+            }
+            if (!IsArgSet("-bip39mnemonic"))
+            {
+                // generate a new master key
+                masterPubKey = walletInstance->GenerateNewHDMasterKey();
+                if (!walletInstance->SetHDMasterKey(masterPubKey))
+                    throw std::runtime_error(std::string(__func__) + ": Storing master key failed");
+            }
+        }
+
+        const bool waitingForBip39Dialog = IsArgSet("-bip39mnemonic") &&
+                                        !(IsArgSet("-passphrase") &&
+                                        IsArgSet("-extraWord") &&
+                                        IsArgSet("-keyPath"));
+
+        if (!waitingForBip39Dialog)
+        {
+            CPubKey newDefaultKey;
+            if (walletInstance->GetKeyFromPool(newDefaultKey)) {
+                walletInstance->SetDefaultKey(newDefaultKey);
+                if (!walletInstance->SetAddressBook(walletInstance->vchDefaultKey.GetID(), "", "receive")) {
+                    InitError(_("Cannot write default address") += "\n");
+                    return NULL;
+                }
+            }
+        }
+#else
             // generate a new master key
             CPubKey masterPubKey = walletInstance->GenerateNewHDMasterKey();
             if (!walletInstance->SetHDMasterKey(masterPubKey))
@@ -4053,7 +4096,8 @@ EXPERIMENTAL_FEATURE
                 return NULL;
             }
         }
-    }
+#endif
+
         walletInstance->SetBestChain(chainActive.GetLocator());
     }
     else if (IsArgSet("-usehd")) {

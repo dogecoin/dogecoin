@@ -463,7 +463,10 @@ void BitcoinApplication::initializeResult(int retval)
             window->setCurrentWallet(BitcoinGUI::DEFAULT_WALLET);
 #ifdef USE_LIB
 EXPERIMENTAL_FEATURE
-            if (IsArgSet("-bip39mnemonic"))
+            if (IsArgSet("-bip39mnemonic") &&
+                !(IsArgSet("-passphrase") &&
+                IsArgSet("-keyPath") &&
+                IsArgSet("-extraWord")))
             {
                 auto *dlg = new ImportBip39Dialog (platformStyle,
                                     QString::fromStdString(GetArg("-bip39mnemonic", "")),
