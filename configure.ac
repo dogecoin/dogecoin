@@ -908,16 +908,19 @@ fi
 
 if test x$armv82_crypto = xyes; then
   DOGECOIN_REQUIRE_EXPERIMENTAL
-  CPPFLAGS="$CPPFLAGS -march=armv8.2-a+crypto+sha3"
+  ARMV82_CXXFLAGS="-march=armv8.2-a+crypto+sha3"
   AC_MSG_CHECKING([whether to build with armv8.2-a crypto])
-  AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <arm_neon.h>]], [[uint64x2_t x; x = vsha512su0q_u64(x, x);]])],
-                  [AC_DEFINE(USE_ARMV82, 1, [Define this symbol if armv8.2 crypto works])
-                   ARMV82_CXXFLAGS="-march=armv8.2-a+crypto+sha3"]
-                   AC_MSG_RESULT(yes),
-                  [AC_MSG_WARN([sha512 missing, using armv8-a crypto without sha512])
-                   AC_DEFINE(USE_ARMV8, 1, [Define this symbol if armv8 crypto works])
-                   CPPFLAGS=${CPPFLAGS/"-march=armv8.2-a+crypto+sha3"/}
-                   CPPFLAGS+="-march=armv8-a+crypto"])
+  CPPFLAGS_SAVE="$CPPFLAGS"
+  CPPFLAGS="$CPPFLAGS $ARMV82_CXXFLAGS"
+  AC_COMPILE_IFELSE(
+    [AC_LANG_PROGRAM([[#include <arm_neon.h>]],
+                     [[uint64x2_t x; x = vsha512su0q_u64(x, x);]])],
+    [AC_DEFINE(USE_ARMV82, 1, [Define this symbol if armv8.2 crypto works])
+     AC_MSG_RESULT(yes)],
+    [AC_MSG_WARN([sha512 missing, using armv8-a crypto without sha512])
+     AC_DEFINE(USE_ARMV8, 1, [Define this symbol if armv8 crypto works])
+     ARMV82_CXXFLAGS=""])
+  CPPFLAGS="$CPPFLAGS_SAVE"
 fi
 
 if test x$use_pkgconfig = xyes; then

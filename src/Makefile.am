@@ -46,6 +46,7 @@ if ENABLE_WALLET
 LIBDOGECOIN_WALLET=libdogecoin_wallet.a
 endif
 if USE_ARMV82
+crypto_libdogecoin_crypto_armv82_a_CXXFLAGS = $(ARMV82_CXXFLAGS)
 LIBDOGECOIN_CRYPTO_ARMV82=crypto/libdogecoin_crypto_armv82.a
 LIBDOGECOIN_CRYPTO += $(LIBDOGECOIN_CRYPTO_ARMV82)
 endif
@@ -296,7 +297,6 @@ endif
 
 # only include ARMv8.2 sha512 sources if USE_ARMV82 is defined
 if USE_ARMV82
-crypto_libdogecoin_crypto_armv82_a_CXXFLAGS = $(ARMV82_CXXFLAGS)
 crypto_libdogecoin_crypto_armv82_a_SOURCES = crypto/sha512-armv82.cpp
 endif
 
