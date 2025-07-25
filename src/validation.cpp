@@ -3002,9 +3002,9 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
 bool IsWitnessEnabled(const CBlockIndex* pindexPrev, const Consensus::Params& params)
 {
     // Dogecoin: Disable SegWit
-    // TODO: make it firewall behind another RPC command line option
     bool fRegTest = GetBoolArg("-regtest", false);
-    if (fRegTest) {
+    bool isSegwitOn = IsArgSet("-segwit");
+    if (fRegTest && isSegwitOn) {
         return true;
     }
     return false;
