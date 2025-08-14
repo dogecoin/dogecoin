@@ -13,8 +13,6 @@ wallet_packages=bdb
 
 upnp_packages=miniupnpc
 
-lib_packages=libunistring libdogecoin
-
 avx2_native_packages:=native_nasm
 avx2_x86_64_linux_packages:=intel-ipsec-mb
 avx2_x86_64_mingw32_packages:=intel-ipsec-mb

@@ -184,6 +184,8 @@ BITCOIN_CORE_H = \
   wallet/rpcwallet.h \
   wallet/wallet.h \
   wallet/walletdb.h \
+  wallet/bip39/bip39.h \
+  wallet/bip39/utf8proc/utf8proc.h \
   warnings.h \
   zmq/zmqabstractnotifier.h \
   zmq/zmqconfig.h\
@@ -263,6 +265,9 @@ libdogecoin_wallet_a_SOURCES = \
   wallet/rpcwallet.cpp \
   wallet/wallet.cpp \
   wallet/walletdb.cpp \
+  wallet/bip39/bip39.cpp \
+  wallet/bip39/utf8proc/utf8proc.c \
+  wallet/bip39/utf8proc/utf8proc_data.c \
   policy/rbf.cpp \
   $(BITCOIN_CORE_H)
 

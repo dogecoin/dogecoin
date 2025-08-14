@@ -547,7 +547,7 @@ BOOST_AUTO_TEST_CASE(GetMinimumFee_dust_test)
     CWallet::discardThreshold = COIN / 100;
 }
 
-#ifdef USE_LIB
+#ifdef USE_BIP39
 EXPERIMENTAL_FEATURE
 BOOST_FIXTURE_TEST_CASE(derive_new_child_key_test, WalletTestingSetup)
 {

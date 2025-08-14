@@ -73,7 +73,7 @@ const std::string BitcoinGUI::DEFAULT_UIPLATFORM =
 
 #include <boost/bind/bind.hpp>
 
-#ifdef USE_LIB
+#ifdef USE_BIP39
 #include "support/experimental.h"
 #endif
 
@@ -103,7 +103,7 @@ BitcoinGUI::BitcoinGUI(const PlatformStyle *_platformStyle, const NetworkStyle *
     usedSendingAddressesAction(0),
     usedReceivingAddressesAction(0),
     importPrivateKeyAction(0),
-#ifdef USE_LIB
+#ifdef USE_BIP39
 // EXPERIMENTAL_FEATURE
     importBip39Action(0),
 #endif
@@ -400,7 +400,7 @@ void BitcoinGUI::createActions()
     importPrivateKeyAction = new QAction(platformStyle->TextColorIcon(":/icons/address-book"), tr("&Import Private Key..."), this);
     importPrivateKeyAction->setStatusTip(tr("Import a Dogecoin private key"));
 
-#ifdef USE_LIB
+#ifdef USE_BIP39
 EXPERIMENTAL_FEATURE
     importBip39Action = new QAction(platformStyle->TextColorIcon(":/icons/address-book"), tr("&Import BIP39 Mnemonic..."), this);
     importBip39Action->setStatusTip(tr("Import a BIP39 mnemonic"));
@@ -433,7 +433,7 @@ EXPERIMENTAL_FEATURE
         connect(openAction, SIGNAL(triggered()), this, SLOT(openClicked()));
         connect(paperWalletAction, SIGNAL(triggered()), walletFrame, SLOT(printPaperWallets()));
         connect(importPrivateKeyAction, SIGNAL(triggered()), walletFrame, SLOT(importPrivateKey()));
-#ifdef USE_LIB
+#ifdef USE_BIP39
 EXPERIMENTAL_FEATURE
         connect(importBip39Action, SIGNAL(triggered()), walletFrame, SLOT(importBip39Mnemonic()));
 #endif
@@ -465,7 +465,7 @@ void BitcoinGUI::createMenuBar()
         file->addAction(paperWalletAction);
         file->addSeparator();
         file->addAction(importPrivateKeyAction);
-#ifdef USE_LIB
+#ifdef USE_BIP39
 EXPERIMENTAL_FEATURE
         file->addAction(importBip39Action);
 #endif

@@ -9,7 +9,7 @@
 #include <QFrame>
 #include <QMap>
 
-#ifdef USE_LIB
+#ifdef USE_BIP39
 #include "support/experimental.h"
 #endif
 

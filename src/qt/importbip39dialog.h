@@ -23,10 +23,6 @@ class ImportBip39Dialog : public QDialog
     Q_OBJECT
 public:
     explicit ImportBip39Dialog(const PlatformStyle *platformStyle,
-                               const QString& cliMnemonic = "",
-                               const QString& cliPassphrase = "",
-                               const QString& cliKeyPath = "",
-                               const QString& cliExtraWord = "",
                                QWidget *parent = nullptr);
     ~ImportBip39Dialog() override;
 

@@ -19,7 +19,7 @@
 #include <QPoint>
 #include <QSystemTrayIcon>
 
-#ifdef USE_LIB
+#ifdef USE_BIP39
 #include "support/experimental.h"
 #endif
 
@@ -105,7 +105,7 @@ private:
     QAction *usedSendingAddressesAction;
     QAction *usedReceivingAddressesAction;
     QAction *importPrivateKeyAction;
-#ifdef USE_LIB
+#ifdef USE_BIP39
 EXPERIMENTAL_FEATURE
     QAction *importBip39Action;
 #endif

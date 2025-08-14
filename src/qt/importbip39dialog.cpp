@@ -10,6 +10,7 @@
 #include "ui_importbip39dialog.h"
 
 #include "platformstyle.h"
+#include "wallet/bip39/wordlists/index.h"
 #include "wallet/wallet.h"
 #include "validation.h"
 #include "chain.h"
@@ -26,8 +27,10 @@
 #include <QDateTime>
 #include <QDir>
 
-#ifdef USE_LIB
+#ifdef USE_BIP39
 #include "support/experimental.h"
+
+#define LANG_WORD_CNT 2048
 
 EXPERIMENTAL_FEATURE
 
@@ -44,10 +47,6 @@ public Q_SLOTS:
 #include "importbip39dialog.moc"
 
 ImportBip39Dialog::ImportBip39Dialog(const PlatformStyle *platformStyle,
-                                     const QString& cliMnemonic,
-                                     const QString& cliPassphrase,
-                                     const QString& cliKeyPath,
-                                     const QString& cliExtraWord,
                                      QWidget *parent)
     : QDialog(parent),
       ui(new Ui::ImportBip39Dialog),
@@ -59,22 +58,22 @@ ImportBip39Dialog::ImportBip39Dialog(const PlatformStyle *platformStyle,
     completer  = new QCompleter(wordModel, this);
     completer->setCaseSensitivity(Qt::CaseInsensitive);
 
-    ui->wordListComboBox->addItem("English",              "english.txt");
-    ui->wordListComboBox->addItem("Chinese (simplified)", "chinese_simplified.txt");
-    ui->wordListComboBox->addItem("Chinese (traditional)","chinese_traditional.txt");
-    ui->wordListComboBox->addItem("Czech",                "czech.txt");
-    ui->wordListComboBox->addItem("French",               "french.txt");
-    ui->wordListComboBox->addItem("Italian",              "italian.txt");
-    ui->wordListComboBox->addItem("Japanese",             "japanese.txt");
-    ui->wordListComboBox->addItem("Korean",               "korean.txt");
-    ui->wordListComboBox->addItem("Portuguese",           "portuguese.txt");
-    ui->wordListComboBox->addItem("Spanish",              "spanish.txt");
+    ui->wordListComboBox->addItem("English",              "eng");
+    ui->wordListComboBox->addItem("Chinese (simplified)", "sc");   // a.k.a. chs
+    ui->wordListComboBox->addItem("Chinese (traditional)","tc");   // a.k.a. cht
+    ui->wordListComboBox->addItem("Czech",                "cze");  // a.k.a. ces
+    ui->wordListComboBox->addItem("French",               "fra");
+    ui->wordListComboBox->addItem("Italian",              "ita");
+    ui->wordListComboBox->addItem("Japanese",             "jpn");
+    ui->wordListComboBox->addItem("Korean",               "kor");
+    ui->wordListComboBox->addItem("Portuguese",           "por");
+    ui->wordListComboBox->addItem("Spanish",              "spa");
 
     connect(ui->wordListComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &ImportBip39Dialog::onWordListChanged);
 
     setupLineEdits();
-    loadWordList("english.txt");
+    loadWordList("eng");
 
     connect(ui->showMnemonicCheckBox, &QCheckBox::toggled, this, &ImportBip39Dialog::toggleShowMnemonic);
     connect(ui->showExtraCheckBox, &QCheckBox::toggled, this, &ImportBip39Dialog::toggleShowExtraWord);
@@ -84,20 +83,6 @@ ImportBip39Dialog::ImportBip39Dialog(const PlatformStyle *platformStyle,
     connect(ui->walletPassConfirmEdit, &QLineEdit::textChanged, this, &ImportBip39Dialog::setOkButtonState);
 
     if (fPruneMode) ui->rescanCheckBox->setEnabled(false);
-
-    if (!cliMnemonic.isEmpty()) {
-        QStringList words = cliMnemonic.split(QRegExp("\\s+"),
-                                              QString::SkipEmptyParts);
-        const bool use24 = (words.size() == 24);
-        ui->checkBox24->setChecked(use24);
-        toggleExtraWords(use24);
-        for (int i = 0; i < words.size() && i < 24; ++i)
-            edits[i]->setText(words[i]);
-        ui->showMnemonicCheckBox->setChecked(true);
-    }
-    if (!cliPassphrase.isEmpty()) ui->walletPassEdit->setText(cliPassphrase);
-    if (!cliExtraWord.isEmpty()) ui->extraWordEdit->setText(cliExtraWord);
-    if (!cliKeyPath.isEmpty()) ui->keyPathEdit->setText(cliKeyPath);
 
     setOkButtonState();
 }
@@ -111,13 +96,33 @@ ImportBip39Dialog::~ImportBip39Dialog()
     delete ui;
 }
 
-void ImportBip39Dialog::loadWordList(const QString &fileAlias)
+void ImportBip39Dialog::loadWordList(const QString &langCode)
 {
     currentWords.clear();
-    QFile f(":/wordlists/" + fileAlias);
-    if (f.open(QIODevice::ReadOnly | QIODevice::Text))
-        while (!f.atEnd())
-            currentWords << QString::fromUtf8(f.readLine()).trimmed();
+
+    // Resolve pointer to the compiled-in wordlist array from index.h
+    const char* const* wl = nullptr;
+    if (langCode == QLatin1String("eng"))      wl = wordlist_eng;
+    else if (langCode == QLatin1String("jpn")) wl = wordlist_jpn;
+    else if (langCode == QLatin1String("ita")) wl = wordlist_ita;
+    else if (langCode == QLatin1String("fra")) wl = wordlist_fra;
+    else if (langCode == QLatin1String("kor")) wl = wordlist_kor;
+    else if (langCode == QLatin1String("por")) wl = wordlist_por;
+    else if (langCode == QLatin1String("spa")) wl = wordlist_spa;
+    else if (langCode == QLatin1String("cze")
+          || langCode == QLatin1String("ces")) wl = wordlist_cze;
+    else if (langCode == QLatin1String("sc")
+          || langCode == QLatin1String("chs")) wl = wordlist_sc;
+    else if (langCode == QLatin1String("tc")
+          || langCode == QLatin1String("cht")) wl = wordlist_tc;
+
+    if (wl) {
+        currentWords.reserve(LANG_WORD_CNT);
+        for (int i = 0; i < LANG_WORD_CNT; ++i) {
+            currentWords << QString::fromUtf8(wl[i]);
+        }
+    }
+
     wordModel->setStringList(currentWords);
     completer->setModel(wordModel);
 }
@@ -225,8 +230,8 @@ void ImportBip39Dialog::on_okButton_clicked()
 
 bool ImportBip39Dialog::importMnemonic()
 {
-#ifndef USE_LIB
-    ui->statusLabel->setText(tr("This binary was built without libdogecoin / BIP-39 support."));
+#ifndef USE_BIP39
+    ui->statusLabel->setText(tr("This binary was built without BIP-39 support."));
     return false;
 #else
 
@@ -263,11 +268,17 @@ bool ImportBip39Dialog::importMnemonic()
         return false;
     }
 
+    // Get the selected language code used by VerifyBip39Mnemonic
+    QString langCode = ui->wordListComboBox->currentData().toString();
+    if (langCode.isEmpty()) {
+        ui->statusLabel->setText(tr("Please select a word list."));
+        return false;
+    }
+
     // Check if mnemonic is valid
     if (!pwalletMain->VerifyBip39Mnemonic(mnemonicStr.c_str(),
-                                          "eng",
-                                          " ",
-                                          nullptr)) {
+                                            langCode.toStdString().c_str(),
+                                          " ")) {
         ui->statusLabel->setText(tr("Invalid mnemonic."));
         return false;
     }
@@ -318,4 +329,4 @@ bool ImportBip39Dialog::importMnemonic()
 #endif
 }
 
-#endif // USE_LIB
+#endif // USE_BIP39

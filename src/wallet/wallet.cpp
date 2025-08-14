@@ -138,7 +138,7 @@ void CWallet::DeriveNewChildKey(CKeyMetadata& metadata, CKey& secret)
     // for now we use a fixed keypath scheme of m/0'/3'/k
     CKey key;                      //master key seed (256bit)
     CExtKey masterKey;             //hd master key
-#ifndef USE_LIB
+#ifndef USE_BIP39
     CExtKey accountKey;            //key at m/0'
     CExtKey externalChainChildKey; //key at m/0'/3'
     CExtKey childKey;              //key at m/0'/3'/<n>'
@@ -154,7 +154,7 @@ EXPERIMENTAL_FEATURE
     CExtKey childKey;              //key at m/44'/3'/0'/0/<n>
 #endif
 
-#ifdef USE_LIB
+#ifdef USE_BIP39
 EXPERIMENTAL_FEATURE
     // try to get the master key from the mnemonic
     if (!GetBip39Mnemonic(hdChain.masterKeyID, mnemonic, extraWord, keyPath) && !GetKey(hdChain.masterKeyID, key)) {
@@ -168,9 +168,9 @@ EXPERIMENTAL_FEATURE
         std::copy(mnemonic.begin(), mnemonic.end(), bip39_mnemonic);
         std::copy(extraWord.begin(), extraWord.end(), bip39_passphrase);
 
-        if (dogecoin_seed_from_mnemonic(bip39_mnemonic, bip39_passphrase, bip39_seed) == -1) {
+        if (seedFromMnemonic(bip39_mnemonic, bip39_passphrase, bip39_seed) == -1) {
             memory_cleanse(bip39_mnemonic, sizeof(bip39_mnemonic));
-            throw std::runtime_error(std::string(__func__) + ": dogecoin_seed_from_mnemonic failed");
+            throw std::runtime_error(std::string(__func__) + ": seedFromMnemonic failed");
         }
         memory_cleanse(bip39_mnemonic, sizeof(bip39_mnemonic));
 
@@ -196,7 +196,7 @@ EXPERIMENTAL_FEATURE
     masterKey.SetMaster(key.begin(), key.size());
 #endif
 
-#ifndef USE_LIB
+#ifndef USE_BIP39
     // derive m/0'
     // use hardened derivation (child keys >= 0x80000000 are hardened after bip32)
     masterKey.Derive(accountKey, BIP32_HARDENED_KEY_LIMIT);
@@ -243,7 +243,7 @@ EXPERIMENTAL_FEATURE
         // always derive hardened keys
         // childIndex | BIP32_HARDENED_KEY_LIMIT = derive childIndex in hardened child-index-range
         // example: 1 | BIP32_HARDENED_KEY_LIMIT == 0x80000001 == 2147483649
-#ifndef USE_LIB
+#ifndef USE_BIP39
         externalChainChildKey.Derive(childKey, hdChain.nExternalChainCounter | BIP32_HARDENED_KEY_LIMIT);
         metadata.hdKeypath = "m/0'/3'/" + std::to_string(hdChain.nExternalChainCounter) + "'";
 #else
@@ -788,7 +788,7 @@ bool CWallet::EncryptWallet(const SecureString& strWalletPassphrase)
     return true;
 }
 
-#ifdef USE_LIB
+#ifdef USE_BIP39
 EXPERIMENTAL_FEATURE
 bool CWallet::EncryptBip39Wallet(const SecureString& strWalletPassphrase)
 {
@@ -1543,12 +1543,12 @@ CAmount CWallet::GetChange(const CTransaction& tx) const
     return nChange;
 }
 
-#ifdef USE_LIB
+#ifdef USE_BIP39
 EXPERIMENTAL_FEATURE
-bool CWallet::VerifyBip39Mnemonic(const MNEMONIC mnemonic, const char* language, const char* space, const char* filename)
+bool CWallet::VerifyBip39Mnemonic(const MNEMONIC mnemonic, const char* language, const char* space)
 {
     // Check if the mnemonic is valid
-    return dogecoin_verify_mnemonic(mnemonic, language, space, filename) == 0;
+    return verifyMnemonic(mnemonic, language, space) == 0;
 }
 
 CPubKey CWallet::GenerateBip39MasterKey(const MNEMONIC mnemonic_in, const PASS passphrase_in, const std::string& extraWord, const std::string& keyPath)
@@ -1581,8 +1581,8 @@ CPubKey CWallet::GenerateBip39MasterKey(const MNEMONIC mnemonic_in, const PASS p
     if (mnemonic_in != nullptr && strlen(mnemonic_in) != 0) {
         // Generate seed from mnemonic
         SEED bip39_seed;
-        if (dogecoin_seed_from_mnemonic(mnemonic_in, extraWord.c_str(), bip39_seed) == -1) {
-            throw std::runtime_error(std::string(__func__) + ": dogecoin_seed_from_mnemonic failed");
+        if (seedFromMnemonic(mnemonic_in, extraWord.c_str(), bip39_seed) == -1) {
+            throw std::runtime_error(std::string(__func__) + ": seedFromMnemonic failed");
         }
 
         std::vector<unsigned char> vchSeed(bip39_seed, bip39_seed + 64);
@@ -3932,12 +3932,9 @@ std::string CWallet::GetWalletHelpString(bool showDebug)
     strUsage += HelpMessageOpt("-spendzeroconfchange", strprintf(_("Spend unconfirmed change when sending transactions (default: %u)"), DEFAULT_SPEND_ZEROCONF_CHANGE));
     strUsage += HelpMessageOpt("-txconfirmtarget=<n>", strprintf(_("If paytxfee is not set, include enough fee so transactions begin confirmation on average within n blocks (default: %u)"), DEFAULT_TX_CONFIRM_TARGET));
     strUsage += HelpMessageOpt("-usehd", _("Use hierarchical deterministic key generation (HD) after BIP32. Only has effect during wallet creation/first start") + " " + strprintf(_("(default: %u)"), DEFAULT_USE_HD_WALLET));
-#ifdef USE_LIB
+#ifdef USE_BIP39
 EXPERIMENTAL_FEATURE
-    strUsage += HelpMessageOpt("-bip39mnemonic=<seedphrase>", _("Use BIP39 mnemonic seedphrase. Only has effect during wallet creation/first start"));
-    strUsage += HelpMessageOpt("-passphrase=<passphrase>", _("Use passphrase to encrypt wallet (this is NOT a seedphrase word). Only has effect during wallet creation/first start"));
-    strUsage += HelpMessageOpt("-extraWord=<word>", _("Use 13/25th word with BIP39 mnemonic. Only has effect during wallet creation/first start"));
-    strUsage += HelpMessageOpt("-keyPath=<path>", _("Use key path for HD wallet. Only has effect during wallet creation/first start"));
+    strUsage += HelpMessageOpt("-bip39mnemonic", _("Use BIP39 mnemonic seedphrase. Only has effect during wallet creation/first start"));
 #endif
     strUsage += HelpMessageOpt("-walletrbf", strprintf(_("Send transactions with full-RBF opt-in enabled (default: %u)"), DEFAULT_WALLET_RBF));
     strUsage += HelpMessageOpt("-upgradewallet", _("Upgrade wallet to latest format on startup"));
@@ -4033,56 +4030,13 @@ CWallet* CWallet::CreateWalletFromFile(const std::string walletFile)
 
     if (fFirstRun)
     {
+#ifdef USE_BIP39
+EXPERIMENTAL_FEATURE
+    if (!IsArgSet("-bip39mnemonic"))
+#endif
+    {
         // Create new keyUser and set as default key
         if (GetBoolArg("-usehd", DEFAULT_USE_HD_WALLET) && !walletInstance->IsHDEnabled()) {
-#ifdef USE_LIB
-EXPERIMENTAL_FEATURE
-            CPubKey masterPubKey;
-            if (IsArgSet("-bip39mnemonic") &&
-                IsArgSet("-passphrase") &&
-                IsArgSet("-extraWord") &&
-                IsArgSet("-keyPath"))
-            {
-                std::string mnemonic = GetArg("-bip39mnemonic", "");
-                std::string passphrase = GetArg("-passphrase", "");
-                std::string extraWord = GetArg("-extraWord", "");
-                std::string keyPath = GetArg("-keyPath", "");
-                masterPubKey = walletInstance->GenerateBip39MasterKey(mnemonic.c_str(),
-                                                                    passphrase.c_str(),
-                                                                    extraWord.c_str(),
-                                                                    keyPath.c_str());
-                mnemonic.clear();
-                passphrase.clear();
-                extraWord.clear();
-                keyPath.clear();
-                walletInstance->NewKeyPool();
-            }
-            if (!IsArgSet("-bip39mnemonic"))
-            {
-                // generate a new master key
-                masterPubKey = walletInstance->GenerateNewHDMasterKey();
-                if (!walletInstance->SetHDMasterKey(masterPubKey))
-                    throw std::runtime_error(std::string(__func__) + ": Storing master key failed");
-            }
-        }
-
-        const bool waitingForBip39Dialog = IsArgSet("-bip39mnemonic") &&
-                                        !(IsArgSet("-passphrase") &&
-                                        IsArgSet("-extraWord") &&
-                                        IsArgSet("-keyPath"));
-
-        if (!waitingForBip39Dialog)
-        {
-            CPubKey newDefaultKey;
-            if (walletInstance->GetKeyFromPool(newDefaultKey)) {
-                walletInstance->SetDefaultKey(newDefaultKey);
-                if (!walletInstance->SetAddressBook(walletInstance->vchDefaultKey.GetID(), "", "receive")) {
-                    InitError(_("Cannot write default address") += "\n");
-                    return NULL;
-                }
-            }
-        }
-#else
             // generate a new master key
             CPubKey masterPubKey = walletInstance->GenerateNewHDMasterKey();
             if (!walletInstance->SetHDMasterKey(masterPubKey))
@@ -4096,8 +4050,7 @@ EXPERIMENTAL_FEATURE
                 return NULL;
             }
         }
-#endif
-
+    }
         walletInstance->SetBestChain(chainActive.GetLocator());
     }
     else if (IsArgSet("-usehd")) {

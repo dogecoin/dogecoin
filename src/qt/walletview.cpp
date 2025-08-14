@@ -11,7 +11,7 @@
 #include "clientmodel.h"
 #include "guiutil.h"
 #include "importkeysdialog.h"
-#ifdef USE_LIB
+#ifdef USE_BIP39
 #include "importbip39dialog.h"
 #endif
 #include "optionsmodel.h"
@@ -72,7 +72,7 @@ WalletView::WalletView(const PlatformStyle *_platformStyle, QWidget *parent):
 
     importKeysDialog = new ImportKeysDialog(platformStyle);
 
-#ifdef USE_LIB
+#ifdef USE_BIP39
 EXPERIMENTAL_FEATURE
     // Create import BIP39 mnemonic dialog
     importBip39Dialog = new ImportBip39Dialog(platformStyle);
@@ -235,7 +235,7 @@ void WalletView::gotoImportKeysDialog()
     setCurrentWidget(importKeysDialog);
 }
 
-#ifdef USE_LIB
+#ifdef USE_BIP39
 EXPERIMENTAL_FEATURE
 void WalletView::gotoImportBip39Dialog()
 {
@@ -338,7 +338,7 @@ void WalletView::importPrivateKey()
     importKeysDialog->activateWindow();
 }
 
-#ifdef USE_LIB
+#ifdef USE_BIP39
 EXPERIMENTAL_FEATURE
 void WalletView::importBip39Mnemonic()
 {

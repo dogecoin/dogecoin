@@ -14,9 +14,7 @@
 #include <string>
 #include <vector>
 
-extern "C" {
-#include "dogecoin/libdogecoin.h"
-}
+#include "wallet/bip39/bip39.h"
 
 struct TestDerivation {
     std::string pub;
@@ -53,7 +51,7 @@ void bip39_test(const TestVector &test) {
     MNEMONIC mnemonic;
     SEED bip32_seed;
     generateEnglishMnemonic(test.strHexMaster.c_str(), "256", mnemonic);
-    dogecoin_seed_from_mnemonic (mnemonic, NULL, bip32_seed);
+    seedFromMnemonic (mnemonic, NULL, bip32_seed);
 
     // Copy the bip32_seed to the seed vector
     seed.resize(sizeof(bip32_seed));

@@ -196,7 +196,7 @@ void WalletFrame::importPrivateKey()
 
 void WalletFrame::importBip39Mnemonic()
 {
-#ifdef USE_LIB
+#ifdef USE_BIP39
 EXPERIMENTAL_FEATURE
     WalletView *walletView = currentWalletView();
     if (walletView)

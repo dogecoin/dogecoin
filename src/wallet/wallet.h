@@ -34,10 +34,8 @@
 
 #include <boost/thread.hpp>
 
-#ifdef USE_LIB
-extern "C" {
-#include "dogecoin/libdogecoin.h"
-}
+#ifdef USE_BIP39
+#include "wallet/bip39/bip39.h"
 #include "support/experimental.h"
 #endif
 
@@ -752,7 +750,7 @@ public:
     bool ChangeWalletPassphrase(const SecureString& strOldWalletPassphrase, const SecureString& strNewWalletPassphrase);
     bool EncryptWallet(const SecureString& strWalletPassphrase);
 
-#ifdef USE_LIB
+#ifdef USE_BIP39
 EXPERIMENTAL_FEATURE
     bool EncryptBip39Wallet(const SecureString& strWalletPassphrase);
 #endif
@@ -977,10 +975,10 @@ EXPERIMENTAL_FEATURE
     /* Returns true if HD is enabled */
     bool IsHDEnabled();
 
-#ifdef USE_LIB
+#ifdef USE_BIP39
 EXPERIMENTAL_FEATURE
-    /* Verifies a BIP39 mnemonic phrase, in a language (ISO 639-2 code), space character and optionally a filename for the wordlist */
-    bool VerifyBip39Mnemonic(const MNEMONIC mnemonic, const char* language, const char* space, const char* filename);
+    /* Verifies a BIP39 mnemonic phrase, in a language (ISO 639-2 code), space character */
+    bool VerifyBip39Mnemonic(const MNEMONIC mnemonic, const char* language, const char* space);
 
     /* Generates or imports a BIP39 seed and encrypts the wallet */
     CPubKey GenerateBip39MasterKey(const MNEMONIC mnemonic, const PASS password, const std::string& extraWord, const std::string& keyPath);

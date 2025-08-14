@@ -142,7 +142,7 @@ BITCOIN_TESTS =\
   test/univalue_tests.cpp \
   test/util_tests.cpp
 
-if USE_LIB
+if USE_BIP39
 BITCOIN_TESTS += \
   test/bip39_tests.cpp
 endif

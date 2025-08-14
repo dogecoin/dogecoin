@@ -10,7 +10,7 @@
 
 #include <QStackedWidget>
 
-#ifdef USE_LIB
+#ifdef USE_BIP39
 #include "support/experimental.h"
 #endif
 
@@ -25,7 +25,7 @@ class TransactionView;
 class WalletModel;
 class AddressBookPage;
 class ImportKeysDialog;
-#ifdef USE_LIB
+#ifdef USE_BIP39
 EXPERIMENTAL_FEATURE
 class ImportBip39Dialog;
 #endif
@@ -75,7 +75,7 @@ private:
     AddressBookPage *usedSendingAddressesPage;
     AddressBookPage *usedReceivingAddressesPage;
     ImportKeysDialog *importKeysDialog;
-#ifdef USE_LIB
+#ifdef USE_BIP39
 EXPERIMENTAL_FEATURE
     ImportBip39Dialog *importBip39Dialog;
 #endif
@@ -92,7 +92,7 @@ public Q_SLOTS:
     void gotoHistoryPage();
     /** Switch to import keys dialog */
     void gotoImportKeysDialog();
-#ifdef USE_LIB
+#ifdef USE_BIP39
 // EXPERIMENTAL_FEATURE
     /** Switch to import BIP39 mnemonic dialog */
     void gotoImportBip39Dialog();
@@ -131,7 +131,7 @@ public Q_SLOTS:
     /** Import a private key */
     void importPrivateKey();
 
-#ifdef USE_LIB
+#ifdef USE_BIP39
 // EXPERIMENTAL_FEATURE
     /** Import a BIP39 mnemonic */
     void importBip39Mnemonic();
