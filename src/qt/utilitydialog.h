@@ -75,6 +75,9 @@ public:
 protected:
     void closeEvent(QCloseEvent *event);
 
+private:
+    QPushButton* forceCloseButton;
+
 private Q_SLOTS:
     void onForceCloseClicked();
 };
