@@ -1,0 +1,27 @@
+# Contributing to Dogecoin Project
+
+Dziękujemy za zainteresowanie rozwojem tego projektu!  
+Każdy wkład — od poprawek w dokumentacji po kod źródłowy — jest mile widziany.
+
+## Jak zacząć
+
+1. **Sforkuj repozytorium** na swoje konto.
+2. **Utwórz nowy branch** opisujący zmianę, np. `feature/wallet-api` lub `fix/typo-readme`.
+3. **Wprowadź zmiany** i przetestuj je lokalnie.
+4. **Zrób commit** zgodnie ze standardem opisanym niżej.
+5. **Otwórz Pull Request** do gałęzi `master` lub `develop` (zgodnie z opisem w README).
+
+---
+
+## Standard commitów
+
+Stosujemy [Conventional Commits](https://www.conventionalcommits.org/):
+
+- `feat:` – nowa funkcja
+- `fix:` – poprawka błędu
+- `docs:` – zmiany w dokumentacji
+- `refactor:` – zmiany w kodzie bez wpływu na logikę
+- `test:` – dodanie lub poprawa testów
+- `chore:` – prace porządkowe, konfiguracja
+
+Przykład:
