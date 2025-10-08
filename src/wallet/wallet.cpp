@@ -31,10 +31,16 @@
 #include "utilmoneystr.h"
 
 #include <assert.h>
+#include <set>
 
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/thread.hpp>
+
+#include "script/interpreter.h"
+#include "script/standard.h"
+#include "base58.h"
+#include "net.h"
 
 using namespace std;
 
@@ -790,6 +796,367 @@ bool CWallet::EncryptWallet(const SecureString& strWalletPassphrase)
 
 #ifdef USE_BIP39
 EXPERIMENTAL_FEATURE
+bool CWallet::SweepFromMnemonic(const std::string& mnemonic,
+                                const std::string& extra,
+                                const std::string& basePath,
+                                int gap,
+                                const CTxDestination* destOpt,
+                                CBlockIndex* startAt,
+                                bool dry_run,
+                                const CFeeRate* fee_override,
+                                SweepReport& out,
+                                std::string& err)
+{
+    err.clear();
+    out = SweepReport{};
+
+    if (gap < 1 || gap > 1000) { err = "invalid gap"; return false; }
+    if (mnemonic.empty())      { err = "mnemonic empty"; return false; }
+
+    // 1) Verify mnemonic (try multiple languages)
+    {
+        const char* langs[] = {"eng","spa","jpn","ita","fra","kor","sc","tc","cze","por"};
+        bool ok_mn = false;
+        for (size_t i = 0; i < sizeof(langs)/sizeof(langs[0]); ++i) {
+            if (verifyMnemonic(mnemonic.c_str(), langs[i], " ") == 0) { ok_mn = true; break; }
+        }
+        if (!ok_mn) { err = "invalid mnemonic"; return false; }
+    }
+
+    // 2) Derive seed from mnemonic+extra
+    SEED s;
+    if (seedFromMnemonic(mnemonic.c_str(), extra.c_str(), s) != 0) {
+        err = "seedFromMnemonic failed";
+        return false;
+    }
+    std::vector<unsigned char> seed(s, s + 64);
+    memory_cleanse(s, sizeof(s));
+
+    CExtKey master;
+    master.SetMaster(seed.data(), seed.size());
+    memory_cleanse(seed.data(), seed.size());
+
+    // 3) Parse base path (defaults 44'/3'/0')
+    unsigned purpose = BIP44_PURPOSE_VALUE;    // 44
+    unsigned coin    = BIP44_COIN_TYPE_VALUE;  // 3
+    unsigned acct    = BIP44_ACCOUNT_VALUE;    // 0
+
+    if (!basePath.empty() && basePath[0]=='m') {
+        KEY_PATH buf; memset(buf, 0, sizeof(buf));
+        size_t n = basePath.size(); if (n >= sizeof(buf)) n = sizeof(buf)-1;
+        memcpy(buf, basePath.data(), n); buf[n] = '\0';
+        char* sp = nullptr;
+        strtok_r(buf,"/",&sp); // "m"
+        char* t1 = strtok_r(nullptr, "/'", &sp);
+        char* t2 = strtok_r(nullptr, "/'", &sp);
+        char* t3 = strtok_r(nullptr, "/'", &sp);
+        if (t1) purpose = (unsigned)atoi(t1);
+        if (t2) coin    = (unsigned)atoi(t2);
+        if (t3) acct    = (unsigned)atoi(t3);
+    }
+
+    // 4) Derive account & chain keys
+    CExtKey purposeKey, coinKey, acctKey, extChainKey, chgChainKey;
+    master.Derive(purposeKey, purpose | BIP32_HARDENED_KEY_LIMIT);  master.Clear();
+    purposeKey.Derive(coinKey,  coin   | BIP32_HARDENED_KEY_LIMIT); purposeKey.Clear();
+    coinKey.Derive(acctKey,     acct   | BIP32_HARDENED_KEY_LIMIT); coinKey.Clear();
+    acctKey.Derive(extChainKey, BIP44_EXTERNAL_CHAIN_VALUE);        // chain 0
+    acctKey.Derive(chgChainKey, BIP44_INTERNAL_CHAIN_VALUE);        // chain 1
+    acctKey.Clear();
+
+    // 5) Precompute derived scripts (P2PKH) and store metadata
+    struct KeyMeta {
+        uint32_t chainIdx;  // 0 = external, 1 = change
+        uint32_t index;     // address index within that chain
+        CPubKey  pub;
+    };
+
+    std::map<CScript, KeyMeta> spkMap;   // scriptPubKey -> metadata
+    spkMap.clear();
+
+    std::vector<CScript> p2pkhScripts;   // for scanning
+    p2pkhScripts.reserve((size_t)gap * 2);
+
+    // We'll also add raw P2PK watch scripts to populate mapWatchKeys
+    std::vector<CScript> rawWatchScripts;
+
+    auto derive_chain = [&](CExtKey& chainKey, uint32_t chainIdx) {
+        for (int i = 0; i < gap; ++i) {
+            uint32_t idx = (uint32_t)i;
+            CExtKey child;
+            chainKey.Derive(child, idx);
+            CExtPubKey childPub = child.Neuter();
+            CPubKey pub = childPub.pubkey;
+            child.Clear();
+            if (!pub.IsFullyValid()) continue;
+
+            // P2PKH script (actual outputs on-chain)
+            CScript spk = GetScriptForDestination(pub.GetID());
+            spkMap.emplace(spk, KeyMeta{chainIdx, idx, pub});
+            p2pkhScripts.push_back(spk);
+
+            // Raw P2PK script to seed mapWatchKeys (for WATCH_SOLVABLE)
+            CScript raw = GetScriptForRawPubKey(pub);
+            rawWatchScripts.push_back(raw);
+        }
+    };
+
+    derive_chain(extChainKey, 0u);
+    derive_chain(chgChainKey, 1u);
+
+    // 6) Temporarily add watch-only scripts (both P2PKH + raw P2PK) so:
+    //    - rescans find relevant txs
+    //    - raw P2PK watchers populate mapWatchKeys => WATCH_SOLVABLE for P2PKH
+    std::vector<CScript> tempWatchP2PKH;
+    std::vector<CScript> tempWatchRaw;
+
+    {
+        LOCK(cs_wallet);
+        for (const auto& spk : p2pkhScripts) {
+            if (!HaveWatchOnly(spk)) {
+                if (CBasicKeyStore::AddWatchOnly(spk)) {
+                    tempWatchP2PKH.push_back(spk);
+                }
+            }
+        }
+        for (const auto& raw : rawWatchScripts) {
+            if (!HaveWatchOnly(raw)) {
+                if (CBasicKeyStore::AddWatchOnly(raw)) {
+                    tempWatchRaw.push_back(raw);
+                }
+            }
+        }
+    }
+
+    // 7) Rescan starting at 'startAt' if provided, else from genesis
+    CBlockIndex* scanFrom = startAt ? startAt : chainActive.Genesis();
+    ScanForWalletTransactions(scanFrom, /*fUpdate=*/true);
+
+    // 8) Collect coins belonging to our derived scripts
+    struct InputInfo {
+        const CWalletTx* wtx;
+        int              vout;
+        CScript          spk;
+        CAmount          val;
+        uint32_t         chainIdx;
+        uint32_t         addrIdx;
+    };
+
+    std::vector<InputInfo> inputs;
+    inputs.clear();
+    CAmount total = 0;
+
+    {
+        CCoinControl cc;
+        cc.fAllowWatchOnly = true; // allow watch-only coins in AvailableCoins
+
+        std::vector<COutput> coins;
+        coins.clear();
+
+        {
+            LOCK2(cs_main, cs_wallet);
+            // fOnlyConfirmed=false here so we can *see* unconfirmed in dry-run;
+            // CreateTransaction later still uses fOnlyConfirmed=true.
+            AvailableCoins(coins, /*fOnlyConfirmed=*/false, &cc);
+
+            for (const auto& o : coins) {
+                const CWalletTx* wtx = o.tx;
+                if (!wtx) continue;
+
+                const uint256& h = wtx->GetHash();
+                if (IsSpent(h, o.i)) continue;
+
+                const CTxOut& txo = wtx->tx->vout[o.i];
+                auto it = spkMap.find(txo.scriptPubKey);
+                if (it == spkMap.end()) continue;
+
+                const KeyMeta& km = it->second;
+                InputInfo ii;
+                ii.wtx      = wtx;
+                ii.vout     = (int)o.i;
+                ii.spk      = txo.scriptPubKey;
+                ii.val      = txo.nValue;
+                ii.chainIdx = km.chainIdx;
+                ii.addrIdx  = km.index;
+                inputs.push_back(ii);
+                total += txo.nValue;
+            }
+        }
+    }
+
+    out.inputs = (int)inputs.size();
+    out.total  = total;
+
+    if (dry_run) {
+        // Just report counts and total; remove temp watch-only scripts.
+        LOCK(cs_wallet);
+        for (const auto& spk : tempWatchP2PKH) CBasicKeyStore::RemoveWatchOnly(spk);
+        for (const auto& raw : tempWatchRaw)   CBasicKeyStore::RemoveWatchOnly(raw);
+        return true;
+    }
+
+    if (inputs.empty()) {
+        err = "no UTXOs in derived range";
+        LOCK(cs_wallet);
+        for (const auto& spk : tempWatchP2PKH) CBasicKeyStore::RemoveWatchOnly(spk);
+        for (const auto& raw : tempWatchRaw)   CBasicKeyStore::RemoveWatchOnly(raw);
+        return false;
+    }
+
+    // 9) Decide destination (default: fresh wallet address)
+    CTxDestination dest;
+    if (destOpt) {
+        dest = *destOpt;
+    } else {
+        CPubKey fresh;
+        {
+            LOCK(cs_wallet);
+            if (!GetKeyFromPool(fresh)) {
+                err = "keypool exhausted";
+                for (const auto& spk : tempWatchP2PKH) CBasicKeyStore::RemoveWatchOnly(spk);
+                for (const auto& raw : tempWatchRaw)   CBasicKeyStore::RemoveWatchOnly(raw);
+                return false;
+            }
+        }
+        dest = fresh.GetID();
+    }
+
+    out.sent_to = CBitcoinAddress(dest).ToString();
+
+    // 10) Build unsigned sweep tx via CreateTransaction (fee subtracted from amount)
+    std::vector<CRecipient> rcpts;
+    rcpts.push_back(CRecipient{
+        GetScriptForDestination(dest),
+        total,
+        /*fSubtractFeeFromAmount=*/true
+    });
+
+    CCoinControl coinControl;
+    coinControl.fAllowOtherInputs = false; // only our inputs
+    coinControl.fAllowWatchOnly   = true; // our inputs are watch-only
+
+    // Preselect ONLY our mnemonic UTXOs so wallet funds are not mixed in
+    for (const auto& ii : inputs) {
+        coinControl.Select(COutPoint(ii.wtx->GetHash(), (unsigned int)ii.vout));
+    }
+
+    coinControl.destChange = GetScriptForDestination(dest);
+
+    if (fee_override) {
+        coinControl.fOverrideFeeRate = true;
+        coinControl.nFeeRate = *fee_override;
+    }
+
+    CReserveKey reserveKey(this);
+    CWalletTx wtxNew;
+    CAmount nFeeRequired = 0;
+    int nChangePosInOut = -1;
+    std::string createErr;
+
+    {
+        LOCK2(cs_main, cs_wallet);
+        if (!CreateTransaction(rcpts, wtxNew, reserveKey, nFeeRequired,
+                               nChangePosInOut, createErr, &coinControl,
+                               /*sign=*/false))
+        {
+            err = std::string("CreateTransaction failed: ") + createErr;
+            LOCK(cs_wallet);
+            for (const auto& spk : tempWatchP2PKH) CBasicKeyStore::RemoveWatchOnly(spk);
+            for (const auto& raw : tempWatchRaw)   CBasicKeyStore::RemoveWatchOnly(raw);
+            return false;
+        }
+    }
+
+    out.fee = nFeeRequired;
+
+    // 11) Map prevouts -> InputInfo for signing
+    std::map<COutPoint, InputInfo> inputMap;
+    for (const auto& ii : inputs) {
+        inputMap.emplace(COutPoint(ii.wtx->GetHash(), (unsigned int)ii.vout), ii);
+    }
+
+    // 12) Sign each input with mnemonic-derived keys (RAM-only)
+    CMutableTransaction txTo(*wtxNew.tx);
+
+    for (unsigned int nIn = 0; nIn < txTo.vin.size(); ++nIn) {
+        CTxIn& txin = txTo.vin[nIn];
+        auto it = inputMap.find(txin.prevout);
+        if (it == inputMap.end()) {
+            err = "internal error: missing input metadata";
+            LOCK(cs_wallet);
+            for (const auto& spk : tempWatchP2PKH) CBasicKeyStore::RemoveWatchOnly(spk);
+            for (const auto& raw : tempWatchRaw)   CBasicKeyStore::RemoveWatchOnly(raw);
+            return false;
+        }
+
+        const InputInfo& ii = it->second;
+
+        // Re-derive child key from mnemonic
+        CExtKey* chainK = (ii.chainIdx == 0u) ? &extChainKey : &chgChainKey;
+        CExtKey child;
+        chainK->Derive(child, ii.addrIdx);
+        CKey   priv = child.key;
+        child.Clear();
+
+        // Lookup pubkey from our spkMap
+        auto mi = spkMap.find(ii.spk);
+        if (mi == spkMap.end()) {
+            priv.Clear();
+            err = "internal error: script not in map";
+            LOCK(cs_wallet);
+            for (const auto& spk : tempWatchP2PKH) CBasicKeyStore::RemoveWatchOnly(spk);
+            for (const auto& raw : tempWatchRaw)   CBasicKeyStore::RemoveWatchOnly(raw);
+            return false;
+        }
+        const CPubKey& pub = mi->second.pub;
+
+        // Temporary keystore for this key only (pure RAM)
+        CBasicKeyStore tempKeystore;
+        tempKeystore.AddKeyPubKey(priv, pub);
+        priv.Clear();
+
+        if (!SignSignature(tempKeystore, ii.spk, txTo, nIn, ii.val, SIGHASH_ALL)) {
+            err = "local signing failed";
+            LOCK(cs_wallet);
+            for (const auto& spk : tempWatchP2PKH) CBasicKeyStore::RemoveWatchOnly(spk);
+            for (const auto& raw : tempWatchRaw)   CBasicKeyStore::RemoveWatchOnly(raw);
+            return false;
+        }
+    }
+
+    wtxNew.SetTx(MakeTransactionRef(std::move(txTo)));
+
+    // 13) Broadcast & commit
+    {
+        LOCK2(cs_main, cs_wallet);
+        CValidationState state;
+        if (!CommitTransaction(wtxNew, reserveKey, g_connman.get(), state)) {
+            err = "CommitTransaction failed";
+            LOCK(cs_wallet);
+            for (const auto& spk : tempWatchP2PKH) CBasicKeyStore::RemoveWatchOnly(spk);
+            for (const auto& raw : tempWatchRaw)   CBasicKeyStore::RemoveWatchOnly(raw);
+            return false;
+        }
+    }
+
+    out.txid = wtxNew.GetHash().GetHex();
+
+    // 14) Cleanup temporary watch-only scripts (both P2PKH & raw)
+    {
+        LOCK(cs_wallet);
+        for (const auto& spk : tempWatchP2PKH) CBasicKeyStore::RemoveWatchOnly(spk);
+        for (const auto& raw : tempWatchRaw)   CBasicKeyStore::RemoveWatchOnly(raw);
+    }
+
+    // 15) Cleanup sensitive data
+    extChainKey.Clear();
+    chgChainKey.Clear();
+    spkMap.clear();
+    inputMap.clear();
+
+    return true;
+}
+
 bool CWallet::EncryptBip39Wallet(const SecureString& strWalletPassphrase)
 {
     if (IsCrypted())
@@ -3934,7 +4301,7 @@ std::string CWallet::GetWalletHelpString(bool showDebug)
     strUsage += HelpMessageOpt("-usehd", _("Use hierarchical deterministic key generation (HD) after BIP32. Only has effect during wallet creation/first start") + " " + strprintf(_("(default: %u)"), DEFAULT_USE_HD_WALLET));
 #ifdef USE_BIP39
 EXPERIMENTAL_FEATURE
-    strUsage += HelpMessageOpt("-bip39mnemonic", _("Use BIP39 mnemonic seedphrase. Only has effect during wallet creation/first start"));
+    strUsage += HelpMessageOpt("-bip39mnemonic", _("Use BIP39 mnemonic seedphrase for HD wallet. Only has effect during wallet creation/first start"));
 #endif
     strUsage += HelpMessageOpt("-walletrbf", strprintf(_("Send transactions with full-RBF opt-in enabled (default: %u)"), DEFAULT_WALLET_RBF));
     strUsage += HelpMessageOpt("-upgradewallet", _("Upgrade wallet to latest format on startup"));

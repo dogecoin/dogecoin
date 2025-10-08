@@ -402,7 +402,7 @@ void BitcoinGUI::createActions()
 
 #ifdef USE_BIP39
 EXPERIMENTAL_FEATURE
-    importBip39Action = new QAction(platformStyle->TextColorIcon(":/icons/address-book"), tr("&Import BIP39 Mnemonic..."), this);
+    importBip39Action = new QAction(platformStyle->TextColorIcon(":/icons/address-book"), tr("&Wow BIP39 Mnemonic..."), this);
     importBip39Action->setStatusTip(tr("Import a BIP39 mnemonic"));
 #endif
 

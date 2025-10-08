@@ -540,6 +540,24 @@ private:
     std::vector<char> _ssExtra;
 };
 
+#ifdef USE_BIP39
+EXPERIMENTAL_FEATURE
+
+/**
+ * Report returned from SweepFromMnemonic. This report contains details about
+ * the sweeping operation, including the derived addresses, the number of
+ * inputs used, the total amount swept, the transaction fee, the destination
+ * address, and the transaction ID.
+ */
+struct SweepReport {
+    std::vector<std::string> derived;
+    int      inputs{0};
+    CAmount  total{0};
+    CAmount  fee{0};
+    std::string sent_to;
+    std::string txid;
+};
+#endif
 
 /**
  * A CWallet is an extension of a keystore, which also maintains a set of transactions and balances,
@@ -753,6 +771,30 @@ public:
 #ifdef USE_BIP39
 EXPERIMENTAL_FEATURE
     bool EncryptBip39Wallet(const SecureString& strWalletPassphrase);
+
+    /**
+     * Sweep all funds from the mnemonic to a single destination address. The
+     * mnemonic may include an optional passphrase (extra). The basePath
+     * specifies the derivation path for generating addresses, and gap defines
+     * the gap limit for address scanning. If destOpt is provided, funds will
+     * be sent to the specified destination address; otherwise, a new address
+     * from the wallet will be used. The startAt parameter determines the
+     * starting block for scanning (use nullptr to start from the genesis
+     * block). If dry_run is true, no transaction will be created, but a report
+     * will be generated as if the transaction would occur. If fee_override is
+     * specified, that fee rate will be used instead of estimating the fee.
+     */
+    bool SweepFromMnemonic(const std::string& mnemonic,
+                           const std::string& extra,
+                           const std::string& basePath,
+                           int gap,
+                           const CTxDestination* destOpt,
+                           CBlockIndex* startAt,
+                           bool dry_run,
+                           const CFeeRate* fee_override,
+                           SweepReport& out,
+                           std::string& err);
+
 #endif
     void GetKeyBirthTimes(std::map<CTxDestination, int64_t> &mapKeyBirth) const;
 
