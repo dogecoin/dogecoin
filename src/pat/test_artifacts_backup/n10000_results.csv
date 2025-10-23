@@ -1,0 +1,2 @@
+signature_count,strategy,chunk_size,total_chunks,keygen_time,signing_time,aggregation_time,verification_time,total_time,memory_peak_mb,compression_ratio,throughput_sigs_per_sec,energy_consumption_kwh,carbon_footprint_kg,cpu_utilization_percent,timestamp
+10000,logarithmic,1000,10,27.618587970733643,52.88938021659851,0.027588844299316406,0.007827043533325195,80.54338693618774,211.890625,672222.2222222222,124.15668598494273,0.0003355974455674489,0.00013423897822697957,8.5,1761187537.850333
