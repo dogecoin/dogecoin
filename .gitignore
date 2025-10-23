@@ -129,3 +129,15 @@ stage/
 *.iws
 *.iml
 *.ipr
+# Python virtual environments
+pat-env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Additional compiled libraries (if not already covered)
+*.a
+*.so
+*.dylib
+src/pat/pat-env/
