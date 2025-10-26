@@ -740,7 +740,7 @@ dnl Minimum required Boost version
 define(MINIMUM_REQUIRED_BOOST, 1.60.0)
 
 dnl Check for boost libs
-AX_BOOST_BASE([MINIMUM_REQUIRED_BOOST], AC_MSG_RESULT(ok), AC_MSG_ERROR(Need at least boost 1.60.0))
+AX_BOOST_BASE([MINIMUM_REQUIRED_BOOST], , AC_MSG_ERROR(Need at least boost 1.60.0))
 
 dnl As of boost 1.69.0, boost_system is header-only and
 dnl as of version 1.89.0 it is fully removed.
