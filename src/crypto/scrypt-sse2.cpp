@@ -28,6 +28,8 @@
  */
 
 #include "crypto/scrypt.h"
+
+#include "compat/endian.h"         // for le32dec, le32enc
 #include "support/experimental.h"
 #include <stdlib.h>
 #include <stdint.h>
