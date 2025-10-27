@@ -126,64 +126,43 @@ class SimplifiedFalcon:
 
     @staticmethod
     def keygen():
-        """Generate Falcon-like keypair (simplified)"""
-        # In a real implementation, this would use proper lattice-based cryptography
-        # For demonstration, we'll use a simplified approach
+        """Generate simplified Falcon-like keypair for demonstration."""
         import os
         import hashlib
 
-        # Generate a random private key
         priv_key = os.urandom(32)
-
-        # Create public key from private key (simplified)
         pub_key = hashlib.sha256(priv_key).digest()
-
         return pub_key, priv_key
 
     @staticmethod
     def sign(private_key: bytes, message: bytes) -> bytes:
-        """Create Falcon-like signature (simplified)"""
+        """Create simplified Falcon-like signature for demonstration."""
         import hashlib
         import os
 
-        # In simplified Falcon, we create a signature that can be verified with the public key
-        # Real Falcon would use complex lattice-based cryptography
-        # Use the public key that corresponds to this private key (from keygen)
-        pub_key = hashlib.sha256(private_key).digest()  # Simplified public key derivation
+        pub_key = hashlib.sha256(private_key).digest()
         combined = pub_key + message
         deterministic_part = hashlib.sha256(combined).digest()[:32]
         random_part = os.urandom(32)
-        signature = deterministic_part + random_part  # 64 bytes total
-
-        return signature
+        return deterministic_part + random_part
 
     @staticmethod
     def verify(public_key: bytes, message: bytes, signature: bytes) -> bool:
-        """Verify Falcon-like signature (simplified)"""
+        """Verify simplified Falcon-like signature."""
         import hashlib
 
         try:
-            # Simplified verification - in reality this would verify lattice equations
-            expected_length = 64  # Simplified signature size
-
-            if len(signature) != expected_length:
+            if len(signature) != 64:
                 return False
-
-            # Extract the deterministic part and verify it matches
-            # In real Falcon, this would verify complex mathematical relationships
             deterministic_part = signature[:32]
             expected_deterministic = hashlib.sha256(public_key + message).digest()[:32]
-
             return deterministic_part == expected_deterministic
-
         except Exception:
             return False
 
 
 class HashOptimizer:
-    """Hash function optimization for PAT aggregation"""
-
-    # Available hash functions with their performance characteristics
+    """Hash function optimization for PAT aggregation."""
     HASH_FUNCTIONS = {
         'sha256': hashlib.sha256,
         'blake2b': lambda: hashlib.blake2b(digest_size=32),
@@ -192,7 +171,7 @@ class HashOptimizer:
 
     @staticmethod
     def benchmark_hash_functions(test_data: bytes = b"Dogecoin PAT Hash Benchmark", iterations: int = 10000) -> Dict[str, float]:
-        """Benchmark different hash functions and return performance rankings"""
+        """Benchmark hash functions and return performance rankings."""
         results = {}
 
         for name, hash_func_factory in HashOptimizer.HASH_FUNCTIONS.items():
@@ -217,11 +196,8 @@ class HashOptimizer:
 
     @staticmethod
     def get_optimal_hash() -> callable:
-        """Get the fastest available hash function"""
-        # Quick benchmark to find the fastest hash
+        """Return fastest available hash function."""
         benchmark_results = HashOptimizer.benchmark_hash_functions(iterations=1000)
-
-        # Find the fastest available hash function
         fastest_hash = min(benchmark_results.items(), key=lambda x: x[1])
 
         print(f"🔧 Using optimized hash function: {fastest_hash[0]} ({fastest_hash[1]:.4f}ms per hash)")
@@ -230,8 +206,7 @@ class HashOptimizer:
 
     @staticmethod
     def optimized_hash(data: bytes) -> bytes:
-        """Optimized hash function for PAT operations"""
-        # Use a class variable to cache the optimal hash function
+        """Compute optimized hash for PAT operations."""
         if not hasattr(HashOptimizer, '_optimal_hash_func'):
             HashOptimizer._optimal_hash_func = HashOptimizer.get_optimal_hash()
 
@@ -241,19 +216,7 @@ class HashOptimizer:
 
 
 class AggregationStrategy(Enum):
-    """Enumeration of different PAT aggregation strategies.
-
-    This enum defines the available signature aggregation strategies in PAT.
-    Each strategy provides different trade-offs between compression, verification
-    speed, and security properties.
-
-    Attributes:
-        NONE: No aggregation - individual signatures stored separately
-        THRESHOLD: (t,n) threshold signatures with majority verification
-        MERKLE_BATCH: Merkle tree batch verification for efficient proof
-        LOGARITHMIC: Logarithmic compression using hierarchical hashing
-        STACKED_MULTI: Stacked multi-signatures with length prefixes
-    """
+    """PAT aggregation strategies enumeration."""
     NONE = "none"                    # No aggregation (individual signatures)
     THRESHOLD = "threshold"          # (t,n) threshold signatures
     MERKLE_BATCH = "merkle_batch"    # Merkle tree batch verification
@@ -301,33 +264,19 @@ class BenchmarkResult:
 
 
 class PatAggregator:
-    """PAT Signature Aggregation Engine.
+    """PAT signature aggregation engine.
 
-    This class provides the core functionality for aggregating multiple
-    post-quantum signatures into compact representations. It supports
-    multiple aggregation strategies with different trade-offs between
-    compression, verification speed, and security properties.
-
-    The aggregator handles both classical (ECDSA) and post-quantum (Dilithium, Falcon)
-    signature schemes, providing a unified interface for benchmarking and testing.
-
-    Attributes:
-        strategy: Default aggregation strategy to use
-        backend: Cryptography backend for classical operations
-
-    Note:
-        C++ equiv: This would be implemented as a class hierarchy with
-        virtual methods for different aggregation strategies.
+    C++ equiv: Class hierarchy with virtual methods for aggregation strategies.
     """
 
     def __init__(self, strategy: AggregationStrategy = AggregationStrategy.LOGARITHMIC):
-        """Initialize the PAT aggregator.
+        """Initialize PAT aggregator.
 
         Args:
-            strategy: Default aggregation strategy to use for operations
+            strategy: Default aggregation strategy
 
         Raises:
-            PatError: If initialization fails due to missing dependencies
+            PatError: If initialization fails
         """
         try:
             self.strategy = strategy
@@ -336,19 +285,16 @@ class PatAggregator:
             raise PatError(f"Failed to initialize PatAggregator: {e}", "CONFIG_ERROR")
 
     def generate_ecdsa_keypair(self) -> Tuple[Any, Any]:
-        """Generate ECDSA keypair for baseline comparison.
-
-        Creates a new ECDSA keypair using the secp256k1 curve, which is
-        the same curve used in Bitcoin/Dogecoin for transaction signing.
+        """Generate ECDSA keypair using secp256k1 curve.
 
         Returns:
-            Tuple of (private_key, public_key) objects from cryptography library
+            Tuple of (private_key, public_key) from cryptography library
 
         Raises:
             PatError: If key generation fails
 
         Note:
-            C++ equiv: Use secp256k1 library for ECDSA key generation
+            C++ equiv: secp256k1_ecdsa_keypair_create()
         """
         try:
             private_key = ec.generate_private_key(ec.SECP256K1(), self.backend)
@@ -358,10 +304,7 @@ class PatAggregator:
             raise PatError(f"ECDSA keypair generation failed: {e}", "VALIDATION_ERROR")
 
     def generate_dilithium_keypair(self) -> Tuple[bytes, bytes]:
-        """Generate Dilithium keypair for post-quantum signatures.
-
-        Creates a new Dilithium-ML-DSA-44 keypair for post-quantum security.
-        Dilithium is a lattice-based signature scheme standardized by NIST.
+        """Generate Dilithium ML-DSA-44 keypair.
 
         Returns:
             Tuple of (public_key, private_key) as bytes
@@ -370,7 +313,7 @@ class PatAggregator:
             PatError: If key generation fails
 
         Note:
-            C++ equiv: Use PQClean or custom Dilithium implementation
+            C++ equiv: PQClean Dilithium key generation
         """
         try:
             return Dilithium.keygen()
@@ -627,13 +570,13 @@ class PatAggregator:
         Verifies the Merkle root against individual signature verifications.
         """
         try:
-            # For Merkle batch verification, we need to verify a subset and check Merkle proof
-            # This is a simplified implementation - in practice, would need full Merkle proof verification
+            
+            
 
             # Verify that the Merkle root corresponds to verified signatures
             verified_sigs = []
             for pk, msg in zip(pubkeys, messages):
-                # In a real implementation, we'd verify against the Merkle root
+                
                 # For now, verify all signatures (simplified batch verification)
                 try:
                     Dilithium.verify(pk, msg, agg_sig)  # This won't work directly
@@ -641,7 +584,7 @@ class PatAggregator:
                 except:
                     verified_sigs.append(False)
 
-            # For batch verification, we expect most signatures to be valid
+            
             # In practice, this would use Merkle proofs for efficiency
             return sum(verified_sigs) >= len(verified_sigs) * 0.8  # 80% threshold
 
@@ -662,7 +605,7 @@ class PatAggregator:
             root_hash = agg_sig[:-4]
 
             # For logarithmic verification, we need to verify the hash tree structure
-            # This is a simplified verification - in practice would need full tree reconstruction
+            
             expected_count = len(messages)
             return total_count == expected_count and len(root_hash) == 32
 
