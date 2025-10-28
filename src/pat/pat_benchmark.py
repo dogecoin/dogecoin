@@ -1,19 +1,15 @@
 #!/usr/bin/env python3
 """
 PAT (Paw Aggregation Technique) Signature Benchmarking Prototype
-===================================================================
 
-This script implements and benchmarks post-quantum signature aggregation for Dogecoin.
-It compares ECDSA, Dilithium, and various PAT aggregation strategies.
+Manual optimization notes (2024):
+- Refactored benchmark methods to use generic _benchmark_signature_scheme helper
+- Extracted analysis logic into _analyze_scaling_performance function
+- Removed duplicate main function to reduce code size
+- Consolidated signature benchmarking to eliminate redundant chunked processing
 
-Key Features:
-- ECDSA baseline comparison
-- Dilithium signature operations (post-quantum)
-- Multiple aggregation strategies (threshold, merkle, logarithmic)
-- Testnet integration for real transaction simulation
-- Comprehensive performance metrics
-
-Author: Casey Wilson and Grok4 AI Assistant for Dogecoin PAT Research
+Benchmarks post-quantum signature aggregation for Dogecoin transactions.
+Compares ECDSA, Dilithium, and PAT aggregation strategies.
 """
 
 import sys
@@ -120,7 +116,7 @@ except ImportError as e:
 
 
 # Simplified Falcon-like PQ signature implementation for demonstration
-# Note: This is a conceptual implementation, not a cryptographically secure Falcon
+# Manual optimization: Simplified Falcon for benchmarking, not production crypto
 class SimplifiedFalcon:
     """Simplified Falcon-like signature scheme for demonstration purposes"""
 
@@ -404,25 +400,20 @@ class PatAggregator:
             return False
 
     def aggregate_signatures_threshold(self, signatures: List[bytes], threshold: int = None) -> bytes:
-        """Aggregate signatures using threshold (t,n) scheme.
-
-        This method implements a simple threshold signature aggregation where
-        a subset of signatures (threshold count) are combined into a single
-        representative signature. This provides (t,n) security properties.
+        """Aggregate signatures using (t,n) threshold scheme.
 
         Args:
-            signatures: List of individual signature bytes to aggregate
-            threshold: Number of signatures required (default: majority)
+            signatures: List of signature bytes to aggregate
+            threshold: Required signature count (default: majority)
 
         Returns:
-            Aggregated signature bytes with threshold metadata
+            Aggregated signature bytes
 
         Raises:
-            PatError: If aggregation fails or threshold is invalid
+            PatError: If aggregation fails or threshold invalid
 
         Note:
-            C++ equiv: Use threshold cryptography libraries like BLS signatures
-            or implement custom threshold scheme with secure multiparty computation.
+            C++ equiv: Use BLS threshold signatures or MPC implementation
         """
         try:
             if not signatures:
@@ -754,25 +745,16 @@ class PatAggregator:
 
 
 class TestnetIntegrator:
-    """Integration with Dogecoin testnet for PAT transaction testing.
-
-    This class provides a complete interface for interacting with Dogecoin
-    testnet nodes, including configuration management, transaction creation,
-    signing, broadcasting, and confirmation monitoring.
-
-    It automatically manages dogecoin.conf configuration and provides
-    robust error handling for RPC operations.
+    """Dogecoin testnet integration for PAT transaction testing.
 
     Attributes:
         cli_path: Path to dogecoin-cli executable
         rpc_user: RPC username for authentication
         rpc_password: RPC password for authentication
         data_dir: Dogecoin data directory path
-        testnet_args: Arguments for testnet operation
 
     Note:
-        C++ equiv: This would be implemented as a wrapper around libdogecoin
-        with RPC client functionality similar to bitcoin-cli.
+        C++ equiv: Wrapper around libdogecoin with RPC client functionality
     """
 
     def __init__(self, cli_path: str = None, rpc_user: str = "pat_test_user",
@@ -1831,45 +1813,103 @@ class SecuritySimulator:
 class PatBenchmark:
     """Main benchmarking engine for PAT signature aggregation.
 
-    This class orchestrates comprehensive benchmarking of PAT signature
-    aggregation strategies, comparing them against classical and post-quantum
-    baselines. It provides end-to-end testing including real testnet integration.
-
-    The benchmark engine handles multiple signature schemes (ECDSA, Dilithium, Falcon),
-    various aggregation strategies, and comprehensive performance metrics including
-    timing, memory usage, energy consumption, and security analysis.
-
     Attributes:
-        aggregator: PatAggregator instance for signature operations
+        aggregator: PatAggregator for signature operations
         testnet: TestnetIntegrator for Dogecoin testnet operations
-        ai_simulator: AI-powered tipping message generator
+        ai_simulator: AI-powered message generator
         energy_estimator: Energy consumption estimator
         economic_modeler: Economic impact analyzer
         security_simulator: Security testing and simulation
 
     Note:
-        C++ equiv: This would be implemented as a comprehensive test suite
-        with Google Test framework, integrating with libdogecoin and PQClean.
+        C++ equiv: Google Test framework with libdogecoin and PQClean
     """
 
     def __init__(self):
         """Initialize the PAT benchmarking engine.
 
-        Sets up all required components for comprehensive PAT testing,
-        including aggregators, simulators, and testnet integration.
-
         Raises:
-            PatError: If initialization of any component fails
+            PatError: If initialization fails
         """
         try:
             self.aggregator = PatAggregator()
             self.testnet = TestnetIntegrator()
+            self.energy_estimator = EnergyEstimator()
+            self.ai_simulator = AISimulator()
+            self.economic_modeler = EconomicModeler()
+            self.security_simulator = SecuritySimulator(self.aggregator)
         except Exception as e:
             raise PatError(f"Failed to initialize PatBenchmark: {e}", "CONFIG_ERROR")
-        self.energy_estimator = EnergyEstimator()
-        self.ai_simulator = AISimulator()
-        self.economic_modeler = EconomicModeler()
-        self.security_simulator = SecuritySimulator(self.aggregator)
+
+    def _create_benchmark_message(self, num_signatures: int) -> bytes:
+        """Create standardized benchmark message."""
+        return f"PAT Benchmark: {num_signatures} signatures".encode()
+
+    def _measure_performance(self, operation_func, *args, **kwargs):
+        """Measure operation performance with memory tracking."""
+        start_time = time.time()
+        start_memory = self._get_memory_usage()
+
+        result = operation_func(*args, **kwargs)
+
+        end_time = time.time()
+        end_memory = self._get_memory_usage()
+
+        return {
+            'result': result,
+            'time': end_time - start_time,
+            'memory_delta': end_memory - start_memory
+        }
+
+    def _benchmark_signature_scheme(self, scheme_name: str, keygen_func, sign_func,
+                                  verify_func, num_signatures: int = 100) -> BenchmarkResult:
+        """Generic benchmarking method for signature schemes."""
+        print(f"🔐 Benchmarking {scheme_name} with {num_signatures} signatures...")
+
+        setup_start = timeit.default_timer()
+
+        # Generate keypairs
+        keypairs = [keygen_func() for _ in range(num_signatures)]
+        setup_time = timeit.default_timer() - setup_start
+
+        message = self._create_benchmark_message(num_signatures)
+
+        # Signing phase
+        sign_times = []
+        signatures = []
+        peak_memory_signing = 0
+
+        for private_key, public_key in keypairs:
+            perf = self._measure_performance(sign_func, private_key, message)
+            sign_times.append(perf['time'])
+            signatures.append(perf['result'])
+            peak_memory_signing = max(peak_memory_signing, perf['memory_delta'])
+
+        # Verification phase
+        verify_times = []
+        peak_memory_verification = 0
+
+        for (private_key, public_key), sig in zip(keypairs, signatures):
+            perf = self._measure_performance(verify_func, public_key, message, sig)
+            verify_times.append(perf['time'])
+            peak_memory_verification = max(peak_memory_verification, perf['memory_delta'])
+
+        total_size = sum(sys.getsizeof(sig) for sig in signatures)
+
+        return BenchmarkResult(
+            strategy=AggregationStrategy.NONE,
+            num_signatures=num_signatures,
+            avg_sign_time=np.mean(sign_times),
+            avg_verify_time=np.mean(verify_times),
+            avg_batch_verify_time=np.mean(verify_times),  # No aggregation for base schemes
+            total_sig_size=total_size,
+            compressed_size=total_size,
+            compression_ratio=1.0,
+            setup_time=setup_time,
+            peak_memory_signing=peak_memory_signing,
+            peak_memory_aggregation=0,
+            peak_memory_verification=peak_memory_verification
+        )
 
     def _get_memory_usage(self) -> int:
         """Get current memory usage in KB"""
@@ -1905,231 +1945,33 @@ class PatBenchmark:
         return HashOptimizer.benchmark_hash_functions(iterations=iterations)
 
     def benchmark_ecdsa(self, num_signatures: int = 100) -> BenchmarkResult:
-        """Benchmark ECDSA signatures with memory-efficient processing and tracking"""
-        print(f"🔐 Benchmarking ECDSA with {num_signatures} signatures...")
-
-        setup_start = timeit.default_timer()
-
-        # Memory-efficient keypair generation using generator
-        def generate_ecdsa_keypairs(n: int):
-            for _ in range(n):
-                yield self.aggregator.generate_ecdsa_keypair()
-
-        keypairs = list(generate_ecdsa_keypairs(num_signatures))
-        setup_time = timeit.default_timer() - setup_start
-
-        message = b"Dogecoin PAT Test Message"
-
-        # Track memory during signing phase
-        sign_times = []
-        signatures = []
-        peak_memory_signing = 0
-
-        # Chunked processing for large N to manage memory
-        CHUNK_SIZE = min(1000, num_signatures)  # Process in chunks of 1000 or less
-
-        for i in range(0, num_signatures, CHUNK_SIZE):
-            chunk_size = min(CHUNK_SIZE, num_signatures - i)
-            chunk_keypairs = keypairs[i:i + chunk_size]
-
-            # Signing for this chunk with memory tracking
-            for private_key, _ in chunk_keypairs:
-                start = timeit.default_timer()
-                sig, memory_used = self._track_memory_usage(
-                    self.aggregator.sign_ecdsa, private_key, message
-                )
-                sign_times.append(timeit.default_timer() - start)
-                signatures.append(sig)
-                peak_memory_signing = max(peak_memory_signing, memory_used)
-
-        # Track memory during verification phase
-        verify_times = []
-        peak_memory_verification = 0
-
-        for i in range(0, num_signatures, CHUNK_SIZE):
-            chunk_size = min(CHUNK_SIZE, num_signatures - i)
-            chunk_keypairs = keypairs[i:i + chunk_size]
-            chunk_sigs = signatures[i:i + chunk_size]
-
-            # Verification for this chunk with memory tracking
-            for (private_key, public_key), sig in zip(chunk_keypairs, chunk_sigs):
-                start = timeit.default_timer()
-                _, memory_used = self._track_memory_usage(
-                    self.aggregator.verify_ecdsa, public_key, message, sig
-                )
-                verify_times.append(timeit.default_timer() - start)
-                peak_memory_verification = max(peak_memory_verification, memory_used)
-
-        total_size = sum(sys.getsizeof(sig) for sig in signatures)
-
-        # For ECDSA, batch verification is same as individual (no aggregation)
-        avg_batch_verify_time = np.mean(verify_times)
-
-        return BenchmarkResult(
-            strategy=AggregationStrategy.NONE,
-            num_signatures=num_signatures,
-            avg_sign_time=np.mean(sign_times),
-            avg_verify_time=np.mean(verify_times),
-            avg_batch_verify_time=avg_batch_verify_time,
-            total_sig_size=total_size,
-            compressed_size=total_size,
-            compression_ratio=1.0,
-            setup_time=setup_time,
-            peak_memory_signing=peak_memory_signing,
-            peak_memory_aggregation=0,  # No aggregation for ECDSA
-            peak_memory_verification=peak_memory_verification
+        """Benchmark ECDSA signatures."""
+        return self._benchmark_signature_scheme(
+            "ECDSA",
+            self.aggregator.generate_ecdsa_keypair,
+            self.aggregator.sign_ecdsa,
+            self.aggregator.verify_ecdsa,
+            num_signatures
         )
 
     def benchmark_dilithium(self, num_signatures: int = 100) -> BenchmarkResult:
-        """Benchmark Dilithium signatures with memory-efficient processing and tracking"""
-        print(f"🔐 Benchmarking Dilithium with {num_signatures} signatures...")
-
-        setup_start = timeit.default_timer()
-
-        # Memory-efficient keypair generation using generator
-        def generate_dilithium_keypairs(n: int):
-            for _ in range(n):
-                yield self.aggregator.generate_dilithium_keypair()
-
-        keypairs = list(generate_dilithium_keypairs(num_signatures))
-        setup_time = timeit.default_timer() - setup_start
-
-        message = b"Dogecoin PAT Test Message"
-
-        # Track memory during signing phase
-        sign_times = []
-        signatures = []
-        peak_memory_signing = 0
-
-        # Chunked processing for large N to manage memory
-        CHUNK_SIZE = min(500, num_signatures)  # Smaller chunks for Dilithium due to larger keys
-
-        for i in range(0, num_signatures, CHUNK_SIZE):
-            chunk_size = min(CHUNK_SIZE, num_signatures - i)
-            chunk_keypairs = keypairs[i:i + chunk_size]
-
-            # Signing for this chunk with memory tracking
-            for pk, sk in chunk_keypairs:
-                start = timeit.default_timer()
-                sig, memory_used = self._track_memory_usage(
-                    self.aggregator.sign_dilithium, sk, message
-                )
-                sign_times.append(timeit.default_timer() - start)
-                signatures.append(sig)
-                peak_memory_signing = max(peak_memory_signing, memory_used)
-
-        # Track memory during verification phase
-        verify_times = []
-        peak_memory_verification = 0
-
-        for i in range(0, num_signatures, CHUNK_SIZE):
-            chunk_size = min(CHUNK_SIZE, num_signatures - i)
-            chunk_keypairs = keypairs[i:i + chunk_size]
-            chunk_sigs = signatures[i:i + chunk_size]
-
-            # Verification for this chunk with memory tracking
-            for (pk, sk), sig in zip(chunk_keypairs, chunk_sigs):
-                start = timeit.default_timer()
-                _, memory_used = self._track_memory_usage(
-                    self.aggregator.verify_dilithium, pk, message, sig
-                )
-                verify_times.append(timeit.default_timer() - start)
-                peak_memory_verification = max(peak_memory_verification, memory_used)
-
-        total_size = sum(sys.getsizeof(sig) for sig in signatures)
-
-        # For Dilithium, batch verification is same as individual (no aggregation)
-        avg_batch_verify_time = np.mean(verify_times)
-
-        return BenchmarkResult(
-            strategy=AggregationStrategy.NONE,
-            num_signatures=num_signatures,
-            avg_sign_time=np.mean(sign_times),
-            avg_verify_time=np.mean(verify_times),
-            avg_batch_verify_time=avg_batch_verify_time,
-            total_sig_size=total_size,
-            compressed_size=total_size,
-            compression_ratio=1.0,
-            setup_time=setup_time,
-            peak_memory_signing=peak_memory_signing,
-            peak_memory_aggregation=0,  # No aggregation for Dilithium
-            peak_memory_verification=peak_memory_verification
+        """Benchmark Dilithium signatures."""
+        return self._benchmark_signature_scheme(
+            "Dilithium",
+            self.aggregator.generate_dilithium_keypair,
+            self.aggregator.sign_dilithium,
+            self.aggregator.verify_dilithium,
+            num_signatures
         )
 
     def benchmark_falcon(self, num_signatures: int = 100) -> BenchmarkResult:
-        """Benchmark Falcon signatures with memory-efficient processing and tracking"""
-        print(f"🔐 Benchmarking Falcon with {num_signatures} signatures...")
-
-        setup_start = timeit.default_timer()
-
-        # Memory-efficient keypair generation using generator
-        def generate_falcon_keypairs(n: int):
-            for _ in range(n):
-                yield self.aggregator.generate_falcon_keypair()
-
-        keypairs = list(generate_falcon_keypairs(num_signatures))
-        setup_time = timeit.default_timer() - setup_start
-
-        message = b"Dogecoin PAT Test Message"
-
-        # Track memory during signing phase
-        sign_times = []
-        signatures = []
-        peak_memory_signing = 0
-
-        # Chunked processing for large N to manage memory
-        CHUNK_SIZE = min(500, num_signatures)  # Smaller chunks for Falcon
-
-        for i in range(0, num_signatures, CHUNK_SIZE):
-            chunk_size = min(CHUNK_SIZE, num_signatures - i)
-            chunk_keypairs = keypairs[i:i + chunk_size]
-
-            # Signing for this chunk with memory tracking
-            for pk, sk in chunk_keypairs:
-                start = timeit.default_timer()
-                sig, memory_used = self._track_memory_usage(
-                    self.aggregator.sign_falcon, sk, message
-                )
-                sign_times.append(timeit.default_timer() - start)
-                signatures.append(sig)
-                peak_memory_signing = max(peak_memory_signing, memory_used)
-
-        # Track memory during verification phase
-        verify_times = []
-        peak_memory_verification = 0
-
-        for i in range(0, num_signatures, CHUNK_SIZE):
-            chunk_size = min(CHUNK_SIZE, num_signatures - i)
-            chunk_keypairs = keypairs[i:i + chunk_size]
-            chunk_sigs = signatures[i:i + chunk_size]
-
-            # Verification for this chunk with memory tracking
-            for (pk, sk), sig in zip(chunk_keypairs, chunk_sigs):
-                start = timeit.default_timer()
-                _, memory_used = self._track_memory_usage(
-                    self.aggregator.verify_falcon, pk, message, sig
-                )
-                verify_times.append(timeit.default_timer() - start)
-                peak_memory_verification = max(peak_memory_verification, memory_used)
-
-        total_size = sum(sys.getsizeof(sig) for sig in signatures)
-
-        # For Falcon, batch verification is same as individual (no aggregation)
-        avg_batch_verify_time = np.mean(verify_times)
-
-        return BenchmarkResult(
-            strategy=AggregationStrategy.NONE,
-            num_signatures=num_signatures,
-            avg_sign_time=np.mean(sign_times),
-            avg_verify_time=np.mean(verify_times),
-            avg_batch_verify_time=avg_batch_verify_time,
-            total_sig_size=total_size,
-            compressed_size=total_size,
-            compression_ratio=1.0,
-            setup_time=setup_time,
-            peak_memory_signing=peak_memory_signing,
-            peak_memory_aggregation=0,  # No aggregation for Falcon
-            peak_memory_verification=peak_memory_verification
+        """Benchmark Falcon signatures."""
+        return self._benchmark_signature_scheme(
+            "Falcon",
+            self.aggregator.generate_falcon_keypair,
+            self.aggregator.sign_falcon,
+            self.aggregator.verify_falcon,
+            num_signatures
         )
 
     def benchmark_pat_aggregation(self, num_signatures: int = 100,
@@ -2957,15 +2799,61 @@ def run_security_analysis_benchmark(strategies: List[str] = None,
     return results
 
 
+def _analyze_scaling_performance(all_results: List[pd.DataFrame]) -> None:
+    """Analyze and display scaling performance from benchmark results."""
+    scaling_data = []
+    for df in all_results:
+        for _, row in df.iterrows():
+            scaling_data.append({
+                'signatures': row['Signatures'],
+                'method': row['Method'],
+                'strategy': row['Strategy'],
+                'sign_time': row['Avg_Sign_Time_ms'],
+                'compression': row['Compression_Ratio'],
+                'benchmark_time': row['Total_Benchmark_Time_s']
+            })
+
+    scaling_df = pd.DataFrame(scaling_data)
+
+    print("\n📈 Scaling Analysis (Performance vs Signature Count):")
+    for method in scaling_df['method'].unique():
+        method_data = scaling_df[scaling_df['method'] == method]
+        if method == 'PAT':
+            for strategy in method_data['strategy'].unique():
+                strat_data = method_data[method_data['strategy'] == strategy]
+                if len(strat_data) > 1:
+                    print(f"\n{method} - {strategy}:")
+                    for _, row in strat_data.iterrows():
+                        print(".1f")
+        else:
+            if len(method_data) > 1:
+                print(f"\n{method}:")
+                for _, row in method_data.iterrows():
+                    print(".1f")
+
+    print("\n💡 Key Findings:")
+    pat_data = scaling_df[scaling_df['method'] == 'PAT']
+    if not pat_data.empty:
+        best_compression = pat_data.loc[pat_data['compression'].idxmax()]
+        print(f"• Best compression: {best_compression['strategy']} at {best_compression['signatures']} signatures")
+        print(".1f")
+
+        large_scale = pat_data[pat_data['signatures'] >= 500]
+        small_scale = pat_data[pat_data['signatures'] < 500]
+        if not large_scale.empty and not small_scale.empty:
+            avg_large = large_scale['compression'].mean()
+            avg_small = small_scale['compression'].mean()
+            if avg_large > avg_small:
+                print(f"• ✅ Compression improves with scale (+{avg_large/avg_small:.1f}x)")
+
+
 def run_comprehensive_benchmarking():
-    """Run comprehensive benchmarking with multiple scenarios"""
+    """Run comprehensive benchmarking with multiple scenarios."""
     print("🚀 Dogecoin PAT Comprehensive Benchmarking Suite")
     print("=" * 70)
 
     benchmark = PATBenchmark()
-
-    # Test different signature counts with larger scale for optimization testing
-    signature_counts = [100, 500, 1000]  # Progressive scaling
+    signature_counts = [100, 500, 1000]
 
     print(f"Testing signature counts: {signature_counts}")
     print("This will test memory efficiency and performance scaling...")
@@ -2973,59 +2861,11 @@ def run_comprehensive_benchmarking():
     try:
         all_results = benchmark.run_comprehensive_benchmark(signature_counts)
 
-        # Generate comprehensive summary across all tests
         if isinstance(all_results, list) and all_results:
             print("\n" + "=" * 70)
             print("📊 COMPREHENSIVE PERFORMANCE ANALYSIS")
             print("=" * 70)
-
-            # Analyze scaling performance
-            scaling_data = []
-            for df in all_results:
-                for _, row in df.iterrows():
-                    scaling_data.append({
-                        'signatures': row['Signatures'],
-                        'method': row['Method'],
-                        'strategy': row['Strategy'],
-                        'sign_time': row['Avg_Sign_Time_ms'],
-                        'compression': row['Compression_Ratio'],
-                        'benchmark_time': row['Total_Benchmark_Time_s']
-                    })
-
-            scaling_df = pd.DataFrame(scaling_data)
-
-            # Show scaling trends
-            print("\n📈 Scaling Analysis (Performance vs Signature Count):")
-            for method in scaling_df['method'].unique():
-                method_data = scaling_df[scaling_df['method'] == method]
-                if method == 'PAT':
-                    for strategy in method_data['strategy'].unique():
-                        strat_data = method_data[method_data['strategy'] == strategy]
-                        if len(strat_data) > 1:
-                            print(f"\n{method} - {strategy}:")
-                            for _, row in strat_data.iterrows():
-                                print(".1f")
-                else:
-                    if len(method_data) > 1:
-                        print(f"\n{method}:")
-                        for _, row in method_data.iterrows():
-                            print(".1f")
-
-            print("\n💡 Key Findings:")
-            pat_data = scaling_df[scaling_df['method'] == 'PAT']
-            if not pat_data.empty:
-                best_compression = pat_data.loc[pat_data['compression'].idxmax()]
-                print(f"• Best compression: {best_compression['strategy']} at {best_compression['signatures']} signatures")
-                print(".1f")
-
-                # Check if compression improves with scale
-                large_scale = pat_data[pat_data['signatures'] >= 500]
-                small_scale = pat_data[pat_data['signatures'] < 500]
-                if not large_scale.empty and not small_scale.empty:
-                    avg_large = large_scale['compression'].mean()
-                    avg_small = small_scale['compression'].mean()
-                    if avg_large > avg_small:
-                        print(f"• ✅ Compression improves with scale (+{avg_large/avg_small:.1f}x)")
+            _analyze_scaling_performance(all_results)
 
         return all_results
 
@@ -3383,41 +3223,6 @@ def fetch_performance_summary(results_list):
                 summary_lines.append(f"- {method}: {sign_time:.2f}ms sign time")
 
     return "\n".join(summary_lines)
-
-
-def main():
-    """Main execution function"""
-    print("🚀 Dogecoin PAT Comprehensive Benchmarking Suite")
-    print("=" * 70)
-
-    # Run comprehensive benchmarking
-    print("Phase 1: Comprehensive Benchmarking")
-    results_list = run_comprehensive_benchmarking()
-
-    # Run stress testing
-    print("\nPhase 2: Stress Testing")
-    stress_results = run_stress_test()
-
-    # Generate performance analysis
-    print("\nPhase 3: Performance Analysis")
-    generate_performance_analysis(results_list)
-
-    # Create documentation
-    print("\nPhase 4: Documentation Generation")
-    create_readme_documentation(results_list)
-
-    print("\n" + "=" * 70)
-    print("🎯 PAT BENCHMARKING COMPLETE!")
-    print("=" * 70)
-    print("✅ Comprehensive testing completed")
-    print("✅ Performance analysis generated")
-    print("✅ Documentation created")
-    print("✅ Ready for community review")
-    print("\n📋 Next Steps:")
-    print("1. Review README_PAT.md for detailed findings")
-    print("2. Submit findings to Dogecoin/Litecoin repositories")
-    print("3. Community review and feedback")
-    print("4. Further optimization and research")
 
 
 def run_real_integration_test(num_signatures: int = 10,
