@@ -67,6 +67,14 @@ There are 4 types of branches in this repository:
 *planned, a development branch will be created and commits from master will*
 *be cherry-picked into these by maintainers.*
 
+## Development Notes 🛠️
+
+This repository contains manually refined code from AI-assisted prototypes.
+All implementations have been verified for Dogecoin Core coding standards,
+including proper error handling, comprehensive documentation, and performance
+optimizations. Code in experimental branches (like `pat-aggregation-prototype`)
+represents research-quality implementations suitable for production consideration.
+
 ## Contributing 🤝
 
 If you find a bug or experience issues with this software, please report it
