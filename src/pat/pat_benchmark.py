@@ -743,6 +743,62 @@ class PatAggregator:
 
         return keypairs
 
+    def simulate_grover_attack(self, aggregated_sig: bytes, strategy: AggregationStrategy = None) -> float:
+        """
+        Simulate quantum Grover attack on aggregated signature.
+
+        Uses quantum simulation to estimate the success probability of finding
+        a collision in the aggregated signature's hash. Returns probability
+        that should be < 1/2^128 for security.
+
+        Args:
+            aggregated_sig: Aggregated signature bytes from aggregate_signatures()
+            strategy: Aggregation strategy used (default: instance default)
+
+        Returns:
+            Success probability of quantum attack (should be << 1/2^128)
+
+        Raises:
+            PatError: If quantum simulation fails or is unavailable
+
+        Note:
+            C++ equiv: Quantum security analysis function using external simulator
+        """
+        if strategy is None:
+            strategy = self.strategy
+
+        try:
+            from .extensions.quantum_sims import PatQuantumSecurityAnalyzer
+
+            analyzer = PatQuantumSecurityAnalyzer()
+            if not analyzer.simulator:
+                raise PatError("Quantum simulator not available for security analysis",
+                             "CONFIG_ERROR")
+
+            # Estimate original signature count from aggregated size
+            # This is a heuristic - in practice you'd store this metadata
+            # For security analysis, we use conservative estimates
+            if strategy == AggregationStrategy.LOGARITHMIC:
+                # Logarithmic tree height gives log2(n) amplification
+                # Assume minimum 8 signatures for meaningful security analysis
+                estimated_sigs = 8  # Conservative minimum for logarithmic security
+            elif strategy == AggregationStrategy.MERKLE_BATCH:
+                # Merkle trees provide log(n) security
+                estimated_sigs = 8  # Conservative minimum
+            else:
+                estimated_sigs = 1  # No amplification for simple concatenation
+
+            attack_result = analyzer.analyze_post_aggregation_attack_cost(
+                aggregated_sig, estimated_sigs, strategy)
+
+            success_prob = attack_result.get('success_probability', 1.0)
+            return success_prob
+
+        except ImportError:
+            raise PatError("Quantum simulation module not available", "CONFIG_ERROR")
+        except Exception as e:
+            raise PatError(f"Quantum attack simulation failed: {e}", "VALIDATION_ERROR")
+
 
 class TestnetIntegrator:
     """Dogecoin testnet integration for PAT transaction testing.
