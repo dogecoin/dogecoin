@@ -1,2 +1,0 @@
-test_type,num_signatures,strategy,start_time,pat_creation_success,transaction_creation_success,broadcast_success,confirmation_success,total_time,pat_creation_time,transaction_creation_time,broadcast_time,confirmation_time,compression_ratio,error
-real_testnet_integration,10,logarithmic,1761172571.7444239,True,False,False,False,0.579085111618042,0.5766928195953369,0.001394033432006836,0.0009641647338867188,,672.2222222222222,
