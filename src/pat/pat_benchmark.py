@@ -799,6 +799,46 @@ class PatAggregator:
         except Exception as e:
             raise PatError(f"Quantum attack simulation failed: {e}", "VALIDATION_ERROR")
 
+    def prove_eucma(self, strategy: AggregationStrategy = None, k: int = 256) -> Dict[str, Any]:
+        """
+        Prove EU-CMA security for PAT aggregation.
+
+        Uses symbolic mathematics to prove that PAT maintains the security
+        properties of the underlying signature scheme.
+
+        Args:
+            strategy: Aggregation strategy to prove (default: instance strategy)
+            k: Security parameter for hash function (default: 256)
+
+        Returns:
+            Dict containing:
+            - security_verified: Boolean indicating proof success
+            - symbolic_proof: Mathematical proof with inequalities
+            - concrete_bounds: Numerical security bounds
+            - latex_output: LaTeX-formatted proof
+
+        Raises:
+            PatError: If security proof fails or module unavailable
+
+        Note:
+            C++ equiv: Compile-time security verification using symbolic computation
+        """
+        if strategy is None:
+            strategy = self.strategy
+
+        try:
+            from .extensions.security_proofs import PatSecurityAnalyzer
+
+            analyzer = PatSecurityAnalyzer()
+            proof_result = analyzer.prove_eucma(strategy, k)
+
+            return proof_result
+
+        except ImportError:
+            raise PatError("Security proof module not available", "CONFIG_ERROR")
+        except Exception as e:
+            raise PatError(f"Security proof failed: {e}", "VALIDATION_ERROR")
+
 
 class TestnetIntegrator:
     """Dogecoin testnet integration for PAT transaction testing.
