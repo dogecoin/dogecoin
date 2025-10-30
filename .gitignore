@@ -141,3 +141,8 @@ __pycache__/
 *.so
 *.dylib
 src/pat/pat-env/
+
+# PAT temporary files and artifacts
+*.csv
+plots/
+temp/
