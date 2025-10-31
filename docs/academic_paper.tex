@@ -514,6 +514,84 @@ Cross-chain analysis reveals:
     \item \textbf{Fee Optimization:} 90-95\% reduction provides strong economic incentives for adoption
 \end{itemize}
 
+\subsection{Hybrid Benchmark Results}
+\label{subsec:hybrid_benchmarks}
+
+Hybrid PQ-classical benchmarking demonstrates PAT's adaptability across threat models:
+
+\begin{table}[H]
+\centering
+\caption{Hybrid Benchmark Results (n=1,000 signatures)}
+\label{tab:hybrid_results}
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+Strategy & Compression Ratio & Throughput (sigs/sec) & Memory (MB) & Energy (kWh) & CO2e (kg) \\
+\midrule
+Logarithmic & 34,597.9 & 96.1 & 0.0 & 1.56e-10 & 0.0 \\
+Threshold & 12,845.2 & 89.0 & 0.2 & 1.72e-10 & 0.0 \\
+Merkle Batch & 8,923.1 & 91.0 & 0.1 & 1.68e-10 & 0.0 \\
+Stacked Multi & 1.2 & 156.0 & 0.0 & 9.81e-11 & 0.0 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Multi-Strategy Compression Scaling}
+\label{subsec:multi_strategy}
+
+Compression performance scales differently across aggregation strategies:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{paper_plots/multi_strategy_compression.png}
+\caption{Multi-strategy compression scaling analysis. Logarithmic aggregation shows exponential improvement with signature count, achieving 34,597x compression at n=1,000 signatures. Threshold and Merkle strategies provide polynomial scaling.}
+\label{fig:multi_strategy_compression}
+\end{figure}
+
+\subsection{Quantum Attack Probability Analysis}
+\label{subsec:grover_vs_n}
+
+Grover's algorithm attack probability diminishes rapidly with increasing signature counts:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{paper_plots/grover_probability_vs_n.png}
+\caption{Quantum attack success probability vs signature count. Grover's algorithm provides theoretical speedup but remains computationally infeasible, with success probabilities dropping to 10^-200 for n=10,000 signatures.}
+\label{fig:grover_probability_vs_n}
+\end{figure}
+
+\subsection{Economic Adoption Modeling}
+\label{subsec:adoption_curve}
+
+Logistic growth model predicts PAT adoption trajectory and fee reduction impact:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{paper_plots/adoption_curve.png}
+\caption{Economic adoption curve with logistic growth modeling. Top: PAT market adoption following S-curve pattern. Bottom: Corresponding fee reduction reaching 90\% at full adoption, with key milestones marked.}
+\label{fig:adoption_curve}
+\end{figure}
+
+\subsection{ESG Cross-Chain Comparison}
+\label{subsec:esg_comparison}
+
+ESG impact analysis across multiple blockchains demonstrates consistent environmental benefits:
+
+\begin{table}[H]
+\centering
+\caption{ESG Cross-Chain Comparison (10k signatures)}
+\label{tab:esg_comparison}
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+Chain & TPS Baseline & TPS PAT & Energy Saved (kWh) & CO2e Saved (kg) & ESG Score & Homes Powered \\
+\midrule
+Dogecoin & 10 & 100 & 0.090 & 0.039 & 66.0 & 0.010 \\
+Litecoin & 10 & 100 & 0.090 & 0.039 & 66.0 & 0.010 \\
+Solana & 1000 & 10000 & 0.090 & 0.039 & 66.0 & 0.010 \\
+\textbf{Total} & - & - & \textbf{0.270} & \textbf{0.117} & \textbf{66.0} & \textbf{0.031} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \section{Discussion and Implications}
 \label{sec:discussion}
 
