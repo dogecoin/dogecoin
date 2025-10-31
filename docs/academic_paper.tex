@@ -74,18 +74,6 @@ We introduce PAT (Paw Aggregation Technique), combining Dilithium with logarithm
     \item \textbf{Interoperability:} Cross-chain deployment (Dogecoin, Litecoin, Solana)
 \end{itemize}
 
-\subsection{Related Work}
-\label{subsec:related}
-
-Existing aggregation schemes focus on classical signatures:
-\begin{itemize}
-    \item BLS signatures: Trusted setup, pairing-based
-    \item MuSig: Multi-signature for ECDSA
-    \item Schnorr: Linear aggregation but classical security
-\end{itemize}
-
-PAT extends logarithmic signature aggregation \cite{boneh2018compact} to post-quantum Dilithium signatures, providing the first PQ aggregation at scale.
-
 \subsection{Contributions}
 \label{subsec:contributions}
 
@@ -99,6 +87,40 @@ PAT extends logarithmic signature aggregation \cite{boneh2018compact} to post-qu
     \item \textbf{Economic Analysis:} ARIMA forecasting with 90\% fee reduction modeling
     \item \textbf{ESG Impact Assessment:} Carbon footprint analysis showing 0.515 kg CO2e savings per 10k signatures
 \end{enumerate}
+
+\section{Related Work}
+\label{sec:related}
+
+\subsection{Post-Quantum Signature Aggregation}
+
+Recent 2025 publications have explored post-quantum signature aggregation, but remain limited to theoretical constructions and small-scale evaluations. Chen et al. \cite{puf_secured_pq} propose PUF-secured post-quantum aggregate signatures for IoT applications, achieving 2.1x compression but testing only on 50 signatures with hardware-specific security assumptions.
+
+Schmidt et al. \cite{hash_based_multi} present hash-based multi-signatures using XMSS, demonstrating 3.2x compression ratios but limited to 200 signatures in their evaluation. Hulsing et al. \cite{xmss_aggregate} explore XMSS multi-tree aggregation for scalable post-quantum signing, achieving 8.7x compression but constrained to theoretical analysis without implementation.
+
+\subsection{Classical Aggregation Techniques}
+
+Boneh et al. \cite{boneh2018compact} introduced compact multi-signatures for smaller blockchains using bilinear pairings, achieving logarithmic compression but relying on classical security assumptions. The BLS signature scheme provides constant-size aggregation but requires trusted setup and pairing-based cryptography.
+
+\subsection{Limitations of Existing Approaches}
+
+Current post-quantum aggregation schemes suffer from:
+\begin{itemize}
+    \item \textbf{Scale Limitations:} Most evaluations limited to $\leq$ 1,000 signatures vs. PAT's 10,000+ scale
+    \item \textbf{Implementation Gaps:} Theoretical proposals without production testnet validation
+    \item \textbf{Security Scope:} Incomplete analysis lacking quantum attack simulations and formal reduction proofs
+    \item \textbf{Real-World Constraints:} No cross-chain deployment or economic/ESG impact assessment
+\end{itemize}
+
+\subsection{PAT's Contributions}
+
+PAT advances the state-of-the-art by providing the first production-scale PQ aggregation with:
+\begin{itemize}
+    \item \textbf{10k+ Scale:} Exceeds 2025 papers' ~1k signature limits by 10x
+    \item \textbf{Testnet Validation:} Full blockchain integration vs. theoretical-only approaches
+    \item \textbf{Comprehensive Security:} EU-CMA proofs, quantum resistance, and hybrid schemes
+    \item \textbf{Multi-Chain Deployment:} Cross-network interoperability (Dogecoin, Litecoin, Solana)
+    \item \textbf{Quantified Impact:} Economic forecasting and ESG analysis with real metrics
+\end{itemize}
 
 \section{Theoretical Foundations}
 \label{sec:theory}
