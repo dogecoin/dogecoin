@@ -31,10 +31,18 @@ import multiprocessing as mp
 # Add parent directory to path for imports
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from pat_benchmark import (
-    PatAggregator, AggregationStrategy, BenchmarkResult,
-    EnergyEstimator, AISimulator, EconomicModeler, PatError
-)
+try:
+    # Try relative import (when used as module)
+    from .pat_benchmark import (
+        PatAggregator, AggregationStrategy, BenchmarkResult,
+        EnergyEstimator, AISimulator, EconomicModeler, PatError, ThreatLevel
+    )
+except ImportError:
+    # Fallback to absolute import (when run as script)
+    from pat_benchmark import (
+        PatAggregator, AggregationStrategy, BenchmarkResult,
+        EnergyEstimator, AISimulator, EconomicModeler, PatError, ThreatLevel
+    )
 
 # Optional imports for plotting
 try:
@@ -564,6 +572,133 @@ class LargeScalePatBenchmark:
         print(f"   🧠 Peak memory: {memory_stats['peak_memory_mb']:.1f} MB")
         print(f"   ⚡ Energy: {energy_consumption:.1f} μkWh")
         return result
+
+    def benchmark_hybrid_signatures(self, num_signatures: int = 1000,
+                                   ecdsa_ratio: float = 0.5,
+                                   strategy: AggregationStrategy = AggregationStrategy.LOGARITHMIC,
+                                   output_csv: str = "hybrid_benchmark_results.csv") -> LargeScaleBenchmarkResult:
+        """
+        Benchmark hybrid PQ-classical signature schemes.
+
+        Tests mixed signature types (ECDSA + Dilithium) to evaluate
+        performance trade-offs and security transitions.
+
+        Args:
+            num_signatures: Total number of signatures to generate
+            ecdsa_ratio: Ratio of ECDSA signatures (0.0 to 1.0)
+            strategy: Aggregation strategy to use
+            output_csv: Output CSV file path
+
+        Returns:
+            Benchmark result for hybrid signature testing
+        """
+        print(f"🔄 HYBRID SIGNATURE BENCHMARK: {num_signatures} signatures ({ecdsa_ratio*100:.0f}% ECDSA)")
+        print("-" * 60)
+
+        # Calculate signature distribution
+        num_ecdsa = int(num_signatures * ecdsa_ratio)
+        num_dilithium = num_signatures - num_ecdsa
+
+        print(f"   ECDSA signatures: {num_ecdsa}")
+        print(f"   Dilithium signatures: {num_dilithium}")
+        print(f"   Aggregation strategy: {strategy.value}")
+
+        # Initialize tracking
+        memory_monitor = MemoryMonitor()
+        progress_tracker = ProgressTracker(num_signatures, "Hybrid keypair generation")
+
+        start_time = time.time()
+
+        try:
+            # Generate hybrid keypairs
+            keypairs_data = []
+            for i in range(num_signatures):
+                # Alternate between ECDSA and Dilithium based on ratio
+                if i < num_ecdsa:
+                    threat_level = ThreatLevel.LOW  # Use ECDSA
+                else:
+                    threat_level = ThreatLevel.HIGH  # Use Dilithium
+
+                priv_key, pub_key, scheme_type = self.aggregator.generate_hybrid_keypair(threat_level)
+                keypairs_data.append((priv_key, pub_key, scheme_type, threat_level))
+
+                progress_tracker.update()
+
+            progress_tracker.complete()
+            keygen_time = time.time() - start_time
+
+            # Generate messages and signatures
+            progress_tracker = ProgressTracker(num_signatures, "Hybrid signing")
+            messages = [f"message_{i}".encode() for i in range(num_signatures)]
+
+            signatures = []
+            sign_start = time.time()
+
+            for i, (priv_key, _, scheme_type, _) in enumerate(keypairs_data):
+                sig = self.aggregator.sign_hybrid(priv_key, messages[i], scheme_type)
+                signatures.append(sig)
+                progress_tracker.update()
+
+            progress_tracker.complete()
+            sign_time = time.time() - sign_start
+
+            # Aggregate signatures
+            agg_start = time.time()
+            aggregated_sig = self.aggregator.aggregate_signatures(signatures, strategy)
+            agg_time = time.time() - agg_start
+
+            # Calculate metrics
+            total_time = time.time() - start_time
+            compression_ratio = (sum(len(s) for s in signatures) / len(aggregated_sig)) if aggregated_sig else 0
+            throughput = num_signatures / total_time
+            memory_stats = memory_monitor.get_memory_stats()
+
+            # Energy estimation (simplified)
+            energy_estimate = self.energy_estimator.estimate_energy_usage(total_time)
+            energy_consumption = energy_estimate['energy_joules'] / 1e6  # Convert to μkWh for compatibility
+
+            # Create result
+            result = LargeScaleBenchmarkResult(
+                signature_count=num_signatures,
+                strategy=strategy.value,
+                chunk_size=1,  # Not chunked for hybrid benchmark
+                total_chunks=1,
+                keygen_time=keygen_time,
+                signing_time=sign_time,
+                aggregation_time=agg_time,
+                verification_time=0.0,  # Not measured in this benchmark
+                total_time=total_time,
+                memory_peak_mb=memory_stats['peak_memory_mb'],
+                compression_ratio=compression_ratio,
+                throughput_sigs_per_sec=throughput,
+                energy_consumption_kwh=energy_consumption / 1e6,  # Convert μkWh to kWh
+                carbon_footprint_kg=0.0,  # Not calculated
+                cpu_utilization_percent=0.0,  # Not measured
+                timestamp=time.time(),
+                chunk_results=[]
+            )
+
+            # Save to CSV
+            with open(output_csv, 'w', newline='') as csvfile:
+                fieldnames = [f for f in LargeScaleBenchmarkResult.__dataclass_fields__.keys()
+                             if f != 'chunk_results']
+                writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+                writer.writeheader()
+                writer.writerow({
+                    k: getattr(result, k) for k in fieldnames
+                })
+
+            print(f"   ⏱️  Total time: {total_time:.2f}s")
+            print(f"   📊 Compression: {compression_ratio:.1f}x")
+            print(f"   🚀 Throughput: {throughput:.0f} sigs/sec")
+            print(f"   🧠 Peak memory: {memory_stats['peak_memory_mb']:.1f} MB")
+            print(f"   🔄 Hybrid ratio: {ecdsa_ratio*100:.0f}% ECDSA / {(1-ecdsa_ratio)*100:.0f}% Dilithium")
+
+            return result
+
+        except Exception as e:
+            print(f"   ❌ Benchmark failed: {e}")
+            raise
 
 
 def plot_large_scale_results(csv_file: str, output_dir: str = "."):
