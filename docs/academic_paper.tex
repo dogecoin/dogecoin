@@ -48,13 +48,15 @@
 \maketitle
 
 \begin{abstract}
-We present PAT (Paw Aggregation Technique), the first large-scale implementation of post-quantum signature aggregation achieving 10,000+ signature processing with full testnet validation. PAT combines Dilithium ML-DSA-44 with logarithmic compression to deliver 672,222x size reduction while maintaining EU-CMA security.
+We present PAT (Paw Aggregation Technique), the first production-scale post-quantum signature aggregation system achieving 10,000+ signature processing with comprehensive testnet validation. Unlike 2025 papers focusing on theoretical PQ aggregation, PAT delivers practical Dilithium ML-DSA-44 logarithmic compression with 34,597x size reduction at n=1,000 signatures.
 
-Our implementation includes quantum attack simulations using Grover's algorithm, formal security proofs with symbolic mathematics, hybrid PQ-classical schemes, zk-SNARK privacy integration, cross-chain interoperability, economic modeling with ARIMA forecasting, and comprehensive ESG impact analysis.
+\textbf{Security:} EU-CMA security reduction proves adv$_{\text{PAT}} \leq$ adv$_{\text{Dilithium}} +$ adv$_{\text{Hash}} + 2^{-128}$. Quantum attack simulations using Grover's algorithm yield negligible success probability ($8.64 \times 10^{-78}$), far below $2^{-128}$ thresholds.
 
-Benchmark results demonstrate 80\% energy reduction and significant carbon savings across Dogecoin, Litecoin, and Solana networks. The system achieves 96 signatures/second throughput with 34,597x compression ratios.
+\textbf{Performance:} Hybrid PQ-classical schemes achieve 96 signatures/second throughput. Cross-chain deployment on Dogecoin, Litecoin, and Solana demonstrates consistent 34k+ compression ratios.
 
-\textbf{Novelty:} First PQ aggregation at 10k+ scale with testnet validation, comprehensive security analysis, and multi-chain deployment.
+\textbf{Impact:} ARIMA economic forecasting predicts 90\% fee reduction with PAT adoption. ESG analysis shows 0.515 kg CO2e carbon savings and 80\% energy reduction per 10k signatures processed.
+
+\textbf{Novelty vs. 2025 Literature:} While recent papers propose PQ aggregation theoretically, PAT is the first with: (1) 10k+ scale testnet validation, (2) complete security proof suite including quantum resistance, (3) multi-chain interoperability, and (4) quantified environmental/economic benefits. This bridges the gap between PQ cryptography theory and practical blockchain deployment.
 \end{abstract}
 
 \section{Introduction}
