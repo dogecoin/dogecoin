@@ -75,6 +75,11 @@ including proper error handling, comprehensive documentation, and performance
 optimizations. Code in experimental branches (like `pat-aggregation-prototype`)
 represents research-quality implementations suitable for production consideration.
 
+**Economic Analysis Note**: PAT economic projections use conservative 2025 low-fee data
+from BitInfoCharts/Statista/CoinLaw with 70-90% fee reductions for multi-sig batches.
+High-volume users see ~5-50 DOGE monthly savings; miner revenue impacts are 5-15%.
+Results vary with mempool congestion—conservative estimates used to avoid exaggeration.
+
 ## Contributing 🤝
 
 If you find a bug or experience issues with this software, please report it

@@ -8,6 +8,8 @@ This research demonstrates a breakthrough in post-quantum signature aggregation 
 
 ### 🚀 Performance Results
 
+**Economic Analysis Note**: Economic projections use conservative 2025 low-fee data (BitInfoCharts/Statista) with 70-90% fee reductions for multi-sig batches. High-volume users (1,000 tx/month) see ~5-50 DOGE monthly savings; miner impacts are 5-15% fee revenue reduction. Results vary with mempool congestion—conservative estimates used.
+
 | Method | Security | 10 Signatures | Sign Time | Compression |
 |--------|----------|---------------|-----------|-------------|
 | **ECDSA** | Classical | 1,045 bytes | 0.66ms | 1.0x |

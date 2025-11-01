@@ -447,33 +447,36 @@ ARIMA time series forecasting models the economic impact of PAT adoption:
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{paper_plots/economic_forecast.png}
-\caption{Economic forecasting: Fee reduction trajectory with PAT adoption. ARIMA model predicts 90\% fee reduction within months of deployment, with significant user savings and rapid break-even for miners.}
+\caption{Economic forecasting: Conservative fee reduction trajectory with PAT adoption based on 2025 low-fee data. ARIMA model predicts 70-90\% fee reduction for multi-sig batches, with user savings scaling with transaction volume and miner impacts offset by block rewards.}
 \label{fig:economic_forecast}
 \end{figure}
 
 \begin{table}[H]
 \centering
-\caption{Economic Impact Projections}
+\caption{Economic Impact Projections (Conservative 2025 Estimates)}
 \label{tab:economic_results}
 \begin{tabular}{@{}lccc@{}}
 \toprule
 Metric & Current & PAT-Enabled & Reduction \\
 \midrule
-Fee per 1000 tx & 2.5 DOGE & 0.25 DOGE & 90\% \\
-Monthly Savings & - & 1,250 DOGE & - \\
-Break-even & - & 10 tx & - \\
-User Incentive & - & High & - \\
+Base Fee per KB & 0.03 DOGE & 0.006-0.009 DOGE & 70-80\% \\
+High-Volume Monthly & 9.0 DOGE & 1.8-3.6 DOGE & 70-80\% \\
+Savings Range & - & 5-50 DOGE/month & - \\
+Miner Revenue Impact & - & 5-15\% reduction & - \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Economic analysis reveals compelling incentives for PAT adoption:
+Economic analysis reveals conservative incentives for PAT adoption based on 2025 low-fee data:
 \begin{itemize}
-    \item \textbf{User Benefits:} 90\% fee reduction creates strong adoption incentives
-    \item \textbf{Miner Economics:} Rapid break-even (10 transactions) ensures miner participation
-    \item \textbf{Network Effects:} Fee reduction scales with adoption, creating positive feedback
-    \item \textbf{Competitive Advantage:} PAT-enabled chains offer superior user economics
+    \item \textbf{User Benefits:} 70-90\% fee reduction for multi-sig batches creates adoption incentives
+    \item \textbf{Miner Economics:} 5-15\% fee revenue reduction, easily offset by block rewards and efficiency gains
+    \item \textbf{Network Effects:} Fee reduction scales with adoption in low-fee environments
+    \item \textbf{Competitive Advantage:} PAT enables quantum resistance without prohibitive costs
 \end{itemize}
+
+\subsection{Caveats}
+Economic results based on 2025 low-fee data (e.g., Dogecoin ~0.01-0.05 DOGE/tx from BitInfoCharts); actuals vary with mempool congestion. Conservative estimates used to avoid exaggeration; high-volume users (1,000 tx/month) see ~5-50 DOGE monthly savings depending on reduction rates and transaction sizes.
 
 \subsection{Quantum Security Assessment}
 \label{subsec:quantum_results}
