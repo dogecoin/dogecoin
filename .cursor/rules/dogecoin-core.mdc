@@ -1,0 +1,8 @@
+---
+alwaysApply: true
+---
+"Generate concise, original code only—NO generic comments/docstrings (e.g., avoid 'This function returns X'). Use Dogecoin Core standards: camelCase classes/methods, snake_case vars/functions, Google-style docstrings (brief: Args/Returns/Raises/Notes), custom PatError exceptions, C++ notes ('# C++ equiv: ...')."
+"Prioritize M4 efficiency: Use chunking/multiprocessing (mp), avoid heavy loops (>1k iters without progress). Test code snippets before full impl—output 'Test passed' with sample runs."
+"Focus on human-driven novelty: For expansions, add your manual insights (e.g., '# Based on 2020 mining: Optimized for Scrypt'). No AI placeholders; if unclear, suggest clarifications."
+"Output modular: Separate files/modules (e.g., extensions/quantum_sims.py). Limit to <1k lines per response. Integrate with existing branch—no overwrites."
+"Verify standards: After code, self-check: 'Adheres to Core? Yes/No' with reasons. No installs—use env libs (qutip for quantum, sympy for proofs, torch for ML, statsmodels for econ)."

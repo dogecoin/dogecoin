@@ -70,7 +70,37 @@ except ImportError:
     class PatAggregator:
         def __init__(self, strategy=AggregationStrategy.LOGARITHMIC):
             self.strategy = strategy
+except ImportError:
+    # Fallback for standalone execution
+    from enum import Enum
 
+    class AggregationStrategy(Enum):
+        NONE = 0
+        THRESHOLD = 1
+        MERKLE_BATCH = 2
+        LOGARITHMIC = 3
+        STACKED_MULTI = 4
+
+    class ThreatLevel(Enum):
+        LOW = "low"
+        MEDIUM = "medium"
+        HIGH = "high"
+        EXTREME = "extreme"
+
+    class PatError(Exception):
+        pass
+
+    class PatAggregator:
+        def __init__(self, strategy=AggregationStrategy.LOGARITHMIC):
+            self.strategy = strategy
+
+
+try:
+    from enum import Enum
+except ImportError:
+    # Fallback if enum not available
+    class Enum:
+        pass
 
 class ChainType(Enum):
     """Supported blockchain networks."""
