@@ -4,6 +4,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{amsmath,amssymb,amsthm}
+\newtheorem{theorem}{Theorem}
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{hyperref}
@@ -14,6 +15,8 @@
 \usepackage{xcolor}
 \usepackage{subcaption}
 \usepackage{authblk}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows}
 
 % Page geometry
 \geometry{margin=1in}
@@ -33,7 +36,7 @@
 }
 
 % Title and authors
-\title{PAT: Post-Quantum Signature Aggregation at Scale \\
+\title{PAT: Post-Quan\-tum Signature Aggregation at Scale \\
 \large First Large-Scale Implementation with Testnet Validation}
 
 \author[1]{J. Casey Wilson}
@@ -60,7 +63,7 @@ We present PAT (Paw Aggregation Technique), the first production-scale post-quan
 \section{Introduction}
 \label{sec:introduction}
 
-Post-quantum cryptography represents a critical transition for blockchain security, yet signature sizes pose scalability challenges. Current post-quantum signatures like Dilithium ML-DSA-44 produce 2,420-byte signatures, impractical for high-throughput blockchains.
+Post-quan\-tum cryptography represents a critical transition for blockchain security, yet signature sizes pose scalability challenges. Current post-quan\-tum signatures like Dilithium ML-DSA-44 produce 2,420-byte signatures, impractical for high-throughput blockchains.
 
 We introduce PAT (Paw Aggregation Technique), combining Dilithium with logarithmic compression for post-quantum signature aggregation. PAT achieves:
 
@@ -69,7 +72,7 @@ We introduce PAT (Paw Aggregation Technique), combining Dilithium with logarithm
     \item \textbf{Security:} EU-CMA secure with formal reduction proofs
     \item \textbf{Scale:} 10,000+ signatures processed with testnet validation
     \item \textbf{Efficiency:} 96 signatures/second, 80\% energy reduction
-    \item \textbf{Interoperability:} Cross-chain deployment (Dogecoin, Litecoin, Solana)
+    \item \textbf{In\-ter\-op\-er\-a\-bil\-i\-ty:} Cross-chain deployment (Dogecoin, Litecoin, Solana)
 \end{itemize}
 
 Drawing from practical experience deploying script algorithm miners since 2020, this research addresses real-world scalability needs in PoW chains—turning quantum threats into opportunities for advancing the resilience of cryptocurrency ecosystems.
@@ -188,7 +191,7 @@ Results show attack success probability $8.64 \times 10^{-78}$, far below practi
 \subsection{System Architecture}
 \label{subsec:architecture}
 
-PAT implementation spans multiple specialized modules, each handling distinct aspects of post-quantum signature aggregation:
+PAT implementation spans multiple specialized modules, each handling distinct aspects of post-quan\-tum signature aggregation:
 
 \begin{lstlisting}[caption=PAT Core Architecture]
 class PatAggregator:
@@ -220,30 +223,27 @@ def generate_hybrid_keypair(self, threat_level: ThreatLevel):
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}[node distance=2cm, auto, >=stealth]
-    % Define styles
-    \tikzstyle{decision} = [diamond, draw, fill=blue!20, text width=4.5em, text badly centered, node distance=3cm, inner sep=0pt]
-    \tikzstyle{block} = [rectangle, draw, fill=green!20, text width=8em, text centered, rounded corners, minimum height=2em]
-    \tikzstyle{line} = [draw, -stealth]
-
-    % Nodes
-    \node [block] (assess) {Assess Threat Level};
-    \node [decision, below of=assess] (threat) {Quantum Threat?};
-    \node [block, left of=threat, node distance=4cm] (ecdsa) {Generate ECDSA\\(Fast, Classical)};
-    \node [block, right of=threat, node distance=4cm] (dilithium) {Generate Dilithium\\(PQ Security)};
-    \node [block, below of=ecdsa, node distance=3cm] (sign_fast) {Sign with ECDSA\\(High Throughput)};
-    \node [block, below of=dilithium, node distance=3cm] (sign_secure) {Sign with Dilithium\\(Quantum Resistant)};
-    \node [block, below of=threat, node distance=3cm] (aggregate) {Aggregate Signatures\\(Logarithmic Tree)};
-    \node [block, below of=aggregate, node distance=3cm] (verify) {Verify Aggregate\\(Batch Validation)};
-
-    % Edges
-    \path [line] (assess) -- (threat);
-    \path [line] (threat) -- node {Low} (ecdsa);
-    \path [line] (threat) -- node {High} (dilithium);
-    \path [line] (ecdsa) -- (sign_fast);
-    \path [line] (dilithium) -- (sign_secure);
-    \path [line] (sign_fast) -- (aggregate);
-    \path [line] (sign_secure) -- (aggregate);
-    \path [line] (aggregate) -- (verify);
+\tikzset{
+  decision/.style = {diamond, draw, fill=blue!20, text width=4.5em, text badly centered, node distance=3cm, inner sep=0pt},
+  block/.style = {rectangle, draw, fill=green!20, text width=8em, text centered, rounded corners, minimum height=4em},
+  line/.style = {draw, -stealth}
+}
+\node [block] (assess) {Assess Threat Level};
+\node [decision, below of=assess] (threat) {Quantum Threat?};
+\node [block, left of=threat, node distance=4cm] (ecdsa) {Generate ECDSA Keypair};
+\node [block, right of=threat, node distance=4cm] (dilithium) {Generate Dilithium Keypair};
+\node [block, below of=ecdsa, node distance=3cm] (sign_fast) {Sign with ECDSA (High Throughput)};
+\node [block, below of=dilithium, node distance=3cm] (sign_secure) {Sign with Dilithium (Quantum Resistant)};
+\node [block, below of=threat, node distance=3cm] (aggregate) {Aggregate Signatures (Logarithmic Compression)};
+\node [block, below of=aggregate, node distance=3cm] (verify) {Verify Aggregate (zk-SNARK Proof)};
+\path [line] (assess) -- (threat);
+\path [line] (threat) -| node [near start] {No} (ecdsa);
+\path [line] (threat) -| node [near start] {Yes} (dilithium);
+\path [line] (ecdsa) -- (sign_fast);
+\path [line] (dilithium) -- (sign_secure);
+\path [line] (sign_fast) -- (aggregate);
+\path [line] (sign_secure) -- (aggregate);
+\path [line] (aggregate) -- (verify);
 \end{tikzpicture}
 \caption{Hybrid PQ-Classical Workflow: Threat-adaptive signature scheme selection based on quantum risk assessment.}
 \label{fig:hybrid_workflow}
@@ -543,7 +543,7 @@ Solana & 1000 & 10000 & 34,597x & 95\% \\
 
 Cross-chain analysis reveals:
 \begin{itemize}
-    \item \textbf{Architecture Independence:} PAT works across PoW (Dogecoin/Litecoin) and PoS/PoH (Solana) consensus
+    \item \textbf{Archi\-tec\-ture In\-de\-pen\-dence:} PAT works across PoW (Dogecoin/Litecoin) and PoS/PoH (Solana) consensus
     \item \textbf{Consistent Compression:} 34,597x ratio achieved regardless of underlying blockchain design
     \item \textbf{Scalable TPS:} 10x improvement enables post-quantum transition for high-throughput chains
     \item \textbf{Fee Optimization:} 90-95\% reduction provides strong economic incentives for adoption
@@ -590,7 +590,7 @@ Grover's algorithm attack probability diminishes rapidly with increasing signatu
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{paper_plots/grover_probability_vs_n.png}
-\caption{Quantum attack success probability vs signature count. Grover's algorithm provides theoretical speedup but remains computationally infeasible, with success probabilities dropping to 10^-200 for n=10,000 signatures.}
+\caption{Quantum attack success probability vs signature count. Grover's algorithm provides theoretical speedup but remains computationally infeasible, with success probabilities dropping to $10^{-200}$ for n=10,000 signatures.}
 \label{fig:grover_probability_vs_n}
 \end{figure}
 
@@ -654,7 +654,7 @@ While PAT demonstrates production-ready post-quantum aggregation, several areas 
     \item \textbf{Implementation Language Overhead:} Python prototype shows 96 signatures/second; C++ implementation could achieve 10,000+ signatures/second through optimized memory management and SIMD operations for Dilithium polynomial arithmetic
     \item \textbf{zk-SNARK Trusted Setup:} Implement decentralized multi-party computation ceremony for production deployment
     \item \textbf{Hardware Acceleration:} ASIC/FPGA optimization for aggregation circuits, leveraging SHA-256 hardware acceleration in modern CPUs
-    \item \textbf{Interoperability Standards:} Develop BIP-like specifications for cross-chain PAT protocol adoption
+    \item \textbf{In\-ter\-op\-er\-a\-bil\-i\-ty Standards:} Develop BIP-like specifications for cross-chain PAT protocol adoption
     \item \textbf{Economic Incentives:} Design tokenomics models rewarding PAT aggregators and quantum-resistant transaction validation
     \item \textbf{Regulatory Compliance:} Establish ESG reporting frameworks for blockchain environmental impact assessment
 \end{enumerate}
@@ -691,7 +691,7 @@ Our results demonstrate:
     \item \textbf{Performance:} 34,597x compression with 96 signatures/second
     \item \textbf{Security:} EU-CMA secure with quantum-resistant properties
     \item \textbf{Sustainability:} 80\% energy reduction and significant carbon savings
-    \item \textbf{Interoperability:} Multi-chain deployment across Dogecoin, Litecoin, and Solana
+    \item \textbf{In\-ter\-op\-er\-a\-bil\-i\-ty:} Multi-chain deployment across Dogecoin, Litecoin, and Solana
 \end{itemize}
 
 PAT enables the post-quantum transition for blockchain networks while maintaining efficiency and security. The implementation is production-ready and open-source, facilitating adoption across the cryptocurrency ecosystem.
@@ -701,7 +701,7 @@ PAT enables the post-quantum transition for blockchain networks while maintainin
 \section*{Code Availability}
 \label{sec:code}
 
-Complete implementation available at: \url{https://github.com/dogecoin/dogecoin/tree/pat-aggregation-prototype/src/pat}
+Complete implementation available at: \url{https://github.com/odenrider/dogecoin/tree/pat-aggregation-prototype/src/pat}
 
 Key modules:
 \begin{itemize}
@@ -715,7 +715,7 @@ Key modules:
 \section*{Author's Note}
 \label{sec:author_note}
 
-As a U.S. Air Force veteran and Dogecoin miner since 2020, this work draws from hands-on experience in cryptocurrency ecosystems and cybersecurity. From deploying small fleets of LTC/Doge miners to exploring cutting edge development in computer systems, I've seen the need for scalable, quantum-resistant tools to ensure a secure future for this industry. This paper aims to bridge that gap, with a nod to the bright future of decentralized cryptocurrency technology. Feedback welcome!
+This work draws from hands-on experience in the cybersecurity and cryptocurrency industries. From deploying small fleets of script algorithm miners to exploring and developing patent-pending cutting-edge security systems, I have seen the need for scalable, quantum-resistant solutions to ensure a secure future for many of the most notable blockchain technologies. This paper aims to bridge that gap, with a nod to the bright future of cryptocurrency industry. Feedback welcome!
 
 \section*{Acknowledgments}
 \label{sec:acknowledgments}
