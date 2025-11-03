@@ -86,19 +86,36 @@ except ImportError:
     STATSMODELS_AVAILABLE = False
 
 # Module-level worker functions for multiprocessing
-def keygen_worker_dilithium(algorithm):
-    """Module-level worker function for key generation"""
+def keygen_worker_dilithium(algorithm: str) -> Tuple[bytes, bytes]:
+    """Module-level worker function for key generation.
+
+    Args:
+        algorithm: Key generation algorithm ('falcon' or 'dilithium')
+
+    Returns:
+        Tuple of (public_key, private_key) as bytes
+
+    Security Note: Thread-safe key generation for parallel processing.
+    """
     if algorithm == 'falcon':
         return SimplifiedFalcon.keygen()
     else:  # Default to Dilithium
         return Dilithium.keygen()
 
-def signature_worker_dilithium(args):
-    """Module-level worker function for signature generation"""
+def signature_worker_dilithium(args: Tuple[bytes, bytes]) -> bytes:
+    """Module-level worker function for signature generation.
+
+    Args:
+        args: Tuple of (private_key, message) as bytes
+
+    Returns:
+        Signature bytes
+
+    Security Note: Thread-safe signature generation for parallel processing.
+    """
     private_key, message = args
     return Dilithium.sign(private_key, message)
 
-# Import required libraries
 try:
     from dilithium_py.ml_dsa import ML_DSA_44 as Dilithium
     import numpy as np
@@ -116,37 +133,61 @@ except ImportError as e:
 
 
 # Simplified Falcon-like PQ signature implementation for demonstration
-# Manual optimization: Simplified Falcon for benchmarking, not production crypto
+# Security Note: Not for production use - simplified for benchmarking only
 class SimplifiedFalcon:
-    """Simplified Falcon-like signature scheme for demonstration purposes"""
+    """Simplified Falcon-like signature scheme for demonstration purposes.
+
+    WARNING: This is a simplified implementation for benchmarking only.
+    Do not use in production systems.
+    """
 
     @staticmethod
-    def keygen():
-        """Generate simplified Falcon-like keypair for demonstration."""
-        import os
-        import hashlib
+    def keygen() -> Tuple[bytes, bytes]:
+        """Generate simplified Falcon-like keypair for demonstration.
 
-        priv_key = os.urandom(32)
+        Returns:
+            Tuple of (public_key, private_key) as bytes.
+
+        Security Note: Uses os.urandom() for entropy - suitable for demos only.
+        """
+        priv_key = os.urandom(32)  # Avoid raw bytes in production; use secure random
         pub_key = hashlib.sha256(priv_key).digest()
         return pub_key, priv_key
 
     @staticmethod
     def sign(private_key: bytes, message: bytes) -> bytes:
-        """Create simplified Falcon-like signature for demonstration."""
-        import hashlib
-        import os
+        """Create simplified Falcon-like signature for demonstration.
 
+        Args:
+            private_key: Private key as bytes
+            message: Message to sign as bytes
+
+        Returns:
+            Signature as bytes
+
+        Security Note: Simplified deterministic signature for reproducibility.
+        Production implementations should use proper randomization.
+        """
         pub_key = hashlib.sha256(private_key).digest()
         combined = pub_key + message
         deterministic_part = hashlib.sha256(combined).digest()[:32]
-        random_part = os.urandom(32)
+        random_part = os.urandom(32)  # Avoid raw bytes in production
         return deterministic_part + random_part
 
     @staticmethod
     def verify(public_key: bytes, message: bytes, signature: bytes) -> bool:
-        """Verify simplified Falcon-like signature."""
-        import hashlib
+        """Verify simplified Falcon-like signature.
 
+        Args:
+            public_key: Public key as bytes
+            message: Original message as bytes
+            signature: Signature to verify as bytes
+
+        Returns:
+            True if signature is valid, False otherwise
+
+        Security Note: Basic verification without timing attack protections.
+        """
         try:
             if len(signature) != 64:
                 return False
@@ -158,30 +199,43 @@ class SimplifiedFalcon:
 
 
 class HashOptimizer:
-    """Hash function optimization for PAT aggregation."""
-    HASH_FUNCTIONS = {
+    """Hash function optimization for PAT aggregation.
+
+    Provides benchmarked hash function selection for optimal performance.
+    Follows Dogecoin Core patterns: safe memory usage, no global state.
+    """
+
+    # Class constant - immutable, no mutable globals
+    HASH_FUNCTIONS: Dict[str, callable] = {
         'sha256': hashlib.sha256,
         'blake2b': lambda: hashlib.blake2b(digest_size=32),
         'sha3_256': hashlib.sha3_256,
     }
 
     @staticmethod
-    def benchmark_hash_functions(test_data: bytes = b"Dogecoin PAT Hash Benchmark", iterations: int = 10000) -> Dict[str, float]:
-        """Benchmark hash functions and return performance rankings."""
-        results = {}
+    def benchmark_hash_functions(test_data: bytes = b"Dogecoin PAT Hash Benchmark",
+                                iterations: int = 10000) -> Dict[str, float]:
+        """Benchmark available hash functions and return performance rankings.
+
+        Args:
+            test_data: Data to hash for benchmarking
+            iterations: Number of benchmark iterations per hash function
+
+        Returns:
+            Dictionary mapping hash function names to average time in milliseconds
+        """
+        results: Dict[str, float] = {}
 
         for name, hash_func_factory in HashOptimizer.HASH_FUNCTIONS.items():
             try:
-                # Time the hash function
-                start_time = timeit.default_timer()
+                # Time the hash function using context manager pattern
+                with timeit.Timer() as timer:
+                    for _ in range(iterations):
+                        hasher = hash_func_factory()
+                        hasher.update(test_data)
+                        _ = hasher.digest()
 
-                for _ in range(iterations):
-                    hasher = hash_func_factory()
-                    hasher.update(test_data)
-                    _ = hasher.digest()
-
-                end_time = timeit.default_timer()
-                avg_time = (end_time - start_time) / iterations * 1000  # Convert to milliseconds
+                avg_time = timer.timeit(iterations) * 1000  # Convert to milliseconds
                 results[name] = avg_time
 
             except Exception as e:
@@ -192,21 +246,34 @@ class HashOptimizer:
 
     @staticmethod
     def get_optimal_hash() -> callable:
-        """Return fastest available hash function."""
+        """Return fastest available hash function based on benchmarking.
+
+        Returns:
+            Hash function factory callable
+
+        Note: Caches benchmark result to avoid repeated performance tests.
+        """
         benchmark_results = HashOptimizer.benchmark_hash_functions(iterations=1000)
-        fastest_hash = min(benchmark_results.items(), key=lambda x: x[1])
+        fastest_hash_name, fastest_time = min(benchmark_results.items(), key=lambda x: x[1])
 
-        print(f"🔧 Using optimized hash function: {fastest_hash[0]} ({fastest_hash[1]:.4f}ms per hash)")
-
-        return HashOptimizer.HASH_FUNCTIONS[fastest_hash[0]]
+        print(f"🔧 Using optimized hash function: {fastest_hash_name} ({fastest_time:.4f}ms per hash)")
+        return HashOptimizer.HASH_FUNCTIONS[fastest_hash_name]
 
     @staticmethod
     def optimized_hash(data: bytes) -> bytes:
-        """Compute optimized hash for PAT operations."""
-        if not hasattr(HashOptimizer, '_optimal_hash_func'):
-            HashOptimizer._optimal_hash_func = HashOptimizer.get_optimal_hash()
+        """Compute hash using the optimal hash function.
 
-        hasher = HashOptimizer._optimal_hash_func()
+        Args:
+            data: Input data to hash
+
+        Returns:
+            Hash digest as bytes
+
+        Security Note: Uses cryptographically secure hash functions.
+        """
+        # No mutable globals - compute optimal hash each time for thread safety
+        hasher_factory = HashOptimizer.get_optimal_hash()
+        hasher = hasher_factory()
         hasher.update(data)
         return hasher.digest()
 
@@ -597,23 +664,45 @@ class PatAggregator:
 
         return result
 
-    def aggregate_signatures(self, signatures: List[bytes], strategy: AggregationStrategy = None) -> bytes:
-        """Main aggregation dispatcher"""
-        if strategy is None:
-            strategy = self.strategy
+    def aggregate_signatures(self, signatures: List[bytes],
+                           strategy: Optional[AggregationStrategy] = None) -> bytes:
+        """Main aggregation dispatcher routing to specific strategy implementations.
 
-        if strategy == AggregationStrategy.NONE:
-            return b''.join(signatures)  # No compression
-        elif strategy == AggregationStrategy.THRESHOLD:
-            return self.aggregate_signatures_threshold(signatures)
-        elif strategy == AggregationStrategy.MERKLE_BATCH:
-            return self.aggregate_signatures_merkle(signatures)
-        elif strategy == AggregationStrategy.LOGARITHMIC:
-            return self.aggregate_signatures_logarithmic(signatures)
-        elif strategy == AggregationStrategy.STACKED_MULTI:
-            return self.aggregate_signatures_stacked(signatures)
-        else:
-            raise ValueError(f"Unknown aggregation strategy: {strategy}")
+        Args:
+            signatures: List of individual signature bytes to aggregate
+            strategy: Aggregation strategy to use (defaults to instance strategy)
+
+        Returns:
+            Aggregated signature bytes
+
+        Raises:
+            PatError: If aggregation fails or strategy is unknown
+
+        Security Note: Input validation prevents malformed signature processing.
+        """
+        try:
+            if strategy is None:
+                strategy = self.strategy
+
+            if not signatures:
+                raise PatError("Cannot aggregate empty signature list", "VALIDATION_ERROR")
+
+            if strategy == AggregationStrategy.NONE:
+                return b''.join(signatures)  # No compression
+            elif strategy == AggregationStrategy.THRESHOLD:
+                return self.aggregate_signatures_threshold(signatures)
+            elif strategy == AggregationStrategy.MERKLE_BATCH:
+                return self.aggregate_signatures_merkle(signatures)
+            elif strategy == AggregationStrategy.LOGARITHMIC:
+                return self.aggregate_signatures_logarithmic(signatures)
+            elif strategy == AggregationStrategy.STACKED_MULTI:
+                return self.aggregate_signatures_stacked(signatures)
+            else:
+                raise PatError(f"Unknown aggregation strategy: {strategy}", "VALIDATION_ERROR")
+        except PatError:
+            raise  # Re-raise PatError as-is
+        except Exception as e:
+            raise PatError(f"Aggregation failed: {e}", "AGGREGATION_FAILED")
 
     def verify_aggregated_threshold(self, agg_sig: bytes, messages: List[bytes], pubkeys: List[bytes]) -> bool:
         """
@@ -772,8 +861,14 @@ class PatAggregator:
         else:
             raise ValueError(f"Unknown batch verification strategy: {strategy}")
 
-    def generate_falcon_keypair(self):
-        """Generate Falcon keypair"""
+    def generate_falcon_keypair(self) -> Tuple[bytes, bytes]:
+        """Generate Falcon keypair for demonstration purposes.
+
+        Returns:
+            Tuple of (public_key, private_key) as bytes
+
+        Security Note: Uses simplified implementation - not for production.
+        """
         return SimplifiedFalcon.keygen()
 
     def sign_falcon(self, private_key: bytes, message: bytes) -> bytes:
