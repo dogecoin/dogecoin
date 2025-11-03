@@ -478,6 +478,7 @@ ARIMA time series forecasting models the economic impact of PAT adoption:
 \centering
 \caption{Economic Impact Projections (Conservative 2025 Estimates)}
 \label{tab:economic_results}
+\resizebox{\textwidth}{!}{
 \begin{tabular}{@{}lccc@{}}
 \toprule
 Metric & Current & PAT-Enabled & Reduction \\
@@ -488,6 +489,7 @@ Savings Range & - & 5-50 DOGE/month & - \\
 Miner Revenue Impact & - & 5-15\% reduction & - \\
 \bottomrule
 \end{tabular}
+}
 \end{table}
 
 Economic analysis reveals conservative incentives for PAT adoption based on 2025 low-fee data:
@@ -651,6 +653,7 @@ ESG impact analysis across multiple blockchains demonstrates consistent environm
 \centering
 \caption{ESG Cross-Chain Comparison (10k signatures)}
 \label{tab:esg_comparison}
+\resizebox{\textwidth}{!}{
 \begin{tabular}{@{}lcccccc@{}}
 \toprule
 Chain & TPS Baseline & TPS PAT & Energy Saved (kWh) & CO2e Saved (kg) & ESG Score & Homes Powered \\
@@ -661,6 +664,7 @@ Solana & 1000 & 10000 & 0.090 & 0.039 & 66.0 & 0.010 \\
 \textbf{Total} & - & - & \textbf{0.270} & \textbf{0.117} & \textbf{66.0} & \textbf{0.031} \\
 \bottomrule
 \end{tabular}
+}
 \end{table}
 
 \section{Discussion and Implications}
@@ -737,7 +741,8 @@ PAT enables the post-quantum transition for blockchain networks while maintainin
 \section*{Code Availability}
 \label{sec:code}
 
-Complete implementation available at: \url{https://github.com/odenrider/dogecoin/tree/pat-aggregation-prototype/src/pat}
+Complete implementation available at:
+\url{https://github.com/odenrider/dogecoin/tree/pat-aggregation-prototype/src/pat}
 
 Key modules:
 \begin{itemize}
