@@ -246,8 +246,8 @@ def generate_hybrid_keypair(self, threat_level: ThreatLevel):
 \centering
 \begin{tikzpicture}[node distance=2cm, auto, >=stealth]
 \tikzset{
-  decision/.style = {diamond, draw, fill=blue!20, text width=4.5em, text badly centered, node distance=3cm, inner sep=0pt},
-  block/.style = {rectangle, draw, fill=green!20, text width=8em, text centered, rounded corners, minimum height=4em},
+  decision/.style = {diamond, draw, fill=blue!20, text width=4.5em, text badly centered, node distance=3.5cm, inner sep=0pt, anchor=center},
+  block/.style = {rectangle, draw, fill=green!20, text width=8em, text centered, rounded corners, minimum height=4em, anchor=center},
   line/.style = {draw, -stealth}
 }
 \node [block] (assess) {Assess Threat Level};
@@ -558,7 +558,7 @@ PAT demonstrates consistent performance improvements across het\-er\-o\-ge\-ne\-
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{paper_plots/multichain_comparison.png}
-\caption{Multi-chain PAT performance comparison. Left: TPS improvement showing 10x enhancement across all networks. Right: Consistent 34,597x compression ratios demonstrating PAT's architecture-agnostic effectiveness.}
+\caption{Multi-chain PAT performance comparison. Left: TPS improvement showing 10x enhancement across all networks. Right: Consistent 34,597x compression ratios demonstrating PAT's ar\-chi\-tec\-ture-ag\-nos\-tic effectiveness.}
 \label{fig:multichain_comparison}
 \end{figure}
 
@@ -676,10 +676,10 @@ PAT enables consistent post-quantum security across het\-er\-o\-ge\-ne\-ous netw
     \item \textbf{Litecoin MWEB + PAT Integration:} Combines Mimblewimble Extension Blocks privacy with post-quantum aggregation, enabling confidential transactions with 90\% fee reduction for privacy-preserving cross-border payments
     \item \textbf{Solana TPS Boost:} 10x throughput improvement (1,000 → 10,000 TPS) enables Solana to maintain dominance in DeFi while adding quantum resistance, supporting SVM parallelization for aggregated signature verification
     \item \textbf{Ethereum Gas Optimization:} EVM-compatible PAT reduces gas costs by 90\% for multi-signature wallets and DAOs, enabling complex governance structures without prohibitive transaction fees
-    \item \textbf{Bitcoin Infrastructure:} SHA-256 integration provides quantum-resistant multisig for Lightning Network channels and custody solutions
+    \item \textbf{Bitcoin Infrastructure:} SHA-256 integration provides quan\-tum-re\-sis\-tant multisig for Lightning Network channels and custody solutions
 \end{itemize}
 
-PAT's generalizability extends to progressive chains like Solana, where simulations show 10x TPS gains in SVM, complementing their Winternitz vaults \cite{yakovenko_winternitz}. This cross-chain compatibility demonstrates PAT's architecture-agnostic design, enabling quantum-resistant scaling across diverse consensus mechanisms.
+PAT's generalizability extends to progressive chains like Solana, where simulations show 10x TPS gains in SVM, complementing their Winternitz vaults \cite{yakovenko_winternitz}. This cross-chain compatibility demonstrates PAT's architecture-agnostic design, enabling quan\-tum-re\-sis\-tant scaling across diverse consensus mechanisms.
 
 \subsection{Limitations and Future Work}
 \label{subsec:limitations}
@@ -691,7 +691,7 @@ While PAT demonstrates production-ready post-quantum aggregation, several areas 
     \item \textbf{zk-SNARK Trusted Setup:} Implement decentralized multi-party computation ceremony for production deployment
     \item \textbf{Hardware Acceleration:} ASIC/FPGA optimization for aggregation circuits, leveraging SHA-256 hardware acceleration in modern CPUs
     \item \textbf{In\-ter\-op\-er\-a\-bil\-i\-ty Standards:} Develop BIP-like specifications for cross-chain PAT protocol adoption
-    \item \textbf{Economic Incentives:} Design tokenomics models rewarding PAT aggregators and quantum-resistant transaction validation
+    \item \textbf{Economic Incentives:} Design to\-ke\-nom\-ics models rewarding PAT aggregators and quan\-tum-re\-sis\-tant transaction validation
     \item \textbf{Regulatory Compliance:} Establish ESG reporting frameworks for blockchain environmental impact assessment
 \end{enumerate}
 
@@ -725,7 +725,7 @@ PAT represents a significant advancement in post-quantum blockchain cryptography
 Our results demonstrate:
 \begin{itemize}
     \item \textbf{Performance:} 34,597x compression with 96 signatures/second
-    \item \textbf{Security:} EU-CMA secure with quantum-resistant properties
+    \item \textbf{Security:} EU-CMA secure with quan\-tum-re\-sis\-tant properties
     \item \textbf{Sustainability:} 80\% energy reduction and significant carbon savings
     \item \textbf{In\-ter\-op\-er\-a\-bil\-i\-ty:} Multi-chain deployment across Dogecoin, Litecoin, and Solana
 \end{itemize}
@@ -748,7 +748,7 @@ Key modules:
     \item \texttt{extensions/economic\_models.py}: Economic forecasting
 \end{itemize}
 
-The prototype adheres to Dogecoin Core coding standards (e.g., C++ with Boost for crypto, no raw pointers), including comprehensive unit tests for aggregation strategies and cross-chain interoperability. Tests cover all PAT strategies (threshold, merkle_batch, logarithmic, stacked_multi) with 80%+ coverage and mocked RPC calls for network isolation. Future work includes full Core integration via a Dogecoin Improvement Proposal (DIP).
+The prototype adheres to Dogecoin Core coding standards (e.g., C++ with Boost for crypto, no raw pointers), including comprehensive unit tests for aggregation strategies and cross-chain interoperability. Tests cover all PAT strategies (\texttt{threshold}, \texttt{merkle\_batch}, \texttt{logarithmic}, \texttt{stacked\_multi}) with 80\%+ coverage and mocked RPC calls for network isolation. Future work includes full Core integration via a Dogecoin Improvement Proposal (DIP).
 
 \section*{Author Contributions and Methods}
 \label{sec:author_contributions}
