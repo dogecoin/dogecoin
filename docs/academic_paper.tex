@@ -246,14 +246,14 @@ def generate_hybrid_keypair(self, threat_level: ThreatLevel):
 \centering
 \begin{tikzpicture}[node distance=2cm, auto, >=stealth]
 \tikzset{
-  decision/.style = {diamond, draw, fill=blue!20, text width=4.5em, text badly centered, node distance=3.5cm, inner sep=0pt, anchor=center},
-  block/.style = {rectangle, draw, fill=green!20, text width=8em, text centered, rounded corners, minimum height=4em, anchor=center},
+  decision/.style = {diamond, draw, fill=blue!20, text width=4.5em, text badly centered, node distance=3.5cm, inner sep=0pt},
+  block/.style = {rectangle, draw, fill=green!20, text width=8em, text centered, rounded corners, minimum height=4em},
   line/.style = {draw, -stealth}
 }
 \node [block] (assess) {Assess Threat Level};
 \node [decision, below of=assess] (threat) {Quantum Threat?};
-\node [block, left of=threat, node distance=4cm] (ecdsa) {Generate ECDSA Keypair};
-\node [block, right of=threat, node distance=4cm] (dilithium) {Generate Dilithium Keypair};
+\node [block, left of=threat, node distance=4.5cm] (ecdsa) {Generate ECDSA Keypair};
+\node [block, right of=threat, node distance=4.5cm] (dilithium) {Generate Dilithium Keypair};
 \node [block, below of=ecdsa, node distance=3cm] (sign_fast) {Sign with ECDSA (High Throughput)};
 \node [block, below of=dilithium, node distance=3cm] (sign_secure) {Sign with Dilithium (Quantum Resistant)};
 \node [block, below of=threat, node distance=3cm] (aggregate) {Aggregate Signatures (Logarithmic Compression)};
