@@ -228,14 +228,16 @@ class HashOptimizer:
 
         for name, hash_func_factory in HashOptimizer.HASH_FUNCTIONS.items():
             try:
-                # Time the hash function using context manager pattern
-                with timeit.Timer() as timer:
-                    for _ in range(iterations):
-                        hasher = hash_func_factory()
-                        hasher.update(test_data)
-                        _ = hasher.digest()
+                # Time the hash function using simple timing
+                start_time = timeit.default_timer()
 
-                avg_time = timer.timeit(iterations) * 1000  # Convert to milliseconds
+                for _ in range(iterations):
+                    hasher = hash_func_factory()
+                    hasher.update(test_data)
+                    _ = hasher.digest()
+
+                end_time = timeit.default_timer()
+                avg_time = (end_time - start_time) / iterations * 1000  # Convert to milliseconds
                 results[name] = avg_time
 
             except Exception as e:
