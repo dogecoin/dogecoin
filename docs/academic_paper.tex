@@ -259,8 +259,8 @@ def generate_hybrid_keypair(self, threat_level: ThreatLevel):
 \node [block, below of=threat, node distance=3cm] (aggregate) {Aggregate Signatures (Logarithmic Compression)};
 \node [block, below of=aggregate, node distance=3cm] (verify) {Verify Aggregate (zk-SNARK Proof)};
 \path [line] (assess) -- (threat);
-\path [line] (threat) -| node [near start] {No} (ecdsa.north);
-\path [line] (threat) -| node [near start] {Yes} (dilithium.north);
+\path [line] (threat) -| node [near start] {No} (ecdsa.east);
+\path [line] (threat) -| node [near start] {Yes} (dilithium.west);
 \path [line] (ecdsa) -- (sign_fast);
 \path [line] (dilithium) -- (sign_secure);
 \path [line] (sign_fast) -- (aggregate);
