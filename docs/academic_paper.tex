@@ -323,7 +323,7 @@ class ZKSnarkCircuit:
         return constraints
 \end{lstlisting}
 
-\subsection{Threat Assessment Mechanism}
+\subsubsection{Threat Assessment Mechanism}
 \label{subsec:threat_assessment}
 
 Threat determination in PAT follows a trust-minimized, consensus-compatible approach aligned with Dogecoin Core's decentralized architecture. Low-threat levels correspond to pre-CRQC eras (CRQC probability $<10\%$, projected pre-2030) where classical ECDSA signatures remain secure against current quantum capabilities ($100-300$ noisy qubits). High-threat triggers when CRQC indicators exceed $30\%$ probability (post-2030) with error-corrected logical qubits suggesting imminent Shor's algorithm breaks on elliptic curves.
@@ -776,7 +776,7 @@ The author conceived PAT (Paw Aggregation Technique) and performed all implement
 \section*{Acknowledgments}
 \label{sec:acknowledgments}
 
-This work builds on open-source contributions from the Dogecoin Core community and NIST standards. Assistance from AI tools (e.g., Grok for initial brainstorming and code sketches) was used, but all implementations, benchmarks, and analyses were manually verified and refined based on the author's mining and cybersecurity knowledge and experience. Thanks to the Dogecoin Foundation for maintaining the ecosystem that enabled testnet experiments.
+This work builds on open-source contributions from the Dogecoin Core community and NIST standards. Thanks to the Dogecoin Foundation for maintaining the ecosystem that enabled testnet experiments.
 
 \bibliographystyle{alpha}
 \bibliography{references}
