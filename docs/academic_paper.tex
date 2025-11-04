@@ -323,6 +323,19 @@ class ZKSnarkCircuit:
         return constraints
 \end{lstlisting}
 
+\subsection{Threat Assessment Mechanism}
+\label{subsec:threat_assessment}
+
+Threat determination in PAT follows a trust-minimized, consensus-compatible approach aligned with Dogecoin Core's decentralized architecture. Low-threat levels correspond to pre-CRQC eras (CRQC probability $<10\%$, projected pre-2030) where classical ECDSA signatures remain secure against current quantum capabilities ($100-300$ noisy qubits). High-threat triggers when CRQC indicators exceed $30\%$ probability (post-2030) with error-corrected logical qubits suggesting imminent Shor's algorithm breaks on elliptic curves.
+
+Practical assessment methods integrate decentralized oracles, consensus signaling, and on-chain anomaly detection. Nodes query external data feeds via oracles (e.g., Chainlink pulling from Global Risk Institute timelines) for metrics including current qubit counts, gate fidelities, and annual CRQC probabilities. Consensus aggregates oracle data through majority voting to establish chain-wide threat levels with minimal overhead.
+
+The threat score computation uses probabilistic weighting:
+\begin{align}
+\text{Threat Score} = 0.4 \cdot \text{NormalizedQubits} + 0.3 \cdot (1 - \text{ErrorRate}) + 0.3 \cdot \text{AnnualCRQCProb}
+\end{align}
+High-threat activation occurs when Threat Score $>0.5$, triggering Dilithium adoption. Dogecoin integration extends RPC interfaces (e.g., \texttt{getthreatlevel}) with prototype simulations demonstrating $<1\%$ overhead for oracle queries and consensus aggregation~\cite{threat_framework_2024,quantum_shield_2025,pqfif_2025}.
+
 \subsection{Cross-Chain Integration}
 \label{subsec:multi_chain}
 
