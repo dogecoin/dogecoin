@@ -238,21 +238,60 @@ An interactive educational tool for visualizing PAT's logarithmic aggregation, q
 
 #### Installation & Usage
 
+#### For Non-Technical Users (Recommended) 🚀
+1. **Easy Setup**: Download and install Python 3 from [python.org](https://python.org)
+2. **Install Dependencies**: Run `pip install -r requirements.txt`
+3. **Double-Click Launch**: Use the bundled `PAT_Sim.app` (see build instructions below)
+   - No terminal required!
+   - Auto-checks dependencies on first run
+   - Perfect for demonstrations and education
+
+#### For Developers/Advanced Users 💻
 ```bash
-# Install dependencies
-pip install pygame pygame_gui numpy numba psutil
+# Install dependencies (includes optional performance libraries)
+pip install -r requirements.txt
+
+# Or install only required dependencies
+pip install numpy pygame pygame_gui
 
 # Run the visual simulator
 python tools/pat_visual_sim.py
 ```
 
-#### Controls
-- **Signature Slider**: Adjust number of signatures (10-10,000)
-- **Strategy Dropdown**: Choose aggregation method (logarithmic/threshold/Merkle/stacked)
-- **Threat Level**: Select quantum threat level for hybrid switching
-- **Chain Buttons**: Select Dogecoin 🐕, Litecoin 🪙, or Solana ☀️ for TPS visualization
-- **Attack Toggle**: Show/hide quantum attack probability highlights
-- **Hover Tooltips**: Educational information on hover
+#### Building the macOS .app Bundle 📦
+```bash
+# Build double-clickable macOS application
+./tools/build_app.sh
+
+# The app bundle will be created in dist/PAT_Sim.app
+# Copy to Applications folder and double-click to run!
+```
+
+#### Controls & Features 🎮
+
+**Start Screen:**
+- **🚀 Run Demo**: Guided experience with n=1000 signatures (recommended for first-time users)
+- **🎮 Start Simulator**: Full control over all parameters
+
+**Main Controls:**
+- **Signature Slider**: Adjust number of signatures (10-10,000). More signatures = bigger trees!
+- **Strategy Dropdown**: Choose aggregation method:
+  - Logarithmic (best compression, O(log n))
+  - Threshold (fixed groups)
+  - Merkle Batch (tree verification)
+  - Stacked Multi (no compression)
+- **Threat Level**: Select quantum threat level for hybrid switching (watch color changes!)
+  - Low: Green (ECDSA safe)
+  - Medium: Yellow (hybrid mode)
+  - High: Red (full Dilithium)
+- **Chain Buttons**: Select Dogecoin 🐕, Litecoin 🪙, or Solana ☀️ (shows TPS comparisons)
+- **Attack Toggle**: Show/hide quantum attack visualizations (red = high risk)
+
+**Interactive Features:**
+- **Enhanced Tooltips**: Hover over any element for educational explanations
+- **Color-Coded Threats**: Visual hybrid switching based on threat level
+- **Performance Monitoring**: Real-time FPS and energy usage display
+- **Educational Nodes**: Hover signature/aggregation nodes for detailed explanations
 
 #### Performance Testing
 Tested on Apple Silicon M4 with n=1000 signatures:

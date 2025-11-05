@@ -15,14 +15,56 @@ Features:
 Usage: python tools/pat_visual_sim.py
 """
 
-import pygame
-import pygame_gui
-import numpy as np
-import numba
-from numba import jit
+# Check core dependencies first
+REQUIRED_DEPS = ['numpy', 'pygame', 'pygame_gui']
+OPTIONAL_DEPS = ['numba', 'psutil']
+
+missing_required = []
+missing_optional = []
+
+try:
+    import numpy as np
+    NUMPY_AVAILABLE = True
+except ImportError:
+    NUMPY_AVAILABLE = False
+    missing_required.append('numpy')
+
+try:
+    import pygame
+    PYGAME_AVAILABLE = True
+except ImportError:
+    PYGAME_AVAILABLE = False
+    missing_required.append('pygame')
+
+try:
+    import pygame_gui
+    PYGAME_GUI_AVAILABLE = True
+except ImportError:
+    PYGAME_GUI_AVAILABLE = False
+    missing_required.append('pygame_gui')
+
+try:
+    import numba
+    from numba import jit
+    NUMBA_AVAILABLE = True
+except ImportError:
+    NUMBA_AVAILABLE = False
+    missing_optional.append('numba')
+    # Fallback for jit decorator
+    def jit(*args, **kwargs):
+        def decorator(func):
+            return func
+        return decorator
+
 import math
 import time
-import psutil
+try:
+    import psutil
+    PSUTIL_AVAILABLE = True
+except ImportError:
+    PSUTIL_AVAILABLE = False
+    missing_optional.append('psutil')
+
 import os
 import sys
 from enum import Enum
@@ -81,6 +123,9 @@ class PATVisualizer:
     """
 
     def __init__(self):
+        if not PYGAME_AVAILABLE:
+            raise ImportError("Pygame is required for the visual simulator. Install with: pip install pygame pygame_gui")
+
         pygame.init()
         pygame.display.set_caption("PAT Visual Simulator - Post-Quantum Aggregation Technique")
 
@@ -89,6 +134,9 @@ class PATVisualizer:
         self.font = pygame.font.SysFont('Arial', 16)
         self.title_font = pygame.font.SysFont('Arial', 24, bold=True)
         self.tooltip_font = pygame.font.SysFont('Arial', 12)
+
+        # Add start screen state
+        self.show_start_screen = True
 
         # GUI Manager
         self.manager = pygame_gui.UIManager((WINDOW_WIDTH, WINDOW_HEIGHT))
@@ -114,11 +162,28 @@ class PATVisualizer:
             self.quantum_sim = None
             self.multi_chain = None
 
-        self.create_ui()
+        self.create_start_screen_ui()
+        self.create_main_ui()
         self.create_tooltips()
 
-    def create_ui(self):
-        """Create the user interface elements."""
+    def create_start_screen_ui(self):
+        """Create the start screen UI elements."""
+        # Demo button
+        self.demo_button = pygame_gui.elements.UIButton(
+            relative_rect=pygame.Rect(WINDOW_WIDTH//2 - 100, WINDOW_HEIGHT//2 + 50, 200, 50),
+            text="🚀 Run Demo (n=1000)",
+            manager=self.manager
+        )
+
+        # Direct start button
+        self.start_button = pygame_gui.elements.UIButton(
+            relative_rect=pygame.Rect(WINDOW_WIDTH//2 - 100, WINDOW_HEIGHT//2 + 120, 200, 50),
+            text="🎮 Start Simulator",
+            manager=self.manager
+        )
+
+    def create_main_ui(self):
+        """Create the main simulation user interface elements."""
         # Signature count slider
         self.slider_rect = pygame.Rect(50, 50, 300, 30)
         self.slider = pygame_gui.elements.UIHorizontalSlider(
@@ -183,15 +248,17 @@ class PATVisualizer:
         )
 
     def create_tooltips(self):
-        """Create tooltip data for interactive elements."""
+        """Create enhanced tooltip data for interactive elements."""
         self.tooltips = {
-            'slider': "Adjust number of signatures to aggregate (10-10,000)",
-            'strategy': "Choose aggregation strategy: logarithmic (best compression), threshold, merkle_batch, or stacked_multi",
-            'threat': "Select quantum threat level: determines hybrid crypto switching",
-            'dogecoin': "Dogecoin: Scrypt PoW, 10 TPS baseline, 34k PAT compression",
-            'litecoin': "Litecoin: Scrypt PoW, 10 TPS baseline, MWEB privacy integration",
-            'solana': "Solana: PoH consensus, 1000 TPS baseline, 10x PAT improvement",
-            'attacks': "Toggle visualization of quantum attack probabilities (red highlights)"
+            'slider': "Adjust number of signatures to aggregate (10-10,000). More signatures = bigger trees!",
+            'strategy': "Choose aggregation strategy: logarithmic (best compression, O(log n)), threshold (fixed groups), merkle_batch (tree verification), stacked_multi (no compression)",
+            'threat': "Select quantum threat level: Low (ECDSA safe), Medium (hybrid needed), High (full Dilithium). Watch colors change!",
+            'dogecoin': "🐕 Dogecoin: Scrypt PoW, 10 TPS baseline. PAT enables tipping without fees!",
+            'litecoin': "🪙 Litecoin: Scrypt PoW, 10 TPS baseline. PAT + MWEB = private & fast transactions",
+            'solana': "☀️ Solana: PoH consensus, 1000 TPS baseline. PAT boosts to 10,000 TPS!",
+            'attacks': "Toggle quantum attack visualization. Red = high risk, Orange = medium, Blue = low",
+            'signature_node': "Hover signature node: Each represents a Dilithium signature, merging like tournament brackets!",
+            'aggregation_node': "Hover aggregation node: Shows merged signatures. Logarithmic = O(log n) steps!"
         }
 
     def draw_tree_visualization(self):
@@ -292,8 +359,19 @@ class PATVisualizer:
             self.draw_signature_node(x, y, f"S{i}", self.get_attack_color(i), size=8)
 
     def draw_signature_node(self, x, y, label, color=(0, 100, 200), size=12):
-        """Draw a signature node."""
-        pygame.draw.circle(self.screen, color, (int(x), int(y)), size)
+        """Draw a signature node with threat-based color switching."""
+        # Apply threat level color modifications
+        if self.threat_level == ThreatLevel.LOW:
+            # ECDSA mode - green tint
+            final_color = (min(255, color[0] + 100), min(255, color[1] + 50), color[2])
+        elif self.threat_level == ThreatLevel.MEDIUM:
+            # Hybrid mode - yellow tint
+            final_color = (min(255, color[0] + 150), min(255, color[1] + 100), color[2])
+        else:  # HIGH
+            # Dilithium mode - red tint
+            final_color = (min(255, color[0] + 200), min(255, color[1]), min(255, color[2] + 50))
+
+        pygame.draw.circle(self.screen, final_color, (int(x), int(y)), size)
         pygame.draw.circle(self.screen, (255, 255, 255), (int(x), int(y)), size, 1)
         text = self.font.render(label, True, (255, 255, 255))
         self.screen.blit(text, (x - text.get_width()//2, y - text.get_height()//2))
@@ -361,6 +439,51 @@ class PATVisualizer:
         surface = self.font.render(text, True, color)
         self.screen.blit(surface, (x, y))
 
+    def draw_start_screen(self):
+        """Draw the start screen with welcome message and buttons."""
+        # Background gradient
+        for y in range(WINDOW_HEIGHT):
+            color = (20 + y // 20, 20 + y // 20, 40 + y // 20)
+            pygame.draw.line(self.screen, color, (0, y), (WINDOW_WIDTH, y))
+
+        # Main title
+        title_lines = [
+            "🚀 PAT Visual Simulator",
+            "Post-Quantum Aggregation Technique Demo"
+        ]
+
+        for i, line in enumerate(title_lines):
+            title_surface = self.title_font.render(line, True, (255, 255, 0))
+            self.screen.blit(title_surface, (WINDOW_WIDTH//2 - title_surface.get_width()//2, 100 + i * 50))
+
+        # Description
+        desc_lines = [
+            "Explore how quantum-resistant signature aggregation works!",
+            "Watch signatures merge like tournament brackets in logarithmic time.",
+            "See quantum attack probabilities and multi-chain performance.",
+            "",
+            "Perfect for understanding post-quantum cryptography visually."
+        ]
+
+        for i, line in enumerate(desc_lines):
+            if line.strip():  # Skip empty lines
+                desc_surface = self.font.render(line, True, (200, 200, 200))
+                self.screen.blit(desc_surface, (WINDOW_WIDTH//2 - desc_surface.get_width()//2, 250 + i * 30))
+            else:
+                # Add spacing for empty lines
+                pass
+
+        # Instructions
+        instr_lines = [
+            "🎯 Choose your experience:",
+            "• 'Run Demo' - Guided tour with n=1000 signatures",
+            "• 'Start Simulator' - Full control over all parameters"
+        ]
+
+        for i, line in enumerate(instr_lines):
+            instr_surface = self.font.render(line, True, (150, 255, 150))
+            self.screen.blit(instr_surface, (WINDOW_WIDTH//2 - instr_surface.get_width()//2, 450 + i * 25))
+
     def draw_title(self):
         """Draw the main title."""
         title = "PAT Visual Simulator - Post-Quantum Aggregation Technique"
@@ -379,7 +502,7 @@ class PATVisualizer:
             self.screen.blit(tooltip_surface, (mouse_pos[0] + 15, mouse_pos[1] - 27))
 
     def run_simulation(self):
-        """Run the main simulation loop."""
+        """Run the main simulation loop with start screen."""
         running = True
         tooltip_active = None
 
@@ -388,28 +511,35 @@ class PATVisualizer:
 
             mouse_pos = pygame.mouse.get_pos()
 
-            # Check for tooltips
-            tooltip_active = None
-            if self.slider_rect.collidepoint(mouse_pos):
-                tooltip_active = 'slider'
-            elif self.strategy_dropdown.rect.collidepoint(mouse_pos):
-                tooltip_active = 'strategy'
-            elif self.threat_dropdown.rect.collidepoint(mouse_pos):
-                tooltip_active = 'threat'
-            elif self.attack_toggle.rect.collidepoint(mouse_pos):
-                tooltip_active = 'attacks'
-            else:
-                for chain_type, button in self.chain_buttons.items():
-                    if button.rect.collidepoint(mouse_pos):
-                        tooltip_active = chain_type.value
-                        break
-
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
 
                 self.manager.process_events(event)
 
+                # Handle start screen buttons
+                if self.show_start_screen:
+                    if event.type == pygame_gui.UI_BUTTON_PRESSED:
+                        if event.ui_element == self.demo_button:
+                            # Set demo parameters
+                            self.num_signatures = 1000
+                            self.strategy = VisualizationMode.LOGARITHMIC
+                            self.threat_level = ThreatLevel.HIGH
+                            self.show_attacks = True
+                            # Update slider and labels
+                            self.slider.set_current_value(1000)
+                            self.slider_label.set_text("Signatures: 1000")
+                            self.strategy_dropdown.set_selected_option(VisualizationMode.LOGARITHMIC.value)
+                            self.threat_dropdown.set_selected_option(ThreatLevel.HIGH.value)
+                            # Switch to main screen
+                            self.show_start_screen = False
+                        elif event.ui_element == self.start_button:
+                            # Switch to main screen with default settings
+                            self.show_start_screen = False
+                    # Skip other event handling on start screen
+                    continue
+
+                # Handle main screen events
                 # Handle slider changes
                 if event.type == pygame_gui.UI_HORIZONTAL_SLIDER_MOVED:
                     if event.ui_element == self.slider:
@@ -438,14 +568,34 @@ class PATVisualizer:
             # Clear screen
             self.screen.fill((20, 20, 40))
 
-            # Draw components
-            self.draw_title()
-            self.draw_tree_visualization()
-            self.draw_performance_info()
+            if self.show_start_screen:
+                # Draw start screen
+                self.draw_start_screen()
+            else:
+                # Check for tooltips on main screen
+                tooltip_active = None
+                if self.slider_rect.collidepoint(mouse_pos):
+                    tooltip_active = 'slider'
+                elif self.strategy_dropdown.rect.collidepoint(mouse_pos):
+                    tooltip_active = 'strategy'
+                elif self.threat_dropdown.rect.collidepoint(mouse_pos):
+                    tooltip_active = 'threat'
+                elif self.attack_toggle.rect.collidepoint(mouse_pos):
+                    tooltip_active = 'attacks'
+                else:
+                    for chain_type, button in self.chain_buttons.items():
+                        if button.rect.collidepoint(mouse_pos):
+                            tooltip_active = chain_type.value
+                            break
 
-            # Draw tooltip if active
-            if tooltip_active:
-                self.show_tooltip(mouse_pos, tooltip_active)
+                # Draw main simulation
+                self.draw_title()
+                self.draw_tree_visualization()
+                self.draw_performance_info()
+
+                # Draw tooltip if active
+                if tooltip_active:
+                    self.show_tooltip(mouse_pos, tooltip_active)
 
             # Update GUI
             self.manager.update(time_delta)
@@ -456,19 +606,72 @@ class PATVisualizer:
         pygame.quit()
 
 def main():
-    """Main entry point."""
-    print("🚀 Starting PAT Visual Simulator...")
-    print("Controls:")
-    print("  - Slider: Adjust number of signatures (10-10,000)")
-    print("  - Strategy dropdown: Choose aggregation method")
-    print("  - Threat dropdown: Select quantum threat level")
-    print("  - Chain buttons: Select blockchain for TPS comparison")
-    print("  - Toggle Attacks: Show/hide quantum attack visualization")
-    print("  - Hover for tooltips with educational information")
+    """Main entry point with user-friendly dependency checking."""
+    print("🚀 PAT Visual Simulator - Post-Quantum Aggregation Demo")
+    print("=" * 60)
     print()
 
-    visualizer = PATVisualizer()
-    visualizer.run_simulation()
+    # Check for missing required dependencies
+    if missing_required:
+        print("❌ Missing required dependencies!")
+        print("   Please install with:")
+        print(f"   pip install {' '.join(missing_required)}")
+        print()
+        print("💡 For easy setup, you can also:")
+        print("   1. Download and install Python 3 from python.org")
+        print("   2. Run: pip install -r requirements.txt")
+        print("   3. Double-click the PAT_Sim.app (if available)")
+        print()
+        print("📚 Alternative: Use the command-line PAT benchmark:")
+        print("   python src/pat/pat_benchmark.py")
+        return 1
+
+    # Check pygame_gui specifically
+    if not PYGAME_GUI_AVAILABLE:
+        print("⚠️  pygame_gui not available (compatibility issue)")
+        print("   The visual simulator will have limited functionality")
+        print("   Consider using: pip install pygame_gui")
+        print()
+
+    # Show optional dependency status
+    if missing_optional:
+        print("⚠️  Optional dependencies missing (reduced performance):")
+        for dep in missing_optional:
+            print(f"   - {dep}")
+        print("   Install with: pip install {' '.join(missing_optional)}")
+        print()
+
+    print("✅ Core dependencies available! Starting simulator...")
+    print()
+    print("🎮 Welcome to PAT Visual Simulator!")
+    print("   Learn about post-quantum signature aggregation interactively")
+    print()
+    print("🎯 Controls:")
+    print("   • Slider: Adjust number of signatures (10-10,000)")
+    print("   • Strategy dropdown: Choose aggregation method")
+    print("   • Threat dropdown: Select quantum threat level")
+    print("   • Chain buttons: Select Dogecoin 🐕, Litecoin 🪙, or Solana ☀️")
+    print("   • Toggle Attacks: Show quantum attack probabilities")
+    print("   • Hover elements for educational tooltips")
+    print("   • Press ESC or close window to exit")
+    print()
+    print("💡 Pro Tip: Start with 'Run Demo' for a guided n=1000 experience!")
+    print("=" * 60)
+
+    try:
+        visualizer = PATVisualizer()
+        visualizer.run_simulation()
+    except KeyboardInterrupt:
+        print("\n👋 Thanks for exploring PAT! Goodbye!")
+    except Exception as e:
+        print(f"\n❌ Error running visual simulator: {e}")
+        print("\n💡 Troubleshooting:")
+        print("   • Make sure your display supports graphics")
+        print("   • Try: python src/pat/pat_benchmark.py")
+        print("   • Check: https://github.com/odenrider/dogecoin/tree/pat-aggregation-prototype")
+        return 1
+
+    return 0
 
 if __name__ == "__main__":
     main()

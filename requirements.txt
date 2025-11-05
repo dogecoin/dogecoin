@@ -1,0 +1,14 @@
+# PAT Visual Simulator Requirements
+# Install with: pip install -r requirements.txt
+
+# Core dependencies (required)
+numpy>=1.21.0
+pygame>=2.1.0
+pygame_gui>=0.6.0
+
+# Optional dependencies (improved performance)
+numba>=0.56.0; python_version >= "3.7"
+psutil>=5.8.0
+
+# Build tools (for developers)
+pyinstaller>=5.0.0
