@@ -222,9 +222,48 @@ This PAT research demonstrates a viable path to quantum-resistant, highly scalab
 3. **Research Continuation**: Explore hardware acceleration and further optimizations
 4. **Community Engagement**: Present findings to broader cryptocurrency community
 
+## Interactive Visual Simulator
+
+### PAT Visual Tool (Pygame + Numba)
+
+An interactive educational tool for visualizing PAT's logarithmic aggregation, quantum attack simulations, and multi-chain performance comparisons.
+
+#### Features
+- **Real-time Visualization**: Interactive tree visualization of signature aggregation
+- **Strategy Comparison**: Switch between logarithmic, threshold, Merkle batch, and stacked aggregation
+- **Quantum Attack Simulation**: Visual red highlights for Grover attack probabilities
+- **Multi-Chain Support**: TPS comparison for Dogecoin, Litecoin, and Solana
+- **Performance Monitoring**: Live FPS and energy usage tracking
+- **Educational Tooltips**: Hover explanations of PAT concepts and security properties
+
+#### Installation & Usage
+
+```bash
+# Install dependencies
+pip install pygame pygame_gui numpy numba psutil
+
+# Run the visual simulator
+python tools/pat_visual_sim.py
+```
+
+#### Controls
+- **Signature Slider**: Adjust number of signatures (10-10,000)
+- **Strategy Dropdown**: Choose aggregation method (logarithmic/threshold/Merkle/stacked)
+- **Threat Level**: Select quantum threat level for hybrid switching
+- **Chain Buttons**: Select Dogecoin 🐕, Litecoin 🪙, or Solana ☀️ for TPS visualization
+- **Attack Toggle**: Show/hide quantum attack probability highlights
+- **Hover Tooltips**: Educational information on hover
+
+#### Performance Testing
+Tested on Apple Silicon M4 with n=1000 signatures:
+- **FPS**: 60+ sustained
+- **Energy**: Minimal power consumption
+- **Memory**: Efficient Numba-accelerated computations
+
 ### Files in This Repository
 
 - `pat_benchmark.py`: Complete PAT implementation and benchmarking suite
+- `tools/pat_visual_sim.py`: Interactive Pygame visual simulator
 - `README_PAT.md`: This comprehensive documentation
 - `pat_quick_results.csv`: Benchmark results data
 - `CHANGES.md`: Development history and modifications
