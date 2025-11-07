@@ -238,7 +238,7 @@ def plot_multichain_comparison():
 def plot_adoption_curve():
     """Plot PAT adoption curve with logistic growth scenarios."""
     import sys
-    sys.path.append('../src/pat/extensions')
+    sys.path.append('../extensions')
     from economic_models import EconomicIncentiveModel
 
     model = EconomicIncentiveModel()
@@ -361,7 +361,7 @@ def plot_multi_strategy_compression():
     """Plot multi-strategy compression from CSV data."""
     # Read comprehensive benchmark results
     try:
-        df = pd.read_csv('../src/pat/pat_comprehensive_benchmark_results.csv')
+        df = pd.read_csv('../src/pat_comprehensive_benchmark_results.csv')
 
         # Filter for PAT strategies with reasonable compression ratios
         pat_data = df[df['Strategy'].isin(['logarithmic', 'threshold', 'merkle_batch']) &

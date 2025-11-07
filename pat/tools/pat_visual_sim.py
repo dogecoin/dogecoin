@@ -70,11 +70,11 @@ import sys
 from enum import Enum
 from typing import List, Tuple, Dict, Optional
 
-# Add parent directory to path for imports
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-sys.path.append(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'src'))
+# Add project root to path for imports
+project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, project_root)
 
-from pat.pat_aggregator import AggregationStrategy, ThreatLevel
+from pat.src.pat_benchmark import AggregationStrategy, ThreatLevel
 from pat.extensions.quantum_sims import QuantumAttackSimulator
 from pat.extensions.multi_chain import CrossChainBenchmark
 
@@ -623,7 +623,7 @@ def main():
         print("   3. Double-click the PAT_Sim.app (if available)")
         print()
         print("📚 Alternative: Use the command-line PAT benchmark:")
-        print("   python src/pat/pat_benchmark.py")
+        print("   python pat/src/pat_benchmark.py")
         return 1
 
     # Check pygame_gui specifically

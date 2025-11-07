@@ -24,7 +24,7 @@ from typing import Dict, Any
 # Add parent directory to path for imports
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
-from extensions.multi_chain import (
+from pat.extensions.multi_chain import (
     CrossChainBenchmark, LitecoinIntegrator, SolanaIntegrator,
     EthereumIntegrator, RPCClient, ChainType, PatError
 )
@@ -41,9 +41,9 @@ class TestCrossChainBenchmark(unittest.TestCase):
         """Clean up test fixtures after each test method."""
         pass
 
-    @patch('extensions.multi_chain.LitecoinIntegrator.simulate_pat_transaction')
-    @patch('extensions.multi_chain.SolanaIntegrator.simulate_svm_batch')
-    @patch('extensions.multi_chain.EthereumIntegrator.estimate_pat_contract_gas')
+    @patch('pat.extensions.multi_chain.LitecoinIntegrator.simulate_pat_transaction')
+    @patch('pat.extensions.multi_chain.SolanaIntegrator.simulate_svm_batch')
+    @patch('pat.extensions.multi_chain.EthereumIntegrator.estimate_pat_contract_gas')
     def test_benchmark_all_chains_returns_expected_keys(self,
                                                         mock_eth_gas: Mock,
                                                         mock_sol_batch: Mock,
@@ -95,9 +95,9 @@ class TestCrossChainBenchmark(unittest.TestCase):
         self.assertIn(50, results["ethereum"])
         self.assertEqual(results["ethereum"][10]["total_cost_eth"], 0.001)
 
-    @patch('extensions.multi_chain.LitecoinIntegrator.simulate_pat_transaction')
-    @patch('extensions.multi_chain.SolanaIntegrator.simulate_svm_batch')
-    @patch('extensions.multi_chain.EthereumIntegrator.estimate_pat_contract_gas')
+    @patch('pat.extensions.multi_chain.LitecoinIntegrator.simulate_pat_transaction')
+    @patch('pat.extensions.multi_chain.SolanaIntegrator.simulate_svm_batch')
+    @patch('pat.extensions.multi_chain.EthereumIntegrator.estimate_pat_contract_gas')
     def test_analyze_fee_savings_positive_savings(self,
                                                  mock_eth_gas: Mock,
                                                  mock_sol_batch: Mock,
@@ -130,7 +130,7 @@ class TestCrossChainBenchmark(unittest.TestCase):
                 self.assertGreater(data["savings_percent"], 0.0,
                                  f"{chain} should show positive fee savings")
 
-    @patch('extensions.multi_chain.LitecoinIntegrator.simulate_pat_transaction')
+    @patch('pat.extensions.multi_chain.LitecoinIntegrator.simulate_pat_transaction')
     def test_benchmark_handles_litecoin_errors_gracefully(self, mock_ltc_tx: Mock) -> None:
         """Test benchmark handles Litecoin errors gracefully."""
         # Mock Litecoin failure
@@ -142,7 +142,7 @@ class TestCrossChainBenchmark(unittest.TestCase):
         self.assertIn("litecoin", results)
         self.assertIn("error", results["litecoin"][10])
 
-    @patch('extensions.multi_chain.SolanaIntegrator.simulate_svm_batch')
+    @patch('pat.extensions.multi_chain.SolanaIntegrator.simulate_svm_batch')
     def test_benchmark_handles_solana_errors_gracefully(self, mock_sol_batch: Mock) -> None:
         """Test benchmark handles Solana errors gracefully."""
         # Mock Solana failure
@@ -153,7 +153,7 @@ class TestCrossChainBenchmark(unittest.TestCase):
         self.assertIn("solana", results)
         self.assertIn("error", results["solana"])
 
-    @patch('extensions.multi_chain.EthereumIntegrator.estimate_pat_contract_gas')
+    @patch('pat.extensions.multi_chain.EthereumIntegrator.estimate_pat_contract_gas')
     def test_benchmark_handles_ethereum_errors_gracefully(self, mock_eth_gas: Mock) -> None:
         """Test benchmark handles Ethereum errors gracefully."""
         # Mock Ethereum failure
@@ -182,7 +182,7 @@ class TestCrossChainBenchmark(unittest.TestCase):
             self.assertEqual(mock_eth.call_count, 3)  # Called for 10, 100, 1000
             self.assertEqual(mock_sol.call_count, 1)  # Called once for batch processing
 
-    @patch('extensions.multi_chain.requests.post')
+    @patch('pat.extensions.multi_chain.requests.post')
     def test_solana_rpc_slot_call(self, mock_post: Mock) -> None:
         """Test Solana RPC slot retrieval."""
         # Mock successful response
@@ -197,7 +197,7 @@ class TestCrossChainBenchmark(unittest.TestCase):
         self.assertEqual(slot, 12345)
         mock_post.assert_called_once()
 
-    @patch('extensions.multi_chain.requests.post')
+    @patch('pat.extensions.multi_chain.requests.post')
     def test_solana_rpc_error_handling(self, mock_post: Mock) -> None:
         """Test Solana RPC error handling."""
         # Mock failed response
@@ -209,7 +209,7 @@ class TestCrossChainBenchmark(unittest.TestCase):
         # Should return 0 on error
         self.assertEqual(slot, 0)
 
-    @patch('extensions.multi_chain.subprocess.run')
+    @patch('pat.extensions.multi_chain.subprocess.run')
     def test_litecoin_cli_fallback(self, mock_subprocess: Mock) -> None:
         """Test Litecoin CLI fallback when RPC fails."""
         # Mock CLI success
@@ -230,7 +230,7 @@ class TestCrossChainBenchmark(unittest.TestCase):
                 self.assertEqual(result["blocks"], 12345)
                 mock_rpc.assert_called_once()
 
-    @patch('extensions.multi_chain.requests.post')
+    @patch('pat.extensions.multi_chain.requests.post')
     def test_ethereum_gas_price_fallback(self, mock_post: Mock) -> None:
         """Test Ethereum gas price fallback on error."""
         ethereum = EthereumIntegrator(network="sepolia")
@@ -256,9 +256,9 @@ class TestCrossChainBenchmark(unittest.TestCase):
         # Should not crash, may return partial results
         self.assertIsInstance(savings, dict)
 
-    @patch('extensions.multi_chain.LitecoinIntegrator.simulate_pat_transaction')
-    @patch('extensions.multi_chain.SolanaIntegrator.simulate_svm_batch')
-    @patch('extensions.multi_chain.EthereumIntegrator.estimate_pat_contract_gas')
+    @patch('pat.extensions.multi_chain.LitecoinIntegrator.simulate_pat_transaction')
+    @patch('pat.extensions.multi_chain.SolanaIntegrator.simulate_svm_batch')
+    @patch('pat.extensions.multi_chain.EthereumIntegrator.estimate_pat_contract_gas')
     def test_cross_chain_compression_comparison(self,
                                                 mock_eth_gas: Mock,
                                                 mock_sol_batch: Mock,
@@ -307,7 +307,7 @@ class TestCrossChainBenchmark(unittest.TestCase):
         self.assertEqual(rpc.cli_path, "litecoin-cli")
         self.assertEqual(rpc.rpc_id, 1)
 
-    @patch('extensions.multi_chain.requests.post')
+    @patch('pat.extensions.multi_chain.requests.post')
     def test_rpc_client_call_rpc_success(self, mock_post: Mock) -> None:
         """Test RPC client successful call."""
         mock_response = Mock()
@@ -321,7 +321,7 @@ class TestCrossChainBenchmark(unittest.TestCase):
         self.assertEqual(result["result"], "success")
         self.assertEqual(rpc.rpc_id, 2)  # Should increment
 
-    @patch('extensions.multi_chain.requests.post')
+    @patch('pat.extensions.multi_chain.requests.post')
     def test_rpc_client_call_rpc_timeout(self, mock_post: Mock) -> None:
         """Test RPC client timeout handling."""
         # Mock requests.post to raise timeout exception

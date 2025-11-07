@@ -22,7 +22,7 @@ This test suite provides thorough coverage of the PAT aggregation functionality 
 
 ### Basic Execution
 ```bash
-# From src/pat/ directory
+# From pat/src/ directory
 python -m unittest discover tests/
 python -m unittest tests.test_pat_aggregator
 
@@ -113,7 +113,7 @@ For CI/CD pipelines, add:
 # GitHub Actions example
 - name: Run PAT Tests
   run: |
-    cd src/pat
+    cd pat/src
     python -m pytest tests/ --cov=pat_benchmark.py --cov-report=xml
     # Coverage threshold: 80%
 ```
@@ -127,7 +127,7 @@ For CI/CD pipelines, add:
 
 ## Troubleshooting
 
-- **Import Errors**: Ensure `PYTHONPATH` includes `src/pat/` directory
+- **Import Errors**: Ensure `PYTHONPATH` includes `pat/` directory
 - **Coverage Issues**: Run from correct directory, check path to source files
 - **Mock Failures**: Verify mock targets match actual import paths
 

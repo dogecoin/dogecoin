@@ -7,7 +7,7 @@ This script tests the TestnetIntegrator class and dogecoin-cli connectivity.
 Run this to verify your Dogecoin testnet setup before running full PAT benchmarks.
 
 Usage:
-    cd src/pat
+    cd pat/src
     python test_dogecoin_integration.py
 
 Requirements:
@@ -26,7 +26,7 @@ try:
     from pat_benchmark import TestnetIntegrator, PATAggregator, AggregationStrategy
 except ImportError as e:
     print(f"❌ Failed to import PAT modules: {e}")
-    print("Make sure you're running this from the src/pat directory")
+    print("Make sure you're running this from the pat/src directory")
     sys.exit(1)
 
 def test_basic_connection():

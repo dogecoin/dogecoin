@@ -965,7 +965,7 @@ class PatAggregator:
             strategy = self.strategy
 
         try:
-            from .extensions.quantum_sims import PatQuantumSecurityAnalyzer
+            from pat.extensions.quantum_sims import PatQuantumSecurityAnalyzer
 
             analyzer = PatQuantumSecurityAnalyzer()
             if not analyzer.simulator:
@@ -1024,7 +1024,7 @@ class PatAggregator:
             strategy = self.strategy
 
         try:
-            from .extensions.security_proofs import PatSecurityAnalyzer
+            from pat.extensions.security_proofs import PatSecurityAnalyzer
 
             analyzer = PatSecurityAnalyzer()
             proof_result = analyzer.prove_eucma(strategy, k)
@@ -1068,7 +1068,7 @@ class PatAggregator:
             strategy = self.strategy
 
         try:
-            from .extensions.zk_snark_proofs import PatZKSnarkVerifier
+            from pat.extensions.zk_snark_proofs import PatZKSnarkVerifier
 
             verifier = PatZKSnarkVerifier()
             return verifier.verify_aggregate_with_zkp(
@@ -1109,7 +1109,7 @@ class PatAggregator:
             strategy = self.strategy
 
         try:
-            from .extensions.zk_snark_proofs import PatZKSnarkVerifier
+            from pat.extensions.zk_snark_proofs import PatZKSnarkVerifier
 
             verifier = PatZKSnarkVerifier()
             return verifier.generate_zkp_for_aggregate(
@@ -1155,7 +1155,7 @@ class TestnetIntegrator:
                 possible_paths = [
                     "dogecoin-cli",  # In PATH
                     "./src/dogecoin-cli",  # Relative to project root
-                    "../src/dogecoin-cli",  # From src/pat directory
+                    "../../src/dogecoin-cli",  # From pat/src directory
                     os.path.join(os.path.dirname(__file__), "..", "dogecoin-cli")  # Absolute
                 ]
                 for path in possible_paths:
