@@ -72,28 +72,13 @@ There are 4 types of branches in this repository:
 This repository contains manually refined code from AI-assisted prototypes.
 All implementations have been verified for Dogecoin Core coding standards,
 including proper error handling, comprehensive documentation, and performance
-optimizations. Code in experimental branches (like `pat-aggregation-prototype`)
+optimizations. Code in experimental branches
 represents research-quality implementations suitable for production consideration.
 
 See [CODING_STANDARDS.md](CODING_STANDARDS.md) for detailed development guidelines
 and Dogecoin Core-inspired standards for both Python prototyping and future C++
 production implementation.
 
-### PAT Multi-Chain Extensibility 🌐
-
-The Paw Aggregation Technique (PAT) provides quantum-resistant signature aggregation
-originally designed for Dogecoin's Scrypt-based PoW, but engineered for seamless
-adoption across heterogeneous blockchain networks:
-
-- **Dogecoin PoW**: Optimized for Scrypt mining economics with 34k+ compression ratios
-- **Litecoin Scrypt**: Compatible with Litecoin's MWEB privacy extensions
-- **Solana PoH**: Adaptable to SVM parallelization for 10x TPS improvements
-- **Cross-Chain**: Unified framework supporting PoW, PoS, and PoH consensus models
-
-**Economic Analysis Note**: PAT economic projections use conservative 2025 low-fee data
-from BitInfoCharts/Statista/CoinLaw with 70-90% fee reductions for multi-sig batches.
-High-volume users see ~5-50 DOGE monthly savings; miner revenue impacts are 5-15%.
-Results vary with mempool congestion—conservative estimates used to avoid exaggeration.
 
 ## Contributing 🤝
 

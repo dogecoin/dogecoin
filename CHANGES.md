@@ -10,7 +10,7 @@ This document tracks all modifications made to the Dogecoin Core project to ensu
 **Files Created:**
 - `src/pat/pat_benchmark.py` - Main PAT benchmarking engine
 - `src/pat/` - Directory for PAT-related code
-- `pat_env_test.py` - Environment verification script
+- `pat/pat_env_test.py` - Environment verification script
 
 #### Overview
 Implemented a comprehensive PAT signature aggregation prototype for Dogecoin, featuring post-quantum cryptography, multiple aggregation strategies, and performance benchmarking. This represents a potential major upgrade for Dogecoin's cryptographic capabilities.
