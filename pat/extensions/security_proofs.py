@@ -31,6 +31,7 @@ C++ Integration Notes:
 Author: Dogecoin Core Cryptographic Security Team
 """
 
+import sympy as sp
 from sympy import symbols, Function, Eq, Le, Ge, And, Or, S, log, sqrt, pi, exp, oo, binomial, Ne
 from sympy import latex, pprint, simplify, solve, N
 from typing import Dict, List, Any, Tuple, Union
