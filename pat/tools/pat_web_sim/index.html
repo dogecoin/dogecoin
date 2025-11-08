@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAT Visual Simulator - Browser Edition</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+
+        #container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        #canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        #ui-overlay {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(20, 20, 30, 0.9);
+            border: 1px solid #4a4a6a;
+            border-radius: 8px;
+            padding: 15px;
+            min-width: 300px;
+            backdrop-filter: blur(10px);
+        }
+
+        #ui-overlay h2 {
+            margin: 0 0 15px 0;
+            color: #64b5f6;
+            font-size: 18px;
+        }
+
+        .control-group {
+            margin-bottom: 15px;
+        }
+
+        .control-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #ccc;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .slider {
+            flex: 1;
+            height: 6px;
+            background: #333;
+            border-radius: 3px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #64b5f6;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid #fff;
+        }
+
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: #64b5f6;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid #fff;
+        }
+
+        .value-display {
+            font-weight: bold;
+            color: #64b5f6;
+            min-width: 60px;
+            text-align: right;
+        }
+
+        select {
+            width: 100%;
+            padding: 8px;
+            background: #333;
+            border: 1px solid #555;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        select option {
+            background: #333;
+            color: #fff;
+        }
+
+        button {
+            background: #64b5f6;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 5px;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #42a5f5;
+        }
+
+        button:active {
+            background: #1976d2;
+        }
+
+        #metrics-overlay {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(20, 20, 30, 0.9);
+            border: 1px solid #4a4a6a;
+            border-radius: 8px;
+            padding: 15px;
+            min-width: 300px;
+            backdrop-filter: blur(10px);
+        }
+
+        #metrics-overlay h3 {
+            margin: 0 0 10px 0;
+            color: #64b5f6;
+            font-size: 16px;
+        }
+
+        .metric-item {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #ccc;
+        }
+
+        .metric-value {
+            color: #64b5f6;
+            font-weight: bold;
+        }
+
+        #tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid #64b5f6;
+            border-radius: 5px;
+            padding: 8px;
+            pointer-events: none;
+            display: none;
+            font-size: 14px;
+            max-width: 250px;
+            z-index: 1000;
+        }
+
+        #status {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(20, 20, 30, 0.9);
+            border: 1px solid #4a4a6a;
+            border-radius: 8px;
+            padding: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        #loading {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(20, 20, 30, 0.95);
+            border: 1px solid #64b5f6;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            z-index: 2000;
+        }
+
+        .spinner {
+            border: 4px solid #333;
+            border-top: 4px solid #64b5f6;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <canvas id="canvas"></canvas>
+
+        <!-- UI Controls -->
+        <div id="ui-overlay">
+            <h2>🎯 PAT Visual Simulator</h2>
+
+            <div class="control-group">
+                <label for="signature-slider">Signatures (n)</label>
+                <div class="slider-container">
+                    <input type="range" id="signature-slider" class="slider" min="10" max="10000" value="1000" step="10">
+                    <span id="signature-value" class="value-display">1000</span>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label for="threat-select">Quantum Threat Level</label>
+                <select id="threat-select">
+                    <option value="LOW">🟢 LOW - ECDSA Safe</option>
+                    <option value="MEDIUM" selected>🟡 MEDIUM - Hybrid Needed</option>
+                    <option value="HIGH">🔴 HIGH - Dilithium Required</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label for="strategy-select">Aggregation Strategy</label>
+                <select id="strategy-select">
+                    <option value="logarithmic" selected>📊 Logarithmic (O(log n))</option>
+                    <option value="threshold">🎯 Threshold (Fixed Groups)</option>
+                    <option value="merkle_batch">🌳 Merkle Batch (Tree Verify)</option>
+                    <option value="stacked_multi">📚 Stacked Multi (No Compression)</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label for="chain-select">Blockchain</label>
+                <select id="chain-select">
+                    <option value="DOGECOIN" selected>🐕 Dogecoin (Scrypt)</option>
+                    <option value="LITECOIN">🥈 Litecoin (MWEB)</option>
+                    <option value="SOLANA">⚡ Solana (PoH)</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <button id="demo-btn">🚀 Run Demo (n=1000)</button>
+                <button id="export-btn">📸 Export PNG</button>
+            </div>
+
+            <div style="margin-top: 15px; font-size: 12px; color: #888;">
+                ⌨️ Keyboard: T=threat, S=strategy, C=chain, A=attacks, SPACE=menu
+            </div>
+        </div>
+
+        <!-- Metrics Display -->
+        <div id="metrics-overlay">
+            <h3>📊 Real Performance Data</h3>
+            <div id="metrics-content">
+                <div class="metric-item">Loading benchmark data...</div>
+            </div>
+        </div>
+
+        <!-- Status Display -->
+        <div id="status">
+            <div id="status-text">Initializing 3D visualization...</div>
+        </div>
+
+        <!-- Tooltip -->
+        <div id="tooltip"></div>
+
+        <!-- Loading Screen -->
+        <div id="loading">
+            <div class="spinner"></div>
+            <div>Loading PAT Visual Simulator...</div>
+        </div>
+    </div>
+
+    <!-- Three.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- PAT Simulator JavaScript -->
+    <script src="pat_sim.js"></script>
+</body>
+</html>

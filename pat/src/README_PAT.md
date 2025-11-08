@@ -293,16 +293,25 @@ python tools/pat_visual_sim.py
 - **Performance Monitoring**: Real-time FPS and energy usage display
 - **Educational Nodes**: Hover signature/aggregation nodes for detailed explanations
 
-#### Performance Testing
+#### Enhanced Features
+
+- **Visual Improvements**: Clear tree visualization with legend, color-coded nodes, and explanatory text
+- **Better Basic Mode**: Full keyboard controls (arrow keys, T/C/A keys, Space, Enter) when GUI unavailable
+- **Status Display**: Real-time parameter display (strategy, signatures, threat level, attacks)
+- **Dependency Handling**: Graceful fallback with helpful installation instructions
+- **Educational Content**: Interactive tooltips and explanatory text for learning PAT concepts
+
+### Performance Testing
 Tested on Apple Silicon M4 with n=1000 signatures:
 - **FPS**: 60+ sustained
 - **Energy**: Minimal power consumption
 - **Memory**: Efficient Numba-accelerated computations
+- **GUI Compatibility**: Automatic detection and fallback for pygame_gui issues
 
 ### Files in This Repository
 
 - `pat_benchmark.py`: Complete PAT implementation and benchmarking suite
-- `tools/pat_visual_sim.py`: Interactive Pygame visual simulator
+- `tools/pat_visual_sim.py`: Interactive Pygame visual simulator with enhanced tree visualization
 - `README_PAT.md`: This comprehensive documentation
 - `pat_quick_results.csv`: Benchmark results data
 - `CHANGES.md`: Development history and modifications

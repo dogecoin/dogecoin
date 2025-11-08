@@ -1,0 +1,57 @@
+# Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+temp*/
+*.bak
+*.backup
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Build artifacts
+build/
+dist/
+*.spec
+*.egg-info/
+
+# Virtual environments
+venv/
+env/
+ENV/
+pat-env/
+
+# Test artifacts
+test_artifacts/
+*_results.csv
+benchmark_results/
+*.prof
+
+# Node.js (if any)
+node_modules/
+npm-debug.log*
+
+# Documentation build
+docs/_build/
+docs/.doctrees/
