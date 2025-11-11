@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Paw Aggregation Technique (PAT) provides quantum-resistant signature aggregation originally designed for Dogecoin's Scrypt-based PoW, but engineered for seamless adoption across heterogeneous blockchain networks.
+The Paw Aggregation Technique (PAT) incorporates the Post-Quantum Armor Wrapper (PAW), emphasizing resilient bundling against quantum threats. PAT provides quantum-resistant signature aggregation originally designed for Dogecoin's Scrypt-based PoW, but engineered for seamless adoption across heterogeneous blockchain networks.
 
 ## Multi-Chain Extensibility 🌐
 
@@ -123,6 +123,39 @@ open tools/pat_web_sim/index.html
 # Or drag index.html into browser
 # Or serve locally: python3 -m http.server 8000
 ```
+
+**Shareable States:**
+Create shareable links with specific configurations:
+```bash
+# High threat Dogecoin simulation
+tools/pat_web_sim/index.html?n=1000&threat=HIGH&chain=DOGECOIN
+
+# Low threat Solana demo
+tools/pat_web_sim/index.html?n=500&threat=LOW&chain=SOLANA
+
+# Medium threat Litecoin benchmark
+tools/pat_web_sim/index.html?n=2000&threat=MEDIUM&chain=LITECOIN
+```
+
+**Keyboard Controls:**
+- **T**: Cycle threat levels (LOW → MEDIUM → HIGH)
+- **S**: Cycle aggregation strategies
+- **C**: Cycle blockchain chains
+- **A**: Toggle attack visualization
+- **R**: Run merge animation
+- **Q**: Toggle quantum view
+- **D**: Run demo (n=1000)
+- **SPACE**: Reset camera view
+
+**Accessibility:**
+- Full ARIA labels for screen readers
+- Keyboard navigation for all controls
+- High contrast color schemes
+
+**Performance Profiling:**
+- Built-in Stats.js FPS/memory monitoring (top-right corner)
+- Automatic detail reduction for n>5000
+- WebGL shader optimizations
 
 **Perfect for:**
 - **Educational presentations** and tutorials

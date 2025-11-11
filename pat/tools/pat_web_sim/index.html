@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PAT Visual Simulator - Browser Edition</title>
+    <title>PAT with PAW Visual Simulator - Browser Edition</title>
     <style>
         body {
             margin: 0;
@@ -34,7 +34,8 @@
             border: 1px solid #4a4a6a;
             border-radius: 8px;
             padding: 15px;
-            min-width: 300px;
+            max-width: 280px;
+            width: 280px;
             backdrop-filter: blur(10px);
         }
 
@@ -219,13 +220,13 @@
 
         <!-- UI Controls -->
         <div id="ui-overlay">
-            <h2>🎯 PAT Visual Simulator</h2>
+            <h2>🎯 PAT with PAW Visual Simulator</h2>
 
             <div class="control-group">
                 <label for="signature-slider">Signatures (n)</label>
                 <div class="slider-container">
-                    <input type="range" id="signature-slider" class="slider" min="10" max="10000" value="1000" step="10">
-                    <span id="signature-value" class="value-display">1000</span>
+                    <input type="range" id="signature-slider" class="slider" min="10" max="10000" value="100" step="10">
+                    <span id="signature-value" class="value-display">100</span>
                 </div>
             </div>
 
@@ -258,12 +259,18 @@
             </div>
 
             <div class="control-group">
-                <button id="demo-btn">🚀 Run Demo (n=1000)</button>
-                <button id="export-btn">📸 Export PNG</button>
+                <button id="merge-btn" aria-label="Run GSAP merge animation showing node aggregation with camera effects">🎬 GSAP Merge<br>Animation</button>
+                <button id="export-btn" aria-label="Export current visualization as PNG image">📸 Export<br>PNG</button>
+            </div>
+
+            <div class="control-group">
+                <button id="quantum-btn" aria-label="Toggle between PAT aggregation view and quantum Grover's algorithm simulation">⚛️ Quantum<br>View</button>
+                <button id="demo-btn" style="white-space: normal; word-wrap: break-word; margin-left: 10px;" aria-label="Run enhanced demo with particle bursts and animations at n=1000">🚀 Run Demo<br>(n=1000)</button>
             </div>
 
             <div style="margin-top: 15px; font-size: 12px; color: #888;">
-                ⌨️ Keyboard: T=threat, S=strategy, C=chain, A=attacks, SPACE=menu
+                🖱️ Mouse: Move cursor for 3D exploration | Scroll to zoom<br>
+                ⌨️ Keyboard: T=threat, S=strategy, C=chain, A=attacks, R=merge anim, Q=quantum view, D=demo, SPACE=reset view
             </div>
         </div>
 
@@ -273,12 +280,24 @@
             <div id="metrics-content">
                 <div class="metric-item">Loading benchmark data...</div>
             </div>
+
+            <!-- Educational Info -->
+            <div style="margin-top: 15px; border-top: 1px solid #4a4a6a; padding-top: 10px; font-size: 12px; line-height: 1.4;">
+                <div style="font-weight: bold; margin-bottom: 8px;">📚 Educational Guide:</div>
+                <div>• <strong>PAW Technology:</strong> Post-Quantum Armor Wrapper enables quantum-safe bundling</div>
+                <div>• <strong>3D Visualization:</strong> Signatures as nodes merging via PAW-armored blue lines</div>
+                <div>• <strong>Compression:</strong> 355k-672k+ ratios with PAW quantum armor (Grover prob: 8.64e-78)</div>
+                <div>• <strong>Chains:</strong> Tetrahedrons=Dogecoin, Cubes=Litecoin, Toruses=Solana</div>
+                <div>• <strong>Animations:</strong> Rotation+Pulse=mining, Trails=high-TPS</div>
+                <div>• <strong>Quantum View:</strong> Toggle to see PAW protection against Grover's algorithm</div>
+            </div>
         </div>
 
         <!-- Status Display -->
         <div id="status">
-            <div id="status-text">Initializing 3D visualization...</div>
+            <div id="status-text">Initializing PAW 3D visualization...</div>
         </div>
+
 
         <!-- Tooltip -->
         <div id="tooltip"></div>
@@ -286,12 +305,15 @@
         <!-- Loading Screen -->
         <div id="loading">
             <div class="spinner"></div>
-            <div>Loading PAT Visual Simulator...</div>
+            <div>Loading PAT with PAW Visual Simulator...</div>
         </div>
     </div>
 
     <!-- Three.js CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://mrdoob.github.io/stats.js/build/stats.min.js"></script>
 
     <!-- PAT Simulator JavaScript -->
     <script src="pat_sim.js"></script>

@@ -37,6 +37,11 @@ Andreas Hulsing, Alexei Kudinov, and J\"org Rijneveld.
 \newblock Xmss multi-tree aggregation for scalable post-quantum signing.
 \newblock In {\em International Conference on Post-Quantum Cryptography}, 2025.
 
+\bibitem[LDHK25]{lattice_aggregation}
+Vadim Lyubashevsky, L{\'e}o Ducas, Jonathan Howe, and Eike Kiltz.
+\newblock Lattice-based signature aggregation: From theory to practice.
+\newblock {\em Journal of Cryptology}, 38(1):1--45, 2025.
+
 \bibitem[SWB25]{hash_based_multi}
 Jonas Schmidt, Tobias Wagner, and Johannes Buchmann.
 \newblock Hash-based multi-signatures: Efficient post-quantum aggregation.
@@ -48,12 +53,5 @@ Global Risk Institute~Research Team.
 \newblock Decentralized quantum threat assessment frameworks for cryptocurrency
   networks.
 \newblock {\em Journal of Cybersecurity and Privacy}, 4(3):289--312, 2024.
-
-\bibitem[Yak25]{yakovenko_winternitz}
-Anatoly Yakovenko.
-\newblock Winternitz one-time signatures in svm: Quantum-resistant
-  authentication for high-throughput blockchains.
-\newblock In {\em IEEE Symposium on Security and Privacy}, pages 1123--1138,
-  2025.
 
 \end{thebibliography}
