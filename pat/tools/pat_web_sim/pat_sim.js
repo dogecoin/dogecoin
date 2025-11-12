@@ -45,14 +45,24 @@ class PATWebSimulator {
     }
 
     init() {
-        this.parseURLParams();
-        this.setupScene();
-        this.setupControls();
-        this.loadBenchmarkData();
-        this.createInitialVisualization();
-        this.setupEventListeners();
-        this.animate();
-        this.hideLoading();
+        try {
+            // Check for required dependencies
+            if (!window.THREE) {
+                throw new Error('Three.js not loaded');
+            }
+
+            this.parseURLParams();
+            this.setupScene();
+            this.setupControls();
+            this.loadBenchmarkData();
+            this.createInitialVisualization();
+            this.setupEventListeners();
+            this.animate();
+            this.hideLoading();
+        } catch (error) {
+            console.error('Initialization error:', error);
+            document.getElementById('loading').innerHTML = '<div style="color: #ff0000;">Error: ' + error.message + '</div>';
+        }
     }
 
     parseURLParams() {
@@ -111,14 +121,11 @@ class PATWebSimulator {
         directionalLight.position.set(1, 1, 1);
         this.scene.add(directionalLight);
 
-        // Performance profiling with Stats.js
+        // Performance profiling with Stats.js - will be added to metrics panel later
         if (typeof Stats !== 'undefined') {
             this.stats = new Stats();
             this.stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
-            this.stats.dom.style.position = 'absolute';
-            this.stats.dom.style.top = '10px';
-            this.stats.dom.style.right = '10px';
-            document.body.appendChild(this.stats.dom);
+            // Don't append to body yet - we'll integrate it into the metrics panel
         }
 
         // Handle window resize
@@ -131,14 +138,23 @@ class PATWebSimulator {
 
     setupControls() {
         // Set up OrbitControls for zoom and active control
-        this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
-        this.controls.enableDamping = true;
-        this.controls.dampingFactor = 0.05;
-        this.controls.enableZoom = true;
-        this.controls.enableRotate = false; // Disable auto-rotate for manual control
-        this.controls.enablePan = true;
-        this.controls.minDistance = 100;
-        this.controls.maxDistance = 1000;
+        if (window.THREE && window.THREE.OrbitControls) {
+            this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
+            this.controls.enableDamping = true;
+            this.controls.dampingFactor = 0.05;
+            this.controls.enableZoom = true;
+            this.controls.enableRotate = false; // Disable auto-rotate for manual control
+            this.controls.enablePan = true;
+            this.controls.minDistance = 100;
+            this.controls.maxDistance = 1000;
+        } else {
+            console.warn('OrbitControls not available, using fallback controls');
+            // Create minimal fallback controls
+            this.controls = {
+                update: () => {},
+                reset: () => {}
+            };
+        }
 
         // Custom mouse following for passive 3D exploration
         this.mouseX = 0;
@@ -150,10 +166,24 @@ class PATWebSimulator {
         document.addEventListener('mousemove', (event) => {
             this.mouseX = (event.clientX - window.innerWidth / 2) * 0.002;
             this.mouseY = (event.clientY - window.innerHeight / 2) * 0.002;
+            
+            // Raycasting for hover tooltips in quantum view
+            if (this.quantumView && this.camera && this.scene) {
+                this.checkQuantumHover(event);
+            }
         });
+        
+        // Raycaster for hover detection
+        this.raycaster = new THREE.Raycaster();
+        this.mouse = new THREE.Vector2();
 
-        // Keyboard controls
+        // Keyboard controls with full implementation
         document.addEventListener('keydown', (event) => {
+            // Prevent default for space key
+            if (event.key === ' ') {
+                event.preventDefault();
+            }
+
             switch(event.key.toLowerCase()) {
                 case 't':
                     this.cycleThreatLevel();
@@ -179,8 +209,62 @@ class PATWebSimulator {
                 case 'd':
                     this.runDemo();
                     break;
+                case 'escape':
+                    // Reset all animations
+                    this.demoMode = false;
+                    this.updateStatus('Animation stopped');
+                    break;
+                case 'm':
+                    // Measurement collapse in quantum view
+                    if (this.quantumView) {
+                        this.performMeasurementCollapse();
+                    }
+                    break;
+                case 'q':
+                    // Toggle quantum view
+                    this.toggleQuantum();
+                    break;
             }
         });
+    }
+    
+    checkQuantumHover(event) {
+        // Convert mouse position to normalized device coordinates
+        const rect = this.renderer.domElement.getBoundingClientRect();
+        this.mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+        this.mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+        
+        // Update raycaster
+        this.raycaster.setFromCamera(this.mouse, this.camera);
+        
+        // Check intersections with quantum nodes
+        const intersects = this.raycaster.intersectObjects(this.nodes);
+        
+        const tooltip = document.getElementById('tooltip');
+        if (intersects.length > 0 && tooltip) {
+            const node = intersects[0].object;
+            const userData = node.userData;
+            
+            let tooltipText = '';
+            if (userData.mode === 'grover' && userData.isMarkedState) {
+                tooltipText = 'Marked state in Grover\'s algorithm - Oracle identifies this as the search target';
+            } else if (userData.mode === 'shor' && userData.isFactor) {
+                tooltipText = 'Factor state in Shor\'s algorithm - Quantum Fourier Transform extracts period';
+            } else if (userData.mode === 'superposition') {
+                tooltipText = 'Superposition state - Exists as |0⟩ and |1⟩ simultaneously until measured';
+            } else if (userData.isEntangled) {
+                tooltipText = 'Entangled qubit - Measurement instantly affects its paired qubit';
+            }
+            
+            if (tooltipText) {
+                tooltip.innerHTML = tooltipText;
+                tooltip.style.display = 'block';
+                tooltip.style.left = event.pageX + 10 + 'px';
+                tooltip.style.top = event.pageY + 10 + 'px';
+            }
+        } else if (tooltip) {
+            tooltip.style.display = 'none';
+        }
     }
 
     cycleThreatLevel() {
@@ -280,6 +364,68 @@ class PATWebSimulator {
             this.toggleQuantum();
         });
 
+        // Tooltip functionality
+        this.setupTooltips();
+    }
+
+    setupTooltips() {
+        const tooltip = document.getElementById('tooltip');
+        if (!tooltip) return;
+
+        // Add tooltips to various UI elements
+        const tooltipElements = [
+            { selector: '#signature-slider', text: 'Number of signatures to aggregate (n). In quantum view, represents number of qubits.' },
+            { selector: '#threat-select', text: 'Quantum threat level: LOW (AES-128 safe), MEDIUM (hybrid needed), HIGH (full post-quantum required).' },
+            { selector: '#strategy-select', text: 'Aggregation strategy determines connection patterns. Not used in quantum view.' },
+            { selector: '#chain-select', text: 'Blockchain choice affects node shapes and animation styles in classical view.' },
+            { selector: '#merge-btn', text: 'Run merge animation showing quantum-resistant signature aggregation.' },
+            { selector: '#export-btn', text: 'Export the current 3D visualization as a PNG image.' },
+            { selector: '#quantum-btn', text: 'Toggle quantum view: See Grover search, Shor factorization, and superposition states.' },
+            { selector: '#demo-btn', text: 'Run enhanced demo showing 2^n quantum states with entanglement.' }
+        ];
+        
+        // Add quantum-specific educational tooltips
+        if (this.quantumView) {
+            const quantumTooltips = [
+                { text: 'Superposition: Qubits exist in multiple states simultaneously until measured', trigger: 'superposition' },
+                { text: 'Entanglement: Quantum particles with correlated states, shown as mirrored velocities', trigger: 'entanglement' },
+                { text: 'Grover\'s Algorithm: Quantum search with √N speedup, threatens symmetric crypto', trigger: 'grover' },
+                { text: 'Shor\'s Algorithm: Quantum factorization threatening RSA/ECC cryptography', trigger: 'shor' },
+                { text: 'Measurement Collapse: Press M to collapse quantum states to classical values', trigger: 'measurement' },
+                { text: 'Quantum Advantage: 2^n states processed in parallel vs classical n states', trigger: 'advantage' }
+            ];
+            
+            // Store quantum tooltips for hover detection
+            this.quantumTooltips = quantumTooltips;
+        }
+
+        tooltipElements.forEach(({ selector, text }) => {
+            const element = document.querySelector(selector);
+            if (element) {
+                element.addEventListener('mouseenter', (e) => {
+                    tooltip.textContent = text;
+                    tooltip.style.display = 'block';
+                    
+                    // Position tooltip near element
+                    const rect = e.target.getBoundingClientRect();
+                    tooltip.style.left = rect.left + 'px';
+                    tooltip.style.top = (rect.bottom + 10) + 'px';
+                    
+                    // Keep tooltip within viewport
+                    const tooltipRect = tooltip.getBoundingClientRect();
+                    if (tooltipRect.right > window.innerWidth) {
+                        tooltip.style.left = (window.innerWidth - tooltipRect.width - 10) + 'px';
+                    }
+                    if (tooltipRect.bottom > window.innerHeight) {
+                        tooltip.style.top = (rect.top - tooltipRect.height - 10) + 'px';
+                    }
+                });
+
+                element.addEventListener('mouseleave', () => {
+                    tooltip.style.display = 'none';
+                });
+            }
+        });
     }
 
     createInitialVisualization() {
@@ -290,6 +436,16 @@ class PATWebSimulator {
             this.createTreeVisualization();
         }
         this.updateMetricsDisplay();
+        this.setupPerformanceStats();
+    }
+
+    setupPerformanceStats() {
+        // Initialize performance tracking variables
+        this.frameTime = 0;
+        this.fps = 60;
+        this.lastTime = performance.now();
+        this.frames = 0;
+        this.fpsUpdateTime = 0;
     }
 
     clearScene() {
@@ -301,17 +457,31 @@ class PATWebSimulator {
                     this.scene.remove(particle);
                 });
             }
+            // Clean up Bloch vectors
+            if (node.userData && node.userData.blochVector) {
+                this.scene.remove(node.userData.blochVector);
+            }
             this.scene.remove(node);
         });
         this.connections.forEach(conn => {
             this.scene.remove(conn);
         });
         this.particles.forEach(particle => this.scene.remove(particle));
+        
+        // Remove any arrow helpers (Bloch vectors)
+        const toRemove = [];
+        this.scene.traverse((child) => {
+            if (child.type === 'ArrowHelper') {
+                toRemove.push(child);
+            }
+        });
+        toRemove.forEach(child => this.scene.remove(child));
 
         this.nodes = [];
         this.connections = [];
         this.particles = [];
         this.nodePositions = []; // Clear node positions too
+        this.entangledPairs = []; // Clear entangled pairs
     }
 
     createTreeVisualization() {
@@ -393,7 +563,7 @@ class PATWebSimulator {
 
         switch(this.selectedChain) {
             case 'DOGECOIN':
-                geometry = new THREE.TetrahedronGeometry(4, detailLevel); // 3D triangular pyramid - shows rotation clearly
+                geometry = new THREE.TetrahedronGeometry(4, 0); // 3D triangular pyramid - shows rotation clearly
                 material = new THREE.MeshStandardMaterial({
                     color: 0xffaa44, // Bright orange-gold (Dogecoin theme)
                     emissive: 0x0000ff, // Blue emissive glow as requested
@@ -433,7 +603,7 @@ class PATWebSimulator {
 
             default:
                 // Default to Dogecoin sphere
-                geometry = new THREE.SphereGeometry(3, detailLevel, detailLevel);
+                geometry = new THREE.SphereGeometry(3, 8, 8);
                 material = new THREE.MeshStandardMaterial({
                     color: 0x808080,
                     metalness: 0.3,
@@ -594,7 +764,6 @@ class PATWebSimulator {
 
     createConnection(fromIndex, toIndex) {
         if (fromIndex >= this.nodePositions.length || toIndex >= this.nodePositions.length) {
-            console.warn(`Invalid connection indices: ${fromIndex} -> ${toIndex}, positions: ${this.nodePositions.length}`);
             return;
         }
 
@@ -693,11 +862,12 @@ class PATWebSimulator {
 
     createInstancedNodes(count) {
         // Use InstancedMesh for better performance with large node counts
+        const detailLevel = this.numSignatures > 5000 ? 4 : (this.numSignatures > 2000 ? 6 : 8);
         let geometry, material;
 
         switch(this.selectedChain) {
             case 'DOGECOIN':
-                geometry = new THREE.TetrahedronGeometry(4, detailLevel); // 3D triangular pyramid - shows rotation clearly
+                geometry = new THREE.TetrahedronGeometry(4, 0); // 3D triangular pyramid - shows rotation clearly
                 material = new THREE.MeshStandardMaterial({
                     color: 0xffaa44, // Bright orange-gold (Dogecoin theme)
                     emissive: 0x0000ff, // Blue emissive glow as requested
@@ -733,7 +903,7 @@ class PATWebSimulator {
                 });
                 break;
             default:
-                geometry = new THREE.SphereGeometry(3, detailLevel, detailLevel);
+                geometry = new THREE.SphereGeometry(3, 8, 8);
                 material = new THREE.MeshStandardMaterial({
                     color: 0x808080,
                     metalness: 0.3,
@@ -772,13 +942,24 @@ class PATWebSimulator {
         const particleCount = 30;
         const geometry = new THREE.BufferGeometry();
         const positions = new Float32Array(particleCount * 3);
+        const velocities = [];
 
         // Create random positions around the burst point
         for (let i = 0; i < particleCount; i++) {
             const i3 = i * 3;
-            positions[i3] = position.x + (Math.random() - 0.5) * 20;
-            positions[i3 + 1] = position.y + (Math.random() - 0.5) * 20;
-            positions[i3 + 2] = position.z + (Math.random() - 0.5) * 20;
+            positions[i3] = position.x;
+            positions[i3 + 1] = position.y;
+            positions[i3 + 2] = position.z;
+            
+            // Store velocities for animation
+            const angle = Math.random() * Math.PI * 2;
+            const speed = Math.random() * 10 + 5;
+            const elevation = (Math.random() - 0.5) * Math.PI;
+            velocities.push({
+                x: Math.cos(angle) * Math.cos(elevation) * speed,
+                y: Math.sin(elevation) * speed + Math.random() * 5,
+                z: Math.sin(angle) * Math.cos(elevation) * speed
+            });
         }
 
         geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
@@ -786,28 +967,22 @@ class PATWebSimulator {
         // Use THREE.PointsMaterial as requested - made more visible for demo
         const material = new THREE.PointsMaterial({
             color: 0x00ff00, // Green color as requested
-            size: 0.3, // Larger size for better visibility
+            size: 3.0, // Larger size for better visibility
             transparent: true,
-            opacity: 0.9
+            opacity: 0.9,
+            sizeAttenuation: true
         });
 
         const particleSystem = new THREE.Points(geometry, material);
+        particleSystem.userData = {
+            velocities: velocities,
+            life: 60,
+            initialLife: 60,
+            isBurstParticle: true // Flag to identify burst particles
+        };
+        
         this.scene.add(particleSystem);
         this.particles.push(particleSystem);
-
-        // Animate with GSAP fade/scale effects
-        gsap.fromTo(particleSystem.material,
-            { opacity: 0.8, size: 0.1 },
-            {
-                opacity: 0,
-                size: 0.5,
-                duration: 2,
-                ease: "power2.out",
-                onComplete: () => {
-                    this.scene.remove(particleSystem);
-                }
-            }
-        );
     }
 
     createBurstEffect(position) {
@@ -913,142 +1088,397 @@ class PATWebSimulator {
     }
 
     toggleQuantum() {
+        const wasQuantumView = this.quantumView;
         this.quantumView = !this.quantumView;
         const button = document.getElementById('quantum-btn');
 
-        if (this.quantumView) {
-            button.innerHTML = '🔬 PAT<br>View';
-            button.style.background = '#9c27b0';
-            this.updateStatus('⚛️ Quantum View: Simulating Grover\'s Algorithm');
-        } else {
-            button.innerHTML = '⚛️ Quantum<br>View';
-            button.style.background = '#2196f3';
-            this.updateStatus('🔬 PAT View: PAW-Armored Post-Quantum Aggregation');
-        }
+        // Fade out current scene
+        this.nodes.forEach(node => {
+            gsap.to(node.material, {
+                opacity: 0,
+                duration: 0.5,
+                ease: "power2.in"
+            });
+        });
+        
+        this.connections.forEach(conn => {
+            gsap.to(conn.material, {
+                opacity: 0,
+                duration: 0.5,
+                ease: "power2.in"
+            });
+        });
+        
+        this.particles.forEach(particle => {
+            if (particle.material) {
+                gsap.to(particle.material, {
+                    opacity: 0,
+                    duration: 0.5,
+                    ease: "power2.in"
+                });
+            }
+        });
 
-        this.updateVisualization();
+        // After fade out, update visualization
+        setTimeout(() => {
+            if (this.quantumView) {
+                button.innerHTML = '🔬 PAT<br>View';
+                button.style.background = '#9c27b0';
+                // Show different quantum algorithms cycling
+                this.updateStatus('⚛️ Quantum View: Cycling through Grover, Shor & Superposition (15s each)');
+                
+                // Show attack toggle hint
+                setTimeout(() => {
+                    this.updateStatus('💡 Press "A" to toggle quantum attack visualization | Press "M" to measure/collapse');
+                }, 3000);
+            } else {
+                button.innerHTML = '⚛️ Quantum<br>View';
+                button.style.background = '#2196f3';
+                this.updateStatus('🔬 PAT View: PAW-Armored Post-Quantum Aggregation');
+            }
+
+            this.updateVisualization();
+            
+            // Fade in new scene
+            setTimeout(() => {
+                this.nodes.forEach(node => {
+                    gsap.to(node.material, {
+                        opacity: node.material.transparent ? 0.85 : 1.0,
+                        duration: 0.5,
+                        ease: "power2.out"
+                    });
+                });
+                
+                this.connections.forEach(conn => {
+                    gsap.to(conn.material, {
+                        opacity: conn.userData && conn.userData.type === 'oracle' ? 0.8 : 0.4,
+                        duration: 0.5,
+                        ease: "power2.out"
+                    });
+                });
+                
+                this.particles.forEach(particle => {
+                    if (particle.material && particle.userData.type === 'quantumStates') {
+                        gsap.to(particle.material, {
+                            opacity: 0.6,
+                            duration: 0.5,
+                            ease: "power2.out"
+                        });
+                    }
+                });
+            }, 100);
+        }, 500);
     }
 
     createQuantumVisualization() {
         const numQubits = Math.min(this.numSignatures, 100); // Limit for performance
-        const radius = 200;
-        const height = 150;
+        
+        // Create different layouts based on quantum concept being shown
+        this.quantumMode = this.animationFrame % 900 < 300 ? 'grover' : 
+                          this.animationFrame % 900 < 600 ? 'shor' : 'superposition';
 
         // Store qubit positions for connections
         this.nodePositions = [];
+        this.entangledPairs = []; // Track entangled qubit pairs
 
-        console.log(`Creating quantum visualization with ${numQubits} qubits`);
-
-        for (let i = 0; i < numQubits; i++) {
-            const angle = (i / numQubits) * Math.PI * 2;
-            const y = (Math.sin(angle) * height) + (Math.random() - 0.5) * 30;
-            const x = Math.cos(angle) * radius + (Math.random() - 0.5) * 50;
-            const z = Math.sin(angle * 2) * radius * 0.3 + (Math.random() - 0.5) * 50;
-
-            this.nodePositions.push(new THREE.Vector3(x, y, z));
-            this.createQuantumBit(x, y, z, i);
+        // Create quantum circuit visualization layout
+        if (this.quantumMode === 'grover') {
+            // Grover's algorithm - search space visualization
+            this.createGroverLayout(numQubits);
+        } else if (this.quantumMode === 'shor') {
+            // Shor's algorithm - factorization threat
+            this.createShorLayout(numQubits);
+        } else {
+            // Superposition state visualization with Bloch spheres
+            this.createSuperpositionLayout(numQubits);
         }
 
-        // Create quantum entanglement connections
-        this.createQuantumConnections(numQubits);
+        // Add quantum metrics display
+        this.createQuantumMetricsDisplay();
+        
+        // Create quantum state particles based on 2^n
+        this.createQuantumStateParticles();
     }
 
-    createQuantumBit(x, y, z, index) {
-        // Create qubit as small sphere with lattice shader for quantum visualization
-        const geometry = new THREE.SphereGeometry(0.15, 16, 16);
+    createGroverLayout(numQubits) {
+        // Grover's algorithm visualization - oracle and diffusion operator
+        const gridSize = Math.ceil(Math.sqrt(numQubits));
+        const spacing = 40;
+        const offsetX = -(gridSize * spacing) / 2;
+        const offsetZ = -(gridSize * spacing) / 2;
 
-        // Lattice shader material for quantum visualization
-        const probRatio = Math.log10(8.64e-78); // Very negative number representing Grover probability
-        const normalizedProb = Math.max(0, Math.min(1, (probRatio + 200) / 100)); // Scale to 0-1
+        for (let i = 0; i < numQubits; i++) {
+            const row = Math.floor(i / gridSize);
+            const col = i % gridSize;
+            const x = offsetX + col * spacing;
+            const z = offsetZ + row * spacing;
+            const y = Math.sin(this.animationFrame * 0.01 + i * 0.1) * 10; // Wave effect
+
+            this.nodePositions.push(new THREE.Vector3(x, y, z));
+            this.createQuantumBit(x, y, z, i, 'grover');
+        }
+
+        // Create search space connections
+        this.createGroverConnections(numQubits, gridSize);
+    }
+
+    createShorLayout(numQubits) {
+        // Shor's algorithm - quantum fourier transform visualization
+        const levels = 5; // QFT levels
+        const radius = 150;
+        
+        for (let i = 0; i < numQubits; i++) {
+            const level = Math.floor(i / (numQubits / levels));
+            const angleInLevel = (i % (numQubits / levels)) * (2 * Math.PI / (numQubits / levels));
+            
+            const x = Math.cos(angleInLevel) * (radius - level * 25);
+            const y = level * 40 - 80;
+            const z = Math.sin(angleInLevel) * (radius - level * 25);
+
+            this.nodePositions.push(new THREE.Vector3(x, y, z));
+            this.createQuantumBit(x, y, z, i, 'shor');
+        }
+
+        // Create QFT connections
+        this.createShorConnections(numQubits, levels);
+    }
+
+    createSuperpositionLayout(numQubits) {
+        // Bloch sphere representation for superposition states
+        const radius = 200;
+        const height = 150;
+
+        for (let i = 0; i < numQubits; i++) {
+            const theta = (i / numQubits) * Math.PI; // Polar angle
+            const phi = (i / numQubits) * Math.PI * 4; // Azimuthal angle
+            
+            const x = radius * Math.sin(theta) * Math.cos(phi);
+            const y = radius * Math.cos(theta);
+            const z = radius * Math.sin(theta) * Math.sin(phi);
+
+            this.nodePositions.push(new THREE.Vector3(x, y, z));
+            this.createQuantumBit(x, y, z, i, 'superposition');
+            
+            // Add Bloch sphere vectors
+            this.addBlochVector(x, y, z, i);
+        }
+
+        // Create entanglement pairs
+        for (let i = 0; i < numQubits - 1; i += 2) {
+            this.entangledPairs.push([i, i + 1]);
+            this.createQuantumConnection(i, i + 1, 'entangle');
+        }
+
+        // Create additional entanglement connections
+        this.createQuantumConnections(numQubits);
+    }
+    
+    addBlochVector(x, y, z, index) {
+        // Create Bloch vector visualization
+        const origin = new THREE.Vector3(x, y, z);
+        const direction = new THREE.Vector3(
+            Math.random() - 0.5,
+            Math.random() - 0.5,
+            Math.random() - 0.5
+        ).normalize();
+        
+        const arrowHelper = new THREE.ArrowHelper(direction, origin, 15, 0x00ffff, 5, 3);
+        arrowHelper.userData = {
+            type: 'blochVector',
+            index: index,
+            basePosition: origin.clone()
+        };
+        
+        this.scene.add(arrowHelper);
+        // Store reference in the qubit node
+        if (this.nodes[index]) {
+            this.nodes[index].userData.blochVector = arrowHelper;
+        }
+    }
+
+    createQuantumBit(x, y, z, index, mode = 'grover') {
+        // Create qubit visualization based on quantum algorithm mode
+        const geometry = mode === 'shor' ? 
+            new THREE.OctahedronGeometry(5, 0) : 
+            new THREE.SphereGeometry(mode === 'grover' ? 6 : 8, 16, 16);
+
+        // Calculate quantum security parameters
+        const classicalBits = 2048; // RSA key size
+        const quantumBits = Math.ceil(Math.log2(classicalBits)); // Qubits needed for attack
+        const groverAdvantage = Math.sqrt(Math.pow(2, this.numSignatures)); // Square root speedup
+        const shorAdvantage = Math.pow(this.numSignatures, 3); // Polynomial speedup
+        
+        // Security level calculation (NIST levels)
+        const securityLevel = this.threatLevel === 'HIGH' ? 5 : 
+                            this.threatLevel === 'MEDIUM' ? 3 : 1;
 
         const material = new THREE.ShaderMaterial({
             uniforms: {
                 time: { value: 0 },
-                probability: { value: normalizedProb },
-                threatLevel: { value: this.showAttacks ? 1.0 : 0.0 }
+                mode: { value: mode === 'grover' ? 0.0 : mode === 'shor' ? 1.0 : 2.0 },
+                securityLevel: { value: securityLevel / 5.0 },
+                quantumThreat: { value: this.showAttacks ? 1.0 : 0.0 },
+                nodeIndex: { value: index / this.numSignatures }
             },
             vertexShader: `
+                uniform float time;
+                uniform float mode;
+                
                 varying vec3 vPosition;
                 varying vec3 vNormal;
                 varying vec2 vUv;
+                varying vec3 vWorldPos;
 
                 void main() {
                     vPosition = position;
                     vNormal = normal;
                     vUv = uv;
-                    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                    
+                    vec3 pos = position;
+                    
+                    // Superposition wave distortion
+                    if (mode > 1.5) {
+                        float wave1 = sin(position.x * 0.5 + time * 2.0) * 0.3;
+                        float wave2 = cos(position.y * 0.5 + time * 1.5) * 0.3;
+                        float wave3 = sin(position.z * 0.5 + time * 1.8) * 0.3;
+                        pos += normal * (wave1 + wave2 + wave3);
+                    }
+                    
+                    vec4 worldPos = modelMatrix * vec4(pos, 1.0);
+                    vWorldPos = worldPos.xyz;
+                    gl_Position = projectionMatrix * viewMatrix * worldPos;
                 }
             `,
             fragmentShader: `
                 uniform float time;
-                uniform float probability;
-                uniform float threatLevel;
+                uniform float mode; // 0=grover, 1=shor, 2=superposition
+                uniform float securityLevel;
+                uniform float quantumThreat;
+                uniform float nodeIndex;
+                
                 varying vec3 vPosition;
                 varying vec3 vNormal;
                 varying vec2 vUv;
+                varying vec3 vWorldPos;
 
                 void main() {
-                    // Lattice pattern for quantum crystal structure
-                    vec3 latticeColor = vec3(0.0, 0.5, 1.0); // Blue lattice base
-                    vec3 threatColor = vec3(1.0, 0.0, 0.0); // Red for threats
-
-                    // Create lattice grid pattern
-                    vec3 pos = vPosition * 20.0;
-                    float grid = sin(pos.x) * sin(pos.y) * sin(pos.z);
-                    grid = smoothstep(0.0, 0.1, abs(grid));
-
-                    // Probability-based color mixing (red=unsafe, blue=safe)
-                    vec3 probColor = mix(vec3(1.0, 0.0, 0.0), vec3(0.0, 0.0, 1.0), probability);
-
-                    // Quantum interference pattern
-                    float interference = sin(time * 2.0 + length(vPosition) * 10.0) * 0.5 + 0.5;
-
-                    // Combine lattice, probability, and interference
-                    vec3 finalColor = mix(probColor, latticeColor, grid * 0.3);
-                    finalColor = mix(finalColor, threatColor, threatLevel * interference);
-
-                    // Add glow effect
-                    float fresnel = 1.0 - dot(vNormal, vec3(0.0, 0.0, 1.0));
-                    finalColor += vec3(0.2, 0.4, 0.8) * fresnel * 0.5;
-
-                    gl_FragColor = vec4(finalColor, 0.8);
+                    vec3 color = vec3(0.0);
+                    
+                    if (mode < 0.5) {
+                        // Grover's algorithm - search visualization
+                        float searchPhase = sin(time * 2.0 + nodeIndex * 6.28) * 0.5 + 0.5;
+                        color = mix(
+                            vec3(0.0, 0.8, 1.0), // Cyan - unsearched
+                            vec3(1.0, 0.0, 1.0), // Magenta - marked state
+                            searchPhase * quantumThreat
+                        );
+                        
+                        // Add amplitude rings
+                        float rings = sin(length(vPosition) * 50.0 - time * 3.0);
+                        color += vec3(0.0, 1.0, 0.5) * rings * 0.2;
+                        
+                    } else if (mode < 1.5) {
+                        // Shor's algorithm - factorization threat
+                        float qftPhase = atan(vPosition.y, vPosition.x) + time;
+                        float periodicity = sin(qftPhase * 8.0) * 0.5 + 0.5;
+                        
+                        color = mix(
+                            vec3(1.0, 0.5, 0.0), // Orange - classical RSA
+                            vec3(0.0, 1.0, 0.0), // Green - quantum factored
+                            periodicity * quantumThreat
+                        );
+                        
+                        // Add QFT waves
+                        float wave = sin(vWorldPos.y * 0.1 + time * 2.0);
+                        color += vec3(0.5, 1.0, 0.5) * wave * 0.3;
+                        
+                    } else {
+                        // Superposition - Bloch sphere visualization
+                        float theta = atan(vPosition.z, vPosition.x);
+                        float phi = acos(vPosition.y / length(vPosition));
+                        
+                        // Quantum state colors
+                        vec3 zeroState = vec3(0.0, 0.5, 1.0); // Blue |0⟩
+                        vec3 oneState = vec3(1.0, 0.5, 0.0);  // Orange |1⟩
+                        vec3 superState = vec3(0.5, 1.0, 0.5); // Green superposition
+                        
+                        float stateMix = sin(phi + time) * 0.5 + 0.5;
+                        color = mix(mix(zeroState, oneState, stateMix), superState, 0.3);
+                        
+                        // Add entanglement visualization
+                        float entangle = sin(theta * 4.0 + time * 1.5) * 0.5 + 0.5;
+                        color = mix(color, vec3(1.0, 0.0, 1.0), entangle * 0.3);
+                    }
+                    
+                    // Security level overlay
+                    float securityGlow = securityLevel;
+                    color = mix(color, vec3(0.0, 1.0, 0.0), securityGlow * 0.2);
+                    
+                    // Threat indicator
+                    if (quantumThreat > 0.5) {
+                        float pulse = sin(time * 10.0) * 0.5 + 0.5;
+                        color = mix(color, vec3(1.0, 0.0, 0.0), pulse * 0.3);
+                    }
+                    
+                    // Edge glow
+                    float fresnel = 1.0 - abs(dot(normalize(vNormal), vec3(0.0, 0.0, 1.0)));
+                    color += color * fresnel * 0.5;
+                    
+                    // Add subtle noise for realism
+                    float noise = fract(sin(dot(vPosition.xy, vec2(12.9898, 78.233))) * 43758.5453);
+                    color += noise * 0.05;
+                    
+                    gl_FragColor = vec4(color, 0.85);
                 }
             `,
             transparent: true,
-            side: THREE.DoubleSide
+            side: THREE.DoubleSide,
+            depthWrite: false,
+            blending: THREE.AdditiveBlending
         });
 
         const qubit = new THREE.Mesh(geometry, material);
         qubit.position.set(x, y, z);
 
-        // Add quantum state data
+        // Enhanced quantum state data for crypto professionals
+        const isMarkedState = index === Math.floor(this.numSignatures / 2); // Middle element as marked
         qubit.userData = {
             index,
-            quantumState: Math.random() > 0.5 ? '|0⟩' : '|1⟩', // Random initial state
-            probability: 8.64e-78,
+            mode,
+            quantumState: Math.random() > 0.5 ? '|0⟩' : '|1⟩',
+            amplitude: isMarkedState ? 0.8 : 0.2,
             phase: Math.random() * Math.PI * 2,
-            groverStep: 0,
-            isThreatened: Math.random() < 0.1 // 10% chance of AI exploit
+            groverIterations: Math.ceil(Math.PI / 4 * Math.sqrt(this.numSignatures)),
+            shorPeriod: Math.floor(Math.random() * 15) + 2,
+            securityBits: mode === 'grover' ? 
+                Math.log2(groverAdvantage) : 
+                Math.log2(shorAdvantage),
+            isMarkedState,
+            entanglementPartners: []
         };
 
-        // Add red threat indicator for AI exploits
-        if (qubit.userData.isThreatened) {
-            const threatGeometry = new THREE.SphereGeometry(0.15, 8, 8);
-            const threatMaterial = new THREE.MeshStandardMaterial({
-                color: 0xff0000, // Red for threat
-                emissive: 0x440000,
-                emissiveIntensity: 0.8,
-                transparent: true,
-                opacity: 0.6
-            });
-            const threatSphere = new THREE.Mesh(threatGeometry, threatMaterial);
-            threatSphere.position.copy(qubit.position);
-            threatSphere.position.y += 0.2; // Offset above qubit
-            qubit.add(threatSphere);
+        // Add visual indicators for marked states or threats
+        if (isMarkedState && mode === 'grover') {
+            this.addQuantumMarker(qubit, 'marked');
+        } else if (mode === 'shor' && index % 7 === 0) {
+            this.addQuantumMarker(qubit, 'factor');
         }
 
         this.scene.add(qubit);
         this.nodes.push(qubit);
+    }
+
+    addQuantumMarker(qubit, type) {
+        const markerGeometry = new THREE.RingGeometry(10, 12, 6);
+        const markerMaterial = new THREE.MeshBasicMaterial({
+            color: type === 'marked' ? 0xff00ff : 0x00ff00,
+            transparent: true,
+            opacity: 0.8,
+            side: THREE.DoubleSide
+        });
+        const marker = new THREE.Mesh(markerGeometry, markerMaterial);
+        marker.rotation.x = Math.PI / 2;
+        qubit.add(marker);
     }
 
     createQuantumConnections(numQubits) {
@@ -1066,7 +1496,60 @@ class PATWebSimulator {
         }
     }
 
-    createQuantumConnection(fromIndex, toIndex) {
+    createGroverConnections(numQubits, gridSize) {
+        // Create grid connections for Grover search space
+        for (let i = 0; i < numQubits; i++) {
+            const row = Math.floor(i / gridSize);
+            const col = i % gridSize;
+            
+            // Connect to right neighbor
+            if (col < gridSize - 1 && i + 1 < numQubits) {
+                this.createQuantumConnection(i, i + 1, 'grover');
+            }
+            
+            // Connect to bottom neighbor
+            if (row < gridSize - 1 && i + gridSize < numQubits) {
+                this.createQuantumConnection(i, i + gridSize, 'grover');
+            }
+            
+            // Diagonal oracle connections for marked states
+            if (this.nodes[i] && this.nodes[i].userData.isMarkedState) {
+                // Connect marked state to all corners
+                const corners = [0, gridSize - 1, numQubits - gridSize, numQubits - 1];
+                corners.forEach(corner => {
+                    if (corner !== i && corner < numQubits) {
+                        this.createQuantumConnection(i, corner, 'oracle');
+                    }
+                });
+            }
+        }
+    }
+
+    createShorConnections(numQubits, levels) {
+        // Create QFT butterfly connections
+        const nodesPerLevel = Math.ceil(numQubits / levels);
+        
+        for (let level = 0; level < levels - 1; level++) {
+            const startIdx = level * nodesPerLevel;
+            const nextStartIdx = (level + 1) * nodesPerLevel;
+            
+            for (let i = 0; i < nodesPerLevel; i++) {
+                const currentIdx = startIdx + i;
+                if (currentIdx >= numQubits) break;
+                
+                // QFT butterfly pattern
+                const stride = Math.pow(2, level);
+                for (let j = 0; j < stride && j < nodesPerLevel; j++) {
+                    const targetIdx = nextStartIdx + ((i + j) % nodesPerLevel);
+                    if (targetIdx < numQubits) {
+                        this.createQuantumConnection(currentIdx, targetIdx, 'qft');
+                    }
+                }
+            }
+        }
+    }
+
+    createQuantumConnection(fromIndex, toIndex, type = 'entangle') {
         if (fromIndex >= this.nodePositions.length || toIndex >= this.nodePositions.length) return;
 
         const fromPos = this.nodePositions[fromIndex];
@@ -1074,24 +1557,195 @@ class PATWebSimulator {
 
         const geometry = new THREE.BufferGeometry().setFromPoints([fromPos, toPos]);
 
-        // Quantum entanglement lines - cyan color
+        // Different colors for different quantum operations
+        const colors = {
+            'entangle': 0x00ffff, // Cyan - entanglement
+            'grover': 0x0080ff,   // Blue - search connections
+            'oracle': 0xff00ff,   // Magenta - oracle marking
+            'qft': 0xffaa00      // Orange - quantum fourier transform
+        };
+
         const material = new THREE.LineBasicMaterial({
-            color: 0x00ffff, // Cyan for quantum entanglement
+            color: colors[type] || 0x00ffff,
             transparent: true,
-            opacity: 0.4
+            opacity: type === 'oracle' ? 0.8 : 0.4,
+            linewidth: type === 'oracle' ? 3 : 1
         });
 
         const line = new THREE.Line(geometry, material);
+        line.userData = { type, fromIndex, toIndex };
+        
         this.scene.add(line);
         this.connections.push(line);
+    }
+
+    createQuantumMetricsDisplay() {
+        // Create 3D text for quantum metrics
+        const metrics = {
+            algorithm: this.quantumMode === 'grover' ? 'Grover Search' : 
+                      this.quantumMode === 'shor' ? 'Shor Factorization' : 'Superposition',
+            qubits: this.numSignatures,
+            iterations: this.quantumMode === 'grover' ? 
+                Math.ceil(Math.PI / 4 * Math.sqrt(this.numSignatures)) : 
+                Math.pow(Math.log2(2048), 2), // For 2048-bit RSA
+            threatLevel: `NIST Level ${this.threatLevel === 'HIGH' ? 5 : this.threatLevel === 'MEDIUM' ? 3 : 1}`,
+            quantumAdvantage: this.quantumMode === 'grover' ? 
+                `√N = ${Math.sqrt(this.numSignatures).toFixed(1)}x` : 
+                `O(log³ N)`
+        };
+
+        // Store metrics for display update
+        this.quantumMetrics = metrics;
+    }
+    
+    createQuantumStateParticles() {
+        // Create particles representing 2^n quantum states
+        const maxQubits = Math.min(this.numSignatures, 10); // Cap at 10 for performance (2^10 = 1024 particles)
+        const numStates = Math.pow(2, maxQubits);
+        
+        const geometry = new THREE.BufferGeometry();
+        const positions = new Float32Array(numStates * 3);
+        const colors = new Float32Array(numStates * 3);
+        const velocities = [];
+        
+        // Color based on threat level
+        const particleColor = this.threatLevel === 'HIGH' ? [1, 0, 0] :  // Red for high threat
+                            this.threatLevel === 'MEDIUM' ? [1, 1, 0] :  // Yellow for medium
+                            [0, 1, 0]; // Green for low/secure
+        
+        for (let i = 0; i < numStates; i++) {
+            const angle = (i / numStates) * Math.PI * 2;
+            const radius = 100 + Math.random() * 200;
+            const height = (Math.random() - 0.5) * 300;
+            
+            positions[i * 3] = Math.cos(angle) * radius;
+            positions[i * 3 + 1] = height;
+            positions[i * 3 + 2] = Math.sin(angle) * radius;
+            
+            // Add some variation to colors
+            colors[i * 3] = particleColor[0] + (Math.random() - 0.5) * 0.2;
+            colors[i * 3 + 1] = particleColor[1] + (Math.random() - 0.5) * 0.2;
+            colors[i * 3 + 2] = particleColor[2] + (Math.random() - 0.5) * 0.2;
+            
+            // Store velocities for entanglement
+            velocities.push({
+                x: (Math.random() - 0.5) * 2,
+                y: (Math.random() - 0.5) * 2,
+                z: (Math.random() - 0.5) * 2
+            });
+        }
+        
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+        
+        const material = new THREE.PointsMaterial({
+            size: 2.0,
+            vertexColors: true,
+            transparent: true,
+            opacity: 0.6,
+            blending: THREE.AdditiveBlending
+        });
+        
+        const particleSystem = new THREE.Points(geometry, material);
+        particleSystem.userData = {
+            type: 'quantumStates',
+            velocities: velocities,
+            numStates: numStates,
+            life: -1, // Permanent particles
+            entangled: true
+        };
+        
+        this.scene.add(particleSystem);
+        this.particles.push(particleSystem);
+    }
+    
+    performMeasurementCollapse() {
+        this.updateStatus('⚡ Quantum Measurement - Wave Function Collapse!');
+        
+        // Collapse all wave functions with GSAP
+        this.nodes.forEach((node, index) => {
+            if (node.userData && node.userData.mode === 'superposition') {
+                // Stop wave distortions
+                if (node.material.uniforms) {
+                    gsap.to(node.material.uniforms.time, {
+                        value: 0,
+                        duration: 1.5,
+                        ease: "power2.out"
+                    });
+                }
+                
+                // Collapse to definite state
+                const collapsed = Math.random() > 0.5 ? 1 : -1;
+                gsap.to(node.position, {
+                    y: this.nodePositions[index].y + (collapsed * 30),
+                    duration: 1.5,
+                    ease: "bounce.out"
+                });
+                
+                // Collapse Bloch vector
+                if (node.userData.blochVector) {
+                    const vector = node.userData.blochVector;
+                    gsap.to(vector.rotation, {
+                        x: 0,
+                        y: 0,
+                        z: collapsed > 0 ? 0 : Math.PI,
+                        duration: 1.5,
+                        ease: "power2.inOut"
+                    });
+                }
+            }
+        });
+        
+        // Collapse particle states
+        this.particles.forEach(particleSystem => {
+            if (particleSystem.userData.type === 'quantumStates') {
+                // Collapse to discrete positions
+                const positions = particleSystem.geometry.attributes.position.array;
+                const numStates = particleSystem.userData.numStates;
+                
+                for (let i = 0; i < numStates; i++) {
+                    const targetY = Math.random() > 0.5 ? 50 : -50;
+                    const currentY = positions[i * 3 + 1];
+                    
+                    gsap.to(positions, {
+                        [i * 3 + 1]: targetY,
+                        duration: 2,
+                        ease: "elastic.out(1, 0.5)",
+                        onUpdate: () => {
+                            particleSystem.geometry.attributes.position.needsUpdate = true;
+                        }
+                    });
+                }
+            }
+        });
+        
+        // Reset after 3 seconds
+        setTimeout(() => {
+            this.updateStatus('🔄 Quantum states reset to superposition');
+        }, 3000);
     }
 
     animate() {
         requestAnimationFrame(() => this.animate());
 
-        this.animationFrame++;
+        const currentTime = performance.now();
+        const deltaTime = currentTime - this.lastTime;
+        this.lastTime = currentTime;
 
-        // Performance profiling with Stats.js
+        this.animationFrame++;
+        this.frames++;
+
+        // Update FPS counter every 500ms
+        if (currentTime - this.fpsUpdateTime > 500) {
+            this.fps = Math.round((this.frames * 1000) / (currentTime - this.fpsUpdateTime));
+            this.frames = 0;
+            this.fpsUpdateTime = currentTime;
+            
+            // Update performance display
+            this.updatePerformanceDisplay(deltaTime);
+        }
+
+        // Performance profiling with Stats.js (if available)
         if (this.stats) {
             this.stats.update();
         }
@@ -1108,8 +1762,25 @@ class PATWebSimulator {
 
         this.camera.lookAt(this.scene.position);
 
-        // Update node animations (chain-specific effects or quantum effects)
+        // Update quantum mode cycling every 15 seconds
+        if (this.quantumView && this.animationFrame % 900 === 0) {
+            // Cycle through quantum algorithms
+            this.updateVisualization();
+        }
 
+        // Update connection animations for quantum view
+        if (this.quantumView) {
+            this.connections.forEach((connection, index) => {
+                if (connection.userData && connection.userData.type) {
+                    const opacity = connection.userData.type === 'oracle' ? 
+                        Math.sin(this.animationFrame * 0.1) * 0.4 + 0.6 : 
+                        Math.sin(this.animationFrame * 0.03 + index * 0.05) * 0.2 + 0.3;
+                    connection.material.opacity = opacity;
+                }
+            });
+        }
+
+        // Update node animations (chain-specific effects or quantum effects)
         this.nodes.forEach((node, index) => {
             if (this.quantumView) {
                 // Handle quantum qubit animations
@@ -1194,32 +1865,90 @@ class PATWebSimulator {
                 particle.userData.life--;
 
                 const positions = particle.geometry.attributes.position.array;
-                const alphas = particle.geometry.attributes.alpha.array;
                 const velocities = particle.userData.velocities;
 
-                // Update each particle
-                for (let i = 0; i < velocities.length; i++) {
-                    const i3 = i * 3;
+                // Check if this is a simple burst particle (no alpha attribute)
+                const isBurstParticle = particle.userData.isBurstParticle;
 
-                    // Update position
-                    positions[i3] += velocities[i].x;
-                    positions[i3 + 1] += velocities[i].y;
-                    positions[i3 + 2] += velocities[i].z;
+                if (particle.userData.type === 'quantumStates') {
+                    // Handle quantum state particles with entanglement
+                    for (let i = 0; i < velocities.length; i++) {
+                        const i3 = i * 3;
+                        
+                        // Entanglement: pairs have mirrored velocities
+                        if (particle.userData.entangled && i % 2 === 1) {
+                            // Mirror the velocity of the previous particle
+                            velocities[i].x = -velocities[i - 1].x;
+                            velocities[i].y = -velocities[i - 1].y;
+                            velocities[i].z = -velocities[i - 1].z;
+                        }
+                        
+                        // Update position
+                        positions[i3] += velocities[i].x * 0.2;
+                        positions[i3 + 1] += velocities[i].y * 0.2;
+                        positions[i3 + 2] += velocities[i].z * 0.2;
+                        
+                        // Quantum oscillation
+                        const oscillation = Math.sin(this.animationFrame * 0.05 + i * 0.1) * 0.5;
+                        positions[i3 + 1] += oscillation;
+                    }
+                    
+                    // No life reduction for quantum states (permanent)
+                } else if (isBurstParticle) {
+                    // Handle simple burst particles
+                    for (let i = 0; i < velocities.length; i++) {
+                        const i3 = i * 3;
 
-                    // Apply gravity/damping
-                    velocities[i].y -= 0.1; // gravity
-                    velocities[i].x *= 0.98; // air resistance
-                    velocities[i].y *= 0.98;
-                    velocities[i].z *= 0.98;
+                        // Update position
+                        positions[i3] += velocities[i].x * 0.5;
+                        positions[i3 + 1] += velocities[i].y * 0.5;
+                        positions[i3 + 2] += velocities[i].z * 0.5;
 
-                    // Update alpha for fade out
+                        // Apply gravity/damping
+                        velocities[i].y -= 0.3; // gravity
+                        velocities[i].x *= 0.95; // air resistance
+                        velocities[i].y *= 0.95;
+                        velocities[i].z *= 0.95;
+                    }
+
+                    // Update material opacity for fade out
                     const lifeRatio = particle.userData.life / particle.userData.initialLife;
-                    alphas[i] = Math.max(0, lifeRatio - (i / velocities.length) * 0.3);
+                    particle.material.opacity = Math.max(0, lifeRatio);
+                } else {
+                    // Handle complex burst particles with alpha attribute
+                    const alphas = particle.geometry.attributes.alpha.array;
+
+                    // Update each particle
+                    for (let i = 0; i < velocities.length; i++) {
+                        const i3 = i * 3;
+
+                        // Update position
+                        positions[i3] += velocities[i].x;
+                        positions[i3 + 1] += velocities[i].y;
+                        positions[i3 + 2] += velocities[i].z;
+
+                        // Apply gravity/damping
+                        velocities[i].y -= 0.1; // gravity
+                        velocities[i].x *= 0.98; // air resistance
+                        velocities[i].y *= 0.98;
+                        velocities[i].z *= 0.98;
+
+                        // Update alpha for fade out
+                        const lifeRatio = particle.userData.life / particle.userData.initialLife;
+                        alphas[i] = Math.max(0, lifeRatio - (i / velocities.length) * 0.3);
+                    }
+                    
+                    // Mark alpha attribute as needing update
+                    particle.geometry.attributes.alpha.needsUpdate = true;
                 }
 
-                // Mark attributes as needing update
+                // Mark position attribute as needing update
                 particle.geometry.attributes.position.needsUpdate = true;
-                particle.geometry.attributes.alpha.needsUpdate = true;
+
+                // Quantum states are permanent
+                if (particle.userData.type === 'quantumStates') {
+                    return true;
+                }
 
                 if (particle.userData.life <= 0) {
                     this.scene.remove(particle);
@@ -1256,16 +1985,19 @@ class PATWebSimulator {
         });
 
         // Create occasional bursts during demo
-        if (this.demoMode && this.animationFrame % 120 === 0) {
-            const randomNode = this.nodes[Math.floor(Math.random() * this.nodes.length)];
-            if (randomNode) {
-                if (randomNode.position) {
-                    this.createSimpleParticleBurst(randomNode.position);
-                } else if (randomNode.userData && randomNode.userData.instances && randomNode.userData.instances.length > 0) {
-                    // For InstancedMesh, use first instance position
-                    this.createSimpleParticleBurst(randomNode.userData.instances[0].position);
-                }
-            }
+        if (this.demoMode && this.animationFrame % 60 === 0) { // More frequent bursts
+            // Create bursts in the general visualization space
+            const angle = Math.random() * Math.PI * 2;
+            const radius = Math.random() * 150 + 50;
+            const height = (Math.random() - 0.5) * 150;
+            
+            const burstPosition = new THREE.Vector3(
+                Math.cos(angle) * radius,
+                height,
+                Math.sin(angle) * radius
+            );
+            
+            this.createSimpleParticleBurst(burstPosition);
         }
 
         this.renderer.render(this.scene, this.camera);
@@ -1325,102 +2057,260 @@ class PATWebSimulator {
     animateQuantumBit(qubit) {
         const userData = qubit.userData;
 
-        // Update lattice shader uniforms
+        // Update shader uniforms
         if (qubit.material.uniforms) {
             qubit.material.uniforms.time.value = this.animationFrame * 0.01;
-            qubit.material.uniforms.threatLevel.value = this.showAttacks ? 1.0 : 0.0;
+            qubit.material.uniforms.quantumThreat.value = this.showAttacks ? 1.0 : 0.0;
         }
 
-        // Grover's algorithm simulation: periodic rotations and collapses
-        userData.phase += 0.02; // Continuous phase evolution
+        // Mode-specific animations
+        switch (userData.mode) {
+            case 'grover':
+                this.animateGroverQubit(qubit, userData);
+                break;
+            case 'shor':
+                this.animateShorQubit(qubit, userData);
+                break;
+            case 'superposition':
+                this.animateSuperpositionQubit(qubit, userData);
+                break;
+        }
 
-        // Simulate Grover iteration (every ~2 seconds)
-        if (this.animationFrame % 120 === 0) {
-            userData.groverStep++;
-
-            // Grover's algorithm: amplitude amplification
-            if (userData.groverStep % 3 === 0) {
-                // Oracle query - flip phase for marked state
-                if (userData.quantumState === '|1⟩') {
-                    userData.phase += Math.PI; // Phase flip
-                }
-            } else if (userData.groverStep % 3 === 1) {
-                // Diffusion operator - amplitude amplification
-                qubit.scale.setScalar(1.5); // Visual amplification
-                setTimeout(() => qubit.scale.setScalar(1.0), 200);
+        // Update markers if any
+        qubit.children.forEach(child => {
+            if (child.geometry && child.geometry.type === 'RingGeometry') {
+                child.rotation.z += 0.02;
+                const pulse = Math.sin(this.animationFrame * 0.05) * 0.2 + 0.8;
+                child.scale.setScalar(pulse);
             }
-        }
+        });
+    }
 
-        // Continuous quantum rotation (superposition representation)
-        qubit.rotation.x = userData.phase * 0.5;
-        qubit.rotation.y = userData.phase * 0.3;
-        qubit.rotation.z = userData.phase * 0.7;
-
-        // Threat animation for AI exploits
-        if (userData.isThreatened) {
-            // Find the threat indicator (red sphere)
-            const threatSphere = qubit.children.find(child =>
-                child.material && child.material.color &&
-                child.material.color.getHex() === 0xff0000
-            );
-
-            if (threatSphere) {
-                // Pulsing threat indicator
-                const threatPulse = Math.sin(this.animationFrame * 0.1) * 0.3 + 0.7;
-                threatSphere.scale.setScalar(threatPulse);
-
-                // Simulate attack attempts
-                if (this.animationFrame % 300 === 0) { // Every 5 seconds
-                    // Attack failure - qubit collapses and recovers
-                    const originalOpacity = qubit.material.opacity;
+    animateGroverQubit(qubit, userData) {
+        // Grover's algorithm animation with iterative search visualization
+        const groverIteration = Math.floor(this.animationFrame / 120) % userData.groverIterations;
+        const searchProgress = groverIteration / userData.groverIterations;
+        
+        // Calculate current search space reduction
+        const currentSearchSpace = Math.pow(2, this.numSignatures) * Math.pow(0.5, groverIteration);
+        
+        // Oracle phase - mark states with low probability flashes
+        if (groverIteration % 4 === 0) {
+            if (userData.isMarkedState) {
+                // Marked state gets stronger pulse
+                const pulse = Math.sin(this.animationFrame * 0.1) * 0.5 + 1.5;
+                qubit.scale.setScalar(pulse);
+                
+                // Bright flash for marked state
+                if (qubit.material.uniforms) {
+                    qubit.material.uniforms.quantumThreat.value = 1.0;
+                }
+            } else {
+                // Non-marked states flash red with probability 8.64e-78
+                const flashProbability = 8.64e-78 * Math.pow(10, 78); // Scale up for visualization
+                if (Math.random() < flashProbability * 0.01) {
+                    // Red flash for low probability
                     gsap.to(qubit.material, {
-                        duration: 0.5,
-                        opacity: 0.2,
+                        emissive: 0xff0000,
+                        emissiveIntensity: 0.8,
+                        duration: 0.2,
                         yoyo: true,
-                        repeat: 3,
-                        ease: "power2.inOut"
-                    });
-
-                    // Threat sphere flashes red
-                    gsap.to(threatSphere.material, {
-                        duration: 0.3,
-                        emissiveIntensity: 1.5,
-                        yoyo: true,
-                        repeat: 5,
+                        repeat: 1,
                         ease: "power2.inOut"
                     });
                 }
             }
+            
+            // Rotate faster during oracle query
+            qubit.rotation.y += 0.1 * (1 + searchProgress);
+        } else {
+            qubit.scale.setScalar(1.0);
         }
 
-        // Subtle quantum fluctuation
-        const fluctuation = Math.sin(this.animationFrame * 0.05 + userData.index) * 0.05;
-        qubit.position.y += fluctuation * 0.01; // Tiny vertical movement
+        // Diffusion operator visualization - wave collapses as search narrows
+        if (groverIteration % 4 === 2) {
+            // Wave effect that decreases with iterations
+            const waveAmplitude = 10 * (1 - searchProgress);
+            const wave = Math.sin(this.animationFrame * 0.05 + userData.index * 0.2) * waveAmplitude;
+            qubit.position.y = this.nodePositions[userData.index].y + wave;
+            
+            // Create search space reduction particles
+            if (this.animationFrame % 60 === 0) {
+                this.createGroverSearchParticles(qubit.position, currentSearchSpace);
+            }
+        }
+
+        // Continuous rotation representing quantum phase evolution
+        qubit.rotation.x += 0.005 * (1 + searchProgress * 2);
+        qubit.rotation.z += 0.003 * (1 + searchProgress);
+        
+        // Color intensity increases as algorithm converges
+        if (qubit.material.uniforms) {
+            const convergence = Math.pow(searchProgress, 2);
+            qubit.material.uniforms.nodeIndex.value = convergence;
+        }
+    }
+    
+    createGroverSearchParticles(position, searchSpace) {
+        // Create particles showing search space reduction
+        const particleCount = Math.min(20, Math.log2(searchSpace));
+        const geometry = new THREE.BufferGeometry();
+        const positions = new Float32Array(particleCount * 3);
+        
+        for (let i = 0; i < particleCount; i++) {
+            const angle = (i / particleCount) * Math.PI * 2;
+            positions[i * 3] = position.x + Math.cos(angle) * 30;
+            positions[i * 3 + 1] = position.y;
+            positions[i * 3 + 2] = position.z + Math.sin(angle) * 30;
+        }
+        
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        
+        const material = new THREE.PointsMaterial({
+            color: 0xff0000, // Red for eliminated states
+            size: 2.0,
+            transparent: true,
+            opacity: 0.8
+        });
+        
+        const searchParticles = new THREE.Points(geometry, material);
+        searchParticles.userData = {
+            type: 'groverSearch',
+            life: 60,
+            initialLife: 60
+        };
+        
+        this.scene.add(searchParticles);
+        this.particles.push(searchParticles);
+        
+        // Animate particles halving the search space
+        gsap.to(searchParticles.scale, {
+            x: 0.1,
+            y: 0.1,
+            z: 0.1,
+            duration: 1.0,
+            ease: "power2.in"
+        });
+        
+        gsap.to(searchParticles.material, {
+            opacity: 0,
+            duration: 1.0,
+            ease: "power2.out",
+            onComplete: () => {
+                this.scene.remove(searchParticles);
+                const idx = this.particles.indexOf(searchParticles);
+                if (idx > -1) this.particles.splice(idx, 1);
+            }
+        });
+    }
+
+    animateShorQubit(qubit, userData) {
+        // Shor's algorithm - QFT animation
+        const qftPhase = (this.animationFrame * 0.02 + userData.index * 0.1) % (Math.PI * 2);
+        
+        // Simulate period finding
+        const period = userData.shorPeriod;
+        const amplitude = Math.sin(qftPhase * period) * 0.5 + 0.5;
+        
+        // Vertical oscillation based on QFT
+        const baseY = this.nodePositions[userData.index].y;
+        qubit.position.y = baseY + amplitude * 30;
+        
+        // Rotation speed varies with level
+        const level = Math.floor(userData.index / (this.numSignatures / 5));
+        qubit.rotation.y += 0.01 * (level + 1);
+        qubit.rotation.x += 0.005;
+        
+        // Scale based on factorization progress
+        if (userData.index % userData.shorPeriod === 0) {
+            const factorPulse = Math.sin(this.animationFrame * 0.08) * 0.2 + 1.1;
+            qubit.scale.setScalar(factorPulse);
+        }
+    }
+
+    animateSuperpositionQubit(qubit, userData) {
+        // Bloch sphere rotation animation
+        const theta = userData.phase + this.animationFrame * 0.01;
+        const phi = userData.index * 0.1 + this.animationFrame * 0.005;
+        
+        // Precession around Bloch sphere
+        const radius = 200;
+        const basePos = this.nodePositions[userData.index];
+        
+        qubit.position.x = basePos.x + Math.sin(theta) * Math.cos(phi) * 20;
+        qubit.position.y = basePos.y + Math.cos(theta) * 20;
+        qubit.position.z = basePos.z + Math.sin(theta) * Math.sin(phi) * 20;
+        
+        // Spin representing quantum state evolution
+        qubit.rotation.x = theta;
+        qubit.rotation.y = phi;
+        qubit.rotation.z += 0.02;
+        
+        // Animate Bloch vector if it exists
+        if (userData.blochVector) {
+            const vector = userData.blochVector;
+            
+            // Random walk on Bloch sphere
+            const wanderSpeed = 0.02;
+            const newTheta = theta * 2;
+            const newPhi = phi * 1.5;
+            
+            // Update vector direction
+            const direction = new THREE.Vector3(
+                Math.sin(newTheta) * Math.cos(newPhi),
+                Math.cos(newTheta),
+                Math.sin(newTheta) * Math.sin(newPhi)
+            );
+            
+            vector.setDirection(direction.normalize());
+            
+            // Follow qubit position
+            vector.position.copy(qubit.position);
+        }
+        
+        // Entanglement visualization - connected qubits synchronize
+        if (this.animationFrame % 60 === 0) {
+            // Check for entangled pairs
+            this.entangledPairs.forEach(([idx1, idx2]) => {
+                if (userData.index === idx1 || userData.index === idx2) {
+                    // Synchronize phase with entangled partner
+                    const partnerIdx = userData.index === idx1 ? idx2 : idx1;
+                    const partner = this.nodes[partnerIdx];
+                    if (partner && partner.userData) {
+                        // Entangled states have opposite phases
+                        userData.phase = -partner.userData.phase;
+                    }
+                }
+            });
+        }
     }
 
     runMergeAnimation() {
         // PAW merge animation: Dramatic GSAP-powered visualization of quantum-armored signature bundling
-        console.log('🎬 GSAP Merge Animation triggered - nodes:', this.nodes.length);
-
         if (this.nodes.length < 2) {
-            console.log('❌ Not enough nodes for merge animation');
+            this.updateStatus('❌ Not enough nodes for merge animation');
             return;
         }
 
         // Check GSAP availability
-        if (!window.gsap) {
-            console.error('GSAP load failed—check CDN');
-            console.log('Falling back to simple animation');
+        if (!window.gsap || typeof gsap === 'undefined') {
+            // Check if GSAP is still loading
+            if (window.dependencyStatus && !window.dependencyStatus.gsap) {
+                this.updateStatus('⏳ GSAP is still loading, please try again in a moment');
+                // Try again in 1 second
+                setTimeout(() => this.runMergeAnimation(), 1000);
+                return;
+            }
+            this.updateStatus('GSAP not available, using simple animation');
             this.simpleMergeAnimation();
             return;
         }
 
         // Test GSAP functionality
         try {
-            gsap.set({}, {}); // Simple test
-            console.log('✅ GSAP available and functional, starting merge animation');
+            gsap.timeline(); // Better test for GSAP
         } catch (e) {
-            console.error('GSAP loaded but not functional:', e);
+            this.updateStatus('GSAP error, using simple animation');
             this.simpleMergeAnimation();
             return;
         }
@@ -1443,7 +2333,6 @@ class PATWebSimulator {
 
         // Master timeline for the entire sequence
         const masterTl = gsap.timeline();
-        console.log('🎬 Created GSAP timeline, starting camera zoom...');
 
         // Add camera zoom-in at the start
         masterTl.to(this.camera.position, {
@@ -1602,25 +2491,66 @@ class PATWebSimulator {
 
     simpleMergeAnimation() {
         // Fallback merge animation without GSAP
-        console.log('🔄 Running simple merge animation');
         this.updateStatus('🔄 Running Simple PAW Merge Animation...');
 
         if (this.nodes.length < 2) return;
 
-        // Simple animation: just create some burst effects
-        let burstCount = 0;
-        const burstInterval = setInterval(() => {
-            if (burstCount < 5) {
-                const randomNode = this.nodes[Math.floor(Math.random() * this.nodes.length)];
-                if (randomNode && !randomNode.isInstancedMesh) {
-                    this.createBurstEffect(randomNode.position);
+        // Create merge animations without GSAP
+        const pairs = [];
+        const numPairs = Math.min(5, Math.floor(this.nodes.length / 2));
+
+        // Select pairs of nodes to merge
+        for (let i = 0; i < numPairs * 2; i += 2) {
+            if (i + 1 < this.nodes.length) {
+                const node1 = this.nodes[i];
+                const node2 = this.nodes[i + 1];
+                
+                // Get positions
+                let pos1, pos2;
+                if (node1.isInstancedMesh && node1.userData.instances) {
+                    pos1 = node1.userData.instances[0].position;
+                } else if (node1.position) {
+                    pos1 = node1.position;
                 }
-                burstCount++;
+                
+                if (node2.isInstancedMesh && node2.userData.instances) {
+                    pos2 = node2.userData.instances[0].position;
+                } else if (node2.position) {
+                    pos2 = node2.position;
+                }
+
+                if (pos1 && pos2) {
+                    pairs.push({ pos1, pos2, node1, node2 });
+                }
+            }
+        }
+
+        // Animate the pairs
+        let pairIndex = 0;
+        const animatePair = () => {
+            if (pairIndex < pairs.length) {
+                const pair = pairs[pairIndex];
+                const midpoint = new THREE.Vector3()
+                    .addVectors(pair.pos1, pair.pos2)
+                    .multiplyScalar(0.5);
+
+                // Create energy arc effect
+                this.createEnergyArc(pair.pos1, pair.pos2);
+                
+                // Create burst at midpoint
+                setTimeout(() => {
+                    this.createSimpleParticleBurst(midpoint);
+                    this.createExplosionEffect(midpoint);
+                }, 300);
+
+                pairIndex++;
+                setTimeout(animatePair, 800);
             } else {
-                clearInterval(burstInterval);
                 this.updateStatus('✨ PAW Simple Animation Complete');
             }
-        }, 800);
+        };
+
+        animatePair();
     }
 
     createEnergyArc(startPos, endPos) {
@@ -1727,7 +2657,6 @@ class PATWebSimulator {
     }
 
     runDemo() {
-        console.log('🚀 Starting demo mode');
         this.demoMode = true;
         this.numSignatures = 1000;
         document.getElementById('signature-slider').value = 1000;
@@ -1736,33 +2665,61 @@ class PATWebSimulator {
         this.updateStatus('🚀 Running Enhanced PAW Demo Animation...');
         this.updateVisualization();
 
-        // Create a sequence of more visible bursts
-        let burstCount = 0;
-        const burstInterval = setInterval(() => {
-            if (burstCount < 15) { // More bursts
-                const randomNode = this.nodes[Math.floor(Math.random() * this.nodes.length)];
-                if (randomNode) {
-                    let position;
-                    if (randomNode.position) {
-                        position = randomNode.position;
-                    } else if (randomNode.userData && randomNode.userData.instances && randomNode.userData.instances.length > 0) {
-                        // For InstancedMesh, use first instance position
-                        position = randomNode.userData.instances[0].position;
-                    }
-
-                    if (position) {
-                        // Use both particle systems for more visible effect
-                        this.createSimpleParticleBurst(position);
-                        setTimeout(() => this.createBurstEffect(position), 100);
-                    }
+        // Wait for visualization to be created
+        setTimeout(() => {
+            // Create a sequence of more visible bursts
+            let burstCount = 0;
+            const totalBursts = 20; // More bursts for better effect
+            
+            const createDemoBurst = () => {
+                if (this.nodes.length === 0) {
+                    this.updateStatus('No nodes available for demo');
+                    return;
                 }
-                burstCount++;
-            } else {
-                clearInterval(burstInterval);
-                this.demoMode = false;
-                this.updateStatus('PAW Demo Complete - Interactive Mode');
-            }
-        }, 300); // Faster bursts
+
+                // Create multiple bursts at once for more dramatic effect
+                for (let i = 0; i < 3 && burstCount < totalBursts; i++) {
+                    // Pick random positions across the visualization space
+                    const angle = Math.random() * Math.PI * 2;
+                    const radius = Math.random() * 200 + 50;
+                    const height = (Math.random() - 0.5) * 200;
+                    
+                    const burstPosition = new THREE.Vector3(
+                        Math.cos(angle) * radius,
+                        height,
+                        Math.sin(angle) * radius
+                    );
+
+                    // Create burst at random position
+                    this.createSimpleParticleBurst(burstPosition);
+                    
+                    // Sometimes create a secondary burst nearby
+                    if (Math.random() > 0.5 && this.createBurstEffect) {
+                        const offset = new THREE.Vector3(
+                            (Math.random() - 0.5) * 50,
+                            (Math.random() - 0.5) * 50,
+                            (Math.random() - 0.5) * 50
+                        );
+                        const secondaryPosition = burstPosition.clone().add(offset);
+                        setTimeout(() => this.createBurstEffect(secondaryPosition), 100);
+                    }
+                    
+                    burstCount++;
+                }
+
+                if (burstCount < totalBursts) {
+                    setTimeout(createDemoBurst, 250); // Continue creating bursts
+                } else {
+                    setTimeout(() => {
+                        this.demoMode = false;
+                        this.updateStatus('✨ PAW Demo Complete - Interactive Mode');
+                    }, 1000);
+                }
+            };
+
+            // Start the demo burst sequence
+            createDemoBurst();
+        }, 500); // Wait for visualization setup
     }
 
     exportPNG() {
@@ -1772,24 +2729,42 @@ class PATWebSimulator {
 
             // Get image data from canvas
             const canvas = document.getElementById('canvas');
-            const link = document.createElement('a');
-            link.download = `pat_sim_${Date.now()}.png`;
-            link.href = canvas.toDataURL();
-            link.click();
-
-            this.updateStatus('📸 Screenshot exported!');
+            
+            // Use toBlob for better performance and error handling
+            canvas.toBlob((blob) => {
+                if (blob) {
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.download = `pat_sim_${Date.now()}.png`;
+                    link.href = url;
+                    link.click();
+                    
+                    // Clean up
+                    setTimeout(() => URL.revokeObjectURL(url), 100);
+                    
+                    this.updateStatus('📸 Screenshot exported!');
+                } else {
+                    this.updateStatus('❌ Export failed - unable to create image');
+                }
+            }, 'image/png');
         } catch (error) {
-            console.error('Export failed:', error);
-            this.updateStatus('❌ Export failed');
+            this.updateStatus('❌ Export failed: ' + error.message);
         }
     }
 
     async loadBenchmarkData() {
         try {
             const response = await fetch('pat_benchmarks.csv');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
             const csvText = await response.text();
-            this.parseBenchmarkCSV(csvText);
-            this.updateStatus('✅ Benchmark data loaded');
+            if (csvText && csvText.length > 0) {
+                this.parseBenchmarkCSV(csvText);
+                this.updateStatus('✅ Benchmark data loaded');
+            } else {
+                throw new Error('Empty CSV file');
+            }
         } catch (error) {
             console.warn('Failed to load benchmark CSV, using mock data:', error);
             this.mockBenchmarkData();
@@ -1799,37 +2774,66 @@ class PATWebSimulator {
     }
 
     parseBenchmarkCSV(csvText) {
-        const lines = csvText.split('\n');
-        const headers = lines[0].split(',');
-
-        this.benchmarkData = {};
-
-        for (let i = 1; i < lines.length; i++) {
-            const values = lines[i].split(',');
-            if (values.length < 10) continue;
-
-            const row = {};
-            headers.forEach((header, index) => {
-                row[header] = values[index];
-            });
-
-            // Extract relevant data
-            const signatures = parseInt(row.Signatures || row.num_signatures || '0');
-            const strategy = (row.Strategy || row.strategy || 'Unknown').toLowerCase();
-
-            if (signatures > 0 && strategy !== 'unknown') {
-                const key = `${signatures}_${strategy}`;
-                this.benchmarkData[key] = {
-                    compression_ratio: parseFloat(row.Compression_Ratio || row.compression_ratio || '1.0'),
-                    energy_consumption: parseFloat(row.energy_consumption_kwh || '0'),
-                    throughput: parseFloat(row.throughput_sigs_per_sec || '0'),
-                    verify_time: parseFloat(row.Avg_Verify_Time_ms || row.Verify_Time_ms || '0'),
-                    memory_peak: parseFloat(row.Peak_Memory_Aggregation_KB || row.memory_peak_mb || '0')
-                };
+        try {
+            const lines = csvText.split('\n').filter(line => line.trim().length > 0);
+            if (lines.length < 2) {
+                throw new Error('Invalid CSV format');
             }
-        }
 
-        console.log(`Loaded ${Object.keys(this.benchmarkData).length} benchmark data points`);
+            const headers = lines[0].split(',').map(h => h.trim());
+            this.benchmarkData = {};
+
+            for (let i = 1; i < lines.length; i++) {
+                const values = lines[i].split(',').map(v => v.trim());
+                if (values.length < headers.length) continue;
+
+                const row = {};
+                headers.forEach((header, index) => {
+                    row[header] = values[index] || '';
+                });
+
+                // Extract relevant data with flexible field names
+                const signatures = parseInt(
+                    row.Signatures || row.signatures || 
+                    row.num_signatures || row.n || '0'
+                );
+                const strategy = (
+                    row.Strategy || row.strategy || 
+                    row.aggregation_strategy || 'Unknown'
+                ).toLowerCase();
+
+                if (signatures > 0 && strategy !== 'unknown') {
+                    const key = `${signatures}_${strategy}`;
+                    this.benchmarkData[key] = {
+                        compression_ratio: parseFloat(
+                            row.Compression_Ratio || row.compression_ratio || 
+                            row.compression || '1.0'
+                        ),
+                        energy_consumption: parseFloat(
+                            row.energy_consumption_kwh || row.energy_consumption || 
+                            row.energy || '0'
+                        ),
+                        throughput: parseFloat(
+                            row.throughput_sigs_per_sec || row.throughput || 
+                            row.sigs_per_sec || '0'
+                        ),
+                        verify_time: parseFloat(
+                            row.Avg_Verify_Time_ms || row.Verify_Time_ms || 
+                            row.verify_time_ms || row.verify_time || '0'
+                        ),
+                        memory_peak: parseFloat(
+                            row.Peak_Memory_Aggregation_KB || row.memory_peak_mb || 
+                            row.memory_kb || row.memory || '0'
+                        )
+                    };
+                }
+            }
+
+            // Loaded benchmark data points
+        } catch (error) {
+            console.error('CSV parsing error:', error);
+            this.mockBenchmarkData();
+        }
     }
 
     mockBenchmarkData() {
@@ -1868,25 +2872,78 @@ class PATWebSimulator {
 
     updateMetricsDisplay() {
         const metricsContent = document.getElementById('metrics-content');
-        const key = `${this.numSignatures}_${this.strategy}`;
+        if (!metricsContent) return;
 
+        const key = `${this.numSignatures}_${this.strategy}`;
         let metrics = this.benchmarkData[key];
+
         if (!metrics) {
-            // Find closest match
+            // Find closest match by signatures first
             const keys = Object.keys(this.benchmarkData);
-            const closestKey = keys.find(k => k.includes(`_${this.strategy}`)) || keys[0];
+            let closestKey = null;
+            let minDiff = Infinity;
+
+            keys.forEach(k => {
+                if (k.includes(`_${this.strategy}`)) {
+                    const sig = parseInt(k.split('_')[0]);
+                    const diff = Math.abs(sig - this.numSignatures);
+                    if (diff < minDiff) {
+                        minDiff = diff;
+                        closestKey = k;
+                    }
+                }
+            });
+
+            // If no strategy match, find any close signature count
+            if (!closestKey && keys.length > 0) {
+                closestKey = keys.find(k => k.includes(`_${this.strategy}`)) || keys[0];
+            }
+
             metrics = this.benchmarkData[closestKey];
         }
 
-        if (metrics) {
+        if (this.quantumView && this.quantumMetrics) {
+            // Display quantum-specific metrics
+            const qm = this.quantumMetrics;
             metricsContent.innerHTML = `
-                <div class="metric-item">Compression: <span class="metric-value">${metrics.compression_ratio.toFixed(1)}x</span></div>
-                <div class="metric-item">Energy Saved: <span class="metric-value">${((1 - metrics.energy_consumption) * 100).toFixed(0)}%</span></div>
-                <div class="metric-item">Throughput: <span class="metric-value">${metrics.throughput} sigs/sec</span></div>
-                <div class="metric-item">Verify Time: <span class="metric-value">${metrics.verify_time}ms</span></div>
-                <div class="metric-item" style="margin-top: 15px; border-top: 1px solid #4a4a6a; padding-top: 10px; font-size: 12px; line-height: 1.4;">
-                    <strong>📖 Academic Reference:</strong><br>
-                    This 3D view depicts PAT merging (gray nodes to blue lines)—see paper for EU-CMA proofs (adv ≤ 2^{-128})
+                <div class="metric-item">Algorithm: <span class="metric-value">${qm.algorithm}</span></div>
+                <div class="metric-item">Qubits: <span class="metric-value">${qm.qubits}</span></div>
+                <div class="metric-item">Iterations: <span class="metric-value">${qm.iterations}</span></div>
+                <div class="metric-item">Security: <span class="metric-value">${qm.threatLevel}</span></div>
+                <div class="metric-item">Q-Advantage: <span class="metric-value">${qm.quantumAdvantage}</span></div>
+                ${this.quantumMode === 'grover' ? `
+                    <div class="metric-item" style="margin-top: 10px; font-size: 11px; color: #888;">
+                        <strong>Grover's Algorithm:</strong> Searching ${Math.pow(2, this.numSignatures)} states<br>
+                        Classical: ${Math.pow(2, this.numSignatures)} ops → Quantum: ${Math.ceil(Math.PI/4 * Math.sqrt(Math.pow(2, this.numSignatures)))} ops
+                    </div>
+                ` : this.quantumMode === 'shor' ? `
+                    <div class="metric-item" style="margin-top: 10px; font-size: 11px; color: #888;">
+                        <strong>Shor's Algorithm:</strong> Factoring 2048-bit RSA<br>
+                        Threat to: RSA, DSA, ECDSA | Safe: Lattice, Hash-based
+                    </div>
+                ` : `
+                    <div class="metric-item" style="margin-top: 10px; font-size: 11px; color: #888;">
+                        <strong>Quantum Superposition:</strong> ${this.numSignatures} qubits<br>
+                        States: 2^${this.numSignatures} = ${Math.pow(2, Math.min(this.numSignatures, 20)).toLocaleString()}${this.numSignatures > 20 ? '...' : ''}
+                    </div>
+                `}
+            `;
+        } else if (metrics) {
+            // Display classical PAT metrics
+            const compression = metrics.compression_ratio || 1.0;
+            const energy = metrics.energy_consumption || 0;
+            const throughput = Math.round(metrics.throughput || 1000);
+            const verifyTime = (metrics.verify_time || 1.0).toFixed(1);
+            const energySaved = Math.max(0, Math.min(100, ((1 - energy) * 100)));
+
+            metricsContent.innerHTML = `
+                <div class="metric-item">Compression: <span class="metric-value">${compression.toFixed(1)}x</span></div>
+                <div class="metric-item">Energy Saved: <span class="metric-value">${energySaved.toFixed(0)}%</span></div>
+                <div class="metric-item">Throughput: <span class="metric-value">${throughput} sigs/sec</span></div>
+                <div class="metric-item">Verify Time: <span class="metric-value">${verifyTime}ms</span></div>
+                <div class="metric-item" style="margin-top: 10px; font-size: 11px; color: #888;">
+                    <strong>PAW Protection:</strong> Post-quantum secure<br>
+                    Dilithium3 + Ed25519 hybrid signatures
                 </div>
             `;
         } else {
@@ -1894,21 +2951,119 @@ class PATWebSimulator {
         }
     }
 
+    updatePerformanceDisplay(deltaTime) {
+        // Update FPS display
+        const fpsElement = document.getElementById('fps-value');
+        if (fpsElement) {
+            fpsElement.textContent = this.fps;
+            
+            // Color code based on performance
+            if (this.fps >= 50) {
+                fpsElement.style.color = '#4caf50'; // Green - Good
+            } else if (this.fps >= 30) {
+                fpsElement.style.color = '#ff9800'; // Orange - OK
+            } else {
+                fpsElement.style.color = '#f44336'; // Red - Poor
+            }
+        }
+
+        // Update frame time display
+        const msElement = document.getElementById('ms-value');
+        if (msElement) {
+            const frameTime = deltaTime.toFixed(1);
+            msElement.textContent = `${frameTime}ms`;
+        }
+
+        // Update memory display
+        const memElement = document.getElementById('mem-value');
+        if (memElement) {
+            if (performance.memory) {
+                // Chrome-specific memory API
+                const memoryMB = (performance.memory.usedJSHeapSize / 1048576).toFixed(1);
+                memElement.textContent = `${memoryMB}MB`;
+            } else {
+                // Estimate based on node count
+                const estimatedMB = (this.nodes.length * 0.1 + 50).toFixed(1);
+                memElement.textContent = `~${estimatedMB}MB`;
+            }
+        }
+    }
+
     updateStatus(message) {
-        document.getElementById('status-text').textContent = message;
-        setTimeout(() => {
-            document.getElementById('status-text').textContent = `PAT with PAW Simulator - ${this.numSignatures} signatures`;
-        }, 3000);
+        const statusText = document.getElementById('status-text');
+        if (statusText) {
+            statusText.textContent = message;
+            setTimeout(() => {
+                if (document.getElementById('status-text')) {
+                    document.getElementById('status-text').textContent = `PAT with PAW Simulator - ${this.numSignatures} signatures`;
+                }
+            }, 3000);
+        }
     }
 
     hideLoading() {
         setTimeout(() => {
-            document.getElementById('loading').style.display = 'none';
+            const loadingDiv = document.getElementById('loading');
+            if (loadingDiv) {
+                loadingDiv.style.display = 'none';
+            }
         }, 1000);
     }
 }
 
 // Initialize the simulator when the page loads
 document.addEventListener('DOMContentLoaded', () => {
-    new PATWebSimulator();
+    // Browser compatibility checks
+    const checkCompatibility = () => {
+        const errors = [];
+        
+        // Check for WebGL support
+        try {
+            const canvas = document.createElement('canvas');
+            const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+            if (!gl) {
+                errors.push('WebGL not supported');
+            }
+        } catch (e) {
+            errors.push('WebGL not supported');
+        }
+        
+        // Check for required browser features
+        if (!window.requestAnimationFrame) {
+            errors.push('requestAnimationFrame not supported');
+        }
+        
+        if (!window.URL || !window.URL.createObjectURL) {
+            errors.push('URL.createObjectURL not supported');
+        }
+        
+        // Check for Canvas blob support
+        const canvas = document.createElement('canvas');
+        if (!canvas.toBlob) {
+            errors.push('Canvas.toBlob not supported');
+        }
+        
+        return errors;
+    };
+    
+    const compatErrors = checkCompatibility();
+    
+    if (compatErrors.length > 0) {
+        const loadingDiv = document.getElementById('loading');
+        if (loadingDiv) {
+            loadingDiv.innerHTML = `
+                <div style="color: #ff0000;">
+                    <h3>Browser Compatibility Issues</h3>
+                    <p>The following features are not supported in your browser:</p>
+                    <ul>
+                        ${compatErrors.map(err => `<li>${err}</li>`).join('')}
+                    </ul>
+                    <p>Please use a modern browser like Chrome, Firefox, Safari, or Edge.</p>
+                </div>
+            `;
+        }
+    } else {
+        // All checks passed, initialize the simulator
+        new PATWebSimulator();
+    }
 });

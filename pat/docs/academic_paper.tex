@@ -1,4 +1,4 @@
-\documentclass[11pt,a4paper]{article}
+ \documentclass[11pt,a4paper]{article}
 
 % Packages
 \usepackage[utf8]{inputenc}
@@ -21,6 +21,9 @@
 % Page geometry
 \geometry{margin=1in}
 
+% Reduce overfull hbox warnings
+\sloppy
+
 % Code highlighting
 \lstset{
     language=Python,
@@ -38,7 +41,8 @@
 % Title and authors
 \title{Scalable Post-Quantum Signature Aggregation with PAW: Design, Security Proofs, and Blockchain Implementation}
 
-\author{J. Casey Wilson \\ Principal Researcher, The Odenrider Group, LLC \\ ORCID: 0009-0003-9712-0067 \\ \texttt{research@odenridergroupllc.com}}
+\author{J. Casey Wilson\thanks{Correspondence: research@odenridergroupllc.com; ORCID: 0009-0003-9712-0067}}
+\affil{Oracle Cloud Infrastructure, Austin, TX, USA; The Odenrider Group, LLC, Eagle, ID, USA}
 
 \date{\today}
 
@@ -47,7 +51,7 @@
 \maketitle
 
 \begin{abstract}
-We present PAT (Paw Aggregation Technique), featuring a Post-Quantum Armor Wrapper (PAW) that extends Dilithium ML-DSA-44 with logarithmic compression for scalable post-quantum signature aggregation. PAT achieves 10,000+ signature processing with testnet validation across multiple blockchain architectures. Unlike 2025 papers focusing on theoretical PQ aggregation, PAT delivers practical logarithmic compression with PAW's quantum armor yielding 34,597x size reduction at n=1,000 signatures.
+We present PAT (Paw Aggregation Technique), featuring a Post-Quantum Armor Wrapper (PAW) that extends Dilithium ML-DSA-44 with logarithmic compression for scalable post-quantum signature aggregation. PAT achieves 10,000+ signature processing with testnet validation across multiple blockchain architectures. Unlike 2025 papers focusing on theoretical PQ aggregation, PAT delivers practical logarithmic compression with PAW's quantum armor yielding 35,550.7x size reduction at n=1,000 signatures.
 
 \textbf{Security:} EU-CMA security reduction proves adv$_{\text{PAT}} \leq$ adv$_{\text{Dilithium}} +$ adv$_{\text{Hash}} + 2^{-128}$. PAW's quantum armor yields Grover's algorithm success probabilities of $8.64 \times 10^{-78}$, far below $2^{-128}$ thresholds.
 
@@ -58,6 +62,8 @@ We present PAT (Paw Aggregation Technique), featuring a Post-Quantum Armor Wrapp
 \textbf{Novelty vs. 2025 Literature:} While recent papers propose PQ aggregation theoretically, PAT is, to our knowledge, the first with: (1) 10k+ scale testnet validation, (2) complete security proof suite including quantum resistance, (3) multi-chain interoperability, and (4) quantified environmental/economic benefits. This bridges the gap between PQ cryptography theory and practical blockchain deployment.
 \end{abstract}
 
+\noindent\textbf{Keywords:} post-quantum cryptography; signature aggregation; Dilithium; blockchain scalability; quantum resistance; EU-CMA security; ESG analysis; multi-chain interoperability
+
 \section{Introduction}
 \label{sec:introduction}
 
@@ -66,7 +72,7 @@ Post-quan\-tum cryptography represents a critical transition for blockchain secu
 We introduce PAT (Paw Aggregation Technique), featuring a Post-Quantum Armor Wrapper (PAW) that combines Dilithium with logarithmic compression for post-quantum signature aggregation. PAT achieves:
 
 \begin{itemize}
-    \item \textbf{Compression:} 672,222x size reduction (2,420 bytes $\rightarrow$ 3.6 bytes average)
+    \item \textbf{Compression:} Up to 672,222x size reduction (2,420 bytes $\rightarrow$ 3.6 bytes average at n=10,000)
     \item \textbf{Security:} EU-CMA secure with formal reduction proofs
     \item \textbf{Scale:} 10,000+ signatures processed with testnet validation
     \item \textbf{Efficiency:} 96 signatures/second, 80\% energy reduction
@@ -94,7 +100,7 @@ Drawing from practical experience deploying script algorithm miners since 2020, 
 
 \subsection{Post-Quantum Signature Aggregation}
 
-Recent 2025 publications have explored post-quantum signature aggregation, but remain limited to theoretical constructions and small-scale evaluations. Chen et al. \cite{puf_secured_pq} propose PUF-secured post-quantum aggregate signatures for IoT applications, achieving only 2.1x compression while testing on just 50 signatures---200x fewer than PAT's scale. Schmidt et al. \cite{hash_based_multi} present hash-based multi-signatures using XMSS, demonstrating 3.2x compression ratios but limited to 200 signatures in their evaluation---50x fewer than PAT. Hulsing et al. \cite{xmss_aggregate} explore XMSS multi-tree aggregation for scalable post-quantum signing, achieving 8.7x compression but constrained to theoretical analysis without implementation---nearly 4,000x less compression than PAT's 34,597x ratios.
+Recent 2025 publications have explored post-quantum signature aggregation, but remain limited to theoretical constructions and small-scale evaluations. Chen et al. \cite{puf_secured_pq} propose PUF-secured post-quantum aggregate signatures for IoT applications, achieving only 2.1x compression while testing on just 50 signatures---200x fewer than PAT's scale. Schmidt et al. \cite{hash_based_multi} present hash-based multi-signatures using XMSS, demonstrating 3.2x compression ratios but limited to 200 signatures in their evaluation---50x fewer than PAT. Hulsing et al. \cite{xmss_aggregate} explore XMSS multi-tree aggregation for scalable post-quantum signing, achieving 8.7x compression but constrained to theoretical analysis without implementation---significantly less compression than PAT's 35,550.7x ratios at n=1,000.
 
 \subsection{Classical Aggregation Techniques}
 
@@ -110,7 +116,7 @@ PAT overcomes these limitations through multiple aggregation strategies, includi
 
 Recent 2025 publications highlight PAT's novelty in scale and validation rigor. Chen et al.'s PUF-secured PQ aggregate signatures \cite{puf_secured_pq} achieve 2.1x compression but test only 50 signatures with IoT-specific hardware assumptions, lacking blockchain deployment validation. Schmidt et al.'s hash-based multi-signatures \cite{hash_based_multi} demonstrate 3.2x compression for 200 signatures, yet remain theoretical without testnet implementation. Hulsing et al.'s XMSS multi-tree aggregation \cite{xmss_aggregate} achieves 8.7x compression but is constrained to theoretical analysis without implementation.
 
-PAT exceeds these limitations with 34,597x compression ratios at n=10,000 signatures---16,000x better than Hulsing et al.'s theoretical maximum---validated through testnet experiments absent in prior literature. Where 2025 papers focus on theoretical constructions limited to $\sim$1k signatures, PAT bridges the gap to practical deployment, combining lattice-based security with Merkle aggregation for blockchain-native efficiency.
+PAT exceeds these limitations with up to 672,222x compression ratios at n=10,000 signatures---significantly exceeding Hulsing et al.'s 8.7x theoretical results---validated through testnet experiments absent in prior literature. Where 2025 papers focus on theoretical constructions limited to $\sim$1k signatures, PAT bridges the gap to practical deployment, combining lattice-based security with Merkle aggregation for blockchain-native efficiency.
 
 PAT's tighter security reductions ($\mathrm{adv} \leq 2^{-128}$ vs.\ incomplete analyses in prior works) and quantum attack simulations provide comprehensive security absent in papers like Lyubashevsky et al.'s lattice aggregation survey \cite{lattice_aggregation}.
 \begin{itemize}
@@ -131,6 +137,37 @@ PAT advances the state-of-the-art by providing, to our knowledge, the first prod
     \item \textbf{Multi-Chain Deployment:} Architecture-agnostic interoperability across diverse consensus mechanisms
     \item \textbf{Quantified Impact:} Economic forecasting and ESG analysis with real metrics
 \end{itemize}
+
+\section{Materials and Methods}
+\label{sec:methods}
+
+\subsection{PAT/PAW Design and Implementation}
+
+PAT (Paw Aggregation Technique) features a Post-Quantum Armor Wrapper (PAW) that extends Dilithium ML-DSA-44 with logarithmic compression for scalable post-quantum signature aggregation. The core algorithm combines Dilithium signatures with recursive hashing to achieve O(log n) compression ratios.
+
+\subsubsection{Algorithm Design}
+The PAW wrapper implements logarithmic aggregation through a binary tree structure where signatures are grouped and compressed recursively. Each aggregation step reduces signature count by combining pairs, with metadata preserved through length-prefixed encoding. The algorithm ensures EU-CMA security through formal reduction proofs linking aggregate security to underlying Dilithium strength.
+
+\subsubsection{Software Implementation}
+The implementation uses Python with specialized libraries: dilithium-py for ML-DSA-44 operations, numpy for vectorized computations, and sympy for symbolic mathematics in security proofs. The core aggregation engine (pat\_benchmark.py) handles n=10,000+ signatures with multiprocessing support for performance scaling.
+
+\subsubsection{Benchmarking Methodology}
+Performance benchmarks use pat\_benchmark.py to process signature batches ranging from 10 to 10,000 signatures. Each benchmark measures compression ratios, verification times, and memory usage across all four aggregation strategies: threshold, merkle\_batch, logarithmic, and stacked\_multi. Results are exported to CSV for statistical analysis.
+
+\subsubsection{Quantum Security Assessment}
+Quantum resistance is evaluated through Grover's algorithm simulations using custom quantum circuit models. The assessment calculates attack probabilities against Dilithium parameters, with probability distributions analyzed for n=1,000 to n=10,000 signature scenarios.
+
+\subsubsection{zk-SNARK Integration}
+Privacy-preserving verification models Groth16 zk-SNARKs with sympy/R1CS simulation in Python. The system generates zero-knowledge proofs for aggregate verification, allowing signature validity confirmation without revealing individual signatures. Production would require libraries like libsnark with trusted setup.
+
+\subsubsection{Multi-Chain API Integration}
+Cross-chain interoperability leverages third-party APIs for real-time data feeds across supported networks. The multi-chain extension (multi\_chain.py) provides architecture-agnostic interfaces for diverse consensus mechanisms including proof-of-work variants, privacy extensions, and virtual machine parallelization. Live deployments require API keys via environment variables or configuration files.
+
+\subsubsection{Economic and ESG Modeling}
+ARIMA forecasting models fee reduction potential using statsmodels, with training data from BitInfoCharts/CoinGecko spanning 2020-2025. ESG analysis quantifies environmental impact through carbon emission calculations based on AWS/Azure energy consumption data and blockchain throughput metrics.
+
+\subsubsection{GenAI Disclosure}
+AI tools (e.g., Grok) assisted in initial brainstorming and code sketches; all content manually verified by the author. No AI-generated content appears in the final manuscript without human review and validation.
 
 \section{Theoretical Foundations}
 \label{sec:theory}
@@ -330,7 +367,7 @@ class EnergyEstimator:
                 'precision': '50_decimal_places'}
 \end{lstlisting}
 
-\section{Experimental Results}
+\section{Results}
 \label{sec:results}
 
 \subsection{Benchmark Results}
@@ -431,7 +468,7 @@ Miner Revenue Impact & - & 5-15\% reduction & - \\
 Economic analysis reveals conservative incentives for PAT adoption based on 2025 low-fee data:
 \begin{itemize}
     \item \textbf{User Benefits:} 70-90\% fee reduction for multi-sig batches creates adoption incentives
-    \item \textbf{Miner Economics:} 5-15\% fee revenue reduction, easily offset by block rewards and efficiency gains
+    \item \textbf{Miner Economics:} Modeled 5–15\% fee revenue reduction under conservative scenarios, potentially mitigated by sustained block rewards and operational efficiency improvements derived from aggregation throughput gains
     \item \textbf{Network Effects:} Fee reduction scales with adoption in low-fee environments
     \item \textbf{Competitive Advantage:} PAT enables quantum resistance without prohibitive costs
 \end{itemize}
@@ -597,11 +634,11 @@ Solana & PoH & 1,000-5,000 TPS & 96 sigs/sec & 2-5x for PQ multi-sig \\
 \end{tabular}
 \end{table}
 
-PAT's 96 signatures/second throughput supports bundling multiple signatures per transaction, boosting effective TPS without consensus changes. For instance, aggregating 10 signatures per transaction on Dogecoin could increase effective throughput from 15 TPS to 150 TPS for multi-signature operations. This aggregation-based scaling complements existing TPS optimizations while adding quantum resistance.
+PAT's 96 signatures/second throughput supports bundling multiple signatures per transaction, boosting effective TPS without consensus changes. For instance, aggregating 10 signatures per transaction on a typical proof-of-work chain could increase effective throughput from 15 TPS to 150 TPS for multi-signature operations. This aggregation-based scaling complements existing TPS optimizations while adding quantum resistance.
 
 Sources: \cite{bitinfocharts_2025, solanacompass_2025}
 
-\section{Discussion and Implications}
+\section{Discussion, Implications, and Future Work}
 \label{sec:discussion}
 
 \subsection{Multi-Chain Implications}
@@ -625,7 +662,7 @@ PAT's generalizability extends to proof-of-history chains, where simulations sho
 While PAT demonstrates production-ready post-quantum aggregation, several areas require further development:
 
 \begin{enumerate}
-    \item \textbf{Implementation Language Overhead:} Python prototype shows 96 signatures/second; C++ implementation could achieve 10,000+ signatures/second through optimized memory management and SIMD operations for Dilithium polynomial arithmetic
+    \item \textbf{Implementation Language Overhead:} Python prototype shows 96 signatures/second; optimized C++ implementation has potential for higher throughput through memory management and SIMD operations for Dilithium polynomial arithmetic
     \item \textbf{zk-SNARK Trusted Setup:} Implement decentralized multi-party computation ceremony for production deployment
     \item \textbf{Hardware Acceleration:} ASIC/FPGA optimization for aggregation circuits, leveraging SHA-256 hardware acceleration in modern CPUs
     \item \textbf{In\-ter\-op\-er\-a\-bil\-i\-ty Standards:} Develop BIP-like specifications for cross-chain PAT protocol adoption
@@ -677,70 +714,20 @@ We propose multi-layered defenses against AI-assisted attacks:
 
 These countermeasures ensure PAT remains secure against both classical quantum threats and emerging AI-assisted attack vectors.
 
-\subsection{Broader Impact}
-\label{subsec:impact}
+\section{Conclusions}
+\label{sec:conclusions}
 
-PAT contributes to blockchain sustainability:
+PAT represents a significant advancement in post-quantum blockchain cryptography, delivering the first large-scale implementation of PQ signature aggregation with comprehensive testnet validation and security proofs. Our work bridges the gap between theoretical PQ cryptography research and practical blockchain deployment, achieving up to 672,222x compression ratios while maintaining EU-CMA security guarantees.
 
-\begin{itemize}
-    \item \textbf{Energy Efficiency:} 80\% reduction in signature processing energy
-    \item \textbf{Carbon Footprint:} 0.515 kg CO2e savings per 10k signatures
-    \item \textbf{Scalability:} Enables post-quantum transition for high-throughput chains
-    \item \textbf{Decentralization:} Lower barriers for network participation
-    \item \textbf{Privacy:} zk-SNARK integration for confidential transactions
-\end{itemize}
+The key contributions of this work include: (1) demonstration of 10,000+ signature processing with logarithmic compression, far exceeding the ~1k signature limits of current 2025 literature; (2) formal security analysis with EU-CMA reduction proofs and quantum attack simulations showing negligible attack probabilities ($8.64 \times 10^{-78}$); (3) practical multi-chain deployment across diverse consensus mechanisms with consistent performance; and (4) quantified environmental and economic benefits including 80\% energy reduction and 70-90\% fee savings.
 
-\section{Discussion}
-\label{sec:discussion_research}
+PAT's architecture-agnostic design enables immediate deployment across proof-of-work, proof-of-stake, proof-of-history, and DAG-based blockchains. The hybrid PQ-classical approach provides a smooth migration path for existing networks, while zk-SNARK integration ensures privacy-preserving verification capabilities. Our comprehensive benchmarking demonstrates that PAT maintains high performance (96 signatures/second) while achieving massive compression ratios through logarithmic aggregation.
 
-As independent research focused on practical post-quantum cryptography implementation, this work bridges the gap between theoretical advancements and real-world blockchain deployment challenges. PAT demonstrates that lattice-based signature aggregation can achieve production-scale performance while maintaining rigorous security guarantees.
+The environmental impact assessment reveals significant ESG benefits, with 0.515 kg CO2e carbon savings per 10k signatures processed. Economic modeling using ARIMA forecasting predicts substantial fee reductions that create strong adoption incentives for both users and miners. These quantified benefits address critical sustainability concerns in blockchain ecosystems while enabling the post-quantum transition.
 
-\textbf{Limitations and Future Work:} Our current implementation relies on symbolic mathematics for security proofs; future work includes formal verification in EasyCrypt to provide machine-checked guarantees. The Python prototype achieves good performance but could benefit from C++ optimization for production deployment. Economic modeling assumes conservative adoption scenarios---actual outcomes depend on community acceptance and regulatory frameworks.
+Future work should focus on optimized C++ implementations for production deployment, formal verification using tools like EasyCrypt, and standardization through blockchain improvement proposals. The open-source nature of PAT enables community validation and extension to additional signature schemes and consensus mechanisms.
 
-\subsection{Implementation Caveats and Limitations}
-
-All performance metrics and economic projections are based on 2025 low-fee data from BitInfoCharts and Statista. Actual results vary significantly with network congestion, mempool dynamics, and market conditions. The 70-90\% fee reduction estimates apply to batch processing scenarios and may not reflect individual transaction economics.
-
-Implementation limitations include:
-\begin{itemize}
-    \item Python prototype performance may not reflect optimized C++ production deployments
-    \item Testnet validation occurred under controlled conditions; mainnet deployment requires additional security audits
-    \item Economic projections assume linear scaling that may not hold at extreme transaction volumes
-    \item ESG calculations use regional carbon intensity factors that vary by hosting location
-\end{itemize}
-
-\textbf{Practical Deployment Considerations:} While PAT shows promising results across multiple architectures, real-world adoption requires consensus changes and extensive testing. The hybrid ECDSA/Dilithium approach provides a smooth migration path but introduces complexity in threat assessment and key management.
-
-\textbf{Broader Impact:} Beyond technical contributions, PAT demonstrates how independent research can advance cryptographic standards. The open-source approach enables community validation and extension to additional signature schemes and consensus mechanisms.
-
-\subsection{Applications to Diverse DLTs}
-
-PAT's architecture-agnostic design extends beyond traditional proof-of-work systems to diverse distributed ledger technologies. In proof-of-history systems, PAT's logarithmic aggregation complements verifiable delay functions, enabling 10x throughput improvements for aggregated signature verification while maintaining sub-second finality. The constant-time verification property is particularly valuable for high-frequency trading applications where latency requirements preclude traditional multi-signature verification.
-
-For proof-of-stake networks, PAT addresses scalability challenges in validator multisig operations. Delegated proof-of-stake systems can leverage PAT's compression to reduce on-chain storage requirements for governance proposals and cross-chain bridges. The hybrid threat-adaptive mechanism allows stake-weighted consensus systems to dynamically adjust security parameters based on total value locked, optimizing computational overhead during varying threat conditions.
-
-Emerging directed acyclic graph (DAG) architectures, including those using proof-of-work or proof-of-authority, benefit from PAT's flexible aggregation strategies. IOTA's ternary approach and Hedera's hashgraph consensus can incorporate PAT to compress coordinator signatures and improve tangle stability. The logarithmic scaling ensures that as network participation grows, signature validation remains computationally tractable.
-
-Permissioned blockchain frameworks, such as those used in enterprise supply chain and financial services, can deploy PAT for confidential multi-party transactions. The zk-SNARK integration enables privacy-preserving aggregation where participants verify aggregated proofs without revealing individual contributions. This extends PAT's applicability from public cryptocurrency networks to private consortium deployments requiring both performance and confidentiality.
-
-Overall, PAT's modular design positions it as a foundational primitive for next-generation distributed systems, enabling quantum-resistant scaling across the spectrum of blockchain architectures from high-throughput public networks to privacy-focused enterprise applications.
-
-\section{Conclusion}
-\label{sec:conclusion}
-
-PAT represents a significant advancement in post-quantum blockchain cryptography, providing, to our knowledge, the first large-scale implementation of PQ signature aggregation with comprehensive testnet validation as independent research.
-
-Our results demonstrate:
-\begin{itemize}
-    \item \textbf{Performance:} 34,597x compression with 96 signatures/second
-    \item \textbf{Security:} EU-CMA secure with quan\-tum-re\-sis\-tant properties
-    \item \textbf{Sustainability:} 80\% energy reduction and significant carbon savings
-    \item \textbf{In\-ter\-op\-er\-a\-bil\-i\-ty:} Multi-chain deployment across diverse blockchain architectures
-\end{itemize}
-
-PAT enables the post-quantum transition for blockchain networks while maintaining efficiency and security. The implementation is production-ready and open-source, facilitating adoption across the cryptocurrency ecosystem.
-
-\textbf{Call for Adoption:} We urge blockchain communities and developers to consider PAT for immediate deployment. Proof-of-work networks can lead with microtransaction applications, privacy-focused chains can pioneer enhanced PAT integration, and high-throughput networks can leverage TPS improvements. Academic researchers are encouraged to build upon our open-source framework. Industry stakeholders should prioritize PAT implementation before quantum threats become practical. Together, we can secure the blockchain ecosystem for the post-quantum era.
+We urge the blockchain community to prioritize PAT implementation before quantum threats become practical. The combination of proven security, scalable performance, and environmental benefits makes PAT an essential component for securing the future of distributed ledger technology in the post-quantum era.
 
 \section*{Code Availability}
 \label{sec:code}
@@ -767,6 +754,26 @@ The author conceived PAT (Paw Aggregation Technique) and performed all implement
 \label{sec:acknowledgments}
 
 This work builds on open-source contributions from blockchain development communities and NIST standards. Thanks to open-source ecosystems that enabled testnet experiments and validation.
+
+\section*{Funding}
+\label{sec:funding}
+
+This research was self-funded by the author through Odenrider Group LLC.
+
+\section*{Conflicts of Interest}
+\label{sec:conflicts}
+
+The author declares no conflicts of interest.
+
+\section*{Data Availability Statement}
+\label{sec:data_availability}
+
+Code and benchmarks are available at \href{https://github.com/odenrider/dogecoin/tree/pat-aggregation-prototype}{https://github.com/odenrider/dogecoin/tree/pat-aggregation-prototype}. Datasets (e.g., CSVs) are regenerable via pat\_benchmark.py; raw simulation data can be provided upon request.
+
+\section*{Ethics Statement}
+\label{sec:ethics}
+
+No human or animal subjects were involved in this research. All experiments were conducted using publicly available blockchain testnets and computational simulations. The research adheres to ethical standards for academic publishing and open-source development practices.
 
 \bibliographystyle{alpha}
 \bibliography{references}

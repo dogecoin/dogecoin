@@ -37,12 +37,35 @@
             max-width: 280px;
             width: 280px;
             backdrop-filter: blur(10px);
+            max-height: calc(100vh - 40px);
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #64b5f6 rgba(0, 0, 0, 0.3);
+        }
+
+        #ui-overlay::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #ui-overlay::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 3px;
+        }
+
+        #ui-overlay::-webkit-scrollbar-thumb {
+            background: #64b5f6;
+            border-radius: 3px;
         }
 
         #ui-overlay h2 {
             margin: 0 0 15px 0;
             color: #64b5f6;
             font-size: 18px;
+            position: sticky;
+            top: 0;
+            background: rgba(20, 20, 30, 0.95);
+            padding-bottom: 5px;
+            z-index: 1;
         }
 
         .control-group {
@@ -69,6 +92,7 @@
             border-radius: 3px;
             outline: none;
             -webkit-appearance: none;
+            appearance: none;
         }
 
         .slider::-webkit-slider-thumb {
@@ -135,13 +159,16 @@
         #metrics-overlay {
             position: absolute;
             bottom: 20px;
-            left: 20px;
+            right: 20px;
             background: rgba(20, 20, 30, 0.9);
             border: 1px solid #4a4a6a;
             border-radius: 8px;
             padding: 15px;
-            min-width: 300px;
+            width: 320px;
             backdrop-filter: blur(10px);
+            max-height: 400px;
+            display: flex;
+            flex-direction: column;
         }
 
         #metrics-overlay h3 {
@@ -172,6 +199,7 @@
             font-size: 14px;
             max-width: 250px;
             z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
         }
 
         #status {
@@ -211,6 +239,129 @@
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+
+        /* Browser compatibility fallback for backdrop-filter */
+        @supports not (backdrop-filter: blur(10px)) {
+            #ui-overlay,
+            #metrics-overlay,
+            #status {
+                background: rgba(20, 20, 30, 0.95);
+            }
+        }
+
+        /* WebGL error message */
+        #webgl-error {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(200, 0, 0, 0.9);
+            border: 2px solid #ff0000;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            z-index: 3000;
+            display: none;
+        }
+
+        /* Additional hover effects */
+        button:focus {
+            outline: 2px solid #64b5f6;
+            outline-offset: 2px;
+        }
+
+        select:focus {
+            outline: 2px solid #64b5f6;
+            outline-offset: 2px;
+        }
+
+        /* Performance stats integration */
+        #performance-stats {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+        }
+
+        .stat-box {
+            flex: 1;
+            text-align: center;
+            padding: 5px;
+            background: rgba(100, 181, 246, 0.1);
+            border: 1px solid #64b5f6;
+            border-radius: 3px;
+        }
+
+        .stat-label {
+            font-size: 10px;
+            color: #888;
+            text-transform: uppercase;
+        }
+
+        .stat-value {
+            font-size: 16px;
+            font-weight: bold;
+            color: #64b5f6;
+        }
+
+        #educational-info {
+            overflow-y: auto;
+            max-height: 150px;
+            scrollbar-width: thin;
+            scrollbar-color: #64b5f6 rgba(0, 0, 0, 0.3);
+        }
+
+        #educational-info::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #educational-info::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 3px;
+        }
+
+        #educational-info::-webkit-scrollbar-thumb {
+            background: #64b5f6;
+            border-radius: 3px;
+        }
+
+        /* Compact mode for smaller screens */
+        @media (max-height: 800px) {
+            #metrics-overlay {
+                max-height: 300px;
+            }
+            
+            #educational-info {
+                max-height: 100px;
+            }
+            
+            #ui-overlay {
+                max-height: calc(100vh - 350px);
+            }
+        }
+        
+        /* Ultra-compact for very small screens */
+        @media (max-height: 600px) {
+            #metrics-overlay {
+                bottom: 10px;
+                right: 10px;
+                padding: 10px;
+                max-height: 250px;
+            }
+            
+            #ui-overlay {
+                top: 10px;
+                left: 10px;
+                padding: 10px;
+                max-height: calc(100vh - 280px);
+            }
+            
+            .stat-value {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
@@ -268,21 +419,45 @@
                 <button id="demo-btn" style="white-space: normal; word-wrap: break-word; margin-left: 10px;" aria-label="Run enhanced demo with particle bursts and animations at n=1000">🚀 Run Demo<br>(n=1000)</button>
             </div>
 
-            <div style="margin-top: 15px; font-size: 12px; color: #888;">
-                🖱️ Mouse: Move cursor for 3D exploration | Scroll to zoom<br>
-                ⌨️ Keyboard: T=threat, S=strategy, C=chain, A=attacks, R=merge anim, Q=quantum view, D=demo, SPACE=reset view
-            </div>
+            <details style="margin-top: 15px;">
+                <summary style="font-size: 12px; color: #888; cursor: pointer;">🎮 Controls</summary>
+                <div style="margin-top: 5px; font-size: 11px; color: #888; line-height: 1.5;">
+                    🖱️ <b>Mouse:</b> Move for 3D view | Scroll to zoom<br>
+                    ⌨️ <b>Keys:</b><br>
+                    • T=Threat • S=Strategy • C=Chain<br>
+                    • A=Attacks • R=Merge • Q=Quantum<br>
+                    • D=Demo • SPACE=Reset • ESC=Stop
+                </div>
+            </details>
         </div>
 
         <!-- Metrics Display -->
         <div id="metrics-overlay">
             <h3>📊 Real Performance Data</h3>
+            
+            <!-- Live Performance Stats -->
+            <div id="performance-stats">
+                <div class="stat-box">
+                    <div class="stat-label">FPS</div>
+                    <div class="stat-value" id="fps-value">60</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Frame Time</div>
+                    <div class="stat-value" id="ms-value">16ms</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Memory</div>
+                    <div class="stat-value" id="mem-value">0MB</div>
+                </div>
+            </div>
+            
+            <!-- Benchmark Metrics -->
             <div id="metrics-content">
                 <div class="metric-item">Loading benchmark data...</div>
             </div>
 
-            <!-- Educational Info -->
-            <div style="margin-top: 15px; border-top: 1px solid #4a4a6a; padding-top: 10px; font-size: 12px; line-height: 1.4;">
+            <!-- Educational Info (Scrollable) -->
+            <div id="educational-info" style="margin-top: 15px; border-top: 1px solid #4a4a6a; padding-top: 10px; font-size: 12px; line-height: 1.4;">
                 <div style="font-weight: bold; margin-bottom: 8px;">📚 Educational Guide:</div>
                 <div>• <strong>PAW Technology:</strong> Post-Quantum Armor Wrapper enables quantum-safe bundling</div>
                 <div>• <strong>3D Visualization:</strong> Signatures as nodes merging via PAW-armored blue lines</div>
@@ -307,13 +482,74 @@
             <div class="spinner"></div>
             <div>Loading PAT with PAW Visual Simulator...</div>
         </div>
+
+        <!-- WebGL Error Message -->
+        <div id="webgl-error" style="display: none;">
+            <h2>WebGL Not Supported</h2>
+            <p>Your browser doesn't support WebGL, which is required for this 3D visualization.</p>
+            <p>Please use a modern browser like Chrome, Firefox, Safari, or Edge.</p>
+        </div>
     </div>
 
+    <!-- CDN Dependencies with Error Handling -->
+    <script>
+        // Track loading status
+        window.dependencyStatus = {
+            three: false,
+            orbitControls: false,
+            gsap: false,
+            stats: false
+        };
+
+        // Error handler for CDN failures
+        function handleCDNError(dependency) {
+            console.error(`Failed to load ${dependency}. Attempting fallback...`);
+            
+            // Show error message but allow degraded functionality
+            const loadingDiv = document.getElementById('loading');
+            if (loadingDiv) {
+                loadingDiv.innerHTML += `<div style="color: #ff6b6b; margin-top: 10px;">Warning: ${dependency} failed to load. Some features may be limited.</div>`;
+            }
+        }
+
+        // Check WebGL support
+        function checkWebGLSupport() {
+            try {
+                const canvas = document.createElement('canvas');
+                const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+                return !!gl;
+            } catch (e) {
+                return false;
+            }
+        }
+
+        if (!checkWebGLSupport()) {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('webgl-error').style.display = 'block';
+        }
+    </script>
+
     <!-- Three.js CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://mrdoob.github.io/stats.js/build/stats.min.js"></script>
+    <script 
+        src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"
+        onload="window.dependencyStatus.three = true;"
+        onerror="handleCDNError('Three.js')">
+    </script>
+    <script 
+        src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"
+        onload="window.dependencyStatus.orbitControls = true;"
+        onerror="handleCDNError('OrbitControls')">
+    </script>
+    <script 
+        src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"
+        onload="window.dependencyStatus.gsap = true;"
+        onerror="handleCDNError('GSAP')">
+    </script>
+    <script 
+        src="https://mrdoob.github.io/stats.js/build/stats.min.js"
+        onload="window.dependencyStatus.stats = true;"
+        onerror="handleCDNError('Stats.js')">
+    </script>
 
     <!-- PAT Simulator JavaScript -->
     <script src="pat_sim.js"></script>
