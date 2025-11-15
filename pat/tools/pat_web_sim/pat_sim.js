@@ -4,6 +4,10 @@
 
 class PATWebSimulator {
     constructor() {
+        this.fps = 0;
+        this.lastTime = performance.now();
+        this.frameCount = 0;
+        this.prevFrameTime = performance.now();
         this.scene = null;
         this.camera = null;
         this.renderer = null;
@@ -27,6 +31,13 @@ class PATWebSimulator {
         this.isAnimating = true;
         this.demoMode = false;
 
+        // Quantum visualization properties
+        this.qubitCount = 12;          // fixed visible qubits
+        this.groverIterations = 4;     // number of animated iterations
+        this.blochSpheres = [];
+        this.qubitLabels = [];
+        this.amplitudes = [];          // complex amplitudes for each state (only track target for visuals)
+
         // Data
         this.benchmarkData = {};
 
@@ -38,7 +49,11 @@ class PATWebSimulator {
             attack: 0xff0000,      // Red for attacks
             threatLow: 0x00ff80,   // Green tint for LOW
             threatMedium: 0xffff80, // Yellow tint for MEDIUM
-            threatHigh: 0xff8080   // Red tint for HIGH
+            threatHigh: 0xff8080,  // Red tint for HIGH
+            // Connection colors based on threat level
+            connectionLow: 0x00ff00,    // Green connections for low threat
+            connectionMedium: 0xffaa00, // Orange connections for medium threat
+            connectionHigh: 0xff0000    // Red connections for high threat
         };
 
         this.init();
@@ -46,21 +61,41 @@ class PATWebSimulator {
 
     init() {
         try {
+            console.log('PAT Simulator: Starting initialization...');
+            
             // Check for required dependencies
             if (!window.THREE) {
+                console.error('Three.js not found!');
                 throw new Error('Three.js not loaded');
             }
+            console.log('✓ Three.js loaded');
 
             this.parseURLParams();
+            console.log('✓ URL params parsed');
+            
             this.setupScene();
+            console.log('✓ Scene setup complete, renderer size:', this.renderer.domElement.width, 'x', this.renderer.domElement.height);
+            
             this.setupControls();
+            console.log('✓ Controls setup complete');
+            
             this.loadBenchmarkData();
+            console.log('✓ Benchmark data loading...');
+            
             this.createInitialVisualization();
+            console.log('✓ Initial visualization created, nodes:', this.nodes.length);
+            
             this.setupEventListeners();
+            console.log('✓ Event listeners setup');
+            
             this.animate();
+            console.log('✓ Animation loop started');
+            
             this.hideLoading();
+            console.log('✓ PAT Simulator fully initialized!');
         } catch (error) {
             console.error('Initialization error:', error);
+            console.error('Stack trace:', error.stack);
             document.getElementById('loading').innerHTML = '<div style="color: #ff0000;">Error: ' + error.message + '</div>';
         }
     }
@@ -137,43 +172,38 @@ class PATWebSimulator {
     }
 
     setupControls() {
-        // Set up OrbitControls for zoom and active control
-        if (window.THREE && window.THREE.OrbitControls) {
-            this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
+        // FIXED: Correct OrbitControls loading for three.js r128 + separate OrbitControls.js
+        if (typeof OrbitControls !== 'undefined') {
+            this.controls = new OrbitControls(this.camera, this.renderer.domElement);
             this.controls.enableDamping = true;
             this.controls.dampingFactor = 0.05;
             this.controls.enableZoom = true;
-            this.controls.enableRotate = false; // Disable auto-rotate for manual control
+            this.controls.enableRotate = false;
             this.controls.enablePan = true;
             this.controls.minDistance = 100;
             this.controls.maxDistance = 1000;
+            this.controls.autoRotate = false;
         } else {
-            console.warn('OrbitControls not available, using fallback controls');
-            // Create minimal fallback controls
-            this.controls = {
-                update: () => {},
-                reset: () => {}
-            };
+            console.error('OrbitControls is missing! Check CDN order.');
+            this.controls = { update: () => {}, reset: () => {} };
         }
 
-        // Custom mouse following for passive 3D exploration
+        // Passive mouse parallax (camera follow)
         this.mouseX = 0;
         this.mouseY = 0;
         this.targetX = 0;
         this.targetY = 0;
 
-        // Mouse event listeners for passive following
         document.addEventListener('mousemove', (event) => {
             this.mouseX = (event.clientX - window.innerWidth / 2) * 0.002;
             this.mouseY = (event.clientY - window.innerHeight / 2) * 0.002;
-            
-            // Raycasting for hover tooltips in quantum view
+
             if (this.quantumView && this.camera && this.scene) {
                 this.checkQuantumHover(event);
             }
         });
-        
-        // Raycaster for hover detection
+
+        // Raycaster setup (required for tooltips)
         this.raycaster = new THREE.Raycaster();
         this.mouse = new THREE.Vector2();
 
@@ -444,11 +474,15 @@ class PATWebSimulator {
         this.frameTime = 0;
         this.fps = 60;
         this.lastTime = performance.now();
-        this.frames = 0;
-        this.fpsUpdateTime = 0;
     }
 
     clearScene() {
+        // Kill any running Grover timeline to prevent orphaned animations
+        if (this.groverTimeline) {
+            this.groverTimeline.kill();
+            this.groverTimeline = null;
+        }
+        
         // Remove all nodes and connections
         this.nodes.forEach(node => {
             // Clean up chain-specific objects
@@ -468,44 +502,665 @@ class PATWebSimulator {
         });
         this.particles.forEach(particle => this.scene.remove(particle));
         
-        // Remove any arrow helpers (Bloch vectors)
+        // Remove Bloch spheres specifically
+        this.blochSpheres.forEach(sphere => {
+            if (sphere && sphere.parent) {
+                this.scene.remove(sphere);
+            }
+        });
+        
+        // Remove all children from scene to catch sprites, text labels, etc.
         const toRemove = [];
         this.scene.traverse((child) => {
-            if (child.type === 'ArrowHelper') {
+            if (child !== this.scene && child.type !== 'AmbientLight' && child.type !== 'DirectionalLight') {
                 toRemove.push(child);
             }
         });
-        toRemove.forEach(child => this.scene.remove(child));
+        toRemove.forEach(child => {
+            if (child.parent) {
+                child.parent.remove(child);
+            }
+        });
+        
+        // Remove threat indicators specifically
+        this.scene.traverse((child) => {
+            if (child.userData && child.userData.threatIndicator) {
+                child.parent?.remove(child);
+            }
+        });
+        
+        // Remove blockchain indicators
+        this.scene.traverse((child) => {
+            if (child.userData && child.userData.blockchainIndicator) {
+                child.parent?.remove(child);
+            }
+        });
 
+        // Clear all arrays
         this.nodes = [];
         this.connections = [];
         this.particles = [];
-        this.nodePositions = []; // Clear node positions too
-        this.entangledPairs = []; // Clear entangled pairs
+        this.nodePositions = [];
+        this.entangledPairs = [];
+        this.blochSpheres = [];
+        this.qubitLabels = [];
+        this.amplitudes = [];
+        
+        // Reset camera to default position
+        this.camera.position.set(0, 0, 500);
+        this.camera.lookAt(0, 0, 0);
     }
 
     createTreeVisualization() {
-        const maxNodes = Math.min(this.numSignatures, 1000); // Limit for performance
+        this.clearScene();
 
-        // Store node positions for connection creation
+        // ────── ALWAYS USE SMALL CANONICAL TREE FOR CLARITY ──────
+        const DISPLAY_N = Math.min(64, this.numSignatures);        // never >64 on screen
+        const REAL_N    = this.numSignatures;                     // the real number we are claiming
+
+        // Choose tree depth so that leaf count ≈ DISPLAY_N
+        const depth = Math.ceil(Math.log2(DISPLAY_N));
+        const leafCount = Math.pow(2, depth);                      // perfect binary tree
+
         this.nodePositions = [];
+        this.nodes = [];
+        this.connections = [];
 
-        // Force-directed positioning for better hive_echo layout
-        this.calculateNodePositions(maxNodes);
+        // Layout: perfect layered Merkle tree (Y = level)
+        const verticalSpacing   = 90;
+        const horizontalSpread  = 800 / Math.pow(2, depth-1);
 
-        // Use InstancedMesh for better performance with large node counts
-        if (maxNodes > 200) {
-            this.createInstancedNodes(maxNodes);
-        } else {
-            // Create individual nodes for smaller counts
-            for (let i = 0; i < maxNodes; i++) {
-                const pos = this.nodePositions[i];
-                this.createNode(pos.x, pos.y, pos.z, i);
+        // Create nodes bottom-up (leaves first)
+        const nodeIndexToPath = {};  // for later highlighting
+
+        for (let level = depth; level >= 0; level--) {
+            const nodesInLevel = Math.pow(2, depth - level);
+            const y = -level * verticalSpacing + 200;
+
+            for (let i = 0; i < nodesInLevel; i++) {
+                const x = (i - (nodesInLevel - 1) / 2) * horizontalSpread * Math.pow(0.9, level);
+
+                const pos = new THREE.Vector3(x, y, 0);
+                this.nodePositions.push(pos);
+
+                const isLeaf = (level === depth);
+                
+                // Blockchain-specific geometries
+                let geometry;
+                switch(this.selectedChain) {
+                    case 'DOGECOIN':
+                        // Dogecoin: Fun, approachable shapes - dodecahedron for leaves, icosahedron for internal
+                        geometry = isLeaf ? 
+                            new THREE.DodecahedronGeometry(6, 0) : 
+                            new THREE.IcosahedronGeometry(7, 0);
+                        break;
+                    case 'LITECOIN':
+                        // Litecoin: Solid, reliable shapes - box for leaves, octahedron for internal
+                        geometry = isLeaf ? 
+                            new THREE.BoxGeometry(8, 8, 8) : 
+                            new THREE.OctahedronGeometry(7, 0);
+                        break;
+                    case 'SOLANA':
+                        // Solana: Fast, modern shapes - cylinder for leaves, cone for internal
+                        geometry = isLeaf ? 
+                            new THREE.CylinderGeometry(4, 6, 8, 6) : 
+                            new THREE.ConeGeometry(6, 10, 8);
+                        break;
+                    default:
+                        geometry = isLeaf ? 
+                            new THREE.TetrahedronGeometry(6, 0) : 
+                            new THREE.OctahedronGeometry(7, 0);
+                }
+
+                // Combined blockchain and threat-level colors
+                let nodeColor, emissiveColor;
+                const baseColors = this.getBlockchainColors();
+                
+                // Modify base colors based on threat level
+                switch(this.threatLevel) {
+                    case 'LOW':
+                        // Green tint
+                        nodeColor = isLeaf ? baseColors.leafColor : baseColors.internalColor;
+                        emissiveColor = baseColors.emissive;
+                        break;
+                    case 'MEDIUM':
+                        // Orange tint
+                        nodeColor = isLeaf ? 0xffaa44 : 0xff8822;
+                        emissiveColor = isLeaf ? 0x442200 : 0x331100;
+                        break;
+                    case 'HIGH':
+                        // Red tint
+                        nodeColor = isLeaf ? 0xff4444 : 0xff2222;
+                        emissiveColor = isLeaf ? 0x440000 : 0x220000;
+                        break;
+                    default:
+                        nodeColor = isLeaf ? baseColors.leafColor : baseColors.internalColor;
+                        emissiveColor = baseColors.emissive;
+                }
+
+                const material = new THREE.MeshStandardMaterial({
+                    color: nodeColor,
+                    emissive: emissiveColor,
+                    emissiveIntensity: 0.6,
+                    metalness: baseColors.metalness || 0.8,
+                    roughness: baseColors.roughness || 0.2
+                });
+
+                const node = new THREE.Mesh(geometry, material);
+                node.position.copy(pos);
+                node.userData = {
+                    level,
+                    indexInLevel: i,
+                    isLeaf,
+                    pathString: isLeaf ? this.getPathString(depth, i) : null,
+                    realSignatures: isLeaf ? Math.floor(REAL_N / leafCount) : 0
+                };
+
+                // Store reverse lookup
+                nodeIndexToPath[this.nodes.length] = node.userData.pathString;
+
+                this.scene.add(node);
+                this.nodes.push(node);
+
+                // Label leaves with number of real signatures they represent
+                if (isLeaf && REAL_N > leafCount) {
+                    this.addTextLabel(
+                        node.position.clone().add(new THREE.Vector3(0, -15, 0)),
+                        `${Math.floor(REAL_N/leafCount)} sigs`,
+                        0x00ff88
+                    );
+                }
             }
         }
 
-        // Create connections based on strategy
-        this.createConnections();
+        // Create perfect tree connections
+        this.createPerfectTreeConnections(depth);
+
+        // Add root label showing final compressed size
+        const rootPos = this.nodes[this.nodes.length - 1].position.clone().add(new THREE.Vector3(0, 30, 0));
+        const compressedBytes = Math.max(64, Math.ceil(Math.log2(REAL_N)) * 8); // rough
+        this.addTextLabel(rootPos, `Final PAW aggregate ≈ ${compressedBytes} bytes`, 0x00ffffff);
+
+        // Add top banner with real scale
+        this.addTextLabel(
+            new THREE.Vector3(0, 350, 0),
+            `Visualising canonical tree (n=${leafCount})\nRepresenting real ${REAL_N.toLocaleString()} signatures\nCompression = ${(REAL_N * 2420 / compressedBytes).toFixed(0)}×`,
+            0xffffff,
+            28
+        );
+
+        // Add threat level indicator
+        this.addThreatLevelIndicator();
+        
+        // Add blockchain-specific visual indicators
+        this.addBlockchainIndicators();
+
+        // Start step-by-step merge animation automatically
+        setTimeout(() => this.runStepByStepMerge(depth), 1500);
+    }
+
+    // Add visual indicators for threat level
+    addThreatLevelIndicator() {
+        let indicatorText, indicatorColor, glowIntensity;
+        
+        switch(this.threatLevel) {
+            case 'LOW':
+                indicatorText = '🛡️ QUANTUM SAFE\nECDSA signatures protected by PAW';
+                indicatorColor = 0x00ff00;
+                glowIntensity = 0.3;
+                break;
+            case 'MEDIUM':
+                indicatorText = '⚠️ HYBRID PROTECTION\nECDSA + Dilithium3 required';
+                indicatorColor = 0xffaa00;
+                glowIntensity = 0.5;
+                // Add pulsing warning effect
+                this.addPulsingWarning();
+                break;
+            case 'HIGH':
+                indicatorText = '🚨 FULL QUANTUM THREAT\nDilithium3-only signatures needed';
+                indicatorColor = 0xff0000;
+                glowIntensity = 0.7;
+                // Add threat particles
+                this.addThreatParticles();
+                break;
+        }
+        
+        // Add threat level label
+        this.addTextLabel(
+            new THREE.Vector3(-280, 250, 0),
+            indicatorText,
+            indicatorColor,
+            20
+        );
+        
+        // Add ambient glow based on threat level
+        const glowLight = new THREE.PointLight(indicatorColor, glowIntensity, 500);
+        glowLight.position.set(0, 0, 100);
+        this.scene.add(glowLight);
+        
+        // Store for cleanup
+        glowLight.userData = { threatIndicator: true };
+    }
+    
+    addPulsingWarning() {
+        // Create pulsing ring for medium threat
+        const geometry = new THREE.RingGeometry(150, 160, 64);
+        const material = new THREE.MeshBasicMaterial({
+            color: 0xffaa00,
+            transparent: true,
+            opacity: 0.3,
+            side: THREE.DoubleSide
+        });
+        const ring = new THREE.Mesh(geometry, material);
+        ring.position.set(0, 0, -50);
+        this.scene.add(ring);
+        
+        // Animate the ring
+        gsap.to(ring.scale, {
+            x: 1.2,
+            y: 1.2,
+            duration: 2,
+            repeat: -1,
+            yoyo: true,
+            ease: "power2.inOut"
+        });
+        
+        gsap.to(material, {
+            opacity: 0.1,
+            duration: 2,
+            repeat: -1,
+            yoyo: true,
+            ease: "power2.inOut"
+        });
+        
+        ring.userData = { threatIndicator: true };
+    }
+    
+    addThreatParticles() {
+        // Create threat particles for high threat level
+        const particleCount = 50;
+        const geometry = new THREE.BufferGeometry();
+        const positions = new Float32Array(particleCount * 3);
+        
+        for (let i = 0; i < particleCount; i++) {
+            const angle = (i / particleCount) * Math.PI * 2;
+            const radius = 200 + Math.random() * 100;
+            positions[i * 3] = Math.cos(angle) * radius;
+            positions[i * 3 + 1] = Math.sin(angle) * radius;
+            positions[i * 3 + 2] = Math.random() * 50 - 25;
+        }
+        
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        
+        const material = new THREE.PointsMaterial({
+            color: 0xff0000,
+            size: 4,
+            transparent: true,
+            opacity: 0.6,
+            blending: THREE.AdditiveBlending
+        });
+        
+        const particles = new THREE.Points(geometry, material);
+        this.scene.add(particles);
+        
+        // Animate threat particles
+        gsap.to(particles.rotation, {
+            z: Math.PI * 2,
+            duration: 20,
+            repeat: -1,
+            ease: "none"
+        });
+        
+        particles.userData = { threatIndicator: true };
+    }
+
+    // Add blockchain-specific visual indicators
+    addBlockchainIndicators() {
+        const colors = this.getBlockchainColors();
+        
+        switch(this.selectedChain) {
+            case 'DOGECOIN':
+                // Add Dogecoin mascot particles (playful animation)
+                this.addDogeParticles();
+                
+                // Add fun label
+                this.addTextLabel(
+                    new THREE.Vector3(280, 250, 0),
+                    '🐕 DOGECOIN\nScrypt Mining\nMuch Secure!',
+                    colors.leafColor,
+                    20
+                );
+                break;
+                
+            case 'LITECOIN':
+                // Add silver/metallic effects
+                this.addMetallicSheen();
+                
+                // Add technical label
+                this.addTextLabel(
+                    new THREE.Vector3(280, 250, 0),
+                    '🥈 LITECOIN\nMWEB Privacy\nDigital Silver',
+                    colors.leafColor,
+                    20
+                );
+                break;
+                
+            case 'SOLANA':
+                // Add speed lines effect
+                this.addSpeedLines();
+                
+                // Add high-performance label
+                this.addTextLabel(
+                    new THREE.Vector3(280, 250, 0),
+                    '⚡ SOLANA\nProof of History\n65,000 TPS',
+                    colors.leafColor,
+                    20
+                );
+                break;
+        }
+        
+        // Add subtle ambient light in blockchain color
+        const ambientLight = new THREE.PointLight(colors.emissive, 0.3, 400);
+        ambientLight.position.set(0, 100, 50);
+        ambientLight.userData = { blockchainIndicator: true };
+        this.scene.add(ambientLight);
+    }
+    
+    addDogeParticles() {
+        // Create fun, bouncing particles for Dogecoin
+        const particleCount = 30;
+        const geometry = new THREE.BufferGeometry();
+        const positions = new Float32Array(particleCount * 3);
+        
+        for (let i = 0; i < particleCount; i++) {
+            positions[i * 3] = (Math.random() - 0.5) * 400;
+            positions[i * 3 + 1] = Math.random() * 200 + 100;
+            positions[i * 3 + 2] = (Math.random() - 0.5) * 100;
+        }
+        
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        
+        const material = new THREE.PointsMaterial({
+            color: 0xffcc66,
+            size: 8,
+            transparent: true,
+            opacity: 0.8,
+            blending: THREE.AdditiveBlending,
+            map: this.createDogeTexture()
+        });
+        
+        const particles = new THREE.Points(geometry, material);
+        particles.userData = { blockchainIndicator: true, type: 'doge' };
+        this.scene.add(particles);
+        
+        // Animate particles bouncing
+        gsap.to(particles.position, {
+            y: "+=20",
+            duration: 2,
+            repeat: -1,
+            yoyo: true,
+            ease: "power1.inOut"
+        });
+    }
+    
+    createDogeTexture() {
+        const canvas = document.createElement('canvas');
+        canvas.width = 64;
+        canvas.height = 64;
+        const ctx = canvas.getContext('2d');
+        
+        // Draw a simple circle (could be replaced with actual Doge image)
+        ctx.fillStyle = '#ffcc66';
+        ctx.beginPath();
+        ctx.arc(32, 32, 30, 0, Math.PI * 2);
+        ctx.fill();
+        
+        const texture = new THREE.CanvasTexture(canvas);
+        return texture;
+    }
+    
+    addMetallicSheen() {
+        // Create a reflective plane for Litecoin
+        const geometry = new THREE.PlaneGeometry(600, 600, 1, 1);
+        const material = new THREE.MeshStandardMaterial({
+            color: 0x0099cc,
+            metalness: 1,
+            roughness: 0,
+            transparent: true,
+            opacity: 0.1,
+            side: THREE.DoubleSide
+        });
+        
+        const plane = new THREE.Mesh(geometry, material);
+        plane.rotation.x = Math.PI / 2;
+        plane.position.y = -100;
+        plane.userData = { blockchainIndicator: true };
+        this.scene.add(plane);
+        
+        // Animate subtle rotation for shimmer effect
+        gsap.to(plane.rotation, {
+            z: Math.PI * 2,
+            duration: 30,
+            repeat: -1,
+            ease: "none"
+        });
+    }
+    
+    addSpeedLines() {
+        // Create speed lines for Solana
+        const lineCount = 20;
+        for (let i = 0; i < lineCount; i++) {
+            const geometry = new THREE.BufferGeometry();
+            const y = (Math.random() - 0.5) * 300;
+            const z = (Math.random() - 0.5) * 100;
+            
+            const positions = new Float32Array([
+                -400, y, z,
+                400, y, z
+            ]);
+            
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            
+            const material = new THREE.LineBasicMaterial({
+                color: 0x14F195,
+                transparent: true,
+                opacity: 0.3,
+                linewidth: 1
+            });
+            
+            const line = new THREE.Line(geometry, material);
+            line.userData = { blockchainIndicator: true, type: 'speedLine' };
+            this.scene.add(line);
+            
+            // Animate speed lines moving fast
+            const duration = 1 + Math.random() * 2;
+            gsap.fromTo(line.position, 
+                { x: -600 },
+                { 
+                    x: 600,
+                    duration: duration,
+                    repeat: -1,
+                    ease: "none",
+                    delay: Math.random() * duration
+                }
+            );
+            
+            // Fade in and out
+            gsap.to(line.material, {
+                opacity: 0.6,
+                duration: duration / 2,
+                repeat: -1,
+                yoyo: true,
+                ease: "power2.inOut"
+            });
+        }
+    }
+
+    // Get blockchain-specific colors
+    getBlockchainColors() {
+        switch(this.selectedChain) {
+            case 'DOGECOIN':
+                return {
+                    leafColor: 0xffaa44,      // Dogecoin orange-gold
+                    internalColor: 0xff8822,  // Darker orange
+                    emissive: 0x442200,       // Orange glow
+                    connectionColor: 0xffaa44,
+                    particleColor: 0xffcc66,
+                    metalness: 0.7,
+                    roughness: 0.3
+                };
+            case 'LITECOIN':
+                return {
+                    leafColor: 0x00ccff,      // Litecoin cyan-blue
+                    internalColor: 0x0099cc,  // Darker cyan
+                    emissive: 0x003344,       // Blue glow
+                    connectionColor: 0x00ccff,
+                    particleColor: 0x00ff88,
+                    metalness: 0.9,           // More metallic
+                    roughness: 0.1
+                };
+            case 'SOLANA':
+                return {
+                    leafColor: 0x14F195,      // Solana gradient green
+                    internalColor: 0x9945FF,  // Solana purple
+                    emissive: 0x220044,       // Purple glow
+                    connectionColor: 0xDC1FFF, // Solana gradient purple
+                    particleColor: 0x14F195,
+                    metalness: 0.5,
+                    roughness: 0.4
+                };
+            default:
+                return {
+                    leafColor: 0x00ff88,
+                    internalColor: 0x0088ff,
+                    emissive: 0x002244,
+                    connectionColor: 0x0080ff,
+                    particleColor: 0x00ffff,
+                    metalness: 0.8,
+                    roughness: 0.2
+                };
+        }
+    }
+
+    // Helper: build human-readable Merkle path (e.g. "L-R-L")
+    getPathString(depth, leafIndex) {
+        let path = '';
+        let idx = leafIndex;
+        for (let d = depth; d > 0; d--) {
+            path = (idx % 2 === 0 ? 'L' : 'R') + path;
+            idx = Math.floor(idx / 2);
+        }
+        return path;
+    }
+
+    runStepByStepMerge(depth) {
+        let level = depth;
+        const tl = gsap.timeline({repeat: 0});
+
+        const mergeLevel = () => {
+            if (level <= 0) {
+                this.updateStatus('PAW aggregation complete – O(log n) achieved');
+                return;
+            }
+
+            const nodesInLevel = Math.pow(2, depth - level + 1); // children
+            const startIdx = this.nodes.length - Math.pow(2, depth - level + 2); // rough
+
+            // Highlight all pairs at this level
+            for (let i = 0; i < nodesInLevel; i += 2) {
+                const child1 = this.nodes[startIdx + i];
+                const child2 = this.nodes[startIdx + i + 1];
+                if (child1 && child2) {
+                    // More subtle scale animation
+                    tl.to([child1.scale, child2.scale], {x:1.5,y:1.5,z:1.5, duration:0.4}, 0);
+                    tl.to([child1.scale, child2.scale], {x:0.1, y:0.1, z:0.1, duration:0.6, ease:"power2.in"}, "+=0.2");
+                    // Add glow effect
+                    tl.to([child1.material, child2.material], {emissiveIntensity: 1.0, duration:0.4}, 0);
+                    this.createSimpleParticleBurst(child1.position ? child1.position.clone() : new THREE.Vector3());
+                }
+            }
+
+            // Camera slowly descends one level (but limit the descent)
+            const newY = Math.max(this.camera.position.y - 60, -200);
+            tl.to(this.camera.position, {
+                y: newY,
+                duration: 2.0,
+                ease: "power2.inOut"
+            }, "-=1.0");
+
+            level--;
+            // Use onComplete callback instead of .then()
+            tl.call(mergeLevel);
+        };
+
+        mergeLevel();
+    }
+
+    createPerfectTreeConnections(depth) {
+        this.connections.forEach(conn => this.scene.remove(conn));
+        this.connections = [];
+
+        // Create connections for perfect binary tree
+        let nodeIndex = this.nodes.length - 1; // Start from root
+        
+        for (let level = 0; level < depth; level++) {
+            const nodesInLevel = Math.pow(2, level);
+            
+            for (let i = 0; i < nodesInLevel; i++) {
+                const parentIdx = nodeIndex;
+                const leftChildIdx = parentIdx - Math.pow(2, depth - level) + i * 2;
+                const rightChildIdx = leftChildIdx + 1;
+                
+                // Create connections to children
+                if (leftChildIdx >= 0 && leftChildIdx < this.nodes.length) {
+                    this.createConnection(this.nodes[parentIdx], this.nodes[leftChildIdx], 0x00ff88);
+                }
+                if (rightChildIdx >= 0 && rightChildIdx < this.nodes.length) {
+                    this.createConnection(this.nodes[parentIdx], this.nodes[rightChildIdx], 0x00ff88);
+                }
+                
+                nodeIndex--;
+            }
+        }
+    }
+
+    createConnection(node1, node2, color = null) {
+        if (!node1 || !node2) return;
+        
+        // Use threat-level and blockchain-specific colors if no color provided
+        if (!color) {
+            switch(this.threatLevel) {
+                case 'LOW':
+                    // Use blockchain-specific colors for low threat
+                    const blockchainColors = this.getBlockchainColors();
+                    color = blockchainColors.connectionColor;
+                    break;
+                case 'MEDIUM':
+                    color = 0xffaa00; // Orange connections
+                    break;
+                case 'HIGH':
+                    color = 0xff0000; // Red connections
+                    break;
+                default:
+                    color = 0x00ff88;
+            }
+        }
+        
+        const geometry = new THREE.BufferGeometry().setFromPoints([
+            node1.position,
+            node2.position
+        ]);
+        
+        const material = new THREE.LineBasicMaterial({
+            color: color,
+            opacity: 0.6,
+            transparent: true,
+            linewidth: 2
+        });
+        
+        const line = new THREE.Line(geometry, material);
+        this.scene.add(line);
+        this.connections.push(line);
     }
 
     calculateNodePositions(numNodes) {
@@ -633,19 +1288,24 @@ class PATWebSimulator {
     }
 
     getNodeColor(index) {
-        let baseColor = this.colors.node;
+        let baseColor;
 
-        // Apply threat level coloring
+        // Apply threat level coloring with more distinct visual differences
         switch(this.threatLevel) {
             case 'LOW':
-                baseColor = this.colors.threatLow;
+                // Green-tinted nodes for low threat - quantum safe
+                baseColor = 0x00ff88;
                 break;
             case 'MEDIUM':
-                baseColor = this.colors.threatMedium;
+                // Yellow/orange nodes for medium threat - hybrid protection needed
+                baseColor = 0xffaa44;
                 break;
             case 'HIGH':
-                baseColor = this.colors.threatHigh;
+                // Red-tinted nodes for high threat - full quantum protection required
+                baseColor = 0xff4444;
                 break;
+            default:
+                baseColor = this.colors.node;
         }
 
         // Add some attack visualization
@@ -686,9 +1346,9 @@ class PATWebSimulator {
         // Logarithmic merging pattern (O(log n) connections)
         for (let i = 0; i < nodeCount; i += 2) {
             if (i + 1 < nodeCount) {
-                this.createConnection(i, i + 1);
+                this.createConnectionByIndex(i, i + 1);
                 if (i + 2 < nodeCount) {
-                    this.createConnection(i, i + 2); // Additional connections for tree structure
+                    this.createConnectionByIndex(i, i + 2); // Additional connections for tree structure
                 }
             }
         }
@@ -701,7 +1361,7 @@ class PATWebSimulator {
             const groupStart = Math.floor(i / groupSize) * groupSize;
             for (let j = 1; j < groupSize && groupStart + j < nodeCount; j++) {
                 if (i !== groupStart + j) {
-                    this.createConnection(i, groupStart + j);
+                    this.createConnectionByIndex(i, groupStart + j);
                 }
             }
         }
@@ -717,7 +1377,7 @@ class PATWebSimulator {
                 const left = startIndex + i;
                 const right = startIndex + i + 1;
                 if (right < nodeCount) {
-                    this.createConnection(left, right);
+                    this.createConnectionByIndex(left, right);
                 }
             }
             startIndex += levelSize;
@@ -730,7 +1390,7 @@ class PATWebSimulator {
         const maxConnections = 50;
         for (let i = 0; i < Math.min(nodeCount, maxConnections); i++) {
             for (let j = i + 1; j < Math.min(nodeCount, maxConnections); j++) {
-                this.createConnection(i, j);
+                this.createConnectionByIndex(i, j);
             }
         }
     }
@@ -762,7 +1422,7 @@ class PATWebSimulator {
         }
     }
 
-    createConnection(fromIndex, toIndex) {
+    createConnectionByIndex(fromIndex, toIndex) {
         if (fromIndex >= this.nodePositions.length || toIndex >= this.nodePositions.length) {
             return;
         }
@@ -776,8 +1436,22 @@ class PATWebSimulator {
             toPos
         ]);
 
+        // Use threat-level-specific connection colors
+        let connectionColor = this.colors.connection;
+        switch(this.threatLevel) {
+            case 'LOW':
+                connectionColor = this.colors.connectionLow;
+                break;
+            case 'MEDIUM':
+                connectionColor = this.colors.connectionMedium;
+                break;
+            case 'HIGH':
+                connectionColor = this.colors.connectionHigh;
+                break;
+        }
+
         const material = new THREE.LineBasicMaterial({
-            color: this.colors.connection, // 0x0080ff - blue
+            color: connectionColor,
             transparent: true,
             opacity: 0.8, // Increased opacity for visibility
             linewidth: 2 // Note: linewidth doesn't work on most platforms
@@ -822,10 +1496,24 @@ class PATWebSimulator {
         geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
         geometry.setAttribute('alpha', new THREE.Float32BufferAttribute(alphas, 1));
 
+        // Use threat-level-specific connection colors
+        let connectionColor = this.colors.connection;
+        switch(this.threatLevel) {
+            case 'LOW':
+                connectionColor = this.colors.connectionLow;
+                break;
+            case 'MEDIUM':
+                connectionColor = this.colors.connectionMedium;
+                break;
+            case 'HIGH':
+                connectionColor = this.colors.connectionHigh;
+                break;
+        }
+
         // Custom shader material for alpha blending
         const material = new THREE.ShaderMaterial({
             uniforms: {
-                color: { value: new THREE.Color(this.colors.connection) }
+                color: { value: new THREE.Color(connectionColor) }
             },
             vertexShader: `
                 attribute float alpha;
@@ -937,54 +1625,6 @@ class PATWebSimulator {
         this.nodes.push(instancedMesh);
     }
 
-    createSimpleParticleBurst(position) {
-        // Simple particle burst using THREE.PointsMaterial as requested
-        const particleCount = 30;
-        const geometry = new THREE.BufferGeometry();
-        const positions = new Float32Array(particleCount * 3);
-        const velocities = [];
-
-        // Create random positions around the burst point
-        for (let i = 0; i < particleCount; i++) {
-            const i3 = i * 3;
-            positions[i3] = position.x;
-            positions[i3 + 1] = position.y;
-            positions[i3 + 2] = position.z;
-            
-            // Store velocities for animation
-            const angle = Math.random() * Math.PI * 2;
-            const speed = Math.random() * 10 + 5;
-            const elevation = (Math.random() - 0.5) * Math.PI;
-            velocities.push({
-                x: Math.cos(angle) * Math.cos(elevation) * speed,
-                y: Math.sin(elevation) * speed + Math.random() * 5,
-                z: Math.sin(angle) * Math.cos(elevation) * speed
-            });
-        }
-
-        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-
-        // Use THREE.PointsMaterial as requested - made more visible for demo
-        const material = new THREE.PointsMaterial({
-            color: 0x00ff00, // Green color as requested
-            size: 3.0, // Larger size for better visibility
-            transparent: true,
-            opacity: 0.9,
-            sizeAttenuation: true
-        });
-
-        const particleSystem = new THREE.Points(geometry, material);
-        particleSystem.userData = {
-            velocities: velocities,
-            life: 60,
-            initialLife: 60,
-            isBurstParticle: true // Flag to identify burst particles
-        };
-        
-        this.scene.add(particleSystem);
-        this.particles.push(particleSystem);
-    }
-
     createBurstEffect(position) {
         // Create high-performance particle burst using THREE.Points with BufferGeometry
         const particleCount = 50;
@@ -1094,19 +1734,23 @@ class PATWebSimulator {
 
         // Fade out current scene
         this.nodes.forEach(node => {
-            gsap.to(node.material, {
-                opacity: 0,
-                duration: 0.5,
-                ease: "power2.in"
-            });
+            if (node.material) {
+                gsap.to(node.material, {
+                    opacity: 0,
+                    duration: 0.5,
+                    ease: "power2.in"
+                });
+            }
         });
         
         this.connections.forEach(conn => {
-            gsap.to(conn.material, {
-                opacity: 0,
-                duration: 0.5,
-                ease: "power2.in"
-            });
+            if (conn.material) {
+                gsap.to(conn.material, {
+                    opacity: 0,
+                    duration: 0.5,
+                    ease: "power2.in"
+                });
+            }
         });
         
         this.particles.forEach(particle => {
@@ -1124,20 +1768,16 @@ class PATWebSimulator {
             if (this.quantumView) {
                 button.innerHTML = '🔬 PAT<br>View';
                 button.style.background = '#9c27b0';
-                // Show different quantum algorithms cycling
-                this.updateStatus('⚛️ Quantum View: Cycling through Grover, Shor & Superposition (15s each)');
-                
-                // Show attack toggle hint
-                setTimeout(() => {
-                    this.updateStatus('💡 Press "A" to toggle quantum attack visualization | Press "M" to measure/collapse');
-                }, 3000);
+                this.clearScene();
+                this.createQuantumVisualization();
+                this.updateStatus('Quantum View – Grover attack on PAW aggregate');
             } else {
                 button.innerHTML = '⚛️ Quantum<br>View';
                 button.style.background = '#2196f3';
-                this.updateStatus('🔬 PAT View: PAW-Armored Post-Quantum Aggregation');
+                this.clearScene();
+                this.createTreeVisualization();
+                this.updateStatus('Classical PAT aggregation view');
             }
-
-            this.updateVisualization();
             
             // Fade in new scene
             setTimeout(() => {
@@ -1171,33 +1811,160 @@ class PATWebSimulator {
     }
 
     createQuantumVisualization() {
-        const numQubits = Math.min(this.numSignatures, 100); // Limit for performance
-        
-        // Create different layouts based on quantum concept being shown
-        this.quantumMode = this.animationFrame % 900 < 300 ? 'grover' : 
-                          this.animationFrame % 900 < 600 ? 'shor' : 'superposition';
+        this.clearScene();
 
-        // Store qubit positions for connections
-        this.nodePositions = [];
-        this.entangledPairs = []; // Track entangled qubit pairs
+        const radius = 220;
+        const qubitCount = Math.min(16, this.qubitCount);
 
-        // Create quantum circuit visualization layout
-        if (this.quantumMode === 'grover') {
-            // Grover's algorithm - search space visualization
-            this.createGroverLayout(numQubits);
-        } else if (this.quantumMode === 'shor') {
-            // Shor's algorithm - factorization threat
-            this.createShorLayout(numQubits);
-        } else {
-            // Superposition state visualization with Bloch spheres
-            this.createSuperpositionLayout(numQubits);
+        // Initialize arrays
+        this.blochSpheres = [];
+        this.nodes = [];
+
+        // Initial equal superposition amplitudes (visual only)
+        this.amplitudes = new Array(1 << qubitCount).fill(1 / Math.sqrt(1 << qubitCount));
+
+        // Target state = the one an attacker would need to find (forged aggregate)
+        const targetState = Math.floor(Math.random() * (1 << qubitCount));  // random for demo
+
+        // Create Bloch spheres in a perfect circle
+        for (let i = 0; i < qubitCount; i++) {
+            const angle = (i / qubitCount) * Math.PI * 2;
+            const x = Math.cos(angle) * radius;
+            const z = Math.sin(angle) * radius;
+
+            // Bloch sphere (standard visualisation)
+            const geometry = new THREE.SphereGeometry(18, 32, 32);
+            const material = new THREE.MeshStandardMaterial({
+                color: 0x0088ff,
+                emissive: 0x003366,
+                metalness: 0.9,
+                roughness: 0.1,
+                transparent: true,
+                opacity: 0.9
+            });
+            const sphere = new THREE.Mesh(geometry, material);
+            sphere.position.set(x, 0, z);
+            sphere.userData = {
+                type: 'blochSphere',
+                index: i
+            };
+            this.scene.add(sphere);
+            this.blochSpheres.push(sphere);
+            // Don't add to nodes array - track separately
+            
+            // Qubit label
+            this.addTextLabel(
+                new THREE.Vector3(x, -40, z),
+                `q${i}`,
+                0x00ffffff,
+                24
+            );
+
+            // Axis lines
+            const axes = new THREE.AxesHelper(25);
+            sphere.add(axes);
         }
 
-        // Add quantum metrics display
-        this.createQuantumMetricsDisplay();
+        // Central target state label
+        this.addTextLabel(
+            new THREE.Vector3(0, 120, 0),
+            `Target state |${targetState.toString(2).padStart(qubitCount,'0')}⟩\n(the forged aggregate)`,
+            0xff0088,
+            26
+        );
+
+        // Real attack cost banner (updates with slider n)
+        const realStates = Math.pow(2, this.numSignatures);
+        const groverQueries = Math.ceil(Math.PI / 4 * Math.sqrt(realStates));
+        const bannerText = `Real attack on ${this.numSignatures.toLocaleString()} signatures\n= 2^${this.numSignatures} states\nGrover needs ≈ ${groverQueries.toExponential(2)} queries\nProbability per query ≈ ${(1/groverQueries).toExponential(2)}`;
         
-        // Create quantum state particles based on 2^n
-        this.createQuantumStateParticles();
+        this.addTextLabel(
+            new THREE.Vector3(0, 280, 0),
+            bannerText,
+            0xffdd00,
+            28
+        );
+
+        // Start Grover animation after short delay
+        setTimeout(() => this.runGroverAnimation(targetState, qubitCount), 2000);
+    }
+
+    runGroverAnimation(targetState, qubitCount) {
+        const tl = gsap.timeline({repeat: 0});
+
+        // Mark target with dramatic red flash + electric particles
+        const oraclePhaseFlip = () => {
+            if (!this.blochSpheres || this.blochSpheres.length === 0) {
+                console.warn('No Bloch spheres available for animation');
+                return;
+            }
+            
+            this.blochSpheres.forEach((sphere, i) => {
+                if (!sphere || !sphere.position || !sphere.material) {
+                    console.warn(`Invalid sphere at index ${i}`);
+                    return;
+                }
+                
+                tl.to(sphere.material, {emissiveIntensity: 3, emissive: 0xff0000, duration: 0.3}, 0);
+                tl.to(sphere.material, {emissiveIntensity: 0.6, emissive: 0x003366, duration: 0.8}, "+=0.3");
+                this.createElectricArc(sphere.position);
+            });
+
+            // Central zap
+            this.createSimpleParticleBurst(new THREE.Vector3(0,0,0));
+            this.updateStatus('Grover Oracle: phase flip on target state');
+        };
+
+        // Diffusion operator – amplify amplitude visually
+        const diffusion = () => {
+            if (!this.blochSpheres || this.blochSpheres.length === 0) {
+                console.warn('No Bloch spheres available for diffusion');
+                return;
+            }
+            
+            const validSpheres = this.blochSpheres.filter(s => s && s.scale);
+            if (validSpheres.length === 0) {
+                console.warn('No valid spheres for diffusion animation');
+                return;
+            }
+            
+            tl.to(validSpheres.map(s => s.scale), {
+                x: 1.2, y: 1.2, z: 1.2,
+                duration: 0.6,
+                stagger: 0.05,
+                ease: "power2.out"
+            }, 0);
+            tl.to(validSpheres.map(s => s.scale), {
+                x: 1, y: 1, z: 1,
+                duration: 0.6
+            }, "+=0.1");
+
+            this.updateStatus('Diffusion operator – amplitude amplification');
+        };
+
+        // Run iterations
+        for (let iter = 1; iter <= this.groverIterations; iter++) {
+            oraclePhaseFlip();
+            diffusion();
+            this.updateStatus(`Grover iteration ${iter}/${this.groverIterations} complete`);
+        }
+
+        // Final dramatic reveal
+        const validSpheresForFinal = this.blochSpheres.filter(s => s && s.material);
+        if (validSpheresForFinal.length > 0) {
+            tl.to(validSpheresForFinal.map(s => s.material), {
+                emissive: 0x00ff00,
+                emissiveIntensity: 4,
+                duration: 1.5
+            }, "+=1");
+        }
+        
+        tl.call(() => {
+            this.updateStatus('Grover attack fails at scale – PAW remains secure');
+        });
+        
+        // Store timeline reference so we can kill it if scene changes
+        this.groverTimeline = tl;
     }
 
     createGroverLayout(numQubits) {
@@ -1725,33 +2492,134 @@ class PATWebSimulator {
         }, 3000);
     }
 
+    // ────── VISUALISATION HELPERS (add these to the class) ──────
+    addTextLabel(position, text, color = 0xffffff, size = 20) {
+        const canvas = document.createElement('canvas');
+        canvas.width = 512;
+        canvas.height = 128;
+        const ctx = canvas.getContext('2d');
+        
+        ctx.font = `Bold ${size}px Arial`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        
+        ctx.fillStyle = 'rgba(0,0,0,0.8)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        ctx.fillStyle = `#${color.toString(16).padStart(6,'0')}`;
+        ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+        
+        const texture = new THREE.CanvasTexture(canvas);
+        const sprite = new THREE.Sprite(new THREE.SpriteMaterial({map: texture, transparent: true, depthTest: false}));
+        sprite.position.copy(position);
+        sprite.scale.set(200, 50, 1);
+        this.scene.add(sprite);
+        return sprite;
+    }
+
+    createParticleBurst(position, color = 0x00ffff, count = 60) {
+        const geometry = new THREE.BufferGeometry();
+        const positions = [];
+        const velocities = [];
+        
+        for (let i = 0; i < count; i++) {
+            const theta = Math.random() * Math.PI * 2;
+            const phi = Math.random() * Math.PI;
+            const speed = 2 + Math.random() * 8;
+            
+            positions.push(0,0,0);
+            velocities.push(
+                Math.sin(phi) * Math.cos(theta) * speed,
+                Math.cos(phi) * speed + 3,
+                Math.sin(phi) * Math.sin(theta) * speed
+            );
+        }
+        
+        geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+        geometry.setAttribute('velocity', new THREE.Float32BufferAttribute(velocities, 3));
+        
+        const material = new THREE.PointsMaterial({color, size: 8, transparent: true, opacity: 1});
+        const particles = new THREE.Points(geometry, material);
+        particles.position.copy(position);
+        this.scene.add(particles);
+        
+        // Animate burst
+        gsap.to(material, {opacity: 0, duration: 1.2, ease: "power2.out"});
+        const start = performance.now();
+        const animateBurst = () => {
+            const elapsed = (performance.now() - start) / 1000;
+            if (elapsed > 1.5) {
+                this.scene.remove(particles);
+                return;
+            }
+            const pos = geometry.attributes.position.array;
+            for (let i = 0; i < pos.length; i += 3) {
+                pos[i]   += geometry.attributes.velocity.array[i]   * elapsed * 0.1;
+                pos[i+1] += geometry.attributes.velocity.array[i+1] * elapsed * 0.1 - 9.81 * elapsed * elapsed * 0.5; // gravity
+                pos[i+2] += geometry.attributes.velocity.array[i+2] * elapsed * 0.1;
+            }
+            geometry.attributes.position.needsUpdate = true;
+            requestAnimationFrame(animateBurst);
+        };
+        animateBurst();
+    }
+
+    createSimpleParticleBurst(position, color = 0x00ff88) {
+        this.createParticleBurst(position, color, 40);
+    }
+
+    createElectricArc(position) {
+        const points = [];
+        const segments = 15;
+        for (let i = 0; i <= segments; i++) {
+            const t = i / segments;
+            points.push(new THREE.Vector3(
+                (Math.random() - 0.5) * 60,
+                t * 100 - 50,
+                (Math.random() - 0.5) * 60
+            ));
+        }
+        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+        const material = new THREE.LineBasicMaterial({
+            color: 0x00ffff,
+            transparent: true,
+            opacity: 1,
+            linewidth: 3
+        });
+        const arc = new THREE.Line(geometry, material);
+        arc.position.copy(position);
+        this.scene.add(arc);
+        
+        gsap.to(material, {
+            opacity: 0,
+            duration: 0.7,
+            ease: "power1.out",
+            onComplete: () => this.scene.remove(arc)
+        });
+    }
+
     animate() {
+        if (this.controls?.update) this.controls.update();
         requestAnimationFrame(() => this.animate());
 
-        const currentTime = performance.now();
-        const deltaTime = currentTime - this.lastTime;
-        this.lastTime = currentTime;
+        const now = performance.now();
+        this.frameCount++;
+        if (now - this.lastTime >= 1000) {
+            this.fps = Math.round((this.frameCount * 1000) / (now - this.lastTime));
+            this.frameCount = 0;
+            this.lastTime = now;
+            this.updatePerformanceDisplay(now - this.prevFrameTime);
+        }
+
+        const deltaTime = now - this.prevFrameTime;
+        this.prevFrameTime = now;
 
         this.animationFrame++;
-        this.frames++;
-
-        // Update FPS counter every 500ms
-        if (currentTime - this.fpsUpdateTime > 500) {
-            this.fps = Math.round((this.frames * 1000) / (currentTime - this.fpsUpdateTime));
-            this.frames = 0;
-            this.fpsUpdateTime = currentTime;
-            
-            // Update performance display
-            this.updatePerformanceDisplay(deltaTime);
-        }
 
         // Performance profiling with Stats.js (if available)
         if (this.stats) {
             this.stats.update();
         }
-
-        // Update OrbitControls for zoom and pan
-        this.controls.update();
 
         // Smooth mouse following for passive 3D exploration
         this.targetX += (this.mouseX - this.targetX) * 0.02;
@@ -1998,6 +2866,11 @@ class PATWebSimulator {
             );
             
             this.createSimpleParticleBurst(burstPosition);
+        }
+
+        // Debug: Log every 60th frame
+        if (this.animationFrame % 60 === 0) {
+            console.log(`Frame ${this.animationFrame}: Rendering ${this.nodes.length} nodes, ${this.connections.length} connections`);
         }
 
         this.renderer.render(this.scene, this.camera);
@@ -2508,15 +3381,15 @@ class PATWebSimulator {
                 // Get positions
                 let pos1, pos2;
                 if (node1.isInstancedMesh && node1.userData.instances) {
-                    pos1 = node1.userData.instances[0].position;
+                    pos1 = node1.userData.instances[0].position.clone();
                 } else if (node1.position) {
-                    pos1 = node1.position;
+                    pos1 = node1.position.clone();
                 }
                 
                 if (node2.isInstancedMesh && node2.userData.instances) {
-                    pos2 = node2.userData.instances[0].position;
+                    pos2 = node2.userData.instances[0].position.clone();
                 } else if (node2.position) {
-                    pos2 = node2.position;
+                    pos2 = node2.position.clone();
                 }
 
                 if (pos1 && pos2) {
@@ -2948,6 +3821,17 @@ class PATWebSimulator {
             `;
         } else {
             metricsContent.innerHTML = '<div class="metric-item">Loading performance data...</div>';
+        }
+        
+        // Add extra block for quantum view
+        if (this.quantumView) {
+            const realStates = Math.pow(2, this.numSignatures);
+            const groverQueries = Math.ceil((Math.PI/4) * Math.sqrt(realStates));
+            metricsContent.innerHTML += `
+                <div class="metric-item" style="color:#ff0088; margin-top:15px;">
+                    Grover queries needed: <span class="metric-value">${groverQueries.toExponential(2)}</span><br>
+                    Success probability per query: <span class="metric-value">${(1/groverQueries).toExponential(2)}</span>
+                </div>`;
         }
     }
 

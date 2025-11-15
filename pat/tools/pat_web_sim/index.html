@@ -535,10 +535,25 @@
         onload="window.dependencyStatus.three = true;"
         onerror="handleCDNError('Three.js')">
     </script>
-    <script 
-        src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"
-        onload="window.dependencyStatus.orbitControls = true;"
-        onerror="handleCDNError('OrbitControls')">
+    <script>
+        // Load OrbitControls after Three.js is loaded
+        function loadOrbitControls() {
+            if (window.THREE) {
+                const script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js';
+                script.onload = function() {
+                    window.dependencyStatus.orbitControls = true;
+                    console.log('OrbitControls loaded successfully');
+                };
+                script.onerror = function() {
+                    handleCDNError('OrbitControls');
+                };
+                document.head.appendChild(script);
+            } else {
+                setTimeout(loadOrbitControls, 100);
+            }
+        }
+        loadOrbitControls();
     </script>
     <script 
         src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"
