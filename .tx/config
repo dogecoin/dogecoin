@@ -1,7 +1,26 @@
-[main]
-host = https://www.transifex.com
+; --- Transifex Configuration File (.tx/config) ---
 
-[bitcoin.qt-translation-014x]
+[main]
+; The base URL for the Transifex server. HTTPS is assumed.
+host = www.transifex.com
+; Define the project slug on Transifex that these resources belong to.
+; This line is highly recommended for clarity and CLI usage simplification.
+project_slug = bitcoin_core
+
+; ----------------------------------------------------------------------
+; Resource Definition for Bitcoin Core Qt Translations (TS files)
+; ----------------------------------------------------------------------
+
+[bitcoin_core.qt_translations]
+; The file_filter defines the pattern for locale files (the target translations).
+; The '<lang>' placeholder is automatically replaced by Transifex with the target language code (e.g., 'es', 'fr', 'ja').
 file_filter = src/qt/locale/bitcoin_<lang>.ts
+
+; The source_file is the master file containing the original strings (English in this case).
 source_file = src/qt/locale/bitcoin_en.ts
+
+; Defines the source language code for the project strings.
 source_lang = en
+
+; Optional: Define the type of file format being used.
+; file_type = QTS
