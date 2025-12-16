@@ -23,8 +23,8 @@ jobs:
       PYTHON_DEBUG: "1"
       CACHE_NONCE: "1"
       WINEDEBUG: fixme-all
+      WINEPREFIX: /tmp/wineprefix/
       SDK_URL: https://depends.dogecoincore.org
-      BIONIC_LIEF_WHL: lief-0.12.3-cp36-cp36m-linux_x86_64.whl
 
     strategy:
       fail-fast: false
@@ -44,7 +44,7 @@ jobs:
         include:
           - name: i686-linux
             host: i686-pc-linux-gnu
-            os: ubuntu-20.04
+            container: ubuntu:20.04
             packages: g++-multilib bc python3-zmq
             run-bench: true
             test-script: |
@@ -58,7 +58,7 @@ jobs:
             goal: install
           - name: armhf-linux
             host: arm-linux-gnueabihf
-            os: ubuntu-20.04
+            container: ubuntu:20.04
             packages: g++-arm-linux-gnueabihf qemu-user-static qemu-user
             run-bench: false
             test-script: |
@@ -70,7 +70,7 @@ jobs:
             goal: install
           - name: aarch64-linux-experimental
             host: aarch64-linux-gnu
-            os: ubuntu-20.04
+            container: ubuntu:20.04
             packages: g++-aarch64-linux-gnu qemu-user-static qemu-user
             run-bench: false
             test-script: |
@@ -82,7 +82,7 @@ jobs:
             goal: install
           - name: aarch64-linux
             host: aarch64-linux-gnu
-            os: ubuntu-20.04
+            container: ubuntu:20.04
             packages: g++-aarch64-linux-gnu qemu-user-static qemu-user
             run-bench: false
             test-script: |
@@ -94,7 +94,7 @@ jobs:
             goal: install
           - name: x86_64-linux-nowallet
             host: x86_64-unknown-linux-gnu
-            os: ubuntu-20.04
+            container: ubuntu:20.04
             packages: python3
             run-bench: true
             test-script: |
@@ -106,7 +106,7 @@ jobs:
             goal: install
           - name: x86_64-linux-dbg
             host: x86_64-unknown-linux-gnu
-            os: ubuntu-20.04
+            container: ubuntu:20.04
             packages: bc python3-zmq
             run-bench: true
             test-script: |
@@ -120,22 +120,17 @@ jobs:
             goal: install
           - name: i686-win
             host: i686-w64-mingw32
-            os: ubuntu-20.04
-            packages: python3 nsis g++-mingw-w64-i686 wine-stable winehq-stable bc wine-binfmt binfmt-support
+            container: ubuntu:20.04
+            container-options: --privileged
+            packages: python3 nsis g++-mingw-w64-i686 wine32 bc wine-binfmt binfmt-support
             preinstall: |
-              sudo dpkg --add-architecture i386
-              OS_FLAVOR=$(cat /etc/*ease | grep UBUNTU_CODENAME | cut -d "=" -f 2)
-              if [ ! -d "/etc/apt/keyrings" ]; then sudo mkdir -pm755 /etc/apt/keyrings; fi
-              sudo wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key
-              sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/$OS_FLAVOR/winehq-$OS_FLAVOR.sources
-              sudo rm -f /etc/apt/sources.list.d/microsoft-prod.list
-              sudo apt-get update
-              sudo apt-get install -y --allow-downgrades libgd3/$OS_FLAVOR libpcre2-8-0/$OS_FLAVOR libpcre2-16-0/$OS_FLAVOR libpcre2-32-0/$OS_FLAVOR libpcre2-posix2/$OS_FLAVOR
-              sudo apt-get purge -yq libmono* moby* mono* php* libgdiplus libpcre2-posix3 libzip4
+              dpkg --add-architecture i386
             postinstall: |
-              sudo update-alternatives --set i686-w64-mingw32-gcc /usr/bin/i686-w64-mingw32-gcc-posix
-              sudo update-alternatives --set i686-w64-mingw32-g++  /usr/bin/i686-w64-mingw32-g++-posix
-              sudo update-binfmts --import /usr/share/binfmts/wine
+              update-alternatives --set i686-w64-mingw32-gcc /usr/bin/i686-w64-mingw32-gcc-posix
+              update-alternatives --set i686-w64-mingw32-g++  /usr/bin/i686-w64-mingw32-g++-posix
+              update-binfmts --import /usr/share/binfmts/wine
+              update-binfmts --enable
+              update-binfmts --display
             run-bench: false
             test-script: |
               make check $MAKEJOBS VERBOSE=1
@@ -146,13 +141,15 @@ jobs:
             goal: install
           - name: x86_64-win
             host: x86_64-w64-mingw32
-            os: ubuntu-20.04
+            container: ubuntu:20.04
+            container-options: --privileged
             packages: python3 nsis g++-mingw-w64-x86-64 wine64 bc wine-binfmt
             postinstall: |
-              sudo dpkg -s mono-runtime && sudo apt-get remove mono-runtime || echo "Very nothing to uninstall."
-              sudo update-alternatives --set x86_64-w64-mingw32-gcc  /usr/bin/x86_64-w64-mingw32-gcc-posix
-              sudo update-alternatives --set x86_64-w64-mingw32-g++  /usr/bin/x86_64-w64-mingw32-g++-posix
-              sudo update-binfmts --import /usr/share/binfmts/wine
+              update-alternatives --set x86_64-w64-mingw32-gcc  /usr/bin/x86_64-w64-mingw32-gcc-posix
+              update-alternatives --set x86_64-w64-mingw32-g++  /usr/bin/x86_64-w64-mingw32-g++-posix
+              update-binfmts --import /usr/share/binfmts/wine
+              update-binfmts --enable
+              update-binfmts --display
             run-bench: false
             test-script: |
               make check $MAKEJOBS VERBOSE=1
@@ -163,13 +160,15 @@ jobs:
             goal: install
           - name: x86_64-win-experimental
             host: x86_64-w64-mingw32
-            os: ubuntu-20.04
+            container: ubuntu:20.04
+            container-options: --privileged
             packages: python3 nsis g++-mingw-w64-x86-64 wine64 bc wine-binfmt
             postinstall: |
-              sudo dpkg -s mono-runtime && sudo apt-get remove mono-runtime || echo "Very nothing to uninstall."
-              sudo update-alternatives --set x86_64-w64-mingw32-gcc  /usr/bin/x86_64-w64-mingw32-gcc-posix
-              sudo update-alternatives --set x86_64-w64-mingw32-g++  /usr/bin/x86_64-w64-mingw32-g++-posix
-              sudo update-binfmts --import /usr/share/binfmts/wine
+              update-alternatives --set x86_64-w64-mingw32-gcc  /usr/bin/x86_64-w64-mingw32-gcc-posix
+              update-alternatives --set x86_64-w64-mingw32-g++  /usr/bin/x86_64-w64-mingw32-g++-posix
+              update-binfmts --import /usr/share/binfmts/wine
+              update-binfmts --enable
+              update-binfmts --display
             run-bench: false
             test-script: |
               make check $MAKEJOBS VERBOSE=1
@@ -180,8 +179,8 @@ jobs:
             goal: install
           - name: x86_64-macos
             host: x86_64-apple-darwin11
-            os: ubuntu-20.04
-            packages: cmake imagemagick libcap-dev librsvg2-bin libz-dev libtiff-tools libtinfo5 xorriso
+            container: ubuntu:20.04
+            packages: cmake imagemagick libcap-dev librsvg2-bin libz-dev libbz2-dev libtiff-tools libtinfo5 xorriso
             run-bench: false
             check-security: true
             check-symbols: false
@@ -192,7 +191,7 @@ jobs:
             sdk-shasum: "bec9d089ebf2e2dd59b1a811a38ec78ebd5da18cbbcd6ab39d1e59f64ac5033f"
           - name: x86_64-linux-experimental
             host: x86_64-linux-gnu
-            os: ubuntu-20.04
+            container: ubuntu:20.04
             packages: bc python3-zmq
             run-bench: true
             test-script: |
@@ -203,29 +202,32 @@ jobs:
             config-opts: "--enable-experimental --enable-scrypt-sse2 --with-intel-avx2 --with-gui=qt5 --enable-zmq --enable-glibc-back-compat --enable-reduce-exports --enable-c++14"
             goal: install
 
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-24.04
+    container:
+      image: ${{ matrix.container }}
+      options: ${{ matrix.container-options == '' && '-e 1DOGE=1DOGE' || matrix.container-options }}
 
     steps:
+      - name: Configure container
+        run: |
+          ln -snf /usr/share/zoneinfo/Etc/UTC /etc/localtime
+          echo Etc/UTC > /etc/timezone
+          mkdir -p $WINEPREFIX
+          uname -a
+
       - name: Pre install
         if: ${{ matrix.preinstall }}
         run: ${{ matrix.preinstall }}
 
       - name: Install packages
         run: |
-          sudo apt-get update
-          sudo apt-get install build-essential libtool autotools-dev automake \
+          apt-get update
+          apt-get install -y build-essential libtool autotools-dev automake \
                pkg-config bsdmainutils curl ca-certificates ccache rsync git \
                procps bison python3 python3-pip python3-setuptools python3-wheel
-          sudo apt-get install ${{ matrix.packages }}
+          apt-get install -y ${{ matrix.packages }}
           python3 -m pip install setuptools==70.3.0 --upgrade
-
-      - name: Install custom lief wheel
-        if: matrix.os == 'ubuntu-18.04'
-        run: python3 -m pip install $SDK_URL/$BIONIC_LIEF_WHL
-
-      - name: Install standard lief wheel
-        if: matrix.os != 'ubuntu-18.04'
-        run: python3 -m pip install lief
+          python3 -m pip install lief
 
       - name: Post install
         if: ${{ matrix.postinstall }}
@@ -299,6 +301,10 @@ jobs:
       - name: Check symbols
         if: ${{ matrix.check-symbols }}
         run: make -C src check-symbols
+
+      - name: Cleanup qa artifacts
+        run: |
+          rm -rf qa/cache || true
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4

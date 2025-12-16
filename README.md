@@ -1,15 +1,8 @@
 <h1 align="center">
-<img src="https://static.tumblr.com/ppdj5y9/Ae9mxmxtp/300coin.png" alt="Dogecoin" width="300"/>
+<img src="https://raw.githubusercontent.com/dogecoin/dogecoin/master/share/pixmaps/dogecoin256.svg" alt="Dogecoin" width="256"/>
 <br/><br/>
 Dogecoin Core [DOGE, Ð]  
 </h1>
-
-<div align="center">
-
-[![DogecoinBadge](https://img.shields.io/badge/Doge-Coin-yellow.svg)](https://dogecoin.com)
-[![MuchWow](https://img.shields.io/badge/Much-Wow-yellow.svg)](https://dogecoin.com)
-
-</div>
 
 **IMPORTANT: Starting August 2024, the `master` branch has become the primary
 integration branch and has become unstable. Please check out a tagged version
@@ -22,13 +15,11 @@ Dogecoin is a community-driven cryptocurrency that was inspired by a Shiba Inu m
 For information about the default fees used on the Dogecoin network, please
 refer to the [fee recommendation](doc/fee-recommendation.md).
 
-**Website:** [dogecoin.com](https://dogecoin.com)
-
 ## Usage 💻
 
 To start your journey with Dogecoin Core, see the [installation guide](INSTALL.md) and the [getting started](doc/getting-started.md) tutorial.
 
-The JSON-RPC API provided by Dogecoin Core is self-documenting and can be browsed with `dogecoin-cli help`, while detailed information for each command can be viewed with `dogecoin-cli help <command>`. Alternatively, see the [Bitcoin Core documentation](https://developer.bitcoin.org/reference/rpc/) - which implement a similar protocol - to get a browsable version.
+The JSON-RPC API provided by Dogecoin Core is self-documenting and can be browsed with `dogecoin-cli help`, while detailed information for each command can be viewed with `dogecoin-cli help <command>`.
 
 ### Such ports
 
@@ -53,10 +44,9 @@ Main development resources:
 
 * [GitHub Projects](https://github.com/dogecoin/dogecoin/projects) is used to
   follow planned and in-progress work for upcoming releases.
-* [GitHub Discussion](https://github.com/dogecoin/dogecoin/discussions) is used
+* [GitHub Discussions](https://github.com/dogecoin/dogecoin/discussions) is used
   to discuss features, planned and unplanned, related to both the development of
-  the Dogecoin Core software, the underlying protocols and the DOGE asset.  
-* [Dogecoindev subreddit](https://www.reddit.com/r/dogecoindev/)
+  the Dogecoin Core software, the underlying protocols and the DOGE asset.
 
 ### Version strategy
 Version numbers are following ```major.minor.patch``` semantics.
@@ -87,19 +77,6 @@ participate in the development of Dogecoin Core. There are often
 [topics seeking help](https://github.com/dogecoin/dogecoin/labels/help%20wanted)
 where your contributions will have high impact and get very appreciation. wow.
 
-## Communities 🚀🍾
-
-You can join the communities on different social media.
-To see what's going on, meet people & discuss, find the latest meme, learn
-about Dogecoin, give or ask for help, to share your project.
-
-Here are some places to visit:
-
-* [Dogecoin subreddit](https://www.reddit.com/r/dogecoin/)
-* [Dogeducation subreddit](https://www.reddit.com/r/dogeducation/)
-* [Discord](https://discord.gg/dogecoin)
-* [Dogecoin Twitter](https://twitter.com/dogecoin)
-
 ## Very Much Frequently Asked Questions ❓
 
 Do you have a question regarding Dogecoin? An answer is perhaps already in the
@@ -109,5 +86,4 @@ of the discussion board!
 
 ## License - Much license ⚖️
 Dogecoin Core is released under the terms of the MIT license. See
-[COPYING](COPYING) for more information or see
-[opensource.org](https://opensource.org/licenses/MIT)
+[COPYING](COPYING) for more information.

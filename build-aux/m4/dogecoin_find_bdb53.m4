@@ -69,7 +69,7 @@ AC_DEFUN([BITCOIN_FIND_BDB53],[
     bdbpath="${bdb53path}"
   fi
 
-  dnl restore orgininal CPPFLAGS and fixate the now checked flags.
+  dnl restore original CPPFLAGS and fixate the now checked flags.
   if test "x$BDB_CFLAGS" != "x"; then
     CPPFLAGS="${TCFLAGS}"
     BDB_CPPFLAGS=${BDB_CFLAGS}

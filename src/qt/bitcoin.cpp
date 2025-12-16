@@ -52,7 +52,6 @@
 #include <QThread>
 #include <QTimer>
 #include <QTranslator>
-#include <QSslConfiguration>
 
 #if defined(QT_STATICPLUGIN)
 #include <QtPlugin>
@@ -348,7 +347,7 @@ BitcoinApplication::~BitcoinApplication()
 #ifdef ENABLE_WALLET
 void BitcoinApplication::createPaymentServer()
 {
-    paymentServer = new PaymentServer(this, true, GetBoolArg("-enable-bip70", false));
+    paymentServer = new PaymentServer(this, true);
 }
 #endif
 
@@ -474,14 +473,6 @@ void BitcoinApplication::initializeResult(int retval)
 #ifdef ENABLE_WALLET
         paymentServer->setOptionsModel(optionsModel);
 
-        if(GetBoolArg("-enable-bip70", false))
-        {
-            PaymentServer::LoadRootCAs();
-            if(pwalletMain)
-                connect(walletModel, SIGNAL(coinsSent(CWallet*,SendCoinsRecipient,QByteArray)),
-                        paymentServer, SLOT(fetchPaymentACK(CWallet*,const SendCoinsRecipient&,QByteArray)));
-        }
-
         // Now that initialization/startup is done, process any command-line
         // payment requests:
         connect(paymentServer, SIGNAL(receivedPaymentRequest(SendCoinsRecipient)),
@@ -542,13 +533,6 @@ MAIN_FUNCTION
 #endif
 #ifdef Q_OS_MAC
     QApplication::setAttribute(Qt::AA_DontShowIconsInMenus);
-#endif
-#if QT_VERSION >= 0x050500
-    // Because of the POODLE attack it is recommended to disable SSLv3 (https://disablessl3.com/),
-    // so set SSL protocols to TLS1.0+.
-    QSslConfiguration sslconf = QSslConfiguration::defaultConfiguration();
-    sslconf.setProtocol(QSsl::TlsV1_0OrLater);
-    QSslConfiguration::setDefaultConfiguration(sslconf);
 #endif
 
     BitcoinApplication app;

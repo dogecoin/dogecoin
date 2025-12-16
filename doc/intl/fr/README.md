@@ -1,27 +1,20 @@
 <h1 align="center">
-<img src="https://static.tumblr.com/ppdj5y9/Ae9mxmxtp/300coin.png" alt="Dogecoin" width="300"/>
+<img src="https://raw.githubusercontent.com/dogecoin/dogecoin/master/share/pixmaps/dogecoin256.svg" alt="Dogecoin" width="256"/>
 <br/><br/>
 Dogecoin Core [DOGE, Ð]  
 </h1>
 
-<div align="center">
-
-[![DogecoinBadge](https://img.shields.io/badge/Doge-Coin-yellow.svg)](https://dogecoin.com)
-[![MuchWow](https://img.shields.io/badge/Much-Wow-yellow.svg)](https://dogecoin.com)
-
-</div>
+**IMPORTANT : À partir d'août 2024, la branche `master` est devenue la branche principale d'intégration et est devenue instable. Veuillez consulter une version _taguée_ avant de compiler des binaires de production.**
 
 Dogecoin est une crypto-monnaie communautaire qui s'inspire d'un mème de Shiba Inu. Le logiciel Dogecoin Core permet à quiconque d'exploiter un nœud dans les réseaux de la blockchain Dogecoin et utilise la méthode de hachage Scrypt pour la preuve de travail. Il est adapté de Bitcoin Core et d'autres crypto-monnaies.
 
 Pour plus d'informations sur les frais par défaut utilisés sur le réseau Dogecoin, veuillez consulter la [recommandation sur les frais](doc/fee-recommendation.md).
 
-**Site web:** [dogecoin.com](https://dogecoin.com)
-
 ## Utilisation 💻
 
 Pour commencer votre voyage avec Dogecoin Core, consultez le [guide d'installation](INSTALL.md) et le [tutoriel de démarrage](doc/getting-started.md).
 
-L'API JSON-RPC fournie par Dogecoin Core est auto-documentée et peut être parcourue avec `dogecoin-cli help`, tandis que des informations détaillées pour chaque commande peuvent être visualisées avec `dogecoin-cli help <command>`. Vous pouvez également consulter la [documentation Bitcoin Core](https://developer.bitcoin.org/reference/rpc/) - qui implémente un protocole similaire - pour obtenir une version consultable.
+L'API JSON-RPC fournie par Dogecoin Core est auto-documentée et peut être parcourue avec `dogecoin-cli help`, tandis que des informations détaillées pour chaque commande peuvent être visualisées avec `dogecoin-cli help <command>`.
 
 ### Les ports
 
@@ -40,23 +33,25 @@ Principales ressources de développement :
 
 * [GitHub Projects](https://github.com/dogecoin/dogecoin/projects) est utilisé pour
   suivre les travaux prévus et en cours pour les prochaines versions.
-
 * [GitHub Discussion](https://github.com/dogecoin/dogecoin/discussions) est utilisé pour
   discuter des caractéristiques, planifiées et non planifiées, liées à la fois au développement du logiciel Dogecoin Core, les protocoles sous-jacents et l'actif DOGE.
-  
-* [Dogecoindev subreddit](https://www.reddit.com/r/dogecoindev/)
 
 ### Stratégie de version
+
 Les numéros de version suivent la sémantique ```major.minor.patch```.
 
 ### Branches
-Il y a 3 types de branches dans ce référentiel :
 
-- **master:** Stable, contient la dernière version de la dernière *major.minor* version.
-- **maintenance:** Stable, contient la dernière version des versions précédentes, qui sont toujours en maintenance active. Format : ```<version>-maint```
-- **development:** Instable, contient du nouveau code pour les versions prévues. Format : ```<version>-dev```
+Il y a 4 types de branches dans ce répertoire :
 
-*Les branches master et de maintenance sont exclusivement mutables par version. Les versions planifiées auront toujours une branche de développement et les demandes de pull doivent être soumises dans cette branche. Les branches de maintenance ne sont là **seulement pour corriger les bugs**, veuillez soumettre les nouvelles fonctionnalités dans la branche de développement avec la version la plus récente.*
+- **master :** Instable, contient le code le plus récent en développement.
+- **maintenance :** Stable, contient la dernière version des versions précédentes, qui sont toujours en maintenance active. Format : ```<version>-maint```
+- **development :** Instable, contient du nouveau code pour les versions prévues. Format : ```<version>-dev``` 
+- **archive :** Stable, branches immuables d'anciennes versions qui ne sont plus maintenues.
+
+***Veuillez soumettre vos demandes de tirage contre la branche `master`.***
+
+*Les branches `master` et `maintenance` sont exclusivement mutables par version. Lorsqu'une version est planifiée, une branche de développement est créée et les commits de `master` sont sélectionnés et intégrés par les mainteneurs.*
 
 ## Contribution🤝
 
@@ -67,18 +62,6 @@ participer au développement de Dogecoin Core. Il y a souvent
 [des sujets demandant de l'aide](https://github.com/dogecoin/dogecoin/labels/help%20wanted)
 où vos contributions auront un impact considérable et seront très appréciées. wow.
 
-## Communautés 🚀🍾
-
-Vous pouvez rejoindre les communautés sur différents réseaux sociaux.
-Pour voir ce qu'il se passe, rencontrer des gens et discuter, trouver le dernier mème, apprendre sur le Dogecoin, donner ou demander de l'aide, pour partager votre projet.
-
-Voici quelques endroits à visiter :
-
-* [Dogecoin subreddit](https://www.reddit.com/r/dogecoin/)
-* [Dogeducation subreddit](https://www.reddit.com/r/dogeducation/)
-* [Discord](https://discord.gg/dogecoin)
-* [Dogecoin Twitter](https://twitter.com/dogecoin)
-
 ## Questions très fréquemment posées ❓
 
 Vous avez une question concernant le Dogecoin ? Une réponse se trouve peut-être déjà dans la
@@ -88,5 +71,4 @@ du forum de discussion !
 
 ## License - Much license ⚖️
 Dogecoin Core est publié sous les termes de la licence MIT. Voir
-[COPYING](COPYING) pour plus d'informations ou voir
-[opensource.org](https://opensource.org/licenses/MIT)
+[COPYING](COPYING) pour plus d'informations.

@@ -280,7 +280,7 @@ def runtests():
 
 class RPCTestHandler:
     """
-    Trigger the testscrips passed in via the list.
+    Trigger the testscripts passed in via the list.
     """
 
     def __init__(self, num_tests_parallel, test_list=None, flags=None):

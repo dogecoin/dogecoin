@@ -138,6 +138,24 @@ bool DecodeHexBlk(CBlock& block, const std::string& strHexBlk)
     return true;
 }
 
+bool DecodeAuxPow(CAuxPow& auxpow, const std::string& strHexAuxPow)
+{
+    if (!IsHex(strHexAuxPow))
+        return false;
+
+    std::vector<unsigned char> auxData(ParseHex(strHexAuxPow));
+
+    CDataStream ssAuxPow(auxData, SER_NETWORK, PROTOCOL_VERSION);
+    try {
+        ssAuxPow >> auxpow;
+    }
+    catch (const std::exception&) {
+        return false;
+    }
+
+    return true;
+}
+
 uint256 ParseHashUV(const UniValue& v, const std::string& strName)
 {
     std::string strHex;

@@ -82,25 +82,39 @@ class CreateAuxBlockTest(BitcoinTestFramework):
     assert_equal(auxblock["chainid"], auxblock3["chainid"])
     assert_equal(auxblock["target"], auxblock3["target"])
 
-    # If we receive a new block, the template cache must be emptied.
-    self.sync_all()
-    self.nodes[1].generate(1)
-    self.sync_all()
-
-    auxblock4 = self.nodes[0].createauxblock(dummy_p2pkh_addr)
-    assert auxblock["hash"] != auxblock4["hash"]
+    # Invalid format for hash - fails before checking auxpow
     try:
-      self.nodes[0].submitauxblock(auxblock["hash"], "x")
-      raise AssertionError("invalid block hash accepted")
+      self.nodes[0].submitauxblock("00", "x")
+      raise AssertionError("malformed hash accepted")
     except JSONRPCException as exc:
-      assert_equal(exc.error["code"], -8)
+      assert_equal(exc.error['code'], -8)
+      assert("hash must be of length 64" in exc.error["message"])
 
     # Invalid format for auxpow.
     try:
-      self.nodes[0].submitauxblock(auxblock4["hash"], "x")
+      self.nodes[0].submitauxblock(auxblock2['hash'], "x")
       raise AssertionError("malformed auxpow accepted")
     except JSONRPCException as exc:
-      assert_equal(exc.error["code"], -1)
+      assert_equal(exc.error['code'], -22)
+      assert("decode failed" in exc.error["message"])
+
+    # If we receive a new block, the old hash will be replaced.
+    self.sync_all()
+    self.nodes[1].generate(1)
+    self.sync_all()
+    auxblock2 = self.nodes[0].createauxblock(dummy_p2pkh_addr)
+    assert auxblock['hash'] != auxblock2['hash']
+    apow = auxpow.computeAuxpowWithChainId(auxblock['hash'], auxpow.reverseHex(auxblock['target']), "98", True)
+    try:
+        self.nodes[0].submitauxblock(auxblock['hash'], apow)
+        raise AssertionError("invalid block hash accepted")
+    except JSONRPCException as exc:
+        assert_equal(exc.error['code'], -8)
+        assert("block hash unknown" in exc.error["message"])
+
+    # Auxpow doesn't match given hash
+    res = self.nodes[0].submitauxblock(auxblock2['hash'], apow)
+    assert not res
 
     # Invalidate the block again, send a transaction and query for the
     # auxblock to solve that contains the transaction.

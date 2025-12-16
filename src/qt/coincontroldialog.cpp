@@ -14,6 +14,7 @@
 #include "txmempool.h"
 #include "walletmodel.h"
 
+#include "base58.h"
 #include "wallet/coincontrol.h"
 #include "init.h"
 #include "policy/policy.h"

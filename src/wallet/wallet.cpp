@@ -48,6 +48,7 @@ bool fWalletRbf = DEFAULT_WALLET_RBF;
 
 const char * DEFAULT_WALLET_DAT = "wallet.dat";
 const uint32_t BIP32_HARDENED_KEY_LIMIT = 0x80000000;
+const uint32_t BIP44_COIN_TYPE = 3;
 
 /**
  * Fees smaller than this (in satoshi) are considered zero fee (for transaction creation)
@@ -130,12 +131,12 @@ CPubKey CWallet::GenerateNewKey()
 
 void CWallet::DeriveNewChildKey(CKeyMetadata& metadata, CKey& secret)
 {
-    // for now we use a fixed keypath scheme of m/0'/0'/k
+    // for now we use a fixed keypath scheme of m/0'/3'/k
     CKey key;                      //master key seed (256bit)
     CExtKey masterKey;             //hd master key
     CExtKey accountKey;            //key at m/0'
-    CExtKey externalChainChildKey; //key at m/0'/0'
-    CExtKey childKey;              //key at m/0'/0'/<n>'
+    CExtKey externalChainChildKey; //key at m/0'/3'
+    CExtKey childKey;              //key at m/0'/3'/<n>'
 
     // try to get the master key
     if (!GetKey(hdChain.masterKeyID, key))
@@ -147,8 +148,8 @@ void CWallet::DeriveNewChildKey(CKeyMetadata& metadata, CKey& secret)
     // use hardened derivation (child keys >= 0x80000000 are hardened after bip32)
     masterKey.Derive(accountKey, BIP32_HARDENED_KEY_LIMIT);
 
-    // derive m/0'/0'
-    accountKey.Derive(externalChainChildKey, BIP32_HARDENED_KEY_LIMIT);
+    // derive m/0'/3'
+    accountKey.Derive(externalChainChildKey, BIP44_COIN_TYPE | BIP32_HARDENED_KEY_LIMIT);
 
     // derive child key at next index, skip keys already known to the wallet
     do {

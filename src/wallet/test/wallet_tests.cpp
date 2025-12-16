@@ -547,4 +547,49 @@ BOOST_AUTO_TEST_CASE(GetMinimumFee_dust_test)
     CWallet::discardThreshold = COIN / 100;
 }
 
+BOOST_FIXTURE_TEST_CASE(derive_new_child_key_test, WalletTestingSetup)
+{
+    CWallet* wallet = pwalletMain;
+    LOCK(wallet->cs_wallet);
+
+    // Use a fixed seed and known child public key
+    std::string testSeedHex = "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f";
+    std::string expectedPubKeyHex = "0305a077194300e27d320a9504f808a16f05b38dabead31f10104c075d88f81a38";
+    std::vector<unsigned char> seed = ParseHex(testSeedHex);
+
+    // Initialize the master key with the fixed seed and get the public key
+    CKey masterKey;
+    masterKey.Set(seed.begin(), seed.end(), true);
+    CPubKey masterPubKey = masterKey.GetPubKey();
+    BOOST_CHECK(masterKey.VerifyPubKey(masterPubKey));
+
+    // Set up master metadata: path "m" and master key ID equal to the public key hash
+    int64_t nCreationTime = GetTime();
+    CKeyMetadata masterMetadata(nCreationTime);
+    masterMetadata.hdKeypath = "m";
+    masterMetadata.hdMasterKeyID = masterPubKey.GetID();
+
+    // Store the master key and metadata in the wallet
+    wallet->mapKeyMetadata[masterPubKey.GetID()] = masterMetadata;
+    BOOST_CHECK(wallet->AddKeyPubKey(masterKey, masterPubKey));
+    BOOST_CHECK(wallet->SetHDMasterKey(masterPubKey));
+
+    // Derive a new child key using at derivation path (m/0'/3'/0')
+    CKeyMetadata childMetadata(GetTime());
+    CKey childKey;
+    wallet->DeriveNewChildKey(childMetadata, childKey);
+
+    // Verify the child key is valid
+    CPubKey childPubKey = childKey.GetPubKey();
+    BOOST_CHECK(childKey.IsValid());
+    BOOST_CHECK(childPubKey.IsFullyValid());
+
+    // Verify that the metadata reflects the path "m/0'/3'/0'"
+    BOOST_CHECK_EQUAL(childMetadata.hdKeypath, "m/0'/3'/0'");
+
+    // Verify the child public key matches the expected value
+    std::string derivedPubKeyHex = HexStr(childPubKey.begin(), childPubKey.end());
+    BOOST_CHECK_EQUAL(derivedPubKeyHex, expectedPubKeyHex);
+}
+
 BOOST_AUTO_TEST_SUITE_END()

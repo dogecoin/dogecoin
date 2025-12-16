@@ -203,6 +203,15 @@ BOOST_AUTO_TEST_CASE(check_auxpow)
     builder.setCoinbase(scr);
     BOOST_CHECK(builder.get().check(hashAux, ourChainId, params));
 
+    /* An auxpow without any inputs in the parent coinbase tx should be
+     handled gracefully (and be considered invalid).  */
+    CMutableTransaction mtx(*builder.parentBlock.vtx[0]);
+    mtx.vin.clear();
+    builder.parentBlock.vtx.clear();
+    builder.parentBlock.vtx.push_back (MakeTransactionRef(std::move (mtx)));
+    builder.parentBlock.hashMerkleRoot = BlockMerkleRoot(builder.parentBlock);
+    BOOST_CHECK(!builder.get().check(hashAux, ourChainId, params));
+
     /* Check that the auxpow is invalid if we change either the aux block's
      hash or the chain ID.  */
     uint256 modifiedAux(hashAux);

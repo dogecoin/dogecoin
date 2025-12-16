@@ -130,8 +130,10 @@ BITCOIN_CORE_H = \
   protocol.h \
   random.h \
   reverselock.h \
+  rpc/auxcache.h \
   rpc/blockchain.h \
   rpc/client.h \
+  rpc/mining.h \
   rpc/protocol.h \
   rpc/server.h \
   rpc/register.h \
@@ -208,6 +210,8 @@ libdogecoin_server_a_SOURCES = \
   policy/policy.cpp \
   pow.cpp \
   rest.cpp \
+  rpc/auxcache.cpp \
+  rpc/auxpow.cpp \
   rpc/blockchain.cpp \
   rpc/mining.cpp \
   rpc/misc.cpp \

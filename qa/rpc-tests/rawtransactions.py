@@ -3,7 +3,7 @@
 # Copyright (c) 2018-2022 The Dogecoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
-"""rawtranscation RPCs QA test.
+"""rawtransaction RPCs QA test.
 
 # Tests the following RPCs:
 #    - createrawtransaction
@@ -156,8 +156,8 @@ class RawTransactionsTest(BitcoinTestFramework):
         # 5. valid parameters - supply txid and True for non-verbose
         assert_equal(self.nodes[0].getrawtransaction(txHash, True)["hex"], rawTxSigned['hex'])
 
-        # 6. invalid parameters - supply txid and string "Flase"
-        assert_raises_jsonrpc(-3,"Invalid type", self.nodes[0].getrawtransaction, txHash, "Flase")
+        # 6. invalid parameters - supply txid and string "invalidstringvalue"
+        assert_raises_jsonrpc(-3,"Invalid type", self.nodes[0].getrawtransaction, txHash, "invalidstringvalue")
 
         # 7. invalid parameters - supply txid and empty array
         assert_raises_jsonrpc(-3,"Invalid type", self.nodes[0].getrawtransaction, txHash, [])

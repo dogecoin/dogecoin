@@ -2570,7 +2570,7 @@ Use this functionality with extreme caution.</source>
     </message>
     <message>
         <source>Clear &amp;All</source>
-        <translation>&amp;Tyhjennnä Kaikki</translation>
+        <translation>&amp;Tyhjennä Kaikki</translation>
     </message>
     <message>
         <source>Balance:</source>
