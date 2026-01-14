@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Issue Submission Rules
+    url: https://github.com/dogecoin/dogecoin/issues/2110
+    about: Please read the issue submission rules before posting.
+  - name: Dogeducation (Reddit)
+    url: https://www.reddit.com/r/dogeducation/
+    about: For general questions about Dogecoin or wallet recovery.
+  - name: Dogecoin Discord
+    url: https://discord.com/invite/dogecoin
+    about: Join the community for general support and discussions.
