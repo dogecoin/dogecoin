@@ -36,6 +36,7 @@
 #include <QMessageBox>
 #include <QScrollBar>
 #include <QSettings>
+#include <QTextCursor>
 #include <QSignalMapper>
 #include <QThread>
 #include <QTime>
@@ -44,11 +45,12 @@
 #include <QThread>
 #include <functional>
 
-// TODO: add a scrollback limit, as there is currently none
 // TODO: make it possible to filter out categories (esp debug messages when implemented)
 // TODO: receive errors and debug messages through ClientModel
 
 const int CONSOLE_HISTORY = 50;
+/** Maximum number of lines in console scrollback buffer. */
+const int CONSOLE_SCROLLBACK = 1000;
 const int INITIAL_TRAFFIC_GRAPH_MINS = 30;
 const QSize FONT_RANGE(4, 40);
 const char fontSizeSettingsKey[] = "consoleFontSize";
@@ -779,6 +781,15 @@ void RPCConsole::message(int category, const QString &message, bool html)
         out += GUIUtil::HtmlEscape(interpretedMessage, false);
     out += "</td></tr></table>";
     ui->messagesWidget->append(out);
+
+    // Enforce scrollback limit by removing oldest blocks
+    QTextDocument *doc = ui->messagesWidget->document();
+    while (doc->blockCount() > CONSOLE_SCROLLBACK) {
+        QTextCursor cursor(doc->begin());
+        cursor.select(QTextCursor::BlockUnderCursor);
+        cursor.removeSelectedText();
+        cursor.deleteChar(); // Remove the newline
+    }
 }
 
 void RPCConsole::updateNetworkState()
