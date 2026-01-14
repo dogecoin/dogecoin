@@ -232,6 +232,7 @@ UniValue getauxblock(const JSONRPCRequest& request)
         || (request.params.size() != 0 && request.params.size() != 2))
       throw std::runtime_error(
           "getauxblock (hash auxpow)\n"
+          "\nDEPRECATED. Use 'createauxblock' and 'submitauxblock' instead.\n"
           "\nCreate or submit a merge-mined block.\n"
           "\nWithout arguments, create a new block and return information\n"
           "required to merge-mine it.  With arguments, submit a solved\n"

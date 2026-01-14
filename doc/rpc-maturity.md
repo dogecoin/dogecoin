@@ -42,7 +42,7 @@ Core RPC. Maturity is expressed over 3 stages:
 | getaccountaddress      | DEPRECATED | Deprecated since 1.14.0                    |
 | getaddednodeinfo       | STABLE     |                                            |
 | getaddressesbyaccount  | DEPRECATED | Deprecated since 1.14.0                    |
-| getauxblock            | STABLE     |                                            |
+| getauxblock            | DEPRECATED | Use createauxblock/submitauxblock instead  |
 | getbalance             | STABLE     |                                            |
 | getbestblockhash       | STABLE     |                                            |
 | getblock               | STABLE     |                                            |
