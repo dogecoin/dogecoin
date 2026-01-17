@@ -36,8 +36,9 @@ private:
 public:
     CTransactionRef tx;
     uint256 hashBlock;
-    // Dogecoin TODO: Is this used? If not remove. If it is, I don't think it's actually set
-    // anywhere. Check with Namecore
+
+    /** Merkle branch connecting this transaction to the block's merkle root.
+     *  Set by InitMerkleBranch() and verified in CAuxPow::check(). */
     std::vector<uint256> vMerkleBranch;
 
     /* An nIndex == -1 means that hashBlock (in nonzero) refers to the earliest
