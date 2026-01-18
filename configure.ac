@@ -741,7 +741,34 @@ define(MINIMUM_REQUIRED_BOOST, 1.60.0)
 
 dnl Check for boost libs
 AX_BOOST_BASE([MINIMUM_REQUIRED_BOOST], AC_MSG_RESULT(ok), AC_MSG_ERROR(Need at least boost 1.60.0))
-AX_BOOST_SYSTEM
+
+dnl As of boost 1.69.0, boost_system is header-only and
+dnl as of version 1.89.0 it is fully removed.
+dnl We conditionally check whether to include boost_system
+dnl based on the value specified in version.hpp
+
+AC_MSG_CHECKING([for boost >= 1.69.0])
+CHECK_BOOST_SYSTEM=yes
+TEMP_CPPFLAGS="$CPPFLAGS"
+CPPFLAGS="$BOOST_CPPFLAGS $CPPFLAGS"
+AC_PREPROC_IFELSE([AC_LANG_PROGRAM([[
+    @%:@include <boost/version.hpp>
+  ]], [[
+    #if BOOST_VERSION >= 106900
+    // No boost_system needed
+    #else
+    #  error we need to include boost_system
+    #endif
+  ]])],
+  [ AC_MSG_RESULT(yes); CHECK_BOOST_SYSTEM=no ],
+  [ AC_MSG_RESULT(no); CHECK_BOOST_SYSTEM=yes ]
+)
+CPPFLAGS="$TEMP_CPPFLAGS"
+
+if test x$CHECK_BOOST_SYSTEM = xyes; then
+  AX_BOOST_SYSTEM
+fi
+
 AX_BOOST_FILESYSTEM
 AX_BOOST_PROGRAM_OPTIONS
 AX_BOOST_THREAD
