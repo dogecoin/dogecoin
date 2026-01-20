@@ -264,6 +264,7 @@ void Shutdown()
     }
 #endif
     UnregisterAllValidationInterfaces();
+    WriteExtraConfigFile(pwalletMain);
 #ifdef ENABLE_WALLET
     delete pwalletMain;
     pwalletMain = NULL;
