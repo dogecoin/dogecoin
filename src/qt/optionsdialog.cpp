@@ -17,6 +17,7 @@
 
 #include "validation.h" // for DEFAULT_SCRIPTCHECK_THREADS and MAX_SCRIPTCHECK_THREADS
 #include "netbase.h"
+#include "net.h"
 #include "txdb.h" // for -dbcache defaults
 
 #ifdef ENABLE_WALLET
@@ -64,6 +65,14 @@ OptionsDialog::OptionsDialog(QWidget *parent, bool enableWallet) :
     ui->proxyIpTor->setEnabled(false);
     ui->proxyPortTor->setEnabled(false);
     ui->proxyPortTor->setValidator(new QIntValidator(1, 65535, this));
+
+    if (g_connman) {
+        ui->maxConnectionCount->setMinimum(0);
+        ui->maxConnectionCount->setMaximum(g_connman->GetMaxAllowedConnections());
+        ui->maxConnectionCount->setValue(g_connman->GetMaxConnections());
+    } else {
+        ui->maxConnectionCount->setDisabled(true);
+    }
 
     connect(ui->connectSocks, SIGNAL(toggled(bool)), ui->proxyIp, SLOT(setEnabled(bool)));
     connect(ui->connectSocks, SIGNAL(toggled(bool)), ui->proxyPort, SLOT(setEnabled(bool)));
@@ -238,7 +247,7 @@ void OptionsDialog::on_okButton_clicked()
 {
     mapper->submit();
     accept();
-    updateDefaultProxyNets();
+    updateNetworkSettings();
 }
 
 void OptionsDialog::on_cancelButton_clicked()
@@ -303,6 +312,15 @@ void OptionsDialog::updateProxyValidationState()
         setOkButtonState(false);
         ui->statusLabel->setStyleSheet("QLabel { color: red; }");
         ui->statusLabel->setText(tr("The supplied proxy address is invalid."));
+    }
+}
+
+void OptionsDialog::updateNetworkSettings()
+{
+    updateDefaultProxyNets();
+    if (g_connman)
+    {
+        g_connman->SetMaxConnections(ui->maxConnectionCount->value());
     }
 }
 

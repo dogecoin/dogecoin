@@ -285,6 +285,8 @@ public:
 
     unsigned int GetReceiveFloodSize() const;
 
+    int GetMaxConnections();
+    int GetMaxAllowedConnections();
     void SetMaxConnections(int newMaxConnections);
 
     void WakeMessageHandler();
