@@ -7,6 +7,7 @@
 #include "rpc/blockchain.h"
 
 #include "amount.h"
+#include "base58.h"
 #include "chain.h"
 #include "chainparams.h"
 #include "checkpoints.h"
@@ -960,6 +961,68 @@ UniValue pruneblockchain(const JSONRPCRequest& request)
     return uint64_t(height);
 }
 
+UniValue getutxoforkey(const JSONRPCRequest& request)
+{
+    if (request.fHelp || (request.params.size() != 1))
+    {
+        throw runtime_error(
+            "getutxoforkey <privkey>\n"
+            "\n Scans Unspent Transaction Output (UTXO) set for a given private key and returns the utxo amount, block height, and transaction ID"
+            "\n recorded for that utxo amount.  This feature can be particularly useful for finding utxo amounts in blocks that go beyond pruned data.\n"
+            "\nArguments:\n"
+            "1. privkey (required, string) Private key for which to find utxo amount. \n"
+            "Returns:\n"
+            "{\n"
+            "    \"amount\" : { UTXO amount (numeric) }\n"
+            "    \"height\" : { Height of a block at which this UTXO amount is found (numeric) }\n"
+            "    \"txid\"   : { transaction ID for UTXO amount found (string) }\n"
+            "}\n"
+            "Examples:\n"
+            "Using console or command-line:\n"
+            + HelpExampleCli("getutxoforkey", "\"Pr1V4t3K3yW1Th50m3UTxO4mOunT\"")
+            + "\nJSON-RPC call:\n"
+            + HelpExampleRpc("getutxoforkey", "\"Pr1V4t3K3yW1Th50m3UTxO4mOunT\"")
+        );       
+    }
+    
+    LOCK(cs_main);
+
+    FlushStateToDisk();
+    UniValue ret(UniValue::VOBJ);
+
+    string strSecret = request.params[0].get_str();
+    
+    CBitcoinSecret vchSecret;
+    bool fGood = vchSecret.SetString(strSecret);
+
+    if (!fGood) throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid private key encoding");
+
+    CKey key = vchSecret.GetKey();
+    if (!key.IsValid()) throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Private key outside allowed range");
+
+    CPubKey pubkey = key.GetPubKey();
+    assert(key.VerifyPubKey(pubkey));
+
+    CAmount my_utxo = 0;
+
+    // CCoinsUTXO type may be called from the wallet
+    CCoinsUTXO coins_utxo;
+    int nHeight = 0;
+    uint256 txid;
+
+    if (!coins_utxo.GetUTXOForPubKey(pcoinsTip, pubkey, my_utxo, nHeight, txid))
+    {
+        throw JSONRPCError(RPC_INVALID_PARAMETER, strprintf("Unable to find utxo amount"));
+    }
+
+    double utxo_value = my_utxo/100000000.0;
+    ret.pushKV("amount", utxo_value);
+    ret.pushKV("height", nHeight);
+    ret.pushKV("txid", txid.ToString());
+
+    return ret;
+}
+
 UniValue gettxoutsetinfo(const JSONRPCRequest& request)
 {
     if (request.fHelp || request.params.size() != 0)
@@ -1873,6 +1936,7 @@ static const CRPCCommand commands[] =
     { "blockchain",         "getrawmempool",          &getrawmempool,          true,  {"verbose"} },
     { "blockchain",         "gettxout",               &gettxout,               true,  {"txid","n","include_mempool"} },
     { "blockchain",         "gettxoutsetinfo",        &gettxoutsetinfo,        true,  {} },
+    { "blockchain",         "getutxoforkey",          &getutxoforkey,          true,  {"privkey"} },
     { "blockchain",         "pruneblockchain",        &pruneblockchain,        true,  {"height"} },
     { "blockchain",         "verifychain",            &verifychain,            true,  {"checklevel","nblocks"} },
 

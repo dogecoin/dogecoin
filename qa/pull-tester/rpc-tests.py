@@ -148,6 +148,7 @@ testScripts = [
     'nodehandling.py',
     'decodescript.py',
     'blockchain.py',
+    'utxo-scan.py',
     'disablewallet.py',
     'keypool.py',
     'p2p-mempool.py',

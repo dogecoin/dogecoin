@@ -106,6 +106,20 @@ CCoinsViewCursor *CCoinsViewDB::Cursor() const
     return i;
 }
 
+CCoinsViewCursor *CCoinsViewDB::CursorEnd() const
+{
+    CCoinsViewDBCursor *i = new CCoinsViewDBCursor(const_cast<CDBWrapper*>(&db)->NewIterator(), GetBestBlock());
+    /* Same notes as for *CCoinsViewDB::Cursor() */ 
+    i->pcursor->SeekEnd(DB_COINS);
+    // Cache key of first record
+    if (i->pcursor->Valid()) {
+        i->pcursor->GetKey(i->keyTmp);
+    } else {
+        i->keyTmp.first = 0; // Make sure Valid() and GetKey() return false
+    }
+    return i;
+}
+
 bool CCoinsViewDBCursor::GetKey(uint256 &key) const
 {
     // Return cached key
@@ -134,6 +148,13 @@ bool CCoinsViewDBCursor::Valid() const
 void CCoinsViewDBCursor::Next()
 {
     pcursor->Next();
+    if (!pcursor->Valid() || !pcursor->GetKey(keyTmp))
+        keyTmp.first = 0; // Invalidate cached key after last record so that Valid() and GetKey() return false
+}
+
+void CCoinsViewDBCursor::Prev()
+{
+    pcursor->Prev();
     if (!pcursor->Valid() || !pcursor->GetKey(keyTmp))
         keyTmp.first = 0; // Invalidate cached key after last record so that Valid() and GetKey() return false
 }
