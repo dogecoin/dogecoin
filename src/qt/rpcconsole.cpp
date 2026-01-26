@@ -49,8 +49,8 @@
 // TODO: receive errors and debug messages through ClientModel
 
 const int CONSOLE_HISTORY = 50;
-/** Maximum number of lines in console scrollback buffer. */
-const int CONSOLE_SCROLLBACK = 1000;
+/** Maximum number of commands to keep in console scrollback buffer. */
+const int CONSOLE_MAX_COMMANDS = 100;
 const int INITIAL_TRAFFIC_GRAPH_MINS = 30;
 const QSize FONT_RANGE(4, 40);
 const char fontSizeSettingsKey[] = "consoleFontSize";
@@ -423,7 +423,8 @@ RPCConsole::RPCConsole(const PlatformStyle *_platformStyle, QWidget *parent) :
     platformStyle(_platformStyle),
     peersTableContextMenu(0),
     banTableContextMenu(0),
-    consoleFontSize(0)
+    consoleFontSize(0),
+    commandCount(0)
 {
     ui->setupUi(this);
     GUIUtil::restoreWindowGeometry("nRPCConsoleWindow", this->size(), this);
@@ -709,6 +710,7 @@ void RPCConsole::setFontSize(int newSize)
 void RPCConsole::clear(bool clearHistory)
 {
     ui->messagesWidget->clear();
+    commandCount = 0;
     if(clearHistory)
     {
         history.clear();
@@ -782,13 +784,35 @@ void RPCConsole::message(int category, const QString &message, bool html)
     out += "</td></tr></table>";
     ui->messagesWidget->append(out);
 
-    // Enforce scrollback limit by removing oldest blocks
-    QTextDocument *doc = ui->messagesWidget->document();
-    while (doc->blockCount() > CONSOLE_SCROLLBACK) {
-        QTextCursor cursor(doc->begin());
-        cursor.select(QTextCursor::BlockUnderCursor);
-        cursor.removeSelectedText();
-        cursor.deleteChar(); // Remove the newline
+    // Track command count for scrollback limiting
+    if (category == CMD_REQUEST) {
+        commandCount++;
+
+        // Enforce scrollback limit by removing oldest command and its response
+        while (commandCount > CONSOLE_MAX_COMMANDS) {
+            QTextDocument *doc = ui->messagesWidget->document();
+            if (doc->blockCount() <= 1)
+                break;
+
+            QTextCursor cursor(doc->begin());
+            // Remove first block (the old command)
+            cursor.select(QTextCursor::BlockUnderCursor);
+            cursor.removeSelectedText();
+            cursor.deleteChar();
+
+            // Continue removing blocks until we hit the next command or run out
+            while (doc->blockCount() > 1) {
+                QString blockText = doc->begin().text();
+                // Check if this block contains a cmd-request (next command)
+                if (blockText.contains("cmd-request"))
+                    break;
+                cursor = QTextCursor(doc->begin());
+                cursor.select(QTextCursor::BlockUnderCursor);
+                cursor.removeSelectedText();
+                cursor.deleteChar();
+            }
+            commandCount--;
+        }
     }
 }
 
