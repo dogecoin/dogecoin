@@ -596,11 +596,11 @@
     </message>
     <message>
         <source>&amp;Such sending addresses...</source>
-        <translation>&amp;Muchas direcciones de envío...</translation>
+        <translation>&amp;Tan direcciones de envío...</translation>
     </message>
     <message>
         <source>&amp;Much receiving addresses...</source>
-        <translation>&amp;Muchas direcciones de recepción...</translation>
+        <translation>&amp;Tan direcciones de recepción...</translation>
     </message>
     <message>
         <source>&amp;Import Private Key...</source>
@@ -1475,7 +1475,7 @@
     </message>
     <message>
         <source>Very New Address</source>
-        <translation>Nueva dirección</translation>
+        <translation>Muy nueva dirección</translation>
     </message>
     <message>
         <source>So Print</source>
@@ -1575,7 +1575,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>failed to open file, is it writable?</source>
-        <translation>Error al abrir el archivo, ¿es escribible?</translation>
+        <translation>Error al abrir el archivo, ¿tienes permisos de escritura?</translation>
     </message>
     <message>
         <source>Load Paper Wallets</source>
@@ -1607,11 +1607,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>The amount exceeds your balance.</source>
-        <translation>La cantidad excede su saldo.</translation>
+        <translation>La cantidad excede tu saldo.</translation>
     </message>
     <message>
         <source>The total exceeds your balance when the transaction fee is included</source>
-        <translation>El total excede su saldo cuando se incluye la comisión de transacción</translation>
+        <translation>El total excede tu saldo cuando se incluye la comisión de transacción</translation>
     </message>
     <message>
         <source>Duplicate address found, can only send to each address once per send operation.</source>
@@ -1623,7 +1623,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Are you sure you want to send?</source>
-        <translation>¿Seguro que quiere enviar?</translation>
+        <translation>¿Seguro que quieres enviar?</translation>
     </message>
     <message>
         <source>added as transaction fee</source>
@@ -2622,7 +2622,7 @@ Usa esta funcionalidad con extrema precaución.</translation>
     </message>
     <message>
         <source>Are you sure you want to send?</source>
-        <translation>¿Seguro que quiere enviar?</translation>
+        <translation>¿Seguro que quieres enviar?</translation>
     </message>
     <message>
         <source>added as transaction fee</source>
@@ -2650,11 +2650,11 @@ Usa esta funcionalidad con extrema precaución.</translation>
     </message>
     <message>
         <source>The amount exceeds your balance.</source>
-        <translation>La cantidad excede su saldo.</translation>
+        <translation>La cantidad excede tu saldo.</translation>
     </message>
     <message>
         <source>The total exceeds your balance when the %1 transaction fee is included.</source>
-        <translation>El total excede su saldo cuando la comisión de transacción de %1 es incluida.</translation>
+        <translation>El total excede tu saldo cuando la comisión de transacción de %1 es incluida.</translation>
     </message>
     <message>
         <source>Duplicate address found: addresses should only be used once each.</source>
@@ -4508,7 +4508,7 @@ Establecer la serialización de las transacciones sin procesar o el bloque hex d
     </message>
     <message>
         <source>Such expensive</source>
-        <translation>Muy caro</translation>
+        <translation>Tan caro</translation>
     </message>
     <message>
         <source>Wow</source>
