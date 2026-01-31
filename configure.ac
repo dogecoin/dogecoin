@@ -195,6 +195,16 @@ AC_ARG_ENABLE([glibc-back-compat],
   [use_glibc_compat=$enableval],
   [use_glibc_compat=no])
 
+AC_ARG_ENABLE([asm],
+  [AS_HELP_STRING([--enable-asm],
+  [Enable assembly routines (default is yes)])],
+  [use_asm=$enableval],
+  [use_asm=yes])
+
+if test "x$use_asm" = xyes; then
+  AC_DEFINE(USE_ASM, 1, [Define this symbol to build in assembly routines])
+fi
+
 AC_ARG_WITH([system-univalue],
   [AS_HELP_STRING([--with-system-univalue],
   [Build with system UniValue (default is no)])],
@@ -236,6 +246,12 @@ AC_ARG_WITH([armv82-crypto],
   [Build with armv8.2 crypto sha512 (default is no)])],
   [armv82_crypto=$withval],
   [armv82_crypto=no])
+
+AC_ARG_WITH([bip39],
+  [AS_HELP_STRING([--with-bip39],
+  [Build with bip39 support (default is no)])],
+  [use_bip39=$withval],
+  [use_bip39=no])
 
 AC_ARG_ENABLE(man,
     [AS_HELP_STRING([--disable-man],
@@ -301,6 +317,50 @@ if test "x$use_null_warnings" = "xyes"; then
     [AC_MSG_WARN([Compiler doesn't support -Wzero-as-null-pointer-constant])],
     [[$CXXFLAG_WERROR]])
 fi
+
+# Check for optional instruction set support. Enabling these does _not_ imply that all code will
+# be compiled with them, rather that specific objects/libs may use them after checking for runtime
+# compatibility.
+AX_CHECK_COMPILE_FLAG([-msse4.1],[[SSE41_CXXFLAGS="-msse4.1"]],,[[$CXXFLAG_WERROR]])
+AX_CHECK_COMPILE_FLAG([-mavx -mavx2],[[AVX2_CXXFLAGS="-mavx -mavx2"]],,[[$CXXFLAG_WERROR]])
+
+TEMP_CXXFLAGS="$CXXFLAGS"
+CXXFLAGS="$CXXFLAGS $SSE41_CXXFLAGS"
+AC_MSG_CHECKING(for SSE4.1 intrinsics)
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+    #include <stdint.h>
+    #if defined(_MSC_VER)
+    #include <immintrin.h>
+    #elif defined(__GNUC__)
+    #include <x86intrin.h>
+    #endif
+  ]],[[
+    __m128i l = _mm_set1_epi32(0);
+    return _mm_extract_epi32(l, 3);
+  ]])],
+ [ AC_MSG_RESULT(yes); enable_sse41=yes; AC_DEFINE(ENABLE_SSE41, 1, [Define this symbol to build code that uses SSE4.1 intrinsics]) ],
+ [ AC_MSG_RESULT(no)]
+)
+CXXFLAGS="$TEMP_CXXFLAGS"
+
+TEMP_CXXFLAGS="$CXXFLAGS"
+CXXFLAGS="$CXXFLAGS $AVX2_CXXFLAGS"
+AC_MSG_CHECKING(for AVX2 intrinsics)
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+    #include <stdint.h>
+    #if defined(_MSC_VER)
+    #include <immintrin.h>
+    #elif defined(__GNUC__) && defined(__AVX2__)
+    #include <x86intrin.h>
+    #endif
+  ]],[[
+    __m256i l = _mm256_set1_epi32(0);
+    return _mm256_extract_epi32(l, 7);
+  ]])],
+ [ AC_MSG_RESULT(yes); enable_avx2=yes; AC_DEFINE(ENABLE_AVX2, 1, [Define this symbol to build code that uses AVX2 intrinsics]) ],
+ [ AC_MSG_RESULT(no)]
+)
+CXXFLAGS="$TEMP_CXXFLAGS"
 
 CPPFLAGS="$CPPFLAGS -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS"
 
@@ -848,7 +908,9 @@ fi
 # Configure Scrypt SSE2
 if test x$use_scrypt_sse2 = xyes; then
   DOGECOIN_REQUIRE_EXPERIMENTAL
-  AC_DEFINE(USE_SSE2, 1, [Define this symbol if SSE2 works])
+  AC_CHECK_HEADER([cpuid.h],
+    [AC_DEFINE(USE_SSE2, 1, [Define this symbol if SSE2 works])],
+    [AC_MSG_ERROR([cpuid.h header not found, cannot build with scrypt SSE2])])
 fi
 
 if test x$armv8_crypto = xyes; then
@@ -856,14 +918,29 @@ if test x$armv8_crypto = xyes; then
   AC_MSG_CHECKING([whether to build with armv8 crypto])
   AC_MSG_RESULT(yes)
   AC_DEFINE(USE_ARMV8, 1, [Define this symbol if armv8 crypto works])
-  CXXFLAGS="$CXXFLAGS -march=armv8-a+crypto"
+  CPPFLAGS="$CPPFLAGS -march=armv8-a+crypto"
 fi
 
 if test x$armv82_crypto = xyes; then
   DOGECOIN_REQUIRE_EXPERIMENTAL
-  AC_CHECK_DECLS([vsha512su0q_u64],
-     [AC_DEFINE(USE_ARMV82, 1, [Define this symbol if armv8.2 crypto works])
-     CXXFLAGS="$CXXFLAGS -march=armv8.2-a+crypto+sha3"], AC_MSG_ERROR(sha512 missing), [#include <arm_neon.h>])
+  ARMV82_CXXFLAGS="-march=armv8.2-a+crypto+sha3"
+  AC_MSG_CHECKING([whether to build with armv8.2-a crypto])
+  CPPFLAGS_SAVE="$CPPFLAGS"
+  CPPFLAGS="$CPPFLAGS $ARMV82_CXXFLAGS"
+  AC_COMPILE_IFELSE(
+    [AC_LANG_PROGRAM([[#include <arm_neon.h>]],
+                     [[uint64x2_t x; x = vsha512su0q_u64(x, x);]])],
+    [AC_DEFINE(USE_ARMV82, 1, [Define this symbol if armv8.2 crypto works])
+     AC_MSG_RESULT(yes)],
+    [AC_MSG_WARN([sha512 missing, using armv8-a crypto without sha512])
+     AC_DEFINE(USE_ARMV8, 1, [Define this symbol if armv8 crypto works])
+     ARMV82_CXXFLAGS=""])
+  CPPFLAGS="$CPPFLAGS_SAVE"
+fi
+
+if test x$use_bip39 = xyes; then
+  DOGECOIN_REQUIRE_EXPERIMENTAL
+  AC_DEFINE(USE_BIP39, 1, [Define this symbol if BIP39 works])
 fi
 
 if test x$use_pkgconfig = xyes; then
@@ -1181,11 +1258,16 @@ AM_CONDITIONAL([ENABLE_QT],[test x$bitcoin_enable_qt = xyes])
 AM_CONDITIONAL([ENABLE_QT_TESTS],[test x$BUILD_TEST_QT = xyes])
 AM_CONDITIONAL([ENABLE_BENCH],[test x$use_bench = xyes])
 AM_CONDITIONAL([USE_QRCODE], [test x$use_qr = xyes])
+AM_CONDITIONAL([USE_BIP39],[test x$use_bip39 = xyes])
 AM_CONDITIONAL([USE_LCOV],[test x$use_lcov = xyes])
 AM_CONDITIONAL([GLIBC_BACK_COMPAT],[test x$use_glibc_compat = xyes])
 AM_CONDITIONAL([HARDEN],[test x$use_hardening = xyes])
 AM_CONDITIONAL([WORDS_BIGENDIAN],[test x$ac_cv_c_bigendian = xyes])
 AM_CONDITIONAL([USE_SCRYPT_SSE2], [test x$use_scrypt_sse2 = xyes])
+AM_CONDITIONAL([ENABLE_SSE41],[test x$enable_sse41 = xyes])
+AM_CONDITIONAL([ENABLE_AVX2],[test x$enable_avx2 = xyes])
+AM_CONDITIONAL([USE_ASM],[test x$use_asm = xyes])
+AM_CONDITIONAL([USE_ARMV82], [test x$armv82_crypto = xyes])
 
 AC_DEFINE(CLIENT_VERSION_MAJOR, _CLIENT_VERSION_MAJOR, [Major version])
 AC_DEFINE(CLIENT_VERSION_MINOR, _CLIENT_VERSION_MINOR, [Minor version])
@@ -1216,6 +1298,7 @@ AC_SUBST(BITCOIN_CLI_NAME)
 AC_SUBST(BITCOIN_TX_NAME)
 
 AC_SUBST(RELDFLAGS)
+AC_SUBST(ARMV82_CXXFLAGS)
 AC_SUBST(COMPAT_LDFLAGS)
 AC_SUBST(ERROR_CXXFLAGS)
 AC_SUBST(HARDENED_CXXFLAGS)
@@ -1223,6 +1306,8 @@ AC_SUBST(HARDENED_CPPFLAGS)
 AC_SUBST(HARDENED_LDFLAGS)
 AC_SUBST(PIC_FLAGS)
 AC_SUBST(PIE_FLAGS)
+AC_SUBST(SSE41_CXXFLAGS)
+AC_SUBST(AVX2_CXXFLAGS)
 AC_SUBST(LIBTOOL_APP_LDFLAGS)
 AC_SUBST(USE_UPNP)
 AC_SUBST(USE_QRCODE)
@@ -1317,6 +1402,10 @@ if test x$allow_experimental = xyes; then
     echo "    AVX2 crypto   = $intel_avx2"
     echo "    ARMv8 crypto  = $armv8_crypto"
     echo "    ARMv82 crypto = $armv82_crypto"
+    echo
+    echo "    ARMV82_CXXFLAGS = $ARMV82_CXXFLAGS"
+    echo "    LIB BIP39     = $use_lib"
+    echo "    BIP39         = $use_bip39"
 fi
 echo
 echo "  target os     = $TARGET_OS"

@@ -34,6 +34,11 @@
 
 #include <boost/thread.hpp>
 
+#ifdef USE_BIP39
+#include "wallet/bip39/bip39.h"
+#include "support/experimental.h"
+#endif
+
 extern CWallet* pwalletMain;
 
 /**
@@ -221,7 +226,7 @@ struct COutputEntry
     int vout;
 };
 
-/** 
+/**
  * A transaction with a bunch of additional info that only the owner cares about.
  * It includes any unrecorded transactions needed to link it back to the block chain.
  */
@@ -535,8 +540,26 @@ private:
     std::vector<char> _ssExtra;
 };
 
+#ifdef USE_BIP39
+EXPERIMENTAL_FEATURE
 
-/** 
+/**
+ * Report returned from SweepFromMnemonic. This report contains details about
+ * the sweeping operation, including the derived addresses, the number of
+ * inputs used, the total amount swept, the transaction fee, the destination
+ * address, and the transaction ID.
+ */
+struct SweepReport {
+    std::vector<std::string> derived;
+    int      inputs{0};
+    CAmount  total{0};
+    CAmount  fee{0};
+    std::string sent_to;
+    std::string txid;
+};
+#endif
+
+/**
  * A CWallet is an extension of a keystore, which also maintains a set of transactions and balances,
  * and provides the ability to create new transactions.
  */
@@ -745,9 +768,37 @@ public:
     bool ChangeWalletPassphrase(const SecureString& strOldWalletPassphrase, const SecureString& strNewWalletPassphrase);
     bool EncryptWallet(const SecureString& strWalletPassphrase);
 
+#ifdef USE_BIP39
+EXPERIMENTAL_FEATURE
+    bool EncryptBip39Wallet(const SecureString& strWalletPassphrase);
+
+    /**
+     * Sweep all funds from the mnemonic to a single destination address. The
+     * mnemonic may include an optional passphrase (extra). The basePath
+     * specifies the derivation path for generating addresses, and gap defines
+     * the gap limit for address scanning. If destOpt is provided, funds will
+     * be sent to the specified destination address; otherwise, a new address
+     * from the wallet will be used. The startAt parameter determines the
+     * starting block for scanning (use nullptr to start from the genesis
+     * block). If dry_run is true, no transaction will be created, but a report
+     * will be generated as if the transaction would occur. If fee_override is
+     * specified, that fee rate will be used instead of estimating the fee.
+     */
+    bool SweepFromMnemonic(const std::string& mnemonic,
+                           const std::string& extra,
+                           const std::string& basePath,
+                           int gap,
+                           const CTxDestination* destOpt,
+                           CBlockIndex* startAt,
+                           bool dry_run,
+                           const CFeeRate* fee_override,
+                           SweepReport& out,
+                           std::string& err);
+
+#endif
     void GetKeyBirthTimes(std::map<CTxDestination, int64_t> &mapKeyBirth) const;
 
-    /** 
+    /**
      * Increment the next transaction order id
      * @return next transaction order id
      */
@@ -907,8 +958,8 @@ public:
 
     //! Verify the wallet database and perform salvage if required
     static bool Verify();
-    
-    /** 
+
+    /**
      * Address book entry changed.
      * @note called with lock cs_wallet held.
      */
@@ -917,7 +968,7 @@ public:
             const std::string &purpose,
             ChangeType status)> NotifyAddressBookChanged;
 
-    /** 
+    /**
      * Wallet transaction added, removed or updated.
      * @note called with lock cs_wallet held.
      */
@@ -966,9 +1017,18 @@ public:
     /* Returns true if HD is enabled */
     bool IsHDEnabled();
 
+#ifdef USE_BIP39
+EXPERIMENTAL_FEATURE
+    /* Verifies a BIP39 mnemonic phrase, in a language (ISO 639-2 code), space character */
+    bool VerifyBip39Mnemonic(const MNEMONIC mnemonic, const char* language, const char* space);
+
+    /* Generates or imports a BIP39 seed and encrypts the wallet */
+    CPubKey GenerateBip39MasterKey(const MNEMONIC mnemonic, const PASS password, const std::string& extraWord, const std::string& keyPath);
+#endif
+
     /* Generates a new HD master key (will not be activated) */
     CPubKey GenerateNewHDMasterKey();
-    
+
     /* Set the current HD master key (will reset the chain child index counters) */
     bool SetHDMasterKey(const CPubKey& key);
 };
@@ -999,7 +1059,7 @@ public:
 };
 
 
-/** 
+/**
  * Account information.
  * Stored in wallet with key "acc"+string account name.
  */

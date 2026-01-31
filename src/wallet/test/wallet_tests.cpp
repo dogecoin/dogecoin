@@ -525,7 +525,7 @@ BOOST_AUTO_TEST_CASE(GetMinimumFee_dust_test)
     // Confirm dust penalty fees are added on
     // Because this is ran by the wallet, this takes the discardThreshold,
     // not the dust limit
-    
+
     CWallet::discardThreshold = COIN;
 
     CAmount nDustPenalty = COIN;
@@ -547,6 +547,41 @@ BOOST_AUTO_TEST_CASE(GetMinimumFee_dust_test)
     CWallet::discardThreshold = COIN / 100;
 }
 
+#ifdef USE_BIP39
+EXPERIMENTAL_FEATURE
+BOOST_FIXTURE_TEST_CASE(derive_new_child_key_test, WalletTestingSetup)
+{
+    CWallet* wallet = pwalletMain;
+    LOCK(wallet->cs_wallet);
+
+    // Use a fixed BIP39 mnemonic and expected derived child public key.
+    const MNEMONIC testMnemonic = "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about";
+    std::string expectedPubKeyHex = "03e9f2ace15120cf98f0577a98e7c66644aa823d4256204d5e644c43abf0ed0f40";
+
+    // Encrypt and store a new HD master key in the wallet
+    const PASS passphrase = "test";
+    const PASS extraWord = "extra";
+    const KEY_PATH keyPath = "m/44'/3'/0'/0";
+    wallet->GenerateBip39MasterKey(testMnemonic, passphrase, extraWord, keyPath);
+
+    // Derive a new child key using at derivation path (m/44'/3'/0'/0/0)
+    CKeyMetadata childMetadata(GetTime());
+    CKey childKey;
+    wallet->DeriveNewChildKey(childMetadata, childKey);
+
+    // Verify the child key is valid
+    CPubKey childPubKey = childKey.GetPubKey();
+    BOOST_CHECK(childKey.IsValid());
+    BOOST_CHECK(childPubKey.IsFullyValid());
+
+    // Verify that the metadata reflects the path "m/44'/3'/0'/0/0"
+    BOOST_CHECK_EQUAL(childMetadata.hdKeypath, "m/44'/3'/0'/0/0");
+
+    // Verify the child public key matches the expected value
+    std::string derivedPubKeyHex = HexStr(childPubKey.begin(), childPubKey.end());
+    BOOST_CHECK_EQUAL(derivedPubKeyHex, expectedPubKeyHex);
+}
+#else
 BOOST_FIXTURE_TEST_CASE(derive_new_child_key_test, WalletTestingSetup)
 {
     CWallet* wallet = pwalletMain;
@@ -591,5 +626,6 @@ BOOST_FIXTURE_TEST_CASE(derive_new_child_key_test, WalletTestingSetup)
     std::string derivedPubKeyHex = HexStr(childPubKey.begin(), childPubKey.end());
     BOOST_CHECK_EQUAL(derivedPubKeyHex, expectedPubKeyHex);
 }
+#endif
 
 BOOST_AUTO_TEST_SUITE_END()
