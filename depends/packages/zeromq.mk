@@ -7,7 +7,6 @@ $(package)_patches=remove_libstd_link.patch clock-unused-nsecs.patch 0002-disabl
 
 define $(package)_set_vars
   $(package)_config_opts=--without-documentation --disable-shared --without-libsodium --disable-curve
-  $(package)_config_opts_linux=--with-pic
   $(package)_cxxflags=-std=c++11
 endef
 
