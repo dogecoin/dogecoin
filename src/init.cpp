@@ -100,6 +100,7 @@ enum BindFlags {
 };
 
 static const char* FEE_ESTIMATES_FILENAME="fee_estimates.dat";
+static const char* DEFAULT_ASMAP_FILENAME="ip_asn.map";
 
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -1410,6 +1411,31 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
     if (mapMultiArgs.count("-seednode")) {
         BOOST_FOREACH(const std::string& strDest, mapMultiArgs.at("-seednode"))
             connman.AddOneShot(strDest);
+    }
+
+    // Read asmap file if configured
+    if (IsArgSet("-asmap")) {
+        fs::path asmap_file = fs::path(GetArg("-asmap", ""));
+        if (asmap_file.empty()) {
+            asmap_file = DEFAULT_ASMAP_FILENAME;
+        }
+        if (!asmap_file.is_absolute()) {
+            asmap_file = GetDataDir() / asmap_file;
+        }
+        if (!fs::exists(asmap_file)) {
+            InitError(strprintf(_("Could not find asmap file %s"), asmap_file));
+            return false;
+        }
+        std::vector<bool> asmap = CAddrMan::DecodeAsmap(asmap_file);
+        if (asmap.size() == 0) {
+            InitError(strprintf(_("Could not find or parse specified asmap: '%s'"), asmap_file));
+            return false;
+        }
+        const uint256 asmap_version = SerializeHash(asmap);
+        connman.SetAsmap(std::move(asmap));
+        LogPrintf("Using asmap version %s for IP bucketing.\n", asmap_version.ToString());
+    } else {
+        LogPrintf("Using /16 prefix for IP bucketing.\n");
     }
 
 #if ENABLE_ZMQ
