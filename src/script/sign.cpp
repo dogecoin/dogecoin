@@ -148,7 +148,8 @@ bool ProduceSignature(const BaseSignatureCreator& creator, const CScript& fromPu
     txnouttype whichType;
     solved = SignStep(creator, script, result, whichType, SIGVERSION_BASE);
     bool P2SH = false;
-    CScript subscript;
+    CScript subscript = CScript();
+
     sigdata.scriptWitness.stack.clear();
 
     if (solved && whichType == TX_SCRIPTHASH)
