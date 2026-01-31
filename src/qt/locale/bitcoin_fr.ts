@@ -2884,6 +2884,18 @@ Utilisez cette fonctionnalité avec une extrême prudence.</translation>
         <source>Do not shut down the computer until this window disappears.</source>
         <translation>Ne pas éteindre l&apos;ordinateur jusqu&apos;à la disparition de cette fenêtre.</translation>
     </message>
+    <message>
+        <source>Force quit</source>
+        <translation>Forcer la fermeture</translation>
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation>Attention</translation>
+    </message>
+    <message>
+        <source>Force quitting may corrupt your data. Continue?</source>
+        <translation>Forcer la fermeture peut corrompre vos données. Continuer ?</translation>
+    </message>
 </context>
 <context>
     <name>SignVerifyMessageDialog</name>
