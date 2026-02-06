@@ -5,9 +5,17 @@
 
 #include "cleanse.h"
 
-#include <openssl/crypto.h>
+#include <cstring>
+#include <atomic>
 
 void memory_cleanse(void *ptr, size_t len)
 {
-    OPENSSL_cleanse(ptr, len);
+    // Set memory to zero
+    std::memset(ptr, 0, len);
+
+    // Use an atomic signal fence to prevent the compiler from optimizing the memset away
+    std::atomic_signal_fence(std::memory_order_seq_cst);
+
+    // Volatile pointer to prevent compiler optimizing the memory access away
+    __asm__ __volatile__("" : : "r"(ptr) : "memory");
 }
