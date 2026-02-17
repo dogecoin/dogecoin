@@ -112,6 +112,33 @@ class ListTransactionsTest(BitcoinTestFramework):
                            {"category":"receive","amount":Decimal("1")},
                            {"txid":txid, "account" : "watchonly"} )
 
+        # now remove watchonly address
+        from_node = self.nodes[1]
+        to_node   = self.nodes[0]
+        new_address = to_node.getnewaddress()
+
+        txid = from_node.sendtoaddress(new_address, 128)
+        from_node.generate(1)
+        from_node.importaddress(new_address, "remove-watch")
+        oldacc = from_node.listaccounts(1, True)
+        self.sync_all()
+
+        new_tx = from_node.listtransactions("*", 100, 0, True)
+        assert(new_tx[-2]["txid"] == txid)
+
+        from_node.removeaddress(new_address)
+        new_tx = from_node.listtransactions("*", 100, 0, True)
+        newacc = from_node.listaccounts(1, True)
+
+        assert(new_tx[-1]["txid"] != txid)
+        assert(len(oldacc) == len(newacc) + 1)
+
+        # now fail to remove a non-watchonly address
+        try:
+            to_node.removeaddress(new_address)
+        except JSONRPCException as exp:
+            assert_equal(exp.error["message"], "Address is not watch-only")
+
         self.run_rbf_opt_in_test()
 
     # Check that the opt-in-rbf flag works properly, for sent and received
