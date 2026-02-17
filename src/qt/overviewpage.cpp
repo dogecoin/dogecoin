@@ -1,7 +1,11 @@
 // Copyright (c) 2011-2016 The Bitcoin Core developers
-// Copyright (c) 2022 The Dogecoin Core developers
+// Copyright (c) 2022-2023 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
+#if defined(HAVE_CONFIG_H)
+#include "config/bitcoin-config.h"
+#endif
 
 #include "overviewpage.h"
 #include "ui_overviewpage.h"
@@ -13,6 +17,7 @@
 #include "guiutil.h"
 #include "optionsmodel.h"
 #include "platformstyle.h"
+#include "releasedates.h"
 #include "transactionfilterproxy.h"
 #include "transactiontablemodel.h"
 #include "walletmodel.h"
@@ -165,6 +170,9 @@ void OverviewPage::UpdateTip()
         tr("To see ongoing development and contribute, check out the Dogecoin Core repository on GitHub"),
         tr("Services that claim to double your dogecoins are always ponzi schemes")
     };
+
+    if (dogecoin_release_is_outdated())
+        tips.append(tr("This release of Dogecoin core may be out of date (compiled on %1). Check if there's a new release!").arg(CURRENT_RELEASE_DATE));
 
     int i = rand() % tips.length();
     ui->label_tip->setText(tips[i]);
