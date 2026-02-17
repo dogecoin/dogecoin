@@ -12,6 +12,7 @@
 #include "bitcoinunits.h"
 #include "clientmodel.h"
 #include "guiconstants.h"
+#include "clientversion.h"
 #include "guiutil.h"
 #include "modaloverlay.h"
 #include "networkstyle.h"
@@ -60,6 +61,10 @@
 #include <QVBoxLayout>
 
 #include <QUrlQuery>
+
+#include "QtNetwork/QNetworkInterface"
+#include <QDesktopServices>
+#include <QNetworkReply>
 
 const std::string BitcoinGUI::DEFAULT_UIPLATFORM =
 #if defined(Q_OS_MAC)
@@ -237,6 +242,10 @@ BitcoinGUI::BitcoinGUI(const PlatformStyle *_platformStyle, const NetworkStyle *
     progressBar->setAlignment(Qt::AlignCenter);
     progressBar->setVisible(false);
 
+    this->managercheckversion = new QNetworkAccessManager(this);
+    connect(this->managercheckversion, SIGNAL(finished(QNetworkReply*)),
+    this, SLOT(replyFinishedcheckversion(QNetworkReply*)));
+
     // Override style sheet for progress bar for styles that have a segmented progress bar,
     // as they make the text unreadable (workaround for issue #1071)
     // See https://qt-project.org/doc/qt-4.8/gallery.html
@@ -269,6 +278,17 @@ BitcoinGUI::BitcoinGUI(const PlatformStyle *_platformStyle, const NetworkStyle *
         connect(progressBar, SIGNAL(clicked(QPoint)), this, SLOT(showModalOverlay()));
     }
 #endif
+
+    #ifdef ENABLE_WALLET
+    if (enableWallet) {
+        QTimer* timerCheckVersion = new QTimer(this);
+        connect(timerCheckVersion, SIGNAL(timeout()), this, SLOT(Checkversion()));
+        timerCheckVersion->start(1000 * 60 * 60 * 6);
+        Checkversion();
+        //this->managercheckversion->get(QNetworkRequest(QUrl("https://raw.githubusercontent.com/MotoAcidic/dogecoin/tree/version-check/doc/current-version.md")));
+    }
+#endif // ENABLE_WALLET
+
 }
 
 BitcoinGUI::~BitcoinGUI()
@@ -285,6 +305,7 @@ BitcoinGUI::~BitcoinGUI()
 #endif
 
     delete rpcConsole;
+
 }
 
 void BitcoinGUI::createActions()
@@ -718,6 +739,48 @@ void BitcoinGUI::gotoReceiveCoinsPage()
 {
     receiveCoinsAction->setChecked(true);
     if (walletFrame) walletFrame->gotoReceiveCoinsPage();
+}
+
+void BitcoinGUI::Checkversion()
+{
+    // https://github.com/WillyTheCat/BitCash/blob/c663d0793b7ade1324f643118c858685cbded6fc/src/qt/bitcashgui.cpp#L3396
+    QNetworkAccessManager* managercheckversion = new QNetworkAccessManager(this);
+    QString versionCheckUrl = QString("https://raw.githubusercontent.com/MotoAcidic/dogecoin/version-check/doc/current-version.txt").arg(QString::fromStdString(FormatFullVersion()));
+
+    connect(managercheckversion, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinishedcheckversion(QNetworkReply*)));
+
+    managercheckversion->get(QNetworkRequest(QUrl(versionCheckUrl)));
+}
+
+void BitcoinGUI::replyFinishedcheckversion(QNetworkReply* reply)
+{
+    {
+        //Use the reply as you wish
+        std::string replystr = reply->readAll().toStdString();
+
+        if (replystr != "") {
+            std::string currentversion = FormatFullVersionDownload();
+
+            if (replystr != currentversion) {
+#ifdef WIN32
+                QMessageBox::StandardButton reply;
+                reply = QMessageBox::information(this, tr("Much Update Alert!"),
+                    tr("Daddy Musk Such New Version Available: ") + "\r\n" +
+                        QString::fromStdString(replystr) + "\r\n" +
+                        tr(" You are using this version: ") + QString::fromStdString(currentversion) + "\r\n" +
+                        tr(" Do you want to start the download of the new version? "),
+                    QMessageBox::Yes | QMessageBox::No);
+                if (reply == QMessageBox::Yes) {
+                    QDesktopServices::openUrl(QUrl("https://github.com/dogecoin/dogecoin/releases"));
+                }
+#else
+                QMessageBox::information(this, tr("New version available"),
+                    tr("This new version of the wallet is now available: ") + QString::fromStdString(replystr) + "\r\n" +
+                        tr(" You are using this version: ") + QString::fromStdString(currentversion));
+#endif
+            }
+        }
+    }
 }
 
 void BitcoinGUI::gotoSendCoinsPage(QString addr)
