@@ -1,0 +1,29 @@
+User-agent: GPTBot
+
+Disallow: /
+
+User-agent: Google-Extended
+
+Disallow: /
+
+User-agent: CCBot
+
+Disallow: /
+
+User-Agent: AdsBot-Google
+
+Allow: /*-fragment.html
+
+Allow: /ext/
+
+Allow: *filters=*
+
+Allow: /monthlyfragments/*
+
+Allow: /gcbalance/*
+
+User-Agent: AdsBot-Google-Mobile
+
+Allow: /*-fragment.html
+
+Allow: /ext/
