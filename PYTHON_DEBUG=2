@@ -1,0 +1,9 @@
+PYTHON_DEBUG
+=
+2
+qa/
+pull-tester/
+rpc-tests
+.
+py 
+wallet
