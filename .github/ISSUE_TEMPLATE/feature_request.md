@@ -1,7 +1,10 @@
 ---
-name: 🚀 Feature Request
+name: "\U0001F680 Feature Request"
 about: Suggest an idea for this project
-title: '[feat] '
+title: "[feat] "
+labels: ''
+assignees: ''
+
 ---
 
 <!-- Please make sure you are posting an technical issue related to Dogecoin Core. --> 
