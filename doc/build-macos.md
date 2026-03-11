@@ -1,11 +1,11 @@
-# Building Dogecoin Core on MacOS #
+# Building ScrapCoin Core on MacOS #
 
 Tested on MacOs Ventura and Sonoma on Intel (x86_64) and Apple Silicon (arm64) macs.
 
-### Clone dogecoin locally, or check it out, etc. ###
+### Clone scrapcoin locally, or check it out, etc. ###
 
 ```sh
-git clone https://github.com/dogecoin/dogecoin.git
+git clone https://github.com/scrapcoin/scrapcoin.git
 ```
 
 ### Set up OSX basic build dependencies. ##
@@ -39,10 +39,10 @@ brew install autoconf automake libtool miniupnpc openssl pkg-config protobuf \
              qt5 zeromq qrencode librsvg boost berkeley-db@5 libevent
 ```
 
-### Go back to your Dogecoin repo ###
+### Go back to your ScrapCoin repo ###
 
 ```sh
-cd ~/dogecoin
+cd ~/scrapcoin
 
 ./autogen.sh
 ./configure --enable-c++17 --with-gui --with-boost=`brew --prefix boost`
@@ -60,5 +60,5 @@ Go have another beverage.
 Run it.
 
 ```sh
-/usr/local/bin/dogecoin-qt
+/usr/local/bin/scrapcoin-qt
 ```

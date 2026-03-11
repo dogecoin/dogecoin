@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin Core developers
-// Copyright (c) 2022-2023 The Dogecoin Core developers
+// Copyright (c) 2022-2023 The ScrapCoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -62,7 +62,7 @@ static const CAmount DEFAULT_MIN_RELAY_TX_FEE = RECOMMENDED_MIN_TX_FEE / 10;
 static const CAmount DEFAULT_TRANSACTION_MAXFEE = RECOMMENDED_MIN_TX_FEE * 10000;
 
 //! Discourage users to set fees higher than this amount (in satoshis) per kB
-/* Dogecoin: Set the high tx fee to be higher than the default values
+/* ScrapCoin: Set the high tx fee to be higher than the default values
  *           implemented by the wallet.
  */
 static const CAmount HIGH_TX_FEE_PER_KB = RECOMMENDED_MIN_TX_FEE * 1000;

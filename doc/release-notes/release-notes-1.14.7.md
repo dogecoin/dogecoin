@@ -1,24 +1,24 @@
-Dogecoin Core version 1.14.7 is now available from:
+ScrapCoin Core version 1.14.7 is now available from:
 
-  <https://github.com/dogecoin/dogecoin/releases/tag/v1.14.7/>
+  <https://github.com/scrapcoin/scrapcoin/releases/tag/v1.14.7/>
 
 This is a new minor version release, including enchancements to several RPC
-methods and important security updates for Dogecoin-Qt. Dogecoin-Qt users on
+methods and important security updates for ScrapCoin-Qt. ScrapCoin-Qt users on
 any platform are strongly recommended to upgrade.
 
 Please report bugs using the issue tracker at GitHub:
 
-  <https://github.com/dogecoin/dogecoin/issues>
+  <https://github.com/scrapcoin/scrapcoin/issues>
 
 To receive notifications about updates, subscribe to the release mailing list:
 
-  <https://sourceforge.net/projects/dogecoin/lists/dogecoin-releases>
+  <https://sourceforge.net/projects/scrapcoin/lists/scrapcoin-releases>
 
 
 Compatibility
 ==============
 
-Dogecoin Core is extensively tested on Ubuntu Server LTS, macOS and Windows.
+ScrapCoin Core is extensively tested on Ubuntu Server LTS, macOS and Windows.
 Minimum OS compatibility can be found [in the INSTALL guide](../INSTALL.md).
 
 Notable changes
@@ -27,26 +27,26 @@ Notable changes
 Important Security Updates
 --------------------------
 
-This release contains fixes for Dogecoin Qt across all platforms that increase
+This release contains fixes for ScrapCoin Qt across all platforms that increase
 security for end users.
 
 ### Disable BIP-70 payment server by default
 
-To mitigate future potential risk inside Dogecoin Qt, support for BIP-70 payment
+To mitigate future potential risk inside ScrapCoin Qt, support for BIP-70 payment
 requests and related BIP-71 and BIP-72 payment URIs and MIME types have been
 disabled by default, because this functionality interacts with remote websites
 in an automated manner and could be used to amplify any future vulnerabilities
-inside Dogecoin Qt. By default, incoming BIP-70 payment requests and files or
+inside ScrapCoin Qt. By default, incoming BIP-70 payment requests and files or
 URLs that use the functionality are rejected and an explanation is shown to the
 user.
 
 BIP-21 payment requests remain fully supported.
 
 The functionality can be re-enabled by using `enable-bip70=1` either in your
-dogecoin.conf or as an argument to Dogecoin-Qt if absolutely needed. Please use
+scrapcoin.conf or as an argument to ScrapCoin-Qt if absolutely needed. Please use
 extreme caution when exercising this option.
 
-This is step 1 in full deprecation of BIP-70, BIP-71 and BIP-72 inside Dogecoin
+This is step 1 in full deprecation of BIP-70, BIP-71 and BIP-72 inside ScrapCoin
 Core. Future releases may completely remove this feature.
 
 *Implemented with #3412*
@@ -63,18 +63,18 @@ Core. Future releases may completely remove this feature.
   self-compile to update their system libraries. (#3384)
 * Updated the `rpcuser.py` script to improve the password and salt generation
   methods it uses (#3388). If you've used this script in the past, replacing
-  current authentication in `dogecoin.conf` with new credentials generated with
+  current authentication in `scrapcoin.conf` with new credentials generated with
   the new version of this script is recommended.
 
 
 Maintain RPC fee estimation facilities
 ---------------------------------------
 
-Fee estimation was explicitly not ported or supported on Dogecoin Core since
+Fee estimation was explicitly not ported or supported on ScrapCoin Core since
 1.14.0, but as the non-functional data from `estimatefee` and `estimatesmartfee`
 were anyway used in the field, services using these RPC methods were unable to
 provide fee estimates to their users. Therefore this feature has now been ported
-to support Dogecoin parametrization.
+to support ScrapCoin parametrization.
 
 The RPC methods `estimatefee` and `estimatesmartfee` are now under active
 maintenance and will be further enhanced in the future.
@@ -113,7 +113,7 @@ Mapping between boolean and integer parameter functionality:
 For more information see:
 
 ```
-dogecoin-cli help getblock
+scrapcoin-cli help getblock
 ```
 
 *Implemented with #3299, #3306 and #3307*
@@ -132,7 +132,7 @@ The user can select which stats are returned to save processing time for stats
 that aren't wanted. For more information, use:
 
 ```
-dogecoin-cli help getblockstats
+scrapcoin-cli help getblockstats
 ```
 
 *Implemented with #3297*
@@ -198,9 +198,9 @@ Bug Fixes
 
 * Fixed a bug where `-maxtxfee` was not being respected outside of the wallet,
   which caused problems with the `sendrawtransaction` RPC call. (#3088)
-* Fixed the example `dogecoind.service` file (#3066)
+* Fixed the example `scrapcoind.service` file (#3066)
 * Fixed a bug where misnamed signal handlers were causing excessive warnings
-  in Dogecoin Qt logs (#3063)
+  in ScrapCoin Qt logs (#3063)
 * Fixed a bug where extremely long wallet labels could cause Qt popups to flow
   over screen limits, causing the user to have no means of accepting or
   rejecting the transaction (#3224)
@@ -231,7 +231,7 @@ Minor Changes
 * Added a translation in Vietnamese (#3060), and fixed missing information in
   the Chinese README translations (#3070)
 * Updated the python `ltc-scrypt` module to a maintained fork (#3080), which
-  can be found at https://github.com/dogecoin/ltc-scrypt
+  can be found at https://github.com/scrapcoin/ltc-scrypt
 * Backported a pure Python implementation of RIPEMD160 from Bitcoin Core (#3081)
 * Removed historical OpenSSL comparison tests to increase compatibility with
   OpenSSL 3+ (#3079)
@@ -261,7 +261,7 @@ Credit goes to all awesome contributors to this release, alphabetically:
 * Ed Tubbs
 * fanquake
 * Fierce Skit
-* fultondoge
+* fultonscrap
 * georgeartem
 * hwanyoungChoi
 * ilsubyega

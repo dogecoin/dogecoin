@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Copyright (c) 2016 The Bitcoin Core developers
-# Copyright (c) 2022 The Dogecoin Core developers
+# Copyright (c) 2022 The ScrapCoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -34,7 +34,7 @@ class BumpFeeTest(BitcoinTestFramework):
 
         # Encrypt wallet for test_locked_wallet_fails test
         self.nodes[1].encryptwallet(WALLET_PASSPHRASE)
-        dogecoind_processes[1].wait()
+        scrapcoind_processes[1].wait()
         self.nodes[1] = start_node(1, self.options.tmpdir, extra_args[1])
         self.nodes[1].walletpassphrase(WALLET_PASSPHRASE, WALLET_PASSPHRASE_TIMEOUT)
 
@@ -46,7 +46,7 @@ class BumpFeeTest(BitcoinTestFramework):
         peer_node, rbf_node = self.nodes
         rbf_node_address = rbf_node.getnewaddress()
 
-        # fund rbf node with 25 outputs of 10 DOGE
+        # fund rbf node with 25 outputs of 10 SCRAP
         print("Mining blocks...")
         peer_node.generate(70)
         self.sync_all()
@@ -71,7 +71,7 @@ class BumpFeeTest(BitcoinTestFramework):
         test_rebumping(rbf_node, dest_address)
         test_rebumping_not_replaceable(rbf_node, dest_address)
         test_unconfirmed_not_spendable(rbf_node, rbf_node_address)
-        test_dogecoin_wallet_minchange(rbf_node, dest_address)
+        test_scrapcoin_wallet_minchange(rbf_node, dest_address)
         test_locked_wallet_fails(rbf_node, dest_address)
         print("Success")
 
@@ -196,7 +196,7 @@ def test_dust_to_fee(rbf_node, dest_address):
 
 
 def test_settxfee(rbf_node, dest_address):
-    # Dogecoin: Increment is fixed, so this test tests for settxfee not making a difference
+    # ScrapCoin: Increment is fixed, so this test tests for settxfee not making a difference
     # check that bumpfee reacts correctly to the use of settxfee (paytxfee)
     # increase feerate by 2.5x, test that fee increased at least 2x
     rbf_node.settxfee(Decimal("2.00000000"))
@@ -278,7 +278,7 @@ def test_locked_wallet_fails(rbf_node, dest_address):
     assert_raises_jsonrpc(-13, "Please enter the wallet passphrase with walletpassphrase first.",
                           rbf_node.bumpfee, rbfid)
 
-def test_dogecoin_wallet_minchange(rbf_node, dest_address):
+def test_scrapcoin_wallet_minchange(rbf_node, dest_address):
     input = Decimal("10.00000000")
     discard_threshold = Decimal("0.01000000")    # DEFAULT_DISCARD_THRESHOLD
     min_fee = Decimal("0.01000000")              # DEFAULT_TRANSACTION_FEE
@@ -293,7 +293,7 @@ def test_dogecoin_wallet_minchange(rbf_node, dest_address):
                             {dest_address: destamount,
                              get_change_address(rbf_node): min_change})
 
-    # bump the fee with the default incremental fee; this should add 0.001 DOGE
+    # bump the fee with the default incremental fee; this should add 0.001 SCRAP
     bumped_tx = rbf_node.bumpfee(rbfid)
     assert_equal(bumped_tx["fee"], min_fee * est_tx_size + bumpfee)
 

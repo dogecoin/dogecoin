@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2021 The Dogecoin Core developers
+# Copyright (c) 2021 The ScrapCoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -87,7 +87,7 @@ class SetMaxConnectionCountTest (BitcoinTestFramework):
             assert("1. maxconnectioncount" in e.error['message'])
 
         try:
-            first_node.setmaxconnections("good doge bad doge")
+            first_node.setmaxconnections("good scrap bad scrap")
             raise AssertionError("Must check for no numeric parameter provided")
         except JSONRPCException as e:
             assert("JSON value is not an integer as expected" in e.error['message'])

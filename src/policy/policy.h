@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin Core developers
-// Copyright (c) 2021-2022 The Dogecoin Core developers
+// Copyright (c) 2021-2022 The ScrapCoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -15,7 +15,7 @@
 
 class CCoinsViewCache;
 
-/** Recommended transaction fee by Dogecoin Core developers
+/** Recommended transaction fee by ScrapCoin Core developers
   *
   * All fee defaults used throughout the client derive their
   * value from this base default.
@@ -41,7 +41,7 @@ static const unsigned int DEFAULT_MAX_MEMPOOL_SIZE = 300;
 /** Default for -incrementalrelayfee, which sets the minimum feerate increase
  *  for mempool limiting or BIP 125 replacement
  *
- *  Dogecoin:    Increment mempool limits and accept RBF in steps of 0.0001 DOGE
+ *  ScrapCoin:    Increment mempool limits and accept RBF in steps of 0.0001 SCRAP
  *  Calculation: DEFAULT_MIN_RELAY_TX_FEE = RECOMMENDED_MIN_TX_FEE / 10
  *               DEFAULT_INCREMENTAL_RELAY_FEE = DEFAULT_MIN_RELAY_TX_FEE / 10
  *
@@ -63,13 +63,13 @@ static const unsigned int MAX_STANDARD_P2WSH_STACK_ITEM_SIZE = 80;
 /** The maximum size of a standard witnessScript */
 static const unsigned int MAX_STANDARD_P2WSH_SCRIPT_SIZE = 3600;
 /**
- * Dogecoin: Default dust limit that is evaluated when considering whether a
+ * ScrapCoin: Default dust limit that is evaluated when considering whether a
  * transaction output is required to pay additional fee for relay and inclusion
  * in blocks. Overridden by -dustlimit
  */
 static const CAmount DEFAULT_DUST_LIMIT = RECOMMENDED_MIN_TX_FEE;
 /**
- * Dogecoin: Default hard dust limit that is evaluated when considering whether
+ * ScrapCoin: Default hard dust limit that is evaluated when considering whether
  * a transaction is standard. Transactions under this limit will not be accepted
  * to the mempool and thus not relayed. Can be overridden by -harddustlimit
  *

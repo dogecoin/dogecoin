@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # blocktools.py - utilities for manipulating blocks and transactions
 # Copyright (c) 2015-2016 The Bitcoin Core developers
-# Copyright (c) 2021-2022 The Dogecoin Core developers
+# Copyright (c) 2021-2022 The ScrapCoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -11,7 +11,7 @@ from .script import CScript, OP_TRUE, OP_CHECKSIG, OP_RETURN
 # Create a block (with regtest difficulty)
 def create_block(hashprev, coinbase, nTime=None):
     block = CBlock()
-    # Dogecoin: Create a non-AuxPoW block but include chain ID
+    # ScrapCoin: Create a non-AuxPoW block but include chain ID
     block.nVersion = 0x620004
     if nTime is None:
         import time

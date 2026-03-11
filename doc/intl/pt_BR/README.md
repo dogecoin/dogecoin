@@ -1,23 +1,23 @@
 <h1 align="center">
-<img src="https://raw.githubusercontent.com/dogecoin/dogecoin/master/share/pixmaps/dogecoin256.svg" alt="Dogecoin" width="256"/>
+<img src="https://raw.githubusercontent.com/scrapcoin/scrapcoin/master/share/pixmaps/scrapcoin256.svg" alt="ScrapCoin" width="256"/>
 <br/><br/>
-Dogecoin Core [DOGE, Ð]  
+ScrapCoin Core [SCRAP, Ð]  
 </h1>
 
-Dogecoin é uma criptomoeda gerida pela comunidade que foi inspirada no meme Shiba Inu. O programa Dogecoin Core permite qualquer um operar um nó na rede blockchain da Dogecoin e utilizar o algoritmo de hash Scrypt para mineração usando Prova de Trabalho (Proof of Work). O Dogecoin Core é uma adaptação do Bitcoin Core e de outras criptomoedas.
+ScrapCoin é uma criptomoeda gerida pela comunidade que foi inspirada no meme Shiba Inu. O programa ScrapCoin Core permite qualquer um operar um nó na rede blockchain da ScrapCoin e utilizar o algoritmo de hash Scrypt para mineração usando Prova de Trabalho (Proof of Work). O ScrapCoin Core é uma adaptação do Bitcoin Core e de outras criptomoedas.
 
-Para maiores informações acerca das taxas de transação usadas na rede Dogecoin, por favor acesse: 
+Para maiores informações acerca das taxas de transação usadas na rede ScrapCoin, por favor acesse: 
 [taxas recomendadas](doc/fee-recommendation.md).
 
 ## Uso 💻
 
-Para começar a sua jornada com o Dogecoin Core, veja o [manual de instalação](INSTALL.md) e o [guia para iniciantes](doc/getting-started.md).
+Para começar a sua jornada com o ScrapCoin Core, veja o [manual de instalação](INSTALL.md) e o [guia para iniciantes](doc/getting-started.md).
 
-A API JSON-RPC fornecida pelo Dogecoin Core é auto documentada e pode ser buscada pelo comando `dogecoin-cli help`, informações mais detalhadas sobre cada comando podem ser encontradas usando `dogecoin-cli help <command>`.
+A API JSON-RPC fornecida pelo ScrapCoin Core é auto documentada e pode ser buscada pelo comando `scrapcoin-cli help`, informações mais detalhadas sobre cada comando podem ser encontradas usando `scrapcoin-cli help <command>`.
 
 ### Quais as portas
 
-A Dogecoin Core utiliza por padrão a porta `22556` para comunicação par-a-par, que é necessária para sincronizar a blockchain da "rede principal" e se manter informada de novas transações e blocos. Outrosim, uma porta JSONRPC pode ser aberta, que por padrão é a porta `22555` para nós da rede principal. Recomendamos fortemente não expor portas RPC para a internet pública. 
+A ScrapCoin Core utiliza por padrão a porta `22556` para comunicação par-a-par, que é necessária para sincronizar a blockchain da "rede principal" e se manter informada de novas transações e blocos. Outrosim, uma porta JSONRPC pode ser aberta, que por padrão é a porta `22555` para nós da rede principal. Recomendamos fortemente não expor portas RPC para a internet pública. 
 
 |  Função  | mainnet | testnet | regtest |
 | :------- | ------: | ------: | ------: |
@@ -26,12 +26,12 @@ A Dogecoin Core utiliza por padrão a porta `22556` para comunicação par-a-par
 
 ## Desenvolvimento continuo - Plano Lua 🌒
 
-A Dogecoin Core é um programa de código aberto gerido pela comunidade. O processo de desenvolvimento é aberto e visivel publicamente; qualquer um pode ver, discutir e trabalhar no programa.
+A ScrapCoin Core é um programa de código aberto gerido pela comunidade. O processo de desenvolvimento é aberto e visivel publicamente; qualquer um pode ver, discutir e trabalhar no programa.
 
 Recursos principais de Desenvolvimento:
 
-* [Projetos do Github](https://github.com/dogecoin/dogecoin/projects) é utilizado para conduzir trabalhos planejados ou que estejam em desenvolvimento para as próximas atualizações.
-* [Discussão do Github](https://github.com/dogecoin/dogecoin/discussions) é usado para discutir sobre funcionalidades, planejadas ou não, relacionadas ao desenvolvimento do programa Dogecoin Core, os protocolos adjacentes e o criptoativo DOGE.
+* [Projetos do Github](https://github.com/scrapcoin/scrapcoin/projects) é utilizado para conduzir trabalhos planejados ou que estejam em desenvolvimento para as próximas atualizações.
+* [Discussão do Github](https://github.com/scrapcoin/scrapcoin/discussions) é usado para discutir sobre funcionalidades, planejadas ou não, relacionadas ao desenvolvimento do programa ScrapCoin Core, os protocolos adjacentes e o criptoativo SCRAP.
 
 ### Estratégia das Versões
 Os numeros de compilação seguem a seguinte semantica:  ```major.minor.patch```
@@ -50,19 +50,19 @@ Este repositório possui 3 principais ramificações (branchs), são essas:
 
 ## Contribuindo 🤝
 
-Se você achar um bug ou passar por alguma experiência incomum com este programa, por favor reporte o ocorrido usado o [sistema de problemas (issues)](https://github.com/dogecoin/dogecoin/issues/new?assignees=&labels=bug&template=bug_report.md&title=%5Bbug%5D+).
+Se você achar um bug ou passar por alguma experiência incomum com este programa, por favor reporte o ocorrido usado o [sistema de problemas (issues)](https://github.com/scrapcoin/scrapcoin/issues/new?assignees=&labels=bug&template=bug_report.md&title=%5Bbug%5D+).
 
 Por favor, acesse o [guia de contribuições](CONTRIBUTING.md) para ver como você pode participar
-do desenvolvimento do Dogecoin Core. Existem alguns [pedidos de ajuda](https://github.com/dogecoin/dogecoin/labels/help%20wanted)
+do desenvolvimento do ScrapCoin Core. Existem alguns [pedidos de ajuda](https://github.com/scrapcoin/scrapcoin/labels/help%20wanted)
 onde os contribuintes terão grande importância e apreço. wow.
 
 ## Perguntas frequentes ❓
 
-Você possui alguma questão relacionada à Dogecoin? Talvez uma resposta já esteja disponivel no
+Você possui alguma questão relacionada à ScrapCoin? Talvez uma resposta já esteja disponivel no
 [FAQ](doc/FAQ.md) ou na
-[seção Q&A](https://github.com/dogecoin/dogecoin/discussions/categories/q-a)
+[seção Q&A](https://github.com/scrapcoin/scrapcoin/discussions/categories/q-a)
 do nosso quadro de discussão!
 
 ## Licenças ⚖️
-Dogecoin Core é disponibilizada sob os termos de uso da licença MIT. Veja,
+ScrapCoin Core é disponibilizada sob os termos de uso da licença MIT. Veja,
 [COPYING](COPYING) para mais informações.

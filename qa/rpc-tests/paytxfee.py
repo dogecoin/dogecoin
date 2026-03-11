@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2021 The Dogecoin Core developers
+# Copyright (c) 2021 The ScrapCoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """PayTxFee QA test.
@@ -25,15 +25,15 @@ class PayTxFeeTest(BitcoinTestFramework):
         nodes.append(start_node(0, self.options.tmpdir,
             ["-debug", '-txindex']))
 
-        # node 1 pays 0.1 DOGE on all txs due to implicit mintxfee = paytxfee
+        # node 1 pays 0.1 SCRAP on all txs due to implicit mintxfee = paytxfee
         nodes.append(start_node(1, self.options.tmpdir,
             ["-paytxfee=0.1", "-debug"]))
 
-        # node 2 will always pay 1 DOGE on all txs because of explicit mintxfee
+        # node 2 will always pay 1 SCRAP on all txs because of explicit mintxfee
         nodes.append(start_node(2, self.options.tmpdir,
             ["-mintxfee=1", "-paytxfee=0.1", "-debug"]))
 
-        # node 3 will always pay 0.1 DOGE on all txs despite explicit mintxfee of 0.01
+        # node 3 will always pay 0.1 SCRAP on all txs despite explicit mintxfee of 0.01
         nodes.append(start_node(3, self.options.tmpdir,
             ["-mintxfee=0.01", "-paytxfee=0.1", "-debug"]))
 

@@ -1,7 +1,7 @@
 The [pull-tester](/qa/pull-tester/) folder contains a script to call
 multiple tests from the [rpc-tests](/qa/rpc-tests/) folder.
 
-Every pull request to the dogecoin repository is built and run through
+Every pull request to the scrapcoin repository is built and run through
 the regression test suite. You can also run all or only individual
 tests locally.
 
@@ -54,9 +54,9 @@ Possible options, which apply to each individual test run:
 
 ```
   -h, --help            show this help message and exit
-  --nocleanup           Leave dogecoinds and test.* datadir on exit or error
-  --noshutdown          Don't stop dogecoinds after the test execution
-  --srcdir=SRCDIR       Source directory containing dogecoind/dogecoin-cli
+  --nocleanup           Leave scrapcoinds and test.* datadir on exit or error
+  --noshutdown          Don't stop scrapcoinds after the test execution
+  --srcdir=SRCDIR       Source directory containing scrapcoind/scrapcoin-cli
                         (default: ../../src)
   --tmpdir=TMPDIR       Root directory for datadirs
   --tracerpc            Print out all RPC calls as they are made
@@ -81,7 +81,7 @@ to recover with:
 
 ```bash
 rm -rf cache
-killall dogecoind
+killall scrapcoind
 ```
 
 Writing tests

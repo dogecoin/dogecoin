@@ -13,7 +13,7 @@ Construct a linear, no-fork, best version of the blockchain.
 
 ### [Qos](/contrib/qos) ###
 
-A Linux bash script that will set up traffic control (tc) to limit the outgoing bandwidth for connections to the Dogecoin network. This means one can have an always-on dogecoind instance running, and another local dogecoind/dogecoin-qt instance which connects to this node and receives blocks from it.
+A Linux bash script that will set up traffic control (tc) to limit the outgoing bandwidth for connections to the ScrapCoin network. This means one can have an always-on scrapcoind instance running, and another local scrapcoind/scrapcoin-qt instance which connects to this node and receives blocks from it.
 
 ### [Seeds](/contrib/seeds) ###
 Utility to generate the pnSeed[] array that is compiled into the client.
@@ -22,32 +22,32 @@ Build Tools and Keys
 ---------------------
 
 ### [Debian](/contrib/debian) ###
-Contains files used to package dogecoind/dogecoin-qt
-for Debian-based Linux systems. If you compile dogecoind/dogecoin-qt yourself, there are some useful files here.
+Contains files used to package scrapcoind/scrapcoin-qt
+for Debian-based Linux systems. If you compile scrapcoind/scrapcoin-qt yourself, there are some useful files here.
 
 ### [Gitian-descriptors](/contrib/gitian-descriptors) ###
 Notes on getting Gitian builds up and running using KVM.
 
 ### [Gitian-keys](/contrib/gitian-keys)
-PGP keys used for signing Dogecoin Core [Gitian release](/doc/release-process.md) results.
+PGP keys used for signing ScrapCoin Core [Gitian release](/doc/release-process.md) results.
 
 ### [MacDeploy](/contrib/macdeploy) ###
 Scripts and notes for Mac builds.
 
 ### [RPM](/contrib/rpm) ###
-RPM spec file for building dogecoin-core on RPM based distributions
+RPM spec file for building scrapcoin-core on RPM based distributions
 
 ### [Gitian-build](/contrib/gitian-build.sh) ###
 Script for running full Gitian builds.
 
 ### [Snap](/contrib/snap) ###
-snapcraft.yaml file for building and distributing dogecoin-core with Snapcraft.
+snapcraft.yaml file for building and distributing scrapcoin-core with Snapcraft.
 
 Test and Verify Tools
 ---------------------
 
 ### [TestGen](/contrib/testgen) ###
-Utilities to generate test vectors for the data-driven Dogecoin tests.
+Utilities to generate test vectors for the data-driven ScrapCoin tests.
 
 ### [Verify Binaries](/contrib/verifybinaries) ###
-This script attempts to download and verify the signature file SHA256SUMS.asc from dogecoin.com.
+This script attempts to download and verify the signature file SHA256SUMS.asc from scrapcoin.com.

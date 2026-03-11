@@ -1,6 +1,6 @@
 // Copyright (c) 2010 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin Core developers
-// Copyright (c) 2022-2024 The Dogecoin Core developers
+// Copyright (c) 2022-2024 The ScrapCoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -13,7 +13,7 @@
 #include "coins.h"
 #include "consensus/validation.h"
 #include "core_io.h"
-#include "dogecoin.h"
+#include "scrapcoin.h"
 #include "validation.h"
 #include "policy/policy.h"
 #include "primitives/transaction.h"
@@ -1020,8 +1020,8 @@ UniValue gettxout(const JSONRPCRequest& request)
             "     \"hex\" : \"hex\",        (string) \n"
             "     \"reqSigs\" : n,          (numeric) Number of required signatures\n"
             "     \"type\" : \"pubkeyhash\", (string) The type, eg pubkeyhash\n"
-            "     \"addresses\" : [          (array of string) array of dogecoin addresses\n"
-            "        \"address\"     (string) dogecoin address\n"
+            "     \"addresses\" : [          (array of string) array of scrapcoin addresses\n"
+            "        \"address\"     (string) scrapcoin address\n"
             "        ,...\n"
             "     ]\n"
             "  },\n"

@@ -1,7 +1,7 @@
 WINDOWS BUILD NOTES
 ====================
 
-Below are some notes on how to build Dogecoin Core for Windows.
+Below are some notes on how to build ScrapCoin Core for Windows.
 
 Most developers use cross-compilation from Ubuntu to build executables for
 Windows. This is also used to build the release binaries.
@@ -64,8 +64,8 @@ build process.
 
 ## Get the Source Code
 
-To build Dogecoin from source code, you'll need the source code. Either check it out via `git` or download
-a zip file. (Look at the green "<> Code" button on [the Dogecoin GitHub repository](https://github.com/dogecoin/dogecoin/)).
+To build ScrapCoin from source code, you'll need the source code. Either check it out via `git` or download
+a zip file. (Look at the green "<> Code" button on [the ScrapCoin GitHub repository](https://github.com/scrapcoin/scrapcoin/)).
 
 Make sure this code is available in your Ubuntu directory. If you've unzipped a single downloaded file, you may need to change
 the permissions of all extracted files with command like:
@@ -75,7 +75,7 @@ sudo chmod -R <your_username> .
 If you've downloaded via `git`, do not use `sudo`. Instead prefer something like:
 ```bash
 cd $HOME
-git clone https://github.com/dogecoin/dogecoin.git
+git clone https://github.com/scrapcoin/scrapcoin.git
 git checkout <branchname>
 ```
 ... where `<branchname>` is the name of the branch you want to build, such as
@@ -94,8 +94,8 @@ sudo update-alternatives --config x86_64-w64-mingw32-g++
 ```
 ...Choose the "posix" (vs 'auto' or 'win32') option, and continue.
 
-Note that for WSL v1 the Dogecoin Core source path MUST be somewhere in the default mount file system, for
-example /usr/src/dogecoin, AND not under, for example, /mnt/d/dogecoin.
+Note that for WSL v1 the ScrapCoin Core source path MUST be somewhere in the default mount file system, for
+example /usr/src/scrapcoin, AND not under, for example, /mnt/d/scrapcoin.
 
 If this is not the case the dependency autoconf scripts will fail (silently.)
 This means you cannot use a directory that is located directly on the host Windows file system to perform the build.
@@ -139,7 +139,7 @@ To build executables for Windows 32-bit, install the following dependencies:
 ```bash
 sudo apt-get install g++-mingw-w64-i686 mingw-w64-i686-dev
 ```
-Ensure that this toolchain can build for `posix` (else you may have compilation errors for Dogecoin's dependencies):
+Ensure that this toolchain can build for `posix` (else you may have compilation errors for ScrapCoin's dependencies):
 ```bash
 sudo update-alternatives --config i686-w64-mingw32-g++
 ```
@@ -162,7 +162,7 @@ Installation
 After building using the Windows subsystem it can be useful to copy the compiled
 executables to a directory on the windows drive in the same directory structure
 as they appear in the release `.zip` archive. This can be done in the following
-way. This will install to `c:\workspace\dogecoin`, for example:
+way. This will install to `c:\workspace\scrapcoin`, for example:
 ```bash
-make install DESTDIR=/mnt/c/workspace/dogecoin
+make install DESTDIR=/mnt/c/workspace/scrapcoin
 ```

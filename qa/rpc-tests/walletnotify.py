@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2023 The Dogecoin Core developers
+# Copyright (c) 2023 The ScrapCoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -70,7 +70,7 @@ class WalletNotifyTest(BitcoinTestFramework):
         return node.sendrawtransaction(signedtx['hex'])
 
     def run_test(self):
-        # mine 62 blocks from node 1, send 1000 doge to node 2
+        # mine 62 blocks from node 1, send 1000 scrap to node 2
         self.nodes[1].generate(61)
         self.nodes[1].sendtoaddress(self.nodes[2].getnewaddress(), 1000)
         self.nodes[1].generate(1)
@@ -159,7 +159,7 @@ class WalletNotifyTest(BitcoinTestFramework):
 
         # stop, remove the mempool, zap the wallet, and start again
         self.nodes[2].stop()
-        dogecoind_processes[2].wait()
+        scrapcoind_processes[2].wait()
         os.remove(log_filename(self.options.tmpdir, 2, "mempool.dat"))
         self.nodes[2] = start_node(2, self.options.tmpdir,["-debug", "-acceptnonstdtxn=0", "-minrelaytxfee=1", "-zapwallettxes"])
 

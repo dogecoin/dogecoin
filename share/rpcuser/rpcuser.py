@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Copyright (c) 2015-2021 The Bitcoin Core developers
-# Copyright (c) 2023 The Dogecoin Core developers
+# Copyright (c) 2023 The ScrapCoin Core developers
 # Distributed under the MIT software license, see the accompanying 
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -31,6 +31,6 @@ password = generate_password()
 salt = generate_salt(16)
 password_hmac = password_to_hmac(salt, password)
 
-print('String to be appended to dogecoin.conf:')
+print('String to be appended to scrapcoin.conf:')
 print(f'rpcauth={username}:{salt}${password_hmac}')
 print(f'Your password:\n{password}')

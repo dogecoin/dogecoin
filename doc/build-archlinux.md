@@ -5,12 +5,12 @@ Arch Linux build guide
 **Test date:** 2022/07/15
 
 This example lists the steps necessary to setup and build a command line only
-dogecoind on archlinux:
+scrapcoind on archlinux:
 
 ```sh
 pacman -S git base-devel boost libevent python db
-git clone https://github.com/dogecoin/dogecoin.git
-cd dogecoin/
+git clone https://github.com/scrapcoin/scrapcoin.git
+cd scrapcoin/
 ./autogen.sh
 ./configure --without-gui --without-miniupnpc
 make

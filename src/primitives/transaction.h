@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin Core developers
-// Copyright (c) 2021-2022 The Dogecoin Core developers
+// Copyright (c) 2021-2022 The ScrapCoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -165,7 +165,7 @@ public:
         return (nValue == -1);
     }
 
-    // Dogecoin: allow comparison against different dustlimit parameters
+    // ScrapCoin: allow comparison against different dustlimit parameters
     bool IsDust(const CAmount dustLimit) const
     {
       if (scriptPubKey.IsUnspendable())
@@ -279,7 +279,7 @@ class CTransaction
 {
 public:
     // Default transaction version.
-    // Dogecoin: Temporarily restricted to v1 for compatibility with 1.10
+    // ScrapCoin: Temporarily restricted to v1 for compatibility with 1.10
     static const int32_t CURRENT_VERSION=1;
 
     // Changing the default transaction version requires a two step process: first

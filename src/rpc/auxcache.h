@@ -1,9 +1,9 @@
-// Copyright (c) 2025 The Dogecoin Core developers
+// Copyright (c) 2025 The ScrapCoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef DOGECOIN_AUXCACHE_H
-#define DOGECOIN_AUXCACHE_H
+#ifndef SCRAPCOIN_AUXCACHE_H
+#define SCRAPCOIN_AUXCACHE_H
 
 #include "script/standard.h"  // for CScriptID
 #include "primitives/block.h" // for CBlock
@@ -41,4 +41,4 @@ public:
 
 };
 
-#endif //DOGECOIN_AUXCACHE_H
+#endif //SCRAPCOIN_AUXCACHE_H

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Copyright (c) 2014-2016 The Bitcoin Core developers
-# Copyright (c) 2021-2022 The Dogecoin Core developers
+# Copyright (c) 2021-2022 The ScrapCoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -27,7 +27,7 @@ class TxnMallTest(BitcoinTestFramework):
         return super(TxnMallTest, self).setup_network(True)
 
     def run_test(self):
-        # All nodes should start with 7,500,000 DOGE:
+        # All nodes should start with 7,500,000 SCRAP:
         starting_balance = 7500000
         for i in range(4):
             assert_equal(self.nodes[i].getbalance(), starting_balance)
@@ -48,7 +48,7 @@ class TxnMallTest(BitcoinTestFramework):
         # Coins are sent to node1_address
         node1_address = self.nodes[1].getnewaddress("from0")
 
-        # First: use raw transaction API to send 7440000 DOGE to node1_address,
+        # First: use raw transaction API to send 7440000 SCRAP to node1_address,
         # but don't broadcast:
         doublespend_fee = Decimal('-1.20')
         rawtx_input_0 = {}
@@ -78,7 +78,7 @@ class TxnMallTest(BitcoinTestFramework):
         tx1 = self.nodes[0].gettransaction(txid1)
         tx2 = self.nodes[0].gettransaction(txid2)
 
-        # Node0's balance should be starting balance, plus 500,000 DOGE for another
+        # Node0's balance should be starting balance, plus 500,000 SCRAP for another
         # matured block, minus 7499960, minus 120000, and minus transaction fees:
         expected = starting_balance + fund_foo_tx["fee"] + fund_bar_tx["fee"]
         if self.options.mine_block: expected += 500000
@@ -120,7 +120,7 @@ class TxnMallTest(BitcoinTestFramework):
         assert_equal(tx1["confirmations"], -2)
         assert_equal(tx2["confirmations"], -2)
 
-        # Node0's total balance should be starting balance, plus 1000000 DOGE for 
+        # Node0's total balance should be starting balance, plus 1000000 SCRAP for 
         # two more matured blocks, minus 7440000 for the double-spend, plus fees (which are
         # negative):
         expected = starting_balance + 1000000 - 7440000 + fund_foo_tx["fee"] + fund_bar_tx["fee"] + doublespend_fee

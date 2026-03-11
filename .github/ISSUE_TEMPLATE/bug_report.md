@@ -4,11 +4,11 @@ about: Create a report to help us improve
 title: '[bug] '
 ---
 
-<!-- Please make sure you are posting an technical issue related to Dogecoin Core. --> 
+<!-- Please make sure you are posting an technical issue related to ScrapCoin Core. --> 
 
-<!-- For general questions about Dogecoin or wallet recovery please use one of the various communities:
-* [Dogeducation on reddit](https://www.reddit.com/r/dogeducation/)
-* [Discord](https://discord.com/invite/dogecoin) -->
+<!-- For general questions about ScrapCoin or wallet recovery please use one of the various communities:
+* [Dogeducation on reddit](https://www.reddit.com/r/scrapducation/)
+* [Discord](https://discord.com/invite/scrapcoin) -->
 
 <!-- ISSUES MISSING IMPORTANT INFORMATION MAY BE CLOSED WITHOUT INVESTIGATION. -->
 
@@ -26,7 +26,7 @@ title: '[bug] '
 **Screenshots**
 <!-- If the issue is related to the GUI, screenshots can be added to this issue via drag & drop. -->
 
-**Dogecoin Core version**
+**ScrapCoin Core version**
 <!-- List the version number/commit ID, and if it is an official binary, self compiled or a distribution package such as PPA. -->
 
 **Machine specs**

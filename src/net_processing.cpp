@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin Core developers
-// Copyright (c) 2022-2023 The Dogecoin Core developers
+// Copyright (c) 2022-2023 The ScrapCoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -36,7 +36,7 @@
 #include <boost/thread.hpp>
 
 #if defined(NDEBUG)
-# error "Dogecoin cannot be compiled without assertions."
+# error "ScrapCoin cannot be compiled without assertions."
 #endif
 
 std::atomic<int64_t> nTimeBestReceived(0); // Used only to inform the wallet of when we last received a block
@@ -787,7 +787,7 @@ void Misbehaving(NodeId pnode, int howmuch)
 }
 
 
-// Dogecoin -  1.14 specific fix: do not request headers from a peer we are
+// ScrapCoin -  1.14 specific fix: do not request headers from a peer we are
 //             already requesting headers from, unless forced.
 void RequestHeadersFrom(CNode* pto, CConnman& connman, const CBlockIndex* pindex, uint256 untilHash, bool fforceQuery)
 {
@@ -1765,7 +1765,7 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
         }
 
         if (best_block != nullptr) {
-            // Dogecoin: allow header requests from inv to be non-serial by
+            // ScrapCoin: allow header requests from inv to be non-serial by
             // forcing the request, to be able to get split chaintips quickly.
             RequestHeadersFrom(pfrom, connman, pindexBestHeader, *best_block, true /* force */);
             LogPrint("net", "getheaders (%d) %s to peer=%d\n", pindexBestHeader->nHeight, best_block->ToString(), pfrom->id);
@@ -2427,7 +2427,7 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
         //   nUnconnectingHeaders gets reset back to 0.
         if (mapBlockIndex.find(headers[0].hashPrevBlock) == mapBlockIndex.end() && nCount < MAX_BLOCKS_TO_ANNOUNCE) {
             nodestate->nUnconnectingHeaders++;
-            // Dogecoin: allow a single getheaders query before triggering DoS
+            // ScrapCoin: allow a single getheaders query before triggering DoS
             RequestHeadersFrom(pfrom, connman, pindexBestHeader, uint256(), true);
             LogPrint("net", "received header %s: missing prev block %s, sending getheaders (%d) to end (peer=%d, nUnconnectingHeaders=%d)\n",
                     headers[0].GetHash().ToString(),
@@ -2483,7 +2483,7 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
             // TODO: optimize: if pindexLast is an ancestor of chainActive.Tip or pindexBestHeader, continue
             // from there instead.
             //
-            // Dogecoin: do not allow multiple getheader queries in parallel at
+            // ScrapCoin: do not allow multiple getheader queries in parallel at
             // this point - makes sure that any parallel queries will end here,
             // preventing "getheaders" spam.
             LogPrint("net", "more getheaders (%d) to end to peer=%d (startheight:%d)\n", pindexLast->nHeight, pfrom->id, pfrom->nStartingHeight);
@@ -3077,7 +3077,7 @@ bool SendMessages(CNode* pto, CConnman& connman, const std::atomic<bool>& interr
                    the peer's known best block.  This wouldn't be possible
                    if we requested starting at pindexBestHeader and
                    got back an empty response.  */
-                // Dogecoin: make sure that if we are already processing an inv
+                // ScrapCoin: make sure that if we are already processing an inv
                 // or header message from this peer caused by a new block being
                 // mined at chaintip, we do not send another getheaders request
                 if (pindexStart->pprev)

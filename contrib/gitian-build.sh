@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Copyright (c) 2016 The Bitcoin Core developers
-# Copyright (c) 2021 The Dogecoin Core developers
+# Copyright (c) 2021 The ScrapCoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -14,16 +14,16 @@ export USE_DOCKER=0
 export USE_LXC=0
 
 # Dependencies
-ossPatchUrl="https://depends.dogecoincore.org/osslsigncode-Backports-to-1.7.1.patch"
+ossPatchUrl="https://depends.scrapcoincore.org/osslsigncode-Backports-to-1.7.1.patch"
 ossPatchHash="a8c4e9cafba922f89de0df1f2152e7be286aba73f78505169bc351a7938dd911"
 
-ossTarUrl="https://depends.dogecoincore.org/osslsigncode_1.7.1.orig.tar.gz"
+ossTarUrl="https://depends.scrapcoincore.org/osslsigncode_1.7.1.orig.tar.gz"
 ossTarHash="f9a8cdb38b9c309326764ebc937cba1523a3a751a7ab05df3ecc99d18ae466c9"
 
-macosSdkUrl="https://depends.dogecoincore.org/MacOSX10.11.sdk.tar.gz"
+macosSdkUrl="https://depends.scrapcoincore.org/MacOSX10.11.sdk.tar.gz"
 macosSdkHash="bec9d089ebf2e2dd59b1a811a38ec78ebd5da18cbbcd6ab39d1e59f64ac5033f"
 
-liefUrl="https://depends.dogecoincore.org/lief-0.12.3-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+liefUrl="https://depends.scrapcoincore.org/lief-0.12.3-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
 liefHash="c848aadac0816268aeb9dde7cefdb54bf24f78e664a19e97e74c92d3be1bb147"
 
 # What to do
@@ -36,7 +36,7 @@ test=false
 # Other Basic variables
 SIGNER=
 VERSION=
-url=https://github.com/dogecoin/dogecoin
+url=https://github.com/scrapcoin/scrapcoin
 proc=2
 mem=2000
 scriptName=$(basename -- "$0")
@@ -46,7 +46,7 @@ outputDir=$(pwd)/gitian-output
 read -r -d '' usage <<-EOF
 Usage: $scriptName [options] version
 
-Standalone script to perform the gitian build of Dogecoin Core. Perform
+Standalone script to perform the gitian build of ScrapCoin Core. Perform
 deterministic build for multiples Operating System, using Docker, LXC or
 KVM for virtualization. Sign binaries using PGP.
 
@@ -69,7 +69,7 @@ Options:
 -j proc             Number of processes to use. Default $proc
 -m n                Memory to allocate in MiB. Default $mem
 -c|--commit         Indicate that the version argument is for a commit or branch
--u|--url repo       Specify the URL of the repository. Default is https://github.com/dogecoin/dogecoin
+-u|--url repo       Specify the URL of the repository. Default is https://github.com/scrapcoin/scrapcoin
 --test              CI TEST. Uses Docker
 -h|--help           Print this help message
 EOF
@@ -200,7 +200,7 @@ function download_file () {
 }
 
 function move_build_files() {
-    find build/out -type f -exec mv '{}' $outputDir/dogecoin-binaries/${VERSION}/ \;
+    find build/out -type f -exec mv '{}' $outputDir/scrapcoin-binaries/${VERSION}/ \;
 }
 
 function download_descriptor() {
@@ -257,8 +257,8 @@ fi
 ### Setup ###
 
 if [[ $setup == true ]]; then
-    git clone https://github.com/dogecoin/gitian.sigs.git
-    git clone https://github.com/dogecoin/dogecoin-detached-sigs.git
+    git clone https://github.com/scrapcoin/gitian.sigs.git
+    git clone https://github.com/scrapcoin/scrapcoin-detached-sigs.git
     git clone https://github.com/devrandom/gitian-builder.git
 
     pushd ./gitian-builder
@@ -310,21 +310,21 @@ popd
 
 if [[ $build == true ]]; then
     # Make output folder
-    mkdir -p $outputDir/dogecoin-binaries/"$VERSION"
+    mkdir -p $outputDir/scrapcoin-binaries/"$VERSION"
 
     pushd ./gitian-builder || exit 1
 
-    # Clean dogecoin git directory because of old caching
-    if [ -d inputs/dogecoin/ ]; then
-        echo "Cleaning Dogecoin directory..."
-        rm -rf inputs/dogecoin/
+    # Clean scrapcoin git directory because of old caching
+    if [ -d inputs/scrapcoin/ ]; then
+        echo "Cleaning ScrapCoin directory..."
+        rm -rf inputs/scrapcoin/
     fi
 
     for descriptor in "${DESCRIPTORS[@]}"; do
         echo ""
         echo "Compiling ${VERSION} ${descriptor}"
         echo ""
-        ./bin/gbuild -j "$proc" -m "$mem" --commit dogecoin="$COMMIT" --url dogecoin="$url" ../gitian-descriptors/gitian-"$descriptor".yml  || exit 1
+        ./bin/gbuild -j "$proc" -m "$mem" --commit scrapcoin="$COMMIT" --url scrapcoin="$url" ../gitian-descriptors/gitian-"$descriptor".yml  || exit 1
 
         if [ -n "$SIGNER" ]; then
             ./bin/gsign --signer "$SIGNER" --release "$VERSION"-"$descriptor" \

@@ -783,7 +783,7 @@ DBErrors CWalletDB::ZapWalletTx(CWallet* pwallet, vector<CWalletTx>& vWtx)
 void ThreadFlushWalletDB()
 {
     // Make this thread recognisable as the wallet flushing thread
-    RenameThread("dogecoin-wallet");
+    RenameThread("scrapcoin-wallet");
 
     static bool fOneThread;
     if (fOneThread)

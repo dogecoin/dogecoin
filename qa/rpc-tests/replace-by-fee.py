@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Copyright (c) 2014-2016 The Bitcoin Core developers
-# Copyright (c) 2021-2022 The Dogecoin Core developers
+# Copyright (c) 2021-2022 The ScrapCoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -140,7 +140,7 @@ class ReplaceByFeeTest(BitcoinTestFramework):
         else:
             assert(False)
 
-        # Extra 5 DOGE fee
+        # Extra 5 SCRAP fee
         tx1b = CTransaction()
         tx1b.vin = [CTxIn(tx0_outpoint, nSequence=0)]
         tx1b.vout = [CTxOut(int(6*COIN), CScript([b'b']))]
@@ -174,7 +174,7 @@ class ReplaceByFeeTest(BitcoinTestFramework):
             prevout = COutPoint(int(txid, 16), 0)
 
         # Whether the double-spend is allowed is evaluated by including all
-        # child fees - 400 DOGE - so this attempt is rejected.
+        # child fees - 400 SCRAP - so this attempt is rejected.
         dbl_tx = CTransaction()
         dbl_tx.vin = [CTxIn(tx0_outpoint, nSequence=0)]
         dbl_tx.vout = [CTxOut(initial_nValue - 300*COIN, CScript([1]))]
@@ -252,7 +252,7 @@ class ReplaceByFeeTest(BitcoinTestFramework):
         else:
             assert(False)
 
-        # 1000 DOGE fee is enough
+        # 1000 SCRAP fee is enough
         dbl_tx = CTransaction()
         dbl_tx.vin = [CTxIn(tx0_outpoint, nSequence=0)]
         dbl_tx.vout = [CTxOut(initial_nValue - fee*n - 1000*COIN, CScript([1]))]

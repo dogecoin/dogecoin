@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2021-2022 The Dogecoin Core developers
+# Copyright (c) 2021-2022 The ScrapCoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """P2P Policies QA test
@@ -94,7 +94,7 @@ class P2PPolicyTests(BitcoinTestFramework):
     def setup_network(self):
         self.nodes = []
 
-        # a Dogecoin Core node that behaves similar to mainnet policies
+        # a ScrapCoin Core node that behaves similar to mainnet policies
         self.nodes.append(start_node(0, self.options.tmpdir, ["-debug", "-acceptnonstdtxn=0"]))
 
         # custom testnodes
@@ -110,8 +110,8 @@ class P2PPolicyTests(BitcoinTestFramework):
         self.nodes[0].generate(101)
 
         ### test constants ###
-        koinu = Decimal("0.00000001")          # 1 Koinu expressed in DOGE
-        ten = Decimal("10.0")                  # uniform 10 DOGE seed moneys
+        koinu = Decimal("0.00000001")          # 1 Koinu expressed in SCRAP
+        ten = Decimal("10.0")                  # uniform 10 SCRAP seed moneys
 
         ### parameters from fee policy ###
         relay_fee = Decimal("0.001")           # DEFAULT_MIN_RELAY_TX_FEE
@@ -119,7 +119,7 @@ class P2PPolicyTests(BitcoinTestFramework):
 
         relay_fee_per_byte = relay_fee / 1000
 
-        # create a bunch of UTXO with seed money from the Dogecoin Core wallet
+        # create a bunch of UTXO with seed money from the ScrapCoin Core wallet
         for i in range(20):
             inputs = [self.nodes[0].listunspent()[0]]
             outputs = { self.srcAddr : ten }
@@ -129,7 +129,7 @@ class P2PPolicyTests(BitcoinTestFramework):
             self.utxo.append(txid)
         self.nodes[0].generate(1)
 
-        # test legacy output of 1 DOGE output and 1 DOGE fee
+        # test legacy output of 1 SCRAP output and 1 SCRAP fee
         output = { self.tgtAddr : 1, self.srcAddr: 8 }
         self.run_relay_test(output)
 
@@ -189,9 +189,9 @@ class P2PPolicyTests(BitcoinTestFramework):
 
         return tx
 
-    # spend seed money with a key not in the Dogecoin Core wallet.
+    # spend seed money with a key not in the ScrapCoin Core wallet.
     def spend_utxo(self, output, expected_size, retries=0):
-        # construct the transaction using Dogecoin Core raw tx APIs
+        # construct the transaction using ScrapCoin Core raw tx APIs
         input = [{ "txid": self.utxo.pop(), "vout": 0, "scriptPubKey": self.srcOutScript }]
         rawtx = self.nodes[0].createrawtransaction(input, output)
         signed_tx = self.nodes[0].signrawtransaction(rawtx, input, [self.srcPrivKey])
@@ -206,7 +206,7 @@ class P2PPolicyTests(BitcoinTestFramework):
             return self.spend_utxo(output, expected_size, retries)
 
         # import the signed tx into a format the mininode client understands
-        # and send the tx from there rather than from Dogecoin Core, to test
+        # and send the tx from there rather than from ScrapCoin Core, to test
         # mempool acceptance as it would happen on mainnet: through relay
         tx = FromHex(CTransaction(), signed_tx['hex'])
         tx.rehash()

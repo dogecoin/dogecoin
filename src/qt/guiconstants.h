@@ -1,5 +1,5 @@
 // Copyright (c) 2011-2016 The Bitcoin Core developers
-// Copyright (c) 2022 The Dogecoin Core developers
+// Copyright (c) 2022 The ScrapCoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -49,10 +49,10 @@ static const int MAX_URI_LENGTH = 255;
 /* Number of frames in spinner animation */
 #define SPINNER_FRAMES 36
 
-#define QAPP_ORG_NAME "Dogecoin"
-#define QAPP_ORG_DOMAIN "dogecoin.org"
-#define QAPP_APP_NAME_DEFAULT "Dogecoin-Qt"
-#define QAPP_APP_NAME_TESTNET "Dogecoin-Qt-testnet"
+#define QAPP_ORG_NAME "ScrapCoin"
+#define QAPP_ORG_DOMAIN "scrapcoin.org"
+#define QAPP_APP_NAME_DEFAULT "ScrapCoin-Qt"
+#define QAPP_APP_NAME_TESTNET "ScrapCoin-Qt-testnet"
 
 /* One gigabyte (GB) in bytes */
 static constexpr uint64_t GB_BYTES{1000000000};

@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2016 The Bitcoin Core developers
-// Copyright (c) 2022 The Dogecoin Core developers
+// Copyright (c) 2022 The ScrapCoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -57,10 +57,10 @@ static int AppInitRawTx(int argc, char* argv[])
     if (argc<2 || IsArgSet("-?") || IsArgSet("-h") || IsArgSet("-help"))
     {
         // First part of help message is specific to this utility
-        std::string strUsage = strprintf(_("%s dogecoin-tx utility version"), _(PACKAGE_NAME)) + " " + FormatFullVersion() + "\n\n" +
+        std::string strUsage = strprintf(_("%s scrapcoin-tx utility version"), _(PACKAGE_NAME)) + " " + FormatFullVersion() + "\n\n" +
             _("Usage:") + "\n" +
-              "  dogecoin-tx [options] <hex-tx> [commands]  " + _("Update hex-encoded dogecoin transaction") + "\n" +
-              "  dogecoin-tx [options] -create [commands]   " + _("Create hex-encoded dogecoin transaction") + "\n" +
+              "  scrapcoin-tx [options] <hex-tx> [commands]  " + _("Update hex-encoded scrapcoin transaction") + "\n" +
+              "  scrapcoin-tx [options] -create [commands]   " + _("Create hex-encoded scrapcoin transaction") + "\n" +
               "\n";
 
         fprintf(stdout, "%s", strUsage.c_str());

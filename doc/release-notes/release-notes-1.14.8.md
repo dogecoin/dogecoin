@@ -1,23 +1,23 @@
-Dogecoin Core version 1.14.8 is now available from:
+ScrapCoin Core version 1.14.8 is now available from:
 
-  <https://github.com/dogecoin/dogecoin/releases/tag/v1.14.8/>
+  <https://github.com/scrapcoin/scrapcoin/releases/tag/v1.14.8/>
 
-This is a new minor version release. Dogecoin users on any platform are
+This is a new minor version release. ScrapCoin users on any platform are
 strongly recommended to upgrade.
 
 Please report bugs using the issue tracker at GitHub:
 
-  <https://github.com/dogecoin/dogecoin/issues>
+  <https://github.com/scrapcoin/scrapcoin/issues>
 
 To receive notifications about updates, subscribe to the release mailing list:
 
-  <https://sourceforge.net/projects/dogecoin/lists/dogecoin-releases>
+  <https://sourceforge.net/projects/scrapcoin/lists/scrapcoin-releases>
 
 
 Compatibility
 ==============
 
-Dogecoin Core is extensively tested on Ubuntu Server LTS, macOS and Windows.
+ScrapCoin Core is extensively tested on Ubuntu Server LTS, macOS and Windows.
 Minimum OS compatibility can be found [in the INSTALL guide](../INSTALL.md).
 
 
@@ -27,12 +27,12 @@ Notable changes
 Important Updates
 -----------------
 
-Several important updates have been added to Dogecoin Core, including fixes
+Several important updates have been added to ScrapCoin Core, including fixes
 backported from Bitcoin Core's upstream.
 
 ### Reduce Peer INV Object Counts
 
-Previously, Dogecoin Core nodes would maintain a large list of inventory for
+Previously, ScrapCoin Core nodes would maintain a large list of inventory for
 each peer. This is excessive and unnecessary and has been reduced to a more
 reasonable number.
 
@@ -40,7 +40,7 @@ reasonable number.
 
 ### Improve Transaction Request Tracking
 
-A new transaction request tracking system improves the way Dogecoin Core
+A new transaction request tracking system improves the way ScrapCoin Core
 communicates with other peers. Notably, this improvement prioritizes
 communication with outbound peers over inbound peers and makes CPU and memory
 use more reliable and scalable with the number of peers.
@@ -49,7 +49,7 @@ use more reliable and scalable with the number of peers.
 
 ### Improve Orphan Transaction Handling
 
-In previous versions of Dogecoin Core, orphan transactions were processed in a
+In previous versions of ScrapCoin Core, orphan transactions were processed in a
 complex fashion. Now they are processed more like regular getdata messages,
 which allows for more efficient handling of messages arriving from other peers,
 as well as other code simplifications.
@@ -58,7 +58,7 @@ as well as other code simplifications.
 
 ### Reduce Getheaders Traffic for INV Messages
 
-Dogecoin Core now sends a getheaders message for one block when announced in an
+ScrapCoin Core now sends a getheaders message for one block when announced in an
 INV message, and it sends only a single such message rather than multiple per
 INV message. This reduces traffic and simplifies the logic of the code.
 
@@ -75,7 +75,7 @@ checkpoint check after the difficulty check.
 ### Security Policy Documented
 
 The [SECURITY.md](SECURITY.md) file describes how to report a potential
-vulnerability or security issue in Dogecoin Core.
+vulnerability or security issue in ScrapCoin Core.
 
 *Implemented with #3611*
 
@@ -92,7 +92,7 @@ Dependency Updates
 Minor Changes
 =============
 
-* Dogecoin Core now supports compilation with C++14 and C++17, if you select
+* ScrapCoin Core now supports compilation with C++14 and C++17, if you select
   the appropriate configuration flags (#3494, ... )
 * With the C++ version updates, the code now uses more built-in C++ features instead
   of Boost equivalents, where possible (various commits)

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Copyright (c) 2015-2016 The Bitcoin Core developers
-# Copyright (c) 2021-2022 The Dogecoin Core developers
+# Copyright (c) 2021-2022 The ScrapCoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -397,7 +397,7 @@ class FullBlockTest(ComparisonTestFramework):
         b26 = update_block(26, [])
         yield rejected(RejectResult(16, b'bad-cb-length'))
 
-        # Extend the b26 chain to make sure dogecoind isn't accepting b26
+        # Extend the b26 chain to make sure scrapcoind isn't accepting b26
         b27 = block(27, spend=out[7])
         yield rejected(RejectResult(0, b'bad-prevblk'))
 
@@ -409,7 +409,7 @@ class FullBlockTest(ComparisonTestFramework):
         b28 = update_block(28, [])
         yield rejected(RejectResult(16, b'bad-cb-length'))
 
-        # Extend the b28 chain to make sure dogecoind isn't accepting b28
+        # Extend the b28 chain to make sure scrapcoind isn't accepting b28
         b29 = block(29, spend=out[7])
         yield rejected(RejectResult(0, b'bad-prevblk'))
 
@@ -1247,7 +1247,7 @@ class FullBlockTest(ComparisonTestFramework):
         #  Test re-org of a week's worth of blocks (1088 blocks)
         #  This test takes a minute or two and can be accomplished in memory
         #
-        # Dogecoin: Currently this causes a node disconnect, and I'm not even sure that's wrong.
+        # ScrapCoin: Currently this causes a node disconnect, and I'm not even sure that's wrong.
         # TODO: Investigate if this fails correctly, or needs fixing
         if self.options.runbarelyexpensive:
             tip(88)

@@ -1,6 +1,6 @@
-# Dogecoin Snap Packaging
+# ScrapCoin Snap Packaging
 
-Commands for building and uploading a Dogecoin Core Snap to the Snap Store. Anyone on amd64 (x86_64), arm64 (aarch64), or i386 (i686) should be able to build it themselves with these instructions. This would pull the official Dogecoin binaries from the releases page, verify them, and install them on a user's machine.
+Commands for building and uploading a ScrapCoin Core Snap to the Snap Store. Anyone on amd64 (x86_64), arm64 (aarch64), or i386 (i686) should be able to build it themselves with these instructions. This would pull the official ScrapCoin binaries from the releases page, verify them, and install them on a user's machine.
 
 ## Building Locally
 ```
@@ -17,21 +17,21 @@ snap install \*.snap --devmode
 ### To Upload to the Snap Store
 ```
 snapcraft login
-snapcraft register dogecoin-core
+snapcraft register scrapcoin-core
 snapcraft upload \*.snap
-sudo snap install dogecoin-core
+sudo snap install scrapcoin-core
 ```
 
 ### Usage
 ```
-dogecoin-unofficial.cli # for dogecoin-cli
-dogecoin-unofficial.d # for dogecoind
-dogecoin-unofficial.qt # for dogecoin-qt
-dogecoin-unofficial.test # for test_dogecoin
-dogecoin-unofficial.tx # for dogecoin-tx
+scrapcoin-unofficial.cli # for scrapcoin-cli
+scrapcoin-unofficial.d # for scrapcoind
+scrapcoin-unofficial.qt # for scrapcoin-qt
+scrapcoin-unofficial.test # for test_scrapcoin
+scrapcoin-unofficial.tx # for scrapcoin-tx
 ```
 
 ### Uninstalling
 ```
-sudo snap remove dogecoin-unofficial
+sudo snap remove scrapcoin-unofficial
 ```

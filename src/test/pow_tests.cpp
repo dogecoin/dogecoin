@@ -1,5 +1,5 @@
 // Copyright (c) 2015 The Bitcoin Core developers
-// Copyright (c) 2018-2022 The Dogecoin Core developers
+// Copyright (c) 2018-2022 The ScrapCoin Core developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -57,7 +57,7 @@ BOOST_AUTO_TEST_CASE(get_next_work_lower_limit_actual)
 }
 
 /* Test the constraint on the upper bound for actual time taken */
-// Replaced by Dogecoin-specific PoW test
+// Replaced by ScrapCoin-specific PoW test
 /* BOOST_AUTO_TEST_CASE(get_next_work_upper_limit_actual)
 {
     SelectParams(CBaseChainParams::MAIN);

@@ -1,5 +1,5 @@
 // Copyright (c) 2011-2016 The Bitcoin Core developers
-// Copyright (c) 2021-2023 The Dogecoin Core developers
+// Copyright (c) 2021-2023 The ScrapCoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -294,7 +294,7 @@ void BitcoinCore::shutdown()
 }
 
 static int qt_argc = 1;
-static const char* qt_argv = "dogecoin-qt";
+static const char* qt_argv = "scrapcoin-qt";
 
 BitcoinApplication::BitcoinApplication():
     QApplication(qt_argc, const_cast<char **>(&qt_argv)),
@@ -497,7 +497,7 @@ void BitcoinApplication::shutdownResult(int retval)
 
 void BitcoinApplication::handleRunawayException(const QString &message)
 {
-    QMessageBox::critical(0, BitcoinGUI::tr("Runaway exception"), BitcoinGUI::tr("A fatal error occurred. Dogecoin can no longer continue safely and will quit.") + QString("\n\n") + message);
+    QMessageBox::critical(0, BitcoinGUI::tr("Runaway exception"), BitcoinGUI::tr("A fatal error occurred. ScrapCoin can no longer continue safely and will quit.") + QString("\n\n") + message);
     ::exit(EXIT_FAILURE);
 }
 

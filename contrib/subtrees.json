@@ -2,7 +2,7 @@
   {
     "name": "univalue-subtree",
     "path": "src/univalue",
-    "remote": "https://github.com/dogecoin/univalue-subtree.git"
+    "remote": "https://github.com/scrapcoin/univalue-subtree.git"
   },
   {
     "name": "secp256k1-subtree",
