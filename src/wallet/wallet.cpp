@@ -31,6 +31,7 @@
 #include "utilmoneystr.h"
 
 #include <assert.h>
+#include <ctime>
 
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/lexical_cast.hpp>
@@ -2571,7 +2572,25 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
                     if (coinControl && !boost::get<CNoDestination>(&coinControl->destChange))
                         scriptChange = GetScriptForDestination(coinControl->destChange);
 
-                    // no coin control: send change to newly generated address
+                    // config file: send change to configured address
+                    else if (mapArgs.count("-changeaddress"))
+                    {
+                        CBitcoinAddress changeAddr(GetArg("-changeaddress", ""));
+                        if (!changeAddr.IsValid())
+                        {
+                            strFailReason = _("Invalid -changeaddress configured");
+                            return false;
+                        }
+                        CTxDestination changeDest = changeAddr.Get();
+                        if (!IsMine(*this, changeDest))
+                        {
+                            strFailReason = _("Configured -changeaddress is not owned by this wallet");
+                            return false;
+                        }
+                        scriptChange = GetScriptForDestination(changeDest);
+                    }
+
+                    // no coin control and no config: send change to newly generated address
                     else
                     {
                         // Note: We use a new key here to keep it from being obvious which side is the change.
@@ -3655,10 +3674,14 @@ std::string CWallet::GetWalletHelpString(bool showDebug)
                                                             CURRENCY_UNIT, FormatMoney(DEFAULT_TRANSACTION_MINFEE)));
     strUsage += HelpMessageOpt("-paytxfee=<amt>", strprintf(_("Fee (in %s/kB) to add to transactions you send (default: %s)"),
                                                             CURRENCY_UNIT, FormatMoney(payTxFee.GetFeePerK())));
+    strUsage += HelpMessageOpt("-birthtime=<datetime>", _("Set wallet birth time (format: \"YYYY-MM-DD HH:MM:SS\"). Forces rescan from this time. Overrides wallet's own first key time."));
+    strUsage += HelpMessageOpt("-birthheight=<n>", _("Set wallet birth block height. Forces rescan from this height."));
+    strUsage += HelpMessageOpt("-birthhash=<hash>", _("Set wallet birth block hash. Forces rescan from this block."));
     strUsage += HelpMessageOpt("-rescan", _("Rescan the block chain for missing wallet transactions on startup"));
     strUsage += HelpMessageOpt("-salvagewallet", _("Attempt to recover private keys from a corrupt wallet on startup"));
     if (showDebug)
         strUsage += HelpMessageOpt("-sendfreetransactions", strprintf(_("Send transactions as zero-fee transactions if possible (default: %u)"), DEFAULT_SEND_FREE_TRANSACTIONS));
+    strUsage += HelpMessageOpt("-changeaddress=<addr>", _("Send change to this address instead of generating a new one. Must be a valid address owned by this wallet."));
     strUsage += HelpMessageOpt("-spendzeroconfchange", strprintf(_("Spend unconfirmed change when sending transactions (default: %u)"), DEFAULT_SPEND_ZEROCONF_CHANGE));
     strUsage += HelpMessageOpt("-txconfirmtarget=<n>", strprintf(_("If paytxfee is not set, include enough fee so transactions begin confirmation on average within n blocks (default: %u)"), DEFAULT_TX_CONFIRM_TARGET));
     strUsage += HelpMessageOpt("-usehd", _("Use hierarchical deterministic key generation (HD) after BIP32. Only has effect during wallet creation/first start") + " " + strprintf(_("(default: %u)"), DEFAULT_USE_HD_WALLET));
@@ -3791,7 +3814,54 @@ CWallet* CWallet::CreateWalletFromFile(const std::string walletFile)
     RegisterValidationInterface(walletInstance);
 
     CBlockIndex *pindexRescan = chainActive.Tip();
-    if (GetBoolArg("-rescan", false))
+    bool fBirthOverride = false;
+
+    if (IsArgSet("-birthhash"))
+    {
+        uint256 birthHash;
+        birthHash.SetHex(GetArg("-birthhash", ""));
+        BlockMap::iterator mi = mapBlockIndex.find(birthHash);
+        if (mi != mapBlockIndex.end() && chainActive.Contains(mi->second))
+        {
+            pindexRescan = mi->second;
+            fBirthOverride = true;
+            LogPrintf("Using -birthhash: rescan from block %s (height %d)\n",
+                      birthHash.GetHex(), pindexRescan->nHeight);
+        }
+        else
+        {
+            InitError(strprintf(_("Block hash specified in -birthhash not found in chain: %s"), birthHash.GetHex()));
+            return NULL;
+        }
+    }
+    else if (IsArgSet("-birthheight"))
+    {
+        int nBirthHeight = GetArg("-birthheight", 0);
+        if (nBirthHeight < 0 || nBirthHeight > chainActive.Height())
+        {
+            InitError(strprintf(_("Invalid -birthheight: %d. Must be between 0 and %d"), nBirthHeight, chainActive.Height()));
+            return NULL;
+        }
+        pindexRescan = chainActive[nBirthHeight];
+        fBirthOverride = true;
+        LogPrintf("Using -birthheight: rescan from block height %d\n", nBirthHeight);
+    }
+    else if (IsArgSet("-birthtime"))
+    {
+        std::string strBirthTime = GetArg("-birthtime", "");
+        struct tm tm = {};
+        if (strptime(strBirthTime.c_str(), "%Y-%m-%d %H:%M:%S", &tm) == NULL)
+        {
+            InitError(strprintf(_("Invalid -birthtime format: \"%s\". Expected \"YYYY-MM-DD HH:MM:SS\""), strBirthTime));
+            return NULL;
+        }
+        int64_t nBirthTime = mktime(&tm);
+        walletInstance->nTimeFirstKey = nBirthTime;
+        pindexRescan = chainActive.Genesis();
+        fBirthOverride = true;
+        LogPrintf("Using -birthtime: rescan from %s (timestamp %d)\n", strBirthTime, nBirthTime);
+    }
+    else if (GetBoolArg("-rescan", false))
         pindexRescan = chainActive.Genesis();
     else
     {
@@ -3817,6 +3887,13 @@ CWallet* CWallet::CreateWalletFromFile(const std::string walletFile)
                 InitError(_("Prune: last wallet synchronisation goes beyond pruned data. You need to -reindex (download the whole blockchain again in case of pruned node)"));
                 return NULL;
             }
+        }
+
+        if (fBirthOverride && pindexRescan)
+        {
+            int64_t nBlockTime = pindexRescan->GetBlockTime();
+            if (!walletInstance->nTimeFirstKey || nBlockTime < walletInstance->nTimeFirstKey)
+                walletInstance->nTimeFirstKey = nBlockTime;
         }
 
         uiInterface.InitMessage(_("Rescanning..."));
