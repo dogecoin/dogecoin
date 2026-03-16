@@ -4047,12 +4047,21 @@ CWallet* CWallet::CreateWalletFromFile(const std::string walletFile)
     else if (IsArgSet("-birthheight"))
     {
         int nBirthHeight = GetArg("-birthheight", 0);
-        if (nBirthHeight < 0 || nBirthHeight > chainActive.Height())
+        if (nBirthHeight < 0)
         {
-            InitError(strprintf(_("Invalid -birthheight: %d. Must be between 0 and %d"), nBirthHeight, chainActive.Height()));
+            InitError(strprintf(_("Invalid -birthheight: %d. Must be >= 0"), nBirthHeight));
             return NULL;
         }
-        pindexRescan = chainActive[nBirthHeight];
+        if (nBirthHeight > chainActive.Height())
+        {
+            LogPrintf("WARNING: -birthheight %d exceeds current chain height %d. Will rescan once chain reaches that height.\n",
+                      nBirthHeight, chainActive.Height());
+            pindexRescan = chainActive.Genesis() ? chainActive.Genesis() : chainActive.Tip();
+        }
+        else
+        {
+            pindexRescan = chainActive[nBirthHeight];
+        }
         fBirthOverride = true;
         LogPrintf("Using -birthheight: rescan from block height %d\n", nBirthHeight);
     }
