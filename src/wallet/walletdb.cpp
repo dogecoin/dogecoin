@@ -538,6 +538,14 @@ ReadKeyValue(CWallet* pwallet, CDataStream& ssKey, CDataStream& ssValue,
                 return false;
             }
         }
+        else if (strType == "mnemonic")
+        {
+            ssValue >> pwallet->vchCryptedMnemonic;
+        }
+        else if (strType == "hdseed")
+        {
+            ssValue >> pwallet->vchCryptedSeed;
+        }
     } catch (...)
     {
         return false;
@@ -949,6 +957,28 @@ bool CWalletDB::WriteHDChain(const CHDChain& chain)
 {
     nWalletDBUpdateCounter++;
     return Write(std::string("hdchain"), chain);
+}
+
+bool CWalletDB::WriteEncryptedMnemonic(const std::vector<unsigned char>& vchCryptedMnemonic)
+{
+    nWalletDBUpdateCounter++;
+    return Write(std::string("mnemonic"), vchCryptedMnemonic);
+}
+
+bool CWalletDB::ReadEncryptedMnemonic(std::vector<unsigned char>& vchCryptedMnemonic)
+{
+    return Read(std::string("mnemonic"), vchCryptedMnemonic);
+}
+
+bool CWalletDB::WriteEncryptedSeed(const std::vector<unsigned char>& vchCryptedSeed)
+{
+    nWalletDBUpdateCounter++;
+    return Write(std::string("hdseed"), vchCryptedSeed);
+}
+
+bool CWalletDB::ReadEncryptedSeed(std::vector<unsigned char>& vchCryptedSeed)
+{
+    return Read(std::string("hdseed"), vchCryptedSeed);
 }
 
 void CWalletDB::IncrementUpdateCounter()

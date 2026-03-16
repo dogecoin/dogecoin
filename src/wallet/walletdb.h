@@ -46,9 +46,14 @@ class CHDChain
 {
 public:
     uint32_t nExternalChainCounter;
+    uint32_t nInternalChainCounter;
     CKeyID masterKeyID; //!< master key hash160
+    bool fUseBIP44;     //!< true = m/44'/3'/0'/0/k, false = m/0'/3'/k'
+    std::vector<unsigned char> vchSeed; //!< BIP39 seed for BIP44 derivation (64 bytes)
 
-    static const int CURRENT_VERSION = 1;
+    static const int VERSION_BASIC = 1;
+    static const int VERSION_WITH_BIP44 = 2;
+    static const int CURRENT_VERSION = VERSION_WITH_BIP44;
     int nVersion;
 
     CHDChain() { SetNull(); }
@@ -59,13 +64,22 @@ public:
         READWRITE(this->nVersion);
         READWRITE(nExternalChainCounter);
         READWRITE(masterKeyID);
+        if (this->nVersion >= VERSION_WITH_BIP44)
+        {
+            READWRITE(nInternalChainCounter);
+            READWRITE(fUseBIP44);
+            READWRITE(vchSeed);
+        }
     }
 
     void SetNull()
     {
         nVersion = CHDChain::CURRENT_VERSION;
         nExternalChainCounter = 0;
+        nInternalChainCounter = 0;
         masterKeyID.SetNull();
+        fUseBIP44 = false;
+        vchSeed.clear();
     }
 };
 
@@ -175,6 +189,12 @@ public:
 
     //! write the hdchain model (external chain child index counter)
     bool WriteHDChain(const CHDChain& chain);
+
+    //! write/read encrypted mnemonic and seed (encrypted with wallet master key)
+    bool WriteEncryptedMnemonic(const std::vector<unsigned char>& vchCryptedMnemonic);
+    bool ReadEncryptedMnemonic(std::vector<unsigned char>& vchCryptedMnemonic);
+    bool WriteEncryptedSeed(const std::vector<unsigned char>& vchCryptedSeed);
+    bool ReadEncryptedSeed(std::vector<unsigned char>& vchCryptedSeed);
 
     static void IncrementUpdateCounter();
     static unsigned int GetUpdateCounter();

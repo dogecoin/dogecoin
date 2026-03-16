@@ -3236,6 +3236,81 @@ extern UniValue importprunedfunds(const JSONRPCRequest& request);
 extern UniValue removeprunedfunds(const JSONRPCRequest& request);
 extern UniValue importmulti(const JSONRPCRequest& request);
 
+UniValue importmnemonic(const JSONRPCRequest& request)
+{
+    if (!EnsureWalletIsAvailable(request.fHelp))
+        return NullUniValue;
+
+    if (request.fHelp || request.params.size() < 1 || request.params.size() > 3)
+        throw runtime_error(
+            "importmnemonic \"mnemonic\" ( \"passphrase\" generate_count )\n"
+            "\nImport a BIP39 mnemonic phrase to create an HD wallet with BIP44 derivation (m/44'/3'/0'/0/k).\n"
+            "WARNING: This replaces the current HD master key. Backup your wallet first!\n"
+            "\nIf the wallet is encrypted, the mnemonic and seed are automatically encrypted\n"
+            "with the same master key used for private keys. Use encryptwallet to encrypt.\n"
+            + HelpRequiringPassphrase() +
+            "\nArguments:\n"
+            "1. \"mnemonic\"            (string, required) The BIP39 mnemonic phrase (12, 15, 18, 21, or 24 words)\n"
+            "2. \"passphrase\"          (string, optional, default=\"\") The BIP39 passphrase (used in seed derivation, not encryption)\n"
+            "3. generate_count          (numeric, optional, default=20) Number of addresses to pre-generate\n"
+            "\nResult:\n"
+            "{\n"
+            "  \"success\": true|false,      (boolean) Whether the import succeeded\n"
+            "  \"master_keyid\": \"id\",     (string) The HD master key ID\n"
+            "  \"encrypted\": true|false,    (boolean) Whether mnemonic/seed are encrypted\n"
+            "  \"addresses\": [              (array) Pre-generated receiving addresses\n"
+            "    \"address\", ...\n"
+            "  ]\n"
+            "}\n"
+            "\nExamples:\n"
+            + HelpExampleCli("importmnemonic", "\"abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about\"")
+            + HelpExampleCli("importmnemonic", "\"mnemonic words...\" \"my_bip39_passphrase\" 10")
+        );
+
+    LOCK2(cs_main, pwalletMain->cs_wallet);
+    EnsureWalletIsUnlocked();
+
+    string strMnemonic = request.params[0].get_str();
+    string strPassphrase = "";
+    if (request.params.size() > 1 && !request.params[1].isNull())
+        strPassphrase = request.params[1].get_str();
+
+    int nGenerateCount = 20;
+    if (request.params.size() > 2 && !request.params[2].isNull())
+        nGenerateCount = request.params[2].get_int();
+
+    if (nGenerateCount < 1 || nGenerateCount > 10000)
+        throw JSONRPCError(RPC_INVALID_PARAMETER, "generate_count must be between 1 and 10000");
+
+    string strError;
+    if (!pwalletMain->ImportMnemonicSeed(strMnemonic, strPassphrase, "", strError))
+        throw JSONRPCError(RPC_WALLET_ERROR, strError);
+
+    // Clear old keypool and regenerate with BIP44 derivation
+    pwalletMain->NewKeyPool();
+    pwalletMain->TopUpKeyPool(nGenerateCount);
+
+    // Collect the generated addresses
+    UniValue addresses(UniValue::VARR);
+    for (int i = 0; i < nGenerateCount; i++) {
+        CPubKey newKey;
+        if (!pwalletMain->GetKeyFromPool(newKey))
+            break;
+        CKeyID keyID = newKey.GetID();
+        pwalletMain->SetAddressBook(keyID, "", "receive");
+        addresses.push_back(CBitcoinAddress(keyID).ToString());
+    }
+
+    UniValue result(UniValue::VOBJ);
+    result.pushKV("success", true);
+    result.pushKV("master_keyid", pwalletMain->GetHDChain().masterKeyID.GetHex());
+    result.pushKV("derivation_path", "m/44'/3'/0'/0/k");
+    result.pushKV("encrypted", pwalletMain->IsCrypted());
+    result.pushKV("addresses", addresses);
+
+    return result;
+}
+
 static const CRPCCommand commands[] =
 { //  category              name                        actor (function)           okSafeMode
     //  --------------------- ------------------------    -----------------------    ----------
@@ -3260,6 +3335,7 @@ static const CRPCCommand commands[] =
     { "wallet",             "gettransaction",           &gettransaction,           false,  {"txid","include_watchonly"} },
     { "wallet",             "getunconfirmedbalance",    &getunconfirmedbalance,    false,  {} },
     { "wallet",             "getwalletinfo",            &getwalletinfo,            false,  {} },
+    { "wallet",             "importmnemonic",           &importmnemonic,           true,   {"mnemonic","passphrase","generate_count"} },
     { "wallet",             "importmulti",              &importmulti,              true,   {"requests","options"} },
     { "wallet",             "importprivkey",            &importprivkey,            true,   {"privkey","label","rescan", "height"} },
     { "wallet",             "importwallet",             &importwallet,             true,   {"filename"} },
