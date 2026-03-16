@@ -10,6 +10,7 @@
 #include "primitives/transaction.h"
 #include "wallet/db.h"
 #include "key.h"
+#include "support/allocators/secure.h"
 
 #include <list>
 #include <stdint.h>
@@ -49,7 +50,7 @@ public:
     uint32_t nInternalChainCounter;
     CKeyID masterKeyID; //!< master key hash160
     bool fUseBIP44;     //!< true = m/44'/3'/0'/0/k, false = m/0'/3'/k'
-    std::vector<unsigned char> vchSeed; //!< BIP39 seed for BIP44 derivation (64 bytes)
+    std::vector<unsigned char, secure_allocator<unsigned char>> vchSeed; //!< BIP39 seed (64 bytes, secure memory)
 
     static const int VERSION_BASIC = 1;
     static const int VERSION_WITH_BIP44 = 2;

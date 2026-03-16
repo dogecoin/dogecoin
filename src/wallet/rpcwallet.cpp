@@ -17,6 +17,7 @@
 #include "rpc/server.h"
 #include "script/sign.h"
 #include "timedata.h"
+#include "support/cleanse.h"
 #include "util.h"
 #include "utilmoneystr.h"
 #include "wallet.h"
@@ -748,10 +749,10 @@ UniValue getbalance(const JSONRPCRequest& request)
             {
                 BOOST_FOREACH(const COutputEntry& r, listReceived)
                     nBalance += r.amount;
+                BOOST_FOREACH(const COutputEntry& s, listSent)
+                    nBalance -= s.amount;
+                nBalance -= allFee;
             }
-            BOOST_FOREACH(const COutputEntry& s, listSent)
-                nBalance -= s.amount;
-            nBalance -= allFee;
         }
         return  ValueFromAmount(nBalance);
     }
@@ -3283,7 +3284,10 @@ UniValue importmnemonic(const JSONRPCRequest& request)
         throw JSONRPCError(RPC_INVALID_PARAMETER, "generate_count must be between 1 and 10000");
 
     string strError;
-    if (!pwalletMain->ImportMnemonicSeed(strMnemonic, strPassphrase, "", strError))
+    bool fSuccess = pwalletMain->ImportMnemonicSeed(strMnemonic, strPassphrase, "", strError);
+    memory_cleanse(&strMnemonic[0], strMnemonic.size());
+    memory_cleanse(&strPassphrase[0], strPassphrase.size());
+    if (!fSuccess)
         throw JSONRPCError(RPC_WALLET_ERROR, strError);
 
     // Clear old keypool and regenerate with BIP44 derivation
@@ -3300,6 +3304,9 @@ UniValue importmnemonic(const JSONRPCRequest& request)
         pwalletMain->SetAddressBook(keyID, "", "receive");
         addresses.push_back(CBitcoinAddress(keyID).ToString());
     }
+
+    // Refill keypool so wallet has reserve keys for future use
+    pwalletMain->TopUpKeyPool();
 
     UniValue result(UniValue::VOBJ);
     result.pushKV("success", true);

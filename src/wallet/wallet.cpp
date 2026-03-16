@@ -33,7 +33,6 @@
 #include "utilmoneystr.h"
 
 #include <assert.h>
-#include <ctime>
 
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/lexical_cast.hpp>
@@ -151,9 +150,11 @@ void CWallet::DeriveNewChildKey(CKeyMetadata& metadata, CKey& secret, bool fInte
             // Seed is encrypted — decrypt with wallet master key
             LOCK(cs_KeyStore);
             CCrypter crypter;
+            std::string seedSalt = "hdseed";
+            uint256 ivSeed = Hash(hdChain.masterKeyID.begin(), hdChain.masterKeyID.end(),
+                                  seedSalt.begin(), seedSalt.end());
             std::vector<unsigned char> chIV(WALLET_CRYPTO_IV_SIZE);
-            uint256 ivHash = Hash(hdChain.masterKeyID.begin(), hdChain.masterKeyID.end());
-            memcpy(chIV.data(), &ivHash, WALLET_CRYPTO_IV_SIZE);
+            memcpy(chIV.data(), &ivSeed, WALLET_CRYPTO_IV_SIZE);
             if (!crypter.SetKey(GetMasterKey(), chIV))
                 throw std::runtime_error(std::string(__func__) + ": Failed to set decryption key");
             CKeyingMaterial vchPlainSeed;
@@ -191,6 +192,8 @@ void CWallet::DeriveNewChildKey(CKeyMetadata& metadata, CKey& secret, bool fInte
         uint32_t& nChildCounter = fInternal ? hdChain.nInternalChainCounter : hdChain.nExternalChainCounter;
 
         do {
+            if (nChildCounter >= BIP32_HARDENED_KEY_LIMIT)
+                throw std::runtime_error(std::string(__func__) + ": BIP44 child index exhausted");
             changeKey.Derive(childKey, nChildCounter); // non-hardened
             metadata.hdKeypath = "m/44'/3'/0'/" + std::to_string(nChange) + "/" + std::to_string(nChildCounter);
             metadata.hdMasterKeyID = hdChain.masterKeyID;
@@ -207,6 +210,8 @@ void CWallet::DeriveNewChildKey(CKeyMetadata& metadata, CKey& secret, bool fInte
         accountKey.Derive(externalChainChildKey, BIP44_COIN_TYPE | BIP32_HARDENED_KEY_LIMIT);
 
         do {
+            if (hdChain.nExternalChainCounter >= BIP32_HARDENED_KEY_LIMIT)
+                throw std::runtime_error(std::string(__func__) + ": Legacy child index exhausted");
             externalChainChildKey.Derive(childKey, hdChain.nExternalChainCounter | BIP32_HARDENED_KEY_LIMIT);
             metadata.hdKeypath = "m/0'/3'/" + std::to_string(hdChain.nExternalChainCounter) + "'";
             metadata.hdMasterKeyID = hdChain.masterKeyID;
@@ -215,6 +220,10 @@ void CWallet::DeriveNewChildKey(CKeyMetadata& metadata, CKey& secret, bool fInte
     }
 
     secret = childKey.key;
+
+    // Cleanse intermediate key material from stack
+    memory_cleanse(&masterKey, sizeof(masterKey));
+    memory_cleanse(&childKey, sizeof(childKey));
 
     if (!CWalletDB(strWalletFile).WriteHDChain(hdChain))
         throw std::runtime_error(std::string(__func__) + ": Writing HD chain model failed");
@@ -726,7 +735,11 @@ bool CWallet::EncryptWallet(const SecureString& strWalletPassphrase)
             std::vector<unsigned char> vchMnemonic;
             if (walletdb.ReadEncryptedMnemonic(vchMnemonic) && !vchMnemonic.empty()) {
                 std::string mnemonicStr(vchMnemonic.begin(), vchMnemonic.end());
-                EncryptMnemonicAndSeed(mnemonicStr);
+                if (!EncryptMnemonicAndSeed(mnemonicStr)) {
+                    LogPrintf("ERROR: Failed to encrypt mnemonic/seed during wallet encryption\n");
+                    return false;
+                }
+                memory_cleanse(&mnemonicStr[0], mnemonicStr.size());
             }
         }
 
@@ -1474,6 +1487,11 @@ bool CWallet::ImportMnemonicSeed(const std::string& mnemonic, const std::string&
         return false;
     }
 
+    if (IsHDEnabled() && !hdChain.masterKeyID.IsNull()) {
+        LogPrintf("WARNING: ImportMnemonicSeed replacing existing HD master key %s\n",
+                  hdChain.masterKeyID.GetHex());
+    }
+
     // BIP39: mnemonic → 512-bit seed
     bip39::SecureVector seed = bip39::MnemonicToSeed(mnemonic, passphrase);
 
@@ -1506,7 +1524,7 @@ bool CWallet::ImportMnemonicSeed(const std::string& mnemonic, const std::string&
     newHdChain.nInternalChainCounter = 0;
     newHdChain.vchSeed.assign(seed.begin(), seed.end());
 
-    SetMinVersion(FEATURE_HD);
+    SetMinVersion(FEATURE_HD_BIP44);
     SetHDChain(newHdChain, false);
 
     // If wallet is encrypted, encrypt mnemonic and seed with the wallet master key
@@ -1520,7 +1538,11 @@ bool CWallet::ImportMnemonicSeed(const std::string& mnemonic, const std::string&
         CWalletDB walletdb(strWalletFile);
         std::vector<unsigned char> vchMnemonic(mnemonic.begin(), mnemonic.end());
         walletdb.WriteEncryptedMnemonic(vchMnemonic);
+        memory_cleanse(vchMnemonic.data(), vchMnemonic.size());
     }
+
+    // Cleanse intermediate master key
+    memory_cleanse(&masterKey, sizeof(masterKey));
 
     return true;
 }
@@ -1534,23 +1556,37 @@ bool CWallet::EncryptMnemonicAndSeed(const std::string& mnemonic)
 
     LOCK(cs_KeyStore);
 
-    CCrypter crypter;
-    std::vector<unsigned char> chIV(WALLET_CRYPTO_IV_SIZE);
-    uint256 ivHash = Hash(hdChain.masterKeyID.begin(), hdChain.masterKeyID.end());
-    memcpy(chIV.data(), &ivHash, WALLET_CRYPTO_IV_SIZE);
-
-    if (!crypter.SetKey(GetMasterKey(), chIV))
-        return false;
+    // Use distinct IVs for mnemonic and seed to avoid same (key, IV) pair
+    std::string mnemonicSalt = "mnemonic";
+    std::string seedSalt = "hdseed";
+    uint256 ivMnemonic = Hash(hdChain.masterKeyID.begin(), hdChain.masterKeyID.end(),
+                              mnemonicSalt.begin(), mnemonicSalt.end());
+    uint256 ivSeed = Hash(hdChain.masterKeyID.begin(), hdChain.masterKeyID.end(),
+                          seedSalt.begin(), seedSalt.end());
 
     // Encrypt mnemonic
-    CKeyingMaterial vchPlainMnemonic(mnemonic.begin(), mnemonic.end());
-    if (!crypter.Encrypt(vchPlainMnemonic, vchCryptedMnemonic))
-        return false;
+    {
+        CCrypter crypter;
+        std::vector<unsigned char> chIV(WALLET_CRYPTO_IV_SIZE);
+        memcpy(chIV.data(), &ivMnemonic, WALLET_CRYPTO_IV_SIZE);
+        if (!crypter.SetKey(GetMasterKey(), chIV))
+            return false;
+        CKeyingMaterial vchPlainMnemonic(mnemonic.begin(), mnemonic.end());
+        if (!crypter.Encrypt(vchPlainMnemonic, vchCryptedMnemonic))
+            return false;
+    }
 
     // Encrypt seed
-    CKeyingMaterial vchPlainSeed(hdChain.vchSeed.begin(), hdChain.vchSeed.end());
-    if (!crypter.Encrypt(vchPlainSeed, vchCryptedSeed))
-        return false;
+    {
+        CCrypter crypter;
+        std::vector<unsigned char> chIV(WALLET_CRYPTO_IV_SIZE);
+        memcpy(chIV.data(), &ivSeed, WALLET_CRYPTO_IV_SIZE);
+        if (!crypter.SetKey(GetMasterKey(), chIV))
+            return false;
+        CKeyingMaterial vchPlainSeed(hdChain.vchSeed.begin(), hdChain.vchSeed.end());
+        if (!crypter.Encrypt(vchPlainSeed, vchCryptedSeed))
+            return false;
+    }
 
     // Clear plaintext seed from hdChain
     memory_cleanse(hdChain.vchSeed.data(), hdChain.vchSeed.size());
@@ -1569,6 +1605,8 @@ bool CWallet::EncryptMnemonicAndSeed(const std::string& mnemonic)
 
 bool CWallet::DecryptMnemonic(std::string& mnemonic) const
 {
+    LOCK(cs_wallet);
+
     if (!IsCrypted())
     {
         CWalletDB walletdb(strWalletFile);
@@ -1576,6 +1614,7 @@ bool CWallet::DecryptMnemonic(std::string& mnemonic) const
         if (!walletdb.ReadEncryptedMnemonic(vchMnemonic))
             return false;
         mnemonic.assign(vchMnemonic.begin(), vchMnemonic.end());
+        memory_cleanse(vchMnemonic.data(), vchMnemonic.size());
         return true;
     }
 
@@ -1588,9 +1627,11 @@ bool CWallet::DecryptMnemonic(std::string& mnemonic) const
         return false;
 
     CCrypter crypter;
+    std::string mnemonicSalt = "mnemonic";
+    uint256 ivMnemonic = Hash(hdChain.masterKeyID.begin(), hdChain.masterKeyID.end(),
+                              mnemonicSalt.begin(), mnemonicSalt.end());
     std::vector<unsigned char> chIV(WALLET_CRYPTO_IV_SIZE);
-    uint256 ivHash = Hash(hdChain.masterKeyID.begin(), hdChain.masterKeyID.end());
-    memcpy(chIV.data(), &ivHash, WALLET_CRYPTO_IV_SIZE);
+    memcpy(chIV.data(), &ivMnemonic, WALLET_CRYPTO_IV_SIZE);
 
     if (!crypter.SetKey(GetMasterKey(), chIV))
         return false;
@@ -4056,7 +4097,10 @@ CWallet* CWallet::CreateWalletFromFile(const std::string walletFile)
         {
             LogPrintf("WARNING: -birthheight %d exceeds current chain height %d. Will rescan once chain reaches that height.\n",
                       nBirthHeight, chainActive.Height());
-            pindexRescan = chainActive.Genesis() ? chainActive.Genesis() : chainActive.Tip();
+            if (chainActive.Genesis())
+                pindexRescan = chainActive.Genesis();
+            else
+                pindexRescan = chainActive.Tip(); // may be nullptr, handled by the if(Tip != pindexRescan) check below
         }
         else
         {
@@ -4069,12 +4113,25 @@ CWallet* CWallet::CreateWalletFromFile(const std::string walletFile)
     {
         std::string strBirthTime = GetArg("-birthtime", "");
         struct tm tm = {};
-        if (strptime(strBirthTime.c_str(), "%Y-%m-%d %H:%M:%S", &tm) == NULL)
+        if (sscanf(strBirthTime.c_str(), "%d-%d-%d %d:%d:%d",
+                   &tm.tm_year, &tm.tm_mon, &tm.tm_mday,
+                   &tm.tm_hour, &tm.tm_min, &tm.tm_sec) != 6)
         {
             InitError(strprintf(_("Invalid -birthtime format: \"%s\". Expected \"YYYY-MM-DD HH:MM:SS\""), strBirthTime));
             return NULL;
         }
-        int64_t nBirthTime = mktime(&tm);
+        tm.tm_year -= 1900;
+        tm.tm_mon -= 1;
+#ifdef _WIN32
+        int64_t nBirthTime = _mkgmtime(&tm);
+#else
+        int64_t nBirthTime = timegm(&tm);
+#endif
+        if (nBirthTime < 0)
+        {
+            InitError(strprintf(_("Invalid -birthtime value: \"%s\""), strBirthTime));
+            return NULL;
+        }
         walletInstance->nTimeFirstKey = nBirthTime;
         pindexRescan = chainActive.Genesis();
         fBirthOverride = true;
