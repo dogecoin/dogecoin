@@ -1724,8 +1724,6 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
         int64_t current_time = GetMockableTimeMicros();
         uint256* best_block{nullptr};
 
-        std::vector<CInv> vToFetch;
-
         for (unsigned int nInv = 0; nInv < vInv.size(); nInv++)
         {
             CInv &inv = vInv[nInv];
@@ -1743,16 +1741,14 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
             if (inv.type == MSG_BLOCK) {
                 UpdateBlockAvailability(pfrom->GetId(), inv.hash);
                 if (!fAlreadyHave && !fImporting && !fReindex && !mapBlocksInFlight.count(inv.hash)) {
-                  // Headers-first is the primary method of announcement on
-                  // the network. If a node fell back to sending blocks by inv,
-                  // it's probably for a re-org. The final block hash
-                  // provided should be the highest, so send a getheaders and
-                  // then fetch the blocks we need to catch up.
-                  best_block = &inv.hash;
+                    // Headers-first is the primary method of announcement on
+                    // the network. If a node fell back to sending blocks by inv,
+                    // it's probably for a re-org. The final block hash
+                    // provided should be the highest, so send a getheaders and
+                    // then fetch the blocks we need to catch up.
+                    best_block = &inv.hash;
                 }
-            }
-            else
-            {
+            } else {
                 pfrom->AddInventoryKnown(inv);
                 if (fBlocksOnly)
                     LogPrint("net", "transaction (%s) inv sent in violation of protocol peer=%d\n", inv.hash.ToString(), pfrom->id);
@@ -1763,14 +1759,11 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
         }
 
         if (best_block != nullptr) {
-            // Dogecoin: allow header requests from inv to be non-serial by
-            // forcing the request, to be able to get split chaintips quickly.
-            RequestHeadersFrom(pfrom, connman, pindexBestHeader, *best_block, true /* force */);
+            connman.PushMessage(pfrom, msgMaker.Make(NetMsgType::GETHEADERS, chainActive.GetLocator(pindexBestHeader), *best_block));
             LogPrint("net", "getheaders (%d) %s to peer=%d\n", pindexBestHeader->nHeight, best_block->ToString(), pfrom->id);
         }
 
-        if (!vToFetch.empty())
-            connman.PushMessage(pfrom, msgMaker.Make(NetMsgType::GETDATA, vToFetch));
+        return true;
     }
 
 
