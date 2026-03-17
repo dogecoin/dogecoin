@@ -851,9 +851,6 @@ void PeerLogicValidation::BlockConnected(const std::shared_ptr<const CBlock>& pb
         }
         LogPrint("mempool", "Erased %d orphan tx included or conflicted by block\n", nErased);
     }
-
-    // Forget tracked announcements for transactions included in a block.
-    g_txrequest.ForgetTxHash(tx.GetHash());
 }
 
 static CCriticalSection cs_most_recent_block;
