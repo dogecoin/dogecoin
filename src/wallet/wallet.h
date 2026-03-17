@@ -144,6 +144,7 @@ enum WalletFeature
     FEATURE_COMPRPUBKEY = 60000, // compressed public keys
 
     FEATURE_HD = 130000, // Hierarchical key derivation after BIP32 (HD Wallet)
+    FEATURE_HD_BIP44 = 140000, // BIP44 derivation with mnemonic support
     FEATURE_LATEST = FEATURE_COMPRPUBKEY // HD is optional, use FEATURE_COMPRPUBKEY as latest version
 };
 
@@ -708,7 +709,7 @@ public:
      * Generate a new key
      */
     CPubKey GenerateNewKey();
-    void DeriveNewChildKey(CKeyMetadata& metadata, CKey& secret);
+    void DeriveNewChildKey(CKeyMetadata& metadata, CKey& secret, bool fInternal = false);
     //! Adds a key to the store, and saves it to disk.
     bool AddKeyPubKey(const CKey& key, const CPubKey &pubkey) override;
     //! Adds a key to the store, without saving it to disk (used by LoadWallet)
@@ -968,9 +969,21 @@ public:
 
     /* Generates a new HD master key (will not be activated) */
     CPubKey GenerateNewHDMasterKey();
+    //! Import a BIP39 mnemonic: derive HD master key from seed, enable BIP44 derivation
+    bool ImportMnemonicSeed(const std::string& mnemonic, const std::string& passphrase,
+                            const std::string& encryptPassphrase, std::string& strError);
     
     /* Set the current HD master key (will reset the chain child index counters) */
     bool SetHDMasterKey(const CPubKey& key);
+
+    //! Encrypted mnemonic and seed (empty if not set or wallet not encrypted)
+    std::vector<unsigned char> vchCryptedMnemonic;
+    std::vector<unsigned char> vchCryptedSeed;
+
+    //! Encrypt mnemonic and seed with wallet master key (called during EncryptWallet or import)
+    bool EncryptMnemonicAndSeed(const std::string& mnemonic);
+    //! Decrypt mnemonic from wallet (wallet must be unlocked)
+    bool DecryptMnemonic(std::string& mnemonic) const;
 };
 
 /** A key allocated from the key pool. */

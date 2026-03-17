@@ -129,6 +129,9 @@ private:
 protected:
     bool SetCrypted();
 
+    //! Access wallet master key (for encrypting mnemonic/seed with same key as private keys)
+    const CKeyingMaterial& GetMasterKey() const { return vMasterKey; }
+
     //! will encrypt previously unencrypted keys
     bool EncryptKeys(CKeyingMaterial& vMasterKeyIn);
 

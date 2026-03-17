@@ -7,6 +7,8 @@
 #include "wallet/wallet.h"
 
 #include "base58.h"
+#include "bip39.h"
+#include "wallet/crypter.h"
 #include "checkpoints.h"
 #include "chain.h"
 #include "dogecoin.h"
@@ -129,42 +131,100 @@ CPubKey CWallet::GenerateNewKey()
     return pubkey;
 }
 
-void CWallet::DeriveNewChildKey(CKeyMetadata& metadata, CKey& secret)
+void CWallet::DeriveNewChildKey(CKeyMetadata& metadata, CKey& secret, bool fInternal)
 {
-    // for now we use a fixed keypath scheme of m/0'/3'/k
-    CKey key;                      //master key seed (256bit)
-    CExtKey masterKey;             //hd master key
-    CExtKey accountKey;            //key at m/0'
-    CExtKey externalChainChildKey; //key at m/0'/3'
-    CExtKey childKey;              //key at m/0'/3'/<n>'
+    CKey key;
+    CExtKey masterKey;
+    CExtKey childKey;
 
-    // try to get the master key
-    if (!GetKey(hdChain.masterKeyID, key))
-        throw std::runtime_error(std::string(__func__) + ": Master key not found");
+    if (hdChain.fUseBIP44)
+    {
+        // BIP44: use stored seed for correct derivation (avoids double HMAC)
+        if (!hdChain.vchSeed.empty())
+        {
+            // Seed is in plaintext (wallet not encrypted)
+            masterKey.SetMaster(hdChain.vchSeed.data(), hdChain.vchSeed.size());
+        }
+        else if (!vchCryptedSeed.empty())
+        {
+            // Seed is encrypted — decrypt with wallet master key
+            LOCK(cs_KeyStore);
+            CCrypter crypter;
+            std::string seedSalt = "hdseed";
+            uint256 ivSeed = Hash(hdChain.masterKeyID.begin(), hdChain.masterKeyID.end(),
+                                  seedSalt.begin(), seedSalt.end());
+            std::vector<unsigned char> chIV(WALLET_CRYPTO_IV_SIZE);
+            memcpy(chIV.data(), &ivSeed, WALLET_CRYPTO_IV_SIZE);
+            if (!crypter.SetKey(GetMasterKey(), chIV))
+                throw std::runtime_error(std::string(__func__) + ": Failed to set decryption key");
+            CKeyingMaterial vchPlainSeed;
+            if (!crypter.Decrypt(vchCryptedSeed, vchPlainSeed))
+                throw std::runtime_error(std::string(__func__) + ": Failed to decrypt seed");
+            masterKey.SetMaster(vchPlainSeed.data(), vchPlainSeed.size());
+        }
+        else
+        {
+            throw std::runtime_error(std::string(__func__) + ": BIP44 seed not found");
+        }
+    }
+    else
+    {
+        if (!GetKey(hdChain.masterKeyID, key))
+            throw std::runtime_error(std::string(__func__) + ": Master key not found");
+        masterKey.SetMaster(key.begin(), key.size());
+    }
 
-    masterKey.SetMaster(key.begin(), key.size());
+    if (hdChain.fUseBIP44)
+    {
+        // BIP44 path: m/44'/3'/0'/change/k (last two levels non-hardened)
+        CExtKey purposeKey;     // m/44'
+        CExtKey coinTypeKey;    // m/44'/3'
+        CExtKey accountKey;     // m/44'/3'/0'
+        CExtKey changeKey;      // m/44'/3'/0'/0 or m/44'/3'/0'/1
 
-    // derive m/0'
-    // use hardened derivation (child keys >= 0x80000000 are hardened after bip32)
-    masterKey.Derive(accountKey, BIP32_HARDENED_KEY_LIMIT);
+        masterKey.Derive(purposeKey, 44 | BIP32_HARDENED_KEY_LIMIT);
+        purposeKey.Derive(coinTypeKey, BIP44_COIN_TYPE | BIP32_HARDENED_KEY_LIMIT);
+        coinTypeKey.Derive(accountKey, BIP32_HARDENED_KEY_LIMIT); // account 0'
 
-    // derive m/0'/3'
-    accountKey.Derive(externalChainChildKey, BIP44_COIN_TYPE | BIP32_HARDENED_KEY_LIMIT);
+        uint32_t nChange = fInternal ? 1 : 0;
+        accountKey.Derive(changeKey, nChange); // non-hardened
 
-    // derive child key at next index, skip keys already known to the wallet
-    do {
-        // always derive hardened keys
-        // childIndex | BIP32_HARDENED_KEY_LIMIT = derive childIndex in hardened child-index-range
-        // example: 1 | BIP32_HARDENED_KEY_LIMIT == 0x80000001 == 2147483649
-        externalChainChildKey.Derive(childKey, hdChain.nExternalChainCounter | BIP32_HARDENED_KEY_LIMIT);
-        metadata.hdKeypath = "m/0'/3'/" + std::to_string(hdChain.nExternalChainCounter) + "'";
-        metadata.hdMasterKeyID = hdChain.masterKeyID;
-        // increment childkey index
-        hdChain.nExternalChainCounter++;
-    } while (HaveKey(childKey.key.GetPubKey().GetID()));
+        uint32_t& nChildCounter = fInternal ? hdChain.nInternalChainCounter : hdChain.nExternalChainCounter;
+
+        do {
+            if (nChildCounter >= BIP32_HARDENED_KEY_LIMIT)
+                throw std::runtime_error(std::string(__func__) + ": BIP44 child index exhausted");
+            changeKey.Derive(childKey, nChildCounter); // non-hardened
+            metadata.hdKeypath = "m/44'/3'/0'/" + std::to_string(nChange) + "/" + std::to_string(nChildCounter);
+            metadata.hdMasterKeyID = hdChain.masterKeyID;
+            nChildCounter++;
+        } while (HaveKey(childKey.key.GetPubKey().GetID()));
+    }
+    else
+    {
+        // Legacy path: m/0'/3'/k' (all hardened)
+        CExtKey accountKey;
+        CExtKey externalChainChildKey;
+
+        masterKey.Derive(accountKey, BIP32_HARDENED_KEY_LIMIT);
+        accountKey.Derive(externalChainChildKey, BIP44_COIN_TYPE | BIP32_HARDENED_KEY_LIMIT);
+
+        do {
+            if (hdChain.nExternalChainCounter >= BIP32_HARDENED_KEY_LIMIT)
+                throw std::runtime_error(std::string(__func__) + ": Legacy child index exhausted");
+            externalChainChildKey.Derive(childKey, hdChain.nExternalChainCounter | BIP32_HARDENED_KEY_LIMIT);
+            metadata.hdKeypath = "m/0'/3'/" + std::to_string(hdChain.nExternalChainCounter) + "'";
+            metadata.hdMasterKeyID = hdChain.masterKeyID;
+            hdChain.nExternalChainCounter++;
+        } while (HaveKey(childKey.key.GetPubKey().GetID()));
+    }
+
     secret = childKey.key;
 
-    // update the chain model in the database
+    // Cleanse intermediate key material from stack
+    memory_cleanse(&masterKey, sizeof(masterKey));
+    memory_cleanse(&childKey, sizeof(childKey));
+
     if (!CWalletDB(strWalletFile).WriteHDChain(hdChain))
         throw std::runtime_error(std::string(__func__) + ": Writing HD chain model failed");
 }
@@ -669,8 +729,22 @@ bool CWallet::EncryptWallet(const SecureString& strWalletPassphrase)
         Lock();
         Unlock(strWalletPassphrase);
 
+        // If BIP44 mnemonic/seed exists in plaintext, encrypt them now
+        if (hdChain.fUseBIP44 && !hdChain.vchSeed.empty()) {
+            CWalletDB walletdb(strWalletFile);
+            std::vector<unsigned char> vchMnemonic;
+            if (walletdb.ReadEncryptedMnemonic(vchMnemonic) && !vchMnemonic.empty()) {
+                std::string mnemonicStr(vchMnemonic.begin(), vchMnemonic.end());
+                if (!EncryptMnemonicAndSeed(mnemonicStr)) {
+                    LogPrintf("ERROR: Failed to encrypt mnemonic/seed during wallet encryption\n");
+                    return false;
+                }
+                memory_cleanse(&mnemonicStr[0], mnemonicStr.size());
+            }
+        }
+
         // if we are using HD, replace the HD master key (seed) with a new one
-        if (IsHDEnabled()) {
+        if (IsHDEnabled() && !hdChain.fUseBIP44) {
             CKey key;
             CPubKey masterPubKey = GenerateNewHDMasterKey();
             if (!SetHDMasterKey(masterPubKey))
@@ -1400,6 +1474,173 @@ bool CWallet::SetHDMasterKey(const CPubKey& pubkey)
     newHdChain.masterKeyID = pubkey.GetID();
     SetHDChain(newHdChain, false);
 
+    return true;
+}
+
+bool CWallet::ImportMnemonicSeed(const std::string& mnemonic, const std::string& passphrase,
+                                  const std::string& /*encryptPassphrase*/, std::string& strError)
+{
+    LOCK(cs_wallet);
+
+    if (!bip39::ValidateMnemonicWordCount(mnemonic)) {
+        strError = "Mnemonic must be 12, 15, 18, 21, or 24 words";
+        return false;
+    }
+
+    if (IsHDEnabled() && !hdChain.masterKeyID.IsNull()) {
+        LogPrintf("WARNING: ImportMnemonicSeed replacing existing HD master key %s\n",
+                  hdChain.masterKeyID.GetHex());
+    }
+
+    // BIP39: mnemonic → 512-bit seed
+    bip39::SecureVector seed = bip39::MnemonicToSeed(mnemonic, passphrase);
+
+    // BIP32: seed → master extended key via HMAC-SHA512("Bitcoin seed", seed)
+    CExtKey masterKey;
+    masterKey.SetMaster(seed.data(), seed.size());
+
+    CKey key = masterKey.key;
+    CPubKey pubkey = key.GetPubKey();
+    assert(key.VerifyPubKey(pubkey));
+
+    int64_t nCreationTime = GetTime();
+    CKeyMetadata metadata(nCreationTime);
+    metadata.hdKeypath = "m";
+    metadata.hdMasterKeyID = pubkey.GetID();
+
+    mapKeyMetadata[pubkey.GetID()] = metadata;
+
+    if (!AddKeyPubKey(key, pubkey)) {
+        strError = "Failed to store master key in wallet";
+        return false;
+    }
+
+    // Set up BIP44 HD chain, store the original seed for correct derivation
+    CHDChain newHdChain;
+    newHdChain.nVersion = CHDChain::VERSION_WITH_BIP44;
+    newHdChain.masterKeyID = pubkey.GetID();
+    newHdChain.fUseBIP44 = true;
+    newHdChain.nExternalChainCounter = 0;
+    newHdChain.nInternalChainCounter = 0;
+    newHdChain.vchSeed.assign(seed.begin(), seed.end());
+
+    SetMinVersion(FEATURE_HD_BIP44);
+    SetHDChain(newHdChain, false);
+
+    // If wallet is encrypted, encrypt mnemonic and seed with the wallet master key
+    if (IsCrypted()) {
+        if (!EncryptMnemonicAndSeed(mnemonic)) {
+            strError = "Failed to encrypt mnemonic/seed with wallet master key";
+            return false;
+        }
+    } else {
+        // Store mnemonic in plaintext (same security level as unencrypted private keys)
+        CWalletDB walletdb(strWalletFile);
+        std::vector<unsigned char> vchMnemonic(mnemonic.begin(), mnemonic.end());
+        walletdb.WriteEncryptedMnemonic(vchMnemonic);
+        memory_cleanse(vchMnemonic.data(), vchMnemonic.size());
+    }
+
+    // Cleanse intermediate master key
+    memory_cleanse(&masterKey, sizeof(masterKey));
+
+    return true;
+}
+
+bool CWallet::EncryptMnemonicAndSeed(const std::string& mnemonic)
+{
+    AssertLockHeld(cs_wallet);
+
+    if (!IsCrypted() || IsLocked())
+        return false;
+
+    LOCK(cs_KeyStore);
+
+    // Use distinct IVs for mnemonic and seed to avoid same (key, IV) pair
+    std::string mnemonicSalt = "mnemonic";
+    std::string seedSalt = "hdseed";
+    uint256 ivMnemonic = Hash(hdChain.masterKeyID.begin(), hdChain.masterKeyID.end(),
+                              mnemonicSalt.begin(), mnemonicSalt.end());
+    uint256 ivSeed = Hash(hdChain.masterKeyID.begin(), hdChain.masterKeyID.end(),
+                          seedSalt.begin(), seedSalt.end());
+
+    // Encrypt mnemonic
+    {
+        CCrypter crypter;
+        std::vector<unsigned char> chIV(WALLET_CRYPTO_IV_SIZE);
+        memcpy(chIV.data(), &ivMnemonic, WALLET_CRYPTO_IV_SIZE);
+        if (!crypter.SetKey(GetMasterKey(), chIV))
+            return false;
+        CKeyingMaterial vchPlainMnemonic(mnemonic.begin(), mnemonic.end());
+        if (!crypter.Encrypt(vchPlainMnemonic, vchCryptedMnemonic))
+            return false;
+    }
+
+    // Encrypt seed
+    {
+        CCrypter crypter;
+        std::vector<unsigned char> chIV(WALLET_CRYPTO_IV_SIZE);
+        memcpy(chIV.data(), &ivSeed, WALLET_CRYPTO_IV_SIZE);
+        if (!crypter.SetKey(GetMasterKey(), chIV))
+            return false;
+        CKeyingMaterial vchPlainSeed(hdChain.vchSeed.begin(), hdChain.vchSeed.end());
+        if (!crypter.Encrypt(vchPlainSeed, vchCryptedSeed))
+            return false;
+    }
+
+    // Clear plaintext seed from hdChain
+    memory_cleanse(hdChain.vchSeed.data(), hdChain.vchSeed.size());
+    hdChain.vchSeed.clear();
+    CWalletDB(strWalletFile).WriteHDChain(hdChain);
+
+    // Store encrypted versions in DB
+    CWalletDB walletdb(strWalletFile);
+    if (!walletdb.WriteEncryptedMnemonic(vchCryptedMnemonic))
+        return false;
+    if (!walletdb.WriteEncryptedSeed(vchCryptedSeed))
+        return false;
+
+    return true;
+}
+
+bool CWallet::DecryptMnemonic(std::string& mnemonic) const
+{
+    LOCK(cs_wallet);
+
+    if (!IsCrypted())
+    {
+        CWalletDB walletdb(strWalletFile);
+        std::vector<unsigned char> vchMnemonic;
+        if (!walletdb.ReadEncryptedMnemonic(vchMnemonic))
+            return false;
+        mnemonic.assign(vchMnemonic.begin(), vchMnemonic.end());
+        memory_cleanse(vchMnemonic.data(), vchMnemonic.size());
+        return true;
+    }
+
+    if (IsLocked())
+        return false;
+
+    LOCK(cs_KeyStore);
+
+    if (vchCryptedMnemonic.empty())
+        return false;
+
+    CCrypter crypter;
+    std::string mnemonicSalt = "mnemonic";
+    uint256 ivMnemonic = Hash(hdChain.masterKeyID.begin(), hdChain.masterKeyID.end(),
+                              mnemonicSalt.begin(), mnemonicSalt.end());
+    std::vector<unsigned char> chIV(WALLET_CRYPTO_IV_SIZE);
+    memcpy(chIV.data(), &ivMnemonic, WALLET_CRYPTO_IV_SIZE);
+
+    if (!crypter.SetKey(GetMasterKey(), chIV))
+        return false;
+
+    CKeyingMaterial vchPlainMnemonic;
+    if (!crypter.Decrypt(vchCryptedMnemonic, vchPlainMnemonic))
+        return false;
+
+    mnemonic.assign(vchPlainMnemonic.begin(), vchPlainMnemonic.end());
     return true;
 }
 
@@ -2571,17 +2812,46 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
                     if (coinControl && !boost::get<CNoDestination>(&coinControl->destChange))
                         scriptChange = GetScriptForDestination(coinControl->destChange);
 
-                    // no coin control: send change to newly generated address
+                    // config file: send change to configured address
+                    else if (IsArgSet("-changeaddress"))
+                    {
+                        CBitcoinAddress changeAddr(GetArg("-changeaddress", ""));
+                        if (!changeAddr.IsValid())
+                        {
+                            strFailReason = _("Invalid -changeaddress configured");
+                            return false;
+                        }
+                        CTxDestination changeDest = changeAddr.Get();
+                        if (!::IsMine(*this, changeDest))
+                        {
+                            strFailReason = _("Configured -changeaddress is not owned by this wallet");
+                            return false;
+                        }
+                        scriptChange = GetScriptForDestination(changeDest);
+                    }
+
+                    // no coin control and no config: send change to newly generated address
+                    else if (hdChain.fUseBIP44)
+                    {
+                        // BIP44: derive change key from internal chain m/44'/3'/0'/1/k
+                        CKey changeSecret;
+                        CKeyMetadata changeMeta(GetTime());
+                        DeriveNewChildKey(changeMeta, changeSecret, true);
+
+                        CPubKey changePubKey = changeSecret.GetPubKey();
+                        assert(changeSecret.VerifyPubKey(changePubKey));
+
+                        mapKeyMetadata[changePubKey.GetID()] = changeMeta;
+                        if (!AddKeyPubKey(changeSecret, changePubKey)) {
+                            strFailReason = _("Failed to generate BIP44 change key");
+                            return false;
+                        }
+
+                        scriptChange = GetScriptForDestination(changePubKey.GetID());
+                    }
                     else
                     {
-                        // Note: We use a new key here to keep it from being obvious which side is the change.
-                        //  The drawback is that by not reusing a previous key, the change may be lost if a
-                        //  backup is restored, if the backup doesn't have the new private key for the change.
-                        //  If we reused the old key, it would be possible to add code to look for and
-                        //  rediscover unknown transactions that were written with keys of ours to recover
-                        //  post-backup change.
-
-                        // Reserve a new key pair from key pool
+                        // Legacy: use key from keypool
                         CPubKey vchPubKey;
                         bool ret;
                         ret = reservekey.GetReservedKey(vchPubKey);
@@ -3655,10 +3925,14 @@ std::string CWallet::GetWalletHelpString(bool showDebug)
                                                             CURRENCY_UNIT, FormatMoney(DEFAULT_TRANSACTION_MINFEE)));
     strUsage += HelpMessageOpt("-paytxfee=<amt>", strprintf(_("Fee (in %s/kB) to add to transactions you send (default: %s)"),
                                                             CURRENCY_UNIT, FormatMoney(payTxFee.GetFeePerK())));
+    strUsage += HelpMessageOpt("-birthtime=<datetime>", _("Set wallet birth time (format: \"YYYY-MM-DD HH:MM:SS\"). Forces rescan from this time. Overrides wallet's own first key time."));
+    strUsage += HelpMessageOpt("-birthheight=<n>", _("Set wallet birth block height. Forces rescan from this height."));
+    strUsage += HelpMessageOpt("-birthhash=<hash>", _("Set wallet birth block hash. Forces rescan from this block."));
     strUsage += HelpMessageOpt("-rescan", _("Rescan the block chain for missing wallet transactions on startup"));
     strUsage += HelpMessageOpt("-salvagewallet", _("Attempt to recover private keys from a corrupt wallet on startup"));
     if (showDebug)
         strUsage += HelpMessageOpt("-sendfreetransactions", strprintf(_("Send transactions as zero-fee transactions if possible (default: %u)"), DEFAULT_SEND_FREE_TRANSACTIONS));
+    strUsage += HelpMessageOpt("-changeaddress=<addr>", _("Send change to this address instead of generating a new one. Must be a valid address owned by this wallet."));
     strUsage += HelpMessageOpt("-spendzeroconfchange", strprintf(_("Spend unconfirmed change when sending transactions (default: %u)"), DEFAULT_SPEND_ZEROCONF_CHANGE));
     strUsage += HelpMessageOpt("-txconfirmtarget=<n>", strprintf(_("If paytxfee is not set, include enough fee so transactions begin confirmation on average within n blocks (default: %u)"), DEFAULT_TX_CONFIRM_TARGET));
     strUsage += HelpMessageOpt("-usehd", _("Use hierarchical deterministic key generation (HD) after BIP32. Only has effect during wallet creation/first start") + " " + strprintf(_("(default: %u)"), DEFAULT_USE_HD_WALLET));
@@ -3791,7 +4065,79 @@ CWallet* CWallet::CreateWalletFromFile(const std::string walletFile)
     RegisterValidationInterface(walletInstance);
 
     CBlockIndex *pindexRescan = chainActive.Tip();
-    if (GetBoolArg("-rescan", false))
+    bool fBirthOverride = false;
+
+    if (IsArgSet("-birthhash"))
+    {
+        uint256 birthHash;
+        birthHash.SetHex(GetArg("-birthhash", ""));
+        BlockMap::iterator mi = mapBlockIndex.find(birthHash);
+        if (mi != mapBlockIndex.end() && chainActive.Contains(mi->second))
+        {
+            pindexRescan = mi->second;
+            fBirthOverride = true;
+            LogPrintf("Using -birthhash: rescan from block %s (height %d)\n",
+                      birthHash.GetHex(), pindexRescan->nHeight);
+        }
+        else
+        {
+            InitError(strprintf(_("Block hash specified in -birthhash not found in chain: %s"), birthHash.GetHex()));
+            return NULL;
+        }
+    }
+    else if (IsArgSet("-birthheight"))
+    {
+        int nBirthHeight = GetArg("-birthheight", 0);
+        if (nBirthHeight < 0)
+        {
+            InitError(strprintf(_("Invalid -birthheight: %d. Must be >= 0"), nBirthHeight));
+            return NULL;
+        }
+        if (nBirthHeight > chainActive.Height())
+        {
+            LogPrintf("WARNING: -birthheight %d exceeds current chain height %d. Will rescan once chain reaches that height.\n",
+                      nBirthHeight, chainActive.Height());
+            if (chainActive.Genesis())
+                pindexRescan = chainActive.Genesis();
+            else
+                pindexRescan = chainActive.Tip(); // may be nullptr, handled by the if(Tip != pindexRescan) check below
+        }
+        else
+        {
+            pindexRescan = chainActive[nBirthHeight];
+        }
+        fBirthOverride = true;
+        LogPrintf("Using -birthheight: rescan from block height %d\n", nBirthHeight);
+    }
+    else if (IsArgSet("-birthtime"))
+    {
+        std::string strBirthTime = GetArg("-birthtime", "");
+        struct tm tm = {};
+        if (sscanf(strBirthTime.c_str(), "%d-%d-%d %d:%d:%d",
+                   &tm.tm_year, &tm.tm_mon, &tm.tm_mday,
+                   &tm.tm_hour, &tm.tm_min, &tm.tm_sec) != 6)
+        {
+            InitError(strprintf(_("Invalid -birthtime format: \"%s\". Expected \"YYYY-MM-DD HH:MM:SS\""), strBirthTime));
+            return NULL;
+        }
+        tm.tm_year -= 1900;
+        tm.tm_mon -= 1;
+#ifdef _WIN32
+        int64_t nBirthTime = _mkgmtime(&tm);
+#else
+        int64_t nBirthTime = timegm(&tm);
+#endif
+        if (nBirthTime < 0)
+        {
+            InitError(strprintf(_("Invalid -birthtime value: \"%s\""), strBirthTime));
+            return NULL;
+        }
+        walletInstance->nTimeFirstKey = nBirthTime;
+        pindexRescan = chainActive.Genesis();
+        fBirthOverride = true;
+        LogPrintf("Using -birthtime: rescan from %s (timestamp %d)\n", strBirthTime, nBirthTime);
+    }
+    else if (GetBoolArg("-rescan", false))
         pindexRescan = chainActive.Genesis();
     else
     {
@@ -3817,6 +4163,13 @@ CWallet* CWallet::CreateWalletFromFile(const std::string walletFile)
                 InitError(_("Prune: last wallet synchronisation goes beyond pruned data. You need to -reindex (download the whole blockchain again in case of pruned node)"));
                 return NULL;
             }
+        }
+
+        if (fBirthOverride && pindexRescan)
+        {
+            int64_t nBlockTime = pindexRescan->GetBlockTime();
+            if (!walletInstance->nTimeFirstKey || nBlockTime < walletInstance->nTimeFirstKey)
+                walletInstance->nTimeFirstKey = nBlockTime;
         }
 
         uiInterface.InitMessage(_("Rescanning..."));

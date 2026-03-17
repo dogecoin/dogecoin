@@ -81,6 +81,7 @@ BITCOIN_CORE_H = \
   attributes.h \
   auxpow.h \
   base58.h \
+  bip39.h \
   bloom.h \
   blockencodings.h \
   chain.h \
@@ -246,6 +247,7 @@ endif
 libdogecoin_wallet_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
 libdogecoin_wallet_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libdogecoin_wallet_a_SOURCES = \
+  bip39.cpp \
   wallet/crypter.cpp \
   wallet/db.cpp \
   wallet/rpcdump.cpp \

@@ -17,6 +17,7 @@
 #include "rpc/server.h"
 #include "script/sign.h"
 #include "timedata.h"
+#include "support/cleanse.h"
 #include "util.h"
 #include "utilmoneystr.h"
 #include "wallet.h"
@@ -662,9 +663,9 @@ UniValue getbalance(const JSONRPCRequest& request)
     if (!EnsureWalletIsAvailable(request.fHelp))
         return NullUniValue;
 
-    if (request.fHelp || request.params.size() > 3)
+    if (request.fHelp || request.params.size() > 4)
         throw runtime_error(
-            "getbalance ( \"account\" minconf include_watchonly )\n"
+            "getbalance ( \"account\" minconf include_watchonly height )\n"
             "\nIf account is not specified, returns the server's total available balance.\n"
             "If account is specified (DEPRECATED), returns the balance in the account.\n"
             "Note that the account \"\" is not the same as leaving the parameter out.\n"
@@ -683,7 +684,11 @@ UniValue getbalance(const JSONRPCRequest& request)
             "                     reliable and has resulted in confusing outcomes, so it is recommended to\n"
             "                     avoid passing this argument.\n"
             "2. minconf           (numeric, optional, default=1) Only include transactions confirmed at least this many times.\n"
+            "                     Ignored when height is specified.\n"
             "3. include_watchonly (bool, optional, default=false) Also include balance in watch-only addresses (see 'importaddress')\n"
+            "4. height            (numeric, optional) Calculate balance as of this block height.\n"
+            "                     Only transactions confirmed at or before this height are included.\n"
+            "                     Must be between 0 and current chain height.\n"
             "\nResult:\n"
             "amount              (numeric) The total amount in " + CURRENCY_UNIT + " received for this account.\n"
             "\nExamples:\n"
@@ -691,30 +696,43 @@ UniValue getbalance(const JSONRPCRequest& request)
             + HelpExampleCli("getbalance", "") +
             "\nThe total amount in the wallet at least 5 blocks confirmed\n"
             + HelpExampleCli("getbalance", "\"*\" 6") +
+            "\nThe balance at block height 100000\n"
+            + HelpExampleCli("getbalance", "\"*\" 1 false 100000") +
             "\nAs a json rpc call\n"
             + HelpExampleRpc("getbalance", "\"*\", 6")
         );
 
     LOCK2(cs_main, pwalletMain->cs_wallet);
 
-    if (request.params.size() == 0)
+    int nTargetHeight = -1;
+    if (request.params.size() > 3 && !request.params[3].isNull()) {
+        RPCTypeCheckArgument(request.params[3], UniValue::VNUM);
+        nTargetHeight = request.params[3].get_int();
+        if (nTargetHeight < 0 || nTargetHeight > chainActive.Height())
+            throw JSONRPCError(RPC_INVALID_PARAMETER,
+                strprintf("Invalid height: %d. Must be between 0 and %d", nTargetHeight, chainActive.Height()));
+    }
+
+    if (request.params.size() == 0 && nTargetHeight == -1)
         return  ValueFromAmount(pwalletMain->GetBalance());
 
     int nMinDepth = 1;
-    if (request.params.size() > 1)
+    if (nTargetHeight >= 0) {
+        nMinDepth = chainActive.Height() - nTargetHeight + 1;
+    } else if (request.params.size() > 1 && !request.params[1].isNull()) {
         nMinDepth = request.params[1].get_int();
+    }
+
     isminefilter filter = ISMINE_SPENDABLE;
-    if(request.params.size() > 2)
+    if(request.params.size() > 2 && !request.params[2].isNull())
         if(request.params[2].get_bool())
             filter = filter | ISMINE_WATCH_ONLY;
 
-    if (request.params[0].get_str() == "*") {
-        // Calculate total balance in a very different way from GetBalance().
-        // The biggest difference is that GetBalance() sums up all unspent
-        // TxOuts paying to the wallet, while this sums up both spent and
-        // unspent TxOuts paying to the wallet, and then subtracts the values of
-        // TxIns spending from the wallet. This also has fewer restrictions on
-        // which unconfirmed transactions are considered trusted.
+    string strAccount = "*";
+    if (request.params.size() > 0 && !request.params[0].isNull())
+        strAccount = request.params[0].get_str();
+
+    if (strAccount == "*") {
         CAmount nBalance = 0;
         for (map<uint256, CWalletTx>::iterator it = pwalletMain->mapWallet.begin(); it != pwalletMain->mapWallet.end(); ++it)
         {
@@ -731,15 +749,15 @@ UniValue getbalance(const JSONRPCRequest& request)
             {
                 BOOST_FOREACH(const COutputEntry& r, listReceived)
                     nBalance += r.amount;
+                BOOST_FOREACH(const COutputEntry& s, listSent)
+                    nBalance -= s.amount;
+                nBalance -= allFee;
             }
-            BOOST_FOREACH(const COutputEntry& s, listSent)
-                nBalance -= s.amount;
-            nBalance -= allFee;
         }
         return  ValueFromAmount(nBalance);
     }
 
-    string strAccount = AccountFromValue(request.params[0]);
+    strAccount = AccountFromValue(request.params[0]);
 
     CAmount nBalance = pwalletMain->GetAccountBalance(strAccount, nMinDepth, filter);
 
@@ -3219,6 +3237,87 @@ extern UniValue importprunedfunds(const JSONRPCRequest& request);
 extern UniValue removeprunedfunds(const JSONRPCRequest& request);
 extern UniValue importmulti(const JSONRPCRequest& request);
 
+UniValue importmnemonic(const JSONRPCRequest& request)
+{
+    if (!EnsureWalletIsAvailable(request.fHelp))
+        return NullUniValue;
+
+    if (request.fHelp || request.params.size() < 1 || request.params.size() > 3)
+        throw runtime_error(
+            "importmnemonic \"mnemonic\" ( \"passphrase\" generate_count )\n"
+            "\nImport a BIP39 mnemonic phrase to create an HD wallet with BIP44 derivation (m/44'/3'/0'/0/k).\n"
+            "WARNING: This replaces the current HD master key. Backup your wallet first!\n"
+            "\nIf the wallet is encrypted, the mnemonic and seed are automatically encrypted\n"
+            "with the same master key used for private keys. Use encryptwallet to encrypt.\n"
+            + HelpRequiringPassphrase() +
+            "\nArguments:\n"
+            "1. \"mnemonic\"            (string, required) The BIP39 mnemonic phrase (12, 15, 18, 21, or 24 words)\n"
+            "2. \"passphrase\"          (string, optional, default=\"\") The BIP39 passphrase (used in seed derivation, not encryption)\n"
+            "3. generate_count          (numeric, optional, default=20) Number of addresses to pre-generate\n"
+            "\nResult:\n"
+            "{\n"
+            "  \"success\": true|false,      (boolean) Whether the import succeeded\n"
+            "  \"master_keyid\": \"id\",     (string) The HD master key ID\n"
+            "  \"encrypted\": true|false,    (boolean) Whether mnemonic/seed are encrypted\n"
+            "  \"addresses\": [              (array) Pre-generated receiving addresses\n"
+            "    \"address\", ...\n"
+            "  ]\n"
+            "}\n"
+            "\nExamples:\n"
+            + HelpExampleCli("importmnemonic", "\"abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about\"")
+            + HelpExampleCli("importmnemonic", "\"mnemonic words...\" \"my_bip39_passphrase\" 10")
+        );
+
+    LOCK2(cs_main, pwalletMain->cs_wallet);
+    EnsureWalletIsUnlocked();
+
+    string strMnemonic = request.params[0].get_str();
+    string strPassphrase = "";
+    if (request.params.size() > 1 && !request.params[1].isNull())
+        strPassphrase = request.params[1].get_str();
+
+    int nGenerateCount = 20;
+    if (request.params.size() > 2 && !request.params[2].isNull())
+        nGenerateCount = request.params[2].get_int();
+
+    if (nGenerateCount < 1 || nGenerateCount > 10000)
+        throw JSONRPCError(RPC_INVALID_PARAMETER, "generate_count must be between 1 and 10000");
+
+    string strError;
+    bool fSuccess = pwalletMain->ImportMnemonicSeed(strMnemonic, strPassphrase, "", strError);
+    memory_cleanse(&strMnemonic[0], strMnemonic.size());
+    memory_cleanse(&strPassphrase[0], strPassphrase.size());
+    if (!fSuccess)
+        throw JSONRPCError(RPC_WALLET_ERROR, strError);
+
+    // Clear old keypool and regenerate with BIP44 derivation
+    pwalletMain->NewKeyPool();
+    pwalletMain->TopUpKeyPool(nGenerateCount);
+
+    // Collect the generated addresses
+    UniValue addresses(UniValue::VARR);
+    for (int i = 0; i < nGenerateCount; i++) {
+        CPubKey newKey;
+        if (!pwalletMain->GetKeyFromPool(newKey))
+            break;
+        CKeyID keyID = newKey.GetID();
+        pwalletMain->SetAddressBook(keyID, "", "receive");
+        addresses.push_back(CBitcoinAddress(keyID).ToString());
+    }
+
+    // Refill keypool so wallet has reserve keys for future use
+    pwalletMain->TopUpKeyPool();
+
+    UniValue result(UniValue::VOBJ);
+    result.pushKV("success", true);
+    result.pushKV("master_keyid", pwalletMain->GetHDChain().masterKeyID.GetHex());
+    result.pushKV("derivation_path", "m/44'/3'/0'/0/k");
+    result.pushKV("encrypted", pwalletMain->IsCrypted());
+    result.pushKV("addresses", addresses);
+
+    return result;
+}
+
 static const CRPCCommand commands[] =
 { //  category              name                        actor (function)           okSafeMode
     //  --------------------- ------------------------    -----------------------    ----------
@@ -3243,6 +3342,7 @@ static const CRPCCommand commands[] =
     { "wallet",             "gettransaction",           &gettransaction,           false,  {"txid","include_watchonly"} },
     { "wallet",             "getunconfirmedbalance",    &getunconfirmedbalance,    false,  {} },
     { "wallet",             "getwalletinfo",            &getwalletinfo,            false,  {} },
+    { "wallet",             "importmnemonic",           &importmnemonic,           true,   {"mnemonic","passphrase","generate_count"} },
     { "wallet",             "importmulti",              &importmulti,              true,   {"requests","options"} },
     { "wallet",             "importprivkey",            &importprivkey,            true,   {"privkey","label","rescan", "height"} },
     { "wallet",             "importwallet",             &importwallet,             true,   {"filename"} },
