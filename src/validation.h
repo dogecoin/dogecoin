@@ -197,9 +197,6 @@ extern uint256 hashAssumeValid;
 /** Best header we've seen so far (used for getheaders queries' starting points). */
 extern CBlockIndex *pindexBestHeader;
 
-/** Minimum disk space required - used in CheckDiskSpace() */
-static const uint64_t nMinDiskSpace = 52428800;
-
 /** Pruning-related variables and constants */
 /** True if any block files have ever been pruned. */
 extern bool fHavePruned;
@@ -256,8 +253,6 @@ bool ProcessNewBlock(const CChainParams& chainparams, const std::shared_ptr<cons
  */
 bool ProcessNewBlockHeaders(const std::vector<CBlockHeader>& block, CValidationState& state, const CChainParams& chainparams, const CBlockIndex** ppindex=NULL);
 
-/** Check whether enough disk space is available for an incoming block */
-bool CheckDiskSpace(uint64_t nAdditionalBytes = 0);
 /** Open a block file (blk?????.dat) */
 FILE* OpenBlockFile(const CDiskBlockPos &pos, bool fReadOnly = false);
 /** Open an undo file (rev?????.dat) */
