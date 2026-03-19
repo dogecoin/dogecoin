@@ -110,8 +110,6 @@ static constexpr unsigned int INVENTORY_BROADCAST_MAX = 7 * INVENTORY_BROADCAST_
 static constexpr unsigned int AVG_FEEFILTER_BROADCAST_INTERVAL = 10 * 60;
 /** Maximum feefilter broadcast delay after significant change. */
 static constexpr unsigned int MAX_FEEFILTER_CHANGE_DELAY = 5 * 60;
-/** Interval between compact filter checkpoints. See BIP 157. */
-static constexpr int CFCHECKPT_INTERVAL = 1000;
 /** Maximum number of compact filters that may be requested with one getcfilters. See BIP 157. */
 static constexpr uint32_t MAX_GETCFILTERS_SIZE = 1000;
 /** Maximum number of cf hashes that may be requested with one getcfheaders. See BIP 157. */
@@ -1415,7 +1413,7 @@ static bool PrepareBlockFilterRequest(CNode* pfrom, const CChainParams& chain_pa
                                       BlockFilterType filter_type, uint32_t start_height,
                                       const uint256& stop_hash, uint32_t max_height_diff,
                                       const CBlockIndex*& stop_index,
-                                      const BlockFilterIndex*& filter_index)
+                                      BlockFilterIndex*& filter_index)
 {
     const bool supported_filter_type =
         (filter_type == BlockFilterType::BASIC &&
@@ -1485,7 +1483,7 @@ static void ProcessGetCFilters(CNode& pfrom, CDataStream& vRecv, const CChainPar
     const BlockFilterType filter_type = static_cast<BlockFilterType>(filter_type_ser);
 
     const CBlockIndex* stop_index;
-    const BlockFilterIndex* filter_index;
+    BlockFilterIndex* filter_index;
     if (!PrepareBlockFilterRequest(pfrom, chain_params, filter_type, start_height, stop_hash,
                                    MAX_GETCFILTERS_SIZE, stop_index, filter_index)) {
         return;
@@ -1526,7 +1524,7 @@ static void ProcessGetCFHeaders(CNode* pfrom, CDataStream& vRecv, const CChainPa
     const BlockFilterType filter_type = static_cast<BlockFilterType>(filter_type_ser);
 
     const CBlockIndex* stop_index;
-    const BlockFilterIndex* filter_index;
+    BlockFilterIndex* filter_index;
     if (!PrepareBlockFilterRequest(pfrom, chain_params, filter_type, start_height, stop_hash,
                                    MAX_GETCFHEADERS_SIZE, stop_index, filter_index)) {
         return;
@@ -1575,7 +1573,7 @@ static void ProcessGetCFCheckPt(CNode* pfrom, CDataStream& vRecv, const CChainPa
     const BlockFilterType filter_type = static_cast<BlockFilterType>(filter_type_ser);
 
     const CBlockIndex* stop_index;
-    const BlockFilterIndex* filter_index;
+    BlockFilterIndex* filter_index;
     if (!PrepareBlockFilterRequest(pfrom, chain_params, filter_type,
                                    /*start_height=*/0, stop_hash,
                                    /*max_height_diff=*/std::numeric_limits<uint32_t>::max(),
