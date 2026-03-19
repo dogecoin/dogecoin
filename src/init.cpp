@@ -12,6 +12,7 @@
 
 #include "addrman.h"
 #include "amount.h"
+#include "blockfilter.h"
 #include "chain.h"
 #include "chainparams.h"
 #include "checkpoints.h"
@@ -21,6 +22,7 @@
 #include "fs.h"
 #include "httpserver.h"
 #include "httprpc.h"
+#include "index/blockfilterindex.h"
 #include "index/txindex.h"
 #include "key.h"
 #include "validation.h"
@@ -185,6 +187,7 @@ void Interrupt(boost::thread_group& threadGroup)
     if (g_txindex) {
         g_txindex->Interrupt();
     }
+    ForEachBlockFilterIndex([](BlockFilterIndex& index) { index.Interrupt(); });
     threadGroup.interrupt_all();
 }
 
@@ -213,14 +216,18 @@ void Shutdown()
         pwalletMain->Flush(false);
 #endif
     MapPort(false);
-    UnregisterValidationInterface(peerLogic.get());
+    if (peerLogic) UnregisterValidationInterface(peerLogic.get());
+    if (g_connman) g_connman->Stop();
+    if (g_txindex) g_txindex->Stop();
+    ForEachBlockFilterIndex([](BlockFilterIndex& index) { index.Stop(); });
+    StopTorControl();
+    threadGroup.interrupt_all();
+    threadGroup.join_all();
     peerLogic.reset();
     g_connman.reset();
-    if (g_txindex) {
-        g_txindex.reset();
-    }
+    g_txindex.reset();
+    DestroyAllBlockFilterIndexes();
 
-    StopTorControl();
     UnregisterNodeSignals(GetNodeSignals());
     if (fDumpMempoolLater)
         DumpMempool();
@@ -386,6 +393,9 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += HelpMessageOpt("-sysperms", _("Create new files with system default permissions, instead of umask 077 (only effective with disabled wallet functionality)"));
 #endif
     strUsage += HelpMessageOpt("-txindex", strprintf(_("Maintain a full transaction index, used by the getrawtransaction rpc call (default: %u)"), DEFAULT_TXINDEX));
+    strUsage += HelpMessageOpt("-blockfilterindex=<type>",
+            strprintf(_("Maintain an index of compact filters by block (default: %s, values: %s)."), DEFAULT_BLOCKFILTERINDEX, ListBlockFilterTypes()) +
+            " " + _("If <type> is not supplied or if <type> = 1, indexes for all known types are enabled."));
 
     strUsage += HelpMessageGroup(_("Connection options:"));
     strUsage += HelpMessageOpt("-addnode=<ip>", _("Add a node to connect to and attempt to keep the connection open"));
@@ -836,6 +846,7 @@ int nUserMaxConnections;
 int nFD;
 int nAvailableFds;
 ServiceFlags nLocalServices = NODE_NETWORK;
+std::vector<BlockFilterType> g_enabled_filter_types;
 
 }
 
@@ -917,10 +928,32 @@ bool AppInitParameterInteraction()
 
     // also see: InitParameterInteraction()
 
+    std::string blockfilterindex_value = GetArg("-blockfilterindex", DEFAULT_BLOCKFILTERINDEX);
+    if (blockfilterindex_value == "" || blockfilterindex_value == "1") {
+        g_enabled_filter_types = AllBlockFilterTypes();
+    } else if (blockfilterindex_value != "0") {
+        std::vector<std::string> names;
+        if (mapMultiArgs.count("-blockfilterindex")) {
+            names = mapMultiArgs.at("-blockfilterindex");
+        } else {
+            names.push_back(blockfilterindex_value);
+        }
+        g_enabled_filter_types.reserve(names.size());
+        for (const auto& name : names) {
+            BlockFilterType filter_type;
+            if (!BlockFilterTypeByName(name, filter_type)) {
+                return InitError(strprintf(_("Unknown -blockfilterindex value %s."), name));
+            }
+            g_enabled_filter_types.push_back(filter_type);
+        }
+    }
     // if using block pruning, then disallow txindex
     if (GetArg("-prune", 0)) {
         if (GetBoolArg("-txindex", DEFAULT_TXINDEX))
             return InitError(_("Prune mode is incompatible with -txindex."));
+        if (!g_enabled_filter_types.empty()) {
+            return InitError(_("Prune mode is incompatible with -blockfilterindex."));
+        }
     }
 
     // Make sure enough file descriptors are available
@@ -1491,6 +1524,13 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
     nTotalCache -= nBlockTreeDBCache;
     int64_t nTxIndexCache = std::min(nTotalCache / 8, GetBoolArg("-txindex", DEFAULT_TXINDEX) ? nMaxTxIndexCache << 20 : 0);
     nTotalCache -= nTxIndexCache;
+    int64_t filter_index_cache = 0;
+    if (!g_enabled_filter_types.empty()) {
+        size_t n_indexes = g_enabled_filter_types.size();
+        int64_t max_cache = std::min(nTotalCache / 8, max_filter_index_cache << 20);
+        filter_index_cache = max_cache / n_indexes;
+        nTotalCache -= filter_index_cache * n_indexes;
+    }
     int64_t nCoinDBCache = std::min(nTotalCache / 2, (nTotalCache / 4) + (1 << 23)); // use 25%-50% of the remainder for disk cache
     nCoinDBCache = std::min(nCoinDBCache, nMaxCoinsDBCache << 20); // cap total coins db cache
     nTotalCache -= nCoinDBCache;
@@ -1500,6 +1540,10 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
     LogPrintf("* Using %.1fMiB for block index database\n", nBlockTreeDBCache * (1.0 / 1024 / 1024));
     if (GetBoolArg("-txindex", DEFAULT_TXINDEX)) {
         LogPrintf("* Using %.1fMiB for transaction index database\n", nTxIndexCache * (1.0 / 1024 / 1024));
+    }
+    for (BlockFilterType filter_type : g_enabled_filter_types) {
+        LogPrintf("* Using %.1fMiB for %s block filter index database\n",
+                  filter_index_cache * (1.0 / 1024 / 1024), BlockFilterTypeName(filter_type));
     }
     LogPrintf("* Using %.1fMiB for chain state database\n", nCoinDBCache * (1.0 / 1024 / 1024));
     LogPrintf("* Using %.1fMiB for in-memory UTXO set (plus up to %.1fMiB of unused mempool space)\n", nCoinCacheUsage * (1.0 / 1024 / 1024), nMempoolSizeMax * (1.0 / 1024 / 1024));
@@ -1651,6 +1695,11 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
         fs::create_directories(GetDataDir() / "indexes");
         g_txindex.reset(new TxIndex(nTxIndexCache, false, fReindex));
         g_txindex->Start();
+    }
+
+    for (const auto& filter_type : g_enabled_filter_types) {
+        InitBlockFilterIndex(filter_type, filter_index_cache, false, fReindex);
+        GetBlockFilterIndex(filter_type)->Start();
     }
 
     // ********************************************************* Step 9: load wallet
