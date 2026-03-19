@@ -177,6 +177,7 @@ testScripts = [
     'liststucktransactions.py',
     'getblock.py',
     'getblockfilter.py',
+    'getindexinfo.py',
     'getblockstats.py',
     'addnode.py',
     'getmocktime.py',
