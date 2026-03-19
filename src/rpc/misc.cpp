@@ -6,14 +6,16 @@
 
 #include "base58.h"
 #include "clientversion.h"
+#include "index/blockfilterindex.h"
+#include "index/txindex.h"
 #include "init.h"
-#include "validation.h"
 #include "net.h"
 #include "netbase.h"
 #include "rpc/server.h"
 #include "timedata.h"
 #include "util.h"
 #include "utilstrencodings.h"
+#include "validation.h"
 #ifdef ENABLE_WALLET
 #include "wallet/wallet.h"
 #include "wallet/walletdb.h"
@@ -531,20 +533,68 @@ UniValue echo(const JSONRPCRequest& request)
 
 static const CRPCCommand commands[] =
 { //  category              name                      actor (function)         okSafeMode
-  //  --------------------- ------------------------  -----------------------  ----------
+    //  --------------------- ------------------------  -----------------------  ----------
     { "control",            "getinfo",                &getinfo,                true,  {} }, /* uses wallet if enabled */
     { "control",            "getmemoryinfo",          &getmemoryinfo,          true,  {} },
     { "util",               "validateaddress",        &validateaddress,        true,  {"address"} }, /* uses wallet if enabled */
     { "util",               "createmultisig",         &createmultisig,         true,  {"nrequired","keys"} },
     { "util",               "verifymessage",          &verifymessage,          true,  {"address","signature","message"} },
     { "util",               "signmessagewithprivkey", &signmessagewithprivkey, true,  {"privkey","message"} },
-
+    { "util",               "getindexinfo",           &getindexinfo,           true,  {"index_name"} },
     /* Not shown in help */
     { "hidden",             "setmocktime",            &setmocktime,            true,  {"timestamp"}},
     { "hidden",             "getmocktime",            &getmocktime,            true,  {}},
     { "hidden",             "echo",                   &echo,                   true,  {"arg0","arg1","arg2","arg3","arg4","arg5","arg6","arg7","arg8","arg9"}},
-    { "hidden",             "echojson",               &echo,                  true,  {"arg0","arg1","arg2","arg3","arg4","arg5","arg6","arg7","arg8","arg9"}},
+    { "hidden",             "echojson",               &echo,                   true,  {"arg0","arg1","arg2","arg3","arg4","arg5","arg6","arg7","arg8","arg9"}},
 };
+
+static UniValue SummaryToJSON(const IndexSummary&& summary, std::string index_name)
+{
+    UniValue ret_summary(UniValue::VOBJ);
+    if (!index_name.empty() && index_name != summary.name) return ret_summary;
+
+    UniValue entry(UniValue::VOBJ);
+    entry.pushKV("synced", summary.synced);
+    entry.pushKV("best_block_height", summary.best_block_height);
+    ret_summary.pushKV(summary.name, entry);
+    return ret_summary;
+}
+
+UniValue getindexinfo(const JSONRPCRequest& request)
+{
+    if (request.fHelp || request.params.size() > 1)
+        throw runtime_error(
+            "getindexinfo ( \"index_name\" )\n"
+            "\nReturns the status of one or all available indices currently running in the node.\n"
+            "\nArguments:\n"
+            "1. \"index_name\"     (string, optional) Filter results for an index with a specific name.\n"
+            "\nResult:\n"
+            "{\n"
+            "  \"index_name\": {             (json object) The name of the index\n"
+            "    \"synced\": true|false,    (boolean) Whether the index is synced or not\n"
+            "    \"best_block_height\": n    (numeric) The block height to which the index is synced\n"
+            "  }, ...\n"
+            "}\n"
+            "\nExamples:\n"
+            + HelpExampleCli("getindexinfo", "")
+            + HelpExampleRpc("getindexinfo", "")
+            + HelpExampleCli("getindexinfo", "\"txindex\"")
+            + HelpExampleRpc("getindexinfo", "\"txindex\"")
+        );
+
+    UniValue result(UniValue::VOBJ);
+    const std::string index_name = request.params[0].isNull() ? "" : request.params[0].get_str();
+
+    if (g_txindex) {
+        result.pushKVs(SummaryToJSON(g_txindex->GetSummary(), index_name));
+    }
+
+    ForEachBlockFilterIndex([&result, &index_name](const BlockFilterIndex& index) {
+        result.pushKVs(SummaryToJSON(index.GetSummary(), index_name));
+    });
+
+    return result;
+}
 
 void RegisterMiscRPCCommands(CRPCTable &t)
 {
