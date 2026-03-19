@@ -7,6 +7,7 @@
 #include "rpc/blockchain.h"
 
 #include "amount.h"
+#include "blockfilter.h"
 #include "chain.h"
 #include "chainparams.h"
 #include "checkpoints.h"
@@ -14,7 +15,8 @@
 #include "consensus/validation.h"
 #include "core_io.h"
 #include "dogecoin.h"
-#include "validation.h"
+#include "hash.h"
+#include "index/blockfilterindex.h"
 #include "policy/policy.h"
 #include "primitives/transaction.h"
 #include "rpc/server.h"
@@ -24,7 +26,7 @@
 #include "undo.h"
 #include "util.h"
 #include "utilstrencodings.h"
-#include "hash.h"
+#include <validation.h>
 
 #include <stdint.h>
 
@@ -1858,6 +1860,79 @@ static UniValue getblockstats(const JSONRPCRequest& request)
     return ret;
 }
 
+static UniValue getblockfilter(const JSONRPCRequest& request)
+{
+    if (request.fHelp || request.params.size() < 1 || request.params.size() > 2)
+        throw runtime_error(
+            "getblockfilter \"blockhash\" ( \"filtertype\" )\n"
+            "\nRetrieve a BIP 157 content filter for a particular block.\n"
+            "\nArguments:\n"
+            "1. \"blockhash\"   (string, required) The hash of the block\n"
+            "2. \"filtertype\"  (string, optional, default=\"basic\") The type name of the filter\n"
+            "\nResult:\n"
+            "{\n"
+            "  \"filter\" : \"hex\",   (string) the hex-encoded filter data\n"
+            "  \"header\" : \"hex\"    (string) the hex-encoded filter header\n"
+            "}\n"
+            "\nExamples:\n"
+            + HelpExampleCli("getblockfilter", "\"00000000c937983704a73af28acdec37b049d214adbda81d7e2a3dd146f6ed09\" \"basic\"")
+            + HelpExampleRpc("getblockfilter", "\"00000000c937983704a73af28acdec37b049d214adbda81d7e2a3dd146f6ed09\", \"basic\"")
+        );
+
+    uint256 block_hash(uint256S(request.params[0].get_str()));
+    std::string filtertype_name = "basic";
+    if (request.params.size() > 1 && !request.params[1].isNull()) {
+        filtertype_name = request.params[1].get_str();
+    }
+
+    BlockFilterType filtertype;
+    if (!BlockFilterTypeByName(filtertype_name, filtertype)) {
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Unknown filtertype");
+    }
+
+    BlockFilterIndex* index = GetBlockFilterIndex(filtertype);
+    if (!index) {
+        throw JSONRPCError(RPC_MISC_ERROR, "Index is not enabled for filtertype " + filtertype_name);
+    }
+
+    const CBlockIndex* block_index;
+    bool block_was_connected;
+    {
+        LOCK(cs_main);
+        block_index = LookupBlockIndex(block_hash);
+        if (!block_index) {
+            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Block not found");
+        }
+        block_was_connected = block_index->IsValid(BLOCK_VALID_SCRIPTS);
+    }
+
+    bool index_ready = index->BlockUntilSyncedToCurrentChain();
+    BlockFilter filter(filtertype, block_hash, std::vector<unsigned char>());
+    uint256 filter_header;
+    if (!index->LookupFilter(block_index, filter) ||
+        !index->LookupFilterHeader(block_index, filter_header)) {
+        int err_code;
+        std::string error_message = "Filter not found.";
+
+        if (!block_was_connected) {
+            err_code = RPC_INVALID_ADDRESS_OR_KEY;
+            error_message += " Block was not connected to active chain.";
+        } else if (!index_ready) {
+            err_code = RPC_MISC_ERROR;
+            error_message += " Block filters are still in the process of being indexed.";
+        } else {
+            err_code = RPC_INTERNAL_ERROR;
+            error_message += " This error is unexpected and indicates index corruption.";
+        }
+
+        throw JSONRPCError(err_code, error_message);
+    }
+
+    UniValue result(UniValue::VOBJ);
+    result.pushKV("filter", HexStr(filter.GetEncodedFilter()));
+    result.pushKV("header", filter_header.GetHex());
+    return result;
+}
 static const CRPCCommand commands[] =
 { //  category              name                      actor (function)         okSafe argNames
   //  --------------------- ------------------------  -----------------------  ------ ----------
@@ -1881,6 +1956,7 @@ static const CRPCCommand commands[] =
     { "blockchain",         "verifychain",            &verifychain,            true,  {"checklevel","nblocks"} },
 
     { "blockchain",         "preciousblock",          &preciousblock,          true,  {"blockhash"} },
+    { "blockchain",         "getblockfilter",         &getblockfilter,         true,  {"blockhash", "filtertype"} },
 
     /* Not shown in help */
     { "hidden",             "invalidateblock",        &invalidateblock,        true,  {"blockhash"} },

@@ -113,6 +113,9 @@ public:
     // Construct a new BlockFilter of the specified type from a block.
     BlockFilter(BlockFilterType filter_type, const CBlock& block, const CBlockUndo& block_undo);
 
+    // Reconstruct a filter from its encoded contents.
+    BlockFilter(BlockFilterType filter_type, const uint256& block_hash, std::vector<unsigned char> encoded_filter);
+
     BlockFilterType GetFilterType() const { return m_filter_type; }
 
     const GCSFilter& GetFilter() const { return m_filter; }

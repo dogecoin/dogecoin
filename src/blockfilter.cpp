@@ -297,6 +297,21 @@ BlockFilter::BlockFilter(BlockFilterType filter_type, const CBlock& block, const
     }
 }
 
+BlockFilter::BlockFilter(BlockFilterType filter_type, const uint256& block_hash,
+                         std::vector<unsigned char> encoded_filter)
+    : m_filter_type(filter_type), m_block_hash(block_hash)
+{
+    switch (m_filter_type) {
+    case BlockFilterType::BASIC:
+        m_filter = GCSFilter(m_block_hash.GetUint64(0), m_block_hash.GetUint64(1),
+                             BASIC_FILTER_P, BASIC_FILTER_M, std::move(encoded_filter));
+        break;
+
+    default:
+        throw std::invalid_argument("unknown filter_type");
+    }
+}
+
 uint256 BlockFilter::GetHash() const
 {
     const std::vector<unsigned char>& data = GetEncodedFilter();
