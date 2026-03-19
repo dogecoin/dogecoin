@@ -3560,29 +3560,6 @@ void FindFilesToPrune(std::set<int>& setFilesToPrune, uint64_t nPruneAfterHeight
            nLastBlockWeCanPrune, count);
 }
 
-FILE* OpenDiskFile(const CDiskBlockPos &pos, const char *prefix, bool fReadOnly)
-{
-    if (pos.IsNull())
-        return NULL;
-    fs::path path = (prefix[0] == 'r') ? UndoFileSeq().FileName(pos) : BlockFileSeq().FileName(pos);
-    fs::create_directories(path.parent_path());
-    FILE* file = fsbridge::fopen(path, "rb+");
-    if (!file && !fReadOnly)
-        file = fsbridge::fopen(path, "wb+");
-    if (!file) {
-        LogPrintf("Unable to open file %s\n", path.string());
-        return NULL;
-    }
-    if (pos.nPos) {
-        if (fseek(file, pos.nPos, SEEK_SET)) {
-            LogPrintf("Unable to seek to position %u of %s\n", pos.nPos, path.string());
-            fclose(file);
-            return NULL;
-        }
-    }
-    return file;
-}
-
 static FlatFileSeq BlockFileSeq()
 {
     return FlatFileSeq(GetDataDir() / "blocks", "blk", BLOCKFILE_CHUNK_SIZE);
@@ -3594,11 +3571,12 @@ static FlatFileSeq UndoFileSeq()
 }
 
 FILE* OpenBlockFile(const CDiskBlockPos &pos, bool fReadOnly) {
-    return OpenDiskFile(pos, "blk", fReadOnly);
+    return BlockFileSeq().Open(pos, fReadOnly);
 }
 
-FILE* OpenUndoFile(const CDiskBlockPos &pos, bool fReadOnly) {
-    return OpenDiskFile(pos, "rev", fReadOnly);
+/** Open an undo file (rev?????.dat) */
+static FILE* OpenUndoFile(const CDiskBlockPos &pos, bool fReadOnly) {
+    return UndoFileSeq().Open(pos, fReadOnly);
 }
 
 fs::path GetBlockPosFilename(const CDiskBlockPos &pos)
