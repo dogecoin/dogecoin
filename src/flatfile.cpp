@@ -29,7 +29,7 @@ FILE* FlatFileSeq::Open(const CDiskBlockPos& pos, bool fReadOnly)
         return nullptr;
     fs::path path = FileName(pos);
     fs::create_directories(path.parent_path());
-    FILE* file = fsbridge::fopen(path, fReadOnly ? "rb" : "rb+");
+    FILE* file = fsbridge::fopen(path, fReadOnly ? "rb": "rb+");
     if (!file && !fReadOnly)
         file = fsbridge::fopen(path, "wb+");
     if (!file) {
@@ -46,25 +46,28 @@ FILE* FlatFileSeq::Open(const CDiskBlockPos& pos, bool fReadOnly)
     return file;
 }
 
-FILE* FlatFileSeq::Open(const CDiskBlockPos& pos, bool fReadOnly)
+size_t FlatFileSeq::Allocate(const CDiskBlockPos& pos, size_t add_size, bool& out_of_space)
 {
-    if (pos.IsNull())
-        return nullptr;
-    fs::path path = FileName(pos);
-    fs::create_directories(path.parent_path());
-    FILE* file = fsbridge::fopen(path, fReadOnly ? "rb": "rb+");
-    if (!file && !fReadOnly)
-        file = fsbridge::fopen(path, "wb+");
-    if (!file) {
-        LogPrintf("Unable to open file %s\n", path.string());
-        return nullptr;
-    }
-    if (pos.nPos) {
-        if (fseek(file, pos.nPos, SEEK_SET)) {
-            LogPrintf("Unable to seek to position %u of %s\n", pos.nPos, path.string());
-            fclose(file);
-            return nullptr;
+    out_of_space = false;
+
+    unsigned int n_old_chunks = (pos.nPos + m_chunk_size - 1) / m_chunk_size;
+    unsigned int n_new_chunks = (pos.nPos + add_size + m_chunk_size - 1) / m_chunk_size;
+    if (n_new_chunks > n_old_chunks) {
+        size_t old_size = pos.nPos;
+        size_t new_size = n_new_chunks * m_chunk_size;
+        size_t inc_size = new_size - old_size;
+
+        if (CheckDiskSpace(inc_size)) {
+            FILE *file = Open(pos);
+            if (file) {
+                LogPrintf("Pre-allocating up to position 0x%x in %s%05u.dat\n", new_size, m_prefix, pos.nFile);
+                AllocateFileRange(file, pos.nPos, inc_size);
+                fclose(file);
+                return inc_size;
+            }
+        } else {
+            out_of_space = true;
         }
     }
-    return file;
+    return 0;
 }
