@@ -105,6 +105,11 @@ BITCOIN_CORE_H = \
   dogecoin.h \
   dogecoin-fees.cpp \
   dogecoin-fees.h \
+  flatfile.h \
+  dogecoin.cpp \
+  dogecoin.h \
+  dogecoin-fees.cpp \
+  dogecoin-fees.h \
   fs.h \
   httprpc.h \
   httpserver.h \
@@ -201,6 +206,8 @@ libdogecoin_server_a_SOURCES = \
   blockfilter.cpp \
   chain.cpp \
   checkpoints.cpp \
+  consensus/tx_verify.cpp \
+  flatfile.cpp \
   httprpc.cpp \
   httpserver.cpp \
   index/base.cpp \
