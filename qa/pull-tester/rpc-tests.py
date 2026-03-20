@@ -183,6 +183,7 @@ testScripts = [
     'getmocktime.py',
     'uptime.py',
     'p2p-getdata.py',
+    'p2p-blockfilters.py',
 ]
 if ENABLE_ZMQ:
     testScripts.append('zmq_test.py')
