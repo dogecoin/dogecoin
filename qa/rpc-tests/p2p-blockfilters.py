@@ -6,6 +6,7 @@
 """Test BIP157 compact block filter P2P message handling."""
 
 import struct
+import time
 
 from test_framework.mininode import *
 from test_framework.test_framework import BitcoinTestFramework
@@ -105,6 +106,17 @@ class CompactFilterP2PNode(SingleNodeConnCB):
     def on_cfcheckpt(self, conn, message):
         self.cfcheckpt = message
 
+    def wait_for_disconnect(self, timeout=60):
+        if self.connection is None:
+            return True
+        sleep_time = 0.05
+        is_closed = self.connection.state == "closed"
+        while not is_closed and timeout > 0:
+            time.sleep(sleep_time)
+            timeout -= sleep_time
+            is_closed = self.connection.state == "closed"
+        return is_closed
+
     def clear_blockfilters(self):
         self.cfilters = []
         self.cfheaders = None
@@ -171,6 +183,62 @@ class P2PBlockFiltersTest(BitcoinTestFramework):
         assert peer.cfcheckpt.stop_hash == int(stop_hash, 16)
         assert peer.cfcheckpt.headers == [int(checkpoint_filter["header"], 16)]
 
+        # Keep original connection alive so NetworkThread stays running
+        # while we create / destroy peers for negative-path tests.
+
+        # ----- Negative-path tests: malformed / oversized requests -----
+
+        def connect_peer():
+            """Create a fresh peer connection for disconnect tests."""
+            p = CompactFilterP2PNode()
+            c = NodeConn("127.0.0.1", p2p_port(0), node, p)
+            p.add_connection(c)
+            p.wait_for_verack()
+            return p
+
+        # 1. Unsupported filter type on getcfilters → disconnect
+        peer = connect_peer()
+        peer.send_message(msg_getcfilters(255, 0, int(chain_hashes[5], 16)))
+        assert peer.wait_for_disconnect()
+
+        # 2. Unsupported filter type on getcfheaders → disconnect
+        peer = connect_peer()
+        peer.send_message(msg_getcfheaders(255, 1, int(chain_hashes[5], 16)))
+        assert peer.wait_for_disconnect()
+
+        # 3. Unsupported filter type on getcfcheckpt → disconnect
+        peer = connect_peer()
+        peer.send_message(msg_getcfcheckpt(255, int(chain_hashes[5], 16)))
+        assert peer.wait_for_disconnect()
+
+        # 4. Unknown stop hash → disconnect
+        peer = connect_peer()
+        peer.send_message(msg_getcfilters(0, 0, 0xdeadbeef))
+        assert peer.wait_for_disconnect()
+
+        # 5. start_height > stop_height → disconnect
+        peer = connect_peer()
+        peer.send_message(msg_getcfilters(0, 999, int(chain_hashes[5], 16)))
+        assert peer.wait_for_disconnect()
+
+        # 6. Oversized getcfilters range (>= MAX_GETCFILTERS_SIZE=1000) → disconnect
+        #    start=1, stop at height 1001 → range = 1000 >= 1000
+        tip_hash = int(node.getblockhash(CFCHECKPT_INTERVAL + 1), 16)
+        peer = connect_peer()
+        peer.send_message(msg_getcfilters(0, 1, tip_hash))
+        assert peer.wait_for_disconnect()
+
+        # 7. Oversized getcfheaders range (>= MAX_GETCFHEADERS_SIZE=2000) → disconnect
+        #    Generate more blocks so we have height >= 2001
+        node.generate(1000)
+        wait_until(lambda: node.getindexinfo()["basic block filter index"]["synced"],
+                   timeout=120)
+        far_hash = int(node.getblockhash(2001), 16)
+        peer = connect_peer()
+        peer.send_message(msg_getcfheaders(0, 1, far_hash))
+        assert peer.wait_for_disconnect()
+
+        # Clean up the original sentinel connection
         conn.disconnect_node()
 
 
