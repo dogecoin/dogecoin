@@ -76,6 +76,20 @@ static constexpr uint32_t MAX_GETCFILTERS_SIZE = 1000;
 /** Maximum number of cf hashes that may be requested with one getcfheaders. See BIP 157. */
 static constexpr uint32_t MAX_GETCFHEADERS_SIZE = 2000;
 
+/**
+ * Cached cfcheckpt response, keyed by (filter_type, stop_hash).  Avoids
+ * re-walking ancestors and re-reading filter headers on every request when
+ * the stop block hasn't changed.
+ */
+namespace {
+struct CfCheckPtCacheEntry {
+    uint256 stop_hash;
+    std::vector<uint256> headers;
+};
+static CCriticalSection cs_cfcheckpt_cache;
+static std::map<BlockFilterType, CfCheckPtCacheEntry> g_cfcheckpt_cache GUARDED_BY(cs_cfcheckpt_cache);
+} // namespace
+
 struct COrphanTx {
     // When modifying, adapt the copy of this definition in tests/DoS_tests.
     CTransactionRef tx;
@@ -1548,19 +1562,37 @@ static void ProcessGetCFCheckPt(CNode* pfrom, CDataStream& vRecv, const CChainPa
         return;
     }
 
+    // Serve from cache if the stop block hasn't changed for this filter type.
+    {
+        LOCK(cs_cfcheckpt_cache);
+        auto it = g_cfcheckpt_cache.find(filter_type);
+        if (it != g_cfcheckpt_cache.end() && it->second.stop_hash == stop_hash) {
+            connman.PushMessage(pfrom, CNetMsgMaker(pfrom->GetSendVersion()).Make(
+                NetMsgType::CFCHECKPT, filter_type_ser, stop_hash, it->second.headers));
+            return;
+        }
+    }
+
     std::vector<uint256> headers(stop_index->nHeight / CFCHECKPT_INTERVAL);
 
-    // Populate headers.
-    const CBlockIndex* block_index = stop_index;
-    for (int i = headers.size() - 1; i >= 0; i--) {
-        int height = (i + 1) * CFCHECKPT_INTERVAL;
-        block_index = block_index->GetAncestor(height);
+    // Anchor the walk to stop_index rather than to chainActive.  CBlockIndex
+    // objects are never freed and pprev/pskip are immutable once set, so
+    // GetAncestor() needs no lock and, unlike chainActive[height], cannot
+    // observe a reorg partway through the loop.
+    for (size_t i = 0; i < headers.size(); i++) {
+        const CBlockIndex* block_index = stop_index->GetAncestor((i + 1) * CFCHECKPT_INTERVAL);
+        assert(block_index != nullptr);
 
         if (!filter_index->LookupFilterHeader(block_index, headers[i])) {
             LogPrint("net", "Failed to find block filter header in index: filter_type=%s, block_hash=%s\n",
                          BlockFilterTypeName(filter_type), block_index->GetBlockHash().ToString());
             return;
         }
+    }
+
+    {
+        LOCK(cs_cfcheckpt_cache);
+        g_cfcheckpt_cache[filter_type] = {stop_hash, headers};
     }
 
     connman.PushMessage(pfrom, CNetMsgMaker(pfrom->GetSendVersion()).Make(
