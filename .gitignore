@@ -50,6 +50,7 @@ src/qt/test/moc*.cpp
 .libs
 .*.swp
 *.*~*
+*~
 *.bak
 *.rej
 *.orig
