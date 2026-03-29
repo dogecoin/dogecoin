@@ -12,7 +12,7 @@ jobs:
     name: Check Translations
     runs-on: ubuntu-24.04
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - name: Lint translation files
       run: python3 contrib/devtools/check-translations.py
   subtrees:
@@ -22,7 +22,7 @@ jobs:
     - name: Install prerequisites
       run: sudo apt update && sudo apt install -y bash git jq
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       with:
         fetch-depth: 0
     - name: Check subtree integrity
