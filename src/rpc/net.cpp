@@ -77,6 +77,58 @@ UniValue setmaxconnections(const JSONRPCRequest& request)
     return true;
 }
 
+UniValue setmaxuploadtarget(const JSONRPCRequest& request)
+{
+    const uint nParam = request.params.size();
+
+    if (request.fHelp || nParam < 1)
+        throw runtime_error(
+            "setmaxuploadtarget\n"
+            "\nSets the maximum amount of traffic to send every day, in MB.\n"
+            "\nArguments:\n"
+            "1. maxtarget          (numeric, required) The new maximum limit of outgoing traffic, in MB (0 for unlimited)\n"
+            "2. outboundtimeframe  (numeric, optional) The time frame in which to apply the limit, in seconds (default 86,400/one day)\n"
+            "\nResult:\n"
+            "{\n"
+            "  \"previousMaxTarget\", n:          (numeric) The previous traffic limit value, in MB\n"
+            "  \"newMaxTarget\", n :              (numeric) The new traffic limit value, in MB\n"
+            "  \"previousOutboundTimeframe\", n : (numeric) The previous timeframe in which the traffic limit applies, in seconds\n"
+            "  \"newOutboundTimeframe\", n :      (numeric) The new timeframe in which the traffic limit applies, in seconds\n"
+            "}\n"
+            "\nExamples:\n"
+            + HelpExampleCli("setmaxuploadtarget", "0")
+            + HelpExampleRpc("setmaxuploadtarget", "5000")
+        );
+
+    const int newMaxTarget = request.params[0].get_int();
+
+    if (newMaxTarget < 0)
+        throw JSONRPCError(RPC_INVALID_PARAMETER, "Error: maxtarget must be >= 0");
+
+    if(!g_connman)
+        throw JSONRPCError(RPC_CLIENT_P2P_DISABLED, "Error: Peer-to-peer functionality missing or disabled");
+
+    UniValue obj(UniValue::VOBJ);
+
+    obj.pushKV("previousMaxTarget", g_connman->GetMaxOutboundTarget());
+    obj.pushKV("newMaxTarget", newMaxTarget);
+    obj.pushKV("previousOutboundTimeframe", g_connman->GetMaxOutboundTimeframe());
+
+    if (nParam == 2) {
+        const int64_t newOutboundTimeframe = request.params[1].get_int();
+
+        if (newOutboundTimeframe < 0)
+            throw JSONRPCError(RPC_INVALID_PARAMETER, "Error: outboundtimeframe must be > 0");
+
+        g_connman->SetMaxOutboundTimeframe(newOutboundTimeframe);
+    }
+
+    obj.pushKV("newOutboundTimeframe", g_connman->GetMaxOutboundTimeframe());
+    g_connman->SetMaxOutboundTarget(newMaxTarget);
+
+    return true;
+}
+
 UniValue ping(const JSONRPCRequest& request)
 {
     if (request.fHelp || request.params.size() != 0)
@@ -654,6 +706,7 @@ static const CRPCCommand commands[] =
   //  --------------------- ------------------------  -----------------------  ----------
     { "network",            "getconnectioncount",     &getconnectioncount,     true,  {} },
     { "network",            "setmaxconnections",      &setmaxconnections,      true,  {"newconnectioncount"} },
+    { "network",            "setmaxuploadtarget",     &setmaxuploadtarget,     true,  {"maxtarget","outboundtimeframe"} },
     { "network",            "ping",                   &ping,                   true,  {} },
     { "network",            "getpeerinfo",            &getpeerinfo,            true,  {} },
     { "network",            "addnode",                &addnode,                true,  {"node","command"} },
