@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2016 The Bitcoin Core developers
-// Copyright (c) 2022 The Dogecoin Core developers
+// Copyright (c) 2022-2023 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -649,6 +649,61 @@ UniValue setnetworkactive(const JSONRPCRequest& request)
     return g_connman->GetNetworkActive();
 }
 
+UniValue setdustlimits(const JSONRPCRequest& request)
+{
+    size_t nParams = request.params.size();
+    if (request.fHelp || nParams < 1 || nParams > 2) {
+        throw runtime_error(
+            "setdustlimits (softdustlimit) (hardustlimit)\n"
+            "\nChange the soft and hard dust limits for relayable transactions transactions.\n"
+            "\nArguments:\n"
+            "1. \"softdustlimit\"        (numeric) each transaction output under this value requires an additional 0.01 Doge fee\n"
+            "2. \"harddustlimit\"        (numeric, optional) any transaction output under this value will be rejected\n"
+            "\nResult:\n"
+            "{\n"
+            "  \"prevsoftdustlimit\": x.xxxxxxxx,           (numeric) the previous minimum output value under which this value needs to be added to fee, in " + CURRENCY_UNIT + "\n"
+            "  \"prevharddustlimit\": x.xxxxxxxx,           (numeric) the previous minimum output value under which the node will no longer relay, in " + CURRENCY_UNIT + "\n"
+            "  \"softdustlimit\": x.xxxxxxxx,           (numeric) the current minimum output value under which this value needs to be added to fee, in " + CURRENCY_UNIT + "\n"
+            "  \"harddustlimit\": x.xxxxxxxx,           (numeric) the current minimum output value under which the node will no longer relay, in " + CURRENCY_UNIT + "\n"
+            "}\n"
+            "\nExamples:\n"
+            + HelpExampleCli("setdustlimits", "0.01")
+            + HelpExampleRpc("getnetworkinfo", "0.01, 0.001")
+        );
+    }
+
+    if (!g_connman) {
+        throw JSONRPCError(RPC_CLIENT_P2P_DISABLED, "Error: Peer-to-peer functionality missing or disabled");
+    }
+
+    UniValue dustlimits(UniValue::VOBJ);
+    dustlimits.pushKV("prevsoftdustlimit", nDustLimit);
+    dustlimits.pushKV("prevharddustlimit", nHardDustLimit);
+
+    double softDustLimit = request.params[0].get_real();
+
+    if (softDustLimit <= 0.0)
+        throw JSONRPCError(RPC_INVALID_PARAMETER, "Error: softdustlimit must be >= 0");
+
+    if (nParams > 1) {
+        double hardDustLimit = request.params[1].get_real();
+
+        if (hardDustLimit <= 0.0)
+            throw JSONRPCError(RPC_INVALID_PARAMETER, "Error: harddustlimit must be >= 0");
+
+        if (softDustLimit < hardDustLimit)
+            throw JSONRPCError(RPC_INVALID_PARAMETER, "Error: softdustlimit must be >= harddustlimit");
+
+        nHardDustLimit = hardDustLimit;
+    }
+
+    nDustLimit = softDustLimit;
+    dustlimits.pushKV("softdustlimit", nDustLimit);
+    dustlimits.pushKV("harddustlimit", nHardDustLimit);
+
+    return dustlimits;
+}
+
 static const CRPCCommand commands[] =
 { //  category              name                      actor (function)         okSafeMode
   //  --------------------- ------------------------  -----------------------  ----------
@@ -665,6 +720,7 @@ static const CRPCCommand commands[] =
     { "network",            "listbanned",             &listbanned,             true,  {} },
     { "network",            "clearbanned",            &clearbanned,            true,  {} },
     { "network",            "setnetworkactive",       &setnetworkactive,       true,  {"state"} },
+    { "network",            "setdustlimits",          &setdustlimits,          true,  {"softdustlimit", "hardustlimit"} },
 };
 
 void RegisterNetRPCCommands(CRPCTable &t)
