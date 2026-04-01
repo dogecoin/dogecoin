@@ -1,0 +1,578 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ImportBip39Dialog</class>
+ <widget class="QDialog" name="ImportBip39Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>680</width>
+    <height>640</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>BIP-39 Mnemonic</string>
+  </property>
+  <property name="modal">
+   <bool>true</bool>
+  </property>
+  <layout class="QVBoxLayout" name="mainVBox">
+
+   <!-- Step 1 -->
+   <item>
+    <widget class="QLabel" name="step1Label">
+     <property name="text">
+      <string>Step 1: Choose word-list</string>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="langHBox">
+     <item>
+      <widget class="QLabel" name="lblLang">
+       <property name="text">
+        <string>Word-list:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="wordListComboBox"/>
+     </item>
+     <item>
+      <spacer name="langSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+
+   <!-- Step 2 -->
+   <item>
+    <widget class="QLabel" name="step2Label">
+     <property name="text">
+      <string>Step 2: Enter your 12- or 24-word mnemonic</string>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QGridLayout" name="gridMnemonic">
+     <!-- row 0 -->
+     <item row="0" column="0">
+      <widget class="QLineEdit" name="word0">
+       <property name="placeholderText">
+        <string>1</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="word1">
+       <property name="placeholderText">
+        <string>2</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QLineEdit" name="word2">
+       <property name="placeholderText">
+        <string>3</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="3">
+      <widget class="QLineEdit" name="word3">
+       <property name="placeholderText">
+        <string>4</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="4">
+      <widget class="QLineEdit" name="word4">
+       <property name="placeholderText">
+        <string>5</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="5">
+      <widget class="QLineEdit" name="word5">
+       <property name="placeholderText">
+        <string>6</string>
+       </property>
+      </widget>
+     </item>
+
+     <!-- row 1 -->
+     <item row="1" column="0">
+      <widget class="QLineEdit" name="word6">
+       <property name="placeholderText">
+        <string>7</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="word7">
+       <property name="placeholderText">
+        <string>8</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="2">
+      <widget class="QLineEdit" name="word8">
+       <property name="placeholderText">
+        <string>9</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="3">
+      <widget class="QLineEdit" name="word9">
+       <property name="placeholderText">
+        <string>10</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="4">
+      <widget class="QLineEdit" name="word10">
+       <property name="placeholderText">
+        <string>11</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="5">
+      <widget class="QLineEdit" name="word11">
+       <property name="placeholderText">
+        <string>12</string>
+       </property>
+      </widget>
+     </item>
+
+     <!-- row 2 -->
+     <item row="2" column="0">
+      <widget class="QLineEdit" name="word12">
+       <property name="placeholderText">
+        <string>13</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="word13">
+       <property name="placeholderText">
+        <string>14</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="2">
+      <widget class="QLineEdit" name="word14">
+       <property name="placeholderText">
+        <string>15</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="3">
+      <widget class="QLineEdit" name="word15">
+       <property name="placeholderText">
+        <string>16</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="4">
+      <widget class="QLineEdit" name="word16">
+       <property name="placeholderText">
+        <string>17</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="5">
+      <widget class="QLineEdit" name="word17">
+       <property name="placeholderText">
+        <string>18</string>
+       </property>
+      </widget>
+     </item>
+
+     <!-- row 3 -->
+     <item row="3" column="0">
+      <widget class="QLineEdit" name="word18">
+       <property name="placeholderText">
+        <string>19</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLineEdit" name="word19">
+       <property name="placeholderText">
+        <string>20</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="2">
+      <widget class="QLineEdit" name="word20">
+       <property name="placeholderText">
+        <string>21</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="3">
+      <widget class="QLineEdit" name="word21">
+       <property name="placeholderText">
+        <string>22</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="4">
+      <widget class="QLineEdit" name="word22">
+       <property name="placeholderText">
+        <string>23</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="5">
+      <widget class="QLineEdit" name="word23">
+       <property name="placeholderText">
+        <string>24</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+
+   <item>
+    <layout class="QHBoxLayout" name="mnemonicOptionsHBox">
+     <item>
+      <widget class="QCheckBox" name="checkBox24">
+       <property name="text">
+        <string>Use 24-word mnemonic</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="mnemonicSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="showMnemonicCheckBox">
+       <property name="text">
+        <string>Show mnemonic</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="disableAutohideCheckBox">
+       <property name="text">
+        <string>Disable auto-hide</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+
+   <!-- Step 3 -->
+   <item>
+    <widget class="QLabel" name="step3Label">
+     <property name="text">
+      <string>Step 3 (optional): BIP-39 extras</string>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="extraHBox">
+     <item>
+      <widget class="QLabel" name="lblExtra">
+       <property name="text">
+        <string>13/25 word (optional):</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="extraWordEdit">
+       <property name="echoMode">
+        <enum>QLineEdit::Password</enum>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="showExtraCheckBox">
+     <property name="text">
+      <string>Show 13/25 word</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="keyPathHBox">
+     <item>
+      <widget class="QLabel" name="lblKeyPath">
+       <property name="text">
+        <string>HD key path (advanced, optional):</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="keyPathEdit">
+       <property name="placeholderText">
+        <string>m/44'/3'/0'</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+
+   <!-- Step 4 -->
+   <item>
+    <widget class="QLabel" name="step4Label">
+     <property name="text">
+      <string>Step 4 (optional): Destination and first activity date</string>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="destHBox">
+     <item>
+      <widget class="QLabel" name="lblDest">
+       <property name="text">
+        <string>Destination address (optional):</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="sweepDestEdit">
+       <property name="placeholderText">
+        <string>Leave blank to sweep into this wallet</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="birthdayHBox">
+     <item>
+      <widget class="QLabel" name="lblBirthday">
+       <property name="text">
+        <string>First activity date (optional, for faster sweep):</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDateEdit" name="birthdayEdit">
+       <property name="calendarPopup">
+        <bool>true</bool>
+       </property>
+       <property name="displayFormat">
+        <string>yyyy-MM-dd</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QLabel" name="birthdayHintLabel">
+     <property name="text">
+      <string>If you know roughly when you first used this mnemonic, set a date here to speed up the sweep. Leave it empty to scan from the beginning.</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+
+   <!-- Step 5 -->
+   <item>
+    <widget class="QLabel" name="step5Label">
+     <property name="text">
+      <string>Step 5: Choose action</string>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="modeHintLabel">
+     <property name="text">
+      <string>Choose whether to sweep funds from this mnemonic into your wallet or to import it as your HD wallet seed.</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+
+   <!-- Import group -->
+   <item>
+    <widget class="QGroupBox" name="importGroupBox">
+     <property name="title">
+      <string>Import as HD wallet (advanced)</string>
+     </property>
+     <layout class="QVBoxLayout" name="importVBox">
+      <item>
+       <layout class="QHBoxLayout" name="passHBox">
+        <item>
+         <widget class="QLabel" name="lblPass">
+          <property name="text">
+           <string>Wallet passphrase:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="walletPassEdit">
+          <property name="echoMode">
+           <enum>QLineEdit::Password</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="passConfHBox">
+        <item>
+         <widget class="QLabel" name="lblPassConf">
+          <property name="text">
+           <string>Confirm passphrase:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="walletPassConfirmEdit">
+          <property name="echoMode">
+           <enum>QLineEdit::Password</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="rescanCheckBox">
+        <property name="text">
+         <string>Rescan blockchain after import</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+
+   <!-- Progress + status -->
+   <item>
+    <widget class="QProgressBar" name="rescanProgress">
+     <property name="minimum">
+      <number>0</number>
+     </property>
+     <property name="maximum">
+      <number>100</number>
+     </property>
+     <property name="value">
+      <number>0</number>
+     </property>
+     <property name="textVisible">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="statusLabel">
+     <property name="styleSheet">
+      <string notr="true">color:#d9534f;</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+
+   <!-- Buttons -->
+   <item>
+    <layout class="QHBoxLayout" name="buttonHBox">
+     <item>
+      <widget class="QPushButton" name="resetButton">
+       <property name="text">
+        <string>&amp;Reset</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="buttonSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="sweepButton">
+       <property name="text">
+        <string>&amp;Sweep</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="okButton">
+       <property name="text">
+        <string>&amp;Import</string>
+       </property>
+       <property name="default">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="cancelButton">
+       <property name="text">
+        <string>&amp;Cancel</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

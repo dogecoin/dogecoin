@@ -38,6 +38,7 @@ jobs:
           - x86_64-linux-dbg
           - x86_64-linux-nowallet
           - x86_64-macos
+          - x86_64-macos-experimental
           - x86_64-win
           - x86_64-win-experimental
           - x86_64-linux-experimental
@@ -78,7 +79,7 @@ jobs:
             check-security: true
             check-symbols: false
             dep-opts: "NO_QT=1"
-            config-opts: "--enable-experimental --with-armv8-crypto --with-armv82-crypto --enable-zmq --enable-glibc-back-compat LDFLAGS=-static-libstdc++ --enable-c++14"
+            config-opts: "--enable-experimental --with-armv8-crypto --with-armv82-crypto --with-bip39 --enable-zmq --enable-glibc-back-compat LDFLAGS=-static-libstdc++ --enable-c++14"
             goal: install
           - name: aarch64-linux
             host: aarch64-linux-gnu
@@ -175,7 +176,7 @@ jobs:
             check-security: true
             check-symbols: false
             dep-opts: "AVX2=1 MINGW=1"
-            config-opts: "--enable-experimental --enable-scrypt-sse2 --with-intel-avx2 --with-gui=qt5 --enable-c++14"
+            config-opts: "--enable-experimental --enable-scrypt-sse2 --with-intel-avx2 --with-gui=qt5 --enable-c++14 --with-bip39"
             goal: install
           - name: x86_64-macos
             host: x86_64-apple-darwin11
@@ -189,6 +190,18 @@ jobs:
             goal: deploy
             sdk: 10.11
             sdk-shasum: "bec9d089ebf2e2dd59b1a811a38ec78ebd5da18cbbcd6ab39d1e59f64ac5033f"
+          - name: x86_64-macos-experimental
+            host: x86_64-apple-darwin11
+            container: ubuntu:20.04
+            packages: cmake imagemagick libcap-dev librsvg2-bin libz-dev libbz2-dev libtiff-tools libtinfo5 xorriso
+            run-bench: false
+            check-security: true
+            check-symbols: false
+            dep-opts: ""
+            config-opts: "--with-gui=qt5 --disable-tests --enable-experimental --enable-scrypt-sse2 --with-bip39"
+            goal: deploy
+            sdk: 10.11
+            sdk-shasum: "bec9d089ebf2e2dd59b1a811a38ec78ebd5da18cbbcd6ab39d1e59f64ac5033f"
           - name: x86_64-linux-experimental
             host: x86_64-linux-gnu
             container: ubuntu:20.04
@@ -199,7 +212,7 @@ jobs:
               qa/pull-tester/install-deps.sh
               qa/pull-tester/rpc-tests.py --coverage
             dep-opts: "AVX2=1"
-            config-opts: "--enable-experimental --enable-scrypt-sse2 --with-intel-avx2 --with-gui=qt5 --enable-zmq --enable-glibc-back-compat --enable-reduce-exports --enable-c++14"
+            config-opts: "--enable-experimental --enable-scrypt-sse2 --with-intel-avx2 --with-bip39 --with-gui=qt5 --enable-zmq --enable-glibc-back-compat --enable-reduce-exports --enable-c++14"
             goal: install
 
     runs-on: ubuntu-24.04

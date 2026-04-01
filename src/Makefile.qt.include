@@ -80,6 +80,7 @@ QT_FORMS_UI = \
   qt/forms/helpmessagedialog.ui \
   qt/forms/intro.ui \
   qt/forms/importkeysdialog.ui \
+  qt/forms/importbip39dialog.ui \
   qt/forms/modaloverlay.ui \
   qt/forms/openuridialog.ui \
   qt/forms/optionsdialog.ui \
@@ -112,6 +113,7 @@ QT_MOC_CPP = \
   qt/moc_guiutil.cpp \
   qt/moc_intro.cpp \
   qt/moc_importkeysdialog.cpp \
+  qt/moc_importbip39dialog.cpp \
   qt/moc_macdockiconhandler.cpp \
   qt/moc_macnotificationhandler.cpp \
   qt/moc_modaloverlay.cpp \
@@ -153,6 +155,7 @@ QT_MOC = \
   qt/bitcoin.moc \
   qt/bitcoinamountfield.moc \
   qt/importkeysdialog.moc \
+  qt/importbip39dialog.moc \
   qt/intro.moc \
   qt/overviewpage.moc \
   qt/rpcconsole.moc
@@ -180,6 +183,7 @@ BITCOIN_QT_H = \
   qt/guiutil.h \
   qt/intro.h \
   qt/importkeysdialog.h \
+  qt/importbip39dialog.h \
   qt/macdockiconhandler.h \
   qt/macnotificationhandler.h \
   qt/modaloverlay.h \
@@ -314,6 +318,7 @@ BITCOIN_QT_WALLET_CPP = \
   qt/coincontroltreewidget.cpp \
   qt/editaddressdialog.cpp \
   qt/importkeysdialog.cpp \
+  qt/importbip39dialog.cpp \
   qt/openuridialog.cpp \
   qt/overviewpage.cpp \
   qt/paymentserver.cpp \
@@ -361,7 +366,7 @@ RES_FONTS = \
 
 BITCOIN_RC = qt/res/bitcoin-qt-res.rc
 
-BITCOIN_QT_INCLUDES = -I$(builddir)/qt -I$(srcdir)/qt -I$(srcdir)/qt/forms \
+BITCOIN_QT_INCLUDES = -I$(builddir)/qt -I$(srcdir) -I$(srcdir)/qt -I$(srcdir)/qt/forms \
   -I$(builddir)/qt/forms -DQT_NO_KEYWORDS
 
 qt_libdogecoinqt_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(BITCOIN_QT_INCLUDES) \
@@ -402,7 +407,7 @@ endif
 if ENABLE_ZMQ
 qt_dogecoin_qt_LDADD += $(LIBDOGECOIN_ZMQ) $(ZMQ_LIBS)
 endif
-qt_dogecoin_qt_LDADD += $(LIBDOGECOIN_CLI) $(LIBDOGECOIN_COMMON) $(LIBDOGECOIN_UTIL) $(LIBDOGECOIN_CONSENSUS) $(LIBDOGECOIN_CRYPTO) $(LIBUNIVALUE) $(LIBLEVELDB) $(LIBMEMENV) \
+qt_dogecoin_qt_LDADD += $(LIBDOGECOIN_CLI) $(LIBDOGECOIN_COMMON) $(LIBDOGECOIN_UTIL) $(LIBDOGECOIN_CONSENSUS) $(LIBDOGECOIN_CRYPTO) $(LIBDOGECOIN_CRYPTO_SSE41) $(LIBDOGECOIN_CRYPTO_AVX2) $(LIBUNIVALUE) $(LIBLEVELDB) $(LIBMEMENV) \
   $(BOOST_LIBS) $(QT_LIBS) $(QT_DBUS_LIBS) $(QR_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(LIBSECP256K1) \
   $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS)
 qt_dogecoin_qt_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(QT_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
