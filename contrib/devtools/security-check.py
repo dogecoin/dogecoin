@@ -11,7 +11,11 @@ Otherwise the exit status will be 1 and it will log which executables failed whi
 import sys
 from typing import List
 
-import lief #type:ignore
+try:
+    import lief  # type: ignore
+except ModuleNotFoundError:
+    sys.stderr.write("The 'lief' module is required. Install it to run security checks.\n")
+    sys.exit(1)
 
 def check_ELF_RELRO(binary) -> bool:
     '''
