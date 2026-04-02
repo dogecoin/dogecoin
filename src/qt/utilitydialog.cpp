@@ -45,6 +45,7 @@
 #include <QTextCursor>
 #include <QVBoxLayout>
 #include <QInputDialog>
+#include <QTimer>
 
 #ifdef USE_QRCODE
 #include <qrencode.h>
@@ -56,6 +57,9 @@
 #include <QtPrintSupport/QPrinterInfo>
 #include <QPainter>
 #include "walletmodel.h"
+#include <cstdlib>
+
+static constexpr int SHUTDOWN_FORCE_QUIT_DELAY_MS = 30 * 1000;
 
 /** "Help message" or "About" dialog box */
 HelpMessageDialog::HelpMessageDialog(QWidget *parent, bool about) :
@@ -490,7 +494,26 @@ ShutdownWindow::ShutdownWindow(QWidget *parent, Qt::WindowFlags f):
     layout->addWidget(new QLabel(
         tr("%1 is shutting down...").arg(tr(PACKAGE_NAME)) + "<br /><br />" +
         tr("Do not shut down the computer until this window disappears.")));
+    forceCloseButton = new QPushButton(tr("Force quit"));
+    forceCloseButton->setVisible(false);
+    layout->addWidget(forceCloseButton);
+    connect(forceCloseButton, &QPushButton::clicked, this, &ShutdownWindow::onForceCloseClicked);
+    
+    // If the shutdown window is still open after a defined number of seconds, allow user to force close the app
+    QTimer::singleShot(SHUTDOWN_FORCE_QUIT_DELAY_MS, this, [this, layout]() {
+        forceCloseButton->setVisible(true);
+        this->adjustSize();
+    });
+
     setLayout(layout);
+}
+
+void ShutdownWindow::onForceCloseClicked() {
+    if (QMessageBox::warning(this, tr("Warning"),
+        tr("Force quitting may corrupt your data. Continue?"),
+        QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {
+        ::exit(1);
+    }
 }
 
 QWidget *ShutdownWindow::showShutdownWindow(BitcoinGUI *window)
