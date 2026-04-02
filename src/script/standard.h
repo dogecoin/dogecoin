@@ -14,6 +14,7 @@
 #include <stdint.h>
 
 static const bool DEFAULT_ACCEPT_DATACARRIER = true;
+static const int DEFAULT_DATACARRIER_COUNT = 0;
 
 class CKeyID;
 class CScript;
@@ -27,9 +28,10 @@ public:
     CScriptID(const uint160& in) : uint160(in) {}
 };
 
-static const unsigned int MAX_OP_RETURN_RELAY = 83; //!< bytes (+1 for OP_RETURN, +2 for the pushdata opcodes)
+static const unsigned int MAX_OP_RETURN_RELAY = 1654; //!< bytes (+1 for OP_RETURN, +1 for the pushdata opcode, +2 for pushdata length)
 extern bool fAcceptDatacarrier;
 extern unsigned nMaxDatacarrierBytes;
+extern unsigned nMaxDatacarrierCount; 
 
 /**
  * Mandatory script verification flags that all new blocks must comply with for
