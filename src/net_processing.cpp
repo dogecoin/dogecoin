@@ -300,7 +300,7 @@ void InitializeNode(CNode *pnode, CConnman& connman) {
         mapNodeState.emplace_hint(mapNodeState.end(), std::piecewise_construct, std::forward_as_tuple(nodeid), std::forward_as_tuple(addr, std::move(addrName)));
         assert(g_txrequest.Count(nodeid) == 0);
     }
-    if(!pnode->fInbound)
+    if (!pnode->fInbound)
         PushNodeVersion(pnode, connman, GetTime());
 }
 
@@ -1472,7 +1472,7 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
         pfrom->SetSendVersion(nSendVersion);
         pfrom->nVersion = nVersion;
 
-        if((nServices & NODE_WITNESS))
+        if ((nServices & NODE_WITNESS))
         {
             LOCK(cs_main);
             State(pfrom->GetId())->fHaveWitness = true;

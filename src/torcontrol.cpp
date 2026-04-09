@@ -142,7 +142,7 @@ void TorControlConnection::readcb(struct bufferevent *bev, void *ctx)
     char *line;
     assert(input);
     //  If there is not a whole line to read, evbuffer_readln returns NULL
-    while((line = evbuffer_readln(input, &n_read_out, EVBUFFER_EOL_CRLF)) != NULL)
+    while ((line = evbuffer_readln(input, &n_read_out, EVBUFFER_EOL_CRLF)) != NULL)
     {
         std::string s(line, n_read_out);
         free(line);

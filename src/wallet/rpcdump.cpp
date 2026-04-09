@@ -374,11 +374,11 @@ UniValue removeprunedfunds(const JSONRPCRequest& request)
     vHash.push_back(hash);
     vector<uint256> vHashOut;
 
-    if(pwalletMain->ZapSelectTx(vHash, vHashOut) != DB_LOAD_OK) {
+    if (pwalletMain->ZapSelectTx(vHash, vHashOut) != DB_LOAD_OK) {
         throw JSONRPCError(RPC_WALLET_ERROR, "Could not properly delete the transaction.");
     }
 
-    if(vHashOut.empty()) {
+    if (vHashOut.empty()) {
         throw JSONRPCError(RPC_INVALID_PARAMETER, "Transaction does not exist in wallet.");
     }
 

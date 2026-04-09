@@ -189,7 +189,7 @@ static bool ClientAllowed(const CNetAddr& netaddr)
 {
     if (!netaddr.IsValid())
         return false;
-    for(const CSubNet& subnet : rpc_allow_subnets)
+    for (const CSubNet& subnet : rpc_allow_subnets)
         if (subnet.Match(netaddr))
             return true;
     return false;

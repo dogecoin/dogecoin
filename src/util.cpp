@@ -796,7 +796,7 @@ fs::path GetSpecialFolderPath(int nFolder, bool fCreate)
 {
     char pszPath[MAX_PATH] = "";
 
-    if(SHGetSpecialFolderPathA(NULL, pszPath, nFolder, fCreate))
+    if (SHGetSpecialFolderPathA(NULL, pszPath, nFolder, fCreate))
     {
         return fs::path(pszPath);
     }
