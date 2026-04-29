@@ -1,8 +1,8 @@
 Fedora build guide
 ------------------
 
-**Last tested with:** 1.14.7-dev (as of aa53a0d7)
-**Tested on:** Fedora 35-39 (x86 & ARM)
+**Last tested with:** master (as of e1c3c37)
+**Tested on:** Fedora 43 ARM64
 
 ### Build requirements
 
