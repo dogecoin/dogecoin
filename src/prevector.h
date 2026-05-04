@@ -193,6 +193,11 @@ private:
     T* item_ptr(difference_type pos) { return is_direct() ? direct_ptr(pos) : indirect_ptr(pos); }
     const T* item_ptr(difference_type pos) const { return is_direct() ? direct_ptr(pos) : indirect_ptr(pos); }
 
+    // Initialize the memory in the union to prevent uninitialized warnings
+    void init_union() {
+        memset(_union.direct, 0, sizeof(_union.direct));
+    }
+
 public:
     void assign(size_type n, const T& val) {
         clear();
@@ -219,13 +224,17 @@ public:
         }
     }
 
-    prevector() : _size(0) {}
+    prevector() : _size(0) {
+        init_union();
+    }
 
     explicit prevector(size_type n) : _size(0) {
+        init_union();
         resize(n);
     }
 
     explicit prevector(size_type n, const T& val = T()) : _size(0) {
+        init_union();
         change_capacity(n);
         while (size() < n) {
             _size++;
@@ -235,6 +244,7 @@ public:
 
     template<typename InputIterator>
     prevector(InputIterator first, InputIterator last) : _size(0) {
+        init_union();
         size_type n = last - first;
         change_capacity(n);
         while (first != last) {
@@ -245,6 +255,7 @@ public:
     }
 
     prevector(const prevector<N, T, Size, Diff>& other) : _size(0) {
+        init_union();
         change_capacity(other.size());
         const_iterator it = other.begin();
         while (it != other.end()) {
@@ -255,6 +266,7 @@ public:
     }
 
     prevector(prevector<N, T, Size, Diff>&& other) : _size(0) {
+        init_union();
         swap(other);
     }
 
