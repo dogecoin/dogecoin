@@ -228,7 +228,7 @@ Development guidelines
 A few non-style-related recommendations for developers, as well as points to
 pay attention to for reviewers of Bitcoin Core code.
 
-General Bitcoin Core
+General Code
 ----------------------
 
 - New features should be exposed on RPC first, then can be made available in the GUI
