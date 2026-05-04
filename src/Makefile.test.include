@@ -71,7 +71,8 @@ JSON_TEST_FILES = \
   test/data/tx_valid.json \
   test/data/sighash.json
 
-RAW_TEST_FILES =
+RAW_TEST_FILES = \
+  test/data/asmap.raw
 
 GENERATED_TEST_FILES = $(JSON_TEST_FILES:.json=.json.h) $(RAW_TEST_FILES:.raw=.raw.h)
 
@@ -226,8 +227,8 @@ endif
 %.raw.h: %.raw
 	@$(MKDIR_P) $(@D)
 	@{ \
-	 echo "static unsigned const char $(*F)[] = {" && \
-   $(HEXDUMP) -v -e '8/1 "0x%02x, "' -e '"\n"' $< | $(SED) -e 's/0x  ,//g' && \
+	 echo "static unsigned const char $(*F)_raw[] = {" && \
+	 $(HEXDUMP) -v -e '8/1 "0x%02x, "' -e '"\n"' $< | $(SED) -e 's/0x  ,//g' && \
 	 echo "};"; \
 	} > "$@.new" && mv -f "$@.new" "$@"
 	@echo "Generated $@"

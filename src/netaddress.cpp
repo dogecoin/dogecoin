@@ -8,13 +8,17 @@
 #include "config/bitcoin-config.h"
 #endif
 
-#include "netaddress.h"
-#include "hash.h"
-#include "utilstrencodings.h"
-#include "tinyformat.h"
+#include <netaddress.h>
+#include <hash.h>
+#include <utilstrencodings.h>
+#include <util/asmap.h>
+#include <tinyformat.h>
 
 static const unsigned char pchIPv4[12] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xff, 0xff };
 static const unsigned char pchOnionCat[] = {0xFD,0x87,0xD8,0x7E,0xEB,0x43};
+
+// 0xFD + sha256("bitcoin")[0:5]
+static const unsigned char g_internal_prefix[] = { 0xFD, 0x6B, 0x88, 0xC0, 0x87, 0x24 };
 
 void CNetAddr::Init()
 {
@@ -40,6 +44,18 @@ void CNetAddr::SetRaw(Network network, const uint8_t *ip_in)
         default:
             assert(!"invalid network");
     }
+}
+
+bool CNetAddr::SetInternal(const std::string &name)
+{
+    if (name.empty()) {
+        return false;
+    }
+    unsigned char hash[32] = {};
+    CSHA256().Write((const unsigned char*)name.data(), name.size()).Finalize(hash);
+    memcpy(ip, g_internal_prefix, sizeof(g_internal_prefix));
+    memcpy(ip + sizeof(g_internal_prefix), hash, sizeof(ip) - sizeof(g_internal_prefix));
+    return true;
 }
 
 bool CNetAddr::SetSpecial(const std::string &strName)
@@ -84,7 +100,7 @@ bool CNetAddr::IsIPv4() const
 
 bool CNetAddr::IsIPv6() const
 {
-    return (!IsIPv4() && !IsTor());
+    return (!IsIPv4() && !IsTor() && !IsInternal());
 }
 
 bool CNetAddr::IsRFC1918() const
@@ -205,6 +221,9 @@ bool CNetAddr::IsValid() const
     if (IsRFC3849())
         return false;
 
+    if (IsInternal())
+        return false;
+
     if (IsIPv4())
     {
         // INADDR_NONE
@@ -223,11 +242,19 @@ bool CNetAddr::IsValid() const
 
 bool CNetAddr::IsRoutable() const
 {
-    return IsValid() && !(IsRFC1918() || IsRFC2544() || IsRFC3927() || IsRFC4862() || IsRFC6598() || IsRFC5737() || (IsRFC4193() && !IsTor()) || IsRFC4843() || IsLocal());
+    return IsValid() && !(IsRFC1918() || IsRFC2544() || IsRFC3927() || IsRFC4862() || IsRFC6598() || IsRFC5737() || (IsRFC4193() && !IsTor()) || IsRFC4843() || IsLocal() || IsInternal());
+}
+
+bool CNetAddr::IsInternal() const
+{
+   return memcmp(ip, g_internal_prefix, sizeof(g_internal_prefix)) == 0;
 }
 
 enum Network CNetAddr::GetNetwork() const
 {
+    if (IsInternal())
+        return NET_INTERNAL;
+
     if (!IsRoutable())
         return NET_UNROUTABLE;
 
@@ -244,6 +271,8 @@ std::string CNetAddr::ToStringIP() const
 {
     if (IsTor())
         return EncodeBase32(&ip[6], 10) + ".onion";
+    if (IsInternal())
+        return EncodeBase32(ip + sizeof(g_internal_prefix), sizeof(ip) - sizeof(g_internal_prefix)) + ".internal";
     CService serv(*this, 0);
     struct sockaddr_storage sockaddr;
     socklen_t socklen = sizeof(sockaddr);
@@ -296,52 +325,104 @@ bool CNetAddr::GetIn6Addr(struct in6_addr* pipv6Addr) const
     return true;
 }
 
-// get canonical identifier of an address' group
-// no two connections will be attempted to addresses with the same group
-std::vector<unsigned char> CNetAddr::GetGroup() const
+uint32_t CNetAddr::GetNetClass() const {
+    uint32_t net_class = NET_IPV6;
+    if (IsLocal()) {
+        net_class = 255;
+    }
+    if (IsInternal()) {
+        net_class = NET_INTERNAL;
+    } else if (!IsRoutable()) {
+        net_class = NET_UNROUTABLE;
+    } else if (IsIPv4() || IsRFC6145() || IsRFC6052() || IsRFC3964() || IsRFC4380()) {
+        net_class = NET_IPV4;
+    } else if (IsTor()) {
+        net_class = NET_TOR;
+    }
+    return net_class;
+}
+
+uint32_t CNetAddr::GetMappedAS(const std::vector<bool> &asmap) const {
+    uint32_t net_class = GetNetClass();
+    if (asmap.size() == 0 || (net_class != NET_IPV4 && net_class != NET_IPV6)) {
+        return 0; // Indicates not found, safe because AS0 is reserved per RFC7607.
+    }
+    std::vector<bool> ip_bits(128);
+    for (int8_t byte_i = 0; byte_i < 16; ++byte_i) {
+        uint8_t cur_byte = GetByte(15 - byte_i);
+        for (uint8_t bit_i = 0; bit_i < 8; ++bit_i) {
+            ip_bits[byte_i * 8 + bit_i] = (cur_byte >> (7 - bit_i)) & 1;
+        }
+    }
+    uint32_t mapped_as = Interpret(asmap, ip_bits);
+    return mapped_as;
+}
+
+/**
+ * Get the canonical identifier of our network group
+ *
+ * The groups are assigned in a way where it should be costly for an attacker to
+ * obtain addresses with many different group identifiers, even if it is cheap
+ * to obtain addresses with the same identifier.
+ *
+ * @note No two connections will be attempted to addresses with the same network
+ *       group.
+ */
+std::vector<unsigned char> CNetAddr::GetGroup(const std::vector<bool> &asmap) const
 {
     std::vector<unsigned char> vchRet;
-    int nClass = NET_IPV6;
+    uint32_t net_class = GetNetClass();
+    // If non-empty asmap is supplied and the address is IPv4/IPv6,
+    // return ASN to be used for bucketing.
+    uint32_t asn = GetMappedAS(asmap);
+    if (asn != 0) { // Either asmap was empty, or address has non-asmappable net class (e.g. TOR).
+        vchRet.push_back(NET_IPV6); // IPv4 and IPv6 with same ASN should be in the same bucket
+        for (int i = 0; i < 4; i++) {
+            vchRet.push_back((asn >> (8 * i)) & 0xFF);
+        }
+        return vchRet;
+    }
+
+    vchRet.push_back(net_class);
     int nStartByte = 0;
     int nBits = 16;
 
     // all local addresses belong to the same group
     if (IsLocal())
     {
-        nClass = 255;
         nBits = 0;
     }
-
-    // all unroutable addresses belong to the same group
-    if (!IsRoutable())
+    // all internal-usage addresses get their own group
+    if (IsInternal())
     {
-        nClass = NET_UNROUTABLE;
+        nStartByte = sizeof(g_internal_prefix);
+        nBits = (sizeof(ip) - sizeof(g_internal_prefix)) * 8;
+    }
+    // all other unroutable addresses belong to the same group
+    else if (!IsRoutable())
+    {
         nBits = 0;
     }
     // for IPv4 addresses, '1' + the 16 higher-order bits of the IP
     // includes mapped IPv4, SIIT translated IPv4, and the well-known prefix
     else if (IsIPv4() || IsRFC6145() || IsRFC6052())
     {
-        nClass = NET_IPV4;
         nStartByte = 12;
     }
     // for 6to4 tunnelled addresses, use the encapsulated IPv4 address
     else if (IsRFC3964())
     {
-        nClass = NET_IPV4;
         nStartByte = 2;
     }
     // for Teredo-tunnelled IPv6 addresses, use the encapsulated IPv4 address
     else if (IsRFC4380())
     {
-        vchRet.push_back(NET_IPV4);
         vchRet.push_back(GetByte(3) ^ 0xFF);
         vchRet.push_back(GetByte(2) ^ 0xFF);
         return vchRet;
     }
     else if (IsTor())
     {
-        nClass = NET_TOR;
         nStartByte = 6;
         nBits = 4;
     }
@@ -352,7 +433,7 @@ std::vector<unsigned char> CNetAddr::GetGroup() const
     else
         nBits = 32;
 
-    vchRet.push_back(nClass);
+    // push our ip onto vchRet byte by byte...
     while (nBits >= 8)
     {
         vchRet.push_back(GetByte(15 - nStartByte));
@@ -399,7 +480,7 @@ int CNetAddr::GetReachabilityFrom(const CNetAddr *paddrPartner) const
         REACH_PRIVATE
     };
 
-    if (!IsRoutable())
+    if (!IsRoutable() || IsInternal())
         return REACH_UNREACHABLE;
 
     int ourNet = GetExtNetwork(this);
@@ -558,7 +639,7 @@ std::string CService::ToStringPort() const
 
 std::string CService::ToStringIPPort() const
 {
-    if (IsIPv4() || IsTor()) {
+    if (IsIPv4() || IsTor() || IsInternal()) {
         return ToStringIP() + ":" + ToStringPort();
     } else {
         return "[" + ToStringIP() + "]:" + ToStringPort();
@@ -713,4 +794,9 @@ bool operator!=(const CSubNet& a, const CSubNet& b)
 bool operator<(const CSubNet& a, const CSubNet& b)
 {
     return (a.network < b.network || (a.network == b.network && memcmp(a.netmask, b.netmask, 16) < 0));
+}
+
+bool SanityCheckASMap(const std::vector<bool>& asmap)
+{
+    return SanityCheckASMap(asmap, 128); // For IP address lookups, the input is 128 bits
 }

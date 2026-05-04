@@ -145,6 +145,15 @@ public:
         unsigned int nReceiveFloodSize = 0;
         uint64_t nMaxOutboundTimeframe = 0;
         uint64_t nMaxOutboundLimit = 0;
+        int64_t m_peer_connect_timeout = 60;
+        std::vector<std::string> vSeedNodes;
+        std::vector<CService> vWhitelistedRange;
+        std::vector<CService> vWhiteBinds;
+        std::vector<CService> vBinds;
+        bool m_use_addrman_outgoing = true;
+        std::vector<std::string> m_specified_outgoing;
+        std::vector<std::string> m_added_nodes;
+        std::vector<bool> m_asmap;
     };
     CConnman(uint64_t seed0, uint64_t seed1);
     ~CConnman();
@@ -288,6 +297,15 @@ public:
     void SetMaxConnections(int newMaxConnections);
 
     void WakeMessageHandler();
+
+    /** Attempts to obfuscate tx time through exponentially distributed emitting.
+        Works assuming that a single interval is used.
+        Variable intervals will result in privacy decrease.
+    */
+    int64_t PoissonNextSendInbound(int64_t now, int average_interval_seconds);
+
+    void SetAsmap(std::vector<bool> asmap) { addrman.m_asmap = std::move(asmap); }
+
 private:
     struct ListenSocket {
         SOCKET socket;
@@ -515,6 +533,9 @@ public:
     CAmount minFeeFilter;
     uint64_t nProcessedAddrs;
     uint64_t nRatelimitedAddrs;
+    // Bind address of our side of the connection
+    CAddress addrBind;
+    uint32_t m_mapped_as;
 };
 
 
@@ -813,7 +834,7 @@ public:
 
     void CloseSocketDisconnect();
 
-    void copyStats(CNodeStats &stats);
+    void copyStats(CNodeStats &stats, const std::vector<bool> &m_asmap);
 
     ServiceFlags GetLocalServices() const
     {
