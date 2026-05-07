@@ -30,3 +30,16 @@ jobs:
         jq -r '.[] | [.name, .remote] | join(" ")' contrib/subtrees.json | xargs -n2 git remote add
         jq -r '.[].name' contrib/subtrees.json | xargs -n1 git fetch
         jq -r '.[].path' contrib/subtrees.json | xargs -n1 bash contrib/devtools/git-subtree-check.sh
+  whitespace:
+    name: Check Trailing Whitespace
+    runs-on: ubuntu-24.04
+    steps:
+    - uses: actions/checkout@v5
+    - name: Check for trailing whitespace in source files
+      run: |
+        if grep -rn --include='*.cpp' --include='*.h' --include='*.cc' --include='*.cxx' \
+          --exclude-dir=leveldb --exclude-dir=secp256k1 \
+          ' $' src/; then
+          echo "Error: trailing whitespace found in source files."
+          exit 1
+        fi
