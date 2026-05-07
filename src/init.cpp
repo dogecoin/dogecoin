@@ -61,7 +61,6 @@
 #include <boost/interprocess/sync/file_lock.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/thread.hpp>
-#include <openssl/crypto.h>
 
 #include <functional>  // for std::function
 
@@ -529,8 +528,6 @@ std::string LicenseInfo()
            "\n" +
            _("This is experimental software.") + "\n" +
            strprintf(_("Distributed under the MIT software license, see the accompanying file %s or %s"), "COPYING", "<https://opensource.org/licenses/MIT>") + "\n" +
-           "\n" +
-           strprintf(_("This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit %s and cryptographic software written by Eric Young and UPnP software written by Thomas Bernard. Paper wallet art provided by Anacoluthia."), "<https://www.openssl.org>") +
            "\n";
 }
 
