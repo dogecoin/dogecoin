@@ -430,7 +430,7 @@ ReadKeyValue(CWallet* pwallet, CDataStream& ssKey, CDataStream& ssValue,
             ssKey >> nID;
             CMasterKey kMasterKey;
             ssValue >> kMasterKey;
-            if(pwallet->mapMasterKeys.count(nID) != 0)
+            if (pwallet->mapMasterKeys.count(nID) != 0)
             {
                 strErr = strprintf("Error reading wallet database: duplicate CMasterKey id %u", nID);
                 return false;
@@ -749,7 +749,7 @@ DBErrors CWalletDB::ZapSelectTx(CWallet* pwallet, vector<uint256>& vTxHashIn, ve
         }
         else if ((*it) == hash) {
             pwallet->mapWallet.erase(hash);
-            if(!EraseTx(hash)) {
+            if (!EraseTx(hash)) {
                 LogPrint("db", "Transaction was found for deletion but returned database error: %s\n", hash.GetHex());
                 delerror = true;
             }

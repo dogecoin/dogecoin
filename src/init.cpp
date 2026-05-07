@@ -692,7 +692,7 @@ void ThreadImport(std::vector<fs::path> vImportFiles)
  */
 bool InitSanityCheck(void)
 {
-    if(!ECC_InitSanityCheck()) {
+    if (!ECC_InitSanityCheck()) {
         InitError("Elliptic curve cryptography sanity check failure. Aborting.");
         return false;
     }
@@ -1570,7 +1570,7 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
             }
 
             fLoaded = true;
-        } while(false);
+        } while (false);
 
         if (!fLoaded) {
             // first suggest a reindex
