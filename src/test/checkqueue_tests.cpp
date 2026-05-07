@@ -96,7 +96,7 @@ struct MemoryCheck {
     };
     ~MemoryCheck(){
         fake_allocated_memory -= b;
-    
+
     };
     void swap(MemoryCheck& x) { std::swap(b, x.b); };
 };
@@ -337,7 +337,7 @@ BOOST_AUTO_TEST_CASE(test_CheckQueue_Memory)
     tg.join_all();
 }
 
-// Test that a new verification cannot occur until all checks 
+// Test that a new verification cannot occur until all checks
 // have been destructed
 BOOST_AUTO_TEST_CASE(test_CheckQueue_FrozenCleanup)
 {

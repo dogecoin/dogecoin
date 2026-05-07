@@ -36,7 +36,7 @@ static void CODE_TO_TIME(benchmark::State& state)
 BENCHMARK(CODE_TO_TIME);
 
  */
- 
+
 namespace benchmark {
 
     class State {

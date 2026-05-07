@@ -42,17 +42,17 @@ private:
     int nMins;
 
     /*
-    *These QVector<float>s are implemented as circular buffers so that we always have a maximum of 
-    *BASE_SAMPLES_BUF_SIZE (defined in trafficgraphwidget.cpp, default of 24 hours * 60 minutes * 60 seconds, 
-    *or 86400 samples per day at a samplerate of 1sps) to work with. A second circular "display buffer" is 
-    *implemented with a maximum of NUM_DISPLAYED_SAMPLES (defined in trafficgraphwidget.cpp, default of 800) 
-    *which are the 'visual samples' which can represent different amounts of time according to the slider. 
+    *These QVector<float>s are implemented as circular buffers so that we always have a maximum of
+    *BASE_SAMPLES_BUF_SIZE (defined in trafficgraphwidget.cpp, default of 24 hours * 60 minutes * 60 seconds,
+    *or 86400 samples per day at a samplerate of 1sps) to work with. A second circular "display buffer" is
+    *implemented with a maximum of NUM_DISPLAYED_SAMPLES (defined in trafficgraphwidget.cpp, default of 800)
+    *which are the 'visual samples' which can represent different amounts of time according to the slider.
     *
-    *The "base samples" for a given timespan are resampled into the "displayed samples" (in this case 800) to 
-    *redraw and show a history of the selected timespan. When these variables are incremented, we check limits 
+    *The "base samples" for a given timespan are resampled into the "displayed samples" (in this case 800) to
+    *redraw and show a history of the selected timespan. When these variables are incremented, we check limits
     *to see if we need to wrap around and begin overwriting the oldest values in the circular buffers.
     */
-    
+
     QVector<float> vTimespanSamplesIn;
     QVector<float> vTimespanSamplesOut;
     quint64 nTimespanLastBytesIn;

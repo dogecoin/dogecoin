@@ -215,7 +215,7 @@ UniValue getrawtransaction(const JSONRPCRequest& request)
         }
         else {
             throw JSONRPCError(RPC_TYPE_ERROR, "Invalid type provided. Verbose parameter must be a boolean.");
-        } 
+        }
     }
 
     CTransactionRef tx;

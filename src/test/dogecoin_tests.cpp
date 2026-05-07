@@ -127,7 +127,7 @@ BOOST_AUTO_TEST_CASE(get_next_work_difficulty_limit)
 
     CBlockIndex pindexLast;
     int64_t nLastRetargetTime = 1386474927; // Block # 1
-    
+
     pindexLast.nHeight = 239;
     pindexLast.nTime = 1386475638; // Block #239
     pindexLast.nBits = 0x1e0ffff0;
@@ -138,7 +138,7 @@ BOOST_AUTO_TEST_CASE(get_next_work_pre_digishield)
 {
     SelectParams(CBaseChainParams::MAIN);
     const Consensus::Params& params = Params().GetConsensus(0);
-    
+
     CBlockIndex pindexLast;
     int64_t nLastRetargetTime = 1386942008; // Block 9359
 
@@ -152,7 +152,7 @@ BOOST_AUTO_TEST_CASE(get_next_work_digishield)
 {
     SelectParams(CBaseChainParams::MAIN);
     const Consensus::Params& params = Params().GetConsensus(145000);
-    
+
     CBlockIndex pindexLast;
     int64_t nLastRetargetTime = 1395094427;
 
@@ -167,7 +167,7 @@ BOOST_AUTO_TEST_CASE(get_next_work_digishield_modulated_upper)
 {
     SelectParams(CBaseChainParams::MAIN);
     const Consensus::Params& params = Params().GetConsensus(145000);
-    
+
     CBlockIndex pindexLast;
     int64_t nLastRetargetTime = 1395100835;
 
@@ -182,7 +182,7 @@ BOOST_AUTO_TEST_CASE(get_next_work_digishield_modulated_lower)
 {
     SelectParams(CBaseChainParams::MAIN);
     const Consensus::Params& params = Params().GetConsensus(145000);
-    
+
     CBlockIndex pindexLast;
     int64_t nLastRetargetTime = 1395380517;
 
@@ -197,7 +197,7 @@ BOOST_AUTO_TEST_CASE(get_next_work_digishield_rounding)
 {
     SelectParams(CBaseChainParams::MAIN);
     const Consensus::Params& params = Params().GetConsensus(145000);
-    
+
     CBlockIndex pindexLast;
     int64_t nLastRetargetTime = 1395094679;
 
