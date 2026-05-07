@@ -100,7 +100,7 @@
     </message>
     <message>
         <source>These are your Dogecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>Tutaj znajdują się adresy Dogecoin, na które wysyłasz płatności. Zawsze sprawdzaj ilość i adres odbiorcy przed wysyłką monet.</translation>
+        <translation>Tutaj znajdują się adresy Dogecoin, na które wysyłasz płatności. Zawsze sprawdzaj kwotę i adres odbiorcy przed wysłaniem monet.</translation>
     </message>
     <message>
         <source>These are your Dogecoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
@@ -1249,7 +1249,7 @@
     </message>
     <message>
         <source>Connect to the Dogecoin network through a separate SOCKS5 proxy for Tor hidden services.</source>
-        <translation>Połącz się z siecią Dogecoin przy pomocy oddzielnego SOCKS5 proxy dla sieci TOR.</translation>
+        <translation>Połącz się z siecią Dogecoin przy pomocy oddzielnego SOCKS5 proxy dla sieci Tor.</translation>
     </message>
     <message>
         <source>Use separate SOCKS5 proxy to reach peers via Tor hidden services:</source>
@@ -1796,7 +1796,7 @@ Use this functionality with extreme caution.</source>
     </message>
     <message>
         <source>Attempted to one try node.</source>
-        <translation>Próba jednorazowego podłaczenia do węzła.</translation>
+        <translation>Próba jednorazowego podłączenia do węzła.</translation>
     </message>
     <message>
         <source>Error: Unable to add node</source>
@@ -2108,7 +2108,7 @@ Use this functionality with extreme caution.</source>
     </message>
     <message>
         <source>The duration of a currently outstanding ping.</source>
-        <translation>Czas trwania nadmiarowego pingu.</translation>
+        <translation>Czas oczekiwania na odpowiedź ping.</translation>
     </message>
     <message>
         <source>Ping Wait</source>
