@@ -1,6 +1,8 @@
 Shared Libraries
 ================
 
+> **Note:** This library is not actively maintained and the documentation below may not accurately reflect the current implementation. Symbol names in the code may differ from those described here. Use this library with caution.
+
 ## dogecoinconsensus
 
 The purpose of this library is to make the verification functionality that is critical to Dogecoin's consensus available to other applications, e.g. to language bindings.
@@ -28,22 +30,19 @@ The interface is defined in the C header `dogecoinconsensus.h` located in  `src/
 
 ##### Script Flags
 - `dogecoinconsensus_SCRIPT_FLAGS_VERIFY_NONE`
-- `dogecoinconsensus_SCRIPT_FLAGS_VERIFY_P2SH` - Evaluate P2SH ([BIP16](https://github.com/bitcoin/bips/blob/master/bip-0016.mediawiki)) subscripts
-- `dogecoinconsensus_SCRIPT_FLAGS_VERIFY_DERSIG` - Enforce strict DER ([BIP66](https://github.com/bitcoin/bips/blob/master/bip-0066.mediawiki)) compliance
-- `dogecoinconsensus_SCRIPT_FLAGS_VERIFY_NULLDUMMY` - Enforce NULLDUMMY ([BIP147](https://github.com/bitcoin/bips/blob/master/bip-0147.mediawiki))
-- `dogecoinconsensus_SCRIPT_FLAGS_VERIFY_CHECKLOCKTIMEVERIFY` - Enable CHECKLOCKTIMEVERIFY ([BIP65](https://github.com/bitcoin/bips/blob/master/bip-0065.mediawiki))
-- `dogecoinconsensus_SCRIPT_FLAGS_VERIFY_CHECKSEQUENCEVERIFY` - Enable CHECKSEQUENCEVERIFY ([BIP112](https://github.com/bitcoin/bips/blob/master/bip-0112.mediawiki))
-- `dogecoinconsensus_SCRIPT_FLAGS_VERIFY_WITNESS` - Enable WITNESS ([BIP141](https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki))
+- `dogecoinconsensus_SCRIPT_FLAGS_VERIFY_P2SH` - Evaluate P2SH ([BIP16](https://github.com/bitcoin/bips/blob/master/bip-0016.mediawiki)) subscripts.
+- `dogecoinconsensus_SCRIPT_FLAGS_VERIFY_DERSIG` - Enforce strict DER ([BIP66](https://github.com/bitcoin/bips/blob/master/bip-0066.mediawiki)) compliance.
+- `dogecoinconsensus_SCRIPT_FLAGS_VERIFY_NULLDUMMY` - Enforce NULLDUMMY ([BIP147](https://github.com/bitcoin/bips/blob/master/bip-0147.mediawiki)).
+- `dogecoinconsensus_SCRIPT_FLAGS_VERIFY_CHECKLOCKTIMEVERIFY` - Enable CHECKLOCKTIMEVERIFY ([BIP65](https://github.com/bitcoin/bips/blob/master/bip-0065.mediawiki)).
+- `dogecoinconsensus_SCRIPT_FLAGS_VERIFY_CHECKSEQUENCEVERIFY` - Enable CHECKSEQUENCEVERIFY ([BIP112](https://github.com/bitcoin/bips/blob/master/bip-0112.mediawiki)).
+- `dogecoinconsensus_SCRIPT_FLAGS_VERIFY_WITNESS` - Enable WITNESS ([BIP141](https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki)).
 
 ##### Errors
-- `dogecoinconsensus_ERR_OK` - No errors with input parameters *(see the return value of `dogecoinconsensus_verify_script` for the verification status)*
-- `dogecoinconsensus_ERR_TX_INDEX` - An invalid index for `txTo`
-- `dogecoinconsensus_ERR_TX_SIZE_MISMATCH` - `txToLen` did not match with the size of `txTo`
-- `dogecoinconsensus_ERR_DESERIALIZE` - An error deserializing `txTo`
-- `dogecoinconsensus_ERR_AMOUNT_REQUIRED` - Input amount is required if WITNESS is used
+- `dogecoinconsensus_ERR_OK` - No errors with input parameters *(see the return value of `dogecoinconsensus_verify_script` for the verification status)*.
+- `dogecoinconsensus_ERR_TX_INDEX` - An invalid index for `txTo`.
+- `dogecoinconsensus_ERR_TX_SIZE_MISMATCH` - `txToLen` did not match with the size of `txTo`.
+- `dogecoinconsensus_ERR_DESERIALIZE` - An error deserializing `txTo`.
+- `dogecoinconsensus_ERR_AMOUNT_REQUIRED` - Returned by `dogecoinconsensus_verify_script` when `VERIFY_WITNESS` is set; use `dogecoinconsensus_verify_script_with_amount` for witness validation.
 
-### Example Implementations
-- [NBitcoin](https://github.com/NicolasDorier/NBitcoin/blob/master/NBitcoin/Script.cs#L814) (.NET Bindings)
-- [node-libdogecoinconsensus](https://github.com/bitpay/node-libdogecoinconsensus) (Node.js Bindings)
-- [java-libdogecoinconsensus](https://github.com/dexX7/java-libdogecoinconsensus) (Java Bindings)
-- [dogecoinconsensus-php](https://github.com/Bit-Wasp/dogecoinconsensus-php) (PHP Bindings)
+### Example Implementation
+- No known Dogecoin-specific third-party binding examples are currently listed here.
