@@ -39,7 +39,22 @@ jobs:
       run: |
         if grep -rn --include='*.cpp' --include='*.h' --include='*.cc' --include='*.cxx' \
           --exclude-dir=leveldb --exclude-dir=secp256k1 \
-          ' $' src/; then
+          '[[:blank:]]$' src/; then
           echo "Error: trailing whitespace found in source files."
           exit 1
         fi
+  clang-format:
+    name: Check clang-format
+    runs-on: ubuntu-24.04
+    steps:
+    - uses: actions/checkout@v5
+      with:
+        fetch-depth: 0
+    - name: Install clang-format
+      run: sudo apt update && sudo apt install -y clang-format
+    - name: Check formatting of changed source files
+      env:
+        BASE_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || 'HEAD~1' }}
+      run: |
+        git diff --diff-filter=d --name-only "$BASE_SHA" -- '*.cpp' '*.h' '*.cc' '*.cxx' | \
+          xargs -r clang-format --dry-run --Werror -style=file
