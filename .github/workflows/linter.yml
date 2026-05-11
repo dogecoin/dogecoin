@@ -56,5 +56,9 @@ jobs:
       env:
         BASE_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || 'HEAD~1' }}
       run: |
-        git diff --diff-filter=d --name-only "$BASE_SHA" -- '*.cpp' '*.h' '*.cc' '*.cxx' | \
-          xargs -r clang-format --dry-run --Werror -style=file
+        if git diff "$BASE_SHA" -- '*.cpp' '*.h' '*.cc' '*.cxx' | \
+             python3 contrib/devtools/clang-format-diff.py -p1 | grep -q .; then
+          echo "Error: code formatting issues found."
+          echo "Run: git diff | python3 contrib/devtools/clang-format-diff.py -p1 -i"
+          exit 1
+        fi
