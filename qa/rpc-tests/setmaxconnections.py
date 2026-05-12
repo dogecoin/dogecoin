@@ -123,6 +123,7 @@ class SetMaxConnectionCountTest (BitcoinTestFramework):
         # MINIMUM_CONNECTIONS outgoing connections plus 1 feeler
         max_connections = 1 + MINIMUM_CONNECTIONS + extras
         first_node.setmaxconnections(max_connections)
+        assert(first_node.getnetworkinfo()["maxconnections"] == max_connections)
         client_nodes = []
 
         self.connect_nodes(client_nodes, extras)

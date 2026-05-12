@@ -809,10 +809,9 @@ void InitLogging()
 namespace { // Variables internal to initialization process only
 
 ServiceFlags nRelevantServices = NODE_NETWORK;
-int nMaxConnections;
-int nUserMaxConnections;
-int nFD;
-int nAvailableFds;
+uint32_t nMaxConnections;
+uint32_t nFD;
+uint32_t nAvailableFds;
 ServiceFlags nLocalServices = NODE_NETWORK;
 
 }
@@ -902,22 +901,33 @@ bool AppInitParameterInteraction()
     }
 
     // Make sure enough file descriptors are available
-    int nBind = std::max(
+    const unsigned int nBind = std::max(
                 (mapMultiArgs.count("-bind") ? mapMultiArgs.at("-bind").size() : 0) +
                 (mapMultiArgs.count("-whitebind") ? mapMultiArgs.at("-whitebind").size() : 0), size_t(1));
-    nUserMaxConnections = GetArg("-maxconnections", DEFAULT_MAX_PEER_CONNECTIONS);
-    nMaxConnections = std::max(nUserMaxConnections, 0);
+
+    // Verify the number of connections, then set nUserMax
+    const int nUserMaxConnections = GetArg("-maxconnections", DEFAULT_MAX_PEER_CONNECTIONS);
+
+    if (nUserMaxConnections < 0) {
+        LogPrintf("Requested max connections %d < 0; defaulting to 0\n", nUserMaxConnections);
+        nMaxConnections = (unsigned int)0;
+    } else {
+        // This cast is okay because nUserMaxConnections is not negative at this point
+        nMaxConnections = (unsigned int)nUserMaxConnections;
+    }
 
     // Trim requested connection counts, to fit into system limitations
-    nMaxConnections = std::max(std::min(nMaxConnections, (int)(FD_SETSIZE - nBind - MIN_CORE_FILEDESCRIPTORS - MAX_ADDNODE_CONNECTIONS)), 0);
+    const unsigned int nMaxAllowedConnections = std::max(FD_SETSIZE - nBind - MIN_CORE_FILEDESCRIPTORS - MAX_ADDNODE_CONNECTIONS, (unsigned int)0);
+    nMaxConnections = std::min(nMaxConnections, nMaxAllowedConnections);
     nFD = RaiseFileDescriptorLimit(nMaxConnections + MIN_CORE_FILEDESCRIPTORS + MAX_ADDNODE_CONNECTIONS);
     if (nFD < MIN_CORE_FILEDESCRIPTORS)
         return InitError(_("Not enough file descriptors available."));
-    nAvailableFds = nFD - MIN_CORE_FILEDESCRIPTORS - MAX_ADDNODE_CONNECTIONS;
+    nAvailableFds = std::max(nFD - MIN_CORE_FILEDESCRIPTORS - MAX_ADDNODE_CONNECTIONS, (unsigned int)0);
     nMaxConnections = std::min(nAvailableFds, nMaxConnections);
 
-    if (nMaxConnections < nUserMaxConnections)
-        InitWarning(strprintf(_("Reducing -maxconnections from %d to %d, because of system limitations."), nUserMaxConnections, nMaxConnections));
+    // It's likely we've reduced the value, but it's possible the user requested a negative value
+    if (nMaxConnections != (unsigned int)nUserMaxConnections)
+        InitWarning(strprintf(_("Changed -maxconnections from %d to %d, because of system limitations."), nUserMaxConnections, nMaxConnections));
 
     // ********************************************************* Step 3: parameter-to-internal-flags
 
