@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 #===- clang-format-diff.py - ClangFormat Diff Reformatter ----*- python -*--===#
 #
@@ -8,6 +8,9 @@
 # License.
 #
 #           ============================================================
+#
+# Ported from Python 2 to Python 3 for compatibility with modern CI
+# environments (e.g. Ubuntu 24.04) which no longer ship with Python 2.
 #
 # University of Illinois/NCSA
 # Open Source License
@@ -69,10 +72,9 @@ Example usage for git/svn users:
 
 import argparse
 import difflib
+import io
 import re
-import string
 import subprocess
-import StringIO
 import sys
 
 
@@ -133,9 +135,9 @@ def main():
           ['-lines', str(start_line) + ':' + str(end_line)])
 
   # Reformat files containing changes in place.
-  for filename, lines in lines_by_file.iteritems():
+  for filename, lines in lines_by_file.items():
     if args.i and args.verbose:
-      print 'Formatting', filename
+      print('Formatting', filename)
     command = [binary, filename]
     if args.i:
       command.append('-i')
@@ -152,11 +154,11 @@ def main():
     if not args.i:
       with open(filename) as f:
         code = f.readlines()
-      formatted_code = StringIO.StringIO(stdout).readlines()
+      formatted_code = io.StringIO(stdout.decode()).readlines()
       diff = difflib.unified_diff(code, formatted_code,
                                   filename, filename,
                                   '(before formatting)', '(after formatting)')
-      diff_string = string.join(diff, '')
+      diff_string = ''.join(diff)
       if len(diff_string) > 0:
         sys.stdout.write(diff_string)
 
