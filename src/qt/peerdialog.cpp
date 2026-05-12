@@ -87,7 +87,7 @@ QString PeerTools::GetPort()
 }
 
 /** Add Peer Dialog */
-AddPeerDialog::AddPeerDialog(QWidget *parent) : 
+AddPeerDialog::AddPeerDialog(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::AddPeerDialog)
 {
@@ -109,13 +109,13 @@ void AddPeerDialog::on_addPeerClicked()
     QString port = ui->peerPort->text();
     QString data = "";
 
-    if(address.isEmpty()) 
+    if(address.isEmpty())
     {
         QMessageBox::critical(this, tr("Add Peer"), tr("Please enter an address."), QMessageBox::Ok, QMessageBox::Ok);
         return;
     }
 
-    if(port.isEmpty()) 
+    if(port.isEmpty())
     {
         port = PeerTools::GetPort();
         ui->peerPort->setText(port);
@@ -134,7 +134,7 @@ void AddPeerDialog::on_addPeerClicked()
 }
 
 /** Add Test Peer Dialog */
-TestPeerDialog::TestPeerDialog(QWidget *parent) : 
+TestPeerDialog::TestPeerDialog(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::TestPeerDialog)
 {
@@ -156,13 +156,13 @@ void TestPeerDialog::on_testPeerClicked()
     QString port = ui->peerPort->text();
     QString data = "";
 
-    if(address.isEmpty()) 
+    if(address.isEmpty())
     {
         QMessageBox::critical(this, tr("Test Peer"), tr("Please enter an address."), QMessageBox::Ok, QMessageBox::Ok);
         return;
     }
 
-    if(port.isEmpty()) 
+    if(port.isEmpty())
     {
         port = PeerTools::GetPort();
         ui->peerPort->setText(port);
