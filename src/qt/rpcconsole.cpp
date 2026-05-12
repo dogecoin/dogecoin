@@ -16,7 +16,6 @@
 #include "clientmodel.h"
 #include "guiutil.h"
 #include "platformstyle.h"
-#include "bantablemodel.h"
 #include "utilitydialog.h"
 
 #include "chainparams.h"
@@ -41,7 +40,6 @@
 #include <QTime>
 #include <QTimer>
 #include <QStringList>
-#include <QThread>
 #include <functional>
 
 // TODO: add a scrollback limit, as there is currently none
