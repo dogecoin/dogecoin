@@ -1463,99 +1463,176 @@ void CConnman::WakeMessageHandler()
 
 
 #ifdef USE_UPNP
+
+// Constants for UPNP_GetValidIGD, introduced in miniupnpc 2.3.0
+#ifndef UPNP_NO_IGD
+#define UPNP_NO_IGD 0
+#endif
+#ifndef UPNP_CONNECTED_IGD
+#define UPNP_CONNECTED_IGD 1
+#endif
+#ifndef UPNP_PRIVATEIP_IGD
+#define UPNP_PRIVATEIP_IGD 2
+#endif
+#ifndef UPNP_DISCONNECTED_IGD
+#define UPNP_DISCONNECTED_IGD 3
+#endif
+#ifndef UPNP_UNKNOWN_DEVICE
+#define UPNP_UNKNOWN_DEVICE 4
+#endif
+
+static const char * UPnPErrStr(int err)
+{
+    const char * s = strupnperror(err);
+    return s ? s : "unknown error";
+}
+
 void ThreadMapPort()
 {
-    std::string port = strprintf("%u", GetListenPort());
-    const char * multicastif = 0;
-    const char * minissdpdpath = 0;
-    struct UPNPDev * devlist = 0;
-    char lanaddr[64];
-
-#ifndef UPNPDISCOVER_SUCCESS
-    /* miniupnpc 1.5 */
-    devlist = upnpDiscover(2000, multicastif, minissdpdpath, 0);
-#elif MINIUPNPC_API_VERSION < 14
+    constexpr int64_t refreshInterval = 20*60; // 20 minutes
+#ifdef UPNPDISCOVER_SUCCESS
     /* miniupnpc 1.6 */
-    int error = 0;
-    devlist = upnpDiscover(2000, multicastif, minissdpdpath, 0, 0, &error);
-#else
-    /* miniupnpc 1.9.20150730 */
-    int error = 0;
-    devlist = upnpDiscover(2000, multicastif, minissdpdpath, 0, 0, 2, &error);
+    std::string strDuration = strprintf("%d", refreshInterval * 2);
 #endif
+    std::string strPort = strprintf("%u", GetListenPort());
+    std::string strDesc = "Dogecoin " + FormatFullVersion();
+    std::string strControlURL, strServiceType;
+    CNetAddr extAddr;
+    int prevStatus = -1;
 
-    struct UPNPUrls urls;
-    struct IGDdatas data;
-    int r;
+    try {
+        while (true) {
+            struct UPNPDev * devlist;
+            int error = 0;
 
-    // since API version 18 / release 2.2.8
-    // both signature and return values of UPNP_GetValidIGD have been changed
-    // see miniupnp commit c0a50ce33e3b99ce8a96fd43049bb5b53ffac62f
-#if MINIUPNPC_API_VERSION < 18
-    r = UPNP_GetValidIGD(devlist, &urls, &data, lanaddr, sizeof(lanaddr));
-    // r: 1 = success, 2 = not connected, 3 = unrecognized IGD
-#else
-    r = UPNP_GetValidIGD(devlist, &urls, &data, lanaddr, sizeof(lanaddr), nullptr, 0);
-    // r: 1 = success, 2 = success but not routable (i.e. CGNAT), 3 = not connected, 4 = unrecognized IGD
-#endif // MINIUPNPC_API_VERSION < 18
-    if (r == 1)
-    {
-        if (fDiscover) {
-            char externalIPAddress[40];
-            r = UPNP_GetExternalIPAddress(urls.controlURL, data.first.servicetype, externalIPAddress);
-            if(r != UPNPCOMMAND_SUCCESS)
-                LogPrintf("UPnP: GetExternalIPAddress() returned %d\n", r);
-            else
-            {
-                if(externalIPAddress[0])
-                {
-                    CNetAddr resolved;
-                    if(LookupHost(externalIPAddress, resolved, false)) {
-                        LogPrintf("UPnP: ExternalIPAddress = %s\n", resolved.ToString());
-                        AddLocal(resolved, LOCAL_UPNP);
-                    }
-                }
-                else
-                    LogPrintf("UPnP: GetExternalIPAddress failed.\n");
-            }
-        }
-
-        std::string strDesc = "Dogecoin " + FormatFullVersion();
-
-        try {
-            while (true) {
 #ifndef UPNPDISCOVER_SUCCESS
-                /* miniupnpc 1.5 */
-                r = UPNP_AddPortMapping(urls.controlURL, data.first.servicetype,
-                                    port.c_str(), port.c_str(), lanaddr, strDesc.c_str(), "TCP", 0);
+            /* miniupnpc 1.5 */
+            devlist = upnpDiscover(2000, NULL, NULL, 0);
+#elif MINIUPNPC_API_VERSION < 14
+            /* miniupnpc 1.6 */
+            devlist = upnpDiscover(2000, NULL, NULL, 0, 0, &error);
 #else
-                /* miniupnpc 1.6 */
-                r = UPNP_AddPortMapping(urls.controlURL, data.first.servicetype,
-                                    port.c_str(), port.c_str(), lanaddr, strDesc.c_str(), "TCP", 0, "0");
+            /* miniupnpc 1.9.20150730 */
+            devlist = upnpDiscover(2000, NULL, NULL, 0, 0, 2, &error);
 #endif
+            if (devlist) {
+                char lanaddr[64], wanaddr[64] = {0};
+                struct UPNPUrls urls;
+                struct IGDdatas data;
+                int sr, status;
 
-                if(r!=UPNPCOMMAND_SUCCESS)
-                    LogPrintf("AddPortMapping(%s, %s, %s) failed with code %d (%s)\n",
-                        port, port, lanaddr, r, strupnperror(r));
-                else
-                    LogPrintf("UPnP Port Mapping successful.\n");
+#if MINIUPNPC_API_VERSION < 18
+                /* miniupnpc 2.2.6 */
+                sr = UPNP_GetValidIGD(devlist, &urls, &data, lanaddr, sizeof(lanaddr));
+                // Convert status code to match new API
+                switch (sr) {
+                    case 0: status = UPNP_NO_IGD; break; // same code
+                    case 1: status = UPNP_CONNECTED_IGD; break; // same code
+                    // 1 is also returned when IGD has private external IP address
+                    case 2: status = UPNP_DISCONNECTED_IGD; break;
+                    case 3: status = UPNP_UNKNOWN_DEVICE; break;
+                    default: status = -1;
+                }
+#else
+                /* miniupnpc 2.2.7 */
+                sr = UPNP_GetValidIGD(devlist, &urls, &data, lanaddr, sizeof(lanaddr), wanaddr, sizeof(wanaddr));
+                status = sr;
+#endif // MINIUPNPC_API_VERSION < 18
 
-                MilliSleep(20*60*1000); // Refresh every 20 minutes
+                const char * statusDesc;
+                switch (status) {
+                    case UPNP_NO_IGD: statusDesc = "no IGD"; break;
+                    case UPNP_CONNECTED_IGD: statusDesc = "connected IGD"; break;
+                    case UPNP_PRIVATEIP_IGD: statusDesc = "private IP IGD"; break;
+                    case UPNP_DISCONNECTED_IGD: statusDesc = "disconnected IGD"; break;
+                    case UPNP_UNKNOWN_DEVICE: statusDesc = "unknown device"; break;
+                    default: statusDesc = nullptr;
+                }
+
+                if (status > UPNP_NO_IGD && status < UPNP_UNKNOWN_DEVICE) {
+                    int cr;
+
+                    if (strControlURL != urls.controlURL || prevStatus != status) {
+                        LogPrintf("UPnP: IGD found at %s (%s)\n", urls.controlURL, statusDesc);
+                    }
+
+                    if (fDiscover && status == UPNP_CONNECTED_IGD) {
+                        if (!wanaddr[0]) {
+                            cr = UPNP_GetExternalIPAddress(urls.controlURL, data.first.servicetype, wanaddr);
+                            if (cr != UPNPCOMMAND_SUCCESS) {
+                                LogPrintf("UPnP: GetExternalIPAddress failed: %d (%s)\n", cr, UPnPErrStr(cr));
+                                wanaddr[0] = 0;
+                            }
+                        }
+
+                        if (wanaddr[0]) {
+                            CNetAddr resolved;
+                            if (LookupHost(wanaddr, resolved, false) && extAddr != resolved) {
+                                LogPrintf("UPnP: ExternalIPAddress = %s\n", resolved.ToString());
+                                AddLocal(resolved, LOCAL_UPNP);
+                                extAddr = resolved;
+                            }
+                        } else {
+                            LogPrintf("UPnP: External IP address is unknown\n");
+                        }
+                    }
+
+                    // Add port mapping regardless of current external connection state
+#ifndef UPNPDISCOVER_SUCCESS
+                    /* miniupnpc 1.5 */
+                    cr = UPNP_AddPortMapping(urls.controlURL, data.first.servicetype,
+                             strPort.c_str(), strPort.c_str(), lanaddr, strDesc.c_str(), "TCP", NULL);
+#else
+                    /* miniupnpc 1.6 */
+                    cr = UPNP_AddPortMapping(urls.controlURL, data.first.servicetype,
+                            strPort.c_str(), strPort.c_str(), lanaddr, strDesc.c_str(), "TCP", NULL, strDuration.c_str());
+#endif
+                    if (cr == UPNPCOMMAND_SUCCESS) {
+                        LogPrintf("UPnP: Port mapping successful (:%s -> %s:%s)\n", strPort, lanaddr, strPort);
+                        strControlURL = urls.controlURL;
+                        strServiceType = data.first.servicetype;
+                    } else {
+                        LogPrintf("UPnP: Port mapping failed: %d (%s)\n", cr, UPnPErrStr(cr));
+                        strControlURL.clear();
+                    }
+                } else {
+                    if (statusDesc) {
+                        LogPrintf("UPnP: No IGDs found: %d (%s)\n", sr, statusDesc);
+                    } else {
+                        LogPrintf("UPnP: No IGDs found: %d\n", sr);
+                    }
+                    strControlURL.clear();
+                }
+
+                if (sr)
+                    FreeUPNPUrls(&urls);
+
+                freeUPNPDevlist(devlist);
+                prevStatus = status;
+            } else {
+                if (error) {
+                    LogPrintf("UPnP: discovery failed: %d (%s)\n", error, UPnPErrStr(error));
+                } else {
+                    LogPrintf("UPnP: no devices found\n");
+                }
+                strControlURL.clear();
+                prevStatus = -1;
+            }
+
+            MilliSleep(refreshInterval * 1000);
+        }
+    }
+    catch (const boost::thread_interrupted&)
+    {
+        if (!strControlURL.empty()) {
+            int cr = UPNP_DeletePortMapping(strControlURL.c_str(), strServiceType.c_str(), strPort.c_str(), "TCP", NULL);
+            if (cr == UPNPCOMMAND_SUCCESS) {
+                LogPrintf("UPnP: Deleted port mapping\n");
+            } else {
+                LogPrintf("UPnP: Failed to delete port mapping: %d (%s)\n", cr, UPnPErrStr(cr));
             }
         }
-        catch (const boost::thread_interrupted&)
-        {
-            r = UPNP_DeletePortMapping(urls.controlURL, data.first.servicetype, port.c_str(), "TCP", 0);
-            LogPrintf("UPNP_DeletePortMapping() returned: %d\n", r);
-            freeUPNPDevlist(devlist); devlist = 0;
-            FreeUPNPUrls(&urls);
-            throw;
-        }
-    } else {
-        LogPrintf("No valid UPnP IGDs found: %d\n", r);
-        freeUPNPDevlist(devlist); devlist = 0;
-        if (r != 0)
-            FreeUPNPUrls(&urls);
+        throw;
     }
 }
 
