@@ -100,6 +100,7 @@ BITCOIN_TESTS =\
   test/dogecoin_tests.cpp \
   test/getarg_tests.cpp \
   test/hash_tests.cpp \
+  test/headers_dos_tests.cpp \
   test/key_tests.cpp \
   test/dbwrapper_tests.cpp \
   test/main_tests.cpp \
