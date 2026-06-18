@@ -38,6 +38,7 @@
 
 using namespace std;
 
+std::vector<CWalletRef> vpwallets;
 CWallet* pwalletMain = NULL;
 /** Transaction fee set by the user */
 CFeeRate payTxFee(DEFAULT_TRANSACTION_FEE);
@@ -3868,6 +3869,7 @@ bool CWallet::InitLoadWallet()
 {
     if (GetBoolArg("-disablewallet", DEFAULT_DISABLE_WALLET)) {
         pwalletMain = NULL;
+        vpwallets.clear();
         LogPrintf("Wallet disabled!\n");
         return true;
     }
@@ -3878,6 +3880,7 @@ bool CWallet::InitLoadWallet()
     if (!pwallet) {
         return false;
     }
+    vpwallets.push_back(pwallet);
     pwalletMain = pwallet;
 
     return true;

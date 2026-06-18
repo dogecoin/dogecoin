@@ -34,6 +34,13 @@
 
 #include <boost/thread.hpp>
 
+class CWallet;
+typedef CWallet* CWalletRef;
+
+/** Global wallet registry. During the multi-wallet transition pwalletMain
+ *  remains as the first element / legacy alias; new code should look up
+ *  the request's wallet via GetWalletForJSONRPCRequest() instead. */
+extern std::vector<CWalletRef> vpwallets;
 extern CWallet* pwalletMain;
 
 /**
