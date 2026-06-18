@@ -3932,6 +3932,23 @@ bool CWallet::ParameterInteraction()
     if (GetBoolArg("-disablewallet", DEFAULT_DISABLE_WALLET))
         return true;
 
+    // Single-wallet-only operations must not be combined with the multi
+    // -wallet=<file> startup form. With more than one wallet loaded these
+    // flags would either operate on the wrong file or silently corrupt the
+    // others. Matches bitcoin 0.17 behaviour.
+    const bool multi_wallet = mapMultiArgs.count("-wallet") && mapMultiArgs.at("-wallet").size() > 1;
+    if (multi_wallet) {
+        if (IsArgSet("-zapwallettxes")) {
+            return InitError(_("-zapwallettxes is only allowed with a single wallet file"));
+        }
+        if (GetBoolArg("-salvagewallet", false)) {
+            return InitError(_("-salvagewallet is only allowed with a single wallet file"));
+        }
+        if (IsArgSet("-upgradewallet")) {
+            return InitError(_("-upgradewallet is only allowed with a single wallet file"));
+        }
+    }
+
     if (GetBoolArg("-blocksonly", DEFAULT_BLOCKSONLY) && SoftSetBoolArg("-walletbroadcast", false)) {
         LogPrintf("%s: parameter interaction: -blocksonly=1 -> setting -walletbroadcast=0\n", __func__);
     }

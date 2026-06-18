@@ -71,12 +71,14 @@ std::string HelpRequiringPassphrase()
 
 bool EnsureWalletIsAvailable(CWallet * const pwallet, bool avoidException)
 {
-    if (!pwallet) {
-        if (!avoidException)
-            throw JSONRPCError(RPC_METHOD_NOT_FOUND, "Method not found (wallet method is disabled because no wallet is loaded)");
-        return false;
+    if (pwallet) return true;
+    if (avoidException) return false;
+    if (vpwallets.empty()) {
+        // no wallets loaded at all (e.g. -disablewallet)
+        throw JSONRPCError(RPC_METHOD_NOT_FOUND, "Method not found (wallet method is disabled because no wallet is loaded)");
     }
-    return true;
+    // more than one wallet is loaded and the caller didn't pick one
+    throw JSONRPCError(RPC_WALLET_NOT_SPECIFIED, "Wallet file not specified (must request wallet RPC through /wallet/<filename> uri-path).");
 }
 
 bool EnsureWalletIsAvailable(bool avoidException)
@@ -2692,12 +2694,17 @@ UniValue loadwallet(const JSONRPCRequest& request)
         }
     }
 
+    // Refuse to silently create a brand new wallet when the caller asked us
+    // to load one. Use createwallet for that — matches upstream bitcoin 0.17
+    // loadwallet semantics.
+    if (!fs::exists(GetDataDir() / walletFile)) {
+        throw JSONRPCError(RPC_WALLET_NOT_FOUND, strprintf("Wallet %s not found.", walletFile));
+    }
+
     // Verify the wallet file under the already-open BDB environment.
-    if (fs::exists(GetDataDir() / walletFile)) {
-        CDBEnv::VerifyResult r = bitdb.Verify(walletFile, CWalletDB::Recover);
-        if (r == CDBEnv::RECOVER_FAIL) {
-            throw JSONRPCError(RPC_WALLET_ERROR, strprintf("%s corrupt, salvage failed", walletFile));
-        }
+    CDBEnv::VerifyResult r = bitdb.Verify(walletFile, CWalletDB::Recover);
+    if (r == CDBEnv::RECOVER_FAIL) {
+        throw JSONRPCError(RPC_WALLET_ERROR, strprintf("%s corrupt, salvage failed", walletFile));
     }
 
     CWallet * const pwallet = CWallet::CreateWalletFromFile(walletFile);
@@ -2734,9 +2741,18 @@ UniValue unloadwallet(const JSONRPCRequest& request)
             + HelpExampleRpc("unloadwallet", "\"trading.dat\"")
         );
 
+    // Resolve the wallet name from either the explicit arg or the
+    // /wallet/<name> URI. If both are present they must match.
     std::string wallet_name;
+    bool uri_used = request.URI.substr(0, WALLET_ENDPOINT_BASE.size()) == WALLET_ENDPOINT_BASE;
     if (request.params.size() == 1) {
         wallet_name = request.params[0].get_str();
+        if (uri_used) {
+            CWallet * const uri_wallet = GetWalletForJSONRPCRequest(request);
+            if (uri_wallet && uri_wallet->GetName() != wallet_name) {
+                throw JSONRPCError(RPC_INVALID_PARAMETER, "Cannot unload the requested wallet: the /wallet/<name> endpoint and the wallet_name argument refer to different wallets.");
+            }
+        }
     } else {
         CWallet * const pwallet = GetWalletForJSONRPCRequest(request);
         if (!pwallet) {
