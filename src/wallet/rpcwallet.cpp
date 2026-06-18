@@ -42,6 +42,11 @@ CWallet *GetWalletForJSONRPCRequest(const JSONRPCRequest& request)
     if (request.URI.substr(0, WALLET_ENDPOINT_BASE.size()) == WALLET_ENDPOINT_BASE) {
         // wallet endpoint was used
         std::string requestedWallet = request.URI.substr(WALLET_ENDPOINT_BASE.size());
+        // Tolerate /wallet/<name>/ as well as /wallet/<name>: callers often
+        // accidentally append a trailing slash.
+        while (!requestedWallet.empty() && requestedWallet.back() == '/') {
+            requestedWallet.pop_back();
+        }
         for (CWalletRef pwallet : ::vpwallets) {
             if (pwallet->GetName() == requestedWallet) {
                 return pwallet;
