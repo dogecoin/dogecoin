@@ -245,8 +245,10 @@ void Shutdown()
         pblocktree = NULL;
     }
 #ifdef ENABLE_WALLET
-    for (CWalletRef pwallet : vpwallets) {
-        pwallet->Flush(true);
+    // CWallet::Flush delegates to the shared CDBEnv, so a single shutdown
+    // call drains every loaded wallet's BDB file at once.
+    if (!vpwallets.empty()) {
+        vpwallets.front()->Flush(true);
     }
 #endif
 
