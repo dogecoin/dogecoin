@@ -2718,6 +2718,56 @@ UniValue loadwallet(const JSONRPCRequest& request)
     return obj;
 }
 
+UniValue createwallet(const JSONRPCRequest& request)
+{
+    if (request.fHelp || request.params.size() != 1)
+        throw runtime_error(
+            "createwallet \"filename\"\n"
+            "\nCreates a new wallet file inside the data directory and loads it.\n"
+            "\nArguments:\n"
+            "1. \"filename\"    (string, required) The wallet file name (within the data directory).\n"
+            "\nResult:\n"
+            "{\n"
+            "  \"name\" :    <wallet_name>,  (string) The wallet name.\n"
+            "}\n"
+            "\nExamples:\n"
+            + HelpExampleCli("createwallet", "\"trading.dat\"")
+            + HelpExampleRpc("createwallet", "\"trading.dat\"")
+        );
+
+    if (GetBoolArg("-disablewallet", DEFAULT_DISABLE_WALLET)) {
+        throw JSONRPCError(RPC_WALLET_ERROR, "Wallet support is disabled (-disablewallet)");
+    }
+
+    std::string walletFile = request.params[0].get_str();
+
+    fs::path walletPath(walletFile);
+    if (walletFile != walletPath.stem().string() + walletPath.extension().string()) {
+        throw JSONRPCError(RPC_WALLET_ERROR, strprintf("Wallet %s resides outside data directory %s", walletFile, GetDataDir().string()));
+    }
+
+    if (fs::exists(GetDataDir() / walletFile)) {
+        throw JSONRPCError(RPC_WALLET_ERROR, strprintf("Wallet %s already exists.", walletFile));
+    }
+
+    for (CWalletRef pwallet : vpwallets) {
+        if (pwallet->GetName() == walletFile) {
+            throw JSONRPCError(RPC_WALLET_ERROR, strprintf("Wallet %s is already loaded.", walletFile));
+        }
+    }
+
+    CWallet * const pwallet = CWallet::CreateWalletFromFile(walletFile);
+    if (!pwallet) {
+        throw JSONRPCError(RPC_WALLET_ERROR, strprintf("Wallet creation failed for %s.", walletFile));
+    }
+    vpwallets.push_back(pwallet);
+    pwallet->ReacceptWalletTransactions();
+
+    UniValue obj(UniValue::VOBJ);
+    obj.pushKV("name", pwallet->GetName());
+    return obj;
+}
+
 UniValue resendwallettransactions(const JSONRPCRequest& request)
 {
     CWallet * const pwallet = GetWalletForJSONRPCRequest(request);
@@ -3423,6 +3473,7 @@ static const CRPCCommand commands[] =
     { "wallet",             "listaddressgroupings",     &listaddressgroupings,     false,  {} },
     { "wallet",             "listwallets",              &listwallets,              true,   {} },
     { "wallet",             "loadwallet",               &loadwallet,               true,   {"filename"} },
+    { "wallet",             "createwallet",             &createwallet,             true,   {"filename"} },
     { "wallet",             "listlockunspent",          &listlockunspent,          false,  {} },
     { "wallet",             "listreceivedbyaccount",    &listreceivedbyaccount,    false,  {"minconf","include_empty","include_watchonly"} },
     { "wallet",             "listreceivedbyaddress",    &listreceivedbyaddress,    false,  {"minconf","include_empty","include_watchonly"} },
