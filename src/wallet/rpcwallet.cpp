@@ -2654,6 +2654,70 @@ UniValue listwallets(const JSONRPCRequest& request)
     return obj;
 }
 
+UniValue loadwallet(const JSONRPCRequest& request)
+{
+    if (request.fHelp || request.params.size() != 1)
+        throw runtime_error(
+            "loadwallet \"filename\"\n"
+            "\nLoads a wallet file into the running node and registers it for\n"
+            "RPC use at /wallet/<filename>.\n"
+            "\nArguments:\n"
+            "1. \"filename\"    (string, required) The wallet file name (within the data directory).\n"
+            "\nResult:\n"
+            "{\n"
+            "  \"name\" :    <wallet_name>,  (string) The wallet name.\n"
+            "}\n"
+            "\nExamples:\n"
+            + HelpExampleCli("loadwallet", "\"second.dat\"")
+            + HelpExampleRpc("loadwallet", "\"second.dat\"")
+        );
+
+    if (GetBoolArg("-disablewallet", DEFAULT_DISABLE_WALLET)) {
+        throw JSONRPCError(RPC_WALLET_ERROR, "Wallet support is disabled (-disablewallet)");
+    }
+
+    std::string walletFile = request.params[0].get_str();
+
+    // Validate the wallet file name. Plain filenames only, no directory
+    // components — matches CWallet::Verify's startup rule.
+    fs::path walletPath(walletFile);
+    if (walletFile != walletPath.stem().string() + walletPath.extension().string()) {
+        throw JSONRPCError(RPC_WALLET_ERROR, strprintf("Wallet %s resides outside data directory %s", walletFile, GetDataDir().string()));
+    }
+
+    // Reject if already loaded.
+    for (CWalletRef pwallet : vpwallets) {
+        if (pwallet->GetName() == walletFile) {
+            throw JSONRPCError(RPC_WALLET_ERROR, strprintf("Wallet %s is already loaded.", walletFile));
+        }
+    }
+
+    // Verify the wallet file under the already-open BDB environment.
+    if (fs::exists(GetDataDir() / walletFile)) {
+        CDBEnv::VerifyResult r = bitdb.Verify(walletFile, CWalletDB::Recover);
+        if (r == CDBEnv::RECOVER_FAIL) {
+            throw JSONRPCError(RPC_WALLET_ERROR, strprintf("%s corrupt, salvage failed", walletFile));
+        }
+    }
+
+    CWallet * const pwallet = CWallet::CreateWalletFromFile(walletFile);
+    if (!pwallet) {
+        throw JSONRPCError(RPC_WALLET_ERROR, strprintf("Wallet loading failed for %s.", walletFile));
+    }
+    vpwallets.push_back(pwallet);
+
+    // Replay any wallet transactions that aren't already in the mempool.
+    // We deliberately do not call postInitProcess(threadGroup) here: the
+    // periodic flush thread is already running and covers every entry in
+    // vpwallets (see ThreadFlushWalletDB), and there is no thread group
+    // accessible from RPC context.
+    pwallet->ReacceptWalletTransactions();
+
+    UniValue obj(UniValue::VOBJ);
+    obj.pushKV("name", pwallet->GetName());
+    return obj;
+}
+
 UniValue resendwallettransactions(const JSONRPCRequest& request)
 {
     CWallet * const pwallet = GetWalletForJSONRPCRequest(request);
@@ -3358,6 +3422,7 @@ static const CRPCCommand commands[] =
     { "wallet",             "listaccounts",             &listaccounts,             false,  {"minconf","include_watchonly"} },
     { "wallet",             "listaddressgroupings",     &listaddressgroupings,     false,  {} },
     { "wallet",             "listwallets",              &listwallets,              true,   {} },
+    { "wallet",             "loadwallet",               &loadwallet,               true,   {"filename"} },
     { "wallet",             "listlockunspent",          &listlockunspent,          false,  {} },
     { "wallet",             "listreceivedbyaccount",    &listreceivedbyaccount,    false,  {"minconf","include_empty","include_watchonly"} },
     { "wallet",             "listreceivedbyaddress",    &listreceivedbyaddress,    false,  {"minconf","include_empty","include_watchonly"} },
