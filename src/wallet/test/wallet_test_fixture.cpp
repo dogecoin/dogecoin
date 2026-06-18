@@ -17,6 +17,7 @@ WalletTestingSetup::WalletTestingSetup(const std::string& chainName):
     pwalletMain = new CWallet("wallet_test.dat");
     pwalletMain->LoadWallet(fFirstRun);
     RegisterValidationInterface(pwalletMain);
+    vpwallets.push_back(pwalletMain);
 
     RegisterWalletRPCCommands(tableRPC);
 }
@@ -24,6 +25,7 @@ WalletTestingSetup::WalletTestingSetup(const std::string& chainName):
 WalletTestingSetup::~WalletTestingSetup()
 {
     UnregisterValidationInterface(pwalletMain);
+    vpwallets.erase(std::remove(vpwallets.begin(), vpwallets.end(), pwalletMain), vpwallets.end());
     delete pwalletMain;
     pwalletMain = NULL;
 
