@@ -655,6 +655,8 @@ public:
         pwalletdbEncryption = NULL;
     }
 
+    const std::string& GetName() const { return strWalletFile; }
+
     void SetNull()
     {
         nWalletVersion = FEATURE_BASE;

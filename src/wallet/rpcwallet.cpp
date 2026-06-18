@@ -20,6 +20,7 @@
 #include "util.h"
 #include "utilmoneystr.h"
 #include "wallet.h"
+#include "wallet/rpcwallet.h"
 #include "wallet/rpcutil.h"
 #include "walletdb.h"
 
@@ -34,29 +35,59 @@ using namespace std;
 int64_t nWalletUnlockTime;
 static CCriticalSection cs_nWalletUnlockTime;
 
-std::string HelpRequiringPassphrase()
+const std::string WALLET_ENDPOINT_BASE = "/wallet/";
+
+CWallet *GetWalletForJSONRPCRequest(const JSONRPCRequest& request)
 {
-    return pwalletMain && pwalletMain->IsCrypted()
+    if (request.URI.substr(0, WALLET_ENDPOINT_BASE.size()) == WALLET_ENDPOINT_BASE) {
+        // wallet endpoint was used
+        std::string requestedWallet = request.URI.substr(WALLET_ENDPOINT_BASE.size());
+        for (CWalletRef pwallet : ::vpwallets) {
+            if (pwallet->GetName() == requestedWallet) {
+                return pwallet;
+            }
+        }
+        throw JSONRPCError(RPC_WALLET_NOT_FOUND, "Requested wallet does not exist or is not loaded");
+    }
+    return ::vpwallets.size() == 1 || (request.fHelp && ::vpwallets.size() > 0) ? ::vpwallets[0] : nullptr;
+}
+
+std::string HelpRequiringPassphrase(CWallet * const pwallet)
+{
+    return pwallet && pwallet->IsCrypted()
         ? "\nRequires wallet passphrase to be set with walletpassphrase call."
         : "";
 }
 
-bool EnsureWalletIsAvailable(bool avoidException)
+std::string HelpRequiringPassphrase()
 {
-    if (!pwalletMain)
-    {
+    return HelpRequiringPassphrase(pwalletMain);
+}
+
+bool EnsureWalletIsAvailable(CWallet * const pwallet, bool avoidException)
+{
+    if (!pwallet) {
         if (!avoidException)
-            throw JSONRPCError(RPC_METHOD_NOT_FOUND, "Method not found (disabled)");
-        else
-            return false;
+            throw JSONRPCError(RPC_METHOD_NOT_FOUND, "Method not found (wallet method is disabled because no wallet is loaded)");
+        return false;
     }
     return true;
 }
 
+bool EnsureWalletIsAvailable(bool avoidException)
+{
+    return EnsureWalletIsAvailable(pwalletMain, avoidException);
+}
+
+void EnsureWalletIsUnlocked(CWallet * const pwallet)
+{
+    if (pwallet->IsLocked())
+        throw JSONRPCError(RPC_WALLET_UNLOCK_NEEDED, "Error: Please enter the wallet passphrase with walletpassphrase first.");
+}
+
 void EnsureWalletIsUnlocked()
 {
-    if (pwalletMain->IsLocked())
-        throw JSONRPCError(RPC_WALLET_UNLOCK_NEEDED, "Error: Please enter the wallet passphrase with walletpassphrase first.");
+    EnsureWalletIsUnlocked(pwalletMain);
 }
 
 void WalletTxToJSON(const CWalletTx& wtx, UniValue& entry)
