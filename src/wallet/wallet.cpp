@@ -455,15 +455,28 @@ bool CWallet::Verify()
         return true;
 
     LogPrintf("Using BerkeleyDB version %s\n", DbEnv::version(0, 0, 0));
-    std::string walletFile = GetArg("-wallet", DEFAULT_WALLET_DAT);
+    uiInterface.InitMessage(_("Verifying wallet(s)..."));
 
-    LogPrintf("Using wallet %s\n", walletFile);
-    uiInterface.InitMessage(_("Verifying wallet..."));
+    // Collect the wallet files requested on the command line. When no -wallet
+    // argument is supplied at all we fall back to the legacy single default.
+    std::vector<std::string> wallet_files;
+    if (mapMultiArgs.count("-wallet")) {
+        wallet_files = mapMultiArgs.at("-wallet");
+    } else {
+        wallet_files.push_back(DEFAULT_WALLET_DAT);
+    }
 
-    // Wallet file must be a plain filename without a directory
-    fs::path walletPath(walletFile);
-    if (walletFile != walletPath.stem().string() + walletPath.extension().string()) {
-        return InitError(strprintf(_("Wallet %s resides outside data directory %s"), walletFile, GetDataDir().string()));
+    // Reject duplicates and paths that escape the data directory before we
+    // touch the database environment.
+    std::set<std::string> wallet_file_names;
+    for (const std::string& walletFile : wallet_files) {
+        fs::path walletPath(walletFile);
+        if (walletFile != walletPath.stem().string() + walletPath.extension().string()) {
+            return InitError(strprintf(_("Wallet %s resides outside data directory %s"), walletFile, GetDataDir().string()));
+        }
+        if (!wallet_file_names.insert(walletFile).second) {
+            return InitError(strprintf(_("Error loading wallet %s. Duplicate -wallet filename specified."), walletFile));
+        }
     }
 
     if (!bitdb.Open(GetDataDir()))
@@ -485,26 +498,30 @@ bool CWallet::Verify()
         }
     }
 
-    if (GetBoolArg("-salvagewallet", false))
-    {
-        // Recover readable keypairs:
-        if (!CWalletDB::Recover(bitdb, walletFile, true))
-            return false;
-    }
+    for (const std::string& walletFile : wallet_files) {
+        LogPrintf("Using wallet %s\n", walletFile);
 
-    if (fs::exists(GetDataDir() / walletFile))
-    {
-        CDBEnv::VerifyResult r = bitdb.Verify(walletFile, CWalletDB::Recover);
-        if (r == CDBEnv::RECOVER_OK)
+        if (GetBoolArg("-salvagewallet", false))
         {
-            InitWarning(strprintf(_("Warning: Wallet file corrupt, data salvaged!"
-                                         " Original %s saved as %s in %s; if"
-                                         " your balance or transactions are incorrect you should"
-                                         " restore from a backup."),
-                walletFile, "wallet.{timestamp}.bak", GetDataDir()));
+            // Recover readable keypairs:
+            if (!CWalletDB::Recover(bitdb, walletFile, true))
+                return false;
         }
-        if (r == CDBEnv::RECOVER_FAIL)
-            return InitError(strprintf(_("%s corrupt, salvage failed"), walletFile));
+
+        if (fs::exists(GetDataDir() / walletFile))
+        {
+            CDBEnv::VerifyResult r = bitdb.Verify(walletFile, CWalletDB::Recover);
+            if (r == CDBEnv::RECOVER_OK)
+            {
+                InitWarning(strprintf(_("Warning: Wallet file corrupt, data salvaged!"
+                                             " Original %s saved as %s in %s; if"
+                                             " your balance or transactions are incorrect you should"
+                                             " restore from a backup."),
+                    walletFile, "wallet.{timestamp}.bak", GetDataDir()));
+            }
+            if (r == CDBEnv::RECOVER_FAIL)
+                return InitError(strprintf(_("%s corrupt, salvage failed"), walletFile));
+        }
     }
 
     return true;
@@ -3665,7 +3682,7 @@ std::string CWallet::GetWalletHelpString(bool showDebug)
     strUsage += HelpMessageOpt("-usehd", _("Use hierarchical deterministic key generation (HD) after BIP32. Only has effect during wallet creation/first start") + " " + strprintf(_("(default: %u)"), DEFAULT_USE_HD_WALLET));
     strUsage += HelpMessageOpt("-walletrbf", strprintf(_("Send transactions with full-RBF opt-in enabled (default: %u)"), DEFAULT_WALLET_RBF));
     strUsage += HelpMessageOpt("-upgradewallet", _("Upgrade wallet to latest format on startup"));
-    strUsage += HelpMessageOpt("-wallet=<file>", _("Specify wallet file (within data directory)") + " " + strprintf(_("(default: %s)"), DEFAULT_WALLET_DAT));
+    strUsage += HelpMessageOpt("-wallet=<file>", _("Specify wallet file (within data directory). This option may be specified multiple times.") + " " + strprintf(_("(default: %s)"), DEFAULT_WALLET_DAT));
     strUsage += HelpMessageOpt("-walletbroadcast", _("Make the wallet broadcast transactions") + " " + strprintf(_("(default: %u)"), DEFAULT_WALLETBROADCAST));
     strUsage += HelpMessageOpt("-walletnotify=<cmd>", _("Execute command when a wallet transaction changes (%s in cmd is replaced by TxID, %i with block height, with a value of 0 if tx is no longer in chaintip)"));
     strUsage += HelpMessageOpt("-zapwallettxes=<mode>", _("Delete all wallet transactions and only recover those parts of the blockchain through -rescan on startup") +
@@ -3874,14 +3891,24 @@ bool CWallet::InitLoadWallet()
         return true;
     }
 
-    std::string walletFile = GetArg("-wallet", DEFAULT_WALLET_DAT);
-
-    CWallet * const pwallet = CreateWalletFromFile(walletFile);
-    if (!pwallet) {
-        return false;
+    std::vector<std::string> wallet_files;
+    if (mapMultiArgs.count("-wallet")) {
+        wallet_files = mapMultiArgs.at("-wallet");
+    } else {
+        wallet_files.push_back(DEFAULT_WALLET_DAT);
     }
-    vpwallets.push_back(pwallet);
-    pwalletMain = pwallet;
+
+    for (const std::string& walletFile : wallet_files) {
+        CWallet * const pwallet = CreateWalletFromFile(walletFile);
+        if (!pwallet) {
+            return false;
+        }
+        vpwallets.push_back(pwallet);
+    }
+
+    // Keep pwalletMain as a transitional alias for the first loaded wallet
+    // so legacy callers (qt, signrawtransaction, getinfo, tests) keep working.
+    pwalletMain = vpwallets.empty() ? nullptr : vpwallets.front();
 
     return true;
 }
