@@ -408,6 +408,8 @@ BOOST_FIXTURE_TEST_CASE(rescan, TestChain240Setup)
         CWallet wallet;
         CWallet *backup = ::pwalletMain;
         ::pwalletMain = &wallet;
+        std::vector<CWalletRef> vpwallets_backup = ::vpwallets;
+        ::vpwallets = {&wallet};
         UniValue keys;
         keys.setArray();
         UniValue key;
@@ -431,6 +433,7 @@ BOOST_FIXTURE_TEST_CASE(rescan, TestChain240Setup)
         UniValue response = importmulti(request);
         BOOST_CHECK_EQUAL(response.write(), strprintf("[{\"success\":false,\"error\":{\"code\":-1,\"message\":\"Failed to rescan before time %d, transactions may be missing.\"}},{\"success\":true}]", newTip->GetBlockTimeMax()));
         ::pwalletMain = backup;
+        ::vpwallets = vpwallets_backup;
     }
 }
 
@@ -441,6 +444,7 @@ BOOST_FIXTURE_TEST_CASE(rescan, TestChain240Setup)
 BOOST_FIXTURE_TEST_CASE(importwallet_rescan, TestChain240Setup)
 {
     CWallet *pwalletMainBackup = ::pwalletMain;
+    std::vector<CWalletRef> vpwallets_backup = ::vpwallets;
     LOCK(cs_main);
 
     // Create two blocks with same timestamp to verify that importwallet rescan
@@ -467,6 +471,7 @@ BOOST_FIXTURE_TEST_CASE(importwallet_rescan, TestChain240Setup)
         request.params.setArray();
         request.params.push_back("wallet.backup");
         ::pwalletMain = &wallet;
+        ::vpwallets = {&wallet};
         ::dumpwallet(request);
     }
 
@@ -479,6 +484,7 @@ BOOST_FIXTURE_TEST_CASE(importwallet_rescan, TestChain240Setup)
         request.params.setArray();
         request.params.push_back(TestChain240Setup::pathTemp.string() + "/regtest/backups/wallet.backup");
         ::pwalletMain = &wallet;
+        ::vpwallets = {&wallet};
         ::importwallet(request);
 
         BOOST_CHECK_EQUAL(wallet.mapWallet.size(), 3);
@@ -492,6 +498,7 @@ BOOST_FIXTURE_TEST_CASE(importwallet_rescan, TestChain240Setup)
 
     SetMockTime(0);
     ::pwalletMain = pwalletMainBackup;
+    ::vpwallets = vpwallets_backup;
 }
 
 BOOST_AUTO_TEST_CASE(GetMinimumFee_test)
