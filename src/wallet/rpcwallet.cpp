@@ -2718,6 +2718,66 @@ UniValue loadwallet(const JSONRPCRequest& request)
     return obj;
 }
 
+UniValue unloadwallet(const JSONRPCRequest& request)
+{
+    if (request.fHelp || request.params.size() > 1)
+        throw runtime_error(
+            "unloadwallet ( \"wallet_name\" )\n"
+            "\nDetaches a wallet from the running node. The wallet file remains\n"
+            "on disk and can be reattached later with loadwallet.\n"
+            "\nWhen no wallet_name is supplied the wallet is taken from the\n"
+            "/wallet/<name> request URI.\n"
+            "\nArguments:\n"
+            "1. \"wallet_name\"    (string, optional) The wallet name to unload.\n"
+            "\nExamples:\n"
+            + HelpExampleCli("unloadwallet", "\"trading.dat\"")
+            + HelpExampleRpc("unloadwallet", "\"trading.dat\"")
+        );
+
+    std::string wallet_name;
+    if (request.params.size() == 1) {
+        wallet_name = request.params[0].get_str();
+    } else {
+        CWallet * const pwallet = GetWalletForJSONRPCRequest(request);
+        if (!pwallet) {
+            throw JSONRPCError(RPC_WALLET_NOT_SPECIFIED, "Wallet name must be provided either as an argument or through the /wallet/<name> URI.");
+        }
+        wallet_name = pwallet->GetName();
+    }
+
+    std::vector<CWalletRef>::iterator it = vpwallets.end();
+    for (auto i = vpwallets.begin(); i != vpwallets.end(); ++i) {
+        if ((*i)->GetName() == wallet_name) {
+            it = i;
+            break;
+        }
+    }
+    if (it == vpwallets.end()) {
+        throw JSONRPCError(RPC_WALLET_NOT_FOUND, strprintf("Wallet %s is not loaded.", wallet_name));
+    }
+
+    CWallet * const pwallet = *it;
+
+    // Serialise against concurrent wallet activity before tearing things down.
+    // This is not bulletproof — dogecoin's wallet handles are raw pointers
+    // and an in-flight wallet RPC on this wallet could still race the delete
+    // below. Production callers should quiesce traffic to the wallet first.
+    {
+        LOCK2(cs_main, pwallet->cs_wallet);
+        pwallet->Flush(true);
+    }
+    UnregisterValidationInterface(pwallet);
+    bitdb.CloseDb(pwallet->strWalletFile);
+
+    vpwallets.erase(it);
+    if (pwalletMain == pwallet) {
+        pwalletMain = vpwallets.empty() ? nullptr : vpwallets.front();
+    }
+    delete pwallet;
+
+    return NullUniValue;
+}
+
 UniValue createwallet(const JSONRPCRequest& request)
 {
     if (request.fHelp || request.params.size() != 1)
@@ -3474,6 +3534,7 @@ static const CRPCCommand commands[] =
     { "wallet",             "listwallets",              &listwallets,              true,   {} },
     { "wallet",             "loadwallet",               &loadwallet,               true,   {"filename"} },
     { "wallet",             "createwallet",             &createwallet,             true,   {"filename"} },
+    { "wallet",             "unloadwallet",             &unloadwallet,             true,   {"wallet_name"} },
     { "wallet",             "listlockunspent",          &listlockunspent,          false,  {} },
     { "wallet",             "listreceivedbyaccount",    &listreceivedbyaccount,    false,  {"minconf","include_empty","include_watchonly"} },
     { "wallet",             "listreceivedbyaddress",    &listreceivedbyaddress,    false,  {"minconf","include_empty","include_watchonly"} },
