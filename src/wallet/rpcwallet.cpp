@@ -2762,12 +2762,21 @@ UniValue unloadwallet(const JSONRPCRequest& request)
     // This is not bulletproof — dogecoin's wallet handles are raw pointers
     // and an in-flight wallet RPC on this wallet could still race the delete
     // below. Production callers should quiesce traffic to the wallet first.
+    //
+    // Note: do NOT call pwallet->Flush(true) here. CWallet::Flush delegates to
+    // CDBEnv::Flush which is env-wide; passing true would shut down the
+    // shared BerkeleyDB environment for every loaded wallet. CloseDb closes
+    // just this wallet's file handle, and BDB's DB_AUTO_COMMIT guarantees
+    // the data is on disk by then.
     {
         LOCK2(cs_main, pwallet->cs_wallet);
-        pwallet->Flush(true);
     }
     UnregisterValidationInterface(pwallet);
     bitdb.CloseDb(pwallet->strWalletFile);
+    // CDBEnv::Verify asserts that the file is not in mapFileUseCount, so we
+    // have to evict the (now refcount-0) entry before a future loadwallet
+    // can verify this same file. Flush(false) does that across the env.
+    bitdb.Flush(false);
 
     vpwallets.erase(it);
     if (pwalletMain == pwallet) {
