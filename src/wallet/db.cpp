@@ -348,8 +348,15 @@ CDB::CDB(const fs::path& wallet_path, const char* pszMode, bool fFlushOnCloseIn)
 // "single env at GetWalletDir()" semantics they're used to. Existing
 // (pre-multi-env) call sites keep working unchanged; new code should
 // hand the full path to the fs::path overload above.
+//
+// Important: an empty strFilename must NOT be resolved via
+// GetWalletDir() / "" — that returns GetWalletDir() itself and would
+// make GetWalletEnv pick up the wallet-dir's last path component
+// ("regtest" in tests) as the BDB filename, opening the wrong file.
+// Hand an empty fs::path down so the path-based ctor's empty-check
+// fires and produces a no-op CDB the way callers expect.
 CDB::CDB(const std::string& strFilename, const char* pszMode, bool fFlushOnCloseIn)
-    : CDB(GetWalletDir() / strFilename, pszMode, fFlushOnCloseIn)
+    : CDB(strFilename.empty() ? fs::path() : GetWalletDir() / strFilename, pszMode, fFlushOnCloseIn)
 {
 }
 
