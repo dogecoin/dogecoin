@@ -15,6 +15,7 @@
 #include "util.h"
 #include "utilstrencodings.h"
 #ifdef ENABLE_WALLET
+#include "wallet/rpcwallet.h"
 #include "wallet/wallet.h"
 #include "wallet/walletdb.h"
 #endif
@@ -178,7 +179,15 @@ UniValue validateaddress(const JSONRPCRequest& request)
         );
 
 #ifdef ENABLE_WALLET
-    LOCK2(cs_main, pwalletMain ? &pwalletMain->cs_wallet : NULL);
+    // Pick the wallet from the /wallet/<name>/ request URI if present;
+    // otherwise fall back to pwalletMain (legacy single-wallet) so
+    // non-multi-wallet setups behave identically. Returning a per-request
+    // wallet here matches what the wallet-only RPCs in rpcwallet.cpp do
+    // via GetWalletForJSONRPCRequest, so /wallet/<name>/validateaddress
+    // reports ismine/account/timestamp/hdkeypath/hdmasterkeyid against
+    // the wallet the URL names — not the first-loaded wallet.
+    CWallet * const pwallet = GetWalletForJSONRPCRequest(request);
+    LOCK2(cs_main, pwallet ? &pwallet->cs_wallet : NULL);
 #else
     LOCK(cs_main);
 #endif
@@ -198,16 +207,16 @@ UniValue validateaddress(const JSONRPCRequest& request)
         ret.pushKV("scriptPubKey", HexStr(scriptPubKey.begin(), scriptPubKey.end()));
 
 #ifdef ENABLE_WALLET
-        isminetype mine = pwalletMain ? IsMine(*pwalletMain, dest) : ISMINE_NO;
+        isminetype mine = pwallet ? IsMine(*pwallet, dest) : ISMINE_NO;
         ret.pushKV("ismine", (mine & ISMINE_SPENDABLE) ? true : false);
         ret.pushKV("iswatchonly", (mine & ISMINE_WATCH_ONLY) ? true: false);
         UniValue detail = boost::apply_visitor(DescribeAddressVisitor(), dest);
         ret.pushKVs(detail);
-        if (pwalletMain && pwalletMain->mapAddressBook.count(dest))
-            ret.pushKV("account", pwalletMain->mapAddressBook[dest].name);
+        if (pwallet && pwallet->mapAddressBook.count(dest))
+            ret.pushKV("account", pwallet->mapAddressBook[dest].name);
         CKeyID keyID;
-        if (pwalletMain) {
-            const auto& meta = pwalletMain->mapKeyMetadata;
+        if (pwallet) {
+            const auto& meta = pwallet->mapKeyMetadata;
             auto it = address.GetKeyID(keyID) ? meta.find(keyID) : meta.end();
             if (it == meta.end()) {
                 it = meta.find(CScriptID(scriptPubKey));
