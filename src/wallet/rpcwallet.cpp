@@ -2714,8 +2714,15 @@ UniValue loadwallet(const JSONRPCRequest& request)
     // form based on what already exists on disk.
     const std::string dbFile = WalletDataFileName(walletFile);
 
-    // Verify the wallet file under the already-open BDB environment.
-    CDBEnv::VerifyResult r = bitdb.Verify(dbFile, CWalletDB::Recover);
+    // Resolve THIS wallet's env (per-wallet in the multi-env world)
+    // and Verify against it. Each directory-layout wallet lives in
+    // its own env under <walletdir>/<name>/.
+    std::string dbFilename;
+    CDBEnv* env = GetWalletEnv(GetWalletDir() / dbFile, dbFilename);
+    if (!env->Open(false /* retry */)) {
+        throw JSONRPCError(RPC_WALLET_ERROR, strprintf("Failed to open wallet env for %s", walletFile));
+    }
+    CDBEnv::VerifyResult r = env->Verify(dbFilename, CWalletDB::Recover);
     if (r == CDBEnv::RECOVER_FAIL) {
         throw JSONRPCError(RPC_WALLET_ERROR, strprintf("%s corrupt, salvage failed", walletFile));
     }
@@ -2792,20 +2799,29 @@ UniValue unloadwallet(const JSONRPCRequest& request)
     // and an in-flight wallet RPC on this wallet could still race the delete
     // below. Production callers should quiesce traffic to the wallet first.
     //
-    // Note: do NOT call pwallet->Flush(true) here. CWallet::Flush delegates to
-    // CDBEnv::Flush which is env-wide; passing true would shut down the
-    // shared BerkeleyDB environment for every loaded wallet. CloseDb closes
-    // just this wallet's file handle, and BDB's DB_AUTO_COMMIT guarantees
+    // Note: do NOT call pwallet->Flush(true) here. CWallet::Flush
+    // delegates to CDBEnv::Flush which is env-wide; passing true would
+    // shut down THIS wallet's BerkeleyDB environment (in the multi-env
+    // world that may host other wallets in the same directory — e.g.
+    // legacy flat wallets all share the walletdir env). CloseDb closes
+    // just this wallet's Db handle, and BDB's DB_AUTO_COMMIT guarantees
     // the data is on disk by then.
     {
         LOCK2(cs_main, pwallet->cs_wallet);
     }
     UnregisterValidationInterface(pwallet);
-    bitdb.CloseDb(pwallet->strWalletFile);
+
+    // Resolve THIS wallet's env from its strWalletFile (BDB-relative
+    // path) and close+flush this file within it. Other wallets sharing
+    // the same env (or wallets in entirely different envs) are
+    // unaffected.
+    std::string dbFilename;
+    CDBEnv* env = GetWalletEnv(GetWalletDir() / pwallet->strWalletFile, dbFilename);
+    env->CloseDb(dbFilename);
     // CDBEnv::Verify asserts that the file is not in mapFileUseCount, so we
     // have to evict the (now refcount-0) entry before a future loadwallet
-    // can verify this same file. Flush(false) does that across the env.
-    bitdb.Flush(false);
+    // can verify this same file. Flush(false) on the env does that.
+    env->Flush(false);
 
     vpwallets.erase(it);
     if (pwalletMain == pwallet) {
