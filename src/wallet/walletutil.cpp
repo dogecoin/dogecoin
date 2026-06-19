@@ -28,13 +28,32 @@ bool IsDirectoryWalletName(const std::string& walletName)
     return walletName.find('.') == std::string::npos;
 }
 
+std::string WalletDataFileName(const std::string& walletName)
+{
+    if (!IsDirectoryWalletName(walletName)) {
+        // Dot-suffixed name: always flat. Covers DEFAULT_WALLET_DAT
+        // ("wallet.dat") so a legacy single-wallet node sees zero
+        // behaviour change after upgrading to a build carrying this
+        // backport.
+        return walletName;
+    }
+    // Migration-friendly resolution for no-extension names:
+    //   1. If a regular file already sits at <walletdir>/<name>, treat
+    //      it as a flat wallet. Lets users adopt the new naming
+    //      convention (drop the .dat) WITHOUT a mkdir+mv beforehand:
+    //      mv unsandbox.dat unsandbox is enough.
+    //   2. Otherwise resolve to <name>/wallet.dat — the directory
+    //      layout new wallets default to.
+    const fs::path candidateFlat = GetWalletDir() / walletName;
+    if (fs::exists(candidateFlat) && fs::is_regular_file(candidateFlat)) {
+        return walletName;
+    }
+    return walletName + "/wallet.dat";
+}
+
 fs::path WalletDataFilePath(const std::string& walletName)
 {
-    const fs::path walletDir = GetWalletDir();
-    if (IsDirectoryWalletName(walletName)) {
-        return walletDir / walletName / "wallet.dat";
-    }
-    return walletDir / walletName;
+    return GetWalletDir() / WalletDataFileName(walletName);
 }
 
 bool EnsureWalletDirectoryExists(const std::string& walletName)
@@ -45,11 +64,18 @@ bool EnsureWalletDirectoryExists(const std::string& walletName)
     const fs::path walletPath = GetWalletDir() / walletName;
     try {
         if (!fs::exists(walletPath)) {
+            // No file or directory at this name yet — create the wallet
+            // directory. CreateWalletFromFile() will populate it.
             fs::create_directories(walletPath);
+        } else if (fs::is_regular_file(walletPath)) {
+            // A flat wallet file already squats on the name. Do NOT
+            // mkdir — the migration-friendly path in WalletDataFilePath
+            // will resolve to the flat file instead. Returning success
+            // keeps the open flow going with flat semantics.
+            return true;
         } else if (!fs::is_directory(walletPath)) {
-            // A regular file already squats on the directory name — fail
-            // hard rather than silently fall back to flat layout, which
-            // would surprise the caller.
+            // Something exotic (symlink to nothing, socket, etc.) —
+            // refuse rather than risk silent data loss.
             return false;
         }
     } catch (const fs::filesystem_error&) {
