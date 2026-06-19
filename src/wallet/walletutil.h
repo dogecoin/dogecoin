@@ -31,14 +31,23 @@ fs::path GetWalletDir();
 //! opened as a flat file in the wallet dir root.
 bool IsDirectoryWalletName(const std::string& walletName);
 
-//! Resolve a user-facing wallet name into the path BDB should open.
+//! Resolve a user-facing wallet name into the BDB-relative file string
+//! (the path passed to Db::open, evaluated relative to the BDB env's
+//! home directory which is GetWalletDir()).
 //!
-//! For directory wallets returns `<walletdir>/<name>/wallet.dat`. For flat
-//! wallets returns `<walletdir>/<name>` (where `<name>` already carries its
-//! extension, e.g. `unsandbox.dat`).
+//! For directory wallets returns `<name>/wallet.dat`. For flat wallets
+//! returns `<name>` as-is (e.g. `unsandbox.dat`).
 //!
-//! Callers must ensure the parent directory exists before opening the
-//! database; see EnsureWalletDirectoryExists() below.
+//! Migration-aware: if the user passes a no-extension name and a regular
+//! file already sits at `<walletdir>/<name>`, this returns `<name>`
+//! (flat) — so adopting the new naming convention by just dropping the
+//! `.dat` suffix doesn't need a mkdir+mv first.
+std::string WalletDataFileName(const std::string& walletName);
+
+//! Absolute path version of WalletDataFileName() — prepends GetWalletDir().
+//! Useful for fs::exists / log lines / error messages. The CDB / bitdb
+//! callsites want the relative version (WalletDataFileName) because BDB
+//! resolves paths against env home itself.
 fs::path WalletDataFilePath(const std::string& walletName);
 
 //! Create the directory for a directory-layout wallet, if needed.
