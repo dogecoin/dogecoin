@@ -11,7 +11,13 @@
 WalletTestingSetup::WalletTestingSetup(const std::string& chainName):
     TestingSetup(chainName)
 {
-    bitdb.MakeMock();
+    // Resolve the env for the test wallet's BDB-relative filename and
+    // put THAT env into mock mode. In the multi-env world there is no
+    // single global env to mock; the test wallet lives in an env at
+    // GetWalletDir() so that's the one we mock.
+    std::string dbFilename;
+    CDBEnv* testEnv = GetWalletEnv(GetWalletDir() / "wallet_test.dat", dbFilename);
+    testEnv->MakeMock();
 
     bool fFirstRun;
     pwalletMain = new CWallet("wallet_test.dat");
@@ -29,6 +35,8 @@ WalletTestingSetup::~WalletTestingSetup()
     delete pwalletMain;
     pwalletMain = NULL;
 
-    bitdb.Flush(true);
-    bitdb.Reset();
+    std::string dbFilename;
+    CDBEnv* testEnv = GetWalletEnv(GetWalletDir() / "wallet_test.dat", dbFilename);
+    testEnv->Flush(true);
+    testEnv->Reset();
 }

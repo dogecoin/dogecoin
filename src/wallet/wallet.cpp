@@ -446,7 +446,14 @@ bool CWallet::HasWalletSpend(const uint256& txid) const
 
 void CWallet::Flush(bool shutdown)
 {
-    bitdb.Flush(shutdown);
+    // Resolve THIS wallet's env from strWalletFile (which is the
+    // BDB-relative wallet path) and flush only it. Each directory-layout
+    // wallet has its own env in the multi-env world; flushing only
+    // pwalletMain's env (or worse, all envs) would be wrong here —
+    // each CWallet::Flush call corresponds to one wallet.
+    std::string dbFilename;
+    CDBEnv* env = GetWalletEnv(GetWalletDir() / strWalletFile, dbFilename);
+    env->Flush(shutdown);
 }
 
 bool CWallet::Verify()
@@ -511,47 +518,55 @@ bool CWallet::Verify()
         wallet_db_files.push_back(dbFile);
     }
 
-    if (!bitdb.Open(GetDataDir()))
-    {
-        // try moving the database env out of the way
-        fs::path pathDatabase = GetDataDir() / "database";
-        fs::path pathDatabaseBak = GetDataDir() / strprintf("database.%d.bak", GetTime());
-        try {
-            fs::rename(pathDatabase, pathDatabaseBak);
-            LogPrintf("Moved old %s to %s. Retrying.\n", pathDatabase.string(), pathDatabaseBak.string());
-        } catch (const fs::filesystem_error&) {
-            // failure is ok (well, not really, but it's not worse than what we started with)
-        }
-
-        // try again
-        if (!bitdb.Open(GetDataDir())) {
-            // if it still fails, it probably means we can't even create the database env
-            return InitError(strprintf(_("Error initializing wallet database environment %s!"), GetDataDir()));
-        }
-    }
-
+    // Per-wallet env open + verify. In the multi-env world each wallet
+    // has its own CDBEnv living at its own directory, so the
+    // "open the env once, then verify each wallet against it" pattern
+    // becomes "for each wallet, resolve its env, open + verify". The
+    // database/ backup-and-retry recovery is now done per-env (any one
+    // env can be corrupt without affecting the others).
     for (size_t i = 0; i < wallet_files.size(); ++i) {
         const std::string& walletFile = wallet_files[i];
         const std::string& dbFile = wallet_db_files[i];
         LogPrintf("Using wallet %s\n", walletFile);
 
+        std::string dbFilename;
+        CDBEnv* env = GetWalletEnv(GetWalletDir() / dbFile, dbFilename);
+
+        if (!env->Open(false /* retry */))
+        {
+            // try moving the database env out of the way
+            fs::path pathDatabase = fs::path(env->Directory()) / "database";
+            fs::path pathDatabaseBak = fs::path(env->Directory()) / strprintf("database.%d.bak", GetTime());
+            try {
+                fs::rename(pathDatabase, pathDatabaseBak);
+                LogPrintf("Moved old %s to %s. Retrying.\n", pathDatabase.string(), pathDatabaseBak.string());
+            } catch (const fs::filesystem_error&) {
+                // failure is ok (well, not really, but it's not worse than what we started with)
+            }
+
+            // try again
+            if (!env->Open(true /* retry */)) {
+                return InitError(strprintf(_("Error initializing wallet database environment %s!"), env->Directory().string()));
+            }
+        }
+
         if (GetBoolArg("-salvagewallet", false))
         {
             // Recover readable keypairs:
-            if (!CWalletDB::Recover(bitdb, dbFile, true))
+            if (!CWalletDB::Recover(*env, dbFilename, true))
                 return false;
         }
 
-        if (fs::exists(GetDataDir() / dbFile))
+        if (fs::exists(GetWalletDir() / dbFile))
         {
-            CDBEnv::VerifyResult r = bitdb.Verify(dbFile, CWalletDB::Recover);
+            CDBEnv::VerifyResult r = env->Verify(dbFilename, CWalletDB::Recover);
             if (r == CDBEnv::RECOVER_OK)
             {
                 InitWarning(strprintf(_("Warning: Wallet file corrupt, data salvaged!"
                                              " Original %s saved as %s in %s; if"
                                              " your balance or transactions are incorrect you should"
                                              " restore from a backup."),
-                    walletFile, "wallet.{timestamp}.bak", GetDataDir()));
+                    walletFile, "wallet.{timestamp}.bak", env->Directory().string()));
             }
             if (r == CDBEnv::RECOVER_FAIL)
                 return InitError(strprintf(_("%s corrupt, salvage failed"), walletFile));
@@ -4087,22 +4102,28 @@ bool CWallet::BackupWallet(const std::string& strDest)
 {
     if (!fFileBacked)
         return false;
+    std::string dbFilename;
+    CDBEnv* env = GetWalletEnv(GetWalletDir() / strWalletFile, dbFilename);
     while (true)
     {
         {
-            LOCK(bitdb.cs_db);
-            if (!bitdb.mapFileUseCount.count(strWalletFile) || bitdb.mapFileUseCount[strWalletFile] == 0)
+            LOCK(cs_db);
+            if (!env->mapFileUseCount.count(dbFilename) || env->mapFileUseCount[dbFilename] == 0)
             {
                 // Flush log data to the dat file
-                bitdb.CloseDb(strWalletFile);
-                bitdb.CheckpointLSN(strWalletFile);
-                bitdb.mapFileUseCount.erase(strWalletFile);
+                env->CloseDb(dbFilename);
+                env->CheckpointLSN(dbFilename);
+                env->mapFileUseCount.erase(dbFilename);
 
-                // Copy wallet file
-                fs::path pathSrc = GetDataDir() / strWalletFile;
+                // Copy wallet file. Source is the actual on-disk path
+                // (resolved via WalletDataFilePath for the migration-aware
+                // flat-or-directory layout). Destination behaviour is
+                // unchanged: a directory destination gets the bare BDB
+                // filename appended.
+                fs::path pathSrc = WalletDataFilePath(strWalletFile);
                 fs::path pathDest(strDest);
                 if (fs::is_directory(pathDest))
-                    pathDest /= strWalletFile;
+                    pathDest /= dbFilename;
 
                 try {
                     if (fs::equivalent(pathSrc, pathDest)) {
