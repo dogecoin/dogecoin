@@ -14,7 +14,9 @@
 #include "rpc/server.h"
 #include "test/test_bitcoin.h"
 #include "validation.h"
+#include "wallet/db.h"
 #include "wallet/test/wallet_test_fixture.h"
+#include "wallet/walletutil.h"
 
 #include <boost/foreach.hpp>
 #include <boost/test/unit_test.hpp>
@@ -597,6 +599,132 @@ BOOST_FIXTURE_TEST_CASE(derive_new_child_key_test, WalletTestingSetup)
     // Verify the child public key matches the expected value
     std::string derivedPubKeyHex = HexStr(childPubKey.begin(), childPubKey.end());
     BOOST_CHECK_EQUAL(derivedPubKeyHex, expectedPubKeyHex);
+}
+
+// ─── Directory-layout wallet path resolution ───────────────────────
+//
+// Covers walletutil.{cpp,h}:
+//   - IsDirectoryWalletName  (dot-suffix heuristic)
+//   - WalletDataFileName     (migration-aware: flat file already at name
+//                             stays flat; otherwise resolves to
+//                             <name>/wallet.dat)
+//   - WalletNameFromDataFilePath (inverse — derives user-facing name
+//                                  from the internal BDB path)
+//
+// Plus the per-wallet env path-split done by GetWalletEnv: env directory
+// is wallet_path.parent_path(), so two wallets in different subdirectories
+// resolve to different envs (the core property the bitdb→g_dbenvs refactor
+// gives us).
+
+BOOST_AUTO_TEST_CASE(walletutil_is_directory_wallet_name)
+{
+    // Dotted names → flat layout (legacy wallet.dat, *.dat, *.bak)
+    BOOST_CHECK_EQUAL(IsDirectoryWalletName(""), false);
+    BOOST_CHECK_EQUAL(IsDirectoryWalletName("wallet.dat"), false);
+    BOOST_CHECK_EQUAL(IsDirectoryWalletName("unsandbox.dat"), false);
+    BOOST_CHECK_EQUAL(IsDirectoryWalletName("legacy.bak"), false);
+    // Dotless names → directory layout (the new default)
+    BOOST_CHECK_EQUAL(IsDirectoryWalletName("unsandbox"), true);
+    BOOST_CHECK_EQUAL(IsDirectoryWalletName("makepostsell"), true);
+}
+
+BOOST_AUTO_TEST_CASE(walletutil_data_file_name_resolution)
+{
+    // Flat (dotted) names round-trip unchanged.
+    BOOST_CHECK_EQUAL(WalletDataFileName("wallet.dat"), "wallet.dat");
+    BOOST_CHECK_EQUAL(WalletDataFileName("unsandbox.dat"), "unsandbox.dat");
+
+    // Dotless name, nothing on disk: directory layout.
+    // We use a fresh subdir under GetWalletDir() to keep test isolated
+    // from any prior runs (WalletTestingSetup gives us a temp datadir).
+    const std::string fresh_name = "wallet_unit_test_fresh";
+    BOOST_CHECK(!fs::exists(GetWalletDir() / fresh_name));
+    BOOST_CHECK_EQUAL(WalletDataFileName(fresh_name), fresh_name + "/wallet.dat");
+
+    // Dotless name, flat file already squats at <walletdir>/<name>:
+    // migration-aware path returns the bare name (flat) so the existing
+    // file keeps loading without a mkdir+mv.
+    const std::string flat_name = "wallet_unit_test_flat";
+    fs::path flat_path = GetWalletDir() / flat_name;
+    std::ofstream(flat_path.string()) << "stub"; // create a regular file
+    BOOST_CHECK(fs::is_regular_file(flat_path));
+    BOOST_CHECK_EQUAL(WalletDataFileName(flat_name), flat_name);
+    fs::remove(flat_path); // clean up
+}
+
+BOOST_AUTO_TEST_CASE(walletutil_name_from_data_file_path_roundtrip)
+{
+    // Inverse of WalletDataFileName for the directory case
+    BOOST_CHECK_EQUAL(WalletNameFromDataFilePath("unsandbox/wallet.dat"), "unsandbox");
+    BOOST_CHECK_EQUAL(WalletNameFromDataFilePath("makepostsell/wallet.dat"), "makepostsell");
+    // Flat names pass through unchanged
+    BOOST_CHECK_EQUAL(WalletNameFromDataFilePath("wallet.dat"), "wallet.dat");
+    BOOST_CHECK_EQUAL(WalletNameFromDataFilePath("legacy.dat"), "legacy.dat");
+    // Empty stays empty (no crash)
+    BOOST_CHECK_EQUAL(WalletNameFromDataFilePath(""), "");
+}
+
+BOOST_AUTO_TEST_CASE(walletutil_ensure_directory)
+{
+    const std::string name = "wallet_unit_test_mkdir";
+    fs::path wallet_path = GetWalletDir() / name;
+    // Clean slate
+    if (fs::exists(wallet_path)) fs::remove_all(wallet_path);
+
+    BOOST_CHECK(EnsureWalletDirectoryExists(name));
+    BOOST_CHECK(fs::is_directory(wallet_path));
+
+    // Idempotent (second call no-op)
+    BOOST_CHECK(EnsureWalletDirectoryExists(name));
+    BOOST_CHECK(fs::is_directory(wallet_path));
+
+    // Cleanup
+    fs::remove_all(wallet_path);
+
+    // Migration-friendly: a flat file at the no-extension name doesn't
+    // trigger a mkdir attempt (which would race with the file existing).
+    std::ofstream(wallet_path.string()) << "stub";
+    BOOST_CHECK(EnsureWalletDirectoryExists(name));
+    BOOST_CHECK(fs::is_regular_file(wallet_path));
+    fs::remove(wallet_path);
+
+    // Flat (dotted) names always succeed without touching disk.
+    BOOST_CHECK(EnsureWalletDirectoryExists("any.dat"));
+}
+
+BOOST_AUTO_TEST_CASE(getwalletenv_per_directory_isolation)
+{
+    // The bitdb→g_dbenvs core property: wallets in different
+    // directories resolve to different CDBEnv pointers; wallets in
+    // the same directory share one.
+    std::string fn_alpha, fn_beta, fn_alpha_two;
+    CDBEnv* env_alpha     = GetWalletEnv(GetWalletDir() / "alpha"     / "wallet.dat", fn_alpha);
+    CDBEnv* env_beta      = GetWalletEnv(GetWalletDir() / "beta"      / "wallet.dat", fn_beta);
+    CDBEnv* env_alpha_two = GetWalletEnv(GetWalletDir() / "alpha"     / "wallet.dat", fn_alpha_two);
+
+    BOOST_CHECK(env_alpha != nullptr);
+    BOOST_CHECK(env_beta  != nullptr);
+    BOOST_CHECK(env_alpha != env_beta);          // different dirs → different envs
+    BOOST_CHECK(env_alpha == env_alpha_two);     // same dir → same env
+
+    // database_filename always strips the directory.
+    BOOST_CHECK_EQUAL(fn_alpha,     "wallet.dat");
+    BOOST_CHECK_EQUAL(fn_beta,      "wallet.dat");
+    BOOST_CHECK_EQUAL(fn_alpha_two, "wallet.dat");
+
+    // Each env knows its own directory.
+    BOOST_CHECK_EQUAL(env_alpha->Directory().filename().string(), "alpha");
+    BOOST_CHECK_EQUAL(env_beta->Directory().filename().string(),  "beta");
+
+    // Flat-layout wallets at <walletdir>/<name>.dat share the
+    // walletdir env (parent_path of "<walletdir>/foo.dat" is
+    // <walletdir>), matching pre-refactor semantics.
+    std::string fn_flat_a, fn_flat_b;
+    CDBEnv* env_flat_a = GetWalletEnv(GetWalletDir() / "legacy_a.dat", fn_flat_a);
+    CDBEnv* env_flat_b = GetWalletEnv(GetWalletDir() / "legacy_b.dat", fn_flat_b);
+    BOOST_CHECK(env_flat_a == env_flat_b);
+    BOOST_CHECK_EQUAL(fn_flat_a, "legacy_a.dat");
+    BOOST_CHECK_EQUAL(fn_flat_b, "legacy_b.dat");
 }
 
 BOOST_AUTO_TEST_SUITE_END()
