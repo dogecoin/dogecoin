@@ -461,7 +461,22 @@ bool CWallet::Verify()
     if (GetBoolArg("-disablewallet", DEFAULT_DISABLE_WALLET))
         return true;
 
+    // If -walletdir was passed, validate it before any wallet open
+    // touches it. We want a clear error here rather than a confusing
+    // BDB env failure later.
+    if (IsArgSet("-walletdir")) {
+        fs::path wallet_dir = GetArg("-walletdir", "");
+        if (!fs::exists(wallet_dir)) {
+            return InitError(strprintf(_("Specified -walletdir \"%s\" does not exist"), wallet_dir.string()));
+        } else if (!fs::is_directory(wallet_dir)) {
+            return InitError(strprintf(_("Specified -walletdir \"%s\" is not a directory"), wallet_dir.string()));
+        } else if (!wallet_dir.is_absolute()) {
+            return InitError(strprintf(_("Specified -walletdir \"%s\" is a relative path"), wallet_dir.string()));
+        }
+    }
+
     LogPrintf("Using BerkeleyDB version %s\n", DbEnv::version(0, 0, 0));
+    LogPrintf("Using wallet directory %s\n", GetWalletDir().string());
     uiInterface.InitMessage(_("Verifying wallet(s)..."));
 
     // Collect the wallet files requested on the command line. When no -wallet
@@ -3732,6 +3747,7 @@ std::string CWallet::GetWalletHelpString(bool showDebug)
     strUsage += HelpMessageOpt("-walletrbf", strprintf(_("Send transactions with full-RBF opt-in enabled (default: %u)"), DEFAULT_WALLET_RBF));
     strUsage += HelpMessageOpt("-upgradewallet", _("Upgrade wallet to latest format on startup"));
     strUsage += HelpMessageOpt("-wallet=<file>", _("Specify wallet file (within data directory). This option may be specified multiple times.") + " " + strprintf(_("(default: %s)"), DEFAULT_WALLET_DAT));
+    strUsage += HelpMessageOpt("-walletdir=<dir>", _("Specify directory to hold wallets (default: <datadir>/wallets/ if it exists, otherwise <datadir>)"));
     strUsage += HelpMessageOpt("-walletbroadcast", _("Make the wallet broadcast transactions") + " " + strprintf(_("(default: %u)"), DEFAULT_WALLETBROADCAST));
     strUsage += HelpMessageOpt("-walletnotify=<cmd>", _("Execute command when a wallet transaction changes (%s in cmd is replaced by TxID, %i with block height, with a value of 0 if tx is no longer in chaintip)"));
     strUsage += HelpMessageOpt("-zapwallettxes=<mode>", _("Delete all wallet transactions and only recover those parts of the blockchain through -rescan on startup") +
