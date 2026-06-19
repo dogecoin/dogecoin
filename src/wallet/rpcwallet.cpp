@@ -2680,14 +2680,20 @@ UniValue loadwallet(const JSONRPCRequest& request)
 
     std::string walletFile = request.params[0].get_str();
 
-    // Validate the wallet file name. Plain filenames only, no directory
-    // components — matches CWallet::Verify's startup rule.
+    // Validate the wallet name. Plain single-segment names only — we
+    // build any directory layout ourselves via WalletDataFileName,
+    // user input never carries path separators. Matches Verify().
     fs::path walletPath(walletFile);
-    if (walletFile != walletPath.stem().string() + walletPath.extension().string()) {
-        throw JSONRPCError(RPC_WALLET_ERROR, strprintf("Wallet %s resides outside data directory %s", walletFile, GetDataDir().string()));
+    if (walletPath.has_parent_path() ||
+        walletFile != walletPath.stem().string() + walletPath.extension().string()) {
+        throw JSONRPCError(RPC_WALLET_ERROR, strprintf("Wallet %s resides outside data directory %s", walletFile, GetWalletDir().string()));
     }
 
-    // Reject if already loaded.
+    // Reject if already loaded. GetName() returns the user-facing
+    // name (m_name), which for directory wallets is the directory
+    // (e.g. "unsandbox" given on-disk "unsandbox/wallet.dat") — so
+    // comparing directly to the user input here works for both
+    // layouts.
     for (CWalletRef pwallet : vpwallets) {
         if (pwallet->GetName() == walletFile) {
             throw JSONRPCError(RPC_WALLET_ERROR, strprintf("Wallet %s is already loaded.", walletFile));
@@ -2696,18 +2702,25 @@ UniValue loadwallet(const JSONRPCRequest& request)
 
     // Refuse to silently create a brand new wallet when the caller asked us
     // to load one. Use createwallet for that — matches upstream bitcoin 0.17
-    // loadwallet semantics.
-    if (!fs::exists(GetDataDir() / walletFile)) {
+    // loadwallet semantics. WalletDataFilePath is migration-aware so a
+    // wallet present on disk in EITHER layout (flat <name> or directory
+    // <name>/wallet.dat) satisfies this check.
+    if (!fs::exists(WalletDataFilePath(walletFile))) {
         throw JSONRPCError(RPC_WALLET_NOT_FOUND, strprintf("Wallet %s not found.", walletFile));
     }
 
+    // Resolve the BDB-relative path once and reuse for Verify + the
+    // CWallet construction. WalletDataFileName picks flat or directory
+    // form based on what already exists on disk.
+    const std::string dbFile = WalletDataFileName(walletFile);
+
     // Verify the wallet file under the already-open BDB environment.
-    CDBEnv::VerifyResult r = bitdb.Verify(walletFile, CWalletDB::Recover);
+    CDBEnv::VerifyResult r = bitdb.Verify(dbFile, CWalletDB::Recover);
     if (r == CDBEnv::RECOVER_FAIL) {
         throw JSONRPCError(RPC_WALLET_ERROR, strprintf("%s corrupt, salvage failed", walletFile));
     }
 
-    CWallet * const pwallet = CWallet::CreateWalletFromFile(walletFile);
+    CWallet * const pwallet = CWallet::CreateWalletFromFile(dbFile);
     if (!pwallet) {
         throw JSONRPCError(RPC_WALLET_ERROR, strprintf("Wallet loading failed for %s.", walletFile));
     }
@@ -2827,11 +2840,18 @@ UniValue createwallet(const JSONRPCRequest& request)
     std::string walletFile = request.params[0].get_str();
 
     fs::path walletPath(walletFile);
-    if (walletFile != walletPath.stem().string() + walletPath.extension().string()) {
-        throw JSONRPCError(RPC_WALLET_ERROR, strprintf("Wallet %s resides outside data directory %s", walletFile, GetDataDir().string()));
+    if (walletPath.has_parent_path() ||
+        walletFile != walletPath.stem().string() + walletPath.extension().string()) {
+        throw JSONRPCError(RPC_WALLET_ERROR, strprintf("Wallet %s resides outside data directory %s", walletFile, GetWalletDir().string()));
     }
 
-    if (fs::exists(GetDataDir() / walletFile)) {
+    // WalletDataFilePath resolves to <walletdir>/<name>/wallet.dat for
+    // directory-layout names (no-extension) when the directory either
+    // doesn't exist yet or already exists as a dir; it resolves to a
+    // flat <walletdir>/<name> when a regular file is already squatting
+    // (migration-friendly). So fs::exists here catches BOTH layouts
+    // and refuses to clobber an existing wallet of either shape.
+    if (fs::exists(WalletDataFilePath(walletFile))) {
         throw JSONRPCError(RPC_WALLET_ERROR, strprintf("Wallet %s already exists.", walletFile));
     }
 
@@ -2841,7 +2861,15 @@ UniValue createwallet(const JSONRPCRequest& request)
         }
     }
 
-    CWallet * const pwallet = CWallet::CreateWalletFromFile(walletFile);
+    // mkdir <walletdir>/<name>/ for directory-layout names before BDB
+    // tries to open <name>/wallet.dat. No-op for flat names.
+    if (!EnsureWalletDirectoryExists(walletFile)) {
+        throw JSONRPCError(RPC_WALLET_ERROR, strprintf("Failed to create wallet directory for %s.", walletFile));
+    }
+
+    const std::string dbFile = WalletDataFileName(walletFile);
+
+    CWallet * const pwallet = CWallet::CreateWalletFromFile(dbFile);
     if (!pwallet) {
         throw JSONRPCError(RPC_WALLET_ERROR, strprintf("Wallet creation failed for %s.", walletFile));
     }
