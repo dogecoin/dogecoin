@@ -9,11 +9,36 @@
 
 fs::path GetWalletDir()
 {
-    // No -walletdir support yet; every wallet lives under the data
-    // directory. Wallet-dir lookup is centralised here so the eventual
-    // -walletdir flag (mirroring Bitcoin Core's PR #11077) is a single
-    // change.
-    return GetDataDir();
+    // -walletdir=<dir> overrides the wallet location. Otherwise wallets
+    // live under <datadir>/wallets/ if that directory exists (matches
+    // Bitcoin Core's default on a fresh node), else <datadir>/ itself
+    // (matches legacy single-wallet nodes that have always kept
+    // wallet.dat at datadir root).
+    //
+    // The three-way resolution lets users migrate by creating
+    // <datadir>/wallets/ and moving their wallets in without changing
+    // any flags; legacy nodes that never created the directory keep
+    // operating exactly as before.
+    fs::path path;
+    if (IsArgSet("-walletdir")) {
+        path = GetArg("-walletdir", "");
+        if (!fs::is_directory(path)) {
+            // Fall back to default; the daemon's own validation in init.cpp
+            // logs a clearer error before we get here in practice, but in
+            // case this is called without that gate we still want a sane
+            // default rather than a non-existent path.
+            path = GetDataDir();
+        }
+    } else {
+        path = GetDataDir();
+        // Adopt the Bitcoin Core post-0.18 convention: if a "wallets"
+        // subdirectory exists, prefer it. This lets a user split chain
+        // data from wallet data by mkdir-ing wallets/ themselves.
+        if (fs::is_directory(path / "wallets")) {
+            path /= "wallets";
+        }
+    }
+    return path;
 }
 
 bool IsDirectoryWalletName(const std::string& walletName)
