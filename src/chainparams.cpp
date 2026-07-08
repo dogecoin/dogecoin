@@ -218,7 +218,7 @@ public:
 static CMainParams mainParams;
 
 /**
- * Testnet (v3)
+ * Testnet (v3, legacy)
  */
 class CTestNetParams : public CChainParams {
 private:
@@ -372,6 +372,139 @@ public:
 static CTestNetParams testNetParams;
 
 /**
+ * Testnet4 (rebooted: new genesis + P2P magic; same default P2P port 44556 as legacy testnet.
+ * Uses data dir testnet4 so it does not reuse old testnet3 block files.)
+ */
+class CTestNet4Params : public CChainParams {
+private:
+    Consensus::Params digishieldConsensus;
+    Consensus::Params auxpowConsensus;
+public:
+    CTestNet4Params() {
+        strNetworkID = "testnet4";
+
+        // Blocks 0 - 144999 are pre-Digishield
+        consensus.nHeightEffective = 0;
+        consensus.nPowTargetTimespan = 4 * 60 * 60; // pre-digishield: 4 hours
+        consensus.fDigishieldDifficultyCalculation = false;
+        consensus.nCoinbaseMaturity = 30;
+        consensus.fPowAllowMinDifficultyBlocks = true;
+        consensus.fPowAllowDigishieldMinDifficultyBlocks = false;
+        consensus.fEnforceStrictMinDifficulty = false;
+        consensus.nSubsidyHalvingInterval = 100000;
+        consensus.nMajorityEnforceBlockUpgrade = 501;
+        consensus.nMajorityRejectBlockOutdated = 750;
+        consensus.nMajorityWindow = 1000;
+        // BIP34 is never enforced in Dogecoin v2 blocks, so we enforce from v3
+        consensus.BIP34Height = 708658;
+        consensus.BIP34Hash = uint256S("0x21b8b97dcdb94caa67c7f8f6dbf22e61e0cfe0e46e1fff3528b22864659e9b38");
+        consensus.BIP65Height = 1854705; // 955bd496d23790aba1ecfacb722b089a6ae7ddabaedf7d8fb0878f48308a71f9
+        consensus.BIP66Height = 708658; // 21b8b97dcdb94caa67c7f8f6dbf22e61e0cfe0e46e1fff3528b22864659e9b38 - this is the last block that could be v2, 1900 blocks past the last v2 block
+        consensus.powLimit = uint256S("0x00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"); // ~uint256(0) >> 20;
+        consensus.nPowTargetTimespan = 4 * 60 * 60; // pre-digishield: 4 hours
+        consensus.nPowTargetSpacing = 60; // 1 minute
+        consensus.fPowNoRetargeting = false;
+        consensus.nRuleChangeActivationThreshold = 2880; // 2 days (note this is significantly lower than Bitcoin standard)
+        consensus.nMinerConfirmationWindow = 10080; // 60 * 24 * 7 = 10,080 blocks, or one week
+        consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
+        consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nStartTime = 1199145601; // January 1, 2008
+        consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = 1230767999; // December 31, 2008
+
+        // Deployment of BIP68, BIP112, and BIP113.
+        // XXX: BIP heights and hashes all need to be updated to Dogecoin values
+        consensus.vDeployments[Consensus::DEPLOYMENT_CSV].bit = 0;
+        consensus.vDeployments[Consensus::DEPLOYMENT_CSV].nStartTime = 1456790400; // March 1st, 2016
+        consensus.vDeployments[Consensus::DEPLOYMENT_CSV].nTimeout = 1493596800; // May 1st, 2017
+
+        // Deployment of SegWit (BIP141, BIP143, and BIP147)
+        consensus.vDeployments[Consensus::DEPLOYMENT_SEGWIT].bit = 1;
+        consensus.vDeployments[Consensus::DEPLOYMENT_SEGWIT].nStartTime = 1462060800; // May 1st 2016
+        consensus.vDeployments[Consensus::DEPLOYMENT_SEGWIT].nTimeout = 0; // Disabled
+
+        // Fresh chain: no minimum work gate; raise once the network has meaningful depth.
+        consensus.nMinimumChainWork = uint256S("0x00");
+
+        // No deep assume-valid block yet.
+        consensus.defaultAssumeValid = uint256S("0x00");
+
+        // AuxPoW parameters
+        consensus.nAuxpowChainId = 0x0062; // 98 - Josh Wise!
+        consensus.fStrictChainId = false;
+        consensus.nHeightEffective = 0;
+        consensus.fAllowLegacyBlocks = true;
+
+        // Reboot testnet: Digishield + tail mainnet subsidy from block 1 (not historical 145k replay).
+        digishieldConsensus = consensus;
+        digishieldConsensus.nHeightEffective = 1;
+        digishieldConsensus.nPowTargetTimespan = 60; // post-digishield: 1 minute
+        digishieldConsensus.fDigishieldDifficultyCalculation = true;
+        digishieldConsensus.fSimplifiedRewards = true;
+        digishieldConsensus.fTailSubsidyOnly = true;
+        digishieldConsensus.fPowAllowMinDifficultyBlocks = false;
+        digishieldConsensus.fPowAllowDigishieldMinDifficultyBlocks = true;
+        digishieldConsensus.fEnforceStrictMinDifficulty = true;
+        digishieldConsensus.nCoinbaseMaturity = 240;
+
+        // AuxPoW at 158100 (legacy scrypt solo mining on low heights).
+        auxpowConsensus = digishieldConsensus;
+        auxpowConsensus.nHeightEffective = 158100;
+        auxpowConsensus.fPowAllowDigishieldMinDifficultyBlocks = true;
+        auxpowConsensus.fEnforceStrictMinDifficulty = true;
+        auxpowConsensus.fAllowLegacyBlocks = false;
+
+        // Assemble the binary search tree of parameters (no min-difficulty middle era).
+        pConsensusRoot = &digishieldConsensus;
+        digishieldConsensus.pLeft = &consensus;
+        digishieldConsensus.pRight = &auxpowConsensus;
+
+        pchMessageStart[0] = 0xfd;
+        pchMessageStart[1] = 0xd4;
+        pchMessageStart[2] = 0xdc;
+        pchMessageStart[3] = 0xe1;
+        nDefaultPort = 44556;
+        nPruneAfterHeight = 1000;
+
+        // New genesis (same coinbase script / merkle as legacy Dogecoin testnet; new time + nonce).
+        genesis = CreateGenesisBlock(1747000000, 166041, 0x1e0ffff0, 1, 88 * COIN);
+        consensus.hashGenesisBlock = genesis.GetHash();
+        digishieldConsensus.hashGenesisBlock = consensus.hashGenesisBlock;
+        auxpowConsensus.hashGenesisBlock = consensus.hashGenesisBlock;
+        assert(consensus.hashGenesisBlock == uint256S("0xb9f29a99238788ceae80851afd70b197788b6756aeab43c5b2b91de3200e52a9"));
+        assert(genesis.hashMerkleRoot == uint256S("0x5b2a3f53f605d62c53e62932dac6925e3d74afa5a4b459745c36d42d0ed26a69"));
+
+        vSeeds.clear();
+        // Add DNS seeds for this rebooted testnet when available.
+
+        // Pubkey addresses start with 'T' (version 0x41); P2SH also 'T' (0x42).
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1, 65);  // 0x41
+        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1, 66);  // 0x42
+        base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1, 193); // 0x41 + 128
+        base58Prefixes[EXT_PUBLIC_KEY] = boost::assign::list_of(0x04)(0x35)(0x89)(0xcf).convert_to_container<std::vector<unsigned char> >();
+        base58Prefixes[EXT_SECRET_KEY] = boost::assign::list_of(0x04)(0x35)(0x89)(0x94).convert_to_container<std::vector<unsigned char> >();
+
+        vFixedSeeds = std::vector<SeedSpec6>(pnSeed6_test, pnSeed6_test + ARRAYLEN(pnSeed6_test));
+
+        fMiningRequiresPeers = true;
+        fDefaultConsistencyChecks = false;
+        fRequireStandard = false;
+        fMineBlocksOnDemand = false;
+
+        checkpointData = (CCheckpointData) {
+            boost::assign::map_list_of
+            ( 0, uint256S("0xb9f29a99238788ceae80851afd70b197788b6756aeab43c5b2b91de3200e52a9"))
+        };
+
+        chainTxData = ChainTxData{
+            0,
+            0,
+            0
+        };
+
+    }
+};
+static CTestNet4Params testNet4Params;
+
+/**
  * Regression test
  */
 class CRegTestParams : public CChainParams {
@@ -511,6 +644,8 @@ CChainParams& Params(const std::string& chain)
             return mainParams;
     else if (chain == CBaseChainParams::TESTNET)
             return testNetParams;
+    else if (chain == CBaseChainParams::TESTNET4)
+            return testNet4Params;
     else if (chain == CBaseChainParams::REGTEST)
             return regTestParams;
     else
