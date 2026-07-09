@@ -465,11 +465,11 @@ public:
         nPruneAfterHeight = 1000;
 
         // New genesis (same coinbase script / merkle as legacy Dogecoin testnet; new time + nonce).
-        genesis = CreateGenesisBlock(1747000000, 166041, 0x1e0ffff0, 1, 88 * COIN);
+        genesis = CreateGenesisBlock(1747000000, 2139303, 0x1e0ffff0, 1, 88 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
         digishieldConsensus.hashGenesisBlock = consensus.hashGenesisBlock;
         auxpowConsensus.hashGenesisBlock = consensus.hashGenesisBlock;
-        assert(consensus.hashGenesisBlock == uint256S("0xb9f29a99238788ceae80851afd70b197788b6756aeab43c5b2b91de3200e52a9"));
+        assert(consensus.hashGenesisBlock == uint256S("0xd5d619f8be025d4700940883c86f271d08cffa8dd1d3d4afa474c9ed9e8b68a0"));
         assert(genesis.hashMerkleRoot == uint256S("0x5b2a3f53f605d62c53e62932dac6925e3d74afa5a4b459745c36d42d0ed26a69"));
 
         vSeeds.clear();
@@ -491,7 +491,7 @@ public:
 
         checkpointData = (CCheckpointData) {
             boost::assign::map_list_of
-            ( 0, uint256S("0xb9f29a99238788ceae80851afd70b197788b6756aeab43c5b2b91de3200e52a9"))
+            ( 0, uint256S("0xd5d619f8be025d4700940883c86f271d08cffa8dd1d3d4afa474c9ed9e8b68a0"))
         };
 
         chainTxData = ChainTxData{

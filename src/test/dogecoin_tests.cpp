@@ -141,6 +141,16 @@ BOOST_AUTO_TEST_CASE(testnet4_t_address_prefix)
     BOOST_CHECK_EQUAL(addr.ToString()[0], 'T');
 }
 
+BOOST_AUTO_TEST_CASE(testnet4_genesis_scrypt_pow)
+{
+    const CChainParams& testParams = Params(CBaseChainParams::TESTNET4);
+    const Consensus::Params& params = testParams.GetConsensus(0);
+    const CBlock& genesis = testParams.GenesisBlock();
+    BOOST_CHECK(genesis.GetHash() == params.hashGenesisBlock);
+    BOOST_CHECK_EQUAL(genesis.GetHash().GetHex(), "d5d619f8be025d4700940883c86f271d08cffa8dd1d3d4afa474c9ed9e8b68a0");
+    BOOST_CHECK(CheckAuxPowProofOfWork(genesis, params));
+}
+
 BOOST_AUTO_TEST_CASE(get_next_work_difficulty_limit)
 {
     SelectParams(CBaseChainParams::MAIN);

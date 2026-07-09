@@ -11,7 +11,7 @@ Dogecoin Core supports **two** public test networks. Pick one with a command-lin
 | **P2P port** | 44556 | 44556 |
 | **RPC port** | 44555 | 44555 |
 | **Addresses** | `n` / `2` (legacy) | **`T`** prefix |
-| **Genesis** | `bb0a7826…` | `b9f29a99…` |
+| **Genesis** | `bb0a7826…` | `d5d619f8…` |
 | **Strict min-difficulty ([PR #3967](https://github.com/dogecoin/dogecoin/pull/3967))** | No | Yes (from block 1) |
 | **Typical use** | Existing apps, historical chain | New development, fresh chain |
 
