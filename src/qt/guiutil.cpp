@@ -62,6 +62,7 @@
 
 #include <QRegularExpression>
 #include <QUrlQuery>
+#include <QStandardPaths>
 
 #if QT_VERSION >= 0x50200
 #include <QFontDatabase>
@@ -88,12 +89,12 @@ namespace GUIUtil {
 
 QString dateTimeStr(const QDateTime &date)
 {
-    return date.date().toString(Qt::SystemLocaleShortDate) + QString(" ") + date.toString("hh:mm");
+    return QLocale().toString(date.date(), QLocale::ShortFormat) + QString(" ") + date.toString("hh:mm");
 }
 
 QString dateTimeStr(qint64 nTime)
 {
-    return dateTimeStr(QDateTime::fromTime_t((qint32)nTime));
+    return dateTimeStr(QDateTime::fromSecsSinceEpoch((qint32)nTime));
 }
 
 QFont fixedPitchFont()
