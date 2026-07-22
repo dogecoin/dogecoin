@@ -49,8 +49,9 @@
 #include <QClipboard>
 #include <QDateTime>
 #include <QDesktopServices>
-#include <QDesktopWidget>
 #include <QDoubleValidator>
+#include <QGuiApplication>
+#include <QScreen>
 #include <QFileDialog>
 #include <QFont>
 #include <QLineEdit>
@@ -59,6 +60,7 @@
 #include <QThread>
 #include <QMouseEvent>
 
+#include <QRegularExpression>
 #include <QUrlQuery>
 
 #if QT_VERSION >= 0x50200
@@ -304,11 +306,12 @@ QString getSaveFileName(QWidget *parent, const QString &caption, const QString &
     QString result = QDir::toNativeSeparators(QFileDialog::getSaveFileName(parent, caption, myDir, filter, &selectedFilter));
 
     /* Extract first suffix from filter pattern "Description (*.foo)" or "Description (*.foo *.bar ...) */
-    QRegExp filter_re(".* \\(\\*\\.(.*)[ \\)]");
+    QRegularExpression filter_re(".* \\(\\*\\.(.*)[ \\)]");
     QString selectedSuffix;
-    if(filter_re.exactMatch(selectedFilter))
+    QRegularExpressionMatch match = filter_re.match(selectedFilter);
+    if(match.hasMatch())
     {
-        selectedSuffix = filter_re.cap(1);
+        selectedSuffix = match.captured(1);
     }
 
     /* Add suffix if needed */
@@ -352,11 +355,12 @@ QString getOpenFileName(QWidget *parent, const QString &caption, const QString &
     if(selectedSuffixOut)
     {
         /* Extract first suffix from filter pattern "Description (*.foo)" or "Description (*.foo *.bar ...) */
-        QRegExp filter_re(".* \\(\\*\\.(.*)[ \\)]");
+        QRegularExpression filter_re(".* \\(\\*\\.(.*)[ \\)]");
         QString selectedSuffix;
-        if(filter_re.exactMatch(selectedFilter))
+        QRegularExpressionMatch match = filter_re.match(selectedFilter);
+        if(match.hasMatch())
         {
-            selectedSuffix = filter_re.cap(1);
+            selectedSuffix = match.captured(1);
         }
         *selectedSuffixOut = selectedSuffix;
     }
@@ -838,7 +842,14 @@ void restoreWindowGeometry(const QString& strSetting, const QSize& defaultSize, 
     QSize size = settings.value(strSetting + "Size", defaultSize).toSize();
 
     if (!pos.x() && !pos.y()) {
-        QRect screen = QApplication::desktop()->screenGeometry();
+        QRect screen;
+        QScreen *screenPtr = QGuiApplication::primaryScreen();
+        if (screenPtr) {
+            screen = screenPtr->availableGeometry();
+        }
+        if (screen.isNull()) {
+            screen = QRect(QPoint(0, 0), QApplication::primaryScreen()->size());
+        }
         pos.setX((screen.width() - size.width()) / 2);
         pos.setY((screen.height() - size.height()) / 2);
     }
