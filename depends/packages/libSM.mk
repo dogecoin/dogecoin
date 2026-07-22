@@ -7,7 +7,6 @@ $(package)_dependencies=xtrans xproto libICE
 
 define $(package)_set_vars
   $(package)_config_opts=--without-libuuid  --without-xsltproc  --disable-docs --disable-static
-  $(package)_config_opts_linux=--with-pic
 endef
 
 define $(package)_config_cmds
