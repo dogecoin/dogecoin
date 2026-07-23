@@ -10,12 +10,6 @@
 
 #include <string.h>
 
-#if (defined(__ia64__) || defined(__x86_64__)) && \
-    !defined(__APPLE__) && \
-    (defined(USE_AVX2))
-#include <intel-ipsec-mb.h>
-#endif
-
 #if defined(__arm__) || defined(__aarch32__) || defined(__arm64__) || defined(__aarch64__) || defined(_M_ARM)
 # if defined(__GNUC__)
 #  include <stdint.h>
@@ -74,6 +68,15 @@ static const uint64_t sha512_round_constants[] =
     0x4cc5d4becb3e42b6, 0x597f299cfc657e2a,
     0x5fcb6fab3ad6faec, 0x6c44198c4a475817
 };
+
+/*** SHA-XYZ EXTERN FUNCTION DEFINITIONS ******************************/
+/* NOTE: These functions are assembled from Intel's MB IPSEC library
+ * and are intended for use as a drop-in replacement for the original
+ * SHA-XYZ functions.  They are not intended for use outside of this
+ * library.
+ */
+extern "C" void sha512_block_sse(const void *, void *);
+extern "C" void sha512_block_avx(const void *, void *);
 
 // Internal implementation code.
 namespace
@@ -315,7 +318,11 @@ void Transform(uint64_t* s, const unsigned char* chunk)
 #ifdef USE_AVX2
     // Perform SHA512 one block (Intel AVX2)
     EXPERIMENTAL_FEATURE
-    sha512_one_block_avx2(chunk, s);
+    sha512_block_avx(chunk, s);
+#elif USE_SSE
+    // Perform SHA512 one block (Intel SSE)
+    EXPERIMENTAL_FEATURE
+    sha512_block_sse(chunk, s);
 #elif USE_ARMV82
     sha512_neon_core core;
 
