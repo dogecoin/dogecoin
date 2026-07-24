@@ -221,8 +221,6 @@ void Shutdown()
     if (g_txindex) g_txindex->Stop();
     ForEachBlockFilterIndex([](BlockFilterIndex& index) { index.Stop(); });
     StopTorControl();
-    threadGroup.interrupt_all();
-    threadGroup.join_all();
     peerLogic.reset();
     g_connman.reset();
     g_txindex.reset();

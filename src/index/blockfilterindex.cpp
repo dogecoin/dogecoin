@@ -7,6 +7,7 @@
 #include <dbwrapper.h>
 #include <index/blockfilterindex.h>
 #include <util.h>
+#include <utilmemory.h>
 #include <validation.h>
 
 /* The index database stores three items for each block: the disk location of the encoded filter,
@@ -127,6 +128,7 @@ bool BlockFilterIndex::Init()
         m_next_filter_pos.nFile = 0;
         m_next_filter_pos.nPos = 0;
     }
+    LogPrint("index", "%s: initialized with next filter pos=%s\n", __func__, m_next_filter_pos.ToString());
     return BaseIndex::Init();
 }
 
@@ -139,9 +141,7 @@ bool BlockFilterIndex::CommitInternal(CDBBatch& batch)
     if (file.IsNull()) {
         return error("%s: Failed to open filter file %d", __func__, pos.nFile);
     }
-    if (!FileCommit(file.Get())) {
-        return error("%s: Failed to commit filter file %d", __func__, pos.nFile);
-    }
+    FileCommit(file.Get());
 
     batch.Write(DB_FILTER_POS, pos);
     return BaseIndex::CommitInternal(batch);
@@ -186,10 +186,7 @@ size_t BlockFilterIndex::WriteFilterToDisk(CDiskBlockPos& pos, const BlockFilter
             LogPrintf("%s: Failed to truncate filter file %d\n", __func__, pos.nFile);
             return 0;
         }
-        if (!FileCommit(last_file.Get())) {
-            LogPrintf("%s: Failed to commit filter file %d\n", __func__, pos.nFile);
-            return 0;
-        }
+        FileCommit(last_file.Get());
 
         pos.nFile++;
         pos.nPos = 0;
@@ -218,14 +215,23 @@ bool BlockFilterIndex::WriteBlock(const CBlock& block, const CBlockIndex* pindex
     CBlockUndo block_undo;
     uint256 prev_header;
 
+    if (GetFilterType() != BlockFilterType::BASIC) {
+        return error("%s: unsupported filter type value=%d while indexing block=%s height=%d",
+                     __func__, static_cast<int>(m_filter_type),
+                     pindex->GetBlockHash().ToString(), pindex->nHeight);
+    }
+
     if (pindex->nHeight > 0) {
         if (!UndoReadFromDisk(block_undo, pindex->GetUndoPos(), pindex->pprev->GetBlockHash())) {
-            return false;
+            return error("%s: UndoReadFromDisk failed for block=%s height=%d undo_pos=%s",
+                         __func__, pindex->GetBlockHash().ToString(), pindex->nHeight,
+                         pindex->GetUndoPos().ToString());
         }
 
         std::pair<uint256, DBVal> read_out;
         if (!m_db->Read(DBHeightKey(pindex->nHeight - 1), read_out)) {
-            return false;
+            return error("%s: failed reading previous height entry=%d for block=%s",
+                         __func__, pindex->nHeight - 1, pindex->GetBlockHash().ToString());
         }
 
         uint256 expected_block_hash = pindex->pprev->GetBlockHash();
@@ -237,10 +243,14 @@ bool BlockFilterIndex::WriteBlock(const CBlock& block, const CBlockIndex* pindex
         prev_header = read_out.second.header;
     }
 
-    BlockFilter filter(m_filter_type, block, block_undo);
+    BlockFilter filter(GetFilterType(), block, block_undo);
 
     size_t bytes_written = WriteFilterToDisk(m_next_filter_pos, filter);
-    if (bytes_written == 0) return false;
+    if (bytes_written == 0) {
+        return error("%s: WriteFilterToDisk returned 0 for block=%s height=%d pos=%s",
+                     __func__, pindex->GetBlockHash().ToString(), pindex->nHeight,
+                     m_next_filter_pos.ToString());
+    }
 
     std::pair<uint256, DBVal> value;
     value.first = pindex->GetBlockHash();
@@ -249,7 +259,8 @@ bool BlockFilterIndex::WriteBlock(const CBlock& block, const CBlockIndex* pindex
     value.second.pos = m_next_filter_pos;
 
     if (!m_db->Write(DBHeightKey(pindex->nHeight), value)) {
-        return false;
+        return error("%s: failed writing DBHeightKey=%d for block=%s",
+                     __func__, pindex->nHeight, pindex->GetBlockHash().ToString());
     }
 
     m_next_filter_pos.nPos += bytes_written;
@@ -407,13 +418,14 @@ bool BlockFilterIndex::LookupFilterRange(int start_height, const CBlockIndex* st
         return false;
     }
 
-    filters_out.resize(entries.size());
-    auto filter_pos_it = filters_out.begin();
+    filters_out.clear();
+    filters_out.reserve(entries.size());
     for (const auto& entry : entries) {
-        if (!ReadFilterFromDisk(entry.pos, *filter_pos_it)) {
+        BlockFilter filter(GetFilterType(), uint256(), {0x00});
+        if (!ReadFilterFromDisk(entry.pos, filter)) {
             return false;
         }
-        ++filter_pos_it;
+        filters_out.emplace_back(std::move(filter));
     }
 
     return true;

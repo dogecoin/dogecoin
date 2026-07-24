@@ -303,7 +303,7 @@ BlockFilter::BlockFilter(BlockFilterType filter_type, const uint256& block_hash,
 {
     switch (m_filter_type) {
     case BlockFilterType::BASIC:
-        m_filter = GCSFilter(m_block_hash.GetUint64(0), m_block_hash.GetUint64(1),
+        m_filter = GCSFilter(ReadLE64(m_block_hash.begin()), ReadLE64(m_block_hash.begin() + 8),
                              BASIC_FILTER_P, BASIC_FILTER_M, std::move(encoded_filter));
         break;
 
