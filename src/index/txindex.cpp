@@ -42,8 +42,15 @@ public:
     bool MigrateData(CBlockTreeDB& block_tree_db, const CBlockLocator& best_locator);
 };
 
+static fs::path TxIndexPath()
+{
+    const fs::path path = GetDataDir() / "indexes" / "txindex";
+    fs::create_directories(path.parent_path());
+    return path;
+}
+
 TxIndex::DB::DB(size_t n_cache_size, bool f_memory, bool f_wipe) :
-    BaseIndex::DB(GetDataDir() / "indexes" / "txindex", n_cache_size, f_memory, f_wipe)
+    BaseIndex::DB(TxIndexPath(), n_cache_size, f_memory, f_wipe)
 {}
 
 bool TxIndex::DB::ReadTxPos(const uint256 &txid, CDiskTxPos& pos) const
