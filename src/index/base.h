@@ -15,6 +15,12 @@
 
 class CBlockIndex;
 
+struct IndexSummary {
+    std::string name;
+    bool synced{false};
+    int best_block_height{0};
+};
+
 /**
  * Base class for indices of blockchain data. This implements
  * CValidationInterface and ensures blocks are indexed sequentially according
@@ -47,6 +53,7 @@ private:
 
     std::thread m_thread_sync;
     CThreadInterrupt m_interrupt;
+    bool m_interface_registered{false};
 
     /// Sync the index with the block index starting from the current best block.
     /// Intended to be run in its own thread, m_thread_sync, and can be
@@ -109,6 +116,9 @@ public:
 
     /// Stops the instance from staying in sync with blockchain updates.
     void Stop();
+
+    /// Get a summary of the index and its state.
+    IndexSummary GetSummary() const;
 };
 
 #endif // BITCOIN_INDEX_BASE_H

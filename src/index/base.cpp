@@ -60,8 +60,12 @@ bool BaseIndex::Init()
     }
 
     LOCK(cs_main);
-    m_best_block_index = FindForkInGlobalIndex(chainActive, locator);
-    m_synced = m_best_block_index.load() == chainActive.Tip();
+    // If no locator has been persisted yet, start syncing from before genesis.
+    // This ensures the first call to NextSyncBlock() returns the genesis block.
+    m_best_block_index = locator.IsNull() ? nullptr : FindForkInGlobalIndex(chainActive, locator);
+    const CBlockIndex* best = m_best_block_index.load();
+    const CBlockIndex* tip = chainActive.Tip();
+    m_synced = best != nullptr && best == tip;
     return true;
 }
 
@@ -307,7 +311,10 @@ void BaseIndex::Start()
     // Need to register this ValidationInterface before running Init(), so that
     // callbacks are not missed if Init sets m_synced to true.
     RegisterValidationInterface(this);
+    m_interface_registered = true;
     if (!Init()) {
+        UnregisterValidationInterface(this);
+        m_interface_registered = false;
         FatalError("%s: %s failed to initialize", __func__, GetName());
         return;
     }
@@ -318,9 +325,22 @@ void BaseIndex::Start()
 
 void BaseIndex::Stop()
 {
-    UnregisterValidationInterface(this);
+    if (m_interface_registered) {
+        UnregisterValidationInterface(this);
+        m_interface_registered = false;
+    }
 
     if (m_thread_sync.joinable()) {
         m_thread_sync.join();
     }
+}
+
+IndexSummary BaseIndex::GetSummary() const
+{
+    IndexSummary summary{};
+    summary.name = GetName();
+    summary.synced = m_synced;
+    const CBlockIndex* best = m_best_block_index.load();
+    summary.best_block_height = best ? best->nHeight : 0;
+    return summary;
 }
