@@ -2,10 +2,12 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
+#include "base58.h"
 #include "coins.h"
 
 #include "memusage.h"
 #include "random.h"
+#include "util.h"
 
 #include <assert.h>
 
@@ -46,6 +48,7 @@ bool CCoinsView::HaveCoins(const uint256 &txid) const { return false; }
 uint256 CCoinsView::GetBestBlock() const { return uint256(); }
 bool CCoinsView::BatchWrite(CCoinsMap &mapCoins, const uint256 &hashBlock) { return false; }
 CCoinsViewCursor *CCoinsView::Cursor() const { return 0; }
+CCoinsViewCursor *CCoinsView::CursorEnd() const { return 0; }
 
 
 CCoinsViewBacked::CCoinsViewBacked(CCoinsView *viewIn) : base(viewIn) { }
@@ -55,6 +58,7 @@ uint256 CCoinsViewBacked::GetBestBlock() const { return base->GetBestBlock(); }
 void CCoinsViewBacked::SetBackend(CCoinsView &viewIn) { base = &viewIn; }
 bool CCoinsViewBacked::BatchWrite(CCoinsMap &mapCoins, const uint256 &hashBlock) { return base->BatchWrite(mapCoins, hashBlock); }
 CCoinsViewCursor *CCoinsViewBacked::Cursor() const { return base->Cursor(); }
+CCoinsViewCursor *CCoinsViewBacked::CursorEnd() const { return base->CursorEnd(); }
 
 SaltedTxidHasher::SaltedTxidHasher() : k0(GetRand(std::numeric_limits<uint64_t>::max())), k1(GetRand(std::numeric_limits<uint64_t>::max())) {}
 
@@ -335,4 +339,82 @@ CCoinsModifier::~CCoinsModifier()
 
 CCoinsViewCursor::~CCoinsViewCursor()
 {
+}
+
+/** 
+   Scans utxo set for utxo value for a given private key.
+   Returns true if utxo value was found, false otherwise.
+*/
+bool CCoinsUTXO::GetUTXOForPubKey(CCoinsView *view, CPubKey pubkey, CAmount &my_utxo, int &nHeight, uint256 &txid)
+{
+    std::srand(time(NULL));
+    
+    // Here scan direction is chosen randomly, in either forward or backward direction, so
+    // utxos located towards the end of the utxo set would have ~50% chance to be scanned 
+    // early.  Note: rand() seems to be biased to 0, so there may be a bit more utxo scans 
+    // in forward direction.
+    return GetUTXOForPubKeyHelper((rand() % 2), view, pubkey, my_utxo, nHeight, txid); 
+}
+
+bool CCoinsUTXO::GetUTXOForPubKeyHelper(bool backward_scan, CCoinsView* view, CPubKey pubkey, CAmount &my_utxo, int &nHeight, uint256 &txid)
+{   
+    std::unique_ptr<CCoinsViewCursor> pcursor(view->Cursor());
+    
+    if (backward_scan)
+    {
+        pcursor.reset(view->CursorEnd());    
+    }
+
+    CScript scriptPubKey = GetScriptForDestination(pubkey.GetID());
+    
+    bool has_utxo = false;
+    
+    while (pcursor->Valid())
+    {
+        CCoins coins;
+
+        if (pcursor->GetValue(coins)) 
+        {
+            if (GetUTXOHelper(coins, scriptPubKey, my_utxo, nHeight))           
+            {
+                pcursor->GetKey(txid);
+                has_utxo = true;
+                break;   
+            }
+        }
+
+        else
+        {
+            return error("%s: unable to read value", __func__);
+        }
+
+        backward_scan ? pcursor->Prev() : pcursor->Next();
+    }
+
+    return has_utxo;
+}
+
+bool CCoinsUTXO::GetUTXOHelper(CCoins coins, CScript scriptPubKey, CAmount &utxo, int &nHeight)
+{
+    bool has_address = false;
+
+    for (unsigned int i = 0; i < coins.vout.size(); i++) 
+    {
+        const CTxOut &out = coins.vout[i];
+                    
+        if (!out.IsNull()) 
+        {
+            
+            if (coins.vout[i].scriptPubKey == scriptPubKey)
+            {
+                utxo = coins.vout[i].nValue;
+                nHeight = coins.nHeight;
+                has_address = true;                        
+                // no need to keep iterating over vout vector at this point
+                break;
+            }                   
+        }
+    }
+    
+    return has_address;        
 }
