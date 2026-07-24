@@ -27,8 +27,8 @@ private:
     CDiskBlockPos m_next_filter_pos;
     std::unique_ptr<FlatFileSeq> m_filter_fileseq;
 
-    bool ReadFilterFromDisk(const FlatFilePos& pos, BlockFilter& filter) const;
-    size_t WriteFilterToDisk(FlatFilePos& pos, const BlockFilter& filter);
+    bool ReadFilterFromDisk(const CDiskBlockPos& pos, BlockFilter& filter) const;
+    size_t WriteFilterToDisk(CDiskBlockPos& pos, const BlockFilter& filter);
 
 protected:
     bool Init() override;

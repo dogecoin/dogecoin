@@ -6,7 +6,7 @@
 
 #include <dbwrapper.h>
 #include <index/blockfilterindex.h>
-#include <util/system.h>
+#include <util.h>
 #include <validation.h>
 
 /* The index database stores three items for each block: the disk location of the encoded filter,
@@ -94,7 +94,8 @@ struct DBHashKey {
 
 }; // namespace
 
-static std::map<BlockFilterType, BlockFilterIndex> g_filter_indexes;
+static CCriticalSection g_cs_block_filter_indexes;
+static std::map<BlockFilterType, BlockFilterIndex> g_filter_indexes GUARDED_BY(g_cs_block_filter_indexes);
 
 BlockFilterIndex::BlockFilterIndex(BlockFilterType filter_type,
                                    size_t n_cache_size, bool f_memory, bool f_wipe)
@@ -146,7 +147,7 @@ bool BlockFilterIndex::CommitInternal(CDBBatch& batch)
     return BaseIndex::CommitInternal(batch);
 }
 
-bool BlockFilterIndex::ReadFilterFromDisk(const FlatFilePos& pos, BlockFilter& filter) const
+bool BlockFilterIndex::ReadFilterFromDisk(const CDiskBlockPos& pos, BlockFilter& filter) const
 {
     CAutoFile filein(m_filter_fileseq->Open(pos, true), SER_DISK, CLIENT_VERSION);
     if (filein.IsNull()) {
@@ -166,7 +167,7 @@ bool BlockFilterIndex::ReadFilterFromDisk(const FlatFilePos& pos, BlockFilter& f
     return true;
 }
 
-size_t BlockFilterIndex::WriteFilterToDisk(FlatFilePos& pos, const BlockFilter& filter)
+size_t BlockFilterIndex::WriteFilterToDisk(CDiskBlockPos& pos, const BlockFilter& filter)
 {
     assert(filter.GetFilterType() == GetFilterType());
 
@@ -218,7 +219,7 @@ bool BlockFilterIndex::WriteBlock(const CBlock& block, const CBlockIndex* pindex
     uint256 prev_header;
 
     if (pindex->nHeight > 0) {
-        if (!UndoReadFromDisk(block_undo, pindex)) {
+        if (!UndoReadFromDisk(block_undo, pindex->GetUndoPos(), pindex->pprev->GetBlockHash())) {
             return false;
         }
 
@@ -437,18 +438,21 @@ bool BlockFilterIndex::LookupFilterHashRange(int start_height, const CBlockIndex
 
 BlockFilterIndex* GetBlockFilterIndex(BlockFilterType filter_type)
 {
+    LOCK(g_cs_block_filter_indexes);
     auto it = g_filter_indexes.find(filter_type);
     return it != g_filter_indexes.end() ? &it->second : nullptr;
 }
 
 void ForEachBlockFilterIndex(std::function<void (BlockFilterIndex&)> fn)
 {
+    LOCK(g_cs_block_filter_indexes);
     for (auto& entry : g_filter_indexes) fn(entry.second);
 }
 
 bool InitBlockFilterIndex(BlockFilterType filter_type,
                           size_t n_cache_size, bool f_memory, bool f_wipe)
 {
+    LOCK(g_cs_block_filter_indexes);
     auto result = g_filter_indexes.emplace(std::piecewise_construct,
                                            std::forward_as_tuple(filter_type),
                                            std::forward_as_tuple(filter_type,
@@ -458,10 +462,12 @@ bool InitBlockFilterIndex(BlockFilterType filter_type,
 
 bool DestroyBlockFilterIndex(BlockFilterType filter_type)
 {
+    LOCK(g_cs_block_filter_indexes);
     return g_filter_indexes.erase(filter_type);
 }
 
 void DestroyAllBlockFilterIndexes()
 {
+    LOCK(g_cs_block_filter_indexes);
     g_filter_indexes.clear();
 }
