@@ -17,7 +17,8 @@
 #include "checkpoints.h"
 #include "compat/sanity.h"
 #include "consensus/validation.h"
-#include "crypto/scrypt.h" // for scrypt_detect_sse2
+#include "crypto/hwcap.h" // for DetectHWCapabilities
+#include "crypto/scrypt.h" // for scrypt_select_implementation
 #include "fs.h"
 #include "httpserver.h"
 #include "httprpc.h"
@@ -1258,13 +1259,13 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
 
     int64_t nStart;
 
-#if defined(USE_SSE2)
-    if (scrypt_detect_sse2()) {
-        LogPrintf("scrypt: using SSE2 implementation\n");
+
+    HardwareCapabilities capabilities = DetectHWCapabilities();
+    if (scrypt_select_implementation(capabilities)) {
+      LogPrintf("scrypt: using SSE2 implementation\n");
     } else {
-        LogPrintf("scrypt: using generic implementation\n");
+      LogPrintf("scrypt: using generic implementation\n");
     }
-#endif
 
     // ********************************************************* Step 5: verify wallet database integrity
 #ifdef ENABLE_WALLET
