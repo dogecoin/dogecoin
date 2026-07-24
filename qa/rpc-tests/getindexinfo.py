@@ -4,10 +4,10 @@
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 from test_framework.test_framework import BitcoinTestFramework
+from test_framework.mininode import wait_until
 from test_framework.util import (
     assert_equal,
     start_node,
-    wait_until,
 )
 
 
