@@ -208,7 +208,7 @@ static GCSFilter::ElementSet BasicFilterElements(const CBlock& block,
     for (const CTransactionRef& tx : block.vtx) {
         for (const CTxOut& txout : tx->vout) {
             const CScript& script = txout.scriptPubKey;
-            if (script[0] == OP_RETURN) continue;
+            if (script.empty() || script[0] == OP_RETURN) continue;
             elements.emplace(script.begin(), script.end());
         }
     }
@@ -216,6 +216,7 @@ static GCSFilter::ElementSet BasicFilterElements(const CBlock& block,
     for (const CTxUndo& tx_undo : block_undo.vtxundo) {
         for (const Coin& prevout : tx_undo.vprevout) {
             const CScript& script = prevout.out.scriptPubKey;
+            if (script.empty()) continue;
             elements.emplace(script.begin(), script.end());
         }
     }
@@ -228,7 +229,7 @@ BlockFilter::BlockFilter(BlockFilterType filter_type, const CBlock& block, const
 {
     switch (m_filter_type) {
     case BlockFilterType::BASIC:
-        m_filter = GCSFilter(m_block_hash.GetUint64(0), m_block_hash.GetUint64(1),
+        m_filter = GCSFilter(ReadLE64(m_block_hash.begin()), ReadLE64(m_block_hash.begin() + 8),
                              BASIC_FILTER_P, BASIC_FILTER_M,
                              BasicFilterElements(block, block_undo));
         break;
