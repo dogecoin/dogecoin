@@ -531,6 +531,8 @@ UniValue echo(const JSONRPCRequest& request)
     return request.params;
 }
 
+UniValue getindexinfo(const JSONRPCRequest& request);
+
 static const CRPCCommand commands[] =
 { //  category              name                      actor (function)         okSafeMode
     //  --------------------- ------------------------  -----------------------  ----------
