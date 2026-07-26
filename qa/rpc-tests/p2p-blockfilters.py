@@ -238,6 +238,92 @@ class P2PBlockFiltersTest(BitcoinTestFramework):
         peer.send_message(msg_getcfheaders(0, 1, far_hash))
         assert peer.wait_for_disconnect()
 
+        # ----- Reorg coverage -----
+        #
+        # These exercise the cfcheckpt path across a chain reorganisation:
+        # that the header walk is anchored to the requested stop block, that
+        # a stop hash reorged off the active chain is rejected, and that the
+        # response cache cannot serve pre-reorg headers.
+
+        wait_until(lambda: node.getindexinfo()["basic block filter index"]["synced"],
+                   timeout=120)
+
+        def rpc_checkpoint_headers(stop_height):
+            """Checkpoint headers the node should report for a given stop height."""
+            return [
+                int(node.getblockfilter(node.getblockhash(h), "basic")["header"], 16)
+                for h in range(CFCHECKPT_INTERVAL, stop_height + 1, CFCHECKPT_INTERVAL)
+            ]
+
+        # 8. cfcheckpt spanning more than one checkpoint interval.  The
+        #    single-checkpoint case above cannot distinguish a correct walk
+        #    from one that only ever reads the first entry.
+        stop_height = 2 * CFCHECKPT_INTERVAL + 1
+        assert node.getblockcount() >= stop_height
+        stop_hash = node.getblockhash(stop_height)
+        expected_headers = rpc_checkpoint_headers(stop_height)
+        assert len(expected_headers) == 2
+
+        peer = connect_peer()
+        peer.clear_blockfilters()
+        peer.send_and_ping(msg_getcfcheckpt(0, int(stop_hash, 16)))
+        assert peer.cfcheckpt is not None
+        assert peer.cfcheckpt.headers == expected_headers
+
+        # That request also warmed the response cache for this stop hash.
+        pre_reorg_headers = list(peer.cfcheckpt.headers)
+        pre_reorg_tip = node.getbestblockhash()
+
+        # 9. Reorg out the blocks below the second checkpoint.  A transaction
+        #    is mined onto the replacement chain so that the filter at height
+        #    2000 -- and therefore the checkpoint header -- is guaranteed to
+        #    differ from the pre-reorg one rather than differing only by an
+        #    incidentally distinct coinbase.
+        fork_height = 2 * CFCHECKPT_INTERVAL - 5
+        node.invalidateblock(node.getblockhash(fork_height + 1))
+        assert node.getblockcount() == fork_height
+
+        node.sendtoaddress(node.getnewaddress(), 1)
+        node.generate(stop_height - fork_height + 1)
+        wait_until(lambda: node.getindexinfo()["basic block filter index"]["synced"],
+                   timeout=120)
+        assert node.getblockcount() > stop_height
+
+        post_reorg_headers = rpc_checkpoint_headers(stop_height)
+        # Guard against a vacuous pass: the reorg must actually have moved the
+        # second checkpoint, or the cache assertion below proves nothing.  The
+        # first checkpoint is below the fork and must be untouched.
+        assert post_reorg_headers[0] == pre_reorg_headers[0]
+        assert post_reorg_headers[1] != pre_reorg_headers[1]
+
+        # 10. A stop hash that is no longer on the active chain must be
+        #     rejected outright, not served from the cache or a stale index.
+        peer = connect_peer()
+        peer.send_message(msg_getcfcheckpt(0, int(pre_reorg_tip, 16)))
+        assert peer.wait_for_disconnect()
+
+        # 11. cfcheckpt on the reorganised chain must report the new
+        #     checkpoint rather than the value cached before the reorg.
+        new_stop_hash = node.getblockhash(stop_height)
+        peer = connect_peer()
+        peer.clear_blockfilters()
+        peer.send_and_ping(msg_getcfcheckpt(0, int(new_stop_hash, 16)))
+        assert peer.cfcheckpt is not None
+        assert peer.cfcheckpt.headers == post_reorg_headers
+
+        # 12. getcfilters must follow the reorg as well: the block at the
+        #     first post-fork height is a different block than it was.
+        new_block_hash = node.getblockhash(fork_height + 1)
+        assert new_block_hash != pre_reorg_tip
+        rpc_filter = node.getblockfilter(new_block_hash, "basic")
+
+        peer = connect_peer()
+        peer.clear_blockfilters()
+        peer.send_and_ping(msg_getcfilters(0, fork_height + 1, int(new_block_hash, 16)))
+        assert len(peer.cfilters) == 1
+        assert peer.cfilters[0].block_hash == int(new_block_hash, 16)
+        assert bytes_to_hex_str(peer.cfilters[0].filter_data) == rpc_filter["filter"]
+
         # Clean up the original sentinel connection
         conn.disconnect_node()
 
