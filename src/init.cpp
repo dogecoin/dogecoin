@@ -401,6 +401,8 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += HelpMessageOpt("-blockfilterindex=<type>",
             strprintf(_("Maintain an index of compact filters by block (default: %s, values: %s)."), DEFAULT_BLOCKFILTERINDEX, ListBlockFilterTypes()) +
             " " + _("If <type> is not supplied or if <type> = 1, indexes for all known types are enabled."));
+    strUsage += HelpMessageOpt("-peerblockfilters",
+            strprintf(_("Serve compact block filters to peers per BIP 157 (default: %u). Requires -blockfilterindex."), DEFAULT_PEERBLOCKFILTERS));
 
     strUsage += HelpMessageGroup(_("Connection options:"));
     strUsage += HelpMessageOpt("-addnode=<ip>", _("Add a node to connect to and attempt to keep the connection open"));
@@ -954,7 +956,7 @@ bool AppInitParameterInteraction()
     }
 
     // Signal NODE_COMPACT_FILTERS if peerblockfilters and basic filters index are both enabled.
-    if (GetBoolArg("-peerblockfilters", false)) {
+    if (GetBoolArg("-peerblockfilters", DEFAULT_PEERBLOCKFILTERS)) {
         if (std::find(g_enabled_filter_types.begin(), g_enabled_filter_types.end(), BlockFilterType::BASIC) == g_enabled_filter_types.end()) {
             return InitError(_("Cannot set -peerblockfilters without -blockfilterindex."));
         }
