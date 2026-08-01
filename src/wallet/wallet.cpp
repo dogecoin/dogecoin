@@ -3597,6 +3597,7 @@ public:
 };
 
 void CWallet::GetKeyBirthTimes(std::map<CTxDestination, int64_t> &mapKeyBirth) const {
+    AssertLockHeld(cs_main); // LookupBlockIndex, chainActive
     AssertLockHeld(cs_wallet); // mapKeyMetadata
     mapKeyBirth.clear();
 
