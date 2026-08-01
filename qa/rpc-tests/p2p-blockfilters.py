@@ -56,8 +56,8 @@ class msg_cfilter(object):
     command = b"cfilter"
 
     def deserialize(self, f):
-        self.block_hash = deser_uint256(f)
         self.filter_type = struct.unpack("<B", f.read(1))[0]
+        self.block_hash = deser_uint256(f)
         self.filter_data = deser_string(f)
 
 
