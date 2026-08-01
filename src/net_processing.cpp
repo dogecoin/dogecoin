@@ -80,6 +80,11 @@ static constexpr uint32_t MAX_GETCFHEADERS_SIZE = 2000;
  * Cached cfcheckpt response, keyed by (filter_type, stop_hash).  Avoids
  * re-walking ancestors and re-reading filter headers on every request when
  * the stop block hasn't changed.
+ *
+ * This holds a single entry per filter type, so two peers alternating between
+ * different stop hashes evict each other and every request pays the full walk.
+ * That thrash is accepted: PrepareBlockFilterRequest only serves stop blocks on
+ * the active chain, so in practice peers converge on the tip and share the entry.
  */
 namespace {
 struct CfCheckPtCacheEntry {
