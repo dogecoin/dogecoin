@@ -421,7 +421,7 @@ bool BlockFilterIndex::LookupFilterRange(int start_height, const CBlockIndex* st
     filters_out.clear();
     filters_out.reserve(entries.size());
     for (const auto& entry : entries) {
-        BlockFilter filter(GetFilterType(), uint256(), {0x00});
+        BlockFilter filter;
         if (!ReadFilterFromDisk(entry.pos, filter)) {
             return false;
         }

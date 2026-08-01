@@ -224,6 +224,11 @@ void Shutdown()
     peerLogic.reset();
     g_connman.reset();
     g_txindex.reset();
+    // Ordering is load-bearing: GetBlockFilterIndex() hands out a raw pointer after
+    // releasing g_cs_block_filter_indexes, so the lock protects the map but not the
+    // lifetime of what it returns. g_connman->Stop() above joins threadMessageHandler,
+    // which is the only consumer of those pointers, so no peer thread can still be
+    // holding one by the time we free them here. Do not move this above the Stop().
     DestroyAllBlockFilterIndexes();
 
     UnregisterNodeSignals(GetNodeSignals());

@@ -1907,7 +1907,7 @@ static UniValue getblockfilter(const JSONRPCRequest& request)
     }
 
     bool index_ready = index->BlockUntilSyncedToCurrentChain();
-    BlockFilter filter(filtertype, block_hash, std::vector<unsigned char>{0x00});
+    BlockFilter filter;
     uint256 filter_header;
     if (!index->LookupFilter(block_index, filter) ||
         !index->LookupFilterHeader(block_index, filter_header)) {
