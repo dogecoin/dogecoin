@@ -213,7 +213,12 @@ void BaseIndex::SetBestChain(const CBlockLocator& locator)
     // there is a reorg and the blocks on the stale branch are in the ValidationInterface queue
     // backlog even after the sync thread has caught up to the new chain tip. In this unlikely
     // event, log a warning and let the queue clear.
+    // Init() permits a null best block (a freshly created index that has not written
+    // anything yet), so this can legitimately be null before the first Commit().
     const CBlockIndex* best_block_index = m_best_block_index.load();
+    if (!best_block_index) {
+        return;
+    }
     if (best_block_index->GetAncestor(locator_tip_index->nHeight) != locator_tip_index) {
         LogPrintf("%s: WARNING: Locator contains block (hash=%s) not on known best " /* Continued */
                   "chain (tip=%s); not writing index locator\n",
@@ -241,7 +246,7 @@ bool BaseIndex::BlockUntilSyncedToCurrentChain()
         LOCK(cs_main);
         const CBlockIndex* chain_tip = chainActive.Tip();
         const CBlockIndex* best_block_index = m_best_block_index.load();
-        if (best_block_index->GetAncestor(chain_tip->nHeight) == chain_tip) {
+        if (best_block_index && best_block_index->GetAncestor(chain_tip->nHeight) == chain_tip) {
             return true;
         }
     }
