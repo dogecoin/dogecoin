@@ -975,7 +975,7 @@ UniValue gettxoutsetinfo(const JSONRPCRequest& request)
             "  \"bestblock\": \"hex\",   (string) the best block hash hex\n"
             "  \"transactions\": n,      (numeric) The number of transactions\n"
             "  \"txouts\": n,            (numeric) The number of output transactions\n"
-            "  \"hash_serialized\": \"hash\",   (string) The serialized hash\n"
+            "  \"hash_serialized_2\": \"hash\",   (string) The serialized hash\n"
             "  \"disk_size\": n,         (numeric) The estimated size of the chainstate on disk\n"
             "  \"total_amount\": x.xxx          (numeric) The total amount\n"
             "}\n"
