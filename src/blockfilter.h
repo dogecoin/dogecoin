@@ -79,6 +79,7 @@ constexpr uint32_t BASIC_FILTER_M = 784931;
 enum BlockFilterType : uint8_t
 {
     BASIC = 0,
+    INVALID = 255,
 };
 
 /**
@@ -88,11 +89,13 @@ enum BlockFilterType : uint8_t
 class BlockFilter
 {
 private:
-    BlockFilterType m_filter_type;
+    BlockFilterType m_filter_type{BlockFilterType::INVALID};
     uint256 m_block_hash;
     GCSFilter m_filter;
 
 public:
+    // Construct an empty filter, to be filled in by Unserialize or assignment.
+    BlockFilter() = default;
 
     // Construct a new BlockFilter of the specified type from a block.
     BlockFilter(BlockFilterType filter_type, const CBlock& block, const CBlockUndo& block_undo);
