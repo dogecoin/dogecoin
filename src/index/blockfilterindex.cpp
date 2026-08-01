@@ -34,10 +34,14 @@ constexpr unsigned int MAX_FLTR_FILE_SIZE = 0x1000000; // 16 MiB
 constexpr unsigned int FLTR_FILE_CHUNK_SIZE = 0x100000; // 1 MiB
 /** Maximum size of the cfheaders cache
  *  We have a limit to prevent a bug in filling this cache
- *  potentially turning into an OOM. At 2000 entries, this cache
- *  is big enough for a 2,000,000 length block chain, which
- *  we should be enough until ~2047. */
-constexpr size_t CF_HEADERS_CACHE_MAX_SZ{2000};
+ *  potentially turning into an OOM. One entry is cached per
+ *  CFCHECKPT_INTERVAL blocks, so 16000 entries covers a
+ *  16,000,000 length chain. Dogecoin's 1-minute target puts us
+ *  past 6,300,000 already, so this needs to stay well ahead of
+ *  the tip: the cache never evicts, and once it is full the
+ *  entries that are actually hot (near the tip) can no longer
+ *  be inserted. At 64 bytes per entry the cap is ~1 MiB. */
+constexpr size_t CF_HEADERS_CACHE_MAX_SZ{16000};
 
 namespace {
 
