@@ -88,6 +88,56 @@ BOOST_AUTO_TEST_CASE(blockfilter_basic_test)
     }
 }
 
+BOOST_AUTO_TEST_CASE(blockfilter_bip157_wire_format)
+{
+    // BlockFilter's serialization IS the body of the BIP 157 `cfilter` P2P message,
+    // and BIP 157 fixes the field order as:
+    //
+    //     filter_type (1 byte) || block_hash (32 bytes) || filter_bytes (CompactSize-prefixed)
+    //
+    // These assertions name each field's offset explicitly rather than round-tripping
+    // a filter through a stream. A round-trip passes just as happily with filter_type
+    // and block_hash transposed, because both sides move together -- which is exactly
+    // how the field order came to be wrong here in the first place. A conforming peer
+    // would read our filter_type out of block_hash[0], derive garbage SipHash keys
+    // (BIP 158 seeds them from the block hash) and match nothing at all.
+    CScript script;
+    script << OP_DUP << OP_HASH160 << std::vector<unsigned char>(1, 20) << OP_EQUALVERIFY << OP_CHECKSIG;
+
+    CMutableTransaction tx;
+    tx.vout.emplace_back(100, script);
+
+    CBlock block;
+    block.vtx.push_back(MakeTransactionRef(tx));
+
+    CBlockUndo block_undo;
+
+    BlockFilter block_filter(BlockFilterType::BASIC, block, block_undo);
+
+    CDataStream stream(SER_NETWORK, PROTOCOL_VERSION);
+    stream << block_filter;
+    const std::string hex = HexStr(stream.begin(), stream.end());
+
+    // Byte 0 is the filter type.
+    BOOST_CHECK_EQUAL(hex.substr(0, 2), "00");
+
+    // Bytes 1..32 are the block hash, in wire (little-endian) byte order.
+    const uint256& block_hash = block_filter.GetBlockHash();
+    BOOST_CHECK_EQUAL(hex.substr(2, 64), HexStr(block_hash.begin(), block_hash.end()));
+
+    // The remainder is the CompactSize-prefixed filter.
+    CDataStream expected_tail(SER_NETWORK, PROTOCOL_VERSION);
+    expected_tail << block_filter.GetEncodedFilter();
+    BOOST_CHECK_EQUAL(hex.substr(66), HexStr(expected_tail.begin(), expected_tail.end()));
+
+    // And the whole payload must equal the fields concatenated in BIP 157 order.
+    CDataStream expected(SER_NETWORK, PROTOCOL_VERSION);
+    expected << static_cast<uint8_t>(BlockFilterType::BASIC)
+             << block_hash
+             << block_filter.GetEncodedFilter();
+    BOOST_CHECK_EQUAL(hex, HexStr(expected.begin(), expected.end()));
+}
+
 BOOST_AUTO_TEST_CASE(blockfilters_json_test)
 {
     UniValue json;
