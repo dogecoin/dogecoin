@@ -119,7 +119,10 @@ void BaseIndex::ThreadSync()
 
             CBlock block;
             const auto& consensus_params = Params().GetConsensus(pindex->nHeight);
-            if (!ReadBlockFromDisk(block, pindex, consensus_params)) {
+            // These blocks are already on the active chain and had their proof of work
+            // checked when they were connected, so re-verifying scrypt (and any AuxPoW
+            // parent) for every block of a genesis-to-tip index build is pure waste.
+            if (!ReadBlockFromDisk(block, pindex, consensus_params, false)) {
                 FatalError("%s: Failed to read block %s from disk",
                            __func__, pindex->GetBlockHash().ToString());
                 return;
