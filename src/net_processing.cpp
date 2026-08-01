@@ -1391,6 +1391,12 @@ static bool PrepareBlockFilterRequest(CNode* pfrom, const CChainParams& chain_pa
         stop_index = LookupBlockIndex(stop_hash);
 
         // Check that the stop block exists and the peer would be allowed to fetch it.
+        //
+        // [dogecoin: stricter than upstream's BlockRequestAllowed(), which also serves
+        // stale-but-recent blocks. Requiring the stop block on the active chain is what
+        // makes keying the cfcheckpt cache on stop_hash alone sound -- don't relax this
+        // without changing that cache. Cost: a client whose tip just reorged out is
+        // disconnected rather than served.]
         if (!stop_index || !chainActive.Contains(stop_index)) {
             LogPrint("net", "peer %d requested invalid block hash: %s\n",
                      pfrom->id, stop_hash.ToString());
