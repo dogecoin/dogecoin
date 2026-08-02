@@ -17,6 +17,18 @@ NODE_COMPACT_FILTERS = 1 << 6
 CFCHECKPT_INTERVAL = 1000
 
 
+def compute_last_header(prev_header, hashes):
+    """Compute the last filter header from a starting header and a sequence of filter hashes.
+
+    This is BIP 157's header chaining rule, applied independently of anything the
+    node reports over RPC: header_n = SHA256d(filter_hash_n || header_n-1).
+    """
+    header = ser_uint256(prev_header)
+    for filter_hash in hashes:
+        header = hash256(ser_uint256(filter_hash) + header)
+    return uint256_from_str(header)
+
+
 class msg_getcfilters(object):
     command = b"getcfilters"
 
@@ -127,11 +139,14 @@ class P2PBlockFiltersTest(BitcoinTestFramework):
     def __init__(self):
         super().__init__()
         self.setup_clean_chain = True
-        self.num_nodes = 1
+        self.num_nodes = 2
 
     def setup_network(self):
         self.nodes = []
+        # Node 0 serves compact filters; node 1 builds the index but does not
+        # serve it, so it must not advertise NODE_COMPACT_FILTERS.
         self.nodes.append(start_node(0, self.options.tmpdir, ["-blockfilterindex", "-peerblockfilters=1"]))
+        self.nodes.append(start_node(1, self.options.tmpdir, ["-blockfilterindex"]))
 
     def run_test(self):
         node = self.nodes[0]
@@ -147,6 +162,31 @@ class P2PBlockFiltersTest(BitcoinTestFramework):
         peer.wait_for_verack()
 
         assert peer.version_services & NODE_COMPACT_FILTERS
+
+        # Node 1 runs -blockfilterindex without -peerblockfilters, so it must
+        # neither advertise NODE_COMPACT_FILTERS nor answer filter requests.
+        assert not (int(self.nodes[1].getnetworkinfo()["localservices"], 16) & NODE_COMPACT_FILTERS)
+        assert int(node.getnetworkinfo()["localservices"], 16) & NODE_COMPACT_FILTERS
+
+        nonserving = CompactFilterP2PNode()
+        nonserving_conn = NodeConn("127.0.0.1", p2p_port(1), self.nodes[1], nonserving)
+        nonserving.add_connection(nonserving_conn)
+        nonserving.wait_for_verack()
+        assert not (nonserving.version_services & NODE_COMPACT_FILTERS)
+
+        # ... and it disconnects peers that ask anyway. Covers all three
+        # request types, since each is gated separately in
+        # PrepareBlockFilterRequest().
+        genesis_hash = int(self.nodes[1].getblockhash(0), 16)
+        for request in (msg_getcfilters(0, 0, genesis_hash),
+                        msg_getcfheaders(0, 0, genesis_hash),
+                        msg_getcfcheckpt(0, genesis_hash)):
+            p = CompactFilterP2PNode()
+            c = NodeConn("127.0.0.1", p2p_port(1), self.nodes[1], p)
+            p.add_connection(c)
+            p.wait_for_verack()
+            p.send_message(request)
+            assert p.wait_for_disconnect()
 
         chain_hashes = [node.getblockhash(height) for height in range(6)]
         rpc_filters = [node.getblockfilter(block_hash, "basic") for block_hash in chain_hashes]
@@ -170,6 +210,14 @@ class P2PBlockFiltersTest(BitcoinTestFramework):
             for result in rpc_filters[1:]
         ]
         assert peer.cfheaders.filter_hashes == expected_filter_hashes
+
+        # Verify BIP 157's header chaining rule directly, rather than only
+        # comparing hashes against what our own RPC reports. Chaining the
+        # returned filter hashes onto prev_header must reproduce the filter
+        # header the node gives for the stop block. This checks the protocol
+        # rule itself; the assertion above only checks self-consistency.
+        assert compute_last_header(peer.cfheaders.prev_header, peer.cfheaders.filter_hashes) == \
+            int(rpc_filters[5]["header"], 16)
 
         checkpoint_height = CFCHECKPT_INTERVAL
         checkpoint_hash = node.getblockhash(checkpoint_height)
