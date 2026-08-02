@@ -1032,7 +1032,6 @@ UniValue gettxout(const JSONRPCRequest& request)
             "        ,...\n"
             "     ]\n"
             "  },\n"
-            "  \"version\" : n,            (numeric) The version\n"
             "  \"coinbase\" : true|false   (boolean) Coinbase or not\n"
             "}\n"
 
