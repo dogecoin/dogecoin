@@ -2,9 +2,16 @@ name: Continuous Integration
 
 on:
   push:
+    branches:
+      - '*-dev'
+      - '*-dev-*'
+      - '*-maint'
     paths-ignore:
       - '**/*.md'
   pull_request:
+    branches:
+      - '*-dev'
+      - '*-dev-*'
     paths-ignore:
       - 'doc/**'
       - 'contrib/**'
