@@ -180,7 +180,9 @@ desirable for building Bitcoin Core release binaries."
 (define (make-mingw-pthreads-cross-toolchain target)
   "Create a cross-compilation toolchain package for TARGET"
   (let* ((xbinutils (make-binutils-with-mingw-w64-disable-flags (cross-binutils target)))
-         (pthreads-xlibc mingw-w64-x86_64-winpthreads)
+         (pthreads-xlibc (if (string-prefix? "i686-" target)
+                             mingw-w64-i686-winpthreads
+                             mingw-w64-x86_64-winpthreads))
          (pthreads-xgcc (make-gcc-with-pthreads
                          (cross-gcc target
                                     #:xgcc (make-ssp-fixed-gcc base-gcc)
@@ -600,10 +602,6 @@ inspecting signatures in Mach-O binaries.")
                                            "glibc-2.24-elfm-loadaddr-dynamic-rewrite.patch"
                                            "glibc-2.24-no-build-time-cxx-header-run.patch"))))))
 
-(define glibc-2.27/bitcoin-patched
-  (package-with-extra-patches glibc-2.27
-    (search-our-patches "glibc-2.27-riscv64-Use-__has_include__-to-include-asm-syscalls.h.patch")))
-
 (packages->manifest
  (append
   (list ;; The Basics
@@ -642,23 +640,22 @@ inspecting signatures in Mach-O binaries.")
         git
         ;; Tests
         lief
-        ;; Native gcc 7 toolchain
-        gcc-toolchain-7
-        (list gcc-toolchain-7 "static"))
+        ;; Native gcc 9 toolchain, matching the cross toolchain and the
+        ;; native g++ on gitian's focal builders
+        gcc-toolchain-9
+        (list gcc-toolchain-9 "static"))
   (let ((target (getenv "HOST")))
     (cond ((string-suffix? "-mingw32" target)
-           ;; Windows
+           ;; Windows. TARGET selects the winpthreads and nsis variant, so
+           ;; both i686-w64-mingw32 and x86_64-w64-mingw32 are buildable.
            (list zip
-                 (make-mingw-pthreads-cross-toolchain "x86_64-w64-mingw32")
-                 (make-nsis-with-sde-support nsis-x86_64)
+                 (make-mingw-pthreads-cross-toolchain target)
+                 (make-nsis-with-sde-support (if (string-prefix? "i686-" target)
+                                                 nsis-i686
+                                                 nsis-x86_64))
                  osslsigncode))
           ((string-contains target "-linux-")
-           (list (cond ((string-contains target "riscv64-")
-                        (make-bitcoin-cross-toolchain target
-                                                      #:base-libc glibc-2.27/bitcoin-patched
-                                                      #:base-kernel-headers linux-libre-headers-4.19))
-                       (else
-                        (make-bitcoin-cross-toolchain target)))))
+           (list (make-bitcoin-cross-toolchain target)))
           ((string-contains target "darwin")
            (list clang-toolchain-10 binutils imagemagick libtiff librsvg font-tuffy cmake xorriso python-signapple))
           (else '())))))
