@@ -93,8 +93,15 @@ esac
 # includes/libs for $HOST
 case "$HOST" in
     *mingw*)
-        # Determine output paths to use in CROSS_* environment variables
-        CROSS_GLIBC="$(store_path "mingw-w64-x86_64-winpthreads")"
+        # Determine output paths to use in CROSS_* environment variables.
+        # manifest.scm provides the winpthreads matching $HOST, so the name has
+        # to be derived from $HOST rather than hardcoded to one architecture.
+        case "$HOST" in
+            i686-w64-mingw32)   win_arch=i686 ;;
+            x86_64-w64-mingw32) win_arch=x86_64 ;;
+            *)                  echo "Unhandled mingw host '$HOST'... Aborting..."; exit 1 ;;
+        esac
+        CROSS_GLIBC="$(store_path "mingw-w64-${win_arch}-winpthreads")"
         CROSS_GCC="$(store_path "gcc-cross-${HOST}")"
         CROSS_GCC_LIB_STORE="$(store_path "gcc-cross-${HOST}" lib)"
         CROSS_GCC_LIBS=( "${CROSS_GCC_LIB_STORE}/lib/gcc/${HOST}"/* ) # This expands to an array of directories...
@@ -168,9 +175,6 @@ case "$HOST" in
                 x86_64-linux-gnu)      echo /lib64/ld-linux-x86-64.so.2 ;;
                 arm-linux-gnueabihf)   echo /lib/ld-linux-armhf.so.3 ;;
                 aarch64-linux-gnu)     echo /lib/ld-linux-aarch64.so.1 ;;
-                riscv64-linux-gnu)     echo /lib/ld-linux-riscv64-lp64d.so.1 ;;
-                powerpc64-linux-gnu)   echo /lib/ld64.so.1;;
-                powerpc64le-linux-gnu) echo /lib/ld64.so.2;;
                 *)                     exit 1 ;;
             esac
         )
@@ -268,17 +272,6 @@ case "$HOST" in
     *mingw*)  HOST_LDFLAGS="-Wl,--no-insert-timestamp" ;;
 esac
 
-# Using --no-tls-get-addr-optimize retains compatibility with glibc 2.17, by
-# avoiding a PowerPC64 optimisation available in glibc 2.22 and later.
-# https://sourceware.org/binutils/docs-2.35/ld/PowerPC64-ELF64.html
-case "$HOST" in
-    *powerpc64*) HOST_LDFLAGS="${HOST_LDFLAGS} -Wl,--no-tls-get-addr-optimize" ;;
-esac
-
-case "$HOST" in
-    powerpc64-linux-*|riscv64-linux-*) HOST_LDFLAGS="${HOST_LDFLAGS} -Wl,-z,noexecstack" ;;
-esac
-
 # Make $HOST-specific native binaries from depends available in $PATH
 export PATH="${BASEPREFIX}/${HOST}/native/bin:${PATH}"
 mkdir -p "$DISTSRC"
@@ -304,7 +297,7 @@ mkdir -p "$DISTSRC"
 
     sed -i.old 's/-lstdc++ //g' config.status libtool src/univalue/config.status src/univalue/libtool
 
-    # Build Bitcoin Core
+    # Build Dogecoin Core
     make --jobs="$JOBS" ${V:+V=1}
 
     # Check that symbol/security checks tools are sane.
@@ -343,12 +336,12 @@ mkdir -p "$DISTSRC"
             ;;
     esac
 
-    # Setup the directory where our Bitcoin Core build for HOST will be
+    # Setup the directory where our Dogecoin Core build for HOST will be
     # installed. This directory will also later serve as the input for our
     # binary tarballs.
     INSTALLPATH="${PWD}/installed/${DISTNAME}"
     mkdir -p "${INSTALLPATH}"
-    # Install built Bitcoin Core to $INSTALLPATH
+    # Install built Dogecoin Core to $INSTALLPATH
     case "$HOST" in
         *darwin*)
             make install-strip DESTDIR="${INSTALLPATH}" ${V:+V=1}
