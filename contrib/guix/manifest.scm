@@ -80,10 +80,6 @@ http://www.linuxfromscratch.org/hlfs/view/development/chapter05/gcc-pass1.html"
                  (("-rpath=") "-rpath-link="))
                #t))))))))
 
-(define (make-binutils-with-mingw-w64-disable-flags xbinutils)
-  (package-with-extra-patches xbinutils
-    (search-our-patches "binutils-mingw-w64-disable-flags.patch")))
-
 (define (make-cross-toolchain target
                               base-gcc-for-libc
                               base-kernel-headers
@@ -179,7 +175,9 @@ desirable for building Bitcoin Core release binaries."
 
 (define (make-mingw-pthreads-cross-toolchain target)
   "Create a cross-compilation toolchain package for TARGET"
-  (let* ((xbinutils (make-binutils-with-mingw-w64-disable-flags (cross-binutils target)))
+  ;; binutils 2.37 already provides the --no-/--disable- opposites of the PE
+  ;; security flags, so cross-binutils needs no patching from us
+  (let* ((xbinutils (cross-binutils target))
          (pthreads-xlibc (if (string-prefix? "i686-" target)
                              mingw-w64-i686-winpthreads
                              mingw-w64-x86_64-winpthreads))
