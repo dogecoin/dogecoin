@@ -343,7 +343,21 @@ mkdir -p "$DISTSRC"
             # Makefile.am derives the installer name from WINDOWS_BITS
             # (dogecoin-<version>-win{32,64}-setup.exe); gitian then renames it
             # to -setup-unsigned.exe. Name it that way directly.
-            make deploy ${V:+V=1} BITCOIN_WIN_INSTALLER="${OUTDIR}/${DISTNAME}-${PLATFORM}-setup-unsigned.exe"
+            # Where the installer lands is decided by share/setup.nsi's OutFile
+            # directive -- $(abs_top_srcdir)/dogecoin-<version>-win{32,64}-setup.exe
+            # -- not by BITCOIN_WIN_INSTALLER. The Makefile rule runs makensis
+            # and then echoes "built $@" unconditionally, so overriding that
+            # variable renames the target and the message while the file itself
+            # is written elsewhere. Build it, then copy it out under the name we
+            # publish, which is what gitian does (gitian-win.yml copies
+            # dogecoin-*setup*.exe and renames it to -setup-unsigned.exe).
+            make deploy ${V:+V=1}
+            win_installer=$(echo "${DISTSRC}"/dogecoin-*-win*-setup.exe)
+            if [ ! -f "$win_installer" ]; then
+                echo "ERR: no NSIS installer found in ${DISTSRC} after 'make deploy'"
+                exit 1
+            fi
+            cp -f "$win_installer" "${OUTDIR}/${DISTNAME}-${PLATFORM}-setup-unsigned.exe"
             ;;
     esac
 
