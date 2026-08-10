@@ -316,10 +316,30 @@ mkdir -p "$DISTSRC"
 
     mkdir -p "$OUTDIR"
 
+    # PLATFORM is the name gitian uses for this host in release artifact
+    # filenames, so that guix and gitian produce identically named outputs.
+    #
+    # gitian names linux tarballs after its own host triple, which differs from
+    # the guix one for 32-bit x86 (i686-pc-linux-gnu vs i686-linux-gnu), and
+    # renames the windows and macos artifacts to short platform names:
+    #   contrib/gitian-descriptors/gitian-win.yml   mv ...-i686-*.zip  -> -win32.zip
+    #                                               mv ...-x86_64-*.zip -> -win64.zip
+    #   contrib/gitian-descriptors/gitian-osx.yml   mv ...-x86_64-*.tar.gz -> -osx64.tar.gz
+    case "$HOST" in
+        i686-linux-gnu)        PLATFORM=i686-pc-linux-gnu ;;
+        i686-w64-mingw32)      PLATFORM=win32 ;;
+        x86_64-w64-mingw32)    PLATFORM=win64 ;;
+        *darwin*)              PLATFORM=osx64 ;;
+        *)                     PLATFORM="$HOST" ;;
+    esac
+
     # Make the os-specific installers
     case "$HOST" in
         *mingw*)
-            make deploy ${V:+V=1} BITCOIN_WIN_INSTALLER="${OUTDIR}/${DISTNAME}-win64-setup-unsigned.exe"
+            # Makefile.am derives the installer name from WINDOWS_BITS
+            # (dogecoin-<version>-win{32,64}-setup.exe); gitian then renames it
+            # to -setup-unsigned.exe. Name it that way directly.
+            make deploy ${V:+V=1} BITCOIN_WIN_INSTALLER="${OUTDIR}/${DISTNAME}-${PLATFORM}-setup-unsigned.exe"
             ;;
     esac
 
@@ -403,33 +423,33 @@ mkdir -p "$DISTSRC"
                     | xargs -0r touch --no-dereference --date="@${SOURCE_DATE_EPOCH}"
                 find "${DISTNAME}" -not -name "*.dbg" \
                     | sort \
-                    | zip -X@ "${OUTDIR}/${DISTNAME}-${HOST//x86_64-w64-mingw32/win64}.zip" \
-                    || ( rm -f "${OUTDIR}/${DISTNAME}-${HOST//x86_64-w64-mingw32/win64}.zip" && exit 1 )
+                    | zip -X@ "${OUTDIR}/${DISTNAME}-${PLATFORM}.zip" \
+                    || ( rm -f "${OUTDIR}/${DISTNAME}-${PLATFORM}.zip" && exit 1 )
                 find "${DISTNAME}" -name "*.dbg" -print0 \
                     | xargs -0r touch --no-dereference --date="@${SOURCE_DATE_EPOCH}"
                 find "${DISTNAME}" -name "*.dbg" \
                     | sort \
-                    | zip -X@ "${OUTDIR}/${DISTNAME}-${HOST//x86_64-w64-mingw32/win64}-debug.zip" \
-                    || ( rm -f "${OUTDIR}/${DISTNAME}-${HOST//x86_64-w64-mingw32/win64}-debug.zip" && exit 1 )
+                    | zip -X@ "${OUTDIR}/${DISTNAME}-${PLATFORM}-debug.zip" \
+                    || ( rm -f "${OUTDIR}/${DISTNAME}-${PLATFORM}-debug.zip" && exit 1 )
                 ;;
             *linux*)
                 find "${DISTNAME}" -not -name "*.dbg" -print0 \
                     | sort --zero-terminated \
                     | tar --create --no-recursion --mode='u+rw,go+r-w,a+X' --null --files-from=- \
-                    | gzip -9n > "${OUTDIR}/${DISTNAME}-${HOST}.tar.gz" \
-                    || ( rm -f "${OUTDIR}/${DISTNAME}-${HOST}.tar.gz" && exit 1 )
+                    | gzip -9n > "${OUTDIR}/${DISTNAME}-${PLATFORM}.tar.gz" \
+                    || ( rm -f "${OUTDIR}/${DISTNAME}-${PLATFORM}.tar.gz" && exit 1 )
                 find "${DISTNAME}" -name "*.dbg" -print0 \
                     | sort --zero-terminated \
                     | tar --create --no-recursion --mode='u+rw,go+r-w,a+X' --null --files-from=- \
-                    | gzip -9n > "${OUTDIR}/${DISTNAME}-${HOST}-debug.tar.gz" \
-                    || ( rm -f "${OUTDIR}/${DISTNAME}-${HOST}-debug.tar.gz" && exit 1 )
+                    | gzip -9n > "${OUTDIR}/${DISTNAME}-${PLATFORM}-debug.tar.gz" \
+                    || ( rm -f "${OUTDIR}/${DISTNAME}-${PLATFORM}-debug.tar.gz" && exit 1 )
                 ;;
             *darwin*)
                 find "${DISTNAME}" -print0 \
                     | sort --zero-terminated \
                     | tar --create --no-recursion --mode='u+rw,go+r-w,a+X' --null --files-from=- \
-                    | gzip -9n > "${OUTDIR}/${DISTNAME}-${HOST//x86_64-apple-darwin18/osx64}.tar.gz" \
-                    || ( rm -f "${OUTDIR}/${DISTNAME}-${HOST//x86_64-apple-darwin18/osx64}.tar.gz" && exit 1 )
+                    | gzip -9n > "${OUTDIR}/${DISTNAME}-${PLATFORM}.tar.gz" \
+                    || ( rm -f "${OUTDIR}/${DISTNAME}-${PLATFORM}.tar.gz" && exit 1 )
                 ;;
         esac
     )  # $DISTSRC/installed
