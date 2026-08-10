@@ -241,10 +241,15 @@ SOURCE_DATE_EPOCH="${SOURCE_DATE_EPOCH:-$(git -c log.showSignature=false log --f
 
 # Execute "$@" in a pinned, possibly older version of Guix, for reproducibility
 # across time.
+#
+# The pin is Guix tag v1.4.0 (2022-12-18). Savannah is the live upstream; the
+# GitHub mirror is gone. GUIX_CHANNEL_URL may point at a local bare clone
+# (file:///path/to/guix-repo.git) to work around the libgit2 redirect bug --
+# authentication is unaffected, the commit is verified either way.
 time-machine() {
     # shellcheck disable=SC2086
-    guix time-machine --url=https://git.savannah.gnu.org/git/guix.git \
-                      --commit=aa34d4d28dfe25ba47d5800d05000fb7221788c0 \
+    guix time-machine --url="${GUIX_CHANNEL_URL:-https://git.savannah.gnu.org/git/guix.git}" \
+                      --commit=8e2f32cee982d42a79e53fc1e9aa7b8ff0514714 \
                       --cores="$JOBS" \
                       --keep-failed \
                       --fallback \
