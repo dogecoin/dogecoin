@@ -600,7 +600,35 @@ inspecting signatures in Mach-O binaries.")
               (patches (search-our-patches "glibc-ldd-x86_64.patch"
                                            "glibc-versioned-locpath.patch"
                                            "glibc-2.24-elfm-loadaddr-dynamic-rewrite.patch"
-                                           "glibc-2.24-no-build-time-cxx-header-run.patch"))))))
+                                           "glibc-2.24-no-build-time-cxx-header-run.patch"))))
+    ;; glibc's sunrpc installs its rpc database to $(inst_sysconfdir)/rpc,
+    ;; which resolves to the absolute /etc/rpc and fails in the read-only
+    ;; build container:
+    ;;
+    ;;   install: cannot create regular file '/etc/rpc': Permission denied
+    ;;
+    ;; sunrpc was deprecated in glibc 2.26 and is no longer installed by
+    ;; current glibc, so the package we inherit from never hits this. Guix
+    ;; carries the same workaround for every glibc old enough to need it --
+    ;; see glibc-2.31 and glibc-2.32 in gnu/packages/base.scm.
+    (arguments
+     (substitute-keyword-arguments (package-arguments glibc)
+       ((#:make-flags flags '())
+        ;; Arrange so that /etc/rpc & co. go to $out/etc.
+        `(list (string-append "sysconfdir="
+                              (assoc-ref %outputs "out")
+                              "/etc")))
+       ((#:phases phases)
+        `(modify-phases ,phases
+           (add-before 'configure 'set-etc-rpc-installation-directory
+             (lambda* (#:key outputs #:allow-other-keys)
+               ;; Install the rpc data base file under `$out/etc/rpc'.
+               (let ((out (assoc-ref outputs "out")))
+                 (substitute* "sunrpc/Makefile"
+                   (("^\\$\\(inst_sysconfdir\\)/rpc(.*)$" _ suffix)
+                    (string-append out "/etc/rpc" suffix "\n"))
+                   (("^install-others =.*$")
+                    (string-append "install-others = " out "/etc/rpc\n"))))))))))))
 
 (packages->manifest
  (append
