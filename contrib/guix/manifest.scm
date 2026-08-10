@@ -135,9 +135,16 @@ chain for " target " development."))
       (home-page (package-home-page xgcc))
       (license (package-license xgcc)))))
 
-(define base-gcc
-  (package-with-extra-patches gcc-8
-    (search-our-patches "gcc-8-sort-libtool-find-output.patch")))
+;; GCC 9 to match the gitian descriptors, which build on focal with
+;; g++-9-aarch64-linux-gnu / gcc-9-arm-linux-gnueabihf / gcc-9-multilib.
+;;
+;; gcc-8 needed a patch sorting find(1) output in the generated libtool
+;; scripts, otherwise static archives (libstdc++.a) came out non-reproducible.
+;; GCC 9.5.0 carries that fix upstream in all 12 of the C/C++ libtool copies,
+;; including the top-level ltmain.sh func_extract_archives. The only remaining
+;; unsorted copies live under libgo/config, and guix builds gcc with
+;; --enable-languages=c,c++, so the Go frontend is never built. No patch needed.
+(define base-gcc gcc-9)
 
 ;; Building glibc with stack smashing protector first landed in glibc 2.25, use
 ;; this function to disable for older glibcs
