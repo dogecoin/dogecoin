@@ -207,10 +207,6 @@ chain for " target " development."))
       (home-page (package-home-page pthreads-xgcc))
       (license (package-license pthreads-xgcc)))))
 
-(define (make-nsis-with-sde-support base-nsis)
-  (package-with-extra-patches base-nsis
-    (search-our-patches "nsis-SConstruct-sde-support.patch")))
-
 (define-public font-tuffy
   (package
     (name "font-tuffy")
@@ -678,9 +674,9 @@ inspecting signatures in Mach-O binaries.")
            ;; both i686-w64-mingw32 and x86_64-w64-mingw32 are buildable.
            (list zip
                  (make-mingw-pthreads-cross-toolchain target)
-                 (make-nsis-with-sde-support (if (string-prefix? "i686-" target)
-                                                 nsis-i686
-                                                 nsis-x86_64))
+                 ;; nsis 3.08 supports SOURCE_DATE_EPOCH upstream, so it needs
+                 ;; no patching of its own from us
+                 (if (string-prefix? "i686-" target) nsis-i686 nsis-x86_64)
                  osslsigncode))
           ((string-contains target "-linux-")
            (list (make-bitcoin-cross-toolchain target)))
