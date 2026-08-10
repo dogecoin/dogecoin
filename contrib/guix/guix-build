@@ -379,7 +379,7 @@ INFO: Building ${VERSION:?not set} for platform triple ${HOST:?not set}:
       ...using reference timestamp: ${SOURCE_DATE_EPOCH:?not set}
       ...running at most ${JOBS:?not set} jobs
       ...from worktree directory: '${PWD}'
-          ...bind-mounted in container to: '/bitcoin'
+          ...bind-mounted in container to: '/dogecoin'
       ...in build directory: '$(distsrc_for_host "$HOST")'
           ...bind-mounted in container to: '$(DISTSRC_BASE=/distsrc-base && distsrc_for_host "$HOST")'
       ...outputting in: '$(outdir_for_host "$HOST")'
@@ -405,24 +405,24 @@ EOF
         #
         #     When --container is specified, the default behavior is to share
         #     the current working directory with the isolated container at the
-        #     same exact path (e.g. mapping '/home/satoshi/bitcoin/' to
-        #     '/home/satoshi/bitcoin/'). This means that the $PWD inside the
+        #     same exact path (e.g. mapping '/home/shibe/dogecoin/' to
+        #     '/home/shibe/dogecoin/'). This means that the $PWD inside the
         #     container becomes a source of irreproducibility. --no-cwd disables
         #     this behaviour.
         #
         #   --share=SPEC       for containers, share writable host file system
         #                      according to SPEC
         #
-        #   --share="$PWD"=/bitcoin
+        #   --share="$PWD"=/dogecoin
         #
-        #                     maps our current working directory to /bitcoin
+        #                     maps our current working directory to /dogecoin
         #                     inside the isolated container, which we later cd
         #                     into.
         #
         #     While we don't want to map our current working directory to the
         #     same exact path (as this introduces irreproducibility), we do want
         #     it to be at a _fixed_ path _somewhere_ inside the isolated
-        #     container so that we have something to build. '/bitcoin' was
+        #     container so that we have something to build. '/dogecoin' was
         #     chosen arbitrarily.
         #
         #   ${SOURCES_PATH:+--share="$SOURCES_PATH"}
@@ -456,7 +456,7 @@ EOF
                                  --container \
                                  --pure \
                                  --no-cwd \
-                                 --share="$PWD"=/bitcoin \
+                                 --share="$PWD"=/dogecoin \
                                  --share="$DISTSRC_BASE"=/distsrc-base \
                                  --share="$OUTDIR_BASE"=/outdir-base \
                                  --expose="$(git rev-parse --git-common-dir)" \
@@ -481,7 +481,7 @@ EOF
                                         DISTSRC="$(DISTSRC_BASE=/distsrc-base && distsrc_for_host "$HOST")" \
                                         OUTDIR="$(OUTDIR_BASE=/outdir-base && outdir_for_host "$HOST")" \
                                         DIST_ARCHIVE_BASE=/outdir-base/dist-archive \
-                                      bash -c "cd /bitcoin && bash contrib/guix/libexec/build.sh"
+                                      bash -c "cd /dogecoin && bash contrib/guix/libexec/build.sh"
     )
 
 done
