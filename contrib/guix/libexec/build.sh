@@ -167,6 +167,18 @@ esac
 [ -e /usr/bin/file ] || ln -s --no-dereference "$(command -v file)" /usr/bin/file
 [ -e /usr/bin/env ]  || ln -s --no-dereference "$(command -v env)"  /usr/bin/env
 
+# Qt 5.7's configure resolves the source and build trees by invoking /bin/pwd
+# by absolute path. The container provides no /bin/pwd, so both come out empty,
+# which in turn puts config.tests/unix/which.test out of reach and makes
+# configure report the misleading
+#
+#     You don't seem to have 'make' or 'gmake' in your PATH.
+#
+# Note that pwd is also a shell builtin, so command -v returns "pwd" rather
+# than a path; use type -P to get the coreutils binary.
+[ -e /bin ] || mkdir -p /bin
+[ -e /bin/pwd ] || ln -s --no-dereference "$(type -P pwd)" /bin/pwd
+
 # Determine the correct value for -Wl,--dynamic-linker for the current $HOST
 case "$HOST" in
     *linux*)
