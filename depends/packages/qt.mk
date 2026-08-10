@@ -11,6 +11,7 @@ $(package)_qt_libs=corelib network widgets gui plugins testlib printsupport
 
 $(package)_patches=mac-qmake.conf
 $(package)_patches+=mingw-uuidof.patch
+$(package)_patches+=mingw-file-id-info.patch
 $(package)_patches+=pidlist_absolute.patch
 $(package)_patches+=fix-xcb-include-order.patch
 $(package)_patches+=fix_qfontengine_coretext.patch
@@ -193,6 +194,7 @@ define $(package)_preprocess_cmds
   cp -f qtbase/mkspecs/macx-clang/qplatformdefs.h qtbase/mkspecs/macx-clang-linux/ &&\
   cp -f $($(package)_patch_dir)/mac-qmake.conf qtbase/mkspecs/macx-clang-linux/qmake.conf && \
   patch -p1 < $($(package)_patch_dir)/mingw-uuidof.patch && \
+  patch -p1 < $($(package)_patch_dir)/mingw-file-id-info.patch && \
   patch -p1 < $($(package)_patch_dir)/pidlist_absolute.patch && \
   patch -p1 < $($(package)_patch_dir)/fix-xcb-include-order.patch && \
   patch -p1 < $($(package)_patch_dir)/fix_qfontengine_coretext.patch && \
