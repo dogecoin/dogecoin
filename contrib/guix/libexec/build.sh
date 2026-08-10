@@ -458,21 +458,13 @@ mkdir -p "$DISTSRC"
         esac
     )  # $DISTSRC/installed
 
-    case "$HOST" in
-        *mingw*)
-            cp -rf --target-directory=. contrib/windeploy
-            (
-                cd ./windeploy
-                mkdir -p unsigned
-                cp --target-directory=unsigned/ "${OUTDIR}/${DISTNAME}-win64-setup-unsigned.exe"
-                find . -print0 \
-                    | sort --zero-terminated \
-                    | tar --create --no-recursion --mode='u+rw,go+r-w,a+X' --null --files-from=- \
-                    | gzip -9n > "${OUTDIR}/${DISTNAME}-win-unsigned.tar.gz" \
-                    || ( rm -f "${OUTDIR}/${DISTNAME}-win-unsigned.tar.gz" && exit 1 )
-            )
-            ;;
-    esac
+    # Note: gitian also produces ${DISTNAME}-win-unsigned.tar.gz, bundling the
+    # win32 and win64 installers together for the signer. It builds that after
+    # its per-host loop (see the end of gitian-descriptors/gitian-win.yml),
+    # which a guix build cannot do: each host is built in its own container and
+    # never sees the other's installer. The per-host
+    # ${DISTNAME}-win{32,64}-setup-unsigned.exe is emitted by `make deploy`
+    # above; assembling them belongs to a later codesigning step.
 )  # $DISTSRC
 
 rm -rf "$ACTUAL_OUTDIR"
