@@ -679,5 +679,9 @@ inspecting signatures in Mach-O binaries.")
           ((string-contains target "-linux-")
            (list (make-bitcoin-cross-toolchain target)))
           ((string-contains target "darwin")
-           (list clang-toolchain-10 binutils imagemagick libtiff librsvg font-tuffy cmake xorriso python-signapple))
+           ;; No python-signapple: dogecoin signs macOS builds the gitian way,
+           ;; with contrib/macdeploy/detached-sig-{apply,create}.sh against
+           ;; dogecoin-detached-sigs (see gitian-osx-signer.yml). signapple is
+           ;; Bitcoin Core's newer signing tool and nothing here invokes it.
+           (list clang-toolchain-10 binutils imagemagick libtiff librsvg font-tuffy cmake xorriso))
           (else '())))))
