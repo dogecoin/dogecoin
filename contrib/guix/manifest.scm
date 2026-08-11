@@ -692,5 +692,11 @@ inspecting signatures in Mach-O binaries.")
            ;; and installs genisoimage, but cmake configures the whole project,
            ;; and wodim/CMakeLists.txt hard-fails without sys/capability.h.
            ;; gitian-osx.yml installs libcap-dev for the same reason.
-           (list clang-toolchain-6 binutils imagemagick libtiff librsvg font-tuffy cmake xorriso libcap))
+           ;; libcxx-6 supplies the libc++ headers. gitian gets those from the
+           ;; clang+llvm-6.0.1 tarball it downloads (native_cctools.mk stages
+           ;; its include/c++ into the depends prefix); the SDK itself carries
+           ;; only the old c++/4.2.1 libstdc++, and guix's clang ships none.
+           ;; Same LLVM 6 release, so the headers match what gitian compiles
+           ;; against.
+           (list clang-toolchain-6 libcxx-6 binutils imagemagick libtiff librsvg font-tuffy cmake xorriso libcap))
           (else '())))))

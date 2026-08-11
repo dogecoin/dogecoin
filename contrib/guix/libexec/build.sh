@@ -99,6 +99,12 @@ case "$HOST" in
         libcap_store_path=$(store_path "libcap")
         bzip2_store_path=$(store_path "bzip2")
 
+        # depends/hosts/darwin.mk needs the libc++ headers, and only this script
+        # can resolve their store path. Exported rather than prepended to the
+        # include variables above because those are cleared for darwin compiler
+        # invocations -- see the comment in darwin.mk.
+        export DARWIN_LIBCXX_PREFIX="$(store_path "libcxx")"
+
         prepend_to_search_env_var LIBRARY_PATH "${libcap_store_path}/lib:${bzip2_store_path}/lib"
         prepend_to_search_env_var C_INCLUDE_PATH "${libcap_store_path}/include:${bzip2_store_path}/include"
         prepend_to_search_env_var CPLUS_INCLUDE_PATH "${libcap_store_path}/include:${bzip2_store_path}/include"
@@ -248,6 +254,7 @@ make -C depends --jobs="$JOBS" HOST="$HOST" \
                                    x86_64_linux_STRIP=x86_64-linux-gnu-strip \
                                    qt_config_opts_i686_linux='-platform linux-g++ -xplatform dogecoin-linux-g++' \
                                    qt_config_opts_x86_64_linux='-platform linux-g++ -xplatform dogecoin-linux-g++' \
+                                   ${DARWIN_LIBCXX_PREFIX:+DARWIN_LIBCXX_PREFIX="$DARWIN_LIBCXX_PREFIX"} \
                                    FORCE_USE_SYSTEM_CLANG=1
 
 
