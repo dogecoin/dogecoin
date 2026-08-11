@@ -89,18 +89,21 @@ case "$HOST" in
         prepend_to_search_env_var OBJC_INCLUDE_PATH "${zlib_store_path}/include"
         prepend_to_search_env_var OBJCPLUS_INCLUDE_PATH "${zlib_store_path}/include"
 
-        # native_cdrkit's cmake run configures the whole project, and
-        # wodim/CMakeLists.txt hard-fails without sys/capability.h even though
-        # we only build and install genisoimage. The include paths are rebuilt
-        # from the native toolchain above, so libcap has to be added back
-        # explicitly. gitian-osx.yml installs libcap-dev for the same reason.
+        # native_cdrkit needs two more headers that the include paths rebuilt
+        # from the native toolchain above do not carry:
+        #   libcap  -- wodim/CMakeLists.txt hard-fails without sys/capability.h
+        #              at configure time, even though we only build and install
+        #              genisoimage
+        #   bzip2   -- genisoimage/jte.c includes bzlib.h
+        # gitian-osx.yml installs libcap-dev and libbz2-dev for the same reasons.
         libcap_store_path=$(store_path "libcap")
+        bzip2_store_path=$(store_path "bzip2")
 
-        prepend_to_search_env_var LIBRARY_PATH "${libcap_store_path}/lib"
-        prepend_to_search_env_var C_INCLUDE_PATH "${libcap_store_path}/include"
-        prepend_to_search_env_var CPLUS_INCLUDE_PATH "${libcap_store_path}/include"
-        prepend_to_search_env_var OBJC_INCLUDE_PATH "${libcap_store_path}/include"
-        prepend_to_search_env_var OBJCPLUS_INCLUDE_PATH "${libcap_store_path}/include"
+        prepend_to_search_env_var LIBRARY_PATH "${libcap_store_path}/lib:${bzip2_store_path}/lib"
+        prepend_to_search_env_var C_INCLUDE_PATH "${libcap_store_path}/include:${bzip2_store_path}/include"
+        prepend_to_search_env_var CPLUS_INCLUDE_PATH "${libcap_store_path}/include:${bzip2_store_path}/include"
+        prepend_to_search_env_var OBJC_INCLUDE_PATH "${libcap_store_path}/include:${bzip2_store_path}/include"
+        prepend_to_search_env_var OBJCPLUS_INCLUDE_PATH "${libcap_store_path}/include:${bzip2_store_path}/include"
 esac
 
 # Set environment variables to point the CROSS toolchain to the right
