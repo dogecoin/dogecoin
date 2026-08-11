@@ -485,13 +485,13 @@ mkdir -p "$DISTSRC"
             *mingw*)
                 find "${DISTNAME}" -not -name "*.dbg" -print0 \
                     | xargs -0r touch --no-dereference --date="@${SOURCE_DATE_EPOCH}"
-                find "${DISTNAME}" -not -name "*.dbg" \
+                find "${DISTNAME}" -not -name "*.dbg" -type f \
                     | sort \
                     | zip -X@ "${OUTDIR}/${DISTNAME}-${PLATFORM}.zip" \
                     || ( rm -f "${OUTDIR}/${DISTNAME}-${PLATFORM}.zip" && exit 1 )
                 find "${DISTNAME}" -name "*.dbg" -print0 \
                     | xargs -0r touch --no-dereference --date="@${SOURCE_DATE_EPOCH}"
-                find "${DISTNAME}" -name "*.dbg" \
+                find "${DISTNAME}" -name "*.dbg" -type f \
                     | sort \
                     | zip -X@ "${OUTDIR}/${DISTNAME}-${PLATFORM}-debug.zip" \
                     || ( rm -f "${OUTDIR}/${DISTNAME}-${PLATFORM}-debug.zip" && exit 1 )
