@@ -683,5 +683,10 @@ inspecting signatures in Mach-O binaries.")
            ;; with contrib/macdeploy/detached-sig-{apply,create}.sh against
            ;; dogecoin-detached-sigs (see gitian-osx-signer.yml). signapple is
            ;; Bitcoin Core's newer signing tool and nothing here invokes it.
-           (list clang-toolchain-10 binutils imagemagick libtiff librsvg font-tuffy cmake xorriso))
+           ;; clang-toolchain-6 is LLVM 6.0.1, the same clang gitian downloads
+           ;; in depends/packages/native_cctools.mk. FORCE_USE_SYSTEM_CLANG makes
+           ;; depends use this one instead of that prebuilt Ubuntu binary, which
+           ;; cannot run here: the container has no /lib64, so its ELF
+           ;; interpreter is missing.
+           (list clang-toolchain-6 binutils imagemagick libtiff librsvg font-tuffy cmake xorriso))
           (else '())))))
