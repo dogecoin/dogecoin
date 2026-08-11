@@ -132,6 +132,16 @@ $(package)_config_opts_darwin += -device-option CROSS_COMPILE="$(host)-"
 $(package)_config_opts_darwin += -device-option MAC_MIN_VERSION=$(OSX_MIN_VERSION)
 $(package)_config_opts_darwin += -device-option MAC_TARGET=$(host)
 $(package)_config_opts_darwin += -device-option MAC_LD64_VERSION=$(LD64_VERSION)
+ifneq ($(strip $(FORCE_USE_SYSTEM_CLANG)),)
+# qt compiles its config.tests and its own sources through the mkspec, not
+# through the CC/CXX depends passes to other packages, so the search paths set
+# up in hosts/darwin.mk do not reach it. Hand the same three things to
+# mac-qmake.conf: the libc++ headers, the SDK's C headers after them for
+# #include_next, and the directory holding cctools' linker.
+$(package)_config_opts_darwin += -device-option MAC_LIBCXX_PATH=$(DARWIN_LIBCXX_PREFIX)
+$(package)_config_opts_darwin += -device-option MAC_CLANG_RESOURCE_DIR=$(clang_resource_dir)
+$(package)_config_opts_darwin += -device-option MAC_NATIVE_BIN=$(build_prefix)/bin
+endif
 endif
 
 $(package)_config_opts_linux += -qt-xcb
