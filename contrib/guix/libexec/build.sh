@@ -463,14 +463,13 @@ mkdir -p "$DISTSRC"
                 ;;
         esac
 
-        case "$HOST" in
-            *mingw*)
-                cp "${DISTSRC}/doc/README_windows.txt" "${DISTNAME}/readme.txt"
-                ;;
-            *linux*)
-                cp "${DISTSRC}/README.md" "${DISTNAME}/"
-                ;;
-        esac
+        # No readme is copied into the distribution directory. gitian ships
+        # none -- comparing a guix linux tarball against
+        # gitian-builder/build/out showed identical file lists apart from the
+        # README.md this used to add -- and no gitian descriptor copies one for
+        # any host. The windows installer still carries readme.txt: setup.nsi
+        # takes that straight from $(abs_top_srcdir)/doc/README_windows.txt and
+        # never looked at this copy.
 
         # Finally, deterministically produce {non-,}debug binary tarballs ready
         # for release
