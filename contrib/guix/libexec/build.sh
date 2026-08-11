@@ -339,7 +339,23 @@ mkdir -p "$DISTSRC"
     # Perform basic security checks on a series of executables.
     make -C src --jobs=1 check-security ${V:+V=1}
     # Check that executables only contain allowed version symbols.
-    make -C src --jobs=1 check-symbols  ${V:+V=1}
+    #
+    # Skipped for darwin, matching gitian: gitian-linux.yml and gitian-win.yml
+    # run both checks, gitian-osx.yml runs only check-security. The Mach-O side
+    # of symbol-check.py was backported with Bitcoin Core's release parameters
+    # and asserts minos == [10,15,0] and sdk == [11,0,0], while this tree builds
+    # against the 10.11 SDK with OSX_MIN_VERSION=10.8. Our binaries therefore
+    # carry LC_VERSION_MIN_MACOSX rather than LC_BUILD_VERSION, and the check
+    # dies before it can even compare:
+    #
+    #   AttributeError: 'NoneType' object has no attribute 'minos'
+    #
+    # Fixing those checks to match this tree's targets is worth doing, but it is
+    # a change to the release tooling rather than to this port.
+    case "$HOST" in
+        *darwin*) ;;
+        *)        make -C src --jobs=1 check-symbols ${V:+V=1} ;;
+    esac
 
     mkdir -p "$OUTDIR"
 
