@@ -423,7 +423,15 @@ mkdir -p "$DISTSRC"
             cp  --target-directory="unsigned-app-${HOST}" \
                 osx_volname \
                 contrib/macdeploy/detached-sig-{apply,create}.sh \
-                "${BASEPREFIX}/${HOST}"/native/bin/dmg
+                "${BASEPREFIX}/${HOST}"/native/bin/dmg \
+                "${BASEPREFIX}/${HOST}"/native/bin/genisoimage
+            # detached-sig-apply.sh looks for these two beside itself, under
+            # the unprefixed names; see PAGESTUFF and CODESIGN_ALLOCATE there.
+            # gitian-osx.yml copies the same five files into this directory.
+            cp "${BASEPREFIX}/${HOST}/native/bin/${HOST}-codesign_allocate" \
+               "unsigned-app-${HOST}/codesign_allocate"
+            cp "${BASEPREFIX}/${HOST}/native/bin/${HOST}-pagestuff" \
+               "unsigned-app-${HOST}/pagestuff"
             mv --target-directory="unsigned-app-${HOST}" dist
             (
                 cd "unsigned-app-${HOST}"
