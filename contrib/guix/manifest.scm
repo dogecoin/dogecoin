@@ -688,5 +688,9 @@ inspecting signatures in Mach-O binaries.")
            ;; depends use this one instead of that prebuilt Ubuntu binary, which
            ;; cannot run here: the container has no /lib64, so its ELF
            ;; interpreter is missing.
-           (list clang-toolchain-6 binutils imagemagick libtiff librsvg font-tuffy cmake xorriso))
+           ;; libcap is needed to configure native_cdrkit: depends only builds
+           ;; and installs genisoimage, but cmake configures the whole project,
+           ;; and wodim/CMakeLists.txt hard-fails without sys/capability.h.
+           ;; gitian-osx.yml installs libcap-dev for the same reason.
+           (list clang-toolchain-6 binutils imagemagick libtiff librsvg font-tuffy cmake xorriso libcap))
           (else '())))))

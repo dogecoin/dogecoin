@@ -88,6 +88,19 @@ case "$HOST" in
         prepend_to_search_env_var CPLUS_INCLUDE_PATH "${zlib_store_path}/include"
         prepend_to_search_env_var OBJC_INCLUDE_PATH "${zlib_store_path}/include"
         prepend_to_search_env_var OBJCPLUS_INCLUDE_PATH "${zlib_store_path}/include"
+
+        # native_cdrkit's cmake run configures the whole project, and
+        # wodim/CMakeLists.txt hard-fails without sys/capability.h even though
+        # we only build and install genisoimage. The include paths are rebuilt
+        # from the native toolchain above, so libcap has to be added back
+        # explicitly. gitian-osx.yml installs libcap-dev for the same reason.
+        libcap_store_path=$(store_path "libcap")
+
+        prepend_to_search_env_var LIBRARY_PATH "${libcap_store_path}/lib"
+        prepend_to_search_env_var C_INCLUDE_PATH "${libcap_store_path}/include"
+        prepend_to_search_env_var CPLUS_INCLUDE_PATH "${libcap_store_path}/include"
+        prepend_to_search_env_var OBJC_INCLUDE_PATH "${libcap_store_path}/include"
+        prepend_to_search_env_var OBJCPLUS_INCLUDE_PATH "${libcap_store_path}/include"
 esac
 
 # Set environment variables to point the CROSS toolchain to the right
