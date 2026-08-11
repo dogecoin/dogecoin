@@ -41,11 +41,19 @@ darwin_clear_env=env -u C_INCLUDE_PATH -u CPLUS_INCLUDE_PATH \
 darwin_sysinc=-Xclang -internal-externc-isystem$(clang_resource_dir)/include \
               -Xclang -internal-externc-isystem$(OSX_SDK)/usr/include
 
+#  * -B$(build_prefix)/bin points clang at the cctools binaries staged there,
+#    so it links with x86_64-apple-darwin18-ld rather than whichever ld is on
+#    PATH. gitian does not need this because its clang lives in that same
+#    directory and finds its siblings; the packaged clang does not, and GNU ld
+#    then fails as "unrecognised emulation mode: acosx_version_min", having
+#    read -macosx_version_min as -m acosx_version_min.
 darwin_CC=$(darwin_clear_env) \
             $(clang_prog) -target $(host) -mmacosx-version-min=$(OSX_MIN_VERSION) -isysroot $(OSX_SDK) -mlinker-version=$(LD64_VERSION) \
+              -B$(build_prefix)/bin \
               $(darwin_sysinc)
 darwin_CXX=$(darwin_clear_env) \
              $(clangxx_prog) -target $(host) -mmacosx-version-min=$(OSX_MIN_VERSION) -isysroot $(OSX_SDK) -mlinker-version=$(LD64_VERSION) -stdlib=libc++ \
+               -B$(build_prefix)/bin \
                -isystem $(DARWIN_LIBCXX_PREFIX)/include/c++/v1 \
                $(darwin_sysinc)
 endif
