@@ -171,6 +171,12 @@ define $(package)_extract_cmds
 endef
 
 
+# dogecoin-linux-g++ is a generic cross mkspec: a copy of the
+# linux-arm-gnueabi-g++ mkspec with the tool prefix replaced by $(host)-, so it
+# works for any linux host triple Qt does not ship a mkspec for (i686-linux-gnu
+# among them). It is only selected when something passes
+# -xplatform dogecoin-linux-g++; gitian does not, and keeps using the stock
+# multilib mkspecs, so its builds are unaffected by this.
 define $(package)_preprocess_cmds
   sed -i.old "s|updateqm.commands = \$$$$\$$$$LRELEASE|updateqm.commands = $($(package)_extract_dir)/qttools/bin/lrelease|" qttranslations/translations/translations.pro && \
   sed -i.old "/updateqm.depends =/d" qttranslations/translations/translations.pro && \
@@ -179,6 +185,8 @@ define $(package)_preprocess_cmds
   sed -i.old 's/if \[ "$$$$XPLATFORM_MAC" = "yes" \]; then xspecvals=$$$$(macSDKify/if \[ "$$$$BUILD_ON_MAC" = "yes" \]; then xspecvals=$$$$(macSDKify/' qtbase/configure && \
   sed -i.old 's/CGEventCreateMouseEvent(0, kCGEventMouseMoved, pos, 0)/CGEventCreateMouseEvent(0, kCGEventMouseMoved, pos, kCGMouseButtonLeft)/' qtbase/src/plugins/platforms/cocoa/qcocoacursor.mm && \
   sed -i.old '3i #include <stdio.h>' qtbase/src/3rdparty/xcb/xcb-util/atoms.c && \
+  cp -r qtbase/mkspecs/linux-arm-gnueabi-g++ qtbase/mkspecs/dogecoin-linux-g++ && \
+  sed -i.old "s/arm-linux-gnueabi-/$(host)-/g" qtbase/mkspecs/dogecoin-linux-g++/qmake.conf && \
   mkdir -p qtbase/mkspecs/macx-clang-linux &&\
   cp -f qtbase/mkspecs/macx-clang/Info.plist.lib qtbase/mkspecs/macx-clang-linux/ &&\
   cp -f qtbase/mkspecs/macx-clang/Info.plist.app qtbase/mkspecs/macx-clang-linux/ &&\
