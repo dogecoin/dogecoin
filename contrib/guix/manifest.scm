@@ -156,14 +156,14 @@ chain for " target " development."))
     xglibc "libc_cv_ssp" "no")
    "libc_cv_ssp_strong" "no"))
 
-(define* (make-bitcoin-cross-toolchain target
-                                       #:key
-                                       (base-gcc-for-libc gcc-7)
-                                       (base-kernel-headers linux-libre-headers-4.9)
-                                       (base-libc (make-glibc-without-ssp glibc-2.24))
-                                       (base-gcc (make-gcc-rpath-link base-gcc)))
+(define* (make-dogecoin-cross-toolchain target
+                                        #:key
+                                        (base-gcc-for-libc gcc-7)
+                                        (base-kernel-headers linux-libre-headers-4.9)
+                                        (base-libc (make-glibc-without-ssp glibc-2.24))
+                                        (base-gcc (make-gcc-rpath-link base-gcc)))
   "Convenience wrapper around MAKE-CROSS-TOOLCHAIN with default values
-desirable for building Bitcoin Core release binaries."
+desirable for building Dogecoin release binaries."
   (make-cross-toolchain target
                         base-gcc-for-libc
                         base-kernel-headers
@@ -677,7 +677,7 @@ inspecting signatures in Mach-O binaries.")
                  (if (string-prefix? "i686-" target) nsis-i686 nsis-x86_64)
                  osslsigncode))
           ((string-contains target "-linux-")
-           (list (make-bitcoin-cross-toolchain target)))
+           (list (make-dogecoin-cross-toolchain target)))
           ((string-contains target "darwin")
            ;; No python-signapple: dogecoin signs macOS builds the gitian way,
            ;; with contrib/macdeploy/detached-sig-{apply,create}.sh against
