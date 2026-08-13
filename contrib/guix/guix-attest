@@ -83,6 +83,25 @@ platform_for_host() {
     esac
 }
 
+assert_already_exists() {
+    cat <<EOF
+ERR: An assertion already exists for '${COMMIT}' on ${1} and attests
+differently. You likely previously attested to a partial build, e.g. one
+where you overrode HOSTS. See the diff above for more context.
+
+Hint: You may wish to remove the existing assertion and its signature by
+      invoking:
+
+    rm '${2}'{,.sig}
+
+      Then try running this script again.
+
+EOF
+}
+
+temp_assert=""
+trap 'rm -f -- "${temp_assert}"' EXIT
+
 attested=0
 for platform in linux win osx; do
     parts=()
@@ -103,14 +122,45 @@ for platform in linux win osx; do
     # duplicates, then order by path so two builders' assertions differ only
     # where the hashes do. Deduplicating on the path alone would be wrong: it
     # would silently discard one side of a genuine disagreement.
+    #
+    # Build it beside the real assertion rather than over it: a rejected
+    # assertion should not leave a half-written one behind, and an assertion
+    # already on disk must survive long enough to be compared against.
+    temp_assert="$(mktemp)"
     cat "${parts[@]}" \
         | grep -v '  .*/SHA256SUMS\.part$' \
-        | awk '!seen[$0]++' | sort -k2,2 > "$assert"
+        | awk '!seen[$0]++' | sort -k2,2 > "$temp_assert"
 
-    if [ "$(cut -d' ' -f3- "$assert" | sort | uniq -d | wc -l)" -ne 0 ]; then
+    if [ "$(cut -d' ' -f3- "$temp_assert" | sort | uniq -d | wc -l)" -ne 0 ]; then
         echo "ERR: hosts disagree on the hash of a shared file:"
-        cut -d' ' -f3- "$assert" | sort | uniq -d | sed 's/^/       /'
+        cut -d' ' -f3- "$temp_assert" | sort | uniq -d | sed 's/^/       /'
         exit 1
+    fi
+
+    # Attesting is not a thing to do twice with different answers. If an
+    # assertion is already here it has to match, or the signer is about to
+    # replace a complete build's attestation with a partial one, under the
+    # same name and their own signature.
+    if [ -e "$assert" ]; then
+        if diff -u "$assert" "$temp_assert"; then
+            echo "  unchanged  ${assert#"$(git_root)"/}"
+        else
+            assert_already_exists "$platform" "$assert"
+            exit 1
+        fi
+    else
+        cat "$temp_assert" > "$assert"
+    fi
+
+    rm -f -- "$temp_assert"
+    temp_assert=""
+
+    # An assertion written unsigned by an earlier run is signed by a later one;
+    # an assertion already signed is left alone rather than re-signed.
+    if [ -e "${assert}.sig" ]; then
+        echo "  signed already  ${assert#"$(git_root)"/}"
+        attested=$((attested + 1))
+        continue
     fi
 
     if gpg_err=$(gpg --detach-sign ${KEY:+--local-user "$KEY"} --armor \
