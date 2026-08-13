@@ -18,21 +18,21 @@ check_tools gpg diff grep sed
 
 help() {
     echo "Usage: guix-verify
-               [ -c | --commit ] COMMIT     build to verify, default HEAD
+               [ -v | --version ] VERSION   version to verify, default HEAD
                [ -s | --signer ] SIGNER     whose assertion to compare against
                [ -d | --destination ] DIR   where the sigs live, default ./sigs
                [ -h | --help ]"
     exit 2
 }
 
-COMMIT=""
+VERSION_ARG=""
 SIGNER=""
 DESTINATION=""
 
 while (( "$#" )); do
     case "$1" in
-        -c | --commit )
-            if [ -n "$2" ]; then COMMIT="$2"; shift; else
+        -v | --version | -c | --commit )
+            if [ -n "$2" ]; then VERSION_ARG="$2"; shift; else
                 echo 'Error: "--commit" requires a commit.'; exit 1; fi ;;
         -s | --signer | --sign )
             if [ -n "$2" ]; then SIGNER="$2"; shift; else
@@ -46,7 +46,9 @@ while (( "$#" )); do
     shift
 done
 
-COMMIT="${COMMIT:-$(git rev-parse --short=12 HEAD)}"
+# Same resolution as guix-attest: the prelude's VERSION, which is the tag when
+# HEAD is exactly tagged, so both scripts name the same directory.
+VERSION="${VERSION_ARG:-$VERSION}"
 DESTINATION="${DESTINATION:-$(git_root)/sigs}"
 
 failure=""
@@ -66,13 +68,13 @@ verify() {
         echo "      guix-attest on a machine holding the key."
         echo ""
         failure=1
-    elif ! gpg --quiet --batch --verify "${current}.sig" "$current" 2>/dev/null; then
+    elif ! gpg --quiet --batch --verify "${current}.sig" "$current" 1>&2; then
         echo "ERR: Failed to verify GPG signature in '${current}'"
         echo ""
         echo "Hint: Either the signature is invalid or the public key is missing"
         echo ""
         failure=1
-    elif ! diff --report-identical "$base" "$current"; then
+    elif ! diff --report-identical "$base" "$current" 1>&2; then
         echo "ERR: The attestations in these two directories differ:"
         echo "    '${base}'"
         echo "    '${current}'"
@@ -84,15 +86,15 @@ verify() {
     fi
 }
 
-echo "Looking for assertions in '${DESTINATION}/${COMMIT}-{linux,win,osx}'"
+echo "Looking for assertions in '${DESTINATION}/${VERSION}-{linux,win,osx}'"
 echo ""
 
 found=0
-# Walk the platforms guix-attest writes rather than globbing ${COMMIT}-*.
+# Walk the platforms guix-attest writes rather than globbing ${VERSION}-*.
 # A glob is a prefix match, so verifying 1.14.9 would pick up 1.14.9-rc1 and
 # report a clean pass for a version nobody attested.
 for platform in linux win osx; do
-    pdir="${DESTINATION}/${COMMIT}-${platform}"
+    pdir="${DESTINATION}/${VERSION}-${platform}"
 
     shopt -s nullglob
     asserts=("$pdir"/*/*.assert)

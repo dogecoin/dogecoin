@@ -15,6 +15,10 @@ set -e -o pipefail
 
 # Sourcing the prelude gets check_tools, git_root and the top-of-repo check
 # that guix-build and guix-clean already rely on.
+# An OUTDIR_BASE from the environment has to be noticed before the prelude
+# derives one, so that overriding the version still honours it.
+_env_outdir_base="${OUTDIR_BASE:-}"
+
 # shellcheck source=libexec/prelude.bash
 source "$(dirname "${BASH_SOURCE[0]}")/libexec/prelude.bash"
 
@@ -25,15 +29,17 @@ help() {
                [ -s | --sign | --signer ] NAME   PGP user ID to sign with
                [ -k | --key ] KEY                GPG key, default
                                                  git config user.signingkey
-               [ -c | --commit ] COMMIT          build to attest, default HEAD
+               [ -v | --version ] VERSION        version to attest, default HEAD
+                                                 (-c/--commit is an alias)
                [ -d | --destination ] DIR        where to write, default ./sigs
+                                                 (guix-clean only spares the default)
                [ -h | --help ]"
     exit 2
 }
 
 SIGNER=""
 KEY=""
-COMMIT=""
+VERSION_ARG=""
 DESTINATION=""
 
 while (( "$#" )); do
@@ -44,8 +50,8 @@ while (( "$#" )); do
         -k | --key )
             if [ -n "$2" ]; then KEY="$2"; shift; else
                 echo 'Error: "--key" requires a GPG key.'; exit 1; fi ;;
-        -c | --commit )
-            if [ -n "$2" ]; then COMMIT="$2"; shift; else
+        -v | --version | -c | --commit )
+            if [ -n "$2" ]; then VERSION_ARG="$2"; shift; else
                 echo 'Error: "--commit" requires a commit.'; exit 1; fi ;;
         -d | --destination )
             if [ -n "$2" ]; then DESTINATION="$2"; shift; else
@@ -61,7 +67,16 @@ if [ -z "$SIGNER" ]; then
     exit 1
 fi
 
-COMMIT="${COMMIT:-$(git rev-parse --short=12 HEAD)}"
+# The prelude already resolved this: VERSION is the tag when HEAD is exactly
+# tagged and the short commit otherwise, and OUTDIR_BASE is where guix-build
+# wrote. Recomputing the commit here looked in guix-build-<sha>/output while a
+# tagged build had gone to guix-build-<tag>/output. Naming the assertion after
+# VERSION also lines it up with gitian.sigs, which is organised per version.
+if [ -n "$VERSION_ARG" ]; then
+    VERSION="$VERSION_ARG"
+    OUTDIR_BASE="${_env_outdir_base:-${PWD}/guix-build-${VERSION}/output}"
+fi
+OUTDIR="$OUTDIR_BASE"
 
 # The signer names the directory, as it does in gitian.sigs; the key is a
 # separate thing. Default to whatever git already signs commits with, so a
@@ -84,10 +99,9 @@ elif [ -z "$KEY" ] && ! gpg --list-secret-keys >/dev/null 2>&1; then
     echo ""
 fi
 
-OUTDIR="$(git_root)/guix-build-${COMMIT}/output"
 if [ ! -d "$OUTDIR" ]; then
     echo "ERR: no build output at ${OUTDIR}"
-    echo "Hint: run ./contrib/guix/guix-build first, or pass --commit=<commit>"
+    echo "Hint: run ./contrib/guix/guix-build first, or pass the version"
     exit 1
 fi
 
@@ -105,7 +119,7 @@ platform_for_host() {
 
 assert_already_exists() {
     cat <<EOF
-ERR: An assertion already exists for '${COMMIT}' on ${1} and attests
+ERR: An assertion already exists for '${VERSION}' on ${1} and attests
 differently. You likely previously attested to a partial build, e.g. one
 where you overrode HOSTS. See the diff above for more context.
 
@@ -134,8 +148,8 @@ for platform in linux win osx; do
 
     [ ${#parts[@]} -eq 0 ] && continue
 
-    outdir="${DESTINATION}/${COMMIT}-${platform}/${SIGNER}"
-    assert="${outdir}/dogecoin-${platform}-${COMMIT}-build.assert"
+    outdir="${DESTINATION}/${VERSION}-${platform}/${SIGNER}"
+    assert="${outdir}/dogecoin-${platform}-${VERSION}-build.assert"
     mkdir -p "$outdir"
 
     # Each host's part repeats the shared dist-archive line, so drop exact
@@ -202,4 +216,4 @@ if [ "$attested" -eq 0 ]; then
     exit 1
 fi
 
-echo "Attested ${attested} platform(s) for ${COMMIT} as ${SIGNER}."
+echo "Attested ${attested} platform(s) for ${VERSION} as ${SIGNER}."
