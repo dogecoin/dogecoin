@@ -11,7 +11,10 @@
 export LC_ALL=C
 set -e -o pipefail
 
-. "$(dirname "${BASH_SOURCE[0]}")/../shell/git-utils.bash"
+# shellcheck source=libexec/prelude.bash
+source "$(dirname "${BASH_SOURCE[0]}")/libexec/prelude.bash"
+
+check_tools gpg diff grep sed
 
 help() {
     echo "Usage: guix-verify
@@ -53,7 +56,17 @@ verify() {
     local base="$1"
     local current="$2"
 
-    if ! gpg --quiet --batch --verify "${current}.sig" "$current" 2>/dev/null; then
+    if [ ! -e "${current}.sig" ]; then
+        # Distinct from a bad signature: guix-attest writes an assertion
+        # unsigned when no key is available, so this is an unfinished
+        # attestation rather than a suspect one.
+        echo "ERR: No signature alongside '${current}'"
+        echo ""
+        echo "Hint: guix-attest wrote this unsigned. Sign it, or re-run"
+        echo "      guix-attest on a machine holding the key."
+        echo ""
+        failure=1
+    elif ! gpg --quiet --batch --verify "${current}.sig" "$current" 2>/dev/null; then
         echo "ERR: Failed to verify GPG signature in '${current}'"
         echo ""
         echo "Hint: Either the signature is invalid or the public key is missing"

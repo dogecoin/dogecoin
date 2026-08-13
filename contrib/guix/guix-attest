@@ -13,7 +13,12 @@
 export LC_ALL=C
 set -e -o pipefail
 
-. "$(dirname "${BASH_SOURCE[0]}")/../shell/git-utils.bash"
+# Sourcing the prelude gets check_tools, git_root and the top-of-repo check
+# that guix-build and guix-clean already rely on.
+# shellcheck source=libexec/prelude.bash
+source "$(dirname "${BASH_SOURCE[0]}")/libexec/prelude.bash"
+
+check_tools gpg diff awk sort cut uniq grep sed wc mkdir mktemp
 
 help() {
     echo "Usage: guix-attest
@@ -63,6 +68,21 @@ COMMIT="${COMMIT:-$(git rev-parse --short=12 HEAD)}"
 # signer whose PGP user ID differs from their handle does not have to repeat it.
 KEY="${KEY:-$(git config --get user.signingkey 2>/dev/null || true)}"
 DESTINATION="${DESTINATION:-$(git_root)/sigs}"
+
+# Say up front whether the key is usable. Discovering it at signing time means
+# the assertions are already on disk before anything mentions it.
+if [ -n "$KEY" ] && ! gpg --dry-run --list-secret-keys "$KEY" >/dev/null 2>&1; then
+    echo "WARN: no usable secret key for '${KEY}'"
+    echo "      Assertions will be written unsigned; sign them separately."
+    echo ""
+elif [ -z "$KEY" ] && ! gpg --list-secret-keys >/dev/null 2>&1; then
+    # An unset user.signingkey is not the same as having no key: gpg falls back
+    # to its default secret key. Only warn when the ring is genuinely empty,
+    # otherwise this fires on every successful run and stops being read.
+    echo "WARN: no signing key available"
+    echo "      Assertions will be written unsigned; sign them separately."
+    echo ""
+fi
 
 OUTDIR="$(git_root)/guix-build-${COMMIT}/output"
 if [ ! -d "$OUTDIR" ]; then
