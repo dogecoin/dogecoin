@@ -27,6 +27,7 @@ check_tools gpg diff awk sort cut uniq grep sed wc mkdir mktemp
 help() {
     echo "Usage: guix-attest
                [ -s | --sign | --signer ] NAME   PGP user ID to sign with
+               [ --no-sign ]                     write assertions unsigned
                [ -k | --key ] KEY                GPG key, default
                                                  git config user.signingkey
                [ -v | --version ] VERSION        version to attest, default HEAD
@@ -39,6 +40,7 @@ help() {
 
 SIGNER=""
 KEY=""
+NO_SIGN=""
 VERSION_ARG=""
 DESTINATION=""
 
@@ -50,6 +52,7 @@ while (( "$#" )); do
         -k | --key )
             if [ -n "$2" ]; then KEY="$2"; shift; else
                 echo 'Error: "--key" requires a GPG key.'; exit 1; fi ;;
+        --no-sign ) NO_SIGN=1 ;;
         -v | --version | -c | --commit )
             if [ -n "$2" ]; then VERSION_ARG="$2"; shift; else
                 echo 'Error: "--commit" requires a commit.'; exit 1; fi ;;
@@ -84,19 +87,24 @@ OUTDIR="$OUTDIR_BASE"
 KEY="${KEY:-$(git config --get user.signingkey 2>/dev/null || true)}"
 DESTINATION="${DESTINATION:-$(git_root)/sigs}"
 
-# Say up front whether the key is usable. Discovering it at signing time means
-# the assertions are already on disk before anything mentions it.
-if [ -n "$KEY" ] && ! gpg --dry-run --list-secret-keys "$KEY" >/dev/null 2>&1; then
-    echo "WARN: no usable secret key for '${KEY}'"
-    echo "      Assertions will be written unsigned; sign them separately."
-    echo ""
-elif [ -z "$KEY" ] && ! gpg --list-secret-keys >/dev/null 2>&1; then
-    # An unset user.signingkey is not the same as having no key: gpg falls back
-    # to its default secret key. Only warn when the ring is genuinely empty,
-    # otherwise this fires on every successful run and stops being read.
-    echo "WARN: no signing key available"
-    echo "      Assertions will be written unsigned; sign them separately."
-    echo ""
+# Writing unsigned is something to ask for, not something to discover. Without
+# --no-sign an unusable key is fatal here, before any assertion is written.
+if [ -z "$NO_SIGN" ]; then
+    if [ -n "$KEY" ]; then
+        if ! gpg --dry-run --list-secret-keys "$KEY" >/dev/null 2>&1; then
+            echo "ERR: no usable secret key for '${KEY}'"
+            echo ""
+            echo "Hint: pass --no-sign to write the assertions unsigned and sign"
+            echo "      them later on a machine holding the key."
+            exit 1
+        fi
+    elif ! gpg --list-secret-keys --with-colons 2>/dev/null | grep -q '^sec'; then
+        echo "ERR: no signing key available"
+        echo ""
+        echo "Hint: set git config user.signingkey, pass a key, or pass"
+        echo "      --no-sign to write the assertions unsigned."
+        exit 1
+    fi
 fi
 
 if [ ! -d "$OUTDIR" ]; then
@@ -197,8 +205,10 @@ for platform in linux win osx; do
         continue
     fi
 
-    if gpg_err=$(gpg --detach-sign ${KEY:+--local-user "$KEY"} --armor \
-                     --output "${assert}.sig" --yes "$assert" 2>&1); then
+    if [ -n "$NO_SIGN" ]; then
+        echo "  unsigned  ${assert#"$(git_root)"/}"
+    elif gpg_err=$(gpg --detach-sign ${KEY:+--local-user "$KEY"} --armor \
+                       --output "${assert}.sig" --yes "$assert" 2>&1); then
         echo "  signed  ${assert#"$(git_root)"/}"
     else
         # gitian-build.sh tolerates this too: the assertion is still written and
