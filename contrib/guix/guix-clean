@@ -80,4 +80,9 @@ for precious_dirs_file in "${found_precious_dirs_files[@]}"; do
     done < "$precious_dirs_file"
 done
 
+# guix-attest writes signed assertions here by default. Nothing else in the
+# tree holds signed material, and -x exists precisely to remove ignored files,
+# so .gitignore would not save it.
+exclude_flags+=( --exclude=sigs )
+
 git clean -xdff "${exclude_flags[@]}"
