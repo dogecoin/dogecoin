@@ -1,0 +1,135 @@
+#!/usr/bin/env bash
+# Copyright (c) 2026 The Dogecoin Core developers
+# Distributed under the MIT software license, see the accompanying
+# file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
+# Sign the checksums of a completed guix build, in the layout gitian.sigs uses.
+#
+#   ./contrib/guix/guix-attest --sign <signer>
+#
+# The flag is spelled as contrib/gitian-build.sh spells it: -s NAME or
+# --sign NAME, with --signer NAME accepted because that is what gsign calls it.
+
+export LC_ALL=C
+set -e -o pipefail
+
+. "$(dirname "${BASH_SOURCE[0]}")/../shell/git-utils.bash"
+
+help() {
+    echo "Usage: guix-attest
+               [ -s | --sign | --signer ] NAME   PGP user ID to sign with
+               [ -k | --key ] KEY                GPG key, default
+                                                 git config user.signingkey
+               [ -c | --commit ] COMMIT          build to attest, default HEAD
+               [ -d | --destination ] DIR        where to write, default ./sigs
+               [ -h | --help ]"
+    exit 2
+}
+
+SIGNER=""
+KEY=""
+COMMIT=""
+DESTINATION=""
+
+while (( "$#" )); do
+    case "$1" in
+        -s | --sign | --signer )
+            if [ -n "$2" ]; then SIGNER="$2"; shift; else
+                echo 'Error: "--sign" requires a PGP signer.'; exit 1; fi ;;
+        -k | --key )
+            if [ -n "$2" ]; then KEY="$2"; shift; else
+                echo 'Error: "--key" requires a GPG key.'; exit 1; fi ;;
+        -c | --commit )
+            if [ -n "$2" ]; then COMMIT="$2"; shift; else
+                echo 'Error: "--commit" requires a commit.'; exit 1; fi ;;
+        -d | --destination )
+            if [ -n "$2" ]; then DESTINATION="$2"; shift; else
+                echo 'Error: "--destination" requires a directory.'; exit 1; fi ;;
+        -h | --help ) help ;;
+        * ) echo "Unknown argument: $1"; help ;;
+    esac
+    shift
+done
+
+if [ -z "$SIGNER" ]; then
+    echo 'Error: "--sign" requires a PGP signer.'
+    exit 1
+fi
+
+COMMIT="${COMMIT:-$(git rev-parse --short=12 HEAD)}"
+
+# The signer names the directory, as it does in gitian.sigs; the key is a
+# separate thing. Default to whatever git already signs commits with, so a
+# signer whose PGP user ID differs from their handle does not have to repeat it.
+KEY="${KEY:-$(git config --get user.signingkey 2>/dev/null || true)}"
+DESTINATION="${DESTINATION:-$(git_root)/sigs}"
+
+OUTDIR="$(git_root)/guix-build-${COMMIT}/output"
+if [ ! -d "$OUTDIR" ]; then
+    echo "ERR: no build output at ${OUTDIR}"
+    echo "Hint: run ./contrib/guix/guix-build first, or pass --commit=<commit>"
+    exit 1
+fi
+
+# gitian.sigs is organised per descriptor, not per host triple: one directory
+# each for linux, win and osx. Fold the seven hosts back into those three so a
+# guix attestation sits beside a gitian one for the same release.
+platform_for_host() {
+    case "$1" in
+        *-w64-mingw32)  echo win   ;;
+        *darwin*)       echo osx   ;;
+        *linux*)        echo linux ;;
+        *)              echo ""    ;;
+    esac
+}
+
+attested=0
+for platform in linux win osx; do
+    parts=()
+    for hostdir in "$OUTDIR"/*/; do
+        host="$(basename "$hostdir")"
+        [ "$host" = "dist-archive" ] && continue
+        [ "$(platform_for_host "$host")" = "$platform" ] || continue
+        [ -f "${hostdir}SHA256SUMS.part" ] && parts+=("${hostdir}SHA256SUMS.part")
+    done
+
+    [ ${#parts[@]} -eq 0 ] && continue
+
+    outdir="${DESTINATION}/${COMMIT}-${platform}/${SIGNER}"
+    assert="${outdir}/dogecoin-${platform}-${COMMIT}-build.assert"
+    mkdir -p "$outdir"
+
+    # Each host's part repeats the shared dist-archive line, so drop exact
+    # duplicates, then order by path so two builders' assertions differ only
+    # where the hashes do. Deduplicating on the path alone would be wrong: it
+    # would silently discard one side of a genuine disagreement.
+    cat "${parts[@]}" \
+        | grep -v '  .*/SHA256SUMS\.part$' \
+        | awk '!seen[$0]++' | sort -k2,2 > "$assert"
+
+    if [ "$(cut -d' ' -f3- "$assert" | sort | uniq -d | wc -l)" -ne 0 ]; then
+        echo "ERR: hosts disagree on the hash of a shared file:"
+        cut -d' ' -f3- "$assert" | sort | uniq -d | sed 's/^/       /'
+        exit 1
+    fi
+
+    if gpg_err=$(gpg --detach-sign ${KEY:+--local-user "$KEY"} --armor \
+                     --output "${assert}.sig" --yes "$assert" 2>&1); then
+        echo "  signed  ${assert#"$(git_root)"/}"
+    else
+        # gitian-build.sh tolerates this too: the assertion is still written and
+        # can be signed later or on another machine holding the key. Print what
+        # gpg said rather than guessing at it.
+        rm -f "${assert}.sig"
+        echo "  WROTE UNSIGNED  ${assert#"$(git_root)"/}"
+        echo "$gpg_err" | sed 's/^/    gpg: /'
+    fi
+    attested=$((attested + 1))
+done
+
+if [ "$attested" -eq 0 ]; then
+    echo "ERR: no SHA256SUMS.part found under ${OUTDIR}"
+    exit 1
+fi
+
+echo "Attested ${attested} platform(s) for ${COMMIT} as ${SIGNER}."
