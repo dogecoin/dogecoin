@@ -82,6 +82,77 @@ bool fEnableReplacement = DEFAULT_ENABLE_REPLACEMENT;
 
 uint256 hashAssumeValid;
 
+/** Count of header-only entries on low-work side forks in mapBlockIndex. */
+static unsigned int nLowWorkSideForkHeaderCount = 0;
+
+static bool IsUsefulHeaderExtension(const CBlockIndex* pindexPrev, const arith_uint256& nNewChainWork)
+{
+    const CBlockIndex* pindexWorkRef = pindexBestHeader ? pindexBestHeader : chainActive.Tip();
+    if (!pindexPrev || !pindexWorkRef)
+        return true;
+
+    if (nNewChainWork >= pindexWorkRef->nChainWork)
+        return true;
+
+    if (pindexPrev == chainActive.Tip())
+        return true;
+
+    if (pindexBestHeader && pindexPrev == pindexBestHeader)
+        return true;
+
+    if (pindexBestHeader &&
+        pindexBestHeader->GetAncestor(pindexPrev->nHeight) == pindexPrev &&
+        pindexPrev->nHeight >= chainActive.Tip()->nHeight)
+        return true;
+
+    return false;
+}
+
+static bool WouldBeLowWorkSideForkHeader(const CBlockIndex* pindexPrev, const CBlockHeader& block)
+{
+    if (!pindexPrev || !chainActive.Tip())
+        return false;
+
+    CBlockIndex index(block);
+    index.pprev = const_cast<CBlockIndex*>(pindexPrev);
+    index.nHeight = pindexPrev->nHeight + 1;
+    const arith_uint256 nNewChainWork = pindexPrev->nChainWork + GetBlockProof(index);
+
+    return !IsUsefulHeaderExtension(pindexPrev, nNewChainWork);
+}
+
+bool IsLowWorkSideForkIndex(const CBlockIndex* pindex)
+{
+    AssertLockHeld(cs_main);
+    if (!pindex || !chainActive.Tip())
+        return false;
+
+    if (pindex->nStatus & BLOCK_HAVE_DATA)
+        return false;
+    if (chainActive.Contains(pindex))
+        return false;
+
+    if (!pindex->pprev)
+        return false;
+
+    return !IsUsefulHeaderExtension(pindex->pprev, pindex->nChainWork);
+}
+
+static void RecountLowWorkSideForkHeaders()
+{
+    nLowWorkSideForkHeaderCount = 0;
+    for (const auto& entry : mapBlockIndex) {
+        if (IsLowWorkSideForkIndex(entry.second))
+            nLowWorkSideForkHeaderCount++;
+    }
+}
+
+unsigned int GetLowWorkSideForkHeaderCount()
+{
+    AssertLockHeld(cs_main);
+    return nLowWorkSideForkHeaderCount;
+}
+
 //mlumin 5/2021: Changing this variable to a fee rate, because that's what it is, not a fee. Confusion bad.
 CFeeRate minRelayTxFeeRate = CFeeRate(DEFAULT_MIN_RELAY_TX_FEE);
 CAmount maxTxFee = DEFAULT_TRANSACTION_MAXFEE;
@@ -3254,8 +3325,22 @@ static bool AcceptBlockHeader(const CBlockHeader& block, CValidationState& state
             }
         }
     }
-    if (pindex == NULL)
+    if (pindex == NULL) {
+        CBlockIndex* pindexPrev = NULL;
+        BlockMap::iterator miPrev = mapBlockIndex.find(block.hashPrevBlock);
+        if (miPrev != mapBlockIndex.end())
+            pindexPrev = miPrev->second;
+
+        if (pindexPrev && WouldBeLowWorkSideForkHeader(pindexPrev, block)) {
+            if (nLowWorkSideForkHeaderCount >= MAX_LOW_WORK_SIDEFORK_HEADERS) {
+                return state.DoS(20, error("%s: too many low-work side-fork headers stored", __func__),
+                                 0, "too-many-sidework-headers");
+            }
+            nLowWorkSideForkHeaderCount++;
+        }
+
         pindex = AddToBlockIndex(block);
+    }
 
     if (ppindex)
         *ppindex = pindex;
@@ -3685,6 +3770,8 @@ bool static LoadBlockIndexDB(const CChainParams& chainparams)
         if (pindex->IsValid(BLOCK_VALID_TREE) && (pindexBestHeader == NULL || CBlockIndexWorkComparator()(pindexBestHeader, pindex)))
             pindexBestHeader = pindex;
     }
+
+    RecountLowWorkSideForkHeaders();
 
     // Load block file info
     pblocktree->ReadLastBlockFile(nLastBlockFile);
