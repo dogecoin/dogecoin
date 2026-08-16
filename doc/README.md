@@ -10,7 +10,7 @@ The Dogecoin repo's [root README](/README.md) contains relevant information on t
 - [Release Process](release-process.md)
 - [Translation Process](translation_process.md)
 - [Translation Strings Policy](translation_strings_policy.md)
-- [Travis CI](travis-ci.md)
+- [GitHub Actions CI](github-actions-ci.md)
 - [Unauthenticated REST Interface](REST-interface.md)
 - [Shared Libraries](shared-libraries.md)
 - [BIPS](bips.md)

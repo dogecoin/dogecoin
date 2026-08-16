@@ -30,3 +30,35 @@ jobs:
         jq -r '.[] | [.name, .remote] | join(" ")' contrib/subtrees.json | xargs -n2 git remote add
         jq -r '.[].name' contrib/subtrees.json | xargs -n1 git fetch
         jq -r '.[].path' contrib/subtrees.json | xargs -n1 bash contrib/devtools/git-subtree-check.sh
+  whitespace:
+    name: Check Trailing Whitespace
+    runs-on: ubuntu-24.04
+    steps:
+    - uses: actions/checkout@v5
+    - name: Check for trailing whitespace in source files
+      run: |
+        if grep -rn --include='*.cpp' --include='*.h' --include='*.cc' --include='*.cxx' \
+          --exclude-dir=leveldb --exclude-dir=secp256k1 \
+          '[[:blank:]]$' src/; then
+          echo "Error: trailing whitespace found in source files."
+          exit 1
+        fi
+  clang-format:
+    name: Check clang-format
+    runs-on: ubuntu-24.04
+    steps:
+    - uses: actions/checkout@v5
+      with:
+        fetch-depth: 0
+    - name: Install clang-format
+      run: sudo apt update && sudo apt install -y clang-format
+    - name: Check formatting of changed source files
+      env:
+        BASE_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || 'HEAD~1' }}
+      run: |
+        if git diff "$BASE_SHA" -- '*.cpp' '*.h' '*.cc' '*.cxx' | \
+             python3 contrib/devtools/clang-format-diff.py -p1 | grep -q .; then
+          echo "Error: code formatting issues found."
+          echo "Run: git diff | python3 contrib/devtools/clang-format-diff.py -p1 -i"
+          exit 1
+        fi
