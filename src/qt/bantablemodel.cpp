@@ -54,11 +54,11 @@ public:
         cachedBanlist.clear();
         cachedBanlist.reserve(banMap.size());
 
-        for (banmap_t::iterator it = banMap.begin(); it != banMap.end(); it++)
+        for (const auto& entry : banMap)
         {
             CCombinedBan banEntry;
-            banEntry.subnet = (*it).first;
-            banEntry.banEntry = (*it).second;
+            banEntry.subnet = entry.first;
+            banEntry.banEntry = entry.second;
             cachedBanlist.append(banEntry);
         }
 

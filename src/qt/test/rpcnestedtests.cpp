@@ -15,6 +15,8 @@
 #include "test/testutil.h"
 #include "univalue.h"
 #include "util.h"
+#include "scheduler.h"
+#include "validationinterface.h"
 
 #include <QDir>
 #include <QtGlobal>
@@ -47,6 +49,10 @@ void RPCNestedTests::rpcNestedTests()
     dir.mkpath(".");
     ForceSetArg("-datadir", path);
     //mempool.setSanityCheck(1.0);
+
+    CScheduler scheduler;
+    GetMainSignals().RegisterBackgroundSignalScheduler(scheduler);
+
     pblocktree = new CBlockTreeDB(1 << 20, true);
     pcoinsdbview = new CCoinsViewDB(1 << 23, true);
     pcoinsTip = new CCoinsViewCache(pcoinsdbview);
@@ -148,6 +154,8 @@ void RPCNestedTests::rpcNestedTests()
     QVERIFY_EXCEPTION_THROWN(RPCConsole::RPCExecuteCommandLine(result, "rpcNestedTest(abc,,)"), std::runtime_error); //don't tollerate empty arguments when using ,
 #endif
 
+    GetMainSignals().FlushBackgroundCallbacks();
+    GetMainSignals().UnregisterBackgroundSignalScheduler();
     delete pcoinsTip;
     delete pcoinsdbview;
     delete pblocktree;

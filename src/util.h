@@ -119,6 +119,9 @@ void OpenDebugLog();
 void ShrinkDebugFile();
 void runCommand(const std::string& strCommand);
 
+/** Check whether enough disk space is available. */
+bool CheckDiskSpace(uint64_t nAdditionalBytes = 0);
+
 inline bool IsSwitchChar(char c)
 {
 #ifdef WIN32
