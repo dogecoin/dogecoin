@@ -11,6 +11,7 @@
 #include "protocol.h"
 #include "util.h"
 #include "utilstrencodings.h"
+#include "wallet/walletutil.h"
 
 #include <stdint.h>
 
@@ -23,22 +24,73 @@
 
 using namespace std;
 
+//
+// Multi-env machinery
+//
+// Process-wide lock guarding g_dbenvs (the env registry) and every
+// touch of per-env mutable state (mapDb, mapFileUseCount, the BDB
+// open/close lifecycle). Lives at namespace level — replaces the
+// per-CDBEnv `cs_db` member from the singleton era.
+CCriticalSection cs_db;
+
+namespace {
+// Map from env-directory string → open environment for that directory.
+// One env per unique env_directory.string(); directory-layout wallets
+// (<walletdir>/<name>/wallet.dat) each get their own env at
+// <walletdir>/<name>/. Flat wallets (<walletdir>/<name>.dat) share
+// one env at <walletdir>/.
+std::map<std::string, CDBEnv> g_dbenvs;
+} // namespace
+
+CDBEnv* GetWalletEnv(const fs::path& wallet_path, std::string& database_filename)
+{
+    fs::path env_directory = wallet_path.parent_path();
+    if (env_directory.empty()) {
+        // Bare filename — assume legacy "single env at walletdir" semantics.
+        env_directory = GetWalletDir();
+    }
+    database_filename = wallet_path.filename().string();
+    LOCK(cs_db);
+    return &g_dbenvs.emplace(std::piecewise_construct,
+                              std::forward_as_tuple(env_directory.string()),
+                              std::forward_as_tuple(env_directory)).first->second;
+}
+
+void FlushAllDbEnvs(bool fShutdown)
+{
+    LOCK(cs_db);
+    for (auto& kv : g_dbenvs) {
+        kv.second.Flush(fShutdown);
+    }
+}
 
 //
 // CDB
 //
 
-CDBEnv bitdb;
-
-void CDBEnv::EnvShutdown()
+void CDBEnv::Close()
 {
     if (!fDbEnvInit)
         return;
 
     fDbEnvInit = false;
+
+    // Close any Db handles still alive in this env. The assert catches
+    // refcount bugs in unloadwallet / shutdown — leaving an open handle
+    // when we tear down the env risks on-disk corruption.
+    for (auto& db : mapDb) {
+        auto count = mapFileUseCount.find(db.first);
+        assert(count == mapFileUseCount.end() || count->second == 0);
+        if (db.second) {
+            db.second->close(0);
+            delete db.second;
+            db.second = nullptr;
+        }
+    }
+
     int ret = dbenv->close(0);
     if (ret != 0)
-        LogPrintf("CDBEnv::EnvShutdown: Error %d shutting down database environment: %s\n", ret, DbEnv::strerror(ret));
+        LogPrintf("CDBEnv::Close: Error %d shutting down env at %s: %s\n", ret, strPath, DbEnv::strerror(ret));
     if (!fMockDb)
         DbEnv((u_int32_t)0).remove(strPath.c_str(), 0);
 }
@@ -51,31 +103,26 @@ void CDBEnv::Reset()
     fMockDb = false;
 }
 
-CDBEnv::CDBEnv() : dbenv(NULL)
+CDBEnv::CDBEnv(const fs::path& dir_path) : strPath(dir_path.string()), dbenv(NULL)
 {
     Reset();
 }
 
 CDBEnv::~CDBEnv()
 {
-    EnvShutdown();
+    Close();
     delete dbenv;
     dbenv = NULL;
 }
 
-void CDBEnv::Close()
-{
-    EnvShutdown();
-}
-
-bool CDBEnv::Open(const fs::path& pathIn)
+bool CDBEnv::Open(bool retry)
 {
     if (fDbEnvInit)
         return true;
 
     boost::this_thread::interruption_point();
 
-    strPath = pathIn.string();
+    fs::path pathIn = strPath;
     fs::path pathLogDir = pathIn / "database";
     TryCreateDirectory(pathLogDir);
     fs::path pathErrorFile = pathIn / "db.log";
@@ -237,12 +284,12 @@ void CDBEnv::CheckpointLSN(const std::string& strFile)
 }
 
 
-CDB::CDB(const std::string& strFilename, const char* pszMode, bool fFlushOnCloseIn) : pdb(NULL), activeTxn(NULL)
+CDB::CDB(const fs::path& wallet_path, const char* pszMode, bool fFlushOnCloseIn) : pdb(NULL), env(NULL), activeTxn(NULL)
 {
     int ret;
     fReadOnly = (!strchr(pszMode, '+') && !strchr(pszMode, 'w'));
     fFlushOnClose = fFlushOnCloseIn;
-    if (strFilename.empty())
+    if (wallet_path.empty())
         return;
 
     bool fCreate = strchr(pszMode, 'c') != NULL;
@@ -250,18 +297,19 @@ CDB::CDB(const std::string& strFilename, const char* pszMode, bool fFlushOnClose
     if (fCreate)
         nFlags |= DB_CREATE;
 
+    env = GetWalletEnv(wallet_path, strFile);
+
     {
-        LOCK(bitdb.cs_db);
-        if (!bitdb.Open(GetDataDir()))
+        LOCK(cs_db);
+        if (!env->Open(false /* retry */))
             throw runtime_error("CDB: Failed to open database environment.");
 
-        strFile = strFilename;
-        ++bitdb.mapFileUseCount[strFile];
-        pdb = bitdb.mapDb[strFile];
+        ++env->mapFileUseCount[strFile];
+        pdb = env->mapDb[strFile];
         if (pdb == NULL) {
-            pdb = new Db(bitdb.dbenv, 0);
+            pdb = new Db(env->dbenv, 0);
 
-            bool fMockDb = bitdb.IsMock();
+            bool fMockDb = env->IsMock();
             if (fMockDb) {
                 DbMpoolFile* mpf = pdb->get_mpf();
                 ret = mpf->set_flags(DB_MPOOL_NOFILE, 1);
@@ -279,9 +327,9 @@ CDB::CDB(const std::string& strFilename, const char* pszMode, bool fFlushOnClose
             if (ret != 0) {
                 delete pdb;
                 pdb = NULL;
-                --bitdb.mapFileUseCount[strFile];
+                --env->mapFileUseCount[strFile];
                 strFile = "";
-                throw runtime_error(strprintf("CDB: Error %d, can't open database %s", ret, strFilename));
+                throw runtime_error(strprintf("CDB: Error %d, can't open database %s", ret, wallet_path.string()));
             }
 
             if (fCreate && !Exists(string("version"))) {
@@ -291,14 +339,30 @@ CDB::CDB(const std::string& strFilename, const char* pszMode, bool fFlushOnClose
                 fReadOnly = fTmp;
             }
 
-            bitdb.mapDb[strFile] = pdb;
+            env->mapDb[strFile] = pdb;
         }
     }
 }
 
+// Legacy entry: callers who only know a relative filename get the
+// "single env at GetWalletDir()" semantics they're used to. Existing
+// (pre-multi-env) call sites keep working unchanged; new code should
+// hand the full path to the fs::path overload above.
+//
+// Important: an empty strFilename must NOT be resolved via
+// GetWalletDir() / "" — that returns GetWalletDir() itself and would
+// make GetWalletEnv pick up the wallet-dir's last path component
+// ("regtest" in tests) as the BDB filename, opening the wrong file.
+// Hand an empty fs::path down so the path-based ctor's empty-check
+// fires and produces a no-op CDB the way callers expect.
+CDB::CDB(const std::string& strFilename, const char* pszMode, bool fFlushOnCloseIn)
+    : CDB(strFilename.empty() ? fs::path() : GetWalletDir() / strFilename, pszMode, fFlushOnCloseIn)
+{
+}
+
 void CDB::Flush()
 {
-    if (activeTxn)
+    if (activeTxn || !env)
         return;
 
     // Flush database activity from memory pool to disk log
@@ -306,7 +370,7 @@ void CDB::Flush()
     if (fReadOnly)
         nMinutes = 1;
 
-    bitdb.dbenv->txn_checkpoint(nMinutes ? GetArg("-dblogsize", DEFAULT_WALLET_DBLOGSIZE) * 1024 : 0, nMinutes, 0);
+    env->dbenv->txn_checkpoint(nMinutes ? GetArg("-dblogsize", DEFAULT_WALLET_DBLOGSIZE) * 1024 : 0, nMinutes, 0);
 }
 
 void CDB::Close()
@@ -321,9 +385,9 @@ void CDB::Close()
     if (fFlushOnClose)
         Flush();
 
-    {
-        LOCK(bitdb.cs_db);
-        --bitdb.mapFileUseCount[strFile];
+    if (env) {
+        LOCK(cs_db);
+        --env->mapFileUseCount[strFile];
     }
 }
 
@@ -352,21 +416,26 @@ bool CDBEnv::RemoveDb(const string& strFile)
 
 bool CDB::Rewrite(const string& strFile, const char* pszSkip)
 {
+    // strFile is a wallet path relative to GetWalletDir() (matches the
+    // legacy CDB constructor's interpretation). Resolve the env from it
+    // so we operate on the right BDB environment for multi-env hosts.
+    std::string dbFilename;
+    CDBEnv* env = GetWalletEnv(GetWalletDir() / strFile, dbFilename);
     while (true) {
         {
-            LOCK(bitdb.cs_db);
-            if (!bitdb.mapFileUseCount.count(strFile) || bitdb.mapFileUseCount[strFile] == 0) {
+            LOCK(cs_db);
+            if (!env->mapFileUseCount.count(dbFilename) || env->mapFileUseCount[dbFilename] == 0) {
                 // Flush log data to the dat file
-                bitdb.CloseDb(strFile);
-                bitdb.CheckpointLSN(strFile);
-                bitdb.mapFileUseCount.erase(strFile);
+                env->CloseDb(dbFilename);
+                env->CheckpointLSN(dbFilename);
+                env->mapFileUseCount.erase(dbFilename);
 
                 bool fSuccess = true;
                 LogPrintf("CDB::Rewrite: Rewriting %s...\n", strFile);
-                string strFileRes = strFile + ".rewrite";
+                string strFileRes = dbFilename + ".rewrite";
                 { // surround usage of db with extra {}
-                    CDB db(strFile.c_str(), "r");
-                    Db* pdbCopy = new Db(bitdb.dbenv, 0);
+                    CDB db(strFile, "r");
+                    Db* pdbCopy = new Db(env->dbenv, 0);
 
                     int ret = pdbCopy->open(NULL,               // Txn pointer
                                             strFileRes.c_str(), // Filename
@@ -409,18 +478,18 @@ bool CDB::Rewrite(const string& strFile, const char* pszSkip)
                         }
                     if (fSuccess) {
                         db.Close();
-                        bitdb.CloseDb(strFile);
+                        env->CloseDb(dbFilename);
                         if (pdbCopy->close(0))
                             fSuccess = false;
                         delete pdbCopy;
                     }
                 }
                 if (fSuccess) {
-                    Db dbA(bitdb.dbenv, 0);
-                    if (dbA.remove(strFile.c_str(), NULL, 0))
+                    Db dbA(env->dbenv, 0);
+                    if (dbA.remove(dbFilename.c_str(), NULL, 0))
                         fSuccess = false;
-                    Db dbB(bitdb.dbenv, 0);
-                    if (dbB.rename(strFileRes.c_str(), NULL, strFile.c_str(), 0))
+                    Db dbB(env->dbenv, 0);
+                    if (dbB.rename(strFileRes.c_str(), NULL, dbFilename.c_str(), 0))
                         fSuccess = false;
                 }
                 if (!fSuccess)

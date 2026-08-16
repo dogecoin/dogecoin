@@ -20,6 +20,7 @@
 #include "script/sign.h"
 #include "wallet/crypter.h"
 #include "wallet/walletdb.h"
+#include "wallet/walletutil.h"
 #include "wallet/rpcwallet.h"
 
 #include <algorithm>
@@ -34,6 +35,13 @@
 
 #include <boost/thread.hpp>
 
+class CWallet;
+typedef CWallet* CWalletRef;
+
+/** Global wallet registry. During the multi-wallet transition pwalletMain
+ *  remains as the first element / legacy alias; new code should look up
+ *  the request's wallet via GetWalletForJSONRPCRequest() instead. */
+extern std::vector<CWalletRef> vpwallets;
 extern CWallet* pwalletMain;
 
 /**
@@ -609,7 +617,28 @@ public:
      */
     mutable CCriticalSection cs_wallet;
 
+    /**
+     * BDB-relative path the wallet's underlying database lives at,
+     * resolved relative to the BDB environment's home directory
+     * (which is GetDataDir() today). For flat-file wallets this is
+     * just the bare wallet name (e.g. "wallet.dat" or "unsandbox.dat").
+     * For directory-layout wallets it includes the "/wallet.dat"
+     * suffix (e.g. "unsandbox/wallet.dat") so BDB opens the file
+     * inside the wallet's own directory. Immutable after instantiation.
+     *
+     * Use GetName() (or m_name below) for anything user-facing —
+     * RPC responses, log lines, /wallet/<name>/ URL routing — so the
+     * on-disk layout never leaks into the public interface.
+     */
     const std::string strWalletFile;
+
+    /**
+     * User-facing wallet name, derived from strWalletFile at
+     * construction. For "unsandbox/wallet.dat" this is "unsandbox";
+     * for "unsandbox.dat" this is "unsandbox.dat" (flat wallets are
+     * named by their on-disk file). Surfaced via GetName().
+     */
+    const std::string m_name;
 
     void LoadKeyPool(int nIndex, const CKeyPool &keypool)
     {
@@ -636,7 +665,9 @@ public:
         SetNull();
     }
 
-    CWallet(const std::string& strWalletFileIn) : strWalletFile(strWalletFileIn)
+    CWallet(const std::string& strWalletFileIn)
+        : strWalletFile(strWalletFileIn),
+          m_name(WalletNameFromDataFilePath(strWalletFileIn))
     {
         SetNull();
         fFileBacked = true;
@@ -647,6 +678,10 @@ public:
         delete pwalletdbEncryption;
         pwalletdbEncryption = NULL;
     }
+
+    /** User-facing wallet name; safe for RPC output, log lines, and
+     *  /wallet/<name>/ URL routing. See m_name. */
+    const std::string& GetName() const { return m_name; }
 
     void SetNull()
     {
