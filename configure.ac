@@ -607,19 +607,29 @@ if test x$TARGET_OS = xdarwin; then
   AX_CHECK_LINK_FLAG([[-Wl,-dead_strip]], [LDFLAGS="$LDFLAGS -Wl,-dead_strip"])
 fi
 
-AC_CHECK_HEADERS([endian.h sys/endian.h byteswap.h stdio.h stdlib.h unistd.h strings.h sys/types.h sys/stat.h sys/select.h sys/prctl.h])
+AC_CHECK_HEADERS([endian.h machine/endian.h sys/endian.h byteswap.h stdio.h stdlib.h unistd.h strings.h sys/types.h sys/stat.h sys/select.h sys/prctl.h])
 
 AC_CHECK_DECLS([strnlen])
 
 # Check for daemon(3), unrelated to --with-daemon (although used by it)
 AC_CHECK_DECLS([daemon])
 
-AC_CHECK_DECLS([le16toh, le32toh, le64toh, htole16, htole32, htole64, be16toh, be32toh, be64toh, htobe16, htobe32, htobe64],,,
-		[#if HAVE_ENDIAN_H
-                 #include <endian.h>
-                 #elif HAVE_SYS_ENDIAN_H
-                 #include <sys/endian.h>
-                 #endif])
+dnl perform the endian.h variant inclusion order exactly like boost_predef
+dnl which excludes FreeBSD and MAC_OSX from including endian.h but instead
+dnl includes sys/endian.h and machine/endian.h respectively
+dnl see: https://github.com/boostorg/predef/blob/9aca7f5b609a731106a6d70e8dca9a4196dca968/include/boost/predef/other/endian.h#L57-L67
+dnl also make sure that this is matched in compat/endian.h
+
+AC_CHECK_DECLS([le16toh, le32toh, le64toh, htole16, htole32, htole64, be16toh, be32toh, be64toh, htobe16, htobe32, htobe64, be32dec, be32enc, le32dec, le32enc],,,
+		[#if !defined(__FreeBSD__) && !defined(MAC_OSX)
+               #if HAVE_ENDIAN_H
+                       #include <endian.h>
+               #endif
+     #elif defined(MAC_OSX) && HAVE_MACHINE_ENDIAN_H
+               #include <machine/endian.h>
+     #elif HAVE_SYS_ENDIAN_H
+               #include <sys/endian.h>
+     #endif])
 
 AC_CHECK_DECLS([bswap_16, bswap_32, bswap_64],,,
 		[#if HAVE_BYTESWAP_H
