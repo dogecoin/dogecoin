@@ -160,6 +160,7 @@ private:
     int consoleFontSize;
     QCompleter *autoCompleter;
     QThread thread;
+    int commandCount; /**< Number of commands in console for scrollback limiting */
     /** Update UI with latest network info from model. */
     void updateNetworkState();
 };
