@@ -1,5 +1,9 @@
 .NOTPARALLEL :
 
+# Pattern rule to print variables, e.g. make print-top_srcdir
+print-%: FORCE
+	@echo '$*'='$($*)'
+
 SOURCES_PATH ?= $(BASEDIR)/sources
 BASE_CACHE ?= $(BASEDIR)/built
 SDK_PATH ?= $(BASEDIR)/SDKs
@@ -209,3 +213,4 @@ download-win:
 download: download-osx download-linux download-win
 
 .PHONY: install cached download-one download-osx download-linux download-win download check-packages check-sources
+.PHONY: FORCE
