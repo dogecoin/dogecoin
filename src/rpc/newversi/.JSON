@@ -1,0 +1,12 @@
+{
+  "name": "dogeindex-db-install",
+  "version": "1.0.0",
+  "description": "Installer for the Tsukimarf/dogecoin RPC index database",
+  "main": "install.js",
+  "scripts": {
+    "install-db": "node install.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.0.0"
+  }
+}
