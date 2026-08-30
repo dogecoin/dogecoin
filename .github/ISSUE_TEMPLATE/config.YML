@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 General Questions & Wallet Recovery
+    url: https://www.reddit.com/r/dogeducation/
+    about: For general questions about Dogecoin or wallet recovery, please use r/dogeducation.
+  - name: 💬 Discord Community
+    url: https://discord.com/invite/dogecoin
+    about: Chat with the community and get support on Discord.
+  - name: 📖 Documentation
+    url: https://github.com/Tsukimarf/dogecoin/tree/master/doc
+    about: Check the docs before opening an issue — your question may already be answered.
