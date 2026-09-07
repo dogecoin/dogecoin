@@ -154,7 +154,7 @@ static const bool DEFAULT_FEEFILTER = true;
 static const unsigned int MAX_BLOCKS_TO_ANNOUNCE = 8;
 
 /** Maximum number of unconnecting headers announcements before DoS score */
-static const int MAX_UNCONNECTING_HEADERS = 10;
+static const unsigned int MAX_UNCONNECTING_HEADERS = 10;
 
 /** Maximum header-only entries stored on low-work side forks (not on active/best-header chain). */
 static const unsigned int MAX_LOW_WORK_SIDEFORK_HEADERS = 2048;
@@ -259,8 +259,9 @@ bool ProcessNewBlock(const CChainParams& chainparams, const std::shared_ptr<cons
  * @param[out] state This may be set to an Error state if any error occurred processing them
  * @param[in]  chainparams The params for the chain we want to connect to
  * @param[out] ppindex If set, the pointer will be set to point to the last new block index object for the given headers
+ * @param[out] pnNewLowWorkSideForkHeaders If set, incremented once per newly accepted low-work side-fork header
  */
-bool ProcessNewBlockHeaders(const std::vector<CBlockHeader>& block, CValidationState& state, const CChainParams& chainparams, const CBlockIndex** ppindex=NULL);
+bool ProcessNewBlockHeaders(const std::vector<CBlockHeader>& block, CValidationState& state, const CChainParams& chainparams, const CBlockIndex** ppindex=NULL, unsigned int* pnNewLowWorkSideForkHeaders=NULL);
 
 /** Return whether pindex is a header-only entry on a low-work side fork. Requires cs_main. */
 bool IsLowWorkSideForkIndex(const CBlockIndex* pindex);

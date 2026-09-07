@@ -42,6 +42,7 @@
 #include "warnings.h"
 
 #include <atomic>
+#include <set>
 #include <sstream>
 
 #include <boost/algorithm/string/replace.hpp>
@@ -82,8 +83,11 @@ bool fEnableReplacement = DEFAULT_ENABLE_REPLACEMENT;
 
 uint256 hashAssumeValid;
 
-/** Count of header-only entries on low-work side forks in mapBlockIndex. */
-static unsigned int nLowWorkSideForkHeaderCount = 0;
+/** Header-only low-work side-fork entries currently stored in mapBlockIndex.
+ *  The set is the source of truth so the count can shrink when a previously
+ *  flagged entry later becomes useful (reorg, block data, best-header advance)
+ *  without scanning the entire block index on every tip update. */
+static std::set<CBlockIndex*> setLowWorkSideForkHeaders;
 
 static bool IsUsefulHeaderExtension(const CBlockIndex* pindexPrev, const arith_uint256& nNewChainWork)
 {
@@ -138,19 +142,31 @@ bool IsLowWorkSideForkIndex(const CBlockIndex* pindex)
     return !IsUsefulHeaderExtension(pindex->pprev, pindex->nChainWork);
 }
 
+/** Drop set entries that are no longer low-work side forks. O(set), not O(mapBlockIndex). */
 static void RecountLowWorkSideForkHeaders()
 {
-    nLowWorkSideForkHeaderCount = 0;
+    for (std::set<CBlockIndex*>::iterator it = setLowWorkSideForkHeaders.begin(); it != setLowWorkSideForkHeaders.end(); ) {
+        if (!IsLowWorkSideForkIndex(*it))
+            it = setLowWorkSideForkHeaders.erase(it);
+        else
+            ++it;
+    }
+}
+
+/** Full scan used at load time, before the running set has been populated. */
+static void RebuildLowWorkSideForkHeaders()
+{
+    setLowWorkSideForkHeaders.clear();
     for (const auto& entry : mapBlockIndex) {
         if (IsLowWorkSideForkIndex(entry.second))
-            nLowWorkSideForkHeaderCount++;
+            setLowWorkSideForkHeaders.insert(entry.second);
     }
 }
 
 unsigned int GetLowWorkSideForkHeaderCount()
 {
     AssertLockHeld(cs_main);
-    return nLowWorkSideForkHeaderCount;
+    return setLowWorkSideForkHeaders.size();
 }
 
 //mlumin 5/2021: Changing this variable to a fee rate, because that's what it is, not a fee. Confusion bad.
@@ -2245,6 +2261,13 @@ void PruneAndFlush() {
 void static UpdateTip(CBlockIndex *pindexNew, const CChainParams& chainParams) {
     chainActive.SetTip(pindexNew);
 
+    // Re-derive the side-fork set as the active chain advances. Entries can
+    // later stop being low-work side forks (reorg connects them, they receive
+    // block data, or the tip/best-header work overtakes them). Without this,
+    // the cap would only ever grow and could lock out honest peers until restart.
+    if (!setLowWorkSideForkHeaders.empty())
+        RecountLowWorkSideForkHeaders();
+
     // New best block
     mempool.AddTransactionsUpdated(1);
 
@@ -2849,8 +2872,13 @@ CBlockIndex* AddToBlockIndex(const CBlockHeader& block)
     pindexNew->nTimeMax = (pindexNew->pprev ? std::max(pindexNew->pprev->nTimeMax, pindexNew->nTime) : pindexNew->nTime);
     pindexNew->nChainWork = (pindexNew->pprev ? pindexNew->pprev->nChainWork : 0) + GetBlockProof(*pindexNew);
     pindexNew->RaiseValidity(BLOCK_VALID_TREE);
-    if (pindexBestHeader == NULL || pindexBestHeader->nChainWork < pindexNew->nChainWork)
+    if (pindexBestHeader == NULL || pindexBestHeader->nChainWork < pindexNew->nChainWork) {
         pindexBestHeader = pindexNew;
+        // Best-header advance can make previously flagged side forks useful
+        // (they now sit on the best-header chain or meet its work).
+        if (!setLowWorkSideForkHeaders.empty())
+            RecountLowWorkSideForkHeaders();
+    }
 
     setDirtyBlockIndex.insert(pindexNew);
 
@@ -2866,6 +2894,8 @@ bool ReceivedBlockTransactions(const CBlock &block, CValidationState& state, CBl
     pindexNew->nDataPos = pos.nPos;
     pindexNew->nUndoPos = 0;
     pindexNew->nStatus |= BLOCK_HAVE_DATA;
+    // Header-only side-fork entries stop counting once we have the block data.
+    setLowWorkSideForkHeaders.erase(pindexNew);
     if (IsWitnessEnabled(pindexNew->pprev, Params().GetConsensus(pindexNew->nHeight))) {
         pindexNew->nStatus |= BLOCK_OPT_WITNESS;
     }
@@ -3272,13 +3302,16 @@ bool ContextualCheckBlock(const CBlock& block, CValidationState& state, const CB
     return true;
 }
 
-static bool AcceptBlockHeader(const CBlockHeader& block, CValidationState& state, const CChainParams& chainparams, CBlockIndex** ppindex)
+static bool AcceptBlockHeader(const CBlockHeader& block, CValidationState& state, const CChainParams& chainparams, CBlockIndex** ppindex, bool* pfNewLowWorkSideFork = NULL)
 {
     AssertLockHeld(cs_main);
+    if (pfNewLowWorkSideFork)
+        *pfNewLowWorkSideFork = false;
     // Check for duplicate
     uint256 hash = block.GetHash();
     BlockMap::iterator miSelf = mapBlockIndex.find(hash);
     CBlockIndex *pindex = NULL;
+    CBlockIndex *pindexPrev = NULL;
     if (hash != chainparams.GetConsensus(0).hashGenesisBlock) {
 
         if (miSelf != mapBlockIndex.end()) {
@@ -3295,7 +3328,6 @@ static bool AcceptBlockHeader(const CBlockHeader& block, CValidationState& state
             return error("%s: Consensus::CheckBlockHeader: %s, %s", __func__, hash.ToString(), FormatStateMessage(state));
 
         // Get prev block index
-        CBlockIndex* pindexPrev = NULL;
         BlockMap::iterator mi = mapBlockIndex.find(block.hashPrevBlock);
         if (mi == mapBlockIndex.end())
             return state.DoS(10, error("%s: prev block not found", __func__), 0, "bad-prevblk");
@@ -3326,20 +3358,26 @@ static bool AcceptBlockHeader(const CBlockHeader& block, CValidationState& state
         }
     }
     if (pindex == NULL) {
-        CBlockIndex* pindexPrev = NULL;
-        BlockMap::iterator miPrev = mapBlockIndex.find(block.hashPrevBlock);
-        if (miPrev != mapBlockIndex.end())
-            pindexPrev = miPrev->second;
-
+        // pindexPrev was already resolved above for non-genesis headers; reuse
+        // it instead of looking up block.hashPrevBlock a second time.
         if (pindexPrev && WouldBeLowWorkSideForkHeader(pindexPrev, block)) {
-            if (nLowWorkSideForkHeaderCount >= MAX_LOW_WORK_SIDEFORK_HEADERS) {
+            // Drop entries that are no longer side forks before enforcing the cap,
+            // so a long-running node does not reject honest headers after the tip
+            // or best-header chain has advanced past previously flagged work.
+            RecountLowWorkSideForkHeaders();
+            if (setLowWorkSideForkHeaders.size() >= MAX_LOW_WORK_SIDEFORK_HEADERS) {
                 return state.DoS(20, error("%s: too many low-work side-fork headers stored", __func__),
-                                 0, "too-many-sidework-headers");
+                                 REJECT_INVALID, "too-many-sidefork-headers");
             }
-            nLowWorkSideForkHeaderCount++;
         }
 
         pindex = AddToBlockIndex(block);
+
+        if (IsLowWorkSideForkIndex(pindex)) {
+            setLowWorkSideForkHeaders.insert(pindex);
+            if (pfNewLowWorkSideFork)
+                *pfNewLowWorkSideFork = true;
+        }
     }
 
     if (ppindex)
@@ -3351,14 +3389,22 @@ static bool AcceptBlockHeader(const CBlockHeader& block, CValidationState& state
 }
 
 // Exposed wrapper for AcceptBlockHeader
-bool ProcessNewBlockHeaders(const std::vector<CBlockHeader>& headers, CValidationState& state, const CChainParams& chainparams, const CBlockIndex** ppindex)
+bool ProcessNewBlockHeaders(const std::vector<CBlockHeader>& headers, CValidationState& state, const CChainParams& chainparams, const CBlockIndex** ppindex, unsigned int* pnNewLowWorkSideForkHeaders)
 {
+    if (pnNewLowWorkSideForkHeaders)
+        *pnNewLowWorkSideForkHeaders = 0;
     {
         LOCK(cs_main);
         for (const CBlockHeader& header : headers) {
             CBlockIndex *pindex = NULL; // Use a temp pindex instead of ppindex to avoid a const_cast
-            if (!AcceptBlockHeader(header, state, chainparams, &pindex)) {
+            bool fNewLowWorkSideFork = false;
+            if (!AcceptBlockHeader(header, state, chainparams, &pindex, &fNewLowWorkSideFork)) {
                 return false;
+            }
+            // Report every low-work side-fork header accepted in this batch so
+            // callers can score peers per header rather than per message.
+            if (fNewLowWorkSideFork && pnNewLowWorkSideForkHeaders) {
+                ++*pnNewLowWorkSideForkHeaders;
             }
             if (ppindex) {
                 *ppindex = pindex;
@@ -3771,7 +3817,7 @@ bool static LoadBlockIndexDB(const CChainParams& chainparams)
             pindexBestHeader = pindex;
     }
 
-    RecountLowWorkSideForkHeaders();
+    RebuildLowWorkSideForkHeaders();
 
     // Load block file info
     pblocktree->ReadLastBlockFile(nLastBlockFile);
@@ -4035,6 +4081,7 @@ void UnloadBlockIndex()
     chainActive.SetTip(NULL);
     pindexBestInvalid = NULL;
     pindexBestHeader = NULL;
+    setLowWorkSideForkHeaders.clear();
     mempool.clear();
     mapBlocksUnlinked.clear();
     vinfoBlockFile.clear();
