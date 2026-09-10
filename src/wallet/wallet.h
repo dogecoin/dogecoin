@@ -32,8 +32,6 @@
 #include <utility>
 #include <vector>
 
-#include <boost/thread.hpp>
-
 extern CWallet* pwalletMain;
 
 /**
@@ -132,6 +130,7 @@ class CCoinControl;
 class COutput;
 class CReserveKey;
 class CScript;
+class CScheduler;
 class CTxMemPool;
 class CWalletTx;
 
@@ -221,7 +220,8 @@ struct COutputEntry
     int vout;
 };
 
-/**
+
+/** 
  * A transaction with a bunch of additional info that only the owner cares about.
  * It includes any unrecorded transactions needed to link it back to the block chain.
  */
@@ -255,6 +255,7 @@ public:
     mutable bool fImmatureWatchCreditCached;
     mutable bool fAvailableWatchCreditCached;
     mutable bool fChangeCached;
+    mutable bool fInMempool;
     mutable CAmount nDebitCached;
     mutable CAmount nCreditCached;
     mutable CAmount nImmatureCreditCached;
@@ -294,6 +295,7 @@ public:
         fImmatureWatchCreditCached = false;
         fAvailableWatchCreditCached = false;
         fChangeCached = false;
+        fInMempool = false;
         nDebitCached = 0;
         nCreditCached = 0;
         nImmatureCreditCached = 0;
@@ -324,7 +326,7 @@ public:
                 mapValue["timesmart"] = strprintf("%u", nTimeSmart);
         }
 
-        READWRITE(*(CMerkleTx*)this);
+        READWRITEAS(CMerkleTx, *this);
         std::vector<CMerkleTx> vUnused; //!< Used to be vtxPrev
         READWRITE(vUnused);
         READWRITE(mapValue);
@@ -399,6 +401,9 @@ public:
     int64_t GetTxTime() const;
 
     bool RelayWalletTransaction(CConnman* connman);
+
+    /** Pass this transaction to the mempool. Fails if absolute fee exceeds absurd fee. */
+    bool AcceptToMemoryPool(const CAmount& nAbsurdFee, CValidationState& state);
 
     std::set<uint256> GetConflicts() const;
 };
@@ -543,7 +548,7 @@ private:
 class CWallet : public CCryptoKeyStore, public CValidationInterface
 {
 private:
-    static std::atomic<bool> fFlushThreadRunning;
+    static std::atomic<bool> fFlushScheduled;
 
     /**
      * Select a set of coins such that nValueRet >= nTargetValue and at least
@@ -579,6 +584,9 @@ private:
 
     void SyncMetaData(std::pair<TxSpends::iterator, TxSpends::iterator>);
 
+    /* Used by TransactionAddedToMemorypool/BlockConnected/Disconnected */
+    void SyncTransaction(const CTransactionRef& tx, const CBlockIndex *pindexBlockConnected, int posInBlock);
+
     /* the HD chain data model (external chain counters) */
     CHDChain hdChain;
 
@@ -598,6 +606,18 @@ private:
      * nTimeFirstKey more intelligently for more efficient rescans.
      */
     bool AddWatchOnly(const CScript& dest) override;
+
+    /**
+     * The following is used to keep track of how far behind the wallet is
+     * from the chain sync, and to allow clients to block on us being caught up.
+     *
+     * Note that this is *not* how far we've processed, we may need some rescan
+     * to have seen all transactions in the chain, but is only used to track
+     * live BlockConnected callbacks.
+     *
+     * Protected by cs_main (see BlockUntilSyncedToCurrentChain)
+     */
+    const CBlockIndex* m_last_block_processed;
 
 public:
     /*
@@ -670,6 +690,7 @@ public:
     TxItems wtxOrdered;
 
     int64_t nOrderPosNext;
+    std::map<uint256, int> mapRequestCount;
 
     std::map<CTxDestination, CAddressBookData> mapAddressBook;
 
@@ -759,9 +780,12 @@ public:
     void MarkDirty();
     bool AddToWallet(const CWalletTx& wtxIn, bool fFlushOnClose=true);
     bool LoadToWallet(const CWalletTx& wtxIn);
-    void SyncTransaction(const CTransaction& tx, const CBlockIndex *pindex, int posInBlock) override;
-    bool AddToWalletIfInvolvingMe(const CTransaction& tx, const CBlockIndex* pIndex, int posInBlock, bool fUpdate);
+    void TransactionAddedToMempool(const CTransactionRef& tx) override;
+    void BlockConnected(const std::shared_ptr<const CBlock>& pblock, const CBlockIndex *pindex, const std::vector<CTransactionRef>& vtxConflicted) override;
+    void BlockDisconnected(const std::shared_ptr<const CBlock>& pblock) override;
+    bool AddToWalletIfInvolvingMe(const CTransactionRef& tx, const CBlockIndex* pIndex, int posInBlock, bool fUpdate);
     CBlockIndex* ScanForWalletTransactions(CBlockIndex* pindexStart, bool fUpdate = false);
+    void TransactionRemovedFromMempool(const CTransactionRef &ptx) override;
     void ReacceptWalletTransactions();
     void ResendWalletTransactions(int64_t nBestBlockTime, CConnman* connman) override;
     std::vector<uint256> ResendWalletTransactionsBefore(int64_t nTime, CConnman* connman);
@@ -877,8 +901,18 @@ public:
 
     void UpdatedTransaction(const uint256 &hashTx) override;
 
-    void GetScriptForMining(std::shared_ptr<CReserveScript> &script) override;
+    void Inventory(const uint256 &hash) override
+    {
+        {
+            LOCK(cs_wallet);
+            std::map<uint256, int>::iterator mi = mapRequestCount.find(hash);
+            if (mi != mapRequestCount.end())
+                (*mi).second++;
+        }
+    }
 
+    void GetScriptForMining(std::shared_ptr<CReserveScript> &script) override;
+    
     unsigned int GetKeyPoolSize()
     {
         AssertLockHeld(cs_wallet); // setKeyPool
@@ -952,7 +986,7 @@ public:
      * Wallet post-init setup
      * Gives the wallet a chance to register repetitive tasks and complete post-init tasks
      */
-    void postInitProcess(boost::thread_group& threadGroup);
+    void postInitProcess(CScheduler& scheduler);
 
     /* Wallets parameter interaction */
     static bool ParameterInteraction();
@@ -971,6 +1005,14 @@ public:
 
     /* Set the current HD master key (will reset the chain child index counters) */
     bool SetHDMasterKey(const CPubKey& key);
+
+    /**
+     * Blocks until the wallet state is up-to-date to /at least/ the current
+     * chain at the time this function is entered
+     * Obviously holding cs_main/cs_wallet when going into this call may cause
+     * deadlock
+     */
+    void BlockUntilSyncedToCurrentChain();
 };
 
 /** A key allocated from the key pool. */
@@ -986,6 +1028,10 @@ public:
         nIndex = -1;
         pwallet = pwalletIn;
     }
+
+    CReserveKey() = default;
+    CReserveKey(const CReserveKey&) = delete;
+    CReserveKey& operator=(const CReserveKey&) = delete;
 
     ~CReserveKey()
     {

@@ -12,6 +12,7 @@
 #include "amount.h"
 #include "bloom.h"
 #include "compat.h"
+#include "crypto/siphash.h"
 #include "hash.h"
 #include "netaddress.h"
 #include "protocol.h"
@@ -534,11 +535,15 @@ public:
     double dPingTime;
     double dPingWait;
     double dMinPing;
+    // Our address, as reported by the peer
     std::string addrLocal;
+    // Address of this peer
     CAddress addr;
     CAmount minFeeFilter;
     uint64_t nProcessedAddrs;
     uint64_t nRatelimitedAddrs;
+    // Bind address of our side of the connection
+    CAddress addrBind;
 };
 
 
@@ -619,7 +624,10 @@ public:
     std::atomic<int64_t> nLastRecv;
     const int64_t nTimeConnected;
     std::atomic<int64_t> nTimeOffset;
+    // Address of this peer
     const CAddress addr;
+    // Bind address of our side of the connection
+    const CAddress addrBind;
     std::atomic<int> nVersion;
     // strSubVer is whatever byte array we read from the wire. However, this field is intended
     // to be printed out, displayed to humans in various forms and so on. So we sanitize it and
@@ -720,7 +728,7 @@ public:
     std::atomic<int64_t> nPendingHeaderRequests;
     std::set<uint256> orphan_work_set;
 
-    CNode(NodeId id, ServiceFlags nLocalServicesIn, int nMyStartingHeightIn, SOCKET hSocketIn, const CAddress &addrIn, uint64_t nKeyedNetGroupIn, uint64_t nLocalHostNonceIn, const std::string &addrNameIn = "", bool fInboundIn = false);
+    CNode(NodeId id, ServiceFlags nLocalServicesIn, int nMyStartingHeightIn, SOCKET hSocketIn, const CAddress &addrIn, uint64_t nKeyedNetGroupIn, uint64_t nLocalHostNonceIn, const CAddress &addrBindIn, const std::string &addrNameIn = "", bool fInboundIn = false);
     ~CNode();
 
 private:
@@ -738,6 +746,7 @@ private:
     mutable CCriticalSection cs_addrName;
     std::string addrName;
 
+    // Our address, as reported by the peer
     CService addrLocal;
     mutable CCriticalSection cs_addrLocal;
 public:

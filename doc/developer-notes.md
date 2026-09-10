@@ -495,3 +495,112 @@ Git and GitHub tips
   This will add an `upstream-pull` remote to your git repository, which can be fetched using `git fetch --all`
   or `git fetch upstream-pull`. Afterwards, you can use `upstream-pull/NUMBER/head` in arguments to `git show`,
   `git checkout` and anywhere a commit id would be acceptable to see the changes from pull request NUMBER.
+
+Scripted diffs
+--------------
+
+For reformatting and refactoring commits where the changes can be easily automated using a bash script, we use
+scripted-diff commits. The bash script is included in the commit message and our Travis CI job checks that
+the result of the script is identical to the commit. This aids reviewers since they can verify that the script
+does exactly what it's supposed to do. It is also helpful for rebasing (since the same script can just be re-run
+on the new master commit).
+
+To create a scripted-diff:
+
+- start the commit message with `scripted-diff:` (and then a description of the diff on the same line)
+- in the commit message include the bash script between lines containing just the following text:
+    - `-BEGIN VERIFY SCRIPT-`
+    - `-END VERIFY SCRIPT-`
+
+The scripted-diff is verified by the tool `contrib/devtools/commit-script-check.sh`
+
+Commit `bb81e173` is an example of a scripted-diff.
+
+RPC interface guidelines
+--------------------------
+
+A few guidelines for introducing and reviewing new RPC interfaces:
+
+- Method naming: use consecutive lower-case names such as `getrawtransaction` and `submitblock`
+
+  - *Rationale*: Consistency with existing interface.
+
+- Argument naming: use snake case `fee_delta` (and not, e.g. camel case `feeDelta`)
+
+  - *Rationale*: Consistency with existing interface.
+
+- Use the JSON parser for parsing, don't manually parse integers or strings from
+  arguments unless absolutely necessary.
+
+  - *Rationale*: Introduces hand-rolled string manipulation code at both the caller and callee sites,
+    which is error prone, and it is easy to get things such as escaping wrong.
+    JSON already supports nested data structures, no need to re-invent the wheel.
+
+  - *Exception*: AmountFromValue can parse amounts as string. This was introduced because many JSON
+    parsers and formatters hard-code handling decimal numbers as floating point
+    values, resulting in potential loss of precision. This is unacceptable for
+    monetary values. **Always** use `AmountFromValue` and `ValueFromAmount` when
+    inputting or outputting monetary values. The only exceptions to this are
+    `prioritisetransaction` and `getblocktemplate` because their interface
+    is specified as-is in BIP22.
+
+- Missing arguments and 'null' should be treated the same: as default values. If there is no
+  default value, both cases should fail in the same way. The easiest way to follow this
+  guideline is detect unspecified arguments with `params[x].isNull()` instead of
+  `params.size() <= x`. The former returns true if the argument is either null or missing,
+  while the latter returns true if is missing, and false if it is null.
+
+  - *Rationale*: Avoids surprises when switching to name-based arguments. Missing name-based arguments
+  are passed as 'null'.
+
+- Try not to overload methods on argument type. E.g. don't make `getblock(true)` and `getblock("hash")`
+  do different things.
+
+  - *Rationale*: This is impossible to use with `bitcoin-cli`, and can be surprising to users.
+
+  - *Exception*: Some RPC calls can take both an `int` and `bool`, most notably when a bool was switched
+    to a multi-value, or due to other historical reasons. **Always** have false map to 0 and
+    true to 1 in this case.
+
+- Don't forget to fill in the argument names correctly in the RPC command table.
+
+  - *Rationale*: If not, the call can not be used with name-based arguments.
+
+- Set okSafeMode in the RPC command table to a sensible value: safe mode is when the
+  blockchain is regarded to be in a confused state, and the client deems it unsafe to
+  do anything irreversible such as send. Anything that just queries should be permitted.
+
+  - *Rationale*: Troubleshooting a node in safe mode is difficult if half the
+    RPCs don't work.
+
+- Add every non-string RPC argument `(method, idx, name)` to the table `vRPCConvertParams` in `rpc/client.cpp`.
+
+  - *Rationale*: `bitcoin-cli` and the GUI debug console use this table to determine how to
+    convert a plaintext command line to JSON. If the types don't match, the method can be unusable
+    from there.
+
+- A RPC method must either be a wallet method or a non-wallet method. Do not
+  introduce new methods such as `signrawtransaction` that differ in behavior
+  based on presence of a wallet.
+
+  - *Rationale*: as well as complicating the implementation and interfering
+    with the introduction of multi-wallet, wallet and non-wallet code should be
+    separated to avoid introducing circular dependencies between code units.
+
+- Try to make the RPC response a JSON object.
+
+  - *Rationale*: If a RPC response is not a JSON object then it is harder to avoid API breakage if
+    new data in the response is needed.
+
+- Wallet RPCs call BlockUntilSyncedToCurrentChain to maintain consistency with
+  `getblockchaininfo`'s state immediately prior to the call's execution. Wallet
+  RPCs whose behavior does *not* depend on the current chainstate may omit this
+  call.
+
+  - *Rationale*: In previous versions of Bitcoin Core, the wallet was always
+    in-sync with the chainstate (by virtue of them all being updated in the
+    same cs_main lock). In order to maintain the behavior that wallet RPCs
+    return results as of at least the highest best-known block an RPC
+    client may be aware of prior to entering a wallet RPC call, we must block
+    until the wallet is caught up to the chainstate as of the RPC call's entry.
+    This also makes the API much easier for RPC clients to reason about.

@@ -196,7 +196,6 @@ BOOST_AUTO_TEST_CASE(CreateNewBlock_validity)
     entry.dPriority = 111.0;
     entry.nHeight = 11;
 
-    LOCK(cs_main);
     fCheckpointsEnabled = false;
 
     // Simple block creation, nothing special yet:
@@ -230,6 +229,8 @@ BOOST_AUTO_TEST_CASE(CreateNewBlock_validity)
         BOOST_CHECK(ProcessNewBlock(chainparams, shared_pblock, true, NULL));
         pblock->hashPrevBlock = pblock->GetHash();
     }
+
+    LOCK(cs_main);
 
     // Just to make sure we can still make simple blocks
     BOOST_CHECK(pblocktemplate = BlockAssembler(chainparams).CreateNewBlock(scriptPubKey, true));

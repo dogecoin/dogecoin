@@ -30,6 +30,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include <boost/thread.hpp>
+#include "pow.h"
 
 std::unique_ptr<CConnman> g_connman;
 uint256 insecure_rand_seed = GetRandHash();
@@ -71,6 +72,12 @@ TestingSetup::TestingSetup(const std::string& chainName) : BasicTestingSetup(cha
         pathTemp = GetTempPath() / strprintf("test_bitcoin_%lu_%i", (unsigned long)GetTime(), (int)(InsecureRandRange(100000)));
         fs::create_directories(pathTemp);
         ForceSetArg("-datadir", pathTemp.string());
+
+        // We have to run a scheduler thread to prevent ActivateBestChain
+        // from blocking due to queue overrun.
+        threadGroup.create_thread(boost::bind(&CScheduler::serviceQueue, &scheduler));
+        GetMainSignals().RegisterBackgroundSignalScheduler(scheduler);
+
         mempool.setSanityCheck(1.0);
         pblocktree = new CBlockTreeDB(1 << 20, true);
         pcoinsdbview = new CCoinsViewDB(1 << 23, true);
@@ -94,6 +101,8 @@ TestingSetup::~TestingSetup()
         UnregisterNodeSignals(GetNodeSignals());
         threadGroup.interrupt_all();
         threadGroup.join_all();
+        GetMainSignals().FlushBackgroundCallbacks();
+        GetMainSignals().UnregisterBackgroundSignalScheduler();
         UnloadBlockIndex();
         delete pcoinsTip;
         delete pcoinsdbview;

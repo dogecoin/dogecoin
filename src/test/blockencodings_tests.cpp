@@ -10,6 +10,7 @@
 #include "test/test_bitcoin.h"
 
 #include <boost/test/unit_test.hpp>
+#include "pow.h"
 
 std::vector<std::pair<uint256, CTransactionRef>> extra_txn;
 

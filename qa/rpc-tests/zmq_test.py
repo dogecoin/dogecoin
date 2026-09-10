@@ -40,20 +40,26 @@ class ZMQTest (BitcoinTestFramework):
         self.sync_all()
 
         print("listen...")
-        msg = self.zmqSubSocket.recv_multipart()
-        topic = msg[0]
-        assert_equal(topic, b"hashtx")
-        body = msg[1]
-        nseq = msg[2]
-        msgSequence = struct.unpack('<I', msg[-1])[-1]
-        assert_equal(msgSequence, 0) #must be sequence 0 on hashtx
+        # hashtx/hashblock ordering can vary based on callback scheduling.
+        expected_topics = {b"hashtx", b"hashblock"}
+        received_topics = set()
+        blkhash = ""
+        for _ in range(2):
+            msg = self.zmqSubSocket.recv_multipart()
+            topic = msg[0]
+            body = msg[1]
+            msgSequence = struct.unpack('<I', msg[-1])[-1]
+            assert topic in expected_topics
+            assert topic not in received_topics
+            received_topics.add(topic)
 
-        msg = self.zmqSubSocket.recv_multipart()
-        topic = msg[0]
-        body = msg[1]
-        msgSequence = struct.unpack('<I', msg[-1])[-1]
-        assert_equal(msgSequence, 0) #must be sequence 0 on hashblock
-        blkhash = bytes_to_hex_str(body)
+            if topic == b"hashtx":
+                assert_equal(msgSequence, 0) #must be sequence 0 on hashtx
+            else:
+                assert_equal(msgSequence, 0) #must be sequence 0 on hashblock
+                blkhash = bytes_to_hex_str(body)
+
+        assert_equal(received_topics, expected_topics)
 
         assert_equal(genhashes[0], blkhash) #blockhash from generate must be equal to the hash received over zmq
 

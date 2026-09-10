@@ -176,11 +176,14 @@ testScripts = [
     'wallet_create_tx.py',
     'liststucktransactions.py',
     'getblock.py',
+    'getblockfilter.py',
+    'getindexinfo.py',
     'getblockstats.py',
     'addnode.py',
     'getmocktime.py',
     'uptime.py',
     'p2p-getdata.py',
+    'p2p-blockfilters.py',
 ]
 if ENABLE_ZMQ:
     testScripts.append('zmq_test.py')
