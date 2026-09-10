@@ -198,10 +198,103 @@ class CreateAuxBlockTest(BitcoinTestFramework):
     res = self.nodes[1].submitauxblock(nmc_api_auxblock["hash"], apow)
     assert res
 
+    # getting aux block light
+    nmc_api_auxblock_light = self.nodes[1].createauxblocklight()
+    assert nmc_api_auxblock_light is not None
+    assert "job_id" in nmc_api_auxblock_light
+    assert "version" in nmc_api_auxblock_light
+    assert nmc_api_auxblock_light["version"] == 6422788
+
+    # Build a coinbase with multiple payout outputs, mine the light
+    # block ourselves, and submit it through submitauxblocklight.
+    payout_addr1 = self.nodes[1].getnewaddress()
+    payout_addr2 = self.nodes[1].getnewaddress()
+    payout_addr3 = dummy_p2sh_addr
+    script1 = self.nodes[1].validateaddress(payout_addr1)["scriptPubKey"]
+    script2 = self.nodes[1].validateaddress(payout_addr2)["scriptPubKey"]
+    script3 = self.nodes[1].validateaddress(payout_addr3)["scriptPubKey"]
+
+    coinbase_value = nmc_api_auxblock_light["coinbasevalue"]
+    value1 = coinbase_value // 3
+    value2 = coinbase_value // 3
+    value3 = coinbase_value - value1 - value2
+
+    coinbase_tx = self.build_light_coinbase(
+      nmc_api_auxblock_light["height"],
+      [(value1, script1), (value2, script2), (value3, script3)])
+    coinbase_txid = auxpow.doubleHashHex(coinbase_tx)
+
+    # Fold the merkle branch supplied by createauxblocklight onto the
+    # coinbase txid to get the final merkle root, exactly as a Stratum
+    # client would (it never sees the other transactions themselves).
+    merkle_root = coinbase_txid
+    for step in nmc_api_auxblock_light["merkle"]:
+      combined = auxpow.reverseHex(merkle_root) + auxpow.reverseHex(step)
+      merkle_root = auxpow.doubleHashHex(combined)
+
+    header = auxpow.reverseHex("%08x" % nmc_api_auxblock_light["version"])
+    header += auxpow.reverseHex(nmc_api_auxblock_light["previousblockhash"])
+    header += auxpow.reverseHex(merkle_root)
+    header += auxpow.reverseHex("%08x" % nmc_api_auxblock_light["curtime"])
+    header += auxpow.reverseHex(nmc_api_auxblock_light["bits"])
+    header += "00000000"  # nonce; irrelevant, PoW is done on the parent chain
+    light_block_hash = auxpow.doubleHashHex(header)
+
+    reversedTarget = auxpow.reverseHex(nmc_api_auxblock_light["_target"])
+    light_apow = auxpow.computeAuxpowWithChainId(light_block_hash, reversedTarget, "98", True)
+
+    res = self.nodes[1].submitauxblocklight(nmc_api_auxblock_light["job_id"], coinbase_tx, light_apow)
+    assert res
+
+    self.sync_all()
+
+    # Verify the block was accepted at the expected hash/height and that
+    # the coinbase paid all three outputs correctly.
+    height = self.nodes[1].getblockcount()
+    assert_equal(height, nmc_api_auxblock_light["height"])
+    tip_hash = self.nodes[1].getblockhash(height)
+    assert_equal(tip_hash, light_block_hash)
+
+    blk = self.nodes[1].getblock(tip_hash)
+    assert "auxpow" in blk
+    # node[1] has no -txindex; node[0] does, and both are synced.
+    tx = self.nodes[0].getrawtransaction(blk["tx"][0], True)
+    assert_equal(len(tx["vout"]), 3)
+    assert_equal(tx["vout"][0]["value"], Decimal(value1) / Decimal(100000000))
+    assert_equal(tx["vout"][1]["value"], Decimal(value2) / Decimal(100000000))
+    assert_equal(tx["vout"][2]["value"], Decimal(value3) / Decimal(100000000))
+    assert_equal(tx["vout"][0]["scriptPubKey"]["addresses"][0], payout_addr1)
+    assert_equal(tx["vout"][1]["scriptPubKey"]["addresses"][0], payout_addr2)
+    assert_equal(tx["vout"][2]["scriptPubKey"]["addresses"][0], payout_addr3)
+
     self.sync_all()
 
     # check the mined block
     self.check_mined_block(nmc_api_auxblock, apow, dummy_p2pkh_addr, Decimal("500000"))
+
+  def build_light_coinbase(self, height, outputs):
+    """
+    Build a raw coinbase transaction (hex string) paying the given list
+    of (value, scriptPubKey_hex) outputs, for use with
+    submitauxblocklight.  Coinbase height-in-scriptSig isn't
+    consensus-enforced here, so the scriptSig content just needs to be
+    2-100 bytes.
+    """
+    def le_hex(value, num_bytes):
+      return "".join("%02x" % ((value >> (8 * i)) & 0xff) for i in range(num_bytes))
+
+    script_sig = "02" + le_hex(height, 2)
+    vin = "01"
+    vin += ("00" * 32) + ("ff" * 4)
+    vin += ("%02x" % (len(script_sig) // 2)) + script_sig
+    vin += ("ff" * 4)
+
+    vout = "%02x" % len(outputs)
+    for value, script in outputs:
+      vout += le_hex(value, 8)
+      vout += ("%02x" % (len(script) // 2)) + script
+
+    return "01000000" + vin + vout + ("00" * 4)
 
   def check_mined_block(self, auxblock, apow, addr, min_value, txid=None):
     # Call getblock and verify the auxpow field.
