@@ -3,6 +3,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "arith_uint256.h"
+#include "base58.h"
 #include "chainparams.h"
 #include "dogecoin.h"
 #include "test/test_bitcoin.h"
@@ -118,6 +119,36 @@ BOOST_AUTO_TEST_CASE(subsidy_post_145k_test)
 
     nConstantSubsidy = GetDogecoinBlockSubsidy(700000, mainParams.GetConsensus(700000), prevHash);
     BOOST_CHECK_EQUAL(nConstantSubsidy, 10000 * COIN);
+}
+
+BOOST_AUTO_TEST_CASE(subsidy_reboot_testnet_tail_from_block_1)
+{
+    const CChainParams& testParams = Params(CBaseChainParams::TESTNET4);
+    const uint256 prevHash = uint256S("0");
+    for (int nHeight = 1; nHeight < 100; nHeight++) {
+        const Consensus::Params& params = testParams.GetConsensus(nHeight);
+        CAmount nSubsidy = GetDogecoinBlockSubsidy(nHeight, params, prevHash);
+        BOOST_CHECK_EQUAL(nSubsidy, 10000 * COIN);
+    }
+}
+
+BOOST_AUTO_TEST_CASE(testnet4_t_address_prefix)
+{
+    SelectParams(CBaseChainParams::TESTNET4);
+    CBitcoinAddress addr;
+    BOOST_CHECK(addr.SetString("TPCvbGH8V9f3crFafSSjqbF69Cw9b7yJet"));
+    BOOST_CHECK(addr.IsValid());
+    BOOST_CHECK_EQUAL(addr.ToString()[0], 'T');
+}
+
+BOOST_AUTO_TEST_CASE(testnet4_genesis_scrypt_pow)
+{
+    const CChainParams& testParams = Params(CBaseChainParams::TESTNET4);
+    const Consensus::Params& params = testParams.GetConsensus(0);
+    const CBlock& genesis = testParams.GenesisBlock();
+    BOOST_CHECK(genesis.GetHash() == params.hashGenesisBlock);
+    BOOST_CHECK_EQUAL(genesis.GetHash().GetHex(), "d5d619f8be025d4700940883c86f271d08cffa8dd1d3d4afa474c9ed9e8b68a0");
+    BOOST_CHECK(CheckAuxPowProofOfWork(genesis, params));
 }
 
 BOOST_AUTO_TEST_CASE(get_next_work_difficulty_limit)

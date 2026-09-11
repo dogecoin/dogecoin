@@ -598,8 +598,10 @@ fs::path static StartupShortcutPath()
     std::string chain = ChainNameFromCommandLine();
     if (chain == CBaseChainParams::MAIN)
         return GetSpecialFolderPath(CSIDL_STARTUP) / "Dogecoin.lnk";
-    if (chain == CBaseChainParams::TESTNET) // Remove this special case when CBaseChainParams::TESTNET = "testnet4"
+    if (chain == CBaseChainParams::TESTNET)
         return GetSpecialFolderPath(CSIDL_STARTUP) / "Dogecoin (testnet).lnk";
+    if (chain == CBaseChainParams::TESTNET4)
+        return GetSpecialFolderPath(CSIDL_STARTUP) / "Dogecoin (testnet4).lnk";
     return GetSpecialFolderPath(CSIDL_STARTUP) / strprintf("Dogecoin (%s).lnk", chain);
 }
 
@@ -633,7 +635,7 @@ bool SetStartOnSystemStartup(bool fAutoStart)
             // Start client minimized
             QString strArgs = "-min";
             // Set -testnet /-regtest options
-            strArgs += QString::fromStdString(strprintf(" -testnet=%d -regtest=%d", GetBoolArg("-testnet", false), GetBoolArg("-regtest", false)));
+            strArgs += QString::fromStdString(strprintf(" -testnet=%d -testnet4=%d -regtest=%d", GetBoolArg("-testnet", false), GetBoolArg("-testnet4", false), GetBoolArg("-regtest", false)));
 
 #ifdef UNICODE
             boost::scoped_array<TCHAR> args(new TCHAR[strArgs.length() + 1]);
@@ -742,7 +744,7 @@ bool SetStartOnSystemStartup(bool fAutoStart)
             optionFile << "Name=Dogecoin\n";
         else
             optionFile << strprintf("Name=Dogecoin (%s)\n", chain);
-        optionFile << "Exec=" << pszExePath << strprintf(" -min -testnet=%d -regtest=%d\n", GetBoolArg("-testnet", false), GetBoolArg("-regtest", false));
+        optionFile << "Exec=" << pszExePath << strprintf(" -min -testnet=%d -testnet4=%d -regtest=%d\n", GetBoolArg("-testnet", false), GetBoolArg("-testnet4", false), GetBoolArg("-regtest", false));
         optionFile << "Terminal=false\n";
         optionFile << "Hidden=false\n";
         optionFile.close();

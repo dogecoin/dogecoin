@@ -24,6 +24,7 @@ The Dogecoin repo's [root README](/README.md) contains relevant information on t
 ### Miscellaneous
 - [Assets Attribution](assets-attribution.md)
 - [Files](files.md)
+- [Rebooted testnet](testnet-reboot.md)
 - [Fuzz-testing](fuzzing.md)
 - [Reduce Traffic](reduce-traffic.md)
 - [Tor Support](tor.md)
