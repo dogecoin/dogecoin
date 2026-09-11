@@ -1,0 +1,37 @@
+Don't redefine FILE_ID_INFO on mingw-w64 toolchains that provide it
+
+Qt 5.7 defines FILE_ID_INFO itself whenever it is compiled by mingw, on the
+assumption that the toolchain headers do not have it. It guards the
+neighbouring FILE_ID_128 fallback with FILE_SUPPORTS_INTEGRITY_STREAMS but
+applies no such guard here.
+
+mingw-w64 declares FILE_ID_INFO in winbase.h under
+
+    #if _WIN32_WINNT >= _WIN32_WINNT_WIN8
+
+and recent versions default _WIN32_WINNT to Windows 8 or later when the build
+does not set it, so both definitions are visible and the compile fails with
+
+    error: redefinition of 'struct _FILE_ID_INFO'
+    error: conflicting declaration 'typedef int FILE_ID_INFO'
+
+Guard Qt's definition with the same condition the toolchain uses, so it is only
+declared when the headers do not already provide it. On older mingw-w64, where
+_WIN32_WINNT defaults lower and winbase.h omits the struct, Qt's definition is
+still used and behaviour is unchanged.
+
+--- old/qtbase/src/corelib/io/qfilesystemengine_win.cpp
++++ new/qtbase/src/corelib/io/qfilesystemengine_win.cpp
+@@ -631,10 +631,12 @@
+ } FILE_ID_128, *PFILE_ID_128;
+ #    endif // !(Q_CC_MINGW && FILE_SUPPORTS_INTEGRITY_STREAMS)
+
++#    if !(defined(Q_CC_MINGW) && defined(_WIN32_WINNT) && _WIN32_WINNT >= 0x0602)
+ typedef struct _FILE_ID_INFO {
+     ULONGLONG VolumeSerialNumber;
+     FILE_ID_128 FileId;
+ } FILE_ID_INFO, *PFILE_ID_INFO;
++#    endif // !(Q_CC_MINGW && _WIN32_WINNT >= _WIN32_WINNT_WIN8)
+ #  endif // if defined (Q_CC_MINGW) || (defined(Q_CC_MSVC) && (_MSC_VER < 1700 || WINVER <= 0x0601))
+
+ // File ID for Windows up to version 7.

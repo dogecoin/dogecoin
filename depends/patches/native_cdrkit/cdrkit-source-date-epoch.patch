@@ -1,0 +1,78 @@
+Honour SOURCE_DATE_EPOCH in genisoimage
+
+genisoimage stamps the ISO primary volume descriptor with the wall clock at the
+moment it runs, and copies each file's mtime into its directory record. Two runs
+over identical input therefore produce different images, which made the macOS
+.dmg the one release artifact that did not reproduce:
+
+    -osx64.tar.gz         identical across runs
+    -osx-unsigned.tar.gz  identical across runs
+    -osx-unsigned.dmg     differed
+
+The volume descriptor of one such image held 2026081106082600, the time that
+build happened to finish.
+
+gitian does not hit this because it runs genisoimage under libfaketime, via
+FAKETIME_PROGS in gitian-descriptors/gitian-osx.yml. A guix build has no
+faketime; it exports SOURCE_DATE_EPOCH, which cdrkit 1.1.11 predates by several
+years and so ignores.
+
+Use SOURCE_DATE_EPOCH as the creation time when it is set, and clamp file dates
+to it, per https://reproducible-builds.org/specs/source-date-epoch/. Behaviour
+is unchanged when the variable is unset, so gitian builds are unaffected.
+
+--- cdrkit-1.1.11.old/genisoimage/genisoimage.c
++++ cdrkit-1.1.11/genisoimage/genisoimage.c
+@@ -1155,6 +1155,22 @@
+ iso9660_date(char *result, time_t crtime)
+ {
+ 	struct tm	*local;
++	const char	*sde = getenv("SOURCE_DATE_EPOCH");
++
++	/*
++	 * Clamp to SOURCE_DATE_EPOCH so files newer than it -- anything the
++	 * build just produced -- cannot leak the build time into the image.
++	 */
++	if (sde != NULL && *sde != '\0') {
++		char		*end;
++		long		epoch;
++
++		errno = 0;
++		epoch = strtol(sde, &end, 10);
++		if (errno == 0 && *end == '\0' && epoch >= 0 &&
++		    crtime > (time_t)epoch)
++			crtime = (time_t)epoch;
++	}
+ 
+ 	local = localtime(&crtime);
+ 	result[0] = local->tm_year;
+--- cdrkit-1.1.11.old/genisoimage/write.c
++++ cdrkit-1.1.11/genisoimage/write.c
+@@ -1887,7 +1887,26 @@
+ 	struct tm	gmt;
+ 
+ 
+-	time(&begun);
++	/*
++	 * The primary volume descriptor records a creation time. Use
++	 * SOURCE_DATE_EPOCH when set so repeated runs over the same input
++	 * produce the same image.
++	 */
++	{
++		const char	*sde = getenv("SOURCE_DATE_EPOCH");
++		char		*end;
++		long		epoch;
++
++		begun = (time_t)-1;
++		if (sde != NULL && *sde != '\0') {
++			errno = 0;
++			epoch = strtol(sde, &end, 10);
++			if (errno == 0 && *end == '\0' && epoch >= 0)
++				begun = (time_t)epoch;
++		}
++		if (begun == (time_t)-1)
++			time(&begun);
++	}
+ 
+ 	local = *localtime(&begun);
+ 	gmt = *gmtime(&begun);
