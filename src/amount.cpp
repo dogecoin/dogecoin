@@ -38,6 +38,30 @@ CAmount CFeeRate::GetFee(size_t nBytes_) const
     return nFee;
 }
 
+CAmount CFeeRate::GetRelayFee(size_t nBytes_) const
+{
+    assert(nBytes_ <= uint64_t(std::numeric_limits<int64_t>::max()));
+    int64_t nSize = int64_t(nBytes_);
+
+    // Relay fees round up to ensure that transactions paying the minimum
+    // relay fee rate are not rejected due to rounding down to zero.
+    CAmount nFee = nSatoshisPerK * nSize / 1000;
+
+    // Round up: if there is a remainder from the division and the rate is
+    // positive, add 1 satoshi to ensure the fee meets the minimum.
+    if (nSatoshisPerK > 0 && (nSatoshisPerK * nSize) % 1000 != 0)
+        nFee += CAmount(1);
+
+    if (nFee == 0 && nSize != 0) {
+        if (nSatoshisPerK > 0)
+            nFee = CAmount(1);
+        if (nSatoshisPerK < 0)
+            nFee = CAmount(-1);
+    }
+
+    return nFee;
+}
+
 std::string CFeeRate::ToString() const
 {
     return strprintf("%d.%08d %s/kB", nSatoshisPerK / COIN, nSatoshisPerK % COIN, CURRENCY_UNIT);

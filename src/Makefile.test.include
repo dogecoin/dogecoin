@@ -81,6 +81,7 @@ BITCOIN_TESTS =\
   test/scriptnum10.h \
   test/addrman_tests.cpp \
   test/amount_tests.cpp \
+  test/feerate_tests.cpp \
   test/allocator_tests.cpp \
   test/auxcache_tests.cpp \
   test/auxpow_tests.cpp \
