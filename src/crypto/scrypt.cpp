@@ -43,7 +43,7 @@
 #endif
 #endif
 
-#ifndef __FreeBSD__
+#if !defined(__FreeBSD__) && !defined(BITCOIN_HAVE_SYS_ENDIAN_H)
 static inline uint32_t be32dec(const void *pp)
 {
 	const uint8_t *p = (uint8_t const *)pp;
