@@ -807,36 +807,40 @@ void ThreadFlushWalletDB()
 
         if (nLastFlushed != CWalletDB::GetUpdateCounter() && GetTime() - nLastWalletUpdate >= 2)
         {
-            TRY_LOCK(bitdb.cs_db,lockDb);
+            TRY_LOCK(cs_db, lockDb);
             if (lockDb)
             {
-                // Don't do this if any databases are in use
-                int nRefCount = 0;
-                map<string, int>::iterator mi = bitdb.mapFileUseCount.begin();
-                while (mi != bitdb.mapFileUseCount.end())
-                {
-                    nRefCount += (*mi).second;
-                    mi++;
-                }
-
-                if (nRefCount == 0)
-                {
+                // Iterate every loaded wallet, resolve each one's env via
+                // its strWalletFile (now a BDB-relative path like
+                // "<name>/wallet.dat" or "wallet.dat" — see wallet.cpp's
+                // dbFile threading for the directory-layout backport),
+                // and flush idle wallets in their own envs.
+                //
+                // We deliberately do NOT short-circuit on a global
+                // refcount-zero check: each wallet may belong to a
+                // different env in g_dbenvs, and an in-use wallet in
+                // env A shouldn't block flush of an idle wallet in env B.
+                nLastFlushed = CWalletDB::GetUpdateCounter();
+                for (CWalletRef pwallet : vpwallets) {
                     boost::this_thread::interruption_point();
-                    const std::string& strFile = pwalletMain->strWalletFile;
-                    map<string, int>::iterator _mi = bitdb.mapFileUseCount.find(strFile);
-                    if (_mi != bitdb.mapFileUseCount.end())
-                    {
-                        LogPrint("db", "Flushing %s\n", strFile);
-                        nLastFlushed = CWalletDB::GetUpdateCounter();
-                        int64_t nStart = GetTimeMillis();
+                    const std::string& strFile = pwallet->strWalletFile;
 
-                        // Flush wallet file so it's self contained
-                        bitdb.CloseDb(strFile);
-                        bitdb.CheckpointLSN(strFile);
+                    // Resolve env + BDB-relative filename for THIS wallet.
+                    std::string dbFilename;
+                    CDBEnv* env = GetWalletEnv(GetWalletDir() / strFile, dbFilename);
 
-                        bitdb.mapFileUseCount.erase(_mi++);
-                        LogPrint("db", "Flushed %s %dms\n", strFile, GetTimeMillis() - nStart);
-                    }
+                    auto _mi = env->mapFileUseCount.find(dbFilename);
+                    if (_mi == env->mapFileUseCount.end() || _mi->second != 0) continue;
+
+                    LogPrint("db", "Flushing %s\n", strFile);
+                    int64_t nStart = GetTimeMillis();
+
+                    // Flush wallet file so it's self contained
+                    env->CloseDb(dbFilename);
+                    env->CheckpointLSN(dbFilename);
+
+                    env->mapFileUseCount.erase(_mi);
+                    LogPrint("db", "Flushed %s %dms\n", strFile, GetTimeMillis() - nStart);
                 }
             }
         }

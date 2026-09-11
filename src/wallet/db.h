@@ -31,20 +31,24 @@ private:
     // shutdown problems/crashes caused by a static initialized internal pointer.
     std::string strPath;
 
-    void EnvShutdown();
-
 public:
-    mutable CCriticalSection cs_db;
+    // cs_db lives at the namespace level now (db.cpp) so a single lock
+    // covers the g_dbenvs map plus every BDB call site. Each CDBEnv
+    // still has its own mapDb / mapFileUseCount but operations against
+    // them serialise through the global cs_db.
+
     DbEnv *dbenv;
     std::map<std::string, int> mapFileUseCount;
     std::map<std::string, Db*> mapDb;
 
-    CDBEnv();
+    explicit CDBEnv(const fs::path& env_directory);
     ~CDBEnv();
     void Reset();
 
     void MakeMock();
-    bool IsMock() { return fMockDb; }
+    bool IsMock() const { return fMockDb; }
+    bool IsInitialized() const { return fDbEnvInit; }
+    fs::path Directory() const { return strPath; }
 
     /**
      * Verify that database file strFile is OK. If it is not,
@@ -66,7 +70,7 @@ public:
     typedef std::pair<std::vector<unsigned char>, std::vector<unsigned char> > KeyValPair;
     bool Salvage(const std::string& strFile, bool fAggressive, std::vector<KeyValPair>& vResult);
 
-    bool Open(const fs::path& path);
+    bool Open(bool retry = false);
     void Close();
     void Flush(bool fShutdown);
     void CheckpointLSN(const std::string& strFile);
@@ -84,7 +88,19 @@ public:
     }
 };
 
-extern CDBEnv bitdb;
+/** Get the CDBEnv covering wallet_path. Lazily constructs one if absent
+ * from g_dbenvs. The BDB-relative filename of the wallet (what Db::open
+ * takes) is returned via `database_filename`. Wallets in the same
+ * directory share an env; directory-layout wallets each get their own
+ * at <walletdir>/<name>/. */
+CDBEnv* GetWalletEnv(const fs::path& wallet_path, std::string& database_filename);
+
+/** Process-wide lock guarding g_dbenvs + per-env mutable state. */
+extern CCriticalSection cs_db;
+
+/** Flush every open BDB env. Called at shutdown after every wallet
+ * has been detached from its env. */
+void FlushAllDbEnvs(bool fShutdown);
 
 
 /** RAII class that provides access to a Berkeley database */
@@ -92,11 +108,16 @@ class CDB
 {
 protected:
     Db* pdb;
-    std::string strFile;
+    std::string strFile;        //!< BDB-relative filename inside env (e.g. "wallet.dat")
+    CDBEnv* env;                //!< Env this database lives in (per-directory; nullptr only for the empty-filename mock path)
     DbTxn* activeTxn;
     bool fReadOnly;
     bool fFlushOnClose;
 
+    /** Open a database identified by its full path on disk. Used by all
+     * new (post-multi-env) callers. */
+    explicit CDB(const fs::path& wallet_path, const char* pszMode = "r+", bool fFlushOnCloseIn=true);
+    /** Legacy entry: treat strFilename as a path relative to GetWalletDir(). */
     explicit CDB(const std::string& strFilename, const char* pszMode = "r+", bool fFlushOnCloseIn=true);
     ~CDB() { Close(); }
 
@@ -264,9 +285,9 @@ protected:
 public:
     bool TxnBegin()
     {
-        if (!pdb || activeTxn)
+        if (!pdb || activeTxn || !env)
             return false;
-        DbTxn* ptxn = bitdb.TxnBegin();
+        DbTxn* ptxn = env->TxnBegin();
         if (!ptxn)
             return false;
         activeTxn = ptxn;
