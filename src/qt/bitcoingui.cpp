@@ -42,7 +42,6 @@
 #include <QAction>
 #include <QApplication>
 #include <QDateTime>
-#include <QDesktopWidget>
 #include <QDragEnterEvent>
 #include <QFontDatabase>
 #include <QListWidget>
@@ -60,6 +59,7 @@
 #include <QVBoxLayout>
 
 #include <QUrlQuery>
+#include <QActionGroup>
 
 const std::string BitcoinGUI::DEFAULT_UIPLATFORM =
 #if defined(Q_OS_MAC)
@@ -422,8 +422,8 @@ void BitcoinGUI::createActions()
     }
 #endif // ENABLE_WALLET
 
-    new QShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_C), this, SLOT(showDebugWindowActivateConsole()));
-    new QShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_D), this, SLOT(showDebugWindow()));
+    new QShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_C), this, SLOT(showDebugWindowActivateConsole()));
+    new QShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_D), this, SLOT(showDebugWindow()));
 }
 
 void BitcoinGUI::createMenuBar()
@@ -502,7 +502,7 @@ void BitcoinGUI::setClientModel(ClientModel *_clientModel)
         connect(_clientModel, SIGNAL(numConnectionsChanged(int)), this, SLOT(setNumConnections(int)));
         connect(_clientModel, SIGNAL(networkActiveChanged(bool)), this, SLOT(setNetworkActive(bool)));
 
-        modalOverlay->setKnownBestHeight(_clientModel->getHeaderTipHeight(), QDateTime::fromTime_t(_clientModel->getHeaderTipTime()));
+        modalOverlay->setKnownBestHeight(_clientModel->getHeaderTipHeight(), QDateTime::fromSecsSinceEpoch(_clientModel->getHeaderTipTime()));
         setNumBlocks(_clientModel->getNumBlocks(), _clientModel->getLastBlockDate(), _clientModel->getVerificationProgress(NULL), false);
         connect(_clientModel, SIGNAL(numBlocksChanged(int,QDateTime,double,bool)), this, SLOT(setNumBlocks(int,QDateTime,double,bool)));
 
@@ -1241,7 +1241,7 @@ UnitDisplayStatusBarControl::UnitDisplayStatusBarControl(const PlatformStyle *pl
     const QFontMetrics fm(font());
     Q_FOREACH (const BitcoinUnits::Unit unit, units)
     {
-        max_width = qMax(max_width, fm.width(BitcoinUnits::name(unit)));
+        max_width = qMax(max_width, fm.horizontalAdvance(BitcoinUnits::name(unit)));
     }
     setMinimumSize(max_width, 0);
     setAlignment(Qt::AlignRight | Qt::AlignVCenter);
