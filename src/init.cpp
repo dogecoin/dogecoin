@@ -40,6 +40,7 @@
 #include "ui_interface.h"
 #include "util.h"
 #include "utilmoneystr.h"
+#include "utilstrencodings.h"
 #include "validationinterface.h"
 #ifdef ENABLE_WALLET
 #include "wallet/wallet.h"
@@ -480,6 +481,7 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += HelpMessageOpt("-dustlimit=<amt>", strprintf(_("Amount under which a transaction output is considered dust, in %s (default: %s)"), CURRENCY_UNIT, FormatMoney(DEFAULT_DUST_LIMIT)));
     strUsage += HelpMessageOpt("-harddustlimit=<amt>", strprintf(_("Amount under which a transaction output is considered non-standard and will not be accepted or relayed, in %s (default: %s)"), CURRENCY_UNIT, FormatMoney(DEFAULT_HARD_DUST_LIMIT)));
     strUsage += HelpMessageOpt("-bytespersigop", strprintf(_("Equivalent bytes per sigop in transactions for relay and mining (default: %u)"), DEFAULT_BYTES_PER_SIGOP));
+    strUsage += HelpMessageOpt("-maxscriptsigsize=<n>", strprintf(_("Maximum size in bytes of any scriptSig in transactions we relay and mine when standard transaction policy is enforced. A value of 0 rejects transactions with any non-empty scriptSig. Low values may reject ordinary P2PKH, P2SH, or multisignature transactions (0-%u, default: %u)"), MAX_STANDARD_SCRIPTSIG_SIZE, DEFAULT_MAX_STANDARD_SCRIPTSIG_SIZE));
     strUsage += HelpMessageOpt("-datacarrier", strprintf(_("Relay and mine data carrier transactions (default: %u)"), DEFAULT_ACCEPT_DATACARRIER));
     strUsage += HelpMessageOpt("-datacarriersize", strprintf(_("Maximum size of data in data carrier transactions we relay and mine (default: %u)"), MAX_OP_RETURN_RELAY));
     strUsage += HelpMessageOpt("-mempoolreplacement", strprintf(_("Enable transaction replacement in the memory pool (default: %u)"), DEFAULT_ENABLE_REPLACEMENT));
@@ -1099,6 +1101,16 @@ bool AppInitParameterInteraction()
     fIsBareMultisigStd = GetBoolArg("-permitbaremultisig", DEFAULT_PERMIT_BAREMULTISIG);
     fAcceptDatacarrier = GetBoolArg("-datacarrier", DEFAULT_ACCEPT_DATACARRIER);
     nMaxDatacarrierBytes = GetArg("-datacarriersize", nMaxDatacarrierBytes);
+
+    if (IsArgSet("-maxscriptsigsize")) {
+        uint32_t nMaxScriptSigSize;
+        if (!ParseUInt32(GetArg("-maxscriptsigsize", ""), &nMaxScriptSigSize) ||
+            nMaxScriptSigSize > MAX_STANDARD_SCRIPTSIG_SIZE) {
+            return InitError(strprintf(_("-maxscriptsigsize must be between 0 and %u"),
+                                       MAX_STANDARD_SCRIPTSIG_SIZE));
+        }
+        nMaxStandardScriptSigSize = nMaxScriptSigSize;
+    }
 
     // Option to startup with mocktime set (used for regression testing):
     SetMockTime(GetArg("-mocktime", 0)); // SetMockTime(0) is a no-op
