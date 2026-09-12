@@ -1,9 +1,7 @@
 // Copyright (c) 2015-2022 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
-
-#include <boost/random/uniform_int.hpp>
-#include <boost/random/mersenne_twister.hpp>
+#include <random>
 
 #include "policy/policy.h"
 #include "arith_uint256.h"
@@ -15,8 +13,8 @@
 
 int static generateMTRandom(unsigned int s, int range)
 {
-    boost::mt19937 gen(s);
-    boost::uniform_int<> dist(1, range);
+    std::mt19937 gen(s);
+    std::uniform_int_distribution<> dist(1, range);
     return dist(gen);
 }
 
