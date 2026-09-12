@@ -21,6 +21,10 @@ French:
 
 - [README](fr/README.md)
 
+Kurdish:
+
+- [README](Ku/README.md)
+
 Portuguese (Brazilian):
 
 - [README](pt_BR/README.md)
