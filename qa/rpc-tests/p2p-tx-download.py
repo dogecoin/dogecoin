@@ -171,14 +171,7 @@ class TxDownloadTest(BitcoinTestFramework):
 
     def forward_mocktime(self, delta_time):
         self.mocktime += delta_time
-        for node in self.nodes:
-            node.setmocktime(self.mocktime)
-            if not self.wait_for_mocktime(node):
-                return False
-        # sync the control peer with ping so that we're 100% sure we have
-        # entered a new message handling loop
-        self.control_peer.sync_with_ping()
-        return True
+        return self.set_mocktime(self.mocktime, self.control_peer)
 
     def forward_mocktime_step2(self, iterations):
         # forward mocktime in steps of 2 seconds to allow the nodes

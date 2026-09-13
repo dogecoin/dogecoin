@@ -26,6 +26,7 @@ from .util import (
     check_json_precision,
     initialize_chain_clean,
     PortSeed,
+    wait_until
 )
 from .authproxy import JSONRPCException
 
@@ -189,6 +190,19 @@ class BitcoinTestFramework(object):
         else:
             print("Failed")
             sys.exit(1)
+
+    def set_mocktime(self, time, syncnode=None):
+        for n in self.nodes:
+            n.setmocktime(time)
+            def mocktime_set():
+                return n.getmocktime() == time
+            if not wait_until(mocktime_set, timeout=10):
+                return False
+
+        if syncnode is not None:
+            return syncnode.sync_with_ping()
+
+        return True
 
 
 # Test framework for doing p2p comparison testing, which sets up some dogecoind
