@@ -6,12 +6,24 @@ run using Python 3 but are compatible with Python 2.
 
     $ ./linearize-hashes.py linearize.cfg > hashlist.txt
 
-Required configuration file settings for linearize-hashes:
-* RPC: `rpcuser`, `rpcpassword`
+Configuration file settings for linearize-hashes:
+* RPC: `rpcuser`, `rpcpassword`. If these are not set, the tool reads the
+`.cookie` file that dogecoind writes into its data directory whenever `rpcuser`
+is not configured, which is the recommended way to reach a locally-run node.
 
 Optional config file setting for linearize-hashes:
 * RPC: `host`  (Default: `127.0.0.1`)
 * RPC: `port`  (Default: `22555`)
+* RPC: `datadir`: dogecoind's data directory, used to find the `.cookie` file.
+Defaults to the standard location for the platform. For testnet, point this at
+the `testnet3` subdirectory.
+* RPC: `cookiefile`: full path to the cookie file, if it is not
+`<datadir>/.cookie` (i.e. dogecoind was given `-rpccookiefile`).
+
+Note that `rpcauth` is a server-side setting: dogecoind checks the credentials
+against it, but a client still sends the username and password that were used
+to generate the `rpcauth` line, so set those as `rpcuser` and `rpcpassword`
+here.
 * Blockchain: `min_height`, `max_height`
 * `rev_hash_bytes`: If true, the written block hash list will be
 byte-reversed. (In other words, the hash returned by getblockhash will have its

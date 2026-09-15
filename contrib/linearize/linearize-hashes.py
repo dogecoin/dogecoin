@@ -14,6 +14,7 @@ try: # Python 3
 except ImportError: # Python 2
     import httplib
 import json
+import os
 import re
 import base64
 import sys
@@ -27,10 +28,8 @@ def hex_switchEndian(s):
 	return b''.join(pairList[::-1]).decode()
 
 class BitcoinRPC:
-	def __init__(self, host, port, username, password):
-		authpair = "%s:%s" % (username, password)
-		authpair = authpair.encode('utf-8')
-		self.authhdr = b"Basic " + base64.b64encode(authpair)
+	def __init__(self, host, port, authpair):
+		self.authhdr = b"Basic " + base64.b64encode(authpair.encode('utf-8'))
 		self.conn = httplib.HTTPConnection(host, port=port, timeout=30)
 
 	def execute(self, obj):
@@ -67,9 +66,55 @@ class BitcoinRPC:
 	def response_is_error(resp_obj):
 		return 'error' in resp_obj and resp_obj['error'] is not None
 
+def default_datadir():
+	"""The directory dogecoind uses when -datadir is not given."""
+	if sys.platform == 'darwin':
+		return os.path.expanduser('~/Library/Application Support/Dogecoin')
+	if sys.platform.startswith('win'):
+		return os.path.join(os.environ.get('APPDATA', ''), 'Dogecoin')
+	return os.path.expanduser('~/.dogecoin')
+
+def read_cookie(path):
+	"""Return the 'user:password' pair dogecoind wrote to its cookie file, or None."""
+	try:
+		with open(path, 'r') as f:
+			authpair = f.read().strip()
+	except (IOError, OSError):
+		return None
+	# The file holds exactly "__cookie__:<password>"; anything else is not a cookie.
+	if ':' not in authpair:
+		return None
+	return authpair
+
+def resolve_authpair(settings):
+	"""Work out how to authenticate, preferring an explicit user and password.
+
+	dogecoind writes a .cookie file into its data directory whenever rpcuser is not configured, which is how a
+	locally-run node is meant to be reached now that rpcuser/rpcpassword are on their way out. See
+	https://github.com/dogecoin/dogecoin/issues/1683.
+	"""
+	if 'rpcuser' in settings and 'rpcpassword' in settings:
+		return "%s:%s" % (settings['rpcuser'], settings['rpcpassword'])
+
+	if 'cookiefile' in settings:
+		cookiepath = settings['cookiefile']
+	else:
+		cookiepath = os.path.join(settings.get('datadir', default_datadir()), '.cookie')
+
+	authpair = read_cookie(cookiepath)
+	if authpair is not None:
+		return authpair
+
+	print("No RPC credentials found.", file=sys.stderr)
+	print("Set rpcuser and rpcpassword in the config file, or let the tool read the cookie file that", file=sys.stderr)
+	print("dogecoind writes when rpcuser is not configured. Looked for the cookie at:", file=sys.stderr)
+	print("  %s" % cookiepath, file=sys.stderr)
+	print("Set 'datadir' to dogecoind's data directory, or 'cookiefile' to the cookie itself, if it lives", file=sys.stderr)
+	print("somewhere else. For testnet the data directory is the testnet3 subdirectory.", file=sys.stderr)
+	sys.exit(1)
+
 def get_block_hashes(settings, max_blocks_per_call=10000):
-	rpc = BitcoinRPC(settings['host'], settings['port'],
-			 settings['rpcuser'], settings['rpcpassword'])
+	rpc = BitcoinRPC(settings['host'], settings['port'], settings['authpair'])
 
 	height = settings['min_height']
 	while height < settings['max_height']+1:
@@ -123,9 +168,7 @@ if __name__ == '__main__':
 		settings['max_height'] = 313000
 	if 'rev_hash_bytes' not in settings:
 		settings['rev_hash_bytes'] = 'false'
-	if 'rpcuser' not in settings or 'rpcpassword' not in settings:
-		print("Missing username and/or password in cfg file", file=stderr)
-		sys.exit(1)
+	settings['authpair'] = resolve_authpair(settings)
 
 	settings['port'] = int(settings['port'])
 	settings['min_height'] = int(settings['min_height'])
