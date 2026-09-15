@@ -134,14 +134,26 @@ CAmount AmountFromValue(const UniValue& value)
     return amount;
 }
 
+bool fRPCStringAmounts = false;
+
+/**
+ * Format an amount as its exact decimal representation.
+ *
+ * The result is emitted as a JSON string when -rpcstringamounts is set, and as a JSON number otherwise. Both carry
+ * the same digits; only the type differs. A JSON number is re-read as an IEEE-754 double by most parsers, and a
+ * Dogecoin amount needs more precision than a double has once it exceeds 2^53 koinu (about 90,071,992.55 DOGE), so
+ * a caller that adds up such amounts can end up with a total that is off by a koinu or two - which is how a
+ * transaction acquires a "negative" fee. A JSON string survives any parser untouched, leaving the caller to decode
+ * it at whatever precision it needs. See https://github.com/dogecoin/dogecoin/issues/1577.
+ */
 UniValue ValueFromAmount(const CAmount& amount)
 {
     bool sign = amount < 0;
     int64_t n_abs = (sign ? -amount : amount);
     int64_t quotient = n_abs / COIN;
     int64_t remainder = n_abs % COIN;
-    return UniValue(UniValue::VNUM,
-            strprintf("%s%d.%08d", sign ? "-" : "", quotient, remainder));
+    std::string formatted = strprintf("%s%d.%08d", sign ? "-" : "", quotient, remainder);
+    return UniValue(fRPCStringAmounts ? UniValue::VSTR : UniValue::VNUM, formatted);
 }
 
 UniValue ValueFromAmount(const arith_uint256& amount)
@@ -150,8 +162,9 @@ UniValue ValueFromAmount(const arith_uint256& amount)
     arith_uint256 n_abs = (sign ? -amount : amount);
     arith_uint256 quotient = n_abs / COIN;
     arith_uint256 remainder = n_abs - (quotient * COIN);
-    return UniValue(UniValue::VNUM,
-            strprintf("%s%d.%08d", sign ? "-" : "", (int64_t)quotient.getdouble(), (int64_t)remainder.getdouble()));
+    std::string formatted =
+            strprintf("%s%d.%08d", sign ? "-" : "", (int64_t)quotient.getdouble(), (int64_t)remainder.getdouble());
+    return UniValue(fRPCStringAmounts ? UniValue::VSTR : UniValue::VNUM, formatted);
 }
 
 uint256 ParseHashV(const UniValue& v, string strName)

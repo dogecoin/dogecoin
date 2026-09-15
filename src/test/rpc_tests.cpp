@@ -177,6 +177,29 @@ BOOST_AUTO_TEST_CASE(rpc_format_monetary_values)
     BOOST_CHECK_EQUAL(ValueFromAmount(COIN/1000000).write(), "0.00000100");
     BOOST_CHECK_EQUAL(ValueFromAmount(COIN/10000000).write(), "0.00000010");
     BOOST_CHECK_EQUAL(ValueFromAmount(COIN/100000000).write(), "0.00000001");
+
+    // https://github.com/dogecoin/dogecoin/issues/1577: amounts above 2^53 koinu cannot be represented exactly by
+    // an IEEE-754 double, so a client that parses JSON numbers as doubles corrupts them. -rpcstringamounts emits
+    // the same digits as a JSON string instead, which survives any parser.
+    BOOST_CHECK(!fRPCStringAmounts);
+    // 2^53 koinu is 90071992.54740992 DOGE; this is the output value from the transaction in the issue.
+    BOOST_CHECK_EQUAL(ValueFromAmount(9327820896272777LL).write(), "93278208.96272777");
+
+    fRPCStringAmounts = true;
+    BOOST_CHECK_EQUAL(ValueFromAmount(9327820896272777LL).write(), "\"93278208.96272777\"");
+    BOOST_CHECK_EQUAL(ValueFromAmount(0LL).write(), "\"0.00000000\"");
+    BOOST_CHECK_EQUAL(ValueFromAmount(1LL).write(), "\"0.00000001\"");
+    BOOST_CHECK_EQUAL(ValueFromAmount(-COIN).write(), "\"-1.00000000\"");
+    // The digits are unchanged; only the JSON type differs.
+    BOOST_CHECK_EQUAL(ValueFromAmount(9327820896272777LL).getValStr(), "93278208.96272777");
+    BOOST_CHECK(ValueFromAmount(1LL).isStr());
+    fRPCStringAmounts = false;
+    BOOST_CHECK(ValueFromAmount(1LL).isNum());
+
+    // Whichever form is emitted, it must be accepted back by AmountFromValue unchanged, so that output from one
+    // call can be fed straight into another.
+    BOOST_CHECK_EQUAL(AmountFromValue(UniValue(UniValue::VNUM, "93278208.96272777")), 9327820896272777LL);
+    BOOST_CHECK_EQUAL(AmountFromValue(UniValue(UniValue::VSTR, "93278208.96272777")), 9327820896272777LL);
 }
 
 static UniValue ValueFromString(const std::string &str)

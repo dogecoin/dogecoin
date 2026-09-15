@@ -503,6 +503,7 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += HelpMessageOpt("-rpcport=<port>", strprintf(_("Listen for JSON-RPC connections on <port> (default: %u or testnet: %u)"), BaseParams(CBaseChainParams::MAIN).RPCPort(), BaseParams(CBaseChainParams::TESTNET).RPCPort()));
     strUsage += HelpMessageOpt("-rpcallowip=<ip>", _("Allow JSON-RPC connections from specified source. Valid for <ip> are a single IP (e.g. 1.2.3.4), a network/netmask (e.g. 1.2.3.4/255.255.255.0) or a network/CIDR (e.g. 1.2.3.4/24). This option can be specified multiple times"));
     strUsage += HelpMessageOpt("-rpcthreads=<n>", strprintf(_("Set the number of threads to service RPC calls (default: %d)"), DEFAULT_HTTP_THREADS));
+    strUsage += HelpMessageOpt("-rpcstringamounts", strprintf(_("Return monetary amounts as JSON strings instead of JSON numbers, so that clients which parse JSON numbers as doubles do not lose precision on amounts above 2^53 koinu (default: %u)"), DEFAULT_RPC_STRING_AMOUNTS));
     if (showDebug) {
         strUsage += HelpMessageOpt("-rpcworkqueue=<n>", strprintf("Set the depth of the work queue to service RPC calls (default: %d)", DEFAULT_HTTP_WORKQUEUE));
         strUsage += HelpMessageOpt("-rpcservertimeout=<n>", strprintf("Timeout during HTTP requests (default: %d)", DEFAULT_HTTP_SERVER_TIMEOUT));
@@ -1095,6 +1096,9 @@ bool AppInitParameterInteraction()
 
     // Configure usage of the namecoin AuxPow API structure
     fUseNamecoinApi = GetBoolArg("-rpcnamecoinapi", DEFAULT_USE_NAMECOIN_API);
+
+    // Configure whether monetary amounts are returned as JSON strings instead of JSON numbers
+    fRPCStringAmounts = GetBoolArg("-rpcstringamounts", DEFAULT_RPC_STRING_AMOUNTS);
 
     fIsBareMultisigStd = GetBoolArg("-permitbaremultisig", DEFAULT_PERMIT_BAREMULTISIG);
     fAcceptDatacarrier = GetBoolArg("-datacarrier", DEFAULT_ACCEPT_DATACARRIER);

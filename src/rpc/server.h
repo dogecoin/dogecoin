@@ -23,6 +23,8 @@
 
 static const unsigned int DEFAULT_RPC_SERIALIZE_VERSION = 1;
 static const bool DEFAULT_USE_NAMECOIN_API = false;
+//! Emit monetary amounts as JSON strings rather than JSON numbers.
+static const bool DEFAULT_RPC_STRING_AMOUNTS = false;
 
 class CRPCCommand;
 
@@ -214,5 +216,6 @@ void RPCNotifyBlockChange(bool ibd, const CBlockIndex *);
 int RPCSerializationFlags();
 
 extern bool fUseNamecoinApi;
+extern bool fRPCStringAmounts;
 
 #endif // BITCOIN_RPCSERVER_H
