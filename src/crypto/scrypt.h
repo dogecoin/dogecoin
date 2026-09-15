@@ -36,15 +36,20 @@ void
 PBKDF2_SHA256(const uint8_t *passwd, size_t passwdlen, const uint8_t *salt,
     size_t saltlen, uint64_t c, uint8_t *buf, size_t dkLen);
 
-#ifndef __FreeBSD__
-static inline uint32_t le32dec(const void *pp)
+/*
+ * These were once named le32dec/le32enc, guarded by #ifndef __FreeBSD__ because FreeBSD declares functions of those
+ * names in <sys/endian.h> (see issues #787 and #2475). Recent macOS SDKs declare them too, so the same collision
+ * came back on a platform the guard did not name (#3975). The prefix removes the clash on every platform at once
+ * and needs no guard, which is what #787 originally suggested.
+ */
+static inline uint32_t scrypt_le32dec(const void *pp)
 {
         const uint8_t *p = (uint8_t const *)pp;
         return ((uint32_t)(p[0]) + ((uint32_t)(p[1]) << 8) +
             ((uint32_t)(p[2]) << 16) + ((uint32_t)(p[3]) << 24));
 }
 
-static inline void le32enc(void *pp, uint32_t x)
+static inline void scrypt_le32enc(void *pp, uint32_t x)
 {
         uint8_t *p = (uint8_t *)pp;
         p[0] = x & 0xff;
@@ -52,5 +57,4 @@ static inline void le32enc(void *pp, uint32_t x)
         p[2] = (x >> 16) & 0xff;
         p[3] = (x >> 24) & 0xff;
 }
-#endif
 #endif // BITCOIN_CRYPTO_SCRYPT_H
