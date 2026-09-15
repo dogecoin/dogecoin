@@ -353,11 +353,15 @@ static void InterpretNegativeSetting(std::string& strKey, std::string& strValue)
     }
 }
 
+//! Argument names as supplied on the command line or in the config file, before any SoftSetArg call.
+static std::set<std::string> setSuppliedArgs;
+
 void ParseParameters(int argc, const char* const argv[])
 {
     LOCK(cs_args);
     mapArgs.clear();
     _mapMultiArgs.clear();
+    setSuppliedArgs.clear();
 
     for (int i = 1; i < argc; i++)
     {
@@ -386,7 +390,56 @@ void ParseParameters(int argc, const char* const argv[])
 
         mapArgs[str] = strValue;
         _mapMultiArgs[str].push_back(strValue);
+        setSuppliedArgs.insert(str);
     }
+}
+
+static std::set<std::string> setKnownArgs;
+
+void RegisterKnownArg(const std::string& strArg)
+{
+    LOCK(cs_args);
+    setKnownArgs.insert(strArg);
+}
+
+bool IsArgKnown(const std::string& strArg)
+{
+    LOCK(cs_args);
+    return setKnownArgs.count(strArg) > 0;
+}
+
+size_t CountKnownArgs()
+{
+    LOCK(cs_args);
+    return setKnownArgs.size();
+}
+
+void ClearKnownArgs()
+{
+    LOCK(cs_args);
+    setKnownArgs.clear();
+}
+
+std::vector<std::string> GetUnrecognizedArgs()
+{
+    LOCK(cs_args);
+    std::vector<std::string> unrecognized;
+    // Only what the user supplied: mapArgs also holds defaults written by SoftSetArg/SoftSetBoolArg, which nobody
+    // typed and which must never be reported back to them.
+    for (const std::string& name : setSuppliedArgs) {
+        if (setKnownArgs.count(name) > 0) {
+            continue;
+        }
+        const std::pair<std::string, std::string> arg(name, std::string());
+        // -noflag is the negation of -flag, and InterpretNegativeSetting has already rewritten it, but a user may
+        // still pass -nofoo for a registered -foo. Accept it rather than reporting a name nothing declares.
+        if (arg.first.compare(0, 3, "-no") == 0 && setKnownArgs.count("-" + arg.first.substr(3)) > 0) {
+            continue;
+        }
+        unrecognized.push_back(arg.first);
+    }
+    std::sort(unrecognized.begin(), unrecognized.end());
+    return unrecognized;
 }
 
 bool IsArgSet(const std::string& strArg)
@@ -611,6 +664,7 @@ void ReadConfigFile(const std::string& confPath)
             string strKey = string("-") + it->string_key;
             string strValue = it->value[0];
             InterpretNegativeSetting(strKey, strValue);
+            setSuppliedArgs.insert(strKey);
             if (mapArgs.count(strKey) == 0)
                 mapArgs[strKey] = strValue;
             _mapMultiArgs[strKey].push_back(strValue);

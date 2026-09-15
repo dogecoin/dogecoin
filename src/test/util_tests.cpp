@@ -580,4 +580,45 @@ BOOST_AUTO_TEST_CASE(test_ParseFixedPoint)
     BOOST_CHECK(!ParseFixedPoint("1.", 8, &amount));
 }
 
+BOOST_AUTO_TEST_CASE(util_known_args)
+{
+    // https://github.com/dogecoin/dogecoin/issues/1313: an argument nothing reads is currently accepted silently,
+    // so a typo is indistinguishable from a setting that took effect. The registry is what makes it detectable.
+    ClearKnownArgs();
+    BOOST_CHECK_EQUAL(CountKnownArgs(), 0u);
+
+    RegisterKnownArg("-known");
+    BOOST_CHECK(IsArgKnown("-known"));
+    BOOST_CHECK(!IsArgKnown("-unknown"));
+    BOOST_CHECK_EQUAL(CountKnownArgs(), 1u);
+
+    // registering twice is a no-op
+    RegisterKnownArg("-known");
+    BOOST_CHECK_EQUAL(CountKnownArgs(), 1u);
+
+    const char* argv[] = {"ignored", "-known=1", "-typo=1"};
+    ParseParameters(3, (char**)argv);
+
+    std::vector<std::string> unrecognized = GetUnrecognizedArgs();
+    BOOST_CHECK_EQUAL(unrecognized.size(), 1u);
+    BOOST_CHECK_EQUAL(unrecognized[0], "-typo");
+
+    // -noknown is the negation of a registered argument, not an unrecognised one
+    const char* argv_negated[] = {"ignored", "-noknown"};
+    ParseParameters(2, (char**)argv_negated);
+    BOOST_CHECK(GetUnrecognizedArgs().empty());
+
+    // results come back sorted, so the report is stable
+    ClearKnownArgs();
+    const char* argv_many[] = {"ignored", "-zebra=1", "-alpha=1", "-mike=1"};
+    ParseParameters(4, (char**)argv_many);
+    unrecognized = GetUnrecognizedArgs();
+    BOOST_CHECK_EQUAL(unrecognized.size(), 3u);
+    BOOST_CHECK_EQUAL(unrecognized[0], "-alpha");
+    BOOST_CHECK_EQUAL(unrecognized[1], "-mike");
+    BOOST_CHECK_EQUAL(unrecognized[2], "-zebra");
+
+    ClearKnownArgs();
+}
+
 BOOST_AUTO_TEST_SUITE_END()

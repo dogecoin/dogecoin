@@ -46,6 +46,37 @@ public:
 };
 
 extern const std::map<std::string, std::vector<std::string> >& mapMultiArgs;
+
+/**
+ * Argument registry.
+ *
+ * Dogecoin Core currently accepts any -option it is given and silently ignores the ones no code reads, so a typo in
+ * a command line or dogecoin.conf looks exactly like a setting that took effect. Recognising an argument requires
+ * knowing which ones exist, which this registry provides.
+ *
+ * This is step one of the plan in https://github.com/dogecoin/dogecoin/issues/1313: the registry is deliberately
+ * not yet complete, so unrecognised arguments are only reported under -debug=args and never warn or fail. Once
+ * every argument is registered, the reporting can be promoted to a warning.
+ */
+
+/** Record strArg (e.g. "-rpcport") as an argument this build understands. */
+void RegisterKnownArg(const std::string& strArg);
+
+/** Returns true if strArg has been registered with RegisterKnownArg. */
+bool IsArgKnown(const std::string& strArg);
+
+/** Number of registered arguments. Exposed for tests. */
+size_t CountKnownArgs();
+
+/** Forget all registered arguments. Exposed for tests. */
+void ClearKnownArgs();
+
+/**
+ * Arguments that were supplied but never registered, in sorted order.
+ *
+ * Computed on demand rather than while parsing, so that registration may happen after ParseParameters.
+ */
+std::vector<std::string> GetUnrecognizedArgs();
 extern bool fDebug;
 extern bool fPrintToConsole;
 extern bool fPrintToDebugLog;

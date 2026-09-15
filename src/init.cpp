@@ -440,7 +440,7 @@ std::string HelpMessage(HelpMessageMode mode)
         strUsage += HelpMessageOpt("-limitdescendantsize=<n>", strprintf("Do not accept transactions if any ancestor would have more than <n> kilobytes of in-mempool descendants (default: %u).", DEFAULT_DESCENDANT_SIZE_LIMIT));
         strUsage += HelpMessageOpt("-bip9params=deployment:start:end", "Use given start/end times for specified BIP9 deployment (regtest-only)");
     }
-    std::string debugCategories = "addrman, alert, bench, cmpctblock, coindb, db, http, libevent, lock, mempool, mempoolrej, net, proxy, prune, rand, reindex, rpc, selectcoins, tor, zmq"; // Don't translate these and qt below
+    std::string debugCategories = "addrman, alert, args, bench, cmpctblock, coindb, db, http, libevent, lock, mempool, mempoolrej, net, proxy, prune, rand, reindex, rpc, selectcoins, tor, zmq"; // Don't translate these and qt below
     if (mode == HMM_BITCOIN_QT)
         debugCategories += ", qt";
     strUsage += HelpMessageOpt("-debug=<category>", strprintf(_("Output debugging information (default: %u, supplying <category> is optional)"), 0) + ". " +
@@ -888,6 +888,217 @@ bool AppInitBasicSetup()
     return true;
 }
 
+/**
+ * Every argument this build understands.
+ *
+ * Dogecoin Core accepts any -option it is given and silently ignores the ones no code reads, so a typo in a command
+ * line or in dogecoin.conf is indistinguishable from a setting that took effect. Recognising an argument requires
+ * knowing which ones exist; this is that list.
+ *
+ * Generated from the HelpMessageOpt declarations and the GetArg/GetBoolArg/IsArgSet call sites in src/. Keep it in
+ * step when adding or removing an argument - qa/rpc-tests/unrecognisedargs.py fails if a supported argument is
+ * missing from it.
+ *
+ * See https://github.com/dogecoin/dogecoin/issues/1313.
+ */
+static const char* const DOGECOIN_KNOWN_ARGS[] = {
+    "-acceptnonstdtxn",
+    "-addnode",
+    "-alertnotify",
+    "-assumevalid",
+    "-backupdir",
+    "-banscore",
+    "-bantime",
+    "-benchmark",
+    "-bind",
+    "-bip9params",
+    "-blockmaxsize",
+    "-blockmaxweight",
+    "-blockminsize",
+    "-blockmintxfee",
+    "-blocknotify",
+    "-blockprioritysize",
+    "-blockreconstructionextratxn",
+    "-blocksonly",
+    "-blockversion",
+    "-bytespersigop",
+    "-checkblockindex",
+    "-checkblocks",
+    "-checklevel",
+    "-checkmempool",
+    "-checkpoints",
+    "-choosedatadir",
+    "-conf",
+    "-connect",
+    "-create",
+    "-daemon",
+    "-datacarrier",
+    "-datacarriersize",
+    "-datadir",
+    "-dbcache",
+    "-dblogsize",
+    "-debug",
+    "-debugnet",
+    "-disablesafemode",
+    "-disablewallet",
+    "-discardthreshold",
+    "-discover",
+    "-dns",
+    "-dnsseed",
+    "-dropmessagestest",
+    "-dustlimit",
+    "-externalip",
+    "-fallbackfee",
+    "-feefilter",
+    "-flushwallet",
+    "-forcednsseed",
+    "-fuzzmessagestest",
+    "-h",
+    "-harddustlimit",
+    "-help",
+    "-help-debug",
+    "-incrementalrelayfee",
+    "-json",
+    "-keypool",
+    "-lang",
+    "-limitancestorcount",
+    "-limitancestorsize",
+    "-limitdescendantcount",
+    "-limitdescendantsize",
+    "-limitfreerelay",
+    "-listen",
+    "-listenonion",
+    "-loadblock",
+    "-logips",
+    "-logtimemicros",
+    "-logtimestamps",
+    "-maxconnections",
+    "-maxmempool",
+    "-maxorphantx",
+    "-maxreceivebuffer",
+    "-maxsendbuffer",
+    "-maxsigcachesize",
+    "-maxtimeadjustment",
+    "-maxtipage",
+    "-maxtxfee",
+    "-maxuploadtarget",
+    "-mempoolexpiry",
+    "-mempoolreplacement",
+    "-min",
+    "-minrelaytxfee",
+    "-mintxfee",
+    "-mocktime",
+    "-named",
+    "-nodebug",
+    "-onion",
+    "-onlynet",
+    "-par",
+    "-paytxfee",
+    "-peerbloomfilters",
+    "-permitbaremultisig",
+    "-pid",
+    "-port",
+    "-prematurewitness",
+    "-printpriority",
+    "-printtoconsole",
+    "-privdb",
+    "-promiscuousmempoolflags",
+    "-proxy",
+    "-proxyrandomize",
+    "-prune",
+    "-regtest",
+    "-reindex",
+    "-reindex-chainstate",
+    "-relaypriority",
+    "-rescan",
+    "-resetguisettings",
+    "-rest",
+    "-rpcallowip",
+    "-rpcauth",
+    "-rpcbind",
+    "-rpcclienttimeout",
+    "-rpcconnect",
+    "-rpccookiefile",
+    "-rpcnamecoinapi",
+    "-rpcpassword",
+    "-rpcport",
+    "-rpcserialversion",
+    "-rpcservertimeout",
+    "-rpcssl",
+    "-rpcthreads",
+    "-rpcuser",
+    "-rpcwait",
+    "-rpcworkqueue",
+    "-salvagewallet",
+    "-seednode",
+    "-sendfreetransactions",
+    "-server",
+    "-shrinkdebugfile",
+    "-socks",
+    "-spendzeroconfchange",
+    "-splash",
+    "-stdin",
+    "-stopafterblockimport",
+    "-sysperms",
+    "-testnet",
+    "-testsafemode",
+    "-timeout",
+    "-tor",
+    "-torcontrol",
+    "-torpassword",
+    "-txconfirmtarget",
+    "-txid",
+    "-txindex",
+    "-uacomment",
+    "-uiplatform",
+    "-upgradewallet",
+    "-upnp",
+    "-usehd",
+    "-version",
+    "-wallet",
+    "-walletbroadcast",
+    "-walletnotify",
+    "-walletprematurewitness",
+    "-walletrbf",
+    "-walletrejectlongchains",
+    "-whitebind",
+    "-whitelist",
+    "-whitelistalwaysrelay",
+    "-whitelistforcerelay",
+    "-whitelistrelay",
+    "-zapwallettxes",
+    "-zmqpubhashblock",
+    "-zmqpubhashtx",
+    "-zmqpubrawblock",
+    "-zmqpubrawtx",
+};
+
+/** Register every argument this build understands. */
+static void RegisterKnownArgs()
+{
+    for (const char* arg : DOGECOIN_KNOWN_ARGS) {
+        RegisterKnownArg(arg);
+    }
+}
+
+/**
+ * Report arguments this build does not recognise.
+ *
+ * Logged under -debug=args rather than warned about, so that this cannot break anyone who is passing an argument
+ * that is genuinely gone: step 3 of issue #1313 is to promote it to a warning once the list has been proven in
+ * the wild.
+ */
+static void ReportUnrecognizedArgs()
+{
+    const std::vector<std::string> unrecognized = GetUnrecognizedArgs();
+    if (unrecognized.empty()) {
+        return;
+    }
+    for (const std::string& arg : unrecognized) {
+        LogPrint("args", "Unrecognised argument %s - it will be ignored\n", arg);
+    }
+}
+
 bool AppInitParameterInteraction()
 {
     const CChainParams& chainparams = Params();
@@ -1092,6 +1303,10 @@ bool AppInitParameterInteraction()
     if (!CWallet::ParameterInteraction())
         return false;
 #endif
+
+    // Report any arguments this build does not understand (see issue #1313)
+    RegisterKnownArgs();
+    ReportUnrecognizedArgs();
 
     // Configure usage of the namecoin AuxPow API structure
     fUseNamecoinApi = GetBoolArg("-rpcnamecoinapi", DEFAULT_USE_NAMECOIN_API);
