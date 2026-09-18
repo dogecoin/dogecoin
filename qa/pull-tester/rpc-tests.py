@@ -178,6 +178,7 @@ testScripts = [
     'getblock.py',
     'getblockstats.py',
     'addnode.py',
+    'node_info.py',
     'getmocktime.py',
     'uptime.py',
     'p2p-getdata.py',

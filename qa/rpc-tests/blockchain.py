@@ -18,8 +18,10 @@ from test_framework.util import (
     assert_greater_than,
     assert_greater_than_or_equal,
     assert_raises,
+    assert_raises_jsonrpc,
     assert_is_hex_string,
     assert_is_hash_string,
+    find_output,
     start_nodes,
     start_node,
     connect_nodes_bi,
@@ -31,9 +33,13 @@ class BlockchainTest(BitcoinTestFramework):
     Test blockchain-related RPC calls:
 
         - gettxoutsetinfo
+        - gettxout
         - verifychain
 
     """
+
+    # rpc/protocol.h
+    RPC_MISC_ERROR = -1
 
     def __init__(self):
         super().__init__()
@@ -54,6 +60,9 @@ class BlockchainTest(BitcoinTestFramework):
         self._test_getblockchaininfo()
         self._test_verifychain_args()
         self.nodes[0].verifychain(4, 0)
+        # last, because it spends and mines and so moves the chain past the
+        # heights and output counts the tests above pin down
+        self._test_gettxout()
 
     # PL backported this entire test from upstream 0.16 to 1.14.3
     def _test_getblockchaininfo(self):
@@ -111,6 +120,83 @@ class BlockchainTest(BitcoinTestFramework):
         assert_equal(res['bytes_serialized'], 8520),
         assert_equal(len(res['bestblock']), 64)
         assert_equal(len(res['hash_serialized']), 64)
+
+    def _test_gettxout(self):
+        # everything here is asked of node 0 alone: both nodes in this test are
+        # pruned, so neither offers NODE_NETWORK and they cannot serve blocks to
+        # one another, which makes syncing them impossible as well as pointless
+        node = self.nodes[0]
+
+        # pay ourselves, so that there is an output in the set whose value and
+        # script are known, and confirm it
+        address = node.getnewaddress()
+        amount = Decimal("1000.00000000")
+        txid = node.sendtoaddress(address, amount)
+        node.generate(1)
+        n = find_output(node, txid, amount)
+
+        out = node.gettxout(txid, n)
+        assert_equal(sorted(out.keys()),
+                     sorted(['bestblock', 'confirmations', 'value',
+                             'scriptPubKey', 'version', 'coinbase']))
+        assert_equal(out['bestblock'], node.getbestblockhash())
+        assert_equal(out['confirmations'], 1)
+        assert_equal(out['value'], amount)
+        assert_equal(out['coinbase'], False)
+
+        script = out['scriptPubKey']
+        assert_equal(sorted(script.keys()),
+                     sorted(['asm', 'hex', 'reqSigs', 'type', 'addresses']))
+        assert_equal(script['type'], 'pubkeyhash')
+        assert_equal(script['reqSigs'], 1)
+        assert_equal(script['addresses'], [address])
+        assert_is_hex_string(script['hex'])
+
+        # the confirmation count and the block reported follow the chain as it grows
+        node.generate(2)
+        out = node.gettxout(txid, n)
+        assert_equal(out['confirmations'], 3)
+        assert_equal(out['bestblock'], node.getbestblockhash())
+
+        # a coinbase output is reported as one
+        coinbase_txid = node.getblock(node.getblockhash(1))['tx'][0]
+        assert_equal(node.gettxout(coinbase_txid, 0)['coinbase'], True)
+
+        # an output that is not in the set answers with null rather than failing,
+        # whether the transaction is unknown or the vout is out of range
+        assert_equal(node.gettxout("00" * 32, 0), None)
+        assert_equal(node.gettxout(txid, 1000), None)
+        assert_equal(node.gettxout(txid, -1), None)
+
+        # an unconfirmed spend is reflected only in the view that includes the
+        # mempool: there the spent output is gone and the new one is already
+        # visible with no confirmations, while the set on disk still has neither
+        raw = node.createrawtransaction([{"txid": txid, "vout": n}],
+                                        {node.getnewaddress(): amount - Decimal("1.00000000")})
+        signed = node.signrawtransaction(raw)
+        assert_equal(signed['complete'], True)
+        spend_txid = node.sendrawtransaction(signed['hex'])
+
+        assert_equal(node.gettxout(txid, n, True), None)
+        assert_equal(node.gettxout(txid, n, False)['value'], amount)
+
+        spent_to = node.gettxout(spend_txid, 0, True)
+        assert_equal(spent_to['confirmations'], 0)
+        assert_equal(spent_to['value'], amount - Decimal("1.00000000"))
+        assert_equal(node.gettxout(spend_txid, 0, False), None)
+
+        # include_mempool defaults to true
+        assert_equal(node.gettxout(txid, n), None)
+
+        # and once it is mined the set on disk agrees with what the mempool view
+        # was already reporting
+        node.generate(1)
+        assert_equal(node.gettxout(txid, n, False), None)
+        assert_equal(node.gettxout(spend_txid, 0, False)['confirmations'], 1)
+
+        # txid and vout are both required, and there is no fourth argument
+        assert_raises_jsonrpc(self.RPC_MISC_ERROR, "gettxout", node.gettxout, txid)
+        assert_raises_jsonrpc(self.RPC_MISC_ERROR, "gettxout", node.gettxout, txid, n, True, 1)
 
     def _test_getblockheader(self):
         node = self.nodes[0]
