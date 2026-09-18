@@ -13,6 +13,7 @@
 #include "dogecoin-fees.h"
 #include "fs.h"
 #include "wallet/coincontrol.h"
+#include "wallet/coinselection.h"
 #include "consensus/consensus.h"
 #include "consensus/validation.h"
 #include "key.h"
@@ -2155,6 +2156,14 @@ CAmount CWallet::GetMinChange()
   return discardThreshold + minTxFee.GetFeePerK() * MIN_CHANGE_FEE_MULTIPLIER;
 }
 
+// Dogecoin: the price coin selection may pay in extra fee to avoid a change
+// output, kept below discardThreshold so that CreateTransaction absorbs it into
+// the fee instead of creating the change output anyway.
+CAmount CWallet::GetCostOfChange()
+{
+  return std::min(minTxFee.GetFee(CHANGE_OUTPUT_SIZE + CHANGE_SPEND_SIZE), discardThreshold - 1);
+}
+
 bool CWallet::SelectCoinsMinConf(const CAmount& nTargetValue, const int nConfMine, const int nConfTheirs, const uint64_t nMaxAncestors, vector<COutput> vCoins,
                                  set<pair<const CWalletTx*,unsigned int> >& setCoinsRet, CAmount& nValueRet) const
 {
@@ -2223,6 +2232,35 @@ bool CWallet::SelectCoinsMinConf(const CAmount& nTargetValue, const int nConfMin
         setCoinsRet.insert(coinLowestLarger.second);
         nValueRet += coinLowestLarger.first;
         return true;
+    }
+
+    // Dogecoin: before settling for a combination that leaves change behind, look
+    // for one that pays nTargetValue outright. Every change output this avoids is
+    // one unspent output fewer in the wallet and one fewer input to pay for in a
+    // later transaction, which is what keeps a wallet that sends and receives at
+    // a steady rate from accumulating unspent outputs without bound (issue #485).
+    //
+    // Only vValue is offered to the solver: a coin worth more than
+    // nTargetValue + GetCostOfChange() overshoots the window on its own, and
+    // every such coin has already been kept out of vValue.
+    {
+        std::vector<CInputCandidate> vCandidates;
+        vCandidates.reserve(vValue.size());
+        for (size_t i = 0; i < vValue.size(); i++)
+            vCandidates.push_back(CInputCandidate(vValue[i].first, i));
+
+        std::vector<size_t> vIndices;
+        CAmount nValueBnB = 0;
+        if (SelectCoinsBnB(vCandidates, nTargetValue, GetCostOfChange(), vIndices, nValueBnB))
+        {
+            for (size_t nIndex : vIndices)
+                setCoinsRet.insert(vValue[nIndex].second);
+            nValueRet = nValueBnB;
+
+            LogPrint("selectcoins", "SelectCoins() branch and bound: %u inputs, total %s, no change\n",
+                     (unsigned int)vIndices.size(), FormatMoney(nValueRet));
+            return true;
+        }
     }
 
     // Solve subset sum by stochastic approximation

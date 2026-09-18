@@ -4,6 +4,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "txmempool.h"
+#include "wallet/coinselection.h"
 #include "wallet/wallet.h"
 
 #include <set>
@@ -267,10 +268,15 @@ BOOST_AUTO_TEST_CASE(coin_selection_tests)
         add_coin(CWallet::GetMinChange() * 1);
         add_coin(CWallet::GetMinChange() * 100);
 
-        // trying to make 100.01 from these three outputs
+        // trying to make 100.01 from these three outputs: the 100 and the 0.05
+        // cover it while overshooting by less than a change output would cost,
+        // so they are taken on their own and the 1 is left where it is
         BOOST_CHECK(wallet.SelectCoinsMinConf(CWallet::GetMinChange() * 10001 / 100, 1, 1, 0, vCoins, setCoinsRet, nValueRet));
-        BOOST_CHECK_EQUAL(nValueRet, CWallet::GetMinChange() * 10105 / 100); // we should get all outputs
-        BOOST_CHECK_EQUAL(setCoinsRet.size(), 3U);
+        BOOST_CHECK_EQUAL(nValueRet, CWallet::GetMinChange() * 10005 / 100);
+        BOOST_CHECK_EQUAL(setCoinsRet.size(), 2U);
+        // and the overshoot stays small enough to be paid to the miner instead
+        // of coming back as the change output it was meant to avoid
+        BOOST_CHECK(nValueRet - CWallet::GetMinChange() * 10001 / 100 < CWallet::discardThreshold);
 
         // but if we try to make 99.9, we should take the bigger of the two small outputs to avoid small change
         BOOST_CHECK(wallet.SelectCoinsMinConf(CWallet::GetMinChange() * 9990 / 100, 1, 1, 0, vCoins, setCoinsRet, nValueRet));
@@ -363,6 +369,159 @@ BOOST_AUTO_TEST_CASE(ApproximateBestSubset)
     BOOST_CHECK(wallet.SelectCoinsMinConf(1003 * COIN, 1, 6, 0, vCoins, setCoinsRet, nValueRet));
     BOOST_CHECK_EQUAL(nValueRet, 1003 * COIN);
     BOOST_CHECK_EQUAL(setCoinsRet.size(), 2U);
+
+    empty_wallet();
+}
+
+/**
+ * Run the branch and bound solver over a list of output values and return the
+ * values it picked, sorted, so that the expectation can be written as a literal.
+ * Every solution is checked against the contract the solver promises: the
+ * returned value is the sum of the returned outputs, and it sits inside the
+ * window that needs no change output.
+ */
+static bool bnb_select(const std::vector<CAmount>& vValues, const CAmount& nTargetValue,
+                       const CAmount& nCostOfChange, std::vector<CAmount>& vSelectedRet)
+{
+    std::vector<CInputCandidate> vCandidates;
+    for (size_t i = 0; i < vValues.size(); i++)
+        vCandidates.push_back(CInputCandidate(vValues[i], i));
+
+    std::vector<size_t> vIndices;
+    CAmount nValueRet = 0;
+    if (!SelectCoinsBnB(vCandidates, nTargetValue, nCostOfChange, vIndices, nValueRet))
+        return false;
+
+    vSelectedRet.clear();
+    CAmount nTotal = 0;
+    BOOST_FOREACH(const size_t& nIndex, vIndices)
+    {
+        BOOST_CHECK(nIndex < vValues.size());
+        vSelectedRet.push_back(vValues[nIndex]);
+        nTotal += vValues[nIndex];
+    }
+
+    BOOST_CHECK_EQUAL(nTotal, nValueRet);
+    BOOST_CHECK(nValueRet >= nTargetValue);
+    BOOST_CHECK(nValueRet <= nTargetValue + nCostOfChange);
+
+    std::sort(vSelectedRet.begin(), vSelectedRet.end());
+    return true;
+}
+
+BOOST_AUTO_TEST_CASE(bnb_search_test)
+{
+    std::vector<CAmount> vSelected;
+
+    // nothing to select from, and nothing worth selecting for
+    BOOST_CHECK(!bnb_select(std::vector<CAmount>(), 1 * COIN, 0, vSelected));
+    BOOST_CHECK(!bnb_select({1 * COIN}, 0, 0, vSelected));
+    BOOST_CHECK(!bnb_select({1 * COIN}, -1 * COIN, 0, vSelected));
+
+    // the outputs together cannot cover the target
+    BOOST_CHECK(!bnb_select({1 * COIN, 2 * COIN}, 4 * COIN, 0, vSelected));
+
+    // a single output that matches the target exactly
+    BOOST_CHECK(bnb_select({1 * COIN, 2 * COIN, 3 * COIN}, 2 * COIN, 0, vSelected));
+    BOOST_CHECK(vSelected == std::vector<CAmount>({2 * COIN}));
+
+    // several outputs that add up to the target exactly
+    BOOST_CHECK(bnb_select({1 * COIN, 2 * COIN, 5 * COIN}, 3 * COIN, 0, vSelected));
+    BOOST_CHECK(vSelected == std::vector<CAmount>({1 * COIN, 2 * COIN}));
+
+    // outputs worth nothing are ignored rather than padding the solution
+    BOOST_CHECK(bnb_select({0, 1 * COIN, 0, 2 * COIN}, 3 * COIN, 0, vSelected));
+    BOOST_CHECK(vSelected == std::vector<CAmount>({1 * COIN, 2 * COIN}));
+
+    // with no tolerance for overshooting, a target that no combination adds up
+    // to has no solution, even though the funds are all there
+    BOOST_CHECK(!bnb_select({2 * COIN, 4 * COIN, 8 * COIN}, 5 * COIN, 0, vSelected));
+
+    // and the same target is solvable as soon as overshooting is paid for
+    BOOST_CHECK(bnb_select({2 * COIN, 4 * COIN, 8 * COIN}, 5 * COIN, 1 * COIN, vSelected));
+    BOOST_CHECK(vSelected == std::vector<CAmount>({2 * COIN, 4 * COIN}));
+
+    // of the combinations inside the window the one overshooting least wins:
+    // 3 + 4 is preferred over 2 + 6 for a target of 7
+    BOOST_CHECK(bnb_select({2 * COIN, 3 * COIN, 4 * COIN, 6 * COIN}, 7 * COIN, 2 * COIN, vSelected));
+    BOOST_CHECK(vSelected == std::vector<CAmount>({3 * COIN, 4 * COIN}));
+
+    // combinations that overshoot by the same amount are settled in favour of
+    // the fewest outputs: 6 + 2 and 4 + 2 + 2 both land one over a target of 7
+    BOOST_CHECK(bnb_select({6 * COIN, 4 * COIN, 4 * COIN, 2 * COIN, 2 * COIN}, 7 * COIN, 3 * COIN, vSelected));
+    BOOST_CHECK_EQUAL(vSelected.size(), 2U);
+    BOOST_CHECK(vSelected == std::vector<CAmount>({2 * COIN, 6 * COIN}));
+
+    // duplicate values do not multiply the work, and are usable together
+    BOOST_CHECK(bnb_select({5 * COIN, 5 * COIN, 5 * COIN, 5 * COIN}, 15 * COIN, 0, vSelected));
+    BOOST_CHECK(vSelected == std::vector<CAmount>({5 * COIN, 5 * COIN, 5 * COIN}));
+
+    // distinct powers of two give each target one exact combination out of more
+    // than a million subsets, which the search is expected to pin down
+    std::vector<CAmount> vPowers;
+    for (int i = 0; i < 20; i++)
+        vPowers.push_back(((CAmount)1 << i) * COIN);
+
+    // 123456 = 2^16 + 2^15 + 2^14 + 2^13 + 2^9 + 2^6
+    BOOST_CHECK(bnb_select(vPowers, 123456 * COIN, 0, vSelected));
+    BOOST_CHECK(vSelected == std::vector<CAmount>({64 * COIN, 512 * COIN, 8192 * COIN,
+                                                   16384 * COIN, 32768 * COIN, 65536 * COIN}));
+
+    // the search is deterministic: the same pool and target select the same
+    // outputs every time, unlike the stochastic approximation it precedes
+    std::vector<CAmount> vSelectedAgain;
+    BOOST_CHECK(bnb_select(vPowers, 123456 * COIN, 0, vSelectedAgain));
+    BOOST_CHECK(vSelected == vSelectedAgain);
+
+    // a pool the size of the wallets that issue #485 was reported against must
+    // terminate, whether or not a solution turns up in the nodes the search is
+    // allowed to visit
+    std::vector<CAmount> vMany;
+    for (int i = 0; i < 2000; i++)
+        vMany.push_back((3 + i) * COIN);
+    bnb_select(vMany, 2000017 * COIN, 0, vSelected);
+}
+
+BOOST_AUTO_TEST_CASE(changeless_coin_selection_test)
+{
+    CoinSet setCoinsRet;
+    CAmount nValueRet;
+
+    LOCK(wallet.cs_wallet);
+
+    // The price coin selection is willing to pay to avoid a change output has
+    // to stay under the discard threshold, because that is what makes
+    // CreateTransaction absorb the overshoot into the fee instead of handing it
+    // back as the change output we set out to avoid.
+    BOOST_CHECK(CWallet::GetCostOfChange() > 0);
+    BOOST_CHECK(CWallet::GetCostOfChange() < CWallet::discardThreshold);
+
+    empty_wallet();
+
+    // 20 outputs worth distinct powers of two, so that each target has exactly
+    // one combination adding up to it, and the overshoot tolerance is far
+    // smaller than the smallest output and so cannot admit another
+    for (int i = 0; i < 20; i++)
+        add_coin(((CAmount)1 << i) * COIN);
+
+    const CAmount nTarget = 123456 * COIN;
+
+    // repeated because SelectCoinsMinConf shuffles the outputs it is handed
+    for (int i = 0; i < RUN_TESTS; i++)
+    {
+        // paid outright, so CreateTransaction is left with no change to return
+        // to the wallet as a new unspent output
+        BOOST_CHECK(wallet.SelectCoinsMinConf(nTarget, 1, 6, 0, vCoins, setCoinsRet, nValueRet));
+        BOOST_CHECK_EQUAL(nValueRet, nTarget);
+        BOOST_CHECK_EQUAL(setCoinsRet.size(), 6U);
+
+        // a target the outputs cannot add up to exactly is still paid without
+        // change, by overshooting within what a change output would have cost
+        const CAmount nTargetOdd = nTarget - CWallet::GetCostOfChange() / 2;
+        BOOST_CHECK(wallet.SelectCoinsMinConf(nTargetOdd, 1, 6, 0, vCoins, setCoinsRet, nValueRet));
+        BOOST_CHECK(nValueRet >= nTargetOdd);
+        BOOST_CHECK(nValueRet - nTargetOdd < CWallet::discardThreshold);
+    }
 
     empty_wallet();
 }

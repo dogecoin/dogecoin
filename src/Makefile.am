@@ -168,6 +168,7 @@ BITCOIN_CORE_H = \
   validationinterface.h \
   versionbits.h \
   wallet/coincontrol.h \
+  wallet/coinselection.h \
   wallet/crypter.h \
   wallet/db.h \
   wallet/rpcutil.h \
@@ -246,6 +247,7 @@ endif
 libdogecoin_wallet_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
 libdogecoin_wallet_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libdogecoin_wallet_a_SOURCES = \
+  wallet/coinselection.cpp \
   wallet/crypter.cpp \
   wallet/db.cpp \
   wallet/rpcdump.cpp \

@@ -108,6 +108,18 @@ static const CAmount WALLET_INCREMENTAL_RELAY_FEE = RECOMMENDED_MIN_TX_FEE / 10;
 //! target minimum change fee multiplier
 static const CAmount MIN_CHANGE_FEE_MULTIPLIER = 2;
 
+/**
+ * Size of the two transaction parts a change output is responsible for, used to
+ * price the change output when selecting coins:
+ *
+ * - the P2PKH output it adds to this transaction: 8 byte value + 1 byte script
+ *   length + 25 byte script,
+ * - the P2PKH input that a later transaction adds to spend it again: 36 byte
+ *   outpoint + 1 byte script length + 107 byte scriptSig + 4 byte sequence.
+ */
+static const size_t CHANGE_OUTPUT_SIZE = 34;
+static const size_t CHANGE_SPEND_SIZE = 148;
+
 //! Default for -spendzeroconfchange
 static const bool DEFAULT_SPEND_ZEROCONF_CHANGE = true;
 //! Default for -sendfreetransactions
@@ -801,6 +813,19 @@ public:
      * Minimum change as a function of discardThreshold
      */
     static CAmount GetMinChange();
+
+    /**
+     * What a change output costs its owner: the fee for the bytes it adds to
+     * this transaction plus the fee for the bytes it will add to the
+     * transaction that spends it again.
+     *
+     * Coin selection uses this as the price it is willing to pay in extra fee
+     * to avoid creating a change output. The result is capped so that the extra
+     * fee always stays under discardThreshold, which is what makes
+     * CreateTransaction absorb it into the fee rather than turn it into a
+     * change output after all.
+     */
+    static CAmount GetCostOfChange();
 
     /**
      * Estimate the minimum fee considering user set parameters
