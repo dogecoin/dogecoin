@@ -137,6 +137,13 @@ inline bool IsSwitchChar(char c)
 bool IsArgSet(const std::string& strArg);
 
 /**
+ * Return true if any of -?, -h, -help, -help-debug or -version was passed
+ * on the command line, i.e. the daemon should print usage/version text and
+ * exit rather than start.
+ */
+bool HelpRequested();
+
+/**
  * Return string argument or default value
  *
  * @param strArg Argument to get (e.g. "-foo")
