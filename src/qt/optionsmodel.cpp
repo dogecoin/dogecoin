@@ -82,6 +82,12 @@ void OptionsModel::Init(bool resetSettings)
         settings.setValue("fCoinControlFeatures", false);
     fCoinControlFeatures = settings.value("fCoinControlFeatures", false).toBool();
 
+    // Defaults to true to keep the behaviour existing wallets have always had:
+    // every address we send to is remembered, labelled or not.
+    if (!settings.contains("fAutoAddSendAddresses"))
+        settings.setValue("fAutoAddSendAddresses", true);
+    fAutoAddSendAddresses = settings.value("fAutoAddSendAddresses", true).toBool();
+
     // These are shared with the core or have a command-line parameter
     // and we want command-line parameters to overwrite the GUI settings.
     //
@@ -252,6 +258,8 @@ QVariant OptionsModel::data(const QModelIndex & index, int role) const
             return settings.value("language");
         case CoinControlFeatures:
             return fCoinControlFeatures;
+        case AutoAddSendAddresses:
+            return fAutoAddSendAddresses;
         case Prune:
             return settings.value("bPrune");
         case PruneSize:
@@ -391,6 +399,11 @@ bool OptionsModel::setData(const QModelIndex & index, const QVariant & value, in
             fCoinControlFeatures = value.toBool();
             settings.setValue("fCoinControlFeatures", fCoinControlFeatures);
             Q_EMIT coinControlFeaturesChanged(fCoinControlFeatures);
+            break;
+        case AutoAddSendAddresses:
+            fAutoAddSendAddresses = value.toBool();
+            settings.setValue("fAutoAddSendAddresses", fAutoAddSendAddresses);
+            Q_EMIT autoAddSendAddressesChanged(fAutoAddSendAddresses);
             break;
         case Prune:
             if (settings.value("bPrune") != value) {

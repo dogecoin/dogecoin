@@ -6,10 +6,12 @@ bin_PROGRAMS += qt/test/test_dogecoin-qt
 TESTS += qt/test/test_dogecoin-qt
 
 TEST_QT_MOC_CPP = \
+  qt/test/moc_optiontests.cpp \
   qt/test/moc_rpcnestedtests.cpp \
   qt/test/moc_uritests.cpp
 
 TEST_QT_H = \
+  qt/test/optiontests.h \
   qt/test/rpcnestedtests.h \
   qt/test/uritests.h
 
@@ -17,6 +19,7 @@ qt_test_test_dogecoin_qt_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(BITCOIN
   $(QT_INCLUDES) $(QT_TEST_INCLUDES)
 
 qt_test_test_dogecoin_qt_SOURCES = \
+  qt/test/optiontests.cpp \
   qt/test/rpcnestedtests.cpp \
   qt/test/test_main.cpp \
   qt/test/uritests.cpp \

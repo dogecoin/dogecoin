@@ -9,6 +9,7 @@
 #include "consensus/validation.h"
 #include "guiconstants.h"
 #include "guiutil.h"
+#include "optionsmodel.h"
 #include "paymentserver.h"
 #include "recentrequeststablemodel.h"
 #include "transactiontablemodel.h"
@@ -321,7 +322,11 @@ WalletModel::SendCoinsReturn WalletModel::sendCoins(WalletModelTransaction &tran
             // Check if we have a new address or an updated label
             if (mi == wallet->mapAddressBook.end())
             {
-                wallet->SetAddressBook(dest, strLabel, "send");
+                // Only remember an address we have not seen before if the user
+                // asked us to: either implicitly, by labelling it here, or
+                // explicitly, by leaving the "remember addresses" option on.
+                if (!strLabel.empty() || optionsModel->getAutoAddSendAddresses())
+                    wallet->SetAddressBook(dest, strLabel, "send");
             }
             else if (mi->second.name != strLabel)
             {

@@ -9,6 +9,7 @@
 
 #include "chainparams.h"
 #include "key.h"
+#include "optiontests.h"
 #include "rpcnestedtests.h"
 #include "util.h"
 #include "uritests.h"
@@ -43,6 +44,9 @@ int main(int argc, char *argv[])
         fInvalid = true;
     RPCNestedTests test3;
     if (QTest::qExec(&test3) != 0)
+        fInvalid = true;
+    OptionTests test4;
+    if (QTest::qExec(&test4) != 0)
         fInvalid = true;
 
     ECC_Stop();

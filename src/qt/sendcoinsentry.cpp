@@ -33,7 +33,7 @@ SendCoinsEntry::SendCoinsEntry(const PlatformStyle *_platformStyle, QWidget *par
 
     if (platformStyle->getUseExtraSpacing())
         ui->payToLayout->setSpacing(4);
-    ui->addAsLabel->setPlaceholderText(tr("Enter a label for this address to add it to your address book"));
+    updateLabelHint();
 
     // normal bitcoin address field
     GUIUtil::setupAddressWidget(ui->payTo, this);
@@ -81,9 +81,12 @@ void SendCoinsEntry::setModel(WalletModel *_model)
 {
     this->model = _model;
 
-    if (_model && _model->getOptionsModel())
+    if (_model && _model->getOptionsModel()) {
         connect(_model->getOptionsModel(), SIGNAL(displayUnitChanged(int)), this, SLOT(updateDisplayUnit()));
+        connect(_model->getOptionsModel(), SIGNAL(autoAddSendAddressesChanged(bool)), this, SLOT(updateLabelHint()));
+    }
 
+    updateLabelHint();
     clear();
 }
 
@@ -215,6 +218,22 @@ void SendCoinsEntry::updateDisplayUnit()
         ui->payAmount->setDisplayUnit(model->getOptionsModel()->getDisplayUnit());
         ui->payAmount_is->setDisplayUnit(model->getOptionsModel()->getDisplayUnit());
         ui->payAmount_s->setDisplayUnit(model->getOptionsModel()->getDisplayUnit());
+    }
+}
+
+void SendCoinsEntry::updateLabelHint()
+{
+    // Keep the hint honest: whether leaving this field empty still stores the
+    // address depends on the "remember addresses I send coins to" option.
+    if (model && model->getOptionsModel() && !model->getOptionsModel()->getAutoAddSendAddresses())
+    {
+        ui->addAsLabel->setPlaceholderText(tr("Enter a label for this address to add it to your address book"));
+        ui->addAsLabel->setToolTip(tr("Enter a label for this address to add it to your address book. Left empty, the address is not stored."));
+    }
+    else
+    {
+        ui->addAsLabel->setPlaceholderText(tr("Enter a label for this address (optional)"));
+        ui->addAsLabel->setToolTip(tr("This address is added to your address book when you send. Enter a label to store it under a name you recognise."));
     }
 }
 

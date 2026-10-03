@@ -201,6 +201,25 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_Wallet">
        <item>
+        <widget class="QGroupBox" name="groupBoxAddressBook">
+         <property name="title">
+          <string>Address book</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_AddressBook">
+          <item>
+           <widget class="QCheckBox" name="autoAddSendAddresses">
+            <property name="toolTip">
+             <string>When enabled, every address you send coins to is added to your address book, whether or not you gave it a label. When disabled, an address is only added if you enter a label for it.</string>
+            </property>
+            <property name="text">
+             <string>&amp;Remember addresses I send coins to</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
         <widget class="QGroupBox" name="groupBox">
          <property name="title">
           <string>Expert</string>
