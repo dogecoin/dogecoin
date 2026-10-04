@@ -167,6 +167,7 @@ UniValue blockToJSON(const CBlock& block, const CBlockIndex* blockindex, bool tx
         if(txDetails)
         {
             UniValue objTx(UniValue::VOBJ);
+            objTx.pushKV("hex", EncodeHexTx(*tx, RPCSerializationFlags()));
             TxToJSON(*tx, uint256(), objTx);
             txs.push_back(objTx);
         }
@@ -812,6 +813,10 @@ UniValue getblock(const JSONRPCRequest& request)
             "{\n"
             "  ...,                     Same output as verbosity = 1.\n"
             "  \"tx\" : [               (array of Objects) The transactions in the format of the getrawtransaction RPC. Different from verbosity = 1 \"tx\" result.\n"
+            "    {\n"
+            "      \"hex\" : \"data\",     (string) The serialized, hex-encoded data for the transaction\n"
+            "      ...                Other fields as in getrawtransaction verbose output, except blockhash, confirmations, time and blocktime\n"
+            "    },\n"
             "         ,...\n"
             "  ],\n"
             "  ,...                     Same output as verbosity = 1.\n"

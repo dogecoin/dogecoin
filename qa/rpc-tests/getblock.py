@@ -40,7 +40,7 @@ class GetBlockTest(BitcoinTestFramework):
 
     def setup_network(self, split=False):
         self.nodes = []
-        self.nodes.append(start_node(0, self.options.tmpdir, []))
+        self.nodes.append(start_node(0, self.options.tmpdir, ["-txindex"]))
         self.is_network_split=False
         self.sync_all()
 
@@ -152,6 +152,13 @@ class GetBlockTest(BitcoinTestFramework):
             # Test backward-compatibility (0=false, 1=true)
             assert_equal(data_0[i], data_false[i])
             assert_equal(data_1[i], data_true[i])
+
+            # Test that each transaction in verbosity 2 includes its hex,
+            # in the same format as getrawtransaction
+            assert_equal(len(data_2[i]['tx']), len(data_1[i]['tx']))
+            for tx in data_2[i]['tx']:
+                assert_equal(tx['hex'], self.nodes[0].getrawtransaction(tx['txid']))
+                assert_equal(self.nodes[0].decoderawtransaction(tx['hex'])['txid'], tx['txid'])
 
         # Test invalid parameters
         assert_raises_jsonrpc(-5, 'Block not found', self.nodes[0].getblock,
