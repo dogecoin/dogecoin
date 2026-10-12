@@ -104,6 +104,13 @@ class AuthServiceProxy(object):
             self.__conn = httplib.HTTPConnection(self.__url.hostname, port,
                                                  timeout=timeout)
 
+    def close_connection(self):
+        """
+        Close the underlying HTTP connection. It is reopened transparently by
+        the next request.
+        """
+        self.__conn.close()
+
     def __getattr__(self, name):
         if name.startswith('__') and name.endswith('__'):
             # Python internal stuff

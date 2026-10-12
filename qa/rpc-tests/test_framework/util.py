@@ -408,6 +408,11 @@ def _send_stop(node):
         node.stop()
     except http.client.CannotSendRequest as e:
         print("WARN: Unable to stop node: " + repr(e))
+        return
+    # The node waits up to 2s for open HTTP connections to finish before it
+    # shuts the HTTP server down (src/httpserver.cpp). Our keep-alive
+    # connection would otherwise hold every shutdown for that full timeout.
+    node.close_connection()
 
 def _wait_stopped(i):
     return_code = dogecoind_processes[i].wait(timeout=DOGECOIND_PROC_WAIT_TIMEOUT)

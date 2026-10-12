@@ -34,6 +34,9 @@ class AuthServiceProxyWrapper(object):
         self.auth_service_proxy_instance = auth_service_proxy_instance
         self.coverage_logfile = coverage_logfile
 
+    def close_connection(self):
+        self.auth_service_proxy_instance.close_connection()
+
     def __getattr__(self, *args, **kwargs):
         return_val = self.auth_service_proxy_instance.__getattr__(
             *args, **kwargs)
