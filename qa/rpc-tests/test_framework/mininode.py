@@ -542,7 +542,7 @@ class CBlockHeader(object):
             self.nNonce = header.nNonce
             self.sha256 = header.sha256
             self.hash = header.hash
-            self.scrypt256 = header.scrypt256
+            self._scrypt256 = header._scrypt256
             self.calc_sha256()
 
     def set_null(self):
@@ -588,7 +588,19 @@ class CBlockHeader(object):
             r += struct.pack("<I", self.nNonce)
             self.sha256 = uint256_from_str(hash256(r))
             self.hash = encode(hash256(r)[::-1], 'hex_codec').decode('ascii')
-            self.scrypt256 = uint256_from_str(ltc_scrypt.getPoWHash(r))
+
+    @property
+    def scrypt256(self):
+        # The proof of work hash is only needed to check or solve a block, but
+        # costs ~100x a sha256d, so compute it on first use rather than for
+        # every header whose identity hash is calculated. rehash() clears it.
+        if self._scrypt256 is None:
+            self._scrypt256 = uint256_from_str(ltc_scrypt.getPoWHash(CBlockHeader.serialize(self)))
+        return self._scrypt256
+
+    @scrypt256.setter
+    def scrypt256(self, value):
+        self._scrypt256 = value
 
     def rehash(self):
         self.sha256 = None
