@@ -86,12 +86,9 @@ class TestNode(NodeConnCB):
     # We use this to signal that our test can begin. This
     # is called from the testing thread, so it needs to acquire
     # the global lock.
-    def wait_for_verack(self):
-        while True:
-            with mininode_lock:
-                if self.verack_received:
-                    return
-            time.sleep(0.05)
+    def wait_for_verack(self, timeout=60):
+        assert wait_until(lambda: self.verack_received, timeout=timeout), \
+            "no verack received within %ss" % timeout
 
     # Wrapper for the NodeConn's send_message function
     def send_message(self, message):
@@ -103,14 +100,8 @@ class TestNode(NodeConnCB):
     # Sync up with the node after delivery of a block
     def sync_with_ping(self, timeout=30):
         self.connection.send_message(msg_ping(nonce=self.ping_counter))
-        received_pong = False
-        sleep_time = 0.05
-        while not received_pong and timeout > 0:
-            time.sleep(sleep_time)
-            timeout -= sleep_time
-            with mininode_lock:
-                if self.last_pong.nonce == self.ping_counter:
-                    received_pong = True
+        nonce = self.ping_counter
+        received_pong = wait_until(lambda: self.last_pong.nonce == nonce, timeout=timeout)
         self.ping_counter += 1
         return received_pong
 
@@ -118,13 +109,7 @@ class TestNode(NodeConnCB):
     def wait_for_disconnect(self, timeout=60):
         if self.connection == None:
             return True
-        sleep_time = 0.05
-        is_closed = self.connection.state == "closed"
-        while not is_closed and timeout > 0:
-            time.sleep(sleep_time)
-            timeout -= sleep_time
-            is_closed = self.connection.state == "closed"
-        return is_closed
+        return wait_until(lambda: self.connection.state == "closed", timeout=timeout)
 
 class AcceptBlockTest(BitcoinTestFramework):
     whitelist_local_peers = False  # connects mininode peers from 127.0.0.1
@@ -246,10 +231,11 @@ class AcceptBlockTest(BitcoinTestFramework):
                     headers_message.headers.append(CBlockHeader(next_block))
                 tips[j] = next_block
 
-        time.sleep(2)
+        # The node handles messages in order, so once it has answered a ping
+        # it has processed every block sent above.
+        assert test_node.sync_with_ping()
         # Blocks 1-1439 should be accepted, block 1440 should be ignored because it's too far ahead
-        for x in all_blocks[:-1]:
-            self.nodes[0].getblock(x.hash)
+        self.nodes[0].batch_call([("getblock", [x.hash]) for x in all_blocks[:-1]])
         assert_raises_jsonrpc(-1, "Block not found on disk", self.nodes[0].getblock, all_blocks[-1].hash)
 
         headers_message.headers.pop() # Ensure the last block is unrequested
