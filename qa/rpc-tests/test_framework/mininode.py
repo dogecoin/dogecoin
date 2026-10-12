@@ -1392,9 +1392,8 @@ class msg_reject(object):
             % (self.message, self.code, self.reason, self.data)
 
 # Helper function
-# How often the helpers below poll. The network thread's asyncore loop uses
-# the same interval, so a message queued by the test thread is written (and a
-# reply noticed) within a few milliseconds rather than tens.
+# How often wait_until() checks its predicate. (The network thread does not
+# poll at this rate: it sleeps until data arrives or it is woken.)
 POLL_INTERVAL = 0.005
 
 # `attempts` predates wall-clock polling and counted 50ms steps; it is kept as
@@ -1698,6 +1697,7 @@ class NodeConn(asyncore.dispatcher):
             except:
                 self.handle_close()
             self.rpc = rpc
+        NetworkThread.wake()
 
     def show_debug_msg(self, msg):
         self.log.debug(msg)
@@ -1821,6 +1821,7 @@ class NodeConn(asyncore.dispatcher):
         with mininode_lock:
             self.sendbuf += tmsg
             self.last_sent = time.time()
+        NetworkThread.wake()
 
     def got_message(self, message):
         if message.command == b"version":
@@ -1833,20 +1834,75 @@ class NodeConn(asyncore.dispatcher):
 
     def disconnect_node(self):
         self.disconnect = True
+        NetworkThread.wake()
+
+
+class _Waker(asyncore.dispatcher):
+    """
+    Read end of a socketpair that lives in the socket map so that another
+    thread can interrupt the network thread's poll. It carries no data.
+    """
+    disconnect = False
+
+    def __init__(self, sock):
+        asyncore.dispatcher.__init__(self, sock, map=mininode_socket_map)
+
+    def readable(self):
+        return True
+
+    def writable(self):
+        return False
+
+    def handle_read(self):
+        try:
+            self.recv(4096)
+        except OSError:
+            pass
+
+    def handle_close(self):
+        pass
 
 
 class NetworkThread(Thread):
+    # How long to block in poll when nothing is happening. Anything queued by
+    # another thread interrupts it via wake(), so this is only a safety net.
+    IDLE_TIMEOUT = 0.1
+    _wake_sock = None
+
+    @classmethod
+    def wake(cls):
+        """Interrupt the poll so queued data is written, or new sockets and
+        disconnect requests are noticed, without waiting for it to time out."""
+        sock = cls._wake_sock
+        if sock is not None:
+            try:
+                sock.send(b'x')
+            except OSError:
+                pass
+
     def run(self):
-        while mininode_socket_map:
-            # We check for whether to disconnect outside of the asyncore
-            # loop to workaround the behavior of asyncore when using
-            # select
-            disconnected = []
-            for fd, obj in mininode_socket_map.items():
-                if obj.disconnect:
-                    disconnected.append(obj)
-            [ obj.handle_close() for obj in disconnected ]
-            asyncore.loop(POLL_INTERVAL, use_poll=True, map=mininode_socket_map, count=1)
+        wake_r, wake_w = socket.socketpair()
+        wake_r.setblocking(False)
+        wake_w.setblocking(False)
+        waker = _Waker(wake_r)
+        NetworkThread._wake_sock = wake_w
+        try:
+            # Run while there is any socket other than our own waker.
+            while any(obj is not waker for obj in list(mininode_socket_map.values())):
+                # We check for whether to disconnect outside of the asyncore
+                # loop to workaround the behavior of asyncore when using
+                # select
+                disconnected = []
+                for fd, obj in list(mininode_socket_map.items()):
+                    if obj.disconnect:
+                        disconnected.append(obj)
+                [ obj.handle_close() for obj in disconnected ]
+                asyncore.loop(self.IDLE_TIMEOUT, use_poll=True, map=mininode_socket_map, count=1)
+        finally:
+            if NetworkThread._wake_sock is wake_w:
+                NetworkThread._wake_sock = None
+            waker.close()
+            wake_w.close()
 
 
 # An exception we can raise if we detect a potential disconnect
