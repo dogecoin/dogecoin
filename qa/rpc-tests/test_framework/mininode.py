@@ -29,7 +29,7 @@ import asyncore
 import time
 import sys
 import random
-from .util import hex_str_to_bytes, bytes_to_hex_str
+from .util import hex_str_to_bytes, bytes_to_hex_str, local_peers_whitelisted
 from io import BytesIO
 from codecs import encode
 import hashlib
@@ -1638,6 +1638,8 @@ class NodeConn(asyncore.dispatcher):
     }
 
     def __init__(self, dstaddr, dstport, rpc, callback, net="regtest", services=NODE_NETWORK, send_version=True):
+        assert not local_peers_whitelisted(), \
+            "mininode peers connect from 127.0.0.1; set whitelist_local_peers = False on the test"
         # create_socket() registers this socket in the map the network thread
         # polls, so hold the lock until the connection is fully set up. Without
         # it the thread can poll the half-built socket, see it as writable,

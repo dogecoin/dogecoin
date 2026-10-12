@@ -29,6 +29,9 @@ from . import coverage
 from .authproxy import AuthServiceProxy, JSONRPCException
 
 COVERAGE_DIR = None
+# When set, start_node whitelists 127.0.0.1 so that peers relay transactions
+# immediately instead of waiting on the (seconds-long) Poisson trickle timer.
+WHITELIST_LOCAL_PEERS = False
 
 # The maximum number of nodes a single test can spawn
 MAX_NODES = 8
@@ -64,6 +67,13 @@ def disable_mocktime():
 
 def get_mocktime():
     return MOCKTIME
+
+def set_whitelist_local_peers(enabled):
+    global WHITELIST_LOCAL_PEERS
+    WHITELIST_LOCAL_PEERS = enabled
+
+def local_peers_whitelisted():
+    return WHITELIST_LOCAL_PEERS
 
 def enable_coverage(dirname):
     """Maintain a log of which RPC calls are made during testing."""
@@ -340,6 +350,8 @@ def _spawn_node(i, dirname, extra_args=None, rpchost=None, binary=None):
         binary = os.getenv("DOGECOIND", "dogecoind")
     args = [ binary, "-datadir="+datadir, "-server", "-keypool=1", "-discover=0", "-rest", "-mocktime="+str(get_mocktime()) ]
     if extra_args is not None: args.extend(extra_args)
+    if WHITELIST_LOCAL_PEERS and not any(a.startswith("-whitelist=") for a in args):
+        args.append("-whitelist=127.0.0.1")
     dogecoind_processes[i] = subprocess.Popen(args)
     return rpc_url(i, rpchost)
 
