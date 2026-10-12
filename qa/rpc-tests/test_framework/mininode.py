@@ -1380,19 +1380,25 @@ class msg_reject(object):
             % (self.message, self.code, self.reason, self.data)
 
 # Helper function
-def wait_until(predicate, *, attempts=float('inf'), timeout=float('inf')):
-    attempt = 0
-    elapsed = 0
+# How often the helpers below poll. The network thread's asyncore loop uses
+# the same interval, so a message queued by the test thread is written (and a
+# reply noticed) within a few milliseconds rather than tens.
+POLL_INTERVAL = 0.005
 
-    while attempt < attempts and elapsed < timeout:
+# `attempts` predates wall-clock polling and counted 50ms steps; it is kept as
+# a time budget of attempts * ATTEMPT_SECONDS so existing callers are unchanged.
+ATTEMPT_SECONDS = 0.05
+
+def wait_until(predicate, *, attempts=float('inf'), timeout=float('inf')):
+    deadline = time.time() + min(timeout, attempts * ATTEMPT_SECONDS)
+
+    while True:
         with mininode_lock:
             if predicate():
                 return True
-        attempt += 1
-        elapsed += 0.05
-        time.sleep(0.05)
-
-    return False
+        if time.time() >= deadline:
+            return False
+        time.sleep(POLL_INTERVAL)
 
 class msg_feefilter(object):
     command = b"feefilter"
@@ -1828,7 +1834,7 @@ class NetworkThread(Thread):
                 if obj.disconnect:
                     disconnected.append(obj)
             [ obj.handle_close() for obj in disconnected ]
-            asyncore.loop(0.1, use_poll=True, map=mininode_socket_map, count=1)
+            asyncore.loop(POLL_INTERVAL, use_poll=True, map=mininode_socket_map, count=1)
 
 
 # An exception we can raise if we detect a potential disconnect
