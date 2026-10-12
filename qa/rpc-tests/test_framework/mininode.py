@@ -1514,12 +1514,9 @@ class NodeConnCB(object):
     # Tests may want to use this as a signal that the test can begin.
     # This can be called from the testing thread, so it needs to acquire the
     # global lock.
-    def wait_for_verack(self):
-        while True:
-            with mininode_lock:
-                if self.verack_received:
-                    return
-            time.sleep(0.05)
+    def wait_for_verack(self, timeout=60):
+        assert wait_until(lambda: self.verack_received, timeout=timeout), \
+            "no verack received within %ss" % timeout
 
     def deliver(self, conn, message):
         deliver_sleep = self.get_deliver_sleep_time()
@@ -1641,40 +1638,46 @@ class NodeConn(asyncore.dispatcher):
     }
 
     def __init__(self, dstaddr, dstport, rpc, callback, net="regtest", services=NODE_NETWORK, send_version=True):
-        asyncore.dispatcher.__init__(self, map=mininode_socket_map)
-        self.log = logging.getLogger("NodeConn(%s:%d)" % (dstaddr, dstport))
-        self.dstaddr = dstaddr
-        self.dstport = dstport
-        self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.sendbuf = b""
-        self.recvbuf = b""
-        self.ver_send = 209
-        self.ver_recv = 209
-        self.last_sent = 0
-        self.state = "connecting"
-        self.network = net
-        self.cb = callback
-        self.disconnect = False
-        self.nServices = 0
+        # create_socket() registers this socket in the map the network thread
+        # polls, so hold the lock until the connection is fully set up. Without
+        # it the thread can poll the half-built socket, see it as writable,
+        # try to send before connect() has run, get ENOTCONN, and close the
+        # connection under us.
+        with mininode_lock:
+            asyncore.dispatcher.__init__(self, map=mininode_socket_map)
+            self.log = logging.getLogger("NodeConn(%s:%d)" % (dstaddr, dstport))
+            self.dstaddr = dstaddr
+            self.dstport = dstport
+            self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.sendbuf = b""
+            self.recvbuf = b""
+            self.ver_send = 209
+            self.ver_recv = 209
+            self.last_sent = 0
+            self.state = "connecting"
+            self.network = net
+            self.cb = callback
+            self.disconnect = False
+            self.nServices = 0
 
-        if send_version:
-            # stuff version msg into sendbuf
-            vt = msg_version()
-            vt.nServices = services
-            vt.addrTo.ip = self.dstaddr
-            vt.addrTo.port = self.dstport
-            vt.addrFrom.ip = "0.0.0.0"
-            vt.addrFrom.port = 0
-            self.send_message(vt, True)
+            if send_version:
+                # stuff version msg into sendbuf
+                vt = msg_version()
+                vt.nServices = services
+                vt.addrTo.ip = self.dstaddr
+                vt.addrTo.port = self.dstport
+                vt.addrFrom.ip = "0.0.0.0"
+                vt.addrFrom.port = 0
+                self.send_message(vt, True)
 
-        print('MiniNode: Connecting to Dogecoin Node IP # ' + dstaddr + ':' \
-            + str(dstport))
+            print('MiniNode: Connecting to Dogecoin Node IP # ' + dstaddr + ':' \
+                + str(dstport))
 
-        try:
-            self.connect((dstaddr, dstport))
-        except:
-            self.handle_close()
-        self.rpc = rpc
+            try:
+                self.connect((dstaddr, dstport))
+            except:
+                self.handle_close()
+            self.rpc = rpc
 
     def show_debug_msg(self, msg):
         self.log.debug(msg)
