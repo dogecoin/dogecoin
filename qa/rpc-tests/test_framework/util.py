@@ -33,6 +33,12 @@ COVERAGE_DIR = None
 # immediately instead of waiting on the (seconds-long) Poisson trickle timer.
 WHITELIST_LOCAL_PEERS = False
 
+# Arguments every test node starts with. The signature cache is allocated and
+# zeroed up front (32 MiB by default), which costs about 50ms of startup and
+# 30 MiB of resident memory per node; regtest chains need a tiny fraction of
+# it. A test's own extra_args are appended after these and take precedence.
+NODE_DEFAULT_ARGS = ["-maxsigcachesize=4"]
+
 # The maximum number of nodes a single test can spawn
 MAX_NODES = 8
 # Don't assign rpc or p2p ports lower than this
@@ -261,7 +267,7 @@ def initialize_chain(test_dir, num_nodes, cachedir):
         # Create cache directories, run dogecoinds:
         for i in range(MAX_NODES):
             datadir=initialize_datadir(cachedir, i)
-            args = [ os.getenv("DOGECOIND", "dogecoind"), "-server", "-keypool=1", "-datadir="+datadir, "-discover=0" ]
+            args = [ os.getenv("DOGECOIND", "dogecoind"), "-server", "-keypool=1", "-datadir="+datadir, "-discover=0" ] + NODE_DEFAULT_ARGS
             if i > 0:
                 args.append("-connect=127.0.0.1:"+str(p2p_port(0)))
             dogecoind_processes[i] = subprocess.Popen(args)
@@ -349,6 +355,7 @@ def _spawn_node(i, dirname, extra_args=None, rpchost=None, binary=None):
     if binary is None:
         binary = os.getenv("DOGECOIND", "dogecoind")
     args = [ binary, "-datadir="+datadir, "-server", "-keypool=1", "-discover=0", "-rest", "-mocktime="+str(get_mocktime()) ]
+    args.extend(NODE_DEFAULT_ARGS)
     if extra_args is not None: args.extend(extra_args)
     if WHITELIST_LOCAL_PEERS and not any(a.startswith("-whitelist=") for a in args):
         args.append("-whitelist=127.0.0.1")
