@@ -37,7 +37,12 @@ WHITELIST_LOCAL_PEERS = False
 # zeroed up front (32 MiB by default), which costs about 50ms of startup and
 # 30 MiB of resident memory per node; regtest chains need a tiny fraction of
 # it. A test's own extra_args are appended after these and take precedence.
-NODE_DEFAULT_ARGS = ["-maxsigcachesize=4"]
+#
+# -par=1 runs script verification on the message handler thread instead of a
+# pool of worker threads. The test chains are tiny, so the pool mostly adds
+# wakeups and hyperthread contention: p2p-fullblocktest.py's nodes use ~4.8s
+# of CPU with it against ~7-8s without, and the whole suite is CPU-bound.
+NODE_DEFAULT_ARGS = ["-maxsigcachesize=4", "-par=1"]
 
 # The maximum number of nodes a single test can spawn
 MAX_NODES = 8
