@@ -129,10 +129,10 @@ class AcceptBlockTest(BitcoinTestFramework):
         # from peers which are not whitelisted, while Node1 will be used for
         # the whitelisted case.
         self.nodes = []
-        self.nodes.append(start_node(0, self.options.tmpdir, ["-debug"],
+        self.nodes.append(start_node(0, self.options.tmpdir, ["-debug=net"],
                                      binary=self.options.testbinary))
         self.nodes.append(start_node(1, self.options.tmpdir,
-                                     ["-debug", "-whitelist=127.0.0.1"],
+                                     ["-debug=net", "-whitelist=127.0.0.1"],
                                      binary=self.options.testbinary))
 
     def run_test(self):
