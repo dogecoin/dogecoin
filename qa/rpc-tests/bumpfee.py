@@ -70,7 +70,7 @@ class BumpFeeTest(BitcoinTestFramework):
         test_settxfee(rbf_node, dest_address)
         test_rebumping(rbf_node, dest_address)
         test_rebumping_not_replaceable(rbf_node, dest_address)
-        test_unconfirmed_not_spendable(rbf_node, rbf_node_address)
+        test_unconfirmed_not_spendable(rbf_node, peer_node, rbf_node_address)
         test_dogecoin_wallet_minchange(rbf_node, dest_address)
         test_locked_wallet_fails(rbf_node, dest_address)
         print("Success")
@@ -226,7 +226,7 @@ def test_rebumping_not_replaceable(rbf_node, dest_address):
                           {"totalFee": 100200000})
 
 
-def test_unconfirmed_not_spendable(rbf_node, rbf_node_address):
+def test_unconfirmed_not_spendable(rbf_node, peer_node, rbf_node_address):
     # check that unconfirmed outputs from bumped transactions are not spendable
     rbfid = create_fund_sign_send(rbf_node, {rbf_node_address: 7.00000000})
     rbftx = rbf_node.gettransaction(rbfid)["hex"]
@@ -245,6 +245,11 @@ def test_unconfirmed_not_spendable(rbf_node, rbf_node_address):
     # mempool. this makes it possible to check whether the rbf tx outputs are
     # spendable before the rbf tx is confirmed.
     block = submit_block_with_tx(rbf_node, rbftx)
+    # The peer holds the bump tx in its mempool and may announce it to us
+    # again before it has processed this block, which would put it back and
+    # replace the rbf tx. Let the peer see the block first so it drops it.
+    sync_blocks((rbf_node, peer_node))
+    sync_mempools((rbf_node, peer_node))
     rbf_node.abandontransaction(bumpid)
     rbf_node.invalidateblock(block.hash)
     assert bumpid not in rbf_node.getrawmempool()
