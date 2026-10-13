@@ -56,7 +56,7 @@ class SetMaxConnectionCountTest (BitcoinTestFramework):
         self.network_thread = None
 
     def setup_network(self):
-        self.nodes.append(start_node(0, self.options.tmpdir, ["-debug"]))
+        self.nodes.append(start_node(0, self.options.tmpdir, ["-debug=net"]))
         self.is_network_split = False
 
     def connect_nodes(self, nodes, count):

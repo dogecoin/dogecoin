@@ -97,7 +97,7 @@ class P2PPolicyTests(BitcoinTestFramework):
         self.nodes = []
 
         # a Dogecoin Core node that behaves similar to mainnet policies
-        self.nodes.append(start_node(0, self.options.tmpdir, ["-debug", "-acceptnonstdtxn=0"]))
+        self.nodes.append(start_node(0, self.options.tmpdir, ["-debug=net", "-acceptnonstdtxn=0"]))
 
         # custom testnodes
         self.sendNode = self.create_testnode() # to send tx from
