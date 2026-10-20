@@ -290,6 +290,55 @@ UniValue importaddress(const JSONRPCRequest& request)
     return NullUniValue;
 }
 
+UniValue removeaddress(const JSONRPCRequest& request)
+{
+    if (!EnsureWalletIsAvailable(request.fHelp))
+        return NullUniValue;
+
+    if (request.fHelp || request.params.size() != 1)
+        throw runtime_error(
+            "removeaddress \"address\"\n"
+            "\nRemoves a watch-only script (in hex) or address. Will not remove an actual wallet address.\n"
+            "\nArguments:\n"
+            "1. \"script\"           (string, required) The hex-encoded script (or address)\n"
+            "\nExamples:\n"
+            + HelpExampleCli("removeaddress", "\"myscript\"")
+            + HelpExampleRpc("removeaddress", "\"myscript\"")
+        );
+
+    LOCK2(cs_main, pwalletMain->cs_wallet);
+    pwalletMain->MarkDirty();
+    std::string arg = request.params[0].get_str();
+
+    CBitcoinAddress address(arg);
+    CTxDestination destination;
+
+    if (address.IsValid()) {
+        destination = address.Get();
+    } else if (IsHex(arg)) {
+        std::vector<unsigned char> data(ParseHex(request.params[0].get_str()));
+        const CScript script = CScript(data.begin(), data.end());
+
+        if (!ExtractDestination(script, destination)) {
+            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Dogecoin address or script");
+        }
+    } else {
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Dogecoin address or script");
+    }
+
+    CScript script = GetScriptForDestination(destination);
+
+    if (!pwalletMain->HaveWatchOnly(script))
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Address is not watch-only");
+
+    if (!pwalletMain->RemoveWatchOnly(script))
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Address could not be removed");
+    if (!pwalletMain->DelAddressBook(destination))
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Could not remove watch-only address");
+
+    return NullUniValue;
+}
+
 UniValue importprunedfunds(const JSONRPCRequest& request)
 {
     if (!EnsureWalletIsAvailable(request.fHelp))
