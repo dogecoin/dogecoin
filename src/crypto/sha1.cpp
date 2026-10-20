@@ -10,12 +10,6 @@
 
 #include <string.h>
 
-#if (defined(__ia64__) || defined(__x86_64__)) && \
-    !defined(__APPLE__) && \
-    (defined(USE_AVX2))
-#include <intel-ipsec-mb.h>
-#endif
-
 #if defined(__arm__) || defined(__aarch32__) || defined(__arm64__) || defined(__aarch64__) || defined(_M_ARM)
 # if defined(__GNUC__)
 #  include <stdint.h>
@@ -30,6 +24,15 @@
 #  endif
 # endif
 #endif  /** ARM Headers */
+
+/*** SHA-XYZ EXTERN FUNCTION DEFINITIONS ******************************/
+/* NOTE: These functions are assembled from Intel's MB IPSEC library
+ * and are intended for use as a drop-in replacement for the original
+ * SHA-XYZ functions.  They are not intended for use outside of this
+ * library.
+ */
+extern "C" void sha1_block_sse(const void *, void *);
+extern "C" void sha1_block_avx(const void *, void *);
 
 // Internal implementation code.
 namespace
@@ -246,7 +249,11 @@ void Transform(uint32_t* s, const unsigned char* chunk)
 #elif USE_AVX2
     // Perform SHA1 one block (Intel AVX2)
     EXPERIMENTAL_FEATURE
-    sha1_one_block_avx2(chunk, s);
+    sha1_block_avx(chunk, s);
+#elif USE_SSE
+    // Perform SHA1 one block (Intel SSE)
+    EXPERIMENTAL_FEATURE
+    sha1_block_sse(chunk, s);
 #else
     // Perform SHA one block (legacy)
 
