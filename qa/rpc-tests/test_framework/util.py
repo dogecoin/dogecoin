@@ -24,6 +24,7 @@ import subprocess
 import time
 import re
 import errno
+from threading import RLock
 
 from . import coverage
 from .authproxy import AuthServiceProxy, JSONRPCException
@@ -38,6 +39,8 @@ PORT_MIN = 11000
 PORT_RANGE = 5000
 
 DOGECOIND_PROC_WAIT_TIMEOUT = 60
+
+test_lock = RLock()
 
 
 class PortSeed:
@@ -714,3 +717,18 @@ def mine_large_block(node, utxos=None):
 def get_bip9_status(node, key):
     info = node.getblockchaininfo()
     return info['bip9_softforks'][key]
+
+# Helper function
+def wait_until(predicate, *, attempts=float('inf'), timeout=float('inf')):
+    attempt = 0
+    elapsed = 0
+
+    while attempt < attempts and elapsed < timeout:
+        with test_lock:
+            if predicate():
+                return True
+        attempt += 1
+        elapsed += 0.05
+        time.sleep(0.05)
+
+    return False
