@@ -468,7 +468,7 @@ std::string HelpMessage(HelpMessageMode mode)
     {
         strUsage += HelpMessageOpt("-printpriority", strprintf("Log transaction priority and fee per kB when mining blocks (default: %u)", DEFAULT_PRINTPRIORITY));
     }
-    strUsage += HelpMessageOpt("-shrinkdebugfile", _("Shrink debug.log file on client startup (default: 1 when no -debug)"));
+    strUsage += HelpMessageOpt("-shrinkdebugfile", _("Shrink debug.log file on startup/SIGHUP (default: 1 when no -debug)"));
 
     AppendParamsHelpMessages(strUsage, showDebug);
 
