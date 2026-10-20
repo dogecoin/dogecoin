@@ -29,19 +29,11 @@
 
 #include "crypto/scrypt.h"
 #include "crypto/hmac_sha256.h"
+#include "crypto/hwcap.h"
+#include "support/experimental.h"
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
-
-#if defined(USE_SSE2) && !defined(USE_SSE2_ALWAYS)
-#ifdef _MSC_VER
-// MSVC 64bit is unable to use inline asm
-#include <intrin.h>
-#else
-// GCC Linux or i686-w64-mingw32
-#include <cpuid.h>
-#endif
-#endif
 
 #ifndef __FreeBSD__
 static inline uint32_t be32dec(const void *pp)
@@ -116,9 +108,13 @@ PBKDF2_SHA256(const uint8_t *passwd, size_t passwdlen, const uint8_t *salt,
 	}
 }
 
+namespace scrypt_generic {
+
+namespace {
+
 #define ROTL(a, b) (((a) << (b)) | ((a) >> (32 - (b))))
 
-static inline void xor_salsa8(uint32_t B[16], const uint32_t Bx[16])
+inline void xor_salsa8(uint32_t B[16], const uint32_t Bx[16])
 {
 	uint32_t x00,x01,x02,x03,x04,x05,x06,x07,x08,x09,x10,x11,x12,x13,x14,x15;
 	int i;
@@ -184,7 +180,9 @@ static inline void xor_salsa8(uint32_t B[16], const uint32_t Bx[16])
 	B[15] += x15;
 }
 
-void scrypt_1024_1_1_256_sp_generic(const char *input, char *output, char *scratchpad)
+} // anon namespace
+
+void scrypt_1024_1_1_256_sp(const char *input, char *output, char *scratchpad)
 {
 	uint8_t B[128];
 	uint32_t X[32];
@@ -217,44 +215,23 @@ void scrypt_1024_1_1_256_sp_generic(const char *input, char *output, char *scrat
 	PBKDF2_SHA256((const uint8_t *)input, 80, B, 128, 1, (uint8_t *)output, 32);
 }
 
-#if defined(USE_SSE2)
-// By default, set to generic scrypt function. This will prevent crash in case when scrypt_detect_sse2() wasn't called
-void (*scrypt_1024_1_1_256_sp_detected)(const char *input, char *output, char *scratchpad) = &scrypt_1024_1_1_256_sp_generic;
+} // scrypt_generic namespace
 
-bool scrypt_detect_sse2()
+// by default, use the generic version
+void (*scrypt_1024_1_1_256_sp)(const char *input, char *output, char *scratchpad) = &scrypt_generic::scrypt_1024_1_1_256_sp;
+
+bool scrypt_select_implementation(const HardwareCapabilities capabilities)
 {
-    bool fUsingSSE2;
-#if defined(USE_SSE2_ALWAYS)
-    fUsingSSE2 = true;
-#else // USE_SSE2_ALWAYS
-    // 32bit x86 Linux or Windows, detect cpuid features
-    unsigned int cpuid_edx=0;
-#if defined(_MSC_VER)
-    // MSVC
-    int x86cpuid[4];
-    __cpuid(x86cpuid, 1);
-    cpuid_edx = (unsigned int)buffer[3];
-#else // _MSC_VER
-    // Linux or i686-w64-mingw32 (gcc-4.6.3)
-    unsigned int eax, ebx, ecx;
-    __get_cpuid(1, &eax, &ebx, &ecx, &cpuid_edx);
-#endif // _MSC_VER
+#if defined(USE_SSE2)
+    EXPERIMENTAL_FEATURE
 
-    if (cpuid_edx & 1<<26)
-    {
-        scrypt_1024_1_1_256_sp_detected = &scrypt_1024_1_1_256_sp_sse2;
-        fUsingSSE2 = true;
+    if (capabilities.has_sse2) {
+        scrypt_1024_1_1_256_sp = &scrypt_sse2::scrypt_1024_1_1_256_sp;
+				return true;
     }
-    else
-    {
-        scrypt_1024_1_1_256_sp_detected = &scrypt_1024_1_1_256_sp_generic;
-        fUsingSSE2 = false;
-    }
-#endif // USE_SSE2_ALWAYS
-
-    return fUsingSSE2;
+#endif // defined(USE_SSE2)
+    return false;
 }
-#endif
 
 void scrypt_1024_1_1_256(const char *input, char *output)
 {
