@@ -1,0 +1,146 @@
+#!/usr/bin/env bash
+
+# Verify the assertions produced by guix-attest.
+#
+#   ./contrib/guix/guix-verify --commit <commit> [ --signer <signer> ]
+#
+# Each assertion's signature is checked, then every assertion is diffed against
+# a base one: the named signer's if given, otherwise the first found. A single
+# signer is an ordinary case, not a deficiency; it compares against itself.
+
+export LC_ALL=C
+set -e -o pipefail
+
+# shellcheck source=libexec/prelude.bash
+source "$(dirname "${BASH_SOURCE[0]}")/libexec/prelude.bash"
+
+check_tools gpg diff grep sed
+
+help() {
+    echo "Usage: guix-verify
+               [ -v | --version ] VERSION   version to verify, default HEAD
+               [ -s | --signer ] SIGNER     whose assertion to compare against
+               [ -d | --destination ] DIR   where the sigs live, default ./sigs
+               [ -h | --help ]"
+    exit 2
+}
+
+VERSION_ARG=""
+SIGNER=""
+DESTINATION=""
+
+while (( "$#" )); do
+    case "$1" in
+        -v | --version | -c | --commit )
+            if [ -n "$2" ]; then VERSION_ARG="$2"; shift; else
+                echo 'Error: "--commit" requires a commit.'; exit 1; fi ;;
+        -s | --signer | --sign )
+            if [ -n "$2" ]; then SIGNER="$2"; shift; else
+                echo 'Error: "--signer" requires a signer.'; exit 1; fi ;;
+        -d | --destination )
+            if [ -n "$2" ]; then DESTINATION="$2"; shift; else
+                echo 'Error: "--destination" requires a directory.'; exit 1; fi ;;
+        -h | --help ) help ;;
+        * ) echo "Unknown argument: $1"; help ;;
+    esac
+    shift
+done
+
+# Same resolution as guix-attest: the prelude's VERSION, which is the tag when
+# HEAD is exactly tagged, so both scripts name the same directory.
+VERSION="${VERSION_ARG:-$VERSION}"
+DESTINATION="${DESTINATION:-$(git_root)/sigs}"
+
+failure=""
+
+# Usage: verify BASE_ASSERT CURRENT_ASSERT
+verify() {
+    local base="$1"
+    local current="$2"
+
+    if [ ! -e "${current}.sig" ]; then
+        # Distinct from a bad signature: guix-attest writes an assertion
+        # unsigned when no key is available, so this is an unfinished
+        # attestation rather than a suspect one.
+        echo "ERR: No signature alongside '${current}'"
+        echo ""
+        echo "Hint: guix-attest wrote this unsigned. Sign it, or re-run"
+        echo "      guix-attest on a machine holding the key."
+        echo ""
+        failure=1
+    elif ! gpg --quiet --batch --verify "${current}.sig" "$current" 1>&2; then
+        echo "ERR: Failed to verify GPG signature in '${current}'"
+        echo ""
+        echo "Hint: Either the signature is invalid or the public key is missing"
+        echo ""
+        failure=1
+    elif ! diff --report-identical "$base" "$current" 1>&2; then
+        echo "ERR: The attestations in these two directories differ:"
+        echo "    '${base}'"
+        echo "    '${current}'"
+        echo ""
+        failure=1
+    else
+        echo "Verified: '${current}'"
+        echo ""
+    fi
+}
+
+echo "Looking for assertions in '${DESTINATION}/${VERSION}-{linux,win,osx}'"
+echo ""
+
+found=0
+# Walk the platforms guix-attest writes rather than globbing ${VERSION}-*.
+# A glob is a prefix match, so verifying 1.14.9 would pick up 1.14.9-rc1 and
+# report a clean pass for a version nobody attested.
+for platform in linux win osx; do
+    pdir="${DESTINATION}/${VERSION}-${platform}"
+
+    shopt -s nullglob
+    asserts=("$pdir"/*/*.assert)
+    shopt -u nullglob
+
+    echo "--------------------"
+    echo ""
+
+    if (( ${#asserts[@]} == 0 )); then
+        echo "WARN: No assertions found for ${platform}"
+        echo ""
+        continue
+    fi
+
+    found=$((found + ${#asserts[@]}))
+
+    base="${asserts[0]}"
+    if [ -n "$SIGNER" ]; then
+        shopt -s nullglob
+        signer_assert=("${pdir}/${SIGNER}"/*.assert)
+        shopt -u nullglob
+        if (( ${#signer_assert[@]} )); then
+            echo "Using ${SIGNER}'s assertion as the base to compare against"
+            base="${signer_assert[0]}"
+        else
+            echo "Unable to find ${SIGNER}'s assertion for ${platform}, using the first one found"
+        fi
+        echo ""
+    fi
+
+    for current in "${asserts[@]}"; do
+        verify "$base" "$current"
+    done
+
+    echo "DONE: Checking assertions for ${platform}"
+    echo ""
+done
+
+echo "===================="
+echo ""
+if (( found == 0 )); then
+    echo "ERR: Unable to perform any verifications as no assertions were found"
+    echo ""
+    exit 1
+fi
+
+if [ -n "$failure" ]; then
+    exit 1
+fi
