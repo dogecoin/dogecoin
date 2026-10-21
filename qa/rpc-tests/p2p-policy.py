@@ -7,7 +7,12 @@
 # Tests relay and mempool acceptance policies from p2p perspective
 """
 
+import os
+import subprocess
+
+from test_framework.address import script_to_p2sh
 from test_framework.mininode import *
+from test_framework.script import CScript, OP_DROP, OP_TRUE
 from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import *
 
@@ -74,7 +79,8 @@ class P2PPolicyTests(BitcoinTestFramework):
     def __init__(self):
         super().__init__()
         self.setup_clean_chain = True
-        self.num_nodes = 1
+        # the fourth datadir is used only for startup-argument tests
+        self.num_nodes = 4
         self.utxo = []
 
         # a private key and corresponding address and p2pkh output script
@@ -92,10 +98,12 @@ class P2PPolicyTests(BitcoinTestFramework):
         return node
 
     def setup_network(self):
-        self.nodes = []
-
-        # a Dogecoin Core node that behaves similar to mainnet policies
-        self.nodes.append(start_node(0, self.options.tmpdir, ["-debug", "-acceptnonstdtxn=0"]))
+        # keep the original policy tests isolated on node 0
+        self.nodes = start_nodes(3, self.options.tmpdir, [
+            ["-debug", "-acceptnonstdtxn=0"],
+            ["-debug", "-acceptnonstdtxn=0", "-maxscriptsigsize=120"],
+            ["-debug", "-acceptnonstdtxn=0"],
+        ])
 
         # custom testnodes
         self.sendNode = self.create_testnode() # to send tx from
@@ -107,6 +115,8 @@ class P2PPolicyTests(BitcoinTestFramework):
         self.recvNode.wait_for_verack()
 
     def run_test(self):
+        self.run_scriptsig_size_startup_test()
+
         self.nodes[0].generate(101)
 
         ### test constants ###
@@ -169,6 +179,109 @@ class P2PPolicyTests(BitcoinTestFramework):
         change = ten - amount - relay_fee_per_byte * 225 - soft_dust_limit + koinu
         output = { self.tgtAddr : amount, self.srcAddr: change }
         self.run_relay_test(output, 64, 225)
+
+        self.run_scriptsig_size_test()
+
+    def run_scriptsig_size_startup_test(self):
+        # zero is a valid limit, despite rejecting every non-empty scriptSig
+        zero_limit_node = start_node(
+            3, self.options.tmpdir,
+            ["-debug", "-acceptnonstdtxn=0", "-maxscriptsigsize=0"])
+        try:
+            assert_equal(zero_limit_node.getblockcount(), 0)
+        finally:
+            stop_node(zero_limit_node, 3)
+
+        # test one parse error and one range error
+        expected_error = "-maxscriptsigsize must be between 0 and 1650"
+        invalid_args = [
+            "-maxscriptsigsize=not-a-number",
+            "-maxscriptsigsize=1651",
+        ]
+        binary = os.getenv("DOGECOIND", "dogecoind")
+        datadir = os.path.join(self.options.tmpdir, "node3")
+
+        for invalid_arg in invalid_args:
+            process = subprocess.Popen(
+                [binary, "-datadir=" + datadir, "-printtoconsole", invalid_arg],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                universal_newlines=True)
+            try:
+                output = process.communicate(timeout=60)[0]
+            except subprocess.TimeoutExpired:
+                process.kill()
+                process.communicate()
+                raise AssertionError(
+                    "dogecoind did not reject {} during startup".format(
+                        invalid_arg))
+
+            assert_equal(process.returncode, 1)
+            assert expected_error in output
+
+    def run_scriptsig_size_test(self):
+        # mine the original policy-test transactions before connecting the nodes
+        self.nodes[0].generate(1)
+        connect_nodes_bi(self.nodes, 0, 1)
+        connect_nodes_bi(self.nodes, 1, 2)
+        sync_blocks(self.nodes)
+
+        self.strictNode = self.create_testnode(1)
+        self.strictNode.wait_for_verack()
+
+        # relay an ordinary P2PKH transaction through the stricter node
+        ordinary_txid = self.nodes[0].sendtoaddress(
+            self.nodes[2].getnewaddress(), Decimal("1"))
+        assert_equal(self.strictNode.wait_for_tx_inv(ordinary_txid), True)
+        sync_mempools(self.nodes[1:])
+        assert ordinary_txid in self.nodes[2].getrawmempool()
+
+        self.nodes[0].generate(1)
+        sync_blocks(self.nodes)
+
+        # OP_DROP removes one value and OP_TRUE makes the P2SH spend valid
+        redeem_script = CScript([OP_DROP, OP_TRUE])
+        p2sh_address = script_to_p2sh(redeem_script)
+        funding_txid = self.nodes[0].sendtoaddress(p2sh_address, Decimal("10"))
+        self.nodes[0].generate(1)
+        sync_blocks(self.nodes)
+
+        funding_vout = find_output(
+            self.nodes[0], funding_txid, Decimal("10"))
+
+        # push 120 bytes plus the redeem script to exceed node 1's limit
+        script_sig = CScript([bytes(120), redeem_script])
+        assert_greater_than(len(script_sig), 120)
+
+        spend_tx = CTransaction()
+        spend_tx.vin.append(CTxIn(
+            COutPoint(int(funding_txid, 16), funding_vout),
+            script_sig, 0xffffffff))
+        spend_tx.vout.append(CTxOut(
+            10 * COIN - COIN // 100, hex_str_to_bytes(self.srcOutScript)))
+        spend_tx.rehash()
+
+        # reject without punishing the peer or propagating the transaction
+        num_rejects = len(self.strictNode.rejects)
+        self.strictNode.connection.send_message(msg_tx(spend_tx))
+        assert_equal(self.strictNode.wait_for_reject(num_rejects), True)
+        assert_equal(self.strictNode.rejects[-1].code, 64) # 64 = nonstandard
+        assert_equal(self.strictNode.rejects[-1].reason, b"scriptsig-size")
+        assert_equal(self.strictNode.sync_with_ping(), True)
+        assert all(peer["banscore"] == 0
+                   for peer in self.nodes[1].getpeerinfo())
+        assert spend_tx.hash not in self.nodes[1].getrawmempool()
+        assert spend_tx.hash not in self.nodes[2].getrawmempool()
+
+        # accept and announce the transaction under default policy
+        spend_txid = self.nodes[0].sendrawtransaction(ToHex(spend_tx))
+        assert spend_txid in self.nodes[0].getrawmempool()
+        assert_equal(self.recvNode.wait_for_tx_inv(spend_txid), True)
+
+        # accept and relay a block containing the rejected transaction
+        block_hash = self.nodes[0].generate(1)[0]
+        sync_blocks(self.nodes)
+        assert spend_txid in self.nodes[1].getblock(block_hash)["tx"]
 
 
     # test mempool acceptance and relay outcomes

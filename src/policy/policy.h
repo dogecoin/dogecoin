@@ -32,6 +32,10 @@ static const unsigned int DEFAULT_BLOCK_MAX_WEIGHT = 3000000;
 static const unsigned int DEFAULT_BLOCK_MIN_TX_FEE = (unsigned int) RECOMMENDED_MIN_TX_FEE;
 /** The maximum weight for transactions we're willing to relay/mine */
 static const unsigned int MAX_STANDARD_TX_WEIGHT = 400000;
+/** Maximum configurable scriptSig size for transactions we're willing to relay/mine */
+static const unsigned int MAX_STANDARD_SCRIPTSIG_SIZE = 1650;
+/** Default maximum scriptSig size for transactions we're willing to relay/mine */
+static const unsigned int DEFAULT_MAX_STANDARD_SCRIPTSIG_SIZE = MAX_STANDARD_SCRIPTSIG_SIZE;
 /** Maximum number of signature check operations in an IsStandard() P2SH script */
 static const unsigned int MAX_P2SH_SIGOPS = 15;
 /** The maximum number of sigops we're willing to relay/mine in a single tx */
@@ -130,6 +134,7 @@ bool IsWitnessStandard(const CTransaction& tx, const CCoinsViewCache& mapInputs)
 extern CFeeRate incrementalRelayFee;
 extern CFeeRate dustRelayFee;
 extern unsigned int nBytesPerSigOp;
+extern unsigned int nMaxStandardScriptSigSize;
 extern CAmount nDustLimit;
 extern CAmount nHardDustLimit;
 
