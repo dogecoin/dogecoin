@@ -395,6 +395,12 @@ bool IsArgSet(const std::string& strArg)
     return mapArgs.count(strArg);
 }
 
+bool HelpRequested()
+{
+    return IsArgSet("-?") || IsArgSet("-h") || IsArgSet("-help") ||
+           IsArgSet("-help-debug") || IsArgSet("-version");
+}
+
 std::string GetArg(const std::string& strArg, const std::string& strDefault)
 {
     LOCK(cs_args);
