@@ -30,19 +30,19 @@ class DustLimitTest(BitcoinTestFramework):
 
         # 1.10.0-like node with only a soft dust limit
         nodes.append(start_node(0, self.options.tmpdir,
-            ["-acceptnonstdtxn=0", "-dustlimit=1", "-harddustlimit=0.0", "-minrelaytxfee=1", "-debug"]))
+            ["-acceptnonstdtxn=0", "-dustlimit=1", "-harddustlimit=0.0", "-minrelaytxfee=1", "-debug=net"]))
 
         # 1.14.2-like node with only a hard dust limit
         nodes.append(start_node(1, self.options.tmpdir,
-            ["-acceptnonstdtxn=0", "-dustlimit=1", "-harddustlimit=1", "-minrelaytxfee=1", "-debug"]))
+            ["-acceptnonstdtxn=0", "-dustlimit=1", "-harddustlimit=1", "-minrelaytxfee=1", "-debug=net"]))
 
         # 1.14.5-like node with a lower, different hard and soft dust limit
         nodes.append(start_node(2, self.options.tmpdir,
-            ["-acceptnonstdtxn=0", "-dustlimit=0.01", "-harddustlimit=0.001", "-debug"]))
+            ["-acceptnonstdtxn=0", "-dustlimit=0.01", "-harddustlimit=0.001", "-debug=net"]))
 
         # node that should accept everything
         nodes.append(start_node(3, self.options.tmpdir,
-            ["-acceptnonstdtxn=0", "-dustlimit=0.0", "-harddustlimit=0.0", "-minrelaytxfee=0.00000001", "-debug"]))
+            ["-acceptnonstdtxn=0", "-dustlimit=0.0", "-harddustlimit=0.0", "-minrelaytxfee=0.00000001", "-debug=net"]))
 
         return nodes
 

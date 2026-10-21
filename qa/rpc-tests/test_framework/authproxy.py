@@ -104,6 +104,13 @@ class AuthServiceProxy(object):
             self.__conn = httplib.HTTPConnection(self.__url.hostname, port,
                                                  timeout=timeout)
 
+    def close_connection(self):
+        """
+        Close the underlying HTTP connection. It is reopened transparently by
+        the next request.
+        """
+        self.__conn.close()
+
     def __getattr__(self, name):
         if name.startswith('__') and name.endswith('__'):
             # Python internal stuff
@@ -157,6 +164,29 @@ class AuthServiceProxy(object):
                 'code': -343, 'message': 'missing JSON-RPC result'})
         else:
             return response['result']
+
+    def batch_call(self, calls):
+        """
+        Make several RPC calls in one HTTP request.
+
+        calls is a list of (method, params) pairs. Returns the results in
+        order, and raises JSONRPCException for the first call that failed.
+        """
+        rpc_call_list = []
+        for method, params in calls:
+            AuthServiceProxy.__id_count += 1
+            rpc_call_list.append({'version': '1.1', 'method': method,
+                                  'params': list(params),
+                                  'id': AuthServiceProxy.__id_count})
+        responses = self._batch(rpc_call_list)
+        by_id = {r['id']: r for r in responses}
+        results = []
+        for call in rpc_call_list:
+            response = by_id[call['id']]
+            if response['error'] is not None:
+                raise JSONRPCException(response['error'])
+            results.append(response['result'])
+        return results
 
     def _batch(self, rpc_call_list):
         postdata = json.dumps(list(rpc_call_list), default=EncodeDecimal, ensure_ascii=self.ensure_ascii)
