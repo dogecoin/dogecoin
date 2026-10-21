@@ -25,14 +25,24 @@ int static generateMTRandom(unsigned int s, int range)
 // a retarget, so we need to handle minimum difficulty on all blocks.
 bool AllowDigishieldMinDifficultyForBlock(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params& params)
 {
-    // check if the chain allows minimum difficulty blocks
-    if (!params.fPowAllowMinDifficultyBlocks)
+    // check if the chain allows minimum difficulty blocks on Digishield retarget blocks
+    if (!params.fPowAllowDigishieldMinDifficultyBlocks)
         return false;
 
-    // check if the chain allows minimum difficulty blocks on recalc blocks
-    if (pindexLast->nHeight < 157500)
-    // if (!params.fPowAllowDigishieldMinDifficultyBlocks)
-        return false;
+    if (params.fEnforceStrictMinDifficulty) {
+        const uint32_t nPowLimitCompact = UintToArith256(params.powLimit).GetCompact();
+
+        // Prevent block storm attacks by disallowing consecutive minimum difficulty blocks.
+        if (pindexLast->nBits == nPowLimitCompact)
+            return false;
+
+        // Prevent time-warps where the block timestamp could be manipulated relative to MTP
+        if (pblock->GetBlockTime() <= pindexLast->GetMedianTimePast() + params.nPowTargetSpacing * 10)
+            return false;
+
+        // Allow for a minimum block time if the elapsed time > 10*nTargetSpacing
+        return (pblock->GetBlockTime() > pindexLast->GetBlockTime() + params.nPowTargetSpacing * 10);
+    }
 
     // Allow for a minimum block time if the elapsed time > 2*nTargetSpacing
     return (pblock->GetBlockTime() > pindexLast->GetBlockTime() + params.nPowTargetSpacing*2);
@@ -124,6 +134,9 @@ bool CheckAuxPowProofOfWork(const CBlockHeader& block, const Consensus::Params& 
 
 CAmount GetDogecoinBlockSubsidy(int nHeight, const Consensus::Params& consensusParams, uint256 prevHash)
 {
+    if (consensusParams.fTailSubsidyOnly && nHeight >= 1) {
+        return 10000 * COIN;
+    }
     int halvings = nHeight / consensusParams.nSubsidyHalvingInterval;
 
     if (!consensusParams.fSimplifiedRewards)
