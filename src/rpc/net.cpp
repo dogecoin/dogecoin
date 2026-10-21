@@ -653,7 +653,7 @@ static const CRPCCommand commands[] =
 { //  category              name                      actor (function)         okSafeMode
   //  --------------------- ------------------------  -----------------------  ----------
     { "network",            "getconnectioncount",     &getconnectioncount,     true,  {} },
-    { "network",            "setmaxconnections",      &setmaxconnections,      true,  {"newconnectioncount"} },
+    { "network",            "setmaxconnections",      &setmaxconnections,      true,  {"maxconnectioncount"} },
     { "network",            "ping",                   &ping,                   true,  {} },
     { "network",            "getpeerinfo",            &getpeerinfo,            true,  {} },
     { "network",            "addnode",                &addnode,                true,  {"node","command"} },
