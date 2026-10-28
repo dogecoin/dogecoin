@@ -100,11 +100,13 @@ class CNodeNoVerackIdle(CLazyNode):
         conn.send_message(msg_getaddr())
 
 class P2PLeakTest(BitcoinTestFramework):
+    whitelist_local_peers = False  # connects mininode peers from 127.0.0.1
+
     def __init__(self):
         super().__init__()
         self.num_nodes = 1
     def setup_network(self):
-        extra_args = [['-debug', '-banscore='+str(banscore)]
+        extra_args = [['-debug=net', '-banscore='+str(banscore)]
                       for i in range(self.num_nodes)]
         self.nodes = start_nodes(self.num_nodes, self.options.tmpdir, extra_args)
 

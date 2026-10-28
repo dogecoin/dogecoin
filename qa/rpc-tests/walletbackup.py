@@ -52,10 +52,12 @@ class WalletBackupTest(BitcoinTestFramework):
     # This mirrors how the network was setup in the bash test
     def setup_network(self, split=False):
         self.nodes = start_nodes(self.num_nodes, self.options.tmpdir, self.extra_args)
-        connect_nodes(self.nodes[0], 3)
-        connect_nodes(self.nodes[1], 3)
-        connect_nodes(self.nodes[2], 3)
-        connect_nodes(self.nodes[2], 0)
+        # Connect in both directions: a node's outbound peers are not
+        # whitelisted, so one-way links still wait on the relay trickle.
+        connect_nodes_bi(self.nodes, 0, 3)
+        connect_nodes_bi(self.nodes, 1, 3)
+        connect_nodes_bi(self.nodes, 2, 3)
+        connect_nodes_bi(self.nodes, 2, 0)
         self.is_network_split=False
         self.sync_all()
 
@@ -87,10 +89,10 @@ class WalletBackupTest(BitcoinTestFramework):
         self.nodes[0] = start_node(0, self.options.tmpdir)
         self.nodes[1] = start_node(1, self.options.tmpdir)
         self.nodes[2] = start_node(2, self.options.tmpdir)
-        connect_nodes(self.nodes[0], 3)
-        connect_nodes(self.nodes[1], 3)
-        connect_nodes(self.nodes[2], 3)
-        connect_nodes(self.nodes[2], 0)
+        connect_nodes_bi(self.nodes, 0, 3)
+        connect_nodes_bi(self.nodes, 1, 3)
+        connect_nodes_bi(self.nodes, 2, 3)
+        connect_nodes_bi(self.nodes, 2, 0)
 
     def stop_three(self):
         stop_node(self.nodes[0], 0)

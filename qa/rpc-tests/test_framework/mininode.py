@@ -29,7 +29,7 @@ import asyncore
 import time
 import sys
 import random
-from .util import hex_str_to_bytes, bytes_to_hex_str
+from .util import hex_str_to_bytes, bytes_to_hex_str, local_peers_whitelisted
 from io import BytesIO
 from codecs import encode
 import hashlib
@@ -542,7 +542,7 @@ class CBlockHeader(object):
             self.nNonce = header.nNonce
             self.sha256 = header.sha256
             self.hash = header.hash
-            self.scrypt256 = header.scrypt256
+            self._scrypt256 = header._scrypt256
             self.calc_sha256()
 
     def set_null(self):
@@ -588,7 +588,19 @@ class CBlockHeader(object):
             r += struct.pack("<I", self.nNonce)
             self.sha256 = uint256_from_str(hash256(r))
             self.hash = encode(hash256(r)[::-1], 'hex_codec').decode('ascii')
-            self.scrypt256 = uint256_from_str(ltc_scrypt.getPoWHash(r))
+
+    @property
+    def scrypt256(self):
+        # The proof of work hash is only needed to check or solve a block, but
+        # costs ~100x a sha256d, so compute it on first use rather than for
+        # every header whose identity hash is calculated. rehash() clears it.
+        if self._scrypt256 is None:
+            self._scrypt256 = uint256_from_str(ltc_scrypt.getPoWHash(CBlockHeader.serialize(self)))
+        return self._scrypt256
+
+    @scrypt256.setter
+    def scrypt256(self, value):
+        self._scrypt256 = value
 
     def rehash(self):
         self.sha256 = None
@@ -1380,19 +1392,24 @@ class msg_reject(object):
             % (self.message, self.code, self.reason, self.data)
 
 # Helper function
-def wait_until(predicate, *, attempts=float('inf'), timeout=float('inf')):
-    attempt = 0
-    elapsed = 0
+# How often wait_until() checks its predicate. (The network thread does not
+# poll at this rate: it sleeps until data arrives or it is woken.)
+POLL_INTERVAL = 0.005
 
-    while attempt < attempts and elapsed < timeout:
+# `attempts` predates wall-clock polling and counted 50ms steps; it is kept as
+# a time budget of attempts * ATTEMPT_SECONDS so existing callers are unchanged.
+ATTEMPT_SECONDS = 0.05
+
+def wait_until(predicate, *, attempts=float('inf'), timeout=float('inf')):
+    deadline = time.time() + min(timeout, attempts * ATTEMPT_SECONDS)
+
+    while True:
         with mininode_lock:
             if predicate():
                 return True
-        attempt += 1
-        elapsed += 0.05
-        time.sleep(0.05)
-
-    return False
+        if time.time() >= deadline:
+            return False
+        time.sleep(POLL_INTERVAL)
 
 class msg_feefilter(object):
     command = b"feefilter"
@@ -1514,12 +1531,9 @@ class NodeConnCB(object):
     # Tests may want to use this as a signal that the test can begin.
     # This can be called from the testing thread, so it needs to acquire the
     # global lock.
-    def wait_for_verack(self):
-        while True:
-            with mininode_lock:
-                if self.verack_received:
-                    return
-            time.sleep(0.05)
+    def wait_for_verack(self, timeout=60):
+        assert wait_until(lambda: self.verack_received, timeout=timeout), \
+            "no verack received within %ss" % timeout
 
     def deliver(self, conn, message):
         deliver_sleep = self.get_deliver_sleep_time()
@@ -1641,40 +1655,49 @@ class NodeConn(asyncore.dispatcher):
     }
 
     def __init__(self, dstaddr, dstport, rpc, callback, net="regtest", services=NODE_NETWORK, send_version=True):
-        asyncore.dispatcher.__init__(self, map=mininode_socket_map)
-        self.log = logging.getLogger("NodeConn(%s:%d)" % (dstaddr, dstport))
-        self.dstaddr = dstaddr
-        self.dstport = dstport
-        self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.sendbuf = b""
-        self.recvbuf = b""
-        self.ver_send = 209
-        self.ver_recv = 209
-        self.last_sent = 0
-        self.state = "connecting"
-        self.network = net
-        self.cb = callback
-        self.disconnect = False
-        self.nServices = 0
+        assert not local_peers_whitelisted(), \
+            "mininode peers connect from 127.0.0.1; set whitelist_local_peers = False on the test"
+        # create_socket() registers this socket in the map the network thread
+        # polls, so hold the lock until the connection is fully set up. Without
+        # it the thread can poll the half-built socket, see it as writable,
+        # try to send before connect() has run, get ENOTCONN, and close the
+        # connection under us.
+        with mininode_lock:
+            asyncore.dispatcher.__init__(self, map=mininode_socket_map)
+            self.log = logging.getLogger("NodeConn(%s:%d)" % (dstaddr, dstport))
+            self.dstaddr = dstaddr
+            self.dstport = dstport
+            self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.sendbuf = b""
+            self.recvbuf = b""
+            self.ver_send = 209
+            self.ver_recv = 209
+            self.last_sent = 0
+            self.state = "connecting"
+            self.network = net
+            self.cb = callback
+            self.disconnect = False
+            self.nServices = 0
 
-        if send_version:
-            # stuff version msg into sendbuf
-            vt = msg_version()
-            vt.nServices = services
-            vt.addrTo.ip = self.dstaddr
-            vt.addrTo.port = self.dstport
-            vt.addrFrom.ip = "0.0.0.0"
-            vt.addrFrom.port = 0
-            self.send_message(vt, True)
+            if send_version:
+                # stuff version msg into sendbuf
+                vt = msg_version()
+                vt.nServices = services
+                vt.addrTo.ip = self.dstaddr
+                vt.addrTo.port = self.dstport
+                vt.addrFrom.ip = "0.0.0.0"
+                vt.addrFrom.port = 0
+                self.send_message(vt, True)
 
-        print('MiniNode: Connecting to Dogecoin Node IP # ' + dstaddr + ':' \
-            + str(dstport))
+            print('MiniNode: Connecting to Dogecoin Node IP # ' + dstaddr + ':' \
+                + str(dstport))
 
-        try:
-            self.connect((dstaddr, dstport))
-        except:
-            self.handle_close()
-        self.rpc = rpc
+            try:
+                self.connect((dstaddr, dstport))
+            except:
+                self.handle_close()
+            self.rpc = rpc
+        NetworkThread.wake()
 
     def show_debug_msg(self, msg):
         self.log.debug(msg)
@@ -1798,6 +1821,7 @@ class NodeConn(asyncore.dispatcher):
         with mininode_lock:
             self.sendbuf += tmsg
             self.last_sent = time.time()
+        NetworkThread.wake()
 
     def got_message(self, message):
         if message.command == b"version":
@@ -1810,20 +1834,75 @@ class NodeConn(asyncore.dispatcher):
 
     def disconnect_node(self):
         self.disconnect = True
+        NetworkThread.wake()
+
+
+class _Waker(asyncore.dispatcher):
+    """
+    Read end of a socketpair that lives in the socket map so that another
+    thread can interrupt the network thread's poll. It carries no data.
+    """
+    disconnect = False
+
+    def __init__(self, sock):
+        asyncore.dispatcher.__init__(self, sock, map=mininode_socket_map)
+
+    def readable(self):
+        return True
+
+    def writable(self):
+        return False
+
+    def handle_read(self):
+        try:
+            self.recv(4096)
+        except OSError:
+            pass
+
+    def handle_close(self):
+        pass
 
 
 class NetworkThread(Thread):
+    # How long to block in poll when nothing is happening. Anything queued by
+    # another thread interrupts it via wake(), so this is only a safety net.
+    IDLE_TIMEOUT = 0.1
+    _wake_sock = None
+
+    @classmethod
+    def wake(cls):
+        """Interrupt the poll so queued data is written, or new sockets and
+        disconnect requests are noticed, without waiting for it to time out."""
+        sock = cls._wake_sock
+        if sock is not None:
+            try:
+                sock.send(b'x')
+            except OSError:
+                pass
+
     def run(self):
-        while mininode_socket_map:
-            # We check for whether to disconnect outside of the asyncore
-            # loop to workaround the behavior of asyncore when using
-            # select
-            disconnected = []
-            for fd, obj in mininode_socket_map.items():
-                if obj.disconnect:
-                    disconnected.append(obj)
-            [ obj.handle_close() for obj in disconnected ]
-            asyncore.loop(0.1, use_poll=True, map=mininode_socket_map, count=1)
+        wake_r, wake_w = socket.socketpair()
+        wake_r.setblocking(False)
+        wake_w.setblocking(False)
+        waker = _Waker(wake_r)
+        NetworkThread._wake_sock = wake_w
+        try:
+            # Run while there is any socket other than our own waker.
+            while any(obj is not waker for obj in list(mininode_socket_map.values())):
+                # We check for whether to disconnect outside of the asyncore
+                # loop to workaround the behavior of asyncore when using
+                # select
+                disconnected = []
+                for fd, obj in list(mininode_socket_map.items()):
+                    if obj.disconnect:
+                        disconnected.append(obj)
+                [ obj.handle_close() for obj in disconnected ]
+                asyncore.loop(self.IDLE_TIMEOUT, use_poll=True, map=mininode_socket_map, count=1)
+        finally:
+            if NetworkThread._wake_sock is wake_w:
+                NetworkThread._wake_sock = None
+            waker.close()
+            wake_w.close()
 
 
 # An exception we can raise if we detect a potential disconnect
