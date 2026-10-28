@@ -349,6 +349,7 @@ case $host in
      AC_CHECK_LIB([shlwapi],      [main],, AC_MSG_ERROR(lib missing))
      AC_CHECK_LIB([iphlpapi],      [main],, AC_MSG_ERROR(lib missing))
      AC_CHECK_LIB([crypt32],      [main],, AC_MSG_ERROR(lib missing))
+     AC_CHECK_LIB([bcrypt],      [main],, AC_MSG_ERROR(lib missing))
 
      # -static is interpreted by libtool, where it has a different meaning.
      # In libtool-speak, it's -all-static.
@@ -970,6 +971,7 @@ if test x$intel_avx2 = xyes; then
     AC_CHECK_LIB([shlwapi],           [main],LIBS+=" -lshlwapi", AC_MSG_ERROR(lib missing))
     AC_CHECK_LIB([iphlpapi],          [main],LIBS+=" -liphlpapi", AC_MSG_ERROR(lib missing))
     AC_CHECK_LIB([crypt32],           [main],LIBS+=" -lcrypt32", AC_MSG_ERROR(lib missing))
+    AC_CHECK_LIB([bcrypt],            [main],LIBS+=" -lbcrypt", AC_MSG_ERROR(lib missing))
     AC_CHECK_LIB([ssp],               [main],LIBS+=" -lssp", AC_MSG_ERROR(lib missing))
 
     dnl only check for Qt5 if we're actually building Qt
