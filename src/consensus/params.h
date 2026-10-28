@@ -72,6 +72,7 @@ struct Params {
     bool fDigishieldDifficultyCalculation;
     bool fPowAllowDigishieldMinDifficultyBlocks; // Allow minimum difficulty blocks where a retarget would normally occur
     bool fSimplifiedRewards; // Use block height derived rewards rather than previous block hash derived
+    bool fEnforceStrictMinDifficulty; // Enforce stricter rules on minimum difficulty blocks to prevent block storms and time-warp attacks
 
     uint256 nMinimumChainWork;
     uint256 defaultAssumeValid;
