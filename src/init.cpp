@@ -205,8 +205,9 @@ void Shutdown()
     StopHTTPServer();
 #ifdef ENABLE_WALLET
     // Dogecoin 1.14 TODO: ShutdownRPCMining();
-    if (pwalletMain)
-        pwalletMain->Flush(false);
+    for (CWalletRef pwallet : vpwallets) {
+        pwallet->Flush(false);
+    }
 #endif
     MapPort(false);
     UnregisterValidationInterface(peerLogic.get());
@@ -244,8 +245,11 @@ void Shutdown()
         pblocktree = NULL;
     }
 #ifdef ENABLE_WALLET
-    if (pwalletMain)
-        pwalletMain->Flush(true);
+    // CWallet::Flush delegates to the shared CDBEnv, so a single shutdown
+    // call drains every loaded wallet's BDB file at once.
+    if (!vpwallets.empty()) {
+        vpwallets.front()->Flush(true);
+    }
 #endif
 
 #if ENABLE_ZMQ
@@ -265,7 +269,10 @@ void Shutdown()
 #endif
     UnregisterAllValidationInterfaces();
 #ifdef ENABLE_WALLET
-    delete pwalletMain;
+    for (CWalletRef pwallet : vpwallets) {
+        delete pwallet;
+    }
+    vpwallets.clear();
     pwalletMain = NULL;
 #endif
     globalVerifyHandle.reset();
@@ -1717,8 +1724,9 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
     uiInterface.InitMessage(_("Done loading"));
 
 #ifdef ENABLE_WALLET
-    if (pwalletMain)
-        pwalletMain->postInitProcess(threadGroup);
+    for (CWalletRef pwallet : vpwallets) {
+        pwallet->postInitProcess(threadGroup);
+    }
 #endif
 
     return !fRequestShutdown;
