@@ -33,6 +33,10 @@ Vietnamese:
 
 - [README](vi_VN/README.md)
 
+Korean:
+
+- [README](ko_KR/README.md)
+
 ### Contributing
 
 You can contribute to the internationalization of documentation by creating a
