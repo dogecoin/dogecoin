@@ -21,6 +21,10 @@ French:
 
 - [README](fr/README.md)
 
+Japanese:
+
+- [README](ja/README.md)
+
 Portuguese (Brazilian):
 
 - [README](pt_BR/README.md)
