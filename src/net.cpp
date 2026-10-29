@@ -1230,8 +1230,9 @@ void CConnman::ThreadSocketHandler()
                 LOCK(pnode->cs_hSocket);
                 if (pnode->hSocket == INVALID_SOCKET)
                     continue;
+                if (!select_send && !select_recv)
+                    continue;
 
-                FD_SET(pnode->hSocket, &fdsetError);
                 hSocketMax = std::max(hSocketMax, pnode->hSocket);
                 have_fds = true;
 
@@ -1241,6 +1242,7 @@ void CConnman::ThreadSocketHandler()
                 }
                 if (select_recv) {
                     FD_SET(pnode->hSocket, &fdsetRecv);
+                    FD_SET(pnode->hSocket, &fdsetError);
                 }
             }
         }
@@ -1308,7 +1310,7 @@ void CConnman::ThreadSocketHandler()
                 sendSet = FD_ISSET(pnode->hSocket, &fdsetSend);
                 errorSet = FD_ISSET(pnode->hSocket, &fdsetError);
             }
-            if (recvSet || errorSet)
+            if ((recvSet || errorSet) && !pnode->fPauseRecv)
             {
                 {
                     {
