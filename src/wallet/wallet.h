@@ -244,6 +244,13 @@ public:
     bool fFromMe;
     std::string strFromAccount;
     int64_t nOrderPos; //!< position in ordered transaction list
+    // m_it_wtxOrdered is only valid when m_f_wtxOrdered is true (set by the
+    // AddToWallet / LoadToWallet insert paths). Init() cannot assign
+    // wtxOrdered.end(): CWallet is incomplete here, and mapWallet[] default-
+    // constructs with a null pwallet. A default-constructed iterator is not
+    // equal to end(), so that comparison cannot be used as a guard.
+    std::multimap<int64_t, std::pair<CWalletTx*, CAccountingEntry*> >::const_iterator m_it_wtxOrdered;
+    bool m_f_wtxOrdered; //!< true iff m_it_wtxOrdered refers to an entry in wtxOrdered
 
     // memory only
     mutable bool fDebitCached;
@@ -304,6 +311,8 @@ public:
         nImmatureWatchCreditCached = 0;
         nChangeCached = 0;
         nOrderPos = -1;
+        m_f_wtxOrdered = false;
+        // m_it_wtxOrdered left default-constructed; only valid when m_f_wtxOrdered is true.
     }
 
     ADD_SERIALIZE_METHODS;
