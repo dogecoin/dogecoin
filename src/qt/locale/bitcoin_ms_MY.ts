@@ -64,12 +64,12 @@
     </message>
     <message>
         <source>Delete the currently selected address from the list</source>
-        <translation>Padam alamat semasa yang dipilih dari senaraiyang dipilih dari senarai</translation>
+        <translation>Padam alamat semasa yang dipilih dari senarai</translation>
     </message>
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>
-Alihkan fail data ke dalam tab semasa</translation>
+Eksport data dalam tab semasa ke fail</translation>
     </message>
     <message>
         <source>&amp;Export</source>
@@ -93,7 +93,7 @@ Alihkan fail data ke dalam tab semasa</translation>
     </message>
     <message>
         <source>Such sending addresses</source>
-        <translation>alamat-alamat penghantaran</translation>
+        <translation>Alamat-alamat penghantaran</translation>
     </message>
     <message>
         <source>Receiving addresses</source>
@@ -105,11 +105,11 @@ Alihkan fail data ke dalam tab semasa</translation>
     </message>
     <message>
         <source>These are your Dogecoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation>Ini adalah alamat Dogecoin anda untuk menerima pembayaraan.  Anda disyorkan untuk menguna alamat menerima untuk setiap transaksi.</translation>
+        <translation>Ini adalah alamat Dogecoin anda untuk menerima pembayaran. Anda disyorkan untuk menggunakan alamat menerima baru untuk setiap transaksi.</translation>
     </message>
     <message>
         <source>&amp;Copy Address</source>
-        <translation>&amp;Salin Aamat</translation>
+        <translation>&amp;Salin Alamat</translation>
     </message>
     <message>
         <source>Copy &amp;Label</source>
@@ -121,11 +121,11 @@ Alihkan fail data ke dalam tab semasa</translation>
     </message>
     <message>
         <source>Export Address List</source>
-        <translation>Eskport Senarai Alamat</translation>
+        <translation>Eksport Senarai Alamat</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
-        <translation>Fail dibahagi oleh koma(*.csv)</translation>
+        <translation>Fail dipisahkan koma (*.csv)</translation>
     </message>
     <message>
         <source>Exporting Failed</source>
@@ -179,7 +179,7 @@ Alihkan fail data ke dalam tab semasa</translation>
     </message>
     <message>
         <source>Encrypt wallet</source>
-        <translation>Dompet encrypt</translation>
+        <translation>Enkripsi dompet</translation>
     </message>
     <message>
         <source>This operation needs your wallet passphrase to unlock the wallet.</source>
@@ -191,11 +191,11 @@ Alihkan fail data ke dalam tab semasa</translation>
     </message>
     <message>
         <source>This operation needs your wallet passphrase to decrypt the wallet.</source>
-        <translation>Operasi ini memerlukan frasa laluan dompet anda untuk menyahsulit dompet.</translation>
+        <translation>Operasi ini memerlukan frasa laluan dompet anda untuk menyesulit dompet.</translation>
     </message>
     <message>
         <source>Decrypt wallet</source>
-        <translation>Menyahsulit dompet</translation>
+        <translation>Dekripsi dompet</translation>
     </message>
     <message>
         <source>Change passphrase</source>
@@ -235,7 +235,7 @@ Alihkan fail data ke dalam tab semasa</translation>
     </message>
     <message>
         <source>Wallet encryption failed due to an internal error. Your wallet was not encrypted.</source>
-        <translation>Enkripsi dompet gagal kerana ralat dalaman. Dompet anda tidak dienkripkan.</translation>
+        <translation>Enkripsi dompet gagal karena ralat dalaman. Dompet anda tidak dienkripkan.</translation>
     </message>
     <message>
         <source>The supplied passphrases do not match.</source>
@@ -243,11 +243,11 @@ Alihkan fail data ke dalam tab semasa</translation>
     </message>
     <message>
         <source>Wallet unlock failed</source>
-        <translation>Pembukaan kunci dompet gagal</translation>
+        <translation>Membuka kunci dompet gagal</translation>
     </message>
     <message>
         <source>The passphrase entered for the wallet decryption was incorrect.</source>
-        <translation>Frasa laluan dimasukki untuk dekripsi dompet adalah tidak betul.</translation>
+        <translation>Frasa laluan dimasukkan untuk dekripsi dompet adalah tidak betul.</translation>
     </message>
     <message>
         <source>Wallet decryption failed</source>
@@ -259,7 +259,7 @@ Alihkan fail data ke dalam tab semasa</translation>
     </message>
     <message>
         <source>Warning: The Caps Lock key is on!</source>
-        <translation>Amaran: Kunci Caps Lock buka!</translation>
+        <translation>Amaran: Kunci Caps Lock dihidupkan!</translation>
     </message>
 </context>
 <context>
@@ -270,7 +270,7 @@ Alihkan fail data ke dalam tab semasa</translation>
     </message>
     <message>
         <source>Banned Until</source>
-        <translation>Diharamkan sehingga</translation>
+        <translation>Disekat sehingga</translation>
     </message>
 </context>
 <context>
@@ -345,7 +345,7 @@ Alihkan fail data ke dalam tab semasa</translation>
     </message>
     <message>
         <source>&amp;Change Passphrase...</source>
-        <translation>&amp;Menukar frasa-laluan</translation>
+        <translation>&amp;Menukar frasa laluan</translation>
     </message>
     <message>
         <source>&amp;Such sending addresses...</source>
@@ -361,7 +361,7 @@ Alihkan fail data ke dalam tab semasa</translation>
     </message>
     <message>
         <source>Reindexing blocks on disk...</source>
-        <translation>Reindexi blok pada cakera...</translation>
+        <translation>Mengindeks semula blok pada cakera...</translation>
     </message>
     <message>
         <source>Send coins to a Dogecoin address</source>
@@ -776,7 +776,7 @@ Alihkan fail data ke dalam tab semasa</translation>
     <name>EditAddressDialog</name>
     <message>
         <source>Edit Address</source>
-        <translation>Alamat</translation>
+        <translation>Edit alamat</translation>
     </message>
     <message>
         <source>&amp;Address</source>
@@ -3291,7 +3291,7 @@ Use this functionality with extreme caution.</source>
     <name>TransactionView</name>
     <message>
         <source>Comma separated file (*.csv)</source>
-        <translation>Fail dibahagi oleh koma(*.csv)</translation>
+        <translation>Fail dipisahkan koma (*.csv)</translation>
     </message>
     <message>
         <source>Label</source>
@@ -3468,7 +3468,7 @@ Use this functionality with extreme caution.</source>
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>
-Alihkan fail data ke dalam tab semasa</translation>
+Eksport data dalam tab semasa ke fail</translation>
     </message>
     <message>
         <source>&amp;Export</source>
