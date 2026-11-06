@@ -1728,7 +1728,7 @@ UniValue liststucktransactions(const JSONRPCRequest& request)
     for (CWallet::TxItems::const_iterator it = txOrdered.begin(); it != txOrdered.end(); ++it)
     {
         CWalletTx *const wtx = (*it).second.first;
-        if (wtx->GetDepthInMainChain() <= 0 && !wtx->InMempool() && wtx->IsFromMe(filter))
+        if (wtx != 0 && wtx->GetDepthInMainChain() <= 0 && !wtx->InMempool() && wtx->IsFromMe(filter))
         {
             if (!verbose) {
                 ret.push_back(wtx->GetHash().ToString());
