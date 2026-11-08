@@ -11,6 +11,7 @@
 #include "crypto/sha256.h"
 #include "pubkey.h"
 #include "script/script.h"
+#include "zkp/verifier.h"
 #include "uint256.h"
 
 using namespace std;
@@ -426,8 +427,22 @@ bool EvalScript(vector<vector<unsigned char> >& stack, const CScript& script, un
                     break;
                 }
 
+                case OP_CHECKZKP:
+                {
+                    if (stack.size() < 2)
+                        return set_error(serror, SCRIPT_ERR_INVALID_STACK_OPERATION);
+                    
+                    const valtype& proof = stacktop(-1);
+                    const valtype& pub_inputs = stacktop(-2);
+                    
+                    if (!VerifyZKP(proof, pub_inputs)) {
+                         return set_error(serror, SCRIPT_ERR_EVAL_FALSE);
+                    }
+                }
+                break;
+
                 case OP_NOP1: case OP_NOP4: case OP_NOP5:
-                case OP_NOP6: case OP_NOP7: case OP_NOP8: case OP_NOP9: case OP_NOP10:
+                case OP_NOP6: case OP_NOP7: case OP_NOP8: case OP_NOP9:
                 {
                     if (flags & SCRIPT_VERIFY_DISCOURAGE_UPGRADABLE_NOPS)
                         return set_error(serror, SCRIPT_ERR_DISCOURAGE_UPGRADABLE_NOPS);
