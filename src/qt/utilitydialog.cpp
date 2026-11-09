@@ -215,7 +215,6 @@ void PaperWalletDialog::setClientModel(ClientModel *_clientModel)
 
 void PaperWalletDialog::setModel(WalletModel *model)
 {
-    RandAddSeed();
     this->model = model;
     this->on_getNewAddress_clicked();
 }
