@@ -59,6 +59,7 @@ class RescanTest(BitcoinTestFramework):
         rawtxn3 = self.nodes[0].gettransaction(txnid3)['hex']
 
         self.nodes[0].generate(1)
+        self.sync_all()
 
         # Import with affiliated address with no rescan
         self.nodes[1].importaddress(address2, "add2", False)
@@ -67,6 +68,8 @@ class RescanTest(BitcoinTestFramework):
 
         self.nodes[1].rescan()
         balance2 = self.nodes[1].getbalance("add2", 0, True)
+        # After an explicit rescan the imported watch-only address must be
+        # reflected in the wallet balance deterministically.
         assert_equal(balance2, Decimal('5'))
 
         # Import with private key with no rescan
