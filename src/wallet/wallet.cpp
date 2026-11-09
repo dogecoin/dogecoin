@@ -2206,7 +2206,7 @@ bool CWallet::SelectCoinsMinConf(const CAmount& nTargetValue, const int nConfMin
         }
     }
 
-    if (nTotalLower == nTargetValue)
+    if (nTotalLower == nTargetValue && !coinLowestLarger.second.first)
     {
         for (unsigned int i = 0; i < vValue.size(); ++i)
         {
@@ -2235,10 +2235,8 @@ bool CWallet::SelectCoinsMinConf(const CAmount& nTargetValue, const int nConfMin
     if (nBest != nTargetValue && nTotalLower >= nTargetValue + GetMinChange())
         ApproximateBestSubset(vValue, nTotalLower, nTargetValue + GetMinChange(), vfBest, nBest);
 
-    // If we have a bigger coin and (either the stochastic approximation didn't find a good solution,
-    //                                   or the next bigger coin is closer), return the bigger coin
-    if (coinLowestLarger.second.first &&
-        ((nBest != nTargetValue && nBest < nTargetValue + GetMinChange()) || coinLowestLarger.first <= nBest))
+    // Prefer one UTXO over combining multiple inputs.
+    if (coinLowestLarger.second.first)
     {
         setCoinsRet.insert(coinLowestLarger.second);
         nValueRet += coinLowestLarger.first;
