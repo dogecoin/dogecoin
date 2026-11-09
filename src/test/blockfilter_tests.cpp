@@ -145,6 +145,37 @@ BOOST_AUTO_TEST_CASE(blockfilter_bip157_wire_format)
     BOOST_CHECK_EQUAL(hex, HexStr(expected.begin(), expected.end()));
 }
 
+BOOST_AUTO_TEST_CASE(blockfilter_bip157_wire_format_vector)
+{
+    // The same field order, pinned to a fixed byte string that no part of this
+    // codebase produces. The case above builds its expectation with the very
+    // operators it is checking, so a change that moved both sides together
+    // would keep it green; this one is what another implementation would have
+    // to accept, written out by hand.
+    const uint256 block_hash = uint256S("000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f");
+    const std::vector<unsigned char> encoded_filter = {0x01, 0x02, 0x03, 0x04};
+
+    BlockFilter block_filter(BlockFilterType::BASIC, block_hash, encoded_filter);
+
+    CDataStream stream(SER_NETWORK, PROTOCOL_VERSION);
+    stream << block_filter;
+
+    const std::string expected =
+        "00"                                                               // filter_type = BASIC
+        "6fe28c0ab6f1b372c1a6a246ae63f74f931e8365e15a089c68d6190000000000" // block_hash, wire byte order
+        "04"                                                               // CompactSize len(filter_bytes)
+        "01020304";                                                        // filter_bytes
+    BOOST_CHECK_EQUAL(HexStr(stream.begin(), stream.end()), expected);
+
+    // And reading that payload back must recover every field, which the
+    // encode-only check above cannot tell apart from a decoder that drops one.
+    BlockFilter decoded;
+    stream >> decoded;
+    BOOST_CHECK(decoded.GetFilterType() == BlockFilterType::BASIC);
+    BOOST_CHECK(decoded.GetBlockHash() == block_hash);
+    BOOST_CHECK(decoded.GetEncodedFilter() == encoded_filter);
+}
+
 BOOST_AUTO_TEST_CASE(blockfilters_json_test)
 {
     UniValue json;
