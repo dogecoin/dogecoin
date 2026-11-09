@@ -54,6 +54,12 @@ class RawTransactionsTest(BitcoinTestFramework):
         self.nodes[0].generate(5)
         self.sync_all()
 
+
+        # Test getrawtransaction on genesis block coinbase returns an error
+        block = self.nodes[0].getblock(self.nodes[0].getblockhash(0))
+        assert_raises_jsonrpc(-5, "The genesis block coinbase is not considered an ordinary transaction", self.nodes[0].getrawtransaction, block['merkleroot'])
+
+
         #########################################
         # sendrawtransaction with missing input #
         #########################################
@@ -128,13 +134,13 @@ class RawTransactionsTest(BitcoinTestFramework):
         rawTx = self.nodes[2].createrawtransaction(inputs, outputs)
         rawTxPartialSigned = self.nodes[1].signrawtransaction(rawTx, inputs)
         assert_equal(rawTxPartialSigned['complete'], False) #node1 only has one key, can't comp. sign the tx
-        
+
         rawTxSigned = self.nodes[2].signrawtransaction(rawTx, inputs)
         assert_equal(rawTxSigned['complete'], True) #node2 can sign the tx compl., own two of three keys
         self.nodes[2].sendrawtransaction(rawTxSigned['hex'])
         rawTx = self.nodes[0].decoderawtransaction(rawTxSigned['hex'])
         self.sync_all()
-        self.nodes[0].generate(1)
+        blockHash = self.nodes[0].generate(1)[0]
         self.sync_all()
         assert_equal(self.nodes[0].getbalance(), bal+Decimal('500000.00000000')+Decimal('1.20000000')) #block reward + tx
 
@@ -146,8 +152,11 @@ class RawTransactionsTest(BitcoinTestFramework):
         # 2. valid parameters - supply txid and 0 for non-verbose
         assert_equal(self.nodes[0].getrawtransaction(txHash, 0), rawTxSigned['hex'])
 
-        # 3. valid parameters - supply txid and False for non-verbose
+        # 3.1 valid parameters - supply txid and False for non-verbose
         assert_equal(self.nodes[0].getrawtransaction(txHash, False), rawTxSigned['hex'])
+
+        # 3.2 valid parameters - supply txid and False for non-verbose with block hash
+        assert_equal(self.nodes[0].getrawtransaction(txHash, False, blockHash), rawTxSigned['hex'])
 
         # 4. valid parameters - supply txid and 1 for verbose.
         # We only check the "hex" field of the output so we don't need to update this test every time the output format changes.
@@ -170,22 +179,49 @@ class RawTransactionsTest(BitcoinTestFramework):
         rawtx   = self.nodes[0].createrawtransaction(inputs, outputs)
         decrawtx= self.nodes[0].decoderawtransaction(rawtx)
         assert_equal(decrawtx['vin'][0]['sequence'], 1000)
-        
+
         # 9. invalid parameters - sequence number out of range
         inputs  = [ {'txid' : "1d1d4e24ed99057e84c3f80fd8fbec79ed9e1acee37da269356ecea000000000", 'vout' : 1, 'sequence' : -1}]
         outputs = { self.nodes[0].getnewaddress() : 1 }
         assert_raises_jsonrpc(-8, 'Invalid parameter, sequence number is out of range', self.nodes[0].createrawtransaction, inputs, outputs)
-        
+
         # 10. invalid parameters - sequence number out of range
         inputs  = [ {'txid' : "1d1d4e24ed99057e84c3f80fd8fbec79ed9e1acee37da269356ecea000000000", 'vout' : 1, 'sequence' : 4294967296}]
         outputs = { self.nodes[0].getnewaddress() : 1 }
         assert_raises_jsonrpc(-8, 'Invalid parameter, sequence number is out of range', self.nodes[0].createrawtransaction, inputs, outputs)
-        
+
         inputs  = [ {'txid' : "1d1d4e24ed99057e84c3f80fd8fbec79ed9e1acee37da269356ecea000000000", 'vout' : 1, 'sequence' : 4294967294}]
         outputs = { self.nodes[0].getnewaddress() : 1 }
         rawtx   = self.nodes[0].createrawtransaction(inputs, outputs)
         decrawtx= self.nodes[0].decoderawtransaction(rawtx)
         assert_equal(decrawtx['vin'][0]['sequence'], 4294967294)
+        
+        # 11. getrawtransaction with block hash
+        # make a tx by sending then generate 2 blocks; block1 has the tx in it
+        tx = self.nodes[2].sendtoaddress(self.nodes[1].getnewaddress(), 1)
+        block1, block2 = self.nodes[2].generate(2)
+        self.sync_all()
+        # We should be able to get the raw transaction by providing the correct block
+        gottx = self.nodes[0].getrawtransaction(tx, True, block1)
+        assert_equal(gottx['txid'], tx)
+        assert_equal(gottx['in_active_chain'], True)
+        # We should not have the 'in_active_chain' flag when we don't provide a block
+        gottx = self.nodes[0].getrawtransaction(tx, True)
+        assert_equal(gottx['txid'], tx)
+        assert 'in_active_chain' not in gottx
+        # We should not get the tx if we provide an unrelated block
+        assert_raises_jsonrpc(-5, "No such transaction found", self.nodes[0].getrawtransaction, tx, True, block2)
+        # An invalid block hash should raise the correct errors
+        assert_raises_jsonrpc(-8, "parameter 3 must be hexadecimal", self.nodes[0].getrawtransaction, tx, True, True)
+        assert_raises_jsonrpc(-8, "parameter 3 must be hexadecimal", self.nodes[0].getrawtransaction, tx, True, "foobar")
+        assert_raises_jsonrpc(-8, "parameter 3 must be of length 64", self.nodes[0].getrawtransaction, tx, True, "abcd1234")
+        assert_raises_jsonrpc(-5, "Block hash not found", self.nodes[0].getrawtransaction, tx, True, "0000000000000000000000000000000000000000000000000000000000000000")
+        # Undo the blocks and check in_active_chain
+        self.nodes[0].invalidateblock(block1)
+        gottx = self.nodes[0].getrawtransaction(txid=tx, verbose=True, blockhash=block1)
+        assert_equal(gottx['in_active_chain'], False)
+        self.nodes[0].reconsiderblock(block1)
+        assert_equal(self.nodes[0].getbestblockhash(), block2)
 
 if __name__ == '__main__':
     RawTransactionsTest().main()
