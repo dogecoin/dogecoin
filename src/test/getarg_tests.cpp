@@ -159,4 +159,31 @@ BOOST_AUTO_TEST_CASE(boolargno)
     BOOST_CHECK(GetBoolArg("-foo", false));
 }
 
+BOOST_AUTO_TEST_CASE(help_requested)
+{
+    ResetArgs("");
+    BOOST_CHECK(!HelpRequested());
+
+    ResetArgs("-?");
+    BOOST_CHECK(HelpRequested());
+
+    ResetArgs("-h");
+    BOOST_CHECK(HelpRequested());
+
+    ResetArgs("-help");
+    BOOST_CHECK(HelpRequested());
+
+    // Regression test: -help-debug must also trigger the "print usage and
+    // exit" path in bitcoind.cpp, not just be read afterward to decide which
+    // options HelpMessage() includes.
+    ResetArgs("-help-debug");
+    BOOST_CHECK(HelpRequested());
+
+    ResetArgs("-version");
+    BOOST_CHECK(HelpRequested());
+
+    ResetArgs("-foo");
+    BOOST_CHECK(!HelpRequested());
+}
+
 BOOST_AUTO_TEST_SUITE_END()
