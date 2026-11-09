@@ -390,7 +390,7 @@ int BlockAssembler::UpdatePackagesForAdded(const CTxMemPool::setEntries& already
 // Also skip transactions that we've already failed to add. This can happen if
 // we consider a transaction in mapModifiedTx and it fails: we can then
 // potentially consider it again while walking mapTx.  It's currently
-// guaranteed to fail again, but as a belt-and-suspenders check we put it in
+// guaranteed to fail again, but as a defensive measure we put it in
 // failedTx and avoid re-evaluation, since the re-evaluation would be using
 // cached size/sigops/fee values that are not actually correct.
 bool BlockAssembler::SkipMapTxEntry(CTxMemPool::txiter it, indexed_modified_transaction_set &mapModifiedTx, CTxMemPool::setEntries &failedTx)

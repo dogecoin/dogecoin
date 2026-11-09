@@ -2414,7 +2414,7 @@ static uint32_t GetLocktimeForNewTransaction()
     // practice as the height restricted and limited blocksize gives miners
     // considering fee sniping fewer options for pulling off this attack.
     //
-    // A simple way to think about this is from the wallet's point of view we
+    // From the wallet's point of view, we
     // always want the blockchain to move forward. By setting nLockTime this
     // way we're basically making the statement that we only want this
     // transaction to appear in the next block; we don't want to potentially
