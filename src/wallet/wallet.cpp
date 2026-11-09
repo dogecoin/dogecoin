@@ -38,6 +38,7 @@
 
 using namespace std;
 
+std::vector<CWalletRef> vpwallets;
 CWallet* pwalletMain = NULL;
 /** Transaction fee set by the user */
 CFeeRate payTxFee(DEFAULT_TRANSACTION_FEE);
@@ -445,7 +446,14 @@ bool CWallet::HasWalletSpend(const uint256& txid) const
 
 void CWallet::Flush(bool shutdown)
 {
-    bitdb.Flush(shutdown);
+    // Resolve THIS wallet's env from strWalletFile (which is the
+    // BDB-relative wallet path) and flush only it. Each directory-layout
+    // wallet has its own env in the multi-env world; flushing only
+    // pwalletMain's env (or worse, all envs) would be wrong here —
+    // each CWallet::Flush call corresponds to one wallet.
+    std::string dbFilename;
+    CDBEnv* env = GetWalletEnv(GetWalletDir() / strWalletFile, dbFilename);
+    env->Flush(shutdown);
 }
 
 bool CWallet::Verify()
@@ -453,57 +461,131 @@ bool CWallet::Verify()
     if (GetBoolArg("-disablewallet", DEFAULT_DISABLE_WALLET))
         return true;
 
+    // If -walletdir was passed, validate it before any wallet open
+    // touches it. We want a clear error here rather than a confusing
+    // BDB env failure later.
+    if (IsArgSet("-walletdir")) {
+        fs::path wallet_dir = GetArg("-walletdir", "");
+        if (!fs::exists(wallet_dir)) {
+            return InitError(strprintf(_("Specified -walletdir \"%s\" does not exist"), wallet_dir.string()));
+        } else if (!fs::is_directory(wallet_dir)) {
+            return InitError(strprintf(_("Specified -walletdir \"%s\" is not a directory"), wallet_dir.string()));
+        } else if (!wallet_dir.is_absolute()) {
+            return InitError(strprintf(_("Specified -walletdir \"%s\" is a relative path"), wallet_dir.string()));
+        }
+    }
+
     LogPrintf("Using BerkeleyDB version %s\n", DbEnv::version(0, 0, 0));
-    std::string walletFile = GetArg("-wallet", DEFAULT_WALLET_DAT);
+    LogPrintf("Using wallet directory %s\n", GetWalletDir().string());
+    uiInterface.InitMessage(_("Verifying wallet(s)..."));
 
-    LogPrintf("Using wallet %s\n", walletFile);
-    uiInterface.InitMessage(_("Verifying wallet..."));
-
-    // Wallet file must be a plain filename without a directory
-    fs::path walletPath(walletFile);
-    if (walletFile != walletPath.stem().string() + walletPath.extension().string()) {
-        return InitError(strprintf(_("Wallet %s resides outside data directory %s"), walletFile, GetDataDir().string()));
+    // Collect the wallet files requested on the command line. When no -wallet
+    // argument is supplied at all we fall back to the legacy single default.
+    std::vector<std::string> wallet_files;
+    if (mapMultiArgs.count("-wallet")) {
+        wallet_files = mapMultiArgs.at("-wallet");
+    } else {
+        wallet_files.push_back(DEFAULT_WALLET_DAT);
     }
 
-    if (!bitdb.Open(GetDataDir()))
-    {
-        // try moving the database env out of the way
-        fs::path pathDatabase = GetDataDir() / "database";
-        fs::path pathDatabaseBak = GetDataDir() / strprintf("database.%d.bak", GetTime());
-        try {
-            fs::rename(pathDatabase, pathDatabaseBak);
-            LogPrintf("Moved old %s to %s. Retrying.\n", pathDatabase.string(), pathDatabaseBak.string());
-        } catch (const fs::filesystem_error&) {
-            // failure is ok (well, not really, but it's not worse than what we started with)
+    // Reject duplicates and paths that escape the wallet directory before we
+    // touch the database environment.
+    //
+    // Each wallet_files entry is a USER name (CLI -wallet arg, config
+    // wallet= line, or DEFAULT_WALLET_DAT). We resolve each one to two
+    // strings:
+    //   * dbFile  — the BDB-relative path bitdb.Verify() opens. For a
+    //               directory-layout wallet ("unsandbox") this is
+    //               "unsandbox/wallet.dat"; for a flat wallet
+    //               ("unsandbox.dat") it stays "unsandbox.dat".
+    //   * walletName — the user-facing name, used for log lines and
+    //               duplicate detection.
+    //
+    // Duplicate detection runs against dbFile, not walletName, so the
+    // same on-disk wallet can't be opened twice via different surface
+    // names (e.g. someone passing both "unsandbox" and "unsandbox/wallet.dat"
+    // from different code paths).
+    std::set<std::string> wallet_db_paths;
+    std::vector<std::string> wallet_db_files; // parallel to wallet_files
+    wallet_db_files.reserve(wallet_files.size());
+    for (const std::string& walletFile : wallet_files) {
+        fs::path walletPath(walletFile);
+        // Reject any user input that escapes a single name segment
+        // (e.g. "../foo", "sub/dir/wallet"). Directory-layout wallets
+        // are introduced by US below, not by user-supplied paths.
+        if (walletPath.has_parent_path() ||
+            walletFile != walletPath.stem().string() + walletPath.extension().string()) {
+            return InitError(strprintf(_("Wallet %s resides outside data directory %s"), walletFile, GetWalletDir().string()));
         }
-
-        // try again
-        if (!bitdb.Open(GetDataDir())) {
-            // if it still fails, it probably means we can't even create the database env
-            return InitError(strprintf(_("Error initializing wallet database environment %s!"), GetDataDir()));
+        if (!EnsureWalletDirectoryExists(walletFile)) {
+            return InitError(strprintf(_("Failed to create wallet directory for %s"), walletFile));
         }
+        // For directory wallets, BDB opens <walletdir>/<name>/wallet.dat;
+        // strFile passed to BDB is the path RELATIVE to the BDB env
+        // (whose home is GetWalletDir()) — i.e. "<name>/wallet.dat".
+        // WalletDataFileName is migration-aware: if a flat file already
+        // squats on a no-extension name, it returns the flat string so
+        // we keep opening that wallet without forcing a layout swap.
+        const std::string dbFile = WalletDataFileName(walletFile);
+        if (!wallet_db_paths.insert(dbFile).second) {
+            return InitError(strprintf(_("Error loading wallet %s. Duplicate -wallet filename specified."), walletFile));
+        }
+        wallet_db_files.push_back(dbFile);
     }
 
-    if (GetBoolArg("-salvagewallet", false))
-    {
-        // Recover readable keypairs:
-        if (!CWalletDB::Recover(bitdb, walletFile, true))
-            return false;
-    }
+    // Per-wallet env open + verify. In the multi-env world each wallet
+    // has its own CDBEnv living at its own directory, so the
+    // "open the env once, then verify each wallet against it" pattern
+    // becomes "for each wallet, resolve its env, open + verify". The
+    // database/ backup-and-retry recovery is now done per-env (any one
+    // env can be corrupt without affecting the others).
+    for (size_t i = 0; i < wallet_files.size(); ++i) {
+        const std::string& walletFile = wallet_files[i];
+        const std::string& dbFile = wallet_db_files[i];
+        LogPrintf("Using wallet %s\n", walletFile);
 
-    if (fs::exists(GetDataDir() / walletFile))
-    {
-        CDBEnv::VerifyResult r = bitdb.Verify(walletFile, CWalletDB::Recover);
-        if (r == CDBEnv::RECOVER_OK)
+        std::string dbFilename;
+        CDBEnv* env = GetWalletEnv(GetWalletDir() / dbFile, dbFilename);
+
+        if (!env->Open(false /* retry */))
         {
-            InitWarning(strprintf(_("Warning: Wallet file corrupt, data salvaged!"
-                                         " Original %s saved as %s in %s; if"
-                                         " your balance or transactions are incorrect you should"
-                                         " restore from a backup."),
-                walletFile, "wallet.{timestamp}.bak", GetDataDir()));
+            // try moving the database env out of the way
+            fs::path pathDatabase = fs::path(env->Directory()) / "database";
+            fs::path pathDatabaseBak = fs::path(env->Directory()) / strprintf("database.%d.bak", GetTime());
+            try {
+                fs::rename(pathDatabase, pathDatabaseBak);
+                LogPrintf("Moved old %s to %s. Retrying.\n", pathDatabase.string(), pathDatabaseBak.string());
+            } catch (const fs::filesystem_error&) {
+                // failure is ok (well, not really, but it's not worse than what we started with)
+            }
+
+            // try again
+            if (!env->Open(true /* retry */)) {
+                return InitError(strprintf(_("Error initializing wallet database environment %s!"), env->Directory().string()));
+            }
         }
-        if (r == CDBEnv::RECOVER_FAIL)
-            return InitError(strprintf(_("%s corrupt, salvage failed"), walletFile));
+
+        if (GetBoolArg("-salvagewallet", false))
+        {
+            // Recover readable keypairs:
+            if (!CWalletDB::Recover(*env, dbFilename, true))
+                return false;
+        }
+
+        if (fs::exists(GetWalletDir() / dbFile))
+        {
+            CDBEnv::VerifyResult r = env->Verify(dbFilename, CWalletDB::Recover);
+            if (r == CDBEnv::RECOVER_OK)
+            {
+                InitWarning(strprintf(_("Warning: Wallet file corrupt, data salvaged!"
+                                             " Original %s saved as %s in %s; if"
+                                             " your balance or transactions are incorrect you should"
+                                             " restore from a backup."),
+                    walletFile, "wallet.{timestamp}.bak", env->Directory().string()));
+            }
+            if (r == CDBEnv::RECOVER_FAIL)
+                return InitError(strprintf(_("%s corrupt, salvage failed"), walletFile));
+        }
     }
 
     return true;
@@ -3664,7 +3746,8 @@ std::string CWallet::GetWalletHelpString(bool showDebug)
     strUsage += HelpMessageOpt("-usehd", _("Use hierarchical deterministic key generation (HD) after BIP32. Only has effect during wallet creation/first start") + " " + strprintf(_("(default: %u)"), DEFAULT_USE_HD_WALLET));
     strUsage += HelpMessageOpt("-walletrbf", strprintf(_("Send transactions with full-RBF opt-in enabled (default: %u)"), DEFAULT_WALLET_RBF));
     strUsage += HelpMessageOpt("-upgradewallet", _("Upgrade wallet to latest format on startup"));
-    strUsage += HelpMessageOpt("-wallet=<file>", _("Specify wallet file (within data directory)") + " " + strprintf(_("(default: %s)"), DEFAULT_WALLET_DAT));
+    strUsage += HelpMessageOpt("-wallet=<file>", _("Specify wallet file (within data directory). This option may be specified multiple times.") + " " + strprintf(_("(default: %s)"), DEFAULT_WALLET_DAT));
+    strUsage += HelpMessageOpt("-walletdir=<dir>", _("Specify directory to hold wallets (default: <datadir>/wallets/ if it exists, otherwise <datadir>)"));
     strUsage += HelpMessageOpt("-walletbroadcast", _("Make the wallet broadcast transactions") + " " + strprintf(_("(default: %u)"), DEFAULT_WALLETBROADCAST));
     strUsage += HelpMessageOpt("-walletnotify=<cmd>", _("Execute command when a wallet transaction changes (%s in cmd is replaced by TxID, %i with block height, with a value of 0 if tx is no longer in chaintip)"));
     strUsage += HelpMessageOpt("-zapwallettxes=<mode>", _("Delete all wallet transactions and only recover those parts of the blockchain through -rescan on startup") +
@@ -3868,17 +3951,36 @@ bool CWallet::InitLoadWallet()
 {
     if (GetBoolArg("-disablewallet", DEFAULT_DISABLE_WALLET)) {
         pwalletMain = NULL;
+        vpwallets.clear();
         LogPrintf("Wallet disabled!\n");
         return true;
     }
 
-    std::string walletFile = GetArg("-wallet", DEFAULT_WALLET_DAT);
-
-    CWallet * const pwallet = CreateWalletFromFile(walletFile);
-    if (!pwallet) {
-        return false;
+    std::vector<std::string> wallet_files;
+    if (mapMultiArgs.count("-wallet")) {
+        wallet_files = mapMultiArgs.at("-wallet");
+    } else {
+        wallet_files.push_back(DEFAULT_WALLET_DAT);
     }
-    pwalletMain = pwallet;
+
+    for (const std::string& walletFile : wallet_files) {
+        // Mirror the dbFile resolution Verify() did above so the wallet
+        // we register here uses the BDB-relative path BDB will open
+        // (Verify() already mkdir'd the wallet directory if needed).
+        // strWalletFile on the CWallet instance becomes this dbFile;
+        // the user-facing name comes back via GetName() →
+        // WalletNameFromDataFilePath().
+        const std::string dbFile = WalletDataFileName(walletFile);
+        CWallet * const pwallet = CreateWalletFromFile(dbFile);
+        if (!pwallet) {
+            return false;
+        }
+        vpwallets.push_back(pwallet);
+    }
+
+    // Keep pwalletMain as a transitional alias for the first loaded wallet
+    // so legacy callers (qt, signrawtransaction, getinfo, tests) keep working.
+    pwalletMain = vpwallets.empty() ? nullptr : vpwallets.front();
 
     return true;
 }
@@ -3901,6 +4003,23 @@ bool CWallet::ParameterInteraction()
 {
     if (GetBoolArg("-disablewallet", DEFAULT_DISABLE_WALLET))
         return true;
+
+    // Single-wallet-only operations must not be combined with the multi
+    // -wallet=<file> startup form. With more than one wallet loaded these
+    // flags would either operate on the wrong file or silently corrupt the
+    // others. Matches bitcoin 0.17 behaviour.
+    const bool multi_wallet = mapMultiArgs.count("-wallet") && mapMultiArgs.at("-wallet").size() > 1;
+    if (multi_wallet) {
+        if (IsArgSet("-zapwallettxes")) {
+            return InitError(_("-zapwallettxes is only allowed with a single wallet file"));
+        }
+        if (GetBoolArg("-salvagewallet", false)) {
+            return InitError(_("-salvagewallet is only allowed with a single wallet file"));
+        }
+        if (IsArgSet("-upgradewallet")) {
+            return InitError(_("-upgradewallet is only allowed with a single wallet file"));
+        }
+    }
 
     if (GetBoolArg("-blocksonly", DEFAULT_BLOCKSONLY) && SoftSetBoolArg("-walletbroadcast", false)) {
         LogPrintf("%s: parameter interaction: -blocksonly=1 -> setting -walletbroadcast=0\n", __func__);
@@ -3999,22 +4118,28 @@ bool CWallet::BackupWallet(const std::string& strDest)
 {
     if (!fFileBacked)
         return false;
+    std::string dbFilename;
+    CDBEnv* env = GetWalletEnv(GetWalletDir() / strWalletFile, dbFilename);
     while (true)
     {
         {
-            LOCK(bitdb.cs_db);
-            if (!bitdb.mapFileUseCount.count(strWalletFile) || bitdb.mapFileUseCount[strWalletFile] == 0)
+            LOCK(cs_db);
+            if (!env->mapFileUseCount.count(dbFilename) || env->mapFileUseCount[dbFilename] == 0)
             {
                 // Flush log data to the dat file
-                bitdb.CloseDb(strWalletFile);
-                bitdb.CheckpointLSN(strWalletFile);
-                bitdb.mapFileUseCount.erase(strWalletFile);
+                env->CloseDb(dbFilename);
+                env->CheckpointLSN(dbFilename);
+                env->mapFileUseCount.erase(dbFilename);
 
-                // Copy wallet file
-                fs::path pathSrc = GetDataDir() / strWalletFile;
+                // Copy wallet file. Source is the actual on-disk path
+                // (resolved via WalletDataFilePath for the migration-aware
+                // flat-or-directory layout). Destination behaviour is
+                // unchanged: a directory destination gets the bare BDB
+                // filename appended.
+                fs::path pathSrc = WalletDataFilePath(strWalletFile);
                 fs::path pathDest(strDest);
                 if (fs::is_directory(pathDest))
-                    pathDest /= strWalletFile;
+                    pathDest /= dbFilename;
 
                 try {
                     if (fs::equivalent(pathSrc, pathDest)) {
