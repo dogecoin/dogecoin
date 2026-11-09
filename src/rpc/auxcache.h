@@ -6,8 +6,8 @@
 #define DOGECOIN_AUXCACHE_H
 
 #include "script/standard.h"  // for CScriptID
-#include "primitives/block.h" // for CBlock
-#include "uint256.h"          // for uint256
+#include "primitives/block.h" // for CBlock, CBlockLight
+#include "uint256.h"          // for uint256, uint160
 
 #include <memory>             // for std::unique_ptr, std::shared_ptr
 
@@ -21,8 +21,9 @@ class CAuxBlockCache {
     // Do not put impementation details in the header because they are
     // heavy on includes. Instead use an implementation class.
     class Impl;
+    class ImplLight;
     const std::unique_ptr<Impl> m_impl;
-
+    const std::unique_ptr<ImplLight> m_impl_light;
 public:
     explicit CAuxBlockCache();
     ~CAuxBlockCache();
@@ -39,6 +40,14 @@ public:
     /** Get the cached CBlock (optional) by block hash */
     bool Get(const uint256 blockhash, std::shared_ptr<CBlock>& pblock);
 
+    /** Light AuxBlock cache operations */
+    bool AddLightAuxBlock(const uint160 jobId, std::shared_ptr<CBlockLight> pblock);
+
+    /** Get the cached CBlockLight (optional) for a jobId */
+    bool GetLightAuxBlock(const uint160 jobId, std::shared_ptr<CBlockLight>& pblock);
+
+    /** Reset the light aux block cache */
+    void ResetLightAuxBlockCache();
 };
 
 #endif //DOGECOIN_AUXCACHE_H

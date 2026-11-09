@@ -14,6 +14,7 @@
 #include <boost/multi_index/ordered_index.hpp>
 
 #include <cstdint>            // for uint64_t
+#include <map>                // for std::map
 #include <memory>             // for std::unique_ptr, std::shared_ptr
 #include <mutex>              // for std::mutex
 #include <tuple>              // for std::tuple
@@ -115,7 +116,40 @@ public:
     }
 };
 
-CAuxBlockCache::CAuxBlockCache() : m_impl(MakeUnique<CAuxBlockCache::Impl>()) {};
+class CAuxBlockCache::ImplLight {
+    std::map<uint160, std::shared_ptr<CBlockLight>> m_index;
+    std::mutex mut;
+
+public:
+    ImplLight() = default;
+    ImplLight(const ImplLight&) = delete;
+    ImplLight& operator=(const ImplLight&) = delete;
+
+    bool Add(const uint160 jobId, std::shared_ptr<CBlockLight> pblock) {
+        std::lock_guard<std::mutex> guard(mut);
+        return m_index.emplace(jobId, pblock).second;
+    }
+
+    bool Get(const uint160 jobId, std::shared_ptr<CBlockLight>& pblock) {
+        std::lock_guard<std::mutex> guard(mut);
+        auto it = m_index.find(jobId);
+        if (it == m_index.end()) {
+            pblock.reset();
+            return false;
+        }
+        pblock = it->second;
+        return true;
+    }
+
+    void Reset() {
+        std::lock_guard<std::mutex> guard(mut);
+        m_index.clear();
+    }
+};
+
+CAuxBlockCache::CAuxBlockCache() :
+    m_impl(MakeUnique<CAuxBlockCache::Impl>()),
+    m_impl_light(MakeUnique<CAuxBlockCache::ImplLight>()) {};
 CAuxBlockCache::~CAuxBlockCache() = default;
 
 bool CAuxBlockCache::Add(const CScriptID scriptId, std::shared_ptr<CBlock> pblock) {
@@ -132,4 +166,16 @@ bool CAuxBlockCache::Get(const CScriptID scriptId, std::shared_ptr<CBlock>& pblo
 
 bool CAuxBlockCache::Get(const uint256 blockhash, std::shared_ptr<CBlock>& pblock) {
     return m_impl->Get(blockhash, pblock);
+}
+
+bool CAuxBlockCache::AddLightAuxBlock(const uint160 jobId, std::shared_ptr<CBlockLight> pblock) {
+    return m_impl_light->Add(jobId, pblock);
+}
+
+bool CAuxBlockCache::GetLightAuxBlock(const uint160 jobId, std::shared_ptr<CBlockLight>& pblock) {
+    return m_impl_light->Get(jobId, pblock);
+}
+
+void CAuxBlockCache::ResetLightAuxBlockCache() {
+    m_impl_light->Reset();
 }

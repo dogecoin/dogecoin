@@ -12,6 +12,7 @@
 #include "chainparams.h"
 #include "consensus/consensus.h"
 #include "consensus/params.h"
+#include "consensus/merkle.h"
 #include "core_io.h"
 #include "init.h"
 #include "miner.h"
@@ -140,6 +141,133 @@ static UniValue AuxMiningCreateBlock(const CScript& scriptPubKey)
     return result;
 }
 
+std::vector<uint256> MakeMerkleBranch(std::vector<uint256> hashes)
+{
+    std::vector<uint256> steps;
+    if (hashes.empty()) {
+        return steps;
+    }
+
+    while (hashes.size() > 1) {
+        steps.push_back(hashes.front());
+
+        if ((hashes.size() & 1) == 0) {
+            hashes.push_back(hashes.back());
+        }
+
+        const size_t reducedSize = (hashes.size() - 1) / 2;
+        for (size_t i = 0; i < reducedSize; ++i) {
+            hashes[i] = Hash(hashes[i * 2 + 1].begin(),
+                             hashes[i * 2 + 1].end(),
+                             hashes[i * 2 + 2].begin(),
+                             hashes[i * 2 + 2].end());
+        }
+        hashes.resize(reducedSize);
+    }
+
+    steps.push_back(hashes.front());
+    return steps;
+}
+
+uint160 MakeAuxLightJobId(const CBlock& block,
+                          const std::vector<uint256>& merkleBranch)
+{
+    CDataStream ss(SER_GETHASH, PROTOCOL_VERSION);
+    ss << block.nVersion;
+    ss << block.hashPrevBlock;
+    ss << block.nTime;
+    ss << block.nBits;
+    for (const uint256& h : merkleBranch) {
+        ss << h;
+    }
+    return Hash160(ss.begin(), ss.end());
+}
+
+static UniValue AuxMiningCreateLightBlock()
+{
+    AuxMiningCheck();
+    LOCK(cs_auxpowrpc);
+    
+    static const CBlockIndex* pindexPrevLight = nullptr;
+    CScript dummyScript = CScript() << OP_TRUE;
+    const bool fMineWitnessTx = false;
+
+    std::unique_ptr<CBlockTemplate> tmpl =
+        BlockAssembler(Params()).CreateNewBlock(dummyScript, fMineWitnessTx);
+    if (!tmpl) {
+        throw JSONRPCError(RPC_OUT_OF_MEMORY, "out of memory");
+    }
+
+    CBlock& block = tmpl->block;
+    CBlockIndex* pindexPrev = nullptr;
+    {
+        LOCK(cs_main);
+        pindexPrev = chainActive.Tip();
+    }
+    
+    if (pindexPrevLight != pindexPrev)
+    {
+        // Clear cached light jobs since they're obsolete now.
+        auxBlockCache.ResetLightAuxBlockCache();
+        pindexPrevLight = pindexPrev;
+    }
+
+    unsigned nExtraNonce = 0;
+    IncrementExtraNonce(&block, pindexPrev, nExtraNonce);
+    block.SetAuxpowFlag(true);
+
+    std::vector<CTransactionRef> vtxNoCoinbase;
+    std::vector<uint256> txidsNoCoinbase;
+    for (const auto& tx : block.vtx) {
+        if (tx->IsCoinBase()) {
+            continue;
+        }
+        vtxNoCoinbase.push_back(tx);
+        txidsNoCoinbase.push_back(tx->GetHash());
+    }
+
+    std::vector<uint256> merkleBranch = MakeMerkleBranch(txidsNoCoinbase);
+    uint160 jobId = MakeAuxLightJobId(block, merkleBranch);
+
+    CBlockLight job;
+    job.jobId = jobId;
+    job.nVersion = block.nVersion;
+    job.hashPrevBlock = block.hashPrevBlock;
+    job.nBits = block.nBits;
+    job.nTime = block.nTime;
+    job.nHeight = pindexPrev->nHeight + 1;
+    job.nChainId = block.GetChainId();
+    job.nCoinbaseValue = block.vtx[0]->vout[0].nValue;
+    job.vtxNoCoinbase = std::move(vtxNoCoinbase);
+    job.merkleBranch = merkleBranch;
+
+    auxBlockCache.AddLightAuxBlock(jobId, std::make_shared<CBlockLight>(job));
+
+    arith_uint256 target;
+    bool fNegative, fOverflow;
+    target.SetCompact(block.nBits, &fNegative, &fOverflow);
+
+    UniValue merkle(UniValue::VARR);
+    for (const uint256& h : merkleBranch) {
+        merkle.push_back(h.GetHex());
+    }
+
+    UniValue result(UniValue::VOBJ);
+    result.pushKV("job_id", jobId.GetHex());
+    result.pushKV("chainid", job.nChainId);
+    result.pushKV("previousblockhash", block.hashPrevBlock.GetHex());
+    result.pushKV("coinbasevalue", (int64_t)job.nCoinbaseValue);
+    result.pushKV("bits", strprintf("%08x", block.nBits));
+    result.pushKV("height", (int64_t)job.nHeight);
+    result.pushKV("version", (int64_t)block.nVersion);
+    result.pushKV("curtime", (int64_t)block.nTime);
+    result.pushKV("merkle", merkle);
+    result.pushKV(fUseNamecoinApi ? "_target" : "target",
+                  HexStr(BEGIN(target), END(target)));
+    return result;
+}
+
+
 static UniValue AuxMiningSubmitBlock(const uint256 hash, const CAuxPow auxpow)
 {
     AuxMiningCheck();
@@ -152,6 +280,48 @@ static UniValue AuxMiningSubmitBlock(const uint256 hash, const CAuxPow auxpow)
     CBlock& block = *pblock;
     block.SetAuxpow(new CAuxPow(auxpow));
     assert(block.GetHash() == hash);
+
+    submitblock_StateCatcher sc(block.GetHash());
+    RegisterValidationInterface(&sc);
+    std::shared_ptr<const CBlock> shared_block = std::make_shared<const CBlock>(block);
+    ProcessNewBlock(Params(), shared_block, true, nullptr);
+    UnregisterValidationInterface(&sc);
+
+    return BIP22ValidationResult(sc.state);
+}
+
+static UniValue AuxMiningSubmitBlockLight(const uint160 jobId, const std::string& coinbaseHex, const CAuxPow auxpow)
+{
+    AuxMiningCheck();
+    LOCK(cs_auxpowrpc);
+
+    std::shared_ptr<CBlockLight> job;
+    if (!auxBlockCache.GetLightAuxBlock(jobId, job)) {
+        throw JSONRPCError(RPC_INVALID_PARAMETER, "job_id unknown");
+    }
+
+    CMutableTransaction coinbaseTx;
+    if (!DecodeHexTx(coinbaseTx, coinbaseHex)) {
+        throw JSONRPCError(RPC_DESERIALIZATION_ERROR, "Coinbase decode failed");
+    }
+    if (!CTransaction(coinbaseTx).IsCoinBase()) {
+        throw JSONRPCError(RPC_INVALID_PARAMETER, "Submitted transaction is not a coinbase");
+    }
+
+    CBlock block;
+    block.nVersion = job->nVersion;
+    block.hashPrevBlock = job->hashPrevBlock;
+    block.nBits = job->nBits;
+    block.nTime = job->nTime;
+    block.SetAuxpowFlag(true);
+
+    block.vtx.push_back(MakeTransactionRef(std::move(coinbaseTx)));
+    for (const CTransactionRef& tx : job->vtxNoCoinbase) {
+        block.vtx.push_back(tx);
+    }
+    block.hashMerkleRoot = BlockMerkleRoot(block);
+
+    block.SetAuxpow(new CAuxPow(auxpow));
 
     submitblock_StateCatcher sc(block.GetHash());
     RegisterValidationInterface(&sc);
@@ -197,6 +367,64 @@ UniValue createauxblock(const JSONRPCRequest& request)
 
     const CScript scriptPubKey = GetScriptForDestination(coinbaseAddress.Get());
     return AuxMiningCreateBlock(scriptPubKey);
+}
+
+UniValue createauxblocklight(const JSONRPCRequest& request)
+{
+    if (request.fHelp || request.params.size() != 0)
+        throw std::runtime_error(
+            "createauxblocklight \n"
+            "\ncreate a new block and return information required to merge-mine it (light with no coinbase).\n"
+            "\nResult:\n"
+            "{\n"
+            "  \"hash\"               (string) hash of the created block\n"
+            "  \"chainid\"            (numeric) chain ID for this block\n"
+            "  \"previousblockhash\"  (string) hash of the previous block\n"
+            "  \"coinbasevalue\"      (numeric) value of the block's coinbase\n"
+            "  \"bits\"               (string) compressed target of the block\n"
+            "  \"height\"             (numeric) height of the block\n"
+            + (std::string) (
+              fUseNamecoinApi
+              ? "  \"_target\"            (string) target in reversed byte order\n"
+              : "  \"target\"             (string) target in reversed byte order\n"
+            )
+            + "}\n"
+            "\nExamples:\n"
+            + HelpExampleCli("createauxblocklight", "")
+            + HelpExampleRpc("createauxblocklight", "")
+            );
+
+    return AuxMiningCreateLightBlock();
+}
+
+UniValue submitauxblocklight(const JSONRPCRequest& request)
+{
+    if (request.fHelp || request.params.size() != 3)
+        throw std::runtime_error(
+            "submitauxblocklight <jobid> <coinbase> <auxpow>\n"
+            "\nsubmit a solved auxpow for a light block previously created by 'createauxblocklight'.\n"
+            "\nArguments:\n"
+            "1. jobid     (string, required) job_id returned by createauxblocklight\n"
+            "2. coinbase  (string, required) serialised finalised coinbase transaction\n"
+            "3. auxpow    (string, required) serialised auxpow found\n"
+            "\nResult:\n"
+            "xxxxx        (boolean) whether the submitted block was correct\n"
+            "\nExamples:\n"
+            + HelpExampleCli("submitauxblocklight", "\"jobid\" \"coinbase\" \"serialised auxpow\"")
+            + HelpExampleRpc("submitauxblocklight", "\"jobid\" \"coinbase\" \"serialised auxpow\"")
+            );
+
+    uint160 jobId;
+    jobId.SetHex(request.params[0].get_str());
+
+    CAuxPow auxpow;
+    if (!DecodeAuxPow(auxpow, request.params[2].get_str())) {
+        throw JSONRPCError(RPC_DESERIALIZATION_ERROR, "AuxPow decode failed");
+    }
+
+    UniValue response = AuxMiningSubmitBlockLight(jobId, request.params[1].get_str(), auxpow);
+
+    return response.isNull();
 }
 
 UniValue submitauxblock(const JSONRPCRequest& request)
@@ -304,6 +532,8 @@ static const CRPCCommand commands[] =
     { "mining",             "getauxblock",            &getauxblock,            true,  {"hash", "auxpow"} },
     { "mining",             "createauxblock",         &createauxblock,         true,  {"address"} },
     { "mining",             "submitauxblock",         &submitauxblock,         true,  {"hash", "auxpow"} },
+    { "mining",             "createauxblocklight",    &createauxblocklight,    true,  {} },
+    { "mining",             "submitauxblocklight",    &submitauxblocklight,    true,  {"jobId", "coinbase", "auxpow"} },
 };
 
 void RegisterAuxPoWRPCCommands(CRPCTable &t)

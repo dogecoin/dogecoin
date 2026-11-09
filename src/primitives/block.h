@@ -121,6 +121,33 @@ public:
     std::string ToString() const;
 };
 
+/** Describes a lightweight representation of a block for network transmission. */
+struct CBlockLight : public CBlock
+{
+    std::vector<uint256> vtx;
+    int32_t nChainId;
+    int32_t nHeight;
+    int64_t nCoinbaseValue;
+    std::vector<CTransactionRef> vtxNoCoinbase;
+    std::vector<uint256> merkleBranch;
+    uint160 jobId;
+
+    CBlockLight() {}
+
+    CBlockLight(const CBlock &block)
+    {
+        *((CBlock*)this) = block;
+    }
+
+    ADD_SERIALIZE_METHODS;
+
+    template <typename Stream, typename Operation>
+    inline void SerializationOp(Stream& s, Operation ser_action) {
+        READWRITE(*(CPureBlockHeader*)this);
+        READWRITE(vtx);
+    }
+};
+
 /** Describes a place in the block chain to another node such that if the
  * other node doesn't have the same branch, it can find a recent common trunk.
  * The further back it is, the further before the fork it may be.
