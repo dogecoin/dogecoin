@@ -16,9 +16,12 @@ $(package)_libtapi_download_file=$($(package)_libtapi_version).tar.gz
 $(package)_libtapi_file_name=$($(package)_libtapi_version).tar.gz
 $(package)_libtapi_sha256_hash=380c1ca37cfa04a8699d0887a8d3ee1ad27f3d08baba78887c73b09485c0fbd3
 
+ifeq ($(strip $(FORCE_USE_SYSTEM_CLANG)),)
 $(package)_extra_sources=$($(package)_clang_file_name)
+endif
 $(package)_extra_sources += $($(package)_libtapi_file_name)
 
+ifeq ($(strip $(FORCE_USE_SYSTEM_CLANG)),)
 define $(package)_fetch_cmds
 $(call fetch_file,$(package),$($(package)_download_path),$($(package)_download_file),$($(package)_file_name),$($(package)_sha256_hash)) && \
 $(call fetch_file,$(package),$($(package)_clang_download_path),$($(package)_clang_download_file),$($(package)_clang_file_name),$($(package)_clang_sha256_hash)) && \
@@ -38,12 +41,40 @@ define $(package)_extract_cmds
   rm -f toolchain/lib/libc++abi.so* && \
   tar --no-same-owner --strip-components=1 -xf $($(package)_source)
 endef
+else
+# Without the downloaded clang there is no toolchain/ directory: fetch and
+# extract only cctools and libtapi, and build them with the clang on PATH.
+define $(package)_fetch_cmds
+$(call fetch_file,$(package),$($(package)_download_path),$($(package)_download_file),$($(package)_file_name),$($(package)_sha256_hash)) && \
+$(call fetch_file,$(package),$($(package)_libtapi_download_path),$($(package)_libtapi_download_file),$($(package)_libtapi_file_name),$($(package)_libtapi_sha256_hash))
+endef
+
+define $(package)_extract_cmds
+  mkdir -p $($(package)_extract_dir) && \
+  echo "$($(package)_sha256_hash)  $($(package)_source)" > $($(package)_extract_dir)/.$($(package)_file_name).hash && \
+  echo "$($(package)_libtapi_sha256_hash)  $($(package)_source_dir)/$($(package)_libtapi_file_name)" >> $($(package)_extract_dir)/.$($(package)_file_name).hash && \
+  $(build_SHA256SUM) -c $($(package)_extract_dir)/.$($(package)_file_name).hash && \
+  mkdir -p libtapi && \
+  tar --no-same-owner --strip-components=1 -C libtapi -xf $($(package)_source_dir)/$($(package)_libtapi_file_name) && \
+  tar --no-same-owner --strip-components=1 -xf $($(package)_source)
+endef
+endif
+
+ifeq ($(strip $(FORCE_USE_SYSTEM_CLANG)),)
+# clang_prog points at the staged location, which cctools itself installs, so it
+# does not exist yet here. Build against the bundle we just extracted.
+$(package)_build_cc=$($(package)_extract_dir)/toolchain/bin/clang
+$(package)_build_cxx=$($(package)_extract_dir)/toolchain/bin/clang++
+else
+$(package)_build_cc=$(clang_prog)
+$(package)_build_cxx=$(clangxx_prog)
+endif
 
 define $(package)_set_vars
   $(package)_config_opts=--target=$(host) --disable-lto-support --with-libtapi=$($(package)_extract_dir)
   $(package)_ldflags+=-Wl,-rpath=\\$$$$$$$$\$$$$$$$$ORIGIN/../lib
-  $(package)_cc=$($(package)_extract_dir)/toolchain/bin/clang
-  $(package)_cxx=$($(package)_extract_dir)/toolchain/bin/clang++
+  $(package)_cc=$($(package)_build_cc)
+  $(package)_cxx=$($(package)_build_cxx)
 endef
 
 define $(package)_preprocess_cmds
@@ -60,6 +91,7 @@ define $(package)_build_cmds
   $(MAKE)
 endef
 
+ifeq ($(strip $(FORCE_USE_SYSTEM_CLANG)),)
 define $(package)_stage_cmds
   $(MAKE) DESTDIR=$($(package)_staging_dir) install && \
   mkdir -p $($(package)_staging_prefix_dir)/lib/ && \
@@ -76,3 +108,16 @@ define $(package)_stage_cmds
   if `test -d include/c++/`; then cp -rf include/c++/ $($(package)_staging_prefix_dir)/include/; fi && \
   if `test -d lib/c++/`; then cp -rf lib/c++/ $($(package)_staging_prefix_dir)/lib/; fi
 endef
+else
+# There is no toolchain/ directory to stage from: the compiler comes from PATH
+# and brings its own resource headers and libLTO. Only cctools and libtapi --
+# ld64, ar, ranlib, install_name_tool and friends, which clang does not provide
+# -- need installing. llvm-dsymutil is skipped because nothing invokes
+# $(host)-dsymutil in this tree.
+define $(package)_stage_cmds
+  $(MAKE) DESTDIR=$($(package)_staging_dir) install && \
+  mkdir -p $($(package)_staging_prefix_dir)/lib/ && \
+  cd $($(package)_extract_dir) && \
+  cp lib/libtapi.so.6 $($(package)_staging_prefix_dir)/lib/
+endef
+endif
