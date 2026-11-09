@@ -82,8 +82,8 @@ bool IsStandardTx(const CTransaction& tx, std::string& reason, const bool witnes
         // bytes of scriptSig, which we round off to 1650 bytes for some minor
         // future-proofing. That's also enough to spend a 20-of-20
         // CHECKMULTISIG scriptPubKey, though such a scriptPubKey is not
-        // considered standard.
-        if (txin.scriptSig.size() > 1650) {
+        // considered standard. Node operators may configure a stricter limit.
+        if (txin.scriptSig.size() > nMaxStandardScriptSigSize) {
             reason = "scriptsig-size";
             return false;
         }
@@ -209,6 +209,7 @@ bool IsWitnessStandard(const CTransaction& tx, const CCoinsViewCache& mapInputs)
 
 CFeeRate incrementalRelayFee = CFeeRate(DEFAULT_INCREMENTAL_RELAY_FEE);
 unsigned int nBytesPerSigOp = DEFAULT_BYTES_PER_SIGOP;
+unsigned int nMaxStandardScriptSigSize = DEFAULT_MAX_STANDARD_SCRIPTSIG_SIZE;
 CAmount nDustLimit = DEFAULT_DUST_LIMIT;
 CAmount nHardDustLimit = DEFAULT_HARD_DUST_LIMIT;
 

@@ -777,4 +777,53 @@ BOOST_AUTO_TEST_CASE(test_IsStandard)
     BOOST_CHECK(!IsStandardTx(t, reason));
 }
 
+BOOST_AUTO_TEST_CASE(test_IsStandard_scriptSig_size)
+{
+    struct MaxScriptSigSizeRestorer {
+        const unsigned int previous;
+
+        MaxScriptSigSizeRestorer() : previous(nMaxStandardScriptSigSize) {}
+        ~MaxScriptSigSizeRestorer() { nMaxStandardScriptSigSize = previous; }
+    } restoreMaxScriptSigSize;
+
+    CMutableTransaction t;
+    t.vin.resize(1);
+    // Default-initialized script bytes are OP_0 and therefore push-only.
+    t.vin[0].scriptSig.resize(DEFAULT_MAX_STANDARD_SCRIPTSIG_SIZE);
+    t.vout.resize(1);
+    t.vout[0].nValue = COIN;
+
+    CKey key;
+    key.MakeNewKey(true);
+    t.vout[0].scriptPubKey = GetScriptForDestination(key.GetPubKey().GetID());
+
+    std::string reason;
+
+    // Default limit:
+    nMaxStandardScriptSigSize = DEFAULT_MAX_STANDARD_SCRIPTSIG_SIZE;
+    BOOST_CHECK(IsStandardTx(t, reason));
+
+    t.vin[0].scriptSig.push_back(OP_0);
+    BOOST_CHECK(!IsStandardTx(t, reason));
+    BOOST_CHECK_EQUAL(reason, "scriptsig-size");
+
+    // Custom limit:
+    nMaxStandardScriptSigSize = 100;
+    t.vin[0].scriptSig.resize(nMaxStandardScriptSigSize);
+    BOOST_CHECK(IsStandardTx(t, reason));
+
+    t.vin[0].scriptSig.push_back(OP_0);
+    BOOST_CHECK(!IsStandardTx(t, reason));
+    BOOST_CHECK_EQUAL(reason, "scriptsig-size");
+
+    // Zero limit:
+    nMaxStandardScriptSigSize = 0;
+    t.vin[0].scriptSig.clear();
+    BOOST_CHECK(IsStandardTx(t, reason));
+
+    t.vin[0].scriptSig.push_back(OP_0);
+    BOOST_CHECK(!IsStandardTx(t, reason));
+    BOOST_CHECK_EQUAL(reason, "scriptsig-size");
+}
+
 BOOST_AUTO_TEST_SUITE_END()
