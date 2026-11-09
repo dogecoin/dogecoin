@@ -71,7 +71,11 @@ struct Params {
     /** Dogecoin-specific parameters */
     bool fDigishieldDifficultyCalculation;
     bool fPowAllowDigishieldMinDifficultyBlocks; // Allow minimum difficulty blocks where a retarget would normally occur
+    /** Stricter min-difficulty rules (reboot testnet): no consecutive min-diff blocks, MTP check, 10x spacing threshold */
+    bool fEnforceStrictMinDifficulty = false;
     bool fSimplifiedRewards; // Use block height derived rewards rather than previous block hash derived
+    /** Reboot testnet: 10k DOGE/block from height 1 (mainnet tail subsidy for realistic testing) */
+    bool fTailSubsidyOnly = false;
 
     uint256 nMinimumChainWork;
     uint256 defaultAssumeValid;
