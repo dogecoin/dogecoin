@@ -102,18 +102,28 @@ class BlockStore(object):
         return responses
 
     def get_locator(self, current_tip=None):
+        # Only each block's hashPrevBlock is needed, and every block we have
+        # data for also has its header in headers_map, so walk the headers and
+        # check the block DB index for presence rather than reading and
+        # deserializing each full block back to genesis on every sync.
         if current_tip is None:
             current_tip = self.currentBlock
+
+        def have_block(blockhash):
+            return repr(blockhash) in self.blockDB
+
         r = []
         counter = 0
         step = 1
-        lastBlock = self.get_block(current_tip)
-        while lastBlock is not None:
-            r.append(lastBlock.hashPrevBlock)
+        last = current_tip if have_block(current_tip) else None
+        while last is not None:
+            r.append(self.headers_map[last].hashPrevBlock)
             for i in range(step):
-                lastBlock = self.get_block(lastBlock.hashPrevBlock)
-                if lastBlock is None:
+                prev = self.headers_map[last].hashPrevBlock
+                if not have_block(prev):
+                    last = None
                     break
+                last = prev
             counter += 1
             if counter > 10:
                 step *= 2

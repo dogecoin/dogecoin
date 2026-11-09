@@ -64,6 +64,8 @@ class TestNode(NodeConnCB):
 
 
 class VersionBitsWarningTest(BitcoinTestFramework):
+    whitelist_local_peers = False  # connects mininode peers from 127.0.0.1
+
     def __init__(self):
         super().__init__()
         self.setup_clean_chain = True

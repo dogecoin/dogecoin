@@ -30,6 +30,15 @@ ssl.BN_CTX_free.argtypes = [ctypes.c_void_p]
 ssl.BN_CTX_new.restype = ctypes.c_void_p
 ssl.BN_CTX_new.argtypes = []
 
+SIGN_NONCE_POOL = 32
+
+ssl.ECDSA_sign_setup.restype = ctypes.c_int
+ssl.ECDSA_sign_setup.argtypes = [ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_void_p), ctypes.POINTER(ctypes.c_void_p)]
+
+ssl.ECDSA_sign_ex.restype = ctypes.c_int
+ssl.ECDSA_sign_ex.argtypes = [ctypes.c_int, ctypes.c_char_p, ctypes.c_int, ctypes.c_char_p, ctypes.POINTER(ctypes.c_uint),
+                              ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p]
+
 ssl.ECDH_compute_key.restype = ctypes.c_int
 ssl.ECDH_compute_key.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_void_p, ctypes.c_void_p]
 
@@ -96,6 +105,7 @@ class CECKey(object):
 
     def __init__(self):
         self.k = ssl.EC_KEY_new_by_curve_name(NID_secp256k1)
+        self._sign_setup = None
 
     def __del__(self):
         if ssl:
@@ -103,6 +113,7 @@ class CECKey(object):
         self.k = None
 
     def set_secretbytes(self, secret):
+        self._sign_setup = None
         priv_key = ssl.BN_bin2bn(secret, 32, ssl.BN_new())
         group = ssl.EC_KEY_get0_group(self.k)
         pub_key = ssl.EC_POINT_new(group)
@@ -117,6 +128,7 @@ class CECKey(object):
         return self.k
 
     def set_privkey(self, key):
+        self._sign_setup = None
         self.mb = ctypes.create_string_buffer(key)
         return ssl.d2i_ECPrivateKey(ctypes.byref(self.k), ctypes.byref(ctypes.pointer(self.mb)), len(key))
 
@@ -157,10 +169,34 @@ class CECKey(object):
         if len(hash) != 32:
             raise ValueError('Hash must be exactly 32 bytes long')
 
-        sig_size0 = ctypes.c_uint32()
+        sig_size0 = ctypes.c_uint()
         sig_size0.value = ssl.ECDSA_size(self.k)
         mb_sig = ctypes.create_string_buffer(sig_size0.value)
-        result = ssl.ECDSA_sign(0, hash, len(hash), mb_sig, ctypes.byref(sig_size0), self.k)
+        if self._sign_setup is None:
+            # Precompute a pool of nonces: the point multiplication in
+            # ECDSA_sign_setup is ~99% of the cost of a signature. Rotate
+            # through the pool so that signing the same hash twice still
+            # yields different signatures, which tests rely on to make
+            # otherwise identical transactions distinct. Reusing nonces
+            # leaks the key, so this is for throwaway test keys only.
+            pool = []
+            for _ in range(SIGN_NONCE_POOL):
+                kinv = ctypes.c_void_p()
+                r = ctypes.c_void_p()
+                assert 1 == ssl.ECDSA_sign_setup(self.k, None, ctypes.byref(kinv), ctypes.byref(r))
+                pool.append((kinv, r))
+            self._sign_setup = pool
+            self._sign_count = {}
+        # The n-th signature of a given hash uses the n-th nonce, so repeated
+        # signatures of one hash always differ. Beyond the pool, ask OpenSSL
+        # for a fresh random nonce.
+        n = self._sign_count.get(hash, 0)
+        self._sign_count[hash] = n + 1
+        if n < len(self._sign_setup):
+            kinv, r = self._sign_setup[n]
+        else:
+            kinv, r = ctypes.c_void_p(), ctypes.c_void_p()
+        result = ssl.ECDSA_sign_ex(0, hash, len(hash), mb_sig, ctypes.byref(sig_size0), kinv, r, self.k)
         assert 1 == result
         assert mb_sig.raw[0] == 0x30
         assert mb_sig.raw[1] == sig_size0.value - 2

@@ -32,9 +32,9 @@ class WalletNotifyTest(BitcoinTestFramework):
             pass  # Just open then close to create zero-length file
         self.nodes.append(start_node(0, self.options.tmpdir,
                             ["-walletnotify=echo %s %i >> \"" + self.notify_filename + "\""]))
-        self.nodes.append(start_node(1, self.options.tmpdir,["-debug", "-acceptnonstdtxn=0"]))
-        self.nodes.append(start_node(2, self.options.tmpdir,["-debug", "-acceptnonstdtxn=0", "-minrelaytxfee=0.00000001"]))
-        self.nodes.append(start_node(3, self.options.tmpdir,["-debug", "-acceptnonstdtxn=0", "-blockmaxsize=80"]))
+        self.nodes.append(start_node(1, self.options.tmpdir,["-debug=net", "-acceptnonstdtxn=0"]))
+        self.nodes.append(start_node(2, self.options.tmpdir,["-debug=net", "-acceptnonstdtxn=0", "-minrelaytxfee=0.00000001"]))
+        self.nodes.append(start_node(3, self.options.tmpdir,["-debug=net", "-acceptnonstdtxn=0", "-blockmaxsize=80"]))
         connect_nodes(self.nodes[1], 0)
         connect_nodes(self.nodes[2], 1)
         connect_nodes(self.nodes[3], 1)
@@ -161,7 +161,7 @@ class WalletNotifyTest(BitcoinTestFramework):
         self.nodes[2].stop()
         dogecoind_processes[2].wait()
         os.remove(log_filename(self.options.tmpdir, 2, "mempool.dat"))
-        self.nodes[2] = start_node(2, self.options.tmpdir,["-debug", "-acceptnonstdtxn=0", "-minrelaytxfee=1", "-zapwallettxes"])
+        self.nodes[2] = start_node(2, self.options.tmpdir,["-debug=net", "-acceptnonstdtxn=0", "-minrelaytxfee=1", "-zapwallettxes"])
 
         txid_ds = self.send_raw_tx(self.nodes[2], address, Decimal("1"))
 

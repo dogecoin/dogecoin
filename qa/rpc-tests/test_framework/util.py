@@ -29,6 +29,20 @@ from . import coverage
 from .authproxy import AuthServiceProxy, JSONRPCException
 
 COVERAGE_DIR = None
+# When set, start_node whitelists 127.0.0.1 so that peers relay transactions
+# immediately instead of waiting on the (seconds-long) Poisson trickle timer.
+WHITELIST_LOCAL_PEERS = False
+
+# Arguments every test node starts with. The signature cache is allocated and
+# zeroed up front (32 MiB by default), which costs about 50ms of startup and
+# 30 MiB of resident memory per node; regtest chains need a tiny fraction of
+# it. A test's own extra_args are appended after these and take precedence.
+#
+# -par=1 runs script verification on the message handler thread instead of a
+# pool of worker threads. The test chains are tiny, so the pool mostly adds
+# wakeups and hyperthread contention: p2p-fullblocktest.py's nodes use ~4.8s
+# of CPU with it against ~7-8s without, and the whole suite is CPU-bound.
+NODE_DEFAULT_ARGS = ["-maxsigcachesize=4", "-par=1"]
 
 # The maximum number of nodes a single test can spawn
 MAX_NODES = 8
@@ -64,6 +78,13 @@ def disable_mocktime():
 
 def get_mocktime():
     return MOCKTIME
+
+def set_whitelist_local_peers(enabled):
+    global WHITELIST_LOCAL_PEERS
+    WHITELIST_LOCAL_PEERS = enabled
+
+def local_peers_whitelisted():
+    return WHITELIST_LOCAL_PEERS
 
 def enable_coverage(dirname):
     """Maintain a log of which RPC calls are made during testing."""
@@ -148,24 +169,25 @@ def sync_blocks(rpc_connections, *, wait=1, timeout=60):
     raise AssertionError("Block sync to height {} timed out:{}".format(
                          maxheight, "".join("\n  {!r}".format(tip) for tip in tips)))
 
-def sync_chain(rpc_connections, *, wait=1, timeout=60):
+def sync_chain(rpc_connections, *, wait=0.05, timeout=60):
     """
     Wait until everybody has the same best block
     """
-    while timeout > 0:
+    deadline = time.time() + timeout
+    while time.time() < deadline:
         best_hash = [x.getbestblockhash() for x in rpc_connections]
         if best_hash == [best_hash[0]]*len(best_hash):
             return
         time.sleep(wait)
-        timeout -= wait
     raise AssertionError("Chain sync failed: Best block hashes don't match")
 
-def sync_mempools(rpc_connections, *, wait=1, timeout=60):
+def sync_mempools(rpc_connections, *, wait=0.05, timeout=60):
     """
     Wait until everybody has the same transactions in their memory
     pools
     """
-    while timeout > 0:
+    deadline = time.time() + timeout
+    while time.time() < deadline:
         pool = set(rpc_connections[0].getrawmempool())
         num_match = 1
         for i in range(1, len(rpc_connections)):
@@ -174,7 +196,6 @@ def sync_mempools(rpc_connections, *, wait=1, timeout=60):
         if num_match == len(rpc_connections):
             return
         time.sleep(wait)
-        timeout -= wait
     raise AssertionError("Mempool sync failed")
 
 dogecoind_processes = {}
@@ -226,7 +247,7 @@ def wait_for_dogecoind_start(process, url, i):
         except JSONRPCException as e: # Initialization phase
             if e.error['code'] != -28: # RPC in warmup?
                 raise # unknown JSON RPC exception
-        time.sleep(0.25)
+        time.sleep(0.05)
 
 def initialize_chain(test_dir, num_nodes, cachedir):
     """
@@ -251,7 +272,7 @@ def initialize_chain(test_dir, num_nodes, cachedir):
         # Create cache directories, run dogecoinds:
         for i in range(MAX_NODES):
             datadir=initialize_datadir(cachedir, i)
-            args = [ os.getenv("DOGECOIND", "dogecoind"), "-server", "-keypool=1", "-datadir="+datadir, "-discover=0" ]
+            args = [ os.getenv("DOGECOIND", "dogecoind"), "-server", "-keypool=1", "-datadir="+datadir, "-discover=0" ] + NODE_DEFAULT_ARGS
             if i > 0:
                 args.append("-connect=127.0.0.1:"+str(p2p_port(0)))
             dogecoind_processes[i] = subprocess.Popen(args)
@@ -331,19 +352,27 @@ def _rpchost_to_args(rpchost):
         rv += ['-rpcport=' + rpcport]
     return rv
 
-def start_node(i, dirname, extra_args=None, rpchost=None, timewait=None, binary=None):
+def _spawn_node(i, dirname, extra_args=None, rpchost=None, binary=None):
     """
-    Start a dogecoind and return RPC connection to it
+    Launch a dogecoind without waiting for it to accept RPC connections
     """
     datadir = os.path.join(dirname, "node"+str(i))
     if binary is None:
         binary = os.getenv("DOGECOIND", "dogecoind")
     args = [ binary, "-datadir="+datadir, "-server", "-keypool=1", "-discover=0", "-rest", "-mocktime="+str(get_mocktime()) ]
+    args.extend(NODE_DEFAULT_ARGS)
     if extra_args is not None: args.extend(extra_args)
+    if WHITELIST_LOCAL_PEERS and not any(a.startswith("-whitelist=") for a in args):
+        args.append("-whitelist=127.0.0.1")
     dogecoind_processes[i] = subprocess.Popen(args)
+    return rpc_url(i, rpchost)
+
+def _connect_node(i, url, timewait=None):
+    """
+    Wait for a launched dogecoind to accept RPC connections; return a proxy
+    """
     if os.getenv("PYTHON_DEBUG", ""):
         print("start_node: dogecoind started, waiting for RPC to come up")
-    url = rpc_url(i, rpchost)
     wait_for_dogecoind_start(dogecoind_processes[i], url, i)
     if os.getenv("PYTHON_DEBUG", ""):
         print("start_node: RPC successfully started")
@@ -354,6 +383,13 @@ def start_node(i, dirname, extra_args=None, rpchost=None, timewait=None, binary=
 
     return proxy
 
+def start_node(i, dirname, extra_args=None, rpchost=None, timewait=None, binary=None):
+    """
+    Start a dogecoind and return RPC connection to it
+    """
+    url = _spawn_node(i, dirname, extra_args, rpchost, binary)
+    return _connect_node(i, url, timewait)
+
 def start_nodes(num_nodes, dirname, extra_args=None, rpchost=None, timewait=None, binary=None):
     """
     Start multiple dogecoinds, return RPC connections to them
@@ -362,9 +398,16 @@ def start_nodes(num_nodes, dirname, extra_args=None, rpchost=None, timewait=None
     if binary is None: binary = [ None for _ in range(num_nodes) ]
     rpcs = []
     try:
+        # Launch every node first so their startup overlaps, then wait for RPC
+        urls = [_spawn_node(i, dirname, extra_args[i], rpchost, binary[i]) for i in range(num_nodes)]
         for i in range(num_nodes):
-            rpcs.append(start_node(i, dirname, extra_args[i], rpchost, timewait=timewait, binary=binary[i]))
+            rpcs.append(_connect_node(i, urls[i], timewait))
     except: # If one node failed to start, stop the others
+        for i, p in list(dogecoind_processes.items()):
+            if i >= len(rpcs):
+                p.kill()
+                p.wait()
+                del dogecoind_processes[i]
         stop_nodes(rpcs)
         raise
     return rpcs
@@ -372,18 +415,32 @@ def start_nodes(num_nodes, dirname, extra_args=None, rpchost=None, timewait=None
 def log_filename(dirname, n_node, logname):
     return os.path.join(dirname, "node"+str(n_node), "regtest", logname)
 
-def stop_node(node, i):
+def _send_stop(node):
     try:
         node.stop()
     except http.client.CannotSendRequest as e:
         print("WARN: Unable to stop node: " + repr(e))
+        return
+    # The node waits up to 2s for open HTTP connections to finish before it
+    # shuts the HTTP server down (src/httpserver.cpp). Our keep-alive
+    # connection would otherwise hold every shutdown for that full timeout.
+    node.close_connection()
+
+def _wait_stopped(i):
     return_code = dogecoind_processes[i].wait(timeout=DOGECOIND_PROC_WAIT_TIMEOUT)
     assert_equal(return_code, 0)
     del dogecoind_processes[i]
 
+def stop_node(node, i):
+    _send_stop(node)
+    _wait_stopped(i)
+
 def stop_nodes(nodes):
-    for i, node in enumerate(nodes):
-        stop_node(node, i)
+    # Signal every node before waiting so shutdowns overlap
+    for node in nodes:
+        _send_stop(node)
+    for i in range(len(nodes)):
+        _wait_stopped(i)
     assert not dogecoind_processes.values() # All connections must be gone now
 
 def set_node_times(nodes, t):
@@ -396,7 +453,7 @@ def connect_nodes(from_connection, node_num):
     # poll until version handshake complete to avoid race conditions
     # with transaction relaying
     while any(peer['version'] == 0 for peer in from_connection.getpeerinfo()):
-        time.sleep(0.1)
+        time.sleep(0.02)
 
 def connect_nodes_bi(nodes, a, b):
     connect_nodes(nodes[a], b)

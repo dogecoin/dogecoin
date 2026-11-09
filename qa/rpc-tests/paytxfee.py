@@ -23,19 +23,19 @@ class PayTxFeeTest(BitcoinTestFramework):
 
         # node 0 has txindex to track txs
         nodes.append(start_node(0, self.options.tmpdir,
-            ["-debug", '-txindex']))
+            ["-debug=net", '-txindex']))
 
         # node 1 pays 0.1 DOGE on all txs due to implicit mintxfee = paytxfee
         nodes.append(start_node(1, self.options.tmpdir,
-            ["-paytxfee=0.1", "-debug"]))
+            ["-paytxfee=0.1", "-debug=net"]))
 
         # node 2 will always pay 1 DOGE on all txs because of explicit mintxfee
         nodes.append(start_node(2, self.options.tmpdir,
-            ["-mintxfee=1", "-paytxfee=0.1", "-debug"]))
+            ["-mintxfee=1", "-paytxfee=0.1", "-debug=net"]))
 
         # node 3 will always pay 0.1 DOGE on all txs despite explicit mintxfee of 0.01
         nodes.append(start_node(3, self.options.tmpdir,
-            ["-mintxfee=0.01", "-paytxfee=0.1", "-debug"]))
+            ["-mintxfee=0.01", "-paytxfee=0.1", "-debug=net"]))
 
         return nodes
 

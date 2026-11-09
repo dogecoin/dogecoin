@@ -35,12 +35,17 @@ class TxDownloadTestNode(SingleNodeConnCB):
         for hash in hashes:
             invs.append(CInv(1, hash))
         self.connection.send_message(msg_inv(invs))
+        # Mocktime is advanced right after announcing. Make sure the node has
+        # processed the inv first, or it would schedule its request relative to
+        # the already-advanced clock.
+        assert self.sync_with_ping()
 
     def send_tx_notfound(self, hashes):
         vec = []
         for hash in hashes:
             vec.append(CInv(1, hash))
         self.connection.send_message(msg_notfound(vec))
+        assert self.sync_with_ping()
 
     def on_getdata(self, conn, message):
         for entry in message.inv:
@@ -64,6 +69,8 @@ class TxDownloadTestNode(SingleNodeConnCB):
         return self.wait_for_disconnect()
 
 class TxDownloadTest(BitcoinTestFramework):
+    whitelist_local_peers = False  # connects mininode peers from 127.0.0.1
+
     def __init__(self):
         super().__init__()
         self.setup_clean_chain = True
@@ -155,7 +162,10 @@ class TxDownloadTest(BitcoinTestFramework):
         return wait_until(mocktime_is_good, timeout=10)
 
     def find_winning_peer(self, peers, hash):
-        # detect which peer won a race for getting a getdata hash
+        # detect which peer won a race for getting a getdata hash. The node
+        # sends getdata from its message handler thread, so wait for it to
+        # arrive rather than assuming it already has.
+        assert wait_until(lambda: self.any_received_getdata(hash, peers), timeout=10)
         selected = None
         fallback = None
         for peer in peers:
