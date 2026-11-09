@@ -229,6 +229,8 @@ class CWalletTx : public CMerkleTx
 {
 private:
     const CWallet* pwallet;
+    /** Copy every field except the ordered-index cursor. */
+    void CopyNonIndexFields(const CWalletTx& wtxIn);
 
 public:
     mapValue_t mapValue;
@@ -244,13 +246,15 @@ public:
     bool fFromMe;
     std::string strFromAccount;
     int64_t nOrderPos; //!< position in ordered transaction list
-    // m_it_wtxOrdered is only valid when m_f_wtxOrdered is true (set by the
-    // AddToWallet / LoadToWallet insert paths). Init() cannot assign
-    // wtxOrdered.end(): CWallet is incomplete here, and mapWallet[] default-
-    // constructs with a null pwallet. A default-constructed iterator is not
-    // equal to end(), so that comparison cannot be used as a guard.
-    std::multimap<int64_t, std::pair<CWalletTx*, CAccountingEntry*> >::const_iterator m_it_wtxOrdered;
-    bool m_f_wtxOrdered; //!< true iff m_it_wtxOrdered refers to an entry in wtxOrdered
+    // Each AddToWallet / LoadToWallet appends the iterator of the ordered-index
+    // entry it just inserted. A repeated LoadToWallet keeps the older entry, so
+    // one transaction can own more than one. m_f_wtxOrdered is true exactly when
+    // this vector is non-empty. Copy construction starts empty. Copy assignment
+    // does not take the source vector and does not drop the destination's:
+    // those entries point at the destination object, not the source.
+    typedef std::multimap<int64_t, std::pair<CWalletTx*, CAccountingEntry*> > OrderedIndex;
+    std::vector<OrderedIndex::const_iterator> m_ordered_iters;
+    bool m_f_wtxOrdered; //!< true iff m_ordered_iters is non-empty
 
     // memory only
     mutable bool fDebitCached;
@@ -282,6 +286,9 @@ public:
         Init(pwalletIn);
     }
 
+    CWalletTx(const CWalletTx& wtxIn);
+    CWalletTx& operator=(const CWalletTx& wtxIn);
+
     void Init(const CWallet* pwalletIn)
     {
         pwallet = pwalletIn;
@@ -311,8 +318,8 @@ public:
         nImmatureWatchCreditCached = 0;
         nChangeCached = 0;
         nOrderPos = -1;
+        m_ordered_iters.clear();
         m_f_wtxOrdered = false;
-        // m_it_wtxOrdered left default-constructed; only valid when m_f_wtxOrdered is true.
     }
 
     ADD_SERIALIZE_METHODS;
