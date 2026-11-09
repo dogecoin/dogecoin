@@ -35,6 +35,7 @@
 bool IsStandard(const CScript& scriptPubKey, txnouttype& whichType, const bool witnessEnabled)
 {
     std::vector<std::vector<unsigned char> > vSolutions;
+    vSolutions.reserve(MAX_PUBKEYS_PER_MULTISIG);
     if (!Solver(scriptPubKey, whichType, vSolutions))
         return false;
 
