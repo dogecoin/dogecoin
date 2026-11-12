@@ -63,4 +63,49 @@ BOOST_FIXTURE_TEST_CASE(txindex_initial_sync, TestChain240Setup)
     }
 }
 
+// BaseIndex persists its progress locator on a timer while syncing. The locator must never
+// name a block the index has not finished writing, or a crash in that window leaves the block
+// unindexed and the restart resumes past it.
+namespace {
+class ReviewCheckpointIndex : public BaseIndex
+{
+    mutable DB db;
+public:
+    std::atomic<int> premature_checkpoints{0};
+    ReviewCheckpointIndex() : db(GetDataDir() / "review-checkpoint", 1 << 20, true) {}
+    ~ReviewCheckpointIndex() { Interrupt(); Stop(); }
+protected:
+    DB& GetDB() const override { return db; }
+    const char* GetName() const override { return "review-checkpoint"; }
+    bool WriteBlock(const CBlock& block, const CBlockIndex* pindex) override
+    {
+        CBlockLocator locator;
+        if (pindex->nHeight > 0 && db.ReadBestBlock(locator) &&
+            !locator.vHave.empty() && locator.vHave.front() == pindex->GetBlockHash()) {
+            ++premature_checkpoints;
+        }
+        // Advance the clock to exercise periodic persistence without waiting
+        // 30 seconds per block. The chain itself was built by the fixture first.
+        SetMockTime(GetTime() + 31);
+        return true;
+    }
+};
+}
+
+BOOST_FIXTURE_TEST_CASE(review_checkpoint_after_write, TestChain240Setup)
+{
+    ReviewCheckpointIndex index;
+    index.Start();
+    const int64_t started = GetTimeMillis();
+    while (!index.BlockUntilSyncedToCurrentChain() && GetTimeMillis() - started < 10000) {
+        MilliSleep(10);
+    }
+    index.Interrupt();
+    index.Stop();
+    SetMockTime(0);
+    BOOST_REQUIRE(index.GetSummary().synced);
+    BOOST_CHECK_MESSAGE(index.premature_checkpoints.load() == 0,
+        index.premature_checkpoints.load() << " block locators persisted before WriteBlock");
+}
+
 BOOST_AUTO_TEST_SUITE_END()

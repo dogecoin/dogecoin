@@ -126,13 +126,6 @@ void BaseIndex::ThreadSync()
                 last_log_time = current_time;
             }
 
-            if (last_locator_write_time + SYNC_LOCATOR_WRITE_INTERVAL < current_time) {
-                m_best_block_index = pindex;
-                last_locator_write_time = current_time;
-                // No need to handle errors in Commit. See rationale above.
-                Commit();
-            }
-
             CBlock block;
             const auto& consensus_params = Params().GetConsensus(pindex->nHeight);
             // These blocks are already on the active chain and had their proof of work
@@ -147,6 +140,13 @@ void BaseIndex::ThreadSync()
                 FatalError("%s: Failed to write block %s to index database",
                            __func__, pindex->GetBlockHash().ToString());
                 return;
+            }
+            // Progress and its durable locator must only describe completed writes.
+            // Keep the in-memory tip current for Rewind's precondition as well.
+            m_best_block_index = pindex;
+            if (last_locator_write_time + SYNC_LOCATOR_WRITE_INTERVAL < current_time) {
+                last_locator_write_time = current_time;
+                Commit();
             }
         }
     }
