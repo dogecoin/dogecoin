@@ -12,6 +12,7 @@
 
 #include "addrman.h"
 #include "amount.h"
+#include "blockfilter.h"
 #include "chain.h"
 #include "chainparams.h"
 #include "checkpoints.h"
@@ -21,6 +22,8 @@
 #include "fs.h"
 #include "httpserver.h"
 #include "httprpc.h"
+#include "index/blockfilterindex.h"
+#include "index/txindex.h"
 #include "key.h"
 #include "validation.h"
 #include "miner.h"
@@ -35,6 +38,8 @@
 #include "scheduler.h"
 #include "timedata.h"
 #include "txdb.h"
+
+#include <algorithm>
 #include "txmempool.h"
 #include "torcontrol.h"
 #include "ui_interface.h"
@@ -152,9 +157,9 @@ class CCoinsViewErrorCatcher : public CCoinsViewBacked
 {
 public:
     CCoinsViewErrorCatcher(CCoinsView* view) : CCoinsViewBacked(view) {}
-    bool GetCoins(const uint256 &txid, CCoins &coins) const {
+    bool GetCoin(const COutPoint &outpoint, Coin &coin) const override {
         try {
-            return CCoinsViewBacked::GetCoins(txid, coins);
+            return CCoinsViewBacked::GetCoin(outpoint, coin);
         } catch(const std::runtime_error& e) {
             uiInterface.ThreadSafeMessageBox(_("Error reading from database, shutting down."), "", CClientUIInterface::MSG_ERROR);
             LogPrintf("Error reading from database: %s\n", e.what());
@@ -181,6 +186,10 @@ void Interrupt(boost::thread_group& threadGroup)
     InterruptTorControl();
     if (g_connman)
         g_connman->Interrupt();
+    if (g_txindex) {
+        g_txindex->Interrupt();
+    }
+    ForEachBlockFilterIndex([](BlockFilterIndex& index) { index.Interrupt(); });
     threadGroup.interrupt_all();
 }
 
@@ -209,11 +218,21 @@ void Shutdown()
         pwalletMain->Flush(false);
 #endif
     MapPort(false);
-    UnregisterValidationInterface(peerLogic.get());
+    if (peerLogic) UnregisterValidationInterface(peerLogic.get());
+    if (g_connman) g_connman->Stop();
+    if (g_txindex) g_txindex->Stop();
+    ForEachBlockFilterIndex([](BlockFilterIndex& index) { index.Stop(); });
+    StopTorControl();
     peerLogic.reset();
     g_connman.reset();
+    g_txindex.reset();
+    // Ordering is load-bearing: GetBlockFilterIndex() hands out a raw pointer after
+    // releasing g_cs_block_filter_indexes, so the lock protects the map but not the
+    // lifetime of what it returns. g_connman->Stop() above joins threadMessageHandler,
+    // which is the only consumer of those pointers, so no peer thread can still be
+    // holding one by the time we free them here. Do not move this above the Stop().
+    DestroyAllBlockFilterIndexes();
 
-    StopTorControl();
     UnregisterNodeSignals(GetNodeSignals());
     if (fDumpMempoolLater)
         DumpMempool();
@@ -228,6 +247,19 @@ void Shutdown()
             LogPrintf("%s: Failed to write fee estimates to %s\n", __func__, est_path.string());
         fFeeEstimatesInitialized = false;
     }
+
+    // FlushStateToDisk generates a SetBestChain callback, which we should avoid missing
+    FlushStateToDisk();
+
+    // After there are no more peers/RPC left to give us new data which may generate
+    // CValidationInterface callbacks, flush them...
+    GetMainSignals().FlushBackgroundCallbacks();
+
+    // Any future callbacks will be dropped. This should absolutely be safe - if
+    // missing a callback results in an unrecoverable situation, unclean shutdown
+    // would too. The only reason to do the above flushes is to let the wallet catch
+    // up with our current chain to avoid any strange pruning edge cases and make
+    // next startup faster by avoiding rescan.
 
     {
         LOCK(cs_main);
@@ -264,6 +296,8 @@ void Shutdown()
     }
 #endif
     UnregisterAllValidationInterfaces();
+    GetMainSignals().UnregisterBackgroundSignalScheduler();
+    GetMainSignals().UnregisterWithMempoolSignals(mempool);
 #ifdef ENABLE_WALLET
     delete pwalletMain;
     pwalletMain = NULL;
@@ -364,6 +398,11 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += HelpMessageOpt("-sysperms", _("Create new files with system default permissions, instead of umask 077 (only effective with disabled wallet functionality)"));
 #endif
     strUsage += HelpMessageOpt("-txindex", strprintf(_("Maintain a full transaction index, used by the getrawtransaction rpc call (default: %u)"), DEFAULT_TXINDEX));
+    strUsage += HelpMessageOpt("-blockfilterindex=<type>",
+            strprintf(_("Maintain an index of compact filters by block (default: %s, values: %s)."), DEFAULT_BLOCKFILTERINDEX, ListBlockFilterTypes()) +
+            " " + _("If <type> is not supplied or if <type> = 1, indexes for all known types are enabled."));
+    strUsage += HelpMessageOpt("-peerblockfilters",
+            strprintf(_("Serve compact block filters to peers per BIP 157 (default: %u). Requires -blockfilterindex."), DEFAULT_PEERBLOCKFILTERS));
 
     strUsage += HelpMessageGroup(_("Connection options:"));
     strUsage += HelpMessageOpt("-addnode=<ip>", _("Add a node to connect to and attempt to keep the connection open"));
@@ -629,7 +668,7 @@ void ThreadImport(std::vector<fs::path> vImportFiles)
         int nFile = 0;
         while (true) {
             CDiskBlockPos pos(nFile, 0);
-            if (!fs::exists(GetBlockPosFilename(pos, "blk")))
+            if (!fs::exists(GetBlockPosFilename(pos)))
                 break; // No block files left to reindex
             FILE *file = OpenBlockFile(pos, true);
             if (!file)
@@ -814,6 +853,7 @@ int nUserMaxConnections;
 int nFD;
 int nAvailableFds;
 ServiceFlags nLocalServices = NODE_NETWORK;
+std::vector<BlockFilterType> g_enabled_filter_types;
 
 }
 
@@ -895,10 +935,42 @@ bool AppInitParameterInteraction()
 
     // also see: InitParameterInteraction()
 
+    std::string blockfilterindex_value = GetArg("-blockfilterindex", DEFAULT_BLOCKFILTERINDEX);
+    if (blockfilterindex_value == "" || blockfilterindex_value == "1") {
+        g_enabled_filter_types = AllBlockFilterTypes();
+    } else if (blockfilterindex_value != "0") {
+        std::vector<std::string> names;
+        if (mapMultiArgs.count("-blockfilterindex")) {
+            names = mapMultiArgs.at("-blockfilterindex");
+        } else {
+            names.push_back(blockfilterindex_value);
+        }
+        g_enabled_filter_types.reserve(names.size());
+        for (const auto& name : names) {
+            BlockFilterType filter_type;
+            if (!BlockFilterTypeByName(name, filter_type)) {
+                return InitError(strprintf(_("Unknown -blockfilterindex value %s."), name));
+            }
+            g_enabled_filter_types.push_back(filter_type);
+        }
+    }
+
+    // Signal NODE_COMPACT_FILTERS if peerblockfilters and basic filters index are both enabled.
+    if (GetBoolArg("-peerblockfilters", DEFAULT_PEERBLOCKFILTERS)) {
+        if (std::find(g_enabled_filter_types.begin(), g_enabled_filter_types.end(), BlockFilterType::BASIC) == g_enabled_filter_types.end()) {
+            return InitError(_("Cannot set -peerblockfilters without -blockfilterindex."));
+        }
+
+        nLocalServices = ServiceFlags(nLocalServices | NODE_COMPACT_FILTERS);
+    }
+
     // if using block pruning, then disallow txindex
     if (GetArg("-prune", 0)) {
         if (GetBoolArg("-txindex", DEFAULT_TXINDEX))
             return InitError(_("Prune mode is incompatible with -txindex."));
+        if (!g_enabled_filter_types.empty()) {
+            return InitError(_("Prune mode is incompatible with -blockfilterindex."));
+        }
     }
 
     // Make sure enough file descriptors are available
@@ -1244,6 +1316,9 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
     CScheduler::Function serviceLoop = boost::bind(&CScheduler::serviceQueue, &scheduler);
     threadGroup.create_thread(boost::bind(&TraceThread<CScheduler::Function>, "scheduler", serviceLoop));
 
+    GetMainSignals().RegisterBackgroundSignalScheduler(scheduler);
+    GetMainSignals().RegisterWithMempoolSignals(mempool);
+
     /* Start the RPC server already.  It will be started in "warmup" mode
      * and not really process calls already (but it will signify connections
      * that the server is there and will be ready later).  Warmup mode will
@@ -1462,9 +1537,17 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
     int64_t nTotalCache = (GetArg("-dbcache", nDefaultDbCache) << 20);
     nTotalCache = std::max(nTotalCache, nMinDbCache << 20); // total cache cannot be less than nMinDbCache
     nTotalCache = std::min(nTotalCache, nMaxDbCache << 20); // total cache cannot be greater than nMaxDbcache
-    int64_t nBlockTreeDBCache = nTotalCache / 8;
-    nBlockTreeDBCache = std::min(nBlockTreeDBCache, (GetBoolArg("-txindex", DEFAULT_TXINDEX) ? nMaxBlockDBAndTxIndexCache : nMaxBlockDBCache) << 20);
+    int64_t nBlockTreeDBCache = std::min(nTotalCache / 8, nMaxBlockDBCache << 20);
     nTotalCache -= nBlockTreeDBCache;
+    int64_t nTxIndexCache = std::min(nTotalCache / 8, GetBoolArg("-txindex", DEFAULT_TXINDEX) ? nMaxTxIndexCache << 20 : 0);
+    nTotalCache -= nTxIndexCache;
+    int64_t filter_index_cache = 0;
+    if (!g_enabled_filter_types.empty()) {
+        size_t n_indexes = g_enabled_filter_types.size();
+        int64_t max_cache = std::min(nTotalCache / 8, max_filter_index_cache << 20);
+        filter_index_cache = max_cache / n_indexes;
+        nTotalCache -= filter_index_cache * n_indexes;
+    }
     int64_t nCoinDBCache = std::min(nTotalCache / 2, (nTotalCache / 4) + (1 << 23)); // use 25%-50% of the remainder for disk cache
     nCoinDBCache = std::min(nCoinDBCache, nMaxCoinsDBCache << 20); // cap total coins db cache
     nTotalCache -= nCoinDBCache;
@@ -1472,6 +1555,13 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
     int64_t nMempoolSizeMax = GetArg("-maxmempool", DEFAULT_MAX_MEMPOOL_SIZE) * 1000000;
     LogPrintf("Cache configuration:\n");
     LogPrintf("* Using %.1fMiB for block index database\n", nBlockTreeDBCache * (1.0 / 1024 / 1024));
+    if (GetBoolArg("-txindex", DEFAULT_TXINDEX)) {
+        LogPrintf("* Using %.1fMiB for transaction index database\n", nTxIndexCache * (1.0 / 1024 / 1024));
+    }
+    for (BlockFilterType filter_type : g_enabled_filter_types) {
+        LogPrintf("* Using %.1fMiB for %s block filter index database\n",
+                  filter_index_cache * (1.0 / 1024 / 1024), BlockFilterTypeName(filter_type));
+    }
     LogPrintf("* Using %.1fMiB for chain state database\n", nCoinDBCache * (1.0 / 1024 / 1024));
     LogPrintf("* Using %.1fMiB for in-memory UTXO set (plus up to %.1fMiB of unused mempool space)\n", nCoinCacheUsage * (1.0 / 1024 / 1024), nMempoolSizeMax * (1.0 / 1024 / 1024));
 
@@ -1481,6 +1571,8 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
         std::string strLoadError;
 
         uiInterface.InitMessage(_("Loading block index..."));
+
+        LOCK(cs_main);
 
         nStart = GetTimeMillis();
         do {
@@ -1501,8 +1593,20 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
                     //If we're reindexing in prune mode, wipe away unusable block files and all undo data files
                     if (fPruneMode)
                         CleanupBlockRevFiles();
+                } else {
+                    // If necessary, upgrade from older database format.
+                    if (!pcoinsdbview->Upgrade()) {
+                        strLoadError = _("Error upgrading chainstate database");
+                        break;
+                    }
                 }
 
+                if (fRequestShutdown) break;
+
+                // LoadBlockIndex will load fHavePruned if we've ever removed a
+                // block file from disk.
+                // Note that it also sets fReindex based on the disk flag!
+                // From here on out fReindex and fReset mean something different!
                 if (!LoadBlockIndex(chainparams)) {
                     strLoadError = _("Error loading block database");
                     break;
@@ -1510,18 +1614,15 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
 
                 // If the loaded chain has a wrong genesis, bail out immediately
                 // (we're likely using a testnet datadir, or the other way around).
-                if (!mapBlockIndex.empty() && mapBlockIndex.count(chainparams.GetConsensus(0).hashGenesisBlock) == 0)
-                    return InitError(_("Incorrect or no genesis block found. Wrong datadir for network?"));
+                {
+                    LOCK(cs_main);
+                    if (!mapBlockIndex.empty() && !LookupBlockIndex(chainparams.GetConsensus(0).hashGenesisBlock))
+                        return InitError(_("Incorrect or no genesis block found. Wrong datadir for network?"));
+                }
 
                 // Initialize the block index (no-op if non-empty database was already loaded)
                 if (!InitBlockIndex(chainparams)) {
                     strLoadError = _("Error initializing block database");
-                    break;
-                }
-
-                // Check for changed -txindex state
-                if (fTxIndex != GetBoolArg("-txindex", DEFAULT_TXINDEX)) {
-                    strLoadError = _("You need to rebuild the database using -reindex-chainstate to change -txindex");
                     break;
                 }
 
@@ -1546,16 +1647,13 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
                         MIN_BLOCKS_TO_KEEP);
                 }
 
-                {
-                    LOCK(cs_main);
-                    CBlockIndex* tip = chainActive.Tip();
-                    RPCNotifyBlockChange(true, tip);
-                    if (tip && tip->nTime > GetAdjustedTime() + 2 * 60 * 60) {
-                        strLoadError = _("The block database contains a block which appears to be from the future. "
-                                "This may be due to your computer's date and time being set incorrectly. "
-                                "Only rebuild the block database if you are sure that your computer's date and time are correct");
-                        break;
-                    }
+                CBlockIndex* tip = chainActive.Tip();
+                RPCNotifyBlockChange(true, tip);
+                if (tip && tip->nTime > GetAdjustedTime() + 2 * 60 * 60) {
+                    strLoadError = _("The block database contains a block which appears to be from the future. "
+                            "This may be due to your computer's date and time being set incorrectly. "
+                            "Only rebuild the block database if you are sure that your computer's date and time are correct");
+                    break;
                 }
 
                 if (!CVerifyDB().VerifyDB(chainparams, pcoinsdbview, GetArg("-checklevel", DEFAULT_CHECKLEVEL),
@@ -1609,7 +1707,19 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
         mempool.ReadFeeEstimates(est_filein);
     fFeeEstimatesInitialized = true;
 
-    // ********************************************************* Step 8: load wallet
+    // ********************************************************* Step 8: start indexers
+    if (GetBoolArg("-txindex", DEFAULT_TXINDEX)) {
+        fs::create_directories(GetDataDir() / "indexes");
+        g_txindex.reset(new TxIndex(nTxIndexCache, false, fReindex));
+        g_txindex->Start();
+    }
+
+    for (const auto& filter_type : g_enabled_filter_types) {
+        InitBlockFilterIndex(filter_type, filter_index_cache, false, fReindex);
+        GetBlockFilterIndex(filter_type)->Start();
+    }
+
+    // ********************************************************* Step 9: load wallet
 #ifdef ENABLE_WALLET
     if (!CWallet::InitLoadWallet())
         return false;
@@ -1617,7 +1727,7 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
     LogPrintf("No wallet support compiled in!\n");
 #endif
 
-    // ********************************************************* Step 9: data directory maintenance
+    // ********************************************************* Step 10: data directory maintenance
 
     // if pruning, unset the service bit and perform the initial blockstore prune
     // after any wallet rescanning has taken place.
@@ -1642,7 +1752,7 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
         nRelevantServices = ServiceFlags(nRelevantServices | NODE_WITNESS);
     }
 
-    // ********************************************************* Step 10: import blocks
+    // ********************************************************* Step 11: import blocks
 
     if (!CheckDiskSpace())
         return false;
@@ -1676,7 +1786,7 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
         uiInterface.NotifyBlockTip.disconnect(&BlockNotifyGenesisWait);
     }
 
-    // ********************************************************* Step 11: start node
+    // ********************************************************* Step 12: start node
 
     //// debug print
     LogPrintf("mapBlockIndex.size() = %u\n",   mapBlockIndex.size());
@@ -1709,7 +1819,7 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
     if (!connman.Start(scheduler, strNodeError, connOptions))
         return InitError(strNodeError);
 
-    // ********************************************************* Step 12: finished
+    // ********************************************************* Step 13: finished
 
     // Dogecoin: Do we need to do any RPC mining init here?
 
@@ -1718,7 +1828,7 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
 
 #ifdef ENABLE_WALLET
     if (pwalletMain)
-        pwalletMain->postInitProcess(threadGroup);
+        pwalletMain->postInitProcess(scheduler);
 #endif
 
     return !fRequestShutdown;

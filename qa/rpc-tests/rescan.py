@@ -59,6 +59,7 @@ class RescanTest(BitcoinTestFramework):
         rawtxn3 = self.nodes[0].gettransaction(txnid3)['hex']
 
         self.nodes[0].generate(1)
+        self.sync_all()
 
         # Import with affiliated address with no rescan
         self.nodes[1].importaddress(address2, "add2", False)

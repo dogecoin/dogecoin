@@ -63,6 +63,7 @@ EXTRA_DIST += \
 	test/data/txcreatesignv2.hex
 
 JSON_TEST_FILES = \
+  test/data/blockfilters.json \
   test/data/script_tests.json \
   test/data/base58_keys_valid.json \
   test/data/base58_encode_decode.json \
@@ -89,6 +90,8 @@ BITCOIN_TESTS =\
   test/base64_tests.cpp \
   test/bip32_tests.cpp \
   test/blockencodings_tests.cpp \
+  test/blockfilter_tests.cpp \
+  test/blockfilter_index_tests.cpp \
   test/bloom_tests.cpp \
   test/bswap_tests.cpp \
   test/checkqueue_tests.cpp \
@@ -98,6 +101,7 @@ BITCOIN_TESTS =\
   test/cuckoocache_tests.cpp \
   test/DoS_tests.cpp \
   test/dogecoin_tests.cpp \
+  test/flatfile_tests.cpp \
   test/getarg_tests.cpp \
   test/hash_tests.cpp \
   test/key_tests.cpp \
@@ -136,6 +140,7 @@ BITCOIN_TESTS =\
   test/timedata_tests.cpp \
   test/transaction_tests.cpp \
   test/txrequest_tests.cpp \
+  test/txindex_tests.cpp \
   test/txvalidationcache_tests.cpp \
   test/versionbits_tests.cpp \
   test/uint256_tests.cpp \

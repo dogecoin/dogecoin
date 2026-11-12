@@ -83,6 +83,7 @@ BITCOIN_CORE_H = \
   base58.h \
   bloom.h \
   blockencodings.h \
+  blockfilter.h \
   chain.h \
   chainparams.h \
   chainparamsbase.h \
@@ -104,9 +105,17 @@ BITCOIN_CORE_H = \
   dogecoin.h \
   dogecoin-fees.cpp \
   dogecoin-fees.h \
+  flatfile.h \
+  dogecoin.cpp \
+  dogecoin.h \
+  dogecoin-fees.cpp \
+  dogecoin-fees.h \
   fs.h \
   httprpc.h \
   httpserver.h \
+  index/base.h \
+  index/blockfilterindex.h \
+  index/txindex.h \
   indirectmap.h \
   init.h \
   key.h \
@@ -195,10 +204,15 @@ libdogecoin_server_a_SOURCES = \
   addrdb.cpp \
   bloom.cpp \
   blockencodings.cpp \
+  blockfilter.cpp \
   chain.cpp \
   checkpoints.cpp \
+  flatfile.cpp \
   httprpc.cpp \
   httpserver.cpp \
+  index/base.cpp \
+  index/blockfilterindex.cpp \
+  index/txindex.cpp \
   init.cpp \
   dbwrapper.cpp \
   merkleblock.cpp \
@@ -278,7 +292,9 @@ crypto_libdogecoin_crypto_a_SOURCES = \
   crypto/sha256.cpp \
   crypto/sha256.h \
   crypto/sha512.cpp \
-  crypto/sha512.h
+  crypto/sha512.h \
+  crypto/siphash.cpp \
+  crypto/siphash.h
 
 # only include SSE2 scrypt sources if USE_SCRYPT_SSE2 is defined
 if USE_SCRYPT_SSE2
