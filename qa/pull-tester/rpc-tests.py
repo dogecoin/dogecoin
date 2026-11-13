@@ -320,7 +320,10 @@ class RPCTestHandler:
                 (name, time0, proc, log_out, log_err) = j
                 if proc.poll() is not None:
                     log_out.seek(0), log_err.seek(0)
-                    [stdout, stderr] = [l.read().decode('utf-8') for l in (log_out, log_err)]
+                    # errors='replace': a node that dies can put raw bytes on stderr, and a
+                    # strict decode here kills the whole run instead of naming the test that
+                    # produced them.
+                    [stdout, stderr] = [l.read().decode('utf-8', errors='replace') for l in (log_out, log_err)]
                     log_out.close(), log_err.close()
                     passed = stderr == "" and proc.returncode == 0
                     self.num_running -= 1
