@@ -164,6 +164,7 @@ public:
         vSeeds.push_back(CDNSSeedData("multidoge.org", "seed.multidoge.org", true));
         vSeeds.push_back(CDNSSeedData("multidoge.org", "seed2.multidoge.org"));
         vSeeds.push_back(CDNSSeedData("dogego.org", "seed.dogego.org"));
+        vSeeds.push_back(CDNSSeedData("thedogego.org", "seed.thedogego.org"));
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,30);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,22);
