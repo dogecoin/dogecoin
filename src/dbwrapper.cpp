@@ -125,6 +125,7 @@ CDBIterator::~CDBIterator() { delete piter; }
 bool CDBIterator::Valid() { return piter->Valid(); }
 void CDBIterator::SeekToFirst() { piter->SeekToFirst(); }
 void CDBIterator::Next() { piter->Next(); }
+void CDBIterator::Prev() { piter->Prev(); }
 
 namespace dbwrapper_private {
 
