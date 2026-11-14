@@ -889,6 +889,56 @@ bool CWallet::MarkReplaced(const uint256& originalHash, const uint256& newHash)
     return success;
 }
 
+void CWalletTx::CopyNonIndexFields(const CWalletTx& wtxIn)
+{
+    pwallet = wtxIn.pwallet;
+    mapValue = wtxIn.mapValue;
+    vOrderForm = wtxIn.vOrderForm;
+    fTimeReceivedIsTxTime = wtxIn.fTimeReceivedIsTxTime;
+    nTimeReceived = wtxIn.nTimeReceived;
+    nTimeSmart = wtxIn.nTimeSmart;
+    fFromMe = wtxIn.fFromMe;
+    strFromAccount = wtxIn.strFromAccount;
+    nOrderPos = wtxIn.nOrderPos;
+    fDebitCached = wtxIn.fDebitCached;
+    fCreditCached = wtxIn.fCreditCached;
+    fImmatureCreditCached = wtxIn.fImmatureCreditCached;
+    fAvailableCreditCached = wtxIn.fAvailableCreditCached;
+    fWatchDebitCached = wtxIn.fWatchDebitCached;
+    fWatchCreditCached = wtxIn.fWatchCreditCached;
+    fImmatureWatchCreditCached = wtxIn.fImmatureWatchCreditCached;
+    fAvailableWatchCreditCached = wtxIn.fAvailableWatchCreditCached;
+    fChangeCached = wtxIn.fChangeCached;
+    nDebitCached = wtxIn.nDebitCached;
+    nCreditCached = wtxIn.nCreditCached;
+    nImmatureCreditCached = wtxIn.nImmatureCreditCached;
+    nAvailableCreditCached = wtxIn.nAvailableCreditCached;
+    nWatchDebitCached = wtxIn.nWatchDebitCached;
+    nWatchCreditCached = wtxIn.nWatchCreditCached;
+    nImmatureWatchCreditCached = wtxIn.nImmatureWatchCreditCached;
+    nAvailableWatchCreditCached = wtxIn.nAvailableWatchCreditCached;
+    nChangeCached = wtxIn.nChangeCached;
+}
+
+CWalletTx::CWalletTx(const CWalletTx& wtxIn)
+    : CMerkleTx(wtxIn),
+      m_f_wtxOrdered(false)
+{
+    CopyNonIndexFields(wtxIn);
+}
+
+CWalletTx& CWalletTx::operator=(const CWalletTx& wtxIn)
+{
+    if (this == &wtxIn)
+        return *this;
+    CMerkleTx::operator=(wtxIn);
+    CopyNonIndexFields(wtxIn);
+    // m_ordered_iters and m_f_wtxOrdered stay as they are. The source's
+    // cursors name the source object. The destination's cursors, if any,
+    // still name this object; dropping them would leave index entries behind.
+    return *this;
+}
+
 bool CWallet::AddToWallet(const CWalletTx& wtxIn, bool fFlushOnClose)
 {
     LOCK(cs_wallet);
@@ -906,7 +956,8 @@ bool CWallet::AddToWallet(const CWalletTx& wtxIn, bool fFlushOnClose)
     {
         wtx.nTimeReceived = GetAdjustedTime();
         wtx.nOrderPos = IncOrderPosNext(&walletdb);
-        wtxOrdered.insert(make_pair(wtx.nOrderPos, TxPair(&wtx, (CAccountingEntry*)0)));
+        wtx.m_ordered_iters.push_back(wtxOrdered.insert(make_pair(wtx.nOrderPos, TxPair(&wtx, (CAccountingEntry*)0))));
+        wtx.m_f_wtxOrdered = true;
 
         wtx.nTimeSmart = wtx.nTimeReceived;
         if (!wtxIn.hashUnset())
@@ -1014,10 +1065,14 @@ bool CWallet::LoadToWallet(const CWalletTx& wtxIn)
 {
     uint256 hash = wtxIn.GetHash();
 
+    // Overwrite an existing record and append another ordered-index entry.
+    // The wallet file's tx keys are unique, so the loader does not hit this
+    // twice; callers that do keep the previous behavior.
     mapWallet[hash] = wtxIn;
     CWalletTx& wtx = mapWallet[hash];
     wtx.BindWallet(this);
-    wtxOrdered.insert(make_pair(wtx.nOrderPos, TxPair(&wtx, (CAccountingEntry*)0)));
+    wtx.m_ordered_iters.push_back(wtxOrdered.insert(make_pair(wtx.nOrderPos, TxPair(&wtx, (CAccountingEntry*)0))));
+    wtx.m_f_wtxOrdered = true;
     AddToSpends(hash);
     BOOST_FOREACH(const CTxIn& txin, wtx.tx->vin) {
         if (mapWallet.count(txin.prevout.hash)) {
@@ -2977,7 +3032,32 @@ DBErrors CWallet::ZapSelectTx(vector<uint256>& vHashIn, vector<uint256>& vHashOu
 {
     if (!fFileBacked)
         return DB_LOAD_OK;
+    AssertLockHeld(cs_wallet); // mapWallet
     DBErrors nZapSelectTxRet = CWalletDB(strWalletFile,"cr+").ZapSelectTx(this, vHashIn, vHashOut);
+    for (uint256 hash : vHashOut) {
+        const auto& it = mapWallet.find(hash);
+        if (it == mapWallet.end()) continue;
+        // Erase only the iterators this transaction recorded. multimap::erase
+        // invalidates just the erased iterator, so each recorded cursor is
+        // O(1) and a normal removal does not walk the rest of the index.
+        if (it->second.m_f_wtxOrdered) {
+            for (size_t n = 0; n < it->second.m_ordered_iters.size(); ++n)
+                wtxOrdered.erase(it->second.m_ordered_iters[n]);
+            it->second.m_ordered_iters.clear();
+            it->second.m_f_wtxOrdered = false;
+        }
+        // Selective mapTxSpends cleanup: drop only this hash's spends
+        if (!it->second.IsCoinBase()) {
+            for (const auto& txin : it->second.tx->vin) {
+                auto range = mapTxSpends.equal_range(txin.prevout);
+                for (auto s = range.first; s != range.second; ) {
+                    s = (s->second == hash) ? mapTxSpends.erase(s) : std::next(s);
+                }
+            }
+        }
+        mapWallet.erase(it);
+    }
+
     if (nZapSelectTxRet == DB_NEED_REWRITE)
     {
         if (CDB::Rewrite(strWalletFile, "\x04pool"))
