@@ -1652,6 +1652,10 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
             if (addr.nTime <= 100000000 || addr.nTime > nNow + 10 * 60)
                 addr.nTime = nNow - 5 * 24 * 60 * 60;
             pfrom->AddAddressKnown(addr);
+            // Do not process discouraged addresses beyond remembering we received them.
+            // Banned addresses are not checked here: IsBanned() scans the whole
+            // ban list, which would make this loop cost addresses x bans.
+            if (connman.IsDiscouraged(addr)) continue;
             bool fReachable = IsReachable(addr);
             if (addr.nTime > nSince && !pfrom->fGetAddr && vAddr.size() <= 10 && addr.IsRoutable())
             {
@@ -2599,8 +2603,12 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
         pfrom->vAddrToSend.clear();
         std::vector<CAddress> vAddr = connman.GetAddresses();
         FastRandomContext insecure_rand;
-        BOOST_FOREACH(const CAddress &addr, vAddr)
-            pfrom->PushAddress(addr, insecure_rand);
+        BOOST_FOREACH(const CAddress &addr, vAddr) {
+            // Constant-cost check only; see the ADDR handler for why IsBanned() is not used.
+            if (!connman.IsDiscouraged(addr)) {
+                pfrom->PushAddress(addr, insecure_rand);
+            }
+        }
     }
 
 

@@ -235,14 +235,18 @@ public:
     // 1. Banning is configured manually by the user (setban RPC, GUI). Banned
     //    addresses/subnets are refused inbound unless whitelisted, are not
     //    chosen for automatic outbound connections, and are persisted to
-    //    banlist.dat with an expiry (-bantime by default).
+    //    banlist.dat with an expiry (-bantime by default). Unlike upstream
+    //    (bitcoin#15617), banned addresses may still be relayed in addr
+    //    messages and returned to getaddr: IsBanned() scans the whole ban
+    //    list, and calling it per address would cost addresses x bans.
     //
     // 2. Discouragement happens automatically when a peer misbehaves (see
     //    Misbehaving() in net_processing.cpp). A discouraged address is kept
     //    in a bounded rolling bloom filter that is not persisted and cannot
     //    be listed or removed. Inbound connections from it are still accepted
     //    unless the inbound slots are (almost) full, and such peers are
-    //    preferred for eviction. We never make outbound connections to it.
+    //    preferred for eviction. We never make outbound connections to it,
+    //    and do not relay its address or return it to getaddr.
     //
     // Misbehaviour never adds to the ban list, so a remote peer cannot grow
     // it (CVE-2020-14198).
