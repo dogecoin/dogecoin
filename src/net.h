@@ -21,6 +21,7 @@
 #include "uint256.h"
 #include "threadinterrupt.h"
 
+#include <algorithm>
 #include <atomic>
 #include <deque>
 #include <stdint.h>
@@ -439,6 +440,20 @@ struct InboundPeerCounts {
  */
 InboundPeerCounts CountInboundPeers(const std::vector<CNode*>& nodes, const CAddress& addr, const CCriticalSection& vNodesLock) EXCLUSIVE_LOCKS_REQUIRED(vNodesLock);
 
+/**
+ * If any eviction candidate is preferred for eviction, remove every candidate
+ * that is not, so that only preferred candidates remain (bitcoin#14929).
+ * Otherwise leave the candidates unchanged.
+ */
+template <typename Candidate>
+void KeepOnlyPreferredEvictionCandidates(std::vector<Candidate>& candidates)
+{
+    if (std::any_of(candidates.begin(), candidates.end(), [](const Candidate& c){ return c.prefer_evict; })) {
+        candidates.erase(std::remove_if(candidates.begin(), candidates.end(),
+                         [](const Candidate& c){ return !c.prefer_evict; }), candidates.end());
+    }
+}
+
 struct CombinerAll
 {
     typedef bool result_type;
@@ -628,6 +643,7 @@ public:
     std::string strSubVer, cleanSubVer;
     CCriticalSection cs_SubVer; // used for both cleanSubVer and strSubVer
     bool fWhitelisted; // This peer can bypass DoS banning.
+    bool m_prefer_evict{false}; // This peer is preferred for eviction (discouraged when it connected).
     bool fFeeler; // If true this node is being used as a short lived feeler.
     bool fOneShot;
     bool fAddnode;
