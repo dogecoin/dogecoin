@@ -515,6 +515,30 @@ void CConnman::Ban(const CSubNet& subNet, const BanReason &banReason, int64_t ba
         DumpBanlist(); //store banlist to disk immediately if user requested ban
 }
 
+void CConnman::Discourage(const CNetAddr& addr) {
+    {
+        LOCK(cs_setBanned);
+        m_discouraged.insert(addr.GetAddrBytes());
+    }
+    {
+        LOCK(cs_vNodes);
+        for (CNode* pnode : vNodes) {
+            if ((CNetAddr)pnode->addr == addr)
+                pnode->fDisconnect = true;
+        }
+    }
+}
+
+bool CConnman::IsDiscouraged(const CNetAddr& addr) {
+    LOCK(cs_setBanned);
+    return m_discouraged.contains(addr.GetAddrBytes());
+}
+
+void CConnman::ClearDiscouraged() {
+    LOCK(cs_setBanned);
+    m_discouraged.reset();
+}
+
 bool CConnman::Unban(const CNetAddr &addr) {
     CSubNet subNet(addr);
     return Unban(subNet);
@@ -1106,9 +1130,19 @@ void CConnman::AcceptConnection(const ListenSocket& hListenSocket) {
     setsockopt(hSocket, IPPROTO_TCP, TCP_NODELAY, (void*)&set, sizeof(int));
 #endif
 
+    // Don't accept connections from (manually) banned peers.
     if (IsBanned(addr) && !whitelisted)
     {
         LogPrintf("connection from %s dropped (banned)\n", addr.ToString());
+        CloseSocket(hSocket);
+        return;
+    }
+
+    // Only accept connections from discouraged peers if our inbound slots aren't (almost) full.
+    bool discouraged = IsDiscouraged(addr);
+    if (ShouldRefuseDiscouragedInbound(discouraged, whitelisted, counts.nInbound, nMaxInbound))
+    {
+        LogPrint("net", "connection from %s dropped (discouraged)\n", addr.ToString());
         CloseSocket(hSocket);
         return;
     }
@@ -1138,6 +1172,7 @@ void CConnman::AcceptConnection(const ListenSocket& hListenSocket) {
     CNode* pnode = new CNode(id, nLocalServices, GetBestHeight(), hSocket, addr, CalculateKeyedNetGroup(addr), nonce, "", true);
     pnode->AddRef();
     pnode->fWhitelisted = whitelisted;
+    pnode->m_prefer_evict = discouraged;
     GetNodeSignals().InitializeNode(pnode, *this);
 
     LogPrint("net", "connection from %s accepted\n", addr.ToString());
@@ -2031,7 +2066,7 @@ bool CConnman::OpenNetworkConnection(const CAddress& addrConnect, bool fCountFai
     }
     if (!pszDest) {
         if (IsLocal(addrConnect) ||
-            FindNode((CNetAddr)addrConnect) || IsBanned(addrConnect) ||
+            FindNode((CNetAddr)addrConnect) || IsDiscouraged(addrConnect) || IsBanned(addrConnect) ||
             FindNode(addrConnect.ToStringIPPort()))
             return false;
     } else if (FindNode(std::string(pszDest)))

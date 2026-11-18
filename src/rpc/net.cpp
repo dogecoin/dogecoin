@@ -573,7 +573,7 @@ UniValue setban(const JSONRPCRequest& request)
     else if(strCommand == "remove")
     {
         if (!( isSubnet ? g_connman->Unban(subNet) : g_connman->Unban(netAddr) ))
-            throw JSONRPCError(RPC_CLIENT_INVALID_IP_OR_SUBNET, "Error: Unban failed. Requested address/subnet was not previously banned.");
+            throw JSONRPCError(RPC_CLIENT_INVALID_IP_OR_SUBNET, "Error: Unban failed. Requested address/subnet was not previously manually banned.");
     }
     return NullUniValue;
 }
@@ -583,7 +583,7 @@ UniValue listbanned(const JSONRPCRequest& request)
     if (request.fHelp || request.params.size() != 0)
         throw runtime_error(
                             "listbanned\n"
-                            "\nList all banned IPs/Subnets.\n"
+                            "\nList all manually banned IPs/Subnets.\n"
                             "\nExamples:\n"
                             + HelpExampleCli("listbanned", "")
                             + HelpExampleRpc("listbanned", "")

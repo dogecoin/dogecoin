@@ -45,21 +45,33 @@ static NodeId id = 0;
 
 BOOST_FIXTURE_TEST_SUITE(DoS_tests, TestingSetup)
 
+static size_t BanListSize(CConnman* connman)
+{
+    banmap_t banmap;
+    connman->GetBanned(banmap);
+    return banmap.size();
+}
+
 BOOST_AUTO_TEST_CASE(DoS_banning)
 {
     std::atomic<bool> interruptDummy(false);
 
     connman->ClearBanned();
+    connman->ClearDiscouraged();
     CAddress addr1(ip(0xa0b0c001), NODE_NONE);
     CNode dummyNode1(id++, NODE_NETWORK, 0, INVALID_SOCKET, addr1, 0, 0, "", true);
     dummyNode1.SetSendVersion(PROTOCOL_VERSION);
     GetNodeSignals().InitializeNode(&dummyNode1, *connman);
     dummyNode1.nVersion = 1;
     dummyNode1.fSuccessfullyConnected = true;
-    Misbehaving(dummyNode1.GetId(), 100); // Should get banned
+    Misbehaving(dummyNode1.GetId(), 100); // Should get discouraged
     SendMessages(&dummyNode1, *connman, interruptDummy);
-    BOOST_CHECK(connman->IsBanned(addr1));
-    BOOST_CHECK(!connman->IsBanned(ip(0xa0b0c001|0x0000ff00))); // Different IP, not banned
+    BOOST_CHECK(dummyNode1.fDisconnect);
+    BOOST_CHECK(connman->IsDiscouraged(addr1));
+    BOOST_CHECK(!connman->IsDiscouraged(ip(0xa0b0c001|0x0000ff00))); // Different IP, not discouraged
+    // Discouragement is not a ban
+    BOOST_CHECK(!connman->IsBanned(addr1));
+    BOOST_CHECK_EQUAL(BanListSize(connman), 0U);
 
     CAddress addr2(ip(0xa0b0c002), NODE_NONE);
     CNode dummyNode2(id++, NODE_NETWORK, 0, INVALID_SOCKET, addr2, 1, 1, "", true);
@@ -69,11 +81,13 @@ BOOST_AUTO_TEST_CASE(DoS_banning)
     dummyNode2.fSuccessfullyConnected = true;
     Misbehaving(dummyNode2.GetId(), 50);
     SendMessages(&dummyNode2, *connman, interruptDummy);
-    BOOST_CHECK(!connman->IsBanned(addr2)); // 2 not banned yet...
-    BOOST_CHECK(connman->IsBanned(addr1));  // ... but 1 still should be
+    BOOST_CHECK(!dummyNode2.fDisconnect);
+    BOOST_CHECK(!connman->IsDiscouraged(addr2)); // 2 not discouraged yet...
+    BOOST_CHECK(connman->IsDiscouraged(addr1));  // ... but 1 still should be
     Misbehaving(dummyNode2.GetId(), 50);
     SendMessages(&dummyNode2, *connman, interruptDummy);
-    BOOST_CHECK(connman->IsBanned(addr2));
+    BOOST_CHECK(connman->IsDiscouraged(addr2));
+    BOOST_CHECK_EQUAL(BanListSize(connman), 0U);
 }
 
 BOOST_AUTO_TEST_CASE(DoS_banscore)
@@ -81,6 +95,7 @@ BOOST_AUTO_TEST_CASE(DoS_banscore)
     std::atomic<bool> interruptDummy(false);
 
     connman->ClearBanned();
+    connman->ClearDiscouraged();
     ForceSetArg("-banscore", "111"); // because 11 is my favorite number
     CAddress addr1(ip(0xa0b0c001), NODE_NONE);
     CNode dummyNode1(id++, NODE_NETWORK, 0, INVALID_SOCKET, addr1, 3, 1, "", true);
@@ -90,21 +105,25 @@ BOOST_AUTO_TEST_CASE(DoS_banscore)
     dummyNode1.fSuccessfullyConnected = true;
     Misbehaving(dummyNode1.GetId(), 100);
     SendMessages(&dummyNode1, *connman, interruptDummy);
-    BOOST_CHECK(!connman->IsBanned(addr1));
+    BOOST_CHECK(!connman->IsDiscouraged(addr1));
     Misbehaving(dummyNode1.GetId(), 10);
     SendMessages(&dummyNode1, *connman, interruptDummy);
-    BOOST_CHECK(!connman->IsBanned(addr1));
+    BOOST_CHECK(!connman->IsDiscouraged(addr1));
     Misbehaving(dummyNode1.GetId(), 1);
     SendMessages(&dummyNode1, *connman, interruptDummy);
-    BOOST_CHECK(connman->IsBanned(addr1));
+    BOOST_CHECK(connman->IsDiscouraged(addr1));
+    BOOST_CHECK(!connman->IsBanned(addr1));
     ForceSetArg("-banscore", std::to_string(DEFAULT_BANSCORE_THRESHOLD));
 }
 
+// Misbehaviour never times out of the discouragement filter by wall clock,
+// while manual bans still expire after -bantime.
 BOOST_AUTO_TEST_CASE(DoS_bantime)
 {
     std::atomic<bool> interruptDummy(false);
 
     connman->ClearBanned();
+    connman->ClearDiscouraged();
     int64_t nStartTime = GetTime();
     SetMockTime(nStartTime); // Overrides future calls to GetTime()
 
@@ -117,13 +136,24 @@ BOOST_AUTO_TEST_CASE(DoS_bantime)
 
     Misbehaving(dummyNode.GetId(), 100);
     SendMessages(&dummyNode, *connman, interruptDummy);
-    BOOST_CHECK(connman->IsBanned(addr));
-
-    SetMockTime(nStartTime+60*60);
-    BOOST_CHECK(connman->IsBanned(addr));
+    BOOST_CHECK(connman->IsDiscouraged(addr));
+    BOOST_CHECK(!connman->IsBanned(addr));
 
     SetMockTime(nStartTime+60*60*24+1);
-    BOOST_CHECK(!connman->IsBanned(addr));
+    BOOST_CHECK(connman->IsDiscouraged(addr));
+
+    // Manual bans keep using -bantime (default 24h)
+    CAddress addr_manual(ip(0xa0b0c003), NODE_NONE);
+    SetMockTime(nStartTime);
+    connman->Ban(addr_manual, BanReasonManuallyAdded);
+    BOOST_CHECK(connman->IsBanned(addr_manual));
+    BOOST_CHECK(!connman->IsDiscouraged(addr_manual));
+    SetMockTime(nStartTime+60*60);
+    BOOST_CHECK(connman->IsBanned(addr_manual));
+    SetMockTime(nStartTime+60*60*24+1);
+    BOOST_CHECK(!connman->IsBanned(addr_manual));
+    SetMockTime(0);
+    connman->ClearBanned();
 }
 
 CTransactionRef RandomOrphan()

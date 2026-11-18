@@ -175,8 +175,8 @@ struct CNodeState {
     bool fCurrentlyConnected;
     //! Accumulated misbehaviour score for this peer.
     int nMisbehavior;
-    //! Whether this peer should be disconnected and banned (unless whitelisted).
-    bool fShouldBan;
+    //! Whether this peer should be disconnected and marked as discouraged (unless whitelisted).
+    bool fShouldDiscourage;
     //! String name of this peer (debugging/logging purposes).
     const std::string name;
     //! List of asynchronously-determined block rejections to notify this peer about.
@@ -227,7 +227,7 @@ struct CNodeState {
     CNodeState(CAddress addrIn, std::string addrNameIn) : address(addrIn), name(addrNameIn) {
         fCurrentlyConnected = false;
         nMisbehavior = 0;
-        fShouldBan = false;
+        fShouldDiscourage = false;
         pindexBestKnownBlock = NULL;
         hashLastUnknownBlock.SetNull();
         pindexLastCommonBlock = NULL;
@@ -767,6 +767,9 @@ unsigned int LimitOrphanTxSize(unsigned int nMaxOrphans) EXCLUSIVE_LOCKS_REQUIRE
 }
 
 // Requires cs_main.
+// Increment peer's misbehavior score. If the new value surpasses banscore, mark
+// the peer to be discouraged: it is disconnected and its address is added to
+// the (bounded, non-persistent) discouragement filter. It is not banned.
 void Misbehaving(NodeId pnode, int howmuch)
 {
     if (howmuch == 0)
@@ -780,8 +783,8 @@ void Misbehaving(NodeId pnode, int howmuch)
     int banscore = GetArg("-banscore", DEFAULT_BANSCORE_THRESHOLD);
     if (state->nMisbehavior >= banscore && state->nMisbehavior - howmuch < banscore)
     {
-        LogPrintf("%s: %s peer=%d (%d -> %d) BAN THRESHOLD EXCEEDED\n", __func__, state->name, pnode, state->nMisbehavior-howmuch, state->nMisbehavior);
-        state->fShouldBan = true;
+        LogPrintf("%s: %s peer=%d (%d -> %d) DISCOURAGE THRESHOLD EXCEEDED\n", __func__, state->name, pnode, state->nMisbehavior-howmuch, state->nMisbehavior);
+        state->fShouldDiscourage = true;
     } else
         LogPrintf("%s: %s peer=%d (%d -> %d)\n", __func__, state->name, pnode, state->nMisbehavior-howmuch, state->nMisbehavior);
 }
@@ -2806,8 +2809,8 @@ static bool SendRejectsAndCheckIfBanned(CNode* pnode, CConnman& connman)
     }
     state.rejects.clear();
 
-    if (state.fShouldBan) {
-        state.fShouldBan = false;
+    if (state.fShouldDiscourage) {
+        state.fShouldDiscourage = false;
         if (pnode->fWhitelisted)
             LogPrintf("Warning: not punishing whitelisted peer %s!\n", pnode->addr.ToString());
         else if (pnode->fAddnode)
@@ -2815,10 +2818,12 @@ static bool SendRejectsAndCheckIfBanned(CNode* pnode, CConnman& connman)
         else {
             pnode->fDisconnect = true;
             if (pnode->addr.IsLocal())
-                LogPrintf("Warning: not banning local peer %s!\n", pnode->addr.ToString());
+                LogPrintf("Warning: disconnecting but not discouraging local peer %s!\n", pnode->addr.ToString());
             else
             {
-                connman.Ban(pnode->addr, BanReasonNodeMisbehaving);
+                // Disconnect and discourage all nodes sharing the address
+                LogPrintf("Disconnecting and discouraging peer %s!\n", pnode->addr.ToString());
+                connman.Discourage(pnode->addr);
             }
         }
         return true;
