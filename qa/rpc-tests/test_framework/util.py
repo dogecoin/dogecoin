@@ -396,6 +396,8 @@ def log_filename(dirname, n_node, logname):
     return os.path.join(dirname, "node"+str(n_node), "regtest", logname)
 
 def stop_node(node, i):
+    if i not in dogecoind_processes:
+        return # Node has already stopped
     try:
         node.stop()
     except http.client.CannotSendRequest as e:
@@ -403,6 +405,21 @@ def stop_node(node, i):
     return_code = dogecoind_processes[i].wait(timeout=DOGECOIND_PROC_WAIT_TIMEOUT)
     assert_equal(return_code, 0)
     del dogecoind_processes[i]
+
+def is_node_stopped(i):
+    """Checks whether node i has stopped.
+
+    Returns True if the node has stopped. False otherwise.
+    This function removes a stopped node from dogecoind_processes."""
+    if i not in dogecoind_processes:
+        return True
+    return_code = dogecoind_processes[i].poll()
+    if return_code is not None:
+        # process has stopped. Assert that it didn't return an error code.
+        assert_equal(return_code, 0)
+        del dogecoind_processes[i]
+        return True
+    return False
 
 @contextlib.contextmanager
 def assert_debug_log(dirname, num_node, expected_msgs):
