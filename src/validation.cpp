@@ -2736,6 +2736,7 @@ bool ResetBlockFailureFlags(CBlockIndex *pindex) {
                 // Reset invalid block marker if it was pointing to one of those.
                 pindexBestInvalid = NULL;
             }
+            gFailedBlocks.erase(it->second);
         }
         it++;
     }
