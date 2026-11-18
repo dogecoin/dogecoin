@@ -195,6 +195,9 @@ def initialize_datadir(dirname, n):
         f.write("listenonion=0\n")
     return datadir
 
+def get_datadir_path(dirname, n):
+    return os.path.join(dirname, "node" + str(n))
+
 def rpc_auth_pair(n):
     return 'rpcuser💻' + str(n), 'rpcpass🔑' + str(n)
 

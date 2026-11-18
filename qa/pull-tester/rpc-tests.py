@@ -129,6 +129,7 @@ testScripts = [
     # 'bip68-112-113-p2p.py',
     'rawtransactions.py',
     'reindex.py',
+    'feature_abortnode.py',
     'p2p-addr.py',
     'p2p-tx-download.py',
     # vv Tests less than 30s vv
