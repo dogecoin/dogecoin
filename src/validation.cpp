@@ -2707,7 +2707,6 @@ bool InvalidateBlock(CValidationState& state, const CChainParams& chainparams, C
     while (it != mapBlockIndex.end()) {
         if (it->second->IsValid(BLOCK_VALID_TRANSACTIONS) && it->second->nChainTx && !setBlockIndexCandidates.value_comp()(it->second, chainActive.Tip())) {
             setBlockIndexCandidates.insert(it->second);
-            gFailedBlocks.erase(it->second);
         }
         it++;
     }
