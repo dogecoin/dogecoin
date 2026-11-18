@@ -156,6 +156,135 @@ BOOST_AUTO_TEST_CASE(DoS_bantime)
     connman->ClearBanned();
 }
 
+// CVE-2020-14198: many misbehaving peers must not grow the ban list, and the
+// discouragement filter must stay bounded.
+BOOST_AUTO_TEST_CASE(DoS_discourage_does_not_grow_banlist)
+{
+    std::atomic<bool> interruptDummy(false);
+
+    connman->ClearBanned();
+    connman->ClearDiscouraged();
+    const int nPeers = 200;
+    for (int i = 0; i < nPeers; i++) {
+        CAddress addr(ip(0x00000a0b | ((uint32_t)i << 24)), NODE_NONE); // 11.10.0.i
+        CNode node(id++, NODE_NETWORK, 0, INVALID_SOCKET, addr, 5, 5, "", true);
+        node.SetSendVersion(PROTOCOL_VERSION);
+        GetNodeSignals().InitializeNode(&node, *connman);
+        node.nVersion = 1;
+        node.fSuccessfullyConnected = true;
+        {
+            LOCK(cs_main);
+            Misbehaving(node.GetId(), 100);
+        }
+        SendMessages(&node, *connman, interruptDummy);
+        BOOST_CHECK(node.fDisconnect);
+        BOOST_CHECK(connman->IsDiscouraged(addr));
+        bool fUpdateConnectionTime = false;
+        GetNodeSignals().FinalizeNode(node.GetId(), fUpdateConnectionTime);
+    }
+    BOOST_CHECK_EQUAL(BanListSize(connman), 0U);
+    connman->ClearDiscouraged();
+}
+
+// Whitelisted and addnode (manual) peers are not punished; local peers are
+// disconnected but not discouraged (same exemptions as bitcoin#19219).
+BOOST_AUTO_TEST_CASE(DoS_discourage_exemptions)
+{
+    std::atomic<bool> interruptDummy(false);
+
+    connman->ClearBanned();
+    connman->ClearDiscouraged();
+
+    CAddress addr_wl(ip(0xa0b0c011), NODE_NONE);
+    CNode node_wl(id++, NODE_NETWORK, 0, INVALID_SOCKET, addr_wl, 6, 6, "", true);
+    node_wl.fWhitelisted = true;
+    CAddress addr_an(ip(0xa0b0c012), NODE_NONE);
+    CNode node_an(id++, NODE_NETWORK, 0, INVALID_SOCKET, addr_an, 7, 7, "", true);
+    node_an.fAddnode = true;
+    CAddress addr_local(ip(0x0100007f), NODE_NONE); // 127.0.0.1
+    CNode node_local(id++, NODE_NETWORK, 0, INVALID_SOCKET, addr_local, 8, 8, "", true);
+
+    for (CNode* node : {&node_wl, &node_an, &node_local}) {
+        node->SetSendVersion(PROTOCOL_VERSION);
+        GetNodeSignals().InitializeNode(node, *connman);
+        node->nVersion = 1;
+        node->fSuccessfullyConnected = true;
+        {
+            LOCK(cs_main);
+            Misbehaving(node->GetId(), 100);
+        }
+        SendMessages(node, *connman, interruptDummy);
+    }
+    BOOST_CHECK(!node_wl.fDisconnect);
+    BOOST_CHECK(!connman->IsDiscouraged(addr_wl));
+    BOOST_CHECK(!node_an.fDisconnect);
+    BOOST_CHECK(!connman->IsDiscouraged(addr_an));
+    BOOST_CHECK(node_local.fDisconnect);
+    BOOST_CHECK(!connman->IsDiscouraged(addr_local));
+    BOOST_CHECK_EQUAL(BanListSize(connman), 0U);
+
+    for (CNode* node : {&node_wl, &node_an, &node_local}) {
+        bool fUpdateConnectionTime = false;
+        GetNodeSignals().FinalizeNode(node->GetId(), fUpdateConnectionTime);
+    }
+}
+
+// Discouraged inbound peers are refused only when the inbound slots are
+// (almost) full; whitelisted peers are never refused for being discouraged.
+BOOST_AUTO_TEST_CASE(DoS_discouraged_inbound_admission)
+{
+    const int nMaxInbound = 117;
+    // Not discouraged: never refused by this rule.
+    BOOST_CHECK(!ShouldRefuseDiscouragedInbound(false, false, 0, nMaxInbound));
+    BOOST_CHECK(!ShouldRefuseDiscouragedInbound(false, false, nMaxInbound, nMaxInbound));
+    // Discouraged: accepted while there is room...
+    BOOST_CHECK(!ShouldRefuseDiscouragedInbound(true, false, 0, nMaxInbound));
+    BOOST_CHECK(!ShouldRefuseDiscouragedInbound(true, false, nMaxInbound - 2, nMaxInbound));
+    // ...refused when (almost) full.
+    BOOST_CHECK(ShouldRefuseDiscouragedInbound(true, false, nMaxInbound - 1, nMaxInbound));
+    BOOST_CHECK(ShouldRefuseDiscouragedInbound(true, false, nMaxInbound, nMaxInbound));
+    // Whitelisted: never refused for being discouraged.
+    BOOST_CHECK(!ShouldRefuseDiscouragedInbound(true, true, nMaxInbound, nMaxInbound));
+}
+
+// After the protections, AttemptToEvictConnection keeps only the candidates
+// preferred for eviction (discouraged peers), if any remain (bitcoin#14929).
+namespace {
+struct TestEvictionCandidate {
+    int id;
+    bool prefer_evict;
+};
+std::vector<int> CandidateIds(const std::vector<TestEvictionCandidate>& candidates)
+{
+    std::vector<int> ids;
+    for (const TestEvictionCandidate& c : candidates) ids.push_back(c.id);
+    return ids;
+}
+} // namespace
+
+BOOST_AUTO_TEST_CASE(DoS_prefer_evict_filter)
+{
+    // No preferred candidate: all candidates remain, in order.
+    std::vector<TestEvictionCandidate> none = {{1, false}, {2, false}, {3, false}};
+    KeepOnlyPreferredEvictionCandidates(none);
+    BOOST_CHECK(CandidateIds(none) == std::vector<int>({1, 2, 3}));
+
+    // Some preferred: only they remain, in order.
+    std::vector<TestEvictionCandidate> some = {{1, false}, {2, true}, {3, false}, {4, true}};
+    KeepOnlyPreferredEvictionCandidates(some);
+    BOOST_CHECK(CandidateIds(some) == std::vector<int>({2, 4}));
+
+    // All preferred: all remain.
+    std::vector<TestEvictionCandidate> all = {{1, true}, {2, true}};
+    KeepOnlyPreferredEvictionCandidates(all);
+    BOOST_CHECK(CandidateIds(all) == std::vector<int>({1, 2}));
+
+    // Empty: stays empty.
+    std::vector<TestEvictionCandidate> empty;
+    KeepOnlyPreferredEvictionCandidates(empty);
+    BOOST_CHECK(empty.empty());
+}
+
 CTransactionRef RandomOrphan()
 {
     std::map<uint256, COrphanTx>::iterator it;
