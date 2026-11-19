@@ -229,6 +229,8 @@ class CWalletTx : public CMerkleTx
 {
 private:
     const CWallet* pwallet;
+    /** Copy every field except the ordered-index cursor. */
+    void CopyNonIndexFields(const CWalletTx& wtxIn);
 
 public:
     mapValue_t mapValue;
@@ -244,6 +246,15 @@ public:
     bool fFromMe;
     std::string strFromAccount;
     int64_t nOrderPos; //!< position in ordered transaction list
+    // Each AddToWallet / LoadToWallet appends the iterator of the ordered-index
+    // entry it just inserted. A repeated LoadToWallet keeps the older entry, so
+    // one transaction can own more than one. m_f_wtxOrdered is true exactly when
+    // this vector is non-empty. Copy construction starts empty. Copy assignment
+    // does not take the source vector and does not drop the destination's:
+    // those entries point at the destination object, not the source.
+    typedef std::multimap<int64_t, std::pair<CWalletTx*, CAccountingEntry*> > OrderedIndex;
+    std::vector<OrderedIndex::const_iterator> m_ordered_iters;
+    bool m_f_wtxOrdered; //!< true iff m_ordered_iters is non-empty
 
     // memory only
     mutable bool fDebitCached;
@@ -275,6 +286,9 @@ public:
         Init(pwalletIn);
     }
 
+    CWalletTx(const CWalletTx& wtxIn);
+    CWalletTx& operator=(const CWalletTx& wtxIn);
+
     void Init(const CWallet* pwalletIn)
     {
         pwallet = pwalletIn;
@@ -304,6 +318,8 @@ public:
         nImmatureWatchCreditCached = 0;
         nChangeCached = 0;
         nOrderPos = -1;
+        m_ordered_iters.clear();
+        m_f_wtxOrdered = false;
     }
 
     ADD_SERIALIZE_METHODS;

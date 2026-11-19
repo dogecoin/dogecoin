@@ -592,4 +592,243 @@ BOOST_FIXTURE_TEST_CASE(derive_new_child_key_test, WalletTestingSetup)
     BOOST_CHECK_EQUAL(derivedPubKeyHex, expectedPubKeyHex);
 }
 
+static CWalletTx MakeOrderedTestTx(CWallet* wallet, int nMarker, int nSpendMarker = -1)
+{
+    const int nSpend = nSpendMarker < 0 ? nMarker : nSpendMarker;
+    CMutableTransaction mtx;
+    mtx.nLockTime = nMarker;
+    mtx.vin.resize(1);
+    mtx.vin[0].prevout.n = nSpend;
+    mtx.vin[0].prevout.hash.SetNull();
+    mtx.vin[0].prevout.hash.begin()[0] = static_cast<unsigned char>(nSpend);
+    mtx.vout.resize(1);
+    mtx.vout[0].nValue = COIN;
+    return CWalletTx(wallet, MakeTransactionRef(std::move(mtx)));
+}
+
+static int CountOrderedPointers(const CWallet& wallet, const CWalletTx* target)
+{
+    int count = 0;
+    for (CWallet::TxItems::const_iterator it = wallet.wtxOrdered.begin(); it != wallet.wtxOrdered.end(); ++it) {
+        if (it->second.first == target)
+            ++count;
+    }
+    return count;
+}
+
+BOOST_AUTO_TEST_CASE(wallettx_copy_does_not_share_ordered_cursor)
+{
+    LOCK(pwalletMain->cs_wallet);
+    CWalletTx made = MakeOrderedTestTx(pwalletMain, 11);
+    BOOST_CHECK(pwalletMain->AddToWallet(made));
+    CWalletTx& live = pwalletMain->mapWallet.at(made.GetHash());
+    live.fFromMe = true;
+    live.strFromAccount = "from-live";
+    live.fAvailableCreditCached = true;
+    live.nAvailableCreditCached = 42 * COIN;
+    BOOST_CHECK(live.m_f_wtxOrdered);
+    BOOST_CHECK_EQUAL(live.m_ordered_iters.size(), 1u);
+    CWallet::TxItems::const_iterator liveCursor = live.m_ordered_iters[0];
+    BOOST_CHECK(liveCursor->second.first == &live);
+
+    CWalletTx copied(live);
+    BOOST_CHECK(!copied.m_f_wtxOrdered);
+    BOOST_CHECK(copied.m_ordered_iters.empty());
+    BOOST_CHECK(copied.GetHash() == live.GetHash());
+    BOOST_CHECK(copied.fFromMe);
+    BOOST_CHECK_EQUAL(copied.strFromAccount, "from-live");
+    BOOST_CHECK_EQUAL(copied.GetAvailableCredit(), 42 * COIN);
+    BOOST_CHECK(live.m_f_wtxOrdered);
+    BOOST_CHECK_EQUAL(live.m_ordered_iters.size(), 1u);
+    BOOST_CHECK(live.m_ordered_iters[0] == liveCursor);
+    BOOST_CHECK(liveCursor->second.first == &live);
+
+    CWalletTx assigned;
+    assigned = live;
+    BOOST_CHECK(!assigned.m_f_wtxOrdered);
+    BOOST_CHECK(assigned.m_ordered_iters.empty());
+    BOOST_CHECK(assigned.GetHash() == live.GetHash());
+    BOOST_CHECK_EQUAL(assigned.strFromAccount, "from-live");
+    BOOST_CHECK_EQUAL(assigned.GetAvailableCredit(), 42 * COIN);
+    BOOST_CHECK(live.m_ordered_iters[0] == liveCursor);
+
+    CWalletTx& self = live;
+    live = self;
+    BOOST_CHECK(live.m_f_wtxOrdered);
+    BOOST_CHECK(live.m_ordered_iters[0] == liveCursor);
+    BOOST_CHECK(live.m_ordered_iters[0]->second.first == &live);
+
+    CWalletTx otherMade = MakeOrderedTestTx(pwalletMain, 12);
+    BOOST_CHECK(pwalletMain->AddToWallet(otherMade));
+    CWalletTx& other = pwalletMain->mapWallet.at(otherMade.GetHash());
+    const int64_t otherOrderPos = other.nOrderPos;
+    CWallet::TxItems::const_iterator otherCursor = other.m_ordered_iters[0];
+    other = live;
+    BOOST_CHECK(other.m_f_wtxOrdered);
+    BOOST_CHECK_EQUAL(other.m_ordered_iters.size(), 1u);
+    BOOST_CHECK(other.m_ordered_iters[0] == otherCursor);
+    BOOST_CHECK(otherCursor->second.first == &other);
+    BOOST_CHECK_EQUAL(otherCursor->first, otherOrderPos);
+    BOOST_CHECK_EQUAL(other.nOrderPos, live.nOrderPos);
+    BOOST_CHECK_EQUAL(other.strFromAccount, "from-live");
+    BOOST_CHECK_EQUAL(CountOrderedPointers(*pwalletMain, &other), 1);
+    BOOST_CHECK(live.m_ordered_iters[0] == liveCursor);
+    BOOST_CHECK(live.m_f_wtxOrdered);
+}
+
+BOOST_AUTO_TEST_CASE(loadtowallet_repeat_overwrites_and_appends_index)
+{
+    LOCK(pwalletMain->cs_wallet);
+    CWalletTx first = MakeOrderedTestTx(pwalletMain, 21);
+    BOOST_CHECK(pwalletMain->LoadToWallet(first));
+    uint256 hash = first.GetHash();
+    const size_t orderedAfterFirst = pwalletMain->wtxOrdered.size();
+    CWalletTx& storedFirst = pwalletMain->mapWallet.at(hash);
+    BOOST_CHECK(storedFirst.m_f_wtxOrdered);
+    BOOST_CHECK_EQUAL(CountOrderedPointers(*pwalletMain, &storedFirst), 1);
+
+    CWalletTx second = first;
+    second.nOrderPos = storedFirst.nOrderPos + 25;
+    second.mapValue["comment"] = "loaded-again";
+    BOOST_CHECK(pwalletMain->LoadToWallet(second));
+
+    CWalletTx& stored = pwalletMain->mapWallet.at(hash);
+    BOOST_CHECK_EQUAL(pwalletMain->mapWallet.size(), 1u);
+    BOOST_CHECK_EQUAL(stored.nOrderPos, second.nOrderPos);
+    BOOST_CHECK(stored.mapValue.count("comment") == 1);
+    BOOST_CHECK_EQUAL(stored.mapValue["comment"], "loaded-again");
+    BOOST_CHECK(stored.m_f_wtxOrdered);
+    BOOST_CHECK_EQUAL(pwalletMain->wtxOrdered.size(), orderedAfterFirst + 1);
+    BOOST_CHECK_EQUAL(CountOrderedPointers(*pwalletMain, &stored), 2);
+    CWalletTx* storedPtr = &stored;
+    BOOST_CHECK_EQUAL(stored.m_ordered_iters.size(), 2u);
+    BOOST_CHECK(stored.m_ordered_iters.back()->second.first == storedPtr);
+    BOOST_CHECK_EQUAL(stored.m_ordered_iters.back()->first, stored.nOrderPos);
+    bool sawOldPos = false;
+    for (size_t n = 0; n < stored.m_ordered_iters.size(); ++n) {
+        if (stored.m_ordered_iters[n]->first == stored.nOrderPos - 25 && stored.m_ordered_iters[n]->second.first == storedPtr)
+            sawOldPos = true;
+    }
+    BOOST_CHECK(sawOldPos);
+    BOOST_CHECK(pwalletMain->IsSpent(second.tx->vin[0].prevout.hash, second.tx->vin[0].prevout.n));
+
+    // LoadToWallet does not write the record. Put it on disk so ZapSelectTx
+    // selects this hash, then both ordered-index entries must go away.
+    BOOST_CHECK(CWalletDB(pwalletMain->strWalletFile).WriteTx(stored));
+    std::vector<uint256> request(1, hash);
+    std::vector<uint256> removed;
+    BOOST_CHECK(pwalletMain->ZapSelectTx(request, removed) == DB_LOAD_OK);
+    BOOST_CHECK_EQUAL(removed.size(), 1u);
+    BOOST_CHECK(pwalletMain->mapWallet.count(hash) == 0);
+    BOOST_CHECK_EQUAL(CountOrderedPointers(*pwalletMain, storedPtr), 0);
+    for (CWallet::TxItems::const_iterator it = pwalletMain->wtxOrdered.begin(); it != pwalletMain->wtxOrdered.end(); ++it) {
+        if (it->second.first == NULL)
+            continue;
+        BOOST_CHECK(pwalletMain->mapWallet.count(it->second.first->GetHash()) == 1);
+    }
+}
+
+BOOST_AUTO_TEST_CASE(zapselecttx_readonly_failure_and_selective_remove)
+{
+    LOCK(pwalletMain->cs_wallet);
+    // Same prevout: removing one spender must leave the other marked spent.
+    CWalletTx keepMade = MakeOrderedTestTx(pwalletMain, 31, 31);
+    CWalletTx dropMade = MakeOrderedTestTx(pwalletMain, 32, 31);
+    BOOST_CHECK(pwalletMain->AddToWallet(keepMade));
+    BOOST_CHECK(pwalletMain->AddToWallet(dropMade));
+    const uint256 keepHash = keepMade.GetHash();
+    const uint256 dropHash = dropMade.GetHash();
+    const COutPoint shared = keepMade.tx->vin[0].prevout;
+    const size_t orderedBefore = pwalletMain->wtxOrdered.size();
+    CWalletTx* keepPtr = &pwalletMain->mapWallet.at(keepHash);
+    CWalletTx* dropPtr = &pwalletMain->mapWallet.at(dropHash);
+
+    {
+        // "r" sets fReadOnly. EraseTx then returns false before CDB::Erase,
+        // which would assert. No extra mutable test state is involved.
+        CWalletDB readOnly(pwalletMain->strWalletFile, "r");
+        std::vector<uint256> found;
+        std::vector<CWalletTx> foundTx;
+        BOOST_CHECK(readOnly.FindWalletTx(pwalletMain, found, foundTx) == DB_LOAD_OK);
+        BOOST_CHECK(std::find(found.begin(), found.end(), keepHash) != found.end());
+        BOOST_CHECK(std::find(found.begin(), found.end(), dropHash) != found.end());
+        std::vector<uint256> request;
+        request.push_back(keepHash);
+        request.push_back(dropHash);
+        std::vector<uint256> removed;
+        BOOST_CHECK(readOnly.ZapSelectTx(pwalletMain, request, removed) == DB_CORRUPT);
+        BOOST_CHECK(removed.empty());
+    }
+    BOOST_CHECK(pwalletMain->mapWallet.count(keepHash) == 1);
+    BOOST_CHECK(pwalletMain->mapWallet.count(dropHash) == 1);
+    BOOST_CHECK_EQUAL(CountOrderedPointers(*pwalletMain, keepPtr), 1);
+    BOOST_CHECK_EQUAL(CountOrderedPointers(*pwalletMain, dropPtr), 1);
+    BOOST_CHECK(pwalletMain->IsSpent(shared.hash, shared.n));
+
+    std::vector<uint256> dropRequest(1, dropHash);
+    std::vector<uint256> removedDrop;
+    BOOST_CHECK(pwalletMain->ZapSelectTx(dropRequest, removedDrop) == DB_LOAD_OK);
+    BOOST_CHECK_EQUAL(removedDrop.size(), 1u);
+    BOOST_CHECK(removedDrop[0] == dropHash);
+    BOOST_CHECK(pwalletMain->mapWallet.count(dropHash) == 0);
+    BOOST_CHECK(pwalletMain->mapWallet.count(keepHash) == 1);
+    BOOST_CHECK(&pwalletMain->mapWallet.at(keepHash) == keepPtr);
+    BOOST_CHECK(keepPtr->m_f_wtxOrdered);
+    BOOST_CHECK_EQUAL(keepPtr->m_ordered_iters.size(), 1u);
+    BOOST_CHECK(keepPtr->m_ordered_iters[0]->second.first == keepPtr);
+    BOOST_CHECK_EQUAL(pwalletMain->wtxOrdered.size(), orderedBefore - 1);
+    BOOST_CHECK_EQUAL(CountOrderedPointers(*pwalletMain, keepPtr), 1);
+    BOOST_CHECK_EQUAL(CountOrderedPointers(*pwalletMain, dropPtr), 0);
+    BOOST_CHECK(pwalletMain->IsSpent(shared.hash, shared.n));
+
+    {
+        CWallet reloaded(pwalletMain->strWalletFile);
+        bool fFirstRun = false;
+        BOOST_CHECK(reloaded.LoadWallet(fFirstRun) == DB_LOAD_OK);
+        BOOST_CHECK(reloaded.mapWallet.count(dropHash) == 0);
+        BOOST_CHECK(reloaded.mapWallet.count(keepHash) == 1);
+    }
+
+    std::vector<uint256> keepRequest(1, keepHash);
+    std::vector<uint256> removedKeep;
+    BOOST_CHECK(pwalletMain->ZapSelectTx(keepRequest, removedKeep) == DB_LOAD_OK);
+    BOOST_CHECK(pwalletMain->mapWallet.count(keepHash) == 0);
+    BOOST_CHECK(!pwalletMain->IsSpent(shared.hash, shared.n));
+    BOOST_CHECK_EQUAL(CountOrderedPointers(*pwalletMain, keepPtr), 0);
+}
+
+BOOST_AUTO_TEST_CASE(zapselecttx_many_including_duplicate_index)
+{
+    LOCK(pwalletMain->cs_wallet);
+    const int nMany = 64;
+    std::vector<uint256> hashes;
+    hashes.reserve(nMany);
+    const size_t orderedBase = pwalletMain->wtxOrdered.size();
+    for (int i = 0; i < nMany; ++i) {
+        CWalletTx made = MakeOrderedTestTx(pwalletMain, 100 + i);
+        BOOST_CHECK(pwalletMain->AddToWallet(made));
+        hashes.push_back(made.GetHash());
+    }
+    CWalletTx& duplicated = pwalletMain->mapWallet.at(hashes[0]);
+    CWalletTx again = duplicated;
+    again.nOrderPos = duplicated.nOrderPos + 7;
+    BOOST_CHECK(pwalletMain->LoadToWallet(again));
+    CWalletTx* duplicatedPtr = &pwalletMain->mapWallet.at(hashes[0]);
+    BOOST_CHECK_EQUAL(CountOrderedPointers(*pwalletMain, duplicatedPtr), 2);
+    BOOST_CHECK_EQUAL(pwalletMain->wtxOrdered.size(), orderedBase + nMany + 1);
+
+    std::vector<uint256> removed;
+    BOOST_CHECK(pwalletMain->ZapSelectTx(hashes, removed) == DB_LOAD_OK);
+    BOOST_CHECK_EQUAL(removed.size(), hashes.size());
+    BOOST_CHECK_EQUAL(pwalletMain->wtxOrdered.size(), orderedBase);
+    BOOST_CHECK_EQUAL(CountOrderedPointers(*pwalletMain, duplicatedPtr), 0);
+    for (size_t i = 0; i < hashes.size(); ++i)
+        BOOST_CHECK(pwalletMain->mapWallet.count(hashes[i]) == 0);
+    for (CWallet::TxItems::const_iterator it = pwalletMain->wtxOrdered.begin(); it != pwalletMain->wtxOrdered.end(); ++it) {
+        if (it->second.first == NULL)
+            continue;
+        BOOST_CHECK(pwalletMain->mapWallet.count(it->second.first->GetHash()) == 1);
+    }
+}
+
 BOOST_AUTO_TEST_SUITE_END()

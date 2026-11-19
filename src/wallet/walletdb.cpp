@@ -66,6 +66,10 @@ bool CWalletDB::WriteTx(const CWalletTx& wtx)
 bool CWalletDB::EraseTx(uint256 hash)
 {
     nWalletDBUpdateCounter++;
+    // A read-only handle must not reach CDB::Erase, which asserts. ZapSelectTx
+    // reports that as a failed delete and leaves the record out of vTxHashOut.
+    if (fReadOnly)
+        return false;
     return Erase(std::make_pair(std::string("tx"), hash));
 }
 
@@ -748,12 +752,12 @@ DBErrors CWalletDB::ZapSelectTx(CWallet* pwallet, vector<uint256>& vTxHashIn, ve
             break;
         }
         else if ((*it) == hash) {
-            pwallet->mapWallet.erase(hash);
             if (!EraseTx(hash)) {
                 LogPrint("db", "Transaction was found for deletion but returned database error: %s\n", hash.GetHex());
                 delerror = true;
+            } else {
+                vTxHashOut.push_back(hash);
             }
-            vTxHashOut.push_back(hash);
         }
     }
 
