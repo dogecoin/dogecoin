@@ -106,7 +106,7 @@ testScripts = [
     # vv Tests less than 5m vv
     'p2p-fullblocktest.py',
     'fundrawtransaction.py',
-    #'p2p-compactblocks.py',
+    'p2p-compactblocks.py',
     # 'segwit.py',
     # vv Tests less than 2m vv
     'auxpow.py',
