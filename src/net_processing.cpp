@@ -190,7 +190,9 @@ struct CNodeState {
     //! The best header we have sent our peer.
     const CBlockIndex *pindexBestHeaderSent;
     //! Length of current-streak of unconnecting headers announcements
-    int nUnconnectingHeaders;
+    unsigned int nUnconnectingHeaders;
+    //! Low-work side-fork headers accepted from this peer since connect
+    unsigned int nLowWorkSideForkHeadersFromPeer;
     //! Whether we've started headers synchronization with this peer.
     bool fSyncStarted;
     //! When to potentially disconnect peer for stalling headers download
@@ -233,6 +235,7 @@ struct CNodeState {
         pindexLastCommonBlock = NULL;
         pindexBestHeaderSent = NULL;
         nUnconnectingHeaders = 0;
+        nLowWorkSideForkHeadersFromPeer = 0;
         fSyncStarted = false;
         nHeadersSyncTimeout = 0;
         nStallingSince = 0;
@@ -2429,7 +2432,7 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
             nodestate->nUnconnectingHeaders++;
             // Dogecoin: allow a single getheaders query before triggering DoS
             RequestHeadersFrom(pfrom, connman, pindexBestHeader, uint256(), true);
-            LogPrint("net", "received header %s: missing prev block %s, sending getheaders (%d) to end (peer=%d, nUnconnectingHeaders=%d)\n",
+            LogPrint("net", "received header %s: missing prev block %s, sending getheaders (%d) to end (peer=%d, nUnconnectingHeaders=%u)\n",
                     headers[0].GetHash().ToString(),
                     headers[0].hashPrevBlock.ToString(),
                     pindexBestHeader->nHeight,
@@ -2455,8 +2458,29 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
         }
         }
 
+        uint256 hashPrevUnknown;
+        {
+            LOCK(cs_main);
+            CNodeState *nodestate = State(pfrom->GetId());
+            hashPrevUnknown = nodestate->hashLastUnknownBlock;
+        }
+
         CValidationState state;
-        if (!ProcessNewBlockHeaders(headers, state, chainparams, &pindexLast)) {
+        unsigned int nNewLowWorkSideForkHeaders = 0;
+        if (!ProcessNewBlockHeaders(headers, state, chainparams, &pindexLast, &nNewLowWorkSideForkHeaders)) {
+            // Charge the peer for every side-fork header accepted before the
+            // failing one. Otherwise a single MAX_HEADERS_RESULTS batch can
+            // exhaust the global cap while the per-peer counter stays at 0.
+            if (nNewLowWorkSideForkHeaders > 0) {
+                LOCK(cs_main);
+                CNodeState *nodestate = State(pfrom->GetId());
+                nodestate->nLowWorkSideForkHeadersFromPeer += nNewLowWorkSideForkHeaders;
+                if (nodestate->nLowWorkSideForkHeadersFromPeer > MAX_LOW_WORK_SIDEFORK_HEADERS_PER_PEER) {
+                    LogPrint("net", "peer=%d: too many low-work side-fork headers (%u > %u), misbehaving\n",
+                             pfrom->id, nodestate->nLowWorkSideForkHeadersFromPeer, MAX_LOW_WORK_SIDEFORK_HEADERS_PER_PEER);
+                    Misbehaving(pfrom->GetId(), 20);
+                }
+            }
             int nDoS;
             if (state.IsInvalid(nDoS)) {
                 if (nDoS > 0) {
@@ -2470,13 +2494,48 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
         {
         LOCK(cs_main);
         CNodeState *nodestate = State(pfrom->GetId());
-        if (nodestate->nUnconnectingHeaders > 0) {
-            LogPrint("net", "peer=%d: resetting nUnconnectingHeaders (%d -> 0)\n", pfrom->id, nodestate->nUnconnectingHeaders);
-        }
-        nodestate->nUnconnectingHeaders = 0;
 
         assert(pindexLast);
         UpdateBlockAvailability(pfrom->GetId(), pindexLast->GetBlockHash());
+
+        // Only reset the unconnecting-headers counter when the peer provided
+        // headers that meaningfully advance sync: on the active chain, with
+        // sufficient work to compete with our tip, extending our best header
+        // chain, or resolving a previously announced unknown block.
+        bool fShouldResetUnconnectingHeaders = false;
+        if (chainActive.Contains(pindexLast)) {
+            fShouldResetUnconnectingHeaders = true;
+        } else if (chainActive.Tip() && pindexLast->nChainWork >= chainActive.Tip()->nChainWork) {
+            fShouldResetUnconnectingHeaders = true;
+        } else if (!hashPrevUnknown.IsNull() && nodestate->hashLastUnknownBlock.IsNull()) {
+            fShouldResetUnconnectingHeaders = true;
+        } else if (pindexBestHeader == pindexLast) {
+            fShouldResetUnconnectingHeaders = true;
+        }
+
+        if (fShouldResetUnconnectingHeaders) {
+            if (nodestate->nUnconnectingHeaders > 0) {
+                LogPrint("net", "peer=%d: resetting nUnconnectingHeaders (%u -> 0)\n", pfrom->id, nodestate->nUnconnectingHeaders);
+            }
+            nodestate->nUnconnectingHeaders = 0;
+        } else if (nodestate->nUnconnectingHeaders > 0) {
+            LogPrint("net", "peer=%d: not resetting nUnconnectingHeaders (%u); header %s is not on active/best chain\n",
+                     pfrom->id, nodestate->nUnconnectingHeaders, pindexLast->GetBlockHash().ToString());
+        }
+
+        // Penalize peers that flood us with low-work side-fork headers. Count
+        // every side-fork header accepted from this batch, not just the last
+        // one: a single headers message can carry up to MAX_HEADERS_RESULTS
+        // entries, which would otherwise let a peer exhaust the global
+        // side-fork budget while its own per-peer counter barely moved.
+        if (nNewLowWorkSideForkHeaders > 0) {
+            nodestate->nLowWorkSideForkHeadersFromPeer += nNewLowWorkSideForkHeaders;
+            if (nodestate->nLowWorkSideForkHeadersFromPeer > MAX_LOW_WORK_SIDEFORK_HEADERS_PER_PEER) {
+                LogPrint("net", "peer=%d: too many low-work side-fork headers (%u > %u), misbehaving\n",
+                         pfrom->id, nodestate->nLowWorkSideForkHeadersFromPeer, MAX_LOW_WORK_SIDEFORK_HEADERS_PER_PEER);
+                Misbehaving(pfrom->GetId(), 20);
+            }
+        }
 
         if (nCount == MAX_HEADERS_RESULTS) {
             // Headers message had its maximum size; the peer may have more headers.

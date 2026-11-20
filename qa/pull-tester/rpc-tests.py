@@ -119,6 +119,7 @@ testScripts = [
     'p2p-policy.py',
     # vv Tests less than 60s vv
     'p2p-acceptblock.py',
+    'p2p-headers-validity.py',
     'sendheaders.py',
     'zapwallettxes.py',
     'importmulti.py',
