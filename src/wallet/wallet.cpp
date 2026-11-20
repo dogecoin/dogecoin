@@ -475,6 +475,11 @@ bool CWallet::Verify()
         }
     }
 
+    // Pin the wallet directory for the rest of the process lifetime so a
+    // <datadir>/wallets (or -walletdir) created or removed at runtime can
+    // never silently redirect wallet I/O.
+    InitWalletDir();
+
     LogPrintf("Using BerkeleyDB version %s\n", DbEnv::version(0, 0, 0));
     LogPrintf("Using wallet directory %s\n", GetWalletDir().string());
     uiInterface.InitMessage(_("Verifying wallet(s)..."));
@@ -509,24 +514,30 @@ bool CWallet::Verify()
     std::vector<std::string> wallet_db_files; // parallel to wallet_files
     wallet_db_files.reserve(wallet_files.size());
     for (const std::string& walletFile : wallet_files) {
-        fs::path walletPath(walletFile);
-        // Reject any user input that escapes a single name segment
-        // (e.g. "../foo", "sub/dir/wallet"). Directory-layout wallets
-        // are introduced by US below, not by user-supplied paths.
-        if (walletPath.has_parent_path() ||
-            walletFile != walletPath.stem().string() + walletPath.extension().string()) {
-            return InitError(strprintf(_("Wallet %s resides outside data directory %s"), walletFile, GetWalletDir().string()));
+        // A wallet that does not exist yet is created at startup, so it
+        // has to pass the stricter portable-name rules createwallet uses.
+        // Existing wallets only need the basic rules (single segment, not
+        // empty / all-dots / control chars) so they keep opening.
+        std::string error;
+        const bool creating = !fs::exists(WalletDataFilePath(walletFile));
+        if (!CheckWalletName(walletFile, creating, error)) {
+            return InitError(error);
+        }
+        // The name alone decides the layout; refuse to start if the disk
+        // disagrees rather than guessing which file the user meant.
+        if (!CheckWalletLayout(walletFile, error)) {
+            return InitError(error);
         }
         if (!EnsureWalletDirectoryExists(walletFile)) {
             return InitError(strprintf(_("Failed to create wallet directory for %s"), walletFile));
         }
         // For directory wallets, BDB opens <walletdir>/<name>/wallet.dat;
-        // strFile passed to BDB is the path RELATIVE to the BDB env
-        // (whose home is GetWalletDir()) — i.e. "<name>/wallet.dat".
-        // WalletDataFileName is migration-aware: if a flat file already
-        // squats on a no-extension name, it returns the flat string so
-        // we keep opening that wallet without forcing a layout swap.
+        // strFile passed to BDB is the path RELATIVE to GetWalletDir(),
+        // i.e. "<name>/wallet.dat". Flat wallets keep "<name>".
         const std::string dbFile = WalletDataFileName(walletFile);
+        LogPrintf("Wallet %s: %s layout, file %s\n", walletFile,
+                  IsDirectoryWalletName(walletFile) ? "directory" : "flat",
+                  (GetWalletDir() / dbFile).string());
         if (!wallet_db_paths.insert(dbFile).second) {
             return InitError(strprintf(_("Error loading wallet %s. Duplicate -wallet filename specified."), walletFile));
         }
@@ -4132,11 +4143,11 @@ bool CWallet::BackupWallet(const std::string& strDest)
                 env->mapFileUseCount.erase(dbFilename);
 
                 // Copy wallet file. Source is the actual on-disk path
-                // (resolved via WalletDataFilePath for the migration-aware
-                // flat-or-directory layout). Destination behaviour is
+                // (GetWalletDir() / strWalletFile, which is already the
+                // BDB-relative layout path). Destination behaviour is
                 // unchanged: a directory destination gets the bare BDB
                 // filename appended.
-                fs::path pathSrc = WalletDataFilePath(strWalletFile);
+                fs::path pathSrc = GetWalletDir() / strWalletFile;
                 fs::path pathDest(strDest);
                 if (fs::is_directory(pathDest))
                     pathDest /= dbFilename;

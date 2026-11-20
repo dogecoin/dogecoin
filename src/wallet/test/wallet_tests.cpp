@@ -604,17 +604,53 @@ BOOST_FIXTURE_TEST_CASE(derive_new_child_key_test, WalletTestingSetup)
 // ─── Directory-layout wallet path resolution ───────────────────────
 //
 // Covers walletutil.{cpp,h}:
-//   - IsDirectoryWalletName  (dot-suffix heuristic)
-//   - WalletDataFileName     (migration-aware: flat file already at name
-//                             stays flat; otherwise resolves to
-//                             <name>/wallet.dat)
+//   - CheckWalletName        (traversal, dot names, portability)
+//   - IsDirectoryWalletName  (the name alone decides the layout)
+//   - CheckWalletLayout      (disk must agree with the name)
+//   - WalletDataFileName     (pure function of the name)
 //   - WalletNameFromDataFilePath (inverse — derives user-facing name
 //                                  from the internal BDB path)
+//   - GetWalletDir pinning   (no runtime redirect)
 //
 // Plus the per-wallet env path-split done by GetWalletEnv: env directory
 // is wallet_path.parent_path(), so two wallets in different subdirectories
 // resolve to different envs (the core property the bitdb→g_dbenvs refactor
-// gives us).
+// gives us), and the CDBEnv refcount / leak handling.
+
+BOOST_AUTO_TEST_CASE(walletutil_check_wallet_name)
+{
+    std::string error;
+    // Valid for load and create.
+    for (const char* ok : {"wallet.dat", "unsandbox", "unsandbox.dat", "a-b_c", "w2", ".hidden.dat", "con-backup"}) {
+        BOOST_CHECK_MESSAGE(CheckWalletName(ok, false, error), ok);
+        BOOST_CHECK_MESSAGE(CheckWalletName(ok, true, error), ok);
+    }
+
+    // Always rejected: empty, all-dot, control characters, traversal.
+    for (const char* bad : {"", ".", "..", "...", "....", "../escape.dat", "/etc/passwd", "sub/dir/w", "./w"}) {
+        BOOST_CHECK_MESSAGE(!CheckWalletName(bad, false, error), bad);
+        BOOST_CHECK_MESSAGE(!CheckWalletName(bad, true, error), bad);
+    }
+    BOOST_CHECK(!CheckWalletName(std::string("a\nb"), false, error));
+    BOOST_CHECK(!CheckWalletName(std::string("a\x01" "b"), false, error));
+    BOOST_CHECK(!CheckWalletName("../escape.dat", false, error));
+    BOOST_CHECK(error.find("resides outside") != std::string::npos);
+
+    // Rejected only when creating: names other platforms refuse. Loading
+    // keeps working so an existing wallet still opens after an upgrade.
+    for (const char* nonportable : {"....:", "a:b", "a<b", "a>b", "a\"b", "a|b", "a?b", "a*b", "a\\b",
+                                    "trailing.", "trailing ", "CON", "con.dat", "Nul", "aux.bak",
+                                    "COM1", "lpt9.dat", "PRN"}) {
+        BOOST_CHECK_MESSAGE(!CheckWalletName(nonportable, true, error), nonportable);
+        BOOST_CHECK_MESSAGE(CheckWalletName(nonportable, false, error), nonportable);
+    }
+    BOOST_CHECK(!CheckWalletName("....:", true, error));
+    BOOST_CHECK(error.find("':'") != std::string::npos);
+    // Device-name rule only matches the whole base name.
+    BOOST_CHECK(CheckWalletName("COM0", true, error));
+    BOOST_CHECK(CheckWalletName("COM10", true, error));
+    BOOST_CHECK(CheckWalletName("console", true, error));
+}
 
 BOOST_AUTO_TEST_CASE(walletutil_is_directory_wallet_name)
 {
@@ -634,22 +670,78 @@ BOOST_AUTO_TEST_CASE(walletutil_data_file_name_resolution)
     BOOST_CHECK_EQUAL(WalletDataFileName("wallet.dat"), "wallet.dat");
     BOOST_CHECK_EQUAL(WalletDataFileName("unsandbox.dat"), "unsandbox.dat");
 
-    // Dotless name, nothing on disk: directory layout.
-    // We use a fresh subdir under GetWalletDir() to keep test isolated
-    // from any prior runs (WalletTestingSetup gives us a temp datadir).
+    // Dotless name: directory layout, whatever is on disk.
     const std::string fresh_name = "wallet_unit_test_fresh";
     BOOST_CHECK(!fs::exists(GetWalletDir() / fresh_name));
     BOOST_CHECK_EQUAL(WalletDataFileName(fresh_name), fresh_name + "/wallet.dat");
 
-    // Dotless name, flat file already squats at <walletdir>/<name>:
-    // migration-aware path returns the bare name (flat) so the existing
-    // file keeps loading without a mkdir+mv.
     const std::string flat_name = "wallet_unit_test_flat";
     fs::path flat_path = GetWalletDir() / flat_name;
     std::ofstream(flat_path.string()) << "stub"; // create a regular file
     BOOST_CHECK(fs::is_regular_file(flat_path));
-    BOOST_CHECK_EQUAL(WalletDataFileName(flat_name), flat_name);
+    // The squatting file does NOT change the resolution...
+    BOOST_CHECK_EQUAL(WalletDataFileName(flat_name), flat_name + "/wallet.dat");
     fs::remove(flat_path); // clean up
+}
+
+BOOST_AUTO_TEST_CASE(walletutil_check_wallet_layout)
+{
+    std::string error;
+    // Nothing on disk yet: fine, the wallet is new.
+    BOOST_CHECK(CheckWalletLayout("wallet_layout_new", error));
+    BOOST_CHECK(CheckWalletLayout("wallet_layout_new.dat", error));
+
+    // Directory-layout name with its directory: fine.
+    const fs::path dir_path = GetWalletDir() / "wallet_layout_dir";
+    fs::create_directories(dir_path);
+    BOOST_CHECK(CheckWalletLayout("wallet_layout_dir", error));
+    fs::remove_all(dir_path);
+
+    // ...but a regular file squatting a directory-layout name is refused,
+    // with a message naming the file and the target path.
+    const fs::path squat_path = GetWalletDir() / "wallet_layout_squat";
+    std::ofstream(squat_path.string()) << "stub";
+    BOOST_CHECK(!CheckWalletLayout("wallet_layout_squat", error));
+    BOOST_CHECK(error.find("regular file") != std::string::npos);
+    BOOST_CHECK(error.find((squat_path / "wallet.dat").string()) != std::string::npos);
+    fs::remove(squat_path);
+
+    // Flat-layout name that is a directory is refused too.
+    const fs::path flat_dir = GetWalletDir() / "wallet_layout_flat.dat";
+    fs::create_directories(flat_dir);
+    BOOST_CHECK(!CheckWalletLayout("wallet_layout_flat.dat", error));
+    BOOST_CHECK(error.find("is a directory") != std::string::npos);
+    fs::remove_all(flat_dir);
+}
+
+BOOST_AUTO_TEST_CASE(walletutil_wallet_dir_is_pinned)
+{
+    // The fixture's datadir has no wallets/ subdir, so wallets live at
+    // the datadir root.
+    ResetWalletDirForTesting();
+    const fs::path datadir_root = GetWalletDir();
+    BOOST_CHECK(datadir_root == GetDataDir());
+    BOOST_CHECK(IsWalletDirAvailable());
+
+    InitWalletDir();
+    // Creating <datadir>/wallets at runtime must not redirect a pinned
+    // wallet dir...
+    const fs::path wallets_subdir = GetDataDir() / "wallets";
+    fs::create_directories(wallets_subdir);
+    BOOST_CHECK(GetWalletDir() == datadir_root);
+
+    // ...while an unpinned resolution (what a restart would see) picks it up.
+    ResetWalletDirForTesting();
+    BOOST_CHECK(GetWalletDir() == wallets_subdir);
+
+    // A pinned wallet dir that disappears is reported, not replaced.
+    InitWalletDir();
+    fs::remove_all(wallets_subdir);
+    BOOST_CHECK(GetWalletDir() == wallets_subdir);
+    BOOST_CHECK(!IsWalletDirAvailable());
+
+    ResetWalletDirForTesting();
+    BOOST_CHECK(GetWalletDir() == datadir_root);
 }
 
 BOOST_AUTO_TEST_CASE(walletutil_name_from_data_file_path_roundtrip)
@@ -681,10 +773,10 @@ BOOST_AUTO_TEST_CASE(walletutil_ensure_directory)
     // Cleanup
     fs::remove_all(wallet_path);
 
-    // Migration-friendly: a flat file at the no-extension name doesn't
-    // trigger a mkdir attempt (which would race with the file existing).
+    // A regular file squatting the directory name is a failure, never a
+    // silent switch to the flat layout; the file is left untouched.
     std::ofstream(wallet_path.string()) << "stub";
-    BOOST_CHECK(EnsureWalletDirectoryExists(name));
+    BOOST_CHECK(!EnsureWalletDirectoryExists(name));
     BOOST_CHECK(fs::is_regular_file(wallet_path));
     fs::remove(wallet_path);
 
