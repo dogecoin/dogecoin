@@ -9,6 +9,7 @@
 # Helpful routines for regression testing
 #
 
+import contextlib
 import math
 import os
 import sys
@@ -21,6 +22,7 @@ import http.client
 import random
 import shutil
 import subprocess
+import tempfile
 import time
 import re
 import errno
@@ -193,6 +195,9 @@ def initialize_datadir(dirname, n):
         f.write("listenonion=0\n")
     return datadir
 
+def get_datadir_path(dirname, n):
+    return os.path.join(dirname, "node" + str(n))
+
 def rpc_auth_pair(n):
     return 'rpcuser💻' + str(n), 'rpcpass🔑' + str(n)
 
@@ -331,7 +336,7 @@ def _rpchost_to_args(rpchost):
         rv += ['-rpcport=' + rpcport]
     return rv
 
-def start_node(i, dirname, extra_args=None, rpchost=None, timewait=None, binary=None):
+def start_node(i, dirname, extra_args=None, rpchost=None, timewait=None, binary=None, stderr=None):
     """
     Start a dogecoind and return RPC connection to it
     """
@@ -340,7 +345,7 @@ def start_node(i, dirname, extra_args=None, rpchost=None, timewait=None, binary=
         binary = os.getenv("DOGECOIND", "dogecoind")
     args = [ binary, "-datadir="+datadir, "-server", "-keypool=1", "-discover=0", "-rest", "-mocktime="+str(get_mocktime()) ]
     if extra_args is not None: args.extend(extra_args)
-    dogecoind_processes[i] = subprocess.Popen(args)
+    dogecoind_processes[i] = subprocess.Popen(args, stderr=stderr)
     if os.getenv("PYTHON_DEBUG", ""):
         print("start_node: dogecoind started, waiting for RPC to come up")
     url = rpc_url(i, rpchost)
@@ -353,6 +358,27 @@ def start_node(i, dirname, extra_args=None, rpchost=None, timewait=None, binary=
         coverage.write_all_rpc_commands(COVERAGE_DIR, proxy)
 
     return proxy
+
+def assert_start_raises_init_error(i, dirname, extra_args=None, expected_msg=None):
+    with tempfile.SpooledTemporaryFile(max_size=2**16) as log_stderr:
+        try:
+            node = start_node(i, dirname, extra_args, stderr=log_stderr)
+            stop_node(node, i)
+        except Exception as e:
+            assert 'dogecoind exited' in str(e) #node must have shutdown
+            # The process has exited; forget it so that stop_node skips it
+            del dogecoind_processes[i]
+            if expected_msg is not None:
+                log_stderr.seek(0)
+                stderr = log_stderr.read().decode('utf-8')
+                if expected_msg not in stderr:
+                    raise AssertionError("Expected error \"" + expected_msg + "\" not found in:\n" + stderr)
+        else:
+            if expected_msg is None:
+                assert_msg = "dogecoind should have exited with an error"
+            else:
+                assert_msg = "dogecoind should have exited with expected error " + expected_msg
+            raise AssertionError(assert_msg)
 
 def start_nodes(num_nodes, dirname, extra_args=None, rpchost=None, timewait=None, binary=None):
     """
@@ -373,6 +399,8 @@ def log_filename(dirname, n_node, logname):
     return os.path.join(dirname, "node"+str(n_node), "regtest", logname)
 
 def stop_node(node, i):
+    if i not in dogecoind_processes:
+        return # Node has already stopped
     try:
         node.stop()
     except http.client.CannotSendRequest as e:
@@ -380,6 +408,38 @@ def stop_node(node, i):
     return_code = dogecoind_processes[i].wait(timeout=DOGECOIND_PROC_WAIT_TIMEOUT)
     assert_equal(return_code, 0)
     del dogecoind_processes[i]
+
+def is_node_stopped(i):
+    """Checks whether node i has stopped.
+
+    Returns True if the node has stopped. False otherwise.
+    This function removes a stopped node from dogecoind_processes."""
+    if i not in dogecoind_processes:
+        return True
+    return_code = dogecoind_processes[i].poll()
+    if return_code is not None:
+        # process has stopped. Assert that it didn't return an error code.
+        assert_equal(return_code, 0)
+        del dogecoind_processes[i]
+        return True
+    return False
+
+@contextlib.contextmanager
+def assert_debug_log(dirname, num_node, expected_msgs):
+    debug_log = log_filename(dirname, num_node, "debug.log")
+    with open(debug_log, encoding='utf-8') as dl:
+        dl.seek(0, 2)
+        prev_size = dl.tell()
+    try:
+        yield
+    finally:
+        with open(debug_log, encoding='utf-8') as dl:
+            dl.seek(prev_size)
+            log = dl.read()
+        print_log = " - " + "\n - ".join(log.splitlines())
+        for expected_msg in expected_msgs:
+            if re.search(re.escape(expected_msg), log, flags=re.MULTILINE) is None:
+                raise AssertionError('Expected message "{}" does not partially match log:\n\n{}\n\n'.format(expected_msg, print_log))
 
 def stop_nodes(nodes):
     for i, node in enumerate(nodes):
