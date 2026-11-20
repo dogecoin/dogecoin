@@ -165,12 +165,12 @@ BOOST_AUTO_TEST_CASE(cnode_simple_test)
     bool fInboundIn = false;
 
     // Test that fFeeler is false by default.
-    std::unique_ptr<CNode> pnode1(new CNode(id++, NODE_NETWORK, height, hSocket, addr, 0, 0, pszDest, fInboundIn));
+    std::unique_ptr<CNode> pnode1(new CNode(id++, NODE_NETWORK, height, hSocket, addr, 0, 0, CAddress(), pszDest, fInboundIn));
     BOOST_CHECK(pnode1->fInbound == false);
     BOOST_CHECK(pnode1->fFeeler == false);
 
     fInboundIn = true;
-    std::unique_ptr<CNode> pnode2(new CNode(id++, NODE_NETWORK, height, hSocket, addr, 1, 1, pszDest, fInboundIn));
+    std::unique_ptr<CNode> pnode2(new CNode(id++, NODE_NETWORK, height, hSocket, addr, 1, 1, CAddress(), pszDest, fInboundIn));
     BOOST_CHECK(pnode2->fInbound == true);
     BOOST_CHECK(pnode2->fFeeler == false);
 }
@@ -196,7 +196,7 @@ BOOST_AUTO_TEST_CASE(ipv4_peer_with_ipv6_addrMe_test)
     in_addr ipv4AddrPeer;
     ipv4AddrPeer.s_addr = 0xa0b0c001;
     CAddress addr = CAddress(CService(ipv4AddrPeer, 7777), NODE_NETWORK);
-    std::unique_ptr<CNode> pnode(new CNode(0, NODE_NETWORK, 0, INVALID_SOCKET, addr, 0, 0, std::string{}, false));
+    std::unique_ptr<CNode> pnode(new CNode(0, NODE_NETWORK, 0, INVALID_SOCKET, addr, 0, 0, CAddress(), std::string{}, false));
     pnode->fSuccessfullyConnected.store(true);
 
     // the peer claims to be reaching us via IPv6
@@ -234,10 +234,10 @@ BOOST_AUTO_TEST_CASE(inbound_subnet_limit_ipv4_same_subnet_counted)
     CAddress addr4 = MakeAddr("8.8.8.4");
     CAddress addr5 = MakeAddr("8.8.8.5");
 
-    std::unique_ptr<CNode> n1(new CNode(id++, NODE_NETWORK, height, hSocket, addr1, 0, 0, "", true));
-    std::unique_ptr<CNode> n2(new CNode(id++, NODE_NETWORK, height, hSocket, addr2, 0, 0, "", true));
-    std::unique_ptr<CNode> n3(new CNode(id++, NODE_NETWORK, height, hSocket, addr3, 0, 0, "", true));
-    std::unique_ptr<CNode> n4(new CNode(id++, NODE_NETWORK, height, hSocket, addr4, 0, 0, "", true));
+    std::unique_ptr<CNode> n1(new CNode(id++, NODE_NETWORK, height, hSocket, addr1, 0, 0, CAddress(), "", true));
+    std::unique_ptr<CNode> n2(new CNode(id++, NODE_NETWORK, height, hSocket, addr2, 0, 0, CAddress(), "", true));
+    std::unique_ptr<CNode> n3(new CNode(id++, NODE_NETWORK, height, hSocket, addr3, 0, 0, CAddress(), "", true));
+    std::unique_ptr<CNode> n4(new CNode(id++, NODE_NETWORK, height, hSocket, addr4, 0, 0, CAddress(), "", true));
 
     std::vector<CNode*> nodes = {n1.get(), n2.get(), n3.get(), n4.get()};
 
@@ -264,10 +264,10 @@ BOOST_AUTO_TEST_CASE(inbound_subnet_limit_ipv4_different_subnet_not_counted)
     CAddress addr3 = MakeAddr("8.8.8.3");
     CAddress addr4 = MakeAddr("8.8.8.4");
 
-    std::unique_ptr<CNode> n1(new CNode(id++, NODE_NETWORK, height, hSocket, addr1, 0, 0, "", true));
-    std::unique_ptr<CNode> n2(new CNode(id++, NODE_NETWORK, height, hSocket, addr2, 0, 0, "", true));
-    std::unique_ptr<CNode> n3(new CNode(id++, NODE_NETWORK, height, hSocket, addr3, 0, 0, "", true));
-    std::unique_ptr<CNode> n4(new CNode(id++, NODE_NETWORK, height, hSocket, addr4, 0, 0, "", true));
+    std::unique_ptr<CNode> n1(new CNode(id++, NODE_NETWORK, height, hSocket, addr1, 0, 0, CAddress(), "", true));
+    std::unique_ptr<CNode> n2(new CNode(id++, NODE_NETWORK, height, hSocket, addr2, 0, 0, CAddress(), "", true));
+    std::unique_ptr<CNode> n3(new CNode(id++, NODE_NETWORK, height, hSocket, addr3, 0, 0, CAddress(), "", true));
+    std::unique_ptr<CNode> n4(new CNode(id++, NODE_NETWORK, height, hSocket, addr4, 0, 0, CAddress(), "", true));
 
     std::vector<CNode*> nodes = {n1.get(), n2.get(), n3.get(), n4.get()};
 
@@ -298,10 +298,10 @@ BOOST_AUTO_TEST_CASE(inbound_subnet_limit_whitelisted_not_counted)
     CAddress addr4 = MakeAddr("8.8.8.4");
     CAddress addr5 = MakeAddr("8.8.8.5");
 
-    std::unique_ptr<CNode> n1(new CNode(id++, NODE_NETWORK, height, hSocket, addr1, 0, 0, "", true));
-    std::unique_ptr<CNode> n2(new CNode(id++, NODE_NETWORK, height, hSocket, addr2, 0, 0, "", true));
-    std::unique_ptr<CNode> n3(new CNode(id++, NODE_NETWORK, height, hSocket, addr3, 0, 0, "", true));
-    std::unique_ptr<CNode> n4(new CNode(id++, NODE_NETWORK, height, hSocket, addr4, 0, 0, "", true));
+    std::unique_ptr<CNode> n1(new CNode(id++, NODE_NETWORK, height, hSocket, addr1, 0, 0, CAddress(), "", true));
+    std::unique_ptr<CNode> n2(new CNode(id++, NODE_NETWORK, height, hSocket, addr2, 0, 0, CAddress(), "", true));
+    std::unique_ptr<CNode> n3(new CNode(id++, NODE_NETWORK, height, hSocket, addr3, 0, 0, CAddress(), "", true));
+    std::unique_ptr<CNode> n4(new CNode(id++, NODE_NETWORK, height, hSocket, addr4, 0, 0, CAddress(), "", true));
 
     // Mark two of them as whitelisted
     n3->fWhitelisted = true;
@@ -335,10 +335,10 @@ BOOST_AUTO_TEST_CASE(inbound_subnet_limit_outbound_not_counted)
     CAddress addr5 = MakeAddr("8.8.8.5");
 
     // All four are outbound (fInbound = false)
-    std::unique_ptr<CNode> n1(new CNode(id++, NODE_NETWORK, height, hSocket, addr1, 0, 0, "", false));
-    std::unique_ptr<CNode> n2(new CNode(id++, NODE_NETWORK, height, hSocket, addr2, 0, 0, "", false));
-    std::unique_ptr<CNode> n3(new CNode(id++, NODE_NETWORK, height, hSocket, addr3, 0, 0, "", false));
-    std::unique_ptr<CNode> n4(new CNode(id++, NODE_NETWORK, height, hSocket, addr4, 0, 0, "", false));
+    std::unique_ptr<CNode> n1(new CNode(id++, NODE_NETWORK, height, hSocket, addr1, 0, 0, CAddress(), "", false));
+    std::unique_ptr<CNode> n2(new CNode(id++, NODE_NETWORK, height, hSocket, addr2, 0, 0, CAddress(), "", false));
+    std::unique_ptr<CNode> n3(new CNode(id++, NODE_NETWORK, height, hSocket, addr3, 0, 0, CAddress(), "", false));
+    std::unique_ptr<CNode> n4(new CNode(id++, NODE_NETWORK, height, hSocket, addr4, 0, 0, CAddress(), "", false));
 
     std::vector<CNode*> nodes = {n1.get(), n2.get(), n3.get(), n4.get()};
 
@@ -367,10 +367,10 @@ BOOST_AUTO_TEST_CASE(inbound_subnet_limit_private_addr_not_counted)
     CAddress addr4 = MakeAddr("192.168.1.4");
     CAddress addr5 = MakeAddr("192.168.1.5");
 
-    std::unique_ptr<CNode> n1(new CNode(id++, NODE_NETWORK, height, hSocket, addr1, 0, 0, "", true));
-    std::unique_ptr<CNode> n2(new CNode(id++, NODE_NETWORK, height, hSocket, addr2, 0, 0, "", true));
-    std::unique_ptr<CNode> n3(new CNode(id++, NODE_NETWORK, height, hSocket, addr3, 0, 0, "", true));
-    std::unique_ptr<CNode> n4(new CNode(id++, NODE_NETWORK, height, hSocket, addr4, 0, 0, "", true));
+    std::unique_ptr<CNode> n1(new CNode(id++, NODE_NETWORK, height, hSocket, addr1, 0, 0, CAddress(), "", true));
+    std::unique_ptr<CNode> n2(new CNode(id++, NODE_NETWORK, height, hSocket, addr2, 0, 0, CAddress(), "", true));
+    std::unique_ptr<CNode> n3(new CNode(id++, NODE_NETWORK, height, hSocket, addr3, 0, 0, CAddress(), "", true));
+    std::unique_ptr<CNode> n4(new CNode(id++, NODE_NETWORK, height, hSocket, addr4, 0, 0, CAddress(), "", true));
 
     std::vector<CNode*> nodes = {n1.get(), n2.get(), n3.get(), n4.get()};
 
@@ -401,10 +401,10 @@ BOOST_AUTO_TEST_CASE(inbound_subnet_limit_ipv6_same_subnet_counted)
     CAddress addr4 = MakeAddr("2600:1400:0:4::1");
     CAddress addr5 = MakeAddr("2600:1400:0:5::1");
 
-    std::unique_ptr<CNode> n1(new CNode(id++, NODE_NETWORK, height, hSocket, addr1, 0, 0, "", true));
-    std::unique_ptr<CNode> n2(new CNode(id++, NODE_NETWORK, height, hSocket, addr2, 0, 0, "", true));
-    std::unique_ptr<CNode> n3(new CNode(id++, NODE_NETWORK, height, hSocket, addr3, 0, 0, "", true));
-    std::unique_ptr<CNode> n4(new CNode(id++, NODE_NETWORK, height, hSocket, addr4, 0, 0, "", true));
+    std::unique_ptr<CNode> n1(new CNode(id++, NODE_NETWORK, height, hSocket, addr1, 0, 0, CAddress(), "", true));
+    std::unique_ptr<CNode> n2(new CNode(id++, NODE_NETWORK, height, hSocket, addr2, 0, 0, CAddress(), "", true));
+    std::unique_ptr<CNode> n3(new CNode(id++, NODE_NETWORK, height, hSocket, addr3, 0, 0, CAddress(), "", true));
+    std::unique_ptr<CNode> n4(new CNode(id++, NODE_NETWORK, height, hSocket, addr4, 0, 0, CAddress(), "", true));
 
     std::vector<CNode*> nodes = {n1.get(), n2.get(), n3.get(), n4.get()};
 
