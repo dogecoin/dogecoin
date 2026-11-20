@@ -1143,6 +1143,17 @@ void CConnman::AcceptConnection(const ListenSocket& hListenSocket) {
 void CConnman::DisconnectUnusedNodes()
 {
     LOCK(cs_vNodes);
+
+    if (!fNetworkActive) {
+        // Disconnect any connected nodes
+        for (CNode* pnode : vNodes) {
+            if (!pnode->fDisconnect) {
+                LogPrint("net", "Network not active, dropping peer=%d\n", pnode->GetId());
+                pnode->fDisconnect = true;
+            }
+        }
+    }
+
     // Disconnect unused nodes
     std::vector<CNode*> vNodesCopy = vNodes;
     BOOST_FOREACH(CNode* pnode, vNodesCopy)
@@ -2260,17 +2271,7 @@ void CConnman::SetNetworkActive(bool active)
         LogPrint("net", "SetNetworkActive: %s\n", active);
     }
 
-    if (!active) {
-        fNetworkActive = false;
-
-        LOCK(cs_vNodes);
-        // Close sockets to all nodes
-        BOOST_FOREACH(CNode* pnode, vNodes) {
-            pnode->CloseSocketDisconnect();
-        }
-    } else {
-        fNetworkActive = true;
-    }
+    fNetworkActive = active;
 
     uiInterface.NotifyNetworkActiveChanged(fNetworkActive);
 }
