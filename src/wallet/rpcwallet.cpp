@@ -1158,7 +1158,7 @@ UniValue sendmany(const JSONRPCRequest& request)
 }
 
 // Defined in rpc/misc.cpp
-extern CScript _createmultisig_redeemScript(const UniValue& params);
+extern CScript _createmultisig_redeemScript(CWallet * const pwallet, const UniValue& params);
 
 UniValue addmultisigaddress(const JSONRPCRequest& request)
 {
@@ -1201,7 +1201,7 @@ UniValue addmultisigaddress(const JSONRPCRequest& request)
         strAccount = AccountFromValue(request.params[2]);
 
     // Construct using pay-to-script-hash:
-    CScript inner = _createmultisig_redeemScript(request.params);
+    CScript inner = _createmultisig_redeemScript(pwallet, request.params);
     CScriptID innerID(inner);
     pwallet->AddCScript(inner);
 

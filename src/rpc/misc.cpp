@@ -26,6 +26,8 @@
 
 #include <univalue.h>
 
+class CWallet;
+
 using namespace std;
 
 /**
@@ -116,13 +118,17 @@ UniValue getinfo(const JSONRPCRequest& request)
 class DescribeAddressVisitor : public boost::static_visitor<UniValue>
 {
 public:
+    CWallet * const pwallet;
+
+    explicit DescribeAddressVisitor(CWallet *_pwallet) : pwallet(_pwallet) {}
+
     UniValue operator()(const CNoDestination &dest) const { return UniValue(UniValue::VOBJ); }
 
     UniValue operator()(const CKeyID &keyID) const {
         UniValue obj(UniValue::VOBJ);
         CPubKey vchPubKey;
         obj.pushKV("isscript", false);
-        if (pwalletMain && pwalletMain->GetPubKey(keyID, vchPubKey)) {
+        if (pwallet && pwallet->GetPubKey(keyID, vchPubKey)) {
             obj.pushKV("pubkey", HexStr(vchPubKey));
             obj.pushKV("iscompressed", vchPubKey.IsCompressed());
         }
@@ -133,7 +139,7 @@ public:
         UniValue obj(UniValue::VOBJ);
         CScript subscript;
         obj.pushKV("isscript", true);
-        if (pwalletMain && pwalletMain->GetCScript(scriptID, subscript)) {
+        if (pwallet && pwallet->GetCScript(scriptID, subscript)) {
             std::vector<CTxDestination> addresses;
             txnouttype whichType;
             int nRequired;
@@ -212,7 +218,7 @@ UniValue validateaddress(const JSONRPCRequest& request)
         isminetype mine = pwallet ? IsMine(*pwallet, dest) : ISMINE_NO;
         ret.pushKV("ismine", (mine & ISMINE_SPENDABLE) ? true : false);
         ret.pushKV("iswatchonly", (mine & ISMINE_WATCH_ONLY) ? true: false);
-        UniValue detail = boost::apply_visitor(DescribeAddressVisitor(), dest);
+        UniValue detail = boost::apply_visitor(DescribeAddressVisitor(pwallet), dest);
         ret.pushKVs(detail);
         if (pwallet && pwallet->mapAddressBook.count(dest))
             ret.pushKV("account", pwallet->mapAddressBook[dest].name);
@@ -239,7 +245,7 @@ UniValue validateaddress(const JSONRPCRequest& request)
 /**
  * Used by addmultisigaddress / createmultisig:
  */
-CScript _createmultisig_redeemScript(const UniValue& params)
+CScript _createmultisig_redeemScript(CWallet * const pwallet, const UniValue& params)
 {
     int nRequired = params[0].get_int();
     const UniValue& keys = params[1].get_array();
@@ -261,14 +267,14 @@ CScript _createmultisig_redeemScript(const UniValue& params)
 #ifdef ENABLE_WALLET
         // Case 1: Bitcoin address and we have full public key:
         CBitcoinAddress address(ks);
-        if (pwalletMain && address.IsValid())
+        if (pwallet && address.IsValid())
         {
             CKeyID keyID;
             if (!address.GetKeyID(keyID))
                 throw runtime_error(
                     strprintf("%s does not refer to a key",ks));
             CPubKey vchPubKey;
-            if (!pwalletMain->GetPubKey(keyID, vchPubKey))
+            if (!pwallet->GetPubKey(keyID, vchPubKey))
                 throw runtime_error(
                     strprintf("no full public key for address %s",ks));
             if (!vchPubKey.IsFullyValid())
@@ -331,8 +337,17 @@ UniValue createmultisig(const JSONRPCRequest& request)
         throw runtime_error(msg);
     }
 
+#ifdef ENABLE_WALLET
+    // Wallet named by /wallet/<name>/, else the legacy default wallet.
+    CWallet * const pwallet = request.URI.substr(0, WALLET_ENDPOINT_BASE.size()) == WALLET_ENDPOINT_BASE
+        ? GetWalletForJSONRPCRequest(request)
+        : GetDefaultWalletForJSONRPCRequest(request);
+#else
+    CWallet * const pwallet = nullptr;
+#endif
+
     // Construct using pay-to-script-hash:
-    CScript inner = _createmultisig_redeemScript(request.params);
+    CScript inner = _createmultisig_redeemScript(pwallet, request.params);
     CScriptID innerID(inner);
     CBitcoinAddress address(innerID);
 
