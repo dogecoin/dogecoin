@@ -215,7 +215,7 @@ static bool HTTPReq_JSONRPC(HTTPRequest* req, const std::string &)
 
         // array of requests
         } else if (valRequest.isArray())
-            strReply = JSONRPCExecBatch(valRequest.get_array());
+            strReply = JSONRPCExecBatch(jreq, valRequest.get_array());
         else
             throw JSONRPCError(RPC_PARSE_ERROR, "Top-level object parse error");
 
@@ -256,6 +256,7 @@ bool StartHTTPRPC()
         return false;
 
     RegisterHTTPHandler("/", true, HTTPReq_JSONRPC);
+    RegisterHTTPHandler("/wallet/", false, HTTPReq_JSONRPC);
 
     assert(EventBase());
     httpRPCTimerInterface = new HTTPRPCTimerInterface(EventBase());
@@ -272,6 +273,7 @@ void StopHTTPRPC()
 {
     LogPrint("rpc", "Stopping HTTP RPC server\n");
     UnregisterHTTPHandler("/", true);
+    UnregisterHTTPHandler("/wallet/", false);
     if (httpRPCTimerInterface) {
         RPCUnsetTimerInterface(httpRPCTimerInterface);
         delete httpRPCTimerInterface;

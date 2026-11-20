@@ -14,7 +14,9 @@
 #include "rpc/server.h"
 #include "test/test_bitcoin.h"
 #include "validation.h"
+#include "wallet/db.h"
 #include "wallet/test/wallet_test_fixture.h"
+#include "wallet/walletutil.h"
 
 #include <boost/foreach.hpp>
 #include <boost/test/unit_test.hpp>
@@ -408,6 +410,8 @@ BOOST_FIXTURE_TEST_CASE(rescan, TestChain240Setup)
         CWallet wallet;
         CWallet *backup = ::pwalletMain;
         ::pwalletMain = &wallet;
+        std::vector<CWalletRef> vpwallets_backup = ::vpwallets;
+        ::vpwallets = {&wallet};
         UniValue keys;
         keys.setArray();
         UniValue key;
@@ -431,6 +435,7 @@ BOOST_FIXTURE_TEST_CASE(rescan, TestChain240Setup)
         UniValue response = importmulti(request);
         BOOST_CHECK_EQUAL(response.write(), strprintf("[{\"success\":false,\"error\":{\"code\":-1,\"message\":\"Failed to rescan before time %d, transactions may be missing.\"}},{\"success\":true}]", newTip->GetBlockTimeMax()));
         ::pwalletMain = backup;
+        ::vpwallets = vpwallets_backup;
     }
 }
 
@@ -441,6 +446,7 @@ BOOST_FIXTURE_TEST_CASE(rescan, TestChain240Setup)
 BOOST_FIXTURE_TEST_CASE(importwallet_rescan, TestChain240Setup)
 {
     CWallet *pwalletMainBackup = ::pwalletMain;
+    std::vector<CWalletRef> vpwallets_backup = ::vpwallets;
     LOCK(cs_main);
 
     // Create two blocks with same timestamp to verify that importwallet rescan
@@ -467,6 +473,7 @@ BOOST_FIXTURE_TEST_CASE(importwallet_rescan, TestChain240Setup)
         request.params.setArray();
         request.params.push_back("wallet.backup");
         ::pwalletMain = &wallet;
+        ::vpwallets = {&wallet};
         ::dumpwallet(request);
     }
 
@@ -479,6 +486,7 @@ BOOST_FIXTURE_TEST_CASE(importwallet_rescan, TestChain240Setup)
         request.params.setArray();
         request.params.push_back(TestChain240Setup::pathTemp.string() + "/regtest/backups/wallet.backup");
         ::pwalletMain = &wallet;
+        ::vpwallets = {&wallet};
         ::importwallet(request);
 
         BOOST_CHECK_EQUAL(wallet.mapWallet.size(), 3);
@@ -492,6 +500,7 @@ BOOST_FIXTURE_TEST_CASE(importwallet_rescan, TestChain240Setup)
 
     SetMockTime(0);
     ::pwalletMain = pwalletMainBackup;
+    ::vpwallets = vpwallets_backup;
 }
 
 BOOST_AUTO_TEST_CASE(GetMinimumFee_test)
@@ -590,6 +599,287 @@ BOOST_FIXTURE_TEST_CASE(derive_new_child_key_test, WalletTestingSetup)
     // Verify the child public key matches the expected value
     std::string derivedPubKeyHex = HexStr(childPubKey.begin(), childPubKey.end());
     BOOST_CHECK_EQUAL(derivedPubKeyHex, expectedPubKeyHex);
+}
+
+// ─── Directory-layout wallet path resolution ───────────────────────
+//
+// Covers walletutil.{cpp,h}:
+//   - CheckWalletName        (traversal, dot names, portability)
+//   - IsDirectoryWalletName  (the name alone decides the layout)
+//   - CheckWalletLayout      (disk must agree with the name)
+//   - WalletDataFileName     (pure function of the name)
+//   - WalletNameFromDataFilePath (inverse — derives user-facing name
+//                                  from the internal BDB path)
+//   - GetWalletDir pinning   (no runtime redirect)
+//
+// Plus the per-wallet env path-split done by GetWalletEnv: env directory
+// is wallet_path.parent_path(), so two wallets in different subdirectories
+// resolve to different envs (the core property the bitdb→g_dbenvs refactor
+// gives us), and the CDBEnv refcount / leak handling.
+
+BOOST_AUTO_TEST_CASE(walletutil_check_wallet_name)
+{
+    std::string error;
+    // Valid for load and create.
+    for (const char* ok : {"wallet.dat", "unsandbox", "unsandbox.dat", "a-b_c", "w2", ".hidden.dat", "con-backup"}) {
+        BOOST_CHECK_MESSAGE(CheckWalletName(ok, false, error), ok);
+        BOOST_CHECK_MESSAGE(CheckWalletName(ok, true, error), ok);
+    }
+
+    // Always rejected: empty, all-dot, control characters, traversal.
+    for (const char* bad : {"", ".", "..", "...", "....", "../escape.dat", "/etc/passwd", "sub/dir/w", "./w"}) {
+        BOOST_CHECK_MESSAGE(!CheckWalletName(bad, false, error), bad);
+        BOOST_CHECK_MESSAGE(!CheckWalletName(bad, true, error), bad);
+    }
+    BOOST_CHECK(!CheckWalletName(std::string("a\nb"), false, error));
+    BOOST_CHECK(!CheckWalletName(std::string("a\x01" "b"), false, error));
+    BOOST_CHECK(!CheckWalletName("../escape.dat", false, error));
+    BOOST_CHECK(error.find("resides outside") != std::string::npos);
+
+    // Rejected only when creating: names other platforms refuse. Loading
+    // keeps working so an existing wallet still opens after an upgrade.
+    for (const char* nonportable : {"....:", "a:b", "a<b", "a>b", "a\"b", "a|b", "a?b", "a*b", "a\\b",
+                                    "trailing.", "trailing ", "CON", "con.dat", "Nul", "aux.bak",
+                                    "COM1", "lpt9.dat", "PRN"}) {
+        BOOST_CHECK_MESSAGE(!CheckWalletName(nonportable, true, error), nonportable);
+        BOOST_CHECK_MESSAGE(CheckWalletName(nonportable, false, error), nonportable);
+    }
+    BOOST_CHECK(!CheckWalletName("....:", true, error));
+    BOOST_CHECK(error.find("':'") != std::string::npos);
+    // Device-name rule only matches the whole base name.
+    BOOST_CHECK(CheckWalletName("COM0", true, error));
+    BOOST_CHECK(CheckWalletName("COM10", true, error));
+    BOOST_CHECK(CheckWalletName("console", true, error));
+}
+
+BOOST_AUTO_TEST_CASE(walletutil_is_directory_wallet_name)
+{
+    // Dotted names → flat layout (legacy wallet.dat, *.dat, *.bak)
+    BOOST_CHECK_EQUAL(IsDirectoryWalletName(""), false);
+    BOOST_CHECK_EQUAL(IsDirectoryWalletName("wallet.dat"), false);
+    BOOST_CHECK_EQUAL(IsDirectoryWalletName("unsandbox.dat"), false);
+    BOOST_CHECK_EQUAL(IsDirectoryWalletName("legacy.bak"), false);
+    // Dotless names → directory layout (the new default)
+    BOOST_CHECK_EQUAL(IsDirectoryWalletName("unsandbox"), true);
+    BOOST_CHECK_EQUAL(IsDirectoryWalletName("makepostsell"), true);
+}
+
+BOOST_AUTO_TEST_CASE(walletutil_data_file_name_resolution)
+{
+    // Flat (dotted) names round-trip unchanged.
+    BOOST_CHECK_EQUAL(WalletDataFileName("wallet.dat"), "wallet.dat");
+    BOOST_CHECK_EQUAL(WalletDataFileName("unsandbox.dat"), "unsandbox.dat");
+
+    // Dotless name: directory layout, whatever is on disk.
+    const std::string fresh_name = "wallet_unit_test_fresh";
+    BOOST_CHECK(!fs::exists(GetWalletDir() / fresh_name));
+    BOOST_CHECK_EQUAL(WalletDataFileName(fresh_name), fresh_name + "/wallet.dat");
+
+    const std::string flat_name = "wallet_unit_test_flat";
+    fs::path flat_path = GetWalletDir() / flat_name;
+    std::ofstream(flat_path.string()) << "stub"; // create a regular file
+    BOOST_CHECK(fs::is_regular_file(flat_path));
+    // The squatting file does NOT change the resolution...
+    BOOST_CHECK_EQUAL(WalletDataFileName(flat_name), flat_name + "/wallet.dat");
+    fs::remove(flat_path); // clean up
+}
+
+BOOST_AUTO_TEST_CASE(walletutil_check_wallet_layout)
+{
+    std::string error;
+    // Nothing on disk yet: fine, the wallet is new.
+    BOOST_CHECK(CheckWalletLayout("wallet_layout_new", error));
+    BOOST_CHECK(CheckWalletLayout("wallet_layout_new.dat", error));
+
+    // Directory-layout name with its directory: fine.
+    const fs::path dir_path = GetWalletDir() / "wallet_layout_dir";
+    fs::create_directories(dir_path);
+    BOOST_CHECK(CheckWalletLayout("wallet_layout_dir", error));
+    fs::remove_all(dir_path);
+
+    // ...but a regular file squatting a directory-layout name is refused,
+    // with a message naming the file and the target path.
+    const fs::path squat_path = GetWalletDir() / "wallet_layout_squat";
+    std::ofstream(squat_path.string()) << "stub";
+    BOOST_CHECK(!CheckWalletLayout("wallet_layout_squat", error));
+    BOOST_CHECK(error.find("regular file") != std::string::npos);
+    BOOST_CHECK(error.find((squat_path / "wallet.dat").string()) != std::string::npos);
+    fs::remove(squat_path);
+
+    // Flat-layout name that is a directory is refused too.
+    const fs::path flat_dir = GetWalletDir() / "wallet_layout_flat.dat";
+    fs::create_directories(flat_dir);
+    BOOST_CHECK(!CheckWalletLayout("wallet_layout_flat.dat", error));
+    BOOST_CHECK(error.find("is a directory") != std::string::npos);
+    fs::remove_all(flat_dir);
+}
+
+BOOST_AUTO_TEST_CASE(walletutil_wallet_dir_is_pinned)
+{
+    // The fixture's datadir has no wallets/ subdir, so wallets live at
+    // the datadir root.
+    ResetWalletDirForTesting();
+    const fs::path datadir_root = GetWalletDir();
+    BOOST_CHECK(datadir_root == GetDataDir());
+    BOOST_CHECK(IsWalletDirAvailable());
+
+    InitWalletDir();
+    // Creating <datadir>/wallets at runtime must not redirect a pinned
+    // wallet dir...
+    const fs::path wallets_subdir = GetDataDir() / "wallets";
+    fs::create_directories(wallets_subdir);
+    BOOST_CHECK(GetWalletDir() == datadir_root);
+
+    // ...while an unpinned resolution (what a restart would see) picks it up.
+    ResetWalletDirForTesting();
+    BOOST_CHECK(GetWalletDir() == wallets_subdir);
+
+    // A pinned wallet dir that disappears is reported, not replaced.
+    InitWalletDir();
+    fs::remove_all(wallets_subdir);
+    BOOST_CHECK(GetWalletDir() == wallets_subdir);
+    BOOST_CHECK(!IsWalletDirAvailable());
+
+    ResetWalletDirForTesting();
+    BOOST_CHECK(GetWalletDir() == datadir_root);
+}
+
+BOOST_AUTO_TEST_CASE(walletutil_name_from_data_file_path_roundtrip)
+{
+    // Inverse of WalletDataFileName for the directory case
+    BOOST_CHECK_EQUAL(WalletNameFromDataFilePath("unsandbox/wallet.dat"), "unsandbox");
+    BOOST_CHECK_EQUAL(WalletNameFromDataFilePath("makepostsell/wallet.dat"), "makepostsell");
+    // Flat names pass through unchanged
+    BOOST_CHECK_EQUAL(WalletNameFromDataFilePath("wallet.dat"), "wallet.dat");
+    BOOST_CHECK_EQUAL(WalletNameFromDataFilePath("legacy.dat"), "legacy.dat");
+    // Empty stays empty (no crash)
+    BOOST_CHECK_EQUAL(WalletNameFromDataFilePath(""), "");
+}
+
+BOOST_AUTO_TEST_CASE(walletutil_ensure_directory)
+{
+    const std::string name = "wallet_unit_test_mkdir";
+    fs::path wallet_path = GetWalletDir() / name;
+    // Clean slate
+    if (fs::exists(wallet_path)) fs::remove_all(wallet_path);
+
+    BOOST_CHECK(EnsureWalletDirectoryExists(name));
+    BOOST_CHECK(fs::is_directory(wallet_path));
+
+    // Idempotent (second call no-op)
+    BOOST_CHECK(EnsureWalletDirectoryExists(name));
+    BOOST_CHECK(fs::is_directory(wallet_path));
+
+    // Cleanup
+    fs::remove_all(wallet_path);
+
+    // A regular file squatting the directory name is a failure, never a
+    // silent switch to the flat layout; the file is left untouched.
+    std::ofstream(wallet_path.string()) << "stub";
+    BOOST_CHECK(!EnsureWalletDirectoryExists(name));
+    BOOST_CHECK(fs::is_regular_file(wallet_path));
+    fs::remove(wallet_path);
+
+    // Flat (dotted) names always succeed without touching disk.
+    BOOST_CHECK(EnsureWalletDirectoryExists("any.dat"));
+}
+
+BOOST_AUTO_TEST_CASE(getwalletenv_per_directory_isolation)
+{
+    // The bitdb→g_dbenvs core property: wallets in different
+    // directories resolve to different CDBEnv pointers; wallets in
+    // the same directory share one.
+    std::string fn_alpha, fn_beta, fn_alpha_two;
+    CDBEnv* env_alpha     = GetWalletEnv(GetWalletDir() / "alpha"     / "wallet.dat", fn_alpha);
+    CDBEnv* env_beta      = GetWalletEnv(GetWalletDir() / "beta"      / "wallet.dat", fn_beta);
+    CDBEnv* env_alpha_two = GetWalletEnv(GetWalletDir() / "alpha"     / "wallet.dat", fn_alpha_two);
+
+    BOOST_CHECK(env_alpha != nullptr);
+    BOOST_CHECK(env_beta  != nullptr);
+    BOOST_CHECK(env_alpha != env_beta);          // different dirs → different envs
+    BOOST_CHECK(env_alpha == env_alpha_two);     // same dir → same env
+
+    // database_filename always strips the directory.
+    BOOST_CHECK_EQUAL(fn_alpha,     "wallet.dat");
+    BOOST_CHECK_EQUAL(fn_beta,      "wallet.dat");
+    BOOST_CHECK_EQUAL(fn_alpha_two, "wallet.dat");
+
+    // Each env knows its own directory.
+    BOOST_CHECK_EQUAL(env_alpha->Directory().filename().string(), "alpha");
+    BOOST_CHECK_EQUAL(env_beta->Directory().filename().string(),  "beta");
+
+    // Flat-layout wallets at <walletdir>/<name>.dat share the
+    // walletdir env (parent_path of "<walletdir>/foo.dat" is
+    // <walletdir>), matching pre-refactor semantics.
+    std::string fn_flat_a, fn_flat_b;
+    CDBEnv* env_flat_a = GetWalletEnv(GetWalletDir() / "legacy_a.dat", fn_flat_a);
+    CDBEnv* env_flat_b = GetWalletEnv(GetWalletDir() / "legacy_b.dat", fn_flat_b);
+    BOOST_CHECK(env_flat_a == env_flat_b);
+    BOOST_CHECK_EQUAL(fn_flat_a, "legacy_a.dat");
+    BOOST_CHECK_EQUAL(fn_flat_b, "legacy_b.dat");
+}
+
+// CDB's constructor is protected (callers go through CWalletDB); expose it
+// so the refcount tests can open raw handles.
+class TestCDB : public CDB
+{
+public:
+    TestCDB(const fs::path& wallet_path, const char* mode) : CDB(wallet_path, mode) {}
+};
+
+BOOST_AUTO_TEST_CASE(cdbenv_refcount_balanced_across_open_close)
+{
+    // Every CDB open must be matched by a close, or unloadwallet and
+    // shutdown would see a leaked reference.
+    const fs::path wallet_path = GetWalletDir() / "refcount_balance" / "wallet.dat";
+    fs::create_directories(wallet_path.parent_path());
+    std::string dbFilename;
+    CDBEnv* env = GetWalletEnv(wallet_path, dbFilename);
+
+    for (int i = 0; i < 25; ++i) {
+        TestCDB db(wallet_path, "cr+");
+        BOOST_CHECK_EQUAL(env->mapFileUseCount[dbFilename], 1);
+        {
+            TestCDB nested(wallet_path, "r");
+            BOOST_CHECK_EQUAL(env->mapFileUseCount[dbFilename], 2);
+        }
+        BOOST_CHECK_EQUAL(env->mapFileUseCount[dbFilename], 1);
+    }
+    BOOST_CHECK_EQUAL(env->mapFileUseCount[dbFilename], 0);
+    BOOST_CHECK(!env->HasOpenHandles());
+
+    // Clean shutdown closes the env and removes its log directory.
+    env->Flush(true);
+    BOOST_CHECK(!env->IsInitialized());
+    BOOST_CHECK(!fs::exists(wallet_path.parent_path() / "database"));
+}
+
+BOOST_AUTO_TEST_CASE(cdbenv_close_refuses_with_open_handle)
+{
+    // A leaked handle at teardown must be logged and survived, not
+    // asserted on (which would crash without a trace in debug.log).
+    const fs::path wallet_path = GetWalletDir() / "refcount_leak" / "wallet.dat";
+    fs::create_directories(wallet_path.parent_path());
+    std::string dbFilename;
+    CDBEnv* env = GetWalletEnv(wallet_path, dbFilename);
+    {
+        TestCDB db(wallet_path, "cr+");
+        BOOST_CHECK(env->HasOpenHandles());
+
+        // Shutdown flush keeps the env open while the handle is live...
+        env->Flush(true);
+        BOOST_CHECK(env->IsInitialized());
+
+        // ...and so does a direct Close(), instead of aborting.
+        env->Close();
+        BOOST_CHECK(env->IsInitialized());
+
+        // The handle still works.
+        BOOST_CHECK(db.WriteVersion(1));
+    }
+    BOOST_CHECK(!env->HasOpenHandles());
+    env->Flush(true);
+    BOOST_CHECK(!env->IsInitialized());
 }
 
 BOOST_AUTO_TEST_SUITE_END()

@@ -205,8 +205,11 @@ void Shutdown()
     StopHTTPServer();
 #ifdef ENABLE_WALLET
     // Dogecoin 1.14 TODO: ShutdownRPCMining();
-    if (pwalletMain)
-        pwalletMain->Flush(false);
+    // RPC is stopped above, so no lifecycle RPC can change vpwallets here.
+    // (cs_wallets is a leaf lock; Flush takes cs_db, so we must not hold it.)
+    for (CWalletRef pwallet : vpwallets) {
+        pwallet->Flush(false);
+    }
 #endif
     MapPort(false);
     UnregisterValidationInterface(peerLogic.get());
@@ -244,8 +247,11 @@ void Shutdown()
         pblocktree = NULL;
     }
 #ifdef ENABLE_WALLET
-    if (pwalletMain)
-        pwalletMain->Flush(true);
+    // Each directory-layout wallet has its own BDB env (flat wallets share
+    // the walletdir env), so shut down every env, not just the first
+    // wallet's. Envs that still have open handles are left for BDB's
+    // DB_RECOVER on next start and are named in the log.
+    FlushAllDbEnvs(true);
 #endif
 
 #if ENABLE_ZMQ
@@ -265,8 +271,15 @@ void Shutdown()
 #endif
     UnregisterAllValidationInterfaces();
 #ifdef ENABLE_WALLET
-    delete pwalletMain;
-    pwalletMain = NULL;
+    // RPC and every wallet-touching thread are gone by now.
+    for (CWalletRef pwallet : vpwallets) {
+        delete pwallet;
+    }
+    {
+        LOCK(cs_wallets);
+        vpwallets.clear();
+        pwalletMain = NULL;
+    }
 #endif
     globalVerifyHandle.reset();
     ECC_Stop();
@@ -1713,13 +1726,16 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
 
     // Dogecoin: Do we need to do any RPC mining init here?
 
+#ifdef ENABLE_WALLET
+    // Run before RPC warmup ends, so no lifecycle RPC (unloadwallet in
+    // particular) can change vpwallets while we iterate it.
+    for (CWalletRef pwallet : vpwallets) {
+        pwallet->postInitProcess(threadGroup);
+    }
+#endif
+
     SetRPCWarmupFinished();
     uiInterface.InitMessage(_("Done loading"));
-
-#ifdef ENABLE_WALLET
-    if (pwalletMain)
-        pwalletMain->postInitProcess(threadGroup);
-#endif
 
     return !fRequestShutdown;
 }

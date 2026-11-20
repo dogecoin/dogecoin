@@ -46,6 +46,7 @@ std::string HelpMessageCli()
     strUsage += HelpMessageOpt("-rpcuser=<user>", _("Username for JSON-RPC connections"));
     strUsage += HelpMessageOpt("-rpcpassword=<pw>", _("Password for JSON-RPC connections"));
     strUsage += HelpMessageOpt("-rpcclienttimeout=<n>", strprintf(_("Timeout during HTTP requests (default: %d)"), DEFAULT_HTTP_CLIENT_TIMEOUT));
+    strUsage += HelpMessageOpt("-rpcwallet=<walletname>", _("Send RPC for non-default wallet on RPC server (needs to exactly match corresponding -wallet option passed to dogecoind)"));
     strUsage += HelpMessageOpt("-stdin", _("Read extra arguments from standard input, one per line until EOF/Ctrl-D (recommended for sensitive information such as passphrases)"));
 
     return strUsage;
@@ -236,7 +237,25 @@ UniValue CallRPC(const std::string& strMethod, const UniValue& params)
     assert(output_buffer);
     evbuffer_add(output_buffer, strRequest.data(), strRequest.size());
 
-    int r = evhttp_make_request(evcon.get(), req.get(), EVHTTP_REQ_POST, "/");
+    // Per-wallet endpoint when -rpcwallet=<name> is set. The server
+    // routes /wallet/<name>/ requests via the prefix handler added in
+    // 'httprpc: register /wallet/ prefix handler for per-wallet RPC
+    // routing' so this is the same dispatch the BEAM-side multi-wallet
+    // clients use. With -rpcwallet unset we keep posting to "/" — the
+    // legacy single-wallet entry point — so non-wallet RPCs (and
+    // single-wallet setups) behave identically to before.
+    std::string endpoint = "/";
+    if (!GetArg("-rpcwallet", "").empty()) {
+        std::string walletName = GetArg("-rpcwallet", "");
+        char *encodedURI = evhttp_uriencode(walletName.c_str(), walletName.size(), false);
+        if (encodedURI) {
+            endpoint = "/wallet/" + std::string(encodedURI);
+            free(encodedURI);
+        } else {
+            throw CConnectionFailed("uri-encode failed");
+        }
+    }
+    int r = evhttp_make_request(evcon.get(), req.get(), EVHTTP_REQ_POST, endpoint.c_str());
     req.release(); // ownership moved to evcon in above call
     if (r != 0) {
         throw CConnectionFailed("send http request failed");

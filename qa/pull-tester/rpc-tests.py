@@ -133,6 +133,7 @@ testScripts = [
     'p2p-tx-download.py',
     # vv Tests less than 30s vv
     'walletnotify.py',
+    'multiwallet.py',
     'p2p_invalid_locator.py',
     'mempool_resurrect_test.py',
     'txn_doublespend.py --mineblock',
