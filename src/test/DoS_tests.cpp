@@ -31,6 +31,7 @@ struct COrphanTx {
     CTransactionRef tx;
     NodeId fromPeer;
     int64_t nTimeExpire;
+    size_t list_pos;
 };
 extern std::map<uint256, COrphanTx> mapOrphanTransactions;
 
