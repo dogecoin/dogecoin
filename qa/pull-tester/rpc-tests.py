@@ -134,6 +134,7 @@ testScripts = [
     # vv Tests less than 30s vv
     'walletnotify.py',
     'p2p_invalid_locator.py',
+    'reconsiderblock-headers.py',
     'mempool_resurrect_test.py',
     'txn_doublespend.py --mineblock',
     'txn_clone.py',

@@ -2707,7 +2707,6 @@ bool InvalidateBlock(CValidationState& state, const CChainParams& chainparams, C
     while (it != mapBlockIndex.end()) {
         if (it->second->IsValid(BLOCK_VALID_TRANSACTIONS) && it->second->nChainTx && !setBlockIndexCandidates.value_comp()(it->second, chainActive.Tip())) {
             setBlockIndexCandidates.insert(it->second);
-            gFailedBlocks.erase(it->second);
         }
         it++;
     }
@@ -2736,6 +2735,7 @@ bool ResetBlockFailureFlags(CBlockIndex *pindex) {
                 // Reset invalid block marker if it was pointing to one of those.
                 pindexBestInvalid = NULL;
             }
+            gFailedBlocks.erase(it->second);
         }
         it++;
     }
@@ -2745,6 +2745,7 @@ bool ResetBlockFailureFlags(CBlockIndex *pindex) {
         if (pindex->nStatus & BLOCK_FAILED_MASK) {
             pindex->nStatus &= ~BLOCK_FAILED_MASK;
             setDirtyBlockIndex.insert(pindex);
+            gFailedBlocks.erase(pindex);
         }
         pindex = pindex->pprev;
     }
