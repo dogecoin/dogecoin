@@ -408,13 +408,6 @@ case $host in
          dnl It's safe to add these paths even if the functionality is disabled by
          dnl the user (--without-wallet or --without-gui for example).
 
-         openssl_prefix=`$BREW --prefix openssl 2>/dev/null`
-         qt5_prefix=`$BREW --prefix qt5 2>/dev/null`
-         if test x$openssl_prefix != x; then
-           PKG_CONFIG_PATH="$openssl_prefix/lib/pkgconfig:$PKG_CONFIG_PATH"
-           export PKG_CONFIG_PATH
-         fi
-
          dnl test brew installed bdb if no BDB_CFLAGS or BDB_LIBS was given.
          dnl currently tests, in order, for 5.x, 4.x and the default version
          if test x$BDB_CFLAGS = x && test x$BDB_LIBS = x; then
@@ -871,8 +864,6 @@ if test x$use_pkgconfig = xyes; then
   m4_ifdef(
     [PKG_CHECK_MODULES],
     [
-      PKG_CHECK_MODULES([SSL], [libssl],, [AC_MSG_ERROR(openssl  not found.)])
-      PKG_CHECK_MODULES([CRYPTO], [libcrypto],,[AC_MSG_ERROR(libcrypto  not found.)])
       if test x$use_qr != xno; then
         BITCOIN_QT_CHECK([PKG_CHECK_MODULES([QR], [libqrencode], [have_qrencode=yes], [have_qrencode=no])])
       fi
@@ -895,11 +886,6 @@ if test x$use_pkgconfig = xyes; then
     ]
   )
 else
-  AC_CHECK_HEADER([openssl/crypto.h],,AC_MSG_ERROR(libcrypto headers missing))
-  AC_CHECK_LIB([crypto],      [main],CRYPTO_LIBS=-lcrypto, AC_MSG_ERROR(libcrypto missing))
-
-  AC_CHECK_HEADER([openssl/ssl.h],, AC_MSG_ERROR(libssl headers missing),)
-  AC_CHECK_LIB([ssl],         [main],SSL_LIBS=-lssl, AC_MSG_ERROR(libssl missing))
 
   if test x$build_bitcoin_utils$build_bitcoind$bitcoin_enable_qt$use_tests != xnononono; then
     AC_CHECK_HEADER([event2/event.h],, AC_MSG_ERROR(libevent headers missing),)
@@ -1230,8 +1216,6 @@ AC_SUBST(BOOST_LIBS)
 AC_SUBST(TESTDEFS)
 AC_SUBST(MINIUPNPC_CPPFLAGS)
 AC_SUBST(MINIUPNPC_LIBS)
-AC_SUBST(CRYPTO_LIBS)
-AC_SUBST(SSL_LIBS)
 AC_SUBST(EVENT_LIBS)
 AC_SUBST(EVENT_PTHREADS_LIBS)
 AC_SUBST(ZMQ_LIBS)
