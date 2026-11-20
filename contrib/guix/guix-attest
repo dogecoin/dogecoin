@@ -1,0 +1,229 @@
+#!/usr/bin/env bash
+# Copyright (c) 2026 The Dogecoin Core developers
+# Distributed under the MIT software license, see the accompanying
+# file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
+# Sign the checksums of a completed guix build, in the layout gitian.sigs uses.
+#
+#   ./contrib/guix/guix-attest --sign <signer>
+#
+# The flag is spelled as contrib/gitian-build.sh spells it: -s NAME or
+# --sign NAME, with --signer NAME accepted because that is what gsign calls it.
+
+export LC_ALL=C
+set -e -o pipefail
+
+# Sourcing the prelude gets check_tools, git_root and the top-of-repo check
+# that guix-build and guix-clean already rely on.
+# An OUTDIR_BASE from the environment has to be noticed before the prelude
+# derives one, so that overriding the version still honours it.
+_env_outdir_base="${OUTDIR_BASE:-}"
+
+# shellcheck source=libexec/prelude.bash
+source "$(dirname "${BASH_SOURCE[0]}")/libexec/prelude.bash"
+
+check_tools gpg diff awk sort cut uniq grep sed wc mkdir mktemp
+
+help() {
+    echo "Usage: guix-attest
+               [ -s | --sign | --signer ] NAME   PGP user ID to sign with
+               [ --no-sign ]                     write assertions unsigned
+               [ -k | --key ] KEY                GPG key, default
+                                                 git config user.signingkey
+               [ -v | --version ] VERSION        version to attest, default HEAD
+                                                 (-c/--commit is an alias)
+               [ -d | --destination ] DIR        where to write, default ./sigs
+                                                 (guix-clean only spares the default)
+               [ -h | --help ]"
+    exit 2
+}
+
+SIGNER=""
+KEY=""
+NO_SIGN=""
+VERSION_ARG=""
+DESTINATION=""
+
+while (( "$#" )); do
+    case "$1" in
+        -s | --sign | --signer )
+            if [ -n "$2" ]; then SIGNER="$2"; shift; else
+                echo 'Error: "--sign" requires a PGP signer.'; exit 1; fi ;;
+        -k | --key )
+            if [ -n "$2" ]; then KEY="$2"; shift; else
+                echo 'Error: "--key" requires a GPG key.'; exit 1; fi ;;
+        --no-sign ) NO_SIGN=1 ;;
+        -v | --version | -c | --commit )
+            if [ -n "$2" ]; then VERSION_ARG="$2"; shift; else
+                echo 'Error: "--commit" requires a commit.'; exit 1; fi ;;
+        -d | --destination )
+            if [ -n "$2" ]; then DESTINATION="$2"; shift; else
+                echo 'Error: "--destination" requires a directory.'; exit 1; fi ;;
+        -h | --help ) help ;;
+        * ) echo "Unknown argument: $1"; help ;;
+    esac
+    shift
+done
+
+if [ -z "$SIGNER" ]; then
+    echo 'Error: "--sign" requires a PGP signer.'
+    exit 1
+fi
+
+# The prelude already resolved this: VERSION is the tag when HEAD is exactly
+# tagged and the short commit otherwise, and OUTDIR_BASE is where guix-build
+# wrote. Recomputing the commit here looked in guix-build-<sha>/output while a
+# tagged build had gone to guix-build-<tag>/output. Naming the assertion after
+# VERSION also lines it up with gitian.sigs, which is organised per version.
+if [ -n "$VERSION_ARG" ]; then
+    VERSION="$VERSION_ARG"
+    OUTDIR_BASE="${_env_outdir_base:-${PWD}/guix-build-${VERSION}/output}"
+fi
+OUTDIR="$OUTDIR_BASE"
+
+# The signer names the directory, as it does in gitian.sigs; the key is a
+# separate thing. Default to whatever git already signs commits with, so a
+# signer whose PGP user ID differs from their handle does not have to repeat it.
+KEY="${KEY:-$(git config --get user.signingkey 2>/dev/null || true)}"
+DESTINATION="${DESTINATION:-$(git_root)/sigs}"
+
+# Writing unsigned is something to ask for, not something to discover. Without
+# --no-sign an unusable key is fatal here, before any assertion is written.
+if [ -z "$NO_SIGN" ]; then
+    if [ -n "$KEY" ]; then
+        if ! gpg --dry-run --list-secret-keys "$KEY" >/dev/null 2>&1; then
+            echo "ERR: no usable secret key for '${KEY}'"
+            echo ""
+            echo "Hint: pass --no-sign to write the assertions unsigned and sign"
+            echo "      them later on a machine holding the key."
+            exit 1
+        fi
+    elif ! gpg --list-secret-keys --with-colons 2>/dev/null | grep -q '^sec'; then
+        echo "ERR: no signing key available"
+        echo ""
+        echo "Hint: set git config user.signingkey, pass a key, or pass"
+        echo "      --no-sign to write the assertions unsigned."
+        exit 1
+    fi
+fi
+
+if [ ! -d "$OUTDIR" ]; then
+    echo "ERR: no build output at ${OUTDIR}"
+    echo "Hint: run ./contrib/guix/guix-build first, or pass the version"
+    exit 1
+fi
+
+# gitian.sigs is organised per descriptor, not per host triple: one directory
+# each for linux, win and osx. Fold the seven hosts back into those three so a
+# guix attestation sits beside a gitian one for the same release.
+platform_for_host() {
+    case "$1" in
+        *-w64-mingw32)  echo win   ;;
+        *darwin*)       echo osx   ;;
+        *linux*)        echo linux ;;
+        *)              echo ""    ;;
+    esac
+}
+
+assert_already_exists() {
+    cat <<EOF
+ERR: An assertion already exists for '${VERSION}' on ${1} and attests
+differently. You likely previously attested to a partial build, e.g. one
+where you overrode HOSTS. See the diff above for more context.
+
+Hint: You may wish to remove the existing assertion and its signature by
+      invoking:
+
+    rm '${2}'{,.sig}
+
+      Then try running this script again.
+
+EOF
+}
+
+temp_assert=""
+trap 'rm -f -- "${temp_assert}"' EXIT
+
+attested=0
+for platform in linux win osx; do
+    parts=()
+    for hostdir in "$OUTDIR"/*/; do
+        host="$(basename "$hostdir")"
+        [ "$host" = "dist-archive" ] && continue
+        [ "$(platform_for_host "$host")" = "$platform" ] || continue
+        [ -f "${hostdir}SHA256SUMS.part" ] && parts+=("${hostdir}SHA256SUMS.part")
+    done
+
+    [ ${#parts[@]} -eq 0 ] && continue
+
+    outdir="${DESTINATION}/${VERSION}-${platform}/${SIGNER}"
+    assert="${outdir}/dogecoin-${platform}-${VERSION}-build.assert"
+    mkdir -p "$outdir"
+
+    # Each host's part repeats the shared dist-archive line, so drop exact
+    # duplicates, then order by path so two builders' assertions differ only
+    # where the hashes do. Deduplicating on the path alone would be wrong: it
+    # would silently discard one side of a genuine disagreement.
+    #
+    # Build it beside the real assertion rather than over it: a rejected
+    # assertion should not leave a half-written one behind, and an assertion
+    # already on disk must survive long enough to be compared against.
+    temp_assert="$(mktemp)"
+    cat "${parts[@]}" \
+        | grep -v '  .*/SHA256SUMS\.part$' \
+        | awk '!seen[$0]++' | sort -k2,2 > "$temp_assert"
+
+    if [ "$(cut -d' ' -f3- "$temp_assert" | sort | uniq -d | wc -l)" -ne 0 ]; then
+        echo "ERR: hosts disagree on the hash of a shared file:"
+        cut -d' ' -f3- "$temp_assert" | sort | uniq -d | sed 's/^/       /'
+        exit 1
+    fi
+
+    # Attesting is not a thing to do twice with different answers. If an
+    # assertion is already here it has to match, or the signer is about to
+    # replace a complete build's attestation with a partial one, under the
+    # same name and their own signature.
+    if [ -e "$assert" ]; then
+        if diff -u "$assert" "$temp_assert"; then
+            echo "  unchanged  ${assert#"$(git_root)"/}"
+        else
+            assert_already_exists "$platform" "$assert"
+            exit 1
+        fi
+    else
+        cat "$temp_assert" > "$assert"
+    fi
+
+    rm -f -- "$temp_assert"
+    temp_assert=""
+
+    # An assertion written unsigned by an earlier run is signed by a later one;
+    # an assertion already signed is left alone rather than re-signed.
+    if [ -e "${assert}.sig" ]; then
+        echo "  signed already  ${assert#"$(git_root)"/}"
+        attested=$((attested + 1))
+        continue
+    fi
+
+    if [ -n "$NO_SIGN" ]; then
+        echo "  unsigned  ${assert#"$(git_root)"/}"
+    elif gpg_err=$(gpg --detach-sign ${KEY:+--local-user "$KEY"} --armor \
+                       --output "${assert}.sig" --yes "$assert" 2>&1); then
+        echo "  signed  ${assert#"$(git_root)"/}"
+    else
+        # gitian-build.sh tolerates this too: the assertion is still written and
+        # can be signed later or on another machine holding the key. Print what
+        # gpg said rather than guessing at it.
+        rm -f "${assert}.sig"
+        echo "  WROTE UNSIGNED  ${assert#"$(git_root)"/}"
+        echo "$gpg_err" | sed 's/^/    gpg: /'
+    fi
+    attested=$((attested + 1))
+done
+
+if [ "$attested" -eq 0 ]; then
+    echo "ERR: no SHA256SUMS.part found under ${OUTDIR}"
+    exit 1
+fi
+
+echo "Attested ${attested} platform(s) for ${VERSION} as ${SIGNER}."
