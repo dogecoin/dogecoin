@@ -24,7 +24,7 @@ static void addCoin(const CAmount& nValue, const CWallet& wallet, std::vector<CO
     vCoins.push_back(output);
 }
 
-// Simple benchmark for wallet coin selection. Note that it maybe be necessary
+// Simple benchmark for wallet coin selection. Note that it may be necessary
 // to build up more complicated scenarios in order to get meaningful
 // measurements of performance. From laanwj, "Wallet coin selection is probably
 // the hardest, as you need a wider selection of scenarios, just testing the

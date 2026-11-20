@@ -53,7 +53,7 @@ for folder in folders:
         
             #verify
             if "Not a PNG file" in subprocess.check_output([pngcrush, "-n", "-v", file_path], stderr=subprocess.STDOUT):
-                print "PNG file "+file+" is corrupted after crushing, check out pngcursh version"
+                print "PNG file "+file+" is corrupted after crushing, check out pngcrush version"
                 sys.exit(1)
             
             fileMetaMap['sha256New'] = file_hash(file_path)

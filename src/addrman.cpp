@@ -518,6 +518,7 @@ void CAddrMan::SetServices_(const CService& addr, ServiceFlags nServices)
     info.nServices = nServices;
 }
 
-int CAddrMan::RandomInt(int nMax){
+int CAddrMan::RandomInt(int nMax)
+{
     return GetRandInt(nMax);
 }
