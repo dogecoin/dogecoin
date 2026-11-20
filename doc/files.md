@@ -28,6 +28,7 @@ Chain         | Data directory path
 --------------|------------------------------
 (default)     | *path_to_datadir*`/`
 `-testnet`    | *path_to_datadir*`/testnet3/`
+`-testnet4`   | *path_to_datadir*`/testnet4/`
 `-regtest`    | *path_to_datadir*`/regtest/`
 
 ## Data directory layout

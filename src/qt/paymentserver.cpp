@@ -103,6 +103,10 @@ void PaymentServer::ipcParseCommandLine(int argc, char* argv[])
                 {
                     SelectParams(CBaseChainParams::TESTNET);
                 }
+                else if (address.IsValid(Params(CBaseChainParams::TESTNET4)))
+                {
+                    SelectParams(CBaseChainParams::TESTNET4);
+                }
             }
         }
         else

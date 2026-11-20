@@ -5,7 +5,9 @@
 
 #include "chain.h"
 #include "chainparams.h"
+#include "dogecoin.h"
 #include "pow.h"
+#include "primitives/block.h"
 #include "random.h"
 #include "util.h"
 #include "test/test_bitcoin.h"
@@ -93,6 +95,94 @@ BOOST_AUTO_TEST_CASE(GetBlockProofEquivalentTime_test)
         int64_t tdiff = GetBlockProofEquivalentTime(*p1, *p2, *p3, params);
         BOOST_CHECK_EQUAL(tdiff, p1->GetBlockTime() - p2->GetBlockTime());
     }
+}
+
+/** Build a linear chain of CBlockIndex entries for min-difficulty tests (constant nTime -> stable MTP). */
+static CBlockIndex* MakeStubChain(std::vector<CBlockIndex>& blocks, int tipHeight, int64_t tipTime, unsigned int nBitsTip)
+{
+    const int depth = 20;
+    blocks.resize(depth);
+    for (int i = 0; i < depth; i++) {
+        blocks[i].pprev = (i > 0) ? &blocks[i - 1] : nullptr;
+        blocks[i].nHeight = tipHeight - (depth - 1 - i);
+        blocks[i].nTime = static_cast<unsigned int>(tipTime);
+        blocks[i].nBits = (i == depth - 1) ? nBitsTip : 0x1e0ffff0;
+    }
+    return &blocks.back();
+}
+
+BOOST_AUTO_TEST_CASE(strict_min_difficulty_rejects_consecutive_pow_limit)
+{
+    Consensus::Params params{};
+    params.powLimit = uint256S("0x00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+    params.fPowAllowMinDifficultyBlocks = true;
+    params.fPowAllowDigishieldMinDifficultyBlocks = true;
+    params.nPowTargetSpacing = 60;
+    params.fEnforceStrictMinDifficulty = true;
+
+    std::vector<CBlockIndex> chain;
+    const unsigned int nPowLimitBits = UintToArith256(params.powLimit).GetCompact();
+    CBlockIndex* pindexLast = MakeStubChain(chain, 200000, 1000000, nPowLimitBits);
+
+    CBlockHeader hdr;
+    hdr.nTime = pindexLast->GetBlockTime() + 600 + 1;
+
+    BOOST_CHECK(!AllowDigishieldMinDifficultyForBlock(pindexLast, &hdr, params));
+}
+
+BOOST_AUTO_TEST_CASE(strict_min_difficulty_accepts_after_gap)
+{
+    Consensus::Params params{};
+    params.powLimit = uint256S("0x00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+    params.fPowAllowMinDifficultyBlocks = true;
+    params.fPowAllowDigishieldMinDifficultyBlocks = true;
+    params.nPowTargetSpacing = 60;
+    params.fEnforceStrictMinDifficulty = true;
+
+    std::vector<CBlockIndex> chain;
+    CBlockIndex* pindexLast = MakeStubChain(chain, 200000, 1000000, 0x1c05a3f4);
+
+    CBlockHeader hdr;
+    hdr.nTime = pindexLast->GetBlockTime() + 600 + 1;
+
+    BOOST_CHECK(AllowDigishieldMinDifficultyForBlock(pindexLast, &hdr, params));
+}
+
+BOOST_AUTO_TEST_CASE(strict_min_difficulty_rejects_if_not_past_mtp_threshold)
+{
+    Consensus::Params params{};
+    params.powLimit = uint256S("0x00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+    params.fPowAllowMinDifficultyBlocks = true;
+    params.fPowAllowDigishieldMinDifficultyBlocks = true;
+    params.nPowTargetSpacing = 60;
+    params.fEnforceStrictMinDifficulty = true;
+
+    std::vector<CBlockIndex> chain;
+    CBlockIndex* pindexLast = MakeStubChain(chain, 200000, 1000000, 0x1c05a3f4);
+
+    CBlockHeader hdr;
+    hdr.nTime = pindexLast->GetMedianTimePast() + 10 * params.nPowTargetSpacing;
+
+    BOOST_CHECK(!AllowDigishieldMinDifficultyForBlock(pindexLast, &hdr, params));
+}
+
+BOOST_AUTO_TEST_CASE(legacy_min_difficulty_unchanged_when_strict_off)
+{
+    Consensus::Params params{};
+    params.powLimit = uint256S("0x00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+    params.fPowAllowMinDifficultyBlocks = true;
+    params.fPowAllowDigishieldMinDifficultyBlocks = true;
+    params.nPowTargetSpacing = 60;
+    params.fEnforceStrictMinDifficulty = false;
+
+    std::vector<CBlockIndex> chain;
+    const unsigned int nPowLimitBits = UintToArith256(params.powLimit).GetCompact();
+    CBlockIndex* pindexLast = MakeStubChain(chain, 200000, 1000000, nPowLimitBits);
+
+    CBlockHeader hdr;
+    hdr.nTime = pindexLast->GetBlockTime() + 2 * params.nPowTargetSpacing + 1;
+
+    BOOST_CHECK(AllowDigishieldMinDifficultyForBlock(pindexLast, &hdr, params));
 }
 
 BOOST_AUTO_TEST_SUITE_END()

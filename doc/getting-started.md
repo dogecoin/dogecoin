@@ -155,7 +155,7 @@ shibetoshi:~$ dogecoin-cli listunspent 1 9999999 '["nnJDY1xCRgWQc7vBXHUPMPsEynuZ
 
 The `minconf` and `maxconf` parameters filter the minimum and maximum number of [confirmations](https://www.pcmag.com/encyclopedia/term/bitcoin-confirmation) of the UTXO returned.
 
-> **Note:** The example address starts with `n` instead of `D`, because it uses [testnet](#mainnet-testnet-and-regtest).
+> **Note:** Legacy testnet (`-testnet`) addresses start with `n`. Reboot testnet4 (`-testnet4`) addresses start with `T`. See [testnet-reboot.md](testnet-reboot.md).
 
 ##### createrawtransaction
 
@@ -334,11 +334,12 @@ You can see a more concrete example [here](/contrib/debian/examples/dogecoin.con
 
 When trying out new things, for example to test your application that interacts with the Dogecoin chain, it is recommended to not use the main Dogecoin network. Multiple networks are built-in for this purpose.
 
-**Mainnet** : The main network where real transaction operate.  
-**Testnet** : The test network, with peers.  
+**Mainnet** : The main network where real transactions operate.  
+**Testnet (legacy testnet3)** : The long-running public test network (`-testnet`, `n` addresses, datadir `testnet3/`).  
+**Testnet4 (rebooted)** : Fresh test network with `T` addresses and strict min-difficulty rules (`-testnet4`, datadir `testnet4/`). See [testnet-reboot.md](testnet-reboot.md).  
 **Regtest** : The regression test network, to test with only local peers and create blocks on-demand.
 
-When not specifying any network, *Mainnet* is the network used by default. To enable *testnet*, use the `dogecoind -testnet`.
+When not specifying any network, *Mainnet* is the network used by default. Use `dogecoind -testnet` for legacy testnet3 or `dogecoind -testnet4` for the rebooted chain. Only one test flag may be set at a time.
 
 To enable *regtest*, use the `-regtest` option.
 
