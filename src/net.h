@@ -21,6 +21,7 @@
 #include "uint256.h"
 #include "threadinterrupt.h"
 
+#include <algorithm>
 #include <atomic>
 #include <deque>
 #include <stdint.h>
@@ -228,11 +229,37 @@ public:
     // dangerous, because it can cause a network split
     // between nodes running old code and nodes running
     // new code.
+    //
+    // Banning and discouragement are two distinct concepts (bitcoin#19219):
+    //
+    // 1. Banning is configured manually by the user (setban RPC, GUI). Banned
+    //    addresses/subnets are refused inbound unless whitelisted, are not
+    //    chosen for automatic outbound connections, and are persisted to
+    //    banlist.dat with an expiry (-bantime by default). Unlike upstream
+    //    (bitcoin#15617), banned addresses may still be relayed in addr
+    //    messages and returned to getaddr: IsBanned() scans the whole ban
+    //    list, and calling it per address would cost addresses x bans.
+    //
+    // 2. Discouragement happens automatically when a peer misbehaves (see
+    //    Misbehaving() in net_processing.cpp). A discouraged address is kept
+    //    in a bounded rolling bloom filter that is not persisted and cannot
+    //    be listed or removed. Inbound connections from it are still accepted
+    //    unless the inbound slots are (almost) full, and such peers are
+    //    preferred for eviction. We never make outbound connections to it,
+    //    and do not relay its address or return it to getaddr.
+    //
+    // Misbehaviour never adds to the ban list, so a remote peer cannot grow
+    // it (CVE-2020-14198).
     void Ban(const CNetAddr& netAddr, const BanReason& reason, int64_t bantimeoffset = 0, bool sinceUnixEpoch = false);
     void Ban(const CSubNet& subNet, const BanReason& reason, int64_t bantimeoffset = 0, bool sinceUnixEpoch = false);
     void ClearBanned(); // needed for unit testing
     bool IsBanned(CNetAddr ip);
     bool IsBanned(CSubNet subnet);
+    //! Mark addr as discouraged and disconnect all peers using that address.
+    void Discourage(const CNetAddr& addr);
+    //! Return whether addr is (probabilistically) discouraged.
+    bool IsDiscouraged(const CNetAddr& addr);
+    void ClearDiscouraged(); // needed for unit testing
     bool Unban(const CNetAddr &ip);
     bool Unban(const CSubNet &ip);
     void GetBanned(banmap_t &banmap);
@@ -366,6 +393,8 @@ private:
     banmap_t setBanned;
     CCriticalSection cs_setBanned;
     bool setBannedIsDirty;
+    //! Addresses of misbehaving peers. Bounded; guarded by cs_setBanned.
+    CRollingBloomFilter m_discouraged{50000, 0.000001};
     bool fAddressesInitialized;
     CAddrMan addrman;
     std::deque<std::string> vOneShots;
@@ -438,6 +467,30 @@ struct InboundPeerCounts {
  * separate lock acquisitions and allow the peer list to change between counts.
  */
 InboundPeerCounts CountInboundPeers(const std::vector<CNode*>& nodes, const CAddress& addr, const CCriticalSection& vNodesLock) EXCLUSIVE_LOCKS_REQUIRED(vNodesLock);
+
+/**
+ * Whether an inbound connection from a discouraged address must be refused.
+ * Discouraged peers are only refused when the inbound slots are (almost) full
+ * (bitcoin#19219); noban (whitelisted) peers are never refused for this.
+ */
+inline bool ShouldRefuseDiscouragedInbound(bool discouraged, bool whitelisted, int nInbound, int nMaxInbound)
+{
+    return discouraged && !whitelisted && nInbound + 1 >= nMaxInbound;
+}
+
+/**
+ * If any eviction candidate is preferred for eviction, remove every candidate
+ * that is not, so that only preferred candidates remain (bitcoin#14929).
+ * Otherwise leave the candidates unchanged.
+ */
+template <typename Candidate>
+void KeepOnlyPreferredEvictionCandidates(std::vector<Candidate>& candidates)
+{
+    if (std::any_of(candidates.begin(), candidates.end(), [](const Candidate& c){ return c.prefer_evict; })) {
+        candidates.erase(std::remove_if(candidates.begin(), candidates.end(),
+                         [](const Candidate& c){ return !c.prefer_evict; }), candidates.end());
+    }
+}
 
 struct CombinerAll
 {
@@ -628,6 +681,7 @@ public:
     std::string strSubVer, cleanSubVer;
     CCriticalSection cs_SubVer; // used for both cleanSubVer and strSubVer
     bool fWhitelisted; // This peer can bypass DoS banning.
+    bool m_prefer_evict{false}; // This peer is preferred for eviction (discouraged when it connected).
     bool fFeeler; // If true this node is being used as a short lived feeler.
     bool fOneShot;
     bool fAddnode;

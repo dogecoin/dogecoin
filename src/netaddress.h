@@ -71,6 +71,7 @@ class CNetAddr
         std::string ToString() const;
         std::string ToStringIP() const;
         unsigned int GetByte(int n) const;
+        std::vector<unsigned char> GetAddrBytes() const { return {std::begin(ip), std::end(ip)}; }
         uint64_t GetHash() const;
         bool GetInAddr(struct in_addr* pipv4Addr) const;
         std::vector<unsigned char> GetGroup() const;

@@ -37,6 +37,7 @@
 #endif
 
 
+#include <algorithm>
 #include <math.h>
 
 // Dump addresses to peers.dat and banlist.dat every 15 minutes (900s)
@@ -514,6 +515,30 @@ void CConnman::Ban(const CSubNet& subNet, const BanReason &banReason, int64_t ba
         DumpBanlist(); //store banlist to disk immediately if user requested ban
 }
 
+void CConnman::Discourage(const CNetAddr& addr) {
+    {
+        LOCK(cs_setBanned);
+        m_discouraged.insert(addr.GetAddrBytes());
+    }
+    {
+        LOCK(cs_vNodes);
+        for (CNode* pnode : vNodes) {
+            if ((CNetAddr)pnode->addr == addr)
+                pnode->fDisconnect = true;
+        }
+    }
+}
+
+bool CConnman::IsDiscouraged(const CNetAddr& addr) {
+    LOCK(cs_setBanned);
+    return m_discouraged.contains(addr.GetAddrBytes());
+}
+
+void CConnman::ClearDiscouraged() {
+    LOCK(cs_setBanned);
+    m_discouraged.reset();
+}
+
 bool CConnman::Unban(const CNetAddr &addr) {
     CSubNet subNet(addr);
     return Unban(subNet);
@@ -891,6 +916,7 @@ struct NodeEvictionCandidate
     bool fBloomFilter;
     CAddress addr;
     uint64_t nKeyedNetGroup;
+    bool prefer_evict;
 };
 
 static bool ReverseCompareNodeMinPingTime(const NodeEvictionCandidate &a, const NodeEvictionCandidate &b)
@@ -948,7 +974,8 @@ bool CConnman::AttemptToEvictConnection()
             NodeEvictionCandidate candidate = {node->id, node->nTimeConnected, node->nMinPingUsecTime,
                                                node->nLastBlockTime, node->nLastTXTime,
                                                (node->nServices & nRelevantServices) == nRelevantServices,
-                                               node->fRelayTxes, node->pfilter != NULL, node->addr, node->nKeyedNetGroup};
+                                               node->fRelayTxes, node->pfilter != NULL, node->addr, node->nKeyedNetGroup,
+                                               node->m_prefer_evict};
             vEvictionCandidates.push_back(candidate);
         }
     }
@@ -991,6 +1018,11 @@ bool CConnman::AttemptToEvictConnection()
     vEvictionCandidates.erase(vEvictionCandidates.end() - static_cast<int>(vEvictionCandidates.size() / 2), vEvictionCandidates.end());
 
     if (vEvictionCandidates.empty()) return false;
+
+    // If any remaining peers are preferred for eviction consider only them.
+    // This happens after the other preferences since if a peer is really the best by other criteria (esp relaying blocks)
+    //  then we probably don't want to evict it no matter what.
+    KeepOnlyPreferredEvictionCandidates(vEvictionCandidates);
 
     // Identify the network group with the most connections and youngest member.
     // (vEvictionCandidates is already sorted by reverse connect time)
@@ -1098,9 +1130,19 @@ void CConnman::AcceptConnection(const ListenSocket& hListenSocket) {
     setsockopt(hSocket, IPPROTO_TCP, TCP_NODELAY, (void*)&set, sizeof(int));
 #endif
 
+    // Don't accept connections from (manually) banned peers.
     if (IsBanned(addr) && !whitelisted)
     {
         LogPrintf("connection from %s dropped (banned)\n", addr.ToString());
+        CloseSocket(hSocket);
+        return;
+    }
+
+    // Only accept connections from discouraged peers if our inbound slots aren't (almost) full.
+    bool discouraged = IsDiscouraged(addr);
+    if (ShouldRefuseDiscouragedInbound(discouraged, whitelisted, counts.nInbound, nMaxInbound))
+    {
+        LogPrint("net", "connection from %s dropped (discouraged)\n", addr.ToString());
         CloseSocket(hSocket);
         return;
     }
@@ -1130,6 +1172,7 @@ void CConnman::AcceptConnection(const ListenSocket& hListenSocket) {
     CNode* pnode = new CNode(id, nLocalServices, GetBestHeight(), hSocket, addr, CalculateKeyedNetGroup(addr), nonce, "", true);
     pnode->AddRef();
     pnode->fWhitelisted = whitelisted;
+    pnode->m_prefer_evict = discouraged;
     GetNodeSignals().InitializeNode(pnode, *this);
 
     LogPrint("net", "connection from %s accepted\n", addr.ToString());
@@ -2023,7 +2066,7 @@ bool CConnman::OpenNetworkConnection(const CAddress& addrConnect, bool fCountFai
     }
     if (!pszDest) {
         if (IsLocal(addrConnect) ||
-            FindNode((CNetAddr)addrConnect) || IsBanned(addrConnect) ||
+            FindNode((CNetAddr)addrConnect) || IsDiscouraged(addrConnect) || IsBanned(addrConnect) ||
             FindNode(addrConnect.ToStringIPPort()))
             return false;
     } else if (FindNode(std::string(pszDest)))

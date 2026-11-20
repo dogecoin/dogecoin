@@ -131,8 +131,11 @@ class P2PLeakTest(BitcoinTestFramework):
         #Give the node enough time to possibly leak out a message
         time.sleep(5)
 
-        #This node should have been banned
+        #This node should have been disconnected for misbehaving
         assert(no_version_bannode.connection.state == "closed")
+        # Misbehaviour only disconnects/discourages; it never adds to the
+        # manual ban list (bitcoin#19219, CVE-2020-14198)
+        assert_equal(self.nodes[0].listbanned(), [])
 
         [conn.disconnect_node() for conn in connections]
 
