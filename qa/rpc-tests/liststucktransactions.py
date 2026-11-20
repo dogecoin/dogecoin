@@ -82,6 +82,13 @@ class ListStuckTransactionsTest(BitcoinTestFramework):
         wallet = self.nodes[0]
         miner = self.nodes[1]
 
+        # Accounting entries have no wallet transaction and cannot be stuck.
+        assert_equal(wallet.liststucktransactions(), [])
+        assert_equal(wallet.move("", "savings", Decimal("0.01")), True)
+        assert_equal([entry["category"] for entry in wallet.listtransactions()], ["move", "move"])
+        assert_equal(wallet.liststucktransactions(), [])
+        assert_equal(wallet.liststucktransactions(True), [])
+
         # mine 100 blocks to get some spendable coin
         miner.generate(100)
         self.sync_all()
@@ -133,6 +140,8 @@ class ListStuckTransactionsTest(BitcoinTestFramework):
         wallet = start_node(0, self.options.tmpdir,
             ["-acceptnonstdtxn=0", "-softdustlimit=1", "-harddustlimit=1", "-mempoolexpiry=1"])
         self.nodes[0] = wallet
+        assert_equal([(entry["category"], entry["amount"]) for entry in wallet.listtransactions("savings")],
+                     [("move", Decimal("0.01"))])
 
         # mine 61 blocks to expire the mempool
         self.mine_one_minute_blocks(miner, 61)
