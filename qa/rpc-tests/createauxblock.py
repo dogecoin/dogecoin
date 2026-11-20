@@ -22,8 +22,8 @@ class CreateAuxBlockTest(BitcoinTestFramework):
 
   def setup_network(self):
       self.nodes = []
-      self.nodes.append(start_node(0, self.options.tmpdir, ["-debug", "-txindex"]))
-      self.nodes.append(start_node(1, self.options.tmpdir, ["-debug", "-rpcnamecoinapi"]))
+      self.nodes.append(start_node(0, self.options.tmpdir, ["-debug=net", "-txindex"]))
+      self.nodes.append(start_node(1, self.options.tmpdir, ["-debug=net", "-rpcnamecoinapi"]))
       connect_nodes_bi(self.nodes, 0, 1)
       self.sync_all()
 

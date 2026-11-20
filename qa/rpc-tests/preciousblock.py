@@ -42,7 +42,7 @@ class PreciousTest(BitcoinTestFramework):
         super().__init__()
         self.setup_clean_chain = True
         self.num_nodes = 3
-        self.extra_args = [["-debug"]] * self.num_nodes
+        self.extra_args = [["-debug=net"]] * self.num_nodes
 
     def setup_network(self):
         self.nodes = self.setup_nodes()

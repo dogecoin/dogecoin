@@ -223,6 +223,8 @@ class TestNode(BaseNode):
         BaseNode.__init__(self)
 
 class SendHeadersTest(BitcoinTestFramework):
+    whitelist_local_peers = False  # connects mininode peers from 127.0.0.1
+
     def __init__(self):
         super().__init__()
         self.setup_clean_chain = True
@@ -230,7 +232,7 @@ class SendHeadersTest(BitcoinTestFramework):
 
     def setup_network(self):
         self.nodes = []
-        self.nodes = start_nodes(self.num_nodes, self.options.tmpdir, [["-debug", "-logtimemicros=1"]]*2)
+        self.nodes = start_nodes(self.num_nodes, self.options.tmpdir, [["-debug=net", "-logtimemicros=1"]]*2)
         connect_nodes(self.nodes[0], 1)
 
     # mine count blocks and return the new tip

@@ -23,6 +23,7 @@ from .util import (
     stop_nodes,
     stop_node,
     enable_coverage,
+    set_whitelist_local_peers,
     check_json_precision,
     initialize_chain_clean,
     PortSeed,
@@ -31,6 +32,13 @@ from .authproxy import JSONRPCException
 
 
 class BitcoinTestFramework(object):
+
+    # Whitelist 127.0.0.1 on every node so transactions relay immediately
+    # instead of after the Poisson inventory trickle delay (mean 2.5-5s per
+    # hop). Whitelisted peers are also exempt from banning, DoS scoring and
+    # relay policy, so tests that connect mininode peers (NodeConn) must set
+    # this to False.
+    whitelist_local_peers = True
 
     def __init__(self):
         self.num_nodes = 4
@@ -133,6 +141,7 @@ class BitcoinTestFramework(object):
             enable_coverage(self.options.coveragedir)
 
         PortSeed.n = self.options.port_seed
+        set_whitelist_local_peers(self.whitelist_local_peers)
 
         os.environ['PATH'] = self.options.srcdir+":"+self.options.srcdir+"/qt:"+os.environ['PATH']
 
@@ -198,6 +207,9 @@ class BitcoinTestFramework(object):
 # n>2 binaries: 1 test binary, n-1 ref binaries
 
 class ComparisonTestFramework(BitcoinTestFramework):
+
+    # TestManager connects mininode peers from 127.0.0.1
+    whitelist_local_peers = False
 
     def __init__(self):
         super().__init__()

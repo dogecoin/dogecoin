@@ -71,6 +71,8 @@ class TestNode(NodeConnCB):
         self.send_message(msg_mempool())
 
 class P2PMempoolTests(BitcoinTestFramework):
+    whitelist_local_peers = False  # connects mininode peers from 127.0.0.1
+
 
     def __init__(self):
         super().__init__()
@@ -80,7 +82,7 @@ class P2PMempoolTests(BitcoinTestFramework):
     def setup_network(self):
         # Start a node with maxuploadtarget of 200 MB (/24h)
         self.nodes = []
-        self.nodes.append(start_node(0, self.options.tmpdir, ["-debug", "-peerbloomfilters=0"]))
+        self.nodes.append(start_node(0, self.options.tmpdir, ["-debug=net", "-peerbloomfilters=0"]))
 
     def run_test(self):
         #connect a mininode
