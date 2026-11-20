@@ -181,6 +181,7 @@ testScripts = [
     'getmocktime.py',
     'uptime.py',
     'p2p-getdata.py',
+    'p2p-fingerprint.py',
 ]
 if ENABLE_ZMQ:
     testScripts.append('zmq_test.py')
