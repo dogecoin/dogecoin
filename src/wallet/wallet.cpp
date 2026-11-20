@@ -39,6 +39,7 @@
 using namespace std;
 
 std::vector<CWalletRef> vpwallets;
+CCriticalSection cs_wallets;
 CWallet* pwalletMain = NULL;
 /** Transaction fee set by the user */
 CFeeRate payTxFee(DEFAULT_TRANSACTION_FEE);
@@ -3986,11 +3987,13 @@ bool CWallet::InitLoadWallet()
         if (!pwallet) {
             return false;
         }
+        LOCK(cs_wallets);
         vpwallets.push_back(pwallet);
     }
 
     // Keep pwalletMain as a transitional alias for the first loaded wallet
     // so legacy callers (qt, signrawtransaction, getinfo, tests) keep working.
+    LOCK(cs_wallets);
     pwalletMain = vpwallets.empty() ? nullptr : vpwallets.front();
 
     return true;

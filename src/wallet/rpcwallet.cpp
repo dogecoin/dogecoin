@@ -37,8 +37,28 @@ static CCriticalSection cs_nWalletUnlockTime;
 
 const std::string WALLET_ENDPOINT_BASE = "/wallet/";
 
+// Pin pwallet to request so unloadwallet waits for this request to finish
+// before deleting the wallet. Caller holds cs_wallets, which is what makes
+// "find in vpwallets" and "pin" atomic with respect to unloadwallet's
+// "remove from vpwallets".
+static CWallet* PinWalletForRequest(const JSONRPCRequest& request, CWallet* pwallet)
+{
+    AssertLockHeld(cs_wallets);
+    // A request resolves at most one wallet: the URI is fixed, and the
+    // single-wallet default can only become ambiguous (nullptr) later,
+    // never a different wallet, while the first one is pinned.
+    if (pwallet && !request.walletPin) {
+        ++pwallet->m_rpc_pins;
+        request.walletPin = std::shared_ptr<void>(static_cast<void*>(pwallet), [](void* p) {
+            --static_cast<CWallet*>(p)->m_rpc_pins;
+        });
+    }
+    return pwallet;
+}
+
 CWallet *GetWalletForJSONRPCRequest(const JSONRPCRequest& request)
 {
+    LOCK(cs_wallets);
     if (request.URI.substr(0, WALLET_ENDPOINT_BASE.size()) == WALLET_ENDPOINT_BASE) {
         // wallet endpoint was used
         std::string requestedWallet = request.URI.substr(WALLET_ENDPOINT_BASE.size());
@@ -49,12 +69,19 @@ CWallet *GetWalletForJSONRPCRequest(const JSONRPCRequest& request)
         }
         for (CWalletRef pwallet : ::vpwallets) {
             if (pwallet->GetName() == requestedWallet) {
-                return pwallet;
+                return PinWalletForRequest(request, pwallet);
             }
         }
         throw JSONRPCError(RPC_WALLET_NOT_FOUND, "Requested wallet does not exist or is not loaded");
     }
-    return ::vpwallets.size() == 1 || (request.fHelp && ::vpwallets.size() > 0) ? ::vpwallets[0] : nullptr;
+    return PinWalletForRequest(request,
+        ::vpwallets.size() == 1 || (request.fHelp && ::vpwallets.size() > 0) ? ::vpwallets[0] : nullptr);
+}
+
+CWallet *GetDefaultWalletForJSONRPCRequest(const JSONRPCRequest& request)
+{
+    LOCK(cs_wallets);
+    return PinWalletForRequest(request, ::pwalletMain);
 }
 
 std::string HelpRequiringPassphrase(CWallet * const pwallet)
@@ -73,7 +100,12 @@ bool EnsureWalletIsAvailable(CWallet * const pwallet, bool avoidException)
 {
     if (pwallet) return true;
     if (avoidException) return false;
-    if (vpwallets.empty()) {
+    bool no_wallets;
+    {
+        LOCK(cs_wallets);
+        no_wallets = vpwallets.empty();
+    }
+    if (no_wallets) {
         // no wallets loaded at all (e.g. -disablewallet)
         throw JSONRPCError(RPC_METHOD_NOT_FOUND, "Method not found (wallet method is disabled because no wallet is loaded)");
     }
@@ -2649,11 +2681,52 @@ UniValue listwallets(const JSONRPCRequest& request)
         );
 
     UniValue obj(UniValue::VARR);
+    // GetName() reads an immutable member, so cs_wallets alone is enough
+    // and keeps cs_wallets a leaf lock.
+    LOCK(cs_wallets);
     for (CWalletRef pwallet : vpwallets) {
-        LOCK(pwallet->cs_wallet);
         obj.push_back(pwallet->GetName());
     }
     return obj;
+}
+
+// Serialises loadwallet / createwallet / unloadwallet against each other so
+// two concurrent calls cannot both pass the "already loaded" / "already
+// exists" checks, or race one wallet's registration against its removal.
+// Lock order: cs_wallet_lifecycle -> cs_main -> cs_wallet -> cs_db, with
+// cs_wallets always innermost.
+static CCriticalSection cs_wallet_lifecycle;
+
+//! How long unloadwallet waits for other RPCs on the wallet to finish.
+static const int64_t UNLOAD_WALLET_WAIT_MS = 30 * 1000;
+
+static void EnsureWalletDirIsAvailable()
+{
+    if (!IsWalletDirAvailable()) {
+        throw JSONRPCError(RPC_WALLET_ERROR, strprintf("Wallet directory %s does not exist (was it removed while the node was running?)", GetWalletDir().string()));
+    }
+}
+
+static bool IsWalletLoaded(const std::string& wallet_name)
+{
+    LOCK(cs_wallets);
+    for (CWalletRef pwallet : vpwallets) {
+        if (pwallet->GetName() == wallet_name) {
+            return true;
+        }
+    }
+    return false;
+}
+
+static void RegisterLoadedWallet(CWallet* pwallet)
+{
+    LOCK(cs_wallets);
+    vpwallets.push_back(pwallet);
+    if (!pwalletMain) {
+        // Keep the legacy alias pointing at the first loaded wallet, also
+        // after every wallet was unloaded and one is loaded again.
+        pwalletMain = pwallet;
+    }
 }
 
 UniValue loadwallet(const JSONRPCRequest& request)
@@ -2680,43 +2753,32 @@ UniValue loadwallet(const JSONRPCRequest& request)
 
     std::string walletFile = request.params[0].get_str();
 
-    // Validate the wallet name. Plain single-segment names only — we
-    // build any directory layout ourselves via WalletDataFileName,
-    // user input never carries path separators. Matches Verify().
-    fs::path walletPath(walletFile);
-    if (walletPath.has_parent_path() ||
-        walletFile != walletPath.stem().string() + walletPath.extension().string()) {
-        throw JSONRPCError(RPC_WALLET_ERROR, strprintf("Wallet %s resides outside data directory %s", walletFile, GetWalletDir().string()));
+    LOCK(cs_wallet_lifecycle);
+    EnsureWalletDirIsAvailable();
+
+    std::string error;
+    if (!CheckWalletName(walletFile, false /* for_create */, error) ||
+        !CheckWalletLayout(walletFile, error)) {
+        throw JSONRPCError(RPC_WALLET_ERROR, error);
     }
 
-    // Reject if already loaded. GetName() returns the user-facing
-    // name (m_name), which for directory wallets is the directory
-    // (e.g. "unsandbox" given on-disk "unsandbox/wallet.dat") — so
-    // comparing directly to the user input here works for both
-    // layouts.
-    for (CWalletRef pwallet : vpwallets) {
-        if (pwallet->GetName() == walletFile) {
-            throw JSONRPCError(RPC_WALLET_ERROR, strprintf("Wallet %s is already loaded.", walletFile));
-        }
+    // GetName() is the user-facing name (the directory for directory
+    // wallets), so comparing to the user input works for both layouts.
+    if (IsWalletLoaded(walletFile)) {
+        throw JSONRPCError(RPC_WALLET_ERROR, strprintf("Wallet %s is already loaded.", walletFile));
     }
 
     // Refuse to silently create a brand new wallet when the caller asked us
     // to load one. Use createwallet for that — matches upstream bitcoin 0.17
-    // loadwallet semantics. WalletDataFilePath is migration-aware so a
-    // wallet present on disk in EITHER layout (flat <name> or directory
-    // <name>/wallet.dat) satisfies this check.
+    // loadwallet semantics.
     if (!fs::exists(WalletDataFilePath(walletFile))) {
         throw JSONRPCError(RPC_WALLET_NOT_FOUND, strprintf("Wallet %s not found.", walletFile));
     }
 
-    // Resolve the BDB-relative path once and reuse for Verify + the
-    // CWallet construction. WalletDataFileName picks flat or directory
-    // form based on what already exists on disk.
     const std::string dbFile = WalletDataFileName(walletFile);
 
-    // Resolve THIS wallet's env (per-wallet in the multi-env world)
-    // and Verify against it. Each directory-layout wallet lives in
-    // its own env under <walletdir>/<name>/.
+    // Resolve THIS wallet's env (each directory-layout wallet has its own
+    // under <walletdir>/<name>/) and Verify against it.
     std::string dbFilename;
     CDBEnv* env = GetWalletEnv(GetWalletDir() / dbFile, dbFilename);
     if (!env->Open(false /* retry */)) {
@@ -2731,7 +2793,7 @@ UniValue loadwallet(const JSONRPCRequest& request)
     if (!pwallet) {
         throw JSONRPCError(RPC_WALLET_ERROR, strprintf("Wallet loading failed for %s.", walletFile));
     }
-    vpwallets.push_back(pwallet);
+    RegisterLoadedWallet(pwallet);
 
     // Replay any wallet transactions that aren't already in the mempool.
     // We deliberately do not call postInitProcess(threadGroup) here: the
@@ -2761,6 +2823,8 @@ UniValue unloadwallet(const JSONRPCRequest& request)
             + HelpExampleRpc("unloadwallet", "\"trading.dat\"")
         );
 
+    LOCK(cs_wallet_lifecycle);
+
     // Resolve the wallet name from either the explicit arg or the
     // /wallet/<name> URI. If both are present they must match.
     std::string wallet_name;
@@ -2781,52 +2845,93 @@ UniValue unloadwallet(const JSONRPCRequest& request)
         wallet_name = pwallet->GetName();
     }
 
-    std::vector<CWalletRef>::iterator it = vpwallets.end();
-    for (auto i = vpwallets.begin(); i != vpwallets.end(); ++i) {
-        if ((*i)->GetName() == wallet_name) {
-            it = i;
-            break;
+    // Take the wallet out of vpwallets first. From here on no new RPC can
+    // resolve (and pin) it, so its pin count can only fall.
+    CWallet* pwallet = nullptr;
+    size_t index = 0;
+    bool was_main = false;
+    {
+        LOCK(cs_wallets);
+        for (size_t i = 0; i < vpwallets.size(); ++i) {
+            if (vpwallets[i]->GetName() == wallet_name) {
+                pwallet = vpwallets[i];
+                index = i;
+                break;
+            }
+        }
+        if (!pwallet) {
+            throw JSONRPCError(RPC_WALLET_NOT_FOUND, strprintf("Wallet %s is not loaded.", wallet_name));
+        }
+        vpwallets.erase(vpwallets.begin() + index);
+        was_main = (pwalletMain == pwallet);
+        if (was_main) {
+            pwalletMain = vpwallets.empty() ? nullptr : vpwallets.front();
         }
     }
-    if (it == vpwallets.end()) {
-        throw JSONRPCError(RPC_WALLET_NOT_FOUND, strprintf("Wallet %s is not loaded.", wallet_name));
+    // Put the wallet back exactly where it was if we have to give up.
+    auto restore = [&]() {
+        LOCK(cs_wallets);
+        vpwallets.insert(vpwallets.begin() + std::min(index, vpwallets.size()), pwallet);
+        if (was_main) {
+            pwalletMain = pwallet;
+        }
+    };
+
+    // Wait for other in-flight RPCs on this wallet to finish. This request
+    // holds a pin of its own when it was routed via /wallet/<name>/.
+    const int self_pins = (request.walletPin.get() == static_cast<void*>(pwallet)) ? 1 : 0;
+    const int64_t deadline = GetTimeMillis() + UNLOAD_WALLET_WAIT_MS;
+    while (pwallet->m_rpc_pins.load() > self_pins) {
+        if (GetTimeMillis() >= deadline) {
+            const int busy = pwallet->m_rpc_pins.load() - self_pins;
+            restore();
+            throw JSONRPCError(RPC_WALLET_ERROR, strprintf("Wallet %s is still in use by %d other RPC call(s); try again.", wallet_name, busy));
+        }
+        MilliSleep(10);
     }
 
-    CWallet * const pwallet = *it;
-
-    // Serialise against concurrent wallet activity before tearing things down.
-    // This is not bulletproof — dogecoin's wallet handles are raw pointers
-    // and an in-flight wallet RPC on this wallet could still race the delete
-    // below. Production callers should quiesce traffic to the wallet first.
+    // Detach from validation and close this wallet's database handle.
     //
-    // Note: do NOT call pwallet->Flush(true) here. CWallet::Flush
-    // delegates to CDBEnv::Flush which is env-wide; passing true would
-    // shut down THIS wallet's BerkeleyDB environment (in the multi-env
-    // world that may host other wallets in the same directory — e.g.
-    // legacy flat wallets all share the walletdir env). CloseDb closes
-    // just this wallet's Db handle, and BDB's DB_AUTO_COMMIT guarantees
-    // the data is on disk by then.
+    // cs_main: validation signals fire under cs_main, so once we hold it no
+    //   notification is mid-flight into this wallet and, after
+    //   UnregisterValidationInterface, none can start.
+    // cs_wallet: excludes anything still running inside the wallet.
+    // cs_db: makes "check refcount", "close handle" and "evict the
+    //   mapFileUseCount entry" one step with respect to the flush thread,
+    //   BackupWallet and CDB construction in other wallets sharing this env.
+    //
+    // Do NOT call pwallet->Flush(true): CDBEnv::Flush(true) shuts down the
+    // whole env, which flat-layout wallets share with each other.
+    std::string busy_error;
     {
         LOCK2(cs_main, pwallet->cs_wallet);
+        LOCK(cs_db);
+        std::string dbFilename;
+        CDBEnv* env = GetWalletEnv(GetWalletDir() / pwallet->strWalletFile, dbFilename);
+        auto use = env->mapFileUseCount.find(dbFilename);
+        if (use != env->mapFileUseCount.end() && use->second > 0) {
+            // Every CWalletDB for this file is scoped to a call holding
+            // cs_wallet, and we hold it, so this is a leaked reference.
+            // Refuse rather than close a handle someone still uses.
+            LogPrintf("unloadwallet: %s still has %d open database handle(s) in %s; not unloading\n",
+                      wallet_name, use->second, env->Directory().string());
+            busy_error = strprintf("Wallet %s still has %d open database handle(s); not unloading. See debug.log.", wallet_name, use->second);
+        } else {
+            UnregisterValidationInterface(pwallet);
+            env->CloseDb(dbFilename);
+            // CDBEnv::Verify asserts the file is not in mapFileUseCount, so
+            // evict the (refcount-0) entry before a future loadwallet can
+            // verify this same file. Flush(false) does that.
+            env->Flush(false);
+        }
     }
-    UnregisterValidationInterface(pwallet);
-
-    // Resolve THIS wallet's env from its strWalletFile (BDB-relative
-    // path) and close+flush this file within it. Other wallets sharing
-    // the same env (or wallets in entirely different envs) are
-    // unaffected.
-    std::string dbFilename;
-    CDBEnv* env = GetWalletEnv(GetWalletDir() / pwallet->strWalletFile, dbFilename);
-    env->CloseDb(dbFilename);
-    // CDBEnv::Verify asserts that the file is not in mapFileUseCount, so we
-    // have to evict the (now refcount-0) entry before a future loadwallet
-    // can verify this same file. Flush(false) on the env does that.
-    env->Flush(false);
-
-    vpwallets.erase(it);
-    if (pwalletMain == pwallet) {
-        pwalletMain = vpwallets.empty() ? nullptr : vpwallets.front();
+    if (!busy_error.empty()) {
+        restore();
+        throw JSONRPCError(RPC_WALLET_ERROR, busy_error);
     }
+
+    // Unreachable from every thread now: not in vpwallets, no pins, not
+    // registered for validation signals, database handle closed.
     delete pwallet;
 
     return NullUniValue;
@@ -2855,26 +2960,23 @@ UniValue createwallet(const JSONRPCRequest& request)
 
     std::string walletFile = request.params[0].get_str();
 
-    fs::path walletPath(walletFile);
-    if (walletPath.has_parent_path() ||
-        walletFile != walletPath.stem().string() + walletPath.extension().string()) {
-        throw JSONRPCError(RPC_WALLET_ERROR, strprintf("Wallet %s resides outside data directory %s", walletFile, GetWalletDir().string()));
+    LOCK(cs_wallet_lifecycle);
+    EnsureWalletDirIsAvailable();
+
+    // New wallets must use names that are valid file names on every
+    // platform, so a wallet created here can be moved to any node.
+    std::string error;
+    if (!CheckWalletName(walletFile, true /* for_create */, error) ||
+        !CheckWalletLayout(walletFile, error)) {
+        throw JSONRPCError(RPC_WALLET_ERROR, error);
     }
 
-    // WalletDataFilePath resolves to <walletdir>/<name>/wallet.dat for
-    // directory-layout names (no-extension) when the directory either
-    // doesn't exist yet or already exists as a dir; it resolves to a
-    // flat <walletdir>/<name> when a regular file is already squatting
-    // (migration-friendly). So fs::exists here catches BOTH layouts
-    // and refuses to clobber an existing wallet of either shape.
     if (fs::exists(WalletDataFilePath(walletFile))) {
         throw JSONRPCError(RPC_WALLET_ERROR, strprintf("Wallet %s already exists.", walletFile));
     }
 
-    for (CWalletRef pwallet : vpwallets) {
-        if (pwallet->GetName() == walletFile) {
-            throw JSONRPCError(RPC_WALLET_ERROR, strprintf("Wallet %s is already loaded.", walletFile));
-        }
+    if (IsWalletLoaded(walletFile)) {
+        throw JSONRPCError(RPC_WALLET_ERROR, strprintf("Wallet %s is already loaded.", walletFile));
     }
 
     // mkdir <walletdir>/<name>/ for directory-layout names before BDB
@@ -2889,7 +2991,7 @@ UniValue createwallet(const JSONRPCRequest& request)
     if (!pwallet) {
         throw JSONRPCError(RPC_WALLET_ERROR, strprintf("Wallet creation failed for %s.", walletFile));
     }
-    vpwallets.push_back(pwallet);
+    RegisterLoadedWallet(pwallet);
     pwallet->ReacceptWalletTransactions();
 
     UniValue obj(UniValue::VOBJ);

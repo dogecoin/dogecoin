@@ -821,6 +821,10 @@ void ThreadFlushWalletDB()
                 // different env in g_dbenvs, and an in-use wallet in
                 // env A shouldn't block flush of an idle wallet in env B.
                 nLastFlushed = CWalletDB::GetUpdateCounter();
+                // Lock order cs_db -> cs_wallets (leaf). Holding cs_wallets
+                // for the whole loop keeps unloadwallet from removing and
+                // deleting a wallet we are looking at.
+                LOCK(cs_wallets);
                 for (CWalletRef pwallet : vpwallets) {
                     boost::this_thread::interruption_point();
                     const std::string& strFile = pwallet->strWalletFile;

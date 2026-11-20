@@ -72,7 +72,9 @@ UniValue getinfo(const JSONRPCRequest& request)
         );
 
 #ifdef ENABLE_WALLET
-    LOCK2(cs_main, pwalletMain ? &pwalletMain->cs_wallet : NULL);
+    // Legacy default wallet, pinned so a concurrent unloadwallet waits.
+    CWallet * const pwallet = GetDefaultWalletForJSONRPCRequest(request);
+    LOCK2(cs_main, pwallet ? &pwallet->cs_wallet : NULL);
 #else
     LOCK(cs_main);
 #endif
@@ -84,9 +86,9 @@ UniValue getinfo(const JSONRPCRequest& request)
     obj.pushKV("version", CLIENT_VERSION);
     obj.pushKV("protocolversion", PROTOCOL_VERSION);
 #ifdef ENABLE_WALLET
-    if (pwalletMain) {
-        obj.pushKV("walletversion", pwalletMain->GetVersion());
-        obj.pushKV("balance",       ValueFromAmount(pwalletMain->GetBalance()));
+    if (pwallet) {
+        obj.pushKV("walletversion", pwallet->GetVersion());
+        obj.pushKV("balance",       ValueFromAmount(pwallet->GetBalance()));
     }
 #endif
     obj.pushKV("blocks",        (int)chainActive.Height());
@@ -97,11 +99,11 @@ UniValue getinfo(const JSONRPCRequest& request)
     obj.pushKV("difficulty",    (double)GetDifficulty());
     obj.pushKV("testnet",       Params().NetworkIDString() == CBaseChainParams::TESTNET);
 #ifdef ENABLE_WALLET
-    if (pwalletMain) {
-        obj.pushKV("keypoololdest", pwalletMain->GetOldestKeyPoolTime());
-        obj.pushKV("keypoolsize",   (int)pwalletMain->GetKeyPoolSize());
+    if (pwallet) {
+        obj.pushKV("keypoololdest", pwallet->GetOldestKeyPoolTime());
+        obj.pushKV("keypoolsize",   (int)pwallet->GetKeyPoolSize());
     }
-    if (pwalletMain && pwalletMain->IsCrypted())
+    if (pwallet && pwallet->IsCrypted())
         obj.pushKV("unlocked_until", nWalletUnlockTime);
     obj.pushKV("paytxfee",      ValueFromAmount(payTxFee.GetFeePerK()));
 #endif

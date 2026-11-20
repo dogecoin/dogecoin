@@ -13,6 +13,7 @@
 #include "uint256.h"
 
 #include <list>
+#include <memory>
 #include <map>
 #include <stdint.h>
 #include <string>
@@ -55,6 +56,10 @@ public:
     bool fHelp;
     std::string URI;
     std::string authUser;
+    /** Keeps the wallet this request resolved alive until the request
+     *  (and every copy of it) is destroyed. Opaque so the RPC layer does
+     *  not depend on the wallet; see GetWalletForJSONRPCRequest(). */
+    mutable std::shared_ptr<void> walletPin;
 
     JSONRPCRequest() { id = NullUniValue; params = NullUniValue; fHelp = false; }
     void parse(const UniValue& valRequest);

@@ -23,6 +23,12 @@ extern const std::string WALLET_ENDPOINT_BASE;
  *  and none was specified). Returns NULL when no wallets are loaded. */
 CWallet *GetWalletForJSONRPCRequest(const JSONRPCRequest& request);
 
+/** Resolve the legacy default wallet (pwalletMain) for RPCs that predate
+ *  per-wallet routing (getinfo, signrawtransaction). Like
+ *  GetWalletForJSONRPCRequest(), the returned wallet is pinned for the
+ *  lifetime of the request so a concurrent unloadwallet cannot delete it. */
+CWallet *GetDefaultWalletForJSONRPCRequest(const JSONRPCRequest& request);
+
 /** Throw JSONRPCError when the wallet is unavailable. Returns false when
  *  avoidException is true and no wallet is present (so callers may return
  *  NullUniValue from the help branch). */

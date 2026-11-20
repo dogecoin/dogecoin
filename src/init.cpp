@@ -205,6 +205,8 @@ void Shutdown()
     StopHTTPServer();
 #ifdef ENABLE_WALLET
     // Dogecoin 1.14 TODO: ShutdownRPCMining();
+    // RPC is stopped above, so no lifecycle RPC can change vpwallets here.
+    // (cs_wallets is a leaf lock; Flush takes cs_db, so we must not hold it.)
     for (CWalletRef pwallet : vpwallets) {
         pwallet->Flush(false);
     }
@@ -269,11 +271,15 @@ void Shutdown()
 #endif
     UnregisterAllValidationInterfaces();
 #ifdef ENABLE_WALLET
+    // RPC and every wallet-touching thread are gone by now.
     for (CWalletRef pwallet : vpwallets) {
         delete pwallet;
     }
-    vpwallets.clear();
-    pwalletMain = NULL;
+    {
+        LOCK(cs_wallets);
+        vpwallets.clear();
+        pwalletMain = NULL;
+    }
 #endif
     globalVerifyHandle.reset();
     ECC_Stop();
@@ -1720,14 +1726,16 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
 
     // Dogecoin: Do we need to do any RPC mining init here?
 
-    SetRPCWarmupFinished();
-    uiInterface.InitMessage(_("Done loading"));
-
 #ifdef ENABLE_WALLET
+    // Run before RPC warmup ends, so no lifecycle RPC (unloadwallet in
+    // particular) can change vpwallets while we iterate it.
     for (CWalletRef pwallet : vpwallets) {
         pwallet->postInitProcess(threadGroup);
     }
 #endif
+
+    SetRPCWarmupFinished();
+    uiInterface.InitMessage(_("Done loading"));
 
     return !fRequestShutdown;
 }

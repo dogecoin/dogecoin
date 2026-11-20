@@ -44,6 +44,14 @@ typedef CWallet* CWalletRef;
 extern std::vector<CWalletRef> vpwallets;
 extern CWallet* pwalletMain;
 
+/** Guards vpwallets and the pwalletMain alias.
+ *
+ *  Leaf lock: never acquire another lock while holding it. Code that needs
+ *  a wallet beyond the critical section must either be the wallet's owner
+ *  (init / shutdown / the lifecycle RPCs) or hold an RPC pin (see
+ *  CWallet::m_rpc_pins), which unloadwallet waits on before deleting. */
+extern CCriticalSection cs_wallets;
+
 /**
  * Settings
  */
@@ -639,6 +647,13 @@ public:
      * named by their on-disk file). Surfaced via GetName().
      */
     const std::string m_name;
+
+    /** Number of in-flight RPC requests holding a pointer to this wallet.
+     *  Incremented under cs_wallets when an RPC resolves the wallet,
+     *  decremented when that request finishes. unloadwallet removes the
+     *  wallet from vpwallets first (so the count can only fall) and then
+     *  waits for it to drain before deleting the object. */
+    std::atomic<int> m_rpc_pins{0};
 
     void LoadKeyPool(int nIndex, const CKeyPool &keypool)
     {
