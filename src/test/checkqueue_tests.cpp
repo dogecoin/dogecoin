@@ -1,4 +1,5 @@
 // Copyright (c) 2012-2017 The Bitcoin Core developers
+// Copyright (c) 2026 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -15,6 +16,7 @@
 #include <vector>
 #include <mutex>
 #include <condition_variable>
+#include <future>
 
 #include <unordered_set>
 #include <memory>
@@ -125,6 +127,67 @@ struct FrozenCleanupCheck {
     void swap(FrozenCleanupCheck& x){std::swap(should_freeze, x.should_freeze);};
 };
 
+/**
+ * A check that, like CScriptCheck, only ever touches caller-owned data
+ * through a raw, non-owning pointer. `pDestroyed` stands in for a pointer
+ * into caller-owned data (e.g. ConnectBlock()'s `txdata`); the check
+ * records whether that data had already been marked destroyed by the time
+ * it got around to reading it.
+ *
+ * `pStarted`/`proceed` let the test synchronize deterministically with a
+ * worker thread instead of relying on real-time races: the check signals
+ * once it has been picked up by a worker, then blocks until the test tells
+ * it to continue.
+ */
+struct DestructOrderCheck {
+    std::atomic<bool>* pDestroyed {nullptr};
+    std::atomic<bool>* pObservedAfterDestruction {nullptr};
+    std::promise<void>* pStarted {nullptr};
+    std::shared_future<void> proceed {};
+
+    DestructOrderCheck() {}
+    DestructOrderCheck(std::atomic<bool>* destroyed, std::atomic<bool>* observed,
+                        std::promise<void>* started, std::shared_future<void> proceedIn)
+        : pDestroyed(destroyed), pObservedAfterDestruction(observed), pStarted(started), proceed(proceedIn) {}
+
+    bool operator()()
+    {
+        if (pStarted) {
+            pStarted->set_value();
+        }
+        if (proceed.valid()) {
+            proceed.wait();
+        }
+        // Mirrors CScriptCheck::operator() dereferencing its raw pointer.
+        if (pDestroyed && pDestroyed->load()) {
+            if (pObservedAfterDestruction) {
+                pObservedAfterDestruction->store(true);
+            }
+        }
+        return true;
+    }
+    void swap(DestructOrderCheck& x)
+    {
+        std::swap(pDestroyed, x.pDestroyed);
+        std::swap(pObservedAfterDestruction, x.pObservedAfterDestruction);
+        std::swap(pStarted, x.pStarted);
+        std::swap(proceed, x.proceed);
+    }
+};
+
+/**
+ * Stands in for caller-owned data referenced by a raw pointer handed out to
+ * worker checks (e.g. an element of ConnectBlock()'s `txdata`). Marks
+ * `*pDestroyed` on destruction instead of actually freeing memory, so the
+ * test can detect a check reading past the data's lifetime.
+ */
+struct DestructionSentinel {
+    std::atomic<bool>* pDestroyed;
+    explicit DestructionSentinel(std::atomic<bool>* d) : pDestroyed(d) {}
+    ~DestructionSentinel() { pDestroyed->store(true); }
+};
+
+
 // Static Allocations
 std::mutex FrozenCleanupCheck::m{};
 std::atomic<uint64_t> FrozenCleanupCheck::nFrozen{0};
@@ -141,6 +204,7 @@ typedef CCheckQueue<FailingCheck> Failing_Queue;
 typedef CCheckQueue<UniqueCheck> Unique_Queue;
 typedef CCheckQueue<MemoryCheck> Memory_Queue;
 typedef CCheckQueue<FrozenCleanupCheck> FrozenCleanup_Queue;
+typedef CCheckQueue<DestructOrderCheck> DestructOrder_Queue;
 
 
 /** This test case checks that the CCheckQueue works properly
@@ -375,6 +439,86 @@ BOOST_AUTO_TEST_CASE(test_CheckQueue_FrozenCleanup)
     tg.interrupt_all();
     tg.join_all();
     BOOST_REQUIRE(!fails);
+}
+
+
+BOOST_AUTO_TEST_CASE(test_CheckQueueControlWaiter_prevents_destruction_before_join)
+{
+    auto queue = std::unique_ptr<DestructOrder_Queue>(new DestructOrder_Queue{QUEUE_BATCH_SIZE});
+    boost::thread_group tg;
+    for (auto x = 0; x < nScriptCheckThreads; ++x) {
+        tg.create_thread([&]{ queue->Thread(); });
+    }
+
+    // Vulnerable shape: control declared before the data, relying on
+    // ~CCheckQueueControl() to Wait(). The data is destroyed (here,
+    // simulated via DestructionSentinel) before that destructor runs.
+    {
+        std::atomic<bool> destroyed{false};
+        std::atomic<bool> observedAfterDestruction{false};
+        std::promise<void> started;
+        std::promise<void> proceed;
+        std::shared_future<void> proceedFuture(proceed.get_future());
+
+        {
+            CCheckQueueControl<DestructOrderCheck> control(queue.get());
+            {
+                DestructionSentinel sentinel(&destroyed);
+                std::vector<DestructOrderCheck> vChecks;
+                vChecks.emplace_back(&destroyed, &observedAfterDestruction, &started, proceedFuture);
+                control.Add(vChecks);
+
+                // Wait until the worker has picked up the check and is
+                // blocked inside operator(), mirroring an in-flight
+                // CScriptCheck.
+                started.get_future().wait();
+
+                // Scope ends here: `sentinel` is destroyed now, simulating
+                // an early return in ConnectBlock() that destroys `txdata`
+                // before the explicit control.Wait() is reached.
+            }
+            // Let the worker proceed to read; it will observe destroyed==true.
+            proceed.set_value();
+            // ~CCheckQueueControl() runs here and joins the worker, but only
+            // after it already read past-destruction state.
+        }
+        BOOST_CHECK(observedAfterDestruction);
+    }
+
+    // Fixed shape: CCheckQueueControlWaiter declared after the data, so it
+    // destructs (and joins the worker) before the data does -- no matter
+    // how the scope is exited.
+    {
+        std::atomic<bool> destroyed{false};
+        std::atomic<bool> observedAfterDestruction{false};
+        std::promise<void> started;
+        std::promise<void> proceed;
+        std::shared_future<void> proceedFuture(proceed.get_future());
+
+        {
+            CCheckQueueControl<DestructOrderCheck> control(queue.get());
+            DestructionSentinel sentinel(&destroyed);
+            CCheckQueueControlWaiter<DestructOrderCheck> waiter(control);
+            std::vector<DestructOrderCheck> vChecks;
+            vChecks.emplace_back(&destroyed, &observedAfterDestruction, &started, proceedFuture);
+            control.Add(vChecks);
+
+            started.get_future().wait();
+            // Tell the worker to proceed. Even though `destroyed` is still
+            // false right now, the assertion below doesn't rely on timing:
+            // `waiter`'s destructor (which joins the worker) is guaranteed
+            // to run to completion before `sentinel`'s destructor (which
+            // sets destroyed=true) can run, because `waiter` is declared
+            // after `sentinel` and C++ destroys locals in reverse order.
+            proceed.set_value();
+            // Scope ends: waiter destructs first (joins the worker),
+            // then sentinel destructs (destroyed=true) only afterward.
+        }
+        BOOST_CHECK(!observedAfterDestruction);
+    }
+
+    tg.interrupt_all();
+    tg.join_all();
 }
 
 

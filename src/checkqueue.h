@@ -1,4 +1,5 @@
 // Copyright (c) 2012-2015 The Bitcoin Core developers
+// Copyright (c) 2026 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -212,6 +213,45 @@ public:
             LEAVE_CRITICAL_SECTION(pqueue->ControlMutex);
         }
     }
+};
+
+
+/**
+ * RAII guard that joins outstanding queue workers no matter how the enclosing
+ * scope is left (normal fall-through, an early `return`, or a thrown
+ * exception).
+ *
+ * Callers commonly hand out check objects (added via CCheckQueueControl::Add)
+ * that hold raw, non-owning pointers into caller-owned local data.
+ *
+ * Declaring an instance of this guard *after* the data referenced by in-flight
+ * checks makes the ordering invariant unconditional: on any scope exit the
+ * guard destructs first (LIFO) and blocks until every worker has finished, so
+ * the data outlives every pointer handed out to it regardless of how the scope
+ * is left. Call Wait() explicitly to consume the result inline; the
+ * destructor's call becomes a cached no-op at that point.
+ */
+template <typename T>
+class CCheckQueueControlWaiter
+{
+private:
+    CCheckQueueControl<T>& control;
+    bool fWaited = false;
+    bool fResult = true;
+
+public:
+    explicit CCheckQueueControlWaiter(CCheckQueueControl<T>& controlIn) : control(controlIn) {}
+
+    bool Wait()
+    {
+        if (!fWaited) {
+            fResult = control.Wait();
+            fWaited = true;
+        }
+        return fResult;
+    }
+
+    ~CCheckQueueControlWaiter() { Wait(); }
 };
 
 #endif // BITCOIN_CHECKQUEUE_H
