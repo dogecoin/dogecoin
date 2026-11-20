@@ -247,11 +247,11 @@ void Shutdown()
         pblocktree = NULL;
     }
 #ifdef ENABLE_WALLET
-    // CWallet::Flush delegates to the shared CDBEnv, so a single shutdown
-    // call drains every loaded wallet's BDB file at once.
-    if (!vpwallets.empty()) {
-        vpwallets.front()->Flush(true);
-    }
+    // Each directory-layout wallet has its own BDB env (flat wallets share
+    // the walletdir env), so shut down every env, not just the first
+    // wallet's. Envs that still have open handles are left for BDB's
+    // DB_RECOVER on next start and are named in the log.
+    FlushAllDbEnvs(true);
 #endif
 
 #if ENABLE_ZMQ

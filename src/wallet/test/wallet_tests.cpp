@@ -819,4 +819,67 @@ BOOST_AUTO_TEST_CASE(getwalletenv_per_directory_isolation)
     BOOST_CHECK_EQUAL(fn_flat_b, "legacy_b.dat");
 }
 
+// CDB's constructor is protected (callers go through CWalletDB); expose it
+// so the refcount tests can open raw handles.
+class TestCDB : public CDB
+{
+public:
+    TestCDB(const fs::path& wallet_path, const char* mode) : CDB(wallet_path, mode) {}
+};
+
+BOOST_AUTO_TEST_CASE(cdbenv_refcount_balanced_across_open_close)
+{
+    // Every CDB open must be matched by a close, or unloadwallet and
+    // shutdown would see a leaked reference.
+    const fs::path wallet_path = GetWalletDir() / "refcount_balance" / "wallet.dat";
+    fs::create_directories(wallet_path.parent_path());
+    std::string dbFilename;
+    CDBEnv* env = GetWalletEnv(wallet_path, dbFilename);
+
+    for (int i = 0; i < 25; ++i) {
+        TestCDB db(wallet_path, "cr+");
+        BOOST_CHECK_EQUAL(env->mapFileUseCount[dbFilename], 1);
+        {
+            TestCDB nested(wallet_path, "r");
+            BOOST_CHECK_EQUAL(env->mapFileUseCount[dbFilename], 2);
+        }
+        BOOST_CHECK_EQUAL(env->mapFileUseCount[dbFilename], 1);
+    }
+    BOOST_CHECK_EQUAL(env->mapFileUseCount[dbFilename], 0);
+    BOOST_CHECK(!env->HasOpenHandles());
+
+    // Clean shutdown closes the env and removes its log directory.
+    env->Flush(true);
+    BOOST_CHECK(!env->IsInitialized());
+    BOOST_CHECK(!fs::exists(wallet_path.parent_path() / "database"));
+}
+
+BOOST_AUTO_TEST_CASE(cdbenv_close_refuses_with_open_handle)
+{
+    // A leaked handle at teardown must be logged and survived, not
+    // asserted on (which would crash without a trace in debug.log).
+    const fs::path wallet_path = GetWalletDir() / "refcount_leak" / "wallet.dat";
+    fs::create_directories(wallet_path.parent_path());
+    std::string dbFilename;
+    CDBEnv* env = GetWalletEnv(wallet_path, dbFilename);
+    {
+        TestCDB db(wallet_path, "cr+");
+        BOOST_CHECK(env->HasOpenHandles());
+
+        // Shutdown flush keeps the env open while the handle is live...
+        env->Flush(true);
+        BOOST_CHECK(env->IsInitialized());
+
+        // ...and so does a direct Close(), instead of aborting.
+        env->Close();
+        BOOST_CHECK(env->IsInitialized());
+
+        // The handle still works.
+        BOOST_CHECK(db.WriteVersion(1));
+    }
+    BOOST_CHECK(!env->HasOpenHandles());
+    env->Flush(true);
+    BOOST_CHECK(!env->IsInitialized());
+}
+
 BOOST_AUTO_TEST_SUITE_END()

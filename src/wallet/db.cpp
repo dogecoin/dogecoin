@@ -73,14 +73,30 @@ void CDBEnv::Close()
     if (!fDbEnvInit)
         return;
 
+    // No LOCK(cs_db) here: Flush() calls this with cs_db already held, and
+    // ~CDBEnv runs during static destruction when locking is not safe.
+    //
+    // A CDB still referencing a file here is a refcount leak (e.g. in
+    // unloadwallet or shutdown). Closing its Db handle, or the env under
+    // it, risks corrupting that file, and asserting would kill the
+    // process without a trace in debug.log. Log every leaked handle and
+    // leave the env open instead: the transaction log is intact, and
+    // DB_RECOVER replays it the next time the env is opened.
+    bool leaked = false;
+    for (const auto& use : mapFileUseCount) {
+        if (use.second > 0) {
+            LogPrintf("CDBEnv::Close: %s in %s still has %d open handle(s)\n", use.first, strPath, use.second);
+            leaked = true;
+        }
+    }
+    if (leaked) {
+        LogPrintf("CDBEnv::Close: leaving database environment %s open; it will be recovered on next start\n", strPath);
+        return;
+    }
+
     fDbEnvInit = false;
 
-    // Close any Db handles still alive in this env. The assert catches
-    // refcount bugs in unloadwallet / shutdown — leaving an open handle
-    // when we tear down the env risks on-disk corruption.
     for (auto& db : mapDb) {
-        auto count = mapFileUseCount.find(db.first);
-        assert(count == mapFileUseCount.end() || count->second == 0);
         if (db.second) {
             db.second->close(0);
             delete db.second;
@@ -111,8 +127,25 @@ CDBEnv::CDBEnv(const fs::path& dir_path) : strPath(dir_path.string()), dbenv(NUL
 CDBEnv::~CDBEnv()
 {
     Close();
+    if (fDbEnvInit) {
+        // Close() refused because of leaked handles (already logged).
+        // Destroying the DbEnv would close it under those handles, so let
+        // process exit reclaim it instead.
+        return;
+    }
     delete dbenv;
     dbenv = NULL;
+}
+
+bool CDBEnv::HasOpenHandles() const
+{
+    LOCK(cs_db);
+    for (const auto& use : mapFileUseCount) {
+        if (use.second > 0) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool CDBEnv::Open(bool retry)
@@ -538,6 +571,12 @@ void CDBEnv::Flush(bool fShutdown)
                 Close();
                 if (!fMockDb)
                     fs::remove_all(fs::path(strPath) / "database");
+            } else {
+                // Only files with refcount > 0 survive the loop above.
+                for (const auto& use : mapFileUseCount) {
+                    LogPrintf("CDBEnv::Flush: %s in %s still in use at shutdown (refcount = %d); not closing environment\n",
+                              use.first, strPath, use.second);
+                }
             }
         }
     }

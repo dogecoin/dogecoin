@@ -71,7 +71,11 @@ public:
     bool Salvage(const std::string& strFile, bool fAggressive, std::vector<KeyValPair>& vResult);
 
     bool Open(bool retry = false);
+    /** Close every Db handle and the environment. Refuses (and logs each
+     *  leaked file) when any file still has a non-zero use count. */
     void Close();
+    /** True when any file in this env has a non-zero use count. */
+    bool HasOpenHandles() const;
     void Flush(bool fShutdown);
     void CheckpointLSN(const std::string& strFile);
 
@@ -98,8 +102,9 @@ CDBEnv* GetWalletEnv(const fs::path& wallet_path, std::string& database_filename
 /** Process-wide lock guarding g_dbenvs + per-env mutable state. */
 extern CCriticalSection cs_db;
 
-/** Flush every open BDB env. Called at shutdown after every wallet
- * has been detached from its env. */
+/** Flush every BDB env in g_dbenvs. With fShutdown, also close each env
+ * whose files are all idle. Shutdown() calls this so directory-layout
+ * wallets (one env each) are flushed and closed, not just the first. */
 void FlushAllDbEnvs(bool fShutdown);
 
 
