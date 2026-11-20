@@ -60,9 +60,13 @@ public:
     friend bool operator<(const CFeeRate& a, const CFeeRate& b) { return a.nSatoshisPerK < b.nSatoshisPerK; }
     friend bool operator>(const CFeeRate& a, const CFeeRate& b) { return a.nSatoshisPerK > b.nSatoshisPerK; }
     friend bool operator==(const CFeeRate& a, const CFeeRate& b) { return a.nSatoshisPerK == b.nSatoshisPerK; }
+    friend bool operator!=(const CFeeRate& a, const CFeeRate& b) { return a.nSatoshisPerK != b.nSatoshisPerK; }
     friend bool operator<=(const CFeeRate& a, const CFeeRate& b) { return a.nSatoshisPerK <= b.nSatoshisPerK; }
     friend bool operator>=(const CFeeRate& a, const CFeeRate& b) { return a.nSatoshisPerK >= b.nSatoshisPerK; }
     CFeeRate& operator+=(const CFeeRate& a) { nSatoshisPerK += a.nSatoshisPerK; return *this; }
+    CFeeRate& operator-=(const CFeeRate& a) { nSatoshisPerK -= a.nSatoshisPerK; return *this; }
+    friend CFeeRate operator+(const CFeeRate& a, const CFeeRate& b) { return CFeeRate(a.nSatoshisPerK + b.nSatoshisPerK); }
+    friend CFeeRate operator-(const CFeeRate& a, const CFeeRate& b) { return CFeeRate(a.nSatoshisPerK - b.nSatoshisPerK); }
     std::string ToString() const;
 
     ADD_SERIALIZE_METHODS;
