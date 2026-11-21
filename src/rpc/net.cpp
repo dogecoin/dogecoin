@@ -48,7 +48,6 @@ UniValue getconnectioncount(const JSONRPCRequest& request)
 
 UniValue setmaxconnections(const JSONRPCRequest& request)
 {
-    int newMaxCount = 0;
     const std::string minConnCount = to_string(MAX_ADDNODE_CONNECTIONS);
 
     if (request.fHelp || request.params.size() != 1)
@@ -63,16 +62,16 @@ UniValue setmaxconnections(const JSONRPCRequest& request)
             + HelpExampleCli("setmaxconnections", "20")
             + HelpExampleRpc("setmaxconnections", minConnCount)
         );
-    else
-        newMaxCount = request.params[0].get_int();
 
-    if (newMaxCount < MAX_ADDNODE_CONNECTIONS)
+    // this is really gross, but it avoids signedness conversions later
+    int incomingCount = request.params[0].get_int();
+    if (incomingCount < 0 || incomingCount < (int)MAX_ADDNODE_CONNECTIONS)
         throw JSONRPCError(RPC_INVALID_PARAMETER, "Error: maxconnectioncount must be >= " + minConnCount);
 
     if(!g_connman)
         throw JSONRPCError(RPC_CLIENT_P2P_DISABLED, "Error: Peer-to-peer functionality missing or disabled");
 
-    g_connman->SetMaxConnections(newMaxCount);
+    g_connman->SetMaxConnections((uint32_t) incomingCount);
 
     return true;
 }
@@ -449,6 +448,7 @@ UniValue getnetworkinfo(const JSONRPCRequest& request)
             "  \"localrelay\": true|false,              (bool) true if transaction relay is requested from peers\n"
             "  \"timeoffset\": xxxxx,                   (numeric) the time offset\n"
             "  \"connections\": xxxxx,                  (numeric) the number of connections\n"
+            "  \"maxconnections\": xxxxx,               (numeric) the number of connections\n"
             "  \"networkactive\": true|false,           (bool) whether p2p networking is enabled\n"
             "  \"networks\": [                          (array) information per network\n"
             "  {\n"
@@ -491,6 +491,7 @@ UniValue getnetworkinfo(const JSONRPCRequest& request)
     if (g_connman) {
         obj.pushKV("networkactive", g_connman->GetNetworkActive());
         obj.pushKV("connections",   (int)g_connman->GetNodeCount(CConnman::CONNECTIONS_ALL));
+        obj.pushKV("maxconnections", (int)g_connman->GetMaxConnections());
     }
     obj.pushKV("networks",      GetNetworksInfo());
     obj.pushKV("relayfee",      ValueFromAmount(::minRelayTxFeeRate.GetFeePerK()));
