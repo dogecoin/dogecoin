@@ -853,6 +853,15 @@ PeerLogicValidation::PeerLogicValidation(CConnman* connmanIn) : connman(connmanI
 }
 
 void PeerLogicValidation::BlockConnected(const std::shared_ptr<const CBlock>& pblock, const CBlockIndex* pindex, const std::vector<CTransactionRef>& vtxConflicted) {
+    // Forget tracked announcements for transactions included in a block.
+    // (Taken before, not under, g_cs_orphans: elsewhere the order is cs_main -> g_cs_orphans.)
+    {
+        LOCK(cs_main);
+        for (const CTransactionRef& ptx : pblock->vtx) {
+            g_txrequest.ForgetTxHash(ptx->GetHash());
+        }
+    }
+
     LOCK(g_cs_orphans);
 
     std::vector<uint256> vOrphanErase;
@@ -1303,9 +1312,10 @@ inline void static SendBlockTransactions(const CBlock& block, const BlockTransac
     connman.PushMessage(pfrom, msgMaker.Make(nSendFlags, NetMsgType::BLOCKTXN, resp));
 }
 
-void static ProcessOrphanTx(CConnman* connman, std::set<uint256>& orphan_work_set, std::list<CTransactionRef>& removed_txn) EXCLUSIVE_LOCKS_REQUIRED(cs_main)
+void static ProcessOrphanTx(CConnman* connman, std::set<uint256>& orphan_work_set, std::list<CTransactionRef>& removed_txn) EXCLUSIVE_LOCKS_REQUIRED(cs_main, g_cs_orphans)
 {
     AssertLockHeld(cs_main);
+    AssertLockHeld(g_cs_orphans);
     std::set<NodeId> setMisbehaving;
     bool done = false;
     while (!done && !orphan_work_set.empty()) {
@@ -3131,7 +3141,7 @@ bool ProcessMessages(CNode* pfrom, CConnman& connman, const std::atomic<bool>& i
 
     if (!pfrom->orphan_work_set.empty()) {
         std::list<CTransactionRef> removed_txn;
-        LOCK(cs_main);
+        LOCK2(cs_main, g_cs_orphans);
         ProcessOrphanTx(&connman, pfrom->orphan_work_set, removed_txn);
         for (const CTransactionRef& removedTx : removed_txn) {
             AddToCompactExtraTransactions(removedTx);

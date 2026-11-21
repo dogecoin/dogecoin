@@ -184,6 +184,7 @@ testScripts = [
     'uptime.py',
     'p2p-getdata.py',
     'p2p-blockfilters.py',
+    'p2p-orphan-workset.py',
 ]
 if ENABLE_ZMQ:
     testScripts.append('zmq_test.py')
