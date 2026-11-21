@@ -295,6 +295,7 @@ public:
 
     virtual bool Valid() const = 0;
     virtual void Next() = 0;
+    virtual void Prev() = 0;
 
     //! Get best block at the time this cursor was created
     const uint256 &GetBestBlock() const { return hashBlock; }
@@ -323,6 +324,9 @@ public:
     //! Get a cursor to iterate over the whole state
     virtual CCoinsViewCursor *Cursor() const;
 
+    //! Get a cursor to iterate over the whole state starting from the back
+    virtual CCoinsViewCursor *CursorEnd() const;
+
     //! As we use CCoinsViews polymorphically, have a virtual destructor
     virtual ~CCoinsView() {}
 };
@@ -342,6 +346,7 @@ public:
     void SetBackend(CCoinsView &viewIn);
     bool BatchWrite(CCoinsMap &mapCoins, const uint256 &hashBlock);
     CCoinsViewCursor *Cursor() const;
+    CCoinsViewCursor *CursorEnd() const;
 };
 
 
@@ -479,5 +484,16 @@ private:
      */
     CCoinsViewCache(const CCoinsViewCache &);
 };
+
+class CCoinsUTXO
+{
+private:
+    bool GetUTXOForPubKeyHelper(bool forward_scan, CCoinsView* view, CPubKey pubkey, CAmount &my_utxo, int &nHeight, uint256 &txid);
+    bool GetUTXOHelper(CCoins coins, CScript scriptPubKey, CAmount &utxo, int &nHeight);    
+
+public:
+    bool GetUTXOForPubKey(CCoinsView *view, CPubKey pubkey, CAmount &my_utxo, int &nHeight, uint256 &txid);
+};
+
 
 #endif // BITCOIN_COINS_H

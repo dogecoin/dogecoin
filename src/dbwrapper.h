@@ -118,7 +118,18 @@ public:
         piter->Seek(slKey);
     }
 
+    template<typename K> void SeekEnd(const K& key) {
+        CDataStream ssKey(SER_DISK, CLIENT_VERSION);
+        ssKey.reserve(DBWRAPPER_PREALLOC_KEY_SIZE);
+        ssKey << key;
+        leveldb::Slice slKey(ssKey.data(), ssKey.size());
+        piter->Seek(slKey);
+        piter->SeekToLast();
+    }
+
     void Next();
+
+    void Prev();
 
     template<typename K> bool GetKey(K& key) {
         leveldb::Slice slKey = piter->key();
