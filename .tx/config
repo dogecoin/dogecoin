@@ -1,7 +1,21 @@
 [main]
+# Global Transifex API host
 host = https://www.transifex.com
 
 [bitcoin.qt-translation-014x]
+# file_filter: Defines where translated files will be saved.
+# <lang> is a dynamic placeholder that Transifex uses to name files (e.g., bitcoin_tr.ts).
 file_filter = src/qt/locale/bitcoin_<lang>.ts
+
+# source_file: The base English file containing all original strings.
 source_file = src/qt/locale/bitcoin_en.ts
+
+# source_lang: The primary development language.
 source_lang = en
+
+# type: Explicitly define the file format for better parsing.
+type = QT
+
+# minimum_perc: Optimization - only pull files that are at least 80% translated.
+# This prevents broken or empty UI labels in production builds.
+minimum_perc = 80
