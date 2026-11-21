@@ -28,6 +28,7 @@
 #include "net.h"
 #include "net_processing.h"
 #include "policy/policy.h"
+#include "releasedates.h"
 #include "rpc/server.h"
 #include "rpc/register.h"
 #include "script/standard.h"
@@ -947,6 +948,9 @@ bool AppInitParameterInteraction()
 
     if (IsArgSet("-blockminsize"))
         InitWarning("Unsupported argument -blockminsize ignored.");
+
+    if (dogecoin_release_is_outdated())
+        InitWarning(strprintf(_("This release of Dogecoin core may be out of date (compiled on %s). Check if there's a new release!"), CURRENT_RELEASE_DATE));
 
     // Checkmempool and checkblockindex default to true in regtest mode
     int ratio = std::min<int>(std::max<int>(GetArg("-checkmempool", chainparams.DefaultConsistencyChecks() ? 1 : 0), 0), 1000000);

@@ -295,6 +295,14 @@ class RPCTestHandler:
         self.portseed_offset = int(time.time() * 1000) % 625
         self.jobs = []
 
+    def stderr_is_empty(self, stderr):
+        if re.match("Warning: This release of Dogecoin core may be out of date " +
+                    "\(compiled on \d{4}-\d{2}-\d{2}\). Check if there's a new release!\n$", stderr):
+            return True
+
+        print(f'Stderr is <{stderr}>')
+        return stderr == ""
+
     def get_next(self):
         while self.num_running < self.num_jobs and self.test_list:
             # Add tests
@@ -322,12 +330,16 @@ class RPCTestHandler:
                     log_out.seek(0), log_err.seek(0)
                     [stdout, stderr] = [l.read().decode('utf-8') for l in (log_out, log_err)]
                     log_out.close(), log_err.close()
-                    passed = stderr == "" and proc.returncode == 0
+                    # clear the "your release may be outdated" warning from stderr
+                    if self.stderr_is_empty:
+                        stderr = ""
+                        passed = proc.returncode == 0
+                    else:
+                        passed = False
                     self.num_running -= 1
                     self.jobs.remove(j)
                     return name, stdout, stderr, passed, int(time.time() - time0)
             print('.', end='', flush=True)
-
 
 class RPCCoverage(object):
     """
