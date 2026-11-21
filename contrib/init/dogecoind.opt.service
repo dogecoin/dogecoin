@@ -1,74 +1,100 @@
-# This variant of the unit file is for "opt" add-on installations that do not form part of the default installation.
-# (i.e. out of band installations by the user, not installed by a system package manager like "apt")
-#
-# The relevant paths are:
-#
-#/opt/dogecoin/dogecoind
-#/etc/opt/dogecoin/
-#/var/opt/dogecoin/
+# ==============================================================================
+# Dogecoin Daemon Service Unit File (Out-of-band /opt Installation)
+# This file enforces stringent security sandboxing using systemd hardening features.
+# ==============================================================================
 
 [Unit]
 Description=Dogecoin's distributed currency daemon
+# Ensure networking is available before starting the service.
 After=network.target
 
 [Service]
+# Service Type: simple means the process will run immediately after ExecStart.
 Type=simple
+
+# Execution Command
+# Configured for a user-installed, non-package-managed installation under /opt/
 ExecStart=/opt/dogecoin/bin/dogecoind -conf=/etc/opt/dogecoin/dogecoin.conf -datadir=/var/opt/dogecoin
 
-KillSignal=SIGINT
-Restart=always
-RestartSec=5
-TimeoutStopSec=60
-TimeoutStartSec=5
-StartLimitIntervalSec=120
-StartLimitBurst=5
-
+# User and Group Configuration
+# Run the daemon under a dedicated, non-root user for security.
 User=dogecoin
 Group=dogecoin
 
-### Restrict resource consumption
-MemoryAccounting=yes
+# Restart Policy
+# Restart the service automatically if it stops (e.g., due to crash or exit).
+Restart=always
+RestartSec=5
+KillSignal=SIGINT
+TimeoutStopSec=60
+TimeoutStartSec=5
+
+# Start rate limiting (prevents infinite crashing loops)
+StartLimitIntervalSec=120
+StartLimitBurst=5
+
+# Logging Configuration
+# Redirect standard output and error to the systemd journal for unified logging.
+StandardOutput=journal
+StandardError=journal
+
+# ------------------------------------------------------------------------------
+# 1. Resource Control (Cgroups)
+# ------------------------------------------------------------------------------
+MemoryAccounting=true
 MemoryLimit=3g
 
-### Restrict access to host file system.
-#
-# Hide the entire root file system by default, and *only* mount in exactly what is needed.
-#
+# ------------------------------------------------------------------------------
+# 2. Filesystem Sandboxing (The most critical hardening section)
+# 
+# Note: TemporaryFileSystem=/:ro conflicts with ProtectSystem=strict, so explicit 
+# path binding is required here for maximum control over /opt installation.
+# ------------------------------------------------------------------------------
 
+# Mount the entire root filesystem as read-only.
 TemporaryFileSystem=/:ro
 
-# Add core dependencies
+# Explicitly bind the necessary OS dependencies as read-only.
+# We include /lib64 for maximum compatibility across Linux distributions, even if 
+# it's often a symlink to /lib in modern systems.
 BindReadOnlyPaths=/etc/ /lib/ /lib64/
 
-# Add daemon paths
+# Explicitly bind application and configuration directories as read-only.
 BindReadOnlyPaths=/opt/dogecoin/ /etc/opt/dogecoin/
+
+# Explicitly bind the data directory as read-write.
 BindPaths=/var/opt/dogecoin/
 
-### Restrict access to system.
+# ------------------------------------------------------------------------------
+# 3. Security Hardening (Kernel and Process Restrictions)
+# ------------------------------------------------------------------------------
 
+# Restrict the privileges a process can acquire.
 NoNewPrivileges=true
-PrivateTmp=true
-PrivateDevices=true
-PrivateUsers=true
-DevicePolicy=closed
-ProtectHome=true
-ProtectHostname=true
-ProtectControlGroups=true
-ProtectClock=true
-ProtectKernelModules=true
-ProtectKernelTunables=true
-ProtectKernelLogs=true
-RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK
-RestrictNamespaces=true
-RestrictRealtime=true
-RestrictSUIDSGID=true
-MemoryDenyWriteExecute=true
-LockPersonality=true
 
-# ProtectSystem=strict would normally be used, however it nullifies TemporaryFileSystem,
-# since it remounts root as read only over the top.
-# In this case, do not enable ProtectSystem.
-#ProtectSystem=strict
+# Process Isolation
+PrivateTmp=true           # Private /tmp and /var/tmp directories
+PrivateDevices=true       # Private /dev filesystem
+PrivateUsers=true         # Private user namespace (hides all users except 'root' and service user)
+ProtectHome=true          # Restrict access to /home, /root, and /run/user
+ProtectHostname=true      # Protect hostname from changes
+ProtectControlGroups=true # Protect cgroups filesystem
+ProtectClock=true         # Protect system clock settings
+ProtectKernelModules=true # Deny loading/unloading kernel modules
+ProtectKernelTunables=true # Deny access to /proc/sys and /sys
+ProtectKernelLogs=true    # Deny access to kernel logs
+DevicePolicy=closed       # Deny all device node access by default
+
+# Network Restriction: Allow only standard Unix and Internet protocols
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK
+
+# Further Isolation and Memory Hardening
+RestrictNamespaces=true   # Restrict creation of new namespaces
+RestrictRealtime=true     # Prevent the service from acquiring realtime scheduling
+RestrictSUIDSGID=true     # Remove SUID/SGID bits for executed binaries
+MemoryDenyWriteExecute=true # Deny mapping memory that is simultaneously writable and executable
+LockPersonality=true      # Prevent changes to the process personality (e.g., using setarch)
 
 [Install]
+# Enable the service during boot for multi-user systems.
 WantedBy=multi-user.target
