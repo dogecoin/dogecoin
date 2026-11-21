@@ -245,6 +245,7 @@ void TxConfirmStats::Read(CAutoFile& filein)
              numBuckets, maxConfirms);
 }
 
+
 unsigned int TxConfirmStats::NewTx(unsigned int nBlockHeight, double val)
 {
     unsigned int bucketindex = bucketMap.lower_bound(val)->second;
