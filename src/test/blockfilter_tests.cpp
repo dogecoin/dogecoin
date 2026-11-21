@@ -200,10 +200,12 @@ BOOST_AUTO_TEST_CASE(blockfilters_json_test)
 
         unsigned int pos = 0;
         /*int block_height =*/ test[pos++].get_int();
-        /*uint256 block_hash =*/ ParseHashStr(test[pos++].get_str(), "block_hash");
+        uint256 block_hash = ParseHashStr(test[pos++].get_str(), "block_hash");
 
         CBlock block;
         BOOST_REQUIRE(DecodeHexBlk(block, test[pos++].get_str()));
+        // Also catches a block (e.g. an AuxPoW one) that decodes but not as intended.
+        BOOST_CHECK_EQUAL(block.GetHash().GetHex(), block_hash.GetHex());
 
         CBlockUndo block_undo;
         block_undo.vtxundo.emplace_back();
