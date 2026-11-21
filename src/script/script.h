@@ -640,7 +640,8 @@ public:
     void clear()
     {
         // The default std::vector::clear() does not release memory.
-        CScriptBase().swap(*this);
+        resize(0);
+        shrink_to_fit();
     }
 };
 
