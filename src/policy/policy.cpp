@@ -112,8 +112,8 @@ bool IsStandardTx(const CTransaction& tx, std::string& reason, const bool witnes
         }
     }
 
-    // only one OP_RETURN txout is permitted
-    if (nDataOut > 1) {
+    // Enforce limits on OP_RETURN output count
+    if (nMaxDatacarrierCount > 0 && nDataOut > nMaxDatacarrierCount) {
         reason = "multi-op-return";
         return false;
     }
