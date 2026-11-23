@@ -347,9 +347,11 @@ OUTDIR_BASE="${OUTDIR_BASE:-${VERSION_BASE}/output}"
 mkdir -p "$OUTDIR_BASE"
 
 # Download the depends sources now as we won't have internet access in the build
-# container
+# container. Pass FORCE_USE_SYSTEM_CLANG=1, as libexec/build.sh does, so the
+# prefetch matches what the build consumes: without it native_cctools also
+# fetches the prebuilt clang, a 344 MB download the container never uses.
 for host in $HOSTS; do
-    make -C "${PWD}/depends" -j"$JOBS" download-"$(host_to_commonname "$host")" ${V:+V=1} ${SOURCES_PATH:+SOURCES_PATH="$SOURCES_PATH"}
+    make -C "${PWD}/depends" -j"$JOBS" download-"$(host_to_commonname "$host")" ${V:+V=1} ${SOURCES_PATH:+SOURCES_PATH="$SOURCES_PATH"} FORCE_USE_SYSTEM_CLANG=1
 done
 
 # Usage: outdir_for_host HOST SUFFIX
