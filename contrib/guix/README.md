@@ -135,12 +135,13 @@ neither a mirror nor a local clone weakens the check.
 macOS builds need `MacOSX10.11.sdk`, which Apple does not permit redistributing.
 `guix-build` checks for it before starting and aborts if it is absent.
 
-The project mirrors the extracted SDK:
+Bitcoin Core's depends mirror serves the extracted SDK. Check the hash before
+extracting it:
 
 ```sh
 mkdir -p depends/SDKs
-curl -O https://depends.dogecoincore.org/MacOSX10.11.sdk.tar.gz
-# sha256: bec9d089ebf2e2dd59b1a811a38ec78ebd5da18cbbcd6ab39d1e59f64ac5033f
+curl -O https://bitcoincore.org/depends-sources/sdks/MacOSX10.11.sdk.tar.gz
+echo "bec9d089ebf2e2dd59b1a811a38ec78ebd5da18cbbcd6ab39d1e59f64ac5033f  MacOSX10.11.sdk.tar.gz" | sha256sum -c
 tar -C depends/SDKs -xf MacOSX10.11.sdk.tar.gz
 ```
 
@@ -168,7 +169,15 @@ Guix cannot do what gitian does:
 * **The combined `-win-unsigned.tar.gz`** that gitian assembles from both
   Windows installers is not produced: each host builds in its own container and
   cannot see the other's output. The per-host
-  `-win{32,64}-setup-unsigned.exe` are produced as usual.
+  `-win{32,64}-setup-unsigned.exe` are produced as usual. The gitian Windows
+  signer takes the combined tarball as its input, so Windows releases cannot be
+  signed from a Guix build yet.
+* **The signing tools in `-osx-unsigned.tar.gz`** (`dmg`, `genisoimage`,
+  `codesign_allocate`, `pagestuff`) are linked against `/gnu/store` and only
+  run inside the Guix environment that built them. The gitian macOS signer
+  runs them on Ubuntu, so macOS releases cannot be signed from a Guix build
+  yet either. Until both signers have a Guix equivalent, signed releases still
+  come from gitian.
 
 ## Cleaning
 
