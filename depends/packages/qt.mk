@@ -11,6 +11,7 @@ $(package)_qt_libs=corelib network widgets gui plugins testlib printsupport
 
 $(package)_patches=mac-qmake.conf
 $(package)_patches+=mingw-uuidof.patch
+$(package)_patches+=mingw-file-id-info.patch
 $(package)_patches+=pidlist_absolute.patch
 $(package)_patches+=fix-xcb-include-order.patch
 $(package)_patches+=fix_qfontengine_coretext.patch
@@ -131,6 +132,16 @@ $(package)_config_opts_darwin += -device-option CROSS_COMPILE="$(host)-"
 $(package)_config_opts_darwin += -device-option MAC_MIN_VERSION=$(OSX_MIN_VERSION)
 $(package)_config_opts_darwin += -device-option MAC_TARGET=$(host)
 $(package)_config_opts_darwin += -device-option MAC_LD64_VERSION=$(LD64_VERSION)
+ifneq ($(strip $(FORCE_USE_SYSTEM_CLANG)),)
+# qt compiles its config.tests and its own sources through the mkspec, not
+# through the CC/CXX depends passes to other packages, so the search paths set
+# up in hosts/darwin.mk do not reach it. Hand the same three things to
+# mac-qmake.conf: the libc++ headers, the SDK's C headers after them for
+# #include_next, and the directory holding cctools' linker.
+$(package)_config_opts_darwin += -device-option MAC_LIBCXX_PATH=$(DARWIN_LIBCXX_PREFIX)
+$(package)_config_opts_darwin += -device-option MAC_CLANG_RESOURCE_DIR=$(clang_resource_dir)
+$(package)_config_opts_darwin += -device-option MAC_NATIVE_BIN=$(build_prefix)/bin
+endif
 endif
 
 $(package)_config_opts_linux += -qt-xcb
@@ -171,6 +182,12 @@ define $(package)_extract_cmds
 endef
 
 
+# dogecoin-linux-g++ is a generic cross mkspec: a copy of the
+# linux-arm-gnueabi-g++ mkspec with the tool prefix replaced by $(host)-, so it
+# works for any linux host triple Qt does not ship a mkspec for (i686-linux-gnu
+# among them). It is only selected when something passes
+# -xplatform dogecoin-linux-g++; gitian does not, and keeps using the stock
+# multilib mkspecs, so its builds are unaffected by this.
 define $(package)_preprocess_cmds
   sed -i.old "s|updateqm.commands = \$$$$\$$$$LRELEASE|updateqm.commands = $($(package)_extract_dir)/qttools/bin/lrelease|" qttranslations/translations/translations.pro && \
   sed -i.old "/updateqm.depends =/d" qttranslations/translations/translations.pro && \
@@ -179,12 +196,15 @@ define $(package)_preprocess_cmds
   sed -i.old 's/if \[ "$$$$XPLATFORM_MAC" = "yes" \]; then xspecvals=$$$$(macSDKify/if \[ "$$$$BUILD_ON_MAC" = "yes" \]; then xspecvals=$$$$(macSDKify/' qtbase/configure && \
   sed -i.old 's/CGEventCreateMouseEvent(0, kCGEventMouseMoved, pos, 0)/CGEventCreateMouseEvent(0, kCGEventMouseMoved, pos, kCGMouseButtonLeft)/' qtbase/src/plugins/platforms/cocoa/qcocoacursor.mm && \
   sed -i.old '3i #include <stdio.h>' qtbase/src/3rdparty/xcb/xcb-util/atoms.c && \
+  cp -r qtbase/mkspecs/linux-arm-gnueabi-g++ qtbase/mkspecs/dogecoin-linux-g++ && \
+  sed -i.old "s/arm-linux-gnueabi-/$(host)-/g" qtbase/mkspecs/dogecoin-linux-g++/qmake.conf && \
   mkdir -p qtbase/mkspecs/macx-clang-linux &&\
   cp -f qtbase/mkspecs/macx-clang/Info.plist.lib qtbase/mkspecs/macx-clang-linux/ &&\
   cp -f qtbase/mkspecs/macx-clang/Info.plist.app qtbase/mkspecs/macx-clang-linux/ &&\
   cp -f qtbase/mkspecs/macx-clang/qplatformdefs.h qtbase/mkspecs/macx-clang-linux/ &&\
   cp -f $($(package)_patch_dir)/mac-qmake.conf qtbase/mkspecs/macx-clang-linux/qmake.conf && \
   patch -p1 < $($(package)_patch_dir)/mingw-uuidof.patch && \
+  patch -p1 < $($(package)_patch_dir)/mingw-file-id-info.patch && \
   patch -p1 < $($(package)_patch_dir)/pidlist_absolute.patch && \
   patch -p1 < $($(package)_patch_dir)/fix-xcb-include-order.patch && \
   patch -p1 < $($(package)_patch_dir)/fix_qfontengine_coretext.patch && \
