@@ -868,11 +868,11 @@ struct CCoinsStats
     uint256 hashBlock;
     uint64_t nTransactions;
     uint64_t nTransactionOutputs;
-    uint64_t nSerializedSize;
     uint256 hashSerialized;
+    uint64_t nDiskSize;
     arith_uint256 nTotalAmount;
 
-    CCoinsStats() : nHeight(0), nTransactions(0), nTransactionOutputs(0), nSerializedSize(0), nTotalAmount(0) {}
+    CCoinsStats() : nHeight(0), nTransactions(0), nTransactionOutputs(0), nTotalAmount(0) {}
 };
 
 //! Calculate statistics about the unspent transaction output set
@@ -895,16 +895,17 @@ static bool GetUTXOStats(CCoinsView *view, CCoinsStats &stats)
         if (pcursor->GetKey(key) && pcursor->GetValue(coins)) {
             stats.nTransactions++;
             ss << key;
+            ss << VARINT(coins.nHeight * 2 + coins.fCoinBase);
             for (unsigned int i=0; i<coins.vout.size(); i++) {
                 const CTxOut &out = coins.vout[i];
                 if (!out.IsNull()) {
                     stats.nTransactionOutputs++;
                     ss << VARINT(i+1);
-                    ss << out;
+                    ss << *(const CScriptBase*)(&out.scriptPubKey);
+                    ss << VARINT(out.nValue);
                     nTotalAmount += out.nValue;
                 }
             }
-            stats.nSerializedSize += 32 + pcursor->GetValueSize();
             ss << VARINT(0);
         } else {
             return error("%s: unable to read value", __func__);
@@ -913,6 +914,7 @@ static bool GetUTXOStats(CCoinsView *view, CCoinsStats &stats)
     }
     stats.hashSerialized = ss.GetHash();
     stats.nTotalAmount = nTotalAmount;
+    stats.nDiskSize = view->EstimateSize();
     return true;
 }
 
@@ -978,8 +980,8 @@ UniValue gettxoutsetinfo(const JSONRPCRequest& request)
             "  \"bestblock\": \"hex\",   (string) the best block hash hex\n"
             "  \"transactions\": n,      (numeric) The number of transactions\n"
             "  \"txouts\": n,            (numeric) The number of output transactions\n"
-            "  \"bytes_serialized\": n,  (numeric) The serialized size\n"
-            "  \"hash_serialized\": \"hash\",   (string) The serialized hash\n"
+            "  \"hash_serialized_2\": \"hash\", (string) The serialized hash\n"
+            "  \"disk_size\": n,         (numeric) The estimated size of the chainstate on disk\n"
             "  \"total_amount\": x.xxx          (numeric) The total amount\n"
             "}\n"
             "\nExamples:\n"
@@ -996,8 +998,8 @@ UniValue gettxoutsetinfo(const JSONRPCRequest& request)
         ret.pushKV("bestblock", stats.hashBlock.GetHex());
         ret.pushKV("transactions", (int64_t)stats.nTransactions);
         ret.pushKV("txouts", (int64_t)stats.nTransactionOutputs);
-        ret.pushKV("bytes_serialized", (int64_t)stats.nSerializedSize);
-        ret.pushKV("hash_serialized", stats.hashSerialized.GetHex());
+        ret.pushKV("hash_serialized_2", stats.hashSerialized.GetHex());
+        ret.pushKV("disk_size", stats.nDiskSize);
         ret.pushKV("total_amount", ValueFromAmount(stats.nTotalAmount));
     } else {
         throw JSONRPCError(RPC_INTERNAL_ERROR, "Unable to read UTXO set");
@@ -1030,7 +1032,6 @@ UniValue gettxout(const JSONRPCRequest& request)
             "        ,...\n"
             "     ]\n"
             "  },\n"
-            "  \"version\" : n,            (numeric) The version\n"
             "  \"coinbase\" : true|false   (boolean) Coinbase or not\n"
             "}\n"
 
@@ -1079,7 +1080,6 @@ UniValue gettxout(const JSONRPCRequest& request)
     UniValue o(UniValue::VOBJ);
     ScriptPubKeyToJSON(coins.vout[n].scriptPubKey, o, true);
     ret.pushKV("scriptPubKey", o);
-    ret.pushKV("version", coins.nVersion);
     ret.pushKV("coinbase", coins.fCoinBase);
 
     return ret;
