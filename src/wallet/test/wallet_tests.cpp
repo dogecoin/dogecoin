@@ -369,13 +369,13 @@ BOOST_AUTO_TEST_CASE(ApproximateBestSubset)
 
 BOOST_FIXTURE_TEST_CASE(rescan, TestChain240Setup)
 {
-    LOCK(cs_main);
-
     // Cap last block file size, and mine new block in a new block file.
     CBlockIndex* oldTip = chainActive.Tip();
     GetBlockFileInfo(oldTip->GetBlockPos().nFile)->nSize = MAX_BLOCKFILE_SIZE;
     CreateAndProcessBlock({}, GetScriptForRawPubKey(coinbaseKey.GetPubKey()));
     CBlockIndex* newTip = chainActive.Tip();
+
+    LOCK(cs_main);
 
     // Verify ScanForWalletTransactions picks up transactions in both the old
     // and new block files.
@@ -441,7 +441,6 @@ BOOST_FIXTURE_TEST_CASE(rescan, TestChain240Setup)
 BOOST_FIXTURE_TEST_CASE(importwallet_rescan, TestChain240Setup)
 {
     CWallet *pwalletMainBackup = ::pwalletMain;
-    LOCK(cs_main);
 
     // Create two blocks with same timestamp to verify that importwallet rescan
     // will pick up both blocks, not just the first.
@@ -455,6 +454,8 @@ BOOST_FIXTURE_TEST_CASE(importwallet_rescan, TestChain240Setup)
     const int64_t KEY_TIME = BLOCK_TIME + 7200;
     SetMockTime(KEY_TIME);
     coinbaseTxns.emplace_back(*CreateAndProcessBlock({}, GetScriptForRawPubKey(coinbaseKey.GetPubKey())).vtx[0]);
+
+    LOCK(cs_main);
 
     // Import key into wallet and call dumpwallet to create backup file.
     {

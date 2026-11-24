@@ -6,6 +6,7 @@
 
 #include "chain.h"
 #include "chainparams.h"
+#include "index/txindex.h"
 #include "primitives/block.h"
 #include "primitives/transaction.h"
 #include "validation.h"
@@ -41,16 +42,19 @@ static const struct {
 };
 
 struct CCoin {
-    uint32_t nTxVer; // Don't call this nVersion, that name has a special meaning inside IMPLEMENT_SERIALIZE
     uint32_t nHeight;
     CTxOut out;
 
     ADD_SERIALIZE_METHODS;
 
+    CCoin() : nHeight(0) {}
+    CCoin(Coin&& in) : nHeight(in.nHeight), out(std::move(in.out)) {}
+
     template <typename Stream, typename Operation>
     inline void SerializationOp(Stream& s, Operation ser_action)
     {
-        READWRITE(nTxVer);
+        uint32_t nTxVerDummy = 0;
+        READWRITE(nTxVerDummy);
         READWRITE(nHeight);
         READWRITE(out);
     }
@@ -150,8 +154,7 @@ static bool rest_headers(HTTPRequest* req,
     headers.reserve(count);
     {
         LOCK(cs_main);
-        BlockMap::const_iterator it = mapBlockIndex.find(hash);
-        const CBlockIndex *pindex = (it != mapBlockIndex.end()) ? it->second : NULL;
+        const CBlockIndex *pindex = LookupBlockIndex(hash);
         while (pindex != NULL && chainActive.Contains(pindex)) {
             headers.push_back(pindex);
             if (headers.size() == (unsigned long)count)
@@ -216,10 +219,9 @@ static bool rest_block(HTTPRequest* req,
     CBlockIndex* pblockindex = NULL;
     {
         LOCK(cs_main);
-        if (mapBlockIndex.count(hash) == 0)
+        pblockindex = LookupBlockIndex(hash);
+        if (!pblockindex)
             return RESTERR(req, HTTP_NOT_FOUND, hashStr + " not found");
-
-        pblockindex = mapBlockIndex[hash];
         if (fHavePruned && !(pblockindex->nStatus & BLOCK_HAVE_DATA) && pblockindex->nTx > 0)
             return RESTERR(req, HTTP_NOT_FOUND, hashStr + " not available (pruned data)");
 
@@ -361,6 +363,10 @@ static bool rest_tx(HTTPRequest* req, const std::string& strURIPart)
     uint256 hash;
     if (!ParseHashStr(hashStr, hash))
         return RESTERR(req, HTTP_BAD_REQUEST, "Invalid hash: " + hashStr);
+
+    if (g_txindex) {
+        g_txindex->BlockUntilSyncedToCurrentChain();
+    }
 
     CTransactionRef tx;
     uint256 hashBlock = uint256();
@@ -520,25 +526,11 @@ static bool rest_getutxos(HTTPRequest* req, const std::string& strURIPart)
         }
 
         for (size_t i = 0; i < vOutPoints.size(); i++) {
-            CCoins coins;
-            uint256 hash = vOutPoints[i].hash;
             bool hit = false;
-            if (view.GetCoins(hash, coins)) {
-                if (fCheckMemPool) {
-                    mempool.pruneSpent(hash, coins);
-                }
-
-                if (coins.IsAvailable(vOutPoints[i].n)) {
-                    hit = true;
-                    // Safe to index into vout here because IsAvailable checked if it's off the end of the array, or if
-                    // n is valid but points to an already spent output (IsNull).
-                    CCoin coin;
-                    coin.nTxVer = coins.nVersion;
-                    coin.nHeight = coins.nHeight;
-                    coin.out = coins.vout.at(vOutPoints[i].n);
-                    assert(!coin.out.IsNull());
-                    outs.push_back(coin);
-                }
+            Coin coin;
+            if (view.GetCoin(vOutPoints[i], coin) && !coin.IsSpent() && (!fCheckMemPool || !mempool.isSpent(vOutPoints[i]))) {
+                hit = true;
+                outs.emplace_back(std::move(coin));
             }
 
             hits.push_back(hit);
@@ -582,7 +574,6 @@ static bool rest_getutxos(HTTPRequest* req, const std::string& strURIPart)
         UniValue utxos(UniValue::VARR);
         BOOST_FOREACH (const CCoin& coin, outs) {
             UniValue utxo(UniValue::VOBJ);
-            utxo.pushKV("txvers", (int32_t)coin.nTxVer);
             utxo.pushKV("height", (int32_t)coin.nHeight);
             utxo.pushKV("value", ValueFromAmount(coin.out.nValue));
 

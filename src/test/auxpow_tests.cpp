@@ -19,6 +19,7 @@
 
 #include <algorithm>
 #include <vector>
+#include "pow.h"
 
 BOOST_FIXTURE_TEST_SUITE(auxpow_tests, BasicTestingSetup)
 

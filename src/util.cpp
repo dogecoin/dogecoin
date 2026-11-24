@@ -335,6 +335,13 @@ int LogPrintStr(const std::string &str)
     return ret;
 }
 
+bool CheckDiskSpace(uint64_t nAdditionalBytes)
+{
+    static const uint64_t nMinDiskSpace = 52428800;
+    uint64_t nFreeBytesAvailable = fs::space(GetDataDir()).available;
+    return nFreeBytesAvailable >= nMinDiskSpace + nAdditionalBytes;
+}
+
 /** Interpret string as boolean, for argument parsing */
 static bool InterpretBool(const std::string& strValue)
 {
