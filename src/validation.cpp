@@ -3858,6 +3858,16 @@ bool RewindBlockIndex(const CChainParams& params)
 {
     LOCK(cs_main);
 
+    // Dogecoin: SegWit is permanently disabled (see IsWitnessEnabled above),
+    // so every branch below - which exists only to re-validate blocks whose
+    // witness deployment status changed - is unreachable, and the closing
+    // mapBlockIndex scan just rebuilds setBlockIndexCandidates redundantly
+    // (LoadBlockIndexDB already built it). Skip the whole O(chain height)
+    // pass on every startup because it can never do anything.
+    if (!IsWitnessEnabled(chainActive.Tip(), params.GetConsensus(chainActive.Height()))) {
+        return true;
+    }
+
     int nHeight = 1;
     while (nHeight <= chainActive.Height()) {
         if (IsWitnessEnabled(chainActive[nHeight - 1], params.GetConsensus(nHeight - 1)) && !(chainActive[nHeight]->nStatus & BLOCK_OPT_WITNESS)) {

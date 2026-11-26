@@ -1,5 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin Core developers
+// Copyright (c) 2026 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -143,5 +144,20 @@ bool TimingResistantEqual(const T& a, const T& b)
  * @note The result must be in the range (-10^18,10^18), otherwise an overflow error will trigger.
  */
 bool ParseFixedPoint(const std::string &val, int decimals, int64_t *amount_out);
+
+/**
+ * Converts the given character to its lowercase equivalent.
+ * This function is locale independent. It only converts uppercase
+ * characters in the standard 7-bit ASCII range.
+ * This is a feature, not a limitation.
+ *
+ * @param[in] c     the character to convert to lowercase.
+ * @return          the lowercase equivalent of c; or the argument
+ *                  if no conversion is possible.
+ */
+constexpr unsigned char ToLower(unsigned char c)
+{
+    return (c >= 'A' && c <= 'Z' ? (c - 'A') + 'a' : c);
+}
 
 #endif // BITCOIN_UTILSTRENCODINGS_H

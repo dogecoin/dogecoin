@@ -167,6 +167,7 @@ UniValue blockToJSON(const CBlock& block, const CBlockIndex* blockindex, bool tx
         if(txDetails)
         {
             UniValue objTx(UniValue::VOBJ);
+            objTx.pushKV("hex", EncodeHexTx(*tx, RPCSerializationFlags()));
             TxToJSON(*tx, uint256(), objTx);
             txs.push_back(objTx);
         }
@@ -679,11 +680,11 @@ UniValue getblockheader(const JSONRPCRequest& request)
 {
     if (request.fHelp || request.params.size() < 1 || request.params.size() > 2)
         throw runtime_error(
-            "getblockheader \"hash\" ( verbose )\n"
-            "\nIf verbose is false, returns a string that is serialized, hex-encoded data for blockheader 'hash'.\n"
-            "If verbose is true, returns an Object with information about blockheader <hash>.\n"
+            "getblockheader \"blockhash\" ( verbose )\n"
+            "\nIf verbose is false, returns a string that is serialized, hex-encoded data for blockheader 'blockhash'.\n"
+            "If verbose is true, returns an Object with information about blockheader <blockhash>.\n"
             "\nArguments:\n"
-            "1. \"hash\"          (string, required) The block hash\n"
+            "1. \"blockhash\"     (string, required) The block hash\n"
             "2. verbose           (boolean, optional, default=true) true for a json object, false for the hex encoded data\n"
             "\nResult (for verbose = true):\n"
             "{\n"
@@ -812,6 +813,10 @@ UniValue getblock(const JSONRPCRequest& request)
             "{\n"
             "  ...,                     Same output as verbosity = 1.\n"
             "  \"tx\" : [               (array of Objects) The transactions in the format of the getrawtransaction RPC. Different from verbosity = 1 \"tx\" result.\n"
+            "    {\n"
+            "      \"hex\" : \"data\",     (string) The serialized, hex-encoded data for the transaction\n"
+            "      ...                Other fields as in getrawtransaction verbose output, except blockhash, confirmations, time and blocktime\n"
+            "    },\n"
             "         ,...\n"
             "  ],\n"
             "  ,...                     Same output as verbosity = 1.\n"

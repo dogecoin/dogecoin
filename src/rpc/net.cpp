@@ -324,9 +324,9 @@ UniValue getaddednodeinfo(const JSONRPCRequest& request)
             "  ,...\n"
             "]\n"
             "\nExamples:\n"
-            + HelpExampleCli("getaddednodeinfo", "true")
-            + HelpExampleCli("getaddednodeinfo", "true \"192.168.0.201\"")
-            + HelpExampleRpc("getaddednodeinfo", "true, \"192.168.0.201\"")
+            + HelpExampleCli("getaddednodeinfo", "")
+            + HelpExampleCli("getaddednodeinfo", "\"192.168.0.201\"")
+            + HelpExampleRpc("getaddednodeinfo", "\"192.168.0.201\"")
         );
 
     if(!g_connman)
@@ -653,7 +653,7 @@ static const CRPCCommand commands[] =
 { //  category              name                      actor (function)         okSafeMode
   //  --------------------- ------------------------  -----------------------  ----------
     { "network",            "getconnectioncount",     &getconnectioncount,     true,  {} },
-    { "network",            "setmaxconnections",      &setmaxconnections,      true,  {"newconnectioncount"} },
+    { "network",            "setmaxconnections",      &setmaxconnections,      true,  {"maxconnectioncount"} },
     { "network",            "ping",                   &ping,                   true,  {} },
     { "network",            "getpeerinfo",            &getpeerinfo,            true,  {} },
     { "network",            "addnode",                &addnode,                true,  {"node","command"} },

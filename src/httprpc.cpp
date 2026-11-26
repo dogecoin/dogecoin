@@ -1,4 +1,5 @@
 // Copyright (c) 2015-2016 The Bitcoin Core developers
+// Copyright (c) 2026 The Dogecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -127,12 +128,29 @@ static bool multiUserAuthorized(std::string strUserPass)
     return false;
 }
 
+static bool
+case_insensitive_equal(const char* a, const char* b, std::size_t n)
+{
+    for (std::size_t i = 0; i < n; ++i) {
+        unsigned char ac = static_cast<unsigned char>(a[i]);
+        unsigned char bc = static_cast<unsigned char>(b[i]);
+        if (ToLower(ac) != ToLower(bc))
+            return false;
+    }
+    return true;
+}
+
 static bool RPCAuthorized(const std::string& strAuth, std::string& strAuthUsernameOut)
 {
     if (strRPCUserColonPass.empty()) // Belt-and-suspenders measure if InitRPCAuthentication was not called
         return false;
-    if (strAuth.substr(0, 6) != "Basic ")
+
+    if (strAuth.size() < 6)
         return false;
+
+    if (!case_insensitive_equal(strAuth.data(), "basic", 5) || strAuth[5] != ' ')
+        return false;
+
     std::string strUserPass64 = strAuth.substr(6);
     boost::trim(strUserPass64);
     std::string strUserPass = DecodeBase64(strUserPass64);

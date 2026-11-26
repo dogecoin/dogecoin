@@ -46,7 +46,8 @@ class HTTPBasicsTest (BitcoinTestFramework):
         conn.close()
 
         #same should be if we add keep-alive because this should be the std. behaviour
-        headers = {"Authorization": "Basic " + str_to_b64str(authpair), "Connection": "keep-alive"}
+        #test case-insensitive auth-schema (RFC 7235)
+        headers = {"Authorization": "basic " + str_to_b64str(authpair), "Connection": "keep-alive"}
 
         conn = http.client.HTTPConnection(url.hostname, url.port)
         conn.connect()
@@ -63,7 +64,8 @@ class HTTPBasicsTest (BitcoinTestFramework):
         conn.close()
 
         #now do the same with "Connection: close"
-        headers = {"Authorization": "Basic " + str_to_b64str(authpair), "Connection":"close"}
+        #no one should mix caps like this, but RFC 7235 says they can
+        headers = {"Authorization": "BaSiC " + str_to_b64str(authpair), "Connection":"close"}
 
         conn = http.client.HTTPConnection(url.hostname, url.port)
         conn.connect()
@@ -72,10 +74,20 @@ class HTTPBasicsTest (BitcoinTestFramework):
         assert(b'"error":null' in out1)
         assert(conn.sock==None) #now the connection must be closed after the response
 
+        #a non-Basic scheme must still be rejected
+        headers = {"Authorization": "Bearer " + str_to_b64str(authpair), "Connection":"close"}
+
+        conn = http.client.HTTPConnection(url.hostname, url.port)
+        conn.connect()
+        conn.request('POST', '/', '{"method": "getbestblockhash"}', headers)
+        assert_equal(conn.getresponse().status, http.client.UNAUTHORIZED)
+        conn.close()
+
         #node1 (2nd node) is running with disabled keep-alive option
+        #RFC 7235 allows this monstrosity
         urlNode1 = urllib.parse.urlparse(self.nodes[1].url)
         authpair = urlNode1.username + ':' + urlNode1.password
-        headers = {"Authorization": "Basic " + str_to_b64str(authpair)}
+        headers = {"Authorization": "bASIC " + str_to_b64str(authpair)}
 
         conn = http.client.HTTPConnection(urlNode1.hostname, urlNode1.port)
         conn.connect()

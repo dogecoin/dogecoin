@@ -1,0 +1,20 @@
+Fix crash in evutil_date_rfc1123() on 32-bit MinGW.
+
+When time_t is 32 bits wide, passing its address to _gmtime64_s() makes it
+read 8 bytes, yielding an invalid time, EINVAL and event_errx() -> exit().
+This kills any HTTP/1.1 response (which carries a Date header).
+
+--- old/evutil_time.c
++++ new/evutil_time.c
+@@ -202,7 +202,10 @@
+		/** detect _gmtime64()/_gmtime64_s() */
+ #elif defined(EVENT__HAVE__GMTIME64_S)
+		errno_t err;
+-		err = _gmtime64_s(&sys, &t);
++		/* time_t may be 32 bits wide (e.g. i686 MinGW), but
++		 * _gmtime64_s() always reads a 64-bit value. */
++		__time64_t t64 = _time64(NULL);
++		err = _gmtime64_s(&sys, &t64);
+		if (err) {
+			event_errx(1, "Invalid argument to _gmtime64_s");
+		} else {

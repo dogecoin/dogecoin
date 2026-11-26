@@ -213,4 +213,212 @@ BOOST_AUTO_TEST_CASE(ipv4_peer_with_ipv6_addrMe_test)
     BOOST_CHECK(1);
 }
 
+static CAddress MakeAddr(const char* ipstr, unsigned short port = 22556)
+{
+    CService svc;
+    Lookup(ipstr, svc, port, false);
+    return CAddress(svc, NODE_NETWORK);
+}
+
+// Verify that the subnet counting logic identifies peers in the same public /16.
+BOOST_AUTO_TEST_CASE(inbound_subnet_limit_ipv4_same_subnet_counted)
+{
+    SOCKET hSocket = INVALID_SOCKET;
+    NodeId id = 0;
+    int height = 0;
+
+    // Four inbound peers from 8.8.8.x (same /16 = 8.8.0.0/16, Google DNS range)
+    CAddress addr1 = MakeAddr("8.8.8.1");
+    CAddress addr2 = MakeAddr("8.8.8.2");
+    CAddress addr3 = MakeAddr("8.8.8.3");
+    CAddress addr4 = MakeAddr("8.8.8.4");
+    CAddress addr5 = MakeAddr("8.8.8.5");
+
+    std::unique_ptr<CNode> n1(new CNode(id++, NODE_NETWORK, height, hSocket, addr1, 0, 0, "", true));
+    std::unique_ptr<CNode> n2(new CNode(id++, NODE_NETWORK, height, hSocket, addr2, 0, 0, "", true));
+    std::unique_ptr<CNode> n3(new CNode(id++, NODE_NETWORK, height, hSocket, addr3, 0, 0, "", true));
+    std::unique_ptr<CNode> n4(new CNode(id++, NODE_NETWORK, height, hSocket, addr4, 0, 0, "", true));
+
+    std::vector<CNode*> nodes = {n1.get(), n2.get(), n3.get(), n4.get()};
+
+    CCriticalSection cs_nodes;
+    InboundPeerCounts counts;
+    {
+        LOCK(cs_nodes);
+        // A fifth peer from same /16 should be counted at the limit
+        counts = CountInboundPeers(nodes, addr5, cs_nodes);
+    }
+    BOOST_CHECK_EQUAL(counts.nSubnet, 4U);
+    BOOST_CHECK(counts.nSubnet >= DEFAULT_MAX_INBOUND_PER_SUBNET);
+}
+
+// Verify that peers from a different /16 are not counted toward the limit.
+BOOST_AUTO_TEST_CASE(inbound_subnet_limit_ipv4_different_subnet_not_counted)
+{
+    SOCKET hSocket = INVALID_SOCKET;
+    NodeId id = 0;
+    int height = 0;
+
+    CAddress addr1 = MakeAddr("8.8.8.1");
+    CAddress addr2 = MakeAddr("8.8.8.2");
+    CAddress addr3 = MakeAddr("8.8.8.3");
+    CAddress addr4 = MakeAddr("8.8.8.4");
+
+    std::unique_ptr<CNode> n1(new CNode(id++, NODE_NETWORK, height, hSocket, addr1, 0, 0, "", true));
+    std::unique_ptr<CNode> n2(new CNode(id++, NODE_NETWORK, height, hSocket, addr2, 0, 0, "", true));
+    std::unique_ptr<CNode> n3(new CNode(id++, NODE_NETWORK, height, hSocket, addr3, 0, 0, "", true));
+    std::unique_ptr<CNode> n4(new CNode(id++, NODE_NETWORK, height, hSocket, addr4, 0, 0, "", true));
+
+    std::vector<CNode*> nodes = {n1.get(), n2.get(), n3.get(), n4.get()};
+
+    // A peer from a completely different /16 should see count zero
+    CAddress addr_other = MakeAddr("1.2.3.4");
+    CCriticalSection cs_nodes;
+    InboundPeerCounts counts;
+    {
+        LOCK(cs_nodes);
+        counts = CountInboundPeers(nodes, addr_other, cs_nodes);
+    }
+    BOOST_CHECK_EQUAL(counts.nSubnet, 0U);
+    BOOST_CHECK(counts.nSubnet < DEFAULT_MAX_INBOUND_PER_SUBNET);
+}
+
+// Verify that whitelisted peers are excluded from the limited-peer count,
+// so whitelisted nodes in a subnet do not consume quota that would block
+// non-whitelisted peers from the same subnet.
+BOOST_AUTO_TEST_CASE(inbound_subnet_limit_whitelisted_not_counted)
+{
+    SOCKET hSocket = INVALID_SOCKET;
+    NodeId id = 0;
+    int height = 0;
+
+    CAddress addr1 = MakeAddr("8.8.8.1");
+    CAddress addr2 = MakeAddr("8.8.8.2");
+    CAddress addr3 = MakeAddr("8.8.8.3");
+    CAddress addr4 = MakeAddr("8.8.8.4");
+    CAddress addr5 = MakeAddr("8.8.8.5");
+
+    std::unique_ptr<CNode> n1(new CNode(id++, NODE_NETWORK, height, hSocket, addr1, 0, 0, "", true));
+    std::unique_ptr<CNode> n2(new CNode(id++, NODE_NETWORK, height, hSocket, addr2, 0, 0, "", true));
+    std::unique_ptr<CNode> n3(new CNode(id++, NODE_NETWORK, height, hSocket, addr3, 0, 0, "", true));
+    std::unique_ptr<CNode> n4(new CNode(id++, NODE_NETWORK, height, hSocket, addr4, 0, 0, "", true));
+
+    // Mark two of them as whitelisted
+    n3->fWhitelisted = true;
+    n4->fWhitelisted = true;
+
+    std::vector<CNode*> nodes = {n1.get(), n2.get(), n3.get(), n4.get()};
+
+    CCriticalSection cs_nodes;
+    InboundPeerCounts counts;
+    {
+        LOCK(cs_nodes);
+        // Fifth peer from same /16: only 2 non-whitelisted match, under limit
+        counts = CountInboundPeers(nodes, addr5, cs_nodes);
+    }
+    BOOST_CHECK_EQUAL(counts.nSubnet, 2U);
+    BOOST_CHECK(counts.nSubnet < DEFAULT_MAX_INBOUND_PER_SUBNET);
+}
+
+// Verify that outbound peers in the same /16 are not counted toward the
+// inbound subnet limit.
+BOOST_AUTO_TEST_CASE(inbound_subnet_limit_outbound_not_counted)
+{
+    SOCKET hSocket = INVALID_SOCKET;
+    NodeId id = 0;
+    int height = 0;
+
+    CAddress addr1 = MakeAddr("8.8.8.1");
+    CAddress addr2 = MakeAddr("8.8.8.2");
+    CAddress addr3 = MakeAddr("8.8.8.3");
+    CAddress addr4 = MakeAddr("8.8.8.4");
+    CAddress addr5 = MakeAddr("8.8.8.5");
+
+    // All four are outbound (fInbound = false)
+    std::unique_ptr<CNode> n1(new CNode(id++, NODE_NETWORK, height, hSocket, addr1, 0, 0, "", false));
+    std::unique_ptr<CNode> n2(new CNode(id++, NODE_NETWORK, height, hSocket, addr2, 0, 0, "", false));
+    std::unique_ptr<CNode> n3(new CNode(id++, NODE_NETWORK, height, hSocket, addr3, 0, 0, "", false));
+    std::unique_ptr<CNode> n4(new CNode(id++, NODE_NETWORK, height, hSocket, addr4, 0, 0, "", false));
+
+    std::vector<CNode*> nodes = {n1.get(), n2.get(), n3.get(), n4.get()};
+
+    CCriticalSection cs_nodes;
+    InboundPeerCounts counts;
+    {
+        LOCK(cs_nodes);
+        counts = CountInboundPeers(nodes, addr5, cs_nodes);
+    }
+    BOOST_CHECK_EQUAL(counts.nSubnet, 0U);
+    BOOST_CHECK(counts.nSubnet < DEFAULT_MAX_INBOUND_PER_SUBNET);
+}
+
+// Verify that non-routable addresses (e.g. RFC1918) are ignored by the
+// per-subnet counter, so private-range nodes don't affect public subnet limits.
+BOOST_AUTO_TEST_CASE(inbound_subnet_limit_private_addr_not_counted)
+{
+    SOCKET hSocket = INVALID_SOCKET;
+    NodeId id = 0;
+    int height = 0;
+
+    // Use 192.168.1.x — RFC1918 (non-routable)
+    CAddress addr1 = MakeAddr("192.168.1.1");
+    CAddress addr2 = MakeAddr("192.168.1.2");
+    CAddress addr3 = MakeAddr("192.168.1.3");
+    CAddress addr4 = MakeAddr("192.168.1.4");
+    CAddress addr5 = MakeAddr("192.168.1.5");
+
+    std::unique_ptr<CNode> n1(new CNode(id++, NODE_NETWORK, height, hSocket, addr1, 0, 0, "", true));
+    std::unique_ptr<CNode> n2(new CNode(id++, NODE_NETWORK, height, hSocket, addr2, 0, 0, "", true));
+    std::unique_ptr<CNode> n3(new CNode(id++, NODE_NETWORK, height, hSocket, addr3, 0, 0, "", true));
+    std::unique_ptr<CNode> n4(new CNode(id++, NODE_NETWORK, height, hSocket, addr4, 0, 0, "", true));
+
+    std::vector<CNode*> nodes = {n1.get(), n2.get(), n3.get(), n4.get()};
+
+    // Incoming from the same private range — count should be 0 since non-routable
+    // nodes are skipped by the counter (and AcceptConnection skips the check entirely
+    // for non-routable incoming addresses)
+    CCriticalSection cs_nodes;
+    InboundPeerCounts counts;
+    {
+        LOCK(cs_nodes);
+        counts = CountInboundPeers(nodes, addr5, cs_nodes);
+    }
+    BOOST_CHECK_EQUAL(counts.nSubnet, 0U);
+}
+
+// Verify that IPv6 peers in the same public /32 are counted correctly.
+BOOST_AUTO_TEST_CASE(inbound_subnet_limit_ipv6_same_subnet_counted)
+{
+    SOCKET hSocket = INVALID_SOCKET;
+    NodeId id = 0;
+    int height = 0;
+
+    // 2600:1400::/32 is a real public range (Akamai).
+    // Build four addresses in 2600:1400::/32, one more to test against.
+    CAddress addr1 = MakeAddr("2600:1400:0:1::1");
+    CAddress addr2 = MakeAddr("2600:1400:0:2::1");
+    CAddress addr3 = MakeAddr("2600:1400:0:3::1");
+    CAddress addr4 = MakeAddr("2600:1400:0:4::1");
+    CAddress addr5 = MakeAddr("2600:1400:0:5::1");
+
+    std::unique_ptr<CNode> n1(new CNode(id++, NODE_NETWORK, height, hSocket, addr1, 0, 0, "", true));
+    std::unique_ptr<CNode> n2(new CNode(id++, NODE_NETWORK, height, hSocket, addr2, 0, 0, "", true));
+    std::unique_ptr<CNode> n3(new CNode(id++, NODE_NETWORK, height, hSocket, addr3, 0, 0, "", true));
+    std::unique_ptr<CNode> n4(new CNode(id++, NODE_NETWORK, height, hSocket, addr4, 0, 0, "", true));
+
+    std::vector<CNode*> nodes = {n1.get(), n2.get(), n3.get(), n4.get()};
+
+    CCriticalSection cs_nodes;
+    InboundPeerCounts counts;
+    {
+        LOCK(cs_nodes);
+        counts = CountInboundPeers(nodes, addr5, cs_nodes);
+    }
+
+    // All four addresses are in 2600:1400::/32, so nSubnet should equal 4
+    // and be at the limit.
+    BOOST_CHECK_EQUAL(counts.nSubnet, 4U);
+    BOOST_CHECK(counts.nSubnet >= DEFAULT_MAX_INBOUND_PER_SUBNET);
+}
+
 BOOST_AUTO_TEST_SUITE_END()

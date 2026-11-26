@@ -73,6 +73,8 @@ static const bool DEFAULT_UPNP = USE_UPNP;
 #else
 static const bool DEFAULT_UPNP = false;
 #endif
+/** Maximum concurrent inbound connections allowed per public subnet (IPv4 /16, IPv6 /32). */
+static const unsigned int DEFAULT_MAX_INBOUND_PER_SUBNET = 4;
 /** The maximum number of peer connections to maintain. */
 static const unsigned int DEFAULT_MAX_PEER_CONNECTIONS = 125;
 /** The default for -maxuploadtarget. 0 = Unlimited */
@@ -414,6 +416,28 @@ void Discover(boost::thread_group& threadGroup);
 void MapPort(bool fUseUPnP);
 unsigned short GetListenPort();
 bool BindListenPort(const CService &bindAddr, std::string& strError, bool fWhitelisted = false);
+
+/**
+ * Counts of inbound peers relevant to connection acceptance decisions.
+ * Produced by CountInboundPeers in a single pass over the node list.
+ */
+struct InboundPeerCounts {
+    int nInbound;           //!< total inbound peers
+    unsigned int nSubnet;   //!< inbound, non-whitelisted, routable peers in addr's /16 (IPv4) or /32 (IPv6)
+};
+
+/**
+ * Count inbound peers and how many of those share the same public subnet as
+ * addr (IPv4 /16 or IPv6 /32) in a single pass. Whitelisted peers are excluded
+ * from nSubnet since they do not consume limited slots and should not block
+ * non-whitelisted peers in the same subnet.
+ *
+ * Caller must hold vNodesLock before passing nodes to this function. Locking
+ * externally ensures nInbound and nSubnet are counted from the same consistent
+ * snapshot of the peer list; locking inside the function would require two
+ * separate lock acquisitions and allow the peer list to change between counts.
+ */
+InboundPeerCounts CountInboundPeers(const std::vector<CNode*>& nodes, const CAddress& addr, const CCriticalSection& vNodesLock) EXCLUSIVE_LOCKS_REQUIRED(vNodesLock);
 
 struct CombinerAll
 {
