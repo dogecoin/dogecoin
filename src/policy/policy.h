@@ -11,6 +11,7 @@
 #include "script/interpreter.h"
 #include "script/standard.h"
 
+#include <stdint.h>
 #include <string>
 
 class CCoinsViewCache;
@@ -134,7 +135,7 @@ bool IsWitnessStandard(const CTransaction& tx, const CCoinsViewCache& mapInputs)
 extern CFeeRate incrementalRelayFee;
 extern CFeeRate dustRelayFee;
 extern unsigned int nBytesPerSigOp;
-extern unsigned int nMaxStandardScriptSigSize;
+extern uint32_t nMaxStandardScriptSigSize;
 extern CAmount nDustLimit;
 extern CAmount nHardDustLimit;
 

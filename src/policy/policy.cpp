@@ -209,7 +209,7 @@ bool IsWitnessStandard(const CTransaction& tx, const CCoinsViewCache& mapInputs)
 
 CFeeRate incrementalRelayFee = CFeeRate(DEFAULT_INCREMENTAL_RELAY_FEE);
 unsigned int nBytesPerSigOp = DEFAULT_BYTES_PER_SIGOP;
-unsigned int nMaxStandardScriptSigSize = DEFAULT_MAX_STANDARD_SCRIPTSIG_SIZE;
+uint32_t nMaxStandardScriptSigSize = DEFAULT_MAX_STANDARD_SCRIPTSIG_SIZE;
 CAmount nDustLimit = DEFAULT_DUST_LIMIT;
 CAmount nHardDustLimit = DEFAULT_HARD_DUST_LIMIT;
 

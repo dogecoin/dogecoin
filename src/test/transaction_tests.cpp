@@ -780,7 +780,7 @@ BOOST_AUTO_TEST_CASE(test_IsStandard)
 BOOST_AUTO_TEST_CASE(test_IsStandard_scriptSig_size)
 {
     struct MaxScriptSigSizeRestorer {
-        const unsigned int previous;
+        const uint32_t previous;
 
         MaxScriptSigSizeRestorer() : previous(nMaxStandardScriptSigSize) {}
         ~MaxScriptSigSizeRestorer() { nMaxStandardScriptSigSize = previous; }
